@@ -1,15 +1,19 @@
-# Transportation Demand Management (TDM) Calculator
+# Contributing to the TDM Calculator Project
 
-Web application for performing the Traffic Demand Management calculation for
-the city of Los Angeles. You can play with the application in the test environment
-deployed to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a>
+If you are not going to do hands-on development, you can simply experiment
+with the test version of the application at <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a>.
 
-## Prerequisites
+If you wish to study or contribute to the code base, follow these Installation
+Instructions to install a development environment on your machine:
+
+## Installation Instructions
+
+### Prerequisites
 
 1. Git for working with Github source code
 2. Node and npm for running the web app
 
-## Full-Stack React/Node Application Installation
+### Full-Stack React/Node Application Installation
 
 1. Clone this repo to your local drive.
 
@@ -21,7 +25,7 @@ deployed to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp
    cd && mkdir src && cd src
    ```
 1. Clone the repository
-   `git clone https://github.com/entrotech/tdm-calculator`
+   `git clone https://github.com/hackforla/tdm-calculator`
 
      </p></details>
 
@@ -43,7 +47,21 @@ deployed to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp
    npm install
    ```
 
-## To Run the React/Node Application
+### To Run the React/Node Application
 
 1. In one command line window, run `npm start` from the jobs-for-hope directory to start the node server.
 1. In a separate command line window, run `npm start` from the jobs-for-hope/client directory to start the react app and open the browser.
+
+## To Contribute Code
+
+### Working with forks and branches
+
+- Explain your guidelines here.
+
+### Working with pull requests and reviews
+
+- Explain your process.
+
+### Testing
+
+- Provide instructions.
