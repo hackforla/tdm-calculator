@@ -6,6 +6,8 @@ Traffic Demand Management (TDM) calculator tool. DTLA Hack for LA is partnering 
 
 [LA Mobility Plan 2035](https://planning.lacity.org/documents/policy/mobilityplnmemo.pdf)
 
+[Hack for LA Code of Conduct] (https://github.com/hackforla/codeofconduct)
+
 Civic projects often exist within a larger context that may include multiple stakeholders, historic relationships, associated research, or other details that are relevant but not _required_ for direct contributions. Gathering these details in one place is useful, but the ReadMe isn't that place. Use this section to [link to a Google Doc](#) or other documentation repository where contributors can dig in if they so choose. This is also a good place to link to your Code of Conduct.
 
 ### Technology used
