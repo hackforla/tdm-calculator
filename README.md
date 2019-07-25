@@ -14,7 +14,7 @@ Traffic Demand Management (TDM) calculator tool. DTLA Hack for LA is partnering 
 - HTML
 - CSS
 - [JavaScript](http://www.ecma-international.org/ecma-262/6.0/)
-- Node
+- [Node](https://nodejs.org/en/docs/)
 - Express
 - [React](https://reactjs.org/)
 - Microsoft SQL Server
