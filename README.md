@@ -12,7 +12,7 @@ Traffic Demand Management (TDM) calculator tool. DTLA Hack for LA is partnering 
 ### Technology used
 
 - [HTML](https://www.w3.org/TR/html52/)
-- CSS
+- [CSS](https://www.w3.org/Style/CSS/Overview.en.html)
 - [JavaScript](http://www.ecma-international.org/ecma-262/6.0/)
 - [Node](https://nodejs.org/en/docs/)
 - [Express](https://expressjs.com/)
