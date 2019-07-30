@@ -1,6 +1,6 @@
 # Project title and description
 
-Traffic Demand Management (TDM) calculator tool. DTLA Hack for LA is partnering with Los Angeles Department of Transportation (LADOT) to develop this tool to help planners at LADOT and real estate developers calculate how to meet some of Los Angeles’s Mobility Plan 2035 goals. 
+Traffic Demand Management (TDM) calculator tool. DTLA Hack for LA is partnering with Los Angeles Department of Transportation (LADOT) to develop this tool to help planners at LADOT and real estate developers calculate how to meet some of Los Angeles’s Mobility Plan 2035 goals.
 
 ### Project context
 
@@ -8,19 +8,18 @@ Traffic Demand Management (TDM) calculator tool. DTLA Hack for LA is partnering 
 
 [Hack for LA Code of Conduct](https://github.com/hackforla/codeofconduct)
 
-
 ### Technology used
 
-- [HTML](https://www.w3.org/TR/html52/)
-- [CSS](https://www.w3.org/Style/CSS/Overview.en.html)
-- [JavaScript](http://www.ecma-international.org/ecma-262/6.0/)
-- [Node](https://nodejs.org/en/docs/)
-- [Express](https://expressjs.com/)
-- [React](https://reactjs.org/)
-- [Microsoft SQL Server](https://docs.microsoft.com/en-us/sql/?view=sql-server-2017)
-
-
-- Each platform should include an [active link](#) to the official documentation.
+- [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
+- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) / [How CSS Works](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/How_CSS_works) / [MDN Resources](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_Resources)
+- Client and Server Programming Language: [JavaScript](https://www.ecma-international.org/ecma-262/6.0/) / [Introduction](http://javascript.info/)
+- Web Server Runtime: [Node](https://nodejs.org/en/)
+- Web API Server Library: [Express](https://expressjs.com/)
+- Client JavaScript Library: [React](https://reactjs.org/)
+- Scaffolding for Client Application: [Create React App](https://facebook.github.io/create-react-app/docs/getting-started)
+- Visual Component Library: [Storybook](https://storybook.js.org/) / [Tutorial](https://www.learnstorybook.com/react/en/get-started) - The first three sections are enough to get you started.
+- JavaScript Unit Test Framework: [Jest](https://jestjs.io/)
+- Database Engine: [Microsoft SQL Server](http://www.sqlservertutorial.net/) / [Tutorial](http://www.sqlservertutorial.net/)
 
 # How to contribute
 
