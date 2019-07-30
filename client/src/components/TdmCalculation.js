@@ -74,12 +74,12 @@ class TdmCalculationContainer extends React.Component {
       rules && rules.filter(rule => this.resultRuleCodes.includes(rule.code));
     return (
       <div style={{ margin: "1em" }}>
-        <h1>TDM Calculation</h1>
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
+            backgroundColor: "#F8F8F8"
           }}
         >
           <div

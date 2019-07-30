@@ -10,13 +10,15 @@ Civic projects often exist within a larger context that may include multiple sta
 
 ### Technology used
 
-- HTML
-- CSS
-- JavaScript
-- Node
-- Express
-- React
-- Microsoft SQL Server
+- [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
+- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) [How CSS Works](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/How_CSS_works) [MDN Resources](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_Resources)
+- [JavaScript](https://www.ecma-international.org/ecma-262/6.0/) [Introduction](http://javascript.info/)
+- [Node](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
+- [React](https://reactjs.org/)
+- [Storybook](https://storybook.js.org/) [Tutorial](https://www.learnstorybook.com/react/en/get-started) - The first three sections are enough to get you started.
+- [Jest](https://jestjs.io/)
+- [Microsoft SQL Server](http://www.sqlservertutorial.net/) [Tutorial](http://www.sqlservertutorial.net/)
 
 - Each platform or framework should get its own bullet.
 - Each platform should include an [active link](#) to the official documentation.
