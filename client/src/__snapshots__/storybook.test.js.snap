@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "row",
+      "margin": "1em",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "flexBasis": "50%",
+      }
+    }
+  >
+    Number Input
+  </div>
+  <input
+    checked={false}
+    name="INPUT_CODE"
+    onChange={[Function]}
+    style={
+      Object {
+        "flexBasis": "20%",
+      }
+    }
+    type="checkbox"
+    value={true}
+  />
+  <div
+    style={
+      Object {
+        "flexBasis": "20%",
+        "marginLeft": "1em",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "row",
+      "margin": "1em",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "flexBasis": "50%",
+      }
+    }
+  >
+    Number Input
+  </div>
+  <input
+    checked={true}
+    name="INPUT_CODE"
+    onChange={[Function]}
+    style={
+      Object {
+        "flexBasis": "20%",
+      }
+    }
+    type="checkbox"
+    value={true}
+  />
+  <div
+    style={
+      Object {
+        "flexBasis": "20%",
+        "marginLeft": "1em",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Storyshots RuleInput default Input Number 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "row",
+      "margin": "1em",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "flexBasis": "50%",
+      }
+    }
+  >
+    Number Input
+  </div>
+  <input
+    name="INPUT_CODE"
+    onChange={[Function]}
+    style={
+      Object {
+        "flexBasis": "20%",
+      }
+    }
+    type="number"
+    value={7}
+  />
+  <div
+    style={
+      Object {
+        "flexBasis": "20%",
+        "marginLeft": "1em",
+      }
+    }
+  >
+    cubits
+  </div>
+</div>
+`;
