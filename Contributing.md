@@ -49,8 +49,8 @@ Instructions to install a development environment on your machine:
 
 ### To Run the React/Node Application
 
-1. In one command line window, run `npm start` from the jobs-for-hope directory to start the node server.
-1. In a separate command line window, run `npm start` from the jobs-for-hope/client directory to start the react app and open the browser.
+1. In one command line window, run `npm start` from the tdm-calculator directory to start the node server.
+1. In a separate command line window, run `npm start` from the tdm-calculator/client directory to start the react app and open the browser.
 
 ## To Contribute Code
 
