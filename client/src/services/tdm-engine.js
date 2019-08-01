@@ -53,8 +53,8 @@ class Engine {
     return Function('"use strict";' + body);
   }
 
-  executeCalc(code) {
-    const rule = this.rules[code];
+  executeCalc(ruleCode) {
+    const rule = this.rules[ruleCode];
     // Set flag to indicate rule is used in calculation
     rule.used = true;
     if (rule.category === "calculation" && rule.functionBody) {
@@ -76,23 +76,25 @@ class Engine {
         const tokenRule = this.rules[token];
         if (!tokenRule) {
           console.log("Token not found: " + token);
-        }
-        let code;
-        if (
-          tokenRule.category === "calculation" &&
-          (tokenRule.value === null || tokenRule.value === "")
-        ) {
-          code = " this.executeCalc('" + token + "') ";
         } else {
+          if (
+            tokenRule.category === "calculation" &&
+            (tokenRule.value === undefined || tokenRule.value === null)
+          ) {
+            //value = " this.executeCalc('" + token + "') ";
+            this.executeCalc(tokenRule.code);
+          }
+
+          let value;
           if (tokenRule.dataType === "string") {
-            code = " '" + (tokenRule.value || "") + "' ";
+            value = " '" + (tokenRule.value || "") + "' ";
           } else {
-            code = " " + (tokenRule.value || 0) + " ";
+            value = " " + (tokenRule.value || 0) + " ";
           }
           tokenRule.used = true;
-        }
 
-        functionBody = functionBody.replace("<<" + token + ">>", code);
+          functionBody = functionBody.replace("<<" + token + ">>", value);
+        }
       }
       //console.log("functionBody: " + functionBody);
       try {
@@ -101,7 +103,7 @@ class Engine {
         console.log("Failed to build function for " + rule.code + functionBody);
       }
     }
-    console.log(code + " = " + rule.value);
+    //console.log(rule.code + " = " + rule.value);
     return rule.value;
   }
 

@@ -16,7 +16,7 @@ const numberInputRule = {
   functionBody: "",
   panelDisplayOrder: 1,
   displayOrder: 450,
-  displayPanelId: 1,
+  calculationPanelId: 1,
   panelName: "Panel Title"
 };
 const booleanInputRule = {
@@ -32,7 +32,7 @@ const booleanInputRule = {
   functionBody: "",
   panelDisplayOrder: 1,
   displayOrder: 450,
-  displayPanelId: 1,
+  calculationPanelId: 1,
   panelName: "Panel Title"
 };
 

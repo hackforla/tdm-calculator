@@ -15,10 +15,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,12 +36,13 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
     "@storybook/addon-actions": "^5.1.9",
     "@storybook/addon-links": "^5.1.9",
+    "@storybook/addon-storyshots": "^5.1.9",
     "@storybook/addons": "^5.1.9",
     "@storybook/react": "^5.1.9",
     "babel-loader": "^8.0.5",
-    "react-test-renderer": "^16.8.6"
+    "react-test-renderer": "^16.8.6",
+    "require-context.macro": "^1.1.0"
   }
 }
