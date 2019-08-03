@@ -1,0 +1,20 @@
+@import "variables.scss";
+
+#root {
+  font-family: $font;
+  color: $primary-color;
+  background-color: #ffffff;
+}
+
+#ladot-logo {
+  margin: 23px;
+}
+
+.navbar {
+  background-color: $primary-color;
+  color: white;
+}
+
+.navbar a {
+  color: white;
+}

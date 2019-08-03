@@ -17,11 +17,11 @@ exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
       }
     }
   >
-    Number Input
+    Unbundle Parking from Rent
   </div>
   <input
     checked={false}
-    name="INPUT_CODE"
+    name="UNBUNDLE_PARKING"
     onChange={[Function]}
     style={
       Object {
@@ -38,7 +38,9 @@ exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
         "marginLeft": "1em",
       }
     }
-  />
+  >
+    
+  </div>
 </div>
 `;
 
@@ -59,11 +61,11 @@ exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
       }
     }
   >
-    Number Input
+    Unbundle Parking from Rent
   </div>
   <input
     checked={true}
-    name="INPUT_CODE"
+    name="UNBUNDLE_PARKING"
     onChange={[Function]}
     style={
       Object {
@@ -80,7 +82,9 @@ exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
         "marginLeft": "1em",
       }
     }
-  />
+  >
+    
+  </div>
 </div>
 `;
 
@@ -101,10 +105,10 @@ exports[`Storyshots RuleInput default Input Number 1`] = `
       }
     }
   >
-    Number Input
+    Sq Ft - Retail
   </div>
   <input
-    name="INPUT_CODE"
+    name="SF_RETAIL"
     onChange={[Function]}
     style={
       Object {
@@ -112,7 +116,7 @@ exports[`Storyshots RuleInput default Input Number 1`] = `
       }
     }
     type="number"
-    value={7}
+    value=""
   />
   <div
     style={
@@ -122,7 +126,7 @@ exports[`Storyshots RuleInput default Input Number 1`] = `
       }
     }
   >
-    cubits
+    sq ft
   </div>
 </div>
 `;

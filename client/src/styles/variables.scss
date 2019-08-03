@@ -1,5 +1,9 @@
+// font family is dictated by the LADOT style guide
+$font: Calibri, Arial, sans-serif;
+
+// colors from the LADOT style guide
+
 $primary-color: #002e6d; // LADOT Blue
-//$primary-color: orange;
 $secondary-color: black;
 $background-color: white;
 
@@ -52,24 +56,3 @@ $color-commuter-express-3: #b8cbd9;
 $color-dash-1: #00447c;
 $color-dash-2: #780032;
 $color-dash-3: #bcbec0;
-
-$font: Calibri, Arial, sans-serif;
-
-#root {
-  font-family: $font;
-  color: $primary-color;
-  background-color: #ffffff;
-}
-
-#ladot-logo {
-  margin: 23px;
-}
-
-.navbar {
-  background-color: $primary-color;
-  color: white;
-}
-
-.navbar a {
-  color: white;
-}

@@ -1,3 +1,8 @@
+// This service is the calculation engine for the app. It does not
+// access a database but performs the service of performing calculations.
+// It is pure ES6 and could be used server-side, should we decide to
+// implement server-side rendering, or make the calculation available
+// on the Express Web API server.
 class Engine {
   constructor(rulesArray) {
     // We convert the array of rules to an
@@ -120,7 +125,6 @@ class Engine {
   }
 
   showWork(ruleCode) {
-    console.log("Show work for " + ruleCode);
     const workTree = { code: ruleCode, ...this.rules[ruleCode] };
     this.addDependencies(workTree);
     return workTree;
