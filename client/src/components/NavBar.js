@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const NavBar = props => {
   return (
@@ -13,19 +14,19 @@ const NavBar = props => {
       }}
     >
       <li style={{ padding: "0.5em" }}>
-        <a href="/calculation">Calculation</a>
+        <Link to="/calculation">Calculation</Link>
       </li>
       <li style={{ padding: "0.5em" }}>
         {" "}
-        <a href="/about">About</a>
+        <Link to="/about">About</Link>
       </li>
       <li style={{ padding: "0.5em" }}>
         {" "}
-        <a href="/contactus">Contact Us</a>
+        <Link to="/contactus">Contact Us</Link>
       </li>
       <li style={{ padding: "0.5em" }}>
         {" "}
-        <a href="/admin">Admin</a>
+        <Link to="/admin">Admin</Link>
       </li>
     </ul>
   );
