@@ -1,5 +1,174 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots ResultList default 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "row",
+      "flexWrap": "wrap",
+      "margin": "-0.5em",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "lightGreen",
+        "borderRadius": "0.5em",
+        "display": "flex",
+        "flexDirection": "column",
+        "margin": "0.5em",
+        "padding": "0.5em",
+        "width": "100%",
+      }
+    }
+  >
+    <h3>
+      Target Points for Parking
+    </h3>
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+          "fontSize": "2em",
+        }
+      }
+    />
+    <div>
+       
+      points
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "lightGreen",
+        "borderRadius": "0.5em",
+        "display": "flex",
+        "flexDirection": "column",
+        "margin": "0.5em",
+        "padding": "0.5em",
+        "width": "100%",
+      }
+    }
+  >
+    <h3>
+      Parking Requirement - Total
+    </h3>
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+          "fontSize": "2em",
+        }
+      }
+    />
+    <div>
+       
+      spaces
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "lightGreen",
+        "borderRadius": "0.5em",
+        "display": "flex",
+        "flexDirection": "column",
+        "margin": "0.5em",
+        "padding": "0.5em",
+        "width": "100%",
+      }
+    }
+  >
+    <h3>
+      Parking Requirement - Residential
+    </h3>
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+          "fontSize": "2em",
+        }
+      }
+    />
+    <div>
+       
+      spaces
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "lightGreen",
+        "borderRadius": "0.5em",
+        "display": "flex",
+        "flexDirection": "column",
+        "margin": "0.5em",
+        "padding": "0.5em",
+        "width": "100%",
+      }
+    }
+  >
+    <h3>
+      Parking Requirement - Commercial
+    </h3>
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+          "fontSize": "2em",
+        }
+      }
+    />
+    <div>
+       
+      spaces
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots ResultView default 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "lightGreen",
+      "borderRadius": "0.5em",
+      "display": "flex",
+      "flexDirection": "column",
+      "margin": "0.5em",
+      "padding": "0.5em",
+      "width": "100%",
+    }
+  }
+>
+  <h3>
+    Target Points for Parking
+  </h3>
+  <div
+    style={
+      Object {
+        "flexBasis": "50%",
+        "fontSize": "2em",
+      }
+    }
+  >
+    -1
+  </div>
+  <div>
+     
+    points
+  </div>
+</div>
+`;
+
 exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
 <div
   style={
@@ -127,6 +296,2980 @@ exports[`Storyshots RuleInput default Input Number 1`] = `
     }
   >
     sq ft
+  </div>
+</div>
+`;
+
+exports[`Storyshots RuleList default 1`] = `
+Array [
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Habitable Rooms &lt; 3
+    </div>
+    <input
+      name="UNITS_HABIT_LT3"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Habitable Rooms = 3
+    </div>
+    <input
+      name="UNITS_HABIT_3"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Habitable Rooms &gt; 3
+    </div>
+    <input
+      name="UNITS_HABIT_GT3"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Guest Rooms &lt; 30
+    </div>
+    <input
+      name="UNITS_GUEST_LT30"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      rooms
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Guest Rooms 30-60
+    </div>
+    <input
+      name="UNITS_GUEST_30-60"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      rooms
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Guest Rooms &gt; 60
+    </div>
+    <input
+      name="UNITS_GUEST_GT60"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      rooms
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Condos Units &lt; 6
+    </div>
+    <input
+      name="UNITS_CONDO_LT6"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Condos Units &gt;= 6
+    </div>
+    <input
+      name="UNITS_CONDO_GTE6"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Condo Units &gt;=6 (congested area)
+    </div>
+    <input
+      name="UNITS_CONDO_CONGESTED"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # TOC-ABB 744 Mixed Income Bedrooms
+    </div>
+    <input
+      name="UNITS_AB744_MIXED"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      bedroom
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # TOC-ABB 744 Affordable incl Sr.
+    </div>
+    <input
+      name="UNITS_AB744_AFF_SR"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # TOC-ABB 744 Special Needs
+    </div>
+    <input
+      name="UNITS_AB744_AFF_SPECIAL"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # TOC-ABB 744 Eligible Housing Development
+    </div>
+    <input
+      name="UNITS_AB744_ELIGIBLE"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Density Bonus Opt 1 Bedrooms &lt;= 1
+    </div>
+    <input
+      name="UNITS_DENSITY_OPT1_LTE1"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Density Bonus Opt 1 Bedrooms 2-3
+    </div>
+    <input
+      name="UNITS_DENSITY_OPT1_2-3"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Density Bonus Opt 1 Bedrooms GTE4
+    </div>
+    <input
+      name="UNITS_DENSITY_OPT1_GTE4"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Density Bonus Opt 2 Restricted Unit
+    </div>
+    <input
+      name="UNITS_DENSITY_OPT2_RESTRICTED"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Density Bonus Opt 2 Disabled
+    </div>
+    <input
+      name="UNITS_DENSITY_OPT2_DISABLED"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Density Bonus Opt 2 Residential Hotel
+    </div>
+    <input
+      name="UNITS_DENSITY_OPT2_HOTEL"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Senior Independent Housing
+    </div>
+    <input
+      name="UNITS_SR_INDEPENDENT"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Assisted Living Care Unit
+    </div>
+    <input
+      name="UNITS_SR_ASSISTED"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      dwelling units
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Assisted Living Care Guest Rooms
+    </div>
+    <input
+      name="UNITS_SR_ASSISTED_GUEST"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      guest rm
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Skilled Nursing Care Housing Beds
+    </div>
+    <input
+      name="UNITS_SKILLED_NURSING"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      guest bed
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "margin": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flexBasis": "50%",
+        }
+      }
+    >
+      # Alzheimer's / Dementia Care Housing
+    </div>
+    <input
+      name="UNITS_DEMENTIA"
+      onChange={[Function]}
+      style={
+        Object {
+          "flexBasis": "20%",
+        }
+      }
+      type="number"
+      value=""
+    />
+    <div
+      style={
+        Object {
+          "flexBasis": "20%",
+          "marginLeft": "1em",
+        }
+      }
+    >
+      guest bed
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots RulePanels default 1`] = `
+Array [
+  <div
+    style={
+      Object {
+        "backgroundColor": "lightblue",
+        "border": "2px solid lightgray",
+        "borderRadius": "0.5em",
+        "margin": "0.5em",
+        "padding": "0.5em",
+      }
+    }
+  >
+    <h5>
+       
+      Land Use - Residential
+    </h5>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Habitable Rooms &lt; 3
+      </div>
+      <input
+        name="UNITS_HABIT_LT3"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Habitable Rooms = 3
+      </div>
+      <input
+        name="UNITS_HABIT_3"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Habitable Rooms &gt; 3
+      </div>
+      <input
+        name="UNITS_HABIT_GT3"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Guest Rooms &lt; 30
+      </div>
+      <input
+        name="UNITS_GUEST_LT30"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        rooms
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Guest Rooms 30-60
+      </div>
+      <input
+        name="UNITS_GUEST_30-60"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        rooms
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Guest Rooms &gt; 60
+      </div>
+      <input
+        name="UNITS_GUEST_GT60"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        rooms
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Condos Units &lt; 6
+      </div>
+      <input
+        name="UNITS_CONDO_LT6"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Condos Units &gt;= 6
+      </div>
+      <input
+        name="UNITS_CONDO_GTE6"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Condo Units &gt;=6 (congested area)
+      </div>
+      <input
+        name="UNITS_CONDO_CONGESTED"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # TOC-ABB 744 Mixed Income Bedrooms
+      </div>
+      <input
+        name="UNITS_AB744_MIXED"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        bedroom
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # TOC-ABB 744 Affordable incl Sr.
+      </div>
+      <input
+        name="UNITS_AB744_AFF_SR"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # TOC-ABB 744 Special Needs
+      </div>
+      <input
+        name="UNITS_AB744_AFF_SPECIAL"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # TOC-ABB 744 Eligible Housing Development
+      </div>
+      <input
+        name="UNITS_AB744_ELIGIBLE"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Density Bonus Opt 1 Bedrooms &lt;= 1
+      </div>
+      <input
+        name="UNITS_DENSITY_OPT1_LTE1"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Density Bonus Opt 1 Bedrooms 2-3
+      </div>
+      <input
+        name="UNITS_DENSITY_OPT1_2-3"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Density Bonus Opt 1 Bedrooms GTE4
+      </div>
+      <input
+        name="UNITS_DENSITY_OPT1_GTE4"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Density Bonus Opt 2 Restricted Unit
+      </div>
+      <input
+        name="UNITS_DENSITY_OPT2_RESTRICTED"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Density Bonus Opt 2 Disabled
+      </div>
+      <input
+        name="UNITS_DENSITY_OPT2_DISABLED"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Density Bonus Opt 2 Residential Hotel
+      </div>
+      <input
+        name="UNITS_DENSITY_OPT2_HOTEL"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Senior Independent Housing
+      </div>
+      <input
+        name="UNITS_SR_INDEPENDENT"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Assisted Living Care Unit
+      </div>
+      <input
+        name="UNITS_SR_ASSISTED"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        dwelling units
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Assisted Living Care Guest Rooms
+      </div>
+      <input
+        name="UNITS_SR_ASSISTED_GUEST"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        guest rm
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Skilled Nursing Care Housing Beds
+      </div>
+      <input
+        name="UNITS_SKILLED_NURSING"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        guest bed
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Alzheimer's / Dementia Care Housing
+      </div>
+      <input
+        name="UNITS_DEMENTIA"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        guest bed
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "backgroundColor": "lightblue",
+        "border": "2px solid lightgray",
+        "borderRadius": "0.5em",
+        "margin": "0.5em",
+        "padding": "0.5em",
+      }
+    }
+  >
+    <h5>
+       
+      Land Use - Commercial
+    </h5>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Restaurant/Bar/General
+      </div>
+      <input
+        name="SF_RESTAURANT"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Health Club
+      </div>
+      <input
+        name="SF_HEALTH_CLUB"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sql Ft - Restaurant &lt; 1000 sq ft
+      </div>
+      <input
+        name="SF_RESTAURANT_SMALL"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Take-out Restaurant
+      </div>
+      <input
+        name="SF_RESTAURANT_TAKEOUT"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Retail
+      </div>
+      <input
+        name="SF_RETAIL"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Office, Business, Manufacturing, Industrial
+      </div>
+      <input
+        name="SF_OFFICE"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Retail Furniture
+      </div>
+      <input
+        name="SF_FURNITURE"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Warehouse &gt; 10,000 sq ft
+      </div>
+      <input
+        name="SF_WAREHOUSE"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Frt - Small Warehouse (&lt;=10,000 sf)
+      </div>
+      <input
+        name="SF_WAREHOUSE_SMALL"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "backgroundColor": "lightblue",
+        "border": "2px solid lightgray",
+        "borderRadius": "0.5em",
+        "margin": "0.5em",
+        "padding": "0.5em",
+      }
+    }
+  >
+    <h5>
+       
+      Land Use - Institutional
+    </h5>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Patient Hospital Beds
+      </div>
+      <input
+        name="BED_HOSPITAL"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        beds
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Medical Offices, Clinics, Service Facilities
+      </div>
+      <input
+        name="SF_INST_MEDICAL_SVC"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Other Institutional
+      </div>
+      <input
+        name="SF_INST_OTHER"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Government Institution
+      </div>
+      <input
+        name="SF_INST_GOV"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        spaces
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Convalescent Institution Beds
+      </div>
+      <input
+        name="BED_CONVALESCENT"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        beds
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "backgroundColor": "lightblue",
+        "border": "2px solid lightgray",
+        "borderRadius": "0.5em",
+        "margin": "0.5em",
+        "padding": "0.5em",
+      }
+    }
+  >
+    <h5>
+       
+      Land Use - Other
+    </h5>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        # Seats - Auditorium
+      </div>
+      <input
+        name="SEAT_AUDITORIUM"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        seats
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft - Auditorium w/o Seats
+      </div>
+      <input
+        name="SF_AUDITORIUM_NO_SEATS"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Elementary School Classrooms
+      </div>
+      <input
+        name="CLASSROOM_SCHOOL"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        classrooms
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "margin": "1em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flexBasis": "50%",
+          }
+        }
+      >
+        Sq Ft. - Trade School
+      </div>
+      <input
+        name="SF_TRADE_SCHOOL"
+        onChange={[Function]}
+        style={
+          Object {
+            "flexBasis": "20%",
+          }
+        }
+        type="number"
+        value=""
+      />
+      <div
+        style={
+          Object {
+            "flexBasis": "20%",
+            "marginLeft": "1em",
+          }
+        }
+      >
+        sq ft
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots TdmCalculation default 1`] = `
+<div
+  style={
+    Object {
+      "margin": "1em",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#F8F8F8",
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "margin": "0.5em",
+          "width": "40%",
+        }
+      }
+    >
+      <h3>
+        Project Parameters
+      </h3>
+      <div
+        style={
+          Object {
+            "backgroundColor": "lightblue",
+            "border": "2px solid lightgray",
+            "borderRadius": "0.5em",
+            "margin": "0.5em",
+            "padding": "0.5em",
+          }
+        }
+      >
+        <h5>
+           
+        </h5>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "row",
+              "margin": "1em",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "flexBasis": "50%",
+              }
+            }
+          >
+            Input Integer A
+          </div>
+          <input
+            name="INPUT_INTEGER_A"
+            onChange={[Function]}
+            style={
+              Object {
+                "flexBasis": "20%",
+              }
+            }
+            type="number"
+            value={4}
+          />
+          <div
+            style={
+              Object {
+                "flexBasis": "20%",
+                "marginLeft": "1em",
+              }
+            }
+          >
+            beans
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "row",
+              "margin": "1em",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "flexBasis": "50%",
+              }
+            }
+          >
+            Input Integer B
+          </div>
+          <input
+            name="INPUT_INTEGER_B"
+            onChange={[Function]}
+            style={
+              Object {
+                "flexBasis": "20%",
+              }
+            }
+            type="number"
+            value={17}
+          />
+          <div
+            style={
+              Object {
+                "flexBasis": "20%",
+                "marginLeft": "1em",
+              }
+            }
+          >
+            beans
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "margin": "0.5em",
+          "width": "30%",
+        }
+      }
+    >
+      <h3>
+         Transportation Demand Strategies
+      </h3>
+    </div>
+    <div
+      style={
+        Object {
+          "margin": "0.5em",
+          "width": "30%",
+        }
+      }
+    >
+      <h3>
+         Metrics
+      </h3>
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "margin": "-0.5em",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "lightGreen",
+              "borderRadius": "0.5em",
+              "display": "flex",
+              "flexDirection": "column",
+              "margin": "0.5em",
+              "padding": "0.5em",
+              "width": "100%",
+            }
+          }
+        >
+          <h3>
+            A + B
+          </h3>
+          <div
+            style={
+              Object {
+                "flexBasis": "50%",
+                "fontSize": "2em",
+              }
+            }
+          >
+            21
+          </div>
+          <div>
+             
+            beans
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "lightGreen",
+              "borderRadius": "0.5em",
+              "display": "flex",
+              "flexDirection": "column",
+              "margin": "0.5em",
+              "padding": "0.5em",
+              "width": "100%",
+            }
+          }
+        >
+          <h3>
+            A * B
+          </h3>
+          <div
+            style={
+              Object {
+                "flexBasis": "50%",
+                "fontSize": "2em",
+              }
+            }
+          >
+            68
+          </div>
+          <div>
+             
+            beans
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "lightGreen",
+              "borderRadius": "0.5em",
+              "display": "flex",
+              "flexDirection": "column",
+              "margin": "0.5em",
+              "padding": "0.5em",
+              "width": "100%",
+            }
+          }
+        >
+          <h3>
+            Hypotenuse of Triangle with Sides A and B
+          </h3>
+          <div
+            style={
+              Object {
+                "flexBasis": "50%",
+                "fontSize": "2em",
+              }
+            }
+          >
+            17.46424919657298
+          </div>
+          <div>
+             
+            beans
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
