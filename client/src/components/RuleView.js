@@ -12,20 +12,21 @@ const ResultView = props => {
           width: "97%",
           margin: "0.5em",
           padding: "0.5em",
-          backgroundColor: "lightBlue",
+          backgroundColor: "lightGray",
           borderRadius: "0.5em"
         }}
       >
         <h3>{rule.name}</h3>
-        <div style={{ display: "flex" }}>
-          <h4>Rule Code: {rule.code}</h4>
-          <a href="">edit</a>
-        </div>
+        <h4>Rule Code: {rule.code}</h4>
         <textarea
           style={{ width: "70%", height: "10em" }}
           value={rule.functionBody}
           readOnly
         />
+        <div style={{ display: "flex" }}>
+          <button>Validate</button>
+          <button>Update</button>
+        </div>
       </div>
     </React.Fragment>
   );
