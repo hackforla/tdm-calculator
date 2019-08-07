@@ -1,27 +1,16 @@
-import React from "react";
-
+import React, { useState } from "react";
 import RuleView from "./RuleView";
 
 const RulePanels = props => {
   const { rules } = props;
-  const panelIds = rules.reduce((acc, rule) => {
-    if (!acc.includes(rule.calculationPanelId)) {
-      acc.push(rule.calculationPanelId);
-    }
-    return acc;
-  }, []);
-  // Group rules into an array where each element is an array of
-  // rules for a particular panel
-  const panelsRules = panelIds.map(panelId => {
-    return rules.filter(rule => rule.calculationPanelId === panelId);
-  });
+  const [ruleId, setRuleId] = useState(rules[0].id);
+
   return (
     <React.Fragment>
-      <select>
-        <option selected>one</option>
+      <select value={ruleId} onChange={e => setRuleId(e.target.value)}>
         {rules && rules.length > 0
           ? rules.map(rule => (
-              <option key={rule.id}>
+              <option key={rule.id} value={rule.id}>
                 {rule.code}
               </option>
             ))
