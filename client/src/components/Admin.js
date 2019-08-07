@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as ruleService from "../services/rule.service";
-import RuleViews from "./RuleViews";
+import RuleViewContainer from "./RuleViewContainer";
 
 const calculationId = 1;
 
@@ -36,7 +36,7 @@ const Admin = props => {
       <div>
         <h4>Calculation Rules</h4>
         {calculationRules && calculationRules.length > 0 ? (
-          <RuleViews rules={calculationRules} onInputChange={onInputChange} />
+          <RuleViewContainer rules={calculationRules} onInputChange={onInputChange} />
         ) : (
           <div>No Rules Loaded</div>
         )}
