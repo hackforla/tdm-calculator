@@ -2,7 +2,7 @@ import React from "react";
 import RuleFunction from "./RuleFunction";
 
 const RuleView = props => {
-  const { rule } = props;
+  const { rule, rules, setRuleId } = props;
   return (
     <React.Fragment>
       <div
@@ -30,7 +30,7 @@ const RuleView = props => {
             justifyContent: "center"
           }}
         >
-          <RuleFunction functionBody={rule.functionBody} />
+          <RuleFunction functionBody={rule.functionBody} rules={rules} setRuleId={setRuleId}/>
         </div>
         <div style={{ display: "flex" }}>
           <button>Validate</button>

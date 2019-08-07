@@ -20,7 +20,7 @@ const RuleViewContainer = props => {
             ))
           : null}
       </select>
-      <RuleView rule={rule} onInputChange={props.onInputChange} />
+      <RuleView rule={rule} rules={rules} setRuleId={setRuleId} />
     </React.Fragment>
   );
 };
