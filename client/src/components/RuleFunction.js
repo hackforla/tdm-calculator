@@ -1,5 +1,6 @@
 import React from "react";
 import reactStringReplace from "react-string-replace";
+import { SSL_OP_SINGLE_DH_USE } from "constants";
 
 const RuleFunction = props => {
   const { functionBody, rules, setRuleId } = props;
@@ -18,18 +19,21 @@ const RuleFunction = props => {
         buttonColor = "lightGreen";
       }
       return (
-        <button
+        <span
           key={i}
           name={match}
           onClick={() => {
             calculationRule && setRuleId(calculationRule.id);
           }}
           style={{
-            backgroundColor: buttonColor
+            backgroundColor: buttonColor,
+            border: "solid black 1px",
+            borderRadius: "8px",
+            padding: "0px 4px"
           }}
         >
           {match}
-        </button>
+        </span>
       );
     }
   );
