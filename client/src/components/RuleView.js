@@ -1,6 +1,7 @@
 import React from "react";
+import RuleFunction from "./RuleFunction";
 
-const ResultView = props => {
+const RuleView = props => {
   const { rule } = props;
   return (
     <React.Fragment>
@@ -18,11 +19,19 @@ const ResultView = props => {
       >
         <h3>{rule.name}</h3>
         <h4>Rule Code: {rule.code}</h4>
-        <textarea
-          style={{ width: "70%", height: "10em" }}
-          value={rule.functionBody}
-          readOnly
-        />
+        <div
+          style={{
+            width: "70%",
+            minHeight: "5em",
+            maxHeight: "none",
+            backgroundColor: "white",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <RuleFunction functionBody={rule.functionBody} />
+        </div>
         <div style={{ display: "flex" }}>
           <button>Validate</button>
           <button>Update</button>
@@ -32,4 +41,4 @@ const ResultView = props => {
   );
 };
 
-export default ResultView;
+export default RuleView;
