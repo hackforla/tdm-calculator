@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import RuleView from "./RuleView";
 
-const RulePanels = props => {
+const RuleViewContainer = props => {
   const { rules } = props;
   const [ruleId, setRuleId] = useState(rules[0].id);
 
@@ -27,4 +27,4 @@ const RulePanels = props => {
   );
 };
 
-export default RulePanels;
+export default RuleViewContainer;
