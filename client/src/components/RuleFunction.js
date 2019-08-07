@@ -4,29 +4,41 @@ import reactStringReplace from "react-string-replace";
 const RuleFunction = props => {
   const { functionBody, rules, setRuleId } = props;
 
-  const findID = (match, category) => (
-    rules.find( (rule) => rule.category === category && rule.code === match)
-  )
+  const findID = (match, category) =>
+    rules.find(rule => rule.category === category && rule.code === match);
 
   let functionFormatted = reactStringReplace(
     functionBody,
     /<<([^>>]*)>>/g,
-    (match, i) => (
-      <button key={i} name={match} onClick={()=> {
-        const caclulationRule = findID(match, 'calculation')
-        caclulationRule && setRuleId(caclulationRule.id)
+    (match, i) => {
+      const calculationRule = findID(match, "calculation");
+      let buttonColor = "lightYellow";
+
+      if (calculationRule) {
+        buttonColor = "lightGreen";
       }
-        }>
-        {match}
-      </button>
-    )
+      return (
+        <button
+          key={i}
+          name={match}
+          onClick={() => {
+            calculationRule && setRuleId(calculationRule.id);
+          }}
+          style={{
+            backgroundColor: buttonColor
+          }}
+        >
+          {match}
+        </button>
+      );
+    }
   );
 
-  //functionFormatted = <button onClick={setRuleId(12)}>TARGET_POINTS_PARK</button>
-
-  console.log(functionFormatted);
-
-  return <React.Fragment>{functionFormatted}</React.Fragment>;
+  return (
+    <React.Fragment>
+      <pre>{functionFormatted}</pre>
+    </React.Fragment>
+  );
 };
 
 export default RuleFunction;
