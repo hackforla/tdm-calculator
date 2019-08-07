@@ -28,8 +28,11 @@ const RuleFunction = props => {
           style={{
             backgroundColor: buttonColor,
             border: "solid black 1px",
-            borderRadius: "8px",
-            padding: "0px 4px"
+            borderRadius: "10px",
+            padding: "2px 6px",
+            boxSizing: "border-box",
+            margin: "4px",
+            display: "inline-block"
           }}
         >
           {match}
