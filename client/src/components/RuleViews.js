@@ -17,11 +17,19 @@ const RulePanels = props => {
   });
   return (
     <React.Fragment>
+      <select>
+        <option selected>one</option>
+        {rules && rules.length > 0
+          ? rules.map(rule => (
+              <option key={rule.id}>
+                {rule.code}
+              </option>
+            ))
+          : null}
+      </select>
       {rules && rules.length > 0
         ? rules.map(rule => (
-            <div
-              key={rule.id}
-            >
+            <div key={rule.id}>
               <RuleView rule={rule} onInputChange={props.onInputChange} />
             </div>
           ))
