@@ -13,18 +13,26 @@ const NavBar = props => {
         listStyleType: "none"
       }}
     >
-      <li style={{ padding: "0.5em" }}>
+      <li>
         <Link to="/calculation">Calculation</Link>
       </li>
-      <li style={{ padding: "0.5em" }}>
+      <li>
         {" "}
         <Link to="/about">About</Link>
       </li>
-      <li style={{ padding: "0.5em" }}>
+      <li>
         {" "}
         <Link to="/contactus">Contact Us</Link>
       </li>
-      <li style={{ padding: "0.5em" }}>
+      <li>
+        {" "}
+        <Link to="/signup">Sign Up</Link>
+      </li>
+      <li>
+        {" "}
+        <Link to="/login">Login</Link>
+      </li>
+      <li>
         {" "}
         <Link to="/admin">Admin</Link>
       </li>
