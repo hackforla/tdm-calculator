@@ -26,7 +26,7 @@ const NavBar = props => {
       </li>
       <li>
         {" "}
-        <Link to="/signup">Sign Up</Link>
+        <Link to="/register">Register</Link>
       </li>
       <li>
         {" "}
