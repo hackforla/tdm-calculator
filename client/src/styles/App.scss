@@ -1,20 +1,17 @@
-@import "variables.scss";
+@import "_variables.scss";
 
+// default styles for  links, buttons, etc here?
+// import individual scss files below
 #root {
   font-family: $font;
-  color: $primary-color;
-  background-color: #ffffff;
+  color: $color-primary;
+  background-color:$color-background;
 }
 
 #ladot-logo {
   margin: 23px;
 }
 
-.navbar {
-  background-color: $primary-color;
-  color: white;
-}
+// add any override to the default styles in the individual component styles
+@import './NavBar.scss';
 
-.navbar a {
-  color: white;
-}
