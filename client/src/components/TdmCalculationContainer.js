@@ -13,11 +13,7 @@ class TdmCalculationContainer extends React.Component {
     "PTS_DIFFERENCE",
     "PTS_EARNED",
     "TARGET_POINTS_PARK",
-    "PARK_REQUIREMENT",
-    "PARK_RESIDENTIAL",
-    "PARK_COMMERCIAL",
-    "PARK_INSTITUTIONAL",
-    "PARK_SCHOOL_OTHER"
+    "PARK_REQUIREMENT"
   ];
 
   state = {
@@ -69,7 +65,7 @@ class TdmCalculationContainer extends React.Component {
   };
 
   render() {
-    const { rules, formInputs } = this.state;
+    const { rules } = this.state;
     return (
       <TdmCalculation
         rules={rules}

@@ -16,8 +16,7 @@ const TdmCalculation = props => {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
-          backgroundColor: "#F8F8F8"
+          justifyContent: "space-between"
         }}
       >
         <div
