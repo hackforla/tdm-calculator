@@ -11,52 +11,50 @@ const TdmCalculation = props => {
   const resultRules =
     rules && rules.filter(rule => resultRuleCodes.includes(rule.code));
   return (
-    <div style={{ margin: "1em" }}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between"
-        }}
-      >
+    <div>
+      <div style={{ margin: "1em" }}>
         <div
           style={{
-            width: "40%",
             margin: "0.5em"
           }}
         >
-          <h3>Project Parameters</h3>
-          {rules && rules.length > 0 ? (
-            <RulePanels rules={inputRules} onInputChange={onInputChange} />
-          ) : (
-            <div>No Rules Loaded</div>
-          )}
-        </div>
-        <div
-          style={{
-            width: "30%",
-            margin: "0.5em"
-          }}
-        >
-          <h3> Transportation Demand Strategies</h3>
-          {rules && rules.length > 0 ? (
-            <RulePanels rules={measureRules} onInputChange={onInputChange} />
-          ) : (
-            <div>No Rules Loaded</div>
-          )}
-        </div>
-        <div
-          style={{
-            width: "30%",
-            margin: "0.5em"
-          }}
-        >
-          <h3> Metrics</h3>
           {rules && rules.length > 0 ? (
             <ResultList rules={resultRules} />
           ) : (
             <div>No Rules Loaded</div>
           )}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between"
+          }}
+        >
+          <div
+            style={{
+              width: "50%"
+            }}
+          >
+            <h2>Project Parameters</h2>
+            {rules && rules.length > 0 ? (
+              <RulePanels rules={inputRules} onInputChange={onInputChange} />
+            ) : (
+              <div>No Rules Loaded</div>
+            )}
+          </div>
+          <div
+            style={{
+              width: "50%"
+            }}
+          >
+            <h2> Transportation Demand Strategies</h2>
+            {rules && rules.length > 0 ? (
+              <RulePanels rules={measureRules} onInputChange={onInputChange} />
+            ) : (
+              <div>No Rules Loaded</div>
+            )}
+          </div>
         </div>
       </div>
     </div>

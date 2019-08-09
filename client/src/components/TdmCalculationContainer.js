@@ -10,10 +10,10 @@ class TdmCalculationContainer extends React.Component {
   // These are the calculation results we want to calculate
   // and display on the main page.
   resultRuleCodes = [
-    "PTS_DIFFERENCE",
-    "PTS_EARNED",
+    "PARK_REQUIREMENT",
     "TARGET_POINTS_PARK",
-    "PARK_REQUIREMENT"
+    "PTS_EARNED",
+    "PTS_DIFFERENCE"
   ];
 
   state = {
