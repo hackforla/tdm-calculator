@@ -10,7 +10,7 @@ const postRegister = (req, res) => {
     .then(userInfo => {
         console.log("USER INFO IN REGISTER CONTROLLER", userInfo)
         res.status(201).json({
-            message: "status 201, successfully posted to register (but not really...)",
+            message: "status 201, successfully posted to register (but not really...), should have user info in this json response",
             userInfo
         })
     })

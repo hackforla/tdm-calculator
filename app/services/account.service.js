@@ -22,42 +22,31 @@ const postLogin = (req, res) => {
 
 
 
-const postRegister = (req, res) => {
-    return bcrypt.hash(req.password, 10)
-        .then( hash => {
-        // TODO: 1) check if user is in db 
-        
-        
-        // TODO: 2) create user and add to db
+const postRegister = async (req, res) => {
+    return await bcrypt.hash(req.password, 10)
+        .then( async hash => {
+            // TODO: 1) check if user is in db 
+            // TODO: 2) create user and add to db
 
-        // NOT SURE HOW TO MAKE REQUESTS TO THE DATABASE...
-
-        // mssql.executeProc("Create_Account")
-        // .then(sqlRequest => {
-        //     sqlRequest.addParamenter("email", TYPES.VarChar, req.email, {length: 255})
-        //     sqlRequest.addParamenter("password", TYPES.VarChar, hash, {length: 72})
-        //     sqlRequest.addOutputParameter("id", TYPES.Int, null)
-        // })
-        // .then(response => {
-        //     console.log(response)
-        //     return response.outputParameters;
-        // })
-        // .then(res => console.log(res))
-        // .catch(err => {
-        //     console.log(err)
-        //     res.status(500).json(err)
-        // })
-    
-
-        // TEMP JSON RESPONSE HARD CODED
-        const userInfo = {
-            
-            email: req.email,
-            password: hash, 
-            message: "TEMP JSON DATA BACK. NEEDS TO BE REPLACED WITH THE USER ID and TOKEN"
-        }
-        return userInfo
-    })
+            await mssql.executeProc("Create_Account", sqlRequest => {
+                sqlRequest.addParameter("email", TYPES.VarChar, req.email);
+                sqlRequest.addParameter("password", TYPES.VarChar, hash)
+            })
+            .then(response => {
+                console.log("RESPONSE RESULT SETS", response.resultSets[0][0])
+                return "testing response here"
+                // TODO: figure out how to return the result set back to the controller
+                // return response.resultSets[0][0]
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({error: err})
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({error: err})
+        })
 }
 
 
