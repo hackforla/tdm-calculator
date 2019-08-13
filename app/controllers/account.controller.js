@@ -8,8 +8,11 @@ const getMessage = async (req, res) => {
 const postRegister = (req, res) => {
     accountService.postRegister(req.body, res)
     .then(userInfo => {
-        console.log("USER INFO in CONTROLLER", userInfo)
-        res.json(userInfo)
+        console.log("USER INFO IN REGISTER CONTROLLER", userInfo)
+        res.status(201).json({
+            message: "status 201, successfully posted to register (but not really...)",
+            userInfo
+        })
     })
     .catch(err => { 
         res.set(500).send(err)
@@ -17,10 +20,21 @@ const postRegister = (req, res) => {
 }
 
 
+const postLogin = (req, res) => {
+    accountService.postLogin(req.body, res)
+    .then(userInfo => {
+        console.log("USER INFO IN LOGIN CONTROLLER", userInfo)
+        res.status(201).json((userInfo))
+    })
+    .catch(err => { 
+        res.set(500).send(err)
+    })
+}
 
 
 module.exports = {
-    postRegister, 
+    postRegister,
+    postLogin, 
     getMessage
 }
 

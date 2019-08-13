@@ -1,21 +1,22 @@
 const router = require('express').Router();
-const bcrypt = require('bcrypt')
-const mssql = require("../../mssql");
-// can refactor after by putting in controller...
 const accountController = require("../controllers/account.controller");
-// router.post("/", authController.post);
-
 
 module.exports = router;
 
 router.post('/register', accountController.postRegister )
+router.post('/login', accountController.postLogin )
 
-
-// router.post('/', accountController.register.post)
-
+// testing routes
 router.get('/getMessage', accountController.getMessage)
 
 
+
+
+
+
+
+// CODE BELOW HAS BEEN REFACTORED AND ADDED TO separate routes, controller, and service
+// keeping this here for reference for now -- claire
 
 // router.post('/register', (req, res) => {
 //     // TODO: add valication, if user exists in the system already...
@@ -42,12 +43,7 @@ router.get('/getMessage', accountController.getMessage)
 //         }
 //     })
     
-
-
 // })
 
-// router.post('/login', (req, res) => {
-    
-// })
 
 
