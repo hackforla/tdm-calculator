@@ -17,8 +17,6 @@ Instructions to install a development environment on your machine:
 
 1. Clone this repo to your local drive.
 
-   <details><summary>details</summary><p>
-
 1. Start a terminal app, such as a Git bash shell on Windows or Terminal on Mac OS
 1. Create a src directory in the user's home directory and go in it (or use the folder where you normally put local git repositories)
    ```
