@@ -32,10 +32,6 @@ const RuleView = props => {
         >
           <RuleFunction functionBody={rule.functionBody} rules={rules} setRuleId={setRuleId}/>
         </div>
-        <div style={{ display: "flex" }}>
-          <button>Validate</button>
-          <button>Update</button>
-        </div>
       </div>
     </React.Fragment>
   );
