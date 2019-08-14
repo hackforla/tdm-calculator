@@ -1,61 +1,70 @@
 const mssql = require("../../mssql");
 const TYPES = require("tedious").TYPES;
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
+
+//example of a protected route/controller/service
+const getMessage = (token) => {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+    return promise({
+        message: "decoded token payload included in json",
+        ...decoded
+    })
+}
+
+// in order to use the .then and .catch in the controller,
+// the functions in service file needs to be return a promise
+// alternative is using async/await
 const promise = (itemToResolve) => {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         resolve(itemToResolve);
     });
 }
 
+const postLogin = async ({
+    email,
+    password
+}) => {
+    // TODO 1: logic to compare password/hash in db; return the accountInfo
 
-const postLogin = (req, res) => {
-    const tempUser = {
-        email: "claire@tdm.com",
-        // the original string password is: "tdmpassword"
-        password: "$2b$10$44otJ0IfAbSMM.E1h3XqVu8KVKOuy13ANcgN3X4kCamnS0svttyH6"
+    // TODO 2: return jwt token with user info.
+    const tempAccount = {
+        id: 2,
+        email: "claire3@tdm.com",
+        role: "developer",
+        confirmed: false
     }
 
+    let token = await jwt.sign({
+        account: tempAccount
+    }, process.env.JWT_SECRET_KEY)
 
-    return promise({'login message': 'you hit postLogin() in account.service'})
+    return {
+        ...tempAccount,
+        token
+    }
 }
 
+const postRegister = (req, res) => {
+    // bcrypt returns a promise
+    return bcrypt.hash(req.password, 10)
+        .then(hash => {
+            // TODO: 1) check if account is in db 
+            // TODO: 2) create account and add to db
 
-
-const postRegister = async (req, res) => {
-    return await bcrypt.hash(req.password, 10)
-        .then( async hash => {
-            // TODO: 1) check if user is in db 
-            // TODO: 2) create user and add to db
-
-            await mssql.executeProc("Create_Account", sqlRequest => {
-                sqlRequest.addParameter("email", TYPES.VarChar, req.email);
-                sqlRequest.addParameter("password", TYPES.VarChar, hash)
-            })
-            .then(response => {
-                console.log("RESPONSE RESULT SETS", response.resultSets[0][0])
-                return "testing response here"
-                // TODO: figure out how to return the result set back to the controller
-                // return response.resultSets[0][0]
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({error: err})
-            })
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({error: err})
+            return mssql.executeProc("Create_Account", sqlRequest => {
+                    sqlRequest.addParameter("email", TYPES.VarChar, req.email);
+                    sqlRequest.addParameter("password", TYPES.VarChar, hash)
+                })
+                .then(response => {
+                    console.log("RESPONSE RESULT SETS", response.resultSets[0][0])
+                    return response.resultSets[0][0]
+                })
         })
 }
 
 
-// testing 
-const getMessage = (res) => {
-    return  promise(
-        {message: "welcome to the account routes"}
-    )
-}
 
 
 module.exports = {

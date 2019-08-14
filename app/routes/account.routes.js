@@ -3,11 +3,11 @@ const accountController = require("../controllers/account.controller");
 
 module.exports = router;
 
-router.post('/register', accountController.postRegister )
-router.post('/login', accountController.postLogin )
+router.post('/register', accountController.postRegister)
+router.post('/login', accountController.postLogin)
 
-// testing routes
-router.get('/getMessage', accountController.getMessage)
+//example of a protected route/controller/service
+router.get('/getMessage', accountController.verifyToken, accountController.getMessage)
 
 
 
@@ -19,9 +19,9 @@ router.get('/getMessage', accountController.getMessage)
 // keeping this here for reference for now -- claire
 
 // router.post('/register', (req, res) => {
-//     // TODO: add valication, if user exists in the system already...
+//     // TODO: add valication, if account exists in the system already...
 
-//     // if user is not in db, then has the password
+//     // if account is not in db, then has the password
 //     bcrypt.hash(req.body.password, 10, (err, hash) => {
 //         if (err) {
 //             // if error, we coudln't hash the password and couldn't store it
@@ -29,21 +29,18 @@ router.get('/getMessage', accountController.getMessage)
 //                 error: err
 //             })
 //         } else {
-//             // if no error, create user with the hashed password
-//             // TODO: add details on saving user here
-//             const user = {
+//             // if no error, create account with the hashed password
+//             // TODO: add details on saving account here
+//             const account = {
 //                 email: req.body.email,
 //                 hash: hash
 //             }
-            
+
 //             return res.status(201).json({
 //                 message: "successfully posted to register",
-//                 user
+//                 account
 //             })
 //         }
 //     })
-    
+
 // })
-
-
-
