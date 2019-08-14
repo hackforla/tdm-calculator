@@ -8,7 +8,7 @@ const ResultList = props => {
       style={{
         display: "flex",
         flexDirection: "row",
-        flexWrap: "wrap",
+        justifyContent: "space-between",
         margin: "-0.5em"
       }}
     >

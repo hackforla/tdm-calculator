@@ -67,7 +67,7 @@ class Engine {
 
       // Extract rules that this one depends upon
       // from functionBody tokens
-      const regExPattern = /<<[\w\-]+?>>/gi;
+      const regExPattern = /<<[\w-]+?>>/gi;
       const tokens = rule.functionBody
         .match(regExPattern)
         .map(t => t.substr(2, t.length - 4));

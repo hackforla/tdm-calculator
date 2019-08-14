@@ -14,7 +14,9 @@ const Header = () => {
     >
       <h1>TDM Calculator</h1>
       <div>
-        <img src={logo} />
+        <a href="//ladot.lacity.org" target="_blank" rel="noopener noreferrer">
+          <img src={logo} alt="LA Department of Transportation Logo" />
+        </a>
       </div>
     </div>
   );

@@ -1,17 +1,222 @@
 @import "_variables.scss";
 
+html,
+body,
+div,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+ol,
+ul,
+li,
+form,
+legend,
+label,
+table,
+header,
+footer,
+nav,
+section,
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: $color-background;
+  font: 100%/1.5 "Varela", sans-serif;
+  -webkit-text-size-adjust: 100%;
+  color: #474747;
+}
+
+h1,
+.alpha {
+  font-size: 2em;
+  line-height: 1.25em;
+  color: #cc4e10;
+}
+
+h2,
+.beta {
+  font-size: 1.625em;
+  line-height: 1.15384615em;
+}
+
+h3,
+.gamma {
+  font-size: 1.375em;
+  line-height: 1.13636364em;
+}
+
+h4,
+.delta {
+  font-size: 1.125em;
+  line-height: 1.111111111em;
+}
+
+p {
+  font-size: 1em;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+}
+
+cite {
+  font-style: italic;
+}
+
+blockquote {
+  font-weight: 700;
+  background-color: #92cc4e;
+  color: #474747;
+  padding: 1em 2em;
+  margin-bottom: 1em;
+  font-size: 1.25em;
+  line-height: 1.25em;
+}
+
+code {
+  font-family: monospace;
+}
+
+pre {
+  display: block;
+  font-family: monospace;
+  white-space: pre;
+  margin: 1em 0px;
+}
+
+a {
+  color: #474747;
+  text-decoration: none;
+  outline: 0;
+}
+
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.colorbulletlist ul li {
+  color: #014982;
+  font-size: 0.5em;
+}
+
+.text ol {
+  list-style: decimal;
+  margin: 0 0 1em 1.5em;
+}
+
+fieldset {
+  border: 1px solid #e0e0e0;
+  padding: 1.5em;
+  margin: 0;
+  -webkit-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+
+legend {
+  display: block;
+  padding-inline-start: 2px;
+  padding-inline-end: 2px;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+}
+
+abbr {
+  border-bottom: 1px dotted #e0e0e0;
+  cursor: help;
+  color: #cc4e10;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0 1px 0;
+  -webkit-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  margin-right: 0.3em;
+}
+
+.btn {
+  display: inline-block;
+  background: #014982;
+  color: #fff;
+  line-height: 1;
+  font-weight: bold;
+  padding: 1em;
+  border: 0;
+  text-align: center;
+  width: initial;
+  -webkit-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+
 // default styles for  links, buttons, etc here?
 // import individual scss files below
 #root {
   font-family: $font;
   color: $color-primary;
-  background-color:$color-background;
+  background-color: $color-background;
 }
 
 #ladot-logo {
   margin: 23px;
 }
 
-// add any override to the default styles in the individual component styles
-@import './NavBar.scss';
+input,
+textarea {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  padding: 0.5em 0.65rem;
+}
 
+.is-valid {
+  border-color: #326e1e;
+}
+
+.is-error {
+  border-color: #cc2a14;
+}
+
+.tdm-calculation-metrics-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 0.5em;
+  padding: 0.5em;
+  border-radius: 5px;
+  background-color: $color-primary;
+  color: $color-background;
+}
+
+// add any override to the default styles in the individual component styles
+@import "./NavBar.scss";

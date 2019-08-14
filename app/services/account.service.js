@@ -64,9 +64,6 @@ const postRegister = (req, res) => {
         })
 }
 
-
-
-
 module.exports = {
     postRegister,
     postLogin,
