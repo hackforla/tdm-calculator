@@ -2,7 +2,19 @@
 
 Traffic Demand Management (TDM) calculator tool. DTLA Hack for LA is partnering with Los Angeles Department of Transportation (LADOT) to develop this tool to help planners at LADOT and real estate developers calculate how to meet some of Los Angeles’s Mobility Plan 2035 goals.
 
+Transportation demand management (TDM) is a defined set of strategies aimed at maximizing traveller choices while also improving mobility, reduce congestion, vehicle miles travelled, greenhouse gas emissions, and air pollution. For our project purposes, we are creating a TDM calculator tool in order to help real estate developers learn how to pass their development plans through the city with visible calculations showing based on their development plans.
+
 ### Project context
+
+In order to start construction on a building to the City of Los Angeles, real estate developers have to submit a proposal of their development plan to the city for review and must meet certain criteria in order to be approved. Currently, the process for getting approved to build plans (on a super high level, steps may vary) goes like this:
+- Real estate developer submit development proposal
+- City manually checks criteria through manual review
+- If it meets the criteria, city "approves" the plan
+- If it doesn't, real estate developer is able to request a meeting for further review and discussion. Otherwise, the plan is rejected.
+
+Real estate developers currently don't have any way to understand where their development plans are getting rejected. The TDM Calculator will be created in order to give them more visibility into how to get their development plans approved and, more importantly, get fined less for following city building criteria.
+
+The city will benefit by having more time to review edge cases for building development plans, while being able to approve plans that fit criteria with more ease and less hassle.
 
 [LA Mobility Plan 2035](https://planning.lacity.org/documents/policy/mobilityplnmemo.pdf)
 
@@ -23,17 +35,13 @@ Traffic Demand Management (TDM) calculator tool. DTLA Hack for LA is partnering 
 
 # How to contribute
 
-Explain the different ways people can contribute. For example:
+- Join the team on the Hack For LA Slack channel (#tdm-calculator), or at our weekly hack night on Tuesdays in [Hack For LA](https://www.hackforla.org/)!
 
-- Join the team {on Slack/at our weekly hack night/etc}.
-- To help with user research, {do ABC}.
-- To provide design support, {do XYZ}.
+- To help with user research, find other cities' TDM calculators. For example, check out [SF's TDM Tool](http://www.sftdmtool.org/)
+
 - To contribute to the code, see [Contributing.md](./Contributing.md)
 
-Remember to provide direct links to each channel.
-
 ### Working with issues
-
 - Explain how to submit a bug.
 - Explain how to submit a feature request.
 - Explain how to contribute to an existing issue.
