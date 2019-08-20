@@ -19,22 +19,17 @@ const RulePanels = props => {
     <React.Fragment>
       {panelsRules && panelsRules.length > 0
         ? panelsRules.map(rules => (
-            <div
-              style={{
-                border: "2px solid lightgray",
-                borderRadius: "0.5em",
-                backgroundColor: "lightblue",
-                margin: "0.5em",
-                padding: "0.5em"
-              }}
+            <fieldset
+              key={rules[0].calculationPanelId}
+              style={{ margin: "0.75em" }}
             >
-              <h5> {rules[0].panelName}</h5>
+              <legend> {rules[0].panelName}</legend>
               <RuleList
                 key={rules[0].calculationPanelId}
                 rules={rules}
                 onInputChange={props.onInputChange}
               />
-            </div>
+            </fieldset>
           ))
         : null}
     </React.Fragment>
