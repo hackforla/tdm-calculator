@@ -28,11 +28,15 @@ const postLogin = (req, res) => {
   accountService
     .postLogin(req.body)
     .then(accountInfo => {
-      res.status(201).json({
-        message:
-          "Controller level for postLogin(), with accountInfo below, should have token which will be stored in localstorage in frontend",
-        ...accountInfo
-      });
+      if (accountInfo.error) {
+        res.status(403).json(accountInfo.error);
+      } else {
+        res.status(201).json({
+          message:
+            "Controller level for postLogin(), with accountInfo below, should have token which will be stored in localstorage in frontend",
+          ...accountInfo
+        });
+      }
     })
     .catch(err => {
       res.set(500).send(err);

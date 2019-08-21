@@ -2,8 +2,7 @@
 
 // See account.routes /getMessage for usage example
 
-// This function verifies there is a token in the header
-// if a request was made to a protected route.
+// This function verifies there is a token in the header if a request was made to a protected route.
 // Header Format ==> { Authorization: Bearer <token> }
 const verifyToken = (req, res, next) => {
   //Get auth header value
