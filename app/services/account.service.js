@@ -5,12 +5,11 @@ const jwt = require("jsonwebtoken");
 
 const createToken = account => {
   return jwt.sign(
-    {
-      account
-    },
+    { account },
     // using tempJWTSecret until we can add updated env into Heroku
     process.env.JWT_SECRET_KEY || "tempJWTSecret",
     {
+      // TODO: possibly add other details options
       expiresIn: "7d"
     }
   );
