@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import * as ruleService from "../services/rule.service";
 import RuleViewContainer from "./RuleViewContainer";
 
+<<<<<<< HEAD
+const Admin = () => {
+  return <>Admin</>;
+=======
 const calculationId = 1;
 
 const Admin = props => {
@@ -43,6 +47,7 @@ const Admin = props => {
       </div>
     </div>
   );
+>>>>>>> 1f81e9728a3fcf768d5c1e4ca8a9a0f797cfad54
 };
 
 export default Admin;
