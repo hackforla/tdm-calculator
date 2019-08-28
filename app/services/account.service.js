@@ -3,11 +3,14 @@ const TYPES = require("tedious").TYPES;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+// using temp key to sign and verify until we have access to heroku from John
+const tempKey = "tempJWTSecret";
+
 const createToken = account => {
   return jwt.sign(
     { account },
     // using tempJWTSecret until we can add updated env into Heroku
-    process.env.JWT_SECRET_KEY || "tempJWTSecret",
+    process.env.JWT_SECRET_KEY || tempKey,
     {
       // TODO: possibly add other details options
       expiresIn: "7d"
@@ -71,7 +74,7 @@ const promise = itemToResolve => {
 
 //example of a protected route/controller/service
 const getMessage = token => {
-  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || tempKey);
   return promise({
     message: "decoded token payload included in json",
     ...decoded
