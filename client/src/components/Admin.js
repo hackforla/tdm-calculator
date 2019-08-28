@@ -36,7 +36,10 @@ const Admin = props => {
       <div>
         <h4>Calculation Rules</h4>
         {calculationRules && calculationRules.length > 0 ? (
-          <RuleViewContainer rules={calculationRules} onInputChange={onInputChange} />
+          <RuleViewContainer
+            rules={calculationRules}
+            onInputChange={onInputChange}
+          />
         ) : (
           <div>No Rules Loaded</div>
         )}
