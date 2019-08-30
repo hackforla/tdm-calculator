@@ -17,12 +17,13 @@ class Login extends React.Component {
             password: "tdmpassword"
         }
 
-        axios.post(API)
+        axios.post(API, user)
             .then(LoginResponse => {
                 console.log(LoginResponse)
-                this.setState({
-                    data: LoginResponse.data
-                })
+                localStorage.setItem(
+                    "token", LoginResponse.data.token
+                )
+                console.log(localStorage.getItem("token"))
             })
     }
 
