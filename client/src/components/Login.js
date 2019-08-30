@@ -12,6 +12,11 @@ class Login extends React.Component {
     }
 
     componentDidMount(){
+        let user = {
+            email: "vivian1@tdm.com",
+            password: "tdmpassword"
+        }
+
         axios.post(API)
             .then(LoginResponse => {
                 console.log(LoginResponse)
