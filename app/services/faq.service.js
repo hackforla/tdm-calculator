@@ -2,18 +2,23 @@ const mssql = require("../../mssql");
 const TYPES = require("tedious").TYPES;
 
 const getFaq = () => {
-  return mssql.executeProc("Faq_SelectAll");
+  return mssql.executeProc("Faq_SelectAll").then(response => {
+    return response.resultSets[0].map(faq => {
+      faq.value = JSON.parse(faq.value);
+      return faq;
+    });
+  });
 };
 
 const postFaq = faq => {
   return mssql
     .executeProc("Faq_Insert", sqlRequest => {
-      sqlRequest.addParameter("faqId", TYPES.Int, faq.faqId);
-      sqlRequest.addParameter("question", TYPES.NVarChar, faq.question, {
+      sqlRequest.addParameter("faqId", TYPES.Int, null);
+      sqlRequest.addParameter("question", TYPES.VarChar, faq.question, {
         length: 250
       });
       sqlRequest.addParameter("answer"),
-        TYPES.NVarChar,
+        TYPES.VarChar,
         faq.answer,
         {
           length: 500
@@ -25,14 +30,14 @@ const postFaq = faq => {
 };
 
 const putFaqById = faq => {
-    return mssql
+  return mssql
     .executeProc("Faq_Update", sqlRequest => {
       sqlRequest.addParameter("faqId", TYPES.Int, faq.faqId);
-      sqlRequest.addParameter("question", TYPES.NVarChar, faq.question, {
+      sqlRequest.addParameter("question", TYPES.VarChar, faq.question, {
         length: 250
       });
       sqlRequest.addParameter("answer"),
-        TYPES.NVarChar,
+        TYPES.VarChar,
         faq.answer,
         {
           length: 500
