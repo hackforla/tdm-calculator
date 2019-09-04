@@ -7,4 +7,4 @@ module.exports = router;
 router.get("/", faqController.get);
 router.post("/", faqController.post);
 router.put("/", faqController.put);
-router.delete("/", faqController.del);
+router.delete("/:id", faqController.del);

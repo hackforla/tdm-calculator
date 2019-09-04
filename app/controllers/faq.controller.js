@@ -13,9 +13,9 @@ const get = (req, res) => {
 
 const post = (req, res) => {
   faqService
-    .postFaq(res.body)
+    .postFaq(req.body)
     .then(outputParms => {
-      res.status(201).json(outputParms);
+      res.status(201);
     })
     .catch(err => {
       res.set(500).send(err);
@@ -25,7 +25,7 @@ const post = (req, res) => {
 const put = (req, res) => {
   faqService
     .putFaqById(req.body)
-    .then(outputParas => {
+    .then(outputParms => {
       res.sendStatus(200);
     })
     .catch(err => {

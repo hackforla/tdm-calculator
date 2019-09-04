@@ -3,10 +3,7 @@ const TYPES = require("tedious").TYPES;
 
 const getFaq = () => {
   return mssql.executeProc("Faq_SelectAll").then(response => {
-    return response.resultSets[0].map(faq => {
-      faq.value = JSON.parse(faq.value);
-      return faq;
-    });
+    return response.resultSets[0];
   });
 };
 
@@ -17,15 +14,12 @@ const postFaq = faq => {
       sqlRequest.addParameter("question", TYPES.VarChar, faq.question, {
         length: 250
       });
-      sqlRequest.addParameter("answer"),
-        TYPES.VarChar,
-        faq.answer,
-        {
-          length: 500
-        };
+      sqlRequest.addParameter("answer", TYPES.VarChar, faq.answer, {
+        length: 500
+      });
     })
     .then(response => {
-      return response.outputParameters;
+      return response.returnStatus;
     });
 };
 
@@ -36,12 +30,9 @@ const putFaqById = faq => {
       sqlRequest.addParameter("question", TYPES.VarChar, faq.question, {
         length: 250
       });
-      sqlRequest.addParameter("answer"),
-        TYPES.VarChar,
-        faq.answer,
-        {
-          length: 500
-        };
+      sqlRequest.addParameter("answer", TYPES.VarChar, faq.answer, {
+        length: 500
+      });
     })
     .then(response => {
       return response.outputParameters;
@@ -50,7 +41,7 @@ const putFaqById = faq => {
 
 const deleteFaq = id => {
   return mssql.executeProc("Faq_Delete", sqlRequest => {
-    sqlRequest.addParameter("Id", TYPES.Int, id);
+    sqlRequest.addParameter("faqId", TYPES.Int, id);
   });
 };
 
