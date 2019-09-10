@@ -52,6 +52,12 @@ To create a new issue, please use the blank issue template (available when you c
 
 Include at least one way (or more, if possible) to reach your team with questions or comments.
 
+If you have any questions or comments, feel free to reach out to:
+    Hack For LA 
+    Bonnie 
+    Co-Host/Organizer
+    bonnie@hackforla.org
+
 ### Licensing
 
 Include details about the project's open source status.
