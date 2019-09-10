@@ -5,16 +5,16 @@ const accountUrl = "/api/account";
 export const handleRegister = (email, password) => {
   return axios
     .post(`${accountUrl}/register`, { email, password })
-    .then(res => res);
+    .then(registrationReponse => registrationReponse);
 };
 
 export const handleLogin = (email, password) => {
   return axios
     .post(`${accountUrl}/login`, { email, password })
-    .then(LoginResponse => {
-      localStorage.setItem("token", LoginResponse.data.token);
+    .then(loginResponse => {
+      localStorage.setItem("token", loginResponse.data.token);
       // TODO: check this... under config.data... plain string password. how to hide?
-      return LoginResponse;
+      return loginResponse;
     });
 };
 
