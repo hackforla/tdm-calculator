@@ -11,16 +11,19 @@ const getMessage = async (req, res) => {
 const postRegister = (req, res) => {
   accountService
     .postRegister(req.body, res)
-    .then(accountInfo => {
-      console.log("account INFO IN REGISTER CONTROLLER", accountInfo);
+    .then(registrationResponse => {
+      //TODO: need to check if voluation of duplicate key/email, or invalid inputs
       res.status(201).json({
         message:
-          "CONTROLLER LEVEL: successfully posted to register (but not really...), should have account info in this json response",
-        ...accountInfo
+          "Registration successful. (Future Feature: Check email to confirm account before logging in.)",
+        ...registrationResponse
       });
     })
     .catch(err => {
-      res.set(500).send(err);
+      // TODO: if trying to register duplicate account, how do i send the correct error for this? it shouldn't be status code 500...but if we don't send any, it will send 200
+      // const errors = ["Cannot insert duplicate key in object 'dbo.Account'"];
+      console.log("error!", err.message);
+      res.status(500).send(err.message);
     });
 };
 
@@ -33,7 +36,7 @@ const postLogin = (req, res) => {
       } else {
         res.status(201).json({
           message:
-            "Controller level for postLogin(), with accountInfo below, should have token which will be stored in localstorage in frontend",
+            "Login successful. Inside account.controller, postLogin(), json data includes accountInfo and token",
           ...accountInfo
         });
       }
