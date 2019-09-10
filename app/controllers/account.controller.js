@@ -42,7 +42,8 @@ const postLogin = (req, res) => {
       }
     })
     .catch(err => {
-      res.set(500).send(err);
+      //TODO: send proper status codes and errors if... wrong email, wrong password
+      res.send(500).send(err);
     });
 };
 

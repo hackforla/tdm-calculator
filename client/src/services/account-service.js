@@ -11,7 +11,11 @@ export const handleRegister = (email, password) => {
 export const handleLogin = (email, password) => {
   return axios
     .post(`${accountUrl}/login`, { email, password })
-    .then(res => res);
+    .then(LoginResponse => {
+      localStorage.setItem("token", LoginResponse.data.token);
+      // TODO: check this... under config.data... plain string password. how to hide?
+      return LoginResponse;
+    });
 };
 
 export const handleLogout = () => {
