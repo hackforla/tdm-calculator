@@ -52,7 +52,7 @@ Instructions to install a development environment on your machine:
 
 ## To Contribute Code
 
-We use the individual person branch Git flow in order to adapt to a volunteering environment. 
+We use the individual person branch Git flow in order to work to a volunteering environment. 
 
 1. After cloning the repository, create a branch with your name. 
 ```
@@ -68,7 +68,7 @@ git commit -m "Write your commit message here with overall description of your c
 git push origin nicholas or git push --set-upstream origin nicholas or git push -u origin nicholas
 ```
 
-4. When an issue is completed, make sure your code has the latest code from the master branch by pulling from the master branch.
+4. When an issue is completed and is ready for a pull request, make sure your code has the latest code from the master branch by pulling from the master branch. This is to ensure merge conflicts are in your local envinronment, which is easier to clean up, than in GitHub.
 ```
 git pull origin master
 ```
@@ -77,14 +77,14 @@ git pull origin master
 - Click on the "New Pull Request" button underneath the "commits branches releases environment contributors" box
 - Click on the "Pull Request" tab and press "New Pull Request"
 
-6. In "Comparing Changes", switch the "compare" (right button) to your branch name. Double check the changes you've made, and click "Create pull request".
+6. In "Comparing Changes", switch the "compare" (right button) to your branch name. Double check the changes you've made down below, and click "Create pull request".
 
 7. Make sure the description of your changes is reflected in the Pull Request
 - Ex. "Start to incorporate Storybook and LADOT theme (colors, logos and headers)
 
-8. Add entrotech or fyliu as a reviewer.
+8. Add entrotech or fyliu as a reviewer. 
 
-9. Click on "Create Pull Request" and wait for some to review to merge your changes!
+9. Click on "Create Pull Request" and wait for someone to review to merge your changes!
 
 Resources from our very own Hack For LA member!
 [Intro to Git CLI exercises](https://github.com/ndanielsen/intro-cli-git-github)
