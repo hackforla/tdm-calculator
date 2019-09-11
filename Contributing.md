@@ -52,6 +52,44 @@ Instructions to install a development environment on your machine:
 
 ## To Contribute Code
 
+We use the individual person branch Git flow in order to adapt to a volunteering environment. 
+
+1. After cloning the repository, create a branch with your name. 
+```
+git checkout -b nicholas
+```
+
+2. Claim an issue (see instructions down below) and start coding.
+
+3. Regularly add, commit, and push your code to your branch.
+```
+git add . or git add -a
+git commit -m "Write your commit message here with overall description of your code changes"
+git push origin nicholas or git push --set-upstream origin nicholas or git push -u origin nicholas
+```
+
+4. When an issue is completed, make sure your code has the latest code from the master branch by pulling from the master branch.
+```
+git pull origin master
+```
+
+5. Go onto the [GitHub repository for TDM-Calculator](https://github.com/hackforla/tdm-calculator). There are two options:
+- Click on the "New Pull Request" button underneath the "commits branches releases environment contributors" box
+- Click on the "Pull Request" tab and press "New Pull Request"
+
+6. In "Comparing Changes", switch the "compare" (right button) to your branch name. Double check the changes you've made, and click "Create pull request".
+
+7. Make sure the description of your changes is reflected in the Pull Request
+- Ex. "Start to incorporate Storybook and LADOT theme (colors, logos and headers)
+
+8. Add entrotech or fyliu as a reviewer.
+
+9. Click on "Create Pull Request" and wait for some to review to merge your changes!
+
+Resources from our very own Hack For LA member!
+[Intro to Git CLI exercises](https://github.com/ndanielsen/intro-cli-git-github)
+[Intermediate Git CLI exercises](https://github.com/ndanielsen/intermediate-cli-git-github)
+
 ### Claiming an Issue
 
 Before modifying any code, an issue should exist for the task in the GitHub repo. You should make sure that no one else is assigned to the issue and the assign it to yourself, so we avoid stepping on each others' toes. If there is not an issue for the work you want to do, you should talk to the lead developer and/or project manager to get an issue created and prioritized on the kanban board and then have them create the issue from there for you to work on.

@@ -43,6 +43,9 @@ The city will benefit by having more time to review edge cases for building deve
 
 ### Working with issues
 - Explain how to submit a bug.
+
+Go to Project Kanban board by clicking on "Projects" tab. Create a note in Ice Box by clicking on the "+" sign. Write a general bug description and add the note. Convert the note into an issue by clicking the the "•••" and keep issue in Ice Box. During weekly meetings, we'll review the Ice Box and convert cards to Prioritized Backlog.
+
 - Explain how to submit a feature request.
 - Explain how to contribute to an existing issue.
 
