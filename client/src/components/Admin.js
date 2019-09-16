@@ -45,9 +45,7 @@ const Admin = props => {
           <div>No Rules Loaded</div>
         )}
       </div>
-      <div>
-        <FaqView />
-      </div>
+      <FaqView />
     </div>
   );
 };

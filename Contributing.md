@@ -73,11 +73,12 @@ git push origin nicholas or git push --set-upstream origin nicholas or git push 
 git pull origin master
 ```
 
-5. Go onto the [GitHub repository for TDM-Calculator](https://github.com/hackforla/tdm-calculator). There are two options:
-- Click on the "New Pull Request" button underneath the "commits branches releases environment contributors" box
+5. Go onto the [GitHub repository for TDM-Calculator](https://github.com/hackforla/tdm-calculator). There are three options:
+- Click on "Compare & pull request" button underneath the "commits branches releases environment contributors" box.
+- Click on the "New Pull Request" button underneath the "commits branches releases environment contributors" box and underneath "Your recently pushed branches" section.
 - Click on the "Pull Request" tab and press "New Pull Request"
 
-6. In "Comparing Changes", switch the "compare" (right button) to your branch name. Double check the changes you've made down below, and click "Create pull request".
+6. In "Comparing Changes", switch the "compare" (right button) to your branch name. Make sure the "base" (left button) is on the master branch Double check the changes you've made down below, and click "Create pull request".
 
 7. Make sure the description of your changes is reflected in the Pull Request
 - Ex. "Start to incorporate Storybook and LADOT theme (colors, logos and headers)
