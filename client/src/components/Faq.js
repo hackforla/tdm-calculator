@@ -28,14 +28,9 @@ const Faq = ({ faq, admin }) => {
   };
 
   const onDelete = () => {
-    faqService
-      .del(faq.faqId)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(JSON.stringify(error, null, 2));
-      });
+    faqService.del(faq.faqId).catch(error => {
+      console.log(JSON.stringify(error, null, 2));
+    });
   };
 
   return (
