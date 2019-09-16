@@ -45,6 +45,7 @@ const FaqAdd = () => {
             onChange={onInputTyping}
           />
           <button onClick={onSubmitFaq}>Submit New FAQ</button>
+          <button onClick={onToggle}>Cancel</button>
         </form>
       ) : (
         <button onClick={onToggle}>Add a new FAQ</button>
