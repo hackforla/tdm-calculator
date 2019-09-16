@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as ruleService from "../services/rule.service";
 import RuleViewContainer from "./RuleViewContainer";
+import FaqView from "./FaqView";
 
 const calculationId = 1;
 
@@ -43,6 +44,9 @@ const Admin = props => {
         ) : (
           <div>No Rules Loaded</div>
         )}
+      </div>
+      <div>
+        <FaqView />
       </div>
     </div>
   );
