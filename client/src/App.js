@@ -11,19 +11,22 @@ import Admin from "./components/Admin";
 import "./styles/App.scss";
 
 class App extends React.Component {
+  state = {
+    account: {}
+  };
   render() {
+    const { account } = this.state;
     return (
       <Router>
         <Header />
-        <NavBar />
-
+        <NavBar account={account} />
         <Route exact path="/" component={TdmCalculationContainer} />
         <Route path="/calculation" component={TdmCalculationContainer} />
         <Route path="/about" component={About} />
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
         <Route path="/contactus" component={ContactUs} />
-        <Route path="/admin" component={Admin} />
+        <Route path="/admin" render={() => <Admin account={account} />} />
       </Router>
     );
   }

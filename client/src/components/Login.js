@@ -1,5 +1,4 @@
-import React from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Link, Redirect, withRouter } from "react-router-dom";
 import { handleLogin } from "../services/account-service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
