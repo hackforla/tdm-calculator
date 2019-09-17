@@ -56,27 +56,7 @@ const postRegister = (req, res) => {
   });
 };
 
-// in order to use the .then and .catch in the controller,
-// the functions in service file needs to be return a promise.
-// temporarily keeping this here for reference
-// alternative to using promises is using async/await
-const promise = itemToResolve => {
-  return new Promise(function(resolve, reject) {
-    resolve(itemToResolve);
-  });
-};
-
-//example of a protected route/controller/service
-const getMessage = token => {
-  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  return promise({
-    message: "decoded token payload included in json",
-    ...decoded
-  });
-};
-
 module.exports = {
   postRegister,
-  postLogin,
-  getMessage
+  postLogin
 };

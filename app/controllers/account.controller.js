@@ -1,13 +1,5 @@
 const accountService = require("../services/account.service");
 
-//example of a protected route/controller/service
-const getMessage = async (req, res) => {
-  accountService
-    .getMessage(req.token)
-    .then(resp => res.status(201).json(resp))
-    .catch(err => res.status(500).json(err));
-};
-
 const postRegister = (req, res) => {
   accountService
     .postRegister(req.body, res)
@@ -49,6 +41,5 @@ const postLogin = (req, res) => {
 
 module.exports = {
   postRegister,
-  postLogin,
-  getMessage
+  postLogin
 };
