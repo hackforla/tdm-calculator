@@ -15,7 +15,24 @@ const getAuthorizedStuff = async (req, res) => {
     .catch(err => res.status(500).json(err));
 };
 
+const getAuthorizedStuffADMIN = async (req, res) => {
+  playgroundService
+    .getAuthorizedStuffADMIN(req)
+    .then(resp => res.status(200).json(resp))
+    .catch(err => res.status(500).json(err));
+};
+
+const getAuthorizedStuffADMIN2 = async (req, res) => {
+  console.log("playground.controller");
+  playgroundService
+    .getAuthorizedStuffADMIN2(req)
+    .then(resp => res.status(200).json(resp))
+    .catch(err => res.status(500).json(err));
+};
+
 module.exports = {
   getMessage,
-  getAuthorizedStuff
+  getAuthorizedStuff,
+  getAuthorizedStuffADMIN,
+  getAuthorizedStuffADMIN2
 };

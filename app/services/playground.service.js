@@ -1,18 +1,29 @@
 //example of a protected route/controller/service
 const getMessage = req => {
-  const decoded = jwt.verify(req.token, process.env.JWT_SECRET_KEY);
   return promise({
-    message: "decoded token payload included in json",
-    ...decoded
+    message: "gotMessage"
   });
 };
 
 const getAuthorizedStuff = (req, res) => {
+  console.log("getAuthorizedStuff");
   return promise({
     authorizedStuff: "some authorized stuff here"
   });
 };
+const getAuthorizedStuffADMIN = (req, res) => {
+  console.log("getAuthorizedStuffADMIN");
+  return promise({
+    authorizedADMINStuff: "some authorized ADMIN stuff here"
+  });
+};
 
+const getAuthorizedStuffADMIN2 = (req, res) => {
+  console.log("playground.service getAuthorizedStuffADMIN2");
+  return promise({
+    authorizedADMINStuff2: "some authorized ADMIN stuff here 2"
+  });
+};
 // in order to use the .then and .catch in the controller,
 // the functions in service file needs to be return a promise.
 // temporarily keeping this here for reference
@@ -25,5 +36,7 @@ const promise = itemToResolve => {
 
 module.exports = {
   getMessage,
-  getAuthorizedStuff
+  getAuthorizedStuff,
+  getAuthorizedStuffADMIN,
+  getAuthorizedStuffADMIN2
 };

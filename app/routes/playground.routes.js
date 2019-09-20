@@ -5,26 +5,29 @@ const jwt = require("jsonwebtoken");
 
 module.exports = router;
 
-//example of a protected route/controller/service
+// using protected route for regular login accounts:
+router.use(authService.verifyToken); //This works for all users logged in
+
+router.get("/getAuthorizedStuffALL", playgroundController.getAuthorizedStuff);
+
+// using protected routes for admin login accounts
+router.use(authService.verifyAdminToken);
+
+router.get(
+  "/getAuthorizedStuffADMIN",
+  playgroundController.getAuthorizedStuffADMIN
+);
+
+router.get(
+  "/getAuthorizedStuffADMIN2",
+  playgroundController.getAuthorizedStuffADMIN2
+);
+
+//original example of a protected route, with middleware inside each route.
 router.get(
   "/getMessage",
   authService.verifyToken,
   playgroundController.getMessage
 );
 
-router.get("/hi", (req, res) => {
-  res.send("something hello world");
-});
-// a different example of protected route:
-
-// (function authorized() {
-//   const token = authService.verifyToken;
-//   console.log("token", token);
-//   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
-//   return;
-// })();
-
-// router.use(authChecker)
-
-router.get("/getAuthorizedStuff", playgroundController.getAuthorizedStuff);
+module.exports = router;
