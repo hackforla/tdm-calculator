@@ -9,13 +9,32 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
 import "./styles/App.scss";
+import axios from "axios";
 
+setTokenInHeaders();
 class App extends React.Component {
   state = {
     account: {}
   };
+
+  componentDidMount() {
+    console.log("didMount");
+    // checkSetToken();
+  }
+
+  componentDidUpdate(prevState, prevProps) {
+    if (prevState !== this.state) {
+      console.log("didUpdate");
+      // checkSetToken();
+    }
+  }
+  setAccount = loggedInUser => {
+    this.setState({ account: loggedInUser });
+  };
+
   render() {
     const { account } = this.state;
+
     return (
       <Router>
         <Header />
@@ -24,12 +43,28 @@ class App extends React.Component {
         <Route path="/calculation" component={TdmCalculationContainer} />
         <Route path="/about" component={About} />
         <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
+        <Route
+          path="/login"
+          render={() => <Login setAccount={this.setAccount} />}
+        />
         <Route path="/contactus" component={ContactUs} />
         <Route path="/admin" render={() => <Admin account={account} />} />
       </Router>
     );
   }
+}
+
+function setTokenInHeaders() {
+  axios.interceptors.request.use(
+    config => {
+      let token = localStorage.getItem("token");
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    error => Promise.reject(error)
+  );
 }
 
 export default App;
