@@ -1,4 +1,5 @@
 @import "_variables.scss";
+// import scss files below
 
 html,
 body,
@@ -220,3 +221,4 @@ textarea {
 
 // add any override to the default styles in the individual component styles
 @import "./NavBar.scss";
+@import "./AuthForms.scss"; // Login and Register components

@@ -9,24 +9,77 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
 import "./styles/App.scss";
+import axios from "axios";
+import { createBrowserHistory } from "history";
+const history = createBrowserHistory();
 
+setTokenInHeaders();
 class App extends React.Component {
-  render() {
-    return (
-      <Router>
-        <Header />
-        <NavBar />
+  state = {
+    account: {}
+  };
 
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    //TODO: check if user is already logged in
+    // if (token) {
+    //   axios
+    // }
+  }
+
+  componentDidUpdate(prevState, prevProps) {
+    if (prevState !== this.state) {
+      console.log("didUpdate");
+      // checkSetToken();
+    }
+  }
+  setLoggedInAccount = loggedInUser => {
+    this.setState({ account: loggedInUser });
+  };
+
+  setLoggedOutAccount = () => {
+    localStorage.clear();
+    this.setState({ account: {} }, history.push("/login"));
+  };
+
+  render() {
+    const { account } = this.state;
+
+    return (
+      <Router history={history}>
+        <Header />
+        <NavBar
+          account={account}
+          setLoggedOutAccount={this.setLoggedOutAccount}
+        />
         <Route exact path="/" component={TdmCalculationContainer} />
         <Route path="/calculation" component={TdmCalculationContainer} />
         <Route path="/about" component={About} />
         <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
+        <Route
+          path="/login"
+          render={() => <Login setLoggedInAccount={this.setLoggedInAccount} />}
+        />
         <Route path="/contactus" component={ContactUs} />
-        <Route path="/admin" component={Admin} />
+        {account.role === "admin" ? (
+          <Route path="/admin" render={() => <Admin account={account} />} />
+        ) : null}
       </Router>
     );
   }
+}
+
+function setTokenInHeaders() {
+  axios.interceptors.request.use(
+    config => {
+      let token = localStorage.getItem("token");
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    error => Promise.reject(error)
+  );
 }
 
 export default App;

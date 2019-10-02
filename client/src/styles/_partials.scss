@@ -1,0 +1,29 @@
+// for form inputs styles
+// use custom widths in respective components
+%form-inputs {
+  margin: 0.25em 0;
+  padding: 0.7em;
+  border-radius: 0.25em;
+  border: 1px gray solid;
+  background-color: white;
+  height: 2.9em;
+  font-family: $main-font;
+  width: 100%;
+}
+
+//for buttons and React Links that look like buttons
+%button-shared {
+  max-width: 120px;
+  min-width: 100px;
+  min-height: 33px;
+  height: 100%;
+  text-decoration: none;
+  text-align: center;
+  margin: 0 0.4em;
+  padding: 4px 6px;
+  border-radius: 0.4em;
+  color: #404142;
+  font-size: 1em;
+  font-weight: bold;
+  font-family: "Open Sans";
+}

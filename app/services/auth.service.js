@@ -1,25 +1,30 @@
+const jwt = require("jsonwebtoken");
+
 // USE THESE SERVICES FOR PROTECTED ROUTES THAT NEED LOGIN
+// Add ==> router.use(authService.verifyAdminToken) or router.use(authService.verifyToken) before all protected routes
 
-// See account.routes /getMessage for usage example
-
-// This function verifies there is a token in the header if a request was made to a protected route.
-// Header Format ==> { Authorization: Bearer <token> }
-const verifyToken = (req, res, next) => {
-  //Get auth header value
+const verifyToken = async (req, res, next) => {
   const bearerHeader = req.headers["authorization"];
   if (typeof bearerHeader !== "undefined") {
-    // split and get token from header
     const bearerToken = bearerHeader.split(" ")[1];
-
-    // req.token will be added to the next function's request
-    req.token = bearerToken; // set the token
-    next(); // next middleware
+    req.token = bearerToken;
+    const decoded = await jwt.verify(bearerToken, process.env.JWT_SECRET_KEY);
+    req.account = decoded.account;
+    next();
   } else {
-    //Forbidden
-    res.sendStatus(403);
+    res.sendStatus(403); //Forbidden
+  }
+};
+
+const verifyAdminToken = async (req, res, next) => {
+  if (req.account.role === "developer") {
+    next();
+  } else {
+    res.sendStatus(403); //Forbidden
   }
 };
 
 module.exports = {
-  verifyToken
+  verifyToken,
+  verifyAdminToken
 };
