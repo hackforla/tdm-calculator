@@ -36,53 +36,58 @@ const Login = props => {
   return (
     <div>
       <h1>Login</h1>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={loginSchema}
-        onSubmit={(values, actions) => handleSubmit(values, actions, props)}
-      >
-        {({ touched, errors, isSubmitting }) => (
-          <Form>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <Field
-                type="email"
-                name="email"
-                placeholder="email"
-                className={`form-control ${
-                  touched.email && errors.email ? "is-invalid" : ""
-                }`}
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="invalid-feedback"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <Field
-                type="password"
-                name="password"
-                placeholder="password"
-                className={`form-control ${
-                  touched.password && errors.password ? "is-invalid" : ""
-                }`}
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="invalid-feedback"
-              />
-            </div>
+      <div className="auth-form">
+        <Formik
+          initialValues={initialValues}
+          validationSchema={loginSchema}
+          onSubmit={(values, actions) => handleSubmit(values, actions, props)}
+        >
+          {({ touched, errors, isSubmitting }) => (
+            <Form>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="email"
+                  className={`form-control ${
+                    touched.email && errors.email ? "is-invalid" : ""
+                  }`}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="invalid-feedback"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  className={`form-control ${
+                    touched.password && errors.password ? "is-invalid" : ""
+                  }`}
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="invalid-feedback"
+                />
+              </div>
 
-            <button type="submit" className="" disabled={isSubmitting}>
-              {isSubmitting ? "Please wait..." : "Submit"}
-            </button>
-          </Form>
-        )}
-      </Formik>
-
+              <button
+                type="submit"
+                className="btn-primary"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Please wait..." : "Submit"}
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
       <div>
         New to the site? <Link to="/register">Register here.</Link>
       </div>
