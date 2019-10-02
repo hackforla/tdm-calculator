@@ -21,6 +21,7 @@ class App extends React.Component {
 
   componentDidMount() {
     const token = localStorage.getItem("token");
+    //TODO: check if user is already logged in
     // if (token) {
     //   axios
     // }

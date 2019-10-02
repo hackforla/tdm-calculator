@@ -23,11 +23,3 @@ export const handleLogin = (email, password) => {
       return loginResponse;
     });
 };
-
-// export const handleLogout = () => {
-//   // return axios.get(`${accountUrl}/logout`).then(res => {
-//   localStorage.removeItem("token");
-//   localStorage.removeItem("expire_at");
-//   // localStorage.clear()
-//   // });
-// };
