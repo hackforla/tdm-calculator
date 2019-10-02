@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const NavBar = props => {
+  const { account } = props;
   return (
     <ul
       className="navbar"
@@ -24,18 +25,33 @@ const NavBar = props => {
         {" "}
         <Link to="/contactus">Contact Us</Link>
       </li>
-      <li>
-        {" "}
-        <Link to="/register">Register</Link>
-      </li>
-      <li>
-        {" "}
-        <Link to="/login">Login</Link>
-      </li>
-      <li>
-        {" "}
-        <Link to="/admin">Admin</Link>
-      </li>
+      {/* if there's an account in state, display logout and check if they are admin*/}
+      {account.email ? (
+        <>
+          <li>
+            {" "}
+            <Link to="/logout">Logout</Link>
+          </li>
+          {account.role === "admin" ? (
+            <li>
+              {" "}
+              <Link to="/admin">Admin</Link>
+            </li>
+          ) : null}
+        </>
+      ) : (
+        <>
+          {/* if no account in state, show login button*/}
+          <li>
+            {" "}
+            <Link to="/login">Login</Link>
+          </li>
+          <li>
+            {" "}
+            <Link to="/register">Register</Link>
+          </li>
+        </>
+      )}
     </ul>
   );
 };

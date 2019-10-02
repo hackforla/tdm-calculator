@@ -7,7 +7,7 @@ import axios from "axios";
 const initialValues = { email: "", password: "" };
 
 const Login = props => {
-  console.log("props", props);
+  const { loginAccount } = props;
 
   const handleSubmit = (
     { email, password },
@@ -18,7 +18,7 @@ const Login = props => {
       .then(async res => {
         console.log("handleLogin response:", res);
         console.log("account", res.data.account);
-        props.setAccount(res.data.account);
+        loginAccount(res.data.account);
       })
       .then(history.push("/admin")) // doesn't work: .then(res => <Redirect to="/admin" />)
       .catch(err => console.log(err));

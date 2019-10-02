@@ -17,10 +17,7 @@ class App extends React.Component {
     account: {}
   };
 
-  componentDidMount() {
-    console.log("didMount");
-    // checkSetToken();
-  }
+  componentDidMount() {}
 
   componentDidUpdate(prevState, prevProps) {
     if (prevState !== this.state) {
@@ -28,8 +25,13 @@ class App extends React.Component {
       // checkSetToken();
     }
   }
-  setAccount = loggedInUser => {
+  loginAccount = loggedInUser => {
     this.setState({ account: loggedInUser });
+  };
+
+  logoutAccount = () => {
+    localStorage.clear();
+    this.setState({ account: {} });
   };
 
   render() {
@@ -45,10 +47,12 @@ class App extends React.Component {
         <Route path="/register" component={Register} />
         <Route
           path="/login"
-          render={() => <Login setAccount={this.setAccount} />}
+          render={() => <Login loginAccount={this.loginAccount} />}
         />
         <Route path="/contactus" component={ContactUs} />
-        <Route path="/admin" render={() => <Admin account={account} />} />
+        {account.role === "admin" ? (
+          <Route path="/admin" render={() => <Admin account={account} />} />
+        ) : null}
       </Router>
     );
   }
