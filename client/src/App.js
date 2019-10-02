@@ -46,7 +46,7 @@ class App extends React.Component {
     const { account } = this.state;
 
     return (
-      <Router history={history}>
+      <Router>
         <Header />
         <NavBar
           account={account}

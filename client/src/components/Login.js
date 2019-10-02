@@ -17,13 +17,13 @@ const Login = props => {
       .required("Password is required")
   });
 
-  const handleSubmit = (
+  const handleSubmit = async (
     { email, password },
     { setSubmitting, resetForm, setErrors },
     { history }
   ) => {
-    handleLogin(email, password)
-      .then(async res => {
+    await handleLogin(email, password)
+      .then(res => {
         console.log("handleLogin response:", res);
         setLoggedInAccount(res.data.account);
       })
