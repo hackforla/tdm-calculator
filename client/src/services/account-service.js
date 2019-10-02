@@ -25,8 +25,9 @@ export const handleLogin = (email, password) => {
 };
 
 export const handleLogout = () => {
-  return axios.get(`${accountUrl}/logout`).then(res => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("expire_at");
-  });
+  // return axios.get(`${accountUrl}/logout`).then(res => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("expire_at");
+  // localStorage.clear()
+  // });
 };

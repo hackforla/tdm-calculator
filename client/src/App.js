@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Admin from "./components/Admin";
 import "./styles/App.scss";
 import axios from "axios";
+import { handleLogout } from "./services/account-service";
 
 setTokenInHeaders();
 class App extends React.Component {
@@ -17,7 +18,12 @@ class App extends React.Component {
     account: {}
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    // if (token) {
+    //   axios
+    // }
+  }
 
   componentDidUpdate(prevState, prevProps) {
     if (prevState !== this.state) {
@@ -25,11 +31,11 @@ class App extends React.Component {
       // checkSetToken();
     }
   }
-  loginAccount = loggedInUser => {
+  logInAccount = loggedInUser => {
     this.setState({ account: loggedInUser });
   };
 
-  logoutAccount = () => {
+  logOutAccount = () => {
     localStorage.clear();
     this.setState({ account: {} });
   };
@@ -47,7 +53,7 @@ class App extends React.Component {
         <Route path="/register" component={Register} />
         <Route
           path="/login"
-          render={() => <Login loginAccount={this.loginAccount} />}
+          render={() => <Login logInAccount={this.logInAccount} />}
         />
         <Route path="/contactus" component={ContactUs} />
         {account.role === "admin" ? (

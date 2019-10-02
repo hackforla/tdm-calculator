@@ -18,23 +18,19 @@ const NavBar = props => {
         <Link to="/calculation">Calculation</Link>
       </li>
       <li>
-        {" "}
         <Link to="/about">About</Link>
       </li>
       <li>
-        {" "}
         <Link to="/contactus">Contact Us</Link>
       </li>
       {/* if there's an account in state, display logout and check if they are admin*/}
       {account.email ? (
         <>
           <li>
-            {" "}
             <Link to="/logout">Logout</Link>
           </li>
           {account.role === "admin" ? (
             <li>
-              {" "}
               <Link to="/admin">Admin</Link>
             </li>
           ) : null}
@@ -45,10 +41,6 @@ const NavBar = props => {
           <li>
             {" "}
             <Link to="/login">Login</Link>
-          </li>
-          <li>
-            {" "}
-            <Link to="/register">Register</Link>
           </li>
         </>
       )}
