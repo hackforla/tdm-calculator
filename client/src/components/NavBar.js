@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { handleLogout } from "../services/account-service";
 
 const NavBar = props => {
-  const { account } = props;
+  const { account, setLoggedOutAccount } = props;
   return (
     <ul
       className="navbar"
@@ -26,20 +27,19 @@ const NavBar = props => {
       {/* if there's an account in state, display logout and check if they are admin*/}
       {account.email ? (
         <>
-          <li>
-            <Link to="/logout">Logout</Link>
-          </li>
           {account.role === "admin" ? (
             <li>
               <Link to="/admin">Admin</Link>
             </li>
           ) : null}
+          <li onClick={setLoggedOutAccount}>
+            <a href="">Logout</a>
+          </li>
         </>
       ) : (
         <>
           {/* if no account in state, show login button*/}
           <li>
-            {" "}
             <Link to="/login">Login</Link>
           </li>
         </>

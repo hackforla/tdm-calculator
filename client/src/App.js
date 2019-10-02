@@ -10,7 +10,8 @@ import Login from "./components/Login";
 import Admin from "./components/Admin";
 import "./styles/App.scss";
 import axios from "axios";
-import { handleLogout } from "./services/account-service";
+import { createBrowserHistory } from "history";
+const history = createBrowserHistory();
 
 setTokenInHeaders();
 class App extends React.Component {
@@ -31,29 +32,32 @@ class App extends React.Component {
       // checkSetToken();
     }
   }
-  logInAccount = loggedInUser => {
+  setLoggedInAccount = loggedInUser => {
     this.setState({ account: loggedInUser });
   };
 
-  logOutAccount = () => {
+  setLoggedOutAccount = () => {
     localStorage.clear();
-    this.setState({ account: {} });
+    this.setState({ account: {} }, history.push("/login"));
   };
 
   render() {
     const { account } = this.state;
 
     return (
-      <Router>
+      <Router history={history}>
         <Header />
-        <NavBar account={account} />
+        <NavBar
+          account={account}
+          setLoggedOutAccount={this.setLoggedOutAccount}
+        />
         <Route exact path="/" component={TdmCalculationContainer} />
         <Route path="/calculation" component={TdmCalculationContainer} />
         <Route path="/about" component={About} />
         <Route path="/register" component={Register} />
         <Route
           path="/login"
-          render={() => <Login logInAccount={this.logInAccount} />}
+          render={() => <Login setLoggedInAccount={this.setLoggedInAccount} />}
         />
         <Route path="/contactus" component={ContactUs} />
         {account.role === "admin" ? (

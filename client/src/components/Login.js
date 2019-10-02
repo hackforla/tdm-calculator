@@ -1,11 +1,11 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import { handleLogin } from "../services/account-service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { handleLogin } from "../services/account-service";
 
 const Login = props => {
-  const { logInAccount } = props;
+  const { setLoggedInAccount } = props;
   const initialValues = { email: "", password: "" };
 
   const loginSchema = Yup.object().shape({
@@ -25,7 +25,7 @@ const Login = props => {
     handleLogin(email, password)
       .then(async res => {
         console.log("handleLogin response:", res);
-        logInAccount(res.data.account);
+        setLoggedInAccount(res.data.account);
       })
       .then(history.push("/admin"))
       .catch(err => console.log(err));
