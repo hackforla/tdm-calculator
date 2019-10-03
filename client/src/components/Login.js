@@ -1,38 +1,98 @@
 import React from "react";
-import axios from "axios";
+import { Link, withRouter } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { handleLogin } from "../services/account-service";
 
-const API = "/api/account/login";
+const Login = props => {
+  const { setLoggedInAccount } = props;
+  const initialValues = { email: "", password: "" };
 
-class Login extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            data: null
-        }
-    }
+  const loginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address format")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(8, "Password must be 8 characters at minimum")
+      .required("Password is required")
+  });
 
-    componentDidMount(){
-        let user = {
-            email: "vivian1@tdm.com",
-            password: "tdmpassword"
-        }
-
-        axios.post(API, user)
-            .then(LoginResponse => {
-                console.log(LoginResponse)
-                localStorage.setItem(
-                    "token", LoginResponse.data.token
-                )
-                console.log(localStorage.getItem("token"))
-            })
-    }
-
-     render() {
-         return(
-              <div>
+  const handleSubmit = async (
+    { email, password },
+    { setSubmitting, resetForm, setErrors },
+    { history }
+  ) => {
+    await handleLogin(email, password)
+      .then(res => {
+        console.log("handleLogin response:", res);
+        setLoggedInAccount(res.data.account);
+      })
+      .then(history.push("/admin"))
+      .catch(err => console.log(err));
+    setSubmitting(false);
+    // alert("Form is validated! Submitting the form...");
+    resetForm(initialValues);
+  };
+  return (
+    <div>
+      <h1>Login</h1>
+      <div className="auth-form">
+        <Formik
+          initialValues={initialValues}
+          validationSchema={loginSchema}
+          onSubmit={(values, actions) => handleSubmit(values, actions, props)}
+        >
+          {({ touched, errors, isSubmitting }) => (
+            <Form>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="email"
+                  className={`form-control ${
+                    touched.email && errors.email ? "is-invalid" : ""
+                  }`}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="invalid-feedback"
+                />
               </div>
-         );
-     }
-}
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  className={`form-control ${
+                    touched.password && errors.password ? "is-invalid" : ""
+                  }`}
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="invalid-feedback"
+                />
+              </div>
 
-export default Login;
+              <button
+                type="submit"
+                className="btn-primary"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Please wait..." : "Submit"}
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+      <div>
+        New to the site? <Link to="/register">Register here.</Link>
+      </div>
+    </div>
+  );
+};
+
+export default withRouter(Login);

@@ -1,0 +1,52 @@
+// input {
+//   width: 50%;
+// }
+
+.auth-form {
+  width: 600px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+  box-sizing: border-box;
+  label {
+    display: inline-block;
+    margin: 0.5rem 0;
+    color: $color-primary;
+  }
+  .was-validated .form-control:invalid,
+  .form-control .is-invalid {
+    border-color: #dc3545;
+    padding-right: calc(1.5em + 0.75rem);
+    // background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc354…%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E);
+    background-repeat: no-repeat;
+    background-position: center right calc(0.375em + 0.1875rem);
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+  }
+  .form-control {
+    display: block;
+    // width: 50%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  .btn-primary {
+    color: #fff;
+    background-color: $color-primary;
+    border-color: $color-primary;
+    text-align: center;
+    vertical-align: middle;
+    // width: 50%;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}

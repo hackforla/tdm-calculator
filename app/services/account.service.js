@@ -3,19 +3,11 @@ const TYPES = require("tedious").TYPES;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// using temp key to sign and verify until we have access to heroku from John
-const tempKey = "tempJWTSecret";
-
 const createToken = account => {
-  return jwt.sign(
-    { account },
-    // using tempJWTSecret until we can add updated env into Heroku
-    process.env.JWT_SECRET_KEY || tempKey,
-    {
-      // TODO: possibly add other details options
-      expiresIn: "7d"
-    }
-  );
+  return jwt.sign({ account }, process.env.JWT_SECRET_KEY, {
+    // TODO: possibly add other details options
+    expiresIn: "7d"
+  });
 };
 
 const postLogin = async ({ email, password }) => {
@@ -54,36 +46,18 @@ const postRegister = (req, res) => {
         sqlRequest.addParameter("password", TYPES.VarChar, hash);
       })
       .then(response => {
+        console.log("response", response);
+        console.log("resultSets", response.resultSets[0][0]);
         // TODO: We should have a timeout in the DB: if account is not confirmed within a time period, remove from DB.
         return {
-          message:
-            "Registration successful. Please check email to confirm account before logging in."
+          // TODO: Currently the resultSets are returning the userInfo that was just created. But maybe the response from DB should be something else? We technically don't need that user info here, just in the login.
+          ...response.resultSets[0][0]
         };
       });
   });
 };
 
-// in order to use the .then and .catch in the controller,
-// the functions in service file needs to be return a promise.
-// temporarily keeping this here for reference
-// alternative to using promises is using async/await
-const promise = itemToResolve => {
-  return new Promise(function(resolve, reject) {
-    resolve(itemToResolve);
-  });
-};
-
-//example of a protected route/controller/service
-const getMessage = token => {
-  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || tempKey);
-  return promise({
-    message: "decoded token payload included in json",
-    ...decoded
-  });
-};
-
 module.exports = {
   postRegister,
-  postLogin,
-  getMessage
+  postLogin
 };
