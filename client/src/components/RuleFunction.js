@@ -1,6 +1,5 @@
 import React from "react";
 import reactStringReplace from "react-string-replace";
-import { SSL_OP_SINGLE_DH_USE } from "constants";
 
 const RuleFunction = props => {
   const { functionBody, rules, setRuleId } = props;

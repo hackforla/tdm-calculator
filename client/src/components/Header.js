@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../images/ladot.png";
 
-const Header = () => {
+const Header = props => {
   return (
     <div
       style={{
@@ -13,6 +13,7 @@ const Header = () => {
       }}
     >
       <h1>TDM Calculator</h1>
+      {props.account ? <h4>{props.account.email}</h4> : null}
       <div>
         <a href="//ladot.lacity.org" target="_blank" rel="noopener noreferrer">
           <img src={logo} alt="LA Department of Transportation Logo" />
