@@ -43,7 +43,11 @@ The city will benefit by having more time to review edge cases for building deve
 
 ### Working with issues
 - Explain how to submit a bug.
+
+Go to Project Kanban board by clicking on "Projects" tab. Create a note in Ice Box by clicking on the "+" sign. Write a general bug description and add the note. During weekly meetings in Hack For LA, we'll review the Ice Box and convert cards to Prioritized Backlog.
+
 - Explain how to submit a feature request.
+
 - Explain how to contribute to an existing issue.
 
 To create a new issue, please use the blank issue template (available when you click New Issue). If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
