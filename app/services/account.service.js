@@ -11,13 +11,14 @@ const createToken = account => {
 };
 
 const postLogin = async ({ email, password }) => {
-  let account = await mssql
-    .executeProc("Account_Login", sqlRequest => {
-      sqlRequest.addParameter("email", TYPES.VarChar, email);
-    })
-    .then(accountResponse => {
-      return accountResponse.resultSets[0][0];
-    });
+  let accountResponse = await mssql.executeProc("Account_Login", sqlRequest => {
+    sqlRequest.addParameter("email", TYPES.VarChar, email);
+  });
+  // .then(accountResponse => {
+  //   return accountResponse.resultSets[0][0];
+  // });
+
+  const account = accountResponse.resultSets[0][0];
 
   return bcrypt.compare(password, account.password).then(async res => {
     if (res) {

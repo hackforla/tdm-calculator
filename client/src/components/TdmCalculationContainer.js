@@ -18,7 +18,8 @@ class TdmCalculationContainer extends React.Component {
 
   state = {
     rules: [],
-    formInputs: {}
+    formInputs: {},
+    showWork: {}
   };
 
   componentDidMount() {
@@ -61,17 +62,21 @@ class TdmCalculationContainer extends React.Component {
     this.engine.run(formInputs, this.resultRuleCodes);
     const rules = this.engine.showRulesArray();
     // update state with modified formInputs and rules
+    // const showWork = this.engine.showWork("PARK_REQUIREMENT");
     this.setState({ formInputs, rules });
   };
 
   render() {
-    const { rules } = this.state;
+    const { rules, showWork } = this.state;
     return (
-      <TdmCalculation
-        rules={rules}
-        onInputChange={this.onInputChange}
-        resultRuleCodes={this.resultRuleCodes}
-      />
+      <React.Fragment>
+        <TdmCalculation
+          rules={rules}
+          onInputChange={this.onInputChange}
+          resultRuleCodes={this.resultRuleCodes}
+        />
+        <pre>{JSON.stringify(showWork, null, 2)}(</pre>
+      </React.Fragment>
     );
   }
 }

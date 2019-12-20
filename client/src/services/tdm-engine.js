@@ -46,6 +46,7 @@ class Engine {
     for (let i = 0; i < ruleCodes.length; i++) {
       results[ruleCodes[i]] = this.executeCalc(ruleCodes[i]);
     }
+
     return results;
   }
 

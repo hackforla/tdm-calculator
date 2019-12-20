@@ -20,7 +20,10 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    const token = localStorage.getItem("token");
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+      this.setState({ account: JSON.parse(currentUser) });
+    }
     //TODO: check if user is already logged in
     // if (token) {
     //   axios
@@ -34,7 +37,10 @@ class App extends React.Component {
     }
   }
   setLoggedInAccount = loggedInUser => {
-    this.setState({ account: loggedInUser });
+    this.setState(
+      { account: loggedInUser },
+      localStorage.setItem("currentUser", JSON.stringify(loggedInUser))
+    );
   };
 
   setLoggedOutAccount = () => {
@@ -47,7 +53,7 @@ class App extends React.Component {
 
     return (
       <Router>
-        <Header />
+        <Header account={account} />
         <NavBar
           account={account}
           setLoggedOutAccount={this.setLoggedOutAccount}
