@@ -18,36 +18,46 @@ class Engine {
   }
 
   run(formInputs, ruleCodes) {
-    for (let i = 0; i < ruleCodes.length; i++) {
-      if (!this.initialRules[ruleCodes[i]]) {
-        throw new Error("Rule " + ruleCodes[i] + " not found!");
+    try {
+      for (let i = 0; i < ruleCodes.length; i++) {
+        if (!this.initialRules[ruleCodes[i]]) {
+          throw new Error("Rule " + ruleCodes[i] + " not found!");
+        }
       }
-    }
 
-    // Make a deep copy of initialRules, since the rules
-    // will be mutated as the calculation proceeds.
-    // Every time the calculation is run, it re-computes
-    // everything frpom scratch for the requested ruleCodes.
-    this.rules = JSON.parse(JSON.stringify(this.initialRules));
-    // Merge Form Input values with other independent variables
-    // in the calculation.
-    for (const input in formInputs) {
-      if (this.rules[input]) {
-        this.rules[input].value = formInputs[input];
-      } else {
-        // Should it be a fatal error if inputRules
-        // include non-existent rule code property?
-        throw new Error("Invalid input: " + input);
+      // Make a deep copy of initialRules, since the rules
+      // will be mutated as the calculation proceeds.
+      // Every time the calculation is run, it re-computes
+      // everything frpom scratch for the requested ruleCodes.
+      this.rules = JSON.parse(JSON.stringify(this.initialRules));
+      // Merge Form Input values with other independent variables
+      // in the calculation.
+      for (const input in formInputs) {
+        if (this.rules[input]) {
+          this.rules[input].value = formInputs[input];
+        } else {
+          // Should it be a fatal error if inputRules
+          // include non-existent rule code property?
+          throw new Error("Invalid input: " + input);
+        }
       }
-    }
 
-    // Recursively calculate the root rule
-    const results = {};
-    for (let i = 0; i < ruleCodes.length; i++) {
-      results[ruleCodes[i]] = this.executeCalc(ruleCodes[i]);
-    }
+      // Recursively calculate the root rule
+      const results = {};
+      for (let i = 0; i < ruleCodes.length; i++) {
+        results[ruleCodes[i]] = this.executeCalc(ruleCodes[i]);
+      }
 
-    return results;
+      for (const property in this.rules) {
+        this.rules[property].calcValue = this.rules[property].calcCode
+          ? this.rules[this.rules[property].calcCode].value
+          : null;
+      }
+
+      return results;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // Implements a safer alternative to javascript eval(), to
@@ -109,6 +119,7 @@ class Engine {
         console.log("Failed to build function for " + rule.code + functionBody);
       }
     }
+
     //console.log(rule.code + " = " + rule.value);
     return rule.value;
   }

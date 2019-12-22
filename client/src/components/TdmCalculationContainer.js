@@ -18,8 +18,7 @@ class TdmCalculationContainer extends React.Component {
 
   state = {
     rules: [],
-    formInputs: {},
-    showWork: {}
+    formInputs: {}
   };
 
   componentDidMount() {
@@ -67,7 +66,7 @@ class TdmCalculationContainer extends React.Component {
   };
 
   render() {
-    const { rules, showWork } = this.state;
+    const { rules } = this.state;
     return (
       <React.Fragment>
         <TdmCalculation
@@ -75,7 +74,13 @@ class TdmCalculationContainer extends React.Component {
           onInputChange={this.onInputChange}
           resultRuleCodes={this.resultRuleCodes}
         />
-        <pre>{JSON.stringify(showWork, null, 2)}(</pre>
+        <pre>
+          {JSON.stringify(
+            rules.filter(r => r.used),
+            null,
+            2
+          )}
+        </pre>
       </React.Fragment>
     );
   }

@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { handleLogout } from "../services/account-service";
 
 const NavBar = props => {
   const { account, setLoggedOutAccount } = props;
