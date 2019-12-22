@@ -16,7 +16,9 @@ const RuleInput = ({
     cssClass,
     calculationPanelId,
     panelName,
-    panelDisplayOrder
+    panelDisplayOrder,
+    choices,
+    calcValue
   },
   onInputChange
 }) => {
@@ -25,19 +27,29 @@ const RuleInput = ({
       {dataType === "number" ? (
         <div
           style={{
-            margin: "0.5em",
+            margin: "0.2em",
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center"
           }}
         >
-          <div style={{ flexBasis: "70%", flexGrow: "1", flexShrink: "0" }}>
+          <div
+            style={{
+              flexBasis: "75%",
+              flexGrow: "1",
+              flexShrink: "1"
+            }}
+          >
             {name}
           </div>
           <input
             type="number"
-            style={{ flexBasis: "10%", flexGrow: "0", flexShrink: "0" }}
+            style={{
+              flexBasis: "10%",
+              flexGrow: "0",
+              flexShrink: "1"
+            }}
             value={value || ""}
             onChange={onInputChange}
             name={code}
@@ -47,16 +59,28 @@ const RuleInput = ({
               flexBasis: "10%",
               marginLeft: "1em",
               flexGrow: "0",
-              flexShrink: "0"
+              flexShrink: "1"
             }}
           >
             {units}
           </div>
+          <div
+            style={{
+              flexBasis: "5%",
+              marginLeft: "1em",
+              marginRight: "0.5em",
+              textAlign: "right",
+              flexGrow: "0",
+              flexShrink: "1"
+            }}
+          >
+            {calcValue}
+          </div>
         </div>
-      ) : (
+      ) : dataType === "boolean" ? (
         <div
           style={{
-            margin: "0.5em",
+            margin: "0.2em",
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
@@ -65,7 +89,7 @@ const RuleInput = ({
         >
           <div
             style={{
-              flexBasis: "70%",
+              flexBasis: "75%",
               flexGrow: "1",
               flexShrink: "1"
             }}
@@ -74,7 +98,11 @@ const RuleInput = ({
           </div>
           <input
             type="checkbox"
-            style={{ flexBasis: "10%", flexGrow: "0", flexShrink: "0" }}
+            style={{
+              flexBasis: "5%",
+              flexGrow: "0",
+              flexShrink: "1"
+            }}
             value={true}
             checked={!!value}
             onChange={onInputChange}
@@ -85,10 +113,119 @@ const RuleInput = ({
               flexBasis: "10%",
               marginLeft: "1em",
               flexGrow: "0",
-              flexShrink: "0"
+              flexShrink: "1"
             }}
           >
             {units}
+          </div>
+          <div
+            style={{
+              flexBasis: "5%",
+              marginLeft: "1em",
+              marginRight: "0.5em",
+              flexGrow: "0",
+              flexShrink: "1"
+            }}
+          >
+            {calcValue}
+          </div>
+        </div>
+      ) : dataType === "choice" ? (
+        <div
+          style={{
+            margin: "0.2em",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "baseline"
+          }}
+        >
+          <div
+            style={{
+              flexBasis: "45%",
+              flexGrow: "1",
+              flexShrink: "1"
+            }}
+          >
+            {name}
+          </div>
+          <select
+            style={{ flexBasis: "40%", flexGrow: "1", flexShrink: "1" }}
+            value={value || ""}
+            onChange={onInputChange}
+            name={code}
+          >
+            {choices.map(choice => (
+              <option key={choice.id} value={choice.id}>
+                {choice.name}
+              </option>
+            ))}
+          </select>
+          <div
+            style={{
+              flexBasis: "10%",
+              marginLeft: "1em",
+              flexGrow: "0",
+              flexShrink: "1"
+            }}
+          >
+            {units}
+          </div>
+          <div
+            style={{
+              flexBasis: "5%",
+              marginLeft: "1em",
+              marginRight: "0.5em",
+              flexGrow: "0",
+              flexShrink: "1"
+            }}
+          >
+            {calcValue}
+          </div>
+        </div>
+      ) : (
+        <div
+          style={{
+            margin: "0.2em",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "baseline"
+          }}
+        >
+          <div
+            style={{
+              flexBasis: "75%",
+              flexGrow: "1",
+              flexShrink: "1"
+            }}
+          >
+            {name}
+          </div>
+          <div
+            style={{ flexBasis: "10%", flexGrow: "0", flexShrink: "1" }}
+            name={code}
+          ></div>
+          <div
+            style={{
+              flexBasis: "10%",
+              marginLeft: "1em",
+              flexGrow: "0",
+              flexShrink: "1"
+            }}
+          >
+            {units}
+          </div>
+          <div
+            style={{
+              flexBasis: "5%",
+              marginLeft: "1em",
+              marginRight: "0.5em",
+              flexGrow: "0",
+              flexShrink: "1"
+            }}
+          >
+            {calcValue}
           </div>
         </div>
       )}
