@@ -7,6 +7,7 @@ Transportation demand management (TDM) is a defined set of strategies aimed at m
 ### Project context
 
 In order to start construction on a building to the City of Los Angeles, real estate developers have to submit a proposal of their development plan to the city for review and must meet certain criteria in order to be approved. Currently, the process for getting approved to build plans (on a super high level, steps may vary) goes like this:
+
 - Real estate developer submit development proposal
 - City manually checks criteria through manual review
 - If it meets the criteria, city "approves" the plan
@@ -33,6 +34,11 @@ The city will benefit by having more time to review edge cases for building deve
 - JavaScript Unit Test Framework: [Jest](https://jestjs.io/)
 - Database Engine: [Microsoft SQL Server](http://www.sqlservertutorial.net/) / [Tutorial](http://www.sqlservertutorial.net/)
 
+# Feature Descriptions
+
+- [register.md](./register.md)
+- [forgot-password.md](./forgot-password.md)
+
 # How to contribute
 
 - Join the team on the Hack For LA Slack channel (#tdm-calculator), or at our weekly hack night on Tuesdays in [Hack For LA](https://www.hackforla.org/)!
@@ -42,6 +48,7 @@ The city will benefit by having more time to review edge cases for building deve
 - To contribute to the code, see [Contributing.md](./Contributing.md)
 
 ### Working with issues
+
 - Explain how to submit a bug.
 
 Go to Project Kanban board by clicking on "Projects" tab. Create a note in Ice Box by clicking on the "+" sign. Write a general bug description and add the note. During weekly meetings in Hack For LA, we'll review the Ice Box and convert cards to Prioritized Backlog.
@@ -57,10 +64,10 @@ To create a new issue, please use the blank issue template (available when you c
 Include at least one way (or more, if possible) to reach your team with questions or comments.
 
 If you have any questions or comments, feel free to reach out to:
-    Hack For LA 
-    Bonnie 
-    Co-Host/Organizer
-    bonnie@hackforla.org
+Hack For LA
+Bonnie
+Co-Host/Organizer
+bonnie@hackforla.org
 
 ### Licensing
 
