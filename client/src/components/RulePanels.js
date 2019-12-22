@@ -21,9 +21,13 @@ const RulePanels = props => {
         ? panelsRules.map(rules => (
             <fieldset
               key={rules[0].calculationPanelId}
-              style={{ margin: "0.75em" }}
+              style={{
+                margin: "0.75em"
+              }}
             >
-              <legend> {rules[0].panelName}</legend>
+              <legend>
+                <h4>{rules[0].panelName}</h4>{" "}
+              </legend>
               <RuleList
                 key={rules[0].calculationPanelId}
                 rules={rules}
