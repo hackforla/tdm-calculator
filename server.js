@@ -35,8 +35,6 @@ app.use(express.static("public"));
 // match one above, send back React's index.html file.
 
 app.all("*", (req, res, next) => {
-  res.status(404).send("Not found. Did you mean to go to /about instead?");
-  console.log("Catch-All server request to " + req.url);
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
