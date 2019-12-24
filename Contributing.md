@@ -47,10 +47,15 @@ Instructions to install a development environment on your machine:
 
 ### To Run the React/Node Application
 
-1. In one command line window, run `npm start` from the /tdm-calculator directory to start the node server.
-``` cd .. && npm start ```
-1. In a separate command line window, run `npm start` from the /tdm-calculator/client directory to start the react app and open the browser.
-``` cd client && npm start ```
+1. In one terminal window, navigate back to the /tdm-calculator directory and start the node server:
+``` 
+cd .. && npm start 
+```
+1. In a separate terminal window, navigate to the /tdm-calculator/client directory, start the react app, and open the browser : 
+``` 
+cd client && npm start 
+```
+Note: Node server (backend) should start before the React server (frontend/client)
 
 ## To Contribute Code
 
