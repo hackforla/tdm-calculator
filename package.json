@@ -15,10 +15,12 @@
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "error-handler": "^1.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
     "path": "^0.12.7",
     "tedious-connection-pool": "^1.0.5"
   },

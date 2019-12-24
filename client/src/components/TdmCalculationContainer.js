@@ -74,13 +74,13 @@ class TdmCalculationContainer extends React.Component {
           onInputChange={this.onInputChange}
           resultRuleCodes={this.resultRuleCodes}
         />
-        <pre>
+        {/* <pre>
           {JSON.stringify(
             rules.filter(r => r.used),
             null,
             2
           )}
-        </pre>
+        </pre> */}
       </React.Fragment>
     );
   }

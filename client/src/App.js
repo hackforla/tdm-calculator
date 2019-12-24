@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import About from "./components/About";
 import ContactUs from "./components/ContactUs";
 import Register from "./components/Register";
+import ConfirmEmail from "./components/ConfirmEmail";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
 import "./styles/App.scss";
@@ -22,12 +23,19 @@ class App extends React.Component {
   componentDidMount() {
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) {
-      this.setState({ account: JSON.parse(currentUser) });
+      try {
+        const account = JSON.parse(currentUser);
+        // TODO: remove console.log when stable.
+        console.log(account);
+        this.setState({ account });
+      } catch (err) {
+        // TODO: replace with production error logging.
+        console.log(
+          "Unable to parse current user from local storage.",
+          currentUser
+        );
+      }
     }
-    //TODO: check if user is already logged in
-    // if (token) {
-    //   axios
-    // }
   }
 
   componentDidUpdate(prevState, prevProps) {
@@ -61,13 +69,16 @@ class App extends React.Component {
         <Route exact path="/" component={TdmCalculationContainer} />
         <Route path="/calculation" component={TdmCalculationContainer} />
         <Route path="/about" component={About} />
-        <Route path="/register" component={Register} />
+        <Route path="/register/:email?" component={Register} />
+        <Route path="/confirm/:token">
+          <ConfirmEmail />
+        </Route>
         <Route
-          path="/login"
+          path="/login/:email?"
           render={() => <Login setLoggedInAccount={this.setLoggedInAccount} />}
         />
         <Route path="/contactus" component={ContactUs} />
-        {account.role === "admin" ? (
+        {account && account.role === "admin" ? (
           <Route path="/admin" render={() => <Admin account={account} />} />
         ) : null}
       </Router>
