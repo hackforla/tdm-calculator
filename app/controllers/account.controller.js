@@ -1,45 +1,126 @@
 const accountService = require("../services/account.service");
 
-const postRegister = (req, res) => {
-  accountService
-    .postRegister(req.body, res)
-    .then(registrationResponse => {
-      //TODO: need to check if voluation of duplicate key/email, or invalid inputs
-      res.status(201).json({
-        message:
-          "Registration successful. (Future Feature: Check email to confirm account before logging in.)",
-        ...registrationResponse
-      });
-    })
-    .catch(err => {
-      // TODO: if trying to register duplicate account, how do i send the correct error for this? it shouldn't be status code 500...but if we don't send any, it will send 200
-      // const errors = ["Cannot insert duplicate key in object 'dbo.Account'"];
-      console.log("error!", err.message);
-      res.status(500).send(err.message);
-    });
+const getAll = async (req, res) => {
+  try {
+    const response = await accountService.selectAll();
+    res.send(response);
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
 };
 
-const postLogin = (req, res) => {
-  accountService
-    .postLogin(req.body)
-    .then(accountInfo => {
-      if (accountInfo.error) {
-        res.status(403).json(accountInfo.error);
-      } else {
-        res.status(201).json({
-          message:
-            "Login successful. Inside account.controller, postLogin(), json data includes accountInfo and token",
-          ...accountInfo
-        });
-      }
-    })
-    .catch(err => {
-      //TODO: send proper status codes and errors if... wrong email, wrong password
-      res.send(500).send(err);
-    });
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await accountService.selectById(id);
+    res.send(response);
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
+const getByEmail = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await accountService.selectByEmail(id);
+    res.send(response);
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
+const register = async (req, res) => {
+  try {
+    const response = await accountService.register(req.body);
+    res.send(response);
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
+const resendConfirmationEmail = async (req, res) => {
+  try {
+    const response = await accountService.resendConfirmationEmail(
+      req.body.email
+    );
+    res.send(response);
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  try {
+    const response = await accountService.forgotPassword(req.body);
+    res.send(response);
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const response = await accountService.resetPassword(req.body);
+    res.send(response);
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
+const confirmRegister = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await accountService.confirmRegistration(req.body.token);
+    res.send(response);
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
+const login = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    const resp = await accountService.authenticate(email, password);
+    if (resp.isSuccess) {
+      req.user = resp.user;
+      next();
+    } else {
+      res.json(resp);
+    }
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
+const put = async (req, res) => {
+  try {
+    await accountService.update(req.body);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
+const remove = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await accountService.remove(id);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
 };
 
 module.exports = {
-  postRegister,
-  postLogin
+  getAll,
+  getById,
+  getByEmail,
+  register,
+  confirmRegister,
+  resendConfirmationEmail,
+  forgotPassword,
+  resetPassword,
+  login,
+  put,
+  remove
 };

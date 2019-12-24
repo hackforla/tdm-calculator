@@ -8,7 +8,7 @@ const playgroundRoutes = require("./playground.routes");
 
 module.exports = router;
 
-router.use("/account", accountRoutes);
+router.use("/accounts", accountRoutes);
 router.use("/calculations", calculationRoutes);
 router.use("/rules", ruleRoutes);
 router.use("/faq", faqRoutes);

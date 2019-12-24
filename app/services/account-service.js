@@ -1,5 +1,6 @@
 const mssql = require("../../mssql");
 const TYPES = require("tedious").TYPES;
+const { promisify } = require("util");
 const moment = require("moment");
 const bcrypt = require("bcrypt");
 const {
@@ -56,19 +57,27 @@ const register = async model => {
   let result = null;
   await hashPassword(model);
   try {
-    const sql = `insert into login (first_name, last_name, email, 
-        password_hash, email_confirmed, is_admin ) 
-        values ('${firstName}', '${lastName}', '${email}', 
-        '${model.passwordHash}', false, true ) returning id`;
-    const insertResult = await pool.query(sql);
-    result = {
-      isSuccess: true,
-      code: "REG_SUCCESS",
-      newId: insertResult.rows[0].id,
-      message: "Registration successful."
-    };
-    await requestRegistrationConfirmation(email, result);
-    return result;
+    const insertResult = await mssql.executeProc("Login_Insert", sqlRequest => {
+      sqlRequest.addParameter("FirstName", TYPES.NVarChar, firstName);
+      sqlRequest.addParameter("LastName", TYPES.NVarChar, lastName);
+      sqlRequest.addParameter("Email", TYPES.NVarChar, email);
+      sqlRequest.addParameter(
+        "PasswordHash",
+        TYPES.NVarChar,
+        model.passwordHash
+      );
+      sqlRequest.addOutputParameter("id", TYPES.Int, null);
+    });
+    if (insertResult) {
+      result = {
+        isSuccess: true,
+        code: "REG_SUCCESS",
+        newId: insertResult.outputParameters.id,
+        message: "Registration successful."
+      };
+      await requestRegistrationConfirmation(email, result);
+      return result;
+    }
   } catch (err) {
     return {
       isSuccess: false,
@@ -90,6 +99,10 @@ const resendConfirmationEmail = async email => {
       newId: insertResult.rows[0].id,
       message: "Account found."
     };
+
+    await mssql.executeProc("Login_SelectByEmail", sqlRequest => {
+      sqlRequest.addParameter("email", TYPES.NVarChar, email);
+    });
     result = await requestRegistrationConfirmation(email, result);
     return result;
   } catch (err) {
@@ -108,9 +121,11 @@ const resendConfirmationEmail = async email => {
 const requestRegistrationConfirmation = async (email, result) => {
   const token = uuid4();
   try {
-    const sqlToken = `insert into security_token (token, email)
-        values ('${token}', '${email}') `;
-    await pool.query(sqlToken);
+    await mssql.executeProc("SecurityToken_Insert", sqlRequest => {
+      sqlRequest.addParameter("token", TYPES.NVarChar, token);
+      sqlRequest.addParameter("email", TYPES.NVarChar, email);
+    });
+
     await sendRegistrationConfirmation(email, token);
     return result;
   } catch (err) {
@@ -123,20 +138,26 @@ const requestRegistrationConfirmation = async (email, result) => {
 };
 
 const confirmRegistration = async token => {
-  const sql = `select email, date_created
-    from security_token where token = '${token}'`;
   try {
-    const sqlResult = await pool.query(sql);
+    const sqlResult = await mssql.executeProc(
+      "SecurityToken_SelectByToken",
+      sqlRequest => {
+        sqlRequest.addParameter("token", TYPES.NVarChar, token);
+      }
+    );
+
+    const resultSet = sqlResult.ResultSets[0];
+
     const now = moment();
 
-    if (sqlResult.rows.length < 1) {
+    if (resultSet.rows.length < 1) {
       return {
         success: false,
         code: "REG_CONFIRM_TOKEN_INVALID",
         message:
           "Email confirmation failed. Invalid security token. Re-send confirmation email."
       };
-    } else if (moment(now).diff(sqlResult.rows[0].date_created, "hours") >= 1) {
+    } else if (moment(now).diff(resultSet[0].date_created, "hours") >= 1) {
       return {
         success: false,
         code: "REG_CONFIRM_TOKEN_EXPIRED",
@@ -146,11 +167,10 @@ const confirmRegistration = async token => {
     }
 
     // If we get this far, we can update the login.email_confirmed flag
-    const email = sqlResult.rows[0].email;
-    const confirmSql = `update login 
-            set email_confirmed = true 
-            where email = '${email}'`;
-    await pool.query(confirmSql);
+    const email = resultSet[0].email;
+    await mssql.executeProc("Login_ConfirmEmail", sqlRequest => {
+      sqlRequest.addParameter("email", TYPES.NVarChar, email);
+    });
 
     return {
       success: true,
@@ -292,7 +312,7 @@ const authenticate = async (email, password) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        isAdmin: user.isAdmin,
+        role: user.isAdmin ? "admin" : "user",
         emailConfirmed: user.emailConfirmed
       }
     };
@@ -304,6 +324,7 @@ const authenticate = async (email, password) => {
   };
 };
 
+//TODO
 const update = model => {
   const { id, firstName, lastName } = model;
   const sql = `update login
@@ -315,6 +336,7 @@ const update = model => {
   });
 };
 
+// TODO
 const remove = id => {
   const sql = `delete from login where id = ${id}`;
   return pool.query(sql).then(res => {
