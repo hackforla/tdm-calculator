@@ -5,11 +5,18 @@ import ResultList from "./ResultList";
 const TdmCalculation = props => {
   const { rules, onInputChange, resultRuleCodes } = props;
   const inputRules =
-    rules && rules.filter(rule => rule.category === "input" && rule.used);
+    rules &&
+    rules.filter(
+      rule => rule.category === "input" && rule.used && rule.display
+    );
   const measureRules =
-    rules && rules.filter(rule => rule.category === "measure" && rule.used);
+    rules &&
+    rules.filter(
+      rule => rule.category === "measure" && rule.used && rule.display
+    );
   const resultRules =
-    rules && rules.filter(rule => resultRuleCodes.includes(rule.code));
+    rules &&
+    rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
   return (
     <div>
       <div style={{ margin: "1em" }}>
