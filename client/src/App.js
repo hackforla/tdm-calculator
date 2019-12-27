@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { withToastProvider } from "./contexts/Toast";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
@@ -99,4 +100,4 @@ function setTokenInHeaders() {
   );
 }
 
-export default App;
+export default withToastProvider(App);

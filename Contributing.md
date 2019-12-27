@@ -18,9 +18,9 @@ Instructions to install a development environment on your machine:
 1. Clone this repo to your local drive.
 
 1. Start a terminal app, such as a Git bash shell on Windows or Terminal on Mac OS
-1. Create a src directory in the user's home directory and go in it (or use the folder where you normally put local git repositories)
+1. Create a source directory (e.g. hack-for-la) in the user's home directory and go in it (or use the folder where you normally put local git repositories)
    ```
-   cd && mkdir src && cd src
+   cd && mkdir hack-for-la && cd hack-for-la
    ```
 1. Clone the repository
    `git clone https://github.com/hackforla/tdm-calculator`
@@ -47,8 +47,15 @@ Instructions to install a development environment on your machine:
 
 ### To Run the React/Node Application
 
-1. In one command line window, run `npm start` from the tdm-calculator directory to start the node server.
-1. In a separate command line window, run `npm start` from the tdm-calculator/client directory to start the react app and open the browser.
+1. In one terminal window, navigate back to the /tdm-calculator directory and start the node server:
+``` 
+cd .. && npm start 
+```
+1. In a separate terminal window, navigate to the /tdm-calculator/client directory, start the react app, and open the browser : 
+``` 
+cd client && npm start 
+```
+Note: Node server (backend) should start before the React server (frontend/client)
 
 ## To Contribute Code
 
