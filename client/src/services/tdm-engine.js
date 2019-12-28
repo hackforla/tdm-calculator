@@ -52,11 +52,59 @@ class Engine {
         this.rules[property].calcValue = this.rules[property].calcCode
           ? this.rules[this.rules[property].calcCode].value
           : null;
+
+        this.calcDisplay(property);
       }
 
       return results;
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  /// Evaluate displayFunctionBody and populate this.rules[property].display
+  /// with a boolean indicating whether rule should be displayed (or hidden)
+  calcDisplay(property) {
+    const rule = this.rules[property];
+    // Extract rules that this one depends upon
+    // from displayFunctionBody tokens
+    const regExPattern = /<<[\w-]+?>>/gi;
+    const tokenArray = rule.displayFunctionBody.match(regExPattern);
+    let tokens = [];
+    if (tokenArray && tokenArray.length > 0) {
+      tokens = tokenArray.map(t => t.substr(2, t.length - 4));
+      // console.log("tokens: " + JSON.stringify(tokens));
+    }
+    let displayFunctionBody = rule.displayFunctionBody;
+
+    // Modify displayFunctionBody to replace tokens
+    // with values
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
+      const tokenRule = this.rules[token];
+      if (!tokenRule) {
+        console.log("Token not found: " + token);
+      } else {
+        let value;
+        if (tokenRule.dataType === "string") {
+          value = " '" + (tokenRule.value || "") + "' ";
+        } else {
+          value = " " + (tokenRule.value || 0) + " ";
+        }
+
+        displayFunctionBody = displayFunctionBody.replace(
+          "<<" + token + ">>",
+          value
+        );
+      }
+    }
+    //console.log("functionBody: " + functionBody);
+    try {
+      rule.display = this.buildFunction(displayFunctionBody).call(this);
+    } catch (error) {
+      console.log(
+        "Failed to build function for " + rule.code + " " + displayFunctionBody
+      );
     }
   }
 
