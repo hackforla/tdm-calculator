@@ -3,6 +3,7 @@ import * as accountService from "../services/account-service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link, withRouter } from "react-router-dom";
 import * as Yup from "yup";
+import { useToast } from "../contexts/Toast";
 
 const Register = props => {
   const { match } = props;
@@ -28,6 +29,8 @@ const Register = props => {
       .oneOf([Yup.ref("password")], "Password does not match")
   });
 
+  const toast = useToast()
+
   const handleSubmit = async (
     { firstName, lastName, email, password },
     { setSubmitting, resetForm, setErrors },
@@ -41,38 +44,23 @@ const Register = props => {
         password
       );
       if (response.isSuccess) {
-        // TODO - replace console.log with Toast telling user to check their email for
-        // a confirmation message.
-        console.log("handleRegister response: ", response);
+        toast.add(`An confirmation email has been sent to ${email}. 
+          Please check for a verification link and use it to confirm 
+          that you own this email address.`)
         history.push("/login/" + email);
       } else if (response.code === "REG_DUPLICATE_EMAIL") {
-        // TODO: replace console.log with Toast
-        console.log(`The email ${email} is already registered. 
-        Please login or use the Forgot Password feature if you have 
-        forgotten your password.`);
-        // props.setToast({
-        //   message: `The email ${email} is already registered.
-        //   Please login or use the Forgot Password feature if you have
-        //   forgotten your password.`
-        // });
+        toast.add(`The email ${email} is already registered. Please 
+          login or use the Forgot Password feature if you have 
+          forgotten your password.`)
         setSubmitting(false);
       } else {
-        // TODO: replace console.log with Toast
-        console.log(`An error occurred in sending the 
-        confirmation message to ${email}. 
-        Try to log in, and follow the instructions for re-sending the 
-        confirmation email.`);
-        // props.setToast({
-        //   message: `An error occurred in sending the
-        //   confirmation message to ${email}.
-        //   Try to log in, and follow the instructions for re-sending the
-        //   confirmation email.`
-        // });
+        toast.add(`An error occurred in sending the confirmation 
+          message to ${email}. Try to log in, and follow the 
+          instructions for re-sending the confirmation email.`)
         setSubmitting(false);
       }
     } catch (err) {
-      // TODO: replace console.log with Toast
-      console.log(err);
+      toast.add(err.message)
       setSubmitting(false);
     }
     // TODO: figure out if there is a scanrio where you actually
