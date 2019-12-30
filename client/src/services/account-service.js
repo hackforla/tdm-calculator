@@ -18,22 +18,6 @@ export const resendConfirmationEmail = async email => {
   return response.data;
 };
 
-// export const login = (email, password) => {
-//   return axios
-//     .post(`${baseUrl}/login`, { email, password })
-//     .then(loginResponse => {
-//       if (loginResponse.status === 201 && loginResponse.data.token) {
-//         // add  && loginResponse.data.expireAt to if statement?
-//         let jwt = loginResponse.data.token;
-//         // let expire_at = loginResponse.data.expireAt;
-//         // localStorage.setItem("expire_at", expire_at);
-//         localStorage.setItem("token", jwt);
-//       }
-//       // TODO: check this... under config.data... plain string password. how to hide?
-//       return loginResponse;
-//     });
-// };
-
 export const login = async (email, password) => {
   const body = { email, password };
   try {

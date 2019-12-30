@@ -5,7 +5,8 @@ const About = () => {
   const toast = useToast();
 
   useEffect(() => {
-    toast.add("hello world");
+    // TODO: Remove toast example when ready to fill in component with content
+    toast.add("hello world - this is a toast example");
   }, []);
   return <>About</>;
 };

@@ -31,7 +31,7 @@ const withToastProvider = Component => {
             style={{
               position: "absolute",
               bottom: "20px",
-              right: "20px"
+              left: "50%"
             }}
           >
             {toasts.map(t => (

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as accountService from "../services/account-service";
+import { useToast } from "../contexts/Toast";
 
 const Login = props => {
   const { setLoggedInAccount, match } = props;
@@ -10,6 +11,8 @@ const Login = props => {
     email: match.params.email ? decodeURIComponent(match.params.email) : "",
     password: ""
   };
+
+  const toast = useToast()
 
   const loginSchema = Yup.object().shape({
     email: Yup.string()
@@ -29,66 +32,35 @@ const Login = props => {
       const loginResponse = await accountService.login(email, password);
 
       if (loginResponse.isSuccess) {
-        console.log("handleLogin response:", loginResponse);
         setLoggedInAccount(loginResponse.user);
-        // TODO: replace console.log with a toast
-        console.log("Logged in");
-        // setToast({
-        //   message: "Login successful."
-        // });
+        toast.add('Login successful.')
         history.push("/admin");
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
           await accountService.resendConfirmationEmail(email);
-          // TODO: replace console.log with a toast
-          console.log(`Your email has not been confirmed.
+          toast.add(`Your email has not been confirmed.
             Please look through your email for a Registration
             Confirmation link and use it to confirm that you
-            own this email address.`);
-          // setToast({
-          //   message: `Your email has not been confirmed.
-          //   Please look through your email for a Registration
-          //   Confirmation link and use it to confirm that you
-          //   own this email address.`
-          // });
+            own this email address.`)
           setSubmitting(false);
         } catch (err) {
-          // TODO: replace console.log with a toast
-          console.error(err.message);
-          // setToast({
-          //   message: `An internal error occurred in sending
-          // an email to ${values.email}`
-          // });
+          toast.add(`An internal error occurred in sending an email to ${email}. `, err.message)
           setSubmitting(false);
         }
       } else if (loginResponse.code === "AUTH_NO_ACCOUNT") {
-        // TODO: replace console.log with a toast
-        console.log("Account not found!!");
-        // setToast({
-        //   message: `The email ${values.email} does not correspond to an
-        //   existing account. Please verify the email or register as a
-        //   new account.`
-        // });
+        toast.add(`The email ${email} does not correspond to an
+          existing account. Please verify the email or register as a
+          new account.`)
         setSubmitting(false);
       } else {
         // Presumably loginResponse.code === "AUTH_INVALID_PASSWORD"
-        // TODO: replace console.log with a toast
-        console.log(`The password is incorrect, please check it
-        and try again or use the Forgot Password feature.`);
-        // setToast({
-        //   message: `The password is incorrect, please check it
-        // and try again or use the Forgot Password feature.`
-        // });
+        toast.add(`The password is incorrect, please check it
+          and try again or use the Forgot Password feature.`)
         setSubmitting(false);
       }
     } catch (err) {
-      // TODO: replace console.log with a toast
-      console.log(err);
-      // setToast({
-      //   message: err.message
-      // });
+      toast.add(err.message)
     }
-
     //   .then(res => {
     //     console.log("handleLogin response:", res);
     //     setLoggedInAccount(res.data.account);
