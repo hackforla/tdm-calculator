@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, withRouter } from "react-router-dom";
 import * as accountService from "../services/account-service";
+import { useToast } from "../contexts/Toast";
 
 const ConfirmEmail = props => {
   const { history } = props;
@@ -8,29 +9,28 @@ const ConfirmEmail = props => {
   const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const token = props.match.params.token;
-  const setToast = props.setToast;
+  const toast = useToast();
 
-  useEffect(() => {
-    const confirmEmail = async tok => {
-      const result = await accountService.confirmRegister(tok);
-      setConfirmResult(result);
-      if (result.success) {
-        // TODO: replace console.log with Toast
-        console.log(`Your email has been confirmed. Please log in.`);
-        // setToast({ message: `Your email has been confirmed. Please log in.` });
-        history.push(`/login/${encodeURIComponent(result.email)}`);
-      }
-    };
-    if (token) {
-      confirmEmail(token);
+  const confirmEmail = async token => {
+    const result = await accountService.confirmRegister(token);
+    setConfirmResult(result);
+    if (result.success) {
+      toast.add(`Your email has been confirmed. Please log in.`);
+      history.push(`/login/${encodeURIComponent(result.email)}`);
     }
-  }, [token, setToast, history]);
+  };
 
   const resendConfirmationEmail = async evt => {
     evt.preventDefault();
     await accountService.resendConfirmationEmail(email);
     setEmailSent(true);
   };
+
+  useEffect(() => {
+    if (token) {
+      confirmEmail(token);
+    }
+  }, [token]);
 
   return (
     <React.Fragment>
@@ -40,6 +40,7 @@ const ConfirmEmail = props => {
       ) : confirmResult.success ? (
         <Redirect to={`/login/${email}`} />
       ) : emailSent ? (
+        // TODO: CHECK ON THIS CODE - How do we test this to see this?? -- Claire
         <p>
           {`A confirmation email has been sent to ${email}. Please find this
             email and click on the link provided to complete your email confirmation.`}

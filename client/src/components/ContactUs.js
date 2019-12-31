@@ -5,7 +5,8 @@ const ContactUs = () => {
   const toast = useToast();
 
   useEffect(() => {
-    toast.add("check it out");
+    // TODO: Remove toast example when ready to fill in component with content
+    toast.add("check us out - this is a toast example");
   }, []);
   return <>ContactUs</>;
 };
