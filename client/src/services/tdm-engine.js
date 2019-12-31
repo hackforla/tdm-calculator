@@ -53,6 +53,10 @@ class Engine {
           ? this.rules[this.rules[property].calcCode].value
           : null;
 
+        this.rules[property].calcUnits = this.rules[property].calcCode
+          ? this.rules[this.rules[property].calcCode].units
+          : null;
+
         this.calcDisplay(property);
       }
 

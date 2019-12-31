@@ -219,6 +219,48 @@ textarea {
   color: $color-background;
 }
 
+.tdm-wizard-sidebar {
+  margin: 0;
+  flex-basis: 20%;
+  flex-grow: 0;
+  flex-shrink: 1;
+  background-color: $color-primary;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.tdm-wizard-navbutton {
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  margin: 0.5em;
+  font-size: 2em;
+  background-color: $color-highlight;
+  border-radius: 0;
+}
+
+.tdm-results-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: "space-around";
+  margin-top: 10em;
+  background-color: transparent;
+  color: $color-background;
+}
+
+.tdm-calculation-metrics-panel-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-basis: 50%;
+  margin: 0;
+  padding: 0.5em;
+  background-color: transparent;
+  color: $color-background;
+}
+
 // add any override to the default styles in the individual component styles
 @import "./NavBar.scss";
 @import "./AuthForms.scss"; // Login and Register components

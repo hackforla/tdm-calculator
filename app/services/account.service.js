@@ -157,7 +157,7 @@ const confirmRegistration = async token => {
         message:
           "Email confirmation failed. Invalid security token. Re-send confirmation email."
       };
-    } else if (moment(now).diff(resultSet[0].dateCreated, "hours") >= 1) {
+    } else if (moment(now).diff(resultSet[0].dateCreated, "hours") >= 24) {
       return {
         success: false,
         code: "REG_CONFIRM_TOKEN_EXPIRED",

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html height="100%" lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -22,15 +22,19 @@
     <title>TDM</title>
     <!-- These styles are here to apply to the City-mandated header script -->
     <style>
-      body {
+      html,
+      #body,
+      #root {
+        height: 100vh;
         margin: 0;
       }
+
       #global_nav_la_4324422 {
         color: white;
       }
     </style>
   </head>
-  <body>
+  <body id="body">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <script src="//navbar.lacity.org/global_nav.js"></script>
     <div id="root"></div>

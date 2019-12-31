@@ -4,14 +4,16 @@ const engineTestRules = [
     name: "Input Integer A",
     category: "input",
     dataType: "number",
-    units: "beans"
+    units: "beans",
+    displayFunctionBody: "return true;"
   },
   {
     code: "INPUT_INTEGER_B",
     name: "Input Integer B",
     category: "input",
     dataType: "number",
-    units: "beans"
+    units: "beans",
+    displayFunctionBody: "return true;"
   },
   {
     code: "INPUT_FLOAT_X",
@@ -19,7 +21,8 @@ const engineTestRules = [
     category: "input",
     dataType: "number",
     value: null,
-    units: "liters"
+    units: "liters",
+    displayFunctionBody: "return true;"
   },
   {
     code: "INPUT_FLOAT_Y",
@@ -27,7 +30,8 @@ const engineTestRules = [
     category: "input",
     dataType: "number",
     value: null,
-    units: "liters"
+    units: "liters",
+    displayFunctionBody: "return true;"
   },
   {
     code: "INPUT_BOOLEAN_1",
@@ -35,7 +39,8 @@ const engineTestRules = [
     category: "input",
     dataType: "boolean",
     value: null,
-    units: null
+    units: null,
+    displayFunctionBody: "return true;"
   },
   {
     code: "INPUT_BOOLEAN_2",
@@ -43,7 +48,8 @@ const engineTestRules = [
     category: "input",
     dataType: "boolean",
     value: null,
-    units: null
+    units: null,
+    displayFunctionBody: "return true;"
   },
   {
     code: "INPUT_STRING_1",
@@ -51,7 +57,8 @@ const engineTestRules = [
     category: "input",
     dataType: "string",
     value: null,
-    units: null
+    units: null,
+    displayFunctionBody: "return true;"
   },
   {
     code: "INPUT_STRING_2",
@@ -59,7 +66,8 @@ const engineTestRules = [
     category: "input",
     dataType: "string",
     value: null,
-    units: null
+    units: null,
+    displayFunctionBody: "return true;"
   },
   {
     code: "CALC_A_PLUS_B",
@@ -68,7 +76,8 @@ const engineTestRules = [
     dataType: "number",
     value: null,
     functionBody: `return <<INPUT_INTEGER_A>> + <<INPUT_INTEGER_B>>;`,
-    units: "beans"
+    units: "beans",
+    displayFunctionBody: "return true;"
   },
   {
     code: "CALC_A_TIMES_B",
@@ -77,7 +86,8 @@ const engineTestRules = [
     dataType: "number",
     value: null,
     functionBody: `return <<INPUT_INTEGER_A>> * <<INPUT_INTEGER_B>>;`,
-    units: "beans"
+    units: "beans",
+    displayFunctionBody: "return true;"
   },
   {
     code: "CALC_A_LT_B",
@@ -86,7 +96,8 @@ const engineTestRules = [
     dataType: "boolean",
     value: null,
     functionBody: `return <<INPUT_INTEGER_A>> < <<INPUT_INTEGER_B>>;`,
-    units: null
+    units: null,
+    displayFunctionBody: "return true;"
   },
   {
     code: "CALC_A_EQ_B",
@@ -95,7 +106,8 @@ const engineTestRules = [
     dataType: "boolean",
     value: null,
     functionBody: `return <<INPUT_INTEGER_A>> === <<INPUT_INTEGER_B>>;`,
-    units: null
+    units: null,
+    displayFunctionBody: "return true;"
   },
   {
     code: "CALC_A_PLUS_B_PLUS_A_TIMES_B",
@@ -104,7 +116,8 @@ const engineTestRules = [
     dataType: "number",
     value: null,
     functionBody: `return <<CALC_A_PLUS_B>> + <<CALC_A_TIMES_B>>;`,
-    units: "beans"
+    units: "beans",
+    displayFunctionBody: "return true;"
   },
   {
     code: "CALC_A2_PLUS_B2",
@@ -113,7 +126,8 @@ const engineTestRules = [
     dataType: "number",
     value: null,
     functionBody: `return <<INPUT_INTEGER_A>> * <<INPUT_INTEGER_A>> + <<INPUT_INTEGER_B>> * <<INPUT_INTEGER_B>>;`,
-    units: "beans"
+    units: "beans",
+    displayFunctionBody: "return true;"
   },
   {
     code: "CALC_HYPOTENUSE_AB",
@@ -122,7 +136,8 @@ const engineTestRules = [
     dataType: "number",
     value: null,
     functionBody: `return Math.sqrt(<<INPUT_INTEGER_A>> * <<INPUT_INTEGER_A>> + <<INPUT_INTEGER_B>> * <<INPUT_INTEGER_B>>);`,
-    units: "beans"
+    units: "beans",
+    displayFunctionBody: "return true;"
   }
 ];
 

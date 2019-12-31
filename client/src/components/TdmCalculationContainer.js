@@ -1,5 +1,6 @@
 import React from "react";
 import TdmCalculation from "./TdmCalculation";
+import TdmCalculationWizard from "./TdmCalculationWizard";
 import * as ruleService from "../services/rule.service";
 import Engine from "../services/tdm-engine";
 
@@ -11,14 +12,15 @@ class TdmCalculationContainer extends React.Component {
   // and display on the main page.
   resultRuleCodes = [
     "PARK_REQUIREMENT",
+    "PARK_SPACES",
     "TARGET_POINTS_PARK",
-    "PTS_EARNED",
-    "PTS_DIFFERENCE"
+    "PTS_EARNED"
   ];
 
   state = {
     rules: [],
-    formInputs: {}
+    formInputs: {},
+    view: "Wizard" // Wizard or Default
   };
 
   componentDidMount() {
@@ -66,14 +68,31 @@ class TdmCalculationContainer extends React.Component {
   };
 
   render() {
-    const { rules } = this.state;
+    const { rules, view } = this.state;
     return (
-      <React.Fragment>
-        <TdmCalculation
-          rules={rules}
-          onInputChange={this.onInputChange}
-          resultRuleCodes={this.resultRuleCodes}
-        />
+      <div
+        style={{
+          flex: "1 0 auto",
+          display: "flex",
+          flexDirection: "column"
+        }}
+      >
+        {view === "Wizard" ? (
+          <TdmCalculationWizard
+            rules={rules}
+            onInputChange={this.onInputChange}
+            resultRuleCodes={this.resultRuleCodes}
+            onViewChange={() => this.setState({ view: "Default" })}
+          />
+        ) : (
+          <TdmCalculation
+            rules={rules}
+            onInputChange={this.onInputChange}
+            resultRuleCodes={this.resultRuleCodes}
+            onViewChange={() => this.setState({ view: "Wizard" })}
+          />
+        )}
+
         {/* <pre>
           {JSON.stringify(
             rules.filter(r => r.used),
@@ -81,7 +100,7 @@ class TdmCalculationContainer extends React.Component {
             2
           )}
         </pre> */}
-      </React.Fragment>
+      </div>
     );
   }
 }

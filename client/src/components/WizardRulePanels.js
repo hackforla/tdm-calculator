@@ -1,8 +1,8 @@
 import React from "react";
 
-import RuleList from "./RuleList";
+import WizardRuleList from "./WizardRuleList";
 
-const RulePanels = props => {
+const WizardRulePanels = props => {
   const { rules } = props;
   const panelIds = rules.reduce((acc, rule) => {
     if (!acc.includes(rule.calculationPanelId)) {
@@ -26,7 +26,7 @@ const RulePanels = props => {
               }}
             >
               <h4>{rules[0].panelName}</h4>{" "}
-              <RuleList
+              <WizardRuleList
                 key={rules[0].calculationPanelId}
                 rules={rules}
                 onInputChange={props.onInputChange}
@@ -38,4 +38,4 @@ const RulePanels = props => {
   );
 };
 
-export default RulePanels;
+export default WizardRulePanels;

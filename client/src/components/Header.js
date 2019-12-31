@@ -5,6 +5,9 @@ const Header = props => {
   return (
     <div
       style={{
+        flexGrow: "0",
+        flexShrink: "0",
+        flexBasis: "content",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
@@ -16,7 +19,11 @@ const Header = props => {
       {props.account ? <h4>{props.account.email}</h4> : null}
       <div>
         <a href="//ladot.lacity.org" target="_blank" rel="noopener noreferrer">
-          <img src={logo} alt="LA Department of Transportation Logo" />
+          <img
+            style={{ height: "3em" }}
+            src={logo}
+            alt="LA Department of Transportation Logo"
+          />
         </a>
       </div>
     </div>

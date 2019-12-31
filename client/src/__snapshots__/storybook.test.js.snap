@@ -6,24 +6,13 @@ exports[`Storyshots ResultList default 1`] = `
     Object {
       "display": "flex",
       "flexDirection": "row",
-      "flexWrap": "wrap",
+      "justifyContent": "space-between",
       "margin": "-0.5em",
     }
   }
 >
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "lightGreen",
-        "borderRadius": "0.5em",
-        "display": "flex",
-        "flexDirection": "column",
-        "margin": "0.5em",
-        "padding": "0.5em",
-        "width": "100%",
-      }
-    }
+    className="tdm-calculation-metrics-panel"
   >
     <h3>
       Target Points for Parking
@@ -42,18 +31,7 @@ exports[`Storyshots ResultList default 1`] = `
     </div>
   </div>
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "lightGreen",
-        "borderRadius": "0.5em",
-        "display": "flex",
-        "flexDirection": "column",
-        "margin": "0.5em",
-        "padding": "0.5em",
-        "width": "100%",
-      }
-    }
+    className="tdm-calculation-metrics-panel"
   >
     <h3>
       Parking Requirement - Total
@@ -72,18 +50,7 @@ exports[`Storyshots ResultList default 1`] = `
     </div>
   </div>
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "lightGreen",
-        "borderRadius": "0.5em",
-        "display": "flex",
-        "flexDirection": "column",
-        "margin": "0.5em",
-        "padding": "0.5em",
-        "width": "100%",
-      }
-    }
+    className="tdm-calculation-metrics-panel"
   >
     <h3>
       Parking Requirement - Residential
@@ -102,18 +69,7 @@ exports[`Storyshots ResultList default 1`] = `
     </div>
   </div>
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "lightGreen",
-        "borderRadius": "0.5em",
-        "display": "flex",
-        "flexDirection": "column",
-        "margin": "0.5em",
-        "padding": "0.5em",
-        "width": "100%",
-      }
-    }
+    className="tdm-calculation-metrics-panel"
   >
     <h3>
       Parking Requirement - Commercial
@@ -136,18 +92,7 @@ exports[`Storyshots ResultList default 1`] = `
 
 exports[`Storyshots ResultView default 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "center",
-      "backgroundColor": "lightGreen",
-      "borderRadius": "0.5em",
-      "display": "flex",
-      "flexDirection": "column",
-      "margin": "0.5em",
-      "padding": "0.5em",
-      "width": "100%",
-    }
-  }
+  className="tdm-calculation-metrics-panel"
 >
   <h3>
     Target Points for Parking
@@ -173,16 +118,20 @@ exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
 <div
   style={
     Object {
+      "alignItems": "baseline",
       "display": "flex",
       "flexDirection": "row",
-      "margin": "1em",
+      "justifyContent": "space-between",
+      "margin": "0.2em",
     }
   }
 >
   <div
     style={
       Object {
-        "flexBasis": "50%",
+        "flexBasis": "75%",
+        "flexGrow": "1",
+        "flexShrink": "1",
       }
     }
   >
@@ -194,7 +143,9 @@ exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
     onChange={[Function]}
     style={
       Object {
-        "flexBasis": "20%",
+        "flexBasis": "5%",
+        "flexGrow": "0",
+        "flexShrink": "1",
       }
     }
     type="checkbox"
@@ -203,13 +154,26 @@ exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
   <div
     style={
       Object {
-        "flexBasis": "20%",
+        "flexBasis": "10%",
+        "flexGrow": "0",
+        "flexShrink": "1",
         "marginLeft": "1em",
       }
     }
   >
     
   </div>
+  <div
+    style={
+      Object {
+        "flexBasis": "5%",
+        "flexGrow": "0",
+        "flexShrink": "1",
+        "marginLeft": "1em",
+        "marginRight": "0.5em",
+      }
+    }
+  />
 </div>
 `;
 
@@ -217,16 +181,20 @@ exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
 <div
   style={
     Object {
+      "alignItems": "baseline",
       "display": "flex",
       "flexDirection": "row",
-      "margin": "1em",
+      "justifyContent": "space-between",
+      "margin": "0.2em",
     }
   }
 >
   <div
     style={
       Object {
-        "flexBasis": "50%",
+        "flexBasis": "75%",
+        "flexGrow": "1",
+        "flexShrink": "1",
       }
     }
   >
@@ -238,7 +206,9 @@ exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
     onChange={[Function]}
     style={
       Object {
-        "flexBasis": "20%",
+        "flexBasis": "5%",
+        "flexGrow": "0",
+        "flexShrink": "1",
       }
     }
     type="checkbox"
@@ -247,13 +217,26 @@ exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
   <div
     style={
       Object {
-        "flexBasis": "20%",
+        "flexBasis": "10%",
+        "flexGrow": "0",
+        "flexShrink": "1",
         "marginLeft": "1em",
       }
     }
   >
     
   </div>
+  <div
+    style={
+      Object {
+        "flexBasis": "5%",
+        "flexGrow": "0",
+        "flexShrink": "1",
+        "marginLeft": "1em",
+        "marginRight": "0.5em",
+      }
+    }
+  />
 </div>
 `;
 
@@ -261,16 +244,20 @@ exports[`Storyshots RuleInput default Input Number 1`] = `
 <div
   style={
     Object {
+      "alignItems": "center",
       "display": "flex",
       "flexDirection": "row",
-      "margin": "1em",
+      "justifyContent": "space-between",
+      "margin": "0.2em",
     }
   }
 >
   <div
     style={
       Object {
-        "flexBasis": "50%",
+        "flexBasis": "75%",
+        "flexGrow": "1",
+        "flexShrink": "1",
       }
     }
   >
@@ -281,7 +268,9 @@ exports[`Storyshots RuleInput default Input Number 1`] = `
     onChange={[Function]}
     style={
       Object {
-        "flexBasis": "20%",
+        "flexBasis": "10%",
+        "flexGrow": "0",
+        "flexShrink": "1",
       }
     }
     type="number"
@@ -290,13 +279,27 @@ exports[`Storyshots RuleInput default Input Number 1`] = `
   <div
     style={
       Object {
-        "flexBasis": "20%",
+        "flexBasis": "10%",
+        "flexGrow": "0",
+        "flexShrink": "1",
         "marginLeft": "1em",
       }
     }
   >
     sq ft
   </div>
+  <div
+    style={
+      Object {
+        "flexBasis": "5%",
+        "flexGrow": "0",
+        "flexShrink": "1",
+        "marginLeft": "1em",
+        "marginRight": "0.5em",
+        "textAlign": "right",
+      }
+    }
+  />
 </div>
 `;
 
@@ -305,16 +308,20 @@ Array [
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -325,7 +332,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -334,27 +343,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -365,7 +392,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -374,27 +403,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -405,7 +452,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -414,27 +463,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -445,7 +512,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -454,27 +523,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       rooms
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -485,7 +572,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -494,27 +583,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       rooms
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -525,7 +632,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -534,27 +643,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       rooms
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -565,7 +692,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -574,27 +703,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -605,7 +752,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -614,27 +763,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -645,7 +812,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -654,27 +823,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -685,7 +872,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -694,27 +883,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       bedroom
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -725,7 +932,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -734,27 +943,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -765,7 +992,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -774,27 +1003,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -805,7 +1052,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -814,27 +1063,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -845,7 +1112,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -854,27 +1123,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -885,7 +1172,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -894,27 +1183,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -925,7 +1232,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -934,27 +1243,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -965,7 +1292,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -974,27 +1303,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -1005,7 +1352,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -1014,27 +1363,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -1045,7 +1412,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -1054,27 +1423,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -1085,7 +1472,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -1094,27 +1483,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -1125,7 +1532,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -1134,27 +1543,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       dwelling units
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -1165,7 +1592,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -1174,27 +1603,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       guest rm
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -1205,7 +1652,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -1214,27 +1663,45 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       guest bed
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
   <div
     style={
       Object {
+        "alignItems": "center",
         "display": "flex",
         "flexDirection": "row",
-        "margin": "1em",
+        "justifyContent": "space-between",
+        "margin": "0.2em",
       }
     }
   >
     <div
       style={
         Object {
-          "flexBasis": "50%",
+          "flexBasis": "75%",
+          "flexGrow": "1",
+          "flexShrink": "1",
         }
       }
     >
@@ -1245,7 +1712,9 @@ Array [
       onChange={[Function]}
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
         }
       }
       type="number"
@@ -1254,47 +1723,63 @@ Array [
     <div
       style={
         Object {
-          "flexBasis": "20%",
+          "flexBasis": "10%",
+          "flexGrow": "0",
+          "flexShrink": "1",
           "marginLeft": "1em",
         }
       }
     >
       guest bed
     </div>
+    <div
+      style={
+        Object {
+          "flexBasis": "5%",
+          "flexGrow": "0",
+          "flexShrink": "1",
+          "marginLeft": "1em",
+          "marginRight": "0.5em",
+          "textAlign": "right",
+        }
+      }
+    />
   </div>,
 ]
 `;
 
 exports[`Storyshots RulePanels default 1`] = `
 Array [
-  <div
+  <fieldset
     style={
       Object {
-        "backgroundColor": "lightblue",
-        "border": "2px solid lightgray",
-        "borderRadius": "0.5em",
-        "margin": "0.5em",
-        "padding": "0.5em",
+        "margin": "0.75em",
       }
     }
   >
-    <h5>
+    <legend>
+      <h4>
+        Land Use - Residential
+      </h4>
        
-      Land Use - Residential
-    </h5>
+    </legend>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1305,7 +1790,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1314,27 +1801,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1345,7 +1850,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1354,27 +1861,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1385,7 +1910,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1394,27 +1921,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1425,7 +1970,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1434,27 +1981,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         rooms
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1465,7 +2030,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1474,27 +2041,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         rooms
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1505,7 +2090,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1514,27 +2101,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         rooms
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1545,7 +2150,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1554,27 +2161,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1585,7 +2210,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1594,27 +2221,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1625,7 +2270,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1634,27 +2281,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1665,7 +2330,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1674,27 +2341,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         bedroom
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1705,7 +2390,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1714,27 +2401,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1745,7 +2450,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1754,27 +2461,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1785,7 +2510,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1794,27 +2521,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1825,7 +2570,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1834,27 +2581,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1865,7 +2630,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1874,27 +2641,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1905,7 +2690,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1914,27 +2701,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1945,7 +2750,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1954,27 +2761,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -1985,7 +2810,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -1994,27 +2821,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2025,7 +2870,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2034,27 +2881,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2065,7 +2930,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2074,27 +2941,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2105,7 +2990,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2114,27 +3001,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         dwelling units
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2145,7 +3050,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2154,27 +3061,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         guest rm
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2185,7 +3110,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2194,27 +3121,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         guest bed
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2225,7 +3170,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2234,43 +3181,59 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         guest bed
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
-  </div>,
-  <div
+  </fieldset>,
+  <fieldset
     style={
       Object {
-        "backgroundColor": "lightblue",
-        "border": "2px solid lightgray",
-        "borderRadius": "0.5em",
-        "margin": "0.5em",
-        "padding": "0.5em",
+        "margin": "0.75em",
       }
     }
   >
-    <h5>
+    <legend>
+      <h4>
+        Land Use - Commercial
+      </h4>
        
-      Land Use - Commercial
-    </h5>
+    </legend>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2281,7 +3244,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2290,27 +3255,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2321,7 +3304,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2330,27 +3315,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2361,7 +3364,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2370,27 +3375,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2401,7 +3424,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2410,27 +3435,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2441,7 +3484,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2450,27 +3495,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2481,7 +3544,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2490,27 +3555,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2521,7 +3604,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2530,27 +3615,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2561,7 +3664,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2570,27 +3675,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2601,7 +3724,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2610,43 +3735,59 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
-  </div>,
-  <div
+  </fieldset>,
+  <fieldset
     style={
       Object {
-        "backgroundColor": "lightblue",
-        "border": "2px solid lightgray",
-        "borderRadius": "0.5em",
-        "margin": "0.5em",
-        "padding": "0.5em",
+        "margin": "0.75em",
       }
     }
   >
-    <h5>
+    <legend>
+      <h4>
+        Land Use - Institutional
+      </h4>
        
-      Land Use - Institutional
-    </h5>
+    </legend>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2657,7 +3798,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2666,27 +3809,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         beds
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2697,7 +3858,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2706,27 +3869,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2737,7 +3918,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2746,27 +3929,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2777,7 +3978,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2786,27 +3989,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         spaces
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2817,7 +4038,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2826,43 +4049,59 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         beds
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
-  </div>,
-  <div
+  </fieldset>,
+  <fieldset
     style={
       Object {
-        "backgroundColor": "lightblue",
-        "border": "2px solid lightgray",
-        "borderRadius": "0.5em",
-        "margin": "0.5em",
-        "padding": "0.5em",
+        "margin": "0.75em",
       }
     }
   >
-    <h5>
+    <legend>
+      <h4>
+        Land Use - Other
+      </h4>
        
-      Land Use - Other
-    </h5>
+    </legend>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2873,7 +4112,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2882,27 +4123,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         seats
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2913,7 +4172,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2922,27 +4183,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2953,7 +4232,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -2962,27 +4243,45 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         classrooms
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
     <div
       style={
         Object {
+          "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
-          "margin": "1em",
+          "justifyContent": "space-between",
+          "margin": "0.2em",
         }
       }
     >
       <div
         style={
           Object {
-            "flexBasis": "50%",
+            "flexBasis": "75%",
+            "flexGrow": "1",
+            "flexShrink": "1",
           }
         }
       >
@@ -2993,7 +4292,9 @@ Array [
         onChange={[Function]}
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
           }
         }
         type="number"
@@ -3002,33 +4303,38 @@ Array [
       <div
         style={
           Object {
-            "flexBasis": "20%",
+            "flexBasis": "10%",
+            "flexGrow": "0",
+            "flexShrink": "1",
             "marginLeft": "1em",
           }
         }
       >
         sq ft
       </div>
+      <div
+        style={
+          Object {
+            "flexBasis": "5%",
+            "flexGrow": "0",
+            "flexShrink": "1",
+            "marginLeft": "1em",
+            "marginRight": "0.5em",
+            "textAlign": "right",
+          }
+        }
+      />
     </div>
-  </div>,
+  </fieldset>,
 ]
 `;
 
 exports[`Storyshots TdmCalculation default 1`] = `
-<div
-  style={
-    Object {
-      "margin": "1em",
-    }
-  }
->
+<div>
   <div
     style={
       Object {
-        "backgroundColor": "#F8F8F8",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
+        "margin": "1em",
       }
     }
   >
@@ -3036,155 +4342,21 @@ exports[`Storyshots TdmCalculation default 1`] = `
       style={
         Object {
           "margin": "0.5em",
-          "width": "40%",
         }
       }
     >
-      <h3>
-        Project Parameters
-      </h3>
-      <div
-        style={
-          Object {
-            "backgroundColor": "lightblue",
-            "border": "2px solid lightgray",
-            "borderRadius": "0.5em",
-            "margin": "0.5em",
-            "padding": "0.5em",
-          }
-        }
-      >
-        <h5>
-           
-        </h5>
-        <div
-          style={
-            Object {
-              "display": "flex",
-              "flexDirection": "row",
-              "margin": "1em",
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "flexBasis": "50%",
-              }
-            }
-          >
-            Input Integer A
-          </div>
-          <input
-            name="INPUT_INTEGER_A"
-            onChange={[Function]}
-            style={
-              Object {
-                "flexBasis": "20%",
-              }
-            }
-            type="number"
-            value={4}
-          />
-          <div
-            style={
-              Object {
-                "flexBasis": "20%",
-                "marginLeft": "1em",
-              }
-            }
-          >
-            beans
-          </div>
-        </div>
-        <div
-          style={
-            Object {
-              "display": "flex",
-              "flexDirection": "row",
-              "margin": "1em",
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "flexBasis": "50%",
-              }
-            }
-          >
-            Input Integer B
-          </div>
-          <input
-            name="INPUT_INTEGER_B"
-            onChange={[Function]}
-            style={
-              Object {
-                "flexBasis": "20%",
-              }
-            }
-            type="number"
-            value={17}
-          />
-          <div
-            style={
-              Object {
-                "flexBasis": "20%",
-                "marginLeft": "1em",
-              }
-            }
-          >
-            beans
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      style={
-        Object {
-          "margin": "0.5em",
-          "width": "30%",
-        }
-      }
-    >
-      <h3>
-         Transportation Demand Strategies
-      </h3>
-    </div>
-    <div
-      style={
-        Object {
-          "margin": "0.5em",
-          "width": "30%",
-        }
-      }
-    >
-      <h3>
-         Metrics
-      </h3>
       <div
         style={
           Object {
             "display": "flex",
             "flexDirection": "row",
-            "flexWrap": "wrap",
+            "justifyContent": "space-between",
             "margin": "-0.5em",
           }
         }
       >
         <div
-          style={
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "lightGreen",
-              "borderRadius": "0.5em",
-              "display": "flex",
-              "flexDirection": "column",
-              "margin": "0.5em",
-              "padding": "0.5em",
-              "width": "100%",
-            }
-          }
+          className="tdm-calculation-metrics-panel"
         >
           <h3>
             A + B
@@ -3205,18 +4377,7 @@ exports[`Storyshots TdmCalculation default 1`] = `
           </div>
         </div>
         <div
-          style={
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "lightGreen",
-              "borderRadius": "0.5em",
-              "display": "flex",
-              "flexDirection": "column",
-              "margin": "0.5em",
-              "padding": "0.5em",
-              "width": "100%",
-            }
-          }
+          className="tdm-calculation-metrics-panel"
         >
           <h3>
             A * B
@@ -3237,18 +4398,7 @@ exports[`Storyshots TdmCalculation default 1`] = `
           </div>
         </div>
         <div
-          style={
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "lightGreen",
-              "borderRadius": "0.5em",
-              "display": "flex",
-              "flexDirection": "column",
-              "margin": "0.5em",
-              "padding": "0.5em",
-              "width": "100%",
-            }
-          }
+          className="tdm-calculation-metrics-panel"
         >
           <h3>
             Hypotenuse of Triangle with Sides A and B
@@ -3268,6 +4418,170 @@ exports[`Storyshots TdmCalculation default 1`] = `
             beans
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "width": "50%",
+          }
+        }
+      >
+        <h2>
+          Project Parameters
+        </h2>
+        <fieldset
+          style={
+            Object {
+              "margin": "0.75em",
+            }
+          }
+        >
+          <legend>
+            <h4 />
+             
+          </legend>
+          <div
+            style={
+              Object {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "margin": "0.2em",
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flexBasis": "75%",
+                  "flexGrow": "1",
+                  "flexShrink": "1",
+                }
+              }
+            >
+              Input Integer A
+            </div>
+            <input
+              name="INPUT_INTEGER_A"
+              onChange={[Function]}
+              style={
+                Object {
+                  "flexBasis": "10%",
+                  "flexGrow": "0",
+                  "flexShrink": "1",
+                }
+              }
+              type="number"
+              value={4}
+            />
+            <div
+              style={
+                Object {
+                  "flexBasis": "10%",
+                  "flexGrow": "0",
+                  "flexShrink": "1",
+                  "marginLeft": "1em",
+                }
+              }
+            >
+              beans
+            </div>
+            <div
+              style={
+                Object {
+                  "flexBasis": "5%",
+                  "flexGrow": "0",
+                  "flexShrink": "1",
+                  "marginLeft": "1em",
+                  "marginRight": "0.5em",
+                  "textAlign": "right",
+                }
+              }
+            />
+          </div>
+          <div
+            style={
+              Object {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "margin": "0.2em",
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flexBasis": "75%",
+                  "flexGrow": "1",
+                  "flexShrink": "1",
+                }
+              }
+            >
+              Input Integer B
+            </div>
+            <input
+              name="INPUT_INTEGER_B"
+              onChange={[Function]}
+              style={
+                Object {
+                  "flexBasis": "10%",
+                  "flexGrow": "0",
+                  "flexShrink": "1",
+                }
+              }
+              type="number"
+              value={17}
+            />
+            <div
+              style={
+                Object {
+                  "flexBasis": "10%",
+                  "flexGrow": "0",
+                  "flexShrink": "1",
+                  "marginLeft": "1em",
+                }
+              }
+            >
+              beans
+            </div>
+            <div
+              style={
+                Object {
+                  "flexBasis": "5%",
+                  "flexGrow": "0",
+                  "flexShrink": "1",
+                  "marginLeft": "1em",
+                  "marginRight": "0.5em",
+                  "textAlign": "right",
+                }
+              }
+            />
+          </div>
+        </fieldset>
+      </div>
+      <div
+        style={
+          Object {
+            "width": "50%",
+          }
+        }
+      >
+        <h2>
+           Transportation Demand Strategies
+        </h2>
       </div>
     </div>
   </div>

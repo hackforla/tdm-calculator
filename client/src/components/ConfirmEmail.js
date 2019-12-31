@@ -24,7 +24,7 @@ const ConfirmEmail = props => {
     if (token) {
       confirmEmail(token);
     }
-  }, [token, setToast]);
+  }, [token, setToast, history]);
 
   const resendConfirmationEmail = async evt => {
     evt.preventDefault();
