@@ -1,7 +1,7 @@
 import React from "react";
-import RuleInput from "./RuleInput";
+import WizardRuleInput from "./WizardRuleInput";
 
-const RuleList = props => {
+const WizardRuleList = props => {
   const { rules } = props;
   return (
     <div
@@ -9,7 +9,7 @@ const RuleList = props => {
     >
       {rules && rules.length > 0
         ? rules.map(rule => (
-            <RuleInput
+            <WizardRuleInput
               key={rule.id}
               rule={rule}
               onInputChange={props.onInputChange}
@@ -20,4 +20,4 @@ const RuleList = props => {
   );
 };
 
-export default RuleList;
+export default WizardRuleList;

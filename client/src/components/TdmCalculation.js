@@ -1,6 +1,7 @@
 import React from "react";
 import RulePanels from "./RulePanels";
 import ResultList from "./ResultList";
+import WizardNavButton from "./WizardNavButton";
 
 const TdmCalculation = props => {
   const { rules, onInputChange, resultRuleCodes } = props;
@@ -18,7 +19,7 @@ const TdmCalculation = props => {
     rules &&
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
   return (
-    <div>
+    <div style={{ flex: "1 0 auto" }}>
       <div style={{ margin: "1em" }}>
         <div
           style={{
@@ -40,7 +41,9 @@ const TdmCalculation = props => {
         >
           <div
             style={{
-              width: "50%"
+              width: "50%",
+              display: "flex",
+              flexDirection: "column"
             }}
           >
             <h2>Project Parameters</h2>
@@ -49,6 +52,20 @@ const TdmCalculation = props => {
             ) : (
               <div>No Rules Loaded</div>
             )}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center"
+              }}
+            >
+              <WizardNavButton
+                onClick={props.onViewChange}
+                style={{ margin: "5em" }}
+              >
+                Switch to Wizard View
+              </WizardNavButton>
+            </div>
           </div>
           <div
             style={{

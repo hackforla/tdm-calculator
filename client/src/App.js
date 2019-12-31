@@ -61,28 +61,48 @@ class App extends React.Component {
     const { account } = this.state;
 
     return (
-      <Router>
-        <Header account={account} />
-        <NavBar
-          account={account}
-          setLoggedOutAccount={this.setLoggedOutAccount}
-        />
-        <Route exact path="/" component={TdmCalculationContainer} />
-        <Route path="/calculation" component={TdmCalculationContainer} />
-        <Route path="/about" component={About} />
-        <Route path="/register/:email?" component={Register} />
-        <Route path="/confirm/:token">
-          <ConfirmEmail />
-        </Route>
-        <Route
-          path="/login/:email?"
-          render={() => <Login setLoggedInAccount={this.setLoggedInAccount} />}
-        />
-        <Route path="/contactus" component={ContactUs} />
-        {account && account.role === "admin" ? (
-          <Route path="/admin" render={() => <Admin account={account} />} />
-        ) : null}
-      </Router>
+      <div
+        style={{
+          height: "100vh",
+          margin: "0",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "stretch"
+        }}
+      >
+        <Router>
+          <Header account={account} />
+          <NavBar
+            account={account}
+            setLoggedOutAccount={this.setLoggedOutAccount}
+          />
+          <div
+            style={{
+              flex: "1 0 auto",
+              display: "flex",
+              flexDirection: "column"
+            }}
+          >
+            <Route exact path="/" component={TdmCalculationContainer} />
+            <Route path="/calculation" component={TdmCalculationContainer} />
+            <Route path="/about" component={About} />
+            <Route path="/register/:email?" component={Register} />
+            <Route path="/confirm/:token">
+              <ConfirmEmail />
+            </Route>
+            <Route
+              path="/login/:email?"
+              render={() => (
+                <Login setLoggedInAccount={this.setLoggedInAccount} />
+              )}
+            />
+            <Route path="/contactus" component={ContactUs} />
+            {account && account.role === "admin" ? (
+              <Route path="/admin" render={() => <Admin account={account} />} />
+            ) : null}
+          </div>
+        </Router>
+      </div>
     );
   }
 }

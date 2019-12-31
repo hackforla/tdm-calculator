@@ -15,7 +15,7 @@ const ConfirmEmail = props => {
     const result = await accountService.confirmRegister(token);
     setConfirmResult(result);
     if (result.success) {
-      toast.add(`Your email has been confirmed. Please log in.`)
+      toast.add(`Your email has been confirmed. Please log in.`);
       history.push(`/login/${encodeURIComponent(result.email)}`);
     }
   };

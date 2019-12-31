@@ -1,5 +1,4 @@
-
-@import './_variables_ladot.scss';
+@import "./_variables_ladot.scss";
 
 // font family is dictated by the LADOT style guide
 $font: Calibri, Arial, sans-serif;
@@ -12,7 +11,8 @@ $color-background: white;
 // purpose: to be able to use our own variable names that are more descriptive/meaningful for our use cases
 // for example: $color-link: $color-bicycle-2; which will use the $color-bicycle-2 color for links/a tags
 
-
 // using temp color variables until we get feedback/wireframes from ui/ux designers:
 $color-link: $color-express-park-1;
 $color-button: $color-express-park-9;
+
+$color-highlight: #a7c539; // Color for Prev/Next Wizard buttons

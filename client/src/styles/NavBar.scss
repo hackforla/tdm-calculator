@@ -1,11 +1,12 @@
 .navbar {
-    background-color: $color-primary;
-    color: white;
-    li {
-      padding: .5em;
-    }
-    a {
-      color: white;
-      text-decoration: none;
-    }
+  background-color: $color-primary;
+  color: white;
+  border-bottom: 4px solid $color-highlight;
+  li {
+    padding: 0.5em;
   }
+  a {
+    color: white;
+    text-decoration: none;
+  }
+}

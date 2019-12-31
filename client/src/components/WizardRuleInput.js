@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const RuleInput = ({
+const WizardRuleInput = ({
   rule: {
     id,
     calculationId,
@@ -28,6 +28,7 @@ const RuleInput = ({
       {dataType === "number" ? (
         <div
           style={{
+            minWidth: "60vw",
             margin: "0.2em",
             display: "flex",
             flexDirection: "row",
@@ -83,6 +84,7 @@ const RuleInput = ({
       ) : dataType === "boolean" ? (
         <div
           style={{
+            minWidth: "60vw",
             margin: "0.2em",
             display: "flex",
             flexDirection: "row",
@@ -139,6 +141,7 @@ const RuleInput = ({
       ) : dataType === "choice" ? (
         <div
           style={{
+            minWidth: "60vw",
             margin: "0.2em",
             display: "flex",
             flexDirection: "row",
@@ -185,6 +188,7 @@ const RuleInput = ({
       ) : (
         <div
           style={{
+            minWidth: "60vw",
             margin: "0.2em",
             display: "flex",
             flexDirection: "row",
@@ -235,7 +239,7 @@ const RuleInput = ({
   );
 };
 
-RuleInput.propTypes = {
+WizardRuleInput.propTypes = {
   rule: PropTypes.shape({
     id: PropTypes.number.isRequired,
     calculationId: PropTypes.number.isRequired,
@@ -255,4 +259,4 @@ RuleInput.propTypes = {
   onInputChange: PropTypes.func
 };
 
-export default RuleInput;
+export default WizardRuleInput;

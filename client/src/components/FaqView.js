@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as faqService from "../services/faq.service";
 import FaqList from "./FaqList";
-import FaqAdd from './FaqAdd'
+import FaqAdd from "./FaqAdd";
 
 const FaqView = () => {
   const [faqList, setFaqList] = useState([]);
@@ -19,9 +19,7 @@ const FaqView = () => {
       });
 
     // check if admin
-  }, [(<FaqAdd />)]);
-
-  
+  }, []);
 
   return (
     <div>

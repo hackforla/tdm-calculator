@@ -7,6 +7,9 @@ const NavBar = props => {
     <ul
       className="navbar"
       style={{
+        flexGrow: "0",
+        flexShrink: "0",
+        flexBasis: "content",
         padding: "0.1em",
         display: "flex",
         flexDirection: "row",
@@ -24,15 +27,15 @@ const NavBar = props => {
         <Link to="/contactus">Contact Us</Link>
       </li>
       {/* if there's an account in state, display logout and check if they are admin*/}
-      {account.email ? (
+      {account && account.email ? (
         <>
           {account.role === "admin" ? (
             <li>
               <Link to="/admin">Admin</Link>
             </li>
           ) : null}
-          <li onClick={setLoggedOutAccount}>
-            <a href="">Logout</a>
+          <li>
+            <button onClick={setLoggedOutAccount}>Logout</button>
           </li>
         </>
       ) : (
