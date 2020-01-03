@@ -3,6 +3,7 @@ import WizardRulePanels from "./WizardRulePanels";
 import WizardReviewPanel from "./WizardReviewPanel";
 import ResultPanel from "./ResultPanel";
 import WizardNavButton from "./WizardNavButton";
+import SwitchViewButton from "./SwitchViewButton";
 
 const TdmCalculation = props => {
   const { rules, onInputChange, resultRuleCodes } = props;
@@ -59,9 +60,9 @@ const TdmCalculation = props => {
         <div className="tdm-wizard-sidebar">
           {rules && rules.length > 0 ? (
             <React.Fragment>
-              <WizardNavButton onClick={props.onViewChange}>
+              <SwitchViewButton onClick={props.onViewChange}>
                 Switch to Default View
-              </WizardNavButton>
+              </SwitchViewButton>
               <ResultPanel rules={resultRules} />
             </React.Fragment>
           ) : (
@@ -83,23 +84,26 @@ const TdmCalculation = props => {
           <div>
             {rules && page === 1 ? (
               <div style={{ minWidth: "40%" }}>
-                <h2>Land Use</h2>
+                <h2 style={{ marginTop: "1em" }}>Land Use</h2>
                 <WizardRulePanels
                   rules={landUseRules}
                   onInputChange={onInputChange}
                 />
               </div>
             ) : page === 2 ? (
-              <div style={{ width: "80%" }}>
-                <h2>Project Parameters</h2>
+              <div style={{ minWidth: "80%" }}>
+                <h2 style={{ marginTop: "1em" }}>Project Parameters</h2>
                 <WizardRulePanels
                   rules={inputRules}
                   onInputChange={onInputChange}
                 />
               </div>
             ) : page === 3 ? (
-              <div>
-                <h2> TDM Target Point Calculation</h2>
+              <div style={{ minWidth: "80%" }}>
+                <h2 style={{ marginTop: "1em" }}>
+                  {" "}
+                  TDM Target Point Calculation
+                </h2>
 
                 <WizardRulePanels
                   rules={targetRules}
@@ -107,8 +111,11 @@ const TdmCalculation = props => {
                 />
               </div>
             ) : page === 4 ? (
-              <div>
-                <h2> Transportation Demand Strategies</h2>
+              <div style={{ width: "80%" }}>
+                <h2 style={{ marginTop: "1em" }}>
+                  {" "}
+                  Transportation Demand Strategies
+                </h2>
 
                 <WizardRulePanels
                   rules={measureRules}
@@ -116,8 +123,8 @@ const TdmCalculation = props => {
                 />
               </div>
             ) : (
-              <div style={{ width: "80%" }}>
-                <h2> Project TDM Summary</h2>
+              <div>
+                <h2 style={{ marginTop: "1em" }}> Project TDM Summary</h2>
                 <WizardReviewPanel rules={rules} />
               </div>
             )}
