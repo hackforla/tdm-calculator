@@ -16,7 +16,9 @@ const Header = props => {
       }}
     >
       <h1>TDM Calculator</h1>
-      {props.account ? <h4>{props.account.email}</h4> : null}
+      {props.account && props.account.firstName ? (
+        <h4>{`${props.account.firstName} ${props.account.lastName} `}</h4>
+      ) : null}
       <div>
         <a href="//ladot.lacity.org" target="_blank" rel="noopener noreferrer">
           <img

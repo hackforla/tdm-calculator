@@ -200,6 +200,17 @@ textarea {
   padding: 0.5em 0.65rem;
 }
 
+button.link {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  outline: 0;
+}
+
 .is-valid {
   border-color: #326e1e;
 }
@@ -216,8 +227,15 @@ textarea {
   margin: 0.5em;
   padding: 0.5em;
   border-radius: 5px;
+
   background-color: $color-primary;
   color: $color-background;
+}
+
+.tdm-wizard {
+  background-image: url("../images/hardhats.jpg");
+  background-size: 20% 100vh;
+  background-repeat: repeat-y;
 }
 
 .tdm-wizard-sidebar {
@@ -225,7 +243,9 @@ textarea {
   flex-basis: 20%;
   flex-grow: 0;
   flex-shrink: 1;
-  background-color: $color-primary;
+
+  // background-color: $color-primary;
+  background: rgba(0, 46, 109, 0.65);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
