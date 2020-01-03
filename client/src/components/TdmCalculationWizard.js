@@ -51,6 +51,7 @@ const TdmCalculation = props => {
   return (
     <React.Fragment>
       <div
+        className="tdm-wizard"
         style={{
           flex: "1 0 auto",
           display: "flex",

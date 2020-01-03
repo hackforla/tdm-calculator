@@ -35,7 +35,9 @@ const NavBar = props => {
             </li>
           ) : null}
           <li>
-            <button onClick={setLoggedOutAccount}>Logout</button>
+            <button className="link" onClick={setLoggedOutAccount}>
+              Logout
+            </button>
           </li>
         </>
       ) : (

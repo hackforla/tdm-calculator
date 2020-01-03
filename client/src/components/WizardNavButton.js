@@ -7,10 +7,10 @@ const WizardNavButton = props => {
       {props.disabled ? (
         <div
           style={{
-            paddingLeft: "1em",
-            paddingRight: "1em",
-            paddingTop: "0.5em",
-            paddingBottom: "0.5em",
+            paddingLeft: "0.7em",
+            paddingRight: "0.7em",
+            paddingTop: "0.35em",
+            paddingBottom: "0.35em",
             display: "inline",
             margin: "0.5em",
             fontWeight: "bold",
@@ -24,10 +24,10 @@ const WizardNavButton = props => {
       ) : (
         <div
           style={{
-            paddingLeft: "1em",
-            paddingRight: "1em",
-            paddingTop: "0.5em",
-            paddingBottom: "0.5em",
+            paddingLeft: "0.7em",
+            paddingRight: "0.7em",
+            paddingTop: "0.35em",
+            paddingBottom: "0.35em",
             backgroundColor: "#A7C539",
             display: "inline",
             margin: "0.5em",
