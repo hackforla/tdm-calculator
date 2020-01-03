@@ -1,6 +1,6 @@
 import React from "react";
 
-const WizardNavButton = props => {
+const SwitchViewButton = props => {
   const { disabled } = props;
   return (
     <React.Fragment>
@@ -14,7 +14,7 @@ const WizardNavButton = props => {
             display: "inline",
             margin: "0.5em",
             fontWeight: "bold",
-            fontSize: "2em",
+            fontSize: "1em",
             textShadow: "0px 6px 4px rgba(0, 46, 109, 0.3)",
             textAlign: "center"
           }}
@@ -32,7 +32,7 @@ const WizardNavButton = props => {
             display: "inline",
             margin: "0.5em",
             fontWeight: "bold",
-            fontSize: "2em",
+            fontSize: "1em",
             boxShadow: "0px 6px 4px rgba(0,46,109,0.3)",
             textAlign: "center"
           }}
@@ -45,4 +45,4 @@ const WizardNavButton = props => {
   );
 };
 
-export default WizardNavButton;
+export default SwitchViewButton;

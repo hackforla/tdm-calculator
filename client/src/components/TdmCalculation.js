@@ -1,7 +1,7 @@
 import React from "react";
 import RulePanels from "./RulePanels";
 import ResultList from "./ResultList";
-import WizardNavButton from "./WizardNavButton";
+import SwitchViewButton from "./SwitchViewButton";
 
 const TdmCalculation = props => {
   const { rules, onInputChange, resultRuleCodes } = props;
@@ -59,12 +59,12 @@ const TdmCalculation = props => {
                 justifyContent: "center"
               }}
             >
-              <WizardNavButton
+              <SwitchViewButton
                 onClick={props.onViewChange}
                 style={{ margin: "5em" }}
               >
                 Switch to Wizard View
-              </WizardNavButton>
+              </SwitchViewButton>
             </div>
           </div>
           <div

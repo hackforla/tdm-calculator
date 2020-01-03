@@ -41,7 +41,7 @@ h1,
 .alpha {
   font-size: 2em;
   line-height: 1.25em;
-  color: #cc4e10;
+  color: $color-primary;
 }
 
 h2,
@@ -160,6 +160,7 @@ textarea {
 input[type="checkbox"],
 input[type="radio"] {
   width: auto;
+  height: 1.2em;
   margin-right: 0.3em;
 }
 
