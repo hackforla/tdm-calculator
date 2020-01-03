@@ -68,18 +68,24 @@ const Register = props => {
     //resetForm(initialValues);
   };
   return (
-    <div>
-      <h1>Register</h1>
-      <div className="auth-form">
-        <Formik
-          initialValues={initialValues}
-          validationSchema={registerSchema}
-          onSubmit={(values, actions) => handleSubmit(values, actions, props)}
-        >
+    <div style={{ flex: "1 0 auto", display: "flex", flexDirection: "column" }} >
+      <div className="tdm-wizard" style={{ flex: "1 0 auto", display: "flex", flexDirection: "row" }}>
+        <div className="tdm-wizard-sidebar">
+        </div>
+        <div className="tdm-wizard-content-container" style={{justifyContent: "center"}}>
+        
+        <h1 style={{fontWeight: 500}}>Create a New Account</h1>
+        <h3 style={{fontWeight: 100}}>Save your project information.</h3>
+        <br />
+        <div className="auth-form">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={registerSchema}
+            onSubmit={(values, actions) => handleSubmit(values, actions, props)}
+          >
           {({ touched, errors, isSubmitting }) => (
             <Form>
               <div className="form-group">
-                <label htmlFor="firstName">First Name</label>
                 <Field
                   type="text"
                   name="firstName"
@@ -95,7 +101,6 @@ const Register = props => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="lastName">Last Name</label>
                 <Field
                   type="text"
                   name="lastName"
@@ -111,11 +116,10 @@ const Register = props => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="email">Email</label>
                 <Field
                   type="email"
                   name="email"
-                  placeholder="email"
+                  placeholder="Email"
                   className={`form-control ${
                     touched.email && errors.email ? "is-invalid" : ""
                   }`}
@@ -127,11 +131,10 @@ const Register = props => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="password">Password</label>
                 <Field
                   type="password"
                   name="password"
-                  placeholder="password"
+                  placeholder="Password"
                   className={`form-control ${
                     touched.password && errors.password ? "is-invalid" : ""
                   }`}
@@ -143,7 +146,6 @@ const Register = props => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="passwordConfirm">Password</label>
                 <Field
                   type="password"
                   name="passwordConfirm"
@@ -163,19 +165,22 @@ const Register = props => {
 
               <button
                 type="submit"
-                className="btn-primary"
+                className="btn-submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Please wait..." : "Submit"}
+                {isSubmitting ? "Please wait..." : "Create Account"}
               </button>
             </Form>
           )}
-        </Formik>
+          </Formik>
+        </div>
+        <br/>
+        <div>
+          Already have an account? <Link to="/login">Login here.</Link>
+        </div>
       </div>
-      <div>
-        Already have an account? <Link to="/login">Login here.</Link>
       </div>
-    </div>
+    </div> 
   );
 };
 
