@@ -182,6 +182,37 @@ const RuleInput = ({
             } ${calcUnits || ""}`}
           </div>
         </div>
+      ) : dataType === "string" ? (
+        <div
+          style={{
+            margin: "0.2em",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "baseline"
+          }}
+        >
+          <div
+            style={{
+              flexBasis: "45%",
+              flexGrow: "1",
+              flexShrink: "1"
+            }}
+          >
+            {name}
+          </div>
+          <input
+            type="text"
+            style={{
+              flexBasis: "65%",
+              flexGrow: "0",
+              flexShrink: "1"
+            }}
+            value={value || ""}
+            onChange={onInputChange}
+            name={code}
+          />
+        </div>
       ) : (
         <div
           style={{

@@ -32,7 +32,8 @@ figure {
 
 body {
   background: $color-background;
-  font: 100%/1.5 "Varela", sans-serif;
+  //font: 100%/1.5 "Varela", sans-serif;
+  font: Calibri, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
   color: #474747;
 }
@@ -232,23 +233,48 @@ button.link {
   color: $color-background;
 }
 
+// Photo by Silvia Brazzoduro on Unsplash
 .tdm-wizard {
   background-image: url("../images/hardhats.jpg");
-  background-size: 20% 100vh;
+  background-size: 387px 929px;
   background-repeat: repeat-y;
 }
 
 .tdm-wizard-sidebar {
   margin: 0;
-  flex-basis: 20%;
+
+  flex-basis: 387px;
   flex-grow: 0;
-  flex-shrink: 1;
+  flex-shrink: 0;
+  height: 929px;
 
   // background-color: $color-primary;
   background: rgba(0, 46, 109, 0.65);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+}
+
+@media print {
+  .tdm-wizard-sidebar {
+    display: none;
+  }
+}
+
+.tdm-wizard-page-title {
+  margin-top: 1em;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  font-style: normal;
+}
+
+.tdm-wizard-page-subtitle {
+  margin-top: 0.5em;
+  text-align: center;
+  font-size: 20px;
+  font-weight: normal;
+  font-style: normal;
 }
 
 .tdm-wizard-navbutton {

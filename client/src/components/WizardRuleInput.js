@@ -185,6 +185,38 @@ const WizardRuleInput = ({
             } ${calcUnits || ""}`}
           </div>
         </div>
+      ) : dataType === "string" ? (
+        <div
+          style={{
+            minWidth: "60vw",
+            margin: "0.2em",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center"
+          }}
+        >
+          <div
+            style={{
+              flexBasis: "50%",
+              flexGrow: "1",
+              flexShrink: "1"
+            }}
+          >
+            {name}
+          </div>
+          <input
+            type="text"
+            style={{
+              flexBasis: "50%",
+              flexGrow: "1",
+              flexShrink: "1"
+            }}
+            value={value || ""}
+            onChange={onInputChange}
+            name={code}
+          />
+        </div>
       ) : (
         <div
           style={{
