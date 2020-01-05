@@ -328,6 +328,18 @@ button.link {
   border-radius: 5px;
 }
 
+.landing-page-intro-container {
+  background-color: $color-background;
+  height: 500px;
+}
+
+.landing-page-intro-text {
+  text-align: center;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
 // add any override to the default styles in the individual component styles
 @import "./NavBar.scss";
 @import "./AuthForms.scss"; // Login and Register components
