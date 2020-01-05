@@ -61,78 +61,77 @@ const Login = props => {
     } catch (err) {
       toast.add(err.message)
     }
-    //   .then(res => {
-    //     console.log("handleLogin response:", res);
-    //     setLoggedInAccount(res.data.account);
-    //   })
-    //   .then(history.push("/admin"))
-    //   .catch(err => console.log(err));
-    // setSubmitting(false);
-    // // alert("Form is validated! Submitting the form...");
-    // resetForm(initialValues);
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <div className="auth-form">
-        <Formik
-          initialValues={initialValues}
-          validationSchema={loginSchema}
-          onSubmit={(values, actions) => handleSubmit(values, actions, props)}
-        >
-          {({ touched, errors, isSubmitting, values }) => (
-            <Form>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <Field
-                  type="email"
-                  name="email"
-                  value={values.email}
-                  placeholder="email"
-                  className={`form-control ${
-                    touched.email && errors.email ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <Field
-                  type="password"
-                  value={values.password}
-                  name="password"
-                  placeholder="password"
-                  className={`form-control ${
-                    touched.password && errors.password ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
+    <div style={{ flex: "1 0 auto", display: "flex", flexDirection: "column" }} >
+      <div className="tdm-wizard" style={{ flex: "1 0 auto", display: "flex", flexDirection: "row" }}>
+        <div className="tdm-wizard-sidebar">
+        </div>
+        <div className="tdm-wizard-content-container" style={{justifyContent: "center"}}>
+        
+        <h1 style={{fontWeight: 500}}>Welcome to LA's TDM Calculator</h1>
+        <h3 style={{fontWeight: 100}}>Please sign into your account to save progress.</h3>
+        <br />
+        <div className="auth-form">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={loginSchema}
+            onSubmit={(values, actions) => handleSubmit(values, actions, props)}
+          >
+            {({ touched, errors, isSubmitting, values }) => (
+              <Form>
+                <div className="form-group">
+                  <Field
+                    type="email"
+                    name="email"
+                    value={values.email}
+                    placeholder="Email Address"
+                    className={`form-control ${
+                      touched.email && errors.email ? "is-invalid" : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="invalid-feedback"
+                  />
+                </div>
+                <div className="form-group">
+                  <Field
+                    type="password"
+                    value={values.password}
+                    name="password"
+                    placeholder="Password"
+                    className={`form-control ${
+                      touched.password && errors.password ? "is-invalid" : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="invalid-feedback"
+                  />
+                </div>
 
-              <button
-                type="submit"
-                className="btn-primary"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Please wait..." : "Submit"}
-              </button>
-            </Form>
-          )}
-        </Formik>
-      </div>
-      <div>
-        New to the site? <Link to={`/register`}>Register here.</Link>
-      </div>
+                <button
+                  type="submit"
+                  className="btn-submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Please wait..." : "Login"}
+                </button>
+              </Form>
+            )}
+          </Formik>
+        </div>
+        <br/>
+        <div>
+          New to the site? <Link to={`/register`}>Register here.</Link>
+        </div>
+      </div>       
     </div>
+  </div>    
   );
 };
 

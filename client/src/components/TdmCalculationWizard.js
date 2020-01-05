@@ -82,18 +82,7 @@ const TdmCalculation = props => {
             <div>No Rules Loaded</div>
           )}
         </div>
-        <div
-          style={{
-            flexBasis: "80%",
-            flexGrow: 1,
-            flexShrink: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center",
-            overflowY: "scroll"
-          }}
-        >
+        <div className="tdm-wizard-content-container">
           <div>
             {rules && page === 0 ? (
               <div style={{ minWidth: "40%" }}>
