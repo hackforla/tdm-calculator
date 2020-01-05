@@ -35,7 +35,7 @@ Instructions to install a development environment on your machine:
    ```
    npm install
    ```
-1. Obtain the `.env` file from the tdm-calculator slack channel and place it in this directory. It contains private info (i.e., the production database connection string) that we cannot put in this public GitHub repo.
+1. Obtain the `.env` file from the tdm-calculator/Developers G-Drive folder and place it in this directory. It contains private info (i.e., the production database connection string) that we cannot put in this public GitHub repo.
 1. Change to the client directory:
    ```
    cd client
@@ -48,20 +48,25 @@ Instructions to install a development environment on your machine:
 ### To Run the React/Node Application
 
 1. In one terminal window, navigate back to the /tdm-calculator directory and start the node server:
-``` 
-cd .. && npm start 
+
 ```
-1. In a separate terminal window, navigate to the /tdm-calculator/client directory, start the react app, and open the browser : 
-``` 
-cd client && npm start 
+cd .. && npm start
 ```
+
+1. In a separate terminal window, navigate to the /tdm-calculator/client directory, start the react app, and open the browser :
+
+```
+cd client && npm start
+```
+
 Note: Node server (backend) should start before the React server (frontend/client)
 
 ## To Contribute Code
 
-We use the individual person branch Git flow in order to work to a volunteering environment. 
+We use the individual person branch Git flow in order to work to a volunteering environment.
 
-1. After cloning the repository, create a branch with your name. 
+1. After cloning the repository, create a branch with your name.
+
 ```
 git checkout -b nicholas
 ```
@@ -69,6 +74,7 @@ git checkout -b nicholas
 2. Claim an issue (see instructions down below) and start coding.
 
 3. Regularly add, commit, and push your code to your branch.
+
 ```
 git add . or git add -a
 git commit -m "Write your commit message here with overall description of your code changes"
@@ -76,11 +82,13 @@ git push origin nicholas or git push --set-upstream origin nicholas or git push 
 ```
 
 4. When an issue is completed and is ready for a pull request, make sure your code has the latest code from the master branch by pulling from the master branch. This is to ensure merge conflicts are in your local envinronment, which is easier to clean up, than in GitHub.
+
 ```
 git pull origin master
 ```
 
 5. Go onto the [GitHub repository for TDM-Calculator](https://github.com/hackforla/tdm-calculator). There are three options:
+
 - Click on "Compare & pull request" button underneath the "commits branches releases environment contributors" box.
 - Click on the "New Pull Request" button underneath the "commits branches releases environment contributors" box and underneath "Your recently pushed branches" section.
 - Click on the "Pull Request" tab and press "New Pull Request"
@@ -88,9 +96,10 @@ git pull origin master
 6. In "Comparing Changes", switch the "compare" (right button) to your branch name. Make sure the "base" (left button) is on the master branch Double check the changes you've made down below, and click "Create pull request".
 
 7. Make sure the description of your changes is reflected in the Pull Request
+
 - Ex. "Start to incorporate Storybook and LADOT theme (colors, logos and headers)
 
-8. Add entrotech or fyliu as a reviewer. 
+8. Add entrotech or fyliu as a reviewer.
 
 9. Click on "Create Pull Request" and wait for someone to review to merge your changes!
 
