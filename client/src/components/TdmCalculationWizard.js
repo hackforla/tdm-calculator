@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import WizardRulePanels from "./WizardRulePanels";
 import WizardReviewPanel from "./WizardReviewPanel";
-import ResultPanel from "./ResultPanel";
+import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "./SwitchViewButton";
 
 const TdmCalculation = props => {
   const { rules, onInputChange, resultRuleCodes } = props;
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
+  const projectRules =
+    rules &&
+    rules.filter(
+      rule =>
+        rule.category === "input" &&
+        rule.calculationPanelId === 31 &&
+        rule.used &&
+        rule.display
+    );
+
   const landUseRules =
     rules &&
     rules.filter(
@@ -17,12 +27,14 @@ const TdmCalculation = props => {
         rule.used &&
         rule.display
     );
+  console.log(landUseRules);
   const inputRules =
     rules &&
     rules.filter(
       rule =>
         rule.category === "input" &&
         rule.calculationPanelId !== 5 &&
+        rule.calculationPanelId !== 31 &&
         rule.used &&
         rule.display
     );
@@ -64,7 +76,7 @@ const TdmCalculation = props => {
               <SwitchViewButton onClick={props.onViewChange}>
                 Switch to Default View
               </SwitchViewButton>
-              <ResultPanel rules={resultRules} />
+              <WizardResultPanel rules={resultRules} />
             </React.Fragment>
           ) : (
             <div>No Rules Loaded</div>
@@ -72,9 +84,28 @@ const TdmCalculation = props => {
         </div>
         <div className="tdm-wizard-content-container">
           <div>
-            {rules && page === 1 ? (
+            {rules && page === 0 ? (
               <div style={{ minWidth: "40%" }}>
-                <h2 style={{ marginTop: "1em" }}>Land Use</h2>
+                <h2 className="tdm-wizard-page-title">
+                  {" "}
+                  Welcome to Los Angeles' TDM Calculator
+                </h2>
+                <h3 className="tdm-wizard-page-subtitle">
+                  First, let's name your project
+                </h3>
+                <WizardRulePanels
+                  rules={projectRules}
+                  onInputChange={onInputChange}
+                />
+              </div>
+            ) : rules && page === 1 ? (
+              <div style={{ minWidth: "40%" }}>
+                <h2 className="tdm-wizard-page-title">
+                  What kind of development is your project?
+                </h2>
+                <h3 className="tdm-wizard-page-subtitle">
+                  Select all that apply
+                </h3>
                 <WizardRulePanels
                   rules={landUseRules}
                   onInputChange={onInputChange}
@@ -82,7 +113,13 @@ const TdmCalculation = props => {
               </div>
             ) : page === 2 ? (
               <div style={{ minWidth: "80%" }}>
-                <h2 style={{ marginTop: "1em" }}>Project Parameters</h2>
+                <h2 className="tdm-wizard-page-title">
+                  Determine the required parking spaces
+                </h2>
+                <h3 className="tdm-wizard-page-subtitle">
+                  Enter the project specifications to determine the required
+                  parking
+                </h3>
                 <WizardRulePanels
                   rules={inputRules}
                   onInputChange={onInputChange}
@@ -90,23 +127,26 @@ const TdmCalculation = props => {
               </div>
             ) : page === 3 ? (
               <div style={{ minWidth: "80%" }}>
-                <h2 style={{ marginTop: "1em" }}>
-                  {" "}
-                  TDM Target Point Calculation
+                <h2 className="tdm-wizard-page-title">
+                  Calculate TDM Target Points
                 </h2>
-
+                <h3 className="tdm-wizard-page-subtitle">
+                  Enter the # of parking spaces you intend to build to complete
+                  the Target Point calculation
+                </h3>
                 <WizardRulePanels
                   rules={targetRules}
                   onInputChange={onInputChange}
                 />
               </div>
             ) : page === 4 ? (
-              <div style={{ width: "80%" }}>
-                <h2 style={{ marginTop: "1em" }}>
-                  {" "}
-                  Transportation Demand Strategies
+              <div style={{ minWidth: "80%" }}>
+                <h2 className="tdm-wizard-page-title">
+                  Transporation Demand Measures
                 </h2>
-
+                <h3 className="tdm-wizard-page-subtitle">
+                  Select measures to earn TDM points
+                </h3>
                 <WizardRulePanels
                   rules={measureRules}
                   onInputChange={onInputChange}
@@ -114,14 +154,13 @@ const TdmCalculation = props => {
               </div>
             ) : (
               <div>
-                <h2 style={{ marginTop: "1em" }}> Project TDM Summary</h2>
                 <WizardReviewPanel rules={rules} />
               </div>
             )}
           </div>
           <div style={{ marginBottom: "3em", marginTop: "2em" }}>
             <WizardNavButton
-              disabled={page === 1}
+              disabled={page === 0}
               onClick={() => setPage(page - 1)}
             >
               &lt;

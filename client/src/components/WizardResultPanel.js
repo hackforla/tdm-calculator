@@ -1,7 +1,7 @@
 import React from "react";
-import ResultPanelItem from "./ResultPanelItem";
+import WizardResultPanelItem from "./WizardResultPanelItem";
 
-const ResultPanel = props => {
+const WizardResultPanel = props => {
   const { rules } = props;
   let targetPointsRule = {};
   let earnedPointsRule = {};
@@ -16,12 +16,18 @@ const ResultPanel = props => {
     <React.Fragment>
       {rules ? (
         <div className="tdm-results-panel">
-          <ResultPanelItem key={targetPointsRule.id} rule={targetPointsRule} />
-          <ResultPanelItem key={earnedPointsRule.id} rule={earnedPointsRule} />
+          <WizardResultPanelItem
+            key={targetPointsRule.id}
+            rule={targetPointsRule}
+          />
+          <WizardResultPanelItem
+            key={earnedPointsRule.id}
+            rule={earnedPointsRule}
+          />
         </div>
       ) : null}
     </React.Fragment>
   );
 };
 
-export default ResultPanel;
+export default WizardResultPanel;

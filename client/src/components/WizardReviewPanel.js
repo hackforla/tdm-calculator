@@ -5,17 +5,6 @@ import { faArrowRight, faCheck } from "@fortawesome/free-solid-svg-icons";
 const WizardReviewPanel = props => {
   const { rules } = props;
 
-  const inputRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.used &&
-        rule.display &&
-        rule.calculationPanelId !== 5 &&
-        (!!rule.value || !!rule.calcValue)
-    );
-
   const landUses = rules
     .filter(
       rule =>
@@ -27,13 +16,35 @@ const WizardReviewPanel = props => {
     .map(r => r.name)
     .join(", ");
 
-  const parkingRequired = rules.filter(
-    rule => rule.code === "PARK_REQUIREMENT"
-  );
-  const parkingProvided = rules.filter(rule => rule.code === "PARK_SPACES");
-  const parkingRatio = rules.filter(rule => rule.code === "CALC_PARK_RATIO");
-  const level = rules.filter(rule => rule.code === "PROJECT_LEVEL");
-  const targetPoints = rules.filter(rule => rule.code === "TARGET_POINTS_PARK");
+  const getRule = code => {
+    const ruleList = rules.filter(rule => rule.code === code);
+    if (ruleList && ruleList[0]) {
+      return ruleList[0];
+    }
+    return null;
+  };
+
+  const projectName = getRule("PROJECT_NAME");
+  const projectAddress = getRule("PROJECT_ADDRESS");
+  const projectDescription = getRule("PROJECT_DESCRIPTION");
+
+  const parkingRequired = getRule("PARK_REQUIREMENT");
+  const parkingProvided = getRule("PARK_SPACES");
+  const parkingRatio = getRule("CALC_PARK_RATIO");
+  const level = getRule("PROJECT_LEVEL");
+  const targetPoints = getRule("TARGET_POINTS_PARK");
+  const earnedPoints = getRule("PTS_EARNED");
+
+  const projectRules =
+    rules &&
+    rules.filter(
+      rule =>
+        rule.category === "input" &&
+        rule.used &&
+        rule.display &&
+        rule.calculationPanelId === 31 &&
+        (!!rule.value || !!rule.calcValue)
+    );
 
   const measureRules =
     rules &&
@@ -46,7 +57,17 @@ const WizardReviewPanel = props => {
         (!!rule.value || !!rule.calcValue)
     );
 
-  const earnedPoints = rules.filter(rule => rule.code === "PTS_EARNED");
+  const inputRules =
+    rules &&
+    rules.filter(
+      rule =>
+        rule.category === "input" &&
+        rule.used &&
+        rule.display &&
+        rule.calculationPanelId !== 5 &&
+        rule.calculationPanelId !== 31 &&
+        (!!rule.value || !!rule.calcValue)
+    );
 
   return (
     <div
@@ -54,156 +75,168 @@ const WizardReviewPanel = props => {
         display: "flex",
         flexDirection: "column",
         flex: "1 1 auto",
-        minWidth: "70vw"
+        minWidth: "60vw"
       }}
     >
-      <div> {`Land Use: ${landUses}`}</div>
-      <h2 style={{ marginTop: "1em" }}>Project Parameters</h2>
-      {rules && rules.length > 0
-        ? inputRules.map(rule => (
+      <h2 className="tdm-wizard-page-title">TDM Calculation Summary</h2>
+      {projectName && projectName.value ? (
+        <h3 className="tdm-wizard-page-subtitle">{projectName.value}</h3>
+      ) : null}
+      {projectAddress && projectAddress.value ? (
+        <h3 className="tdm-wizard-page-subtitle">{projectAddress.value}</h3>
+      ) : null}
+
+      {projectDescription && projectDescription.value ? (
+        <p style={{ textAlign: "center" }}>{projectDescription.value} </p>
+      ) : null}
+
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          justifyContent: "space-evenly"
+        }}
+      >
+        {targetPoints ? (
+          <div
+            style={{
+              width: "20%",
+              display: "flex",
+              flexDirection: "column",
+              border: "1px solid black",
+              borderRadius: "6px",
+              padding: "0.5em",
+              alignItems: "center"
+            }}
+          >
             <div
-              key={rule.id}
               style={{
-                width: "100%",
-                display: "flex",
-                displayDirection: "row",
-                marginLeft: "1em"
+                fontWeight: "bold",
+                fontSize: "3em"
               }}
             >
-              <div style={{ flex: "1 1 auto" }}>{rule.name}</div>
-              <div style={{ flex: "0 0 10%", textAlign: "right" }}>
-                {rule.value}
-              </div>
-              <div style={{ flex: "0 0 20%", paddingLeft: "1em" }}>
-                {rule.units}
-              </div>
-              <div style={{ flex: "0 0 5%" }}>
-                <FontAwesomeIcon icon={faArrowRight} />
-              </div>
-              <div style={{ flex: "0 0 10%", textAlign: "right" }}>
-                {Math.round(rule.calcValue * 100) / 100}
-              </div>
-              <div style={{ flex: "0 0 10%", paddingLeft: "1em" }}>
-                {rule.calcUnits}
-              </div>
+              {Math.round(targetPoints.value * 100) / 100}
             </div>
-          ))
-        : null}
+            <div
+              style={{
+                fontWeight: "bold",
+                fontSize: "1em"
+              }}
+            >
+              Target Points
+            </div>
+          </div>
+        ) : null}
 
-      {parkingRequired && parkingRequired.length === 1 ? (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            displayDirection: "row",
-            fontWeight: "bold",
-            marginLeft: "1em"
-          }}
-        >
-          <div style={{ flex: "1 1 auto" }}>{parkingRequired[0].name}</div>
+        {earnedPoints ? (
           <div
             style={{
-              flex: "0 0 10%",
-              textAlign: "right",
-              borderTop: "2px solid black"
+              width: "20%",
+              display: "flex",
+              flexDirection: "column",
+              border: "1px solid black",
+              borderRadius: "6px",
+              padding: "0.5em",
+              alignItems: "center"
             }}
           >
-            {Math.round(parkingRequired[0].value * 100) / 100}
+            <div
+              style={{
+                fontWeight: "bold",
+                fontSize: "3em"
+              }}
+            >
+              {Math.round(earnedPoints.value * 100) / 100}
+            </div>
+            <div
+              style={{
+                fontWeight: "bold",
+                fontSize: "1em"
+              }}
+            >
+              Earned Points
+            </div>
           </div>
+        ) : null}
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          marginTop: "1em",
+          justifyContent: "space-evenly"
+        }}
+      >
+        {parkingRatio ? (
           <div
             style={{
-              flex: "0 0 10%",
-              paddingLeft: "1em",
-              borderTop: "2px solid black"
+              width: "20%",
+              display: "flex",
+              flexDirection: "column",
+              border: "1px solid black",
+              borderRadius: "6px",
+              padding: "0.5em",
+              alignItems: "center"
             }}
           >
-            {parkingRequired[0].units}
+            <div
+              style={{
+                fontWeight: "bold",
+                fontSize: "3em"
+              }}
+            >
+              {Math.round(parkingRatio.value * 100) / 100}
+            </div>
+            <div
+              style={{
+                fontWeight: "bold",
+                fontSize: "1em",
+                textAlign: "center"
+              }}
+            >
+              Provided / Required Parking
+            </div>
           </div>
-        </div>
-      ) : null}
+        ) : null}
 
-      {parkingProvided && parkingProvided.length === 1 ? (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            displayDirection: "row",
-            fontWeight: "bold",
-            marginLeft: "1em"
-          }}
-        >
-          <div style={{ flex: "1 1 auto" }}>{parkingProvided[0].name}</div>
-          <div style={{ flex: "0 0 10%", textAlign: "right" }}>
-            {Math.round(parkingProvided[0].value * 100) / 100}
+        {level ? (
+          <div
+            style={{
+              width: "20%",
+              display: "flex",
+              flexDirection: "column",
+              border: "1px solid black",
+              borderRadius: "6px",
+              padding: "0.5em",
+              alignItems: "center"
+            }}
+          >
+            <div
+              style={{
+                fontWeight: "bold",
+                fontSize: "3em"
+              }}
+            >
+              {Math.round(level.value * 100) / 100}
+            </div>
+            <div
+              style={{
+                fontWeight: "bold",
+                fontSize: "1em"
+              }}
+            >
+              Project Level
+            </div>
           </div>
-          <div style={{ flex: "0 0 10%", paddingLeft: "1em" }}>
-            {parkingProvided[0].units}
-          </div>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
 
-      {parkingRatio && parkingRatio.length === 1 ? (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            displayDirection: "row",
-            fontWeight: "bold",
-            marginLeft: "1em"
-          }}
-        >
-          <div style={{ flex: "1 1 auto" }}>{parkingRatio[0].name}</div>
-          <div style={{ flex: "0 0 10%", textAlign: "right" }}>
-            {Math.round(parkingRatio[0].value * 100) / 100}
-          </div>
-          <div style={{ flex: "0 0 10%", paddingLeft: "1em" }}>
-            {parkingRatio[0].units}
-          </div>
-        </div>
-      ) : null}
+      <h2 style={{ marginTop: "1em" }}>Land Uses</h2>
+      <div> {`${landUses}`}</div>
 
-      {level && level.length === 1 ? (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            displayDirection: "row",
-            fontWeight: "bold",
-            marginLeft: "1em"
-          }}
-        >
-          <div style={{ flex: "1 1 auto" }}>{level[0].name}</div>
-          <div style={{ flex: "0 0 10%", textAlign: "right" }}>
-            {Math.round(level[0].value * 100) / 100}
-          </div>
-          <div style={{ flex: "0 0 10%", paddingLeft: "1em" }}>
-            {level[0].units}
-          </div>
-        </div>
-      ) : null}
-
-      {targetPoints && targetPoints.length === 1 ? (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            displayDirection: "row",
-            fontWeight: "bold",
-            fontSize: "1.5em",
-            marginLeft: "0.75em"
-          }}
-        >
-          <div style={{ flex: "1 1 auto" }}>{targetPoints[0].name}</div>
-          <div style={{ flex: "0 0 10%", textAlign: "right" }}>
-            {Math.round(targetPoints[0].value * 100) / 100}
-          </div>
-          <div style={{ flex: "0 0 10%", paddingLeft: "1em" }}>
-            {targetPoints[0].units}
-          </div>
-        </div>
-      ) : null}
-
-      <h2 style={{ marginTop: "1em" }}>TDM Measures</h2>
+      <h2 style={{ marginTop: "1em" }}>TDM Measures Selected</h2>
       {rules && rules.length > 0
         ? measureRules.map(rule => (
             <div
@@ -251,18 +284,49 @@ const WizardReviewPanel = props => {
           ))
         : null}
 
-      {earnedPoints && earnedPoints.length === 1 ? (
+      <h2 style={{ marginTop: "1em" }}>Required Parking Calculation</h2>
+      {rules && rules.length > 0
+        ? inputRules.map(rule => (
+            <div
+              key={rule.id}
+              style={{
+                width: "100%",
+                display: "flex",
+                displayDirection: "row",
+                marginLeft: "1em"
+              }}
+            >
+              <div style={{ flex: "1 1 auto" }}>{rule.name}</div>
+              <div style={{ flex: "0 0 10%", textAlign: "right" }}>
+                {rule.value}
+              </div>
+              <div style={{ flex: "0 0 20%", paddingLeft: "1em" }}>
+                {rule.units}
+              </div>
+              <div style={{ flex: "0 0 5%" }}>
+                <FontAwesomeIcon icon={faArrowRight} />
+              </div>
+              <div style={{ flex: "0 0 10%", textAlign: "right" }}>
+                {Math.round(rule.calcValue * 100) / 100}
+              </div>
+              <div style={{ flex: "0 0 10%", paddingLeft: "1em" }}>
+                {rule.calcUnits}
+              </div>
+            </div>
+          ))
+        : null}
+
+      {parkingRequired ? (
         <div
           style={{
             width: "100%",
             display: "flex",
             displayDirection: "row",
             fontWeight: "bold",
-            fontSize: "1.5em",
-            marginLeft: "0.75em"
+            marginLeft: "1em"
           }}
         >
-          <div style={{ flex: "1 1 auto" }}>{earnedPoints[0].name}</div>
+          <div style={{ flex: "1 1 auto" }}>{parkingRequired.name}</div>
           <div
             style={{
               flex: "0 0 10%",
@@ -270,7 +334,7 @@ const WizardReviewPanel = props => {
               borderTop: "2px solid black"
             }}
           >
-            {Math.round(earnedPoints[0].value * 100) / 100}
+            {Math.round(parkingRequired.value * 100) / 100}
           </div>
           <div
             style={{
@@ -279,7 +343,27 @@ const WizardReviewPanel = props => {
               borderTop: "2px solid black"
             }}
           >
-            {earnedPoints[0].units}
+            {parkingRequired.units}
+          </div>
+        </div>
+      ) : null}
+
+      {parkingProvided ? (
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            displayDirection: "row",
+            fontWeight: "bold",
+            marginLeft: "1em"
+          }}
+        >
+          <div style={{ flex: "1 1 auto" }}>{parkingProvided.name}</div>
+          <div style={{ flex: "0 0 10%", textAlign: "right" }}>
+            {Math.round(parkingProvided.value * 100) / 100}
+          </div>
+          <div style={{ flex: "0 0 10%", paddingLeft: "1em" }}>
+            {parkingProvided.units}
           </div>
         </div>
       ) : null}
