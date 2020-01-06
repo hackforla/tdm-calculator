@@ -34,7 +34,7 @@ const Login = props => {
       if (loginResponse.isSuccess) {
         setLoggedInAccount(loginResponse.user);
         toast.add('Login successful.')
-        history.push("/admin");
+        history.push("/calculation");
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
           await accountService.resendConfirmationEmail(email);
