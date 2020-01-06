@@ -6,7 +6,7 @@ import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "./SwitchViewButton";
 
 const TdmCalculation = props => {
-  const { rules, onInputChange, resultRuleCodes } = props;
+  const { rules, onInputChange, onPkgSelect, resultRuleCodes } = props;
   const [page, setPage] = useState(0);
   const projectRules =
     rules &&
@@ -60,6 +60,50 @@ const TdmCalculation = props => {
     rules &&
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
 
+  const showResidentialPkg = (() => {
+    // Only show button if Pricing/Unbundling strategy is available
+    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_1");
+    return triggerRule[0] && triggerRule[0].display;
+  })();
+
+  const showCommercialPkg = (() => {
+    // Only show button if Parking Cash-Out strategy is available
+    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_2");
+    return triggerRule[0] && triggerRule[0].display;
+  })();
+
+  const disabledResidentialPkg = (() => {
+    // Only enable button if
+    // component strategies are not already selected
+    const pkgRules = rules.filter(rule =>
+      ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_1"].includes(
+        rule.code
+      )
+    );
+
+    const strategyCount = pkgRules.reduce(
+      (count, r) => count + (!!r.value ? 1 : 0),
+      0
+    );
+    return strategyCount === 3;
+  })();
+
+  const disabledCommercialPkg = (() => {
+    // Only enable button if
+    // component strategies are not already selected
+    const pkgRules = rules.filter(rule =>
+      ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
+        rule.code
+      )
+    );
+
+    const strategyCount = pkgRules.reduce(
+      (count, r) => count + (!!r.value ? 1 : 0),
+      0
+    );
+    return strategyCount === 3;
+  })();
+
   return (
     <React.Fragment>
       <div
@@ -96,6 +140,7 @@ const TdmCalculation = props => {
                 <WizardRulePanels
                   rules={projectRules}
                   onInputChange={onInputChange}
+                  suppressHeader={true}
                 />
               </div>
             ) : rules && page === 1 ? (
@@ -109,6 +154,7 @@ const TdmCalculation = props => {
                 <WizardRulePanels
                   rules={landUseRules}
                   onInputChange={onInputChange}
+                  suppressHeader={true}
                 />
               </div>
             ) : page === 2 ? (
@@ -137,6 +183,7 @@ const TdmCalculation = props => {
                 <WizardRulePanels
                   rules={targetRules}
                   onInputChange={onInputChange}
+                  suppressHeader
                 />
               </div>
             ) : page === 4 ? (
@@ -147,6 +194,26 @@ const TdmCalculation = props => {
                 <h3 className="tdm-wizard-page-subtitle">
                   Select measures to earn TDM points
                 </h3>
+                <div style={{ textAlign: "center" }}>
+                  {showResidentialPkg ? (
+                    <button
+                      className="tdm-wizard-pkg-button"
+                      onClick={() => onPkgSelect("Residential")}
+                      disabled={disabledResidentialPkg}
+                    >
+                      Select Residential Package
+                    </button>
+                  ) : null}
+                  {showCommercialPkg ? (
+                    <button
+                      className="tdm-wizard-pkg-button"
+                      onClick={() => onPkgSelect("Commercial")}
+                      disabled={disabledCommercialPkg}
+                    >
+                      Select Commercial Package
+                    </button>
+                  ) : null}
+                </div>
                 <WizardRulePanels
                   rules={measureRules}
                   onInputChange={onInputChange}
