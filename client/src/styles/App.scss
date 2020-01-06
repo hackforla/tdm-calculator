@@ -294,52 +294,7 @@ button.link {
   color: $color-background;
 }
 
-.landing-page-hero-image-container {
-  background-image: url("../images/hero-image-shea-rouda-tk4qYI9Mm5A-unsplash.png");
-  background-color: $color-background;
-  height: 680px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
-}
-
-.landing-page-hero-image-text {
-  position: absolute; 
-  top: 40%; 
-  left: 5%;
-}
-
-.green-btn {
-  display: inline-block;
-  background: $color-highlight;
-  color: $color-primary;
-  line-height: 1;
-  font-size: 25px;
-  font-weight: bold;
-  padding: 20px 55px 20px 55px;
-  border: 0;
-  text-align: center;
-  width: initial;
-  margin-top: 15px;
-  -webkit-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
-}
-
-.landing-page-intro-container {
-  background-color: $color-background;
-  height: 500px;
-}
-
-.landing-page-center-text {
-  text-align: center;
-  margin: 10% auto;
-  width: 50%;
-  padding: 10px;
-}
-
 // add any override to the default styles in the individual component styles
 @import "./NavBar.scss";
 @import "./AuthForms.scss"; // Login and Register components
+@import "./LandingPage.scss";
