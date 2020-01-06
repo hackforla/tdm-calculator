@@ -33,7 +33,6 @@ const Login = props => {
 
       if (loginResponse.isSuccess) {
         setLoggedInAccount(loginResponse.user);
-        toast.add('Login successful.')
         history.push("/calculation");
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
@@ -70,7 +69,7 @@ const Login = props => {
         </div>
         <div className="tdm-wizard-content-container" style={{justifyContent: "center"}}>
         
-        <h1 style={{fontWeight: 500}}>Welcome to LA's TDM Calculator</h1>
+        <h1 style={{fontWeight: 500}}>Welcome to Los Angeles' TDM Calculator</h1>
         <h3 style={{fontWeight: 100}}>Please sign into your account to save progress.</h3>
         <br />
         <div className="auth-form">
@@ -113,6 +112,10 @@ const Login = props => {
                     className="invalid-feedback"
                   />
                 </div>
+                <div className="form-group auth-text">
+                  <Field name="keep-signed-in" component="input" type="checkbox" checked="true" /> Keep me signed in
+                  <Link className="auth-link forgot"to={`/forgot-password`}>Forgot password?</Link>
+                </div>
 
                 <button
                   type="submit"
@@ -121,13 +124,20 @@ const Login = props => {
                 >
                   {isSubmitting ? "Please wait..." : "Login"}
                 </button>
+              
+                <button className="btn-without-saving">
+                  <Link to="/calculation">Continue without saving</Link>
+                </button>
+                <div className="warning-without-saving">
+                  Your work will not be saved! We recommend logging in.
+                </div>
               </Form>
             )}
           </Formik>
         </div>
         <br/>
-        <div>
-          New to the site? <Link to={`/register`}>Register here.</Link>
+        <div className="auth-text">
+          New user? <Link className="auth-link" to={`/register`}>Create an account</Link>
         </div>
       </div>       
     </div>
