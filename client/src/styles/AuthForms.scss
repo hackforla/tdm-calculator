@@ -39,9 +39,23 @@
     background-color: white;
     border-color: $color-form-lightgrey;
     line-height: 1.5;
-    margin-bottom: 3em;
+    margin-bottom: 2em;
     padding: .75em;
     width: 100%;
+    cursor: pointer;
+  }
+
+  .warning-without-saving {
+    color: red;
+    visibility: hidden;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+
+  .btn-without-saving:hover {
+    &+.warning-without-saving{
+      visibility: visible;
+    }
   }
 }
 

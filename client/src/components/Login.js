@@ -119,16 +119,18 @@ const Login = props => {
 
                 <button
                   type="submit"
-                  className="btn-login"
+                  className="btn-submit"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Please wait..." : "Login"}
                 </button>
-                <button 
-                  className="btn-without-saving"
-                >
+              
+                <button className="btn-without-saving">
                   <Link to="/calculation">Continue without saving</Link>
                 </button>
+                <div className="warning-without-saving">
+                  Your work will not be saved! We recommend logging in.
+                </div>
               </Form>
             )}
           </Formik>
