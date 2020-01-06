@@ -98,6 +98,7 @@ a {
   color: #474747;
   text-decoration: none;
   outline: 0;
+  cursor: pointer;
 }
 
 ol,
@@ -156,17 +157,17 @@ input[type="radio"] {
   margin-right: 0;
 }
 
-.btn {
-  display: inline-block;
-  background: #014982;
-  color: #fff;
-  line-height: 1;
-  font-weight: bold;
-  padding: 1em;
-  border: 0;
-  text-align: center;
-  width: initial;
-}
+// .btn {
+//   display: inline-block;
+//   background: #014982;
+//   color: #fff;
+//   line-height: 1;
+//   font-weight: bold;
+//   padding: 1em;
+//   border: 0;
+//   text-align: center;
+//   width: initial;
+// }
 
 // default styles for  links, buttons, etc here?
 // import individual scss files below
@@ -191,7 +192,6 @@ button.link {
   background: none !important;
   border: none;
   padding: 0 !important;
-
   color: white;
   cursor: pointer;
   text-decoration: none;
