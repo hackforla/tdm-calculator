@@ -175,8 +175,8 @@ const Register = props => {
           </Formik>
         </div>
         <br/>
-        <div>
-          Already have an account? <Link to="/login">Login here.</Link>
+        <div className="auth-text">
+          Already have an account? <Link className="auth-link" to="/login">Log In</Link>
         </div>
       </div>
       </div>

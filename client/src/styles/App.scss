@@ -98,6 +98,7 @@ a {
   color: #474747;
   text-decoration: none;
   outline: 0;
+  cursor: pointer;
 }
 
 ol,
@@ -151,11 +152,6 @@ textarea {
   font-family: inherit;
   font-size: 100%;
   margin: 0 1px 0;
-  -webkit-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
 }
 
 input[type="checkbox"],
@@ -163,23 +159,6 @@ input[type="radio"] {
   width: auto;
   height: 1.2em;
   margin-right: 0.3em;
-}
-
-.btn {
-  display: inline-block;
-  background: #014982;
-  color: #fff;
-  line-height: 1;
-  font-weight: bold;
-  padding: 1em;
-  border: 0;
-  text-align: center;
-  width: initial;
-  -webkit-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
 }
 
 // default styles for  links, buttons, etc here?
@@ -205,7 +184,6 @@ button.link {
   background: none !important;
   border: none;
   padding: 0 !important;
-
   color: white;
   cursor: pointer;
   text-decoration: none;

@@ -1,29 +1,37 @@
+@import "./variables.scss";
 // for form inputs styles
 // use custom widths in respective components
 %form-inputs {
+  background-clip: padding-box;
+  background-color: white;
+  border: 1px solid lightgrey;
+  box-sizing: border-box;
+  color: $color-primary;
+  display: block;
+  font-family: $font;
+  font-size: 1rem;
+  font-weight: 400;
+  height: 2.9em;
+  line-height: 1.5;
   margin: 0.25em 0;
   padding: 0.7em;
-  border-radius: 0.25em;
-  border: 1px gray solid;
-  background-color: white;
-  height: 2.9em;
-  font-family: $main-font;
-  width: 100%;
 }
 
 //for buttons and React Links that look like buttons
 %button-shared {
-  max-width: 120px;
-  min-width: 100px;
-  min-height: 33px;
-  height: 100%;
-  text-decoration: none;
-  text-align: center;
-  margin: 0 0.4em;
-  padding: 4px 6px;
-  border-radius: 0.4em;
-  color: #404142;
+  background-color: $color-form-lightgrey;
+  border-color: $color-form-lightgrey; 
+  color: black;
   font-size: 1em;
   font-weight: bold;
-  font-family: "Open Sans";
+  height: 100%;
+  line-height: 1.5;
+  margin: .5em 0;
+  min-height: 33px;
+  min-width: 100px;
+  padding: 4px 6px;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  width: 100%;
 }
