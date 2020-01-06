@@ -39,6 +39,33 @@ class TdmCalculationContainer extends React.Component {
       });
   }
 
+  onPkgSelect = pkgType => {
+    let pkgRules = [];
+    if (pkgType === "Residential") {
+      pkgRules = this.state.rules.filter(rule =>
+        ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_1"].includes(
+          rule.code
+        )
+      );
+    } else {
+      pkgRules = this.state.rules.filter(rule =>
+        ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
+          rule.code
+        )
+      );
+    }
+
+    const modifiedInputs = pkgRules.reduce((changedProps, rule) => {
+      changedProps[rule.code] = true;
+      return changedProps;
+    }, {});
+    const formInputs = {
+      ...this.state.formInputs,
+      ...modifiedInputs
+    };
+    this.recalculate(formInputs);
+  };
+
   onInputChange = e => {
     const ruleCode = e.target.name;
     let value =
@@ -60,6 +87,10 @@ class TdmCalculationContainer extends React.Component {
       ...this.state.formInputs,
       [e.target.name]: value
     };
+    this.recalculate(formInputs);
+  };
+
+  recalculate = formInputs => {
     this.engine.run(formInputs, this.resultRuleCodes);
     const rules = this.engine.showRulesArray();
     // update state with modified formInputs and rules
@@ -81,6 +112,7 @@ class TdmCalculationContainer extends React.Component {
           <TdmCalculationWizard
             rules={rules}
             onInputChange={this.onInputChange}
+            onPkgSelect={this.onPkgSelect}
             resultRuleCodes={this.resultRuleCodes}
             onViewChange={() => this.setState({ view: "Default" })}
           />
@@ -88,6 +120,7 @@ class TdmCalculationContainer extends React.Component {
           <TdmCalculation
             rules={rules}
             onInputChange={this.onInputChange}
+            onPkgSelect={this.onPkgSelect}
             resultRuleCodes={this.resultRuleCodes}
             onViewChange={() => this.setState({ view: "Wizard" })}
           />

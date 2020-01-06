@@ -42,12 +42,26 @@ class Engine {
         }
       }
 
+      // set display property of each rule based upon land uses
+      for (const property in this.rules) {
+        this.calcDisplay(property);
+        // if a rule is not displayed, set its value to null
+        const rule = this.rules[property];
+        if (!rule.display && rule.category !== "calculation") {
+          rule.value = null;
+          // Also null out the formInput property
+          formInputs[property] = null;
+        }
+      }
+
       // Recursively calculate the root rule
       const results = {};
       for (let i = 0; i < ruleCodes.length; i++) {
         results[ruleCodes[i]] = this.executeCalc(ruleCodes[i]);
       }
 
+      // Match up inputs or measures with the primary calculation
+      // they affect, for display next to input/measure
       for (const property in this.rules) {
         this.rules[property].calcValue = this.rules[property].calcCode
           ? this.rules[this.rules[property].calcCode].value
@@ -56,8 +70,6 @@ class Engine {
         this.rules[property].calcUnits = this.rules[property].calcCode
           ? this.rules[this.rules[property].calcCode].units
           : null;
-
-        this.calcDisplay(property);
       }
 
       return results;
