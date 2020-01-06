@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const WizardRuleInput = ({
+const WizardRuleMeasure = ({
   rule: {
     id,
     calculationId,
@@ -11,6 +11,8 @@ const WizardRuleInput = ({
     dataType,
     value,
     units,
+    minValue,
+    maxValue,
     functionBody,
     displayOrder,
     cssClass,
@@ -19,7 +21,9 @@ const WizardRuleInput = ({
     panelDisplayOrder,
     choices,
     calcValue,
-    calcUnits
+    calcUnits,
+    calcMinValue,
+    calcMaxValue
   },
   onInputChange
 }) => {
@@ -30,7 +34,6 @@ const WizardRuleInput = ({
           style={{
             minWidth: "60vw",
             margin: "0.2em",
-            marginBottom: "0.4em",
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
@@ -39,7 +42,7 @@ const WizardRuleInput = ({
         >
           <div
             style={{
-              flexBasis: "50%",
+              flexBasis: "60%",
               flexGrow: "1",
               flexShrink: "1"
             }}
@@ -48,9 +51,10 @@ const WizardRuleInput = ({
           </div>
           <div
             style={{
-              flexBasis: "20%",
+              flexBasis: "40%",
               flexGrow: "1",
-              flexShrink: "1"
+              flexShrink: "1",
+              textAlign: "right"
             }}
           >
             <input
@@ -59,17 +63,9 @@ const WizardRuleInput = ({
               value={value || ""}
               onChange={onInputChange}
               name={code}
+              min={minValue}
+              max={maxValue}
             />
-          </div>
-          <div
-            style={{
-              flexBasis: "20%",
-              marginLeft: "1em",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
-            {units}
           </div>
           <div
             style={{
@@ -78,7 +74,25 @@ const WizardRuleInput = ({
               marginRight: "0.5em",
               textAlign: "right",
               flexGrow: "0",
-              flexShrink: "1"
+              flexShrink: "0"
+            }}
+          >
+            {calcMinValue === calcMaxValue
+              ? `${Math.round(calcMinValue).toString()}`
+              : calcMinValue < calcMaxValue
+              ? `${Math.round(calcMinValue).toString()}-${Math.round(
+                  calcMaxValue
+                ).toString()}`
+              : null}
+          </div>
+          <div
+            style={{
+              flexBasis: "10%",
+              marginLeft: "1em",
+              marginRight: "0.5em",
+              textAlign: "right",
+              flexGrow: "0",
+              flexShrink: "0"
             }}
           >
             {`${
@@ -94,7 +108,7 @@ const WizardRuleInput = ({
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            alignItems: "baseline"
+            alignItems: "center"
           }}
         >
           <div
@@ -106,27 +120,25 @@ const WizardRuleInput = ({
           >
             {name}
           </div>
-          <input
-            type="checkbox"
-            style={{
-              flexBasis: "10%",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-            value={true}
-            checked={!!value}
-            onChange={onInputChange}
-            name={code}
-          />
           <div
             style={{
               flexBasis: "10%",
-              marginLeft: "1em",
               flexGrow: "0",
-              flexShrink: "1"
+              flexShrink: "0",
+              marginRight: "0",
+              padding: "0",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end"
             }}
           >
-            {units}
+            <input
+              type="checkbox"
+              value={true}
+              checked={!!value}
+              onChange={onInputChange}
+              name={code}
+            />
           </div>
           <div
             style={{
@@ -135,7 +147,25 @@ const WizardRuleInput = ({
               marginRight: "0.5em",
               textAlign: "right",
               flexGrow: "0",
-              flexShrink: "1"
+              flexShrink: "0"
+            }}
+          >
+            {calcMinValue === calcMaxValue
+              ? `${Math.round(calcMinValue).toString()}`
+              : calcMinValue < calcMaxValue
+              ? `${Math.round(calcMinValue).toString()}-${Math.round(
+                  calcMaxValue
+                ).toString()}`
+              : null}
+          </div>
+          <div
+            style={{
+              flexBasis: "10%",
+              marginLeft: "1em",
+              marginRight: "0.5em",
+              textAlign: "right",
+              flexGrow: "0",
+              flexShrink: "0"
             }}
           >
             {`${
@@ -156,25 +186,34 @@ const WizardRuleInput = ({
         >
           <div
             style={{
-              flexBasis: "45%",
+              flexBasis: "40%",
               flexGrow: "1",
               flexShrink: "1"
             }}
           >
             {name}
           </div>
-          <select
-            style={{ flexBasis: "45%", flexGrow: "1", flexShrink: "1" }}
-            value={value || ""}
-            onChange={onInputChange}
-            name={code}
+          <div
+            style={{
+              flexBasis: "40%",
+              flexGrow: "1",
+              flexShrink: "1",
+              textAlign: "right"
+            }}
           >
-            {choices.map(choice => (
-              <option key={choice.id} value={choice.id}>
-                {choice.name}
-              </option>
-            ))}
-          </select>
+            <select
+              width="100%"
+              value={value || ""}
+              onChange={onInputChange}
+              name={code}
+            >
+              {choices.map(choice => (
+                <option key={choice.id} value={choice.id}>
+                  {choice.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div
             style={{
               flexBasis: "10%",
@@ -182,7 +221,25 @@ const WizardRuleInput = ({
               marginRight: "0.5em",
               textAlign: "right",
               flexGrow: "0",
-              flexShrink: "1"
+              flexShrink: "0"
+            }}
+          >
+            {calcMinValue === calcMaxValue
+              ? `${Math.round(calcMinValue).toString()}`
+              : calcMinValue < calcMaxValue
+              ? `${Math.round(calcMinValue).toString()}-${Math.round(
+                  calcMaxValue
+                ).toString()}`
+              : null}
+          </div>
+          <div
+            style={{
+              flexBasis: "10%",
+              marginLeft: "1em",
+              marginRight: "0.5em",
+              textAlign: "right",
+              flexGrow: "0",
+              flexShrink: "0"
             }}
           >
             {`${
@@ -246,15 +303,24 @@ const WizardRuleInput = ({
             style={{ flexBasis: "10%", flexGrow: "0", flexShrink: "1" }}
             name={code}
           ></div>
+
           <div
             style={{
               flexBasis: "10%",
               marginLeft: "1em",
+              marginRight: "0.5em",
+              textAlign: "right",
               flexGrow: "0",
               flexShrink: "1"
             }}
           >
-            {units}
+            {calcMinValue === calcMaxValue
+              ? `${Math.round(calcMinValue).toString()}`
+              : calcMinValue < calcMaxValue
+              ? `${Math.round(calcMinValue).toString()}-${Math.round(
+                  calcMaxValue
+                ).toString()}`
+              : null}
           </div>
           <div
             style={{
@@ -276,7 +342,7 @@ const WizardRuleInput = ({
   );
 };
 
-WizardRuleInput.propTypes = {
+WizardRuleMeasure.propTypes = {
   rule: PropTypes.shape({
     id: PropTypes.number.isRequired,
     calculationId: PropTypes.number.isRequired,
@@ -296,4 +362,4 @@ WizardRuleInput.propTypes = {
   onInputChange: PropTypes.func
 };
 
-export default WizardRuleInput;
+export default WizardRuleMeasure;

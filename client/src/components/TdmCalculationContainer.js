@@ -11,8 +11,8 @@ class TdmCalculationContainer extends React.Component {
   // These are the calculation results we want to calculate
   // and display on the main page.
   resultRuleCodes = [
-    "PARK_REQUIREMENT",
-    "PARK_SPACES",
+    "PROJECT_LEVEL",
+    "CALC_PARK_RATIO",
     "TARGET_POINTS_PARK",
     "PTS_EARNED"
   ];

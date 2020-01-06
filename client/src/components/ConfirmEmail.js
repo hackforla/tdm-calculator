@@ -11,15 +11,6 @@ const ConfirmEmail = props => {
   const token = props.match.params.token;
   const toast = useToast();
 
-  const confirmEmail = async token => {
-    const result = await accountService.confirmRegister(token);
-    setConfirmResult(result);
-    if (result.success) {
-      toast.add(`Your email has been confirmed. Please log in.`);
-      history.push(`/login/${encodeURIComponent(result.email)}`);
-    }
-  };
-
   const resendConfirmationEmail = async evt => {
     evt.preventDefault();
     await accountService.resendConfirmationEmail(email);
@@ -27,10 +18,18 @@ const ConfirmEmail = props => {
   };
 
   useEffect(() => {
+    const confirmEmail = async token => {
+      const result = await accountService.confirmRegister(token);
+      setConfirmResult(result);
+      if (result.success) {
+        toast.add(`Your email has been confirmed. Please log in.`);
+        history.push(`/login/${encodeURIComponent(result.email)}`);
+      }
+    };
     if (token) {
       confirmEmail(token);
     }
-  }, [token]);
+  }, [token, history, toast]);
 
   return (
     <React.Fragment>
