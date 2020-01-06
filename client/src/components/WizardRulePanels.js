@@ -1,6 +1,7 @@
 import React from "react";
 
-import WizardRuleList from "./WizardRuleList";
+import WizardRuleInputList from "./WizardRuleInputList";
+import WizardRuleMeasureList from "./WizardRuleMeasureList";
 
 const WizardRulePanels = props => {
   const { rules, suppressHeader } = props;
@@ -26,11 +27,19 @@ const WizardRulePanels = props => {
               }}
             >
               {!suppressHeader ? <h4>{rules[0].panelName}</h4> : null}
-              <WizardRuleList
-                key={rules[0].calculationPanelId}
-                rules={rules}
-                onInputChange={props.onInputChange}
-              />
+              {rules[0].category === "input" ? (
+                <WizardRuleInputList
+                  key={rules[0].calculationPanelId}
+                  rules={rules}
+                  onInputChange={props.onInputChange}
+                />
+              ) : (
+                <WizardRuleMeasureList
+                  key={rules[0].calculationPanelId}
+                  rules={rules}
+                  onInputChange={props.onInputChange}
+                />
+              )}
             </div>
           ))
         : null}

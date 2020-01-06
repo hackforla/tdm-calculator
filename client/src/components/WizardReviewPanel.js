@@ -35,17 +35,6 @@ const WizardReviewPanel = props => {
   const targetPoints = getRule("TARGET_POINTS_PARK");
   const earnedPoints = getRule("PTS_EARNED");
 
-  const projectRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.used &&
-        rule.display &&
-        rule.calculationPanelId === 31 &&
-        (!!rule.value || !!rule.calcValue)
-    );
-
   const measureRules =
     rules &&
     rules.filter(
@@ -94,7 +83,6 @@ const WizardReviewPanel = props => {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "center",
           justifyContent: "space-evenly"
         }}
       >
@@ -253,7 +241,8 @@ const WizardReviewPanel = props => {
                 {rule.dataType === "boolean" ? (
                   <FontAwesomeIcon icon={faCheck} />
                 ) : rule.dataType === "choice" ? (
-                  rule.choices.filter(choice => choice.id == rule.value)[0].name
+                  rule.choices.filter(choice => choice.id === rule.value)[0]
+                    .name
                 ) : (
                   rule.value
                 )}

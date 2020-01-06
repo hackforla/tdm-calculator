@@ -25,12 +25,16 @@ const RulePanels = props => {
                 margin: "0.5em"
               }}
             >
-              <h4>{rules[0].panelName}</h4>{" "}
-              <RuleList
-                key={rules[0].calculationPanelId}
-                rules={rules}
-                onInputChange={props.onInputChange}
-              />
+              <fieldset>
+                <legend style={{ fontWeight: "bold" }}>
+                  {rules[0].panelName}
+                </legend>
+                <RuleList
+                  key={rules[0].calculationPanelId}
+                  rules={rules}
+                  onInputChange={props.onInputChange}
+                />
+              </fieldset>
             </div>
           ))
         : null}

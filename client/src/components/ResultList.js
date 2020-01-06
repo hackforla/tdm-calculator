@@ -6,6 +6,9 @@ const ResultList = props => {
   return (
     <div
       style={{
+        flexGrow: "1",
+        flexShrink: "1",
+        flexBasis: "80%",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
