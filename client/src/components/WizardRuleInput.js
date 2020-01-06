@@ -11,6 +11,8 @@ const WizardRuleInput = ({
     dataType,
     value,
     units,
+    minValue,
+    maxValue,
     functionBody,
     displayOrder,
     cssClass,
@@ -59,6 +61,8 @@ const WizardRuleInput = ({
               value={value || ""}
               onChange={onInputChange}
               name={code}
+              min={minValue}
+              max={maxValue}
             />
           </div>
           <div
