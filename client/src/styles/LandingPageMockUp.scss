@@ -1,0 +1,40 @@
+.mock-up-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.big-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+    height: 90%;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 85%;
+    height: 90%;
+}
+
+.small-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: right;
+    width: 100%;
+    height: 40%;
+    font-size: 22px;
+}
+
+.mock-up-icon {
+    padding-top: 0.5em;
+    padding-left: 0.8em;
+}

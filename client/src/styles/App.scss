@@ -1,3 +1,4 @@
+@import "./reset.scss";
 @import "_variables.scss";
 // import scss files below
 
@@ -197,3 +198,9 @@ button.link {
 @import "./NavBar.scss";
 @import "./AuthForms.scss"; // Login and Register components
 @import "./Calculation.scss";
+@import "./LandingPageHeroImage.scss";
+@import "./LandingPageIntro.scss";
+@import "./LandingPageWhyLATDM.scss";
+@import "./LandingPageMockUp.scss";
+@import "./LandingPageResidentialDev.scss";
+@import "./LandingPageEnd";

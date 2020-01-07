@@ -10,6 +10,7 @@ import Register from "./components/Register";
 import ConfirmEmail from "./components/ConfirmEmail";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
+import LandingPage from "./components/LandingPage";
 import "./styles/App.scss";
 import axios from "axios";
 import { createBrowserHistory } from "history";
@@ -83,7 +84,7 @@ class App extends React.Component {
               flexDirection: "column"
             }}
           >
-            <Route exact path="/" component={TdmCalculationContainer} />
+            <Route exact path="/" component={LandingPage} />
             <Route path="/calculation" component={TdmCalculationContainer} />
             <Route path="/about" component={About} />
             <Route path="/register/:email?" component={Register} />
