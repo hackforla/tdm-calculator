@@ -1,3 +1,4 @@
+@import './reset.scss';
 @import "_variables.scss";
 // import scss files below
 
@@ -369,3 +370,4 @@ button.link {
 // add any override to the default styles in the individual component styles
 @import "./NavBar.scss";
 @import "./AuthForms.scss"; // Login and Register components
+
