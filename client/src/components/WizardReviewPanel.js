@@ -60,6 +60,7 @@ const WizardReviewPanel = props => {
 
   return (
     <div
+      className="tdm-wizard-review-page"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -104,7 +105,7 @@ const WizardReviewPanel = props => {
                 fontSize: "3em"
               }}
             >
-              {Math.round(targetPoints.value * 100) / 100}
+              {Math.round(targetPoints.value)}
             </div>
             <div
               style={{
@@ -135,7 +136,7 @@ const WizardReviewPanel = props => {
                 fontSize: "3em"
               }}
             >
-              {Math.round(earnedPoints.value * 100) / 100}
+              {Math.round(earnedPoints.value)}
             </div>
             <div
               style={{
@@ -175,7 +176,7 @@ const WizardReviewPanel = props => {
                 fontSize: "3em"
               }}
             >
-              {Math.round(parkingRatio.value * 100) / 100}
+              {`${Math.floor(parkingRatio.value).toString()} %`}
             </div>
             <div
               style={{
@@ -207,7 +208,7 @@ const WizardReviewPanel = props => {
                 fontSize: "3em"
               }}
             >
-              {Math.round(level.value * 100) / 100}
+              {level.value}
             </div>
             <div
               style={{
