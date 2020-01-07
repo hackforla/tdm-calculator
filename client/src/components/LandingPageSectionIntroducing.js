@@ -2,7 +2,7 @@ import React from "react";
 
 const LandingPageSectionIntroducing = props => {
     return (
-        <div className="landing-page-intro-container">
+        <div className="landing-page-container">
             <div className="landing-page-center-text">
                 <h2>Introducing</h2>
                 <h1>LA TDM</h1>
