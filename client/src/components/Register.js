@@ -1,9 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import * as accountService from "../services/account-service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link, withRouter } from "react-router-dom";
 import * as Yup from "yup";
-import { useToast } from "../contexts/Toast";
 
 const Register = props => {
   const { match } = props;
@@ -14,6 +13,8 @@ const Register = props => {
     password: "",
     passwordConfirm: ""
   };
+
+  const [errorMsg, setErrorMsg] = useState("")
 
   const registerSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -29,8 +30,6 @@ const Register = props => {
       .oneOf([Yup.ref("password")], "Password does not match")
   });
 
-  const toast = useToast()
-
   const handleSubmit = async (
     { firstName, lastName, email, password },
     { setSubmitting, resetForm, setErrors },
@@ -44,23 +43,23 @@ const Register = props => {
         password
       );
       if (response.isSuccess) {
-        toast.add(`An confirmation email has been sent to ${email}. 
+        setErrorMsg(`An confirmation email has been sent to ${email}. 
           Please check for a verification link and use it to confirm 
           that you own this email address.`)
         history.push("/login/" + email);
       } else if (response.code === "REG_DUPLICATE_EMAIL") {
-        toast.add(`The email ${email} is already registered. Please 
+        setErrorMsg(`The email ${email} is already registered. Please 
           login or use the Forgot Password feature if you have 
           forgotten your password.`)
         setSubmitting(false);
       } else {
-        toast.add(`An error occurred in sending the confirmation 
+        setErrorMsg(`An error occurred in sending the confirmation 
           message to ${email}. Try to log in, and follow the 
           instructions for re-sending the confirmation email.`)
         setSubmitting(false);
       }
     } catch (err) {
-      toast.add(err.message)
+      setErrorMsg(err.message)
       setSubmitting(false);
     }
     // TODO: figure out if there is a scanrio where you actually
@@ -170,13 +169,17 @@ const Register = props => {
               >
                 {isSubmitting ? "Please wait..." : "Create Account"}
               </button>
+              <div className="warning">
+                <br />
+                {errorMsg}
+              </div>
             </Form>
           )}
           </Formik>
         </div>
         <br/>
         <div className="auth-text">
-          Already have an account? <Link className="auth-link" to="/login">Log In</Link>
+          Already have an account? &nbsp; <Link className="auth-link" to="/login">Log In</Link>
         </div>
       </div>
       </div>

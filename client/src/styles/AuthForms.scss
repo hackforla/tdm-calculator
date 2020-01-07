@@ -1,4 +1,26 @@
 @import "./_partials.scss";
+
+
+.auth-text {
+  color: $color-darkgrey;
+
+  :nth-child(1) {
+    float: right;
+  }
+
+  .auth-link{
+    color: $color-darkgrey;
+    text-decoration: underline;
+  }
+}
+
+.warning {
+  color: red;
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+
 .auth-form {
   max-width: 600px;
   min-width: 500px;
@@ -39,36 +61,18 @@
     background-color: white;
     border-color: $color-form-lightgrey;
     line-height: 1.5;
-    margin-bottom: 2em;
     padding: .75em;
     width: 100%;
     cursor: pointer;
   }
 
-  .warning-without-saving {
-    color: red;
+  .without-saving {
     visibility: hidden;
-    text-align: center;
-    margin-bottom: 1em;
   }
 
   .btn-without-saving:hover {
-    &+.warning-without-saving{
+    &+.warning>.without-saving{
       visibility: visible;
     }
   }
 }
-
-.auth-text {
-  color: $color-darkgrey;
-
-  :nth-child(2) {
-    float: right;
-  }
-
-  .auth-link{
-    color: $color-darkgrey;
-    text-decoration: underline;
-  }
-}
-

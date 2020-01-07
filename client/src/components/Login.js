@@ -1,18 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as accountService from "../services/account-service";
-import { useToast } from "../contexts/Toast";
 
 const Login = props => {
+  const [errorMsg, setErrorMsg] = useState("")
+
   const { setLoggedInAccount, match } = props;
   const initialValues = {
     email: match.params.email ? decodeURIComponent(match.params.email) : "",
     password: ""
   };
-
-  const toast = useToast();
 
   const loginSchema = Yup.object().shape({
     email: Yup.string()
@@ -37,31 +36,29 @@ const Login = props => {
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
           await accountService.resendConfirmationEmail(email);
-          toast.add(`Your email has not been confirmed.
-            Please look through your email for a Registration
-            Confirmation link and use it to confirm that you
-            own this email address.`);
+          setErrorMsg(`Your email has not been confirmed.
+          Please look through your email for a Registration
+          Confirmation link and use it to confirm that you
+          own this email address.`)
           setSubmitting(false);
         } catch (err) {
-          toast.add(
-            `An internal error occurred in sending an email to ${email}. `,
-            err.message
-          );
+          setErrorMsg(`An internal error occurred in sending an email to ${email}. `,
+          err.message)
           setSubmitting(false);
         }
       } else if (loginResponse.code === "AUTH_NO_ACCOUNT") {
-        toast.add(`The email ${email} does not correspond to an
-          existing account. Please verify the email or register as a
-          new account.`);
+        setErrorMsg(`The email ${email} does not correspond to an
+        existing account. Please verify the email or register as a
+        new account.`)
         setSubmitting(false);
       } else {
         // Presumably loginResponse.code === "AUTH_INVALID_PASSWORD"
-        toast.add(`The password is incorrect, please check it
-          and try again or use the Forgot Password feature.`);
+        setErrorMsg(`The password is incorrect, please check it
+        and try again or use the Forgot Password feature.`)
         setSubmitting(false);
       }
     } catch (err) {
-      toast.add(err.message);
+      setErrorMsg(err.message)
     }
   };
 
@@ -126,13 +123,13 @@ const Login = props => {
                     />
                   </div>
                   <div className="form-group auth-text">
-                    <Field
+                    {/* <Field
                       name="keep-signed-in"
                       component="input"
                       type="checkbox"
                       checked="true"
                     />{" "}
-                    Keep me signed in
+                    Keep me signed in */}
                     <Link className="auth-link forgot" to={`/forgot-password`}>
                       Forgot password?
                     </Link>
@@ -149,8 +146,13 @@ const Login = props => {
                   <button className="btn-without-saving">
                     <Link to="/calculation">Continue without saving</Link>
                   </button>
-                  <div className="warning-without-saving">
-                    Your work will not be saved! We recommend logging in.
+                  <div className="warning">
+                    <p className="without-saving">
+                      Your work will not be saved! We recommend logging in.
+                    </p>
+                    <p>
+                      {errorMsg}
+                    </p>
                   </div>
                 </Form>
               )}
@@ -158,7 +160,7 @@ const Login = props => {
           </div>
           <br />
           <div className="auth-text">
-            New user?{" "}
+            New user? &nbsp;
             <Link className="auth-link" to={`/register`}>
               Create an account
             </Link>
