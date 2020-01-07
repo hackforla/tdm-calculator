@@ -11,7 +11,8 @@ const NavBar = props => {
         flexShrink: "0",
         flexBasis: "content",
         padding: "0.1em",
-        display: "flex",
+        // display: "flex",
+        display: 'none',
         flexDirection: "row",
         justifyContent: "space-between",
         listStyleType: "none"
