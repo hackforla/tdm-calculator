@@ -215,6 +215,19 @@ button.link {
   background-repeat: repeat-y;
 }
 
+.tdm-wizard-review-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 60vw;
+}
+
+@media print {
+  .tdm-wizard-review-page {
+    font-size: 1.5em;
+  }
+}
+
 .tdm-wizard-sidebar {
   margin: 0;
 
@@ -244,12 +257,24 @@ button.link {
   font-style: normal;
 }
 
+@media print {
+  .tdm-wizard-page-title {
+    font-size: 2em;
+  }
+}
+
 .tdm-wizard-page-subtitle {
   margin-top: 0.5em;
   text-align: center;
   font-size: 20px;
   font-weight: normal;
   font-style: normal;
+}
+
+@media print {
+  .tdm-wizard-page-subtitle {
+    font-size: 1.5em;
+  }
 }
 
 .tdm-wizard-nav-button {
