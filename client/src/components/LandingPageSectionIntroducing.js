@@ -1,4 +1,9 @@
 import React from "react";
+import planning from "../images/planning.svg";
+import checklist from "../images/checklist.svg";
+import computer from "../images/computer.svg";
+import handshake from "../images/handshake.svg";
+import construction from "../images/construction.svg";
 
 const LandingPageSectionIntroducing = props => {
     return (
@@ -10,19 +15,19 @@ const LandingPageSectionIntroducing = props => {
             </div>
             <div className="intro-icon-container">
                 <div className="intro-icon-item">
-                    <img src="" alt="icon" width="80px" height="80px" />
+                    <img src={planning} alt="planning-icon" />
                 </div>
                 <div className="intro-icon-item">
-                    <img src="" alt="icon" width="80px" height="80px" />
+                    <img src={checklist} alt="checklist-icon" />
                 </div>
                 <div className="intro-icon-item">
-                    <img src="" alt="icon" width="80px" height="80px" />
+                    <img src={computer} alt="computer-icon" />
                 </div>
                 <div className="intro-icon-item">
-                    <img src="" alt="icon" width="80px" height="80px" />
+                    <img src={handshake} alt="handshake-icon" />
                 </div>
                 <div className="intro-icon-item">
-                    <img src="" alt="icon" width="80px" height="80px" />
+                    <img src={construction} alt="construction-icon" />
                 </div>
             </div>
         </div>
