@@ -31,28 +31,3 @@
     -o-border-radius: 5px;
     border-radius: 5px;
 }
-
-.landing-page-container {
-    background-color: $color-background;
-    padding-top: 3em;
-    padding-bottom: 3em;
-}
-
-.landing-page-center-text {
-    text-align: center;
-    margin: 0 auto;
-    width: 50%;
-    padding-top: 1em;
-    padding-bottom: 1em;
-}
-
-.intro-icon-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.intro-icon-item {
-    margin: 20px;
-}
