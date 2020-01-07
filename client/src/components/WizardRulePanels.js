@@ -1,9 +1,10 @@
 import React from "react";
 
-import WizardRuleList from "./WizardRuleList";
+import WizardRuleInputList from "./WizardRuleInputList";
+import WizardRuleMeasureList from "./WizardRuleMeasureList";
 
 const WizardRulePanels = props => {
-  const { rules } = props;
+  const { rules, suppressHeader } = props;
   const panelIds = rules.reduce((acc, rule) => {
     if (!acc.includes(rule.calculationPanelId)) {
       acc.push(rule.calculationPanelId);
@@ -25,12 +26,20 @@ const WizardRulePanels = props => {
                 margin: "0.5em"
               }}
             >
-              <h4>{rules[0].panelName}</h4>{" "}
-              <WizardRuleList
-                key={rules[0].calculationPanelId}
-                rules={rules}
-                onInputChange={props.onInputChange}
-              />
+              {!suppressHeader ? <h4>{rules[0].panelName}</h4> : null}
+              {rules[0].category === "input" ? (
+                <WizardRuleInputList
+                  key={rules[0].calculationPanelId}
+                  rules={rules}
+                  onInputChange={props.onInputChange}
+                />
+              ) : (
+                <WizardRuleMeasureList
+                  key={rules[0].calculationPanelId}
+                  rules={rules}
+                  onInputChange={props.onInputChange}
+                />
+              )}
             </div>
           ))
         : null}

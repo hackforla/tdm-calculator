@@ -42,24 +42,43 @@ class Engine {
         }
       }
 
+      // set display property of each rule based upon land uses
+      for (const property in this.rules) {
+        this.calcDisplay(property);
+        // if a rule is not displayed, set its value to null
+        const rule = this.rules[property];
+        if (!rule.display && rule.category !== "calculation") {
+          rule.value = null;
+          // Also null out the formInput property
+          formInputs[property] = null;
+        }
+      }
+
       // Recursively calculate the root rule
       const results = {};
       for (let i = 0; i < ruleCodes.length; i++) {
         results[ruleCodes[i]] = this.executeCalc(ruleCodes[i]);
       }
 
+      // Match up inputs or measures with the primary calculation
+      // they affect, for display next to input/measure
       for (const property in this.rules) {
-        this.rules[property].calcValue = this.rules[property].calcCode
-          ? this.rules[this.rules[property].calcCode].value
-          : null;
-
-        this.rules[property].calcUnits = this.rules[property].calcCode
-          ? this.rules[this.rules[property].calcCode].units
-          : null;
-
-        this.calcDisplay(property);
+        const rule = this.rules[property];
+        const calcRule = this.rules[rule.calcCode];
+        if (calcRule) {
+          rule.calcValue = calcRule.value;
+          rule.calcUnits = calcRule.units;
+          rule.calcMinValue = calcRule.minValue;
+          rule.calcMaxValue = calcRule.maxValue;
+        } else {
+          rule.calcValue = null;
+          rule.calcUnits = null;
+          rule.calcMinValue = null;
+          rule.calcMaxValue = null;
+        }
       }
-
+      // For debugging
+      console.log(this.rules);
       return results;
     } catch (err) {
       console.log(err);

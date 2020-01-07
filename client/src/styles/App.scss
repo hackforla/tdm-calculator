@@ -99,6 +99,7 @@ a {
   color: #474747;
   text-decoration: none;
   outline: 0;
+  cursor: pointer;
 }
 
 ol,
@@ -122,11 +123,6 @@ fieldset {
   border: 1px solid #e0e0e0;
   padding: 1.5em;
   margin: 0;
-  -webkit-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
 }
 
 legend {
@@ -152,35 +148,14 @@ textarea {
   font-family: inherit;
   font-size: 100%;
   margin: 0 1px 0;
-  -webkit-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
 }
 
 input[type="checkbox"],
 input[type="radio"] {
   width: auto;
-  height: 1.2em;
-  margin-right: 0.3em;
-}
-
-.btn {
-  display: inline-block;
-  background: #014982;
-  color: #fff;
-  line-height: 1;
-  font-weight: bold;
-  padding: 1em;
-  border: 0;
-  text-align: center;
-  width: initial;
-  -webkit-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+  height: 1.3em;
+  width: 1.3em;
+  margin-right: 0;
 }
 
 // default styles for  links, buttons, etc here?
@@ -206,7 +181,6 @@ button.link {
   background: none !important;
   border: none;
   padding: 0 !important;
-
   color: white;
   cursor: pointer;
   text-decoration: none;
@@ -236,7 +210,7 @@ button.link {
 
 // Photo by Silvia Brazzoduro on Unsplash
 .tdm-wizard {
-  background-image: url("../images/hardhats.jpg");
+  background-image: url("../images/hard-hats-silvia-brazzoduro.png");
   background-size: 387px 929px;
   background-repeat: repeat-y;
 }
@@ -276,6 +250,49 @@ button.link {
   font-size: 20px;
   font-weight: normal;
   font-style: normal;
+}
+
+.tdm-wizard-nav-button {
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  padding-top: 0.35em;
+  padding-bottom: 0.35em;
+  background-color: $color-highlight;
+  display: inline;
+  margin: 0.5em;
+  font-weight: bold;
+  font-size: 2em;
+  box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
+  text-align: center;
+}
+
+.tdm-wizard-nav-button-disabled {
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  padding-top: 0.35em;
+  padding-bottom: 0.35em;
+  display: inline;
+  margin: 0.5em;
+  font-weight: bold;
+  font-size: 2em;
+  text-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
+  text-align: center;
+}
+
+.tdm-wizard-pkg-button {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  background-color: $color-highlight;
+  display: inline;
+  margin: 0.25em;
+  font-weight: normal;
+  font-size: 1em;
+  box-shadow: 0px 4px 2px rgba(0, 46, 109, 0.3);
+  text-align: center;
+  border: 0;
+  border-radius: 0;
 }
 
 .tdm-wizard-content-container {

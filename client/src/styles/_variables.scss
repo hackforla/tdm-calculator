@@ -6,13 +6,17 @@ $font: Calibri, Arial, sans-serif;
 $color-primary: #002e6d; // LADOT Blue
 $color-secondary: black;
 $color-background: white;
+$color-lightgrey: #D8D8D8;
+$color-darkgrey: #979797;
+$color-form-lightgrey: $color-lightgrey;
 
 // variable colors here can reference the ladot variables that are imported in
 // purpose: to be able to use our own variable names that are more descriptive/meaningful for our use cases
 // for example: $color-link: $color-bicycle-2; which will use the $color-bicycle-2 color for links/a tags
 
 // using temp color variables until we get feedback/wireframes from ui/ux designers:
-$color-link: $color-express-park-1;
+// $color-link: $color-express-park-1 ;
 $color-button: $color-express-park-9;
+
 
 $color-highlight: #a7c539; // Color for Prev/Next Wizard buttons
