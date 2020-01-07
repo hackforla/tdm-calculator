@@ -1,14 +1,25 @@
 .res-dev-container {
     display: flex;
-    justify-content: space-evenly;
+    min-height: 80px;
 }
 
 .res-dev-column-1 {
+    display: flex;
     background-color: $color-highlight;
+    width: 50%;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
 }
 
 .res-dev-column-2 {
+    display: flex;
     background-color: $color-primary;
+    width: 50%;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+
     a {
         color: white;
         text-decoration: underline;
