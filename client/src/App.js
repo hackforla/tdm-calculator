@@ -63,7 +63,7 @@ class App extends React.Component {
     return (
       <div
         style={{
-          height: "95vh",
+          height: "100%",
           margin: "0",
           display: "flex",
           flexDirection: "column",

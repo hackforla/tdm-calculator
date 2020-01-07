@@ -109,7 +109,7 @@ const TdmCalculation = props => {
       <div
         className="tdm-wizard"
         style={{
-          flex: "1 0 auto",
+          flex: "1 1 auto%",
           display: "flex",
           flexDirection: "row"
         }}
