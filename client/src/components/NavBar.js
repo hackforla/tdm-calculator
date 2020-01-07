@@ -18,14 +18,17 @@ const NavBar = props => {
       }}
     >
       <li>
-        <Link to="/calculation">Calculation</Link>
+        <Link to="/">Home</Link>
       </li>
       <li>
+        <Link to="/calculation">Calculation</Link>
+      </li>
+      {/* <li>
         <Link to="/about">About</Link>
       </li>
       <li>
         <Link to="/contactus">Contact Us</Link>
-      </li>
+      </li> */}
       {/* if there's an account in state, display logout and check if they are admin*/}
       {account && account.email ? (
         <>

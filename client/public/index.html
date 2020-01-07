@@ -23,9 +23,18 @@
     <!-- These styles are here to apply to the City-mandated header script -->
     <style>
       html,
-      #body,
-      #root {
+      #body {
         height: 100vh;
+        margin: 0;
+      }
+
+      /* 
+        Should be a better way to calculate right of root element to 
+        occupy full height of browser window and account for LA City header
+        that setting height to 88vh 
+      */
+      #root {
+        height: 88vh;
         margin: 0;
       }
 
