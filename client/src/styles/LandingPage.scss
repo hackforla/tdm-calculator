@@ -39,7 +39,19 @@
 
 .landing-page-center-text {
     text-align: center;
-    margin: 10% auto;
+    margin: 0 auto;
     width: 50%;
-    padding: 10px;
+    padding-top: 5em;
+    padding-bottom: 1em;
+}
+
+.intro-icon-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.intro-icon-item {
+    margin: 20px;
 }
