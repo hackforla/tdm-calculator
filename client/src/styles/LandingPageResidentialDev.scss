@@ -1,0 +1,19 @@
+.res-dev-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.res-dev-column-1 {
+    background-color: $color-highlight;
+}
+
+.res-dev-column-2 {
+    background-color: $color-primary;
+    a {
+        color: white;
+        text-decoration: underline;
+    }
+    a:hover {
+        text-decoration: none;
+    }
+}
