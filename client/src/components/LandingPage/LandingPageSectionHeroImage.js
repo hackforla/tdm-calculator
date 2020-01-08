@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import HeroImage from "../../images/hero-image-shea-rouda-tk4qYI9Mm5A-unsplash.png";
 
@@ -53,7 +54,7 @@ const LandingPageSectionHeroImage = () => {
                 <h1 className={classes.h1}>LA TDM</h1>
                 <h2 className={classes.h2}>Better for your project.
 				<br />Better for LA.</h2>
-                <button className={classes.startButton}>Start Your Project</button>
+                <Link to={`/calculation`} className={classes.startButton}>Start Your Project</Link>
             </div>
         </div>
     )
