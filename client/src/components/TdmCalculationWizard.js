@@ -1,11 +1,26 @@
 import React, { useState } from "react";
+import { createUseStyles } from "react-jss";
 import WizardRulePanels from "./WizardRulePanels";
 import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "./SwitchViewButton";
 
+const useStyles = createUseStyles({
+  sidebarOverlay: {
+    position: 'absolute',
+    background: 'rgba(0, 46, 109, 0.65)',
+    height: '100%',
+    width: '100%',
+    zIndex: 0
+  },
+  sidebarContent: {
+    zIndex: 1
+  }
+});
+
 const TdmCalculation = props => {
+  const classes = useStyles();
   const { rules, onInputChange, onPkgSelect, resultRuleCodes } = props;
   const [page, setPage] = useState(0);
   const projectRules =
@@ -115,15 +130,14 @@ const TdmCalculation = props => {
         }}
       >
         <div className="tdm-wizard-sidebar">
-          {rules && rules.length > 0 ? (
-            <React.Fragment>
+          <div className={classes.sidebarOverlay}></div>
+          {rules && rules.length > 0 && (
+            <div className={classes.sidebarContent}>
               <SwitchViewButton onClick={props.onViewChange}>
                 Switch to Default View
               </SwitchViewButton>
               <WizardResultPanel rules={resultRules} />
-            </React.Fragment>
-          ) : (
-            <div>No Rules Loaded</div>
+            </div>
           )}
         </div>
         <div className="tdm-wizard-content-container">
