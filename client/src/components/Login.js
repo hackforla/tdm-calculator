@@ -130,7 +130,7 @@ const Login = props => {
                       checked="true"
                     />{" "}
                     Keep me signed in */}
-                    <Link className="auth-link forgot" to={`/forgot-password`}>
+                    <Link className="auth-link forgot" to={`/forgotpassword`}>
                       Forgot password?
                     </Link>
                   </div>
