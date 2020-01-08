@@ -10,7 +10,6 @@ const SwitchViewButton = props => {
         paddingTop: "0.5em",
         paddingBottom: "0.5em",
         backgroundColor: "#A7C539",
-        display: "inline",
         margin: "0.5em",
         fontWeight: "bold",
         fontSize: "1em",

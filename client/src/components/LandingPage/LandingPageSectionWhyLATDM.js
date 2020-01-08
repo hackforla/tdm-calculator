@@ -1,8 +1,6 @@
 import React from "react";
-import {createUseStyles } from 'react-jss';
+import { createUseStyles } from 'react-jss';
 import clsx from 'clsx';
-
-
 
 const useStyles = createUseStyles({
     root: {
@@ -72,8 +70,10 @@ const useStyles = createUseStyles({
         backgroundImage: 'url(../assets/construction-hat-woman-claudio-hirschberger.jpg)',
         backgroundPosition: 'right bottom',
     },
-})
-
+    cta: {
+        fontSize: '25px'
+    }
+});
 
 const LandingPageSectionWhyLATDM = props => {
     const classes = useStyles();
@@ -83,7 +83,7 @@ const LandingPageSectionWhyLATDM = props => {
             <div className={classes.info}>
                 <h2>Why <strong>LA TDM?</strong></h2>
                 <h4>See how real estate developers have improved their compliance ratings and contributed to a more accessible Los Angeles.</h4>
-                <button>Learn More</button>
+                <button className={classes.cta}>Learn More</button>
             </div>
             <div className={clsx(classes.imageOne, classes.imageContainers)} />
             <div className={clsx(classes.imageTwo, classes.imageContainers)} />

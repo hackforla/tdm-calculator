@@ -87,6 +87,10 @@ blockquote {
   line-height: 1.25em;
 }
 
+strong {
+  font-weight: bold;
+}
+
 code {
   font-family: monospace;
 }
@@ -245,12 +249,6 @@ button.link {
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
-
-  &::after {
-    content: '';
-    height: 100%;
-    background: rgba(0, 46, 109, 0.65);
-  }
 }
 
 @media print {
@@ -376,8 +374,3 @@ button.link {
 // add any override to the default styles in the individual component styles
 @import "./NavBar.scss";
 @import "./AuthForms.scss"; // Login and Register components
-@import "./LandingPageIntro.scss";
-@import "./LandingPageWhyLATDM.scss";
-@import "./LandingPageMockUp.scss";
-@import "./LandingPageResidentialDev.scss";
-@import "./LandingPageEnd";
