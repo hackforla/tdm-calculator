@@ -11,7 +11,8 @@ const useStyles = createUseStyles({
     flexBasis: "content",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
+    alignItems: "center",
     paddingLeft: "1em",
     paddingRight: "1em",
     background: "#002E6D"
