@@ -226,9 +226,15 @@ const forgotPassword = async model => {
 const requestResetPasswordConfirmation = async (email, result) => {
   const token = uuid4();
   try {
-    const sqlToken = `insert into security_token (token, email)
-        values ('${token}', '${email}') `;
-    await pool.query(sqlToken);
+    // const sqlToken = `insert into security_token (token, email)
+    //     values ('${token}', '${email}') `;
+    // await pool.query(sqlToken);
+
+    await mssql.executeProc("SecurityToken_Insert", sqlRequest => {
+      sqlRequest.addParameter("token", TYPES.NVarChar, token);
+      sqlRequest.addParameter("email", TYPES.NVarChar, email);
+    });
+    console.log('request confirmation', email, token)
     result = await sendResetPasswordConfirmation(email, token);
     return result;
   } catch (err) {

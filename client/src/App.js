@@ -80,7 +80,7 @@ const App = props => {
           <Route
             path="/login/:email?"
             render={() => (
-              <Login setLoggedInAccount={this.setLoggedInAccount} />
+              <Login setLoggedInAccount={setLoggedInAccount} />
             )}
           />
           <Route path="/forgotpassword">
