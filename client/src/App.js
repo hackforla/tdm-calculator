@@ -11,6 +11,7 @@ import ConfirmEmail from "./components/ConfirmEmail";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
 import LandingPage from "./components/LandingPage/LandingPage";
+import ResetPasswordRequest from "./components/ResetPasswordRequest";
 import "./styles/App.scss";
 import axios from "axios";
 
@@ -79,9 +80,12 @@ const App = props => {
           <Route
             path="/login/:email?"
             render={() => (
-              <Login setLoggedInAccount={this.setLoggedInAccount} />
+              <Login setLoggedInAccount={setLoggedInAccount} />
             )}
           />
+          <Route path="/forgotpassword">
+            <ResetPasswordRequest />
+          </Route>
           <Route path="/contactus" component={ContactUs} />
           {account && account.role === "admin" ? (
             <Route path="/admin" render={() => <Admin account={account} />} />

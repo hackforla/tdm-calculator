@@ -35,11 +35,13 @@ const selectById = id => {
 };
 
 const selectByEmail = email => {
+  console.log('email', email)
   return mssql
     .executeProc("Login_SelectByEmail", sqlRequest => {
       sqlRequest.addParameter("Email", TYPES.NVarChar, email);
     })
     .then(response => {
+      console.log('email response', response.resultSets[0])
       if (
         response.resultSets &&
         response.resultSets[0] &&
@@ -190,19 +192,19 @@ const forgotPassword = async model => {
   const token = uuid4();
   let result = null;
   try {
-    const sql = `select id from  login where email = '${email}'`;
-    const checkAccountResult = await pool.query(sql);
+
+    const checkAccountResult = await selectByEmail(email)
+    console.log('checkAccount', checkAccountResult)
     if (
-      checkAccountResult &&
-      checkAccountResult.rows &&
-      checkAccountResult.rows.length == 1
+      checkAccountResult
     ) {
       result = {
         isSuccess: true,
         code: "FORGOT_PASSWORD_SUCCESS",
-        newId: checkAccountResult.rows[0].id,
+        newId: checkAccountResult.id,
         message: "Account found."
       };
+      console.log('successssss', result)
     } else {
       return {
         isSuccess: false,
@@ -224,9 +226,15 @@ const forgotPassword = async model => {
 const requestResetPasswordConfirmation = async (email, result) => {
   const token = uuid4();
   try {
-    const sqlToken = `insert into security_token (token, email)
-        values ('${token}', '${email}') `;
-    await pool.query(sqlToken);
+    // const sqlToken = `insert into security_token (token, email)
+    //     values ('${token}', '${email}') `;
+    // await pool.query(sqlToken);
+
+    await mssql.executeProc("SecurityToken_Insert", sqlRequest => {
+      sqlRequest.addParameter("token", TYPES.NVarChar, token);
+      sqlRequest.addParameter("email", TYPES.NVarChar, email);
+    });
+    console.log('request confirmation', email, token)
     result = await sendResetPasswordConfirmation(email, token);
     return result;
   } catch (err) {
