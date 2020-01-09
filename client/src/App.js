@@ -34,7 +34,7 @@ const setTokenInHeaders = () => {
     },
     error => Promise.reject(error)
   );
-}
+};
 
 setTokenInHeaders();
 
@@ -46,10 +46,10 @@ const App = props => {
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) {
       try {
-        account = JSON.parse(currentUser);
+        const account = JSON.parse(currentUser);
         // TODO: remove console.log when stable.
         console.log(account);
-        setAccount({ account });
+        setAccount(account);
       } catch (err) {
         // TODO: replace with production error logging.
         console.log(
@@ -58,9 +58,9 @@ const App = props => {
         );
       }
     }
-  });
+  }, [setAccount]);
 
-  const setLoggedInAccount = (loggedInUser) => {
+  const setLoggedInAccount = loggedInUser => {
     setAccount(loggedInUser);
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
   };
@@ -79,9 +79,7 @@ const App = props => {
           </Route>
           <Route
             path="/login/:email?"
-            render={() => (
-              <Login setLoggedInAccount={setLoggedInAccount} />
-            )}
+            render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
           />
           <Route path="/forgotpassword">
             <ResetPasswordRequest />
@@ -94,6 +92,6 @@ const App = props => {
       </Router>
     </div>
   );
-}
+};
 
 export default withToastProvider(App);
