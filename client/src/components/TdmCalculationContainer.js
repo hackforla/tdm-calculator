@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
+import { withRouter } from "react-router-dom";
 import TdmCalculation from "./TdmCalculation";
 import TdmCalculationWizard from "./TdmCalculationWizard";
 import * as ruleService from "../services/rule.service";
+import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";
+import ToastContext from "../contexts/Toast/ToastContext";
 
 class TdmCalculationContainer extends React.Component {
   calculationId = 1;
   engine = null;
+
+  static contextType = ToastContext;
 
   // These are the calculation results we want to calculate
   // and display on the main page.
@@ -20,23 +25,36 @@ class TdmCalculationContainer extends React.Component {
   state = {
     rules: [],
     formInputs: {},
+    projectId: 0,
+    loginId: 0, // Project creator's loginId
     view: "Wizard" // Wizard or Default
   };
 
-  componentDidMount() {
-    ruleService
-      .getByCalculationId(this.calculationId)
-      .then(response => {
-        console.log(response.data);
-        this.engine = new Engine(response.data);
-        this.engine.run(this.state.formInputs, this.resultRuleCodes);
+  async componentDidMount() {
+    try {
+      if (this.props.match.params.projectId) {
+        const projectId = this.props.match.params.projectId;
+        const projectResponse = await projectService.getById(projectId);
+        console.log(projectResponse.data);
         this.setState({
-          rules: this.engine.showRulesArray()
+          projectId,
+          loginId: projectResponse.data.loginId,
+          formInputs: JSON.parse(projectResponse.data.formInputs)
         });
-      })
-      .catch(err => {
-        //console.log(JSON.stringify(err, null, 2));
+      }
+
+      const ruleResponse = await ruleService.getByCalculationId(
+        this.calculationId
+      );
+      console.log(ruleResponse.data);
+      this.engine = new Engine(ruleResponse.data);
+      this.engine.run(this.state.formInputs, this.resultRuleCodes);
+      this.setState({
+        rules: this.engine.showRulesArray()
       });
+    } catch (err) {
+      console.log(JSON.stringify(err, null, 2));
+    }
   }
 
   onPkgSelect = pkgType => {
@@ -90,6 +108,44 @@ class TdmCalculationContainer extends React.Component {
     this.recalculate(formInputs);
   };
 
+  onSave = async evt => {
+    const requestBody = {
+      name: this.state.formInputs.PROJECT_NAME,
+      address: this.state.formInputs.PROJECT_ADDRESS,
+      formInputs: JSON.stringify(this.state.formInputs),
+      loginId: 8,
+      calculationId: this.calculationId
+    };
+    if (!requestBody.name) {
+      this.context.add("You must give the project a name before saving.");
+      return;
+    }
+    if (this.state.projectId) {
+      requestBody.id = this.state.projectId;
+      try {
+        await projectService.put(requestBody);
+        this.context.add("Saved Project Changes");
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const postResponse = await projectService.post(requestBody);
+        this.setState(
+          {
+            projectId: postResponse.data.id,
+            loginId: this.props.account.id
+          },
+          () => {
+            this.context.add("Saved New Project");
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   recalculate = formInputs => {
     this.engine.run(formInputs, this.resultRuleCodes);
     const rules = this.engine.showRulesArray();
@@ -99,7 +155,8 @@ class TdmCalculationContainer extends React.Component {
   };
 
   render() {
-    const { rules, view } = this.state;
+    const { rules, view, projectId, loginId } = this.state;
+    const { account } = this.props;
     return (
       <div
         style={{
@@ -115,6 +172,10 @@ class TdmCalculationContainer extends React.Component {
             onPkgSelect={this.onPkgSelect}
             resultRuleCodes={this.resultRuleCodes}
             onViewChange={() => this.setState({ view: "Default" })}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            onSave={this.onSave}
           />
         ) : (
           <TdmCalculation
@@ -138,4 +199,4 @@ class TdmCalculationContainer extends React.Component {
   }
 }
 
-export default TdmCalculationContainer;
+export default withRouter(TdmCalculationContainer);

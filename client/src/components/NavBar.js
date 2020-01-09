@@ -4,19 +4,7 @@ import { Link } from "react-router-dom";
 const NavBar = props => {
   const { account, setLoggedOutAccount } = props;
   return (
-    <ul
-      className="navbar"
-      style={{
-        flexGrow: "0",
-        flexShrink: "0",
-        flexBasis: "content",
-        padding: "0.1em",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        listStyleType: "none"
-      }}
-    >
+    <ul className="navbar">
       <li>
         <Link to="/">Home</Link>
       </li>

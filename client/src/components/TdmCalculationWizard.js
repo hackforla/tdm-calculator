@@ -4,10 +4,20 @@ import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "./SwitchViewButton";
+import { UserContext } from "./user-context";
 
-const TdmCalculation = props => {
-  const { rules, onInputChange, onPkgSelect, resultRuleCodes } = props;
-  const [page, setPage] = useState(0);
+const TdmCalculationWizard = props => {
+  const {
+    rules,
+    onInputChange,
+    onPkgSelect,
+    resultRuleCodes,
+    account,
+    projectId,
+    loginId,
+    onSave
+  } = props;
+  const [page, setPage] = useState(account.id ? 0 : 5);
   const projectRules =
     rules &&
     rules.filter(
@@ -61,9 +71,9 @@ const TdmCalculation = props => {
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
 
   const showResidentialPkg = (() => {
-    // Only show button if Pricing/Unbundling strategy is available
-    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_1");
-    return triggerRule[0] && triggerRule[0].display;
+    // Only show button if one of the land uses is Residential
+    const triggerRule = rules.filter(r => r.code === "LAND_USE_RESIDENTIAL");
+    return triggerRule[0] && !!triggerRule[0].value;
   })();
 
   const showCommercialPkg = (() => {
@@ -221,28 +231,40 @@ const TdmCalculation = props => {
               </div>
             ) : (
               <div>
-                <WizardReviewPanel rules={rules} />
+                <WizardReviewPanel
+                  rules={rules}
+                  account={account}
+                  projectId={projectId}
+                  loginId={loginId}
+                  onSave={onSave}
+                />
               </div>
             )}
           </div>
-          <div style={{ marginBottom: "3em", marginTop: "2em" }}>
-            <WizardNavButton
-              disabled={page === 0}
-              onClick={() => setPage(page - 1)}
-            >
-              &lt;
-            </WizardNavButton>
-            <WizardNavButton
-              disabled={page === 5}
-              onClick={() => setPage(page + 1)}
-            >
-              &gt;
-            </WizardNavButton>
-          </div>
+          <UserContext.Consumer>
+            {account =>
+              account.id && account.id === loginId ? (
+                <div style={{ marginBottom: "3em", marginTop: "2em" }}>
+                  <WizardNavButton
+                    disabled={page === 0}
+                    onClick={() => setPage(page - 1)}
+                  >
+                    &lt;
+                  </WizardNavButton>
+                  <WizardNavButton
+                    disabled={page === 5}
+                    onClick={() => setPage(page + 1)}
+                  >
+                    &gt;
+                  </WizardNavButton>
+                </div>
+              ) : null
+            }
+          </UserContext.Consumer>
         </div>
       </div>
     </React.Fragment>
   );
 };
 
-export default TdmCalculation;
+export default TdmCalculationWizard;

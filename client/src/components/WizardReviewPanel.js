@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const WizardReviewPanel = props => {
-  const { rules } = props;
+  const { rules, account, projectId, loginId, onSave } = props;
 
   const landUses = rules
     .filter(
@@ -90,7 +90,7 @@ const WizardReviewPanel = props => {
         {targetPoints ? (
           <div
             style={{
-              width: "20%",
+              width: "25%",
               display: "flex",
               flexDirection: "column",
               border: "1px solid black",
@@ -121,7 +121,7 @@ const WizardReviewPanel = props => {
         {earnedPoints ? (
           <div
             style={{
-              width: "20%",
+              width: "25%",
               display: "flex",
               flexDirection: "column",
               border: "1px solid black",
@@ -161,7 +161,7 @@ const WizardReviewPanel = props => {
         {parkingRatio ? (
           <div
             style={{
-              width: "20%",
+              width: "25%",
               display: "flex",
               flexDirection: "column",
               border: "1px solid black",
@@ -193,7 +193,7 @@ const WizardReviewPanel = props => {
         {level ? (
           <div
             style={{
-              width: "20%",
+              width: "25%",
               display: "flex",
               flexDirection: "column",
               border: "1px solid black",
@@ -355,6 +355,21 @@ const WizardReviewPanel = props => {
           <div style={{ flex: "0 0 10%", paddingLeft: "1em" }}>
             {parkingProvided.units}
           </div>
+        </div>
+      ) : null}
+
+      {account.id && account.id === loginId ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: "1em",
+            justifyContent: "space-evenly"
+          }}
+        >
+          <button className="tdm-wizard-save-button" onClick={onSave}>
+            {projectId ? "Save Project Changes" : "Save As New Project"}
+          </button>
         </div>
       ) : null}
     </div>

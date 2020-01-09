@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { withToastProvider } from "./contexts/Toast";
+import { UserContext } from "./components/user-context";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
@@ -71,38 +72,46 @@ class App extends React.Component {
           alignItems: "stretch"
         }}
       >
-        <Router>
-          <Header account={account} />
-          <NavBar
-            account={account}
-            setLoggedOutAccount={this.setLoggedOutAccount}
-          />
-          <div
-            style={{
-              flex: "1 0 auto",
-              display: "flex",
-              flexDirection: "column"
-            }}
-          >
-            <Route exact path="/" component={LandingPage} />
-            <Route path="/calculation" component={TdmCalculationContainer} />
-            <Route path="/about" component={About} />
-            <Route path="/register/:email?" component={Register} />
-            <Route path="/confirm/:token">
-              <ConfirmEmail />
-            </Route>
-            <Route
-              path="/login/:email?"
-              render={() => (
-                <Login setLoggedInAccount={this.setLoggedInAccount} />
-              )}
+        <UserContext.Provider value={account}>
+          <Router>
+            <Header account={account} />
+            <NavBar
+              account={account}
+              setLoggedOutAccount={this.setLoggedOutAccount}
             />
-            <Route path="/contactus" component={ContactUs} />
-            {account && account.role === "admin" ? (
-              <Route path="/admin" render={() => <Admin account={account} />} />
-            ) : null}
-          </div>
-        </Router>
+            <div
+              style={{
+                flex: "1 0 auto",
+                display: "flex",
+                flexDirection: "column"
+              }}
+            >
+              <Route exact path="/" component={LandingPage} />
+              <Route
+                path="/calculation/:projectId?"
+                render={() => <TdmCalculationContainer account={account} />}
+              />
+              <Route path="/about" component={About} />
+              <Route path="/register/:email?" component={Register} />
+              <Route path="/confirm/:token">
+                <ConfirmEmail />
+              </Route>
+              <Route
+                path="/login/:email?"
+                render={() => (
+                  <Login setLoggedInAccount={this.setLoggedInAccount} />
+                )}
+              />
+              <Route path="/contactus" component={ContactUs} />
+              {account && account.role === "admin" ? (
+                <Route
+                  path="/admin"
+                  render={() => <Admin account={account} />}
+                />
+              ) : null}
+            </div>
+          </Router>
+        </UserContext.Provider>
       </div>
     );
   }

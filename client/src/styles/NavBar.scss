@@ -1,4 +1,12 @@
 .navbar {
+  flex-grow: 0;
+  flex-shrink: "0";
+  flex-basis: content;
+  padding: 0.1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style-type: "none";
   background-color: $color-primary;
   color: white;
   border-bottom: 4px solid $color-highlight;
@@ -8,5 +16,11 @@
   a {
     color: white;
     text-decoration: none;
+  }
+}
+
+@media print {
+  .navbar {
+    display: none;
   }
 }

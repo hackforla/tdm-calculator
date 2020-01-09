@@ -59,12 +59,6 @@
   font-style: normal;
 }
 
-@media print {
-  .tdm-wizard-page-title {
-    font-size: 2em;
-  }
-}
-
 .tdm-wizard-page-subtitle {
   margin-top: 0.5em;
   text-align: center;
@@ -73,9 +67,23 @@
   font-style: normal;
 }
 
+.tdm-wizard-save-button {
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  padding-top: 0.35em;
+  padding-bottom: 0.35em;
+  background-color: $color-highlight;
+  display: inline;
+  margin: 0.5em;
+  font-weight: bold;
+  width: 20em;
+  box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
+  text-align: center;
+}
+
 @media print {
-  .tdm-wizard-page-subtitle {
-    font-size: 1.5em;
+  .tdm-wizard-save-button {
+    display: none;
   }
 }
 
@@ -87,7 +95,6 @@
   background-color: $color-highlight;
   display: inline;
   margin: 0.5em;
-  font-weight: bold;
   font-size: 2em;
   box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
   text-align: center;
@@ -100,10 +107,19 @@
   padding-bottom: 0.35em;
   display: inline;
   margin: 0.5em;
-  font-weight: bold;
   font-size: 2em;
   text-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
   text-align: center;
+}
+
+@media print {
+  .tdm-wizard-nav-button {
+    display: none;
+  }
+
+  .tdm-wizard-nav-button-disabled {
+    display: none;
+  }
 }
 
 .tdm-wizard-pkg-button {
@@ -158,10 +174,4 @@
   flex-direction: column;
   flex: 1 1 auto;
   min-width: 60vw;
-}
-
-@media print {
-  .tdm-wizard-review-page {
-    font-size: 1.5em;
-  }
 }
