@@ -27,7 +27,7 @@ export function ResetPassword(props) {
     const submitResponse = await accountService
       .resetPassword({ token, password });
       if (submitResponse.data.isSuccess) {
-        setSuccess(true)
+        setSuccess(submitResponse.data.email)
       } else  {
         setFieldError('passwordConfirm', submitResponse.data.message)
       }
@@ -99,7 +99,7 @@ export function ResetPassword(props) {
           <h2>Redirecting to login</h2>
           <div style={{display: 'none'}}>
             { setTimeout(()=>{
-              props.history.push("/login")
+              props.history.push(`/login/${success}`)
             }, 2000)}
           </div>
           </>
