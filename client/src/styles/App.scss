@@ -1,4 +1,5 @@
-@import "./reset.scss";
+@import url('https://fonts.googleapis.com/css?family=Montserrat:900&display=swap');
+@import './reset.scss';
 @import "_variables.scss";
 // import scss files below
 
@@ -40,6 +41,8 @@ body {
 
 h1,
 .alpha {
+  font-family: 'Montserrat';
+  font-weight: 900;
   font-size: 2em;
   line-height: 1.25em;
   color: $color-primary;
@@ -81,6 +84,10 @@ blockquote {
   margin-bottom: 1em;
   font-size: 1.25em;
   line-height: 1.25em;
+}
+
+strong {
+  font-weight: bold;
 }
 
 code {
@@ -195,12 +202,5 @@ button.link {
 }
 
 // add any override to the default styles in the individual component styles
-@import "./NavBar.scss";
 @import "./AuthForms.scss"; // Login and Register components
 @import "./Calculation.scss";
-@import "./LandingPageHeroImage.scss";
-@import "./LandingPageIntro.scss";
-@import "./LandingPageWhyLATDM.scss";
-@import "./LandingPageMockUp.scss";
-@import "./LandingPageResidentialDev.scss";
-@import "./LandingPageEnd";

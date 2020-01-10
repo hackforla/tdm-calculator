@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import TdmCalculation from "./TdmCalculation";
 import TdmCalculationWizard from "./TdmCalculationWizard";
@@ -113,7 +113,7 @@ class TdmCalculationContainer extends React.Component {
       name: this.state.formInputs.PROJECT_NAME,
       address: this.state.formInputs.PROJECT_ADDRESS,
       formInputs: JSON.stringify(this.state.formInputs),
-      loginId: 8,
+      loginId: this.props.account.id,
       calculationId: this.calculationId
     };
     if (!requestBody.name) {
@@ -176,6 +176,9 @@ class TdmCalculationContainer extends React.Component {
             projectId={projectId}
             loginId={loginId}
             onSave={this.onSave}
+            startPage={
+              !projectId || (account.id && account.id === loginId) ? 0 : 5
+            }
           />
         ) : (
           <TdmCalculation

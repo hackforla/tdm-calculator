@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createUseStyles } from "react-jss";
 import WizardRulePanels from "./WizardRulePanels";
 import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "./SwitchViewButton";
-import { UserContext } from "./user-context";
+
+const useStyles = createUseStyles({
+  sidebarOverlay: {
+    position: "absolute",
+    background: "rgba(0, 46, 109, 0.65)",
+    height: "100%",
+    width: "100%",
+    zIndex: 0
+  },
+  sidebarContent: {
+    zIndex: 1
+  }
+});
 
 const TdmCalculationWizard = props => {
+  const classes = useStyles();
   const {
     rules,
     onInputChange,
@@ -15,9 +29,11 @@ const TdmCalculationWizard = props => {
     account,
     projectId,
     loginId,
-    onSave
+    onSave,
+    startPage
   } = props;
-  const [page, setPage] = useState(account.id ? 0 : 5);
+  const [page, setPage] = useState(startPage);
+
   const projectRules =
     rules &&
     rules.filter(
@@ -125,15 +141,14 @@ const TdmCalculationWizard = props => {
         }}
       >
         <div className="tdm-wizard-sidebar">
-          {rules && rules.length > 0 ? (
-            <React.Fragment>
+          <div className={classes.sidebarOverlay}></div>
+          {rules && rules.length > 0 && (
+            <div className={classes.sidebarContent}>
               <SwitchViewButton onClick={props.onViewChange}>
                 Switch to Default View
               </SwitchViewButton>
               <WizardResultPanel rules={resultRules} />
-            </React.Fragment>
-          ) : (
-            <div>No Rules Loaded</div>
+            </div>
           )}
         </div>
         <div className="tdm-wizard-content-container">
@@ -241,26 +256,23 @@ const TdmCalculationWizard = props => {
               </div>
             )}
           </div>
-          <UserContext.Consumer>
-            {account =>
-              account.id && account.id === loginId ? (
-                <div style={{ marginBottom: "3em", marginTop: "2em" }}>
-                  <WizardNavButton
-                    disabled={page === 0}
-                    onClick={() => setPage(page - 1)}
-                  >
-                    &lt;
-                  </WizardNavButton>
-                  <WizardNavButton
-                    disabled={page === 5}
-                    onClick={() => setPage(page + 1)}
-                  >
-                    &gt;
-                  </WizardNavButton>
-                </div>
-              ) : null
-            }
-          </UserContext.Consumer>
+
+          {!projectId || (account && account.id && account.id === loginId) ? (
+            <div style={{ marginBottom: "3em", marginTop: "2em" }}>
+              <WizardNavButton
+                disabled={page === 0}
+                onClick={() => setPage(page - 1)}
+              >
+                &lt;
+              </WizardNavButton>
+              <WizardNavButton
+                disabled={page === 5}
+                onClick={() => setPage(page + 1)}
+              >
+                &gt;
+              </WizardNavButton>
+            </div>
+          ) : null}
         </div>
       </div>
     </React.Fragment>
