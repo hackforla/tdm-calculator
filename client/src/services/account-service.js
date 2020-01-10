@@ -36,6 +36,10 @@ export const confirmRegister = async token => {
 
 export const resetPasswordRequest = async (email) => {
   const response = await axios.post(baseUrl + "/forgotpassword/", { email })
-  console.log('response', response)
+  return response
+}
+
+export const resetPassword = async (values) => {
+  const response = await axios.post(baseUrl+ "/resetPassword", values)
   return response
 }

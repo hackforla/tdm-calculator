@@ -30,9 +30,9 @@ const sendResetPasswordConfirmation = async (email, token) => {
   const msg = {
     to: `${email}`,
     from: emailUser,
-    subject: `Confirm Password Reset for Food Oasis`,
-    text: `Confirm Password Reset for Food Oasis`,
-    html: `<p>Hello, please click the following link to reset your password for Food Oasis.</p>
+    subject: `Confirm Password Reset for TDM Calculator`,
+    text: `Confirm Password Reset for TDM Calculator`,
+    html: `<p>Hello, please click the following link to reset your password for TDM Calculator.</p>
               <br>
               <p><a href="${clientUrl}/resetPassword/${token}">Reset Password</a></p>
               <br>
