@@ -5,7 +5,7 @@ const WizardRuleInputList = props => {
   const { rules } = props;
   return (
     <div
-      style={{ marginRight: ".75em", marginLeft: "0.75em", minWidth: "80%" }}
+      style={{ marginRight: ".75em", marginLeft: "0.75em", minWidth: "60%" }}
     >
       {rules && rules.length > 0
         ? rules.map(rule => (

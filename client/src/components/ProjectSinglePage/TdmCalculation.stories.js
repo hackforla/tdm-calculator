@@ -2,8 +2,8 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import TdmCalculation from "./TdmCalculation";
-import Engine from "../services/tdm-engine";
-import { engineTestRules } from "../test-data/engine-test";
+import Engine from "../../services/tdm-engine";
+import { engineTestRules } from "../../test-data/engine-test";
 import "../styles/App.scss";
 
 export const actions = {

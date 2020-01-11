@@ -1,7 +1,7 @@
 import React from "react";
 import RulePanels from "./RulePanels";
 import ResultList from "./ResultList";
-import SwitchViewButton from "./SwitchViewButton";
+import SwitchViewButton from "../SwitchViewButton";
 
 const TdmCalculation = props => {
   const { rules, onInputChange, onPkgSelect, resultRuleCodes } = props;

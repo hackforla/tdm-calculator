@@ -2,7 +2,10 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import RuleInput from "./RuleInput";
-import { numberInputRule, booleanInputRule } from "../test-data/tdm-calc-rules";
+import {
+  numberInputRule,
+  booleanInputRule
+} from "../../test-data/tdm-calc-rules";
 import "../styles/App.scss";
 
 export const actions = {

@@ -13,7 +13,10 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    listStyleType: "none"
+    listStyleType: "none",
+    "@media print": {
+      display: "none"
+    }
   },
   link: {
     color: "#ffffff",
@@ -32,10 +35,19 @@ const NavBar = props => {
   return (
     <ul className={classes.navbar}>
       <li>
-        <Link className={classes.link} to="/">Home</Link>
+        <Link className={classes.link} to="/">
+          Home
+        </Link>
       </li>
       <li>
-        <Link className={classes.link} to="/calculation">Calculation</Link>
+        <Link className={classes.link} to="/projects">
+          Projects
+        </Link>
+      </li>
+      <li>
+        <Link className={classes.link} to="/calculation">
+          New Project
+        </Link>
       </li>
       {/* <li>
         <Link className={classes.link} to="/about">About</Link>
@@ -48,7 +60,9 @@ const NavBar = props => {
         <>
           {account.role === "admin" ? (
             <li>
-              <Link className={classes.link} to="/admin">Admin</Link>
+              <Link className={classes.link} to="/admin">
+                Admin
+              </Link>
             </li>
           ) : null}
           <li>
@@ -61,7 +75,9 @@ const NavBar = props => {
         <>
           {/* if no account in state, show login button*/}
           <li>
-            <Link className={classes.link} to="/login">Login</Link>
+            <Link className={classes.link} to="/login">
+              Login
+            </Link>
           </li>
         </>
       )}
