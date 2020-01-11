@@ -1,7 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import TdmCalculation from "./TdmCalculation";
-import TdmCalculationWizard from "./TdmCalculationWizard";
+import queryString from "query-string";
+import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
+import TdmCalculationWizard from "./ProjectWizard/TdmCalculationWizard";
 import * as ruleService from "../services/rule.service";
 import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";
@@ -27,10 +28,27 @@ class TdmCalculationContainer extends React.Component {
     formInputs: {},
     projectId: 0,
     loginId: 0, // Project creator's loginId
-    view: "Wizard" // Wizard or Default
+    view: "w", // "w" for wizard view, "d" for old default
+    pageNo: 1
+  };
+
+  pushHistory = () => {
+    const qs = queryString.stringify({
+      view: this.state.view,
+      pageNo: this.state.pageNo
+    });
+    const url = this.props.location.pathname + "?" + qs;
+    this.props.history.push(url);
   };
 
   async componentDidMount() {
+    const { pageNo, view } = queryString.parse(this.props.location.search);
+    if (pageNo) {
+      this.setState({ pageNo: Number(pageNo) });
+    }
+    if (view && view === "d") {
+      this.setState({ view });
+    }
     try {
       if (this.props.match.params.projectId) {
         const projectId = this.props.match.params.projectId;
@@ -155,7 +173,7 @@ class TdmCalculationContainer extends React.Component {
   };
 
   render() {
-    const { rules, view, projectId, loginId } = this.state;
+    const { rules, view, projectId, loginId, pageNo } = this.state;
     const { account } = this.props;
     return (
       <div
@@ -165,20 +183,19 @@ class TdmCalculationContainer extends React.Component {
           flexDirection: "column"
         }}
       >
-        {view === "Wizard" ? (
+        {view === "w" ? (
           <TdmCalculationWizard
             rules={rules}
             onInputChange={this.onInputChange}
             onPkgSelect={this.onPkgSelect}
             resultRuleCodes={this.resultRuleCodes}
-            onViewChange={() => this.setState({ view: "Default" })}
+            onViewChange={() => this.setState({ view: "d" }, this.pushHistory)}
+            onPageChange={pageNo => this.setState({ pageNo }, this.pushHistory)}
             account={account}
             projectId={projectId}
             loginId={loginId}
             onSave={this.onSave}
-            startPage={
-              !projectId || (account.id && account.id === loginId) ? 0 : 5
-            }
+            pageNo={pageNo}
           />
         ) : (
           <TdmCalculation
@@ -186,7 +203,7 @@ class TdmCalculationContainer extends React.Component {
             onInputChange={this.onInputChange}
             onPkgSelect={this.onPkgSelect}
             resultRuleCodes={this.resultRuleCodes}
-            onViewChange={() => this.setState({ view: "Wizard" })}
+            onViewChange={() => this.setState({ view: "w" }, this.pushHistory)}
           />
         )}
 

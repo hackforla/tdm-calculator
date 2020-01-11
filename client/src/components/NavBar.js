@@ -13,7 +13,10 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    listStyleType: "none"
+    listStyleType: "none",
+    "@media print": {
+      display: "none"
+    }
   },
   link: {
     color: "#ffffff",
@@ -37,8 +40,13 @@ const NavBar = props => {
         </Link>
       </li>
       <li>
+        <Link className={classes.link} to="/projects">
+          Projects
+        </Link>
+      </li>
+      <li>
         <Link className={classes.link} to="/calculation">
-          Calculation
+          New Project
         </Link>
       </li>
       {/* <li>

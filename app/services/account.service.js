@@ -35,11 +35,13 @@ const selectById = id => {
 };
 
 const selectByEmail = email => {
+  console.log('email', email)
   return mssql
     .executeProc("Login_SelectByEmail", sqlRequest => {
       sqlRequest.addParameter("Email", TYPES.NVarChar, email);
     })
     .then(response => {
+      console.log('email response', response.resultSets[0])
       if (
         response.resultSets &&
         response.resultSets[0] &&
@@ -190,17 +192,16 @@ const forgotPassword = async model => {
   const token = uuid4();
   let result = null;
   try {
-    const sql = `select id from  login where email = '${email}'`;
-    const checkAccountResult = await pool.query(sql);
+
+    const checkAccountResult = await selectByEmail(email)
+    console.log('checkAccount', checkAccountResult)
     if (
-      checkAccountResult &&
-      checkAccountResult.rows &&
-      checkAccountResult.rows.length == 1
+      checkAccountResult
     ) {
       result = {
         isSuccess: true,
         code: "FORGOT_PASSWORD_SUCCESS",
-        newId: checkAccountResult.rows[0].id,
+        newId: checkAccountResult.id,
         message: "Account found."
       };
     } else {
@@ -224,9 +225,15 @@ const forgotPassword = async model => {
 const requestResetPasswordConfirmation = async (email, result) => {
   const token = uuid4();
   try {
-    const sqlToken = `insert into security_token (token, email)
-        values ('${token}', '${email}') `;
-    await pool.query(sqlToken);
+    // const sqlToken = `insert into security_token (token, email)
+    //     values ('${token}', '${email}') `;
+    // await pool.query(sqlToken);
+
+    await mssql.executeProc("SecurityToken_Insert", sqlRequest => {
+      sqlRequest.addParameter("token", TYPES.NVarChar, token);
+      sqlRequest.addParameter("email", TYPES.NVarChar, email);
+    });
+    console.log('request confirmation', email, token)
     result = await sendResetPasswordConfirmation(email, token);
     return result;
   } catch (err) {
@@ -240,20 +247,25 @@ const requestResetPasswordConfirmation = async (email, result) => {
 
 // Verify password reset token and change password
 const resetPassword = async ({ token, password }) => {
-  const sql = `select email, date_created
-    from security_token where token = '${token}'`;
   const now = moment();
   try {
-    const sqlResult = await pool.query(sql);
+    const tokenResult = await mssql.executeProc(
+      "SecurityToken_SelectByToken",
+      sqlRequest => {
+        sqlRequest.addParameter("token", TYPES.NVarChar, token);
+      }
+    );
 
-    if (sqlResult.rows.length < 1) {
+    const resultSet = tokenResult.resultSets[0][0];
+
+    if (resultSet.length < 1) {
       return {
         isSuccess: false,
         code: "RESET_PASSWORD_TOKEN_INVALID",
         message:
           "Password reset failed. Invalid security token. Re-send confirmation email."
       };
-    } else if (moment(now).diff(sqlResult.rows[0].date_created, "hours") >= 1) {
+    } else if (moment(now).diff(resultSet.date_created, "hours") >= 1) {
       return {
         isSuccess: false,
         code: "RESET_PASSWORD_TOKEN_EXPIRED",
@@ -264,11 +276,12 @@ const resetPassword = async ({ token, password }) => {
 
     // If we get this far, we can update the password
     const passwordHash = await promisify(bcrypt.hash)(password, SALT_ROUNDS);
-    const email = sqlResult.rows[0].email;
-    const resetSql = `update login 
-            set password_hash = '${passwordHash}'
-            where email = '${email}'`;
-    await pool.query(resetSql);
+    const email = resultSet.email;
+
+    await mssql.executeProc("Login_ChangePassword", sqlRequest => {
+      sqlRequest.addParameter("email", TYPES.NVarChar, email);
+      sqlRequest.addParameter("passwordHash", TYPES.NVarChar, passwordHash);
+    })
 
     return {
       isSuccess: true,

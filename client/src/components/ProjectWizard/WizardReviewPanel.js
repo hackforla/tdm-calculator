@@ -358,7 +358,7 @@ const WizardReviewPanel = props => {
         </div>
       ) : null}
 
-      {account.id && account.id === loginId ? (
+      {account.id && (!projectId || account.id === loginId) ? (
         <div
           style={{
             display: "flex",

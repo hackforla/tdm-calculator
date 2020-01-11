@@ -33,3 +33,13 @@ export const confirmRegister = async token => {
   const response = await axios.post(baseUrl + "/confirmRegister", body);
   return response.data;
 };
+
+export const resetPasswordRequest = async (email) => {
+  const response = await axios.post(baseUrl + "/forgotpassword/", { email })
+  return response
+}
+
+export const resetPassword = async (values) => {
+  const response = await axios.post(baseUrl+ "/resetPassword", values)
+  return response
+}

@@ -4,6 +4,7 @@ import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
 import { UserContext } from "./components/user-context";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
+import Projects from "./components/Projects";
 import Header from "./components/Header";
 import About from "./components/About";
 import ContactUs from "./components/ContactUs";
@@ -12,6 +13,8 @@ import ConfirmEmail from "./components/ConfirmEmail";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
 import LandingPage from "./components/LandingPage/LandingPage";
+import ResetPassword from "./components/ResetPassword";
+import ResetPasswordRequest from "./components/ResetPasswordRequest";
 import "./styles/App.scss";
 import axios from "axios";
 
@@ -76,6 +79,10 @@ const App = props => {
               path="/calculation/:projectId?"
               render={() => <TdmCalculationContainer account={account} />}
             />
+            <Route
+              path="/projects"
+              render={() => <Projects account={account} />}
+            />
             <Route path="/about" component={About} />
             <Route path="/register/:email?" component={Register} />
             <Route path="/confirm/:token">
@@ -85,6 +92,12 @@ const App = props => {
               path="/login/:email?"
               render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
             />
+            <Route path="/forgotpassword">
+              <ResetPasswordRequest />
+            </Route>
+            <Route path="/resetPassword/:token">
+              <ResetPassword />
+            </Route>
             <Route path="/contactus" component={ContactUs} />
             {account && account.role === "admin" ? (
               <Route path="/admin" render={() => <Admin account={account} />} />

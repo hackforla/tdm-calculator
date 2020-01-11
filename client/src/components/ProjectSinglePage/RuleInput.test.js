@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import RuleInput from "./RuleInput";
-import { numberInputRule, booleanInputRule } from "../test-data/tdm-calc-rules";
+import {
+  numberInputRule,
+  booleanInputRule
+} from "../../test-data/tdm-calc-rules";
 
 const actions = {
   onInputChange: () => null

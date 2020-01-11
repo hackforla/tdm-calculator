@@ -4,7 +4,7 @@ import WizardRulePanels from "./WizardRulePanels";
 import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
-import SwitchViewButton from "./SwitchViewButton";
+import SwitchViewButton from "../SwitchViewButton";
 
 const useStyles = createUseStyles({
   sidebarOverlay: {
@@ -30,9 +30,26 @@ const TdmCalculationWizard = props => {
     projectId,
     loginId,
     onSave,
-    startPage
+    onPageChange,
+    pageNo
   } = props;
-  const [page, setPage] = useState(startPage);
+  const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    if (
+      !props.projectId ||
+      (props.account &&
+        (props.account.isAdmin || props.account.id === props.loginId))
+    ) {
+      // Project Calculation is editable if it is not saved
+      // or the project was created by the current logged in
+      // user, or the logged in user is admin.
+      setPage(props.pageNo || 1);
+    } else {
+      // read-only users can only see the summary page.
+      setPage(6);
+    }
+  }, [props.projectId, props.account, props.loginId, props.pageNo]);
 
   const projectRules =
     rules &&
@@ -73,7 +90,7 @@ const TdmCalculationWizard = props => {
         rule.display &&
         rule.calculationPanelId === 10
     );
-  const measureRules =
+  const strategyRules =
     rules &&
     rules.filter(
       rule =>
@@ -153,7 +170,7 @@ const TdmCalculationWizard = props => {
         </div>
         <div className="tdm-wizard-content-container">
           <div>
-            {rules && page === 0 ? (
+            {rules && page === 1 ? (
               <div style={{ minWidth: "40%" }}>
                 <h2 className="tdm-wizard-page-title">
                   {" "}
@@ -168,7 +185,7 @@ const TdmCalculationWizard = props => {
                   suppressHeader={true}
                 />
               </div>
-            ) : rules && page === 1 ? (
+            ) : rules && page === 2 ? (
               <div style={{ minWidth: "40%" }}>
                 <h2 className="tdm-wizard-page-title">
                   What kind of development is your project?
@@ -182,7 +199,7 @@ const TdmCalculationWizard = props => {
                   suppressHeader={true}
                 />
               </div>
-            ) : page === 2 ? (
+            ) : page === 3 ? (
               <div style={{ minWidth: "80%" }}>
                 <h2 className="tdm-wizard-page-title">
                   Determine the required parking spaces
@@ -196,7 +213,7 @@ const TdmCalculationWizard = props => {
                   onInputChange={onInputChange}
                 />
               </div>
-            ) : page === 3 ? (
+            ) : page === 4 ? (
               <div style={{ minWidth: "80%" }}>
                 <h2 className="tdm-wizard-page-title">
                   Calculate TDM Target Points
@@ -211,13 +228,13 @@ const TdmCalculationWizard = props => {
                   suppressHeader
                 />
               </div>
-            ) : page === 4 ? (
+            ) : page === 5 ? (
               <div style={{ minWidth: "80%" }}>
                 <h2 className="tdm-wizard-page-title">
-                  Transporation Demand Measures
+                  Transporation Demand Strategies
                 </h2>
                 <h3 className="tdm-wizard-page-subtitle">
-                  Select measures to earn TDM points
+                  Select strategies to earn TDM points
                 </h3>
                 <div style={{ textAlign: "center" }}>
                   {showResidentialPkg ? (
@@ -240,7 +257,7 @@ const TdmCalculationWizard = props => {
                   ) : null}
                 </div>
                 <WizardRulePanels
-                  rules={measureRules}
+                  rules={strategyRules}
                   onInputChange={onInputChange}
                 />
               </div>
@@ -260,14 +277,18 @@ const TdmCalculationWizard = props => {
           {!projectId || (account && account.id && account.id === loginId) ? (
             <div style={{ marginBottom: "3em", marginTop: "2em" }}>
               <WizardNavButton
-                disabled={page === 0}
-                onClick={() => setPage(page - 1)}
+                disabled={page === 1}
+                onClick={() => {
+                  onPageChange(page - 1);
+                }}
               >
                 &lt;
               </WizardNavButton>
               <WizardNavButton
-                disabled={page === 5}
-                onClick={() => setPage(page + 1)}
+                disabled={page === 6}
+                onClick={() => {
+                  onPageChange(page + 1);
+                }}
               >
                 &gt;
               </WizardNavButton>
