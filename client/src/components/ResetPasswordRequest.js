@@ -55,7 +55,7 @@ export const useStyles = createUseStyles({
   },
   fieldGroup: {
     width: '100%',
-    height: '100px',
+    height: '90px',
   },
   inputField: {
     width: '403px',
@@ -70,6 +70,13 @@ export const useStyles = createUseStyles({
     width: '100%',
     height: '30px',
     color: 'red',
+  },
+  authText: {
+    color: '#979797',
+    marginTop: '20px'
+  },
+  authLink: {
+    color: '#979797',
   }
 })
 
@@ -140,6 +147,12 @@ export function ResetPasswordRequest(props) {
                 </Form>
               )}
             </Formik>
+            <div className={classes.authText}>
+              New user? &nbsp;
+              <Link className={classes.authLink} to={`/register`}>
+                Create an account
+              </Link>
+            </div>
           </>
         )
         : (
