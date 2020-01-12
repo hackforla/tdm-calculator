@@ -35,13 +35,11 @@ const selectById = id => {
 };
 
 const selectByEmail = email => {
-  console.log('email', email)
   return mssql
     .executeProc("Login_SelectByEmail", sqlRequest => {
       sqlRequest.addParameter("Email", TYPES.NVarChar, email);
     })
     .then(response => {
-      console.log('email response', response.resultSets[0])
       if (
         response.resultSets &&
         response.resultSets[0] &&
@@ -194,7 +192,6 @@ const forgotPassword = async model => {
   try {
 
     const checkAccountResult = await selectByEmail(email)
-    console.log('checkAccount', checkAccountResult)
     if (
       checkAccountResult
     ) {
@@ -213,7 +210,7 @@ const forgotPassword = async model => {
     }
     // Replace the success result if there is a prob
     // sending email.
-    result = await requestResetPasswordConfirmation(email, result);
+    await requestResetPasswordConfirmation(email, result);
     return result;
   } catch (err) {
     return Promise.reject(`Unexpected Error: ${err.message}`);

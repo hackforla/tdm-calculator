@@ -82,7 +82,6 @@ const validationSchema = Yup.object().shape({
 export function ResetPasswordRequest(props) {
   const classes = useStyles();
   const [ submitted, setSubmitted ] = useState(false)
-
   const handleSubmit = async (
     { email }, { setFieldError }
   ) => {
