@@ -210,8 +210,16 @@ const forgotPassword = async model => {
     }
     // Replace the success result if there is a prob
     // sending email.
-    await requestResetPasswordConfirmation(email, result);
-    return result;
+    let tokenInsertResult = await requestResetPasswordConfirmation(email, result);
+    if (tokenInsertResult) {
+      return result;
+    } else {
+      return {
+        isSuccess: false,
+        code: 'FORGOT_PASSWORD_INTERNAL_SERVER_ERROR',
+        message: 'Something went wrong with your request. Please try again later. If the problem persists,contact TDM.'
+      }
+    }
   } catch (err) {
     return Promise.reject(`Unexpected Error: ${err.message}`);
   }
@@ -230,7 +238,6 @@ const requestResetPasswordConfirmation = async (email, result) => {
       sqlRequest.addParameter("token", TYPES.NVarChar, token);
       sqlRequest.addParameter("email", TYPES.NVarChar, email);
     });
-    console.log('request confirmation', email, token)
     result = await sendResetPasswordConfirmation(email, token);
     return result;
   } catch (err) {
