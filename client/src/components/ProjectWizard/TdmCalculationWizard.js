@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createUseStyles } from "react-jss";
 import WizardRulePanels from "./WizardRulePanels";
 import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
-import SwitchViewButton from "./SwitchViewButton";
+import SwitchViewButton from "../SwitchViewButton";
 
 const useStyles = createUseStyles({
   sidebarOverlay: {
-    position: 'absolute',
-    background: 'rgba(0, 46, 109, 0.65)',
-    height: '100%',
-    width: '100%',
+    position: "absolute",
+    background: "rgba(0, 46, 109, 0.65)",
+    height: "100%",
+    width: "100%",
     zIndex: 0
   },
   sidebarContent: {
@@ -19,10 +19,38 @@ const useStyles = createUseStyles({
   }
 });
 
-const TdmCalculation = props => {
+const TdmCalculationWizard = props => {
   const classes = useStyles();
-  const { rules, onInputChange, onPkgSelect, resultRuleCodes } = props;
+  const {
+    rules,
+    onInputChange,
+    onPkgSelect,
+    resultRuleCodes,
+    account,
+    projectId,
+    loginId,
+    onSave,
+    onPageChange,
+    pageNo
+  } = props;
   const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    if (
+      !props.projectId ||
+      (props.account &&
+        (props.account.isAdmin || props.account.id === props.loginId))
+    ) {
+      // Project Calculation is editable if it is not saved
+      // or the project was created by the current logged in
+      // user, or the logged in user is admin.
+      setPage(props.pageNo || 1);
+    } else {
+      // read-only users can only see the summary page.
+      setPage(6);
+    }
+  }, [props.projectId, props.account, props.loginId, props.pageNo]);
+
   const projectRules =
     rules &&
     rules.filter(
@@ -62,7 +90,7 @@ const TdmCalculation = props => {
         rule.display &&
         rule.calculationPanelId === 10
     );
-  const measureRules =
+  const strategyRules =
     rules &&
     rules.filter(
       rule =>
@@ -76,9 +104,9 @@ const TdmCalculation = props => {
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
 
   const showResidentialPkg = (() => {
-    // Only show button if Pricing/Unbundling strategy is available
-    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_1");
-    return triggerRule[0] && triggerRule[0].display;
+    // Only show button if one of the land uses is Residential
+    const triggerRule = rules.filter(r => r.code === "LAND_USE_RESIDENTIAL");
+    return triggerRule[0] && !!triggerRule[0].value;
   })();
 
   const showCommercialPkg = (() => {
@@ -142,7 +170,7 @@ const TdmCalculation = props => {
         </div>
         <div className="tdm-wizard-content-container">
           <div>
-            {rules && page === 0 ? (
+            {rules && page === 1 ? (
               <div style={{ minWidth: "40%" }}>
                 <h2 className="tdm-wizard-page-title">
                   {" "}
@@ -157,7 +185,7 @@ const TdmCalculation = props => {
                   suppressHeader={true}
                 />
               </div>
-            ) : rules && page === 1 ? (
+            ) : rules && page === 2 ? (
               <div style={{ minWidth: "40%" }}>
                 <h2 className="tdm-wizard-page-title">
                   What kind of development is your project?
@@ -171,7 +199,7 @@ const TdmCalculation = props => {
                   suppressHeader={true}
                 />
               </div>
-            ) : page === 2 ? (
+            ) : page === 3 ? (
               <div style={{ minWidth: "80%" }}>
                 <h2 className="tdm-wizard-page-title">
                   Determine the required parking spaces
@@ -185,7 +213,7 @@ const TdmCalculation = props => {
                   onInputChange={onInputChange}
                 />
               </div>
-            ) : page === 3 ? (
+            ) : page === 4 ? (
               <div style={{ minWidth: "80%" }}>
                 <h2 className="tdm-wizard-page-title">
                   Calculate TDM Target Points
@@ -200,13 +228,13 @@ const TdmCalculation = props => {
                   suppressHeader
                 />
               </div>
-            ) : page === 4 ? (
+            ) : page === 5 ? (
               <div style={{ minWidth: "80%" }}>
                 <h2 className="tdm-wizard-page-title">
-                  Transporation Demand Measures
+                  Transporation Demand Strategies
                 </h2>
                 <h3 className="tdm-wizard-page-subtitle">
-                  Select measures to earn TDM points
+                  Select strategies to earn TDM points
                 </h3>
                 <div style={{ textAlign: "center" }}>
                   {showResidentialPkg ? (
@@ -229,34 +257,47 @@ const TdmCalculation = props => {
                   ) : null}
                 </div>
                 <WizardRulePanels
-                  rules={measureRules}
+                  rules={strategyRules}
                   onInputChange={onInputChange}
                 />
               </div>
             ) : (
               <div>
-                <WizardReviewPanel rules={rules} />
+                <WizardReviewPanel
+                  rules={rules}
+                  account={account}
+                  projectId={projectId}
+                  loginId={loginId}
+                  onSave={onSave}
+                />
               </div>
             )}
           </div>
-          <div style={{ marginBottom: "3em", marginTop: "2em" }}>
-            <WizardNavButton
-              disabled={page === 0}
-              onClick={() => setPage(page - 1)}
-            >
-              &lt;
-            </WizardNavButton>
-            <WizardNavButton
-              disabled={page === 5}
-              onClick={() => setPage(page + 1)}
-            >
-              &gt;
-            </WizardNavButton>
-          </div>
+
+          {!projectId || (account && account.id && account.id === loginId) ? (
+            <div style={{ marginBottom: "3em", marginTop: "2em" }}>
+              <WizardNavButton
+                disabled={page === 1}
+                onClick={() => {
+                  onPageChange(page - 1);
+                }}
+              >
+                &lt;
+              </WizardNavButton>
+              <WizardNavButton
+                disabled={page === 6}
+                onClick={() => {
+                  onPageChange(page + 1);
+                }}
+              >
+                &gt;
+              </WizardNavButton>
+            </div>
+          ) : null}
         </div>
       </div>
     </React.Fragment>
   );
 };
 
-export default TdmCalculation;
+export default TdmCalculationWizard;

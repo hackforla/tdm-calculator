@@ -5,7 +5,7 @@ const Toast = ({ children, remove }) => {
   removeRef.current = remove;
 
   useEffect(() => {
-    const duration = 15000;
+    const duration = 5000;
     const id = setTimeout(() => removeRef.current(), duration);
 
     return () => clearTimeout(id);
@@ -14,10 +14,10 @@ const Toast = ({ children, remove }) => {
   return (
     <div
       style={{
+        fontFamily: "Calibri, Arial, sans-serif",
         border: "2px solid transparent",
         backgroundColor: "#cc4e10",
         color: "white",
-        borderRadius: "4px",
         maxWidth: "480px",
         boxShadow: "0px 0px 5px rgba(0, 0, 0, .2)",
         marginTop: "16px",

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
+import { UserContext } from "./components/user-context";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
+import Projects from "./components/Projects";
 import Header from "./components/Header";
 import About from "./components/About";
 import ContactUs from "./components/ContactUs";
@@ -11,7 +13,7 @@ import ConfirmEmail from "./components/ConfirmEmail";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
 import LandingPage from "./components/LandingPage/LandingPage";
-import ResetPassword from './components/ResetPassword';
+import ResetPassword from "./components/ResetPassword";
 import ResetPasswordRequest from "./components/ResetPasswordRequest";
 import "./styles/App.scss";
 import axios from "axios";
@@ -35,7 +37,7 @@ const setTokenInHeaders = () => {
     },
     error => Promise.reject(error)
   );
-}
+};
 
 setTokenInHeaders();
 
@@ -47,10 +49,10 @@ const App = props => {
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) {
       try {
-        account = JSON.parse(currentUser);
+        const account = JSON.parse(currentUser);
         // TODO: remove console.log when stable.
         console.log(account);
-        setAccount({ account });
+        setAccount(account);
       } catch (err) {
         // TODO: replace with production error logging.
         console.log(
@@ -59,45 +61,52 @@ const App = props => {
         );
       }
     }
-  });
+  }, [setAccount]);
 
-  const setLoggedInAccount = (loggedInUser) => {
+  const setLoggedInAccount = loggedInUser => {
     setAccount(loggedInUser);
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
   };
 
   return (
     <div>
-      <Router>
-        <Header account={account} setAccount={setAccount} />
-        <div className={classes.root}>
-          <Route exact path="/" component={LandingPage} />
-          <Route path="/calculation" component={TdmCalculationContainer} />
-          <Route path="/about" component={About} />
-          <Route path="/register/:email?" component={Register} />
-          <Route path="/confirm/:token">
-            <ConfirmEmail />
-          </Route>
-          <Route
-            path="/login/:email?"
-            render={() => (
-              <Login setLoggedInAccount={setLoggedInAccount} />
-            )}
-          />
-          <Route path="/forgotpassword">
-            <ResetPasswordRequest />
-          </Route>
-          <Route path="/resetPassword/:token">
+      <UserContext.Provider value={account}>
+        <Router>
+          <Header account={account} setAccount={setAccount} />
+          <div className={classes.root}>
+            <Route exact path="/" component={LandingPage} />
+            <Route
+              path="/calculation/:projectId?"
+              render={() => <TdmCalculationContainer account={account} />}
+            />
+            <Route
+              path="/projects"
+              render={() => <Projects account={account} />}
+            />
+            <Route path="/about" component={About} />
+            <Route path="/register/:email?" component={Register} />
+            <Route path="/confirm/:token">
+              <ConfirmEmail />
+            </Route>
+            <Route
+              path="/login/:email?"
+              render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
+            />
+            <Route path="/forgotpassword">
+              <ResetPasswordRequest />
+            </Route>
+            <Route path="/resetPassword/:token">
               <ResetPassword />
-          </Route>
-          <Route path="/contactus" component={ContactUs} />
-          {account && account.role === "admin" ? (
-            <Route path="/admin" render={() => <Admin account={account} />} />
-          ) : null}
-        </div>
-      </Router>
+            </Route>
+            <Route path="/contactus" component={ContactUs} />
+            {account && account.role === "admin" ? (
+              <Route path="/admin" render={() => <Admin account={account} />} />
+            ) : null}
+          </div>
+        </Router>
+      </UserContext.Provider>
     </div>
   );
-}
+};
 
 export default withToastProvider(App);
