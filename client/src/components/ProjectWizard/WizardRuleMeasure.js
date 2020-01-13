@@ -1,5 +1,59 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  strategyContainer: {
+    minWidth: "60vw",
+    margin: "0.2em",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    '&:hover': {
+      backgroundColor: "#f0e300"
+    }
+  },
+  strategyName: {
+    flexGrow: "1",
+    flexShrink: "1",
+  },
+  points: {
+    flexBasis: "10%",
+    marginLeft: "1em",
+    marginRight: "0.5em",
+    textAlign: "right",
+    flexGrow: "0",
+    flexShrink: "1" 
+  },
+  numberInputContainer: {
+    flexBasis: "40%",
+    flexGrow: "1",
+    flexShrink: "1",
+    textAlign: "right"
+  },
+  numberInput: {
+    padding: "0.1em", 
+    width: "auto", 
+    textAlign: "right"
+  },
+  choiceSelectContainer: {
+    flexBasis: "40%",
+    flexGrow: "1",
+    flexShrink: "1",
+    textAlign: "right"
+  },
+  stringInput: {
+      flexBasis: "50%",
+      flexGrow: "1",
+      flexShrink: "1"
+  },
+  allElse: {
+    flexBasis: "10%", 
+    flexGrow: "0", 
+    flexShrink: "1" 
+  }
+})
 
 const WizardRuleMeasure = ({
   rule: {
@@ -27,38 +81,38 @@ const WizardRuleMeasure = ({
   },
   onInputChange
 }) => {
+
+  const classes = useStyles();
+
+  const possibleAndEarnedPointsContainers = () => {
+    const calculationUnits = calcUnits ? calcUnits : ""
+
+    return <>
+      <div className={classes.points}>
+      {calcMinValue === calcMaxValue
+        ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
+        : calcMinValue < calcMaxValue
+        ? `${Math.round(calcMinValue).toString()}-${Math.round(
+            calcMaxValue
+          ).toString()} ${calculationUnits}`
+        : null}
+      </div>
+      <div className={classes.points}>
+        {`${
+          calcValue ? Math.round(calcValue * 100) / 100 : ""
+        } ${calculationUnits || ""}`}
+      </div>
+    </>
+  };
+
   return (
     <React.Fragment>
       {dataType === "number" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "60%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
-            {name}
-          </div>
-          <div
-            style={{
-              flexBasis: "40%",
-              flexGrow: "1",
-              flexShrink: "1",
-              textAlign: "right"
-            }}
-          >
+        <div className={classes.strategyContainer}>
+          <div className={classes.strategyName}> {name} </div>
+          <div className={classes.numberInputContainer}>
             <input
-              style={{ padding: "0.1em", width: "auto", textAlign: "right" }}
+              className={classes.numberInput}
               type="number"
               value={value || ""}
               onChange={onInputChange}
@@ -67,71 +121,12 @@ const WizardRuleMeasure = ({
               max={maxValue}
             />
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
-            {calcMinValue === calcMaxValue
-              ? `${Math.round(calcMinValue).toString()}`
-              : calcMinValue < calcMaxValue
-              ? `${Math.round(calcMinValue).toString()}-${Math.round(
-                  calcMaxValue
-                ).toString()}`
-              : null}
-          </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div>
+          {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "boolean" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "70%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
-            {name}
-          </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              flexGrow: "0",
-              flexShrink: "0",
-              marginRight: "0",
-              padding: "0",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end"
-            }}
-          >
+        <div className={classes.strategyContainer}>
+          <div className={classes.strategyName}> {name} </div>
+          <div className={classes.booleanInputContainer}>
             <input
               type="checkbox"
               value={true}
@@ -140,67 +135,12 @@ const WizardRuleMeasure = ({
               name={code}
             />
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
-            {calcMinValue === calcMaxValue
-              ? `${Math.round(calcMinValue).toString()}`
-              : calcMinValue < calcMaxValue
-              ? `${Math.round(calcMinValue).toString()}-${Math.round(
-                  calcMaxValue
-                ).toString()}`
-              : null}
-          </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div>
+          {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "choice" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "40%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
-            {name}
-          </div>
-          <div
-            style={{
-              flexBasis: "40%",
-              flexGrow: "1",
-              flexShrink: "1",
-              textAlign: "right"
-            }}
-          >
+        <div className={classes.strategyContainer}>
+          <div className={classes.strategyName}> {name} </div>
+          <div className={classes.choiceSelectContainer}>
             <select
               width="100%"
               value={value || ""}
@@ -214,128 +154,27 @@ const WizardRuleMeasure = ({
               ))}
             </select>
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
-            {calcMinValue === calcMaxValue
-              ? `${Math.round(calcMinValue).toString()}`
-              : calcMinValue < calcMaxValue
-              ? `${Math.round(calcMinValue).toString()}-${Math.round(
-                  calcMaxValue
-                ).toString()}`
-              : null}
-          </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div>
+          {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "string" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "50%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
-            {name}
-          </div>
+        <div className={classes.strategyContainer}>
+          <div className={classes.strategyName}> {name} </div>
           <input
             type="text"
-            style={{
-              flexBasis: "50%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
+            className={classes.stringInput}
             value={value || ""}
             onChange={onInputChange}
             name={code}
           />
         </div>
       ) : (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
+        <div className={classes.strategyContainer}>
+          <div className={classes.strategyName}> {name} </div>
           <div
-            style={{
-              flexBasis: "70%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
-            {name}
-          </div>
-          <div
-            style={{ flexBasis: "10%", flexGrow: "0", flexShrink: "1" }}
+            className={classes.allElse}
             name={code}
           ></div>
-
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
-            {calcMinValue === calcMaxValue
-              ? `${Math.round(calcMinValue).toString()}`
-              : calcMinValue < calcMaxValue
-              ? `${Math.round(calcMinValue).toString()}-${Math.round(
-                  calcMaxValue
-                ).toString()}`
-              : null}
-          </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div>
+        {possibleAndEarnedPointsContainers()}
         </div>
       )}
     </React.Fragment>
