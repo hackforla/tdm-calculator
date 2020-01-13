@@ -5,6 +5,7 @@ import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "../SwitchViewButton";
+import Sidebar from '../Sidebar';
 
 const useStyles = createUseStyles({
   sidebarOverlay: {
@@ -154,20 +155,20 @@ const TdmCalculationWizard = props => {
         style={{
           flex: "1 1 auto%",
           display: "flex",
-          flexDirection: "row"
+          flexDirection: "row",
+          height: 'calc(100vh - 103px)'
         }}
       >
-        <div className="tdm-wizard-sidebar">
-          <div className={classes.sidebarOverlay}></div>
-          {rules && rules.length > 0 && (
-            <div className={classes.sidebarContent}>
-              <SwitchViewButton onClick={props.onViewChange}>
-                Switch to Default View
-              </SwitchViewButton>
-              <WizardResultPanel rules={resultRules} />
-            </div>
-          )}
-        </div>
+        <Sidebar>
+        {rules && rules.length > 0 && (
+          <div className={classes.sidebarContent}>
+            <SwitchViewButton onClick={props.onViewChange}>
+              Switch to Default View
+            </SwitchViewButton>
+            <WizardResultPanel rules={resultRules} />
+          </div>
+        )}
+        </Sidebar>
         <div className="tdm-wizard-content-container">
           <div>
             {rules && page === 1 ? (

@@ -2,19 +2,25 @@ import React, { useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import * as accountService from "../services/account-service";
+import * as accountService from "../../services/account-service";
 import {createUseStyles } from 'react-jss';
 import clsx from 'clsx';
+import Sidebar from '../Sidebar';
 
 export const useStyles = createUseStyles({
   root: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     position: 'relative',
     width: '100%',
-    height: '100%',
+    height: 'calc(100vh - 103px)',
+  },
+  content: {
+    position: 'relative',
+    height: 'calc(100vh - 103px)',
+    width: 'calc(100vw - 387px)',
   },
   backLink: {
     position: 'absolute',
@@ -22,11 +28,14 @@ export const useStyles = createUseStyles({
     fontSize: '20px',
     top: '20px',
     left: '20px',
+    zIndex: '10',
   },
-  content: {
+  formContent: {
+    width: '100%',
+    height: '100%',
     display: 'flex',
     position: 'relative',
-    top: '150px',
+    height: '100%',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -102,12 +111,13 @@ export function ResetPasswordRequest(props) {
 
   return(
     <div className={classes.root}>
-      <Link className={classes.backLink} to={`/login`}>
-        {`< Return to Login`}
-      </Link>
+      <Sidebar />
       <div className={classes.content}>
+        <Link className={classes.backLink} to={`/login`}>
+          {`< Return to Login`}
+        </Link>
         { !submitted ? (
-          <>
+          <div className={classes.formContent}>
             <h1>
               Please enter the email registered with your account.
             </h1>
@@ -153,12 +163,12 @@ export function ResetPasswordRequest(props) {
                 Create an account
               </Link>
             </div>
-          </>
+          </div>
         )
         : (
           <>
-            <h1>Check your email</h1>
-            <h2>A link to reset your password has been sent to your email address.</h2>
+            <h1>Account recovery instructions have been sent to the email you provided.</h1>
+            <h2>Please allow a few minutes for the email to arrive in your inbox.</h2>
           </>
         )
         } 
