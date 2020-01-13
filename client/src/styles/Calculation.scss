@@ -13,26 +13,23 @@
 
 // Photo by Silvia Brazzoduro on Unsplash
 .tdm-wizard {
-  background-image: url("../images/hard-hats-silvia-brazzoduro.png");
-  background-size: 387px 929px;
-  background-repeat: repeat-y;
   height: 100%;
 }
 
-.tdm-wizard-sidebar {
-  margin: 0;
-  flex-basis: 387px;
-  flex-grow: 0;
-  flex-shrink: 0;
-  height: 929px;
-  background-image: url("../images/hardhats.jpg");
-  background-position: center;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  position: relative;
-}
+// .tdm-wizard-sidebar {
+//   margin: 0;
+//   flex-basis: 387px;
+//   flex-grow: 0;
+//   flex-shrink: 0;
+//   height: 929px;
+//   background-image: url("../images/hardhats.jpg");
+//   background-position: center;
+//   background-size: cover;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: flex-start;
+//   position: relative;
+// }
 @media print {
   .tdm-wizard-sidebar {
     display: none;
