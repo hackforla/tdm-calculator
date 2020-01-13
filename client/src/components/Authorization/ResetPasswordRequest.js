@@ -167,8 +167,8 @@ export function ResetPasswordRequest(props) {
         )
         : (
           <>
-            <h1>Check your email</h1>
-            <h2>A link to reset your password has been sent to your email address.</h2>
+            <h1>Account recovery instructions have been sent to the email you provided.</h1>
+            <h2>Please allow a few minutes for the email to arrive in your inbox.</h2>
           </>
         )
         } 

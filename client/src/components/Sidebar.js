@@ -1,5 +1,6 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
+import { Link } from 'react-router-dom';
 
 export const useStyles = createUseStyles({
   container: {
@@ -16,11 +17,18 @@ export const useStyles = createUseStyles({
     justifyContent: 'flex-start',
     position: 'relative'
   },
-  overlay: {
-
+  links: {
+    display: 'flex',
+    justifyContent: 'center',
+    color: 'white',
+    width: '100%',
+    height: 'auto',
+    position: 'absolute',
+    bottom: '20px',
   },
-  content: {
-
+  link: {
+    color: 'white',
+    margin: '0 10px',
   }
 })
 
@@ -32,6 +40,11 @@ export function Sidebar(props) {
       <div className={classes.overlay} />
       <div className={classes.content}>
         {props.children}
+        <div className={classes.links}>
+          <Link className={classes.link}> Terms and Conditions</Link>
+          <div>|</div>
+          <Link className={classes.link}> Privacy Policy</Link>
+        </div>
       </div>
     </div>
   )
