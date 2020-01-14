@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import * as accountService from "../services/account-service";
+import * as accountService from "../../services/account-service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link, withRouter } from "react-router-dom";
 import * as Yup from "yup";
+import Sidebar from '../Sidebar';
 
 const Register = props => {
   const { match } = props;
@@ -69,8 +70,7 @@ const Register = props => {
   return (
     <div style={{ flex: "1 0 auto", display: "flex", flexDirection: "column" }} >
       <div className="tdm-wizard" style={{ flex: "1 0 auto", display: "flex", flexDirection: "row" }}>
-        <div className="tdm-wizard-sidebar">
-        </div>
+        <Sidebar />
         <div className="tdm-wizard-content-container" style={{justifyContent: "center"}}>
         
         <h1 style={{fontWeight: 500}}>Create a New Account</h1>

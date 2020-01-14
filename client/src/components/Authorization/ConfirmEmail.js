@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, withRouter } from "react-router-dom";
-import * as accountService from "../services/account-service";
-import { useToast } from "../contexts/Toast";
+import * as accountService from "../../services/account-service";
+import { useToast } from "../../contexts/Toast";
 
 const ConfirmEmail = props => {
   const { history } = props;
@@ -39,7 +39,6 @@ const ConfirmEmail = props => {
       ) : confirmResult.success ? (
         <Redirect to={`/login/${email}`} />
       ) : emailSent ? (
-        // TODO: CHECK ON THIS CODE - How do we test this to see this?? -- Claire
         <p>
           {`A confirmation email has been sent to ${email}. Please find this
             email and click on the link provided to complete your email confirmation.`}
