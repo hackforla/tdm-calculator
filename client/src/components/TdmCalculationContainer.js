@@ -130,6 +130,7 @@ class TdmCalculationContainer extends React.Component {
     const requestBody = {
       name: this.state.formInputs.PROJECT_NAME,
       address: this.state.formInputs.PROJECT_ADDRESS,
+      description: this.state.formInputs.PROJECT_DESCRIPTION,
       formInputs: JSON.stringify(this.state.formInputs),
       loginId: this.props.account.id,
       calculationId: this.calculationId

@@ -33,6 +33,9 @@ const post = item => {
       sqlRequest.addParameter("address", TYPES.NVarChar, item.address, {
         length: 200
       });
+      sqlRequest.addParameter("description", TYPES.NVarChar, item.description, {
+        length: Infinity
+      });
       sqlRequest.addParameter("formInputs", TYPES.NVarChar, item.formInputs, {
         length: Infinity
       });
@@ -53,6 +56,9 @@ const put = item => {
     });
     sqlRequest.addParameter("address", TYPES.NVarChar, item.address, {
       length: 200
+    });
+    sqlRequest.addParameter("description", TYPES.NVarChar, item.description, {
+      length: Infinity
     });
     sqlRequest.addParameter("formInputs", TYPES.NVarChar, item.formInputs, {
       length: Infinity

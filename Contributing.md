@@ -94,8 +94,7 @@ git push origin HEAD
 4. When an issue is completed and is ready for a pull request, first add and commit your latest changes as in Step 3 above, then make sure your code has the latest code from the _develop_ branch by pulling from the develop branch. This is to ensure merge conflicts are in your local envinronment, which is easier to clean up, than in GitHub:
 
 ```
-git fetch
-git merge origin/develop
+git pull origin develop
 ```
 
 5. Resolve any merge conflicts and _run the application_ (client and server) to be sure that the application builds correctly before proceeding. Then push your changes to your feature branch on the github repo:
@@ -126,8 +125,7 @@ Release branches are crated from teh _develop_ branch. Decide on a release numbe
 
 ```
 git checkout develop
-git fetch
-git merge origin/develop
+git pull origin develop
 ```
 
 - Create a new release branch from _develop_ wtih the name release-<release#>:
@@ -150,9 +148,13 @@ git commit -m "Bumped version number to 1.0.1"
 
 ```
 git checkout master
+git pull origin master
 git merge --no-ff release-1.0.0
 git tag -a v1.0.1 -m "Release version 1.0.1"
+git push origin HEAD
 ```
+
+At present, Heroku is configured to detect the commit to _master_ and automatically deploy the application to production. You should navigate to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a> after giving Heroku time to deploy and verify that the application runs, and any visible release # has been incremented.
 
 The release is now done and tagged for future reference.
 
@@ -163,13 +165,19 @@ git checkout develop
 git merge --no-ff release-1.0.1
 ```
 
+(Resolve any merge conflicts)
+
+```
+git push origin HEAD
+```
+
+It will automatically be published to <a href="https://tdm-calc-staging.herokuapp.com"> https://tdm-calc-staging.herokuapp.com</a>. Please be sure to run the application here and make sure your changes are reflected in this deployed version of the develop branch.
+
 - We are now done with this release and can delete the release branch:
 
 ```
 git branch -d release-1.0.1
 ```
-
-- Deploy the master branch to production. At present, Heroku is configured to detect the commit to _master_ and automatically deploy the application to production. You should navigate to <a href="https://tdm-calc-staging.herokuapp.com"> https://tdm-calc-staging.herokuapp.com</a> after giving Heroku time to deploy and verify that the application runs, and any visible release # has been incremented.
 
 ## Creating a HotFix
 
