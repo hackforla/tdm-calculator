@@ -194,7 +194,7 @@ const WizardRuleInput = ({
             } ${calcUnits || ""}`}
           </div>
         </div>
-      ) : dataType === "string" ? (
+      ) : dataType === "string" || dataType === "textarea" ? (
         <div
           style={{
             minWidth: "60vw",
@@ -214,17 +214,31 @@ const WizardRuleInput = ({
           >
             {name}
           </div>
-          <input
-            type="text"
-            style={{
-              flexBasis: "50%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-            value={value || ""}
-            onChange={onInputChange}
-            name={code}
-          />
+          {dataType === "string" ? (
+            <input
+              type="text"
+              style={{
+                flexBasis: "50%",
+                flexGrow: "1",
+                flexShrink: "1"
+              }}
+              value={value || ""}
+              onChange={onInputChange}
+              name={code}
+            />
+          ) : (
+            <textarea
+              style={{
+                flexBasis: "50%",
+                flexGrow: "1",
+                flexShrink: "1",
+                minHeight: "5em"
+              }}
+              value={value || ""}
+              onChange={onInputChange}
+              name={code}
+            />
+          )}
         </div>
       ) : (
         <div

@@ -36,8 +36,8 @@ The city will benefit by having more time to review edge cases for building deve
 
 # Feature Descriptions
 
-- [register.md](./register.md)
-- [forgot-password.md](./forgot-password.md)
+- [register](./register.md)
+- [forgot-password](./forgot-password.md)
 
 # How to contribute
 
@@ -45,11 +45,11 @@ The city will benefit by having more time to review edge cases for building deve
 
 - To help with user research, find other cities' TDM calculators. For example, check out [SF's TDM Tool](http://www.sftdmtool.org/)
 
-- To contribute to the code, see [Contributing.md](./Contributing.md)
+- To contribute to the code, see [Contributing](./Contributing.md)
 
 ### Working with issues
 
-- Explain how to submit a bug.
+- To submit a bug.
 
 Go to Project Kanban board by clicking on "Projects" tab. Create a note in Ice Box by clicking on the "+" sign. Write a general bug description and add the note. During weekly meetings in Hack For LA, we'll review the Ice Box and convert cards to Prioritized Backlog.
 
@@ -61,7 +61,7 @@ To create a new issue, please use the blank issue template (available when you c
 
 # Contact info
 
-Include at least one way (or more, if possible) to reach your team with questions or comments.
+Please use the tdm-calculator slack channel to communicate with the whole project team, or direct-messages through slack for communication with individuals.
 
 If you have any questions or comments, feel free to reach out to:
 Hack For LA
