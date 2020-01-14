@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const useStyles = createUseStyles({
   navbar: {
-    flexGrow: "0",
+    flexGrow: "1",
     flexShrink: "0",
     flexBasis: "content",
     padding: "0.1em 0.1em 0.1em 2em",
