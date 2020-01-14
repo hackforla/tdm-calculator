@@ -85,19 +85,13 @@ const App = props => {
             />
             <Route path="/about" component={About} />
             <Route path="/register/:email?" component={Register} />
-            <Route path="/confirm/:token">
-              <ConfirmEmail />
-            </Route>
+            <Route path="/confirm/:token" component={ConfirmEmail} />
             <Route
               path="/login/:email?"
               render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
             />
-            <Route path="/forgotpassword">
-              <ResetPasswordRequest />
-            </Route>
-            <Route path="/resetPassword/:token">
-              <ResetPassword />
-            </Route>
+            <Route path="/forgotpassword" component={ResetPasswordRequest} />
+            <Route path="/resetPassword/:token" component={ResetPassword} />
             <Route path="/contactus" component={ContactUs} />
             {account && account.role === "admin" ? (
               <Route path="/admin" render={() => <Admin account={account} />} />
