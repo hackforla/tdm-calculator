@@ -15,7 +15,10 @@ const useStyles = createUseStyles({
     alignItems: "center",
     paddingLeft: "1em",
     paddingRight: "1em",
-    background: "#002E6D"
+    background: "#002E6D",
+    "& h4": {
+      color: "white"
+    }
   }
 });
 
@@ -42,13 +45,9 @@ const Header = props => {
           />
         </a>
       </div>
-      <NavBar
-        account={account}
-        setLoggedOutAccount={setLoggedOutAccount}
-      />
-      {/* <h1>TDM Calculator</h1> */}
-      {props.account && props.account.firstName ? (
-        <h4>{`${props.account.firstName} ${props.account.lastName} `}</h4>
+      <NavBar account={account} setLoggedOutAccount={setLoggedOutAccount} />
+      {account && account.firstName ? (
+        <h4>Hello, {`${account.firstName} ${account.lastName} `}</h4>
       ) : null}
     </div>
   );

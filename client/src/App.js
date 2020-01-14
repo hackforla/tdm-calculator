@@ -69,7 +69,7 @@ const App = props => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <UserContext.Provider value={account}>
         <Router>
           <Header account={account} setAccount={setAccount} />
@@ -105,7 +105,7 @@ const App = props => {
           </div>
         </Router>
       </UserContext.Provider>
-    </div>
+    </React.Fragment>
   );
 };
 
