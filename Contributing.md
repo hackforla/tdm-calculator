@@ -69,9 +69,9 @@ Note: Node server (backend) should start before the React server (frontend/clien
 
 ### Claiming an Issue
 
-Before modifying any code, an issue should exist for the task in the GitHub repo. You should make sure that no one else is assigned to the issue and the assign it to yourself, so we avoid stepping on each others' toes. If there is not an issue for the work you want to do, you should talk to the lead developer and/or project manager to get an issue created and prioritized on the kanban board and then have them create the issue from there for you to work on.
+Before modifying any code, an issue should exist for the task in the GitHub repo. You should make sure that no one else is assigned to the issue and then assign it to yourself, so we avoid stepping on each others' toes. If there is not an issue for the work you want to do, you should talk to the lead developer and/or project manager to get an issue created and prioritized on the kanban board and then have them create the issue from there for you to work on.
 
-We use the "Git Flow" workflow to manage source code. See [Vincent Driessen's seminal article](https://nvie.com/posts/a-successful-git-branching-model/) for an overview, though a few of the detailed procedures below have additional steps.
+We use the "Git Flow" workflow to manage source code. See [Vincent Driessen's seminal article](https://nvie.com/posts/a-successful-git-branching-model/) for an overview, though a few of the detailed procedures below have additional steps. We have modified a few steps here, so your changes are merged into _develop_ on GitHub (rather than locally). This allows others to easily view your changes, and is a smaller departure from the previous workflow to learn.
 
 1. After cloning the repository, create a feature branch with a name containing your name and a feature name, separated by dashes, for example.
 
@@ -98,7 +98,7 @@ git fetch
 git merge origin/develop
 ```
 
-5. Resolve any merge conflicts and run the application (client and server) to be sure that the application builds correctly before proceeding. Then push your changes to your feature branch on the github repo:
+5. Resolve any merge conflicts and _run the application_ (client and server) to be sure that the application builds correctly before proceeding. Then push your changes to your feature branch on the github repo:
 
 ```
 git push origin HEAD
@@ -119,7 +119,56 @@ git push origin HEAD
 
 ## Creating a Release
 
-TBD
+Creating a release should only be done by the release manager!
+Release branches are crated from teh _develop_ branch. Decide on a release number for the next release, using [semver](https://semver.org/) conventions. For example, if the current release is 1.0.0 and the changes in this release are minor, the new release number would be 1.0.1.
+
+- Make sure your local machine has an up-to-date version of the _develop_ branch:
+
+```
+git fetch
+git merge origin/develop
+```
+
+- Create a new release branch from _develop_ wtih the name release-<release#>:
+
+```
+git checkout -b release-1.0.1 develop
+```
+
+- Update the release number in the application. This typically entails updating the package.json file version properties, and perhaps other locations where the release number might appear (For now, I just added it to the About.js component, though we should probably put it in a site footer or some inconspicuous place, so it can be viewed from the UI.)
+
+- Commit the version number change:
+
+```
+git add -A
+git commit -m "Bumped version number to 1.0.1"
+```
+
+- Run the application (locally and/or in a deployment environment) and make any fixes necessary. These should be very minor changes - significant changes should be made by creating a feature release based on the _develop_ branch as described above. When the application is ready for release...
+- Merge the release branch into _master_:
+
+```
+git checkout master
+git merge --no-ff release-1.0.0
+git tag -a v1.0.1 -m "Release version 1.0.1"
+```
+
+The release is now done and tagged for future reference.
+
+- Merge the release branch into _develop_:
+
+```
+git checkout develop
+git merge --no-ff release-1.0.1
+```
+
+- We are now done with this release and can delete the release branch:
+
+```
+git branch -d release-1.0.1
+```
+
+- Deploy the master branch to production. At present, Heroku is configured to detect the commit to _master_ and automatically deploy the application to production. You should navigate to <a href="https://tdm-calc-staging.herokuapp.com"> https://tdm-calc-staging.herokuapp.com</a> after giving Heroku time to deploy and verify that the application runs, and any visible release # has been incremented.
 
 ## Creating a HotFix
 
