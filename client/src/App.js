@@ -8,13 +8,13 @@ import Projects from "./components/Projects";
 import Header from "./components/Header";
 import About from "./components/About";
 import ContactUs from "./components/ContactUs";
-import Register from "./components/Register";
-import ConfirmEmail from "./components/ConfirmEmail";
-import Login from "./components/Login";
+import Register from "./components/Authorization/Register";
+import ConfirmEmail from "./components/Authorization/ConfirmEmail";
+import Login from "./components/Authorization/Login";
 import Admin from "./components/Admin";
 import LandingPage from "./components/LandingPage/LandingPage";
-import ResetPassword from "./components/ResetPassword";
-import ResetPasswordRequest from "./components/ResetPasswordRequest";
+import ResetPassword from "./components/Authorization/ResetPassword";
+import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
 import "./styles/App.scss";
 import axios from "axios";
 
