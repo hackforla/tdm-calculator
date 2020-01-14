@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import * as accountService from "../services/account-service";
+import * as accountService from "../../services/account-service";
+import SideBar from '../Sidebar';
 
 const Login = props => {
   const [errorMsg, setErrorMsg] = useState("")
@@ -68,7 +69,7 @@ const Login = props => {
         className="tdm-wizard"
         style={{ flex: "1 0 auto", display: "flex", flexDirection: "row" }}
       >
-        <div className="tdm-wizard-sidebar"></div>
+        <SideBar />
         <div
           className="tdm-wizard-content-container"
           style={{ justifyContent: "center" }}

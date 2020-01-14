@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { withRouter } from "react-router-dom";
-import * as accountService from "../services/account-service";
+import * as accountService from "../../services/account-service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import clsx from 'clsx';
 import { useStyles } from './ResetPasswordRequest'
+import Sidebar from '../Sidebar';
 
 
 const validationSchema = Yup.object().shape({
@@ -35,7 +36,8 @@ export function ResetPassword(props) {
 
   return (
     <div className={classes.root}>
-      <div className={classes.content}>
+      <Sidebar />
+      <div className={classes.formContent}>
         { !success ? (
           <>
             <h1>Reset Your Password</h1>
