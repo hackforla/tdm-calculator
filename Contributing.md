@@ -94,8 +94,7 @@ git push origin HEAD
 4. When an issue is completed and is ready for a pull request, first add and commit your latest changes as in Step 3 above, then make sure your code has the latest code from the _develop_ branch by pulling from the develop branch. This is to ensure merge conflicts are in your local envinronment, which is easier to clean up, than in GitHub:
 
 ```
-git fetch
-git merge origin/develop
+git pull origin develop
 ```
 
 5. Resolve any merge conflicts and _run the application_ (client and server) to be sure that the application builds correctly before proceeding. Then push your changes to your feature branch on the github repo:
@@ -126,8 +125,7 @@ Release branches are crated from teh _develop_ branch. Decide on a release numbe
 
 ```
 git checkout develop
-git fetch
-git merge origin/develop
+git pull origin develop
 ```
 
 - Create a new release branch from _develop_ wtih the name release-<release#>:
@@ -150,6 +148,7 @@ git commit -m "Bumped version number to 1.0.1"
 
 ```
 git checkout master
+git pull origin master
 git merge --no-ff release-1.0.0
 git tag -a v1.0.1 -m "Release version 1.0.1"
 git push origin HEAD
