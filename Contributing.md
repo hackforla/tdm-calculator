@@ -125,6 +125,7 @@ Release branches are crated from teh _develop_ branch. Decide on a release numbe
 - Make sure your local machine has an up-to-date version of the _develop_ branch:
 
 ```
+git checkout develop
 git fetch
 git merge origin/develop
 ```
