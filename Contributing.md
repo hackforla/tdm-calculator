@@ -3,7 +3,7 @@
 If you are not going to do hands-on development, you can simply experiment
 with the test version of the application at <a href="https://tdm-calc-staging.herokuapp.com"> https://tdm-calc-staging.herokuapp.com</a>.
 
-The version that LA DOT personnel are using is deployedd to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a>.
+The version that LA DOT personnel are using is deployed to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a>.
 
 If you wish to study or contribute to the code base, follow these Installation
 Instructions to install a development environment on your machine:
@@ -18,7 +18,7 @@ Instructions to install a development environment on your machine:
 ### Full-Stack React/Node Application Installation
 
 1. Start a terminal app, such as a Git bash shell on Windows or Terminal on Mac OS
-1. Create a source directory (e.g. hack-for-la) in the user's home directory and go in it (or use the folder where you normally put local git repositories)
+1. Create a source directory (e.g. hackforla) in the user's home directory and go in it (or use the folder where you normally put local git repositories)
    ```
    mkdir hackforla
    cd hackforla
@@ -119,7 +119,7 @@ git push origin HEAD
 ## Creating a Release
 
 Creating a release should only be done by the release manager!
-Release branches are crated from teh _develop_ branch. Decide on a release number for the next release, using [semver](https://semver.org/) conventions. For example, if the current release is 1.0.0 and the changes in this release are minor, the new release number would be 1.0.1.
+Release branches are created from the _develop_ branch. Decide on a release number for the next release, using [semver](https://semver.org/) conventions. For example, if the current release is 1.0.0 and the changes in this release are minor, the new release number would be 1.0.1.
 
 - Make sure your local machine has an up-to-date version of the _develop_ branch:
 
@@ -128,7 +128,7 @@ git checkout develop
 git pull origin develop
 ```
 
-- Create a new release branch from _develop_ wtih the name release-<release#>:
+- Create a new release branch from _develop_ with the name release-<release#>:
 
 ```
 git checkout -b release-1.0.1 develop
