@@ -39,7 +39,7 @@ const LandingPageSectionEnd = props => {
       <p style={{ fontSize: 28, fontWeight: 400 }}>
         Let us help you get started right.
       </p>
-      <Link to="/calculation" className={classes.startButton}>
+      <Link to="/calculation?pageNo=1&view=w" className={classes.startButton}>
         Get Started
       </Link>
     </div>
