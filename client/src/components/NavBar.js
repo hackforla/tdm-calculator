@@ -45,7 +45,7 @@ const NavBar = props => {
         </Link>
       </li>
       <li>
-        <Link className={classes.link} to="/calculation">
+        <Link className={classes.link} to="/calculation?pageNo=1&view=w">
           New Project
         </Link>
       </li>
