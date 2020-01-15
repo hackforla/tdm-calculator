@@ -1,14 +1,13 @@
 import React from "react";
 
-import WizardRuleInputList from "./WizardRuleInputList";
-import WizardRuleMeasureList from "./WizardRuleMeasureList";
+import WizardRuleStrategyList from "./WizardRuleStrategyList";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   panelContainer: {
       margin: "0.5em"
   },
-  // below uses same styles as in WizardRuleMeasure.js
+  // below uses same styles as in WizardRuleStrategy.js
   strategyContainer: {
     minWidth: "60vw",
     margin: "0.2em",
@@ -34,7 +33,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const WizardRulePanels = props => {
+const WizardRuleStrategyPanels = props => {
   const { rules, suppressHeader } = props;
   const panelIds = rules.reduce((acc, rule) => {
     if (!acc.includes(rule.calculationPanelId)) {
@@ -59,28 +58,21 @@ const WizardRulePanels = props => {
                 key={rules[0].calculationPanelId}
                 className={classes.panelContainer}
               >
-                {!suppressHeader 
+
+   {!suppressHeader 
                 ? <div className={classes.strategyContainer}>
                     <h4 className={classes.strategyName}>{rules[0].panelName}</h4>
                     <div className={classes.points}>Possible</div>
                     <div className={classes.points}>Earned</div>
                   </div>
                 : null}
-                {rules[0].category === "input" ? (
-                  <WizardRuleInputList
-                    key={rules[0].calculationPanelId}
-                    rules={rules}
-                    onInputChange={props.onInputChange}
-                  />
-                ) : (
-                  <>
-                    <WizardRuleMeasureList
-                      key={rules[0].calculationPanelId}
-                      rules={rules}
-                      onInputChange={props.onInputChange}
-                    />
-                  </>
-                )}
+               
+
+                <WizardRuleStrategyList
+                  key={rules[0].calculationPanelId}
+                  rules={rules}
+                  onInputChange={props.onInputChange}
+                />
               </div>
             ))}
           </>
@@ -90,4 +82,4 @@ const WizardRulePanels = props => {
   );
 };
 
-export default WizardRulePanels;
+export default WizardRuleStrategyPanels;

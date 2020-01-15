@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createUseStyles } from "react-jss";
-import WizardRulePanels from "./WizardRulePanels";
+import WizardRuleStrategyPanels from "./WizardRuleStrategyPanels";
+import WizardRuleInputPanels from "./WizardRuleInputPanels";
 import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
@@ -180,7 +181,7 @@ const TdmCalculationWizard = props => {
                 <h3 className="tdm-wizard-page-subtitle">
                   First, let's name your project
                 </h3>
-                <WizardRulePanels
+                <WizardRuleInputPanels
                   rules={projectRules}
                   onInputChange={onInputChange}
                   suppressHeader={true}
@@ -194,7 +195,7 @@ const TdmCalculationWizard = props => {
                 <h3 className="tdm-wizard-page-subtitle">
                   Select all that apply
                 </h3>
-                <WizardRulePanels
+                <WizardRuleInputPanels
                   rules={landUseRules}
                   onInputChange={onInputChange}
                   suppressHeader={true}
@@ -209,7 +210,7 @@ const TdmCalculationWizard = props => {
                   Enter the project specifications to determine the required
                   parking
                 </h3>
-                <WizardRulePanels
+                <WizardRuleInputPanels
                   rules={inputRules}
                   onInputChange={onInputChange}
                 />
@@ -223,7 +224,7 @@ const TdmCalculationWizard = props => {
                   Enter the # of parking spaces you intend to build to complete
                   the Target Point calculation
                 </h3>
-                <WizardRulePanels
+                <WizardRuleInputPanels
                   rules={targetRules}
                   onInputChange={onInputChange}
                   suppressHeader
@@ -257,7 +258,7 @@ const TdmCalculationWizard = props => {
                     </button>
                   ) : null}
                 </div>
-                <WizardRulePanels
+                <WizardRuleStrategyPanels
                   rules={strategyRules}
                   onInputChange={onInputChange}
                 />
