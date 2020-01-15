@@ -75,6 +75,17 @@ class TdmCalculationContainer extends React.Component {
     }
   }
 
+  componentDidUpdate = async (prevProps) => {
+    if (prevProps.location.search !== this.props.location.search) {
+      let query = queryString.parse(this.props.location.search)
+      if (query.pageNo) {
+        this.setState({
+          pageNo: parseInt(query.pageNo)
+        })
+      }
+    }
+  }
+
   onPkgSelect = pkgType => {
     let pkgRules = [];
     if (pkgType === "Residential") {
