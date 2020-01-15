@@ -7,7 +7,6 @@ import clsx from 'clsx';
 import { useStyles } from './ResetPasswordRequest'
 import Sidebar from '../Sidebar';
 
-
 const validationSchema = Yup.object().shape({
   password: Yup.string()
   .min(8, "Password must be atleast 8 characters")

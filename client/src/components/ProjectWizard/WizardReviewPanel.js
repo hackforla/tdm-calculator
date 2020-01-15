@@ -1,8 +1,21 @@
 import React from "react";
+import { createUseStyles } from "react-jss";
+import clsx from 'clsx';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheck } from "@fortawesome/free-solid-svg-icons";
 
+const useStyles = createUseStyles({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    flex: "1 1 auto",
+    minWidth: "60vw"
+  },
+  
+});
+
 const WizardReviewPanel = props => {
+  const classes = useStyles();
   const { rules, account, projectId, loginId, onSave } = props;
 
   const landUses = rules
@@ -59,15 +72,7 @@ const WizardReviewPanel = props => {
     );
 
   return (
-    <div
-      className="tdm-wizard-review-page"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        flex: "1 1 auto",
-        minWidth: "60vw"
-      }}
-    >
+    <div className={clsx("tdm-wizard-review-page", classes.root)}>
       <h2 className="tdm-wizard-page-title">TDM Calculation Summary</h2>
       {projectName && projectName.value ? (
         <h3 className="tdm-wizard-page-subtitle">{projectName.value}</h3>

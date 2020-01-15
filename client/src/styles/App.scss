@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:900&display=swap');
-@import './reset.scss';
+@import url("https://fonts.googleapis.com/css?family=Montserrat:900&display=swap");
+@import "./reset.scss";
 @import "_variables.scss";
 // import scss files below
 
@@ -34,18 +34,19 @@ figure {
 
 body {
   background: $color-background;
-  font: Calibri, Arial, sans-serif;
+  font: $font;
   -webkit-text-size-adjust: 100%;
   color: #474747;
 }
 
 h1,
 .alpha {
-  font-family: 'Montserrat';
-  font-weight: 900;
-  font-size: 2em;
+  font-family: "Calibri Bold";
+  font-weight: normal;
+  font-size: 25px;
   line-height: 1.25em;
   color: $color-primary;
+  text-align: center;
 }
 
 h2,
@@ -77,7 +78,8 @@ cite {
 }
 
 blockquote {
-  font-weight: 700;
+  font-family: "Calibri Bold";
+  font-weight: normal;
   background-color: #92cc4e;
   color: #474747;
   padding: 1em 2em;
@@ -87,7 +89,8 @@ blockquote {
 }
 
 strong {
-  font-weight: bold;
+  font-family: "Calibri Bold";
+  font-weight: normal;
 }
 
 code {
