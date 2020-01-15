@@ -130,6 +130,12 @@ class TdmCalculationContainer extends React.Component {
     // Convert value to appropriate Data type
     if (rule.dataType === "number") {
       value = value ? Number.parseFloat(value) : 0;
+      if(rule.minValue !== null) {
+        value = value < rule.minValue ? rule.minValue : value;
+      }
+      if(rule.maxValue !== null) {
+        value = value > rule.maxValue ? rule.maxValue : value;
+      }
     }
 
     const formInputs = {
