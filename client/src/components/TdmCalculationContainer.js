@@ -120,8 +120,10 @@ class TdmCalculationContainer extends React.Component {
     if (!ruleCode) {
       throw new Error("Input is missing name attribute");
     }
-    const rule = this.state.rules.filter(rule => rule.code === ruleCode);
-    if (!rule) {
+
+    // Find rule by ruleCode
+    const rule = this.state.rules.find(rule => rule.code === ruleCode);
+    if (rule === undefined) {
       throw new Error("Rule not found for code " + ruleCode);
     }
 
