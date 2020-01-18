@@ -113,6 +113,24 @@ class TdmCalculationContainer extends React.Component {
     this.recalculate(formInputs);
   };
 
+  getRuleByCode = ruleCode => {
+    const rule = this.state.rules.find(rule => rule.code === ruleCode);
+    if (rule === undefined) {
+      throw new Error("Rule not found for code " + ruleCode);
+    }
+    return rule;
+  };
+
+  limitMinMax = (value, min, max) => {
+    if (min !== null) {
+      value = value < min ? min : value;
+    }
+    if (max !== null) {
+      value = value > max ? max : value;
+    }
+    return value;
+  };
+
   onInputChange = e => {
     const ruleCode = e.target.name;
     let value =
@@ -121,21 +139,12 @@ class TdmCalculationContainer extends React.Component {
       throw new Error("Input is missing name attribute");
     }
 
-    // Find rule by ruleCode
-    const rule = this.state.rules.find(rule => rule.code === ruleCode);
-    if (rule === undefined) {
-      throw new Error("Rule not found for code " + ruleCode);
-    }
+    const rule = this.getRuleByCode(ruleCode);
 
     // Convert value to appropriate Data type
     if (rule.dataType === "number") {
       value = value ? Number.parseFloat(value) : 0;
-      if(rule.minValue !== null) {
-        value = value < rule.minValue ? rule.minValue : value;
-      }
-      if(rule.maxValue !== null) {
-        value = value > rule.maxValue ? rule.maxValue : value;
-      }
+      value = this.limitMinMax(value, rule.minValue, rule.maxValue);
     }
 
     const formInputs = {
