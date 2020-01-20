@@ -16,6 +16,7 @@ const Register = props => {
   };
 
   const [errorMsg, setErrorMsg] = useState("")
+  const [ submitted, setSubmitted ] = useState(false)
 
   const registerSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -72,115 +73,126 @@ const Register = props => {
       <div className="tdm-wizard" style={{ flex: "1 0 auto", display: "flex", flexDirection: "row" }}>
         <Sidebar />
         <div className="tdm-wizard-content-container" style={{justifyContent: "center"}}>
-        
-        <h1 style={{fontWeight: 500}}>Create a New Account</h1>
-        <h3 style={{fontWeight: 100}}>Save your project information.</h3>
-        <br />
-        <div className="auth-form">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={registerSchema}
-            onSubmit={(values, actions) => handleSubmit(values, actions, props)}
-          >
-          {({ touched, errors, isSubmitting }) => (
-            <Form>
-              <div className="form-group">
-                <Field
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  className={`form-control ${
-                    touched.firstName && errors.firstName ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="firstName"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
-              <div className="form-group">
-                <Field
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  className={`form-control ${
-                    touched.lastName && errors.lastName ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="lastName"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
-              <div className="form-group">
-                <Field
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  className={`form-control ${
-                    touched.email && errors.email ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
-              <div className="form-group">
-                <Field
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  className={`form-control ${
-                    touched.password && errors.password ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
-              <div className="form-group">
-                <Field
-                  type="password"
-                  name="passwordConfirm"
-                  placeholder="Retype Password"
-                  className={`form-control ${
-                    touched.passwordConfirm && errors.passwordConfirm
-                      ? "is-invalid"
-                      : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="passwordConfirm"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn-submit"
-                disabled={isSubmitting}
+        {!submitted ? (
+          <>
+            
+            <h1 style={{fontWeight: 500}}>Create a New Account</h1>
+            <h3 style={{fontWeight: 100}}>Save your project information.</h3>
+            <br />
+            <div className="auth-form">
+              <Formik
+                initialValues={initialValues}
+                validationSchema={registerSchema}
+                onSubmit={(values, actions) => handleSubmit(values, actions, props)}
               >
-                {isSubmitting ? "Please wait..." : "Create Account"}
-              </button>
-              <div className="warning">
-                <br />
-                {errorMsg}
-              </div>
-            </Form>
-          )}
-          </Formik>
-        </div>
+              {({ touched, errors, isSubmitting }) => (
+                <Form>
+                  <div className="form-group">
+                    <Field
+                      type="text"
+                      name="firstName"
+                      placeholder="First Name"
+                      className={`form-control ${
+                        touched.firstName && errors.firstName ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      name="firstName"
+                      component="div"
+                      className="invalid-feedback"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      type="text"
+                      name="lastName"
+                      placeholder="Last Name"
+                      className={`form-control ${
+                        touched.lastName && errors.lastName ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      name="lastName"
+                      component="div"
+                      className="invalid-feedback"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      className={`form-control ${
+                        touched.email && errors.email ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="invalid-feedback"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      className={`form-control ${
+                        touched.password && errors.password ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="invalid-feedback"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      type="password"
+                      name="passwordConfirm"
+                      placeholder="Retype Password"
+                      className={`form-control ${
+                        touched.passwordConfirm && errors.passwordConfirm
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      name="passwordConfirm"
+                      component="div"
+                      className="invalid-feedback"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn-submit"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Please wait..." : "Create Account"}
+                  </button>
+                  <div className="warning">
+                    <br />
+                    {errorMsg}
+                  </div>
+                </Form>
+              )}
+              </Formik>
+          </div>
+            </>
+          ) : (
+            <>
+            <h1>Registration instructions have been sent to the email you provided.</h1>
+            <h2>Please allow a few minutes for the email to arrive in your inbox.</h2>
+            </>
+          )
+        }
         <br/>
         <div className="auth-text">
           Already have an account? &nbsp; <Link className="auth-link" to="/login">Log In</Link>
         </div>
+
       </div>
       </div>
     </div> 
