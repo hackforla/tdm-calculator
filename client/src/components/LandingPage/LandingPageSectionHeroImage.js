@@ -54,7 +54,7 @@ const LandingPageSectionHeroImage = () => {
                 <h1 className={classes.h1}>LA TDM</h1>
                 <h2 className={classes.h2}>Better for your project.
 				<br />Better for LA.</h2>
-                <Link to={`/calculation`} className={classes.startButton}>Start Your Project</Link>
+                <Link to={`/calculation?pageNo=1&view=w`} className={classes.startButton}>Start Your Project</Link>
             </div>
         </div>
     )
