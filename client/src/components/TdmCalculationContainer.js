@@ -84,6 +84,12 @@ class TdmCalculationContainer extends React.Component {
         })
       }
     }
+
+    this.props.setIsCreatingNewProject(true)
+  }
+
+  componentWillUnmount = () => {
+    this.props.setIsCreatingNewProject(false)
   }
 
   onPkgSelect = pkgType => {
