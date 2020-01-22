@@ -132,7 +132,7 @@ class TdmCalculationContainer extends React.Component {
 
     const formInputs = {
       ...this.state.formInputs,
-      [e.target.name]: value
+      // [e.target.name]: value
     };
     this.recalculate(formInputs);
   };
