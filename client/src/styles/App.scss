@@ -204,6 +204,10 @@ button.link {
   border-color: #cc2a14;
 }
 
+.hide {
+  display: none;
+}
+
 // add any override to the default styles in the individual component styles
 @import "./AuthForms.scss"; // Login and Register components
 @import "./Calculation.scss";

@@ -25,10 +25,15 @@ const useStyles = createUseStyles({
     zIndex: 0
   },
   sidebarContent: {
-    zIndex: 1
+    zIndex: 1,
+    display: "flex",
+    flexDirection: "column"
   },
   contentContainer: {
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    boxSizing: "border-box",
+    height: "calc(100vh - 103px)",
+    overflow: "scroll"
   },
   buttonWrapper: {
     textAlign: "center"
