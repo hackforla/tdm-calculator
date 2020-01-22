@@ -22,8 +22,8 @@ const generateUEID = () => {
 };
 
 const withToastProvider = Component => {
-  const classes = useStyles();
   const WithToastProvider = props => {
+    const classes = useStyles();
     const [toasts, setToasts] = useState([]);
     const add = content => {
       const id = generateUEID();
