@@ -121,6 +121,10 @@ class TdmCalculationContainer extends React.Component {
     return rule;
   };
 
+  limitToInt = value => {
+    return value.replace(/\D/g, '');
+  }
+
   limitMinMax = (value, min, max) => {
     if (min !== null) {
       value = value < min ? min : value;
@@ -143,7 +147,7 @@ class TdmCalculationContainer extends React.Component {
 
     // Convert value to appropriate Data type
     if (rule.dataType === "number") {
-      value = value ? Number.parseFloat(value) : 0;
+      value = this.limitToInt(value);
       value = this.limitMinMax(value, rule.minValue, rule.maxValue);
     }
 

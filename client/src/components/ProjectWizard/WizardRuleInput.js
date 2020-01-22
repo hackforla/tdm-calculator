@@ -57,7 +57,7 @@ const WizardRuleInput = ({
           >
             <input
               style={{ padding: "0.1em", width: "auto", textAlign: "right" }}
-              type="number"
+              type="text"
               value={value || ""}
               onChange={onInputChange}
               name={code}

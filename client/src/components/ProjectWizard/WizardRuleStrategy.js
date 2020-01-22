@@ -113,7 +113,7 @@ const WizardRuleMeasure = ({
           <div className={classes.numberInputContainer}>
             <input
               className={classes.numberInput}
-              type="number"
+              type="text"
               value={value || ""}
               onChange={onInputChange}
               name={code}

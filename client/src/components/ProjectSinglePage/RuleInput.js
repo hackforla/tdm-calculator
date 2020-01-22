@@ -45,7 +45,7 @@ const RuleInput = ({
             {name}
           </div>
           <input
-            type="number"
+            type="text"
             style={{
               flexBasis: "10%",
               flexGrow: "0",
