@@ -25,9 +25,10 @@ const useStyles = createUseStyles({
 const history = createBrowserHistory();
 
 const Header = props => {
-  const { account, setAccount } = props;
+  const { account, setAccount, isCreatingNewProject } = props;
   const classes = useStyles();
 
+  // TODO: url path changes to /login, but page doesn't actually redirect you to login page
   const setLoggedOutAccount = () => {
     localStorage.clear();
     setAccount({});
@@ -45,7 +46,7 @@ const Header = props => {
           />
         </a>
       </div>
-      <NavBar account={account} setLoggedOutAccount={setLoggedOutAccount} />
+      <NavBar account={account} setLoggedOutAccount={setLoggedOutAccount} isCreatingNewProject={isCreatingNewProject}/>
       {account && account.firstName ? (
         <h4>Hello, {`${account.firstName} ${account.lastName} `}</h4>
       ) : null}
