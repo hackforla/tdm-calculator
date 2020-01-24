@@ -6,7 +6,36 @@ import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "../SwitchViewButton";
-import Sidebar from '../Sidebar';
+import Sidebar from "../Sidebar";
+
+export const filters = {
+  projectRules: rule =>
+    rule.category === "input" &&
+    rule.calculationPanelId === 31 &&
+    rule.used &&
+    rule.display,
+  landUseRules: rule =>
+    rule.category === "input" &&
+    rule.calculationPanelId === 5 &&
+    rule.used &&
+    rule.display,
+  inputRules: rule =>
+    rule.category === "input" &&
+    rule.calculationPanelId !== 5 &&
+    rule.calculationPanelId !== 31 &&
+    rule.used &&
+    rule.display,
+  targetRules: rule =>
+    rule.category === "measure" &&
+    rule.used &&
+    rule.display &&
+    rule.calculationPanelId === 10,
+  strategyRules: rule =>
+    rule.category === "measure" &&
+    rule.used &&
+    rule.display &&
+    rule.calculationPanelId !== 10
+};
 
 const useStyles = createUseStyles({
   sidebarOverlay: {
@@ -26,6 +55,7 @@ const TdmCalculationWizard = props => {
   const {
     rules,
     onInputChange,
+    onUncheckAll,
     onPkgSelect,
     resultRuleCodes,
     account,
@@ -53,54 +83,13 @@ const TdmCalculationWizard = props => {
     }
   }, [props.projectId, props.account, props.loginId, props.pageNo]);
 
-  const projectRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.calculationPanelId === 31 &&
-        rule.used &&
-        rule.display
-    );
+  const projectRules = rules && rules.filter(filters.projectRules);
 
-  const landUseRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.calculationPanelId === 5 &&
-        rule.used &&
-        rule.display
-    );
-  console.log(landUseRules);
-  const inputRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.calculationPanelId !== 5 &&
-        rule.calculationPanelId !== 31 &&
-        rule.used &&
-        rule.display
-    );
-  const targetRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "measure" &&
-        rule.used &&
-        rule.display &&
-        rule.calculationPanelId === 10
-    );
-  const strategyRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "measure" &&
-        rule.used &&
-        rule.display &&
-        rule.calculationPanelId !== 10
-    );
+  const landUseRules = rules && rules.filter(filters.landUseRules);
+
+  const inputRules = rules && rules.filter(filters.inputRules);
+  const targetRules = rules && rules.filter(filters.targetRules);
+  const strategyRules = rules && rules.filter(filters.strategyRules);
   const resultRules =
     rules &&
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
@@ -152,33 +141,33 @@ const TdmCalculationWizard = props => {
   return (
     <React.Fragment>
       <div
-        className="tdm-wizard"
+        className='tdm-wizard'
         style={{
           flex: "1 1 auto%",
           display: "flex",
           flexDirection: "row",
-          height: 'calc(100vh - 103px)'
+          height: "calc(100vh - 103px)"
         }}
       >
         <Sidebar>
-        {rules && rules.length > 0 && (
-          <div className={classes.sidebarContent}>
-            <SwitchViewButton onClick={props.onViewChange}>
-              Switch to Default View
-            </SwitchViewButton>
-            <WizardResultPanel rules={resultRules} />
-          </div>
-        )}
+          {rules && rules.length > 0 && (
+            <div className={classes.sidebarContent}>
+              <SwitchViewButton onClick={props.onViewChange}>
+                Switch to Default View
+              </SwitchViewButton>
+              <WizardResultPanel rules={resultRules} />
+            </div>
+          )}
         </Sidebar>
-        <div className="tdm-wizard-content-container">
+        <div className='tdm-wizard-content-container'>
           <div>
             {rules && page === 1 ? (
               <div style={{ minWidth: "40%" }}>
-                <h2 className="tdm-wizard-page-title">
+                <h2 className='tdm-wizard-page-title'>
                   {" "}
                   Welcome to Los Angeles' TDM Calculator
                 </h2>
-                <h3 className="tdm-wizard-page-subtitle">
+                <h3 className='tdm-wizard-page-subtitle'>
                   First, let's name your project
                 </h3>
                 <WizardRuleInputPanels
@@ -189,12 +178,15 @@ const TdmCalculationWizard = props => {
               </div>
             ) : rules && page === 2 ? (
               <div style={{ minWidth: "40%" }}>
-                <h2 className="tdm-wizard-page-title">
+                <h2 className='tdm-wizard-page-title'>
                   What kind of development is your project?
                 </h2>
-                <h3 className="tdm-wizard-page-subtitle">
+                <h3 className='tdm-wizard-page-subtitle'>
                   Select all that apply
                 </h3>
+                <button onClick={() => onUncheckAll(filters.landUseRules)}>
+                  Test
+                </button>
                 <WizardRuleInputPanels
                   rules={landUseRules}
                   onInputChange={onInputChange}
@@ -203,10 +195,10 @@ const TdmCalculationWizard = props => {
               </div>
             ) : page === 3 ? (
               <div style={{ minWidth: "80%" }}>
-                <h2 className="tdm-wizard-page-title">
+                <h2 className='tdm-wizard-page-title'>
                   Determine the required parking spaces
                 </h2>
-                <h3 className="tdm-wizard-page-subtitle">
+                <h3 className='tdm-wizard-page-subtitle'>
                   Enter the project specifications to determine the required
                   parking
                 </h3>
@@ -217,10 +209,10 @@ const TdmCalculationWizard = props => {
               </div>
             ) : page === 4 ? (
               <div style={{ minWidth: "80%" }}>
-                <h2 className="tdm-wizard-page-title">
+                <h2 className='tdm-wizard-page-title'>
                   Calculate TDM Target Points
                 </h2>
-                <h3 className="tdm-wizard-page-subtitle">
+                <h3 className='tdm-wizard-page-subtitle'>
                   Enter the # of parking spaces you intend to build to complete
                   the Target Point calculation
                 </h3>
@@ -232,16 +224,19 @@ const TdmCalculationWizard = props => {
               </div>
             ) : page === 5 ? (
               <div style={{ minWidth: "80%" }}>
-                <h2 className="tdm-wizard-page-title">
+                <h2 className='tdm-wizard-page-title'>
                   Transporation Demand Strategies
                 </h2>
-                <h3 className="tdm-wizard-page-subtitle">
+                <h3 className='tdm-wizard-page-subtitle'>
                   Select strategies to earn TDM points
                 </h3>
+                <button onClick={() => onUncheckAll(filters.strategyRules)}>
+                  Test
+                </button>
                 <div style={{ textAlign: "center" }}>
                   {showResidentialPkg ? (
                     <button
-                      className="tdm-wizard-pkg-button"
+                      className='tdm-wizard-pkg-button'
                       onClick={() => onPkgSelect("Residential")}
                       disabled={disabledResidentialPkg}
                     >
@@ -250,7 +245,7 @@ const TdmCalculationWizard = props => {
                   ) : null}
                   {showCommercialPkg ? (
                     <button
-                      className="tdm-wizard-pkg-button"
+                      className='tdm-wizard-pkg-button'
                       onClick={() => onPkgSelect("Commercial")}
                       disabled={disabledCommercialPkg}
                     >
