@@ -144,9 +144,9 @@ const Login = props => {
                     {isSubmitting ? "Please wait..." : "Login"}
                   </button>
 
-                  <button className="btn-without-saving">
-                    <Link to="/calculation">Continue without saving</Link>
-                  </button>
+                  {/* <button className="btn-without-saving"> */}
+                    <Link to="/calculation"><button className="btn-without-saving">Continue without saving</button></Link>
+                  {/* </button> */}
                   <div className="warning">
                     <p className="without-saving">
                       Your work will not be saved! We recommend logging in.
