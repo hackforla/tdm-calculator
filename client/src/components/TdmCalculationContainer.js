@@ -164,6 +164,7 @@ class TdmCalculationContainer extends React.Component {
     if (rule.dataType === "number") {
       value = this.limitToInt(value);
       value = this.limitMinMax(value, rule.minValue, rule.maxValue);
+      value = value === "0" ? "" : value;
     }
 
     const formInputs = {
