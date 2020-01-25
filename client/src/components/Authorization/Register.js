@@ -1,11 +1,27 @@
 import React, { useState } from "react";
 import * as accountService from "../../services/account-service";
+import { createUseStyles } from "react-jss";
+import clsx from "clsx";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link, withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import Sidebar from "../Sidebar";
 
+const useStyles = createUseStyles({
+  root: {
+    flex: "1 0 auto",
+    display: "flex",
+    flexDirection: "column"
+  },
+  wizardContainer: {
+    flex: "1 0 auto",
+    display: "flex",
+    flexDirection: "row"
+  }
+});
+
 const Register = props => {
+  const classes = useStyles();
   const { match } = props;
   const initialValues = {
     firstName: "",
@@ -70,22 +86,19 @@ const Register = props => {
     //resetForm(initialValues);
   };
   return (
-    <div style={{ flex: "1 0 auto", display: "flex", flexDirection: "column" }}>
-      <div
-        className='tdm-wizard'
-        style={{ flex: "1 0 auto", display: "flex", flexDirection: "row" }}
-      >
+    <div className={classes.root}>
+      <div className={clsx("tdm-wizard", classes.wizardContainer)}>
         <Sidebar />
         <div
-          className='tdm-wizard-content-container'
-          style={{ justifyContent: "center" }}
+          className={clsx(
+            "tdm-wizard-content-container",
+            classes.wizardContentContainer
+          )}
         >
           {!submitted ? (
             <>
-              <h1 style={{ fontWeight: 500 }}>Create a New Account</h1>
-              <h3 style={{ fontWeight: 100 }}>
-                Save your project information.
-              </h3>
+              <h1>Create a New Account</h1>
+              <h3>Save your project information.</h3>
               <br />
               <div className='auth-form'>
                 <Formik

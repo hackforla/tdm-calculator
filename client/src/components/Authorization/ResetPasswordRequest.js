@@ -116,62 +116,64 @@ export function ResetPasswordRequest(props) {
         <Link className={classes.backLink} to={`/login`}>
           {`< Return to Login`}
         </Link>
-        { !submitted ? (
-          <div className={classes.formContent}>
-            <h1>
-              Please enter the email registered with your account.
-            </h1>
-            <h3>
-              An email will be sent with further recovery instructions.
-            </h3>
-            <Formik
-              initialValues={{email: ''}}
-              validationSchema={validationSchema}
-              onSubmit={( values, actions) => {
-                handleSubmit(values, actions)
-              }}
-            >
-              {({ touched, errors, values }) => (
-                <Form className={classes.form}>
-                  <div className={classes.fieldGroup}>
-                    <Field
-                      type='email'
-                      value={values.email}
-                      name='email'
-                      placeholder='Registered Email Address'
-                      className={
-                        clsx(classes.inputField, touched.email && errors.email ? classes.error : null)
-                      }
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className={classes.errorMessage}
-                    />
-                  </div>
-                  <button
-                    type='submit'
-                  >
-                    Send Recovery Email
-                  </button>
-                </Form>
-              )}
-            </Formik>
-            <div className={classes.authText}>
-              New user? &nbsp;
-              <Link className={classes.authLink} to={`/register`}>
-                Create an account
-              </Link>
-            </div>
-          </div>
-        )
-        : (
-          <>
-            <h1>Account recovery instructions have been sent to the email you provided.</h1>
-            <h2>Please allow a few minutes for the email to arrive in your inbox.</h2>
-          </>
-        )
-        } 
+        <div className={classes.formContent}>
+          { !submitted ? (
+            <>
+              <h1>
+                Please enter the email registered with your account.
+              </h1>
+              <h3>
+                An email will be sent with further recovery instructions.
+              </h3>
+              <Formik
+                initialValues={{email: ''}}
+                validationSchema={validationSchema}
+                onSubmit={( values, actions) => {
+                  handleSubmit(values, actions)
+                }}
+              >
+                {({ touched, errors, values }) => (
+                  <Form className={classes.form}>
+                    <div className={classes.fieldGroup}>
+                      <Field
+                        type='email'
+                        value={values.email}
+                        name='email'
+                        placeholder='Registered Email Address'
+                        className={
+                          clsx(classes.inputField, touched.email && errors.email ? classes.error : null)
+                        }
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className={classes.errorMessage}
+                      />
+                    </div>
+                    <button
+                      type='submit'
+                    >
+                      Send Recovery Email
+                    </button>
+                  </Form>
+                )}
+              </Formik>
+              <div className={classes.authText}>
+                New user? &nbsp;
+                <Link className={classes.authLink} to={`/register`}>
+                  Create an account
+                </Link>
+              </div>
+            </>
+          )
+          : (
+            <>
+              <h1>Account recovery instructions have been sent to the email you provided.</h1>
+              <h2>Please allow a few minutes for the email to arrive in your inbox.</h2>
+            </>
+          )
+          }
+        </div>
       </div>
     </div>
   )

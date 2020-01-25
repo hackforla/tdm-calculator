@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { Link } from "react-router-dom";
 
@@ -29,8 +29,22 @@ const useStyles = createUseStyles({
 });
 
 const NavBar = props => {
-  const { account, setLoggedOutAccount } = props;
+  const { account, setLoggedOutAccount, isCreatingNewProject } = props;
   const classes = useStyles();
+
+  const showNewProjectLink = () => {
+    return isCreatingNewProject 
+    ? null
+    : <li>
+        <Link className={classes.link} to="/calculation?pageNo=1&view=w" >
+          New Project
+        </Link>
+      </li>
+  }
+
+  useEffect(() => {
+    showNewProjectLink()
+  }, [isCreatingNewProject])
 
   return (
     <ul className={classes.navbar}>
@@ -44,11 +58,8 @@ const NavBar = props => {
           Projects
         </Link>
       </li>
-      <li>
-        <Link className={classes.link} to="/calculation?pageNo=1&view=w">
-          New Project
-        </Link>
-      </li>
+
+      {showNewProjectLink()}
       {/* <li>
         <Link className={classes.link} to="/about">About</Link>
       </li>

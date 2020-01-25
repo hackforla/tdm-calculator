@@ -1,9 +1,49 @@
 import React from "react";
+import { createUseStyles } from "react-jss";
 import RulePanels from "./RulePanels";
 import ResultList from "./ResultList";
 import SwitchViewButton from "../SwitchViewButton";
 
+const useStyles = createUseStyles({
+  root: {
+    flex: "1 0 auto"
+  },
+  container: {
+    margin: "1em"
+  },
+  switchButtonWrapper: {
+    margin: "0.5em",
+    display: "flex",
+    flexDirection: "row"
+  },
+  switchButton: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    flexGrow: "0",
+    flexShrink: "0",
+    flexBasis: "20%"
+  },
+  rulePanelWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  rulePanel: {
+    width: "50%",
+    display: "flex",
+    flexDirection: "column"
+  },
+  transportDemandStrategies: {
+    width: "50%"
+  },
+  buttonWrapper: {
+    textAlign: "center"
+  }
+});
+
 const TdmCalculation = props => {
+  const classes = useStyles();
   const { rules, onInputChange, onPkgSelect, resultRuleCodes } = props;
   const inputRules =
     rules &&
@@ -64,29 +104,12 @@ const TdmCalculation = props => {
   })();
 
   return (
-    <div style={{ flex: "1 0 auto" }}>
-      <div style={{ margin: "1em" }}>
-        <div
-          style={{
-            margin: "0.5em",
-            display: "flex",
-            flexDirection: "row"
-          }}
-        >
+    <div className={classes.root}>
+      <div className={classes.container}>
+        <div className={classes.switchButtonWrapper}>
           <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              flexGrow: "0",
-              flexShrink: "0",
-              flexBasis: "20%"
-            }}
-          >
-            <SwitchViewButton
-              onClick={props.onViewChange}
-              style={{ margin: "5em" }}
-            >
+            className={classes.switchButton}>
+            <SwitchViewButton onClick={props.onViewChange}>
               Switch to Wizard View
             </SwitchViewButton>
           </div>
@@ -96,20 +119,8 @@ const TdmCalculation = props => {
             <div>No Rules Loaded</div>
           )}
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between"
-          }}
-        >
-          <div
-            style={{
-              width: "50%",
-              display: "flex",
-              flexDirection: "column"
-            }}
-          >
+        <div className={classes.rulePanelWrapper}>
+          <div className={classes.rulePanel}>
             <h2>Project Parameters</h2>
             {rules && rules.length > 0 ? (
               <RulePanels rules={inputRules} onInputChange={onInputChange} />
@@ -117,13 +128,9 @@ const TdmCalculation = props => {
               <div>No Rules Loaded</div>
             )}
           </div>
-          <div
-            style={{
-              width: "50%"
-            }}
-          >
+          <div className={classes.transportDemandStrategies}>
             <h2> Transportation Demand Strategies</h2>
-            <div style={{ textAlign: "center" }}>
+            <div className={classes.buttonWrapper}>
               {showResidentialPkg ? (
                 <button
                   className="tdm-wizard-pkg-button"

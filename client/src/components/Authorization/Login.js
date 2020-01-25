@@ -1,11 +1,27 @@
 import React, {useState} from "react";
 import { Link, withRouter } from "react-router-dom";
+import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as accountService from "../../services/account-service";
 import SideBar from '../Sidebar';
+import clsx from 'clsx';
+
+const useStyles = createUseStyles({
+  root: {
+    flex: "1 0 auto",
+    display: "flex",
+    flexDirection: "column"
+  },
+  tdmWizard: {
+    flex: "1 0 auto",
+    display: "flex",
+    flexDirection: "row"
+  }
+})
 
 const Login = props => {
+  const classes = useStyles();
   const [errorMsg, setErrorMsg] = useState("")
 
   const { setLoggedInAccount, match } = props;
@@ -64,22 +80,13 @@ const Login = props => {
   };
 
   return (
-    <div style={{ flex: "1 0 auto", display: "flex", flexDirection: "column" }}>
-      <div
-        className="tdm-wizard"
-        style={{ flex: "1 0 auto", display: "flex", flexDirection: "row" }}
-      >
+    <div className={classes.root}>
+      <div className={clsx("tdm-wizard", classes.tdmWizard)}>
+        <div className="tdm-wizard-sidebar"></div>
         <SideBar />
-        <div
-          className="tdm-wizard-content-container"
-          style={{ justifyContent: "center" }}
-        >
-          <h1 style={{ fontWeight: 500 }}>
-            Welcome to Los Angeles' TDM Calculator
-          </h1>
-          <h3 style={{ fontWeight: 100 }}>
-            Please sign into your account to save progress.
-          </h3>
+        <div className="tdm-wizard-content-container">
+          <h1>Welcome to Los Angeles' TDM Calculator</h1>
+          <h3>Please sign into your account to save progress.</h3>
           <br />
           <div className="auth-form">
             <Formik

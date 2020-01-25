@@ -21,7 +21,9 @@ const useStyles = createUseStyles({
 		paddingLeft: 100
 	},
 	h1: {
-		fontSize: 90
+		fontSize: 90,
+		fontFamily: 'Montserrat',
+		fontWeight: 900
 	},
 	h2: {
 		fontSize: 60

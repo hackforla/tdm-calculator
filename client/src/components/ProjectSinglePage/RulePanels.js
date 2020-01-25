@@ -1,8 +1,18 @@
 import React from "react";
-
+import { createUseStyles } from "react-jss";
 import RuleList from "./RuleList";
 
+const useStyles = createUseStyles({
+  panel: {
+    margin: "0.5em"
+  },
+  legend: {
+    fontWeight: "bold"
+  }
+});
+
 const RulePanels = props => {
+  const classes = useStyles();
   const { rules } = props;
   const panelIds = rules.reduce((acc, rule) => {
     if (!acc.includes(rule.calculationPanelId)) {
@@ -21,12 +31,10 @@ const RulePanels = props => {
         ? panelsRules.map(rules => (
             <div
               key={rules[0].calculationPanelId}
-              style={{
-                margin: "0.5em"
-              }}
+              className={classes.panel}
             >
               <fieldset>
-                <legend style={{ fontWeight: "bold" }}>
+                <legend className={classes.legend}>
                   {rules[0].panelName}
                 </legend>
                 <RuleList
