@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { createUseStyles } from "react-jss";
-import WizardRulePanels from "./WizardRulePanels";
+import clsx from 'clsx';
+import WizardRuleStrategyPanels from "./WizardRuleStrategyPanels";
+import WizardRuleInputPanels from "./WizardRuleInputPanels";
 import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
@@ -8,6 +10,13 @@ import SwitchViewButton from "../SwitchViewButton";
 import Sidebar from '../Sidebar';
 
 const useStyles = createUseStyles({
+  root: {
+    height: "calc(100vh - 103px)",
+    overflow: "hidden",
+    flex: "1 1 auto",
+    display: "flex",
+    flexDirection: "row"
+  },
   sidebarOverlay: {
     position: "absolute",
     background: "rgba(0, 46, 109, 0.65)",
@@ -16,7 +25,22 @@ const useStyles = createUseStyles({
     zIndex: 0
   },
   sidebarContent: {
-    zIndex: 1
+    zIndex: 1,
+    display: "flex",
+    flexDirection: "column"
+  },
+  contentContainer: {
+    justifyContent: "space-between",
+    boxSizing: "border-box",
+    height: "calc(100vh - 103px)",
+    overflow: "scroll"
+  },
+  buttonWrapper: {
+    textAlign: "center"
+  },
+  navButtonsWrapper: {
+    marginBottom: "3em",
+    marginTop: "2em"
   }
 });
 
@@ -150,15 +174,7 @@ const TdmCalculationWizard = props => {
 
   return (
     <React.Fragment>
-      <div
-        className="tdm-wizard"
-        style={{
-          flex: "1 1 auto%",
-          display: "flex",
-          flexDirection: "row",
-          height: 'calc(100vh - 103px)'
-        }}
-      >
+      <div className={clsx("tdm-wizard", classes.root)}>
         <Sidebar>
         {rules && rules.length > 0 && (
           <div className={classes.sidebarContent}>
@@ -169,75 +185,72 @@ const TdmCalculationWizard = props => {
           </div>
         )}
         </Sidebar>
-        <div className="tdm-wizard-content-container">
+        <div className={clsx("tdm-wizard-content-container", classes.contentContainer)}>
           <div>
             {rules && page === 1 ? (
-              <div style={{ minWidth: "40%" }}>
-                <h2 className="tdm-wizard-page-title">
-                  {" "}
-                  Welcome to Los Angeles' TDM Calculator
-                </h2>
+              <div>
+                <h1 className="tdm-wizard-page-title">Welcome to Los Angeles' TDM Calculator</h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   First, let's name your project
                 </h3>
-                <WizardRulePanels
+                <WizardRuleInputPanels
                   rules={projectRules}
                   onInputChange={onInputChange}
                   suppressHeader={true}
                 />
               </div>
             ) : rules && page === 2 ? (
-              <div style={{ minWidth: "40%" }}>
-                <h2 className="tdm-wizard-page-title">
+              <div>
+                <h1 className="tdm-wizard-page-title">
                   What kind of development is your project?
-                </h2>
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   Select all that apply
                 </h3>
-                <WizardRulePanels
+                <WizardRuleInputPanels
                   rules={landUseRules}
                   onInputChange={onInputChange}
                   suppressHeader={true}
                 />
               </div>
             ) : page === 3 ? (
-              <div style={{ minWidth: "80%" }}>
-                <h2 className="tdm-wizard-page-title">
+              <div>
+                <h1 className="tdm-wizard-page-title">
                   Determine the required parking spaces
-                </h2>
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   Enter the project specifications to determine the required
                   parking
                 </h3>
-                <WizardRulePanels
+                <WizardRuleInputPanels
                   rules={inputRules}
                   onInputChange={onInputChange}
                 />
               </div>
             ) : page === 4 ? (
-              <div style={{ minWidth: "80%" }}>
-                <h2 className="tdm-wizard-page-title">
+              <div>
+                <h1 className="tdm-wizard-page-title">
                   Calculate TDM Target Points
-                </h2>
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   Enter the # of parking spaces you intend to build to complete
                   the Target Point calculation
                 </h3>
-                <WizardRulePanels
+                <WizardRuleInputPanels
                   rules={targetRules}
                   onInputChange={onInputChange}
                   suppressHeader
                 />
               </div>
             ) : page === 5 ? (
-              <div style={{ minWidth: "80%" }}>
-                <h2 className="tdm-wizard-page-title">
+              <div>
+                <h1 className="tdm-wizard-page-title">
                   Transporation Demand Strategies
-                </h2>
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   Select strategies to earn TDM points
                 </h3>
-                <div style={{ textAlign: "center" }}>
+                <div className={classes.buttonWrapper}>
                   {showResidentialPkg ? (
                     <button
                       className="tdm-wizard-pkg-button"
@@ -257,7 +270,7 @@ const TdmCalculationWizard = props => {
                     </button>
                   ) : null}
                 </div>
-                <WizardRulePanels
+                <WizardRuleStrategyPanels
                   rules={strategyRules}
                   onInputChange={onInputChange}
                 />
@@ -274,9 +287,8 @@ const TdmCalculationWizard = props => {
               </div>
             )}
           </div>
-
           {!projectId || (account && account.id && account.id === loginId) ? (
-            <div style={{ marginBottom: "3em", marginTop: "2em" }}>
+            <div className={classes.navButtonsWrapper}>
               <WizardNavButton
                 disabled={page === 1}
                 onClick={() => {

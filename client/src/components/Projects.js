@@ -13,7 +13,8 @@ const useStyles = createUseStyles({
     alignItems: "center"
   },
   table: {
-    minWidth: "80%"
+    minWidth: "80%",
+    margin: "20px"
   },
   tr: {
     margin: "0.5em"
@@ -33,11 +34,7 @@ const useStyles = createUseStyles({
     textDecoration: "underline"
   },
   pageTitle: {
-    marginTop: "1em",
-    textAlign: "center",
-    fontSize: "25px",
-    fontWeight: "bold",
-    fontStyle: "normal"
+    marginTop: "2em"
   },
   pageSubtitle: {
     marginTop: "0.5em",

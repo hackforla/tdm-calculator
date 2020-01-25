@@ -1,23 +1,23 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import WizardRuleInput from "./WizardRuleInput";
+import WizardRuleStrategy from "./WizardRuleStrategy";
 
 const useStyles = createUseStyles({
   root: {
-    marginRight: "0.75em",
+    marginRight: ".75em",
     marginLeft: "0.75em",
-    minWidth: "60%"
+    minWidth: "80%"
   }
 });
 
-const WizardRuleInputList = props => {
+const WizardRuleStrategyList = props => {
   const classes = useStyles();
   const { rules } = props;
   return (
     <div className={classes.root}>
       {rules && rules.length > 0
         ? rules.map(rule => (
-            <WizardRuleInput
+            <WizardRuleStrategy
               key={rule.id}
               rule={rule}
               onInputChange={props.onInputChange}
@@ -28,4 +28,4 @@ const WizardRuleInputList = props => {
   );
 };
 
-export default WizardRuleInputList;
+export default WizardRuleStrategyList;

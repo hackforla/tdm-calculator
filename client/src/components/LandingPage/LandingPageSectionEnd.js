@@ -9,6 +9,14 @@ const useStyles = createUseStyles({
     textAlign: "center",
     margin: "0 auto"
   },
+  heading: {
+    fontSize: 55,
+    fontWeight: 800
+  },
+  paragraph: {
+    fontSize: 28,
+    fontWeight: 400
+  },
   startButton: {
     display: "inline-block",
     background: "#a7c539",
@@ -33,13 +41,13 @@ const LandingPageSectionEnd = props => {
 
   return (
     <div className={classes.root}>
-      <h2 style={{ fontSize: 55, fontWeight: 800 }}>
+      <h2 className={classes.heading}>
         Preparing for a new project?
       </h2>
-      <p style={{ fontSize: 28, fontWeight: 400 }}>
+      <p className={classes.paragraph}>
         Let us help you get started right.
       </p>
-      <Link to="/calculation" className={classes.startButton}>
+      <Link to="/calculation?pageNo=1&view=w" className={classes.startButton}>
         Get Started
       </Link>
     </div>

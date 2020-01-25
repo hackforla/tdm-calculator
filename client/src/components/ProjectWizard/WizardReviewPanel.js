@@ -1,8 +1,82 @@
 import React from "react";
+import { createUseStyles } from "react-jss";
+import clsx from 'clsx';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheck } from "@fortawesome/free-solid-svg-icons";
 
+const useStyles = createUseStyles({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    flex: "1 1 auto",
+    minWidth: "60vw"
+  },
+  alignCenter: {
+    textAlign: "center"
+  },
+  grid: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginBottom: "20px"
+  },
+  measure: {
+    width: "25%",
+    display: "flex",
+    flexDirection: "column",
+    border: "1px solid black",
+    borderRadius: "6px",
+    padding: "0.5em",
+    alignItems: "center"
+  },
+  measureValue: {
+    fontWeight: "bold",
+    fontSize: "3em"
+  },
+  label: {
+    fontWeight: "bold",
+    fontSize: "1em"
+  },
+  heading: {
+    marginTop: "1em"
+  },
+  rule: {
+    width: "100%",
+    display: "flex",
+    displayDirection: "row",
+    marginLeft: "1em"
+  },
+  ruleName: {
+    flex: "1 1 auto"
+  },
+  value: {
+    flex: "0 0 10%",
+    textAlign: "right"
+  },
+  ruleUnits: {
+    flex: "0 0 20%",
+    paddingLeft: "1em"
+  },
+  icon: {
+    flex: "0 0 5%"
+  },
+  calcUnits: {
+    flex: "0 0 10%",
+    paddingLeft: "1em"
+  },
+  overline: {
+    borderTop: "2px solid black"
+  },
+  buttonContainer: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: "1em",
+    justifyContent: "space-evenly"
+  }
+});
+
 const WizardReviewPanel = props => {
+  const classes = useStyles();
   const { rules, account, projectId, loginId, onSave } = props;
 
   const landUses = rules
@@ -59,314 +133,110 @@ const WizardReviewPanel = props => {
     );
 
   return (
-    <div
-      className="tdm-wizard-review-page"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        flex: "1 1 auto",
-        minWidth: "60vw"
-      }}
-    >
+    <div className={clsx("tdm-wizard-review-page", classes.root)}>
       <h2 className="tdm-wizard-page-title">TDM Calculation Summary</h2>
+
       {projectName && projectName.value ? (
         <h3 className="tdm-wizard-page-subtitle">{projectName.value}</h3>
       ) : null}
+
       {projectAddress && projectAddress.value ? (
         <h3 className="tdm-wizard-page-subtitle">{projectAddress.value}</h3>
       ) : null}
 
       {projectDescription && projectDescription.value ? (
-        <p style={{ textAlign: "center" }}>{projectDescription.value} </p>
+        <p className={classes.alignCenter}>{projectDescription.value} </p>
       ) : null}
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly"
-        }}
-      >
+      <div className={classes.grid}>
         {targetPoints ? (
-          <div
-            style={{
-              width: "25%",
-              display: "flex",
-              flexDirection: "column",
-              border: "1px solid black",
-              borderRadius: "6px",
-              padding: "0.5em",
-              alignItems: "center"
-            }}
-          >
-            <div
-              style={{
-                fontWeight: "bold",
-                fontSize: "3em"
-              }}
-            >
-              {Math.round(targetPoints.value)}
-            </div>
-            <div
-              style={{
-                fontWeight: "bold",
-                fontSize: "1em"
-              }}
-            >
-              Target Points
-            </div>
+          <div className={classes.measure}>
+            <div className={classes.measureValue}>{Math.round(targetPoints.value)}</div>
+            <div className={classes.label}>Target Points</div>
           </div>
         ) : null}
 
         {earnedPoints ? (
-          <div
-            style={{
-              width: "25%",
-              display: "flex",
-              flexDirection: "column",
-              border: "1px solid black",
-              borderRadius: "6px",
-              padding: "0.5em",
-              alignItems: "center"
-            }}
-          >
-            <div
-              style={{
-                fontWeight: "bold",
-                fontSize: "3em"
-              }}
-            >
-              {Math.round(earnedPoints.value)}
-            </div>
-            <div
-              style={{
-                fontWeight: "bold",
-                fontSize: "1em"
-              }}
-            >
-              Earned Points
-            </div>
+          <div className={classes.measure}>
+            <div className={classes.measureValue}>{Math.round(earnedPoints.value)}</div>
+            <div className={classes.label}>Earned Points</div>
           </div>
         ) : null}
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          marginTop: "1em",
-          justifyContent: "space-evenly"
-        }}
-      >
+      <div className={classes.grid}>
         {parkingRatio ? (
-          <div
-            style={{
-              width: "25%",
-              display: "flex",
-              flexDirection: "column",
-              border: "1px solid black",
-              borderRadius: "6px",
-              padding: "0.5em",
-              alignItems: "center"
-            }}
-          >
-            <div
-              style={{
-                fontWeight: "bold",
-                fontSize: "3em"
-              }}
-            >
-              {`${Math.floor(parkingRatio.value).toString()} %`}
-            </div>
-            <div
-              style={{
-                fontWeight: "bold",
-                fontSize: "1em",
-                textAlign: "center"
-              }}
-            >
-              Provided / Required Parking
-            </div>
+          <div className={classes.measure}>
+            <div className={classes.measureValue}>{`${Math.floor(parkingRatio.value).toString()} %`}</div>
+            <div className={classes.label}>Provided / Required Parking</div>
           </div>
         ) : null}
 
         {level ? (
-          <div
-            style={{
-              width: "25%",
-              display: "flex",
-              flexDirection: "column",
-              border: "1px solid black",
-              borderRadius: "6px",
-              padding: "0.5em",
-              alignItems: "center"
-            }}
-          >
-            <div
-              style={{
-                fontWeight: "bold",
-                fontSize: "3em"
-              }}
-            >
-              {level.value}
-            </div>
-            <div
-              style={{
-                fontWeight: "bold",
-                fontSize: "1em"
-              }}
-            >
-              Project Level
-            </div>
+          <div className={classes.measure}>
+            <div className={classes.measureValue}>{level.value}</div>
+            <div className={classes.label}>Project Level</div>
           </div>
         ) : null}
       </div>
 
-      <h2 style={{ marginTop: "1em" }}>Land Uses</h2>
+      <h2 className={classes.heading}>Land Uses</h2>
       <div> {`${landUses}`}</div>
 
-      <h2 style={{ marginTop: "1em" }}>TDM Measures Selected</h2>
+      <h2 className={classes.heading}>TDM Measures Selected</h2>
       {rules && rules.length > 0
         ? measureRules.map(rule => (
-            <div
-              key={rule.id}
-              style={{
-                width: "100%",
-                display: "flex",
-                displayDirection: "row",
-                marginLeft: "1em"
-              }}
-            >
-              <div style={{ flex: "1 1 auto" }}>{rule.name}</div>
-              <div style={{ flex: "1 1 10%", textAlign: "right" }}>
+            <div key={rule.id} className={classes.rule}>
+              <div className={classes.ruleName}>{rule.name}</div>
+              <div className={classes.value}>
                 {rule.dataType === "boolean" ? (
                   <FontAwesomeIcon icon={faCheck} />
                 ) : rule.dataType === "choice" ? (
-                  rule.choices.filter(choice => choice.id === rule.value)[0]
-                    .name
+                  rule.choices.filter(choice => choice.id === rule.value)[0].name
                 ) : (
                   rule.value
                 )}
               </div>
-              <div style={{ flex: "0 0 20%", paddingLeft: "1em" }}>
-                {rule.units}
-              </div>
-              <div style={{ flex: "0 0 5%" }}>
-                <FontAwesomeIcon icon={faArrowRight} />
-              </div>
-              <div
-                style={{
-                  flex: "0 0 10%",
-                  textAlign: "right"
-                }}
-              >
-                {Math.round(rule.calcValue * 100) / 100}
-              </div>
-              <div
-                style={{
-                  flex: "0 0 10%",
-                  paddingLeft: "1em"
-                }}
-              >
-                {rule.calcUnits}
-              </div>
+              <div className={classes.ruleUnits}>{rule.units}</div>
+              <div className={classes.icon}><FontAwesomeIcon icon={faArrowRight} /></div>
+              <div className={classes.value}>{Math.round(rule.calcValue * 100) / 100}</div>
+              <div className={classes.calcUnits}>{rule.calcUnits}</div>
             </div>
           ))
         : null}
 
-      <h2 style={{ marginTop: "1em" }}>Required Parking Calculation</h2>
+      <h2 className={classes.heading}>Required Parking Calculation</h2>
       {rules && rules.length > 0
         ? inputRules.map(rule => (
-            <div
-              key={rule.id}
-              style={{
-                width: "100%",
-                display: "flex",
-                displayDirection: "row",
-                marginLeft: "1em"
-              }}
-            >
-              <div style={{ flex: "1 1 auto" }}>{rule.name}</div>
-              <div style={{ flex: "0 0 10%", textAlign: "right" }}>
-                {rule.value}
-              </div>
-              <div style={{ flex: "0 0 20%", paddingLeft: "1em" }}>
-                {rule.units}
-              </div>
-              <div style={{ flex: "0 0 5%" }}>
-                <FontAwesomeIcon icon={faArrowRight} />
-              </div>
-              <div style={{ flex: "0 0 10%", textAlign: "right" }}>
-                {Math.round(rule.calcValue * 100) / 100}
-              </div>
-              <div style={{ flex: "0 0 10%", paddingLeft: "1em" }}>
-                {rule.calcUnits}
-              </div>
+            <div key={rule.id} className={classes.rule}>
+              <div className={classes.ruleName}>{rule.name}</div>
+              <div className={classes.value}>{rule.value}</div>
+              <div className={classes.ruleUnits}>{rule.units}</div>
+              <div className={classes.icon}><FontAwesomeIcon icon={faArrowRight} /></div>
+              <div className={classes.value}>{Math.round(rule.calcValue * 100) / 100}</div>
+              <div className={classes.calcUnits}>{rule.calcUnits}</div>
             </div>
           ))
         : null}
 
       {parkingRequired ? (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            displayDirection: "row",
-            fontWeight: "bold",
-            marginLeft: "1em"
-          }}
-        >
-          <div style={{ flex: "1 1 auto" }}>{parkingRequired.name}</div>
-          <div
-            style={{
-              flex: "0 0 10%",
-              textAlign: "right",
-              borderTop: "2px solid black"
-            }}
-          >
-            {Math.round(parkingRequired.value * 100) / 100}
-          </div>
-          <div
-            style={{
-              flex: "0 0 10%",
-              paddingLeft: "1em",
-              borderTop: "2px solid black"
-            }}
-          >
-            {parkingRequired.units}
-          </div>
+        <div className={classes.rule}>
+          <div className={classes.ruleName}>{parkingRequired.name}</div>
+          <div className={clsx(classes.value, classes.overline)}>{Math.round(parkingRequired.value * 100) / 100}</div>
+          <div className={clsx(classes.value, classes.overline)}>{parkingRequired.units}</div>
         </div>
       ) : null}
 
       {parkingProvided ? (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            displayDirection: "row",
-            fontWeight: "bold",
-            marginLeft: "1em"
-          }}
-        >
-          <div style={{ flex: "1 1 auto" }}>{parkingProvided.name}</div>
-          <div style={{ flex: "0 0 10%", textAlign: "right" }}>
-            {Math.round(parkingProvided.value * 100) / 100}
-          </div>
-          <div style={{ flex: "0 0 10%", paddingLeft: "1em" }}>
-            {parkingProvided.units}
-          </div>
+        <div className={classes.rule}>
+          <div className={classes.ruleName}>{parkingProvided.name}</div>
+          <div className={classes.value}>{Math.round(parkingProvided.value * 100) / 100}</div>
+          <div className={classes.ruleUnits}>{parkingProvided.units}</div>
         </div>
       ) : null}
 
       {account.id && (!projectId || account.id === loginId) ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginTop: "1em",
-            justifyContent: "space-evenly"
-          }}
-        >
+        <div className={classes.buttonContainer}>
           <button className="tdm-wizard-save-button" onClick={onSave}>
             {projectId ? "Save Project Changes" : "Save As New Project"}
           </button>

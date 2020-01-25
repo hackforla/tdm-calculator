@@ -26,24 +26,10 @@ const useStyles = createUseStyles({
   }
 });
 
-const setTokenInHeaders = () => {
-  axios.interceptors.request.use(
-    config => {
-      let token = localStorage.getItem("token");
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
-      }
-      return config;
-    },
-    error => Promise.reject(error)
-  );
-};
-
-setTokenInHeaders();
-
 const App = props => {
   const classes = useStyles();
   const [account, setAccount] = useState({});
+  const [isCreatingNewProject, setIsCreatingNewProject] = useState(false)
 
   useEffect(() => {
     const currentUser = localStorage.getItem("currentUser");
@@ -68,16 +54,32 @@ const App = props => {
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
   };
 
+  //TODO: This doesn't seem like it's getting used anymore. Don't see token in local storage. Check on authorization flow to see if token is still needed.
+  const setTokenInHeaders = () => {
+    axios.interceptors.request.use(
+      config => {
+        let token = localStorage.getItem("token");
+        if (token) {
+          config.headers["Authorization"] = `Bearer ${token}`;
+        }
+        return config;
+      },
+      error => Promise.reject(error)
+    );
+  };
+
+  setTokenInHeaders();
+
   return (
     <React.Fragment>
       <UserContext.Provider value={account}>
         <Router>
-          <Header account={account} setAccount={setAccount} />
+          <Header account={account} setAccount={setAccount} isCreatingNewProject={isCreatingNewProject}/>
           <div className={classes.root}>
             <Route exact path="/" component={LandingPage} />
             <Route
               path="/calculation/:projectId?"
-              render={() => <TdmCalculationContainer account={account} />}
+              render={() => <TdmCalculationContainer account={account} setIsCreatingNewProject={setIsCreatingNewProject} />}
             />
             <Route
               path="/projects"

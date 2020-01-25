@@ -7,7 +7,6 @@ import clsx from 'clsx';
 import { useStyles } from './ResetPasswordRequest'
 import Sidebar from '../Sidebar';
 
-
 const validationSchema = Yup.object().shape({
   password: Yup.string()
   .min(8, "Password must be atleast 8 characters")
@@ -86,11 +85,7 @@ export function ResetPassword(props) {
                       className={classes.errorMessage}
                     />
                   </div>
-                  <button
-                        type='submit'
-                      >
-                        Submit
-                      </button>
+                  <button type='submit'>Submit</button>
                 </Form>
               )}
             </Formik>
@@ -99,7 +94,7 @@ export function ResetPassword(props) {
           <>
           <h1>Password Reset Successful!</h1>
           <h2>Redirecting to login</h2>
-          <div style={{display: 'none'}}>
+          <div className="hide">
             { setTimeout(()=>{
               props.history.push(`/login/${success}`)
             }, 2000)}
