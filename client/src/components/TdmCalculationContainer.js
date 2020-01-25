@@ -7,6 +7,15 @@ import * as ruleService from "../services/rule.service";
 import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";
 import ToastContext from "../contexts/Toast/ToastContext";
+import injectSheet from "react-jss";
+
+const styles = {
+  root: {
+    flex: "1 1 auto",
+    display: "flex",
+    flexDirection: "column"
+  }
+};
 
 class TdmCalculationContainer extends React.Component {
   calculationId = 1;
@@ -84,6 +93,12 @@ class TdmCalculationContainer extends React.Component {
         })
       }
     }
+
+    this.props.setIsCreatingNewProject(true)
+  }
+
+  componentWillUnmount = () => {
+    this.props.setIsCreatingNewProject(false)
   }
 
   onPkgSelect = pkgType => {
@@ -207,15 +222,9 @@ class TdmCalculationContainer extends React.Component {
 
   render() {
     const { rules, view, projectId, loginId, pageNo } = this.state;
-    const { account } = this.props;
+    const { account, classes } = this.props;
     return (
-      <div
-        style={{
-          flex: "1 1 auto",
-          display: "flex",
-          flexDirection: "column"
-        }}
-      >
+      <div className={classes.root}>
         {view === "w" ? (
           <TdmCalculationWizard
             rules={rules}
@@ -252,4 +261,4 @@ class TdmCalculationContainer extends React.Component {
   }
 }
 
-export default withRouter(TdmCalculationContainer);
+export default withRouter(injectSheet(styles)(TdmCalculationContainer));

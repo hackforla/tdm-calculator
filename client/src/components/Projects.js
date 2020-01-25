@@ -12,7 +12,8 @@ const useStyles = createUseStyles({
     alignItems: "center"
   },
   table: {
-    minWidth: "80%"
+    minWidth: "80%",
+    margin: "20px"
   },
   tr: {
     margin: "0.5em"
@@ -32,11 +33,7 @@ const useStyles = createUseStyles({
     textDecoration: "underline"
   },
   pageTitle: {
-    marginTop: "1em",
-    textAlign: "center",
-    fontSize: "25px",
-    fontWeight: "bold",
-    fontStyle: "normal"
+    marginTop: "2em"
   },
   pageSubtitle: {
     marginTop: "0.5em",
@@ -66,7 +63,7 @@ const Projects = props => {
 
   return (
     <div className={classes.main}>
-      <h2 className={classes.pageTitle}>Projects</h2>
+      <h1 className={classes.pageTitle}>Projects</h1>
       <table className={classes.table}>
         <thead className={classes.thead}>
           <tr className={classes.tr}>
@@ -78,26 +75,28 @@ const Projects = props => {
             <td className={classes.tdRightAlign}>Date Modified</td>
           </tr>
         </thead>
-        {projects.map(project => (
-          <tr key={project.id}>
-            <td className={classes.td}>
-              <Link to={`/calculation/${project.id}`} className={classes.link}>
-                {project.name}
-              </Link>
-            </td>
-            <td className={classes.td}>{project.address}</td>
-            <td className={classes.td}>{project.description}</td>
-            <td
-              className={classes.td}
-            >{`${project.firstName} ${project.lastName}`}</td>
-            <td className={classes.tdRightAlign}>
-              {moment(project.dateCreated).format("M/DD/YYYY h:mm A")}
-            </td>
-            <td className={classes.tdRightAlign}>
-              {moment(project.dateModified).format("M/DD/YYYY h:mm A")}
-            </td>
-          </tr>
-        ))}
+        <tbody>
+          {projects.map(project => (
+            <tr key={project.id}>
+              <td className={classes.td}>
+                <Link to={`/calculation/${project.id}`} className={classes.link}>
+                  {project.name}
+                </Link>
+              </td>
+              <td className={classes.td}>{project.address}</td>
+              <td className={classes.td}>{project.description}</td>
+              <td
+                className={classes.td}
+              >{`${project.firstName} ${project.lastName}`}</td>
+              <td className={classes.tdRightAlign}>
+                {moment(project.dateCreated).format("M/DD/YYYY h:mm A")}
+              </td>
+              <td className={classes.tdRightAlign}>
+                {moment(project.dateModified).format("M/DD/YYYY h:mm A")}
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );

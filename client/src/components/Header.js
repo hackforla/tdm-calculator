@@ -19,15 +19,20 @@ const useStyles = createUseStyles({
     "& h4": {
       color: "white"
     }
+  },
+  logo: {
+    height: "2em", 
+    padding: 10
   }
 });
 
 const history = createBrowserHistory();
 
 const Header = props => {
-  const { account, setAccount } = props;
+  const { account, setAccount, isCreatingNewProject } = props;
   const classes = useStyles();
 
+  // TODO: url path changes to /login, but page doesn't actually redirect you to login page
   const setLoggedOutAccount = () => {
     localStorage.clear();
     setAccount({});
@@ -39,13 +44,13 @@ const Header = props => {
       <div>
         <a href="//ladot.lacity.org" target="_blank" rel="noopener noreferrer">
           <img
-            style={{ height: "2em", padding: 10 }}
+            className={classes.logo}
             src={logo}
             alt="LA Department of Transportation Logo"
           />
         </a>
       </div>
-      <NavBar account={account} setLoggedOutAccount={setLoggedOutAccount} />
+      <NavBar account={account} setLoggedOutAccount={setLoggedOutAccount} isCreatingNewProject={isCreatingNewProject}/>
       {account && account.firstName ? (
         <h4>Hello, {`${account.firstName} ${account.lastName} `}</h4>
       ) : null}
