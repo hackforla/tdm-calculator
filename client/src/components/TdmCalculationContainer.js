@@ -145,13 +145,9 @@ class TdmCalculationContainer extends React.Component {
 
   onUncheckAll = filterRules => {
     const { rules, formInputs } = this.state;
-
     let updateInputs = { ...formInputs };
     for (let i = 0; i < rules.length; i++) {
-      if (
-        filterRules(rules[i])
-        // && rules[i].dataType === "boolean"
-      ) {
+      if (filterRules(rules[i])) {
         if (updateInputs[rules[i].code]) {
           updateInputs[rules[i].code] = null;
         }

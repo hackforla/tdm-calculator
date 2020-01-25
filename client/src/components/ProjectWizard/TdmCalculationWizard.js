@@ -84,9 +84,7 @@ const TdmCalculationWizard = props => {
   }, [props.projectId, props.account, props.loginId, props.pageNo]);
 
   const projectRules = rules && rules.filter(filters.projectRules);
-
   const landUseRules = rules && rules.filter(filters.landUseRules);
-
   const inputRules = rules && rules.filter(filters.inputRules);
   const targetRules = rules && rules.filter(filters.targetRules);
   const strategyRules = rules && rules.filter(filters.strategyRules);
