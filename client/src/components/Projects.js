@@ -67,6 +67,8 @@ const Projects = ({ account }) => {
   }, []);
 
   const filterUserAndAdmin = project => {
+    // TODO: remove this line when we want to hide projects from other users
+    return true;
     if (account.isAdmin) {
       return true;
     }
