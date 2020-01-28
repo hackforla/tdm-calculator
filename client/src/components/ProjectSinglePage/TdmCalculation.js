@@ -4,7 +4,7 @@ import ResultList from "./ResultList";
 import SwitchViewButton from "../SwitchViewButton";
 
 const TdmCalculation = props => {
-  const { rules, onInputChange, onPkgSelect, resultRuleCodes } = props;
+  const { rules, onInputChange, onUncheckAll, filters, onPkgSelect, resultRuleCodes } = props;
   const inputRules =
     rules &&
     rules.filter(
@@ -124,9 +124,15 @@ const TdmCalculation = props => {
           >
             <h2> Transportation Demand Strategies</h2>
             <div style={{ textAlign: "center" }}>
+              <button
+                className='tdm-wizard-pkg-button'
+                onClick={() => onUncheckAll(filters.strategyRules)}
+              >
+                Reset All Strategies
+              </button>
               {showResidentialPkg ? (
                 <button
-                  className="tdm-wizard-pkg-button"
+                  className='tdm-wizard-pkg-button'
                   onClick={() => onPkgSelect("Residential")}
                   disabled={disabledResidentialPkg}
                 >
@@ -135,7 +141,7 @@ const TdmCalculation = props => {
               ) : null}
               {showCommercialPkg ? (
                 <button
-                  className="tdm-wizard-pkg-button"
+                  className='tdm-wizard-pkg-button'
                   onClick={() => onPkgSelect("Commercial")}
                   disabled={disabledCommercialPkg}
                 >

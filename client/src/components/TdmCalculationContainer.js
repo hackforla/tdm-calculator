@@ -203,6 +203,36 @@ class TdmCalculationContainer extends React.Component {
     this.setState({ formInputs, rules });
   };
 
+  filters = {
+    projectRules: rule =>
+      rule.category === "input" &&
+      rule.calculationPanelId === 31 &&
+      rule.used &&
+      rule.display,
+    landUseRules: rule =>
+      rule.category === "input" &&
+      rule.calculationPanelId === 5 &&
+      rule.used &&
+      rule.display,
+    inputRules: rule =>
+      rule.category === "input" &&
+      rule.calculationPanelId !== 5 &&
+      rule.calculationPanelId !== 31 &&
+      rule.used &&
+      rule.display,
+    targetRules: rule =>
+      rule.category === "measure" &&
+      rule.used &&
+      rule.display &&
+      rule.calculationPanelId === 10,
+    strategyRules: rule =>
+      rule.category === "measure" &&
+      rule.used &&
+      rule.display &&
+      rule.calculationPanelId !== 10
+  };
+  
+
   render() {
     const { rules, view, projectId, loginId, pageNo } = this.state;
     const { account } = this.props;
@@ -219,6 +249,7 @@ class TdmCalculationContainer extends React.Component {
             rules={rules}
             onInputChange={this.onInputChange}
             onUncheckAll={this.onUncheckAll}
+            filters={this.filters}
             onPkgSelect={this.onPkgSelect}
             resultRuleCodes={this.resultRuleCodes}
             onViewChange={() => this.setState({ view: "d" }, this.pushHistory)}
@@ -233,6 +264,8 @@ class TdmCalculationContainer extends React.Component {
           <TdmCalculation
             rules={rules}
             onInputChange={this.onInputChange}
+            onUncheckAll={this.onUncheckAll}
+            filters={this.filters}
             onPkgSelect={this.onPkgSelect}
             resultRuleCodes={this.resultRuleCodes}
             onViewChange={() => this.setState({ view: "w" }, this.pushHistory)}

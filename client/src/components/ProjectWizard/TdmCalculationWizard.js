@@ -8,34 +8,34 @@ import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "../SwitchViewButton";
 import Sidebar from "../Sidebar";
 
-export const filters = {
-  projectRules: rule =>
-    rule.category === "input" &&
-    rule.calculationPanelId === 31 &&
-    rule.used &&
-    rule.display,
-  landUseRules: rule =>
-    rule.category === "input" &&
-    rule.calculationPanelId === 5 &&
-    rule.used &&
-    rule.display,
-  inputRules: rule =>
-    rule.category === "input" &&
-    rule.calculationPanelId !== 5 &&
-    rule.calculationPanelId !== 31 &&
-    rule.used &&
-    rule.display,
-  targetRules: rule =>
-    rule.category === "measure" &&
-    rule.used &&
-    rule.display &&
-    rule.calculationPanelId === 10,
-  strategyRules: rule =>
-    rule.category === "measure" &&
-    rule.used &&
-    rule.display &&
-    rule.calculationPanelId !== 10
-};
+// export const filters = {
+//   projectRules: rule =>
+//     rule.category === "input" &&
+//     rule.calculationPanelId === 31 &&
+//     rule.used &&
+//     rule.display,
+//   landUseRules: rule =>
+//     rule.category === "input" &&
+//     rule.calculationPanelId === 5 &&
+//     rule.used &&
+//     rule.display,
+//   inputRules: rule =>
+//     rule.category === "input" &&
+//     rule.calculationPanelId !== 5 &&
+//     rule.calculationPanelId !== 31 &&
+//     rule.used &&
+//     rule.display,
+//   targetRules: rule =>
+//     rule.category === "measure" &&
+//     rule.used &&
+//     rule.display &&
+//     rule.calculationPanelId === 10,
+//   strategyRules: rule =>
+//     rule.category === "measure" &&
+//     rule.used &&
+//     rule.display &&
+//     rule.calculationPanelId !== 10
+// };
 
 const useStyles = createUseStyles({
   sidebarOverlay: {
@@ -56,6 +56,7 @@ const TdmCalculationWizard = props => {
     rules,
     onInputChange,
     onUncheckAll,
+    filters,
     onPkgSelect,
     resultRuleCodes,
     account,
@@ -182,9 +183,14 @@ const TdmCalculationWizard = props => {
                 <h3 className='tdm-wizard-page-subtitle'>
                   Select all that apply
                 </h3>
-                <button onClick={() => onUncheckAll(filters.landUseRules)}>
-                  Test
-                </button>
+                <div style={{ textAlign: "center" }}>
+                  <button
+                    className='tdm-wizard-pkg-button'
+                    onClick={() => onUncheckAll(filters.landUseRules)}
+                  >
+                    Uncheck All
+                  </button>
+                </div>
                 <WizardRuleInputPanels
                   rules={landUseRules}
                   onInputChange={onInputChange}
@@ -228,10 +234,13 @@ const TdmCalculationWizard = props => {
                 <h3 className='tdm-wizard-page-subtitle'>
                   Select strategies to earn TDM points
                 </h3>
-                <button onClick={() => onUncheckAll(filters.strategyRules)}>
-                  Test
-                </button>
                 <div style={{ textAlign: "center" }}>
+                  <button
+                    className='tdm-wizard-pkg-button'
+                    onClick={() => onUncheckAll(filters.strategyRules)}
+                  >
+                    Reset All Strategies
+                  </button>
                   {showResidentialPkg ? (
                     <button
                       className='tdm-wizard-pkg-button'
