@@ -129,7 +129,7 @@ const WizardRuleInput = ({
           <div className={classes.numberField}>
             <input
               className={classes.input}
-              type="number"
+              type="text"
               value={value || ""}
               onChange={onInputChange}
               name={code}
