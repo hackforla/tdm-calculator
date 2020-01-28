@@ -61,7 +61,7 @@ const SortAndFilterProjects = ({
 
   const onButtonReset = () => {
     setSort(projectFields[0]);
-    setSortDirection("down");
+    setSortDirection("up");
     setFilter(projectFields[0]);
     setFilterWords("");
   };
@@ -103,8 +103,8 @@ const SortAndFilterProjects = ({
           onChange={event => setSortDirection(event.target.value)}
           value={sortDirection}
         >
-          <option value="down">Descending</option>
           <option value="up">Ascending</option>
+          <option value="down">Descending</option>
         </select>
       </div>
       <button type="button" onClick={onButtonReset}>

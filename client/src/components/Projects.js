@@ -48,7 +48,7 @@ const useStyles = createUseStyles({
 const Projects = ({ account }) => {
   const [projects, setProjects] = useState([]);
   const [sort, setSort] = useState("dateModified");
-  const [sortDirection, setSortDirection] = useState("down");
+  const [sortDirection, setSortDirection] = useState("up");
   const [filter, setFilter] = useState("dateModified");
   const [filterWords, setFilterWords] = useState("");
 
