@@ -1,7 +1,20 @@
 import React from "react";
+import { createUseStyles } from "react-jss";
 import reactStringReplace from "react-string-replace";
 
+const useStyles = createUseStyles({
+  match: {
+    border: "solid black 1px",
+    borderRadius: "10px",
+    padding: "2px 6px",
+    boxSizing: "border-box",
+    margin: "4px",
+    display: "inline-block"
+  }
+});
+
 const RuleFunction = props => {
+  const classes = useStyles();
   const { functionBody, rules, setRuleId } = props;
 
   const findID = (match, category) =>
@@ -24,15 +37,8 @@ const RuleFunction = props => {
           onClick={() => {
             calculationRule && setRuleId(calculationRule.id);
           }}
-          style={{
-            backgroundColor: buttonColor,
-            border: "solid black 1px",
-            borderRadius: "10px",
-            padding: "2px 6px",
-            boxSizing: "border-box",
-            margin: "4px",
-            display: "inline-block"
-          }}
+          className={classes.match}
+          style={{ backgroundColor: buttonColor }}
         >
           {match}
         </span>

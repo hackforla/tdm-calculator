@@ -1,8 +1,16 @@
 import React, { useState } from "react";
+import { createUseStyles } from "react-jss";
 import { createPortal } from "react-dom";
-
 import ToastContext from "./ToastContext";
 import Toast from "./Toast";
+
+const useStyles = createUseStyles({
+  root: {
+    position: "absolute",
+    bottom: "20px",
+    left: "50%"
+  }
+});
 
 const generateUEID = () => {
   let first = (Math.random() * 46656) | 0;
@@ -15,6 +23,7 @@ const generateUEID = () => {
 
 const withToastProvider = Component => {
   const WithToastProvider = props => {
+    const classes = useStyles();
     const [toasts, setToasts] = useState([]);
     const add = content => {
       const id = generateUEID();
@@ -27,13 +36,7 @@ const withToastProvider = Component => {
       <ToastContext.Provider value={{ add, remove }}>
         <Component {...props} />
         {createPortal(
-          <div
-            style={{
-              position: "absolute",
-              bottom: "20px",
-              left: "50%"
-            }}
-          >
+          <div className={classes.root}>
             {toasts.map(t => (
               <Toast key={t.id} remove={() => remove(t.id)}>
                 {t.content}

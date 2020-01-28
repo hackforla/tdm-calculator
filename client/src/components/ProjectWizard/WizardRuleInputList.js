@@ -1,12 +1,20 @@
 import React from "react";
+import { createUseStyles } from "react-jss";
 import WizardRuleInput from "./WizardRuleInput";
 
+const useStyles = createUseStyles({
+  root: {
+    marginRight: "0.75em",
+    marginLeft: "0.75em",
+    minWidth: "60%"
+  }
+});
+
 const WizardRuleInputList = props => {
+  const classes = useStyles();
   const { rules } = props;
   return (
-    <div
-      style={{ marginRight: ".75em", marginLeft: "0.75em", minWidth: "60%" }}
-    >
+    <div className={classes.root}>
       {rules && rules.length > 0
         ? rules.map(rule => (
             <WizardRuleInput

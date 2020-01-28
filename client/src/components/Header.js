@@ -19,6 +19,10 @@ const useStyles = createUseStyles({
     "& h4": {
       color: "white"
     }
+  },
+  logo: {
+    height: "2em", 
+    padding: 10
   }
 });
 
@@ -40,7 +44,7 @@ const Header = props => {
       <div>
         <a href="//ladot.lacity.org" target="_blank" rel="noopener noreferrer">
           <img
-            style={{ height: "2em", padding: 10 }}
+            className={classes.logo}
             src={logo}
             alt="LA Department of Transportation Logo"
           />
