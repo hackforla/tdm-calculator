@@ -27,7 +27,20 @@ const useStyles = createUseStyles({
     textAlign: "right"
   },
   thead: {
-    fontWeight: "bold"
+    fontWeight: "bold",
+    backgroundColor: "#0f2940",
+    color: "white",
+    "& td": {
+      padding: ".4em"
+    }
+  },
+  tbody: {
+    "& tr td": {
+      padding: ".4em 0"
+    },
+    "& tr:hover": {
+      background: "#f0e300"
+    }
   },
   link: {
     textDecoration: "underline"
@@ -69,13 +82,14 @@ const Projects = props => {
           <tr className={classes.tr}>
             <td className={classes.td}>Name</td>
             <td className={classes.td}>Address</td>
-            <td className={classes.td}>Description</td>
+            <td className={classes.td}>Version Number</td>
+            <td className={classes.td}>Building Permit</td>
             <td className={classes.td}>Entered By</td>
-            <td className={classes.tdRightAlign}>Date Entered</td>
-            <td className={classes.tdRightAlign}>Date Modified</td>
+            <td className={classes.tdRightAlign}>Created On</td>
+            <td className={classes.tdRightAlign}>Last Modified</td>
           </tr>
         </thead>
-        <tbody>
+        <tbody className={classes.tbody}>
           {projects.map(project => (
             <tr key={project.id}>
               <td className={classes.td}>
@@ -84,15 +98,16 @@ const Projects = props => {
                 </Link>
               </td>
               <td className={classes.td}>{project.address}</td>
-              <td className={classes.td}>{project.description}</td>
+              <td className={classes.td}>{JSON.parse(project.formInputs).VERSION_NO !== 'undefined' ? JSON.parse(project.formInputs).VERSION_NO : ''}</td>
+              <td className={classes.td}>{JSON.parse(project.formInputs).BUILDING_PERMIT !== 'undefined' ? JSON.parse(project.formInputs).BUILDING_PERMIT : ''}</td>
               <td
                 className={classes.td}
               >{`${project.firstName} ${project.lastName}`}</td>
               <td className={classes.tdRightAlign}>
-                {moment(project.dateCreated).format("M/DD/YYYY h:mm A")}
+                {moment(project.dateCreated).format("MM/DD/YYYY")}
               </td>
               <td className={classes.tdRightAlign}>
-                {moment(project.dateModified).format("M/DD/YYYY h:mm A")}
+                {moment(project.dateModified).format("MM/DD/YYYY") == moment().format("MM/DD/YYYY") ? moment(project.dateModified).format("h:mm A") : moment(project.dateModified).format("MM/DD/YYYY")}
               </td>
             </tr>
           ))}

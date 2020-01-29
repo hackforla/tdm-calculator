@@ -103,6 +103,12 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
+  },
+  textareaLabel: {
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    minHeight: "5em"
   }
 })
 
@@ -204,18 +210,27 @@ const WizardRuleInput = ({
             } ${calcUnits || ""}`}
           </div>
         </div>
-      ) : dataType === "string" ? (
+      ) : dataType === "string" || dataType === "textarea" ? (
         <div className={clsx(classes.field, classes.textFieldWrapper)}>
           <div className={classes.textInputLabel}>
             {name}
           </div>
-          <input
-            type="text"
-            className={classes.textInputLabel}
-            value={value || ""}
-            onChange={onInputChange}
-            name={code}
-          />
+          {dataType === "string" ? (
+            <input
+              type="text"
+              className={classes.textInputLabel}
+              value={value || ""}
+              onChange={onInputChange}
+              name={code}
+            />
+          ) : (
+            <textarea
+              className={classes.textareaLabel}
+              value={value || ""}
+              onChange={onInputChange}
+              name={code}
+            />
+          )}
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
