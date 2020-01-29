@@ -87,7 +87,7 @@ const RuleInput = ({
             {name}
           </div>
           <input
-            type="number"
+            type="text"
             className={classes.code}
             value={value || ""}
             onChange={onInputChange}
