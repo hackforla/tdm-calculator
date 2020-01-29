@@ -159,14 +159,16 @@ const WizardRuleInput = ({
             onChange={onInputChange}
             name={code}
           />
-          <div className={classes.unitsCaption}>
-            {units}
-          </div>
-          <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div>
+         {calcValue ? (
+            <>
+              <div className={classes.unitsCaption}>{units}</div>
+              <div className={classes.calcUnitsCaption}>
+                {`${
+                  calcValue ? Math.round(calcValue * 100) / 100 : ""
+                } ${calcUnits || ""}`}
+              </div>
+            </>
+          ) : null}
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>

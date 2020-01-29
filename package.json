@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "cd client && npm i && npm run build",
-    "start": "nodemon server.js"
+    "start": "nodemon --ignore './client/'"
   },
   "author": "Hack for LA",
   "license": "ISC",
