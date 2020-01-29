@@ -58,16 +58,13 @@ const WizardRuleStrategyPanels = props => {
                 key={rules[0].calculationPanelId}
                 className={classes.panelContainer}
               >
-
-   {!suppressHeader 
+              {!suppressHeader 
                 ? <div className={classes.strategyContainer}>
                     <h4 className={classes.strategyName}>{rules[0].panelName}</h4>
                     <div className={classes.points}>Possible</div>
                     <div className={classes.points}>Earned</div>
                   </div>
-                : null}
-               
-
+                : null}  
                 <WizardRuleStrategyList
                   key={rules[0].calculationPanelId}
                   rules={rules}
