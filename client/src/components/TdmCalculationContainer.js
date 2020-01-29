@@ -2,9 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import queryString from "query-string";
 import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
-import TdmCalculationWizard, {
-  filters
-} from "./ProjectWizard/TdmCalculationWizard";
+import TdmCalculationWizard from "./ProjectWizard/TdmCalculationWizard";
 import * as ruleService from "../services/rule.service";
 import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";

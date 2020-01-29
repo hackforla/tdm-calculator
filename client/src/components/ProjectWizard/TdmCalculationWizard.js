@@ -82,20 +82,19 @@ const TdmCalculationWizard = props => {
   useEffect(
     () => {
       if (
-        !props.projectId ||
-        (props.account &&
-          (props.account.isAdmin || props.account.id === props.loginId))
+        !projectId ||
+        (account && (account.isAdmin || account.id === loginId))
       ) {
         // Project Calculation is editable if it is not saved
         // or the project was created by the current logged in
         // user, or the logged in user is admin.
-        setPage(props.pageNo || 1);
+        setPage(pageNo || 1);
       } else {
         // read-only users can only see the summary page.
         setPage(6);
       }
     },
-    [props.projectId, props.account, props.loginId, props.pageNo]
+    [projectId, account, loginId, pageNo]
   );
 
   const projectRules = rules && rules.filter(filters.projectRules);

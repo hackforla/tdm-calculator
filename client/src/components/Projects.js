@@ -93,21 +93,35 @@ const Projects = props => {
           {projects.length && projects.map(project => (
             <tr key={project.id}>
               <td className={classes.td}>
-                <Link to={`/calculation/${project.id}`} className={classes.link}>
+                <Link
+                  to={`/calculation/${project.id}`}
+                  className={classes.link}
+                >
                   {project.name}
                 </Link>
               </td>
               <td className={classes.td}>{project.address}</td>
-              <td className={classes.td}>{JSON.parse(project.formInputs).VERSION_NO !== 'undefined' ? JSON.parse(project.formInputs).VERSION_NO : ''}</td>
-              <td className={classes.td}>{JSON.parse(project.formInputs).BUILDING_PERMIT !== 'undefined' ? JSON.parse(project.formInputs).BUILDING_PERMIT : ''}</td>
-              <td
-                className={classes.td}
-              >{`${project.firstName} ${project.lastName}`}</td>
+              <td className={classes.td}>
+                {JSON.parse(project.formInputs).VERSION_NO !== "undefined"
+                  ? JSON.parse(project.formInputs).VERSION_NO
+                  : ""}
+              </td>
+              <td className={classes.td}>
+                {JSON.parse(project.formInputs).BUILDING_PERMIT !== "undefined"
+                  ? JSON.parse(project.formInputs).BUILDING_PERMIT
+                  : ""}
+              </td>
+              <td className={classes.td}>{`${project.firstName} ${
+                project.lastName
+              }`}</td>
               <td className={classes.tdRightAlign}>
                 {moment(project.dateCreated).format("MM/DD/YYYY")}
               </td>
               <td className={classes.tdRightAlign}>
-                {moment(project.dateModified).format("MM/DD/YYYY") == moment().format("MM/DD/YYYY") ? moment(project.dateModified).format("h:mm A") : moment(project.dateModified).format("MM/DD/YYYY")}
+                {moment(project.dateModified).format("MM/DD/YYYY") ===
+                moment().format("MM/DD/YYYY")
+                  ? moment(project.dateModified).format("h:mm A")
+                  : moment(project.dateModified).format("MM/DD/YYYY")}
               </td>
             </tr>
           ))}
