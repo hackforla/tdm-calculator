@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createUseStyles } from "react-jss";
-import clsx from 'clsx';
+import clsx from "clsx";
 import WizardRuleStrategyPanels from "./WizardRuleStrategyPanels";
 import WizardRuleInputPanels from "./WizardRuleInputPanels";
 import WizardReviewPanel from "./WizardReviewPanel";
@@ -9,34 +9,6 @@ import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "../SwitchViewButton";
 import Sidebar from "../Sidebar";
 
-// export const filters = {
-//   projectRules: rule =>
-//     rule.category === "input" &&
-//     rule.calculationPanelId === 31 &&
-//     rule.used &&
-//     rule.display,
-//   landUseRules: rule =>
-//     rule.category === "input" &&
-//     rule.calculationPanelId === 5 &&
-//     rule.used &&
-//     rule.display,
-//   inputRules: rule =>
-//     rule.category === "input" &&
-//     rule.calculationPanelId !== 5 &&
-//     rule.calculationPanelId !== 31 &&
-//     rule.used &&
-//     rule.display,
-//   targetRules: rule =>
-//     rule.category === "measure" &&
-//     rule.used &&
-//     rule.display &&
-//     rule.calculationPanelId === 10,
-//   strategyRules: rule =>
-//     rule.category === "measure" &&
-//     rule.used &&
-//     rule.display &&
-//     rule.calculationPanelId !== 10
-// };
 
 const useStyles = createUseStyles({
   root: {
@@ -173,11 +145,18 @@ const TdmCalculationWizard = props => {
             </div>
           )}
         </Sidebar>
-        <div className={clsx("tdm-wizard-content-container", classes.contentContainer)}>
+        <div
+          className={clsx(
+            "tdm-wizard-content-container",
+            classes.contentContainer
+          )}
+        >
           <div>
             {rules && page === 1 ? (
               <div>
-                <h1 className="tdm-wizard-page-title">Welcome to Los Angeles' TDM Calculator</h1>
+                <h1 className="tdm-wizard-page-title">
+                  Welcome to Los Angeles' TDM Calculator
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   First, let's name your project
                 </h3>
@@ -197,7 +176,7 @@ const TdmCalculationWizard = props => {
                 </h3>
                 <div style={{ textAlign: "center" }}>
                   <button
-                    className='tdm-wizard-pkg-button'
+                    className="tdm-wizard-pkg-button"
                     onClick={() => onUncheckAll(filters.landUseRules)}
                   >
                     Uncheck All
@@ -239,23 +218,23 @@ const TdmCalculationWizard = props => {
                 />
               </div>
             ) : page === 5 ? (
-              <div >
-                <h2 className='tdm-wizard-page-title'>
+              <div>
+                <h2 className="tdm-wizard-page-title">
                   Transporation Demand Strategies
                 </h2>
-                <h3 className='tdm-wizard-page-subtitle'>
+                <h3 className="tdm-wizard-page-subtitle">
                   Select strategies to earn TDM points
                 </h3>
                 <div style={{ textAlign: "center" }}>
                   <button
-                    className='tdm-wizard-pkg-button'
+                    className="tdm-wizard-pkg-button"
                     onClick={() => onUncheckAll(filters.strategyRules)}
                   >
                     Reset All Strategies
                   </button>
                   {showResidentialPkg ? (
                     <button
-                      className='tdm-wizard-pkg-button'
+                      className="tdm-wizard-pkg-button"
                       onClick={() => onPkgSelect("Residential")}
                       disabled={disabledResidentialPkg}
                     >
@@ -264,7 +243,7 @@ const TdmCalculationWizard = props => {
                   ) : null}
                   {showCommercialPkg ? (
                     <button
-                      className='tdm-wizard-pkg-button'
+                      className="tdm-wizard-pkg-button"
                       onClick={() => onPkgSelect("Commercial")}
                       disabled={disabledCommercialPkg}
                     >
