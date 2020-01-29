@@ -219,9 +219,9 @@ const TdmCalculationWizard = props => {
               </div>
             ) : page === 5 ? (
               <div>
-                <h2 className="tdm-wizard-page-title">
+                <h1 className="tdm-wizard-page-title">
                   Transporation Demand Strategies
-                </h2>
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   Select strategies to earn TDM points
                 </h3>
