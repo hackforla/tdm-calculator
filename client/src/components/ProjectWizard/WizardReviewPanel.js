@@ -11,6 +11,9 @@ const useStyles = createUseStyles({
     flex: "1 1 auto",
     minWidth: "60vw"
   },
+  subtitle: {
+    marginBottom: 0
+  },
   alignCenter: {
     textAlign: "center"
   },
@@ -30,11 +33,11 @@ const useStyles = createUseStyles({
     alignItems: "center"
   },
   measureValue: {
-    fontWeight: "bold",
+    fontFamily: "Calibri Bold",
     fontSize: "3em"
   },
   label: {
-    fontWeight: "bold",
+    fontFamily: "Calibri Bold",
     fontSize: "1em"
   },
   heading: {
@@ -75,6 +78,9 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     marginTop: "1em",
     justifyContent: "space-evenly"
+  },
+  bold: {
+    fontFamily: "Calibri Bold"
   }
 });
 
@@ -137,14 +143,14 @@ const WizardReviewPanel = props => {
 
   return (
     <div className={clsx("tdm-wizard-review-page", classes.root)}>
-      <h2 className="tdm-wizard-page-title">TDM Calculation Summary</h2>
+      <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
 
       {projectName && projectName.value ? (
-        <h3 className="tdm-wizard-page-subtitle">{projectName.value}</h3>
+        <h3 className={clsx("tdm-wizard-page-subtitle", classes.subtitle)}>{projectName.value}</h3>
       ) : null}
 
       {projectAddress && projectAddress.value ? (
-        <h3 className="tdm-wizard-page-subtitle">{projectAddress.value}</h3>
+        <h3 className={clsx("tdm-wizard-page-subtitle", classes.subtitle)}>{projectAddress.value}</h3>
       ) : null}
 
       {projectDescription && projectDescription.value ? (
@@ -224,17 +230,17 @@ const WizardReviewPanel = props => {
 
       {parkingRequired ? (
         <div className={classes.rule}>
-          <div className={classes.wideRule}>{parkingRequired.name}</div>
-          <div className={clsx(classes.value, classes.overline)}>{Math.round(parkingRequired.value * 100) / 100}</div>
-          <div className={clsx(classes.calcUnits, classes.overline)}>{parkingRequired.units}</div>
+          <div className={clsx(classes.wideRule, classes.bold)}>{parkingRequired.name}</div>
+          <div className={clsx(classes.value, classes.overline, classes.bold)}>{Math.round(parkingRequired.value * 100) / 100}</div>
+          <div className={clsx(classes.calcUnits, classes.overline, classes.bold)}>{parkingRequired.units}</div>
         </div>
       ) : null}
 
       {parkingProvided ? (
         <div className={classes.rule}>
-          <div className={classes.wideRule}>{parkingProvided.name}</div>
-          <div className={classes.value}>{Math.round(parkingProvided.value * 100) / 100}</div>
-          <div className={classes.calcUnits}>{parkingProvided.units}</div>
+          <div className={clsx(classes.wideRule, classes.bold)}>{parkingProvided.name}</div>
+          <div className={clsx(classes.value, classes.bold)}>{Math.round(parkingProvided.value * 100) / 100}</div>
+          <div className={clsx(classes.calcUnits, classes.bold)}>{parkingProvided.units}</div>
         </div>
       ) : null}
 
