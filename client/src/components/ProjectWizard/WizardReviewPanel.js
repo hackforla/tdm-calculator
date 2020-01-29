@@ -49,6 +49,9 @@ const useStyles = createUseStyles({
   ruleName: {
     flex: "1 1 auto"
   },
+  wideRule: {
+    flex: "1 0 75%"
+  },
   value: {
     flex: "0 0 10%",
     textAlign: "right"
@@ -221,17 +224,17 @@ const WizardReviewPanel = props => {
 
       {parkingRequired ? (
         <div className={classes.rule}>
-          <div className={classes.ruleName}>{parkingRequired.name}</div>
+          <div className={classes.wideRule}>{parkingRequired.name}</div>
           <div className={clsx(classes.value, classes.overline)}>{Math.round(parkingRequired.value * 100) / 100}</div>
-          <div className={clsx(classes.value, classes.overline)}>{parkingRequired.units}</div>
+          <div className={clsx(classes.calcUnits, classes.overline)}>{parkingRequired.units}</div>
         </div>
       ) : null}
 
       {parkingProvided ? (
         <div className={classes.rule}>
-          <div className={classes.ruleName}>{parkingProvided.name}</div>
+          <div className={classes.wideRule}>{parkingProvided.name}</div>
           <div className={classes.value}>{Math.round(parkingProvided.value * 100) / 100}</div>
-          <div className={classes.ruleUnits}>{parkingProvided.units}</div>
+          <div className={classes.calcUnits}>{parkingProvided.units}</div>
         </div>
       ) : null}
 
