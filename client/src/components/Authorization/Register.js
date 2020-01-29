@@ -61,10 +61,6 @@ const Register = props => {
         password
       );
       if (response.isSuccess) {
-        // setErrorMsg(`An confirmation email has been sent to ${email}.
-        //   Please check for a verification link and use it to confirm
-        //   that you own this email address.`)
-        // history.push("/login/" + email);
         setSubmitted(true);
       } else if (response.code === "REG_DUPLICATE_EMAIL") {
         setErrorMsg(`The email ${email} is already registered. Please 
@@ -100,7 +96,7 @@ const Register = props => {
               <h1>Create a New Account</h1>
               <h3>Save your project information.</h3>
               <br />
-              <div className='auth-form'>
+              <div className="auth-form">
                 <Formik
                   initialValues={initialValues}
                   validationSchema={registerSchema}
@@ -110,11 +106,11 @@ const Register = props => {
                 >
                   {({ touched, errors, isSubmitting }) => (
                     <Form>
-                      <div className='form-group'>
+                      <div className="form-group">
                         <Field
-                          type='text'
-                          name='firstName'
-                          placeholder='First Name'
+                          type="text"
+                          name="firstName"
+                          placeholder="First Name"
                           className={`form-control ${
                             touched.firstName && errors.firstName
                               ? "is-invalid"
@@ -122,16 +118,16 @@ const Register = props => {
                           }`}
                         />
                         <ErrorMessage
-                          name='firstName'
-                          component='div'
-                          className='invalid-feedback'
+                          name="firstName"
+                          component="div"
+                          className="invalid-feedback"
                         />
                       </div>
-                      <div className='form-group'>
+                      <div className="form-group">
                         <Field
-                          type='text'
-                          name='lastName'
-                          placeholder='Last Name'
+                          type="text"
+                          name="lastName"
+                          placeholder="Last Name"
                           className={`form-control ${
                             touched.lastName && errors.lastName
                               ? "is-invalid"
@@ -139,31 +135,31 @@ const Register = props => {
                           }`}
                         />
                         <ErrorMessage
-                          name='lastName'
-                          component='div'
-                          className='invalid-feedback'
+                          name="lastName"
+                          component="div"
+                          className="invalid-feedback"
                         />
                       </div>
-                      <div className='form-group'>
+                      <div className="form-group">
                         <Field
-                          type='email'
-                          name='email'
-                          placeholder='Email'
+                          type="email"
+                          name="email"
+                          placeholder="Email"
                           className={`form-control ${
                             touched.email && errors.email ? "is-invalid" : ""
                           }`}
                         />
                         <ErrorMessage
-                          name='email'
-                          component='div'
-                          className='invalid-feedback'
+                          name="email"
+                          component="div"
+                          className="invalid-feedback"
                         />
                       </div>
-                      <div className='form-group'>
+                      <div className="form-group">
                         <Field
-                          type='password'
-                          name='password'
-                          placeholder='Password'
+                          type="password"
+                          name="password"
+                          placeholder="Password"
                           className={`form-control ${
                             touched.password && errors.password
                               ? "is-invalid"
@@ -171,16 +167,16 @@ const Register = props => {
                           }`}
                         />
                         <ErrorMessage
-                          name='password'
-                          component='div'
-                          className='invalid-feedback'
+                          name="password"
+                          component="div"
+                          className="invalid-feedback"
                         />
                       </div>
-                      <div className='form-group'>
+                      <div className="form-group">
                         <Field
-                          type='password'
-                          name='passwordConfirm'
-                          placeholder='Retype Password'
+                          type="password"
+                          name="passwordConfirm"
+                          placeholder="Retype Password"
                           className={`form-control ${
                             touched.passwordConfirm && errors.passwordConfirm
                               ? "is-invalid"
@@ -188,20 +184,20 @@ const Register = props => {
                           }`}
                         />
                         <ErrorMessage
-                          name='passwordConfirm'
-                          component='div'
-                          className='invalid-feedback'
+                          name="passwordConfirm"
+                          component="div"
+                          className="invalid-feedback"
                         />
                       </div>
 
                       <button
-                        type='submit'
-                        className='btn-submit'
+                        type="submit"
+                        className="btn-submit"
                         disabled={isSubmitting}
                       >
                         {isSubmitting ? "Please wait..." : "Create Account"}
                       </button>
-                      <div className='warning'>
+                      <div className="warning">
                         <br />
                         {errorMsg}
                       </div>
@@ -224,9 +220,9 @@ const Register = props => {
           )}
           <br />
           {submitted ? null : (
-            <div className='auth-text'>
+            <div className="auth-text">
               Already have an account? &nbsp;{" "}
-              <Link className='auth-link' to='/login'>
+              <Link className="auth-link" to="/login">
                 Log In
               </Link>
             </div>

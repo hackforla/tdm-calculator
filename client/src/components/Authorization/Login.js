@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as accountService from "../../services/account-service";
-import SideBar from '../Sidebar';
-import clsx from 'clsx';
+import SideBar from "../Sidebar";
+import clsx from "clsx";
 
 const useStyles = createUseStyles({
   root: {
@@ -18,11 +18,11 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row"
   }
-})
+});
 
 const Login = props => {
   const classes = useStyles();
-  const [errorMsg, setErrorMsg] = useState("")
+  const [errorMsg, setErrorMsg] = useState("");
 
   const { setLoggedInAccount, match } = props;
   const initialValues = {
@@ -56,26 +56,28 @@ const Login = props => {
           setErrorMsg(`Your email has not been confirmed.
           Please look through your email for a Registration
           Confirmation link and use it to confirm that you
-          own this email address.`)
+          own this email address.`);
           setSubmitting(false);
         } catch (err) {
-          setErrorMsg(`An internal error occurred in sending an email to ${email}. `,
-          err.message)
+          setErrorMsg(
+            `An internal error occurred in sending an email to ${email}. `,
+            err.message
+          );
           setSubmitting(false);
         }
       } else if (loginResponse.code === "AUTH_NO_ACCOUNT") {
         setErrorMsg(`The email ${email} does not correspond to an
         existing account. Please verify the email or register as a
-        new account.`)
+        new account.`);
         setSubmitting(false);
       } else {
         // Presumably loginResponse.code === "AUTH_INVALID_PASSWORD"
         setErrorMsg(`The password is incorrect, please check it
-        and try again or use the Forgot Password feature.`)
+        and try again or use the Forgot Password feature.`);
         setSubmitting(false);
       }
     } catch (err) {
-      setErrorMsg(err.message)
+      setErrorMsg(err.message);
     }
   };
 
@@ -131,13 +133,6 @@ const Login = props => {
                     />
                   </div>
                   <div className="form-group auth-text">
-                    {/* <Field
-                      name="keep-signed-in"
-                      component="input"
-                      type="checkbox"
-                      checked="true"
-                    />{" "}
-                    Keep me signed in */}
                     <Link className="auth-link forgot" to={`/forgotpassword`}>
                       Forgot password?
                     </Link>
@@ -158,9 +153,7 @@ const Login = props => {
                     <p className="without-saving">
                       Your work will not be saved! We recommend logging in.
                     </p>
-                    <p>
-                      {errorMsg}
-                    </p>
+                    <p>{errorMsg}</p>
                   </div>
                 </Form>
               )}

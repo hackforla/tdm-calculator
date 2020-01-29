@@ -44,7 +44,7 @@ const useStyles = createUseStyles({
 
 const TdmCalculation = props => {
   const classes = useStyles();
-  const { rules, onInputChange, onPkgSelect, resultRuleCodes } = props;
+  const { rules, onInputChange, onUncheckAll, filters, onPkgSelect, resultRuleCodes } = props;
   const inputRules =
     rules &&
     rules.filter(
@@ -130,10 +130,16 @@ const TdmCalculation = props => {
           </div>
           <div className={classes.transportDemandStrategies}>
             <h2> Transportation Demand Strategies</h2>
-            <div className={classes.buttonWrapper}>
+            <div sclassName={classes.buttonWrapper}>>
+              <button
+                className='tdm-wizard-pkg-button'
+                onClick={() => onUncheckAll(filters.strategyRules)}
+              >
+                Reset All Strategies
+              </button>
               {showResidentialPkg ? (
                 <button
-                  className="tdm-wizard-pkg-button"
+                  className='tdm-wizard-pkg-button'
                   onClick={() => onPkgSelect("Residential")}
                   disabled={disabledResidentialPkg}
                 >
@@ -142,7 +148,7 @@ const TdmCalculation = props => {
               ) : null}
               {showCommercialPkg ? (
                 <button
-                  className="tdm-wizard-pkg-button"
+                  className='tdm-wizard-pkg-button'
                   onClick={() => onPkgSelect("Commercial")}
                   disabled={disabledCommercialPkg}
                 >

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { createUseStyles } from "react-jss";
-import clsx from 'clsx';
+import clsx from "clsx";
 import WizardRuleStrategyPanels from "./WizardRuleStrategyPanels";
 import WizardRuleInputPanels from "./WizardRuleInputPanels";
 import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "../SwitchViewButton";
-import Sidebar from '../Sidebar';
+import Sidebar from "../Sidebar";
+
 
 const useStyles = createUseStyles({
   root: {
@@ -49,6 +50,8 @@ const TdmCalculationWizard = props => {
   const {
     rules,
     onInputChange,
+    onUncheckAll,
+    filters,
     onPkgSelect,
     resultRuleCodes,
     account,
@@ -76,54 +79,11 @@ const TdmCalculationWizard = props => {
     }
   }, [props.projectId, props.account, props.loginId, props.pageNo]);
 
-  const projectRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.calculationPanelId === 31 &&
-        rule.used &&
-        rule.display
-    );
-
-  const landUseRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.calculationPanelId === 5 &&
-        rule.used &&
-        rule.display
-    );
-  console.log(landUseRules);
-  const inputRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.calculationPanelId !== 5 &&
-        rule.calculationPanelId !== 31 &&
-        rule.used &&
-        rule.display
-    );
-  const targetRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "measure" &&
-        rule.used &&
-        rule.display &&
-        rule.calculationPanelId === 10
-    );
-  const strategyRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "measure" &&
-        rule.used &&
-        rule.display &&
-        rule.calculationPanelId !== 10
-    );
+  const projectRules = rules && rules.filter(filters.projectRules);
+  const landUseRules = rules && rules.filter(filters.landUseRules);
+  const inputRules = rules && rules.filter(filters.inputRules);
+  const targetRules = rules && rules.filter(filters.targetRules);
+  const strategyRules = rules && rules.filter(filters.strategyRules);
   const resultRules =
     rules &&
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
@@ -176,20 +136,27 @@ const TdmCalculationWizard = props => {
     <React.Fragment>
       <div className={clsx("tdm-wizard", classes.root)}>
         <Sidebar>
-        {rules && rules.length > 0 && (
-          <div className={classes.sidebarContent}>
-            <SwitchViewButton onClick={props.onViewChange}>
-              Switch to Default View
-            </SwitchViewButton>
-            <WizardResultPanel rules={resultRules} />
-          </div>
-        )}
+          {rules && rules.length > 0 && (
+            <div className={classes.sidebarContent}>
+              <SwitchViewButton onClick={props.onViewChange}>
+                Switch to Default View
+              </SwitchViewButton>
+              <WizardResultPanel rules={resultRules} />
+            </div>
+          )}
         </Sidebar>
-        <div className={clsx("tdm-wizard-content-container", classes.contentContainer)}>
+        <div
+          className={clsx(
+            "tdm-wizard-content-container",
+            classes.contentContainer
+          )}
+        >
           <div>
             {rules && page === 1 ? (
               <div>
-                <h1 className="tdm-wizard-page-title">Welcome to Los Angeles' TDM Calculator</h1>
+                <h1 className="tdm-wizard-page-title">
+                  Welcome to Los Angeles' TDM Calculator
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   First, let's name your project
                 </h3>
@@ -207,6 +174,14 @@ const TdmCalculationWizard = props => {
                 <h3 className="tdm-wizard-page-subtitle">
                   Select all that apply
                 </h3>
+                <div style={{ textAlign: "center" }}>
+                  <button
+                    className="tdm-wizard-pkg-button"
+                    onClick={() => onUncheckAll(filters.landUseRules)}
+                  >
+                    Uncheck All
+                  </button>
+                </div>
                 <WizardRuleInputPanels
                   rules={landUseRules}
                   onInputChange={onInputChange}
@@ -244,13 +219,19 @@ const TdmCalculationWizard = props => {
               </div>
             ) : page === 5 ? (
               <div>
-                <h1 className="tdm-wizard-page-title">
+                <h2 className="tdm-wizard-page-title">
                   Transporation Demand Strategies
-                </h1>
+                </h2>
                 <h3 className="tdm-wizard-page-subtitle">
                   Select strategies to earn TDM points
                 </h3>
-                <div className={classes.buttonWrapper}>
+                <div style={{ textAlign: "center" }}>
+                  <button
+                    className="tdm-wizard-pkg-button"
+                    onClick={() => onUncheckAll(filters.strategyRules)}
+                  >
+                    Reset All Strategies
+                  </button>
                   {showResidentialPkg ? (
                     <button
                       className="tdm-wizard-pkg-button"

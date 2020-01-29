@@ -35,7 +35,6 @@ export const useStyles = createUseStyles({
     height: '100%',
     display: 'flex',
     position: 'relative',
-    height: '100%',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
