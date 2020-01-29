@@ -1,5 +1,5 @@
-import { createContext } from "react";
+import React from "react";
 
-const ToastContext = createContext(null);
+const ToastContext = React.createContext(null);
 
 export default ToastContext;
