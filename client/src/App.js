@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
-import { UserContext } from "./components/user-context";
+import { UserContext } from "./contexts/User";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
 import Projects from "./components/Projects";
 import Header from "./components/Header";

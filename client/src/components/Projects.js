@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import * as projectService from "../services/project.service";
 import moment from "moment";
+import SortAndFilterProjects from "./SortAndFilterProjects";
 
 const useStyles = createUseStyles({
   main: {
@@ -44,8 +45,12 @@ const useStyles = createUseStyles({
   }
 });
 
-const Projects = props => {
+const Projects = ({ account }) => {
   const [projects, setProjects] = useState([]);
+  const [sort, setSort] = useState("dateModified");
+  const [sortDirection, setSortDirection] = useState("up");
+  const [filter, setFilter] = useState("dateModified");
+  const [filterWords, setFilterWords] = useState("");
 
   const classes = useStyles();
 
@@ -61,9 +66,67 @@ const Projects = props => {
     getProjects();
   }, []);
 
+  const filterUserAndAdmin = project => {
+    // TODO: remove this line when we want to hide projects from other users
+    return true;
+    if (account.isAdmin) {
+      return true;
+    }
+    return account.id === project.loginId;
+  };
+
+  const filterWordsAndCategory = project => {
+    if (filterWords) {
+      if (filter === "dateCreated" || filter === "dateModified") {
+        if (
+          moment(project[filter])
+            .format("M/DD/YYYY h:mm A")
+            .includes(filterWords)
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      if (project[filter].toUpperCase().includes(filterWords.toUpperCase())) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const sortAscDesc = (a, b) => {
+    let projectA = a[sort].toUpperCase();
+    let projectB = b[sort].toUpperCase();
+
+    if (sortDirection === "down") {
+      [projectA, projectB] = [projectB, projectA];
+    }
+
+    if (projectA < projectB) {
+      return -1;
+    } else if (projectA > projectB) {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <div className={classes.main}>
-      <h1 className={classes.pageTitle}>Projects</h1>
+      <h2 className={classes.pageTitle}>Projects</h2>
+      <SortAndFilterProjects
+        sort={sort}
+        setSort={setSort}
+        sortDirection={sortDirection}
+        setSortDirection={setSortDirection}
+        filter={filter}
+        setFilter={setFilter}
+        filterWords={filterWords}
+        setFilterWords={setFilterWords}
+      />
       <table className={classes.table}>
         <thead className={classes.thead}>
           <tr className={classes.tr}>
@@ -76,26 +139,33 @@ const Projects = props => {
           </tr>
         </thead>
         <tbody>
-          {projects.map(project => (
-            <tr key={project.id}>
-              <td className={classes.td}>
-                <Link to={`/calculation/${project.id}`} className={classes.link}>
-                  {project.name}
-                </Link>
-              </td>
-              <td className={classes.td}>{project.address}</td>
-              <td className={classes.td}>{project.description}</td>
-              <td
-                className={classes.td}
-              >{`${project.firstName} ${project.lastName}`}</td>
-              <td className={classes.tdRightAlign}>
-                {moment(project.dateCreated).format("M/DD/YYYY h:mm A")}
-              </td>
-              <td className={classes.tdRightAlign}>
-                {moment(project.dateModified).format("M/DD/YYYY h:mm A")}
-              </td>
-            </tr>
-          ))}
+          {projects
+            .filter(filterUserAndAdmin)
+            .filter(filterWordsAndCategory)
+            .sort(sortAscDesc)
+            .map(project => (
+              <tr key={project.id}>
+                <td className={classes.td}>
+                  <Link
+                    to={`/calculation/${project.id}`}
+                    className={classes.link}
+                  >
+                    {project.name}
+                  </Link>
+                </td>
+                <td className={classes.td}>{project.address}</td>
+                <td className={classes.td}>{project.description}</td>
+                <td
+                  className={classes.td}
+                >{`${project.firstName} ${project.lastName}`}</td>
+                <td className={classes.tdRightAlign}>
+                  {moment(project.dateCreated).format("M/DD/YYYY h:mm A")}
+                </td>
+                <td className={classes.tdRightAlign}>
+                  {moment(project.dateModified).format("M/DD/YYYY h:mm A")}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
