@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 const useStyles = createUseStyles({
   field: {
@@ -14,14 +14,14 @@ const useStyles = createUseStyles({
   numberFieldWrapper: {
     marginBottom: "0.4em",
     alignItems: "center",
-    '&:hover': {
+    "&:hover": {
       backgroundColor: "#f0e300"
     }
   },
   numberField: {
     flexBasis: "20%",
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   numberFieldUnits: {
     flexBasis: "20%",
@@ -50,7 +50,7 @@ const useStyles = createUseStyles({
   },
   checkboxFieldWrapper: {
     alignItems: "baseline",
-    '&:hover': {
+    "&:hover": {
       backgroundColor: "#f0e300"
     }
   },
@@ -66,7 +66,7 @@ const useStyles = createUseStyles({
   },
   selectFieldWrapper: {
     alignItems: "baseline",
-    '&:hover': {
+    "&:hover": {
       backgroundColor: "#f0e300"
     }
   },
@@ -85,7 +85,7 @@ const useStyles = createUseStyles({
   },
   miscFieldWrapper: {
     alignItems: "baseline",
-    '&:hover': {
+    "&:hover": {
       backgroundColor: "#f0e300"
     }
   },
@@ -109,8 +109,14 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1",
     minHeight: "5em"
+  },
+  requiredInputLabel: {
+    "&:after": {
+      content: '" *"',
+      color: "red"
+    }
   }
-})
+});
 
 const WizardRuleInput = ({
   rule: {
@@ -137,14 +143,18 @@ const WizardRuleInput = ({
   onInputChange
 }) => {
   const classes = useStyles();
-  
+  let isRequired = false;
+  let displayName = name;
+  if (name.slice(-1) === "*") {
+    displayName = name.slice(0, -1);
+    isRequired = true;
+  }
+
   return (
     <React.Fragment>
       {dataType === "number" ? (
         <div className={clsx(classes.field, classes.numberFieldWrapper)}>
-          <div className={classes.textInputLabel}>
-            {name}
-          </div>
+          <div className={classes.textInputLabel}>{displayName}</div>
           <div className={classes.numberField}>
             <input
               className={classes.input}
@@ -156,9 +166,7 @@ const WizardRuleInput = ({
               max={maxValue}
             />
           </div>
-          <div className={classes.numberFieldUnits}>
-            {units}
-          </div>
+          <div className={classes.numberFieldUnits}>{units}</div>
           <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
@@ -167,9 +175,7 @@ const WizardRuleInput = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
-          <div className={classes.checkboxFieldLabel}>
-            {name}
-          </div>
+          <div className={classes.checkboxFieldLabel}>{displayName}</div>
           <input
             type="checkbox"
             className={classes.checkbox}
@@ -178,7 +184,7 @@ const WizardRuleInput = ({
             onChange={onInputChange}
             name={code}
           />
-         {calcValue ? (
+          {calcValue ? (
             <>
               <div className={classes.unitsCaption}>{units}</div>
               <div className={classes.calcUnitsCaption}>
@@ -191,9 +197,7 @@ const WizardRuleInput = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>
-          <div className={classes.selectFieldLabel}>
-            {name}
-          </div>
+          <div className={classes.selectFieldLabel}>{displayName}</div>
           <select
             className={classes.select}
             value={value || ""}
@@ -214,8 +218,14 @@ const WizardRuleInput = ({
         </div>
       ) : dataType === "string" || dataType === "textarea" ? (
         <div className={clsx(classes.field, classes.textFieldWrapper)}>
-          <div className={classes.textInputLabel}>
-            {name}
+          <div
+            className={
+              isRequired
+                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
+                : classes.textInputLabel
+            }
+          >
+            {displayName}
           </div>
           {dataType === "string" ? (
             <input
@@ -236,13 +246,9 @@ const WizardRuleInput = ({
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <div className={classes.miscFieldLabel}>
-            {name}
-          </div>
-          <div className={classes.codeWrapper} name={code}></div>
-          <div className={classes.unitsCaption}>
-            {units}
-          </div>
+          <div className={classes.miscFieldLabel}>{displayName}</div>
+          <div className={classes.codeWrapper} name={code} />
+          <div className={classes.unitsCaption}>{units}</div>
           <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
