@@ -220,7 +220,7 @@ const TdmCalculationWizard = props => {
             ) : page === 5 ? (
               <div>
                 <h1 className="tdm-wizard-page-title">
-                  Transporation Demand Strategies
+                  Transportation Demand Strategies
                 </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   Select strategies to earn TDM points

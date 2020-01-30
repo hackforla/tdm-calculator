@@ -158,33 +158,33 @@ const WizardReviewPanel = props => {
       ) : null}
 
       <div className={classes.grid}>
+        {level ? (
+          <div className={classes.measure}>
+            <div className={classes.measureValue}>{level.value}</div>
+            <div className={clsx(classes.alignCenter, classes.label)}>Project Level</div>
+          </div>
+        ) : null}
+
+        {parkingRatio ? (
+          <div className={classes.measure}>
+            <div className={classes.measureValue}>{`${Math.floor(parkingRatio.value).toString()} %`}</div>
+            <div className={clsx(classes.alignCenter, classes.label)}>Provided / Required Parking</div>
+          </div>
+        ) : null}
+      </div>
+
+      <div className={classes.grid}>
         {targetPoints ? (
           <div className={classes.measure}>
             <div className={classes.measureValue}>{Math.round(targetPoints.value)}</div>
-            <div className={classes.label}>Target Points</div>
+            <div className={clsx(classes.alignCenter, classes.label)}>Target Points</div>
           </div>
         ) : null}
 
         {earnedPoints ? (
           <div className={classes.measure}>
             <div className={classes.measureValue}>{Math.round(earnedPoints.value)}</div>
-            <div className={classes.label}>Earned Points</div>
-          </div>
-        ) : null}
-      </div>
-
-      <div className={classes.grid}>
-        {parkingRatio ? (
-          <div className={classes.measure}>
-            <div className={classes.measureValue}>{`${Math.floor(parkingRatio.value).toString()} %`}</div>
-            <div className={classes.label}>Provided / Required Parking</div>
-          </div>
-        ) : null}
-
-        {level ? (
-          <div className={classes.measure}>
-            <div className={classes.measureValue}>{level.value}</div>
-            <div className={classes.label}>Project Level</div>
+            <div className={clsx(classes.alignCenter, classes.label)}>Earned Points</div>
           </div>
         ) : null}
       </div>

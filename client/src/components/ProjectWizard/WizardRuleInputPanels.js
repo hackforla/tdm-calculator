@@ -3,13 +3,10 @@ import React from "react";
 import WizardRuleInputList from "./WizardRuleInputList";
 import { createUseStyles } from "react-jss";
 
-
-//TODO: take out header, units
 const useStyles = createUseStyles({
   panelContainer: {
       margin: "0.5em"
   },
-  // below uses same styles as in WizardRuleMeasure.js
   strategyContainer: {
     minWidth: "60vw",
     margin: "0.2em",
@@ -17,8 +14,8 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // backgroundColor: "#0f2940",
-    // color: "white",
+    backgroundColor: "#0f2940",
+    color: "white",
     padding: ".4em"
   },
   strategyName: {
@@ -60,17 +57,16 @@ const WizardRuleInputPanels = props => {
                 key={rules[0].calculationPanelId}
                 className={classes.panelContainer}
               >
-                {!suppressHeader 
-                ? <h4 className={classes.strategyName}>{rules[0].panelName}</h4>
+              {!suppressHeader 
+                ? <div className={classes.strategyContainer}>
+                    <h4 className={classes.strategyName}>{rules[0].panelName}</h4>
+                  </div>
                 : null}
-                  <WizardRuleInputList
-                    key={rules[0].calculationPanelId}
-                    rules={rules}
-                    onInputChange={props.onInputChange}
-                  />
-
-
-
+                <WizardRuleInputList
+                  key={rules[0].calculationPanelId}
+                  rules={rules}
+                  onInputChange={props.onInputChange}
+                />
               </div>
             ))}
           </>
@@ -81,3 +77,4 @@ const WizardRuleInputPanels = props => {
 };
 
 export default WizardRuleInputPanels;
+

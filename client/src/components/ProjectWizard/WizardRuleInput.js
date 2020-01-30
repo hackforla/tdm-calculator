@@ -13,12 +13,15 @@ const useStyles = createUseStyles({
   },
   numberFieldWrapper: {
     marginBottom: "0.4em",
-    alignItems: "center"
+    alignItems: "center",
+    '&:hover': {
+      backgroundColor: "#f0e300"
+    }
   },
   numberField: {
     flexBasis: "20%",
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   numberFieldUnits: {
     flexBasis: "20%",
@@ -46,7 +49,10 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   checkboxFieldWrapper: {
-    alignItems: "baseline"
+    alignItems: "baseline",
+    '&:hover': {
+      backgroundColor: "#f0e300"
+    }
   },
   checkboxFieldLabel: {
     flexBasis: "70%",
@@ -59,7 +65,10 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   selectFieldWrapper: {
-    alignItems: "baseline"
+    alignItems: "baseline",
+    '&:hover': {
+      backgroundColor: "#f0e300"
+    }
   },
   selectFieldLabel: {
     flexBasis: "45%",
@@ -75,7 +84,10 @@ const useStyles = createUseStyles({
     alignItems: "center"
   },
   miscFieldWrapper: {
-    alignItems: "baseline"
+    alignItems: "baseline",
+    '&:hover': {
+      backgroundColor: "#f0e300"
+    }
   },
   miscFieldLabel: {
     flexBasis: "70%",
@@ -125,6 +137,7 @@ const WizardRuleInput = ({
   onInputChange
 }) => {
   const classes = useStyles();
+  
   return (
     <React.Fragment>
       {dataType === "number" ? (
