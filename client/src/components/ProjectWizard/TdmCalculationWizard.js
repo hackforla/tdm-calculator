@@ -77,6 +77,7 @@ const TdmCalculationWizard = props => {
     pageNo
   } = props;
   const [page, setPage] = useState(0);
+  const [unfilledRequired, setUnfilledRequired] = useState(false);
 
   useEffect(
     () => {
@@ -306,7 +307,7 @@ const TdmCalculationWizard = props => {
                 &lt;
               </WizardNavButton>
               <WizardNavButton
-                disabled={page === 6}
+                disabled={page === 6 || unfilledRequired}
                 onClick={() => {
                   onPageChange(page + 1);
                 }}
