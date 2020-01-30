@@ -13,7 +13,8 @@ var connectionConfig = {
   options: {
     database: process.env.SQL_DATABASE_NAME,
     instanceName: process.env.SQL_INSTANCE_NAME,
-    port: process.env.SQL_SERVER_PORT || 1433
+    port: process.env.SQL_SERVER_PORT || 1433,
+    encrypt: process.env.SQL_ENCRYPT
   }
 };
 
