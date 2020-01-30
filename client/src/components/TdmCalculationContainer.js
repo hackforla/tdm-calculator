@@ -2,11 +2,22 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import queryString from "query-string";
 import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
-import TdmCalculationWizard from "./ProjectWizard/TdmCalculationWizard";
+import TdmCalculationWizard, {
+  filters
+} from "./ProjectWizard/TdmCalculationWizard";
 import * as ruleService from "../services/rule.service";
 import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";
 import ToastContext from "../contexts/Toast/ToastContext";
+import injectSheet from "react-jss";
+
+const styles = {
+  root: {
+    flex: "1 1 auto",
+    display: "flex",
+    flexDirection: "column"
+  }
+};
 
 class TdmCalculationContainer extends React.Component {
   calculationId = 1;
@@ -53,7 +64,6 @@ class TdmCalculationContainer extends React.Component {
       if (this.props.match.params.projectId) {
         const projectId = this.props.match.params.projectId;
         const projectResponse = await projectService.getById(projectId);
-        console.log(projectResponse.data);
         this.setState({
           projectId,
           loginId: projectResponse.data.loginId,
@@ -64,7 +74,6 @@ class TdmCalculationContainer extends React.Component {
       const ruleResponse = await ruleService.getByCalculationId(
         this.calculationId
       );
-      console.log(ruleResponse.data);
       this.engine = new Engine(ruleResponse.data);
       this.engine.run(this.state.formInputs, this.resultRuleCodes);
       this.setState({
@@ -74,6 +83,23 @@ class TdmCalculationContainer extends React.Component {
       console.log(JSON.stringify(err, null, 2));
     }
   }
+
+  componentDidUpdate = async prevProps => {
+    if (prevProps.location.search !== this.props.location.search) {
+      let query = queryString.parse(this.props.location.search);
+      if (query.pageNo) {
+        this.setState({
+          pageNo: parseInt(query.pageNo)
+        });
+      }
+    }
+
+    this.props.setIsCreatingNewProject(true);
+  };
+
+  componentWillUnmount = () => {
+    this.props.setIsCreatingNewProject(false);
+  };
 
   onPkgSelect = pkgType => {
     let pkgRules = [];
@@ -102,6 +128,28 @@ class TdmCalculationContainer extends React.Component {
     this.recalculate(formInputs);
   };
 
+  getRuleByCode = ruleCode => {
+    const rule = this.state.rules.find(rule => rule.code === ruleCode);
+    if (rule === undefined) {
+      throw new Error("Rule not found for code " + ruleCode);
+    }
+    return rule;
+  };
+
+  limitToInt = value => {
+    return value.replace(/\D/g, '');
+  }
+
+  limitMinMax = (value, min, max) => {
+    if (min !== null) {
+      value = value < min ? min : value;
+    }
+    if (max !== null) {
+      value = value > max ? max : value;
+    }
+    return value;
+  };
+
   onInputChange = e => {
     const ruleCode = e.target.name;
     let value =
@@ -109,14 +157,14 @@ class TdmCalculationContainer extends React.Component {
     if (!ruleCode) {
       throw new Error("Input is missing name attribute");
     }
-    const rule = this.state.rules.filter(rule => rule.code === ruleCode);
-    if (!rule) {
-      throw new Error("Rule not found for code " + ruleCode);
-    }
+
+    const rule = this.getRuleByCode(ruleCode);
 
     // Convert value to appropriate Data type
     if (rule.dataType === "number") {
-      value = value ? Number.parseFloat(value) : 0;
+      value = this.limitToInt(value);
+      value = this.limitMinMax(value, rule.minValue, rule.maxValue);
+      value = value === "0" ? "" : value;
     }
 
     const formInputs = {
@@ -126,10 +174,24 @@ class TdmCalculationContainer extends React.Component {
     this.recalculate(formInputs);
   };
 
+  onUncheckAll = filterRules => {
+    const { rules, formInputs } = this.state;
+    let updateInputs = { ...formInputs };
+    for (let i = 0; i < rules.length; i++) {
+      if (filterRules(rules[i])) {
+        if (updateInputs[rules[i].code]) {
+          updateInputs[rules[i].code] = null;
+        }
+      }
+    }
+    this.recalculate(updateInputs);
+  };
+
   onSave = async evt => {
     const requestBody = {
       name: this.state.formInputs.PROJECT_NAME,
       address: this.state.formInputs.PROJECT_ADDRESS,
+      description: this.state.formInputs.PROJECT_DESCRIPTION,
       formInputs: JSON.stringify(this.state.formInputs),
       loginId: this.props.account.id,
       calculationId: this.calculationId
@@ -172,21 +234,47 @@ class TdmCalculationContainer extends React.Component {
     this.setState({ formInputs, rules });
   };
 
+  filters = {
+    projectRules: rule =>
+      rule.category === "input" &&
+      rule.calculationPanelId === 31 &&
+      rule.used &&
+      rule.display,
+    landUseRules: rule =>
+      rule.category === "input" &&
+      rule.calculationPanelId === 5 &&
+      rule.used &&
+      rule.display,
+    inputRules: rule =>
+      rule.category === "input" &&
+      rule.calculationPanelId !== 5 &&
+      rule.calculationPanelId !== 31 &&
+      rule.used &&
+      rule.display,
+    targetRules: rule =>
+      rule.category === "measure" &&
+      rule.used &&
+      rule.display &&
+      rule.calculationPanelId === 10,
+    strategyRules: rule =>
+      rule.category === "measure" &&
+      rule.used &&
+      rule.display &&
+      rule.calculationPanelId !== 10
+  };
+  
+
   render() {
     const { rules, view, projectId, loginId, pageNo } = this.state;
-    const { account } = this.props;
+    const { account, classes } = this.props;
     return (
-      <div
-        style={{
-          flex: "1 1 auto",
-          display: "flex",
-          flexDirection: "column"
-        }}
-      >
+      <div className={classes.root}>
         {view === "w" ? (
           <TdmCalculationWizard
             rules={rules}
             onInputChange={this.onInputChange}
+            onUncheckAll={this.onUncheckAll}
+            filters={this.filters}
             onPkgSelect={this.onPkgSelect}
             resultRuleCodes={this.resultRuleCodes}
             onViewChange={() => this.setState({ view: "d" }, this.pushHistory)}
@@ -201,6 +289,8 @@ class TdmCalculationContainer extends React.Component {
           <TdmCalculation
             rules={rules}
             onInputChange={this.onInputChange}
+            onUncheckAll={this.onUncheckAll}
+            filters={this.filters}
             onPkgSelect={this.onPkgSelect}
             resultRuleCodes={this.resultRuleCodes}
             onViewChange={() => this.setState({ view: "w" }, this.pushHistory)}
@@ -219,4 +309,4 @@ class TdmCalculationContainer extends React.Component {
   }
 }
 
-export default withRouter(TdmCalculationContainer);
+export default withRouter(injectSheet(styles)(TdmCalculationContainer));

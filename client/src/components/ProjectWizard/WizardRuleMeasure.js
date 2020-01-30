@@ -1,5 +1,83 @@
 import React from "react";
+import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
+import clsx from "clsx";
+
+const useStyles = createUseStyles({
+  ruleMeasure: {
+    minWidth: "60vw",
+    margin: "0.2em",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  baseline: {
+    alignItems: "baseline"
+  },
+  numberName: {
+    flexBasis: "60%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  inputWrapper: {
+    flexBasis: "40%",
+    flexGrow: "1",
+    flexShrink: "1",
+    textAlign: "right"
+  },
+  input: {
+    padding: "0.1em",
+    width: "auto",
+    textAlign: "right"
+  },
+  value: {
+    flexBasis: "10%",
+    marginLeft: "1em",
+    marginRight: "0.5em",
+    textAlign: "right",
+    flexGrow: "0",
+    flexShrink: "0"
+  },
+  wideName: {
+    flexBasis: "70%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  boolInputWrapper: {
+    flexBasis: "10%",
+    flexGrow: "0",
+    flexShrink: "0",
+    marginRight: "0",
+    padding: "0",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end"
+  },
+  choiceName: {
+    flexBasis: "40%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  stringField: {
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  code: {
+    flexBasis: "10%",
+    flexGrow: "0",
+    flexShrink: "1"
+  },
+  miscValue: {
+    flexBasis: "10%",
+    marginLeft: "1em",
+    marginRight: "0.5em",
+    textAlign: "right",
+    flexGrow: "0",
+    flexShrink: "1"
+  }
+});
 
 const WizardRuleMeasure = ({
   rule: {
@@ -27,38 +105,15 @@ const WizardRuleMeasure = ({
   },
   onInputChange
 }) => {
+  const classes = useStyles();
   return (
     <React.Fragment>
       {dataType === "number" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "60%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
-            {name}
-          </div>
-          <div
-            style={{
-              flexBasis: "40%",
-              flexGrow: "1",
-              flexShrink: "1",
-              textAlign: "right"
-            }}
-          >
+        <div className={classes.ruleMeasure}>
+          <div className={classes.numberName}>{name}</div>
+          <div className={classes.inputWrapper}>
             <input
-              style={{ padding: "0.1em", width: "auto", textAlign: "right" }}
+              className={classes.input}
               type="number"
               value={value || ""}
               onChange={onInputChange}
@@ -67,16 +122,7 @@ const WizardRuleMeasure = ({
               max={maxValue}
             />
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
+          <div className={classes.value}>
             {calcMinValue === calcMaxValue
               ? `${Math.round(calcMinValue).toString()}`
               : calcMinValue < calcMaxValue
@@ -85,53 +131,16 @@ const WizardRuleMeasure = ({
                 ).toString()}`
               : null}
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
+          <div className={classes.value}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
           </div>
         </div>
       ) : dataType === "boolean" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "70%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
-            {name}
-          </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              flexGrow: "0",
-              flexShrink: "0",
-              marginRight: "0",
-              padding: "0",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end"
-            }}
-          >
+        <div className={classes.ruleMeasure}>
+          <div className={classes.wideName}>{name}</div>
+          <div className={classes.boolInputWrapper}>
             <input
               type="checkbox"
               value={true}
@@ -140,16 +149,7 @@ const WizardRuleMeasure = ({
               name={code}
             />
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
+          <div className={classes.value}>
             {calcMinValue === calcMaxValue
               ? `${Math.round(calcMinValue).toString()}`
               : calcMinValue < calcMaxValue
@@ -158,49 +158,16 @@ const WizardRuleMeasure = ({
                 ).toString()}`
               : null}
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
+          <div className={classes.value}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
           </div>
         </div>
       ) : dataType === "choice" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "40%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
-            {name}
-          </div>
-          <div
-            style={{
-              flexBasis: "40%",
-              flexGrow: "1",
-              flexShrink: "1",
-              textAlign: "right"
-            }}
-          >
+        <div className={clsx(classes.ruleMeasure, classes.baseline)}>
+          <div className={classes.choiceName}>{name}</div>
+          <div className={classes.inputWrapper}>
             <select
               width="100%"
               value={value || ""}
@@ -214,16 +181,7 @@ const WizardRuleMeasure = ({
               ))}
             </select>
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
+          <div className={classes.value}>
             {calcMinValue === calcMaxValue
               ? `${Math.round(calcMinValue).toString()}`
               : calcMinValue < calcMaxValue
@@ -232,88 +190,28 @@ const WizardRuleMeasure = ({
                 ).toString()}`
               : null}
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "0"
-            }}
-          >
+          <div className={classes.value}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
           </div>
         </div>
       ) : dataType === "string" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "50%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
-            {name}
-          </div>
+        <div className={classes.ruleMeasure}>
+          <div className={classes.stringField}>{name}</div>
           <input
             type="text"
-            style={{
-              flexBasis: "50%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
+            className={classes.stringField}
             value={value || ""}
             onChange={onInputChange}
             name={code}
           />
         </div>
       ) : (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "70%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
-            {name}
-          </div>
-          <div
-            style={{ flexBasis: "10%", flexGrow: "0", flexShrink: "1" }}
-            name={code}
-          ></div>
-
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+        <div className={clsx(classes.ruleMeasure, classes.baseline)}>
+          <div className={classes.wideName}>{name}</div>
+          <div className={classes.code} name={code}></div>
+          <div className={classes.miscValue}>
             {calcMinValue === calcMaxValue
               ? `${Math.round(calcMinValue).toString()}`
               : calcMinValue < calcMaxValue
@@ -322,16 +220,7 @@ const WizardRuleMeasure = ({
                 ).toString()}`
               : null}
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.miscValue}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}

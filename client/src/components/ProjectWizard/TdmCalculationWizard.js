@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { createUseStyles } from "react-jss";
-import WizardRulePanels from "./WizardRulePanels";
+import clsx from "clsx";
+import WizardRuleStrategyPanels from "./WizardRuleStrategyPanels";
+import WizardRuleInputPanels from "./WizardRuleInputPanels";
 import WizardReviewPanel from "./WizardReviewPanel";
 import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "../SwitchViewButton";
-import Sidebar from '../Sidebar';
+import Sidebar from "../Sidebar";
 
 const useStyles = createUseStyles({
+  root: {
+    height: "calc(100vh - 103px)",
+    overflow: "hidden",
+    flex: "1 1 auto",
+    display: "flex",
+    flexDirection: "row"
+  },
   sidebarOverlay: {
     position: "absolute",
     background: "rgba(0, 46, 109, 0.65)",
@@ -16,7 +25,38 @@ const useStyles = createUseStyles({
     zIndex: 0
   },
   sidebarContent: {
-    zIndex: 1
+    zIndex: 1,
+    display: "flex",
+    flexDirection: "column"
+  },
+  contentContainer: {
+    justifyContent: "space-between",
+    boxSizing: "border-box",
+    height: "calc(100vh - 103px)",
+    overflow: "auto"
+  },
+  buttonWrapper: {
+    textAlign: "center"
+  },
+  navButtonsWrapper: {
+    marginBottom: "3em",
+    marginTop: "2em"
+  },
+  unSelectContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    height: "32px"
+  },
+  unSelectButton: {
+    position: "absolute",
+    right: "24px",
+    backgroundColor: "transparent",
+    border: "0",
+    cursor: "pointer",
+    textDecoration: "underline"
   }
 });
 
@@ -25,6 +65,8 @@ const TdmCalculationWizard = props => {
   const {
     rules,
     onInputChange,
+    onUncheckAll,
+    filters,
     onPkgSelect,
     resultRuleCodes,
     account,
@@ -36,70 +78,30 @@ const TdmCalculationWizard = props => {
   } = props;
   const [page, setPage] = useState(0);
 
-  useEffect(() => {
-    if (
-      !props.projectId ||
-      (props.account &&
-        (props.account.isAdmin || props.account.id === props.loginId))
-    ) {
-      // Project Calculation is editable if it is not saved
-      // or the project was created by the current logged in
-      // user, or the logged in user is admin.
-      setPage(props.pageNo || 1);
-    } else {
-      // read-only users can only see the summary page.
-      setPage(6);
-    }
-  }, [props.projectId, props.account, props.loginId, props.pageNo]);
+  useEffect(
+    () => {
+      if (
+        !props.projectId ||
+        (props.account &&
+          (props.account.isAdmin || props.account.id === props.loginId))
+      ) {
+        // Project Calculation is editable if it is not saved
+        // or the project was created by the current logged in
+        // user, or the logged in user is admin.
+        setPage(props.pageNo || 1);
+      } else {
+        // read-only users can only see the summary page.
+        setPage(6);
+      }
+    },
+    [props.projectId, props.account, props.loginId, props.pageNo]
+  );
 
-  const projectRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.calculationPanelId === 31 &&
-        rule.used &&
-        rule.display
-    );
-
-  const landUseRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.calculationPanelId === 5 &&
-        rule.used &&
-        rule.display
-    );
-  console.log(landUseRules);
-  const inputRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "input" &&
-        rule.calculationPanelId !== 5 &&
-        rule.calculationPanelId !== 31 &&
-        rule.used &&
-        rule.display
-    );
-  const targetRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "measure" &&
-        rule.used &&
-        rule.display &&
-        rule.calculationPanelId === 10
-    );
-  const strategyRules =
-    rules &&
-    rules.filter(
-      rule =>
-        rule.category === "measure" &&
-        rule.used &&
-        rule.display &&
-        rule.calculationPanelId !== 10
-    );
+  const projectRules = rules && rules.filter(filters.projectRules);
+  const landUseRules = rules && rules.filter(filters.landUseRules);
+  const inputRules = rules && rules.filter(filters.inputRules);
+  const targetRules = rules && rules.filter(filters.targetRules);
+  const strategyRules = rules && rules.filter(filters.strategyRules);
   const resultRules =
     rules &&
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
@@ -150,94 +152,107 @@ const TdmCalculationWizard = props => {
 
   return (
     <React.Fragment>
-      <div
-        className="tdm-wizard"
-        style={{
-          flex: "1 1 auto%",
-          display: "flex",
-          flexDirection: "row",
-          height: 'calc(100vh - 103px)'
-        }}
-      >
+      <div className={clsx("tdm-wizard", classes.root)}>
         <Sidebar>
-        {rules && rules.length > 0 && (
-          <div className={classes.sidebarContent}>
-            <SwitchViewButton onClick={props.onViewChange}>
-              Switch to Default View
-            </SwitchViewButton>
-            <WizardResultPanel rules={resultRules} />
-          </div>
-        )}
+          {rules &&
+            rules.length > 0 && (
+              <div className={classes.sidebarContent}>
+                <SwitchViewButton onClick={props.onViewChange}>
+                  Switch to Default View
+                </SwitchViewButton>
+                <WizardResultPanel rules={resultRules} />
+              </div>
+            )}
         </Sidebar>
-        <div className="tdm-wizard-content-container">
+        <div
+          className={clsx(
+            "tdm-wizard-content-container",
+            classes.contentContainer
+          )}
+        >
           <div>
             {rules && page === 1 ? (
-              <div style={{ minWidth: "40%" }}>
-                <h2 className="tdm-wizard-page-title">
-                  {" "}
+              <div>
+                <h1 className="tdm-wizard-page-title">
                   Welcome to Los Angeles' TDM Calculator
-                </h2>
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   First, let's name your project
                 </h3>
-                <WizardRulePanels
+                <WizardRuleInputPanels
                   rules={projectRules}
                   onInputChange={onInputChange}
                   suppressHeader={true}
                 />
               </div>
             ) : rules && page === 2 ? (
-              <div style={{ minWidth: "40%" }}>
-                <h2 className="tdm-wizard-page-title">
+              <div>
+                <h1 className="tdm-wizard-page-title">
                   What kind of development is your project?
-                </h2>
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   Select all that apply
                 </h3>
-                <WizardRulePanels
+                <div className={classes.unSelectContainer}>
+                  <button
+                    className={classes.unSelectButton}
+                    onClick={() => onUncheckAll(filters.landUseRules)}
+                  >
+                    Reset Page
+                  </button>
+                </div>
+                <WizardRuleInputPanels
                   rules={landUseRules}
                   onInputChange={onInputChange}
                   suppressHeader={true}
                 />
               </div>
             ) : page === 3 ? (
-              <div style={{ minWidth: "80%" }}>
-                <h2 className="tdm-wizard-page-title">
+              <div>
+                <h1 className="tdm-wizard-page-title">
                   Determine the required parking spaces
-                </h2>
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   Enter the project specifications to determine the required
                   parking
                 </h3>
-                <WizardRulePanels
+                <div className={classes.unSelectContainer}>
+                  <button
+                    className={classes.unSelectButton}
+                    onClick={() => onUncheckAll(filters.inputRules)}
+                  >
+                    Reset Page
+                  </button>
+                </div>
+                <WizardRuleInputPanels
                   rules={inputRules}
                   onInputChange={onInputChange}
                 />
               </div>
             ) : page === 4 ? (
-              <div style={{ minWidth: "80%" }}>
-                <h2 className="tdm-wizard-page-title">
+              <div>
+                <h1 className="tdm-wizard-page-title">
                   Calculate TDM Target Points
-                </h2>
+                </h1>
                 <h3 className="tdm-wizard-page-subtitle">
                   Enter the # of parking spaces you intend to build to complete
                   the Target Point calculation
                 </h3>
-                <WizardRulePanels
+                <WizardRuleInputPanels
                   rules={targetRules}
                   onInputChange={onInputChange}
                   suppressHeader
                 />
               </div>
             ) : page === 5 ? (
-              <div style={{ minWidth: "80%" }}>
+              <div>
                 <h2 className="tdm-wizard-page-title">
                   Transporation Demand Strategies
                 </h2>
                 <h3 className="tdm-wizard-page-subtitle">
                   Select strategies to earn TDM points
                 </h3>
-                <div style={{ textAlign: "center" }}>
+                <div className={classes.unSelectContainer}>
                   {showResidentialPkg ? (
                     <button
                       className="tdm-wizard-pkg-button"
@@ -256,8 +271,14 @@ const TdmCalculationWizard = props => {
                       Select Commercial Package
                     </button>
                   ) : null}
+                  <button
+                    className={classes.unSelectButton}
+                    onClick={() => onUncheckAll(filters.strategyRules)}
+                  >
+                    Reset Page
+                  </button>
                 </div>
-                <WizardRulePanels
+                <WizardRuleStrategyPanels
                   rules={strategyRules}
                   onInputChange={onInputChange}
                 />
@@ -274,9 +295,8 @@ const TdmCalculationWizard = props => {
               </div>
             )}
           </div>
-
           {!projectId || (account && account.id && account.id === loginId) ? (
-            <div style={{ marginBottom: "3em", marginTop: "2em" }}>
+            <div className={classes.navButtonsWrapper}>
               <WizardNavButton
                 disabled={page === 1}
                 onClick={() => {

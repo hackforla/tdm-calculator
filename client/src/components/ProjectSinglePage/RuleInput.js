@@ -1,5 +1,59 @@
 import React from "react";
+import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
+import clsx from "clsx";
+
+const useStyles = createUseStyles({
+  rule: {
+    margin: "0.2em",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "baseline"
+  },
+  numberRule: {
+    alignItems: "center"
+  },
+  name: {
+    flexBasis: "70%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  nameSmall: {
+    flexBasis: "45%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  code: {
+    flexBasis: "10%",
+    flexGrow: "0",
+    flexShrink: "1"
+  },
+  units: {
+    flexBasis: "10%",
+    marginLeft: "1em",
+    flexGrow: "0",
+    flexShrink: "1"
+  },
+  calcUnits: {
+    flexBasis: "10%",
+    marginLeft: "1em",
+    marginRight: "0.5em",
+    textAlign: "right",
+    flexGrow: "0",
+    flexShrink: "1"
+  },
+  select: {
+    flexBasis: "45%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  stringInput: {
+    flexBasis: "65%",
+    flexGrow: "0",
+    flexShrink: "1"
+  }
+});
 
 const RuleInput = ({
   rule: {
@@ -23,140 +77,60 @@ const RuleInput = ({
   },
   onInputChange
 }) => {
+  const classes = useStyles();
+
   return (
     <React.Fragment>
       {dataType === "number" ? (
-        <div
-          style={{
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "70%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+        <div className={clsx(classes.rule, classes.numberRule)}>
+          <div className={classes.name}>
             {name}
           </div>
           <input
-            type="number"
-            style={{
-              flexBasis: "10%",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
+            type="text"
+            className={classes.code}
             value={value || ""}
             onChange={onInputChange}
             name={code}
           />
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.units}>
             {units}
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.calcUnits}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
           </div>
         </div>
       ) : dataType === "boolean" ? (
-        <div
-          style={{
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "70%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+        <div className={classes.rule}>
+          <div className={classes.name}>
             {name}
           </div>
           <input
             type="checkbox"
-            style={{
-              flexBasis: "10%",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
+            className={classes.code}
             value={true}
             checked={!!value}
             onChange={onInputChange}
             name={code}
           />
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.units}>
             {units}
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.calcUnits}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
           </div>
         </div>
       ) : dataType === "choice" ? (
-        <div
-          style={{
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "45%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+        <div className={classes.rule}>
+          <div className={classes.nameSmall}>
             {name}
           </div>
           <select
-            style={{ flexBasis: "45%", flexGrow: "1", flexShrink: "1" }}
+            className={classes.select}
             value={value || ""}
             onChange={onInputChange}
             name={code}
@@ -167,95 +141,38 @@ const RuleInput = ({
               </option>
             ))}
           </select>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.calcUnits}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
           </div>
         </div>
       ) : dataType === "string" ? (
-        <div
-          style={{
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "45%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+        <div className={classes.rule}>
+          <div className={classes.nameSmall}>
             {name}
           </div>
           <input
             type="text"
-            style={{
-              flexBasis: "65%",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
+            className={classes.stringInput}
             value={value || ""}
             onChange={onInputChange}
             name={code}
           />
         </div>
       ) : (
-        <div
-          style={{
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "70%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+        <div className={classes.rule}>
+          <div className={classes.name}>
             {name}
           </div>
           <div
-            style={{ flexBasis: "10%", flexGrow: "0", flexShrink: "1" }}
+            className={classes.code}
             name={code}
           ></div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.units}>
             {units}
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.calcUnits}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}

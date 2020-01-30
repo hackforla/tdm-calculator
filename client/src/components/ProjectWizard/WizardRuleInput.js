@@ -1,5 +1,116 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { createUseStyles } from "react-jss";
+import clsx from 'clsx';
+
+const useStyles = createUseStyles({
+  field: {
+    minWidth: "60vw",
+    margin: "0.2em",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  numberFieldWrapper: {
+    marginBottom: "0.4em",
+    alignItems: "center",
+    '&:hover': {
+      backgroundColor: "#f0e300"
+    }
+  },
+  numberField: {
+    flexBasis: "20%",
+    flexGrow: "1",
+    flexShrink: "1",
+  },
+  numberFieldUnits: {
+    flexBasis: "20%",
+    marginLeft: "1em",
+    flexGrow: "0",
+    flexShrink: "1"
+  },
+  input: {
+    padding: "0.1em",
+    width: "auto",
+    textAlign: "right"
+  },
+  unitsCaption: {
+    flexBasis: "10%",
+    marginLeft: "1em",
+    flexGrow: "0",
+    flexShrink: "1"
+  },
+  calcUnitsCaption: {
+    flexBasis: "10%",
+    marginLeft: "1em",
+    marginRight: "0.5em",
+    textAlign: "right",
+    flexGrow: "0",
+    flexShrink: "1"
+  },
+  checkboxFieldWrapper: {
+    alignItems: "baseline",
+    '&:hover': {
+      backgroundColor: "#f0e300"
+    }
+  },
+  checkboxFieldLabel: {
+    flexBasis: "70%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  checkbox: {
+    flexBasis: "10%",
+    flexGrow: "0",
+    flexShrink: "1"
+  },
+  selectFieldWrapper: {
+    alignItems: "baseline",
+    '&:hover': {
+      backgroundColor: "#f0e300"
+    }
+  },
+  selectFieldLabel: {
+    flexBasis: "45%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  select: {
+    flexBasis: "45%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  textFieldWrapper: {
+    alignItems: "center"
+  },
+  miscFieldWrapper: {
+    alignItems: "baseline",
+    '&:hover': {
+      backgroundColor: "#f0e300"
+    }
+  },
+  miscFieldLabel: {
+    flexBasis: "70%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  codeWrapper: {
+    flexBasis: "10%",
+    flexGrow: "0",
+    flexShrink: "1"
+  },
+  textInputLabel: {
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  textareaLabel: {
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    minHeight: "5em"
+  }
+})
 
 const WizardRuleInput = ({
   rule: {
@@ -25,39 +136,19 @@ const WizardRuleInput = ({
   },
   onInputChange
 }) => {
+  const classes = useStyles();
+  
   return (
     <React.Fragment>
       {dataType === "number" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            marginBottom: "0.4em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "50%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+        <div className={clsx(classes.field, classes.numberFieldWrapper)}>
+          <div className={classes.textInputLabel}>
             {name}
           </div>
-          <div
-            style={{
-              flexBasis: "20%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.numberField}>
             <input
-              style={{ padding: "0.1em", width: "auto", textAlign: "right" }}
-              type="number"
+              className={classes.input}
+              type="text"
               value={value || ""}
               onChange={onInputChange}
               name={code}
@@ -65,110 +156,46 @@ const WizardRuleInput = ({
               max={maxValue}
             />
           </div>
-          <div
-            style={{
-              flexBasis: "20%",
-              marginLeft: "1em",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.numberFieldUnits}>
             {units}
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
           </div>
         </div>
       ) : dataType === "boolean" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "70%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+        <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
+          <div className={classes.checkboxFieldLabel}>
             {name}
           </div>
           <input
             type="checkbox"
-            style={{
-              flexBasis: "10%",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
+            className={classes.checkbox}
             value={true}
             checked={!!value}
             onChange={onInputChange}
             name={code}
           />
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
-            {units}
-          </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div>
+         {calcValue ? (
+            <>
+              <div className={classes.unitsCaption}>{units}</div>
+              <div className={classes.calcUnitsCaption}>
+                {`${
+                  calcValue ? Math.round(calcValue * 100) / 100 : ""
+                } ${calcUnits || ""}`}
+              </div>
+            </>
+          ) : null}
         </div>
       ) : dataType === "choice" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "45%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+        <div className={clsx(classes.field, classes.selectFieldWrapper)}>
+          <div className={classes.selectFieldLabel}>
             {name}
           </div>
           <select
-            style={{ flexBasis: "45%", flexGrow: "1", flexShrink: "1" }}
+            className={classes.select}
             value={value || ""}
             onChange={onInputChange}
             name={code}
@@ -179,61 +206,28 @@ const WizardRuleInput = ({
               </option>
             ))}
           </select>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
           </div>
         </div>
       ) : dataType === "string" || dataType === "textarea" ? (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "50%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+        <div className={clsx(classes.field, classes.textFieldWrapper)}>
+          <div className={classes.textInputLabel}>
             {name}
           </div>
           {dataType === "string" ? (
             <input
               type="text"
-              style={{
-                flexBasis: "50%",
-                flexGrow: "1",
-                flexShrink: "1"
-              }}
+              className={classes.textInputLabel}
               value={value || ""}
               onChange={onInputChange}
               name={code}
             />
           ) : (
             <textarea
-              style={{
-                flexBasis: "50%",
-                flexGrow: "1",
-                flexShrink: "1",
-                minHeight: "5em"
-              }}
+              className={classes.textareaLabel}
               value={value || ""}
               onChange={onInputChange}
               name={code}
@@ -241,49 +235,15 @@ const WizardRuleInput = ({
           )}
         </div>
       ) : (
-        <div
-          style={{
-            minWidth: "60vw",
-            margin: "0.2em",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "baseline"
-          }}
-        >
-          <div
-            style={{
-              flexBasis: "70%",
-              flexGrow: "1",
-              flexShrink: "1"
-            }}
-          >
+        <div className={clsx(classes.field, classes.miscFieldWrapper)}>
+          <div className={classes.miscFieldLabel}>
             {name}
           </div>
-          <div
-            style={{ flexBasis: "10%", flexGrow: "0", flexShrink: "1" }}
-            name={code}
-          ></div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.codeWrapper} name={code}></div>
+          <div className={classes.unitsCaption}>
             {units}
           </div>
-          <div
-            style={{
-              flexBasis: "10%",
-              marginLeft: "1em",
-              marginRight: "0.5em",
-              textAlign: "right",
-              flexGrow: "0",
-              flexShrink: "1"
-            }}
-          >
+          <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
