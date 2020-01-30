@@ -32,7 +32,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const WizardRuleStrategyPanels = props => {
+const WizardRuleInputPanels = props => {
   const { rules, suppressHeader } = props;
   const panelIds = rules.reduce((acc, rule) => {
     if (!acc.includes(rule.calculationPanelId)) {
@@ -76,5 +76,5 @@ const WizardRuleStrategyPanels = props => {
   );
 };
 
-export default WizardRuleStrategyPanels;
+export default WizardRuleInputPanels;
 
