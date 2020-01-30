@@ -161,14 +161,14 @@ const WizardReviewPanel = props => {
         {level ? (
           <div className={classes.measure}>
             <div className={classes.measureValue}>{level.value}</div>
-            <div className={classes.label}>Project Level</div>
+            <div className={clsx(classes.alignCenter, classes.label)}>Project Level</div>
           </div>
         ) : null}
 
         {parkingRatio ? (
           <div className={classes.measure}>
             <div className={classes.measureValue}>{`${Math.floor(parkingRatio.value).toString()} %`}</div>
-            <div className={classes.label}>Provided / Required Parking</div>
+            <div className={clsx(classes.alignCenter, classes.label)}>Provided / Required Parking</div>
           </div>
         ) : null}
       </div>
@@ -177,14 +177,14 @@ const WizardReviewPanel = props => {
         {targetPoints ? (
           <div className={classes.measure}>
             <div className={classes.measureValue}>{Math.round(targetPoints.value)}</div>
-            <div className={classes.label}>Target Points</div>
+            <div className={clsx(classes.alignCenter, classes.label)}>Target Points</div>
           </div>
         ) : null}
 
         {earnedPoints ? (
           <div className={classes.measure}>
             <div className={classes.measureValue}>{Math.round(earnedPoints.value)}</div>
-            <div className={classes.label}>Earned Points</div>
+            <div className={clsx(classes.alignCenter, classes.label)}>Earned Points</div>
           </div>
         ) : null}
       </div>
