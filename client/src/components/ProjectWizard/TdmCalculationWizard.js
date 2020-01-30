@@ -9,7 +9,6 @@ import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "../SwitchViewButton";
 import Sidebar from "../Sidebar";
 
-
 const useStyles = createUseStyles({
   root: {
     height: "calc(100vh - 103px)",
@@ -34,7 +33,7 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     boxSizing: "border-box",
     height: "calc(100vh - 103px)",
-    overflow: "scroll"
+    overflow: "auto"
   },
   buttonWrapper: {
     textAlign: "center"
@@ -42,6 +41,22 @@ const useStyles = createUseStyles({
   navButtonsWrapper: {
     marginBottom: "3em",
     marginTop: "2em"
+  },
+  unSelectContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    height: "32px"
+  },
+  unSelectButton: {
+    position: "absolute",
+    right: "24px",
+    backgroundColor: "transparent",
+    border: "0",
+    cursor: "pointer",
+    textDecoration: "underline"
   }
 });
 
@@ -63,21 +78,24 @@ const TdmCalculationWizard = props => {
   } = props;
   const [page, setPage] = useState(0);
 
-  useEffect(() => {
-    if (
-      !props.projectId ||
-      (props.account &&
-        (props.account.isAdmin || props.account.id === props.loginId))
-    ) {
-      // Project Calculation is editable if it is not saved
-      // or the project was created by the current logged in
-      // user, or the logged in user is admin.
-      setPage(props.pageNo || 1);
-    } else {
-      // read-only users can only see the summary page.
-      setPage(6);
-    }
-  }, [props.projectId, props.account, props.loginId, props.pageNo]);
+  useEffect(
+    () => {
+      if (
+        !props.projectId ||
+        (props.account &&
+          (props.account.isAdmin || props.account.id === props.loginId))
+      ) {
+        // Project Calculation is editable if it is not saved
+        // or the project was created by the current logged in
+        // user, or the logged in user is admin.
+        setPage(props.pageNo || 1);
+      } else {
+        // read-only users can only see the summary page.
+        setPage(6);
+      }
+    },
+    [props.projectId, props.account, props.loginId, props.pageNo]
+  );
 
   const projectRules = rules && rules.filter(filters.projectRules);
   const landUseRules = rules && rules.filter(filters.landUseRules);
@@ -136,14 +154,15 @@ const TdmCalculationWizard = props => {
     <React.Fragment>
       <div className={clsx("tdm-wizard", classes.root)}>
         <Sidebar>
-          {rules && rules.length > 0 && (
-            <div className={classes.sidebarContent}>
-              <SwitchViewButton onClick={props.onViewChange}>
-                Switch to Default View
-              </SwitchViewButton>
-              <WizardResultPanel rules={resultRules} />
-            </div>
-          )}
+          {rules &&
+            rules.length > 0 && (
+              <div className={classes.sidebarContent}>
+                <SwitchViewButton onClick={props.onViewChange}>
+                  Switch to Default View
+                </SwitchViewButton>
+                <WizardResultPanel rules={resultRules} />
+              </div>
+            )}
         </Sidebar>
         <div
           className={clsx(
@@ -174,12 +193,12 @@ const TdmCalculationWizard = props => {
                 <h3 className="tdm-wizard-page-subtitle">
                   Select all that apply
                 </h3>
-                <div style={{ textAlign: "center" }}>
+                <div className={classes.unSelectContainer}>
                   <button
-                    className="tdm-wizard-pkg-button"
+                    className={classes.unSelectButton}
                     onClick={() => onUncheckAll(filters.landUseRules)}
                   >
-                    Uncheck All
+                    Reset Page
                   </button>
                 </div>
                 <WizardRuleInputPanels
@@ -197,6 +216,14 @@ const TdmCalculationWizard = props => {
                   Enter the project specifications to determine the required
                   parking
                 </h3>
+                <div className={classes.unSelectContainer}>
+                  <button
+                    className={classes.unSelectButton}
+                    onClick={() => onUncheckAll(filters.inputRules)}
+                  >
+                    Reset Page
+                  </button>
+                </div>
                 <WizardRuleInputPanels
                   rules={inputRules}
                   onInputChange={onInputChange}
@@ -219,19 +246,13 @@ const TdmCalculationWizard = props => {
               </div>
             ) : page === 5 ? (
               <div>
-                <h1 className="tdm-wizard-page-title">
-                  Transportation Demand Strategies
-                </h1>
+                <h2 className="tdm-wizard-page-title">
+                  Transporation Demand Strategies
+                </h2>
                 <h3 className="tdm-wizard-page-subtitle">
                   Select strategies to earn TDM points
                 </h3>
-                <div style={{ textAlign: "center" }}>
-                  <button
-                    className="tdm-wizard-pkg-button"
-                    onClick={() => onUncheckAll(filters.strategyRules)}
-                  >
-                    Reset All Strategies
-                  </button>
+                <div className={classes.unSelectContainer}>
                   {showResidentialPkg ? (
                     <button
                       className="tdm-wizard-pkg-button"
@@ -250,6 +271,12 @@ const TdmCalculationWizard = props => {
                       Select Commercial Package
                     </button>
                   ) : null}
+                  <button
+                    className={classes.unSelectButton}
+                    onClick={() => onUncheckAll(filters.strategyRules)}
+                  >
+                    Reset Page
+                  </button>
                 </div>
                 <WizardRuleStrategyPanels
                   rules={strategyRules}
