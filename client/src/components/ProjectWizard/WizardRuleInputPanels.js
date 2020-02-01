@@ -1,6 +1,7 @@
 import React from "react";
 
 import WizardRuleInputList from "./WizardRuleInputList";
+import Loader from "react-loader";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -29,6 +30,12 @@ const useStyles = createUseStyles({
     textAlign: "right",
     flexGrow: "0",
     flexShrink: "1" 
+  },
+  loaderContainer: {
+    width: '100%',
+    height: '50px',
+    display: 'flex',
+    justifyContent: 'center'
   }
 });
 
@@ -71,7 +78,9 @@ const WizardRuleInputPanels = props => {
             ))}
           </>
 
-        : null}
+        : <div className={classes.loaderContainer}>
+        <Loader loaded={false} className="spinner" left='auto'/>
+      </div>}
     </React.Fragment>
   );
 };

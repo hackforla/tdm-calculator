@@ -1,11 +1,12 @@
 import React from "react";
 
 import WizardRuleStrategyList from "./WizardRuleStrategyList";
+import Loader from "react-loader";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   panelContainer: {
-      margin: "0.5em"
+    margin: "0.5em"
   },
   // below uses same styles as in WizardRuleStrategy.js
   strategyContainer: {
@@ -17,11 +18,11 @@ const useStyles = createUseStyles({
     alignItems: "center",
     backgroundColor: "#0f2940",
     color: "white",
-    padding: ".4em"
+    padding: ".4em",
   },
   strategyName: {
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   points: {
     flexBasis: "10%",
@@ -29,7 +30,13 @@ const useStyles = createUseStyles({
     marginRight: "0.5em",
     textAlign: "right",
     flexGrow: "0",
-    flexShrink: "1" 
+    flexShrink: "1"
+  },
+  loaderContainer: {
+    width: '100%',
+    height: '50px',
+    display: 'flex',
+    justifyContent: 'center'
   }
 });
 
@@ -43,38 +50,41 @@ const WizardRuleStrategyPanels = props => {
   }, []);
   // Group rules into an array where each element is an array of
   // rules for a particular panel
-  const classes = useStyles()
+  const classes = useStyles();
 
   const panelsRules = panelIds.map(panelId => {
     return rules.filter(rule => rule.calculationPanelId === panelId);
   });
-  
+
   return (
     <React.Fragment>
-      {panelsRules && panelsRules.length > 0
-        ? <>
+      {panelsRules && panelsRules.length > 0 ? (
+        <>
           {panelsRules.map(rules => (
-              <div
+            <div
+              key={rules[0].calculationPanelId}
+              className={classes.panelContainer}
+            >
+              {!suppressHeader ? (
+                <div className={classes.strategyContainer}>
+                  <h4 className={classes.strategyName}>{rules[0].panelName}</h4>
+                  <div className={classes.points}>Possible</div>
+                  <div className={classes.points}>Earned</div>
+                </div>
+              ) : null}
+              <WizardRuleStrategyList
                 key={rules[0].calculationPanelId}
-                className={classes.panelContainer}
-              >
-              {!suppressHeader 
-                ? <div className={classes.strategyContainer}>
-                    <h4 className={classes.strategyName}>{rules[0].panelName}</h4>
-                    <div className={classes.points}>Possible</div>
-                    <div className={classes.points}>Earned</div>
-                  </div>
-                : null}  
-                <WizardRuleStrategyList
-                  key={rules[0].calculationPanelId}
-                  rules={rules}
-                  onInputChange={props.onInputChange}
-                />
-              </div>
-            ))}
-          </>
-
-        : null}
+                rules={rules}
+                onInputChange={props.onInputChange}
+              />
+            </div>
+          ))}
+        </>
+      ) : (
+        <div className={classes.loaderContainer}>
+          <Loader loaded={false} className="spinner" left='auto'/>
+        </div>
+      )}
     </React.Fragment>
   );
 };

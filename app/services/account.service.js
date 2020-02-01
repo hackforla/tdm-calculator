@@ -79,6 +79,7 @@ const register = async model => {
       return result;
     }
   } catch (err) {
+    console.log('err', err)
     return {
       isSuccess: false,
       code: "REG_DUPLICATE_EMAIL",
