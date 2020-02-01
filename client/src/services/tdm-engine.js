@@ -78,7 +78,7 @@ class Engine {
         }
       }
       // For debugging
-      console.log(this.rules);
+      // console.log(this.rules);
       return results;
     } catch (err) {
       console.log(err);
