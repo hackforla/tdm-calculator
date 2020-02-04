@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import RequiredFieldContext from "../../contexts/RequiredFieldContext";
 
 const useStyles = createUseStyles({
   field: {
@@ -149,6 +150,9 @@ const WizardRuleInput = ({
     displayName = name.slice(0, -1);
     isRequired = true;
   }
+  const [unfilledRequired, setUnfilledRequired] = useContext(
+    RequiredFieldContext
+  );
 
   return (
     <React.Fragment>
@@ -217,7 +221,14 @@ const WizardRuleInput = ({
           </div>
         </div>
       ) : dataType === "string" || dataType === "textarea" ? (
-        <div className={clsx(classes.field, classes.textFieldWrapper)}>
+        <div
+          className={clsx(classes.field, classes.textFieldWrapper)}
+          onBlur={e => {
+            setUnfilledRequired(
+              isRequired && e.target.value === "" ? true : false
+            );
+          }}
+        >
           <div
             className={
               isRequired

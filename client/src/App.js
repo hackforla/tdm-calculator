@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
 import { UserContext } from "./components/user-context";
+import RequiredFieldContext from "./contexts/RequiredFieldContext";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
 import Projects from "./components/Projects";
 import Header from "./components/Header";
@@ -70,6 +71,8 @@ const App = props => {
 
   setTokenInHeaders();
 
+  const unfilledRequired = useState(false);
+
   return (
     <React.Fragment>
       <UserContext.Provider value={account}>
@@ -77,10 +80,17 @@ const App = props => {
           <Header account={account} setAccount={setAccount} isCreatingNewProject={isCreatingNewProject}/>
           <div className={classes.root}>
             <Route exact path="/" component={LandingPage} />
-            <Route
-              path="/calculation/:projectId?"
-              render={() => <TdmCalculationContainer account={account} setIsCreatingNewProject={setIsCreatingNewProject} />}
-            />
+            <RequiredFieldContext.Provider value={unfilledRequired}>
+              <Route
+                path="/calculation/:projectId?"
+                render={() => (
+                  <TdmCalculationContainer
+                    account={account}
+                    setIsCreatingNewProject={setIsCreatingNewProject}
+                  />
+                )}
+              />
+            </RequiredFieldContext.Provider>
             <Route
               path="/projects"
               render={() => <Projects account={account} />}
