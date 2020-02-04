@@ -90,7 +90,7 @@ const Projects = props => {
           </tr>
         </thead>
         <tbody className={classes.tbody}>
-          {projects.map(project => (
+          {projects.length && projects.map(project => (
             <tr key={project.id}>
               <td className={classes.td}>
                 <Link to={`/calculation/${project.id}`} className={classes.link}>
