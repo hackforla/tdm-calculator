@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import WizardRuleStrategyPanels from "./WizardRuleStrategyPanels";
@@ -8,6 +8,7 @@ import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "../SwitchViewButton";
 import Sidebar from "../Sidebar";
+import RequiredFieldContext from "../../contexts/RequiredFieldContext";
 
 const useStyles = createUseStyles({
   root: {
@@ -60,6 +61,10 @@ const useStyles = createUseStyles({
   }
 });
 
+const hasUnfilledRequired = unfilledRequired => {
+  return unfilledRequired;
+};
+
 const TdmCalculationWizard = props => {
   const classes = useStyles();
   const {
@@ -77,7 +82,8 @@ const TdmCalculationWizard = props => {
     pageNo
   } = props;
   const [page, setPage] = useState(0);
-  const [unfilledRequired, setUnfilledRequired] = useState(false);
+  const unfilledRequired = useContext(RequiredFieldContext)[0];
+  const disableForward = hasUnfilledRequired(unfilledRequired);
 
   useEffect(
     () => {
@@ -306,7 +312,7 @@ const TdmCalculationWizard = props => {
                 &lt;
               </WizardNavButton>
               <WizardNavButton
-                disabled={page === 6 || unfilledRequired}
+                disabled={page === 6 || disableForward}
                 onClick={() => {
                   onPageChange(page + 1);
                 }}
