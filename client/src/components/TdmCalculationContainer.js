@@ -188,7 +188,6 @@ class TdmCalculationContainer extends React.Component {
   };
 
   onSave = async evt => {
-
     // For possible future use. Removes null entries from saved inputs
 
     // const inputsToSave = { ...this.state.formInputs };
@@ -203,7 +202,7 @@ class TdmCalculationContainer extends React.Component {
       name: this.state.formInputs.PROJECT_NAME,
       address: this.state.formInputs.PROJECT_ADDRESS,
       description: this.state.formInputs.PROJECT_DESCRIPTION,
-      formInputs: JSON.stringify(inputsToSave),
+      formInputs: JSON.stringify(this.state.formInputs),
       loginId: this.props.account.id,
       calculationId: this.calculationId
     };
