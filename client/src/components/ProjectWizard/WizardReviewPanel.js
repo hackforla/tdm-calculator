@@ -1,8 +1,9 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import clsx from 'clsx';
+import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheck } from "@fortawesome/free-solid-svg-icons";
+import Loader from "react-loader";
 
 const useStyles = createUseStyles({
   root: {
@@ -81,6 +82,12 @@ const useStyles = createUseStyles({
   },
   bold: {
     fontFamily: "Calibri Bold"
+  },
+  loaderContainer: {
+    width: "100%",
+    height: "50px",
+    display: "flex",
+    justifyContent: "center"
   }
 });
 
@@ -141,116 +148,170 @@ const WizardReviewPanel = props => {
         (!!rule.value || !!rule.calcValue)
     );
 
+  const loading =
+    !level &&
+    !parkingRatio &&
+    !targetPoints &&
+    !earnedPoints &&
+    rules &&
+    !rules.length &&
+    !parkingRequired &&
+    !parkingProvided;
+
   return (
     <div className={clsx("tdm-wizard-review-page", classes.root)}>
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
-
       {projectName && projectName.value ? (
-        <h3 className={clsx("tdm-wizard-page-subtitle", classes.subtitle)}>{projectName.value}</h3>
+        <h3 className={clsx("tdm-wizard-page-subtitle", classes.subtitle)}>
+          {projectName.value}
+        </h3>
       ) : null}
-
       {projectAddress && projectAddress.value ? (
-        <h3 className={clsx("tdm-wizard-page-subtitle", classes.subtitle)}>{projectAddress.value}</h3>
+        <h3 className={clsx("tdm-wizard-page-subtitle", classes.subtitle)}>
+          {projectAddress.value}
+        </h3>
       ) : null}
-
       {projectDescription && projectDescription.value ? (
         <p className={classes.alignCenter}>{projectDescription.value} </p>
       ) : null}
-
-      <div className={classes.grid}>
-        {level ? (
-          <div className={classes.measure}>
-            <div className={classes.measureValue}>{level.value}</div>
-            <div className={clsx(classes.alignCenter, classes.label)}>Project Level</div>
-          </div>
-        ) : null}
-
-        {parkingRatio ? (
-          <div className={classes.measure}>
-            <div className={classes.measureValue}>{`${Math.floor(parkingRatio.value).toString()} %`}</div>
-            <div className={clsx(classes.alignCenter, classes.label)}>Provided / Required Parking</div>
-          </div>
-        ) : null}
-      </div>
-
-      <div className={classes.grid}>
-        {targetPoints ? (
-          <div className={classes.measure}>
-            <div className={classes.measureValue}>{Math.round(targetPoints.value)}</div>
-            <div className={clsx(classes.alignCenter, classes.label)}>Target Points</div>
-          </div>
-        ) : null}
-
-        {earnedPoints ? (
-          <div className={classes.measure}>
-            <div className={classes.measureValue}>{Math.round(earnedPoints.value)}</div>
-            <div className={clsx(classes.alignCenter, classes.label)}>Earned Points</div>
-          </div>
-        ) : null}
-      </div>
-
-      <h2 className={classes.heading}>Land Uses</h2>
-      <div> {`${landUses}`}</div>
-
-      <h2 className={classes.heading}>TDM Measures Selected</h2>
-      {rules && rules.length > 0
-        ? measureRules.map(rule => (
-            <div key={rule.id} className={classes.rule}>
-              <div className={classes.ruleName}>{rule.name}</div>
-              <div className={classes.value}>
-                {rule.dataType === "boolean" ? (
-                  <FontAwesomeIcon icon={faCheck} />
-                ) : rule.dataType === "choice" ? (
-                  rule.choices.filter(choice => choice.id === rule.value)[0].name
-                ) : (
-                  rule.value
-                )}
+      {!loading ? (
+        <>
+          <div className={classes.grid}>
+            {level ? (
+              <div className={classes.measure}>
+                <div className={classes.measureValue}>{level.value}</div>
+                <div className={clsx(classes.alignCenter, classes.label)}>
+                  Project Level
+                </div>
               </div>
-              <div className={classes.ruleUnits}>{rule.units}</div>
-              <div className={classes.icon}><FontAwesomeIcon icon={faArrowRight} /></div>
-              <div className={classes.value}>{Math.round(rule.calcValue * 100) / 100}</div>
-              <div className={classes.calcUnits}>{rule.calcUnits}</div>
+            ) : null}
+
+            {parkingRatio ? (
+              <div className={classes.measure}>
+                <div className={classes.measureValue}>{`${Math.floor(
+                  parkingRatio.value
+                ).toString()} %`}</div>
+                <div className={clsx(classes.alignCenter, classes.label)}>
+                  Provided / Required Parking
+                </div>
+              </div>
+            ) : null}
+          </div>
+          <div className={classes.grid}>
+            {targetPoints ? (
+              <div className={classes.measure}>
+                <div className={classes.measureValue}>
+                  {Math.round(targetPoints.value)}
+                </div>
+                <div className={clsx(classes.alignCenter, classes.label)}>
+                  Target Points
+                </div>
+              </div>
+            ) : null}
+
+            {earnedPoints ? (
+              <div className={classes.measure}>
+                <div className={classes.measureValue}>
+                  {Math.round(earnedPoints.value)}
+                </div>
+                <div className={clsx(classes.alignCenter, classes.label)}>
+                  Earned Points
+                </div>
+              </div>
+            ) : null}
+          </div>
+          <h2 className={classes.heading}>Land Uses</h2>
+          <div> {`${landUses}`}</div>
+          <h2 className={classes.heading}>TDM Measures Selected</h2>
+          {rules && rules.length > 0
+            ? measureRules.map(rule => (
+                <div key={rule.id} className={classes.rule}>
+                  <div className={classes.ruleName}>{rule.name}</div>
+                  <div className={classes.value}>
+                    {rule.dataType === "boolean" ? (
+                      <FontAwesomeIcon icon={faCheck} />
+                    ) : rule.dataType === "choice" ? (
+                      rule.choices.filter(choice => choice.id === rule.value)[0]
+                        .name
+                    ) : (
+                      rule.value
+                    )}
+                  </div>
+                  <div className={classes.ruleUnits}>{rule.units}</div>
+                  <div className={classes.icon}>
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </div>
+                  <div className={classes.value}>
+                    {Math.round(rule.calcValue * 100) / 100}
+                  </div>
+                  <div className={classes.calcUnits}>{rule.calcUnits}</div>
+                </div>
+              ))
+            : null}
+          <h2 className={classes.heading}>Required Parking Calculation</h2>
+          {rules && rules.length > 0
+            ? inputRules.map(rule => (
+                <div key={rule.id} className={classes.rule}>
+                  <div className={classes.ruleName}>{rule.name}</div>
+                  <div className={classes.value}>{rule.value}</div>
+                  <div className={classes.ruleUnits}>{rule.units}</div>
+                  <div className={classes.icon}>
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </div>
+                  <div className={classes.value}>
+                    {Math.round(rule.calcValue * 100) / 100}
+                  </div>
+                  <div className={classes.calcUnits}>{rule.calcUnits}</div>
+                </div>
+              ))
+            : null}
+          {parkingRequired ? (
+            <div className={classes.rule}>
+              <div className={clsx(classes.wideRule, classes.bold)}>
+                {parkingRequired.name}
+              </div>
+              <div
+                className={clsx(classes.value, classes.overline, classes.bold)}
+              >
+                {Math.round(parkingRequired.value * 100) / 100}
+              </div>
+              <div
+                className={clsx(
+                  classes.calcUnits,
+                  classes.overline,
+                  classes.bold
+                )}
+              >
+                {parkingRequired.units}
+              </div>
             </div>
-          ))
-        : null}
-
-      <h2 className={classes.heading}>Required Parking Calculation</h2>
-      {rules && rules.length > 0
-        ? inputRules.map(rule => (
-            <div key={rule.id} className={classes.rule}>
-              <div className={classes.ruleName}>{rule.name}</div>
-              <div className={classes.value}>{rule.value}</div>
-              <div className={classes.ruleUnits}>{rule.units}</div>
-              <div className={classes.icon}><FontAwesomeIcon icon={faArrowRight} /></div>
-              <div className={classes.value}>{Math.round(rule.calcValue * 100) / 100}</div>
-              <div className={classes.calcUnits}>{rule.calcUnits}</div>
+          ) : null}
+          {parkingProvided ? (
+            <div className={classes.rule}>
+              <div className={clsx(classes.wideRule, classes.bold)}>
+                {parkingProvided.name}
+              </div>
+              <div className={clsx(classes.value, classes.bold)}>
+                {Math.round(parkingProvided.value * 100) / 100}
+              </div>
+              <div className={clsx(classes.calcUnits, classes.bold)}>
+                {parkingProvided.units}
+              </div>
             </div>
-          ))
-        : null}
-
-      {parkingRequired ? (
-        <div className={classes.rule}>
-          <div className={clsx(classes.wideRule, classes.bold)}>{parkingRequired.name}</div>
-          <div className={clsx(classes.value, classes.overline, classes.bold)}>{Math.round(parkingRequired.value * 100) / 100}</div>
-          <div className={clsx(classes.calcUnits, classes.overline, classes.bold)}>{parkingRequired.units}</div>
+          ) : null}
+          {account.id && (!projectId || account.id === loginId) ? (
+            <div className={classes.buttonContainer}>
+              <button className="tdm-wizard-save-button" onClick={onSave}>
+                {projectId ? "Save Project Changes" : "Save As New Project"}
+              </button>
+            </div>
+          ) : null}
+        </>
+      ) : (
+        <div className={classes.loaderContainer}>
+          <Loader loaded={false} className="spinner" left="auto" />
         </div>
-      ) : null}
-
-      {parkingProvided ? (
-        <div className={classes.rule}>
-          <div className={clsx(classes.wideRule, classes.bold)}>{parkingProvided.name}</div>
-          <div className={clsx(classes.value, classes.bold)}>{Math.round(parkingProvided.value * 100) / 100}</div>
-          <div className={clsx(classes.calcUnits, classes.bold)}>{parkingProvided.units}</div>
-        </div>
-      ) : null}
-
-      {account.id && (!projectId || account.id === loginId) ? (
-        <div className={classes.buttonContainer}>
-          <button className="tdm-wizard-save-button" onClick={onSave}>
-            {projectId ? "Save Project Changes" : "Save As New Project"}
-          </button>
-        </div>
-      ) : null}
+      )}
     </div>
   );
 };

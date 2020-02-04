@@ -137,8 +137,8 @@ class TdmCalculationContainer extends React.Component {
   };
 
   limitToInt = value => {
-    return value.replace(/\D/g, '');
-  }
+    return value.replace(/\D/g, "");
+  };
 
   limitMinMax = (value, min, max) => {
     if (min !== null) {
@@ -188,11 +188,20 @@ class TdmCalculationContainer extends React.Component {
   };
 
   onSave = async evt => {
+    const inputsToSave = { ...this.state.formInputs };
+
+    for (let input in inputsToSave) {
+      console.log("input", inputsToSave[input]);
+      if (!inputsToSave[input]) {
+        delete inputsToSave[input];
+      }
+    }
+
     const requestBody = {
       name: this.state.formInputs.PROJECT_NAME,
       address: this.state.formInputs.PROJECT_ADDRESS,
       description: this.state.formInputs.PROJECT_DESCRIPTION,
-      formInputs: JSON.stringify(this.state.formInputs),
+      formInputs: JSON.stringify(inputsToSave),
       loginId: this.props.account.id,
       calculationId: this.calculationId
     };
@@ -262,7 +271,6 @@ class TdmCalculationContainer extends React.Component {
       rule.display &&
       rule.calculationPanelId !== 10
   };
-  
 
   render() {
     const { rules, view, projectId, loginId, pageNo } = this.state;
