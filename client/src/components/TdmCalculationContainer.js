@@ -188,20 +188,21 @@ class TdmCalculationContainer extends React.Component {
   };
 
   onSave = async evt => {
-    const inputsToSave = { ...this.state.formInputs };
+    // For possible future use. Removes null entries from saved inputs
 
-    for (let input in inputsToSave) {
-      console.log("input", inputsToSave[input]);
-      if (!inputsToSave[input]) {
-        delete inputsToSave[input];
-      }
-    }
+    // const inputsToSave = { ...this.state.formInputs };
+    // for (let input in inputsToSave) {
+    //   console.log("input", inputsToSave[input])
+    //   if (!inputsToSave[input]) {
+    //     delete inputsToSave[input];
+    //   }
+    // }
 
     const requestBody = {
       name: this.state.formInputs.PROJECT_NAME,
       address: this.state.formInputs.PROJECT_ADDRESS,
       description: this.state.formInputs.PROJECT_DESCRIPTION,
-      formInputs: JSON.stringify(inputsToSave),
+      formInputs: JSON.stringify(this.state.formInputs),
       loginId: this.props.account.id,
       calculationId: this.calculationId
     };
