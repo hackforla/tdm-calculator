@@ -79,7 +79,6 @@ const register = async model => {
       return result;
     }
   } catch (err) {
-    console.log('err', err)
     return {
       isSuccess: false,
       code: "REG_DUPLICATE_EMAIL",
@@ -191,11 +190,8 @@ const forgotPassword = async model => {
   const token = uuid4();
   let result = null;
   try {
-
-    const checkAccountResult = await selectByEmail(email)
-    if (
-      checkAccountResult
-    ) {
+    const checkAccountResult = await selectByEmail(email);
+    if (checkAccountResult) {
       result = {
         isSuccess: true,
         code: "FORGOT_PASSWORD_SUCCESS",
@@ -211,15 +207,19 @@ const forgotPassword = async model => {
     }
     // Replace the success result if there is a prob
     // sending email.
-    let tokenInsertResult = await requestResetPasswordConfirmation(email, result);
+    let tokenInsertResult = await requestResetPasswordConfirmation(
+      email,
+      result
+    );
     if (tokenInsertResult) {
       return result;
     } else {
       return {
         isSuccess: false,
-        code: 'FORGOT_PASSWORD_INTERNAL_SERVER_ERROR',
-        message: 'Something went wrong with your request. Please try again later. If the problem persists,contact TDM.'
-      }
+        code: "FORGOT_PASSWORD_INTERNAL_SERVER_ERROR",
+        message:
+          "Something went wrong with your request. Please try again later. If the problem persists,contact TDM."
+      };
     }
   } catch (err) {
     return Promise.reject(`Unexpected Error: ${err.message}`);
@@ -286,7 +286,7 @@ const resetPassword = async ({ token, password }) => {
     await mssql.executeProc("Login_ChangePassword", sqlRequest => {
       sqlRequest.addParameter("email", TYPES.NVarChar, email);
       sqlRequest.addParameter("passwordHash", TYPES.NVarChar, passwordHash);
-    })
+    });
 
     return {
       isSuccess: true,

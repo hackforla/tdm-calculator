@@ -18,7 +18,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
     backgroundColor: "#0f2940",
     color: "white",
-    padding: ".4em",
+    padding: ".4em"
   },
   strategyName: {
     flexGrow: "1",
@@ -33,10 +33,10 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   loaderContainer: {
-    width: '100%',
-    height: '50px',
-    display: 'flex',
-    justifyContent: 'center'
+    width: "100%",
+    height: "50px",
+    display: "flex",
+    justifyContent: "center"
   }
 });
 
@@ -82,7 +82,7 @@ const WizardRuleStrategyPanels = props => {
         </>
       ) : (
         <div className={classes.loaderContainer}>
-          <Loader loaded={false} className="spinner" left='auto'/>
+          <Loader loaded={false} className="spinner" left="auto" />
         </div>
       )}
     </React.Fragment>
