@@ -224,11 +224,10 @@ const WizardRuleInput = ({
         <div
           className={clsx(classes.field, classes.textFieldWrapper)}
           onBlur={e => {
-            const inputs = Object.assign({}, unfilledRequired, { input: true });
-            setUnfilledRequired(
-              //isRequired && e.target.value === "" ? true : false
-              inputs
-            );
+            let input = {};
+            input[code] = isRequired && e.target.value === "";
+            const inputs = Object.assign({}, unfilledRequired, input);
+            setUnfilledRequired(inputs);
           }}
         >
           <div
