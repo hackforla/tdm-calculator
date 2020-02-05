@@ -66,21 +66,14 @@ const isEmptyObject = obj => {
 };
 
 const hasUnfilledRequired = unfilledRequired => {
-  console.log(unfilledRequired);
+  let hasUnfilled = false;
   if (!isEmptyObject(unfilledRequired)) {
-    console.log(Object.values(unfilledRequired));
-    console.log(
-      Object.values(unfilledRequired).reduce(
-        (hasUnfilled, input) => hasUnfilled || input,
-        false
-      )
+    hasUnfilled = Object.values(unfilledRequired).reduce(
+      (hasUnfilled, input) => hasUnfilled || input,
+      false
     );
   }
-  //return unfilledRequired;
-  return Object.values(unfilledRequired).reduce(
-    (hasUnfilled, input) => hasUnfilled || input,
-    false
-  );
+  return hasUnfilled;
 };
 
 const TdmCalculationWizard = props => {
@@ -101,7 +94,6 @@ const TdmCalculationWizard = props => {
   } = props;
   const [page, setPage] = useState(0);
   const unfilledRequired = useContext(RequiredFieldContext)[0];
-  console.log(unfilledRequired);
   const disableForward = hasUnfilledRequired(unfilledRequired);
 
   useEffect(
