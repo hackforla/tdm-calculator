@@ -61,9 +61,26 @@ const useStyles = createUseStyles({
   }
 });
 
+const isEmptyObject = obj => {
+  return Object.entries(obj).length === 0 && obj.constructor === Object;
+};
+
 const hasUnfilledRequired = unfilledRequired => {
+  console.log(unfilledRequired);
+  if (!isEmptyObject(unfilledRequired)) {
+    console.log(Object.values(unfilledRequired));
+    console.log(
+      Object.values(unfilledRequired).reduce(
+        (hasUnfilled, input) => hasUnfilled || input,
+        false
+      )
+    );
+  }
   //return unfilledRequired;
-  return true;
+  return Object.values(unfilledRequired).reduce(
+    (hasUnfilled, input) => hasUnfilled || input,
+    false
+  );
 };
 
 const TdmCalculationWizard = props => {
