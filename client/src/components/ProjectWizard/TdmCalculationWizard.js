@@ -62,7 +62,8 @@ const useStyles = createUseStyles({
 });
 
 const hasUnfilledRequired = unfilledRequired => {
-  return unfilledRequired;
+  //return unfilledRequired;
+  return true;
 };
 
 const TdmCalculationWizard = props => {
@@ -83,6 +84,7 @@ const TdmCalculationWizard = props => {
   } = props;
   const [page, setPage] = useState(0);
   const unfilledRequired = useContext(RequiredFieldContext)[0];
+  console.log(unfilledRequired);
   const disableForward = hasUnfilledRequired(unfilledRequired);
 
   useEffect(

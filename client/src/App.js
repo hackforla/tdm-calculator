@@ -74,7 +74,7 @@ const App = props => {
 
   setTokenInHeaders();
 
-  const unfilledRequired = useState(false);
+  const unfilledRequired = useState({});
 
   return (
     <React.Fragment>
