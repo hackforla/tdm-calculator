@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -116,6 +116,9 @@ const useStyles = createUseStyles({
       content: '" *"',
       color: "red"
     }
+  },
+  errorLabel: {
+    color: "red"
   }
 });
 
@@ -153,6 +156,7 @@ const WizardRuleInput = ({
   const [unfilledRequired, setUnfilledRequired] = useContext(
     RequiredFieldContext
   );
+  const [error, setError] = useState("");
 
   return (
     <React.Fragment>
@@ -226,6 +230,11 @@ const WizardRuleInput = ({
           onBlur={e => {
             let input = {};
             input[code] = isRequired && e.target.value === "";
+            if (input[code]) {
+              setError("Input cannot be empty");
+            } else {
+              setError("");
+            }
             const inputs = Object.assign({}, unfilledRequired, input);
             setUnfilledRequired(inputs);
           }}
@@ -268,6 +277,9 @@ const WizardRuleInput = ({
           </div>
         </div>
       )}
+      <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
+        {error}
+      </div>
     </React.Fragment>
   );
 };
