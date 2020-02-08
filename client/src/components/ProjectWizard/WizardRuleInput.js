@@ -147,22 +147,32 @@ const WizardRuleInput = ({
   onInputChange
 }) => {
   const classes = useStyles();
-  let isRequired = false;
-  let displayName = name;
-  if (name.slice(-1) === "*") {
-    displayName = name.slice(0, -1);
-    isRequired = true;
-  }
-  const [unfilledRequired, setUnfilledRequired] = useContext(
-    RequiredFieldContext
-  );
+  const isRequired = name.slice(-1) === "*";
+  const displayName = isRequired ? name.slice(0, -1) : name;
+  const setUnfilledRequired = useContext(RequiredFieldContext)[1];
   const [error, setError] = useState("");
 
-  useEffect(() => {
+  const onBlur = e => {
+    if (isRequired) {
+      const input = { [code]: isRequired && e.target.value === "" };
+      if (input[code]) {
+        setError("Input cannot be empty");
+      } else {
+        setError("");
+      }
+      setUnfilledRequired(inputs => ({ ...inputs, ...input }));
+    }
+  };
+
+  const updateInput = () => {
     const input = { [code]: isRequired };
     if (isRequired) {
       setUnfilledRequired(inputs => ({ ...inputs, ...input }));
     }
+  };
+
+  useEffect(() => {
+    updateInput();
   }, []);
 
   return (
@@ -234,17 +244,7 @@ const WizardRuleInput = ({
       ) : dataType === "string" || dataType === "textarea" ? (
         <div
           className={clsx(classes.field, classes.textFieldWrapper)}
-          onBlur={e => {
-            if (isRequired) {
-              const input = { [code]: isRequired && e.target.value === "" };
-              if (input[code]) {
-                setError("Input cannot be empty");
-              } else {
-                setError("");
-              }
-              setUnfilledRequired(inputs => ({ ...inputs, ...input }));
-            }
-          }}
+          onBlur={onBlur}
         >
           <div
             className={
