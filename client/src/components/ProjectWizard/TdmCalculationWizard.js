@@ -66,13 +66,12 @@ const isEmptyObject = obj => {
 };
 
 const hasUnfilledRequired = unfilledRequired => {
-  let hasUnfilled = false;
-  if (!isEmptyObject(unfilledRequired)) {
-    hasUnfilled = Object.values(unfilledRequired).reduce(
-      (hasUnfilled, input) => hasUnfilled || input,
-      false
-    );
-  }
+  const hasUnfilled = !isEmptyObject(unfilledRequired)
+    ? Object.values(unfilledRequired).reduce(
+        (hasUnfilled, input) => hasUnfilled || input,
+        false
+      )
+    : false;
   return hasUnfilled;
 };
 
@@ -93,8 +92,8 @@ const TdmCalculationWizard = props => {
     pageNo
   } = props;
   const [page, setPage] = useState(0);
-  const unfilledRequired = useContext(RequiredFieldContext)[0];
-  const disableForward = hasUnfilledRequired(unfilledRequired);
+  const [unfilledRequired] = useContext(RequiredFieldContext);
+  const [disableForward, setDisableForward] = useState(false);
 
   useEffect(
     () => {
@@ -110,8 +109,9 @@ const TdmCalculationWizard = props => {
         // read-only users can only see the summary page.
         setPage(6);
       }
+      setDisableForward(hasUnfilledRequired(unfilledRequired));
     },
-    [projectId, account, loginId, pageNo]
+    [projectId, account, loginId, pageNo, unfilledRequired]
   );
 
   const projectRules = rules && rules.filter(filters.projectRules);

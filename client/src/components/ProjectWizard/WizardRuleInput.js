@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -158,6 +158,13 @@ const WizardRuleInput = ({
   );
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const input = { [code]: isRequired };
+    if (isRequired) {
+      setUnfilledRequired(inputs => ({ ...inputs, ...input }));
+    }
+  }, []);
+
   return (
     <React.Fragment>
       {dataType === "number" ? (
@@ -228,15 +235,15 @@ const WizardRuleInput = ({
         <div
           className={clsx(classes.field, classes.textFieldWrapper)}
           onBlur={e => {
-            let input = {};
-            input[code] = isRequired && e.target.value === "";
-            if (input[code]) {
-              setError("Input cannot be empty");
-            } else {
-              setError("");
+            if (isRequired) {
+              const input = { [code]: isRequired && e.target.value === "" };
+              if (input[code]) {
+                setError("Input cannot be empty");
+              } else {
+                setError("");
+              }
+              setUnfilledRequired(inputs => ({ ...inputs, ...input }));
             }
-            const inputs = Object.assign({}, unfilledRequired, input);
-            setUnfilledRequired(inputs);
           }}
         >
           <div
