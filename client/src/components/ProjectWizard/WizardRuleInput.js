@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -173,16 +173,22 @@ const WizardRuleInput = ({
     updateRequiredInput(e);
   };
 
-  const updateInput = () => {
-    const input = { [code]: isRequired };
-    if (isRequired) {
-      setUnfilledRequired(inputs => ({ ...inputs, ...input }));
-    }
-  };
+  const updateInput = useCallback(
+    () => {
+      const input = { [code]: isRequired };
+      if (isRequired) {
+        setUnfilledRequired(inputs => ({ ...inputs, ...input }));
+      }
+    },
+    [code, isRequired, setUnfilledRequired]
+  );
 
-  useEffect(() => {
-    updateInput();
-  }, []);
+  useEffect(
+    () => {
+      updateInput();
+    },
+    [updateInput]
+  );
 
   return (
     <React.Fragment>
