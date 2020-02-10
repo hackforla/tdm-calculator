@@ -47,7 +47,9 @@ const Toast = ({ children, remove }) => {
     <div className={classes.root}>
       <div className={classes.container}>{children}</div>
       <div>
-        <button onClick={remove} className={classes.button}>X</button>
+        <button onClick={remove} className={classes.button}>
+          X
+        </button>
       </div>
     </div>
   );

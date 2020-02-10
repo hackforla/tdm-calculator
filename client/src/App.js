@@ -32,26 +32,23 @@ const App = props => {
   const [account, setAccount] = useState({});
   const [isCreatingNewProject, setIsCreatingNewProject] = useState(false);
 
-  useEffect(
-    () => {
-      const currentUser = localStorage.getItem("currentUser");
-      if (currentUser) {
-        try {
-          const account = JSON.parse(currentUser);
-          // TODO: remove console.log when stable.
-          console.log(account);
-          setAccount(account);
-        } catch (err) {
-          // TODO: replace with production error logging.
-          console.log(
-            "Unable to parse current user from local storage.",
-            currentUser
-          );
-        }
+  useEffect(() => {
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+      try {
+        const account = JSON.parse(currentUser);
+        // TODO: remove console.log when stable.
+        console.log(account);
+        setAccount(account);
+      } catch (err) {
+        // TODO: replace with production error logging.
+        console.log(
+          "Unable to parse current user from local storage.",
+          currentUser
+        );
       }
-    },
-    [setAccount]
-  );
+    }
+  }, [setAccount]);
 
   const setLoggedInAccount = loggedInUser => {
     setAccount(loggedInUser);

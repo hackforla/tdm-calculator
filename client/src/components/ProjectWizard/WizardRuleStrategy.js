@@ -10,13 +10,13 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    '&:hover': {
+    "&:hover": {
       backgroundColor: "#f0e300"
     }
   },
   strategyName: {
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   points: {
     flexBasis: "10%",
@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
     marginRight: "0.5em",
     textAlign: "right",
     flexGrow: "0",
-    flexShrink: "1" 
+    flexShrink: "1"
   },
   numberInputContainer: {
     flexBasis: "40%",
@@ -33,8 +33,8 @@ const useStyles = createUseStyles({
     textAlign: "right"
   },
   numberInput: {
-    padding: "0.1em", 
-    width: "auto", 
+    padding: "0.1em",
+    width: "auto",
     textAlign: "right"
   },
   choiceSelectContainer: {
@@ -44,16 +44,16 @@ const useStyles = createUseStyles({
     textAlign: "right"
   },
   stringInput: {
-      flexBasis: "50%",
-      flexGrow: "1",
-      flexShrink: "1"
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1"
   },
   allElse: {
-    flexBasis: "10%", 
-    flexGrow: "0", 
-    flexShrink: "1" 
+    flexBasis: "10%",
+    flexGrow: "0",
+    flexShrink: "1"
   }
-})
+});
 
 const WizardRuleMeasure = ({
   rule: {
@@ -81,28 +81,29 @@ const WizardRuleMeasure = ({
   },
   onInputChange
 }) => {
-
   const classes = useStyles();
 
   const possibleAndEarnedPointsContainers = () => {
-    const calculationUnits = calcUnits ? calcUnits : ""
+    const calculationUnits = calcUnits ? calcUnits : "";
 
-    return <>
-      <div className={classes.points}>
-      {calcMinValue === calcMaxValue
-        ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
-        : calcMinValue < calcMaxValue
-        ? `${Math.round(calcMinValue).toString()}-${Math.round(
-            calcMaxValue
-          ).toString()} ${calculationUnits}`
-        : null}
-      </div>
-      <div className={classes.points}>
-        {`${
-          calcValue ? Math.round(calcValue * 100) / 100 : ""
-        } ${calculationUnits || ""}`}
-      </div>
-    </>
+    return (
+      <>
+        <div className={classes.points}>
+          {calcMinValue === calcMaxValue
+            ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
+            : calcMinValue < calcMaxValue
+            ? `${Math.round(calcMinValue).toString()}-${Math.round(
+                calcMaxValue
+              ).toString()} ${calculationUnits}`
+            : null}
+        </div>
+        <div className={classes.points}>
+          {`${
+            calcValue ? Math.round(calcValue * 100) / 100 : ""
+          } ${calculationUnits || ""}`}
+        </div>
+      </>
+    );
   };
 
   return (
@@ -170,11 +171,8 @@ const WizardRuleMeasure = ({
       ) : (
         <div className={classes.strategyContainer}>
           <div className={classes.strategyName}> {name} </div>
-          <div
-            className={classes.allElse}
-            name={code}
-          ></div>
-        {possibleAndEarnedPointsContainers()}
+          <div className={classes.allElse} name={code} />
+          {possibleAndEarnedPointsContainers()}
         </div>
       )}
     </React.Fragment>

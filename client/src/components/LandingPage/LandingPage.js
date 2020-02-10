@@ -7,16 +7,16 @@ import LandingPageSectionResidentialDev from "./LandingPageSectionResidentialDev
 import LandingPageSectionEnd from "./LandingPageSectionEnd";
 
 const LandingPage = props => {
-    return (
-        <div>
-            <LandingPageSectionHeroImage />
-            <LandingPageSectionIntroducing />
-            <LandingPageSectionWhyLATDM />
-            <LandingPageSectionMockUp />
-            <LandingPageSectionResidentialDev />
-            <LandingPageSectionEnd />
-        </div>
-    )
-}
+  return (
+    <div>
+      <LandingPageSectionHeroImage />
+      <LandingPageSectionIntroducing />
+      <LandingPageSectionWhyLATDM />
+      <LandingPageSectionMockUp />
+      <LandingPageSectionResidentialDev />
+      <LandingPageSectionEnd />
+    </div>
+  );
+};
 
 export default LandingPage;
