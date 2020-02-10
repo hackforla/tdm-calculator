@@ -1,0 +1,22 @@
+{
+    "username": "hackforla",
+    "repo": "tdm-calculator",
+    "tags": "all",
+    "dataSource": "issues",
+    "ignoreLabels": [
+      "closed","documentation","duplicate","question"
+    ],
+    "ignoreIssuesWith": [
+      "closed","documentation","duplicate","question"
+    ],
+    "prefix": "v",
+    "onlyMilestones": false,
+    "groupBy": {
+      "Enhancements:": ["enhancement"],
+      "Bug Fixes:": ["bug"]
+    },
+    "template": {
+      "issue": "- {{name}} [{{text}}]({{url}})"
+    },
+    "changelogFilename": "CHANGELOG.md"
+}
