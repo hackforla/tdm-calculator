@@ -29,7 +29,17 @@
     "tedious-connection-pool": "^1.0.5"
   },
   "devDependencies": {
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.7",
     "nodemon": "^1.19.1",
     "prettier": "1.19.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,md}": ["prettier --write", "git add"]
   }
 }
