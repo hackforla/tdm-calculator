@@ -144,7 +144,7 @@ const WizardRuleInput = ({
     calcValue,
     calcUnits
   },
-  onInputChange
+  onGenericInputChange
 }) => {
   const classes = useStyles();
   const isRequired = name.slice(-1) === "*";
@@ -152,9 +152,9 @@ const WizardRuleInput = ({
   const setUnfilledRequired = useContext(RequiredFieldContext)[1];
   const [error, setError] = useState("");
 
-  const onBlur = e => {
+  const updateRequiredInput = e => {
     if (isRequired) {
-      const input = { [code]: isRequired && e.target.value === "" };
+      const input = { [code]: e.target.value === "" };
       if (input[code]) {
         setError("Input cannot be empty");
       } else {
@@ -162,6 +162,15 @@ const WizardRuleInput = ({
       }
       setUnfilledRequired(inputs => ({ ...inputs, ...input }));
     }
+  };
+
+  const onInputChange = e => {
+    updateRequiredInput(e);
+    onGenericInputChange(e);
+  };
+
+  const onBlur = e => {
+    updateRequiredInput(e);
   };
 
   const updateInput = () => {
@@ -308,7 +317,7 @@ WizardRuleInput.propTypes = {
     calculationPanelId: PropTypes.number.isRequired,
     panelName: PropTypes.string
   }),
-  onInputChange: PropTypes.func
+  onGenericInputChange: PropTypes.func
 };
 
 export default WizardRuleInput;
