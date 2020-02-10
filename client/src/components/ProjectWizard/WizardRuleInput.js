@@ -144,7 +144,7 @@ const WizardRuleInput = ({
     calcValue,
     calcUnits
   },
-  onGenericInputChange
+  onPropInputChange
 }) => {
   const classes = useStyles();
   const isRequired = name.slice(-1) === "*";
@@ -166,7 +166,7 @@ const WizardRuleInput = ({
 
   const onInputChange = e => {
     updateRequiredInput(e);
-    onGenericInputChange(e);
+    onPropInputChange(e);
   };
 
   const onBlur = e => {
@@ -323,7 +323,7 @@ WizardRuleInput.propTypes = {
     calculationPanelId: PropTypes.number.isRequired,
     panelName: PropTypes.string
   }),
-  onGenericInputChange: PropTypes.func
+  onPropInputChange: PropTypes.func
 };
 
 export default WizardRuleInput;

@@ -24,7 +24,7 @@ const WizardRuleInputList = props => {
               <WizardRuleInput
                 key={rule.id}
                 rule={rule}
-                onGenericInputChange={props.onInputChange}
+                onPropInputChange={props.onInputChange}
               />
             );
           })
