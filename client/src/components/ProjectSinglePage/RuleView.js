@@ -33,7 +33,11 @@ const RuleView = props => {
         <h3>{rule.name}</h3>
         <h4>Rule Code: {rule.code}</h4>
         <div className={classes.ruleFunction}>
-          <RuleFunction functionBody={rule.functionBody} rules={rules} setRuleId={setRuleId}/>
+          <RuleFunction
+            functionBody={rule.functionBody}
+            rules={rules}
+            setRuleId={setRuleId}
+          />
         </div>
       </div>
     </React.Fragment>

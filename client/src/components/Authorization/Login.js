@@ -84,7 +84,7 @@ const Login = props => {
   return (
     <div className={classes.root}>
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
-        <div className="tdm-wizard-sidebar"></div>
+        <div className="tdm-wizard-sidebar" />
         <SideBar />
         <div className="tdm-wizard-content-container">
           <h1>Welcome to Los Angeles' TDM Calculator</h1>
@@ -147,7 +147,11 @@ const Login = props => {
                   </button>
 
                   {/* <button className="btn-without-saving"> */}
-                    <Link to="/calculation"><button className="btn-without-saving">Continue without saving</button></Link>
+                  <Link to="/calculation">
+                    <button className="btn-without-saving">
+                      Continue without saving
+                    </button>
+                  </Link>
                   {/* </button> */}
                   <div className="warning">
                     <p className="without-saving">

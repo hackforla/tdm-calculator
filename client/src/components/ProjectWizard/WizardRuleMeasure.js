@@ -210,7 +210,7 @@ const WizardRuleMeasure = ({
       ) : (
         <div className={clsx(classes.ruleMeasure, classes.baseline)}>
           <div className={classes.wideName}>{name}</div>
-          <div className={classes.code} name={code}></div>
+          <div className={classes.code} name={code} />
           <div className={classes.miscValue}>
             {calcMinValue === calcMaxValue
               ? `${Math.round(calcMinValue).toString()}`
