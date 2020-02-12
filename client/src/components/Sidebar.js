@@ -41,9 +41,9 @@ export function Sidebar(props) {
       <div className={classes.content}>
         {props.children}
         <div className={classes.links}>
-          <Link className={classes.link}> Terms and Conditions</Link>
+          <Link className={classes.link} to="/"> Terms and Conditions</Link>
           <div>|</div>
-          <Link className={classes.link}> Privacy Policy</Link>
+          <Link className={classes.link} to="/"> Privacy Policy</Link>
         </div>
       </div>
     </div>

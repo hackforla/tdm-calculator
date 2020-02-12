@@ -6,7 +6,8 @@ import FaqAdd from "./FaqAdd";
 const FaqView = () => {
   const [faqList, setFaqList] = useState([]);
   // currently set to true for testing
-  const [admin, setAdmin] = useState(true);
+  //const [admin, setAdmin] = useState(true);
+  const admin = true;
 
   useEffect(() => {
     faqService

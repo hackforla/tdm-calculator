@@ -137,6 +137,7 @@ class Engine {
   // React stil issues a warning, since it doesn't like
   // dynamically creating functions, but that's what we need.
   buildFunction(body) {
+    // eslint-disable-next-line no-new-func
     return Function('"use strict";' + body);
   }
 
