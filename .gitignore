@@ -190,6 +190,9 @@ tags
 !.vscode/launch.json
 !.vscode/extensions.json
 
+### IDEA Editor settings ###
+.idea/*
+
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
@@ -229,12 +232,6 @@ node_modules
 
 # production
 /build
-
-# End of node exclusions
-# Start of project-specific exclusions
-
-jobs_for_hope.db
-/backend/database.ini
 
 # End of project-specific exclusions
 node_modules
