@@ -35,10 +35,6 @@ class Engine {
       for (const input in formInputs) {
         if (this.rules[input]) {
           this.rules[input].value = formInputs[input];
-        } else {
-          // Should it be a fatal error if inputRules
-          // include non-existent rule code property?
-          throw new Error("Invalid input: " + input);
         }
       }
 
