@@ -4,7 +4,11 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const poolConfig = { min: 2, max: 4, log: false };
+const poolConfig = {
+  min: 2,
+  max: 4,
+  log: false
+};
 
 var connectionConfig = {
   server: process.env.SQL_SERVER_NAME,
