@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import RequiredFieldContext from "../../contexts/RequiredFieldContext";
 
 const useStyles = createUseStyles({
   field: {
@@ -115,6 +116,9 @@ const useStyles = createUseStyles({
       content: '" *"',
       color: "red"
     }
+  },
+  errorLabel: {
+    color: "red"
   }
 });
 
@@ -140,15 +144,51 @@ const WizardRuleInput = ({
     calcValue,
     calcUnits
   },
-  onInputChange
+  onPropInputChange
 }) => {
   const classes = useStyles();
-  let isRequired = false;
-  let displayName = name;
-  if (name.slice(-1) === "*") {
-    displayName = name.slice(0, -1);
-    isRequired = true;
-  }
+  const isRequired = name.slice(-1) === "*";
+  const displayName = isRequired ? name.slice(0, -1) : name;
+  const setUnfilledRequired = useContext(RequiredFieldContext)[1];
+  const [error, setError] = useState("");
+
+  const updateRequiredInput = e => {
+    if (isRequired) {
+      const input = { [code]: e.target.value === "" };
+      if (input[code]) {
+        setError("Input cannot be empty");
+      } else {
+        setError("");
+      }
+      setUnfilledRequired(inputs => ({ ...inputs, ...input }));
+    }
+  };
+
+  const onInputChange = e => {
+    updateRequiredInput(e);
+    onPropInputChange(e);
+  };
+
+  const onBlur = e => {
+    updateRequiredInput(e);
+  };
+
+  const updateInput = useCallback(
+    () => {
+      const input = { [code]: isRequired };
+      if (isRequired) {
+        setUnfilledRequired(inputs => ({ ...inputs, ...input }));
+      }
+    },
+    [code, isRequired, setUnfilledRequired]
+  );
+
+  useEffect(
+    () => {
+      updateInput();
+    },
+    [updateInput]
+  );
 
   return (
     <React.Fragment>
@@ -217,7 +257,10 @@ const WizardRuleInput = ({
           </div>
         </div>
       ) : dataType === "string" || dataType === "textarea" ? (
-        <div className={clsx(classes.field, classes.textFieldWrapper)}>
+        <div
+          className={clsx(classes.field, classes.textFieldWrapper)}
+          onBlur={onBlur}
+        >
           <div
             className={
               isRequired
@@ -256,6 +299,9 @@ const WizardRuleInput = ({
           </div>
         </div>
       )}
+      <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
+        {error}
+      </div>
     </React.Fragment>
   );
 };
@@ -277,7 +323,7 @@ WizardRuleInput.propTypes = {
     calculationPanelId: PropTypes.number.isRequired,
     panelName: PropTypes.string
   }),
-  onInputChange: PropTypes.func
+  onPropInputChange: PropTypes.func
 };
 
 export default WizardRuleInput;

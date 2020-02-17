@@ -16,13 +16,18 @@ const WizardRuleInputList = props => {
   return (
     <div className={classes.root}>
       {rules && rules.length > 0
-        ? rules.map(rule => (
-            <WizardRuleInput
-              key={rule.id}
-              rule={rule}
-              onInputChange={props.onInputChange}
-            />
-          ))
+        ? rules.map(rule => {
+            if (rule.id === 38 || rule.id === 39) {
+              return "";
+            }
+            return (
+              <WizardRuleInput
+                key={rule.id}
+                rule={rule}
+                onPropInputChange={props.onInputChange}
+              />
+            );
+          })
         : null}
     </div>
   );

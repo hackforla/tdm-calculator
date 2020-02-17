@@ -2,9 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import queryString from "query-string";
 import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
-import TdmCalculationWizard, {
-  filters
-} from "./ProjectWizard/TdmCalculationWizard";
+import TdmCalculationWizard from "./ProjectWizard/TdmCalculationWizard";
 import * as ruleService from "../services/rule.service";
 import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";
@@ -188,20 +186,21 @@ class TdmCalculationContainer extends React.Component {
   };
 
   onSave = async evt => {
-    const inputsToSave = { ...this.state.formInputs };
+    // For possible future use. Removes null entries from saved inputs
 
-    for (let input in inputsToSave) {
-      console.log("input", inputsToSave[input]);
-      if (!inputsToSave[input]) {
-        delete inputsToSave[input];
-      }
-    }
+    // const inputsToSave = { ...this.state.formInputs };
+    // for (let input in inputsToSave) {
+    //   console.log("input", inputsToSave[input])
+    //   if (!inputsToSave[input]) {
+    //     delete inputsToSave[input];
+    //   }
+    // }
 
     const requestBody = {
       name: this.state.formInputs.PROJECT_NAME,
       address: this.state.formInputs.PROJECT_ADDRESS,
       description: this.state.formInputs.PROJECT_DESCRIPTION,
-      formInputs: JSON.stringify(inputsToSave),
+      formInputs: JSON.stringify(this.state.formInputs),
       loginId: this.props.account.id,
       calculationId: this.calculationId
     };

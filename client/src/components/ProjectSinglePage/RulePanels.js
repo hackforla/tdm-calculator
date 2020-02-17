@@ -29,14 +29,9 @@ const RulePanels = props => {
     <React.Fragment>
       {panelsRules && panelsRules.length > 0
         ? panelsRules.map(rules => (
-            <div
-              key={rules[0].calculationPanelId}
-              className={classes.panel}
-            >
+            <div key={rules[0].calculationPanelId} className={classes.panel}>
               <fieldset>
-                <legend className={classes.legend}>
-                  {rules[0].panelName}
-                </legend>
+                <legend className={classes.legend}>{rules[0].panelName}</legend>
                 <RuleList
                   key={rules[0].calculationPanelId}
                   rules={rules}

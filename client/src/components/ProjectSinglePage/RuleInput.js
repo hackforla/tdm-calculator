@@ -83,9 +83,7 @@ const RuleInput = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={clsx(classes.rule, classes.numberRule)}>
-          <div className={classes.name}>
-            {name}
-          </div>
+          <div className={classes.name}>{name}</div>
           <input
             type="text"
             className={classes.code}
@@ -93,9 +91,7 @@ const RuleInput = ({
             onChange={onInputChange}
             name={code}
           />
-          <div className={classes.units}>
-            {units}
-          </div>
+          <div className={classes.units}>{units}</div>
           <div className={classes.calcUnits}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
@@ -104,9 +100,7 @@ const RuleInput = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={classes.rule}>
-          <div className={classes.name}>
-            {name}
-          </div>
+          <div className={classes.name}>{name}</div>
           <input
             type="checkbox"
             className={classes.code}
@@ -115,9 +109,7 @@ const RuleInput = ({
             onChange={onInputChange}
             name={code}
           />
-          <div className={classes.units}>
-            {units}
-          </div>
+          <div className={classes.units}>{units}</div>
           <div className={classes.calcUnits}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
@@ -126,9 +118,7 @@ const RuleInput = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={classes.rule}>
-          <div className={classes.nameSmall}>
-            {name}
-          </div>
+          <div className={classes.nameSmall}>{name}</div>
           <select
             className={classes.select}
             value={value || ""}
@@ -149,9 +139,7 @@ const RuleInput = ({
         </div>
       ) : dataType === "string" ? (
         <div className={classes.rule}>
-          <div className={classes.nameSmall}>
-            {name}
-          </div>
+          <div className={classes.nameSmall}>{name}</div>
           <input
             type="text"
             className={classes.stringInput}
@@ -162,16 +150,9 @@ const RuleInput = ({
         </div>
       ) : (
         <div className={classes.rule}>
-          <div className={classes.name}>
-            {name}
-          </div>
-          <div
-            className={classes.code}
-            name={code}
-          ></div>
-          <div className={classes.units}>
-            {units}
-          </div>
+          <div className={classes.name}>{name}</div>
+          <div className={classes.code} name={code} />
+          <div className={classes.units}>{units}</div>
           <div className={classes.calcUnits}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""

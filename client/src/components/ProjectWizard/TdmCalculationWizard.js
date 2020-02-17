@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import WizardRuleStrategyPanels from "./WizardRuleStrategyPanels";
@@ -9,6 +8,7 @@ import WizardResultPanel from "./WizardResultPanel";
 import WizardNavButton from "./WizardNavButton";
 import SwitchViewButton from "../SwitchViewButton";
 import Sidebar from "../Sidebar";
+import RequiredFieldContext from "../../contexts/RequiredFieldContext";
 
 const useStyles = createUseStyles({
   root: {
@@ -66,6 +66,20 @@ const useStyles = createUseStyles({
   }
 });
 
+const isEmptyObject = obj => {
+  return Object.entries(obj).length === 0 && obj.constructor === Object;
+};
+
+const hasUnfilledRequired = unfilledRequired => {
+  const hasUnfilled = !isEmptyObject(unfilledRequired)
+    ? Object.values(unfilledRequired).reduce(
+        (hasUnfilled, input) => hasUnfilled || input,
+        false
+      )
+    : false;
+  return hasUnfilled;
+};
+
 const TdmCalculationWizard = props => {
   const classes = useStyles();
   const {
@@ -83,7 +97,10 @@ const TdmCalculationWizard = props => {
     pageNo
   } = props;
   const [page, setPage] = useState(0);
+  const [unfilledRequired] = useContext(RequiredFieldContext);
+  const [disableForward, setDisableForward] = useState(false);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (
       !props.projectId ||
@@ -99,6 +116,26 @@ const TdmCalculationWizard = props => {
       setPage(6);
     }
   }, [props.projectId, props.account, props.loginId, props.pageNo]);
+=======
+  useEffect(
+    () => {
+      if (
+        !projectId ||
+        (account && (account.isAdmin || account.id === loginId))
+      ) {
+        // Project Calculation is editable if it is not saved
+        // or the project was created by the current logged in
+        // user, or the logged in user is admin.
+        setPage(pageNo || 1);
+      } else {
+        // read-only users can only see the summary page.
+        setPage(6);
+      }
+      setDisableForward(hasUnfilledRequired(unfilledRequired));
+    },
+    [projectId, account, loginId, pageNo, unfilledRequired]
+  );
+>>>>>>> 2a5e0cbf9f739fef137ad685abeeda820d2396a4
 
   const projectRules = rules && rules.filter(filters.projectRules);
   const landUseRules = rules && rules.filter(filters.landUseRules);
@@ -318,7 +355,7 @@ const TdmCalculationWizard = props => {
                 &lt;
               </WizardNavButton>
               <WizardNavButton
-                disabled={page === 6}
+                disabled={page === 6 || disableForward}
                 onClick={() => {
                   onPageChange(page + 1);
                 }}>

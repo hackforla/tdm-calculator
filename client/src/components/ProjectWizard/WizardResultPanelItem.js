@@ -17,9 +17,7 @@ const WizardResultPanelItem = props => {
   const { rule } = props;
   return (
     <div className="tdm-calculation-metrics-panel-item">
-      <div className={classes.ruleValue}>
-        {rule.value}
-      </div>
+      <div className={classes.ruleValue}>{rule.value}</div>
       <h3 className={classes.ruleName}>{rule.name}</h3>
       {/* <div> {rule.units}</div> */}
     </div>

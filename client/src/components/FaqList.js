@@ -5,7 +5,7 @@ const FaqList = ({ faqList, admin }) => {
   return (
     <ul>
       {faqList.map(faq => (
-        <Faq faq={faq} key={faq.question} admin={admin}/>
+        <Faq faq={faq} key={faq.question} admin={admin} />
       ))}
     </ul>
   );

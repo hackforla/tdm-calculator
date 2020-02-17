@@ -1,7 +1,11 @@
 {
   "name": "tdm-calculator",
-  "version": "1.0.3",
+  "version": "0.2.2",
   "description": "Traffic Data Management Calculator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hackforla/tdm-calculator"
+  },
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -25,6 +29,17 @@
     "tedious-connection-pool": "^1.0.5"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.7",
+    "nodemon": "^1.19.1",
+    "prettier": "1.19.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,md}": ["prettier --write", "git add"]
   }
 }
