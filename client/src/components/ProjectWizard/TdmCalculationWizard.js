@@ -95,24 +95,21 @@ const TdmCalculationWizard = props => {
   const [unfilledRequired] = useContext(RequiredFieldContext);
   const [disableForward, setDisableForward] = useState(false);
 
-  useEffect(
-    () => {
-      if (
-        !projectId ||
-        (account && (account.isAdmin || account.id === loginId))
-      ) {
-        // Project Calculation is editable if it is not saved
-        // or the project was created by the current logged in
-        // user, or the logged in user is admin.
-        setPage(pageNo || 1);
-      } else {
-        // read-only users can only see the summary page.
-        setPage(6);
-      }
-      setDisableForward(hasUnfilledRequired(unfilledRequired));
-    },
-    [projectId, account, loginId, pageNo, unfilledRequired]
-  );
+  useEffect(() => {
+    if (
+      !projectId ||
+      (account && (account.isAdmin || account.id === loginId))
+    ) {
+      // Project Calculation is editable if it is not saved
+      // or the project was created by the current logged in
+      // user, or the logged in user is admin.
+      setPage(pageNo || 1);
+    } else {
+      // read-only users can only see the summary page.
+      setPage(6);
+    }
+    setDisableForward(hasUnfilledRequired(unfilledRequired));
+  }, [projectId, account, loginId, pageNo, unfilledRequired]);
 
   const projectRules = rules && rules.filter(filters.projectRules);
   const landUseRules = rules && rules.filter(filters.landUseRules);
@@ -171,15 +168,14 @@ const TdmCalculationWizard = props => {
     <React.Fragment>
       <div className={clsx("tdm-wizard", classes.root)}>
         <Sidebar>
-          {rules &&
-            rules.length > 0 && (
-              <div className={classes.sidebarContent}>
-                <SwitchViewButton onClick={props.onViewChange}>
-                  Switch to Default View
-                </SwitchViewButton>
-                <WizardResultPanel rules={resultRules} />
-              </div>
-            )}
+          {rules && rules.length > 0 && (
+            <div className={classes.sidebarContent}>
+              <SwitchViewButton onClick={props.onViewChange}>
+                Switch to Default View
+              </SwitchViewButton>
+              <WizardResultPanel rules={resultRules} />
+            </div>
+          )}
         </Sidebar>
         <div
           className={clsx(
