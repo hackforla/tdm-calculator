@@ -173,22 +173,16 @@ const WizardRuleInput = ({
     updateRequiredInput(e);
   };
 
-  const updateInput = useCallback(
-    () => {
-      const input = { [code]: isRequired };
-      if (isRequired) {
-        setUnfilledRequired(inputs => ({ ...inputs, ...input }));
-      }
-    },
-    [code, isRequired, setUnfilledRequired]
-  );
+  const updateInput = useCallback(() => {
+    const input = { [code]: isRequired };
+    if (isRequired) {
+      setUnfilledRequired(inputs => ({ ...inputs, ...input }));
+    }
+  }, [code, isRequired, setUnfilledRequired]);
 
-  useEffect(
-    () => {
-      updateInput();
-    },
-    [updateInput]
-  );
+  useEffect(() => {
+    updateInput();
+  }, [updateInput]);
 
   return (
     <React.Fragment>
