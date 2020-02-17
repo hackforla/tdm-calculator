@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Switch, Route } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import WizardRuleStrategyPanels from "./WizardRuleStrategyPanels";
@@ -57,6 +58,11 @@ const useStyles = createUseStyles({
     border: "0",
     cursor: "pointer",
     textDecoration: "underline"
+  },
+  page4: {
+    "& input": {
+      backgroundColor: "red"
+    }
   }
 });
 
@@ -78,24 +84,21 @@ const TdmCalculationWizard = props => {
   } = props;
   const [page, setPage] = useState(0);
 
-  useEffect(
-    () => {
-      if (
-        !props.projectId ||
-        (props.account &&
-          (props.account.isAdmin || props.account.id === props.loginId))
-      ) {
-        // Project Calculation is editable if it is not saved
-        // or the project was created by the current logged in
-        // user, or the logged in user is admin.
-        setPage(props.pageNo || 1);
-      } else {
-        // read-only users can only see the summary page.
-        setPage(6);
-      }
-    },
-    [props.projectId, props.account, props.loginId, props.pageNo]
-  );
+  useEffect(() => {
+    if (
+      !props.projectId ||
+      (props.account &&
+        (props.account.isAdmin || props.account.id === props.loginId))
+    ) {
+      // Project Calculation is editable if it is not saved
+      // or the project was created by the current logged in
+      // user, or the logged in user is admin.
+      setPage(props.pageNo || 1);
+    } else {
+      // read-only users can only see the summary page.
+      setPage(6);
+    }
+  }, [props.projectId, props.account, props.loginId, props.pageNo]);
 
   const projectRules = rules && rules.filter(filters.projectRules);
   const landUseRules = rules && rules.filter(filters.landUseRules);
@@ -105,7 +108,7 @@ const TdmCalculationWizard = props => {
   const resultRules =
     rules &&
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
-
+  console.log("rules", projectRules, rules);
   const showResidentialPkg = (() => {
     // Only show button if one of the land uses is Residential
     const triggerRule = rules.filter(r => r.code === "LAND_USE_RESIDENTIAL");
@@ -154,23 +157,38 @@ const TdmCalculationWizard = props => {
     <React.Fragment>
       <div className={clsx("tdm-wizard", classes.root)}>
         <Sidebar>
-          {rules &&
-            rules.length > 0 && (
-              <div className={classes.sidebarContent}>
-                <SwitchViewButton onClick={props.onViewChange}>
-                  Switch to Default View
-                </SwitchViewButton>
-                <WizardResultPanel rules={resultRules} />
-              </div>
-            )}
+          {rules && rules.length > 0 && (
+            <div className={classes.sidebarContent}>
+              <SwitchViewButton onClick={props.onViewChange}>
+                Switch to Default View
+              </SwitchViewButton>
+              <WizardResultPanel rules={resultRules} />
+            </div>
+          )}
         </Sidebar>
         <div
           className={clsx(
             "tdm-wizard-content-container",
             classes.contentContainer
-          )}
-        >
+          )}>
           <div>
+            {/* {rules ? (<Switch >
+              <Route to='/calculation/1'>
+              <div>
+                <h1 className="tdm-wizard-page-title">
+                  Welcome to Los Angeles' TDM Calculator
+                </h1>
+                <h3 className="tdm-wizard-page-subtitle">
+                  First, let's name your project
+                </h3>
+                <WizardRuleInputPanels
+                  rules={projectRules}
+                  onInputChange={onInputChange}
+                  suppressHeader={true}
+                />
+              </div>
+              </Route>
+            </Switch>) : <div>Loading</div>} */}
             {rules && page === 1 ? (
               <div>
                 <h1 className="tdm-wizard-page-title">
@@ -196,8 +214,7 @@ const TdmCalculationWizard = props => {
                 <div className={classes.unSelectContainer}>
                   <button
                     className={classes.unSelectButton}
-                    onClick={() => onUncheckAll(filters.landUseRules)}
-                  >
+                    onClick={() => onUncheckAll(filters.landUseRules)}>
                     Reset Page
                   </button>
                 </div>
@@ -219,8 +236,7 @@ const TdmCalculationWizard = props => {
                 <div className={classes.unSelectContainer}>
                   <button
                     className={classes.unSelectButton}
-                    onClick={() => onUncheckAll(filters.inputRules)}
-                  >
+                    onClick={() => onUncheckAll(filters.inputRules)}>
                     Reset Page
                   </button>
                 </div>
@@ -230,7 +246,7 @@ const TdmCalculationWizard = props => {
                 />
               </div>
             ) : page === 4 ? (
-              <div>
+              <div className={classes.page4}>
                 <h1 className="tdm-wizard-page-title">
                   Calculate TDM Target Points
                 </h1>
@@ -257,8 +273,7 @@ const TdmCalculationWizard = props => {
                     <button
                       className="tdm-wizard-pkg-button"
                       onClick={() => onPkgSelect("Residential")}
-                      disabled={disabledResidentialPkg}
-                    >
+                      disabled={disabledResidentialPkg}>
                       Select Residential Package
                     </button>
                   ) : null}
@@ -266,15 +281,13 @@ const TdmCalculationWizard = props => {
                     <button
                       className="tdm-wizard-pkg-button"
                       onClick={() => onPkgSelect("Commercial")}
-                      disabled={disabledCommercialPkg}
-                    >
+                      disabled={disabledCommercialPkg}>
                       Select Commercial Package
                     </button>
                   ) : null}
                   <button
                     className={classes.unSelectButton}
-                    onClick={() => onUncheckAll(filters.strategyRules)}
-                  >
+                    onClick={() => onUncheckAll(filters.strategyRules)}>
                     Reset Page
                   </button>
                 </div>
@@ -301,16 +314,14 @@ const TdmCalculationWizard = props => {
                 disabled={page === 1}
                 onClick={() => {
                   onPageChange(page - 1);
-                }}
-              >
+                }}>
                 &lt;
               </WizardNavButton>
               <WizardNavButton
                 disabled={page === 6}
                 onClick={() => {
                   onPageChange(page + 1);
-                }}
-              >
+                }}>
                 &gt;
               </WizardNavButton>
             </div>

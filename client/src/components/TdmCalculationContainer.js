@@ -220,6 +220,7 @@ class TdmCalculationContainer extends React.Component {
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
+        console.log('ressss', postResponse)
         this.setState(
           {
             projectId: postResponse.data.id,
