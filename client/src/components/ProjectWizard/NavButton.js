@@ -25,7 +25,7 @@ const NavButton = props => {
 };
 
 NavButton.propTypes = {
-  disabled: PropTypes.boolean.isRequired,
+  disabled: PropTypes.bool.isRequired,
   children: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired
 };
