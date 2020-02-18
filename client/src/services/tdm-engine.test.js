@@ -44,27 +44,47 @@ describe("class Engine", () => {
     done();
   });
 
-  it("TDM Calculation - Project 1 - PARK_REQUIREMENT", done => {
+  it("TDM Calculation - Barrington Condos", done => {
     const engine = new Engine(tdmRules);
-    const result = engine.run(project1, ["PARK_REQUIREMENT"]);
-    expect(result).toEqual({
-      PARK_REQUIREMENT: 46
-    });
+    const result = engine.run(project1, [
+      "PARK_REQUIREMENT",
+      "PROJECT_LEVEL",
+      "TARGET_POINTS_PARK",
+      "PTS_EARNED"
+    ]);
+    expect(result.PARK_REQUIREMENT).toEqual(92);
+    expect(result.PROJECT_LEVEL).toEqual(1);
+    expect(result.TARGET_POINTS_PARK).toEqual(15);
+    expect(result.PTS_EARNED).toEqual(16);
     done();
   });
-  it("TDM Calculation - Project 2 - PARK_REQUIREMENT", done => {
+
+  it("TDM Calculation - Beatrice Building", done => {
     const engine = new Engine(tdmRules);
-    const result = engine.run(project2, ["PARK_REQUIREMENT"]);
-    expect(result).toEqual({
-      PARK_REQUIREMENT: 383
-    });
+    const result = engine.run(project2, [
+      "PARK_REQUIREMENT",
+      "PROJECT_LEVEL",
+      "TARGET_POINTS_PARK",
+      "PTS_EARNED"
+    ]);
+    expect(result.PARK_REQUIREMENT).toEqual(597);
+    expect(result.PROJECT_LEVEL).toEqual(3);
+    expect(result.TARGET_POINTS_PARK).toEqual(33);
+    expect(result.PTS_EARNED).toEqual(33);
     done();
   });
-  it("TDM Calculation - Project 3 - PARK_REQUIREMENT", done => {
+  it("TDM Calculation - Project 3 - Clarendon Apartments", done => {
     const engine = new Engine(tdmRules);
-    const result = engine.run(project3, ["PARK_REQUIREMENT"]);
-    expect(result.PARK_REQUIREMENT).toBeDefined();
-    expect(result.PARK_REQUIREMENT).toBeCloseTo(179.2);
+    const result = engine.run(project3, [
+      "PARK_REQUIREMENT",
+      "PROJECT_LEVEL",
+      "TARGET_POINTS_PARK",
+      "PTS_EARNED"
+    ]);
+    expect(result.PARK_REQUIREMENT).toEqual(552);
+    expect(result.PROJECT_LEVEL).toEqual(3);
+    expect(result.TARGET_POINTS_PARK).toEqual(25);
+    expect(result.PTS_EARNED).toEqual(25);
     done();
   });
 });

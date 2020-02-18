@@ -73,6 +73,8 @@ class TdmCalculationContainer extends React.Component {
         this.calculationId
       );
       this.engine = new Engine(ruleResponse.data);
+      // console.log("Calculation Rules:");
+      // console.log(JSON.stringify(ruleResponse.data, null, 2));
       this.engine.run(this.state.formInputs, this.resultRuleCodes);
       this.setState({
         rules: this.engine.showRulesArray()
@@ -186,21 +188,20 @@ class TdmCalculationContainer extends React.Component {
   };
 
   onSave = async evt => {
-    // For possible future use. Removes null entries from saved inputs
-
-    // const inputsToSave = { ...this.state.formInputs };
-    // for (let input in inputsToSave) {
-    //   console.log("input", inputsToSave[input])
-    //   if (!inputsToSave[input]) {
-    //     delete inputsToSave[input];
-    //   }
-    // }
+    // Only save inputs that have a value
+    const inputsToSave = { ...this.state.formInputs };
+    for (let input in inputsToSave) {
+      console.log("input", inputsToSave[input]);
+      if (!inputsToSave[input]) {
+        delete inputsToSave[input];
+      }
+    }
 
     const requestBody = {
       name: this.state.formInputs.PROJECT_NAME,
       address: this.state.formInputs.PROJECT_ADDRESS,
       description: this.state.formInputs.PROJECT_DESCRIPTION,
-      formInputs: JSON.stringify(this.state.formInputs),
+      formInputs: JSON.stringify(inputsToSave),
       loginId: this.props.account.id,
       calculationId: this.calculationId
     };
