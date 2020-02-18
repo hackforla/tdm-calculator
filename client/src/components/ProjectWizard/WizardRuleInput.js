@@ -173,12 +173,18 @@ const WizardRuleInput = ({
     updateRequiredInput(e);
   };
 
+  const isEmpty = value => {
+    return value === null || value.length === 0;
+  };
+
   const updateInput = useCallback(() => {
-    const input = { [code]: isRequired };
+    const input = {
+      [code]: isRequired && isEmpty(value)
+    };
     if (isRequired) {
       setUnfilledRequired(inputs => ({ ...inputs, ...input }));
     }
-  }, [code, isRequired, setUnfilledRequired]);
+  }, [code, isRequired, setUnfilledRequired, value]);
 
   useEffect(() => {
     updateInput();
