@@ -1,7 +1,7 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import WizardRuleInputPanels from "../WizardRuleInputPanels";
+import RuleInputPanels from "../RuleInput/RuleInputPanels";
 
 function ProjectUse(props) {
   const { rules, onInputChange, classes, uncheckAll } = props;
@@ -18,7 +18,7 @@ function ProjectUse(props) {
           Reset Page
         </button>
       </div>
-      <WizardRuleInputPanels
+       <RuleInputPanels
         rules={rules}
         onInputChange={onInputChange}
         suppressHeader={true}

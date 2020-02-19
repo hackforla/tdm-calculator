@@ -1,10 +1,10 @@
 import React from 'react'
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import WizardRuleInputPanels from "../WizardRuleInputPanels";
+import RuleInputPanels from "../RuleInput/RuleInputPanels";
 
 
-function ProjectDetails(props) {
+function ProjectDescriptions(props) {
   const { rules, onInputChange, classes } = props;
 
   return (<div>
@@ -14,7 +14,7 @@ function ProjectDetails(props) {
     <h3 className="tdm-wizard-page-subtitle">
       First, let's name your project
     </h3>
-    <WizardRuleInputPanels
+     <RuleInputPanels
       rules={rules}
       onInputChange={onInputChange}
       suppressHeader={true}
@@ -22,4 +22,4 @@ function ProjectDetails(props) {
   </div>)
 }
 
-export default ProjectDetails
+export default ProjectDescriptions

@@ -244,7 +244,7 @@ class TdmCalculationContainer extends React.Component {
   };
 
   filters = {
-    projectRules: rule =>
+    projectDescriptionRules: rule =>
       rule.category === "input" &&
       rule.calculationPanelId === 31 &&
       rule.used &&
@@ -254,13 +254,13 @@ class TdmCalculationContainer extends React.Component {
       rule.calculationPanelId === 5 &&
       rule.used &&
       rule.display,
-    inputRules: rule =>
+    specificationRules: rule =>
       rule.category === "input" &&
       rule.calculationPanelId !== 5 &&
       rule.calculationPanelId !== 31 &&
       rule.used &&
       rule.display,
-    targetRules: rule =>
+    targetPointRules: rule =>
       rule.category === "measure" &&
       rule.used &&
       rule.display &&

@@ -1,7 +1,7 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import WizardRuleStrategyPanels from "../WizardRuleStrategyPanels";
+import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 
 function ProjectMeasure(props) {
   const { rules, onInputChange, classes, onPkgSelect, uncheckAll } = props;
@@ -82,7 +82,7 @@ function ProjectMeasure(props) {
           Reset Page
         </button>
       </div>
-      <WizardRuleStrategyPanels
+       <RuleStrategyPanels
         rules={rules}
         onInputChange={onInputChange}
       />
