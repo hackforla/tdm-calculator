@@ -1,20 +1,20 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import WizardNavButton from "./WizardNavButton";
+import NavButton from "./NavButton";
 import { action } from "@storybook/addon-actions";
 
 export const actions = {
   onClick: action("onClick")
 };
 
-storiesOf("WizardNavButton", module)
+storiesOf("NavButton", module)
   .add("enabled", () => (
-    <WizardNavButton disabled={false} {...actions}>
+    <NavButton disabled={false} {...actions}>
       Wizard Nav Button Label
-    </WizardNavButton>
+    </NavButton>
   ))
   .add("disabled", () => (
-    <WizardNavButton disabled={true} {...actions}>
+    <NavButton disabled={true} {...actions}>
       Wizard Nav Button Label
-    </WizardNavButton>
+    </NavButton>
   ));

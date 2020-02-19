@@ -25,7 +25,7 @@ engine.run(formInputs, resultRuleCodes);
 const rules = engine.showRulesArray();
 // console.log(rules, null, 2);
 
-storiesOf("TdmCalculation", module).add("default", () => (
+storiesOf("SinglePageTdmCalculation", module).add("default", () => (
   <TdmCalculation
     rules={rules}
     {...actions}

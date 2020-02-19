@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as faqService from "../services/faq.service";
+import * as faqService from "../../services/faq.service";
 
 const FaqAdd = () => {
   const [toggle, setToggle] = useState(false);
