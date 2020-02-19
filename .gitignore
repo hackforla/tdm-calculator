@@ -234,4 +234,4 @@ node_modules
 /build
 
 # End of project-specific exclusions
-node_modules
+.eslintcache

@@ -22,6 +22,7 @@
     "yup": "^0.27.0"
   },
   "scripts": {
+    "precommit": "lint-staged",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -50,7 +51,15 @@
     "@storybook/addon-storyshots": "^5.1.9",
     "@storybook/addons": "^5.1.9",
     "@storybook/react": "^5.1.9",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.18.3",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1",
     "react-test-renderer": "^16.8.6",
     "require-context.macro": "^1.1.0"
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write",
+    "*.js": "eslint --cache --fix"
   }
 }
