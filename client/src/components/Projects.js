@@ -113,9 +113,9 @@ const Projects = props => {
                     ? JSON.parse(project.formInputs).BUILDING_PERMIT
                     : ""}
                 </td>
-                <td
-                  className={classes.td}
-                >{`${project.firstName} ${project.lastName}`}</td>
+                <td className={classes.td}>{`${project.firstName} ${
+                  project.lastName
+                }`}</td>
                 <td className={classes.tdRightAlign}>
                   {moment(project.dateCreated).format("MM/DD/YYYY")}
                 </td>

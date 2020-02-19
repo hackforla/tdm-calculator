@@ -3,7 +3,6 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import RuleList from "./RuleList";
 import { tdmRules } from "../../test-data/tdm-calc-rules";
-import "../styles/App.scss";
 
 const rules = tdmRules.filter(rule => rule.calculationPanelId === 6);
 

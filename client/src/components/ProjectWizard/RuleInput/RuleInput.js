@@ -173,22 +173,22 @@ const RuleInput = ({
     updateRequiredInput(e);
   };
 
-  const updateInput = useCallback(
-    () => {
-      const input = { [code]: isRequired };
-      if (isRequired) {
-        setUnfilledRequired(inputs => ({ ...inputs, ...input }));
-      }
-    },
-    [code, isRequired, setUnfilledRequired]
-  );
+  const isEmpty = value => {
+    return value === null || value.length === 0;
+  };
 
-  useEffect(
-    () => {
-      updateInput();
-    },
-    [updateInput]
-  );
+  const updateInput = useCallback(() => {
+    const input = {
+      [code]: isRequired && isEmpty(value)
+    };
+    if (isRequired) {
+      setUnfilledRequired(inputs => ({ ...inputs, ...input }));
+    }
+  }, [code, isRequired, setUnfilledRequired, value]);
+
+  useEffect(() => {
+    updateInput();
+  }, [updateInput]);
 
   return (
     <React.Fragment>
