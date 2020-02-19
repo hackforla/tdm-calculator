@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as faqService from "../services/faq.service";
+import * as faqService from "../../services/faq.service";
 
 // want to make this component re-useable, so will check if admin
 // if admin, add/update/delete buttons show up

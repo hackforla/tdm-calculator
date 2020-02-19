@@ -7,6 +7,6 @@ import { targetPointsRule } from "../../test-data/tdm-calc-rules";
 //   onInputChange: action("onInputChange")
 // };
 
-storiesOf("ResultView", module).add("default", () => (
+storiesOf("SinglePageResultView", module).add("default", () => (
   <ResultView rule={{ ...targetPointsRule, value: -1 }} />
 ));

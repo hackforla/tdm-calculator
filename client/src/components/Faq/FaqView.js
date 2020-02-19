@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import * as faqService from "../services/faq.service";
+import * as faqService from "../../services/faq.service";
 import FaqList from "./FaqList";
 import FaqAdd from "./FaqAdd";
 

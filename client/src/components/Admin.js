@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as ruleService from "../services/rule.service";
 import RuleViewContainer from "./ProjectSinglePage/RuleViewContainer";
-import FaqView from "./FaqView";
+import FaqView from "./Faq/FaqView";
 
 const calculationId = 1;
 

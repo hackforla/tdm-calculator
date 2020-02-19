@@ -48,7 +48,6 @@ const RuleInputPanels = props => {
     return acc;
   }, []);
 
-  console.log('panelIds', panelIds)
   // Group rules into an array where each element is an array of
   // rules for a particular panel
   const classes = useStyles();
@@ -71,7 +70,7 @@ const RuleInputPanels = props => {
                   <h4 className={classes.strategyName}>{rules[0].panelName}</h4>
                 </div>
               ) : null}
-               <RuleInputList
+              <RuleInputList
                 key={rules[0].calculationPanelId}
                 rules={rules}
                 onInputChange={props.onInputChange}

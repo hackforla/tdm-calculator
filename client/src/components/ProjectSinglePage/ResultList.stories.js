@@ -15,6 +15,6 @@ const rules = tdmRules
   })
   .filter((rule, index) => index < 4);
 
-storiesOf("ResultList", module).add("default", () => (
+storiesOf("SinglePageResultList", module).add("default", () => (
   <ResultList rules={rules} />
 ));
