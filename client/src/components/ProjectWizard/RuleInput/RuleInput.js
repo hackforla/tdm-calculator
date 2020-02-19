@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import RequiredFieldContext from "../../contexts/RequiredFieldContext";
+import RequiredFieldContext from "../../../contexts/RequiredFieldContext";
 
 const useStyles = createUseStyles({
   field: {
@@ -122,7 +122,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const WizardRuleInput = ({
+const RuleInput = ({
   rule: {
     id,
     calculationId,
@@ -306,7 +306,7 @@ const WizardRuleInput = ({
   );
 };
 
-WizardRuleInput.propTypes = {
+RuleInput.propTypes = {
   rule: PropTypes.shape({
     id: PropTypes.number.isRequired,
     calculationId: PropTypes.number.isRequired,
@@ -326,4 +326,4 @@ WizardRuleInput.propTypes = {
   onPropInputChange: PropTypes.func
 };
 
-export default WizardRuleInput;
+export default RuleInput;

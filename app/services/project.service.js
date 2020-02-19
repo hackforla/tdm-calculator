@@ -20,8 +20,8 @@ const getById = id => {
       ) {
         return response.resultSets[0][0];
       }
-      return null;
-    });
+    })
+    .catch(err => console.log('err', err));
 };
 
 const post = item => {

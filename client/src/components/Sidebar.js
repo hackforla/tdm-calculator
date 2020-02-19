@@ -9,7 +9,7 @@ export const useStyles = createUseStyles({
     flexBasis: "387px",
     flexGrow: "0",
     flexShrink: "0",
-    backgroundImage: 'url("../assets/hard-hats-silvia-brazzoduro.png")',
+    backgroundImage: 'url("/assets/hard-hats-silvia-brazzoduro.png")',
     backgroundPosition: "15% center",
     backgroundSize: "cover",
     display: "flex",

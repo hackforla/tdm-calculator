@@ -52,7 +52,7 @@ const TdmCalculation = props => {
     onPkgSelect,
     resultRuleCodes
   } = props;
-  const inputRules =
+  const specificationRules =
     rules &&
     rules.filter(
       rule => rule.category === "input" && rule.used && rule.display
@@ -116,7 +116,7 @@ const TdmCalculation = props => {
         <div className={classes.switchButtonWrapper}>
           <div className={classes.switchButton}>
             <SwitchViewButton onClick={props.onViewChange}>
-              Switch to Wizard View
+              Switch to  View
             </SwitchViewButton>
           </div>
           {rules && rules.length > 0 ? (
@@ -129,7 +129,7 @@ const TdmCalculation = props => {
           <div className={classes.rulePanel}>
             <h2>Project Parameters</h2>
             {rules && rules.length > 0 ? (
-              <RulePanels rules={inputRules} onInputChange={onInputChange} />
+              <RulePanels rules={specificationRules} onInputChange={onInputChange} />
             ) : (
               <div>No Rules Loaded</div>
             )}
