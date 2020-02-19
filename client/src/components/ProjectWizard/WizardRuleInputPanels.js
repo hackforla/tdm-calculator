@@ -47,6 +47,8 @@ const WizardRuleInputPanels = props => {
     }
     return acc;
   }, []);
+
+  console.log('panelIds', panelIds)
   // Group rules into an array where each element is an array of
   // rules for a particular panel
   const classes = useStyles();
