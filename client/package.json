@@ -34,7 +34,11 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -48,6 +52,7 @@
     "@storybook/addons": "^5.1.9",
     "@storybook/react": "^5.1.9",
     "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.7.0",
     "eslint-plugin-react": "^7.18.3",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",

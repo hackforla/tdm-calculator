@@ -6,10 +6,6 @@ import {
   booleanInputRule
 } from "../../test-data/tdm-calc-rules";
 
-const actions = {
-  onInputChange: () => null
-};
-
 it("renders without crashing", () => {
   const div = document.createElement("div");
   ReactDOM.render(
