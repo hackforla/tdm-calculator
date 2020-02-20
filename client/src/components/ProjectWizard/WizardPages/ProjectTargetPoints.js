@@ -1,6 +1,5 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
-import clsx from "clsx";
+import PropTypes from "prop-types";
 import RuleInputPanels from "../RuleInput/RuleInputPanels";
 
 function ProjectTargetPoints(props) {
@@ -12,7 +11,7 @@ function ProjectTargetPoints(props) {
         Enter the # of parking spaces you intend to build to complete the Target
         Point calculation
       </h3>
-       <RuleInputPanels
+      <RuleInputPanels
         rules={rules}
         onInputChange={onInputChange}
         suppressHeader
@@ -20,5 +19,10 @@ function ProjectTargetPoints(props) {
     </div>
   );
 }
+ProjectTargetPoints.propTypes = {
+  rules: PropTypes.object.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
+};
 
 export default ProjectTargetPoints;

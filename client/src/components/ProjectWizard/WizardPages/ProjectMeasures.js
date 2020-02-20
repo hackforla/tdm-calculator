@@ -1,12 +1,10 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
-import clsx from "clsx";
+import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 
 function ProjectMeasure(props) {
   const { rules, onInputChange, classes, onPkgSelect, uncheckAll } = props;
 
-  
   const showResidentialPkg = (() => {
     // Only show button if one of the land uses is Residential
     const triggerRule = rules.filter(r => r.code === "LAND_USE_RESIDENTIAL");
@@ -29,7 +27,7 @@ function ProjectMeasure(props) {
     );
 
     const strategyCount = pkgRules.reduce(
-      (count, r) => count + (!!r.value ? 1 : 0),
+      (count, r) => count + (r.value ? 1 : 0),
       0
     );
     return strategyCount === 3;
@@ -45,7 +43,7 @@ function ProjectMeasure(props) {
     );
 
     const strategyCount = pkgRules.reduce(
-      (count, r) => count + (!!r.value ? 1 : 0),
+      (count, r) => count + (r.value ? 1 : 0),
       0
     );
     return strategyCount === 3;
@@ -64,7 +62,8 @@ function ProjectMeasure(props) {
           <button
             className="tdm-wizard-pkg-button"
             onClick={() => onPkgSelect("Residential")}
-            disabled={disabledResidentialPkg}>
+            disabled={disabledResidentialPkg}
+          >
             Select Residential Package
           </button>
         ) : null}
@@ -72,22 +71,25 @@ function ProjectMeasure(props) {
           <button
             className="tdm-wizard-pkg-button"
             onClick={() => onPkgSelect("Commercial")}
-            disabled={disabledCommercialPkg}>
+            disabled={disabledCommercialPkg}
+          >
             Select Commercial Package
           </button>
         ) : null}
-        <button
-          className={classes.unSelectButton}
-          onClick={uncheckAll}>
+        <button className={classes.unSelectButton} onClick={uncheckAll}>
           Reset Page
         </button>
       </div>
-       <RuleStrategyPanels
-        rules={rules}
-        onInputChange={onInputChange}
-      />
+      <RuleStrategyPanels rules={rules} onInputChange={onInputChange} />
     </div>
   );
 }
+ProjectMeasure.propTypes = {
+  rules: PropTypes.object.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  onPkgSelect: PropTypes.func.isRequired,
+  uncheckAll: PropTypes.func.isRequired
+};
 
 export default ProjectMeasure;
