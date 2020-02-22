@@ -1,6 +1,5 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
-import clsx from "clsx";
+import PropTypes from "prop-types";
 import RuleInputPanels from "../RuleInput/RuleInputPanels";
 
 function ProjectSpecifications(props) {
@@ -14,15 +13,19 @@ function ProjectSpecifications(props) {
         Enter the project specifications to determine the required parking
       </h3>
       <div className={classes.unSelectContainer}>
-        <button
-          className={classes.unSelectButton}
-          onClick={uncheckAll}>
+        <button className={classes.unSelectButton} onClick={uncheckAll}>
           Reset Page
         </button>
       </div>
-       <RuleInputPanels rules={rules} onInputChange={onInputChange} />
+      <RuleInputPanels rules={rules} onInputChange={onInputChange} />
     </div>
   );
 }
+ProjectSpecifications.propTypes = {
+  rules: PropTypes.object.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  uncheckAll: PropTypes.func.isRequired
+};
 
 export default ProjectSpecifications;

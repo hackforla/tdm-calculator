@@ -113,7 +113,7 @@ const useStyles = createUseStyles({
   },
   requiredInputLabel: {
     "&:after": {
-      content: '" *"',
+      content: "\" *\"",
       color: "red"
     }
   },
@@ -124,36 +124,26 @@ const useStyles = createUseStyles({
 
 const RuleInput = ({
   rule: {
-    id,
-    calculationId,
     code,
     name,
-    category,
     dataType,
     value,
     units,
     minValue,
     maxValue,
-    functionBody,
-    displayOrder,
-    cssClass,
-    calculationPanelId,
-    panelName,
-    panelDisplayOrder,
     choices,
     calcValue,
-    calcUnits
+    calcUnits,
+    required
   },
   onPropInputChange
 }) => {
   const classes = useStyles();
-  const isRequired = name.slice(-1) === "*";
-  const displayName = isRequired ? name.slice(0, -1) : name;
   const setUnfilledRequired = useContext(RequiredFieldContext)[1];
   const [error, setError] = useState("");
 
   const updateRequiredInput = e => {
-    if (isRequired) {
+    if (required) {
       const input = { [code]: e.target.value === "" };
       if (input[code]) {
         setError("Input cannot be empty");
@@ -179,12 +169,12 @@ const RuleInput = ({
 
   const updateInput = useCallback(() => {
     const input = {
-      [code]: isRequired && isEmpty(value)
+      [code]: required && isEmpty(value)
     };
-    if (isRequired) {
+    if (required) {
       setUnfilledRequired(inputs => ({ ...inputs, ...input }));
     }
-  }, [code, isRequired, setUnfilledRequired, value]);
+  }, [code, required, setUnfilledRequired, value]);
 
   useEffect(() => {
     updateInput();
@@ -194,7 +184,7 @@ const RuleInput = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={clsx(classes.field, classes.numberFieldWrapper)}>
-          <div className={classes.textInputLabel}>{displayName}</div>
+          <div className={classes.textInputLabel}>{name}</div>
           <div className={classes.numberField}>
             <input
               className={classes.input}
@@ -215,7 +205,7 @@ const RuleInput = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
-          <div className={classes.checkboxFieldLabel}>{displayName}</div>
+          <div className={classes.checkboxFieldLabel}>{name}</div>
           <input
             type="checkbox"
             className={classes.checkbox}
@@ -237,7 +227,7 @@ const RuleInput = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>
-          <div className={classes.selectFieldLabel}>{displayName}</div>
+          <div className={classes.selectFieldLabel}>{name}</div>
           <select
             className={classes.select}
             value={value || ""}
@@ -263,12 +253,12 @@ const RuleInput = ({
         >
           <div
             className={
-              isRequired
+              required
                 ? clsx(classes.textInputLabel, classes.requiredInputLabel)
                 : classes.textInputLabel
             }
           >
-            {displayName}
+            {name}
           </div>
           {dataType === "string" ? (
             <input
@@ -289,7 +279,7 @@ const RuleInput = ({
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <div className={classes.miscFieldLabel}>{displayName}</div>
+          <div className={classes.miscFieldLabel}>{name}</div>
           <div className={classes.codeWrapper} name={code} />
           <div className={classes.unitsCaption}>{units}</div>
           <div className={classes.calcUnitsCaption}>
@@ -308,20 +298,17 @@ const RuleInput = ({
 
 RuleInput.propTypes = {
   rule: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    calculationId: PropTypes.number.isRequired,
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
     dataType: PropTypes.string.isRequired,
     value: PropTypes.any,
     units: PropTypes.string,
-    functionBody: PropTypes.string,
-    cssClass: PropTypes.string,
-    panelDisplayOrder: PropTypes.number.isRequired,
-    displayOrder: PropTypes.number.isRequired,
-    calculationPanelId: PropTypes.number.isRequired,
-    panelName: PropTypes.string
+    minValue: PropTypes.number,
+    maxValue: PropTypes.number,
+    choices: PropTypes.string,
+    calcValue: PropTypes.number,
+    calcUnits: PropTypes.string,
+    required: PropTypes.bool
   }),
   onPropInputChange: PropTypes.func
 };

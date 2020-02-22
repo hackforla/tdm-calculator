@@ -120,7 +120,7 @@ const engineTestRules = [
     category: "calculation",
     dataType: "number",
     value: null,
-    functionBody: `return <<INPUT_INTEGER_A>> + <<INPUT_INTEGER_B>>;`,
+    functionBody: "return <<INPUT_INTEGER_A>> + <<INPUT_INTEGER_B>>;",
     units: "beans",
     displayFunctionBody: "return true;"
   },
@@ -135,7 +135,7 @@ const engineTestRules = [
     category: "calculation",
     dataType: "number",
     value: null,
-    functionBody: `return <<INPUT_INTEGER_A>> * <<INPUT_INTEGER_B>>;`,
+    functionBody: "return <<INPUT_INTEGER_A>> * <<INPUT_INTEGER_B>>;",
     units: "beans",
     displayFunctionBody: "return true;"
   },
@@ -150,7 +150,7 @@ const engineTestRules = [
     category: "calculation",
     dataType: "boolean",
     value: null,
-    functionBody: `return <<INPUT_INTEGER_A>> < <<INPUT_INTEGER_B>>;`,
+    functionBody: "return <<INPUT_INTEGER_A>> < <<INPUT_INTEGER_B>>;",
     units: null,
     displayFunctionBody: "return true;"
   },
@@ -165,7 +165,7 @@ const engineTestRules = [
     category: "calculation",
     dataType: "boolean",
     value: null,
-    functionBody: `return <<INPUT_INTEGER_A>> === <<INPUT_INTEGER_B>>;`,
+    functionBody: "return <<INPUT_INTEGER_A>> === <<INPUT_INTEGER_B>>;",
     units: null,
     displayFunctionBody: "return true;"
   },
@@ -180,7 +180,7 @@ const engineTestRules = [
     category: "calculation",
     dataType: "number",
     value: null,
-    functionBody: `return <<CALC_A_PLUS_B>> + <<CALC_A_TIMES_B>>;`,
+    functionBody: "return <<CALC_A_PLUS_B>> + <<CALC_A_TIMES_B>>;",
     units: "beans",
     displayFunctionBody: "return true;"
   },
@@ -195,7 +195,8 @@ const engineTestRules = [
     category: "calculation",
     dataType: "number",
     value: null,
-    functionBody: `return <<INPUT_INTEGER_A>> * <<INPUT_INTEGER_A>> + <<INPUT_INTEGER_B>> * <<INPUT_INTEGER_B>>;`,
+    functionBody:
+      "return <<INPUT_INTEGER_A>> * <<INPUT_INTEGER_A>> + <<INPUT_INTEGER_B>> * <<INPUT_INTEGER_B>>;",
     units: "beans",
     displayFunctionBody: "return true;"
   },
@@ -210,7 +211,8 @@ const engineTestRules = [
     category: "calculation",
     dataType: "number",
     value: null,
-    functionBody: `return Math.sqrt(<<INPUT_INTEGER_A>> * <<INPUT_INTEGER_A>> + <<INPUT_INTEGER_B>> * <<INPUT_INTEGER_B>>);`,
+    functionBody:
+      "return Math.sqrt(<<INPUT_INTEGER_A>> * <<INPUT_INTEGER_A>> + <<INPUT_INTEGER_B>> * <<INPUT_INTEGER_B>>);",
     units: "beans",
     displayFunctionBody: "return true;"
   }

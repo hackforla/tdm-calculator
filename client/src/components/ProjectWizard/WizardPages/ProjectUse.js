@@ -1,6 +1,5 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
-import clsx from "clsx";
+import PropTypes from "prop-types";
 import RuleInputPanels from "../RuleInput/RuleInputPanels";
 
 function ProjectUse(props) {
@@ -12,13 +11,11 @@ function ProjectUse(props) {
       </h1>
       <h3 className="tdm-wizard-page-subtitle">Select all that apply</h3>
       <div className={classes.unSelectContainer}>
-        <button
-          className={classes.unSelectButton}
-          onClick={uncheckAll}>
+        <button className={classes.unSelectButton} onClick={uncheckAll}>
           Reset Page
         </button>
       </div>
-       <RuleInputPanels
+      <RuleInputPanels
         rules={rules}
         onInputChange={onInputChange}
         suppressHeader={true}
@@ -26,5 +23,12 @@ function ProjectUse(props) {
     </div>
   );
 }
+ProjectUse.propTypes = {
+  rules: PropTypes.object.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  onPkgSelect: PropTypes.func.isRequired,
+  uncheckAll: PropTypes.func.isRequired
+};
 
 export default ProjectUse;

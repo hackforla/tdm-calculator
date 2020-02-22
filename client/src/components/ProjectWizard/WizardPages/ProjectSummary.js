@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -225,45 +226,45 @@ const ProjectSummary = props => {
           <h2 className={classes.heading}>TDM Measures Selected</h2>
           {rules && rules.length > 0
             ? measureRules.map(rule => (
-                <div key={rule.id} className={classes.rule}>
-                  <div className={classes.ruleName}>{rule.name}</div>
-                  <div className={classes.value}>
-                    {rule.dataType === "boolean" ? (
-                      <FontAwesomeIcon icon={faCheck} />
-                    ) : rule.dataType === "choice" ? (
-                      rule.choices.filter(choice => choice.id === rule.value)[0]
-                        .name
-                    ) : (
-                      rule.value
-                    )}
-                  </div>
-                  <div className={classes.ruleUnits}>{rule.units}</div>
-                  <div className={classes.icon}>
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </div>
-                  <div className={classes.value}>
-                    {Math.round(rule.calcValue * 100) / 100}
-                  </div>
-                  <div className={classes.calcUnits}>{rule.calcUnits}</div>
+              <div key={rule.id} className={classes.rule}>
+                <div className={classes.ruleName}>{rule.name}</div>
+                <div className={classes.value}>
+                  {rule.dataType === "boolean" ? (
+                    <FontAwesomeIcon icon={faCheck} />
+                  ) : rule.dataType === "choice" ? (
+                    rule.choices.filter(choice => choice.id === rule.value)[0]
+                      .name
+                  ) : (
+                    rule.value
+                  )}
                 </div>
-              ))
+                <div className={classes.ruleUnits}>{rule.units}</div>
+                <div className={classes.icon}>
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </div>
+                <div className={classes.value}>
+                  {Math.round(rule.calcValue * 100) / 100}
+                </div>
+                <div className={classes.calcUnits}>{rule.calcUnits}</div>
+              </div>
+            ))
             : null}
           <h2 className={classes.heading}>Required Parking Calculation</h2>
           {rules && rules.length > 0
             ? specificationRules.map(rule => (
-                <div key={rule.id} className={classes.rule}>
-                  <div className={classes.ruleName}>{rule.name}</div>
-                  <div className={classes.value}>{rule.value}</div>
-                  <div className={classes.ruleUnits}>{rule.units}</div>
-                  <div className={classes.icon}>
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </div>
-                  <div className={classes.value}>
-                    {Math.round(rule.calcValue * 100) / 100}
-                  </div>
-                  <div className={classes.calcUnits}>{rule.calcUnits}</div>
+              <div key={rule.id} className={classes.rule}>
+                <div className={classes.ruleName}>{rule.name}</div>
+                <div className={classes.value}>{rule.value}</div>
+                <div className={classes.ruleUnits}>{rule.units}</div>
+                <div className={classes.icon}>
+                  <FontAwesomeIcon icon={faArrowRight} />
                 </div>
-              ))
+                <div className={classes.value}>
+                  {Math.round(rule.calcValue * 100) / 100}
+                </div>
+                <div className={classes.calcUnits}>{rule.calcUnits}</div>
+              </div>
+            ))
             : null}
           {parkingRequired ? (
             <div className={classes.rule}>
@@ -314,6 +315,13 @@ const ProjectSummary = props => {
       )}
     </div>
   );
+};
+ProjectSummary.propTypes = {
+  rules: PropTypes.object.isRequired,
+  account: PropTypes.object.isRequired,
+  projectId: PropTypes.number.isRequired,
+  loginId: PropTypes.number.isRequired,
+  onSave: PropTypes.func.isRequired
 };
 
 export default ProjectSummary;

@@ -182,7 +182,7 @@ Array [
     <div
       className="textInputLabel-0-2-45 requiredInputLabel-0-2-47"
     >
-      Project Name
+      Project Name*
     </div>
     <input
       className="textInputLabel-0-2-45"
