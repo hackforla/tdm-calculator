@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import RuleStrategyPanels from "./RuleStrategy/RuleStrategyPanels";
-import RuleInputPanels from "./RuleInput/RuleInputPanels";
 import ProjectSummary from "./WizardPages/ProjectSummary";
 import SidebarPointsPanel from "./SidebarPoints/SidebarPointsPanel";
 import NavButton from "./NavButton";
@@ -118,7 +116,8 @@ const TdmCalculationWizard = props => {
     setDisableForward(hasUnfilledRequired(unfilledRequired));
   }, [projectId, account, loginId, pageNo, unfilledRequired]);
 
-  const projectDescriptionRules = rules && rules.filter(filters.projectDescriptionRules);
+  const projectDescriptionRules =
+    rules && rules.filter(filters.projectDescriptionRules);
   const landUseRules = rules && rules.filter(filters.landUseRules);
   const specificationRules = rules && rules.filter(filters.specificationRules);
   const targetPointRules = rules && rules.filter(filters.targetPointRules);
@@ -126,7 +125,6 @@ const TdmCalculationWizard = props => {
   const resultRules =
     rules &&
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
-
 
   const renderSwitch = () => {
     switch (page) {
@@ -168,7 +166,7 @@ const TdmCalculationWizard = props => {
         );
       case 6:
         return (
-           <ProjectSummary
+          <ProjectSummary
             rules={rules}
             account={account}
             projectId={projectId}
@@ -197,7 +195,7 @@ const TdmCalculationWizard = props => {
               <SwitchViewButton onClick={props.onViewChange}>
                 Switch to Default View
               </SwitchViewButton>
-               <SidebarPointsPanel rules={resultRules} />
+              <SidebarPointsPanel rules={resultRules} />
             </div>
           )}
         </Sidebar>
@@ -205,26 +203,27 @@ const TdmCalculationWizard = props => {
           className={clsx(
             "tdm-wizard-content-container",
             classes.contentContainer
-          )}>
-          <div>
-            {renderSwitch()}
-          </div>
+          )}
+        >
+          <div>{renderSwitch()}</div>
           {!projectId || (account && account.id && account.id === loginId) ? (
             <div className={classes.navButtonsWrapper}>
-               <NavButton
+              <NavButton
                 disabled={page === 1}
                 onClick={() => {
                   onPageChange(page - 1);
-                }}>
+                }}
+              >
                 &lt;
-               </NavButton>
-               <NavButton
+              </NavButton>
+              <NavButton
                 disabled={page === 6 || disableForward}
                 onClick={() => {
                   onPageChange(page + 1);
-                }}>
+                }}
+              >
                 &gt;
-               </NavButton>
+              </NavButton>
             </div>
           ) : null}
         </div>
