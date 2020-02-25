@@ -192,6 +192,7 @@ const RuleInput = ({
               value={value || ""}
               onChange={onInputChange}
               name={code}
+              data-testid={name}
               min={minValue}
               max={maxValue}
             />
@@ -213,6 +214,7 @@ const RuleInput = ({
             checked={!!value}
             onChange={onInputChange}
             name={code}
+            data-testid={name}
           />
           {calcValue ? (
             <>
@@ -233,6 +235,7 @@ const RuleInput = ({
             value={value || ""}
             onChange={onInputChange}
             name={code}
+            data-testid={name}
           >
             {choices.map(choice => (
               <option key={choice.id} value={choice.id}>
@@ -267,6 +270,7 @@ const RuleInput = ({
               value={value || ""}
               onChange={onInputChange}
               name={code}
+              data-testid={name}
             />
           ) : (
             <textarea
@@ -274,6 +278,7 @@ const RuleInput = ({
               value={value || ""}
               onChange={onInputChange}
               name={code}
+              data-testid={name}
             />
           )}
         </div>
