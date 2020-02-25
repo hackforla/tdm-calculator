@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import RequiredFieldContext from "../../../contexts/RequiredFieldContext";
 
 const useStyles = createUseStyles({
   field: {
@@ -112,49 +113,78 @@ const useStyles = createUseStyles({
   },
   requiredInputLabel: {
     "&:after": {
-      content: '" *"',
+      content: "\" *\"",
       color: "red"
     }
+  },
+  errorLabel: {
+    color: "red"
   }
 });
 
-const WizardRuleInput = ({
+const RuleInput = ({
   rule: {
-    id,
-    calculationId,
     code,
     name,
-    category,
     dataType,
     value,
     units,
     minValue,
     maxValue,
-    functionBody,
-    displayOrder,
-    cssClass,
-    calculationPanelId,
-    panelName,
-    panelDisplayOrder,
     choices,
     calcValue,
-    calcUnits
+    calcUnits,
+    required
   },
-  onInputChange
+  onPropInputChange
 }) => {
   const classes = useStyles();
-  let isRequired = false;
-  let displayName = name;
-  if (name.slice(-1) === "*") {
-    displayName = name.slice(0, -1);
-    isRequired = true;
-  }
+  const setUnfilledRequired = useContext(RequiredFieldContext)[1];
+  const [error, setError] = useState("");
+
+  const updateRequiredInput = e => {
+    if (required) {
+      const input = { [code]: e.target.value === "" };
+      if (input[code]) {
+        setError("Input cannot be empty");
+      } else {
+        setError("");
+      }
+      setUnfilledRequired(inputs => ({ ...inputs, ...input }));
+    }
+  };
+
+  const onInputChange = e => {
+    updateRequiredInput(e);
+    onPropInputChange(e);
+  };
+
+  const onBlur = e => {
+    updateRequiredInput(e);
+  };
+
+  const isEmpty = value => {
+    return value === null || value.length === 0;
+  };
+
+  const updateInput = useCallback(() => {
+    const input = {
+      [code]: required && isEmpty(value)
+    };
+    if (required) {
+      setUnfilledRequired(inputs => ({ ...inputs, ...input }));
+    }
+  }, [code, required, setUnfilledRequired, value]);
+
+  useEffect(() => {
+    updateInput();
+  }, [updateInput]);
 
   return (
     <React.Fragment>
       {dataType === "number" ? (
         <div className={clsx(classes.field, classes.numberFieldWrapper)}>
-          <div className={classes.textInputLabel}>{displayName}</div>
+          <div className={classes.textInputLabel}>{name}</div>
           <div className={classes.numberField}>
             <input
               className={classes.input}
@@ -175,7 +205,7 @@ const WizardRuleInput = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
-          <div className={classes.checkboxFieldLabel}>{displayName}</div>
+          <div className={classes.checkboxFieldLabel}>{name}</div>
           <input
             type="checkbox"
             className={classes.checkbox}
@@ -197,7 +227,7 @@ const WizardRuleInput = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>
-          <div className={classes.selectFieldLabel}>{displayName}</div>
+          <div className={classes.selectFieldLabel}>{name}</div>
           <select
             className={classes.select}
             value={value || ""}
@@ -217,15 +247,18 @@ const WizardRuleInput = ({
           </div>
         </div>
       ) : dataType === "string" || dataType === "textarea" ? (
-        <div className={clsx(classes.field, classes.textFieldWrapper)}>
+        <div
+          className={clsx(classes.field, classes.textFieldWrapper)}
+          onBlur={onBlur}
+        >
           <div
             className={
-              isRequired
+              required
                 ? clsx(classes.textInputLabel, classes.requiredInputLabel)
                 : classes.textInputLabel
             }
           >
-            {displayName}
+            {name}
           </div>
           {dataType === "string" ? (
             <input
@@ -246,7 +279,7 @@ const WizardRuleInput = ({
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <div className={classes.miscFieldLabel}>{displayName}</div>
+          <div className={classes.miscFieldLabel}>{name}</div>
           <div className={classes.codeWrapper} name={code} />
           <div className={classes.unitsCaption}>{units}</div>
           <div className={classes.calcUnitsCaption}>
@@ -256,28 +289,28 @@ const WizardRuleInput = ({
           </div>
         </div>
       )}
+      <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
+        {error}
+      </div>
     </React.Fragment>
   );
 };
 
-WizardRuleInput.propTypes = {
+RuleInput.propTypes = {
   rule: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    calculationId: PropTypes.number.isRequired,
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
     dataType: PropTypes.string.isRequired,
     value: PropTypes.any,
     units: PropTypes.string,
-    functionBody: PropTypes.string,
-    cssClass: PropTypes.string,
-    panelDisplayOrder: PropTypes.number.isRequired,
-    displayOrder: PropTypes.number.isRequired,
-    calculationPanelId: PropTypes.number.isRequired,
-    panelName: PropTypes.string
+    minValue: PropTypes.number,
+    maxValue: PropTypes.number,
+    choices: PropTypes.string,
+    calcValue: PropTypes.number,
+    calcUnits: PropTypes.string,
+    required: PropTypes.bool
   }),
-  onInputChange: PropTypes.func
+  onPropInputChange: PropTypes.func
 };
 
-export default WizardRuleInput;
+export default RuleInput;

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import * as faqService from "../services/faq.service";
+import * as faqService from "../../services/faq.service";
 import FaqList from "./FaqList";
 import FaqAdd from "./FaqAdd";
 
 const FaqView = () => {
   const [faqList, setFaqList] = useState([]);
   // currently set to true for testing
-  const [admin, setAdmin] = useState(true);
+  //const [admin, setAdmin] = useState(true);
+  const admin = true;
 
   useEffect(() => {
     faqService

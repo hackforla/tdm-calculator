@@ -1,4 +1,4 @@
-# Project title and description
+# TDM Calculator
 
 Traffic Demand Management (TDM) calculator tool. DTLA Hack for LA is partnering with Los Angeles Department of Transportation (LADOT) to develop this tool to help planners at LADOT and real estate developers calculate how to meet some of Los Angeles’s Mobility Plan 2035 goals.
 

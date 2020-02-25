@@ -44,8 +44,15 @@ const useStyles = createUseStyles({
 
 const TdmCalculation = props => {
   const classes = useStyles();
-  const { rules, onInputChange, onUncheckAll, filters, onPkgSelect, resultRuleCodes } = props;
-  const inputRules =
+  const {
+    rules,
+    onInputChange,
+    onUncheckAll,
+    filters,
+    onPkgSelect,
+    resultRuleCodes
+  } = props;
+  const specificationRules =
     rules &&
     rules.filter(
       rule => rule.category === "input" && rule.used && rule.display
@@ -107,10 +114,9 @@ const TdmCalculation = props => {
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.switchButtonWrapper}>
-          <div
-            className={classes.switchButton}>
+          <div className={classes.switchButton}>
             <SwitchViewButton onClick={props.onViewChange}>
-              Switch to Wizard View
+              Switch to  View
             </SwitchViewButton>
           </div>
           {rules && rules.length > 0 ? (
@@ -123,23 +129,24 @@ const TdmCalculation = props => {
           <div className={classes.rulePanel}>
             <h2>Project Parameters</h2>
             {rules && rules.length > 0 ? (
-              <RulePanels rules={inputRules} onInputChange={onInputChange} />
+              <RulePanels rules={specificationRules} onInputChange={onInputChange} />
             ) : (
               <div>No Rules Loaded</div>
             )}
           </div>
           <div className={classes.transportDemandStrategies}>
             <h2> Transportation Demand Strategies</h2>
-            <div sclassName={classes.buttonWrapper}>>
+            <div sclassName={classes.buttonWrapper}>
+              >
               <button
-                className='tdm-wizard-pkg-button'
+                className="tdm-wizard-pkg-button"
                 onClick={() => onUncheckAll(filters.strategyRules)}
               >
                 Reset All Strategies
               </button>
               {showResidentialPkg ? (
                 <button
-                  className='tdm-wizard-pkg-button'
+                  className="tdm-wizard-pkg-button"
                   onClick={() => onPkgSelect("Residential")}
                   disabled={disabledResidentialPkg}
                 >
@@ -148,7 +155,7 @@ const TdmCalculation = props => {
               ) : null}
               {showCommercialPkg ? (
                 <button
-                  className='tdm-wizard-pkg-button'
+                  className="tdm-wizard-pkg-button"
                   onClick={() => onPkgSelect("Commercial")}
                   disabled={disabledCommercialPkg}
                 >

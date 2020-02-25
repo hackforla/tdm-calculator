@@ -21,7 +21,7 @@ const useStyles = createUseStyles({
     }
   },
   logo: {
-    height: "2em", 
+    height: "2em",
     padding: 10
   }
 });
@@ -50,7 +50,11 @@ const Header = props => {
           />
         </a>
       </div>
-      <NavBar account={account} setLoggedOutAccount={setLoggedOutAccount} isCreatingNewProject={isCreatingNewProject}/>
+      <NavBar
+        account={account}
+        setLoggedOutAccount={setLoggedOutAccount}
+        isCreatingNewProject={isCreatingNewProject}
+      />
       {account && account.firstName ? (
         <h4>Hello, {`${account.firstName} ${account.lastName} `}</h4>
       ) : null}

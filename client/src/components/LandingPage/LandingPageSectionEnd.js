@@ -41,12 +41,8 @@ const LandingPageSectionEnd = props => {
 
   return (
     <div className={classes.root}>
-      <h2 className={classes.heading}>
-        Preparing for a new project?
-      </h2>
-      <p className={classes.paragraph}>
-        Let us help you get started right.
-      </p>
+      <h2 className={classes.heading}>Preparing for a new project?</h2>
+      <p className={classes.paragraph}>Let us help you get started right.</p>
       <Link to="/calculation?pageNo=1&view=w" className={classes.startButton}>
         Get Started
       </Link>
