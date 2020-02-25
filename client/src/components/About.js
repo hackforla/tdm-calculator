@@ -2,8 +2,6 @@ import React from "react";
 import SideBar from './Sidebar'
 import clsx from "clsx";
 import { createUseStyles } from "react-jss";
-import { Link } from "react-router-dom";
-
 
 import {version} from '../../package.json';
 
