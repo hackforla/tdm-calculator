@@ -2,6 +2,10 @@
 # Created by https://www.gitignore.io/api/vim,linux,macos,windows,visualstudiocode,python
 # Edit at https://www.gitignore.io/?templates=vim,linux,macos,windows,visualstudiocode,python
 
+
+# Custom ignores
+/screenshots
+
 ### Linux ###
 *~
 
@@ -184,6 +188,7 @@ tags
 [._]*.un~
 
 ### VisualStudioCode ###
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
