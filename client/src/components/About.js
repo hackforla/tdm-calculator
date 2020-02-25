@@ -34,7 +34,6 @@ const About = () => {
   
   const classes = useStyles();
   return (
-<<<<<<< HEAD
     <div className={classes.root}>
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
         <SideBar />
