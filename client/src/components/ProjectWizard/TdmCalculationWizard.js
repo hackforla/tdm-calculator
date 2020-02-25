@@ -74,9 +74,9 @@ const isEmptyObject = obj => {
 const hasUnfilledRequired = unfilledRequired => {
   const hasUnfilled = !isEmptyObject(unfilledRequired)
     ? Object.values(unfilledRequired).reduce(
-      (hasUnfilled, input) => hasUnfilled || input,
-      false
-    )
+        (hasUnfilled, input) => hasUnfilled || input,
+        false
+      )
     : false;
   return hasUnfilled;
 };
@@ -130,61 +130,61 @@ const TdmCalculationWizard = props => {
 
   const renderSwitch = () => {
     switch (page) {
-    case 2:
-      return (
-        <ProjectUse
-          rules={landUseRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          uncheckAll={() => onUncheckAll(filters.landUseRules)}
-        />
-      );
-    case 3:
-      return (
-        <ProjectSpecifications
-          rules={specificationRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          uncheckAll={() => onUncheckAll(filters.specificationRules)}
-        />
-      );
-    case 4:
-      return (
-        <ProjectTargetPoints
-          rules={targetPointRules}
-          onInputChange={onInputChange}
-          classes={classes}
-        />
-      );
-    case 5:
-      return (
-        <ProjectMeasures
-          rules={strategyRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          onPkgSelect={onPkgSelect}
-          uncheckAll={() => onUncheckAll(filters.strategyRules)}
-        />
-      );
-    case 6:
-      return (
-        <ProjectSummary
-          rules={rules}
-          account={account}
-          projectId={projectId}
-          loginId={loginId}
-          onSave={onSave}
-        />
-      );
-    case 1:
-    default:
-      return (
-        <ProjectDescriptions
-          rules={projectDescriptionRules}
-          onInputChange={onInputChange}
-          classes={classes}
-        />
-      );
+      case 2:
+        return (
+          <ProjectUse
+            rules={landUseRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            uncheckAll={() => onUncheckAll(filters.landUseRules)}
+          />
+        );
+      case 3:
+        return (
+          <ProjectSpecifications
+            rules={specificationRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            uncheckAll={() => onUncheckAll(filters.specificationRules)}
+          />
+        );
+      case 4:
+        return (
+          <ProjectTargetPoints
+            rules={targetPointRules}
+            onInputChange={onInputChange}
+            classes={classes}
+          />
+        );
+      case 5:
+        return (
+          <ProjectMeasures
+            rules={strategyRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            onPkgSelect={onPkgSelect}
+            uncheckAll={() => onUncheckAll(filters.strategyRules)}
+          />
+        );
+      case 6:
+        return (
+          <ProjectSummary
+            rules={rules}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            onSave={onSave}
+          />
+        );
+      case 1:
+      default:
+        return (
+          <ProjectDescriptions
+            rules={projectDescriptionRules}
+            onInputChange={onInputChange}
+            classes={classes}
+          />
+        );
     }
   };
 
@@ -234,12 +234,25 @@ const TdmCalculationWizard = props => {
   );
 };
 TdmCalculationWizard.propTypes = {
-  rules: PropTypes.object.isRequired,
+  rules: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      dataType: PropTypes.string.isRequired,
+      value: PropTypes.any,
+      units: PropTypes.string,
+      minValue: PropTypes.number,
+      maxValue: PropTypes.number,
+      choices: PropTypes.array,
+      calcValue: PropTypes.number,
+      calcUnits: PropTypes.string,
+      required: PropTypes.bool
+    })
+  ).isRequired,
   onInputChange: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   onUncheckAll: PropTypes.func.isRequired,
-  filters: PropTypes.array.isRequired,
+  filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,
   account: PropTypes.object.isRequired,
   projectId: PropTypes.number.isRequired,
@@ -247,7 +260,7 @@ TdmCalculationWizard.propTypes = {
   onSave: PropTypes.func.isRequired,
   onPageChange: PropTypes.func.isRequired,
   onViewChange: PropTypes.func.isRequired,
-  pageNo: PropTypes.func.isRequired
+  pageNo: PropTypes.number.isRequired
 };
 
 export default TdmCalculationWizard;

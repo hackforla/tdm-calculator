@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleInput from "./RuleInput";
 
@@ -17,20 +18,24 @@ const RuleInputList = props => {
     <div className={classes.root}>
       {rules && rules.length > 0
         ? rules.map(rule => {
-            if (rule.id === 38 || rule.id === 39) {
-              return "";
-            }
-            return (
-               <RuleInput
-                key={rule.id}
-                rule={rule}
-                onPropInputChange={props.onInputChange}
-              />
-            );
-          })
+          if (rule.id === 38 || rule.id === 39) {
+            return "";
+          }
+          return (
+            <RuleInput
+              key={rule.id}
+              rule={rule}
+              onPropInputChange={props.onInputChange}
+            />
+          );
+        })
         : null}
     </div>
   );
+};
+RuleInputList.propTypes = {
+  rules: PropTypes.array,
+  onInputChange: PropTypes.func.isRequired
 };
 
 export default RuleInputList;

@@ -23,6 +23,11 @@ const NavButton = props => {
     </React.Fragment>
   );
 };
+NavButton.propTypes = {
+  children: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired
+};
 
 NavButton.propTypes = {
   disabled: PropTypes.bool.isRequired,

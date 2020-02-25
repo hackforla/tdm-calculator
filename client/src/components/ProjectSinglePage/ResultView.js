@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -26,6 +27,13 @@ const ResultView = props => {
       </div>
     </React.Fragment>
   );
+};
+ResultView.propTypes = {
+  rule: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    value: PropTypes.any,
+    units: PropTypes.string
+  })
 };
 
 export default ResultView;
