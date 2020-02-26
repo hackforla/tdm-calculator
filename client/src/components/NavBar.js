@@ -50,6 +50,11 @@ const NavBar = props => {
         </Link>
       </li>
       <li>
+        <Link className={classes.link} to="/about">
+          About
+        </Link>
+      </li>
+      <li>
         <Link className={classes.link} to="/projects">
           Projects
         </Link>
