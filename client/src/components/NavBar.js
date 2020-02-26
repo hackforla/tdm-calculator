@@ -27,15 +27,13 @@ const useStyles = createUseStyles({
       textDecoration: "underline"
     },
     "&:last-child": {
-      marginLeft: "1em",
+      marginLeft: "2em",
+      marginRight: "2em",
       paddingRight: 0
     }
   },
   userLogin: {
     marginLeft: "auto",
-  },
-  logoutButton: {
-    marginLeft: 5
   }
 });
 
@@ -78,40 +76,11 @@ const NavBar = props => {
           About
         </Link>
       </li>
-      <NavBarLogin account={account} classes={classes} setLoggedOutAccount={setLoggedOutAccount}/>
       {/* 
       <li>
         <Link className={classes.link} to="/contactus">Contact Us</Link>
       </li> */}
-      {/* if there's an account in state, display logout and check if they are admin*/}
-      {/*account && account.email ? (
-        <>
-        {account && account.firstName ? (
-          <>
-            <h4 className={classes.userLogin}>Hello, {`${account.firstName} ${account.lastName} `}</h4>
-          </>
-        ) : null }
-          {account.role === "admin" ? (
-            <li>
-              <Link className={classes.link} to="/admin">
-                Admin
-              </Link>
-            </li>
-          ) : null}
-          <li className={classes.link}>
-            <button onClick={setLoggedOutAccount}>
-              Logout
-            </button>
-          </li>
-        </>
-      ) : (
-          {// if no account in state, show login button}
-          <li className={classes.userLogin}>
-            <Link className={classes.link} to="/login">
-              Login
-            </Link>
-          </li>
-      ) */}
+      <NavBarLogin account={account} classes={classes} setLoggedOutAccount={setLoggedOutAccount}/>
     </ul>
   );
 };
