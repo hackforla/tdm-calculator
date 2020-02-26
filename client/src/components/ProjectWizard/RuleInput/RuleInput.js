@@ -184,7 +184,9 @@ const RuleInput = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={clsx(classes.field, classes.numberFieldWrapper)}>
-          <div className={classes.textInputLabel}>{name}</div>
+          <label htmlFor={code} className={classes.textInputLabel}>
+            {name}
+          </label>
           <div className={classes.numberField}>
             <input
               className={classes.input}
@@ -192,6 +194,8 @@ const RuleInput = ({
               value={value || ""}
               onChange={onInputChange}
               name={code}
+              id={code}
+              data-testid={code}
               min={minValue}
               max={maxValue}
             />
@@ -205,7 +209,9 @@ const RuleInput = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
-          <div className={classes.checkboxFieldLabel}>{name}</div>
+          <label htmlFor={code} className={classes.checkboxFieldLabel}>
+            {name}
+          </label>
           <input
             type="checkbox"
             className={classes.checkbox}
@@ -213,6 +219,8 @@ const RuleInput = ({
             checked={!!value}
             onChange={onInputChange}
             name={code}
+            id={code}
+            data-testid={code}
           />
           {calcValue ? (
             <>
@@ -227,12 +235,16 @@ const RuleInput = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>
-          <div className={classes.selectFieldLabel}>{name}</div>
+          <label htmlFor={code} className={classes.selectFieldLabel}>
+            {name}
+          </label>
           <select
             className={classes.select}
             value={value || ""}
             onChange={onInputChange}
             name={code}
+            id={code}
+            data-testid={code}
           >
             {choices.map(choice => (
               <option key={choice.id} value={choice.id}>
@@ -251,7 +263,8 @@ const RuleInput = ({
           className={clsx(classes.field, classes.textFieldWrapper)}
           onBlur={onBlur}
         >
-          <div
+          <label
+            htmlFor={code}
             className={
               required
                 ? clsx(classes.textInputLabel, classes.requiredInputLabel)
@@ -259,7 +272,7 @@ const RuleInput = ({
             }
           >
             {name}
-          </div>
+          </label>
           {dataType === "string" ? (
             <input
               type="text"
@@ -267,6 +280,8 @@ const RuleInput = ({
               value={value || ""}
               onChange={onInputChange}
               name={code}
+              id={code}
+              data-testid={code}
             />
           ) : (
             <textarea
@@ -274,13 +289,17 @@ const RuleInput = ({
               value={value || ""}
               onChange={onInputChange}
               name={code}
+              id={code}
+              data-testid={code}
             />
           )}
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <div className={classes.miscFieldLabel}>{name}</div>
-          <div className={classes.codeWrapper} name={code} />
+          <label htmlFor={code} className={classes.miscFieldLabel}>
+            {name}
+          </label>
+          <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
           <div className={classes.calcUnitsCaption}>
             {`${

@@ -179,7 +179,10 @@ const ProjectSummary = props => {
         <>
           <div className={classes.grid}>
             {level ? (
-              <div className={classes.measure}>
+              <div
+                className={classes.measure}
+                data-testid="summary-project-level"
+              >
                 <div className={classes.measureValue}>{level.value}</div>
                 <div className={clsx(classes.alignCenter, classes.label)}>
                   Project Level
@@ -188,7 +191,10 @@ const ProjectSummary = props => {
             ) : null}
 
             {parkingRatio ? (
-              <div className={classes.measure}>
+              <div
+                className={classes.measure}
+                data-testid="summary-parking-ratio"
+              >
                 <div className={classes.measureValue}>{`${Math.floor(
                   parkingRatio.value
                 ).toString()} %`}</div>
@@ -200,7 +206,10 @@ const ProjectSummary = props => {
           </div>
           <div className={classes.grid}>
             {targetPoints ? (
-              <div className={classes.measure}>
+              <div
+                className={classes.measure}
+                data-testid={"summary-target-points"}
+              >
                 <div className={classes.measureValue}>
                   {Math.round(targetPoints.value)}
                 </div>
@@ -211,7 +220,10 @@ const ProjectSummary = props => {
             ) : null}
 
             {earnedPoints ? (
-              <div className={classes.measure}>
+              <div
+                className={classes.measure}
+                data-testid={"summary-earned-points"}
+              >
                 <div className={classes.measureValue}>
                   {Math.round(earnedPoints.value)}
                 </div>
