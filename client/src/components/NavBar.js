@@ -1,6 +1,7 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
 import { Link } from "react-router-dom";
+import NavBarLogin from './NavBarLogin';
 
 const useStyles = createUseStyles({
   navbar: {
@@ -24,7 +25,17 @@ const useStyles = createUseStyles({
     paddingRight: "2em",
     "&:hover": {
       textDecoration: "underline"
+    },
+    "&:last-child": {
+      marginLeft: "1em",
+      paddingRight: 0
     }
+  },
+  userLogin: {
+    marginLeft: "auto",
+  },
+  logoutButton: {
+    marginLeft: 5
   }
 });
 
@@ -50,26 +61,36 @@ const NavBar = props => {
         </Link>
       </li>
       <li>
-        <Link className={classes.link} to="/about">
-          About
-        </Link>
-      </li>
-      <li>
         <Link className={classes.link} to="/projects">
           Projects
         </Link>
       </li>
-
       {showNewProjectLink()}
-      {/* <li>
-        <Link className={classes.link} to="/about">About</Link>
+      {account.role === "admin" && (
+        <li>
+          <Link className={classes.link} to="/admin">
+            Admin
+          </Link>
+        </li>
+      )} 
+      <li>
+        <Link className={classes.link} to="/about">
+          About
+        </Link>
       </li>
+      <NavBarLogin account={account} classes={classes} setLoggedOutAccount={setLoggedOutAccount}/>
+      {/* 
       <li>
         <Link className={classes.link} to="/contactus">Contact Us</Link>
       </li> */}
       {/* if there's an account in state, display logout and check if they are admin*/}
-      {account && account.email ? (
+      {/*account && account.email ? (
         <>
+        {account && account.firstName ? (
+          <>
+            <h4 className={classes.userLogin}>Hello, {`${account.firstName} ${account.lastName} `}</h4>
+          </>
+        ) : null }
           {account.role === "admin" ? (
             <li>
               <Link className={classes.link} to="/admin">
@@ -77,22 +98,20 @@ const NavBar = props => {
               </Link>
             </li>
           ) : null}
-          <li>
-            <button className="link" onClick={setLoggedOutAccount}>
+          <li className={classes.link}>
+            <button onClick={setLoggedOutAccount}>
               Logout
             </button>
           </li>
         </>
       ) : (
-        <>
-          {/* if no account in state, show login button*/}
-          <li>
+          {// if no account in state, show login button}
+          <li className={classes.userLogin}>
             <Link className={classes.link} to="/login">
               Login
             </Link>
           </li>
-        </>
-      )}
+      ) */}
     </ul>
   );
 };
