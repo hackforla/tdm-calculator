@@ -27,7 +27,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const App = props => {
+const App = () => {
   const classes = useStyles();
   const [account, setAccount] = useState({});
   const [isCreatingNewProject, setIsCreatingNewProject] = useState(false);

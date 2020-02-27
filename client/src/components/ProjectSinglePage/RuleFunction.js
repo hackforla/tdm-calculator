@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import reactStringReplace from "react-string-replace";
 
@@ -51,6 +52,13 @@ const RuleFunction = props => {
       <pre>{functionFormatted}</pre>
     </React.Fragment>
   );
+};
+RuleFunction.propTypes = {
+  functionBody: PropTypes.string.isRequired,
+  rules: PropTypes.shape({
+    find: PropTypes.func.isRequired
+  }),
+  setRuleId: PropTypes.func
 };
 
 export default RuleFunction;

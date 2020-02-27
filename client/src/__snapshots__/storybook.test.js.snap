@@ -63,6 +63,7 @@ exports[`Storyshots Header default 1`] = `
 exports[`Storyshots NavButton disabled 1`] = `
 <div
   className="tdm-wizard-nav-button-disabled"
+  data-testid="Wizard Nav Button Label"
 >
   Wizard Nav Button Label
 </div>
@@ -71,6 +72,7 @@ exports[`Storyshots NavButton disabled 1`] = `
 exports[`Storyshots NavButton enabled 1`] = `
 <div
   className="tdm-wizard-nav-button"
+  data-testid="Wizard Nav Button Label"
   onClick={[Function]}
 >
   Wizard Nav Button Label
@@ -82,14 +84,17 @@ Array [
   <div
     className="field-0-2-28 checkboxFieldWrapper-0-2-35"
   >
-    <div
+    <label
       className="checkboxFieldLabel-0-2-36"
+      htmlFor="LAND_USE_RESIDENTIAL"
     >
       Residential
-    </div>
+    </label>
     <input
       checked={false}
       className="checkbox-0-2-37"
+      data-testid="LAND_USE_RESIDENTIAL"
+      id="LAND_USE_RESIDENTIAL"
       name="LAND_USE_RESIDENTIAL"
       onChange={[Function]}
       type="checkbox"
@@ -109,14 +114,17 @@ Array [
   <div
     className="field-0-2-28 checkboxFieldWrapper-0-2-35"
   >
-    <div
+    <label
       className="checkboxFieldLabel-0-2-36"
+      htmlFor="LAND_USE_RESIDENTIAL"
     >
       Residential
-    </div>
+    </label>
     <input
       checked={true}
       className="checkbox-0-2-37"
+      data-testid="LAND_USE_RESIDENTIAL"
+      id="LAND_USE_RESIDENTIAL"
       name="LAND_USE_RESIDENTIAL"
       onChange={[Function]}
       type="checkbox"
@@ -136,16 +144,19 @@ Array [
   <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
+    <label
       className="textInputLabel-0-2-45"
+      htmlFor="SF_RETAIL"
     >
       Sq Ft - Retail
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="SF_RETAIL"
+        id="SF_RETAIL"
         max={null}
         min={null}
         name="SF_RETAIL"
@@ -179,13 +190,16 @@ Array [
     className="field-0-2-28 textFieldWrapper-0-2-41"
     onBlur={[Function]}
   >
-    <div
+    <label
       className="textInputLabel-0-2-45 requiredInputLabel-0-2-47"
+      htmlFor="PROJECT_NAME"
     >
       Project Name*
-    </div>
+    </label>
     <input
       className="textInputLabel-0-2-45"
+      data-testid="PROJECT_NAME"
+      id="PROJECT_NAME"
       name="PROJECT_NAME"
       onChange={[Function]}
       type="text"
@@ -204,16 +218,18 @@ exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
 <div
   className="strategyContainer-0-2-49"
 >
-  <div
+  <label
     className="strategyName-0-2-50"
+    htmlFor="STRATEGY_PARKING_1"
   >
      
     Pricing/Unbundling
      
-  </div>
+  </label>
   <div>
     <input
       checked={false}
+      id="STRATEGY_PARKING_1"
       name="STRATEGY_PARKING_1"
       onChange={[Function]}
       type="checkbox"
@@ -237,16 +253,18 @@ exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
 <div
   className="strategyContainer-0-2-49"
 >
-  <div
+  <label
     className="strategyName-0-2-50"
+    htmlFor="STRATEGY_PARKING_1"
   >
      
     Pricing/Unbundling
      
-  </div>
+  </label>
   <div>
     <input
       checked={true}
+      id="STRATEGY_PARKING_1"
       name="STRATEGY_PARKING_1"
       onChange={[Function]}
       type="checkbox"
@@ -270,17 +288,19 @@ exports[`Storyshots RuleInput default Strategy Choice 1`] = `
 <div
   className="strategyContainer-0-2-49"
 >
-  <div
+  <label
     className="strategyName-0-2-50"
+    htmlFor="STRATEGY_AFFORDABLE"
   >
      
     Affordable Housing Level
      
-  </div>
+  </label>
   <div
     className="choiceSelectContainer-0-2-54"
   >
     <select
+      id="STRATEGY_AFFORDABLE"
       name="STRATEGY_AFFORDABLE"
       onChange={[Function]}
       value=""
@@ -330,18 +350,20 @@ exports[`Storyshots RuleInput default Strategy Number 1`] = `
 <div
   className="strategyContainer-0-2-49"
 >
-  <div
+  <label
     className="strategyName-0-2-50"
+    htmlFor="PTS_ACCESS_3"
   >
      
     Network Improvement
      
-  </div>
+  </label>
   <div
     className="numberInputContainer-0-2-52"
   >
     <input
       className="numberInput-0-2-53"
+      id="PTS_ACCESS_3"
       max={100}
       min={0}
       name="PTS_ACCESS_3"
@@ -370,16 +392,19 @@ exports[`Storyshots RuleInputList default 1`] = `
   <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
+    <label
       className="textInputLabel-0-2-45"
+      htmlFor="UNITS_HABIT_LT3"
     >
       # Habitable Rooms &lt; 3
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="UNITS_HABIT_LT3"
+        id="UNITS_HABIT_LT3"
         max={null}
         min={0}
         name="UNITS_HABIT_LT3"
@@ -407,16 +432,19 @@ exports[`Storyshots RuleInputList default 1`] = `
   <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
+    <label
       className="textInputLabel-0-2-45"
+      htmlFor="UNITS_HABIT_3"
     >
       # Habitable Rooms = 3
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="UNITS_HABIT_3"
+        id="UNITS_HABIT_3"
         max={null}
         min={0}
         name="UNITS_HABIT_3"
@@ -444,16 +472,19 @@ exports[`Storyshots RuleInputList default 1`] = `
   <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
+    <label
       className="textInputLabel-0-2-45"
+      htmlFor="UNITS_HABIT_GT3"
     >
       # Habitable Rooms &gt; 3
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="UNITS_HABIT_GT3"
+        id="UNITS_HABIT_GT3"
         max={null}
         min={0}
         name="UNITS_HABIT_GT3"
@@ -481,16 +512,19 @@ exports[`Storyshots RuleInputList default 1`] = `
   <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
+    <label
       className="textInputLabel-0-2-45"
+      htmlFor="UNITS_CONDO"
     >
       Condo - Units
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="UNITS_CONDO"
+        id="UNITS_CONDO"
         max={null}
         min={0}
         name="UNITS_CONDO"
@@ -518,16 +552,19 @@ exports[`Storyshots RuleInputList default 1`] = `
   <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
+    <label
       className="textInputLabel-0-2-45"
+      htmlFor="PARK_CONDO"
     >
       Condo - Enter Parking Space Req'd
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="PARK_CONDO"
+        id="PARK_CONDO"
         max={null}
         min={0}
         name="PARK_CONDO"
@@ -575,16 +612,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="UNITS_HABIT_LT3"
         >
           # Habitable Rooms &lt; 3
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="UNITS_HABIT_LT3"
+            id="UNITS_HABIT_LT3"
             max={null}
             min={0}
             name="UNITS_HABIT_LT3"
@@ -612,16 +652,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="UNITS_HABIT_3"
         >
           # Habitable Rooms = 3
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="UNITS_HABIT_3"
+            id="UNITS_HABIT_3"
             max={null}
             min={0}
             name="UNITS_HABIT_3"
@@ -649,16 +692,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="UNITS_HABIT_GT3"
         >
           # Habitable Rooms &gt; 3
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="UNITS_HABIT_GT3"
+            id="UNITS_HABIT_GT3"
             max={null}
             min={0}
             name="UNITS_HABIT_GT3"
@@ -686,16 +732,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="UNITS_CONDO"
         >
           Condo - Units
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="UNITS_CONDO"
+            id="UNITS_CONDO"
             max={null}
             min={0}
             name="UNITS_CONDO"
@@ -723,16 +772,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="PARK_CONDO"
         >
           Condo - Enter Parking Space Req'd
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="PARK_CONDO"
+            id="PARK_CONDO"
             max={null}
             min={0}
             name="PARK_CONDO"
@@ -777,16 +829,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="SF_RESTAURANT"
         >
           Sq Ft - Restaurant/Bar/General
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_RESTAURANT"
+            id="SF_RESTAURANT"
             max={null}
             min={0}
             name="SF_RESTAURANT"
@@ -814,16 +869,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="SF_HEALTH_CLUB"
         >
           Sq Ft - Health Club
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_HEALTH_CLUB"
+            id="SF_HEALTH_CLUB"
             max={null}
             min={0}
             name="SF_HEALTH_CLUB"
@@ -851,16 +909,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="SF_RESTAURANT_TAKEOUT"
         >
           Sq Ft - Take-out Restaurant
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_RESTAURANT_TAKEOUT"
+            id="SF_RESTAURANT_TAKEOUT"
             max={null}
             min={0}
             name="SF_RESTAURANT_TAKEOUT"
@@ -888,16 +949,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="SF_OFFICE"
         >
           Sq Ft - Office, Business, Manufacturing, Industrial
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_OFFICE"
+            id="SF_OFFICE"
             max={null}
             min={0}
             name="SF_OFFICE"
@@ -925,16 +989,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="SF_WAREHOUSE"
         >
           Sq Ft - Warehouse
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_WAREHOUSE"
+            id="SF_WAREHOUSE"
             max={null}
             min={0}
             name="SF_WAREHOUSE"
@@ -979,16 +1046,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="SF_INST_MEDICAL_SVC"
         >
           Sq Ft - Medical Offices, Clinics, Service Facilities
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_INST_MEDICAL_SVC"
+            id="SF_INST_MEDICAL_SVC"
             max={null}
             min={0}
             name="SF_INST_MEDICAL_SVC"
@@ -1016,16 +1086,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="SF_INST_OTHER"
         >
           Sq Ft - Other Institutional
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_INST_OTHER"
+            id="SF_INST_OTHER"
             max={null}
             min={0}
             name="SF_INST_OTHER"
@@ -1053,16 +1126,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="SF_INST_GOV"
         >
           Sq Ft - Government Institution
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_INST_GOV"
+            id="SF_INST_GOV"
             max={null}
             min={0}
             name="SF_INST_GOV"
@@ -1090,16 +1166,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="BED_HOSPITAL"
         >
           Patient Hospital Beds
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="BED_HOSPITAL"
+            id="BED_HOSPITAL"
             max={null}
             min={0}
             name="BED_HOSPITAL"
@@ -1127,16 +1206,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="BED_CONVALESCENT"
         >
           Convalescent Institution Beds
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="BED_CONVALESCENT"
+            id="BED_CONVALESCENT"
             max={null}
             min={0}
             name="BED_CONVALESCENT"
@@ -1181,16 +1263,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="SEAT_AUDITORIUM"
         >
           # Seats - Auditorium
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SEAT_AUDITORIUM"
+            id="SEAT_AUDITORIUM"
             max={null}
             min={0}
             name="SEAT_AUDITORIUM"
@@ -1218,16 +1303,19 @@ Array [
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
+        <label
           className="textInputLabel-0-2-45"
+          htmlFor="SF_AUDITORIUM_NO_SEATS"
         >
           Sq Ft - Auditorium w/o Seats
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_AUDITORIUM_NO_SEATS"
+            id="SF_AUDITORIUM_NO_SEATS"
             max={null}
             min={0}
             name="SF_AUDITORIUM_NO_SEATS"
@@ -1264,16 +1352,18 @@ exports[`Storyshots RuleStrategyList default 1`] = `
   <div
     className="strategyContainer-0-2-49"
   >
-    <div
+    <label
       className="strategyName-0-2-50"
+      htmlFor="STRATEGY_PARKING_2"
     >
        
       Cash-Out
        
-    </div>
+    </label>
     <div>
       <input
         checked={false}
+        id="STRATEGY_PARKING_2"
         name="STRATEGY_PARKING_2"
         onChange={[Function]}
         type="checkbox"
@@ -1294,16 +1384,18 @@ exports[`Storyshots RuleStrategyList default 1`] = `
   <div
     className="strategyContainer-0-2-49"
   >
-    <div
+    <label
       className="strategyName-0-2-50"
+      htmlFor="STRATEGY_PARKING_1"
     >
        
       Pricing/Unbundling
        
-    </div>
+    </label>
     <div>
       <input
         checked={false}
+        id="STRATEGY_PARKING_1"
         name="STRATEGY_PARKING_1"
         onChange={[Function]}
         type="checkbox"
@@ -1324,17 +1416,19 @@ exports[`Storyshots RuleStrategyList default 1`] = `
   <div
     className="strategyContainer-0-2-49"
   >
-    <div
+    <label
       className="strategyName-0-2-50"
+      htmlFor="STRATEGY_PARKING_3"
     >
        
       Shared Parking
        
-    </div>
+    </label>
     <div
       className="choiceSelectContainer-0-2-54"
     >
       <select
+        id="STRATEGY_PARKING_3"
         name="STRATEGY_PARKING_3"
         onChange={[Function]}
         value=""
@@ -1381,16 +1475,18 @@ exports[`Storyshots RuleStrategyList default 1`] = `
   <div
     className="strategyContainer-0-2-49"
   >
-    <div
+    <label
       className="strategyName-0-2-50"
+      htmlFor="STRATEGY_PARKING_4"
     >
        
       Public Parking
        
-    </div>
+    </label>
     <div>
       <input
         checked={false}
+        id="STRATEGY_PARKING_4"
         name="STRATEGY_PARKING_4"
         onChange={[Function]}
         type="checkbox"
@@ -1411,16 +1507,18 @@ exports[`Storyshots RuleStrategyList default 1`] = `
   <div
     className="strategyContainer-0-2-49"
   >
-    <div
+    <label
       className="strategyName-0-2-50"
+      htmlFor="STRATEGY_PARKING_5"
     >
        
       Reduced Parking Supply
        
-    </div>
+    </label>
     <div>
       <input
         checked={false}
+        id="STRATEGY_PARKING_5"
         name="STRATEGY_PARKING_5"
         onChange={[Function]}
         type="checkbox"
@@ -1441,18 +1539,20 @@ exports[`Storyshots RuleStrategyList default 1`] = `
   <div
     className="strategyContainer-0-2-49"
   >
-    <div
+    <label
       className="strategyName-0-2-50"
+      htmlFor="PTS_PARKING_1"
     >
        
       Pts for Pricing/Unbundling
        
-    </div>
+    </label>
     <div
       className="numberInputContainer-0-2-52"
     >
       <input
         className="numberInput-0-2-53"
+        id="PTS_PARKING_1"
         max={8}
         min={8}
         name="PTS_PARKING_1"
@@ -1505,18 +1605,20 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="PTS_ACCESS_1"
         >
            
           Pts for Correct Substandard Infrastructure
            
-        </div>
+        </label>
         <div
           className="numberInputContainer-0-2-52"
         >
           <input
             className="numberInput-0-2-53"
+            id="PTS_ACCESS_1"
             max={5}
             min={2}
             name="PTS_ACCESS_1"
@@ -1539,18 +1641,20 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="PTS_ACCESS_2"
         >
            
           Pts for Intersection Improvement
            
-        </div>
+        </label>
         <div
           className="numberInputContainer-0-2-52"
         >
           <input
             className="numberInput-0-2-53"
+            id="PTS_ACCESS_2"
             max={5}
             min={2}
             name="PTS_ACCESS_2"
@@ -1573,17 +1677,19 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_ACCESS_1"
         >
            
           Correct Substandard Infrastructure
            
-        </div>
+        </label>
         <div
           className="choiceSelectContainer-0-2-54"
         >
           <select
+            id="STRATEGY_ACCESS_1"
             name="STRATEGY_ACCESS_1"
             onChange={[Function]}
             value=""
@@ -1630,17 +1736,19 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_ACCESS_2"
         >
            
           Intersection Improvements
            
-        </div>
+        </label>
         <div
           className="choiceSelectContainer-0-2-54"
         >
           <select
+            id="STRATEGY_ACCESS_2"
             name="STRATEGY_ACCESS_2"
             onChange={[Function]}
             value=""
@@ -1687,18 +1795,20 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="PTS_ACCESS_3"
         >
            
           Network Improvement
            
-        </div>
+        </label>
         <div
           className="numberInputContainer-0-2-52"
         >
           <input
             className="numberInput-0-2-53"
+            id="PTS_ACCESS_3"
             max={100}
             min={0}
             name="PTS_ACCESS_3"
@@ -1748,17 +1858,19 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_AFFORDABLE"
         >
            
           Affordable Housing Level
            
-        </div>
+        </label>
         <div
           className="choiceSelectContainer-0-2-54"
         >
           <select
+            id="STRATEGY_AFFORDABLE"
             name="STRATEGY_AFFORDABLE"
             onChange={[Function]}
             value=""
@@ -1832,16 +1944,18 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_BIKE_1"
         >
            
           Locate Near Bike Share
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_BIKE_1"
             name="STRATEGY_BIKE_1"
             onChange={[Function]}
             type="checkbox"
@@ -1862,18 +1976,20 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="PTS_BIKE_1"
         >
            
           Points for Locate Near Bike Share
            
-        </div>
+        </label>
         <div
           className="numberInputContainer-0-2-52"
         >
           <input
             className="numberInput-0-2-53"
+            id="PTS_BIKE_1"
             max={2}
             min={2}
             name="PTS_BIKE_1"
@@ -1896,16 +2012,18 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_BIKE_2"
         >
            
           Bike Share Station
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_BIKE_2"
             name="STRATEGY_BIKE_2"
             onChange={[Function]}
             type="checkbox"
@@ -1926,16 +2044,18 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_BIKE_3"
         >
            
           Bike Share Memberships
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_BIKE_3"
             name="STRATEGY_BIKE_3"
             onChange={[Function]}
             type="checkbox"
@@ -1956,16 +2076,18 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_BIKE_4"
         >
            
           Bike Parking
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_BIKE_4"
             name="STRATEGY_BIKE_4"
             onChange={[Function]}
             type="checkbox"
@@ -1986,16 +2108,18 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_BIKE_5"
         >
            
           Changing / Shower / Locker Facilities
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_BIKE_5"
             name="STRATEGY_BIKE_5"
             onChange={[Function]}
             type="checkbox"
@@ -2016,13 +2140,14 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_BIKE_BONUS"
         >
            
           Bike Bonus
            
-        </div>
+        </label>
         <div
           className="allElse-0-2-56"
           name="STRATEGY_BIKE_BONUS"
@@ -2068,16 +2193,18 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_CAR_SHARE_1"
         >
            
           Car Share Parking
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_CAR_SHARE_1"
             name="STRATEGY_CAR_SHARE_1"
             onChange={[Function]}
             type="checkbox"
@@ -2098,16 +2225,18 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_CAR_SHARE_2"
         >
            
           Car Share Memberships
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_CAR_SHARE_2"
             name="STRATEGY_CAR_SHARE_2"
             onChange={[Function]}
             type="checkbox"
@@ -2128,16 +2257,18 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_CAR_SHARE_3"
         >
            
           Blue LA Car Share Memberships
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_CAR_SHARE_3"
             name="STRATEGY_CAR_SHARE_3"
             onChange={[Function]}
             type="checkbox"
@@ -2158,16 +2289,18 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_CAR_SHARE_4"
         >
            
           Private Car Share Fleet
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_CAR_SHARE_4"
             name="STRATEGY_CAR_SHARE_4"
             onChange={[Function]}
             type="checkbox"
@@ -2188,16 +2321,18 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_CAR_SHARE_ELECTRIC"
         >
            
           Electric Vehicle Bonus
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_CAR_SHARE_ELECTRIC"
             name="STRATEGY_CAR_SHARE_ELECTRIC"
             onChange={[Function]}
             type="checkbox"
@@ -2218,13 +2353,14 @@ Array [
       <div
         className="strategyContainer-0-2-49"
       >
-        <div
+        <label
           className="strategyName-0-2-50"
+          htmlFor="STRATEGY_CAR_SHARE_BONUS"
         >
            
           Car Share Bonus
            
-        </div>
+        </label>
         <div
           className="allElse-0-2-56"
           name="STRATEGY_CAR_SHARE_BONUS"
@@ -3096,7 +3232,7 @@ exports[`Storyshots SinglePageTdmCalculation default 1`] = `
         <button
           className="root-0-2-27"
         >
-          Switch to  View
+          Switch to View
         </button>
       </div>
       <div
@@ -3228,7 +3364,7 @@ exports[`Storyshots SinglePageTdmCalculation default 1`] = `
            Transportation Demand Strategies
         </h2>
         <div
-          sclassName="buttonWrapper-0-2-26"
+          className="buttonWrapper-0-2-26"
         >
           &gt;
           <button

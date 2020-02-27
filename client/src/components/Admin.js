@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import * as ruleService from "../services/rule.service";
 import RuleViewContainer from "./ProjectSinglePage/RuleViewContainer";
 import FaqView from "./Faq/FaqView";
@@ -48,6 +49,9 @@ const Admin = props => {
       <FaqView />
     </div>
   );
+};
+Admin.propTypes = {
+  onInputChange: PropTypes.func.isRequired
 };
 
 export default Admin;

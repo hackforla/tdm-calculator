@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { createBrowserHistory } from "history";
 import NavBar from "./NavBar";
@@ -57,6 +58,15 @@ const Header = props => {
       />
     </div>
   );
+};
+
+Header.propTypes = {
+  account: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string
+  }),
+  setAccount: PropTypes.func,
+  isCreatingNewProject: PropTypes.bool
 };
 
 export default Header;
