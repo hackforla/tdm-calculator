@@ -1,7 +1,7 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
 import { Link } from "react-router-dom";
-import NavBarLogin from './NavBarLogin';
+import NavBarLogin from "./NavBarLogin";
 
 const useStyles = createUseStyles({
   navbar: {
@@ -25,15 +25,15 @@ const useStyles = createUseStyles({
     paddingRight: "2em",
     "&:hover": {
       textDecoration: "underline"
-    },
-    "&:last-child": {
-      marginLeft: "2em",
-      marginRight: "2em",
-      paddingRight: 0
     }
   },
   userLogin: {
-    marginLeft: "auto",
+    marginLeft: "auto"
+  },
+  lastItem: {
+    marginLeft: "2em",
+    paddingRight: 0,
+    marginRight: "1em"
   }
 });
 
@@ -70,7 +70,7 @@ const NavBar = props => {
             Admin
           </Link>
         </li>
-      )} 
+      )}
       <li>
         <Link className={classes.link} to="/about">
           About
@@ -80,7 +80,11 @@ const NavBar = props => {
       <li>
         <Link className={classes.link} to="/contactus">Contact Us</Link>
       </li> */}
-      <NavBarLogin account={account} classes={classes} setLoggedOutAccount={setLoggedOutAccount}/>
+      <NavBarLogin
+        account={account}
+        classes={classes}
+        setLoggedOutAccount={setLoggedOutAccount}
+      />
     </ul>
   );
 };

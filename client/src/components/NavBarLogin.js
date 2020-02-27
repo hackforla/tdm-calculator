@@ -7,7 +7,7 @@ const NavBarLogin = props => {
 
   const loginLink = (
     <li className={classes.userLogin}>
-      <Link className={classes.link} to="/login">
+      <Link className={`${classes.link} ${classes.lastItem}`} to="/login">
         Login
       </Link>
     </li>
@@ -21,19 +21,22 @@ const NavBarLogin = props => {
 
   const logoutLink = (
     <li>
-      <Link className={classes.link} onClick={setLoggedOutAccount}>
+      <button
+        className={`link ${classes.lastItem}`}
+        onClick={setLoggedOutAccount}
+      >
         Logout
-      </Link>
+      </button>
     </li>
   );
 
   return !account || !account.email ? (
     loginLink
   ) : (
-    <>
+    <React.Fragment>
       {account.firstName && userGreeting}
       {account.email && logoutLink}
-    </>
+    </React.Fragment>
   );
 };
 

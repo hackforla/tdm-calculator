@@ -55,11 +55,6 @@ const Header = props => {
         setLoggedOutAccount={setLoggedOutAccount}
         isCreatingNewProject={isCreatingNewProject}
       />
-      {/*account && account.firstName ? (
-        <>
-          <h4>Hello, {`${account.firstName} ${account.lastName} `}</h4>
-        </>
-      ) : null */}
     </div>
   );
 };
