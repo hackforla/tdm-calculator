@@ -26,7 +26,7 @@ const SwitchViewButton = props => {
 };
 SwitchViewButton.propTypes = {
   children: PropTypes.string,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func
 };
 
 export default SwitchViewButton;
