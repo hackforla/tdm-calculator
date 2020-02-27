@@ -181,9 +181,9 @@ const TdmCalculation = props => {
 TdmCalculation.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
-  onViewChange: PropTypes.func.isRequired,
-  onPkgSelect: PropTypes.func.isRequired,
-  onUncheckAll: PropTypes.func.isRequired,
+  onViewChange: PropTypes.func,
+  onPkgSelect: PropTypes.func,
+  onUncheckAll: PropTypes.func,
   filters: PropTypes.shape({
     strategyRules: PropTypes.func.isRequired
   }),

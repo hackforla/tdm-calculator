@@ -67,8 +67,8 @@ Header.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string
   }),
-  setAccount: PropTypes.func.isRequired,
-  isCreatingNewProject: PropTypes.bool.isRequired
+  setAccount: PropTypes.func,
+  isCreatingNewProject: PropTypes.bool
 };
 
 export default Header;

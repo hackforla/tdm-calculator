@@ -30,7 +30,7 @@ const ResultView = props => {
 };
 ResultView.propTypes = {
   rule: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     value: PropTypes.any,
     units: PropTypes.string
   })

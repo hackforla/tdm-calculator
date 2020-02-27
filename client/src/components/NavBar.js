@@ -114,8 +114,8 @@ NavBar.propTypes = {
     email: PropTypes.string,
     role: PropTypes.string
   }),
-  setLoggedOutAccount: PropTypes.func.isRequired,
-  isCreatingNewProject: PropTypes.bool.isRequired
+  setLoggedOutAccount: PropTypes.func,
+  isCreatingNewProject: PropTypes.bool
 };
 
 export default NavBar;
