@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -41,7 +42,7 @@ const Login = props => {
 
   const handleSubmit = async (
     { email, password },
-    { setSubmitting, resetForm, setErrors },
+    { setSubmitting },
     { history }
   ) => {
     try {
@@ -87,7 +88,7 @@ const Login = props => {
         <div className="tdm-wizard-sidebar" />
         <SideBar />
         <div className="tdm-wizard-content-container">
-          <h1>Welcome to Los Angeles' TDM Calculator</h1>
+          <h1>Welcome to Los Angeles&rsquo; TDM Calculator</h1>
           <h3>Please sign into your account to save progress.</h3>
           <br />
           <div className="auth-form">
@@ -133,7 +134,7 @@ const Login = props => {
                     />
                   </div>
                   <div className="form-group auth-text">
-                    <Link className="auth-link forgot" to={`/forgotpassword`}>
+                    <Link className="auth-link forgot" to={"/forgotpassword"}>
                       Forgot password?
                     </Link>
                   </div>
@@ -166,7 +167,7 @@ const Login = props => {
           <br />
           <div className="auth-text">
             New user? &nbsp;
-            <Link className="auth-link" to={`/register`}>
+            <Link className="auth-link" to={"/register"}>
               Create an account
             </Link>
           </div>
@@ -174,6 +175,14 @@ const Login = props => {
       </div>
     </div>
   );
+};
+Login.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      email: PropTypes.string
+    })
+  }),
+  setLoggedInAccount: PropTypes.func.isRequired
 };
 
 export default withRouter(Login);

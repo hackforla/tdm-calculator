@@ -34,12 +34,12 @@ app.use(express.static("public"));
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 
-app.all("*", (req, res, next) => {
+app.all("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
-app.use((error, req, res, next) => {
-  console.error(request.url, error);
+app.use((error, req, res) => {
+  console.error(req.url, error);
   res.status(500).send("Something went wrong on the server.");
 });
 
