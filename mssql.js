@@ -1,4 +1,4 @@
-const { Request } = require("tedious");
+const { Connection, Request } = require("tedious");
 const ConnectionPool = require("tedious-connection-pool");
 const dotenv = require("dotenv");
 
@@ -38,7 +38,7 @@ function executeProc(procName, paramsCallback) {
       let setIndex = -1;
       const response = {};
 
-      const request = new Request(procName, err => {
+      const request = new Request(procName, (err, rowcount) => {
         conn.release();
         if (err) {
           reject(err);
@@ -65,16 +65,16 @@ function executeProc(procName, paramsCallback) {
         response.resultSets[setIndex].push(row);
       });
 
-      request.on("returnValue", (paramName, value) => {
+      request.on("returnValue", (paramName, value, metadata) => {
         response.outputParameters = response.outputParameters || {};
         response.outputParameters[paramName] = value;
       });
 
-      request.on("columnMetadata", function() {
+      request.on("columnMetadata", function(columns) {
         setIndex++;
       });
 
-      request.on("doneProc", function(rowCount, more, returnStatus) {
+      request.on("doneProc", function(rowCount, more, returnStatus, rows) {
         response.returnStatus = returnStatus;
       });
 

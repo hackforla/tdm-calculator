@@ -35,7 +35,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const LandingPageSectionMockUp = () => {
+const LandingPageSectionMockUp = props => {
   const classes = useStyles();
 
   return (

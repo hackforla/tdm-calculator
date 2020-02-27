@@ -209,7 +209,7 @@ RuleStrategy.propTypes = {
     maxValue: PropTypes.number,
     choices: PropTypes.array,
     calcValue: PropTypes.number,
-    calcUnits: PropTypes.string,
+    calcUnits: PropTypes.number,
     calcMinValue: PropTypes.number,
     calcMaxValue: PropTypes.number
   }),

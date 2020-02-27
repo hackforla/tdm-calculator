@@ -36,7 +36,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const LandingPageSectionEnd = () => {
+const LandingPageSectionEnd = props => {
   const classes = useStyles();
 
   return (

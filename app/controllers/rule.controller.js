@@ -27,7 +27,7 @@ const getById = (req, res) => {
     .getById(req.params.id)
     .then(item => {
       if (!item) {
-        res.status(404).send("Rule " + req.params.id + " not found.");
+        res.status(404).send("Rule " + id + " not found.");
       }
       res.json(item);
     })
@@ -51,7 +51,7 @@ const post = (req, res) => {
 const put = (req, res) => {
   ruleService
     .put(req.body)
-    .then(() => {
+    .then(outputParms => {
       res.sendStatus(200);
     })
     .catch(err => {
@@ -62,7 +62,7 @@ const put = (req, res) => {
 const del = (req, res) => {
   ruleService
     .del(req.params.id)
-    .then(() => {
+    .then(response => {
       res.sendStatus(200);
     })
     .catch(err => {

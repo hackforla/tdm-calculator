@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleList from "./RuleList";
 
@@ -44,15 +43,6 @@ const RulePanels = props => {
         : null}
     </React.Fragment>
   );
-};
-RulePanels.propTypes = {
-  rules: PropTypes.arrayOf(
-    PropTypes.shape({
-      calculationPanelId: PropTypes.number.isRequired,
-      panelName: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  onInputChange: PropTypes.func.isRequired
 };
 
 export default RulePanels;

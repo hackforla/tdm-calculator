@@ -16,7 +16,7 @@ const getById = (req, res) => {
     .getById(req.params.id)
     .then(item => {
       if (!item) {
-        res.status(404).send("Calculation " + req.params.id + " not found.");
+        res.status(404).send("Calculation " + id + " not found.");
       }
       res.json(item);
     })
@@ -40,7 +40,7 @@ const post = (req, res) => {
 const put = (req, res) => {
   calculationService
     .put(req.body)
-    .then(() => {
+    .then(outputParms => {
       res.sendStatus(200);
     })
     .catch(err => {
@@ -51,7 +51,7 @@ const put = (req, res) => {
 const del = (req, res) => {
   calculationService
     .del(req.params.id)
-    .then(() => {
+    .then(response => {
       res.sendStatus(200);
     })
     .catch(err => {

@@ -24,10 +24,10 @@ function ProjectUse(props) {
   );
 }
 ProjectUse.propTypes = {
-  rules: PropTypes.array.isRequired,
+  rules: PropTypes.object.isRequired,
   onInputChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  onPkgSelect: PropTypes.func,
+  onPkgSelect: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired
 };
 

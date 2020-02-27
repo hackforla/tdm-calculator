@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import * as accountService from "../../services/account-service";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -51,7 +50,8 @@ const Register = props => {
 
   const handleSubmit = async (
     { firstName, lastName, email, password },
-    { setSubmitting }
+    { setSubmitting, resetForm, setErrors },
+    { history }
   ) => {
     try {
       const response = await accountService.register(
@@ -231,13 +231,6 @@ const Register = props => {
       </div>
     </div>
   );
-};
-Register.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      email: PropTypes.string.isRequired
-    })
-  })
 };
 
 export default withRouter(Register);

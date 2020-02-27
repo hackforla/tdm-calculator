@@ -4,7 +4,7 @@ const baseUrl = "/api/rules";
 const calculationUrl = "/api/calculations";
 
 export function get() {
-  console.log("get");
+  console.log('get')
   return axios.get(baseUrl);
 }
 

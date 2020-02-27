@@ -288,7 +288,7 @@ class TdmCalculationContainer extends React.Component {
             onViewChange={() => this.setState({ view: "d" }, this.pushHistory)}
             onPageChange={pageNo => this.setState({ pageNo }, this.pushHistory)}
             account={account}
-            projectId={Number(projectId)}
+            projectId={projectId}
             loginId={loginId}
             onSave={this.onSave}
             pageNo={pageNo}

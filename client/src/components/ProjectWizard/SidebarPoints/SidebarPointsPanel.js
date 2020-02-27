@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import SidebarPoints from "./SidebarPoints";
 
 const SidebarPointsPanel = props => {
@@ -17,15 +16,18 @@ const SidebarPointsPanel = props => {
     <React.Fragment>
       {rules ? (
         <div className="tdm-results-panel">
-          <SidebarPoints key={targetPointsRule.id} rule={targetPointsRule} />
-          <SidebarPoints key={earnedPointsRule.id} rule={earnedPointsRule} />
+           <SidebarPoints
+            key={targetPointsRule.id}
+            rule={targetPointsRule}
+          />
+           <SidebarPoints
+            key={earnedPointsRule.id}
+            rule={earnedPointsRule}
+          />
         </div>
       ) : null}
     </React.Fragment>
   );
-};
-SidebarPointsPanel.propTypes = {
-  rules: PropTypes.array
 };
 
 export default SidebarPointsPanel;

@@ -85,13 +85,7 @@ function ProjectMeasure(props) {
   );
 }
 ProjectMeasure.propTypes = {
-  rules: PropTypes.arrayOf(
-    PropTypes.shape({
-      calculationPanelId: PropTypes.number.isRequired,
-      panelName: PropTypes.string.isRequired,
-      calcUnits: PropTypes.string
-    })
-  ).isRequired,
+  rules: PropTypes.object.isRequired,
   onInputChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,

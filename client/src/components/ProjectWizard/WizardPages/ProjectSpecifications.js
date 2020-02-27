@@ -22,7 +22,7 @@ function ProjectSpecifications(props) {
   );
 }
 ProjectSpecifications.propTypes = {
-  rules: PropTypes.array.isRequired,
+  rules: PropTypes.object.isRequired,
   onInputChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   uncheckAll: PropTypes.func.isRequired

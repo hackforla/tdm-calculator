@@ -19,10 +19,10 @@ router.use("/playground", playgroundRoutes);
 
 // router.use(authChecker);
 
-//function authChecker(req, res, next) {
-//  if (req.session.auth || req.path === "/auth") {
-//    next();
-//  } else {
-//    res.redirect("/auth");
-//  }
-//}
+function authChecker(req, res, next) {
+  if (req.session.auth || req.path === "/auth") {
+    next();
+  } else {
+    res.redirect("/auth");
+  }
+}

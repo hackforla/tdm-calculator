@@ -9,8 +9,8 @@ const sendRegistrationConfirmation = async (email, token) => {
   const msg = {
     to: `${email}`,
     from: emailUser,
-    subject: "Verify your account",
-    text: "Verify your account",
+    subject: `Verify your account`,
+    text: `Verify your account`,
     html: `<p>Hello, please click the following link to verify your account.</p>
               <br>
               <p><a href="${clientUrl}/confirm/${token}">Verify Me</a></p>
@@ -18,7 +18,7 @@ const sendRegistrationConfirmation = async (email, token) => {
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };
-  return sgMail.send(msg, false, err => {
+  return sgMail.send(msg, false, (err, result) => {
     if (err) {
       return Promise.reject("Sending registration confirmation email failed.");
     }
@@ -30,8 +30,8 @@ const sendResetPasswordConfirmation = async (email, token) => {
   const msg = {
     to: `${email}`,
     from: emailUser,
-    subject: "Confirm Password Reset for TDM Calculator",
-    text: "Confirm Password Reset for TDM Calculator",
+    subject: `Confirm Password Reset for TDM Calculator`,
+    text: `Confirm Password Reset for TDM Calculator`,
     html: `<p>Hello, please click the following link to reset your password for TDM Calculator.</p>
               <br>
               <p><a href="${clientUrl}/resetPassword/${token}">Reset Password</a></p>
@@ -39,7 +39,7 @@ const sendResetPasswordConfirmation = async (email, token) => {
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };
-  return sgMail.send(msg, false, err => {
+  return sgMail.send(msg, false, (err, result) => {
     if (err) {
       return Promise.reject(
         "Sending password reset confirmation email failed."

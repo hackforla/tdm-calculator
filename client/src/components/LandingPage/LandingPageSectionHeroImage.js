@@ -60,7 +60,7 @@ const LandingPageSectionHeroImage = () => {
           Better for LA.
         </h2>
         <Link
-          to={"/calculation?pageNo=1&view=w"}
+          to={`/calculation?pageNo=1&view=w`}
           className={classes.startButton}
         >
           Start Your Project

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import ResultView from "./ResultView";
 
@@ -26,9 +25,6 @@ const ResultList = props => {
         : null}
     </div>
   );
-};
-ResultList.propTypes = {
-  rules: PropTypes.array.isRequired
 };
 
 export default ResultList;

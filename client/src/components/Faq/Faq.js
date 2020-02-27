@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import * as faqService from "../../services/faq.service";
 
 // want to make this component re-useable, so will check if admin
@@ -20,7 +19,7 @@ const Faq = ({ faq, admin }) => {
   const onUpdate = () => {
     faqService
       .put(updateFaq)
-      .then(() => {
+      .then(response => {
         setToggleUpdate(!toggleUpdate);
       })
       .catch(error => {
@@ -78,14 +77,6 @@ const Faq = ({ faq, admin }) => {
       )}
     </li>
   );
-};
-Faq.propTypes = {
-  faq: PropTypes.shape({
-    faqId: PropTypes.number.isRequired,
-    question: PropTypes.string.isRequired,
-    answer: PropTypes.string.isRequired
-  }),
-  admin: PropTypes.bool.isRequired
 };
 
 export default Faq;

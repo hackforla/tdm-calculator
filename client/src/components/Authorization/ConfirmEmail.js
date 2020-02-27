@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { Redirect, withRouter } from "react-router-dom";
 import * as accountService from "../../services/account-service";
 import { useToast } from "../../contexts/Toast";
@@ -23,7 +22,7 @@ const ConfirmEmail = props => {
       const result = await accountService.confirmRegister(token);
       setConfirmResult(result);
       if (result.success) {
-        toast.add("Your email has been confirmed. Please log in.");
+        toast.add(`Your email has been confirmed. Please log in.`);
         history.push(`/login/${encodeURIComponent(result.email)}`);
       }
     };
@@ -36,7 +35,7 @@ const ConfirmEmail = props => {
     <React.Fragment>
       <div>Confirm Email</div>
       {!confirmResult ? (
-        <div>Confirming Email...</div>
+        <div>"Confirming Email..."</div>
       ) : confirmResult.success ? (
         <Redirect to={`/login/${email}`} />
       ) : emailSent ? (
@@ -70,16 +69,6 @@ const ConfirmEmail = props => {
       )}
     </React.Fragment>
   );
-};
-ConfirmEmail.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      token: PropTypes.string
-    })
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  })
 };
 
 export default withRouter(ConfirmEmail);

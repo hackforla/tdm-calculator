@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import RuleInputList from "./RuleInputList";
 import Loader from "react-loader";
 import { createUseStyles } from "react-jss";
@@ -85,11 +85,6 @@ const RuleInputPanels = props => {
       )}
     </React.Fragment>
   );
-};
-RuleInputPanels.propTypes = {
-  rules: PropTypes.array.isRequired,
-  suppressHeader: PropTypes.bool,
-  onInputChange: PropTypes.func.isRequired
 };
 
 export default RuleInputPanels;

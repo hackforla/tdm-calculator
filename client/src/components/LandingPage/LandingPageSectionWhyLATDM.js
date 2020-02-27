@@ -75,7 +75,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const LandingPageSectionWhyLATDM = () => {
+const LandingPageSectionWhyLATDM = props => {
   const classes = useStyles();
 
   return (

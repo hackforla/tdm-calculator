@@ -57,7 +57,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Projects = () => {
+const Projects = props => {
   const [projects, setProjects] = useState([]);
 
   const classes = useStyles();
@@ -113,9 +113,9 @@ const Projects = () => {
                     ? JSON.parse(project.formInputs).BUILDING_PERMIT
                     : ""}
                 </td>
-                <td
-                  className={classes.td}
-                >{`${project.firstName} ${project.lastName}`}</td>
+                <td className={classes.td}>{`${project.firstName} ${
+                  project.lastName
+                }`}</td>
                 <td className={classes.tdRightAlign}>
                   {moment(project.dateCreated).format("MM/DD/YYYY")}
                 </td>

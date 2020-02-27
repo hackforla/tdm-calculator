@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -23,10 +22,6 @@ const SwitchViewButton = props => {
       {props.children}
     </button>
   );
-};
-SwitchViewButton.propTypes = {
-  children: PropTypes.string,
-  onClick: PropTypes.func.isRequired
 };
 
 export default SwitchViewButton;

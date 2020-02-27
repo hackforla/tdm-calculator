@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleFunction from "./RuleFunction";
 
@@ -43,15 +42,6 @@ const RuleView = props => {
       </div>
     </React.Fragment>
   );
-};
-RuleView.propTypes = {
-  rule: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    code: PropTypes.string.isRequired,
-    functionBody: PropTypes.string
-  }),
-  rules: PropTypes.array.isRequired,
-  setRuleId: PropTypes.func.isRequired
 };
 
 export default RuleView;

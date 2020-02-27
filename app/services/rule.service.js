@@ -3,7 +3,7 @@ const TYPES = require("tedious").TYPES;
 
 const getAll = () => {
   return mssql.executeProc("CalculationRule_SelectAll").then(response => {
-    console.log("ressss", response);
+    console.log('ressss', response)
     return response.resultSets[0].map(rule => {
       rule.value = JSON.parse(rule.value);
       rule.choices = JSON.parse(rule.choices);
@@ -13,7 +13,7 @@ const getAll = () => {
 };
 
 const getById = id => {
-  console.log("hit");
+  console.log('hit')
 
   return mssql
     .executeProc("CalculationRule_SelectById", sqlRequest => {
