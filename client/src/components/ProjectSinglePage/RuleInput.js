@@ -1,6 +1,6 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
+import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
@@ -56,25 +56,7 @@ const useStyles = createUseStyles({
 });
 
 const RuleInput = ({
-  rule: {
-    id,
-    calculationId,
-    code,
-    name,
-    category,
-    dataType,
-    value,
-    units,
-    functionBody,
-    displayOrder,
-    cssClass,
-    calculationPanelId,
-    panelName,
-    panelDisplayOrder,
-    choices,
-    calcValue,
-    calcUnits
-  },
+  rule: { code, name, dataType, value, units, choices, calcValue, calcUnits },
   onInputChange
 }) => {
   const classes = useStyles();
@@ -166,20 +148,14 @@ const RuleInput = ({
 
 RuleInput.propTypes = {
   rule: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    calculationId: PropTypes.number.isRequired,
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
     dataType: PropTypes.string.isRequired,
     value: PropTypes.any,
     units: PropTypes.string,
-    functionBody: PropTypes.string,
-    cssClass: PropTypes.string,
-    panelDisplayOrder: PropTypes.number.isRequired,
-    displayOrder: PropTypes.number.isRequired,
-    calculationPanelId: PropTypes.number.isRequired,
-    panelName: PropTypes.string
+    choices: PropTypes.array,
+    calcValue: PropTypes.number,
+    calcUnits: PropTypes.string
   }),
   onInputChange: PropTypes.func
 };

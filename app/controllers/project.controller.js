@@ -16,7 +16,7 @@ const getById = (req, res) => {
     .getById(req.params.id)
     .then(item => {
       if (!item) {
-        res.status(404).send("project " + id + " not found.");
+        res.status(404).send("project " + req.params.id + " not found.");
       }
       res.json(item);
     })
@@ -40,7 +40,7 @@ const post = (req, res) => {
 const put = (req, res) => {
   projectService
     .put(req.body)
-    .then(outputParms => {
+    .then(() => {
       res.sendStatus(200);
     })
     .catch(err => {
@@ -51,7 +51,7 @@ const put = (req, res) => {
 const del = (req, res) => {
   projectService
     .del(req.params.id)
-    .then(response => {
+    .then(() => {
       res.sendStatus(200);
     })
     .catch(err => {

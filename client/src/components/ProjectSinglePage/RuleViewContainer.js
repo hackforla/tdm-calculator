@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import RuleView from "./RuleView";
 
 const RuleViewContainer = props => {
@@ -14,15 +15,21 @@ const RuleViewContainer = props => {
       >
         {rules && rules.length > 0
           ? rules.map(rule => (
-              <option key={rule.id} value={rule.id}>
-                {rule.code}
-              </option>
-            ))
+            <option key={rule.id} value={rule.id}>
+              {rule.code}
+            </option>
+          ))
           : null}
       </select>
       <RuleView rule={rule} rules={rules} setRuleId={setRuleId} />
     </React.Fragment>
   );
+};
+RuleViewContainer.propTypes = {
+  rules: PropTypes.arrayOf({
+    filter: PropTypes.string.isRequired,
+    length: PropTypes.number.isRequired
+  })
 };
 
 export default RuleViewContainer;

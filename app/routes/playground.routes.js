@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const playgroundController = require("../controllers/playground.controller");
 const authService = require("../services/auth.service");
-const jwt = require("jsonwebtoken");
 
 module.exports = router;
 

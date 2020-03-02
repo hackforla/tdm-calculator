@@ -40,7 +40,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const LandingPageSectionIntroducing = props => {
+const LandingPageSectionIntroducing = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
