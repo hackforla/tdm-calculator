@@ -21,7 +21,7 @@ const getById = id => {
         return response.resultSets[0][0];
       }
     })
-    .catch(err => console.log('err', err));
+    .catch(err => console.log("err", err));
 };
 
 const post = item => {

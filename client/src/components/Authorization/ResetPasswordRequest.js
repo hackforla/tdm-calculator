@@ -93,7 +93,7 @@ const validationSchema = Yup.object().shape({
     .required("Email is required")
 });
 
-export function ResetPasswordRequest(props) {
+export function ResetPasswordRequest() {
   const classes = useStyles();
   const [submitted, setSubmitted] = useState(false);
   const handleSubmit = async ({ email }, { setFieldError }) => {
@@ -114,8 +114,8 @@ export function ResetPasswordRequest(props) {
     <div className={classes.root}>
       <Sidebar />
       <div className={classes.content}>
-        <Link className={classes.backLink} to={`/login`}>
-          {`< Return to Login`}
+        <Link className={classes.backLink} to={"/login"}>
+          {"< Return to Login"}
         </Link>
         <div className={classes.formContent}>
           {!submitted ? (
@@ -154,7 +154,7 @@ export function ResetPasswordRequest(props) {
               </Formik>
               <div className={classes.authText}>
                 New user? &nbsp;
-                <Link className={classes.authLink} to={`/register`}>
+                <Link className={classes.authLink} to={"/register"}>
                   Create an account
                 </Link>
               </div>

@@ -41,7 +41,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const LandingPageSectionResidentialDev = props => {
+const LandingPageSectionResidentialDev = () => {
   const classes = useStyles();
 
   return (

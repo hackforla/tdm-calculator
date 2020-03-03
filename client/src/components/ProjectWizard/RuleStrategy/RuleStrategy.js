@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
@@ -55,24 +56,14 @@ const useStyles = createUseStyles({
   }
 });
 
-const RuleMeasure = ({
+const RuleStrategy = ({
   rule: {
-    id,
-    calculationId,
     code,
     name,
-    category,
     dataType,
     value,
-    units,
     minValue,
     maxValue,
-    functionBody,
-    displayOrder,
-    cssClass,
-    calculationPanelId,
-    panelName,
-    panelDisplayOrder,
     choices,
     calcValue,
     calcUnits,
@@ -92,10 +83,10 @@ const RuleMeasure = ({
           {calcMinValue === calcMaxValue
             ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
             : calcMinValue < calcMaxValue
-            ? `${Math.round(calcMinValue).toString()}-${Math.round(
+              ? `${Math.round(calcMinValue).toString()}-${Math.round(
                 calcMaxValue
               ).toString()} ${calculationUnits}`
-            : null}
+              : null}
         </div>
         <div className={classes.points}>
           {`${
@@ -110,7 +101,10 @@ const RuleMeasure = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={classes.strategyContainer}>
-          <div className={classes.strategyName}> {name} </div>
+          <label htmlFor={code} className={classes.strategyName}>
+            {" "}
+            {name}{" "}
+          </label>
           <div className={classes.numberInputContainer}>
             <input
               className={classes.numberInput}
@@ -118,6 +112,7 @@ const RuleMeasure = ({
               value={value || ""}
               onChange={onInputChange}
               name={code}
+              id={code}
               min={minValue}
               max={maxValue}
             />
@@ -126,7 +121,10 @@ const RuleMeasure = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={classes.strategyContainer}>
-          <div className={classes.strategyName}> {name} </div>
+          <label htmlFor={code} className={classes.strategyName}>
+            {" "}
+            {name}{" "}
+          </label>
           <div className={classes.booleanInputContainer}>
             <input
               type="checkbox"
@@ -134,19 +132,24 @@ const RuleMeasure = ({
               checked={!!value}
               onChange={onInputChange}
               name={code}
+              id={code}
             />
           </div>
           {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "choice" ? (
         <div className={classes.strategyContainer}>
-          <div className={classes.strategyName}> {name} </div>
+          <label htmlFor={code} className={classes.strategyName}>
+            {" "}
+            {name}{" "}
+          </label>
           <div className={classes.choiceSelectContainer}>
             <select
               width="100%"
               value={value || ""}
               onChange={onInputChange}
               name={code}
+              id={code}
             >
               {choices.map(choice => (
                 <option key={choice.id} value={choice.id}>
@@ -159,18 +162,25 @@ const RuleMeasure = ({
         </div>
       ) : dataType === "string" ? (
         <div className={classes.strategyContainer}>
-          <div className={classes.strategyName}> {name} </div>
+          <label htmlFor={code} className={classes.strategyName}>
+            {" "}
+            {name}{" "}
+          </label>
           <input
             type="text"
             className={classes.stringInput}
             value={value || ""}
             onChange={onInputChange}
             name={code}
+            id={code}
           />
         </div>
       ) : (
         <div className={classes.strategyContainer}>
-          <div className={classes.strategyName}> {name} </div>
+          <label htmlFor={code} className={classes.strategyName}>
+            {" "}
+            {name}{" "}
+          </label>
           <div className={classes.allElse} name={code} />
           {possibleAndEarnedPointsContainers()}
         </div>
@@ -179,7 +189,7 @@ const RuleMeasure = ({
   );
 };
 
-RuleMeasure.propTypes = {
+RuleStrategy.propTypes = {
   rule: PropTypes.shape({
     id: PropTypes.number.isRequired,
     calculationId: PropTypes.number.isRequired,
@@ -194,9 +204,16 @@ RuleMeasure.propTypes = {
     panelDisplayOrder: PropTypes.number.isRequired,
     displayOrder: PropTypes.number.isRequired,
     calculationPanelId: PropTypes.number.isRequired,
-    panelName: PropTypes.string
+    panelName: PropTypes.string,
+    minValue: PropTypes.number,
+    maxValue: PropTypes.number,
+    choices: PropTypes.array,
+    calcValue: PropTypes.number,
+    calcUnits: PropTypes.string,
+    calcMinValue: PropTypes.number,
+    calcMaxValue: PropTypes.number
   }),
   onInputChange: PropTypes.func
 };
 
-export default RuleMeasure;
+export default RuleStrategy;

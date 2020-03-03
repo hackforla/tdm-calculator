@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RulePanels from "./RulePanels";
 import ResultList from "./ResultList";
@@ -88,7 +89,7 @@ const TdmCalculation = props => {
     );
 
     const strategyCount = pkgRules.reduce(
-      (count, r) => count + (!!r.value ? 1 : 0),
+      (count, r) => count + (r.value ? 1 : 0),
       0
     );
     return strategyCount === 3;
@@ -104,7 +105,7 @@ const TdmCalculation = props => {
     );
 
     const strategyCount = pkgRules.reduce(
-      (count, r) => count + (!!r.value ? 1 : 0),
+      (count, r) => count + (r.value ? 1 : 0),
       0
     );
     return strategyCount === 3;
@@ -116,7 +117,7 @@ const TdmCalculation = props => {
         <div className={classes.switchButtonWrapper}>
           <div className={classes.switchButton}>
             <SwitchViewButton onClick={props.onViewChange}>
-              Switch to  View
+              Switch to View
             </SwitchViewButton>
           </div>
           {rules && rules.length > 0 ? (
@@ -129,15 +130,18 @@ const TdmCalculation = props => {
           <div className={classes.rulePanel}>
             <h2>Project Parameters</h2>
             {rules && rules.length > 0 ? (
-              <RulePanels rules={specificationRules} onInputChange={onInputChange} />
+              <RulePanels
+                rules={specificationRules}
+                onInputChange={onInputChange}
+              />
             ) : (
               <div>No Rules Loaded</div>
             )}
           </div>
           <div className={classes.transportDemandStrategies}>
             <h2> Transportation Demand Strategies</h2>
-            <div sclassName={classes.buttonWrapper}>
-              >
+            <div className={classes.buttonWrapper}>
+              &gt;
               <button
                 className="tdm-wizard-pkg-button"
                 onClick={() => onUncheckAll(filters.strategyRules)}
@@ -173,6 +177,17 @@ const TdmCalculation = props => {
       </div>
     </div>
   );
+};
+TdmCalculation.propTypes = {
+  rules: PropTypes.array.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  onViewChange: PropTypes.func,
+  onPkgSelect: PropTypes.func,
+  onUncheckAll: PropTypes.func,
+  filters: PropTypes.shape({
+    strategyRules: PropTypes.func.isRequired
+  }),
+  resultRuleCodes: PropTypes.array.isRequired
 };
 
 export default TdmCalculation;

@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import RuleStrategyList from "./RuleStrategyList";
 import Loader from "react-loader";
 import { createUseStyles } from "react-jss";
@@ -72,7 +72,7 @@ const RuleStrategyPanels = props => {
                   <div className={classes.points}>Earned</div>
                 </div>
               ) : null}
-               <RuleStrategyList
+              <RuleStrategyList
                 key={rules[0].calculationPanelId}
                 rules={rules}
                 onInputChange={props.onInputChange}
@@ -87,6 +87,16 @@ const RuleStrategyPanels = props => {
       )}
     </React.Fragment>
   );
+};
+RuleStrategyPanels.propTypes = {
+  rules: PropTypes.arrayOf(
+    PropTypes.shape({
+      calculationPanelId: PropTypes.number.isRequired,
+      panelName: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  suppressHeader: PropTypes.bool,
+  onInputChange: PropTypes.func.isRequired
 };
 
 export default RuleStrategyPanels;
