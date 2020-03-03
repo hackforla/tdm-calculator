@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import RequiredFieldContext from "../../../contexts/RequiredFieldContext";
 
 const useStyles = createUseStyles({
   field: {
@@ -100,10 +99,34 @@ const useStyles = createUseStyles({
     flexGrow: "0",
     flexShrink: "1"
   },
+  textInput: {
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  textInputInvalid: {
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    border: "1px dashed red"
+  },
   textInputLabel: {
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
+  },
+  textarea: {
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    minHeight: "5em"
+  },
+  textareaInvalid: {
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    minHeight: "5em",
+    border: "1px dashed red"
   },
   textareaLabel: {
     flexBasis: "50%",
@@ -113,12 +136,15 @@ const useStyles = createUseStyles({
   },
   requiredInputLabel: {
     "&:after": {
-      content: "\" *\"",
+      content: '" *"',
       color: "red"
     }
   },
   errorLabel: {
-    color: "red"
+    color: "red",
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1"
   }
 });
 
@@ -134,51 +160,31 @@ const RuleInput = ({
     choices,
     calcValue,
     calcUnits,
-    required
+    required,
+    minStringLength,
+    maxStringLength,
+    validationErrors
   },
   onPropInputChange
 }) => {
   const classes = useStyles();
-  const setUnfilledRequired = useContext(RequiredFieldContext)[1];
-  const [error, setError] = useState("");
 
-  const updateRequiredInput = e => {
-    if (required) {
-      const input = { [code]: e.target.value === "" };
-      if (input[code]) {
-        setError("Input cannot be empty");
-      } else {
-        setError("");
-      }
-      setUnfilledRequired(inputs => ({ ...inputs, ...input }));
-    }
-  };
+  // The validationErrors property of the rule indicates whether the
+  // violates any of the database-driven validation rules. For now, this
+  // component is designed to hide the validation error message (but still
+  // show the red outline around the input) if the input is invalid when
+  // first rendered. The showValidationErrors flag will be set when the
+  // user first touches the input field to display the text of the error message.
+  const [showValidationErrors, setShowValidationErrors] = useState(false);
 
   const onInputChange = e => {
-    updateRequiredInput(e);
+    setShowValidationErrors(true);
     onPropInputChange(e);
   };
 
-  const onBlur = e => {
-    updateRequiredInput(e);
+  const onBlur = () => {
+    setShowValidationErrors(true);
   };
-
-  const isEmpty = value => {
-    return value === null || value.length === 0;
-  };
-
-  const updateInput = useCallback(() => {
-    const input = {
-      [code]: required && isEmpty(value)
-    };
-    if (required) {
-      setUnfilledRequired(inputs => ({ ...inputs, ...input }));
-    }
-  }, [code, required, setUnfilledRequired, value]);
-
-  useEffect(() => {
-    updateInput();
-  }, [updateInput]);
 
   return (
     <React.Fragment>
@@ -276,21 +282,29 @@ const RuleInput = ({
           {dataType === "string" ? (
             <input
               type="text"
-              className={classes.textInputLabel}
+              className={
+                validationErrors ? classes.textInputInvalid : classes.textInput
+              }
               value={value || ""}
               onChange={onInputChange}
               name={code}
               id={code}
               data-testid={code}
+              maxLength={maxStringLength}
             />
           ) : (
             <textarea
-              className={classes.textareaLabel}
+              className={
+                validationErrors ? classes.textareaInvalid : classes.textarea
+              }
               value={value || ""}
               onChange={onInputChange}
               name={code}
               id={code}
               data-testid={code}
+              required={required}
+              minLength={minStringLength}
+              maxLength={maxStringLength}
             />
           )}
         </div>
@@ -308,9 +322,14 @@ const RuleInput = ({
           </div>
         </div>
       )}
-      <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
-        {error}
-      </div>
+      {validationErrors && showValidationErrors ? (
+        <div className={classes.field}>
+          <div className={classes.textInputLabel}></div>
+          <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
+            {validationErrors[0]}
+          </div>
+        </div>
+      ) : null}
     </React.Fragment>
   );
 };
@@ -325,9 +344,12 @@ RuleInput.propTypes = {
     minValue: PropTypes.number,
     maxValue: PropTypes.number,
     choices: PropTypes.string,
-    calcValue: PropTypes.number,
+    calcValue: PropTypes.any,
     calcUnits: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    minStringLength: PropTypes.number,
+    maxStringLength: PropTypes.number,
+    validationErrors: PropTypes.array
   }),
   onPropInputChange: PropTypes.func
 };

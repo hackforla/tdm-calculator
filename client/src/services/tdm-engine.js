@@ -73,12 +73,62 @@ class Engine {
           rule.calcMaxValue = null;
         }
       }
+      // Perform rule validation
+      for (const property in this.rules) {
+        this.validateRule(this.rules[property]);
+      }
       // For debugging
       // console.log(this.rules);
       return results;
     } catch (err) {
       console.log(err);
     }
+  }
+
+  validateRule(rule) {
+    const {
+      name,
+      value,
+      required,
+      minStringLength,
+      maxStringLength,
+      minValue,
+      maxValue
+    } = rule;
+    const validationErrors = [];
+
+    if (required && !value) {
+      validationErrors.push(`${name} is required`);
+    } else {
+      if (minStringLength) {
+        if (typeof value === "string" && value.length < minStringLength) {
+          validationErrors.push(
+            `${name} must be at least ${minStringLength} characters.`
+          );
+        }
+      }
+      if (maxStringLength) {
+        if (typeof value === "string" && value.length > maxStringLength) {
+          validationErrors.push(
+            `${name} must be no more than ${maxStringLength} characters.`
+          );
+        }
+      }
+      if (minValue !== null && typeof value !== "string") {
+        if (value < minValue) {
+          validationErrors.push(`${name} must be at least ${minValue}.`);
+        }
+      }
+      if (maxValue !== null && typeof value !== "string") {
+        if (value > maxValue) {
+          validationErrors.push(`${name} must be no more than ${maxValue}.`);
+        }
+      }
+    }
+    // validationErrors will be null if no errors, otherwise contain
+    // user-friendly error message(s) in an array
+    rule.validationErrors =
+      validationErrors.length > 0 ? validationErrors : null;
   }
 
   /// Evaluate displayFunctionBody and populate this.rules[property].display

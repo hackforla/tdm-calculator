@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -7,7 +7,6 @@ import SidebarPointsPanel from "./SidebarPoints/SidebarPointsPanel";
 import NavButton from "./NavButton";
 import SwitchViewButton from "../SwitchViewButton";
 import Sidebar from "../Sidebar";
-import RequiredFieldContext from "../../contexts/RequiredFieldContext";
 import {
   ProjectDescriptions,
   ProjectUse,
@@ -67,20 +66,6 @@ const useStyles = createUseStyles({
   }
 });
 
-const isEmptyObject = obj => {
-  return Object.entries(obj).length === 0 && obj.constructor === Object;
-};
-
-const hasUnfilledRequired = unfilledRequired => {
-  const hasUnfilled = !isEmptyObject(unfilledRequired)
-    ? Object.values(unfilledRequired).reduce(
-      (hasUnfilled, input) => hasUnfilled || input,
-      false
-    )
-    : false;
-  return hasUnfilled;
-};
-
 const TdmCalculationWizard = props => {
   const classes = useStyles();
   const {
@@ -99,8 +84,6 @@ const TdmCalculationWizard = props => {
     pageNo
   } = props;
   const [page, setPage] = useState(0);
-  const [unfilledRequired] = useContext(RequiredFieldContext);
-  const [disableForward, setDisableForward] = useState(false);
 
   useEffect(() => {
     if (
@@ -115,8 +98,7 @@ const TdmCalculationWizard = props => {
       // read-only users can only see the summary page.
       setPage(6);
     }
-    setDisableForward(hasUnfilledRequired(unfilledRequired));
-  }, [projectId, account, loginId, pageNo, unfilledRequired]);
+  }, [projectId, account, loginId, pageNo]);
 
   const projectDescriptionRules =
     rules && rules.filter(filters.projectDescriptionRules);
@@ -128,63 +110,75 @@ const TdmCalculationWizard = props => {
     rules &&
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
 
+  // Disable the page navigation buttons if page-specific rules are not satisfied
+  let disablePageNavigation = false;
+  if (
+    page === 1 &&
+    projectDescriptionRules.find(rule => !!rule.validationErrors)
+  ) {
+    disablePageNavigation = true;
+  }
+  if (page === 2 && !landUseRules.find(rule => rule.value)) {
+    disablePageNavigation = true;
+  }
+
   const renderSwitch = () => {
     switch (page) {
-    case 2:
-      return (
-        <ProjectUse
-          rules={landUseRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          uncheckAll={() => onUncheckAll(filters.landUseRules)}
-        />
-      );
-    case 3:
-      return (
-        <ProjectSpecifications
-          rules={specificationRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          uncheckAll={() => onUncheckAll(filters.specificationRules)}
-        />
-      );
-    case 4:
-      return (
-        <ProjectTargetPoints
-          rules={targetPointRules}
-          onInputChange={onInputChange}
-          classes={classes}
-        />
-      );
-    case 5:
-      return (
-        <ProjectMeasures
-          rules={strategyRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          onPkgSelect={onPkgSelect}
-          uncheckAll={() => onUncheckAll(filters.strategyRules)}
-        />
-      );
-    case 6:
-      return (
-        <ProjectSummary
-          rules={rules}
-          account={account}
-          projectId={projectId}
-          loginId={loginId}
-          onSave={onSave}
-        />
-      );
-    case 1:
-    default:
-      return (
-        <ProjectDescriptions
-          rules={projectDescriptionRules}
-          onInputChange={onInputChange}
-          classes={classes}
-        />
-      );
+      case 2:
+        return (
+          <ProjectUse
+            rules={landUseRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            uncheckAll={() => onUncheckAll(filters.landUseRules)}
+          />
+        );
+      case 3:
+        return (
+          <ProjectSpecifications
+            rules={specificationRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            uncheckAll={() => onUncheckAll(filters.specificationRules)}
+          />
+        );
+      case 4:
+        return (
+          <ProjectTargetPoints
+            rules={targetPointRules}
+            onInputChange={onInputChange}
+            classes={classes}
+          />
+        );
+      case 5:
+        return (
+          <ProjectMeasures
+            rules={strategyRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            onPkgSelect={onPkgSelect}
+            uncheckAll={() => onUncheckAll(filters.strategyRules)}
+          />
+        );
+      case 6:
+        return (
+          <ProjectSummary
+            rules={rules}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            onSave={onSave}
+          />
+        );
+      case 1:
+      default:
+        return (
+          <ProjectDescriptions
+            rules={projectDescriptionRules}
+            onInputChange={onInputChange}
+            classes={classes}
+          />
+        );
     }
   };
 
@@ -219,7 +213,7 @@ const TdmCalculationWizard = props => {
                 &lt;
               </NavButton>
               <NavButton
-                disabled={page === 6 || disableForward}
+                disabled={page === 6 || disablePageNavigation}
                 onClick={() => {
                   onPageChange(page + 1);
                 }}
@@ -234,12 +228,11 @@ const TdmCalculationWizard = props => {
   );
 };
 TdmCalculationWizard.propTypes = {
-  rules: PropTypes.object.isRequired,
+  rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   onUncheckAll: PropTypes.func.isRequired,
-  filters: PropTypes.array.isRequired,
+  filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,
   account: PropTypes.object.isRequired,
   projectId: PropTypes.number.isRequired,
@@ -247,7 +240,7 @@ TdmCalculationWizard.propTypes = {
   onSave: PropTypes.func.isRequired,
   onPageChange: PropTypes.func.isRequired,
   onViewChange: PropTypes.func.isRequired,
-  pageNo: PropTypes.func.isRequired
+  pageNo: PropTypes.number.isRequired
 };
 
 export default TdmCalculationWizard;

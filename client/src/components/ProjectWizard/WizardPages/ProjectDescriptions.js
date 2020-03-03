@@ -13,16 +13,18 @@ function ProjectDescriptions(props) {
       <h3 className="tdm-wizard-page-subtitle">
         First, let&rsquo;s name your project
       </h3>
-      <RuleInputPanels
-        rules={rules}
-        onInputChange={onInputChange}
-        suppressHeader={true}
-      />
+      <form noValidate>
+        <RuleInputPanels
+          rules={rules}
+          onInputChange={onInputChange}
+          suppressHeader={true}
+        />
+      </form>
     </div>
   );
 }
 ProjectDescriptions.propTypes = {
-  rules: PropTypes.object.isRequired,
+  rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired
 };
 

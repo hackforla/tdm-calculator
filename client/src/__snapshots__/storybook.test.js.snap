@@ -32,6 +32,15 @@ exports[`Storyshots Header default 1`] = `
     <li>
       <a
         className="link-0-2-4"
+        href="/about"
+        onClick={[Function]}
+      >
+        About
+      </a>
+    </li>
+    <li>
+      <a
+        className="link-0-2-4"
         href="/projects"
         onClick={[Function]}
       >
@@ -63,6 +72,7 @@ exports[`Storyshots Header default 1`] = `
 exports[`Storyshots NavButton disabled 1`] = `
 <div
   className="tdm-wizard-nav-button-disabled"
+  data-testid="Wizard Nav Button Label"
 >
   Wizard Nav Button Label
 </div>
@@ -71,6 +81,7 @@ exports[`Storyshots NavButton disabled 1`] = `
 exports[`Storyshots NavButton enabled 1`] = `
 <div
   className="tdm-wizard-nav-button"
+  data-testid="Wizard Nav Button Label"
   onClick={[Function]}
 >
   Wizard Nav Button Label
@@ -78,142 +89,129 @@ exports[`Storyshots NavButton enabled 1`] = `
 `;
 
 exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
-Array [
-  <div
-    className="field-0-2-28 checkboxFieldWrapper-0-2-35"
+<div
+  className="field-0-2-28 checkboxFieldWrapper-0-2-35"
+>
+  <label
+    className="checkboxFieldLabel-0-2-36"
+    htmlFor="LAND_USE_RESIDENTIAL"
   >
-    <div
-      className="checkboxFieldLabel-0-2-36"
-    >
-      Residential
-    </div>
-    <input
-      checked={false}
-      className="checkbox-0-2-37"
-      name="LAND_USE_RESIDENTIAL"
-      onChange={[Function]}
-      type="checkbox"
-      value={true}
-    />
-  </div>,
-  <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>,
-]
+    Residential
+  </label>
+  <input
+    checked={false}
+    className="checkbox-0-2-37"
+    data-testid="LAND_USE_RESIDENTIAL"
+    id="LAND_USE_RESIDENTIAL"
+    name="LAND_USE_RESIDENTIAL"
+    onChange={[Function]}
+    type="checkbox"
+    value={true}
+  />
+</div>
 `;
 
 exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
-Array [
-  <div
-    className="field-0-2-28 checkboxFieldWrapper-0-2-35"
+<div
+  className="field-0-2-28 checkboxFieldWrapper-0-2-35"
+>
+  <label
+    className="checkboxFieldLabel-0-2-36"
+    htmlFor="LAND_USE_RESIDENTIAL"
   >
-    <div
-      className="checkboxFieldLabel-0-2-36"
-    >
-      Residential
-    </div>
-    <input
-      checked={true}
-      className="checkbox-0-2-37"
-      name="LAND_USE_RESIDENTIAL"
-      onChange={[Function]}
-      type="checkbox"
-      value={true}
-    />
-  </div>,
-  <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>,
-]
+    Residential
+  </label>
+  <input
+    checked={true}
+    className="checkbox-0-2-37"
+    data-testid="LAND_USE_RESIDENTIAL"
+    id="LAND_USE_RESIDENTIAL"
+    name="LAND_USE_RESIDENTIAL"
+    onChange={[Function]}
+    type="checkbox"
+    value={true}
+  />
+</div>
 `;
 
 exports[`Storyshots RuleInput default Input Number 1`] = `
-Array [
-  <div
-    className="field-0-2-28 numberFieldWrapper-0-2-29"
+<div
+  className="field-0-2-28 numberFieldWrapper-0-2-29"
+>
+  <label
+    className="textInputLabel-0-2-47"
+    htmlFor="SF_RETAIL"
   >
-    <div
-      className="textInputLabel-0-2-45"
-    >
-      Sq Ft - Retail
-    </div>
-    <div
-      className="numberField-0-2-30"
-    >
-      <input
-        className="input-0-2-32"
-        max={null}
-        min={null}
-        name="SF_RETAIL"
-        onChange={[Function]}
-        type="text"
-        value={42}
-      />
-    </div>
-    <div
-      className="numberFieldUnits-0-2-31"
-    >
-      sq ft
-    </div>
-    <div
-      className="calcUnitsCaption-0-2-34"
-    >
-       
-    </div>
-  </div>,
+    Sq Ft - Retail
+  </label>
   <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
+    className="numberField-0-2-30"
   >
-    
-  </div>,
-]
+    <input
+      className="input-0-2-32"
+      data-testid="SF_RETAIL"
+      id="SF_RETAIL"
+      max={null}
+      min={null}
+      name="SF_RETAIL"
+      onChange={[Function]}
+      type="text"
+      value={42}
+    />
+  </div>
+  <div
+    className="numberFieldUnits-0-2-31"
+  >
+    sq ft
+  </div>
+  <div
+    className="calcUnitsCaption-0-2-34"
+  >
+     
+  </div>
+</div>
 `;
 
 exports[`Storyshots RuleInput default Input String 1`] = `
-Array [
-  <div
-    className="field-0-2-28 textFieldWrapper-0-2-41"
-    onBlur={[Function]}
+<div
+  className="field-0-2-28 textFieldWrapper-0-2-41"
+  onBlur={[Function]}
+>
+  <label
+    className="textInputLabel-0-2-47 requiredInputLabel-0-2-51"
+    htmlFor="PROJECT_NAME"
   >
-    <div
-      className="textInputLabel-0-2-45 requiredInputLabel-0-2-47"
-    >
-      Project Name*
-    </div>
-    <input
-      className="textInputLabel-0-2-45"
-      name="PROJECT_NAME"
-      onChange={[Function]}
-      type="text"
-      value="My Project Name"
-    />
-  </div>,
-  <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>,
-]
+    Project Name*
+  </label>
+  <input
+    className="textInput-0-2-45"
+    data-testid="PROJECT_NAME"
+    id="PROJECT_NAME"
+    maxLength={400}
+    name="PROJECT_NAME"
+    onChange={[Function]}
+    type="text"
+    value="My Project Name"
+  />
+</div>
 `;
 
 exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
 <div
-  className="strategyContainer-0-2-49"
+  className="strategyContainer-0-2-53"
 >
-  <div
-    className="strategyName-0-2-50"
+  <label
+    className="strategyName-0-2-54"
+    htmlFor="STRATEGY_PARKING_1"
   >
      
     Pricing/Unbundling
      
-  </div>
+  </label>
   <div>
     <input
       checked={false}
+      id="STRATEGY_PARKING_1"
       name="STRATEGY_PARKING_1"
       onChange={[Function]}
       type="checkbox"
@@ -221,12 +219,12 @@ exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
     />
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
      
   </div>
@@ -235,18 +233,20 @@ exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
 
 exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
 <div
-  className="strategyContainer-0-2-49"
+  className="strategyContainer-0-2-53"
 >
-  <div
-    className="strategyName-0-2-50"
+  <label
+    className="strategyName-0-2-54"
+    htmlFor="STRATEGY_PARKING_1"
   >
      
     Pricing/Unbundling
      
-  </div>
+  </label>
   <div>
     <input
       checked={true}
+      id="STRATEGY_PARKING_1"
       name="STRATEGY_PARKING_1"
       onChange={[Function]}
       type="checkbox"
@@ -254,12 +254,12 @@ exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
     />
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
      
   </div>
@@ -268,19 +268,21 @@ exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
 
 exports[`Storyshots RuleInput default Strategy Choice 1`] = `
 <div
-  className="strategyContainer-0-2-49"
+  className="strategyContainer-0-2-53"
 >
-  <div
-    className="strategyName-0-2-50"
+  <label
+    className="strategyName-0-2-54"
+    htmlFor="STRATEGY_AFFORDABLE"
   >
      
     Affordable Housing Level
      
-  </div>
+  </label>
   <div
-    className="choiceSelectContainer-0-2-54"
+    className="choiceSelectContainer-0-2-58"
   >
     <select
+      id="STRATEGY_AFFORDABLE"
       name="STRATEGY_AFFORDABLE"
       onChange={[Function]}
       value=""
@@ -314,12 +316,12 @@ exports[`Storyshots RuleInput default Strategy Choice 1`] = `
     </select>
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
      
   </div>
@@ -328,20 +330,22 @@ exports[`Storyshots RuleInput default Strategy Choice 1`] = `
 
 exports[`Storyshots RuleInput default Strategy Number 1`] = `
 <div
-  className="strategyContainer-0-2-49"
+  className="strategyContainer-0-2-53"
 >
-  <div
-    className="strategyName-0-2-50"
+  <label
+    className="strategyName-0-2-54"
+    htmlFor="PTS_ACCESS_3"
   >
      
     Network Improvement
      
-  </div>
+  </label>
   <div
-    className="numberInputContainer-0-2-52"
+    className="numberInputContainer-0-2-56"
   >
     <input
-      className="numberInput-0-2-53"
+      className="numberInput-0-2-57"
+      id="PTS_ACCESS_3"
       max={100}
       min={0}
       name="PTS_ACCESS_3"
@@ -351,12 +355,12 @@ exports[`Storyshots RuleInput default Strategy Number 1`] = `
     />
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
      
   </div>
@@ -365,21 +369,24 @@ exports[`Storyshots RuleInput default Strategy Number 1`] = `
 
 exports[`Storyshots RuleInputList default 1`] = `
 <div
-  className="root-0-2-57"
+  className="root-0-2-61"
 >
   <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
-      className="textInputLabel-0-2-45"
+    <label
+      className="textInputLabel-0-2-47"
+      htmlFor="UNITS_HABIT_LT3"
     >
       # Habitable Rooms &lt; 3
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="UNITS_HABIT_LT3"
+        id="UNITS_HABIT_LT3"
         max={null}
         min={0}
         name="UNITS_HABIT_LT3"
@@ -400,23 +407,21 @@ exports[`Storyshots RuleInputList default 1`] = `
     </div>
   </div>
   <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>
-  <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
-      className="textInputLabel-0-2-45"
+    <label
+      className="textInputLabel-0-2-47"
+      htmlFor="UNITS_HABIT_3"
     >
       # Habitable Rooms = 3
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="UNITS_HABIT_3"
+        id="UNITS_HABIT_3"
         max={null}
         min={0}
         name="UNITS_HABIT_3"
@@ -437,23 +442,21 @@ exports[`Storyshots RuleInputList default 1`] = `
     </div>
   </div>
   <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>
-  <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
-      className="textInputLabel-0-2-45"
+    <label
+      className="textInputLabel-0-2-47"
+      htmlFor="UNITS_HABIT_GT3"
     >
       # Habitable Rooms &gt; 3
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="UNITS_HABIT_GT3"
+        id="UNITS_HABIT_GT3"
         max={null}
         min={0}
         name="UNITS_HABIT_GT3"
@@ -474,23 +477,21 @@ exports[`Storyshots RuleInputList default 1`] = `
     </div>
   </div>
   <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>
-  <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
-      className="textInputLabel-0-2-45"
+    <label
+      className="textInputLabel-0-2-47"
+      htmlFor="UNITS_CONDO"
     >
       Condo - Units
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="UNITS_CONDO"
+        id="UNITS_CONDO"
         max={null}
         min={0}
         name="UNITS_CONDO"
@@ -511,23 +512,21 @@ exports[`Storyshots RuleInputList default 1`] = `
     </div>
   </div>
   <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>
-  <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
-    <div
-      className="textInputLabel-0-2-45"
+    <label
+      className="textInputLabel-0-2-47"
+      htmlFor="PARK_CONDO"
     >
       Condo - Enter Parking Space Req'd
-    </div>
+    </label>
     <div
       className="numberField-0-2-30"
     >
       <input
         className="input-0-2-32"
+        data-testid="PARK_CONDO"
+        id="PARK_CONDO"
         max={null}
         min={0}
         name="PARK_CONDO"
@@ -547,44 +546,42 @@ exports[`Storyshots RuleInputList default 1`] = `
        
     </div>
   </div>
-  <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>
 </div>
 `;
 
 exports[`Storyshots RuleInputPanels default 1`] = `
 Array [
   <div
-    className="panelContainer-0-2-58"
+    className="panelContainer-0-2-62"
   >
     <div
-      className="strategyContainer-0-2-59"
+      className="strategyContainer-0-2-63"
     >
       <h4
-        className="strategyName-0-2-60"
+        className="strategyName-0-2-64"
       >
         Residential Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-57"
+      className="root-0-2-61"
     >
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="UNITS_HABIT_LT3"
         >
           # Habitable Rooms &lt; 3
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="UNITS_HABIT_LT3"
+            id="UNITS_HABIT_LT3"
             max={null}
             min={0}
             name="UNITS_HABIT_LT3"
@@ -605,23 +602,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="UNITS_HABIT_3"
         >
           # Habitable Rooms = 3
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="UNITS_HABIT_3"
+            id="UNITS_HABIT_3"
             max={null}
             min={0}
             name="UNITS_HABIT_3"
@@ -642,23 +637,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="UNITS_HABIT_GT3"
         >
           # Habitable Rooms &gt; 3
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="UNITS_HABIT_GT3"
+            id="UNITS_HABIT_GT3"
             max={null}
             min={0}
             name="UNITS_HABIT_GT3"
@@ -679,23 +672,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="UNITS_CONDO"
         >
           Condo - Units
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="UNITS_CONDO"
+            id="UNITS_CONDO"
             max={null}
             min={0}
             name="UNITS_CONDO"
@@ -716,23 +707,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="PARK_CONDO"
         >
           Condo - Enter Parking Space Req'd
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="PARK_CONDO"
+            id="PARK_CONDO"
             max={null}
             min={0}
             name="PARK_CONDO"
@@ -752,41 +741,39 @@ Array [
            
         </div>
       </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-58"
+    className="panelContainer-0-2-62"
   >
     <div
-      className="strategyContainer-0-2-59"
+      className="strategyContainer-0-2-63"
     >
       <h4
-        className="strategyName-0-2-60"
+        className="strategyName-0-2-64"
       >
         Commercial Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-57"
+      className="root-0-2-61"
     >
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="SF_RESTAURANT"
         >
           Sq Ft - Restaurant/Bar/General
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_RESTAURANT"
+            id="SF_RESTAURANT"
             max={null}
             min={0}
             name="SF_RESTAURANT"
@@ -807,23 +794,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="SF_HEALTH_CLUB"
         >
           Sq Ft - Health Club
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_HEALTH_CLUB"
+            id="SF_HEALTH_CLUB"
             max={null}
             min={0}
             name="SF_HEALTH_CLUB"
@@ -844,23 +829,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="SF_RESTAURANT_TAKEOUT"
         >
           Sq Ft - Take-out Restaurant
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_RESTAURANT_TAKEOUT"
+            id="SF_RESTAURANT_TAKEOUT"
             max={null}
             min={0}
             name="SF_RESTAURANT_TAKEOUT"
@@ -881,23 +864,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="SF_OFFICE"
         >
           Sq Ft - Office, Business, Manufacturing, Industrial
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_OFFICE"
+            id="SF_OFFICE"
             max={null}
             min={0}
             name="SF_OFFICE"
@@ -918,23 +899,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="SF_WAREHOUSE"
         >
           Sq Ft - Warehouse
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_WAREHOUSE"
+            id="SF_WAREHOUSE"
             max={null}
             min={0}
             name="SF_WAREHOUSE"
@@ -954,41 +933,39 @@ Array [
            
         </div>
       </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-58"
+    className="panelContainer-0-2-62"
   >
     <div
-      className="strategyContainer-0-2-59"
+      className="strategyContainer-0-2-63"
     >
       <h4
-        className="strategyName-0-2-60"
+        className="strategyName-0-2-64"
       >
         Institutional Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-57"
+      className="root-0-2-61"
     >
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="SF_INST_MEDICAL_SVC"
         >
           Sq Ft - Medical Offices, Clinics, Service Facilities
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_INST_MEDICAL_SVC"
+            id="SF_INST_MEDICAL_SVC"
             max={null}
             min={0}
             name="SF_INST_MEDICAL_SVC"
@@ -1009,23 +986,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="SF_INST_OTHER"
         >
           Sq Ft - Other Institutional
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_INST_OTHER"
+            id="SF_INST_OTHER"
             max={null}
             min={0}
             name="SF_INST_OTHER"
@@ -1046,23 +1021,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="SF_INST_GOV"
         >
           Sq Ft - Government Institution
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_INST_GOV"
+            id="SF_INST_GOV"
             max={null}
             min={0}
             name="SF_INST_GOV"
@@ -1083,23 +1056,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="BED_HOSPITAL"
         >
           Patient Hospital Beds
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="BED_HOSPITAL"
+            id="BED_HOSPITAL"
             max={null}
             min={0}
             name="BED_HOSPITAL"
@@ -1120,23 +1091,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="BED_CONVALESCENT"
         >
           Convalescent Institution Beds
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="BED_CONVALESCENT"
+            id="BED_CONVALESCENT"
             max={null}
             min={0}
             name="BED_CONVALESCENT"
@@ -1156,41 +1125,39 @@ Array [
            
         </div>
       </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-58"
+    className="panelContainer-0-2-62"
   >
     <div
-      className="strategyContainer-0-2-59"
+      className="strategyContainer-0-2-63"
     >
       <h4
-        className="strategyName-0-2-60"
+        className="strategyName-0-2-64"
       >
         Other Land Use Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-57"
+      className="root-0-2-61"
     >
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="SEAT_AUDITORIUM"
         >
           # Seats - Auditorium
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SEAT_AUDITORIUM"
+            id="SEAT_AUDITORIUM"
             max={null}
             min={0}
             name="SEAT_AUDITORIUM"
@@ -1211,23 +1178,21 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
-        <div
-          className="textInputLabel-0-2-45"
+        <label
+          className="textInputLabel-0-2-47"
+          htmlFor="SF_AUDITORIUM_NO_SEATS"
         >
           Sq Ft - Auditorium w/o Seats
-        </div>
+        </label>
         <div
           className="numberField-0-2-30"
         >
           <input
             className="input-0-2-32"
+            data-testid="SF_AUDITORIUM_NO_SEATS"
+            id="SF_AUDITORIUM_NO_SEATS"
             max={null}
             min={0}
             name="SF_AUDITORIUM_NO_SEATS"
@@ -1247,11 +1212,6 @@ Array [
            
         </div>
       </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
     </div>
   </div>,
 ]
@@ -1259,21 +1219,23 @@ Array [
 
 exports[`Storyshots RuleStrategyList default 1`] = `
 <div
-  className="root-0-2-63"
+  className="root-0-2-67"
 >
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
-    <div
-      className="strategyName-0-2-50"
+    <label
+      className="strategyName-0-2-54"
+      htmlFor="STRATEGY_PARKING_2"
     >
        
       Cash-Out
        
-    </div>
+    </label>
     <div>
       <input
         checked={false}
+        id="STRATEGY_PARKING_2"
         name="STRATEGY_PARKING_2"
         onChange={[Function]}
         type="checkbox"
@@ -1281,29 +1243,31 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
-    <div
-      className="strategyName-0-2-50"
+    <label
+      className="strategyName-0-2-54"
+      htmlFor="STRATEGY_PARKING_1"
     >
        
       Pricing/Unbundling
        
-    </div>
+    </label>
     <div>
       <input
         checked={false}
+        id="STRATEGY_PARKING_1"
         name="STRATEGY_PARKING_1"
         onChange={[Function]}
         type="checkbox"
@@ -1311,30 +1275,32 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
-    <div
-      className="strategyName-0-2-50"
+    <label
+      className="strategyName-0-2-54"
+      htmlFor="STRATEGY_PARKING_3"
     >
        
       Shared Parking
        
-    </div>
+    </label>
     <div
-      className="choiceSelectContainer-0-2-54"
+      className="choiceSelectContainer-0-2-58"
     >
       <select
+        id="STRATEGY_PARKING_3"
         name="STRATEGY_PARKING_3"
         onChange={[Function]}
         value=""
@@ -1368,29 +1334,31 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       </select>
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
-    <div
-      className="strategyName-0-2-50"
+    <label
+      className="strategyName-0-2-54"
+      htmlFor="STRATEGY_PARKING_4"
     >
        
       Public Parking
        
-    </div>
+    </label>
     <div>
       <input
         checked={false}
+        id="STRATEGY_PARKING_4"
         name="STRATEGY_PARKING_4"
         onChange={[Function]}
         type="checkbox"
@@ -1398,29 +1366,31 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
-    <div
-      className="strategyName-0-2-50"
+    <label
+      className="strategyName-0-2-54"
+      htmlFor="STRATEGY_PARKING_5"
     >
        
       Reduced Parking Supply
        
-    </div>
+    </label>
     <div>
       <input
         checked={false}
+        id="STRATEGY_PARKING_5"
         name="STRATEGY_PARKING_5"
         onChange={[Function]}
         type="checkbox"
@@ -1428,31 +1398,33 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
-    <div
-      className="strategyName-0-2-50"
+    <label
+      className="strategyName-0-2-54"
+      htmlFor="PTS_PARKING_1"
     >
        
       Pts for Pricing/Unbundling
        
-    </div>
+    </label>
     <div
-      className="numberInputContainer-0-2-52"
+      className="numberInputContainer-0-2-56"
     >
       <input
-        className="numberInput-0-2-53"
+        className="numberInput-0-2-57"
+        id="PTS_PARKING_1"
         max={8}
         min={8}
         name="PTS_PARKING_1"
@@ -1462,12 +1434,12 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
@@ -1478,45 +1450,47 @@ exports[`Storyshots RuleStrategyList default 1`] = `
 exports[`Storyshots RuleStrategyPanels default 1`] = `
 Array [
   <div
-    className="panelContainer-0-2-64"
+    className="panelContainer-0-2-68"
   >
     <div
-      className="strategyContainer-0-2-65"
+      className="strategyContainer-0-2-69"
     >
       <h4
-        className="strategyName-0-2-66"
+        className="strategyName-0-2-70"
       >
         Accessibility
       </h4>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Possible
       </div>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-63"
+      className="root-0-2-67"
     >
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="PTS_ACCESS_1"
         >
            
           Pts for Correct Substandard Infrastructure
            
-        </div>
+        </label>
         <div
-          className="numberInputContainer-0-2-52"
+          className="numberInputContainer-0-2-56"
         >
           <input
-            className="numberInput-0-2-53"
+            className="numberInput-0-2-57"
+            id="PTS_ACCESS_1"
             max={5}
             min={2}
             name="PTS_ACCESS_1"
@@ -1526,31 +1500,33 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="PTS_ACCESS_2"
         >
            
           Pts for Intersection Improvement
            
-        </div>
+        </label>
         <div
-          className="numberInputContainer-0-2-52"
+          className="numberInputContainer-0-2-56"
         >
           <input
-            className="numberInput-0-2-53"
+            className="numberInput-0-2-57"
+            id="PTS_ACCESS_2"
             max={5}
             min={2}
             name="PTS_ACCESS_2"
@@ -1560,30 +1536,32 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_ACCESS_1"
         >
            
           Correct Substandard Infrastructure
            
-        </div>
+        </label>
         <div
-          className="choiceSelectContainer-0-2-54"
+          className="choiceSelectContainer-0-2-58"
         >
           <select
+            id="STRATEGY_ACCESS_1"
             name="STRATEGY_ACCESS_1"
             onChange={[Function]}
             value=""
@@ -1617,30 +1595,32 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_ACCESS_2"
         >
            
           Intersection Improvements
            
-        </div>
+        </label>
         <div
-          className="choiceSelectContainer-0-2-54"
+          className="choiceSelectContainer-0-2-58"
         >
           <select
+            id="STRATEGY_ACCESS_2"
             name="STRATEGY_ACCESS_2"
             onChange={[Function]}
             value=""
@@ -1674,31 +1654,33 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="PTS_ACCESS_3"
         >
            
           Network Improvement
            
-        </div>
+        </label>
         <div
-          className="numberInputContainer-0-2-52"
+          className="numberInputContainer-0-2-56"
         >
           <input
-            className="numberInput-0-2-53"
+            className="numberInput-0-2-57"
+            id="PTS_ACCESS_3"
             max={100}
             min={0}
             name="PTS_ACCESS_3"
@@ -1708,12 +1690,12 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
@@ -1721,44 +1703,46 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-64"
+    className="panelContainer-0-2-68"
   >
     <div
-      className="strategyContainer-0-2-65"
+      className="strategyContainer-0-2-69"
     >
       <h4
-        className="strategyName-0-2-66"
+        className="strategyName-0-2-70"
       >
         Affordable Housing
       </h4>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Possible
       </div>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-63"
+      className="root-0-2-67"
     >
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_AFFORDABLE"
         >
            
           Affordable Housing Level
            
-        </div>
+        </label>
         <div
-          className="choiceSelectContainer-0-2-54"
+          className="choiceSelectContainer-0-2-58"
         >
           <select
+            id="STRATEGY_AFFORDABLE"
             name="STRATEGY_AFFORDABLE"
             onChange={[Function]}
             value=""
@@ -1792,12 +1776,12 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
@@ -1805,43 +1789,45 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-64"
+    className="panelContainer-0-2-68"
   >
     <div
-      className="strategyContainer-0-2-65"
+      className="strategyContainer-0-2-69"
     >
       <h4
-        className="strategyName-0-2-66"
+        className="strategyName-0-2-70"
       >
         Bicycle Facilities
       </h4>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Possible
       </div>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-63"
+      className="root-0-2-67"
     >
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_BIKE_1"
         >
            
           Locate Near Bike Share
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_BIKE_1"
             name="STRATEGY_BIKE_1"
             onChange={[Function]}
             type="checkbox"
@@ -1849,31 +1835,33 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="PTS_BIKE_1"
         >
            
           Points for Locate Near Bike Share
            
-        </div>
+        </label>
         <div
-          className="numberInputContainer-0-2-52"
+          className="numberInputContainer-0-2-56"
         >
           <input
-            className="numberInput-0-2-53"
+            className="numberInput-0-2-57"
+            id="PTS_BIKE_1"
             max={2}
             min={2}
             name="PTS_BIKE_1"
@@ -1883,29 +1871,31 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_BIKE_2"
         >
            
           Bike Share Station
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_BIKE_2"
             name="STRATEGY_BIKE_2"
             onChange={[Function]}
             type="checkbox"
@@ -1913,29 +1903,31 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_BIKE_3"
         >
            
           Bike Share Memberships
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_BIKE_3"
             name="STRATEGY_BIKE_3"
             onChange={[Function]}
             type="checkbox"
@@ -1943,29 +1935,31 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_BIKE_4"
         >
            
           Bike Parking
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_BIKE_4"
             name="STRATEGY_BIKE_4"
             onChange={[Function]}
             type="checkbox"
@@ -1973,29 +1967,31 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_BIKE_5"
         >
            
           Changing / Shower / Locker Facilities
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_BIKE_5"
             name="STRATEGY_BIKE_5"
             onChange={[Function]}
             type="checkbox"
@@ -2003,37 +1999,38 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_BIKE_BONUS"
         >
            
           Bike Bonus
            
-        </div>
+        </label>
         <div
-          className="allElse-0-2-56"
+          className="allElse-0-2-60"
           name="STRATEGY_BIKE_BONUS"
         />
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
@@ -2041,43 +2038,45 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-64"
+    className="panelContainer-0-2-68"
   >
     <div
-      className="strategyContainer-0-2-65"
+      className="strategyContainer-0-2-69"
     >
       <h4
-        className="strategyName-0-2-66"
+        className="strategyName-0-2-70"
       >
         Car Sharing
       </h4>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Possible
       </div>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-63"
+      className="root-0-2-67"
     >
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_CAR_SHARE_1"
         >
            
           Car Share Parking
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_CAR_SHARE_1"
             name="STRATEGY_CAR_SHARE_1"
             onChange={[Function]}
             type="checkbox"
@@ -2085,29 +2084,31 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_CAR_SHARE_2"
         >
            
           Car Share Memberships
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_CAR_SHARE_2"
             name="STRATEGY_CAR_SHARE_2"
             onChange={[Function]}
             type="checkbox"
@@ -2115,29 +2116,31 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_CAR_SHARE_3"
         >
            
           Blue LA Car Share Memberships
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_CAR_SHARE_3"
             name="STRATEGY_CAR_SHARE_3"
             onChange={[Function]}
             type="checkbox"
@@ -2145,29 +2148,31 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_CAR_SHARE_4"
         >
            
           Private Car Share Fleet
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_CAR_SHARE_4"
             name="STRATEGY_CAR_SHARE_4"
             onChange={[Function]}
             type="checkbox"
@@ -2175,29 +2180,31 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_CAR_SHARE_ELECTRIC"
         >
            
           Electric Vehicle Bonus
            
-        </div>
+        </label>
         <div>
           <input
             checked={false}
+            id="STRATEGY_CAR_SHARE_ELECTRIC"
             name="STRATEGY_CAR_SHARE_ELECTRIC"
             onChange={[Function]}
             type="checkbox"
@@ -2205,37 +2212,38 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
-        <div
-          className="strategyName-0-2-50"
+        <label
+          className="strategyName-0-2-54"
+          htmlFor="STRATEGY_CAR_SHARE_BONUS"
         >
            
           Car Share Bonus
            
-        </div>
+        </label>
         <div
-          className="allElse-0-2-56"
+          className="allElse-0-2-60"
           name="STRATEGY_CAR_SHARE_BONUS"
         />
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
@@ -2247,15 +2255,15 @@ Array [
 
 exports[`Storyshots Sidebar default 1`] = `
 <div
-  className="container-0-2-69"
+  className="container-0-2-73"
 >
   <div />
   <div>
     <div
-      className="links-0-2-70"
+      className="links-0-2-74"
     >
       <a
-        className="link-0-2-71"
+        className="link-0-2-75"
         href="/"
         onClick={[Function]}
       >
@@ -2266,7 +2274,7 @@ exports[`Storyshots Sidebar default 1`] = `
         |
       </div>
       <a
-        className="link-0-2-71"
+        className="link-0-2-75"
         href="/"
         onClick={[Function]}
       >
