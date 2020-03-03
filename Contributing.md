@@ -181,11 +181,73 @@ git branch -d release-1.0.1
 
 ## Creating a HotFix
 
-TBD
+Creating a HotFix should only be done by the release manager! A HotFix should only
+include very minor patches to the application, and is always based on the _master_ branch.
+The new release number will be the same as the master branch number with the patch
+number incremented by one. For example a patch to release 34.67.22 should be 34.67.23.
 
-Resources from our very own Hack For LA member!
-[Intro to Git CLI exercises](https://github.com/ndanielsen/intro-cli-git-github)
-[Intermediate Git CLI exercises](https://github.com/ndanielsen/intermediate-cli-git-github)
+- Make sure your local machine has an up-to-date version of the _master_ branch:
+
+```
+git checkout master
+git pull origin master
+```
+
+- Create a new release branch from _master_ with the name hotfix-<release#>:
+
+```
+git checkout -b hotfix-34.67.23 master
+```
+
+- Update the release number in the application. This typically entails updating the package.json file version properties, and perhaps other locations where the release number might appear (For now, I just added it to the About.js component, though we should probably put it in a site footer or some inconspicuous place, so it can be viewed from the UI.)
+
+- Commit the version number change:
+
+```
+git add -A
+git commit -m "Bumped version number to 34.67.23"
+```
+
+- Run the application (locally and/or in a deployment environment) and modify the code to implement the fixe(s). These should be very minor changes - significant changes should be made by creating a feature release based on the _develop_ branch as described above. When the hotfix is ready for release...
+- Merge the hotfix branch into _master_:
+
+```
+git checkout master
+git pull origin master
+git merge --no-ff hotfix-34.67.23
+git tag -a 34.67.23 -m "Release version 34.67.23"
+git push origin HEAD
+```
+
+At present, Heroku is configured to detect the commit to _master_ and automatically deploy the application to production. You should navigate to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a> after giving Heroku time to deploy and verify that the application runs, and any visible release # has been incremented.
+
+The hotfix is now done and tagged for future reference.
+
+- Merge the hotfix branch into _develop_:
+
+```
+git checkout develop
+git merge --no-ff hotfix-34.67.23
+```
+
+(Resolve any merge conflicts)
+
+```
+git push origin HEAD
+```
+
+It will automatically be published to <a href="https://tdm-calc-staging.herokuapp.com"> https://tdm-calc-staging.herokuapp.com</a>. Please be sure to run the application here and make sure your changes are reflected in this deployed version of the develop branch.
+
+- We are now done with this release and can delete the release branch:
+
+```
+git branch -d hotfix-34.67.23
+```
+
+## Resources from our very own Hack For LA member!
+
+- [Intro to Git CLI exercises](https://github.com/ndanielsen/intro-cli-git-github) Nathan Danielsen
+- [Intermediate Git CLI exercises](https://github.com/ndanielsen/intermediate-cli-git-github) Nathan Danielsen
 
 ### Testing
 
