@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import * as accountService from "../../services/account-service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -109,5 +110,15 @@ export function ResetPassword(props) {
     </div>
   );
 }
+ResetPassword.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      token: PropTypes.string
+    })
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  })
+};
 
 export default withRouter(ResetPassword);

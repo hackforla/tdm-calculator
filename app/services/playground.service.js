@@ -1,24 +1,24 @@
 //example of a protected route/controller/service
-const getMessage = req => {
+const getMessage = () => {
   return promise({
     message: "gotMessage"
   });
 };
 
-const getAuthorizedStuff = (req, res) => {
+const getAuthorizedStuff = () => {
   console.log("getAuthorizedStuff");
   return promise({
     authorizedStuff: "some authorized stuff here"
   });
 };
-const getAuthorizedStuffADMIN = (req, res) => {
+const getAuthorizedStuffADMIN = () => {
   console.log("getAuthorizedStuffADMIN");
   return promise({
     authorizedADMINStuff: "some authorized ADMIN stuff here"
   });
 };
 
-const getAuthorizedStuffADMIN2 = (req, res) => {
+const getAuthorizedStuffADMIN2 = () => {
   console.log("playground.service getAuthorizedStuffADMIN2");
   return promise({
     authorizedADMINStuff2: "some authorized ADMIN stuff here 2"
@@ -29,7 +29,7 @@ const getAuthorizedStuffADMIN2 = (req, res) => {
 // temporarily keeping this here for reference
 // alternative to using promises is using async/await
 const promise = itemToResolve => {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     resolve(itemToResolve);
   });
 };

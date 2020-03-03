@@ -27,6 +27,7 @@ ProjectUse.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
+  onPkgSelect: PropTypes.func,
   uncheckAll: PropTypes.func.isRequired
 };
 

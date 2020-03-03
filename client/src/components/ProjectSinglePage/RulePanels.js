@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleList from "./RuleList";
 
@@ -29,20 +30,29 @@ const RulePanels = props => {
     <React.Fragment>
       {panelsRules && panelsRules.length > 0
         ? panelsRules.map(rules => (
-            <div key={rules[0].calculationPanelId} className={classes.panel}>
-              <fieldset>
-                <legend className={classes.legend}>{rules[0].panelName}</legend>
-                <RuleList
-                  key={rules[0].calculationPanelId}
-                  rules={rules}
-                  onInputChange={props.onInputChange}
-                />
-              </fieldset>
-            </div>
-          ))
+          <div key={rules[0].calculationPanelId} className={classes.panel}>
+            <fieldset>
+              <legend className={classes.legend}>{rules[0].panelName}</legend>
+              <RuleList
+                key={rules[0].calculationPanelId}
+                rules={rules}
+                onInputChange={props.onInputChange}
+              />
+            </fieldset>
+          </div>
+        ))
         : null}
     </React.Fragment>
   );
+};
+RulePanels.propTypes = {
+  rules: PropTypes.arrayOf(
+    PropTypes.shape({
+      calculationPanelId: PropTypes.number.isRequired,
+      panelName: PropTypes.string
+    })
+  ).isRequired,
+  onInputChange: PropTypes.func.isRequired
 };
 
 export default RulePanels;

@@ -228,7 +228,24 @@ const TdmCalculationWizard = props => {
   );
 };
 TdmCalculationWizard.propTypes = {
-  rules: PropTypes.array.isRequired,
+  rules: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      dataType: PropTypes.string.isRequired,
+      value: PropTypes.any,
+      units: PropTypes.string,
+      minValue: PropTypes.number,
+      maxValue: PropTypes.number,
+      choices: PropTypes.array,
+      calcValue: PropTypes.number,
+      calcUnits: PropTypes.string,
+      required: PropTypes.bool,
+      minStringLength: PropTypes.number,
+      maxStringLength: PropTypes.number,
+      validationErrors: PropTypes.array
+    })
+  ).isRequired,
   onInputChange: PropTypes.func.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   onUncheckAll: PropTypes.func.isRequired,

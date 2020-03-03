@@ -17,8 +17,6 @@ const styles = {
   }
 };
 
-TdmCalculationContainer.calculationId = 1;
-
 class TdmCalculationContainer extends React.Component {
   engine = null;
 
@@ -289,7 +287,7 @@ class TdmCalculationContainer extends React.Component {
             onViewChange={() => this.setState({ view: "d" }, this.pushHistory)}
             onPageChange={pageNo => this.setState({ pageNo }, this.pushHistory)}
             account={account}
-            projectId={projectId}
+            projectId={Number(projectId)}
             loginId={loginId}
             onSave={this.onSave}
             pageNo={pageNo}
@@ -317,5 +315,7 @@ class TdmCalculationContainer extends React.Component {
     );
   }
 }
+
+TdmCalculationContainer.calculationId = 1;
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

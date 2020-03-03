@@ -6,7 +6,7 @@ import LandingPageSectionMockUp from "./LandingPageSectionMockUp";
 import LandingPageSectionResidentialDev from "./LandingPageSectionResidentialDev";
 import LandingPageSectionEnd from "./LandingPageSectionEnd";
 
-const LandingPage = props => {
+const LandingPage = () => {
   return (
     <div>
       <LandingPageSectionHeroImage />

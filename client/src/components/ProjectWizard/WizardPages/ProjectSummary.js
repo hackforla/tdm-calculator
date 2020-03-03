@@ -179,26 +179,34 @@ const ProjectSummary = props => {
         <>
           <div className={classes.grid}>
             {level ? (
-              <div
-                className={classes.measure}
-                data-testid="summary-project-level"
-              >
-                <div className={classes.measureValue}>{level.value}</div>
-                <div className={clsx(classes.alignCenter, classes.label)}>
+              <div className={classes.measure}>
+                <div
+                  className={classes.measureValue}
+                  data-testid="summary-project-level-value"
+                >
+                  {level.value}
+                </div>
+                <div
+                  className={clsx(classes.alignCenter, classes.label)}
+                  data-testid="summary-project-level-label"
+                >
                   Project Level
                 </div>
               </div>
             ) : null}
 
             {parkingRatio ? (
-              <div
-                className={classes.measure}
-                data-testid="summary-parking-ratio"
-              >
-                <div className={classes.measureValue}>{`${Math.floor(
-                  parkingRatio.value
-                ).toString()} %`}</div>
-                <div className={clsx(classes.alignCenter, classes.label)}>
+              <div className={classes.measure}>
+                <div
+                  className={classes.measureValue}
+                  data-testid="summary-parking-ratio-value"
+                >
+                  {`${Math.floor(parkingRatio.value).toString()} %`}
+                </div>
+                <div
+                  className={clsx(classes.alignCenter, classes.label)}
+                  data-testid="summary-parking-ratio-label"
+                >
                   Provided / Required Parking
                 </div>
               </div>
@@ -206,28 +214,34 @@ const ProjectSummary = props => {
           </div>
           <div className={classes.grid}>
             {targetPoints ? (
-              <div
-                className={classes.measure}
-                data-testid={"summary-target-points"}
-              >
-                <div className={classes.measureValue}>
+              <div className={classes.measure}>
+                <div
+                  className={classes.measureValue}
+                  data-testid={"summary-target-points-value"}
+                >
                   {Math.round(targetPoints.value)}
                 </div>
-                <div className={clsx(classes.alignCenter, classes.label)}>
+                <div
+                  className={clsx(classes.alignCenter, classes.label)}
+                  data-testid={"summary-target-points-label"}
+                >
                   Target Points
                 </div>
               </div>
             ) : null}
 
             {earnedPoints ? (
-              <div
-                className={classes.measure}
-                data-testid={"summary-earned-points"}
-              >
-                <div className={classes.measureValue}>
+              <div className={classes.measure}>
+                <div
+                  className={classes.measureValue}
+                  data-testid={"summary-earned-points-value"}
+                >
                   {Math.round(earnedPoints.value)}
                 </div>
-                <div className={clsx(classes.alignCenter, classes.label)}>
+                <div
+                  className={clsx(classes.alignCenter, classes.label)}
+                  data-testid={"summary-earned-points-label"}
+                >
                   Earned Points
                 </div>
               </div>
