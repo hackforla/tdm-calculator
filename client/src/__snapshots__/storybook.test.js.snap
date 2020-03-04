@@ -32,6 +32,15 @@ exports[`Storyshots Header default 1`] = `
     <li>
       <a
         className="link-0-2-4"
+        href="/about"
+        onClick={[Function]}
+      >
+        About
+      </a>
+    </li>
+    <li>
+      <a
+        className="link-0-2-4"
         href="/projects"
         onClick={[Function]}
       >
@@ -104,9 +113,19 @@ Array [
   <div
     className="textInputLabel-0-2-45 errorLabel-0-2-48"
   >
-    
-  </div>,
-]
+    Residential
+  </label>
+  <input
+    checked={false}
+    className="checkbox-0-2-37"
+    data-testid="LAND_USE_RESIDENTIAL"
+    id="LAND_USE_RESIDENTIAL"
+    name="LAND_USE_RESIDENTIAL"
+    onChange={[Function]}
+    type="checkbox"
+    value={true}
+  />
+</div>
 `;
 
 exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
@@ -134,9 +153,19 @@ Array [
   <div
     className="textInputLabel-0-2-45 errorLabel-0-2-48"
   >
-    
-  </div>,
-]
+    Residential
+  </label>
+  <input
+    checked={true}
+    className="checkbox-0-2-37"
+    data-testid="LAND_USE_RESIDENTIAL"
+    id="LAND_USE_RESIDENTIAL"
+    name="LAND_USE_RESIDENTIAL"
+    onChange={[Function]}
+    type="checkbox"
+    value={true}
+  />
+</div>
 `;
 
 exports[`Storyshots RuleInput default Input Number 1`] = `
@@ -179,16 +208,10 @@ Array [
   <div
     className="textInputLabel-0-2-45 errorLabel-0-2-48"
   >
-    
-  </div>,
-]
-`;
-
-exports[`Storyshots RuleInput default Input String 1`] = `
-Array [
+    Sq Ft - Retail
+  </label>
   <div
-    className="field-0-2-28 textFieldWrapper-0-2-41"
-    onBlur={[Function]}
+    className="numberField-0-2-30"
   >
     <label
       className="textInputLabel-0-2-45 requiredInputLabel-0-2-47"
@@ -203,20 +226,49 @@ Array [
       name="PROJECT_NAME"
       onChange={[Function]}
       type="text"
-      value="My Project Name"
+      value={42}
     />
-  </div>,
+  </div>
   <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
+    className="numberFieldUnits-0-2-31"
   >
-    
-  </div>,
-]
+    sq ft
+  </div>
+  <div
+    className="calcUnitsCaption-0-2-34"
+  >
+     
+  </div>
+</div>
+`;
+
+exports[`Storyshots RuleInput default Input String 1`] = `
+<div
+  className="field-0-2-28 textFieldWrapper-0-2-41"
+  onBlur={[Function]}
+>
+  <label
+    className="textInputLabel-0-2-47 requiredInputLabel-0-2-51"
+    htmlFor="PROJECT_NAME"
+  >
+    Project Name*
+  </label>
+  <input
+    className="textInput-0-2-45"
+    data-testid="PROJECT_NAME"
+    id="PROJECT_NAME"
+    maxLength={400}
+    name="PROJECT_NAME"
+    onChange={[Function]}
+    type="text"
+    value="My Project Name"
+  />
+</div>
 `;
 
 exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
 <div
-  className="strategyContainer-0-2-49"
+  className="strategyContainer-0-2-53"
 >
   <label
     className="strategyName-0-2-50"
@@ -237,12 +289,12 @@ exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
     />
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
      
   </div>
@@ -251,7 +303,7 @@ exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
 
 exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
 <div
-  className="strategyContainer-0-2-49"
+  className="strategyContainer-0-2-53"
 >
   <label
     className="strategyName-0-2-50"
@@ -272,12 +324,12 @@ exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
     />
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
      
   </div>
@@ -286,7 +338,7 @@ exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
 
 exports[`Storyshots RuleInput default Strategy Choice 1`] = `
 <div
-  className="strategyContainer-0-2-49"
+  className="strategyContainer-0-2-53"
 >
   <label
     className="strategyName-0-2-50"
@@ -297,7 +349,7 @@ exports[`Storyshots RuleInput default Strategy Choice 1`] = `
      
   </label>
   <div
-    className="choiceSelectContainer-0-2-54"
+    className="choiceSelectContainer-0-2-58"
   >
     <select
       id="STRATEGY_AFFORDABLE"
@@ -334,12 +386,12 @@ exports[`Storyshots RuleInput default Strategy Choice 1`] = `
     </select>
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
      
   </div>
@@ -348,7 +400,7 @@ exports[`Storyshots RuleInput default Strategy Choice 1`] = `
 
 exports[`Storyshots RuleInput default Strategy Number 1`] = `
 <div
-  className="strategyContainer-0-2-49"
+  className="strategyContainer-0-2-53"
 >
   <label
     className="strategyName-0-2-50"
@@ -359,7 +411,7 @@ exports[`Storyshots RuleInput default Strategy Number 1`] = `
      
   </label>
   <div
-    className="numberInputContainer-0-2-52"
+    className="numberInputContainer-0-2-56"
   >
     <input
       className="numberInput-0-2-53"
@@ -373,12 +425,12 @@ exports[`Storyshots RuleInput default Strategy Number 1`] = `
     />
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-51"
+    className="points-0-2-55"
   >
      
   </div>
@@ -387,7 +439,7 @@ exports[`Storyshots RuleInput default Strategy Number 1`] = `
 
 exports[`Storyshots RuleInputList default 1`] = `
 <div
-  className="root-0-2-57"
+  className="root-0-2-61"
 >
   <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -425,11 +477,6 @@ exports[`Storyshots RuleInputList default 1`] = `
     </div>
   </div>
   <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>
-  <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
     <label
@@ -463,11 +510,6 @@ exports[`Storyshots RuleInputList default 1`] = `
     >
        
     </div>
-  </div>
-  <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
   </div>
   <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -505,11 +547,6 @@ exports[`Storyshots RuleInputList default 1`] = `
     </div>
   </div>
   <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>
-  <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
   >
     <label
@@ -543,11 +580,6 @@ exports[`Storyshots RuleInputList default 1`] = `
     >
        
     </div>
-  </div>
-  <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
   </div>
   <div
     className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -584,30 +616,25 @@ exports[`Storyshots RuleInputList default 1`] = `
        
     </div>
   </div>
-  <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
-  >
-    
-  </div>
 </div>
 `;
 
 exports[`Storyshots RuleInputPanels default 1`] = `
 Array [
   <div
-    className="panelContainer-0-2-58"
+    className="panelContainer-0-2-62"
   >
     <div
-      className="strategyContainer-0-2-59"
+      className="strategyContainer-0-2-63"
     >
       <h4
-        className="strategyName-0-2-60"
+        className="strategyName-0-2-64"
       >
         Residential Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-57"
+      className="root-0-2-61"
     >
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -645,11 +672,6 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
         <label
@@ -683,11 +705,6 @@ Array [
         >
            
         </div>
-      </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
       </div>
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -725,11 +742,6 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
         <label
@@ -763,11 +775,6 @@ Array [
         >
            
         </div>
-      </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
       </div>
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -804,27 +811,22 @@ Array [
            
         </div>
       </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-58"
+    className="panelContainer-0-2-62"
   >
     <div
-      className="strategyContainer-0-2-59"
+      className="strategyContainer-0-2-63"
     >
       <h4
-        className="strategyName-0-2-60"
+        className="strategyName-0-2-64"
       >
         Commercial Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-57"
+      className="root-0-2-61"
     >
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -862,11 +864,6 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
         <label
@@ -900,11 +897,6 @@ Array [
         >
            
         </div>
-      </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
       </div>
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -942,11 +934,6 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
         <label
@@ -980,11 +967,6 @@ Array [
         >
            
         </div>
-      </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
       </div>
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -1021,27 +1003,22 @@ Array [
            
         </div>
       </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-58"
+    className="panelContainer-0-2-62"
   >
     <div
-      className="strategyContainer-0-2-59"
+      className="strategyContainer-0-2-63"
     >
       <h4
-        className="strategyName-0-2-60"
+        className="strategyName-0-2-64"
       >
         Institutional Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-57"
+      className="root-0-2-61"
     >
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -1079,11 +1056,6 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
         <label
@@ -1117,11 +1089,6 @@ Array [
         >
            
         </div>
-      </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
       </div>
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -1159,11 +1126,6 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
         <label
@@ -1197,11 +1159,6 @@ Array [
         >
            
         </div>
-      </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
       </div>
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -1238,27 +1195,22 @@ Array [
            
         </div>
       </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-58"
+    className="panelContainer-0-2-62"
   >
     <div
-      className="strategyContainer-0-2-59"
+      className="strategyContainer-0-2-63"
     >
       <h4
-        className="strategyName-0-2-60"
+        className="strategyName-0-2-64"
       >
         Other Land Use Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-57"
+      className="root-0-2-61"
     >
       <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
@@ -1296,11 +1248,6 @@ Array [
         </div>
       </div>
       <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
-      <div
         className="field-0-2-28 numberFieldWrapper-0-2-29"
       >
         <label
@@ -1335,11 +1282,6 @@ Array [
            
         </div>
       </div>
-      <div
-        className="textInputLabel-0-2-45 errorLabel-0-2-48"
-      >
-        
-      </div>
     </div>
   </div>,
 ]
@@ -1347,10 +1289,10 @@ Array [
 
 exports[`Storyshots RuleStrategyList default 1`] = `
 <div
-  className="root-0-2-63"
+  className="root-0-2-67"
 >
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
     <label
       className="strategyName-0-2-50"
@@ -1371,18 +1313,18 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
     <label
       className="strategyName-0-2-50"
@@ -1403,18 +1345,18 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
     <label
       className="strategyName-0-2-50"
@@ -1425,7 +1367,7 @@ exports[`Storyshots RuleStrategyList default 1`] = `
        
     </label>
     <div
-      className="choiceSelectContainer-0-2-54"
+      className="choiceSelectContainer-0-2-58"
     >
       <select
         id="STRATEGY_PARKING_3"
@@ -1462,18 +1404,18 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       </select>
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
     <label
       className="strategyName-0-2-50"
@@ -1494,18 +1436,18 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
     <label
       className="strategyName-0-2-50"
@@ -1526,18 +1468,18 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-49"
+    className="strategyContainer-0-2-53"
   >
     <label
       className="strategyName-0-2-50"
@@ -1548,7 +1490,7 @@ exports[`Storyshots RuleStrategyList default 1`] = `
        
     </label>
     <div
-      className="numberInputContainer-0-2-52"
+      className="numberInputContainer-0-2-56"
     >
       <input
         className="numberInput-0-2-53"
@@ -1562,12 +1504,12 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-51"
+      className="points-0-2-55"
     >
        
     </div>
@@ -1578,32 +1520,32 @@ exports[`Storyshots RuleStrategyList default 1`] = `
 exports[`Storyshots RuleStrategyPanels default 1`] = `
 Array [
   <div
-    className="panelContainer-0-2-64"
+    className="panelContainer-0-2-68"
   >
     <div
-      className="strategyContainer-0-2-65"
+      className="strategyContainer-0-2-69"
     >
       <h4
-        className="strategyName-0-2-66"
+        className="strategyName-0-2-70"
       >
         Accessibility
       </h4>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Possible
       </div>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-63"
+      className="root-0-2-67"
     >
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -1614,7 +1556,7 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-52"
+          className="numberInputContainer-0-2-56"
         >
           <input
             className="numberInput-0-2-53"
@@ -1628,18 +1570,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -1650,7 +1592,7 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-52"
+          className="numberInputContainer-0-2-56"
         >
           <input
             className="numberInput-0-2-53"
@@ -1664,18 +1606,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -1686,7 +1628,7 @@ Array [
            
         </label>
         <div
-          className="choiceSelectContainer-0-2-54"
+          className="choiceSelectContainer-0-2-58"
         >
           <select
             id="STRATEGY_ACCESS_1"
@@ -1723,18 +1665,18 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -1745,7 +1687,7 @@ Array [
            
         </label>
         <div
-          className="choiceSelectContainer-0-2-54"
+          className="choiceSelectContainer-0-2-58"
         >
           <select
             id="STRATEGY_ACCESS_2"
@@ -1782,18 +1724,18 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -1804,7 +1746,7 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-52"
+          className="numberInputContainer-0-2-56"
         >
           <input
             className="numberInput-0-2-53"
@@ -1818,12 +1760,12 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
@@ -1831,32 +1773,32 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-64"
+    className="panelContainer-0-2-68"
   >
     <div
-      className="strategyContainer-0-2-65"
+      className="strategyContainer-0-2-69"
     >
       <h4
-        className="strategyName-0-2-66"
+        className="strategyName-0-2-70"
       >
         Affordable Housing
       </h4>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Possible
       </div>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-63"
+      className="root-0-2-67"
     >
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -1867,7 +1809,7 @@ Array [
            
         </label>
         <div
-          className="choiceSelectContainer-0-2-54"
+          className="choiceSelectContainer-0-2-58"
         >
           <select
             id="STRATEGY_AFFORDABLE"
@@ -1904,12 +1846,12 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
@@ -1917,32 +1859,32 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-64"
+    className="panelContainer-0-2-68"
   >
     <div
-      className="strategyContainer-0-2-65"
+      className="strategyContainer-0-2-69"
     >
       <h4
-        className="strategyName-0-2-66"
+        className="strategyName-0-2-70"
       >
         Bicycle Facilities
       </h4>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Possible
       </div>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-63"
+      className="root-0-2-67"
     >
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -1963,18 +1905,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -1985,7 +1927,7 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-52"
+          className="numberInputContainer-0-2-56"
         >
           <input
             className="numberInput-0-2-53"
@@ -1999,18 +1941,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2031,18 +1973,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2063,18 +2005,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2095,18 +2037,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2127,18 +2069,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2149,16 +2091,16 @@ Array [
            
         </label>
         <div
-          className="allElse-0-2-56"
+          className="allElse-0-2-60"
           name="STRATEGY_BIKE_BONUS"
         />
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
@@ -2166,32 +2108,32 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-64"
+    className="panelContainer-0-2-68"
   >
     <div
-      className="strategyContainer-0-2-65"
+      className="strategyContainer-0-2-69"
     >
       <h4
-        className="strategyName-0-2-66"
+        className="strategyName-0-2-70"
       >
         Car Sharing
       </h4>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Possible
       </div>
       <div
-        className="points-0-2-67"
+        className="points-0-2-71"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-63"
+      className="root-0-2-67"
     >
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2212,18 +2154,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2244,18 +2186,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2276,18 +2218,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2308,18 +2250,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2340,18 +2282,18 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-49"
+        className="strategyContainer-0-2-53"
       >
         <label
           className="strategyName-0-2-50"
@@ -2362,16 +2304,16 @@ Array [
            
         </label>
         <div
-          className="allElse-0-2-56"
+          className="allElse-0-2-60"
           name="STRATEGY_CAR_SHARE_BONUS"
         />
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-51"
+          className="points-0-2-55"
         >
            
         </div>
@@ -2383,15 +2325,15 @@ Array [
 
 exports[`Storyshots Sidebar default 1`] = `
 <div
-  className="container-0-2-69"
+  className="container-0-2-73"
 >
   <div />
   <div>
     <div
-      className="links-0-2-70"
+      className="links-0-2-74"
     >
       <a
-        className="link-0-2-71"
+        className="link-0-2-75"
         href="/"
         onClick={[Function]}
       >
@@ -2402,7 +2344,7 @@ exports[`Storyshots Sidebar default 1`] = `
         |
       </div>
       <a
-        className="link-0-2-71"
+        className="link-0-2-75"
         href="/"
         onClick={[Function]}
       >

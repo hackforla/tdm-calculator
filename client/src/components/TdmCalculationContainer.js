@@ -18,7 +18,6 @@ const styles = {
 };
 
 class TdmCalculationContainer extends React.Component {
-  calculationId = 1;
   engine = null;
 
   static contextType = ToastContext;
@@ -63,14 +62,14 @@ class TdmCalculationContainer extends React.Component {
         const projectId = this.props.match.params.projectId;
         const projectResponse = await projectService.getById(projectId);
         this.setState({
-          projectId,
+          projectId: projectId ? Number(projectId) : null,
           loginId: projectResponse.data.loginId,
           formInputs: JSON.parse(projectResponse.data.formInputs)
         });
       }
 
       const ruleResponse = await ruleService.getByCalculationId(
-        this.calculationId
+        TdmCalculationContainer.calculationId
       );
       this.engine = new Engine(ruleResponse.data);
       // console.log("Calculation Rules:");
@@ -203,7 +202,7 @@ class TdmCalculationContainer extends React.Component {
       description: this.state.formInputs.PROJECT_DESCRIPTION,
       formInputs: JSON.stringify(inputsToSave),
       loginId: this.props.account.id,
-      calculationId: this.calculationId
+      calculationId: TdmCalculationContainer.calculationId
     };
     if (!requestBody.name) {
       this.context.add("You must give the project a name before saving.");
@@ -316,5 +315,7 @@ class TdmCalculationContainer extends React.Component {
     );
   }
 }
+
+TdmCalculationContainer.calculationId = 1;
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));
