@@ -1,7 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { Link } from "react-router-dom";
+import NavBarLogin from "./NavBarLogin";
+import PropTypes from "prop-types";
 
 const useStyles = createUseStyles({
   navbar: {
@@ -26,6 +27,14 @@ const useStyles = createUseStyles({
     "&:hover": {
       textDecoration: "underline"
     }
+  },
+  userLogin: {
+    marginLeft: "auto"
+  },
+  lastItem: {
+    marginLeft: "2em",
+    paddingRight: 0,
+    marginRight: "1em"
   }
 });
 
@@ -55,43 +64,32 @@ const NavBar = props => {
           Projects
         </Link>
       </li>
-
       {showNewProjectLink()}
-      {/* <li>
-        <Link className={classes.link} to="/about">About</Link>
+      {account && account.role === "admin" && (
+        <li>
+          <Link className={classes.link} to="/admin">
+            Admin
+          </Link>
+        </li>
+      )}
+      <li>
+        <Link className={classes.link} to="/about">
+          About
+        </Link>
       </li>
+      {/* 
       <li>
         <Link className={classes.link} to="/contactus">Contact Us</Link>
       </li> */}
-      {/* if there's an account in state, display logout and check if they are admin*/}
-      {account && account.email ? (
-        <>
-          {account.role === "admin" ? (
-            <li>
-              <Link className={classes.link} to="/admin">
-                Admin
-              </Link>
-            </li>
-          ) : null}
-          <li>
-            <button className="link" onClick={setLoggedOutAccount}>
-              Logout
-            </button>
-          </li>
-        </>
-      ) : (
-        <>
-          {/* if no account in state, show login button*/}
-          <li>
-            <Link className={classes.link} to="/login">
-              Login
-            </Link>
-          </li>
-        </>
-      )}
+      <NavBarLogin
+        account={account}
+        classes={classes}
+        setLoggedOutAccount={setLoggedOutAccount}
+      />
     </ul>
   );
 };
+
 NavBar.propTypes = {
   rule: PropTypes.shape({
     id: PropTypes.number.isRequired,
