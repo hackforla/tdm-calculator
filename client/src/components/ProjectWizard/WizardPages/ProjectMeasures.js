@@ -3,11 +3,20 @@ import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 
 function ProjectMeasure(props) {
-  const { rules, onInputChange, classes, onPkgSelect, uncheckAll } = props;
+  const {
+    rules,
+    landUseRules,
+    onInputChange,
+    classes,
+    onPkgSelect,
+    uncheckAll
+  } = props;
 
   const showResidentialPkg = (() => {
     // Only show button if one of the land uses is Residential
-    const triggerRule = rules.filter(r => r.code === "LAND_USE_RESIDENTIAL");
+    const triggerRule = landUseRules.filter(
+      r => r.code === "LAND_USE_RESIDENTIAL"
+    );
     return triggerRule[0] && !!triggerRule[0].value;
   })();
 
@@ -92,6 +101,7 @@ ProjectMeasure.propTypes = {
       calcUnits: PropTypes.string
     })
   ).isRequired,
+  landUseRules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
