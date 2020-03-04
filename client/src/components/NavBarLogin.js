@@ -13,7 +13,7 @@ const NavBarLogin = props => {
     </li>
   );
 
-  const userGreeting = (
+  const getUserGreeting = (account) => (
     <li className={classes.userLogin}>
       <h4>Hello, {`${account.firstName} ${account.lastName} `}</h4>
     </li>
