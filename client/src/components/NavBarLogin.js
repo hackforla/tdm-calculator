@@ -43,7 +43,7 @@ const NavBarLogin = props => {
 NavBarLogin.propTypes = {
   account: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  setLoggedOutAccount: PropTypes.func.isRequired
+  setLoggedOutAccount: PropTypes.func
 };
 
 export default NavBarLogin;
