@@ -34,8 +34,8 @@ const NavBarLogin = props => {
     loginLink
   ) : (
     <React.Fragment>
-      {account.firstName && userGreeting}
-      {account.email && logoutLink}
+      {getUserGreeting(account)}
+      {logoutLink}
     </React.Fragment>
   );
 };
