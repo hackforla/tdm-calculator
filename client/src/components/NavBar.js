@@ -65,7 +65,7 @@ const NavBar = props => {
         </Link>
       </li>
       {showNewProjectLink()}
-      {account.role === "admin" && (
+      {account && account.role === "admin" && (
         <li>
           <Link className={classes.link} to="/admin">
             Admin
