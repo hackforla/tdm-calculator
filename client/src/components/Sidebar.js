@@ -7,29 +7,54 @@ export const useStyles = createUseStyles({
   container: {
     margin: "0",
     height: "calc(100vh - 103px)",
+    minHeight: "60px",
     flexBasis: "387px",
-    flexGrow: "0",
-    flexShrink: "0",
-    backgroundImage: 'url("/assets/hard-hats-silvia-brazzoduro.png")',
+    flexGrow: 0,
+    flexShrink: 1,
+    backgroundImage: "url(/assets/hard-hats-silvia-brazzoduro.png)",
     backgroundPosition: "15% center",
     backgroundSize: "cover",
     display: "flex",
     flexDirection: "column",
+    justifyContent: "flex-start"
+    //position: "relative"
+  },
+  content: {
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "flex-start",
-    position: "relative"
+    height: "100%"
   },
   links: {
     display: "flex",
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignSelf: "center",
     color: "white",
-    width: "100%",
-    height: "auto",
-    position: "absolute",
-    bottom: "20px"
+    marginTop: "auto",
+    marginBottom: 20
+    //width: "100%",
+    //height: "auto",
+    //position: "absolute",
+    //left: 5,
+    //right: 5,
+    //bottom: "20px"
   },
   link: {
     color: "white",
-    margin: "0 10px"
+    textAlign: "center"
+  },
+  "@media (max-width:960px)": {
+    container: {
+      "flex-shrink": 5
+    }
+  },
+  "@media (max-width:720px)": {
+    container: {
+      order: 2,
+      height: "auto",
+      flexBasis: "auto"
+    }
   }
 });
 
@@ -43,12 +68,10 @@ export function Sidebar(props) {
         {props.children}
         <div className={classes.links}>
           <Link className={classes.link} to="/">
-            {" "}
             Terms and Conditions
           </Link>
           <div>|</div>
           <Link className={classes.link} to="/">
-            {" "}
             Privacy Policy
           </Link>
         </div>
