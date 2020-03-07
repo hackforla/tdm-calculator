@@ -65,10 +65,17 @@ const NavBar = props => {
         </Link>
       </li>
       {showNewProjectLink()}
-      {account && account.role === "admin" && (
+      {/* {account && account.isAdmin && (
         <li>
           <Link className={classes.link} to="/admin">
             Admin
+          </Link>
+        </li>
+      )} */}
+      {account && account.isSecurityAdmin && (
+        <li>
+          <Link className={classes.link} to="/roles">
+            Security
           </Link>
         </li>
       )}
@@ -91,26 +98,28 @@ const NavBar = props => {
 };
 
 NavBar.propTypes = {
-  rule: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    calculationId: PropTypes.number.isRequired,
-    code: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
-    dataType: PropTypes.string.isRequired,
-    value: PropTypes.any,
-    units: PropTypes.string,
-    functionBody: PropTypes.string,
-    cssClass: PropTypes.string,
-    panelDisplayOrder: PropTypes.number.isRequired,
-    displayOrder: PropTypes.number.isRequired,
-    calculationPanelId: PropTypes.number.isRequired,
-    panelName: PropTypes.string
-  }),
-  onInputChange: PropTypes.func,
+  // rule: PropTypes.shape({
+  //   id: PropTypes.number.isRequired,
+  //   calculationId: PropTypes.number.isRequired,
+  //   code: PropTypes.string.isRequired,
+  //   name: PropTypes.string.isRequired,
+  //   category: PropTypes.string.isRequired,
+  //   dataType: PropTypes.string.isRequired,
+  //   value: PropTypes.any,
+  //   units: PropTypes.string,
+  //   functionBody: PropTypes.string,
+  //   cssClass: PropTypes.string,
+  //   panelDisplayOrder: PropTypes.number.isRequired,
+  //   displayOrder: PropTypes.number.isRequired,
+  //   calculationPanelId: PropTypes.number.isRequired,
+  //   panelName: PropTypes.string
+  // }),
+  // onInputChange: PropTypes.func,
   account: PropTypes.shape({
     email: PropTypes.string,
-    role: PropTypes.string
+    role: PropTypes.string,
+    isAdmin: PropTypes.bool,
+    isSecurityAdmin: PropTypes.bool
   }),
   setLoggedOutAccount: PropTypes.func,
   isCreatingNewProject: PropTypes.bool

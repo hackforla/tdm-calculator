@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import * as accountService from "../../services/account-service";
+import * as accountService from "../../services/account.service";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { Formik, Form, Field, ErrorMessage } from "formik";

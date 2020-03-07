@@ -53,7 +53,6 @@ const selectByEmail = email => {
 
 const register = async model => {
   const { firstName, lastName, email } = model;
-  const token = uuid4();
   let result = null;
   await hashPassword(model);
   try {
@@ -187,7 +186,6 @@ const confirmRegistration = async token => {
 // send password reset confirmation email.
 const forgotPassword = async model => {
   const { email } = model;
-  const token = uuid4();
   let result = null;
   try {
     const checkAccountResult = await selectByEmail(email);
@@ -331,7 +329,8 @@ const authenticate = async (email, password) => {
         lastName: user.lastName,
         email: user.email,
         isAdmin: user.isAdmin,
-        emailConfirmed: user.emailConfirmed
+        emailConfirmed: user.emailConfirmed,
+        isSecurityAdmin: user.isSecurityAdmin
       }
     };
   }
@@ -352,6 +351,33 @@ const update = model => {
   return pool.query(sql).then(res => {
     return res;
   });
+};
+
+const updateRoles = async model => {
+  try {
+    await mssql.executeProc("Login_UpdateRoles", sqlRequest => {
+      sqlRequest.addParameter("id", TYPES.Int, model.id);
+      sqlRequest.addParameter("isAdmin", TYPES.Bit, model.isAdmin);
+      sqlRequest.addParameter(
+        "isSecurityAdmin",
+        TYPES.Bit,
+        model.isSecurityAdmin
+      );
+    });
+    return {
+      isSuccess: true,
+      code: "ROLES_UPDATE_SUCCESS",
+      message: "Roles Updates.",
+      email
+    };
+  } catch (err) {
+    return {
+      isSuccess: false,
+      code: "ROLES_UPDATE_FAILED",
+      message: `Password reset failed. ${err.message}`,
+      email: model.email
+    };
+  }
 };
 
 // TODO
@@ -380,5 +406,6 @@ module.exports = {
   resetPassword,
   authenticate,
   update,
+  updateRoles,
   remove
 };
