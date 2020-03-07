@@ -187,6 +187,11 @@ class TdmCalculationContainer extends React.Component {
   };
 
   onSave = async evt => {
+    if (this.props.account.id !== this.loginId) {
+      console.log(`Failed to save - user is not project owner.`);
+      return;
+    }
+
     // Only save inputs that have a value
     const inputsToSave = { ...this.state.formInputs };
     for (let input in inputsToSave) {

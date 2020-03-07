@@ -32,15 +32,6 @@ exports[`Storyshots Header default 1`] = `
     <li>
       <a
         className="link-0-2-4"
-        href="/about"
-        onClick={[Function]}
-      >
-        About
-      </a>
-    </li>
-    <li>
-      <a
-        className="link-0-2-4"
         href="/projects"
         onClick={[Function]}
       >
@@ -59,6 +50,17 @@ exports[`Storyshots Header default 1`] = `
     <li>
       <a
         className="link-0-2-4"
+        href="/about"
+        onClick={[Function]}
+      >
+        About
+      </a>
+    </li>
+    <li
+      className="userLogin-0-2-5"
+    >
+      <a
+        className="link-0-2-4 lastItem-0-2-6"
         href="/login"
         onClick={[Function]}
       >
@@ -89,35 +91,18 @@ exports[`Storyshots NavButton enabled 1`] = `
 `;
 
 exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
-Array [
-  <div
-    className="field-0-2-28 checkboxFieldWrapper-0-2-35"
-  >
-    <label
-      className="checkboxFieldLabel-0-2-36"
-      htmlFor="LAND_USE_RESIDENTIAL"
-    >
-      Residential
-    </label>
-    <input
-      checked={false}
-      className="checkbox-0-2-37"
-      data-testid="LAND_USE_RESIDENTIAL"
-      id="LAND_USE_RESIDENTIAL"
-      name="LAND_USE_RESIDENTIAL"
-      onChange={[Function]}
-      type="checkbox"
-      value={true}
-    />
-  </div>,
-  <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
+<div
+  className="field-0-2-30 checkboxFieldWrapper-0-2-37"
+>
+  <label
+    className="checkboxFieldLabel-0-2-38"
+    htmlFor="LAND_USE_RESIDENTIAL"
   >
     Residential
   </label>
   <input
     checked={false}
-    className="checkbox-0-2-37"
+    className="checkbox-0-2-39"
     data-testid="LAND_USE_RESIDENTIAL"
     id="LAND_USE_RESIDENTIAL"
     name="LAND_USE_RESIDENTIAL"
@@ -129,35 +114,18 @@ Array [
 `;
 
 exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
-Array [
-  <div
-    className="field-0-2-28 checkboxFieldWrapper-0-2-35"
-  >
-    <label
-      className="checkboxFieldLabel-0-2-36"
-      htmlFor="LAND_USE_RESIDENTIAL"
-    >
-      Residential
-    </label>
-    <input
-      checked={true}
-      className="checkbox-0-2-37"
-      data-testid="LAND_USE_RESIDENTIAL"
-      id="LAND_USE_RESIDENTIAL"
-      name="LAND_USE_RESIDENTIAL"
-      onChange={[Function]}
-      type="checkbox"
-      value={true}
-    />
-  </div>,
-  <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
+<div
+  className="field-0-2-30 checkboxFieldWrapper-0-2-37"
+>
+  <label
+    className="checkboxFieldLabel-0-2-38"
+    htmlFor="LAND_USE_RESIDENTIAL"
   >
     Residential
   </label>
   <input
     checked={true}
-    className="checkbox-0-2-37"
+    className="checkbox-0-2-39"
     data-testid="LAND_USE_RESIDENTIAL"
     id="LAND_USE_RESIDENTIAL"
     name="LAND_USE_RESIDENTIAL"
@@ -169,73 +137,37 @@ Array [
 `;
 
 exports[`Storyshots RuleInput default Input Number 1`] = `
-Array [
-  <div
-    className="field-0-2-28 numberFieldWrapper-0-2-29"
-  >
-    <label
-      className="textInputLabel-0-2-45"
-      htmlFor="SF_RETAIL"
-    >
-      Sq Ft - Retail
-    </label>
-    <div
-      className="numberField-0-2-30"
-    >
-      <input
-        className="input-0-2-32"
-        data-testid="SF_RETAIL"
-        id="SF_RETAIL"
-        max={null}
-        min={null}
-        name="SF_RETAIL"
-        onChange={[Function]}
-        type="text"
-        value={42}
-      />
-    </div>
-    <div
-      className="numberFieldUnits-0-2-31"
-    >
-      sq ft
-    </div>
-    <div
-      className="calcUnitsCaption-0-2-34"
-    >
-       
-    </div>
-  </div>,
-  <div
-    className="textInputLabel-0-2-45 errorLabel-0-2-48"
+<div
+  className="field-0-2-30 numberFieldWrapper-0-2-31"
+>
+  <label
+    className="textInputLabel-0-2-49"
+    htmlFor="SF_RETAIL"
   >
     Sq Ft - Retail
   </label>
   <div
-    className="numberField-0-2-30"
+    className="numberField-0-2-32"
   >
-    <label
-      className="textInputLabel-0-2-45 requiredInputLabel-0-2-47"
-      htmlFor="PROJECT_NAME"
-    >
-      Project Name*
-    </label>
     <input
-      className="textInputLabel-0-2-45"
-      data-testid="PROJECT_NAME"
-      id="PROJECT_NAME"
-      name="PROJECT_NAME"
+      className="input-0-2-34"
+      data-testid="SF_RETAIL"
+      id="SF_RETAIL"
+      max={null}
+      min={null}
+      name="SF_RETAIL"
       onChange={[Function]}
       type="text"
       value={42}
     />
   </div>
   <div
-    className="numberFieldUnits-0-2-31"
+    className="numberFieldUnits-0-2-33"
   >
     sq ft
   </div>
   <div
-    className="calcUnitsCaption-0-2-34"
+    className="calcUnitsCaption-0-2-36"
   >
      
   </div>
@@ -244,17 +176,17 @@ Array [
 
 exports[`Storyshots RuleInput default Input String 1`] = `
 <div
-  className="field-0-2-28 textFieldWrapper-0-2-41"
+  className="field-0-2-30 textFieldWrapper-0-2-43"
   onBlur={[Function]}
 >
   <label
-    className="textInputLabel-0-2-47 requiredInputLabel-0-2-51"
+    className="textInputLabel-0-2-49 requiredInputLabel-0-2-53"
     htmlFor="PROJECT_NAME"
   >
     Project Name*
   </label>
   <input
-    className="textInput-0-2-45"
+    className="textInput-0-2-47"
     data-testid="PROJECT_NAME"
     id="PROJECT_NAME"
     maxLength={400}
@@ -268,10 +200,10 @@ exports[`Storyshots RuleInput default Input String 1`] = `
 
 exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
 <div
-  className="strategyContainer-0-2-53"
+  className="strategyContainer-0-2-55"
 >
   <label
-    className="strategyName-0-2-50"
+    className="strategyName-0-2-56"
     htmlFor="STRATEGY_PARKING_1"
   >
      
@@ -289,12 +221,12 @@ exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
     />
   </div>
   <div
-    className="points-0-2-55"
+    className="points-0-2-57"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-55"
+    className="points-0-2-57"
   >
      
   </div>
@@ -303,10 +235,10 @@ exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
 
 exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
 <div
-  className="strategyContainer-0-2-53"
+  className="strategyContainer-0-2-55"
 >
   <label
-    className="strategyName-0-2-50"
+    className="strategyName-0-2-56"
     htmlFor="STRATEGY_PARKING_1"
   >
      
@@ -324,12 +256,12 @@ exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
     />
   </div>
   <div
-    className="points-0-2-55"
+    className="points-0-2-57"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-55"
+    className="points-0-2-57"
   >
      
   </div>
@@ -338,10 +270,10 @@ exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
 
 exports[`Storyshots RuleInput default Strategy Choice 1`] = `
 <div
-  className="strategyContainer-0-2-53"
+  className="strategyContainer-0-2-55"
 >
   <label
-    className="strategyName-0-2-50"
+    className="strategyName-0-2-56"
     htmlFor="STRATEGY_AFFORDABLE"
   >
      
@@ -349,7 +281,7 @@ exports[`Storyshots RuleInput default Strategy Choice 1`] = `
      
   </label>
   <div
-    className="choiceSelectContainer-0-2-58"
+    className="choiceSelectContainer-0-2-60"
   >
     <select
       id="STRATEGY_AFFORDABLE"
@@ -386,12 +318,12 @@ exports[`Storyshots RuleInput default Strategy Choice 1`] = `
     </select>
   </div>
   <div
-    className="points-0-2-55"
+    className="points-0-2-57"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-55"
+    className="points-0-2-57"
   >
      
   </div>
@@ -400,10 +332,10 @@ exports[`Storyshots RuleInput default Strategy Choice 1`] = `
 
 exports[`Storyshots RuleInput default Strategy Number 1`] = `
 <div
-  className="strategyContainer-0-2-53"
+  className="strategyContainer-0-2-55"
 >
   <label
-    className="strategyName-0-2-50"
+    className="strategyName-0-2-56"
     htmlFor="PTS_ACCESS_3"
   >
      
@@ -411,10 +343,10 @@ exports[`Storyshots RuleInput default Strategy Number 1`] = `
      
   </label>
   <div
-    className="numberInputContainer-0-2-56"
+    className="numberInputContainer-0-2-58"
   >
     <input
-      className="numberInput-0-2-53"
+      className="numberInput-0-2-59"
       id="PTS_ACCESS_3"
       max={100}
       min={0}
@@ -425,12 +357,12 @@ exports[`Storyshots RuleInput default Strategy Number 1`] = `
     />
   </div>
   <div
-    className="points-0-2-55"
+    className="points-0-2-57"
   >
     NaN 
   </div>
   <div
-    className="points-0-2-55"
+    className="points-0-2-57"
   >
      
   </div>
@@ -439,22 +371,22 @@ exports[`Storyshots RuleInput default Strategy Number 1`] = `
 
 exports[`Storyshots RuleInputList default 1`] = `
 <div
-  className="root-0-2-61"
+  className="root-0-2-63"
 >
   <div
-    className="field-0-2-28 numberFieldWrapper-0-2-29"
+    className="field-0-2-30 numberFieldWrapper-0-2-31"
   >
     <label
-      className="textInputLabel-0-2-45"
+      className="textInputLabel-0-2-49"
       htmlFor="UNITS_HABIT_LT3"
     >
       # Habitable Rooms &lt; 3
     </label>
     <div
-      className="numberField-0-2-30"
+      className="numberField-0-2-32"
     >
       <input
-        className="input-0-2-32"
+        className="input-0-2-34"
         data-testid="UNITS_HABIT_LT3"
         id="UNITS_HABIT_LT3"
         max={null}
@@ -466,30 +398,30 @@ exports[`Storyshots RuleInputList default 1`] = `
       />
     </div>
     <div
-      className="numberFieldUnits-0-2-31"
+      className="numberFieldUnits-0-2-33"
     >
       dwelling units
     </div>
     <div
-      className="calcUnitsCaption-0-2-34"
+      className="calcUnitsCaption-0-2-36"
     >
        
     </div>
   </div>
   <div
-    className="field-0-2-28 numberFieldWrapper-0-2-29"
+    className="field-0-2-30 numberFieldWrapper-0-2-31"
   >
     <label
-      className="textInputLabel-0-2-45"
+      className="textInputLabel-0-2-49"
       htmlFor="UNITS_HABIT_3"
     >
       # Habitable Rooms = 3
     </label>
     <div
-      className="numberField-0-2-30"
+      className="numberField-0-2-32"
     >
       <input
-        className="input-0-2-32"
+        className="input-0-2-34"
         data-testid="UNITS_HABIT_3"
         id="UNITS_HABIT_3"
         max={null}
@@ -501,30 +433,30 @@ exports[`Storyshots RuleInputList default 1`] = `
       />
     </div>
     <div
-      className="numberFieldUnits-0-2-31"
+      className="numberFieldUnits-0-2-33"
     >
       dwelling units
     </div>
     <div
-      className="calcUnitsCaption-0-2-34"
+      className="calcUnitsCaption-0-2-36"
     >
        
     </div>
   </div>
   <div
-    className="field-0-2-28 numberFieldWrapper-0-2-29"
+    className="field-0-2-30 numberFieldWrapper-0-2-31"
   >
     <label
-      className="textInputLabel-0-2-45"
+      className="textInputLabel-0-2-49"
       htmlFor="UNITS_HABIT_GT3"
     >
       # Habitable Rooms &gt; 3
     </label>
     <div
-      className="numberField-0-2-30"
+      className="numberField-0-2-32"
     >
       <input
-        className="input-0-2-32"
+        className="input-0-2-34"
         data-testid="UNITS_HABIT_GT3"
         id="UNITS_HABIT_GT3"
         max={null}
@@ -536,30 +468,30 @@ exports[`Storyshots RuleInputList default 1`] = `
       />
     </div>
     <div
-      className="numberFieldUnits-0-2-31"
+      className="numberFieldUnits-0-2-33"
     >
       dwelling units
     </div>
     <div
-      className="calcUnitsCaption-0-2-34"
+      className="calcUnitsCaption-0-2-36"
     >
        
     </div>
   </div>
   <div
-    className="field-0-2-28 numberFieldWrapper-0-2-29"
+    className="field-0-2-30 numberFieldWrapper-0-2-31"
   >
     <label
-      className="textInputLabel-0-2-45"
+      className="textInputLabel-0-2-49"
       htmlFor="UNITS_CONDO"
     >
       Condo - Units
     </label>
     <div
-      className="numberField-0-2-30"
+      className="numberField-0-2-32"
     >
       <input
-        className="input-0-2-32"
+        className="input-0-2-34"
         data-testid="UNITS_CONDO"
         id="UNITS_CONDO"
         max={null}
@@ -571,30 +503,30 @@ exports[`Storyshots RuleInputList default 1`] = `
       />
     </div>
     <div
-      className="numberFieldUnits-0-2-31"
+      className="numberFieldUnits-0-2-33"
     >
       dwelling units
     </div>
     <div
-      className="calcUnitsCaption-0-2-34"
+      className="calcUnitsCaption-0-2-36"
     >
        
     </div>
   </div>
   <div
-    className="field-0-2-28 numberFieldWrapper-0-2-29"
+    className="field-0-2-30 numberFieldWrapper-0-2-31"
   >
     <label
-      className="textInputLabel-0-2-45"
+      className="textInputLabel-0-2-49"
       htmlFor="PARK_CONDO"
     >
       Condo - Enter Parking Space Req'd
     </label>
     <div
-      className="numberField-0-2-30"
+      className="numberField-0-2-32"
     >
       <input
-        className="input-0-2-32"
+        className="input-0-2-34"
         data-testid="PARK_CONDO"
         id="PARK_CONDO"
         max={null}
@@ -606,12 +538,12 @@ exports[`Storyshots RuleInputList default 1`] = `
       />
     </div>
     <div
-      className="numberFieldUnits-0-2-31"
+      className="numberFieldUnits-0-2-33"
     >
       spcs
     </div>
     <div
-      className="calcUnitsCaption-0-2-34"
+      className="calcUnitsCaption-0-2-36"
     >
        
     </div>
@@ -622,34 +554,34 @@ exports[`Storyshots RuleInputList default 1`] = `
 exports[`Storyshots RuleInputPanels default 1`] = `
 Array [
   <div
-    className="panelContainer-0-2-62"
+    className="panelContainer-0-2-64"
   >
     <div
-      className="strategyContainer-0-2-63"
+      className="strategyContainer-0-2-65"
     >
       <h4
-        className="strategyName-0-2-64"
+        className="strategyName-0-2-66"
       >
         Residential Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-61"
+      className="root-0-2-63"
     >
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="UNITS_HABIT_LT3"
         >
           # Habitable Rooms &lt; 3
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="UNITS_HABIT_LT3"
             id="UNITS_HABIT_LT3"
             max={null}
@@ -661,30 +593,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           dwelling units
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="UNITS_HABIT_3"
         >
           # Habitable Rooms = 3
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="UNITS_HABIT_3"
             id="UNITS_HABIT_3"
             max={null}
@@ -696,30 +628,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           dwelling units
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="UNITS_HABIT_GT3"
         >
           # Habitable Rooms &gt; 3
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="UNITS_HABIT_GT3"
             id="UNITS_HABIT_GT3"
             max={null}
@@ -731,30 +663,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           dwelling units
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="UNITS_CONDO"
         >
           Condo - Units
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="UNITS_CONDO"
             id="UNITS_CONDO"
             max={null}
@@ -766,30 +698,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           dwelling units
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="PARK_CONDO"
         >
           Condo - Enter Parking Space Req'd
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="PARK_CONDO"
             id="PARK_CONDO"
             max={null}
@@ -801,12 +733,12 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           spcs
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
@@ -814,34 +746,34 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-62"
+    className="panelContainer-0-2-64"
   >
     <div
-      className="strategyContainer-0-2-63"
+      className="strategyContainer-0-2-65"
     >
       <h4
-        className="strategyName-0-2-64"
+        className="strategyName-0-2-66"
       >
         Commercial Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-61"
+      className="root-0-2-63"
     >
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="SF_RESTAURANT"
         >
           Sq Ft - Restaurant/Bar/General
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="SF_RESTAURANT"
             id="SF_RESTAURANT"
             max={null}
@@ -853,30 +785,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           sq ft
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="SF_HEALTH_CLUB"
         >
           Sq Ft - Health Club
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="SF_HEALTH_CLUB"
             id="SF_HEALTH_CLUB"
             max={null}
@@ -888,30 +820,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           sq ft
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="SF_RESTAURANT_TAKEOUT"
         >
           Sq Ft - Take-out Restaurant
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="SF_RESTAURANT_TAKEOUT"
             id="SF_RESTAURANT_TAKEOUT"
             max={null}
@@ -923,30 +855,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           sq ft
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="SF_OFFICE"
         >
           Sq Ft - Office, Business, Manufacturing, Industrial
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="SF_OFFICE"
             id="SF_OFFICE"
             max={null}
@@ -958,30 +890,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           sq ft
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="SF_WAREHOUSE"
         >
           Sq Ft - Warehouse
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="SF_WAREHOUSE"
             id="SF_WAREHOUSE"
             max={null}
@@ -993,12 +925,12 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           sq ft
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
@@ -1006,34 +938,34 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-62"
+    className="panelContainer-0-2-64"
   >
     <div
-      className="strategyContainer-0-2-63"
+      className="strategyContainer-0-2-65"
     >
       <h4
-        className="strategyName-0-2-64"
+        className="strategyName-0-2-66"
       >
         Institutional Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-61"
+      className="root-0-2-63"
     >
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="SF_INST_MEDICAL_SVC"
         >
           Sq Ft - Medical Offices, Clinics, Service Facilities
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="SF_INST_MEDICAL_SVC"
             id="SF_INST_MEDICAL_SVC"
             max={null}
@@ -1045,30 +977,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           sq ft
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="SF_INST_OTHER"
         >
           Sq Ft - Other Institutional
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="SF_INST_OTHER"
             id="SF_INST_OTHER"
             max={null}
@@ -1080,30 +1012,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           sq ft
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="SF_INST_GOV"
         >
           Sq Ft - Government Institution
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="SF_INST_GOV"
             id="SF_INST_GOV"
             max={null}
@@ -1115,30 +1047,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           sq ft
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="BED_HOSPITAL"
         >
           Patient Hospital Beds
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="BED_HOSPITAL"
             id="BED_HOSPITAL"
             max={null}
@@ -1150,30 +1082,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           beds
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="BED_CONVALESCENT"
         >
           Convalescent Institution Beds
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="BED_CONVALESCENT"
             id="BED_CONVALESCENT"
             max={null}
@@ -1185,12 +1117,12 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           beds
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
@@ -1198,34 +1130,34 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-62"
+    className="panelContainer-0-2-64"
   >
     <div
-      className="strategyContainer-0-2-63"
+      className="strategyContainer-0-2-65"
     >
       <h4
-        className="strategyName-0-2-64"
+        className="strategyName-0-2-66"
       >
         Other Land Use Inputs
       </h4>
     </div>
     <div
-      className="root-0-2-61"
+      className="root-0-2-63"
     >
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="SEAT_AUDITORIUM"
         >
           # Seats - Auditorium
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="SEAT_AUDITORIUM"
             id="SEAT_AUDITORIUM"
             max={null}
@@ -1237,30 +1169,30 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           seats
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
       </div>
       <div
-        className="field-0-2-28 numberFieldWrapper-0-2-29"
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
       >
         <label
-          className="textInputLabel-0-2-45"
+          className="textInputLabel-0-2-49"
           htmlFor="SF_AUDITORIUM_NO_SEATS"
         >
           Sq Ft - Auditorium w/o Seats
         </label>
         <div
-          className="numberField-0-2-30"
+          className="numberField-0-2-32"
         >
           <input
-            className="input-0-2-32"
+            className="input-0-2-34"
             data-testid="SF_AUDITORIUM_NO_SEATS"
             id="SF_AUDITORIUM_NO_SEATS"
             max={null}
@@ -1272,12 +1204,12 @@ Array [
           />
         </div>
         <div
-          className="numberFieldUnits-0-2-31"
+          className="numberFieldUnits-0-2-33"
         >
           sq ft
         </div>
         <div
-          className="calcUnitsCaption-0-2-34"
+          className="calcUnitsCaption-0-2-36"
         >
            
         </div>
@@ -1289,13 +1221,13 @@ Array [
 
 exports[`Storyshots RuleStrategyList default 1`] = `
 <div
-  className="root-0-2-67"
+  className="root-0-2-69"
 >
   <div
-    className="strategyContainer-0-2-53"
+    className="strategyContainer-0-2-55"
   >
     <label
-      className="strategyName-0-2-50"
+      className="strategyName-0-2-56"
       htmlFor="STRATEGY_PARKING_2"
     >
        
@@ -1313,21 +1245,21 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-53"
+    className="strategyContainer-0-2-55"
   >
     <label
-      className="strategyName-0-2-50"
+      className="strategyName-0-2-56"
       htmlFor="STRATEGY_PARKING_1"
     >
        
@@ -1345,21 +1277,21 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-53"
+    className="strategyContainer-0-2-55"
   >
     <label
-      className="strategyName-0-2-50"
+      className="strategyName-0-2-56"
       htmlFor="STRATEGY_PARKING_3"
     >
        
@@ -1367,7 +1299,7 @@ exports[`Storyshots RuleStrategyList default 1`] = `
        
     </label>
     <div
-      className="choiceSelectContainer-0-2-58"
+      className="choiceSelectContainer-0-2-60"
     >
       <select
         id="STRATEGY_PARKING_3"
@@ -1404,21 +1336,21 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       </select>
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-53"
+    className="strategyContainer-0-2-55"
   >
     <label
-      className="strategyName-0-2-50"
+      className="strategyName-0-2-56"
       htmlFor="STRATEGY_PARKING_4"
     >
        
@@ -1436,21 +1368,21 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-53"
+    className="strategyContainer-0-2-55"
   >
     <label
-      className="strategyName-0-2-50"
+      className="strategyName-0-2-56"
       htmlFor="STRATEGY_PARKING_5"
     >
        
@@ -1468,21 +1400,21 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-53"
+    className="strategyContainer-0-2-55"
   >
     <label
-      className="strategyName-0-2-50"
+      className="strategyName-0-2-56"
       htmlFor="PTS_PARKING_1"
     >
        
@@ -1490,10 +1422,10 @@ exports[`Storyshots RuleStrategyList default 1`] = `
        
     </label>
     <div
-      className="numberInputContainer-0-2-56"
+      className="numberInputContainer-0-2-58"
     >
       <input
-        className="numberInput-0-2-53"
+        className="numberInput-0-2-59"
         id="PTS_PARKING_1"
         max={8}
         min={8}
@@ -1504,12 +1436,12 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-55"
+      className="points-0-2-57"
     >
        
     </div>
@@ -1520,35 +1452,35 @@ exports[`Storyshots RuleStrategyList default 1`] = `
 exports[`Storyshots RuleStrategyPanels default 1`] = `
 Array [
   <div
-    className="panelContainer-0-2-68"
+    className="panelContainer-0-2-70"
   >
     <div
-      className="strategyContainer-0-2-69"
+      className="strategyContainer-0-2-71"
     >
       <h4
-        className="strategyName-0-2-70"
+        className="strategyName-0-2-72"
       >
         Accessibility
       </h4>
       <div
-        className="points-0-2-71"
+        className="points-0-2-73"
       >
         Possible
       </div>
       <div
-        className="points-0-2-71"
+        className="points-0-2-73"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-67"
+      className="root-0-2-69"
     >
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="PTS_ACCESS_1"
         >
            
@@ -1556,10 +1488,10 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-56"
+          className="numberInputContainer-0-2-58"
         >
           <input
-            className="numberInput-0-2-53"
+            className="numberInput-0-2-59"
             id="PTS_ACCESS_1"
             max={5}
             min={2}
@@ -1570,21 +1502,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="PTS_ACCESS_2"
         >
            
@@ -1592,10 +1524,10 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-56"
+          className="numberInputContainer-0-2-58"
         >
           <input
-            className="numberInput-0-2-53"
+            className="numberInput-0-2-59"
             id="PTS_ACCESS_2"
             max={5}
             min={2}
@@ -1606,21 +1538,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_ACCESS_1"
         >
            
@@ -1628,7 +1560,7 @@ Array [
            
         </label>
         <div
-          className="choiceSelectContainer-0-2-58"
+          className="choiceSelectContainer-0-2-60"
         >
           <select
             id="STRATEGY_ACCESS_1"
@@ -1665,21 +1597,21 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_ACCESS_2"
         >
            
@@ -1687,7 +1619,7 @@ Array [
            
         </label>
         <div
-          className="choiceSelectContainer-0-2-58"
+          className="choiceSelectContainer-0-2-60"
         >
           <select
             id="STRATEGY_ACCESS_2"
@@ -1724,21 +1656,21 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="PTS_ACCESS_3"
         >
            
@@ -1746,10 +1678,10 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-56"
+          className="numberInputContainer-0-2-58"
         >
           <input
-            className="numberInput-0-2-53"
+            className="numberInput-0-2-59"
             id="PTS_ACCESS_3"
             max={100}
             min={0}
@@ -1760,12 +1692,12 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
@@ -1773,35 +1705,35 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-68"
+    className="panelContainer-0-2-70"
   >
     <div
-      className="strategyContainer-0-2-69"
+      className="strategyContainer-0-2-71"
     >
       <h4
-        className="strategyName-0-2-70"
+        className="strategyName-0-2-72"
       >
         Affordable Housing
       </h4>
       <div
-        className="points-0-2-71"
+        className="points-0-2-73"
       >
         Possible
       </div>
       <div
-        className="points-0-2-71"
+        className="points-0-2-73"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-67"
+      className="root-0-2-69"
     >
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_AFFORDABLE"
         >
            
@@ -1809,7 +1741,7 @@ Array [
            
         </label>
         <div
-          className="choiceSelectContainer-0-2-58"
+          className="choiceSelectContainer-0-2-60"
         >
           <select
             id="STRATEGY_AFFORDABLE"
@@ -1846,12 +1778,12 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
@@ -1859,35 +1791,35 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-68"
+    className="panelContainer-0-2-70"
   >
     <div
-      className="strategyContainer-0-2-69"
+      className="strategyContainer-0-2-71"
     >
       <h4
-        className="strategyName-0-2-70"
+        className="strategyName-0-2-72"
       >
         Bicycle Facilities
       </h4>
       <div
-        className="points-0-2-71"
+        className="points-0-2-73"
       >
         Possible
       </div>
       <div
-        className="points-0-2-71"
+        className="points-0-2-73"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-67"
+      className="root-0-2-69"
     >
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_BIKE_1"
         >
            
@@ -1905,21 +1837,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="PTS_BIKE_1"
         >
            
@@ -1927,10 +1859,10 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-56"
+          className="numberInputContainer-0-2-58"
         >
           <input
-            className="numberInput-0-2-53"
+            className="numberInput-0-2-59"
             id="PTS_BIKE_1"
             max={2}
             min={2}
@@ -1941,21 +1873,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_BIKE_2"
         >
            
@@ -1973,21 +1905,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_BIKE_3"
         >
            
@@ -2005,21 +1937,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_BIKE_4"
         >
            
@@ -2037,21 +1969,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_BIKE_5"
         >
            
@@ -2069,21 +2001,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_BIKE_BONUS"
         >
            
@@ -2091,16 +2023,16 @@ Array [
            
         </label>
         <div
-          className="allElse-0-2-60"
+          className="allElse-0-2-62"
           name="STRATEGY_BIKE_BONUS"
         />
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
@@ -2108,35 +2040,35 @@ Array [
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-68"
+    className="panelContainer-0-2-70"
   >
     <div
-      className="strategyContainer-0-2-69"
+      className="strategyContainer-0-2-71"
     >
       <h4
-        className="strategyName-0-2-70"
+        className="strategyName-0-2-72"
       >
         Car Sharing
       </h4>
       <div
-        className="points-0-2-71"
+        className="points-0-2-73"
       >
         Possible
       </div>
       <div
-        className="points-0-2-71"
+        className="points-0-2-73"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-67"
+      className="root-0-2-69"
     >
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_CAR_SHARE_1"
         >
            
@@ -2154,21 +2086,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_CAR_SHARE_2"
         >
            
@@ -2186,21 +2118,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_CAR_SHARE_3"
         >
            
@@ -2218,21 +2150,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_CAR_SHARE_4"
         >
            
@@ -2250,21 +2182,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_CAR_SHARE_ELECTRIC"
         >
            
@@ -2282,21 +2214,21 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-53"
+        className="strategyContainer-0-2-55"
       >
         <label
-          className="strategyName-0-2-50"
+          className="strategyName-0-2-56"
           htmlFor="STRATEGY_CAR_SHARE_BONUS"
         >
            
@@ -2304,16 +2236,16 @@ Array [
            
         </label>
         <div
-          className="allElse-0-2-60"
+          className="allElse-0-2-62"
           name="STRATEGY_CAR_SHARE_BONUS"
         />
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-55"
+          className="points-0-2-57"
         >
            
         </div>
@@ -2325,15 +2257,15 @@ Array [
 
 exports[`Storyshots Sidebar default 1`] = `
 <div
-  className="container-0-2-73"
+  className="container-0-2-75"
 >
   <div />
   <div>
     <div
-      className="links-0-2-74"
+      className="links-0-2-76"
     >
       <a
-        className="link-0-2-75"
+        className="link-0-2-77"
         href="/"
         onClick={[Function]}
       >
@@ -2344,7 +2276,7 @@ exports[`Storyshots Sidebar default 1`] = `
         |
       </div>
       <a
-        className="link-0-2-75"
+        className="link-0-2-77"
         href="/"
         onClick={[Function]}
       >
@@ -2358,7 +2290,7 @@ exports[`Storyshots Sidebar default 1`] = `
 
 exports[`Storyshots SinglePageResultList default 1`] = `
 <div
-  className="root-0-2-5"
+  className="root-0-2-7"
 >
   <div
     className="tdm-calculation-metrics-panel"
@@ -2427,28 +2359,28 @@ exports[`Storyshots SinglePageResultView default 1`] = `
 
 exports[`Storyshots SinglePageRuleInput default Input Boolean (False) 1`] = `
 <div
-  className="rule-0-2-7"
+  className="rule-0-2-9"
 >
   <div
-    className="name-0-2-9"
+    className="name-0-2-11"
   >
     Residential
   </div>
   <input
     checked={false}
-    className="code-0-2-11"
+    className="code-0-2-13"
     name="LAND_USE_RESIDENTIAL"
     onChange={[Function]}
     type="checkbox"
     value={true}
   />
   <div
-    className="units-0-2-12"
+    className="units-0-2-14"
   >
     
   </div>
   <div
-    className="calcUnits-0-2-13"
+    className="calcUnits-0-2-15"
   >
      
   </div>
@@ -2457,28 +2389,28 @@ exports[`Storyshots SinglePageRuleInput default Input Boolean (False) 1`] = `
 
 exports[`Storyshots SinglePageRuleInput default Input Boolean (True) 1`] = `
 <div
-  className="rule-0-2-7"
+  className="rule-0-2-9"
 >
   <div
-    className="name-0-2-9"
+    className="name-0-2-11"
   >
     Residential
   </div>
   <input
     checked={true}
-    className="code-0-2-11"
+    className="code-0-2-13"
     name="LAND_USE_RESIDENTIAL"
     onChange={[Function]}
     type="checkbox"
     value={true}
   />
   <div
-    className="units-0-2-12"
+    className="units-0-2-14"
   >
     
   </div>
   <div
-    className="calcUnits-0-2-13"
+    className="calcUnits-0-2-15"
   >
      
   </div>
@@ -2487,27 +2419,27 @@ exports[`Storyshots SinglePageRuleInput default Input Boolean (True) 1`] = `
 
 exports[`Storyshots SinglePageRuleInput default Input Number 1`] = `
 <div
-  className="rule-0-2-7 numberRule-0-2-8"
+  className="rule-0-2-9 numberRule-0-2-10"
 >
   <div
-    className="name-0-2-9"
+    className="name-0-2-11"
   >
     Sq Ft - Retail
   </div>
   <input
-    className="code-0-2-11"
+    className="code-0-2-13"
     name="SF_RETAIL"
     onChange={[Function]}
     type="text"
     value=""
   />
   <div
-    className="units-0-2-12"
+    className="units-0-2-14"
   >
     sq ft
   </div>
   <div
-    className="calcUnits-0-2-13"
+    className="calcUnits-0-2-15"
   >
      
   </div>
@@ -2516,134 +2448,134 @@ exports[`Storyshots SinglePageRuleInput default Input Number 1`] = `
 
 exports[`Storyshots SinglePageRuleList default 1`] = `
 <div
-  className="root-0-2-16"
+  className="root-0-2-18"
 >
   <div
-    className="rule-0-2-7 numberRule-0-2-8"
+    className="rule-0-2-9 numberRule-0-2-10"
   >
     <div
-      className="name-0-2-9"
+      className="name-0-2-11"
     >
       # Habitable Rooms &lt; 3
     </div>
     <input
-      className="code-0-2-11"
+      className="code-0-2-13"
       name="UNITS_HABIT_LT3"
       onChange={[Function]}
       type="text"
       value=""
     />
     <div
-      className="units-0-2-12"
+      className="units-0-2-14"
     >
       dwelling units
     </div>
     <div
-      className="calcUnits-0-2-13"
+      className="calcUnits-0-2-15"
     >
        
     </div>
   </div>
   <div
-    className="rule-0-2-7 numberRule-0-2-8"
+    className="rule-0-2-9 numberRule-0-2-10"
   >
     <div
-      className="name-0-2-9"
+      className="name-0-2-11"
     >
       # Habitable Rooms = 3
     </div>
     <input
-      className="code-0-2-11"
+      className="code-0-2-13"
       name="UNITS_HABIT_3"
       onChange={[Function]}
       type="text"
       value=""
     />
     <div
-      className="units-0-2-12"
+      className="units-0-2-14"
     >
       dwelling units
     </div>
     <div
-      className="calcUnits-0-2-13"
+      className="calcUnits-0-2-15"
     >
        
     </div>
   </div>
   <div
-    className="rule-0-2-7 numberRule-0-2-8"
+    className="rule-0-2-9 numberRule-0-2-10"
   >
     <div
-      className="name-0-2-9"
+      className="name-0-2-11"
     >
       # Habitable Rooms &gt; 3
     </div>
     <input
-      className="code-0-2-11"
+      className="code-0-2-13"
       name="UNITS_HABIT_GT3"
       onChange={[Function]}
       type="text"
       value=""
     />
     <div
-      className="units-0-2-12"
+      className="units-0-2-14"
     >
       dwelling units
     </div>
     <div
-      className="calcUnits-0-2-13"
+      className="calcUnits-0-2-15"
     >
        
     </div>
   </div>
   <div
-    className="rule-0-2-7 numberRule-0-2-8"
+    className="rule-0-2-9 numberRule-0-2-10"
   >
     <div
-      className="name-0-2-9"
+      className="name-0-2-11"
     >
       Condo - Units
     </div>
     <input
-      className="code-0-2-11"
+      className="code-0-2-13"
       name="UNITS_CONDO"
       onChange={[Function]}
       type="text"
       value=""
     />
     <div
-      className="units-0-2-12"
+      className="units-0-2-14"
     >
       dwelling units
     </div>
     <div
-      className="calcUnits-0-2-13"
+      className="calcUnits-0-2-15"
     >
        
     </div>
   </div>
   <div
-    className="rule-0-2-7 numberRule-0-2-8"
+    className="rule-0-2-9 numberRule-0-2-10"
   >
     <div
-      className="name-0-2-9"
+      className="name-0-2-11"
     >
       Condo - Enter Parking Space Req'd
     </div>
     <input
-      className="code-0-2-11"
+      className="code-0-2-13"
       name="PARK_CONDO"
       onChange={[Function]}
       type="text"
       value=""
     />
     <div
-      className="units-0-2-12"
+      className="units-0-2-14"
     >
       spcs
     </div>
     <div
-      className="calcUnits-0-2-13"
+      className="calcUnits-0-2-15"
     >
        
     </div>
@@ -2654,143 +2586,143 @@ exports[`Storyshots SinglePageRuleList default 1`] = `
 exports[`Storyshots SinglePageRulePanels default 1`] = `
 Array [
   <div
-    className="panel-0-2-17"
+    className="panel-0-2-19"
   >
     <fieldset>
       <legend
-        className="legend-0-2-18"
+        className="legend-0-2-20"
       >
         Residential Inputs
       </legend>
       <div
-        className="root-0-2-16"
+        className="root-0-2-18"
       >
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             # Habitable Rooms &lt; 3
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="UNITS_HABIT_LT3"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             dwelling units
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             # Habitable Rooms = 3
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="UNITS_HABIT_3"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             dwelling units
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             # Habitable Rooms &gt; 3
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="UNITS_HABIT_GT3"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             dwelling units
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Condo - Units
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="UNITS_CONDO"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             dwelling units
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Condo - Enter Parking Space Req'd
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="PARK_CONDO"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             spcs
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
@@ -2799,143 +2731,143 @@ Array [
     </fieldset>
   </div>,
   <div
-    className="panel-0-2-17"
+    className="panel-0-2-19"
   >
     <fieldset>
       <legend
-        className="legend-0-2-18"
+        className="legend-0-2-20"
       >
         Commercial Inputs
       </legend>
       <div
-        className="root-0-2-16"
+        className="root-0-2-18"
       >
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Sq Ft - Restaurant/Bar/General
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="SF_RESTAURANT"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Sq Ft - Health Club
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="SF_HEALTH_CLUB"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Sq Ft - Take-out Restaurant
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="SF_RESTAURANT_TAKEOUT"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Sq Ft - Office, Business, Manufacturing, Industrial
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="SF_OFFICE"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Sq Ft - Warehouse
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="SF_WAREHOUSE"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
@@ -2944,143 +2876,143 @@ Array [
     </fieldset>
   </div>,
   <div
-    className="panel-0-2-17"
+    className="panel-0-2-19"
   >
     <fieldset>
       <legend
-        className="legend-0-2-18"
+        className="legend-0-2-20"
       >
         Institutional Inputs
       </legend>
       <div
-        className="root-0-2-16"
+        className="root-0-2-18"
       >
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Sq Ft - Medical Offices, Clinics, Service Facilities
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="SF_INST_MEDICAL_SVC"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Sq Ft - Other Institutional
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="SF_INST_OTHER"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Sq Ft - Government Institution
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="SF_INST_GOV"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Patient Hospital Beds
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="BED_HOSPITAL"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             beds
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Convalescent Institution Beds
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="BED_CONVALESCENT"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             beds
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
@@ -3089,65 +3021,65 @@ Array [
     </fieldset>
   </div>,
   <div
-    className="panel-0-2-17"
+    className="panel-0-2-19"
   >
     <fieldset>
       <legend
-        className="legend-0-2-18"
+        className="legend-0-2-20"
       >
         Other Land Use Inputs
       </legend>
       <div
-        className="root-0-2-16"
+        className="root-0-2-18"
       >
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             # Seats - Auditorium
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="SEAT_AUDITORIUM"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             seats
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-7 numberRule-0-2-8"
+          className="rule-0-2-9 numberRule-0-2-10"
         >
           <div
-            className="name-0-2-9"
+            className="name-0-2-11"
           >
             Sq Ft - Auditorium w/o Seats
           </div>
           <input
-            className="code-0-2-11"
+            className="code-0-2-13"
             name="SF_AUDITORIUM_NO_SEATS"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-12"
+            className="units-0-2-14"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-13"
+            className="calcUnits-0-2-15"
           >
              
           </div>
@@ -3160,25 +3092,25 @@ Array [
 
 exports[`Storyshots SinglePageTdmCalculation default 1`] = `
 <div
-  className="root-0-2-19"
+  className="root-0-2-21"
 >
   <div
-    className="container-0-2-20"
+    className="container-0-2-22"
   >
     <div
-      className="switchButtonWrapper-0-2-21"
+      className="switchButtonWrapper-0-2-23"
     >
       <div
-        className="switchButton-0-2-22"
+        className="switchButton-0-2-24"
       >
         <button
-          className="root-0-2-27"
+          className="root-0-2-29"
         >
           Switch to View
         </button>
       </div>
       <div
-        className="root-0-2-5"
+        className="root-0-2-7"
       >
         <div
           className="tdm-calculation-metrics-panel"
@@ -3225,72 +3157,72 @@ exports[`Storyshots SinglePageTdmCalculation default 1`] = `
       </div>
     </div>
     <div
-      className="rulePanelWrapper-0-2-23"
+      className="rulePanelWrapper-0-2-25"
     >
       <div
-        className="rulePanel-0-2-24"
+        className="rulePanel-0-2-26"
       >
         <h2>
           Project Parameters
         </h2>
         <div
-          className="panel-0-2-17"
+          className="panel-0-2-19"
         >
           <fieldset>
             <legend
-              className="legend-0-2-18"
+              className="legend-0-2-20"
             />
             <div
-              className="root-0-2-16"
+              className="root-0-2-18"
             >
               <div
-                className="rule-0-2-7 numberRule-0-2-8"
+                className="rule-0-2-9 numberRule-0-2-10"
               >
                 <div
-                  className="name-0-2-9"
+                  className="name-0-2-11"
                 >
                   Input Integer A
                 </div>
                 <input
-                  className="code-0-2-11"
+                  className="code-0-2-13"
                   name="INPUT_INTEGER_A"
                   onChange={[Function]}
                   type="text"
                   value={4}
                 />
                 <div
-                  className="units-0-2-12"
+                  className="units-0-2-14"
                 >
                   beans
                 </div>
                 <div
-                  className="calcUnits-0-2-13"
+                  className="calcUnits-0-2-15"
                 >
                    
                 </div>
               </div>
               <div
-                className="rule-0-2-7 numberRule-0-2-8"
+                className="rule-0-2-9 numberRule-0-2-10"
               >
                 <div
-                  className="name-0-2-9"
+                  className="name-0-2-11"
                 >
                   Input Integer B
                 </div>
                 <input
-                  className="code-0-2-11"
+                  className="code-0-2-13"
                   name="INPUT_INTEGER_B"
                   onChange={[Function]}
                   type="text"
                   value={17}
                 />
                 <div
-                  className="units-0-2-12"
+                  className="units-0-2-14"
                 >
                   beans
                 </div>
                 <div
-                  className="calcUnits-0-2-13"
+                  className="calcUnits-0-2-15"
                 >
                    
                 </div>
@@ -3300,13 +3232,13 @@ exports[`Storyshots SinglePageTdmCalculation default 1`] = `
         </div>
       </div>
       <div
-        className="transportDemandStrategies-0-2-25"
+        className="transportDemandStrategies-0-2-27"
       >
         <h2>
            Transportation Demand Strategies
         </h2>
         <div
-          className="buttonWrapper-0-2-26"
+          className="buttonWrapper-0-2-28"
         >
           &gt;
           <button
@@ -3324,7 +3256,7 @@ exports[`Storyshots SinglePageTdmCalculation default 1`] = `
 
 exports[`Storyshots SwitchViewButton default 1`] = `
 <button
-  className="root-0-2-27"
+  className="root-0-2-29"
   onClick={[Function]}
 >
   Switch View Button Label

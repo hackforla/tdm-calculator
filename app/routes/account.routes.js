@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const accountController = require("../controllers/account.controller");
 const jwtSession = require("../../middleware/jwt-session");
-//const authenticate = require("../../middleware/authenticate");
 
+router.get("/:id", jwtSession.validateUser, accountController.getById);
 router.get("/", jwtSession.validateUser, accountController.getAll);
+
+router.put("/:id/roles", accountController.putRoles);
 
 router.post("/register", accountController.register);
 router.post(

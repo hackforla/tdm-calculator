@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import * as accountService from "../../services/account-service";
+import * as accountService from "../../services/account.service";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import Sidebar from "../Sidebar";

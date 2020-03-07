@@ -12,6 +12,7 @@ import Register from "./components/Authorization/Register";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
 import Login from "./components/Authorization/Login";
 import Admin from "./components/Admin";
+import Roles from "./components/Roles";
 import LandingPage from "./components/LandingPage/LandingPage";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
@@ -104,8 +105,11 @@ const App = () => {
             <Route path="/forgotpassword" component={ResetPasswordRequest} />
             <Route path="/resetPassword/:token" component={ResetPassword} />
             <Route path="/contactus" component={ContactUs} />
-            {account && account.role === "admin" ? (
+            {account && account.isAdmin ? (
               <Route path="/admin" render={() => <Admin account={account} />} />
+            ) : null}
+            {account && account.isSecurityAdmin ? (
+              <Route path="/roles" render={() => <Roles />} />
             ) : null}
           </div>
         </Router>

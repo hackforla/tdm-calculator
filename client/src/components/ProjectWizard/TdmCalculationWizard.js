@@ -124,62 +124,62 @@ const TdmCalculationWizard = props => {
 
   const renderSwitch = () => {
     switch (page) {
-    case 2:
-      return (
-        <ProjectUse
-          rules={landUseRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          uncheckAll={() => onUncheckAll(filters.landUseRules)}
-        />
-      );
-    case 3:
-      return (
-        <ProjectSpecifications
-          rules={specificationRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          uncheckAll={() => onUncheckAll(filters.specificationRules)}
-        />
-      );
-    case 4:
-      return (
-        <ProjectTargetPoints
-          rules={targetPointRules}
-          onInputChange={onInputChange}
-          classes={classes}
-        />
-      );
-    case 5:
-      return (
-        <ProjectMeasures
-          rules={strategyRules}
-          landUseRules={landUseRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          onPkgSelect={onPkgSelect}
-          uncheckAll={() => onUncheckAll(filters.strategyRules)}
-        />
-      );
-    case 6:
-      return (
-        <ProjectSummary
-          rules={rules}
-          account={account}
-          projectId={projectId}
-          loginId={loginId}
-          onSave={onSave}
-        />
-      );
-    case 1:
-    default:
-      return (
-        <ProjectDescriptions
-          rules={projectDescriptionRules}
-          onInputChange={onInputChange}
-          classes={classes}
-        />
-      );
+      case 2:
+        return (
+          <ProjectUse
+            rules={landUseRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            uncheckAll={() => onUncheckAll(filters.landUseRules)}
+          />
+        );
+      case 3:
+        return (
+          <ProjectSpecifications
+            rules={specificationRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            uncheckAll={() => onUncheckAll(filters.specificationRules)}
+          />
+        );
+      case 4:
+        return (
+          <ProjectTargetPoints
+            rules={targetPointRules}
+            onInputChange={onInputChange}
+            classes={classes}
+          />
+        );
+      case 5:
+        return (
+          <ProjectMeasures
+            rules={strategyRules}
+            landUseRules={landUseRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            onPkgSelect={onPkgSelect}
+            uncheckAll={() => onUncheckAll(filters.strategyRules)}
+          />
+        );
+      case 6:
+        return (
+          <ProjectSummary
+            rules={rules}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            onSave={onSave}
+          />
+        );
+      case 1:
+      default:
+        return (
+          <ProjectDescriptions
+            rules={projectDescriptionRules}
+            onInputChange={onInputChange}
+            classes={classes}
+          />
+        );
     }
   };
 
@@ -203,7 +203,10 @@ const TdmCalculationWizard = props => {
           )}
         >
           <div>{renderSwitch()}</div>
-          {!projectId || (account && account.id && account.id === loginId) ? (
+          {!projectId ||
+          (account &&
+            account.id &&
+            (account.id === loginId || account.isAdmin)) ? (
             <div className={classes.navButtonsWrapper}>
               <NavButton
                 disabled={page === 1}
