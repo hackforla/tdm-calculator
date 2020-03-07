@@ -4,7 +4,7 @@ import RuleInputPanels from "../RuleInput/RuleInputPanels";
 
 function ProjectDescriptions(props) {
   const { rules, onInputChange } = props;
-
+  console.log("rules", rules);
   return (
     <div>
       <h1 className="tdm-wizard-page-title">

@@ -35,12 +35,6 @@ export function TdmCalculationContainer(props) {
   const [projectId, setProjectId] = useState("");
   const [loginId, setLoginId] = useState(0);
   const [view, setView] = useState("w");
-  const [pageNo, setPageNo] = useState(1);
-
-  const pushHistory = () => {
-    props.history.push(`/calculation/${pageNo}/${projectId}`);
-  };
-
   const getRules = async () => {
     const ruleResponse = await ruleService.getByCalculationId(
       TdmCalculationContainer.calculationId
@@ -54,9 +48,10 @@ export function TdmCalculationContainer(props) {
     const initiateEngine = async () => {
       const { params } = props.match;
       try {
+        let projectResponse = null;
         if (params.projectId) {
           const projectId = props.match.params.projectId;
-          const projectResponse = await projectService.getById(projectId);
+          projectResponse = await projectService.getById(projectId);
           setProjectId(projectId ? Number(projectId) : null);
           setLoginId(projectResponse.data.loginId);
           setFormInputs(JSON.parse(projectResponse.data.formInputs));
@@ -66,17 +61,19 @@ export function TdmCalculationContainer(props) {
           TdmCalculationContainer.calculationId
         );
         TdmCalculationContainer.engine = new Engine(ruleResponse.data);
-        TdmCalculationContainer.engine.run(formInputs, resultRuleCodes);
+        TdmCalculationContainer.engine.run(
+          projectResponse && JSON.parse(projectResponse.data.formInputs),
+          resultRuleCodes
+        );
         setRules(TdmCalculationContainer.engine.showRulesArray());
         // });
       } catch (err) {
         console.log(JSON.stringify(err, null, 2));
+        getRules();
       }
-      getRules();
     };
     initiateEngine();
   }, []);
-
   const onPkgSelect = pkgType => {
     let pkgRules = [];
     if (pkgType === "Residential") {
@@ -165,7 +162,6 @@ export function TdmCalculationContainer(props) {
   const onSave = async () => {
     const inputsToSave = { ...formInputs };
     for (let input in inputsToSave) {
-      console.log("input", inputsToSave[input]);
       if (!inputsToSave[input]) {
         delete inputsToSave[input];
       }
@@ -212,42 +208,6 @@ export function TdmCalculationContainer(props) {
     setRules(rules);
   };
 
-  const handleValidate = () => {
-    const validations = {
-      1: () => true,
-      2: () => {
-        let selected = false;
-        let landUseRules = rules.filter(filters.landUseRules);
-        landUseRules.forEach(val => {
-          if (val.value === true) {
-            selected = true;
-          }
-        });
-        return selected;
-      },
-      3: () => true,
-      4: () => true,
-      5: () => true
-    };
-
-    return validations[props.match.params.page]();
-  };
-
-  const onPageChange = pageNo => {
-    console.log("pageNo", pageNo);
-    const { page, projectId } = props.match.params;
-    const projectIdParam = projectId ? `/${projectId}` : "";
-    if (Number(pageNo) > Number(props.match.params.page)) {
-      if (handleValidate()) {
-        setPageNo(pageNo);
-        props.history.push(`/calculation/${Number(page) + 1}${projectIdParam}`);
-      }
-    } else {
-      setPageNo(pageNo);
-      props.history.push(`/calculation/${Number(page) - 1}${projectIdParam}`);
-    }
-  };
-
   const filters = {
     projectDescriptionRules: rule =>
       rule.category === "input" &&
@@ -290,9 +250,7 @@ export function TdmCalculationContainer(props) {
           resultRuleCodes={resultRuleCodes}
           onViewChange={() => {
             setView("d");
-            pushHistory();
           }}
-          onPageChange={onPageChange}
           account={account}
           projectId={Number(projectId)}
           loginId={loginId}
@@ -308,7 +266,6 @@ export function TdmCalculationContainer(props) {
           resultRuleCodes={resultRuleCodes}
           onViewChange={() => {
             setView("w");
-            pushHistory();
           }}
         />
       )}

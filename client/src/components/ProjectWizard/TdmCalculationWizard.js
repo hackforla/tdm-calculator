@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
+import ToastContext from "../../contexts/Toast/ToastContext";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import ProjectSummary from "./WizardPages/ProjectSummary";
@@ -68,6 +69,7 @@ const useStyles = createUseStyles({
 });
 
 const TdmCalculationWizard = props => {
+  const context = useContext(ToastContext);
   const classes = useStyles();
   const {
     rules,
@@ -77,26 +79,24 @@ const TdmCalculationWizard = props => {
     onPkgSelect,
     resultRuleCodes,
     account,
-    projectId,
+    // projectId,
     loginId,
     onSave,
-    onPageChange,
+    // onPageChange,
     onViewChange,
     pageNo,
     history,
     match
   } = props;
-  const { page } = match.params;
+  const { page, projectId } = match.params;
 
   useEffect(() => {
-    if (
-      !(!projectId || (account && (account.isAdmin || account.id === loginId)))
-    ) {
+    if (account && (account.isAdmin || account.id === loginId)) {
       // Project Calculation is editable if it is not saved
       // or the project was created by the current logged in
       // user, or the logged in user is admin.
-      //   history.push(`/calculation/${pageNo || 1}/`)
-      // } else {
+      history.push(`/calculation/1/${projectId ? projectId : ""}`);
+    } else {
       // read-only users can only see the summary page.
       history.push(`/calculation/6/${projectId}`);
       // setPage(6);
@@ -160,6 +160,7 @@ const TdmCalculationWizard = props => {
       <Route path="/calculation/5/:projectId?">
         <ProjectMeasures
           rules={strategyRules}
+          landUseRules={landUseRules}
           onInputChange={onInputChange}
           classes={classes}
           onPkgSelect={onPkgSelect}
@@ -177,7 +178,53 @@ const TdmCalculationWizard = props => {
       </Route>
     </Switch>
   );
-  console.log("params", props.match.params);
+
+  const handleValidate = () => {
+    const { page } = props.match.params;
+    const validations = {
+      1: {
+        function: () => {
+          return !projectDescriptionRules.find(rule => !!rule.validationErrors);
+        },
+        toast: "Please fill out all required fields"
+      },
+      2: {
+        function: () => {
+          let selected = false;
+          let landUseRules = rules.filter(filters.landUseRules);
+          landUseRules.forEach(val => {
+            if (val.value === true) {
+              selected = true;
+            }
+          });
+          return selected;
+        },
+        toast: "Please select at least one land use type."
+      }
+    };
+    const result = validations[page] ? validations[page].function() : true;
+    if (result === false) {
+      context.add(validations[page].toast);
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const onPageChange = pageNo => {
+    const { page, projectId } = props.match.params;
+    const projectIdParam = projectId ? `/${projectId}` : "";
+    if (Number(pageNo) > Number(props.match.params.page)) {
+      if (handleValidate()) {
+        // setPageNo(pageNo);
+        props.history.push(`/calculation/${Number(page) + 1}${projectIdParam}`);
+      }
+    } else {
+      // setPageNo(pageNo);
+      props.history.push(`/calculation/${Number(page) - 1}${projectIdParam}`);
+    }
+  };
+
   return (
     <React.Fragment>
       <div className={clsx("tdm-wizard", classes.root)}>
@@ -200,22 +247,26 @@ const TdmCalculationWizard = props => {
           <div>{routes}</div>
           {/* {!projectId || (account && account.id && account.id === loginId) ? ( */}
           <div className={classes.navButtonsWrapper}>
-            <NavButton
-              disabled={Number(page) === 1}
-              onClick={() => {
-                onPageChange(Number(page) - 1);
-              }}
-            >
-              &lt;
-            </NavButton>
-            <NavButton
-              disabled={page === 6 || disablePageNavigation}
-              onClick={() => {
-                onPageChange(Number(page) + 1);
-              }}
-            >
-              &gt;
-            </NavButton>
+            {rules && rules.length ? ( //navigation disabled until rules have loaded
+              <>
+                <NavButton
+                  disabled={Number(page) === 1}
+                  onClick={() => {
+                    onPageChange(Number(page) - 1);
+                  }}
+                >
+                  &lt;
+                </NavButton>
+                <NavButton
+                  disabled={page === 6 || disablePageNavigation}
+                  onClick={() => {
+                    onPageChange(Number(page) + 1);
+                  }}
+                >
+                  &gt;
+                </NavButton>
+              </>
+            ) : null}
           </div>
           {/* ) : null} */}
         </div>
@@ -245,7 +296,8 @@ TdmCalculationWizard.propTypes = {
   ).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      page: PropTypes.number
+      page: PropTypes.number,
+      projectId: PropTypes.string
     })
   }),
   history: PropTypes.shape({

@@ -178,7 +178,7 @@ const Projects = () => {
               <tr key={project.id}>
                 <td className={classes.td}>
                   <Link
-                    to={`/calculation/${project.id}`}
+                    to={`/calculation/1/${project.id}`}
                     className={classes.link}
                   >
                     {project.name}

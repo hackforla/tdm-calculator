@@ -83,7 +83,7 @@ const App = () => {
           <div className={classes.root}>
             <Route exact path="/" component={LandingPage} />
             <Route
-              path="/calculation/:page?"
+              path="/calculation/:page/:projectId?"
               render={() => (
                 <TdmCalculationContainer
                   account={account}
