@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -7,6 +7,7 @@ import SidebarPointsPanel from "./SidebarPoints/SidebarPointsPanel";
 import NavButton from "./NavButton";
 import SwitchViewButton from "../SwitchViewButton";
 import Sidebar from "../Sidebar";
+import { Switch, Route, withRouter } from "react-router-dom";
 import {
   ProjectDescriptions,
   ProjectUse,
@@ -81,22 +82,24 @@ const TdmCalculationWizard = props => {
     onSave,
     onPageChange,
     onViewChange,
-    pageNo
+    pageNo,
+    history,
+    match
   } = props;
-  const [page, setPage] = useState(0);
+  const { page } = match.params;
 
   useEffect(() => {
     if (
-      !projectId ||
-      (account && (account.isAdmin || account.id === loginId))
+      !(!projectId || (account && (account.isAdmin || account.id === loginId)))
     ) {
       // Project Calculation is editable if it is not saved
       // or the project was created by the current logged in
       // user, or the logged in user is admin.
-      setPage(pageNo || 1);
-    } else {
+      //   history.push(`/calculation/${pageNo || 1}/`)
+      // } else {
       // read-only users can only see the summary page.
-      setPage(6);
+      history.push(`/calculation/6/${projectId}`);
+      // setPage(6);
     }
   }, [projectId, account, loginId, pageNo]);
 
@@ -122,67 +125,59 @@ const TdmCalculationWizard = props => {
     disablePageNavigation = true;
   }
 
-  const renderSwitch = () => {
-    switch (page) {
-      case 2:
-        return (
-          <ProjectUse
-            rules={landUseRules}
-            onInputChange={onInputChange}
-            classes={classes}
-            uncheckAll={() => onUncheckAll(filters.landUseRules)}
-          />
-        );
-      case 3:
-        return (
-          <ProjectSpecifications
-            rules={specificationRules}
-            onInputChange={onInputChange}
-            classes={classes}
-            uncheckAll={() => onUncheckAll(filters.specificationRules)}
-          />
-        );
-      case 4:
-        return (
-          <ProjectTargetPoints
-            rules={targetPointRules}
-            onInputChange={onInputChange}
-            classes={classes}
-          />
-        );
-      case 5:
-        return (
-          <ProjectMeasures
-            rules={strategyRules}
-            landUseRules={landUseRules}
-            onInputChange={onInputChange}
-            classes={classes}
-            onPkgSelect={onPkgSelect}
-            uncheckAll={() => onUncheckAll(filters.strategyRules)}
-          />
-        );
-      case 6:
-        return (
-          <ProjectSummary
-            rules={rules}
-            account={account}
-            projectId={projectId}
-            loginId={loginId}
-            onSave={onSave}
-          />
-        );
-      case 1:
-      default:
-        return (
-          <ProjectDescriptions
-            rules={projectDescriptionRules}
-            onInputChange={onInputChange}
-            classes={classes}
-          />
-        );
-    }
-  };
-
+  const routes = (
+    <Switch>
+      <Route path="/calculation/1/:projectId?">
+        <ProjectDescriptions
+          rules={projectDescriptionRules}
+          onInputChange={onInputChange}
+          classes={classes}
+        />
+      </Route>
+      <Route path="/calculation/2/:projectId?">
+        <ProjectUse
+          rules={landUseRules}
+          onInputChange={onInputChange}
+          classes={classes}
+          uncheckAll={() => onUncheckAll(filters.landUseRules)}
+        />
+      </Route>
+      <Route path="/calculation/3/:projectId?">
+        <ProjectSpecifications
+          rules={specificationRules}
+          onInputChange={onInputChange}
+          classes={classes}
+          uncheckAll={() => onUncheckAll(filters.specificationRules)}
+        />
+      </Route>
+      <Route path="/calculation/4/:projectId?">
+        <ProjectTargetPoints
+          rules={targetPointRules}
+          onInputChange={onInputChange}
+          classes={classes}
+        />
+      </Route>
+      <Route path="/calculation/5/:projectId?">
+        <ProjectMeasures
+          rules={strategyRules}
+          onInputChange={onInputChange}
+          classes={classes}
+          onPkgSelect={onPkgSelect}
+          uncheckAll={() => onUncheckAll(filters.strategyRules)}
+        />
+      </Route>
+      <Route path="/calculation/6/:projectId?">
+        <ProjectSummary
+          rules={rules}
+          account={account}
+          projectId={projectId}
+          loginId={loginId}
+          onSave={onSave}
+        />
+      </Route>
+    </Switch>
+  );
+  console.log("params", props.match.params);
   return (
     <React.Fragment>
       <div className={clsx("tdm-wizard", classes.root)}>
@@ -202,35 +197,33 @@ const TdmCalculationWizard = props => {
             classes.contentContainer
           )}
         >
-          <div>{renderSwitch()}</div>
-          {!projectId ||
-          (account &&
-            account.id &&
-            (account.id === loginId || account.isAdmin)) ? (
-            <div className={classes.navButtonsWrapper}>
-              <NavButton
-                disabled={page === 1}
-                onClick={() => {
-                  onPageChange(page - 1);
-                }}
-              >
-                &lt;
-              </NavButton>
-              <NavButton
-                disabled={page === 6 || disablePageNavigation}
-                onClick={() => {
-                  onPageChange(page + 1);
-                }}
-              >
-                &gt;
-              </NavButton>
-            </div>
-          ) : null}
+          <div>{routes}</div>
+          {/* {!projectId || (account && account.id && account.id === loginId) ? ( */}
+          <div className={classes.navButtonsWrapper}>
+            <NavButton
+              disabled={Number(page) === 1}
+              onClick={() => {
+                onPageChange(Number(page) - 1);
+              }}
+            >
+              &lt;
+            </NavButton>
+            <NavButton
+              disabled={page === 6 || disablePageNavigation}
+              onClick={() => {
+                onPageChange(Number(page) + 1);
+              }}
+            >
+              &gt;
+            </NavButton>
+          </div>
+          {/* ) : null} */}
         </div>
       </div>
     </React.Fragment>
   );
 };
+
 TdmCalculationWizard.propTypes = {
   rules: PropTypes.arrayOf(
     PropTypes.shape({
@@ -242,7 +235,7 @@ TdmCalculationWizard.propTypes = {
       minValue: PropTypes.number,
       maxValue: PropTypes.number,
       choices: PropTypes.array,
-      calcValue: PropTypes.any,
+      calcValue: PropTypes.number,
       calcUnits: PropTypes.string,
       required: PropTypes.bool,
       minStringLength: PropTypes.number,
@@ -250,6 +243,14 @@ TdmCalculationWizard.propTypes = {
       validationErrors: PropTypes.array
     })
   ).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      page: PropTypes.number
+    })
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }),
   onInputChange: PropTypes.func.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   onUncheckAll: PropTypes.func.isRequired,
@@ -264,4 +265,4 @@ TdmCalculationWizard.propTypes = {
   pageNo: PropTypes.number.isRequired
 };
 
-export default TdmCalculationWizard;
+export default withRouter(TdmCalculationWizard);
