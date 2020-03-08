@@ -101,7 +101,7 @@ const TdmCalculationWizard = props => {
       history.push(`/calculation/6/${projectId}`);
       // setPage(6);
     }
-  }, [projectId, account, loginId, pageNo]);
+  }, [projectId, account, loginId, pageNo, history]);
 
   const projectDescriptionRules =
     rules && rules.filter(filters.projectDescriptionRules);

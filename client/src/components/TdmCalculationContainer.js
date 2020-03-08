@@ -66,14 +66,14 @@ export function TdmCalculationContainer(props) {
           resultRuleCodes
         );
         setRules(TdmCalculationContainer.engine.showRulesArray());
-        // });
       } catch (err) {
         console.log(JSON.stringify(err, null, 2));
         getRules();
       }
     };
     initiateEngine();
-  }, []);
+  }, [getRules, props.match, resultRuleCodes]);
+
   const onPkgSelect = pkgType => {
     let pkgRules = [];
     if (pkgType === "Residential") {
