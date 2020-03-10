@@ -18,61 +18,72 @@ const styles = {
   }
 };
 
+// These are the calculation results we want to calculate
+// and display on the main page.
+const resultRuleCodes = [
+  "PROJECT_LEVEL",
+  "CALC_PARK_RATIO",
+  "TARGET_POINTS_PARK",
+  "PTS_EARNED"
+];
+
 export function TdmCalculationContainer(props) {
   const context = useContext(ToastContext);
-
-  // These are the calculation results we want to calculate
-  // and display on the main page.
-  const resultRuleCodes = [
-    "PROJECT_LEVEL",
-    "CALC_PARK_RATIO",
-    "TARGET_POINTS_PARK",
-    "PTS_EARNED"
-  ];
-
+  const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
   const [formInputs, setFormInputs] = useState({});
-  const [projectId, setProjectId] = useState("");
+  const [projectId, setProjectId] = useState(null);
   const [loginId, setLoginId] = useState(0);
   const [view, setView] = useState("w");
-  const getRules = async () => {
-    const ruleResponse = await ruleService.getByCalculationId(
-      TdmCalculationContainer.calculationId
-    );
-    TdmCalculationContainer.engine = new Engine(ruleResponse.data);
-    TdmCalculationContainer.engine.run(formInputs, resultRuleCodes);
-    setRules(TdmCalculationContainer.engine.showRulesArray());
-  };
 
+  // Get the rules for the calculation. Runs once when
+  // component is loaded.
+  useEffect(() => {
+    const getRules = async () => {
+      const ruleResponse = await ruleService.getByCalculationId(
+        TdmCalculationContainer.calculationId
+      );
+      setEngine(new Engine(ruleResponse.data));
+    };
+    getRules();
+  }, []);
+
+  // Initialize the engine with saved project data, as appropriate.
+  // Should run only when projectId changes.
   useEffect(() => {
     const initiateEngine = async () => {
-      const { params } = props.match;
+      // Only run if engine has been instantiated
+      if (!engine) return;
+      // If projectId param is not defined, projectId
+      // will be assigned the string "undefined" - ugh!
+      const projectId = Number(props.match.params.projectId) || null;
+      setProjectId(projectId ? Number(projectId) : null);
       try {
         let projectResponse = null;
-        if (params.projectId) {
-          const projectId = props.match.params.projectId;
+        let inputs = {};
+        if (projectId > 0) {
           projectResponse = await projectService.getById(projectId);
-          setProjectId(projectId ? Number(projectId) : null);
           setLoginId(projectResponse.data.loginId);
-          setFormInputs(JSON.parse(projectResponse.data.formInputs));
+          inputs = JSON.parse(projectResponse.data.formInputs);
         }
-
-        const ruleResponse = await ruleService.getByCalculationId(
-          TdmCalculationContainer.calculationId
-        );
-        TdmCalculationContainer.engine = new Engine(ruleResponse.data);
-        TdmCalculationContainer.engine.run(
-          projectResponse && JSON.parse(projectResponse.data.formInputs),
-          resultRuleCodes
-        );
-        setRules(TdmCalculationContainer.engine.showRulesArray());
+        engine.run(inputs, resultRuleCodes);
+        setFormInputs(inputs);
+        setRules(engine.showRulesArray());
       } catch (err) {
         console.log(JSON.stringify(err, null, 2));
-        getRules();
       }
     };
     initiateEngine();
-  }, [getRules, props.match, resultRuleCodes]);
+  }, [props.match.params.projectId, engine]);
+
+  const recalculate = formInputs => {
+    engine.run(formInputs, resultRuleCodes);
+    const rules = engine.showRulesArray();
+    // update state with modified formInputs and rules
+    // const showWork = this.engine.showWork("PARK_REQUIREMENT");
+    setFormInputs(formInputs);
+    setRules(rules);
+  };
 
   const onPkgSelect = pkgType => {
     let pkgRules = [];
@@ -199,15 +210,6 @@ export function TdmCalculationContainer(props) {
     }
   };
 
-  const recalculate = formInputs => {
-    TdmCalculationContainer.engine.run(formInputs, resultRuleCodes);
-    const rules = TdmCalculationContainer.engine.showRulesArray();
-    // update state with modified formInputs and rules
-    // const showWork = this.engine.showWork("PARK_REQUIREMENT");
-    setFormInputs(formInputs);
-    setRules(rules);
-  };
-
   const filters = {
     projectDescriptionRules: rule =>
       rule.category === "input" &&
@@ -274,7 +276,6 @@ export function TdmCalculationContainer(props) {
 }
 
 TdmCalculationContainer.calculationId = 1;
-TdmCalculationContainer.engine = null;
 
 TdmCalculationContainer.propTypes = {
   account: PropTypes.shape({
