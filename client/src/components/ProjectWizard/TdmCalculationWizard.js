@@ -91,7 +91,13 @@ const TdmCalculationWizard = props => {
   const { page, projectId } = match.params;
 
   useEffect(() => {
-    if (account && (account.isAdmin || account.id === loginId)) {
+    if (!projectId) {
+      history.push("/calculation/1/");
+    } else if (
+      projectId &&
+      account &&
+      (account.isAdmin || account.id === loginId)
+    ) {
       // Project Calculation is editable if it is not saved
       // or the project was created by the current logged in
       // user, or the logged in user is admin.
