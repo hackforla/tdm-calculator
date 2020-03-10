@@ -18,6 +18,7 @@ class Engine {
   }
 
   run(formInputs, ruleCodes) {
+    console.log("input", formInputs);
     try {
       for (let i = 0; i < ruleCodes.length; i++) {
         if (!this.initialRules[ruleCodes[i]]) {
@@ -184,7 +185,7 @@ class Engine {
   // dynamically creating functions, but that's what we need.
   buildFunction(body) {
     // eslint-disable-next-line no-new-func
-    return Function('"use strict";' + body);
+    return Function("\"use strict\";" + body);
   }
 
   executeCalc(ruleCode) {
@@ -289,10 +290,12 @@ class Engine {
   // result to database.
   showRulesArray() {
     const rulesArray = [];
+    console.log("engine-show", this.rules);
 
     for (var ruleCode in this.rules) {
       rulesArray.push(this.rules[ruleCode]);
     }
+    console.log("rules array", rulesArray);
     return rulesArray;
   }
 }

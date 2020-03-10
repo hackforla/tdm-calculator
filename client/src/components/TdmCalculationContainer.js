@@ -1,6 +1,7 @@
-import React from "react";
+/* eslint-disable linebreak-style */
+import React, { useEffect, useState, useContext } from "react";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import queryString from "query-string";
 import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
 import TdmCalculationWizard from "./ProjectWizard/TdmCalculationWizard";
 import * as ruleService from "../services/rule.service";
@@ -17,99 +18,83 @@ const styles = {
   }
 };
 
-class TdmCalculationContainer extends React.Component {
-  engine = null;
+// These are the calculation results we want to calculate
+// and display on the main page.
+const resultRuleCodes = [
+  "PROJECT_LEVEL",
+  "CALC_PARK_RATIO",
+  "TARGET_POINTS_PARK",
+  "PTS_EARNED"
+];
 
-  static contextType = ToastContext;
+export function TdmCalculationContainer(props) {
+  const context = useContext(ToastContext);
+  const [engine, setEngine] = useState(null);
+  const [rules, setRules] = useState([]);
+  const [formInputs, setFormInputs] = useState({});
+  const [projectId, setProjectId] = useState(null);
+  const [loginId, setLoginId] = useState(0);
+  const [view, setView] = useState("w");
 
-  // These are the calculation results we want to calculate
-  // and display on the main page.
-  resultRuleCodes = [
-    "PROJECT_LEVEL",
-    "CALC_PARK_RATIO",
-    "TARGET_POINTS_PARK",
-    "PTS_EARNED"
-  ];
-
-  state = {
-    rules: [],
-    formInputs: {},
-    projectId: 0,
-    loginId: 0, // Project creator's loginId
-    view: "w", // "w" for wizard view, "d" for old default
-    pageNo: 1
-  };
-
-  pushHistory = () => {
-    const qs = queryString.stringify({
-      view: this.state.view,
-      pageNo: this.state.pageNo
-    });
-    const url = this.props.location.pathname + "?" + qs;
-    this.props.history.push(url);
-  };
-
-  async componentDidMount() {
-    const { pageNo, view } = queryString.parse(this.props.location.search);
-    if (pageNo) {
-      this.setState({ pageNo: Number(pageNo) });
-    }
-    if (view && view === "d") {
-      this.setState({ view });
-    }
-    try {
-      if (this.props.match.params.projectId) {
-        const projectId = this.props.match.params.projectId;
-        const projectResponse = await projectService.getById(projectId);
-        this.setState({
-          projectId: projectId ? Number(projectId) : null,
-          loginId: projectResponse.data.loginId,
-          formInputs: JSON.parse(projectResponse.data.formInputs)
-        });
-      }
-
+  // Get the rules for the calculation. Runs once when
+  // component is loaded.
+  useEffect(() => {
+    const getRules = async () => {
       const ruleResponse = await ruleService.getByCalculationId(
         TdmCalculationContainer.calculationId
       );
-      this.engine = new Engine(ruleResponse.data);
-      // console.log("Calculation Rules:");
-      // console.log(JSON.stringify(ruleResponse.data, null, 2));
-      this.engine.run(this.state.formInputs, this.resultRuleCodes);
-      this.setState({
-        rules: this.engine.showRulesArray()
-      });
-    } catch (err) {
-      console.log(JSON.stringify(err, null, 2));
-    }
-  }
+      setEngine(new Engine(ruleResponse.data));
+    };
+    getRules();
+  }, []);
 
-  componentDidUpdate = async prevProps => {
-    if (prevProps.location.search !== this.props.location.search) {
-      let query = queryString.parse(this.props.location.search);
-      if (query.pageNo) {
-        this.setState({
-          pageNo: parseInt(query.pageNo)
-        });
+  // Initialize the engine with saved project data, as appropriate.
+  // Should run only when projectId changes.
+  useEffect(() => {
+    const initiateEngine = async () => {
+      // Only run if engine has been instantiated
+      if (!engine) return;
+      // If projectId param is not defined, projectId
+      // will be assigned the string "undefined" - ugh!
+      const projectId = Number(props.match.params.projectId) || null;
+      setProjectId(projectId ? Number(projectId) : null);
+      try {
+        let projectResponse = null;
+        let inputs = {};
+        if (projectId > 0) {
+          projectResponse = await projectService.getById(projectId);
+          setLoginId(projectResponse.data.loginId);
+          inputs = JSON.parse(projectResponse.data.formInputs);
+        }
+        engine.run(inputs, resultRuleCodes);
+        setFormInputs(inputs);
+        setRules(engine.showRulesArray());
+      } catch (err) {
+        console.log(JSON.stringify(err, null, 2));
       }
-    }
+    };
+    initiateEngine();
+  }, [props.match.params.projectId, engine]);
 
-    this.props.setIsCreatingNewProject(true);
+  const recalculate = formInputs => {
+    engine.run(formInputs, resultRuleCodes);
+    const rules = engine.showRulesArray();
+    // update state with modified formInputs and rules
+    // const showWork = this.engine.showWork("PARK_REQUIREMENT");
+    setFormInputs(formInputs);
+    setRules(rules);
   };
 
-  componentWillUnmount = () => {
-    this.props.setIsCreatingNewProject(false);
-  };
-
-  onPkgSelect = pkgType => {
+  const onPkgSelect = pkgType => {
     let pkgRules = [];
     if (pkgType === "Residential") {
-      pkgRules = this.state.rules.filter(rule =>
+      pkgRules = rules.filter(rule =>
         ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_1"].includes(
           rule.code
         )
       );
     } else {
-      pkgRules = this.state.rules.filter(rule =>
+      pkgRules = rules.filter(rule =>
         ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
           rule.code
         )
@@ -120,26 +105,26 @@ class TdmCalculationContainer extends React.Component {
       changedProps[rule.code] = true;
       return changedProps;
     }, {});
-    const formInputs = {
-      ...this.state.formInputs,
+    const newFormInputs = {
+      ...formInputs,
       ...modifiedInputs
     };
-    this.recalculate(formInputs);
+    recalculate(newFormInputs);
   };
 
-  getRuleByCode = ruleCode => {
-    const rule = this.state.rules.find(rule => rule.code === ruleCode);
+  const getRuleByCode = ruleCode => {
+    const rule = rules.find(rule => rule.code === ruleCode);
     if (rule === undefined) {
       throw new Error("Rule not found for code " + ruleCode);
     }
     return rule;
   };
 
-  limitToInt = value => {
+  const limitToInt = value => {
     return value.replace(/\D/g, "");
   };
 
-  limitMinMax = (value, min, max) => {
+  const limitMinMax = (value, min, max) => {
     if (min !== null) {
       value = value < min ? min : value;
     }
@@ -149,7 +134,7 @@ class TdmCalculationContainer extends React.Component {
     return value;
   };
 
-  onInputChange = e => {
+  const onInputChange = e => {
     const ruleCode = e.target.name;
     let value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -157,24 +142,23 @@ class TdmCalculationContainer extends React.Component {
       throw new Error("Input is missing name attribute");
     }
 
-    const rule = this.getRuleByCode(ruleCode);
+    const rule = getRuleByCode(ruleCode);
 
     // Convert value to appropriate Data type
     if (rule.dataType === "number") {
-      value = this.limitToInt(value);
-      value = this.limitMinMax(value, rule.minValue, rule.maxValue);
+      value = limitToInt(value);
+      value = limitMinMax(value, rule.minValue, rule.maxValue);
       value = value === "0" ? "" : value;
     }
 
-    const formInputs = {
-      ...this.state.formInputs,
+    const newFormInputs = {
+      ...formInputs,
       [e.target.name]: value
     };
-    this.recalculate(formInputs);
+    recalculate(newFormInputs);
   };
 
-  onUncheckAll = filterRules => {
-    const { rules, formInputs } = this.state;
+  const onUncheckAll = filterRules => {
     let updateInputs = { ...formInputs };
     for (let i = 0; i < rules.length; i++) {
       if (filterRules(rules[i])) {
@@ -183,71 +167,50 @@ class TdmCalculationContainer extends React.Component {
         }
       }
     }
-    this.recalculate(updateInputs);
+    recalculate(updateInputs);
   };
 
-  onSave = async evt => {
-    if (this.props.account.id !== this.loginId) {
-      console.log(`Failed to save - user is not project owner.`);
-      return;
-    }
-
-    // Only save inputs that have a value
-    const inputsToSave = { ...this.state.formInputs };
+  const onSave = async () => {
+    const inputsToSave = { ...formInputs };
     for (let input in inputsToSave) {
-      console.log("input", inputsToSave[input]);
       if (!inputsToSave[input]) {
         delete inputsToSave[input];
       }
     }
 
     const requestBody = {
-      name: this.state.formInputs.PROJECT_NAME,
-      address: this.state.formInputs.PROJECT_ADDRESS,
-      description: this.state.formInputs.PROJECT_DESCRIPTION,
+      name: formInputs.PROJECT_NAME,
+      address: formInputs.PROJECT_ADDRESS,
+      description: formInputs.PROJECT_DESCRIPTION,
       formInputs: JSON.stringify(inputsToSave),
-      loginId: this.props.account.id,
+      loginId: props.account.id,
       calculationId: TdmCalculationContainer.calculationId
     };
     if (!requestBody.name) {
-      this.context.add("You must give the project a name before saving.");
+      context.add("You must give the project a name before saving.");
       return;
     }
-    if (this.state.projectId) {
-      requestBody.id = this.state.projectId;
+    if (projectId) {
+      requestBody.id = projectId;
       try {
         await projectService.put(requestBody);
-        this.context.add("Saved Project Changes");
+        context.add("Saved Project Changes");
       } catch (err) {
         console.log(err);
       }
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
-        this.setState(
-          {
-            projectId: postResponse.data.id,
-            loginId: this.props.account.id
-          },
-          () => {
-            this.context.add("Saved New Project");
-          }
-        );
+        setProjectId(postResponse.data.id);
+        setLoginId(props.account.id);
+        context.add("Saved New Project");
       } catch (err) {
         console.log(err);
       }
     }
   };
 
-  recalculate = formInputs => {
-    this.engine.run(formInputs, this.resultRuleCodes);
-    const rules = this.engine.showRulesArray();
-    // update state with modified formInputs and rules
-    // const showWork = this.engine.showWork("PARK_REQUIREMENT");
-    this.setState({ formInputs, rules });
-  };
-
-  filters = {
+  const filters = {
     projectDescriptionRules: rule =>
       rule.category === "input" &&
       rule.calculationPanelId === 31 &&
@@ -276,51 +239,62 @@ class TdmCalculationContainer extends React.Component {
       rule.calculationPanelId !== 10
   };
 
-  render() {
-    const { rules, view, projectId, loginId, pageNo } = this.state;
-    const { account, classes } = this.props;
-    return (
-      <div className={classes.root}>
-        {view === "w" ? (
-          <TdmCalculationWizard
-            rules={rules}
-            onInputChange={this.onInputChange}
-            onUncheckAll={this.onUncheckAll}
-            filters={this.filters}
-            onPkgSelect={this.onPkgSelect}
-            resultRuleCodes={this.resultRuleCodes}
-            onViewChange={() => this.setState({ view: "d" }, this.pushHistory)}
-            onPageChange={pageNo => this.setState({ pageNo }, this.pushHistory)}
-            account={account}
-            projectId={Number(projectId)}
-            loginId={loginId}
-            onSave={this.onSave}
-            pageNo={pageNo}
-          />
-        ) : (
-          <TdmCalculation
-            rules={rules}
-            onInputChange={this.onInputChange}
-            onUncheckAll={this.onUncheckAll}
-            filters={this.filters}
-            onPkgSelect={this.onPkgSelect}
-            resultRuleCodes={this.resultRuleCodes}
-            onViewChange={() => this.setState({ view: "w" }, this.pushHistory)}
-          />
-        )}
-
-        {/* <pre>
-          {JSON.stringify(
-            rules.filter(r => r.used),
-            null,
-            2
-          )}
-        </pre> */}
-      </div>
-    );
-  }
+  const { account, classes } = props;
+  return (
+    <div className={classes.root}>
+      {view === "w" ? (
+        <TdmCalculationWizard
+          rules={rules}
+          onInputChange={onInputChange}
+          onUncheckAll={onUncheckAll}
+          filters={filters}
+          onPkgSelect={onPkgSelect}
+          resultRuleCodes={resultRuleCodes}
+          onViewChange={() => {
+            setView("d");
+          }}
+          account={account}
+          projectId={Number(projectId)}
+          loginId={loginId}
+          onSave={onSave}
+        />
+      ) : (
+        <TdmCalculation
+          rules={rules}
+          onInputChange={onInputChange}
+          onUncheckAll={onUncheckAll}
+          filters={filters}
+          onPkgSelect={onPkgSelect}
+          resultRuleCodes={resultRuleCodes}
+          onViewChange={() => {
+            setView("w");
+          }}
+        />
+      )}
+    </div>
+  );
 }
 
 TdmCalculationContainer.calculationId = 1;
 
+TdmCalculationContainer.propTypes = {
+  account: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    id: PropTypes.number
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      page: PropTypes.string,
+      projectId: PropTypes.string
+    })
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }),
+  classes: PropTypes.object.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string
+  })
+};
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

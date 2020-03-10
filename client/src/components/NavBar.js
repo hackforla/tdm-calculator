@@ -1,6 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import NavBarLogin from "./NavBarLogin";
 import PropTypes from "prop-types";
 
@@ -39,13 +39,13 @@ const useStyles = createUseStyles({
 });
 
 const NavBar = props => {
-  const { account, setLoggedOutAccount, isCreatingNewProject } = props;
+  const { account, setLoggedOutAccount, location } = props;
   const classes = useStyles();
 
   const showNewProjectLink = () => {
-    return isCreatingNewProject ? null : (
+    return location.pathname.split("/")[1] === "calculation" ? null : (
       <li>
-        <Link className={classes.link} to="/calculation?pageNo=1&view=w">
+        <Link className={classes.link} to="/calculation/1">
           New Project
         </Link>
       </li>
@@ -122,7 +122,10 @@ NavBar.propTypes = {
     isSecurityAdmin: PropTypes.bool
   }),
   setLoggedOutAccount: PropTypes.func,
-  isCreatingNewProject: PropTypes.bool
+  isCreatingNewProject: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string
+  })
 };
 
-export default NavBar;
+export default withRouter(NavBar);
