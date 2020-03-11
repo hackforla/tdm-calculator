@@ -17,8 +17,14 @@ const useStyles = createUseStyles({
     flexDirection: "row"
   },
   aboutText: {
-    maxWidth: "600px",
-    minWidth: 300
+    maxWidth: "500px",
+    minWidth: 300,
+    padding: "0 2em"
+  },
+  "@media (max-width: 720px)": {
+    aboutText: {
+      padding: "0"
+    }
   },
   link: {
     textDecoration: "underline",

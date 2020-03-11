@@ -23,7 +23,8 @@ export const useStyles = createUseStyles({
   },
   "@media (max-width:720px)": {
     "sidebar-container": {
-      flexBasis: "auto"
+      flexBasis: "auto",
+      backgroundPosition: "15% 44%"
     }
   }
 });
