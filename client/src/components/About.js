@@ -21,7 +21,7 @@ const useStyles = createUseStyles({
     minWidth: 300,
     padding: "0 2em"
   },
-  "@media (max-width: 720px)": {
+  "@media (max-width: 768px)": {
     aboutText: {
       padding: "0"
     }
