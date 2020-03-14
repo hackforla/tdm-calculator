@@ -33,16 +33,20 @@ async function login(req, res) {
 // the authorization cookie has a valid JWT.
 async function validateUser(req, res, next) {
   const jwtString = req.headers.authorization || req.cookies.jwt;
-  const payload = await verify(jwtString);
+  try {
+    const payload = await verify(jwtString);
 
-  if (payload.email) {
-    req.user = payload;
-    return next();
+    if (payload.email) {
+      req.user = payload;
+      return next();
+    }
+
+    const err = new Error("Unauthorized");
+    err.statusCode = 401;
+    next(err);
+  } catch (er) {
+    next(er);
   }
-
-  const err = new Error("Unauthorized");
-  err.statusCode = 401;
-  next(err);
 }
 
 // Helper function to create JWT token

@@ -2,6 +2,25 @@ import axios from "axios";
 
 const baseUrl = "/api/accounts";
 
+export const search = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}`);
+    return response.data;
+  } catch (err) {
+    throw Error("Search accounts failed");
+  }
+};
+
+export const putRoles = async ({ id, isAdmin, isSecurityAdmin }) => {
+  try {
+    const body = { id, isAdmin, isSecurityAdmin };
+    const response = await axios.put(`${baseUrl}/${id}/roles`, body);
+    return response;
+  } catch (err) {
+    throw Error("Unable to set permissions");
+  }
+};
+
 export const register = async (firstName, lastName, email, password) => {
   try {
     const body = { firstName, lastName, email, password };

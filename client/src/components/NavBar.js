@@ -1,7 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import NavBarLogin from "./NavBarLogin";
+import PropTypes from "prop-types";
 
 const useStyles = createUseStyles({
   navbar: {
@@ -26,17 +27,25 @@ const useStyles = createUseStyles({
     "&:hover": {
       textDecoration: "underline"
     }
+  },
+  userLogin: {
+    marginLeft: "auto"
+  },
+  lastItem: {
+    marginLeft: "2em",
+    paddingRight: 0,
+    marginRight: "1em"
   }
 });
 
 const NavBar = props => {
-  const { account, setLoggedOutAccount, isCreatingNewProject } = props;
+  const { account, setLoggedOutAccount, location } = props;
   const classes = useStyles();
 
   const showNewProjectLink = () => {
-    return isCreatingNewProject ? null : (
+    return location.pathname.split("/")[1] === "calculation" ? null : (
       <li>
-        <Link className={classes.link} to="/calculation?pageNo=1&view=w">
+        <Link className={classes.link} to="/calculation/1">
           New Project
         </Link>
       </li>
@@ -55,67 +64,68 @@ const NavBar = props => {
           Projects
         </Link>
       </li>
-
       {showNewProjectLink()}
-      {/* <li>
-        <Link className={classes.link} to="/about">About</Link>
+      {/* {account && account.isAdmin && (
+        <li>
+          <Link className={classes.link} to="/admin">
+            Admin
+          </Link>
+        </li>
+      )} */}
+      {account && account.isSecurityAdmin && (
+        <li>
+          <Link className={classes.link} to="/roles">
+            Security
+          </Link>
+        </li>
+      )}
+      <li>
+        <Link className={classes.link} to="/about">
+          About
+        </Link>
       </li>
+      {/* 
       <li>
         <Link className={classes.link} to="/contactus">Contact Us</Link>
       </li> */}
-      {/* if there's an account in state, display logout and check if they are admin*/}
-      {account && account.email ? (
-        <>
-          {account.role === "admin" ? (
-            <li>
-              <Link className={classes.link} to="/admin">
-                Admin
-              </Link>
-            </li>
-          ) : null}
-          <li>
-            <button className="link" onClick={setLoggedOutAccount}>
-              Logout
-            </button>
-          </li>
-        </>
-      ) : (
-        <>
-          {/* if no account in state, show login button*/}
-          <li>
-            <Link className={classes.link} to="/login">
-              Login
-            </Link>
-          </li>
-        </>
-      )}
+      <NavBarLogin
+        account={account}
+        classes={classes}
+        setLoggedOutAccount={setLoggedOutAccount}
+      />
     </ul>
   );
 };
+
 NavBar.propTypes = {
-  rule: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    calculationId: PropTypes.number.isRequired,
-    code: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
-    dataType: PropTypes.string.isRequired,
-    value: PropTypes.any,
-    units: PropTypes.string,
-    functionBody: PropTypes.string,
-    cssClass: PropTypes.string,
-    panelDisplayOrder: PropTypes.number.isRequired,
-    displayOrder: PropTypes.number.isRequired,
-    calculationPanelId: PropTypes.number.isRequired,
-    panelName: PropTypes.string
-  }),
-  onInputChange: PropTypes.func,
+  // rule: PropTypes.shape({
+  //   id: PropTypes.number.isRequired,
+  //   calculationId: PropTypes.number.isRequired,
+  //   code: PropTypes.string.isRequired,
+  //   name: PropTypes.string.isRequired,
+  //   category: PropTypes.string.isRequired,
+  //   dataType: PropTypes.string.isRequired,
+  //   value: PropTypes.any,
+  //   units: PropTypes.string,
+  //   functionBody: PropTypes.string,
+  //   cssClass: PropTypes.string,
+  //   panelDisplayOrder: PropTypes.number.isRequired,
+  //   displayOrder: PropTypes.number.isRequired,
+  //   calculationPanelId: PropTypes.number.isRequired,
+  //   panelName: PropTypes.string
+  // }),
+  // onInputChange: PropTypes.func,
   account: PropTypes.shape({
     email: PropTypes.string,
-    role: PropTypes.string
+    role: PropTypes.string,
+    isAdmin: PropTypes.bool,
+    isSecurityAdmin: PropTypes.bool
   }),
   setLoggedOutAccount: PropTypes.func,
-  isCreatingNewProject: PropTypes.bool
+  isCreatingNewProject: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string
+  })
 };
 
-export default NavBar;
+export default withRouter(NavBar);

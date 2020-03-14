@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import * as accountService from "../../services/account-service";
+import * as accountService from "../../services/account.service";
 import SideBar from "../Sidebar";
 import clsx from "clsx";
 

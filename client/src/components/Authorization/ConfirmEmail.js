@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Redirect, withRouter } from "react-router-dom";
-import * as accountService from "../../services/account-service";
+import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
 
 const ConfirmEmail = props => {
