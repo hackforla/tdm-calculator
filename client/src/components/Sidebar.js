@@ -7,7 +7,7 @@ export const useStyles = createUseStyles({
     margin: "0",
     flexBasis: "387px",
     flexGrow: 0,
-    flexShrink: 5,
+    flexShrink: 1,
     backgroundImage: "url(/assets/hard-hats-silvia-brazzoduro.png)",
     backgroundPosition: "15% center",
     backgroundSize: "cover",
@@ -21,7 +21,13 @@ export const useStyles = createUseStyles({
     justifyContent: "flex-start",
     height: "100%"
   },
-  "@media (max-width:720px)": {
+  "@media (max-width: 1024px)": {
+    "sidebar-container": {
+      flexBasis: "200px",
+      flexShrink: 0
+    }
+  },
+  "@media (max-width:768px)": {
     "sidebar-container": {
       flexBasis: "auto",
       backgroundPosition: "15% 44%"
@@ -39,6 +45,7 @@ export function Sidebar(props) {
     </div>
   );
 }
+
 Sidebar.propTypes = {
   children: PropTypes.any
 };

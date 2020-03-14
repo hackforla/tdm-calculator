@@ -9,7 +9,8 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "center"
+    alignItems: "center",
+    minHeight: "calc(100vh - 103px - 48px)"
   },
   table: {
     minWidth: "80%",

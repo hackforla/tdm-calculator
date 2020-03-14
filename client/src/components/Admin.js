@@ -33,7 +33,7 @@ const Admin = props => {
   //console.log(calculationRules);
 
   return (
-    <div>
+    <div className="tdm-wizard">
       <h3>Admin</h3>
       <div>
         <h4>Calculation Rules</h4>

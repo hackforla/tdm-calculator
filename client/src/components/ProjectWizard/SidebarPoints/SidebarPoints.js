@@ -9,7 +9,8 @@ const useStyles = createUseStyles({
     fontStyle: "bold"
   },
   ruleName: {
-    fontSize: "16px"
+    fontSize: "16px",
+    textAlign: "center"
   }
 });
 

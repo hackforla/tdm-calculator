@@ -23,7 +23,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row"
   },
-  "@media (max-width:720px)": {
+  "@media (max-width:768px)": {
     root: {
       flexDirection: "column"
     }
