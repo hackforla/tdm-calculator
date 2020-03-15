@@ -17,10 +17,10 @@
   "author": "Hack for LA",
   "license": "ISC",
   "dependencies": {
-    "@sendgrid/mail": "^6.4.0",
+    "@sendgrid/mail": "^6.5.4",
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.4",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "error-handler": "^1.0.0",
@@ -31,16 +31,15 @@
     "tedious-connection-pool": "^1.0.5"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^5.3.1",
     "eslint": "^6.8.0",
     "eslint-plugin-cypress": "^2.10.3",
-    "eslint-plugin-jest": "^23.7.0",
-    "eslint-plugin-react": "^7.18.3",
-    "husky": "^4.2.1",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-react": "^7.19.0",
+    "husky": "^4.2.3",
     "lerna": "^3.20.2",
-    "lint-staged": "^10.0.7",
-    "nodemon": "^1.19.1",
-    "prettier": "1.19.1",
-    "@testing-library/cypress": "^5.3.0"
+    "lint-staged": "^10.0.8",
+    "prettier": "1.19.1"
   },
   "husky": {
     "hooks": {
