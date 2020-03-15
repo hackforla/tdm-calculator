@@ -102,7 +102,14 @@ export function TdmCalculationContainer(props) {
     }
 
     const modifiedInputs = pkgRules.reduce((changedProps, rule) => {
-      changedProps[rule.code] = true;
+      if (rule.code === "STRATEGY_INFO_3") {
+        // For Education, Marketing, and Outreach, set to "basic" if not already
+        // set to non-zero value
+        changedProps[rule.code] =
+          !rule.value || rule.value === "0" ? 1 : rule.value;
+      } else {
+        changedProps[rule.code] = true;
+      }
       return changedProps;
     }, {});
     const newFormInputs = {
@@ -254,7 +261,6 @@ export function TdmCalculationContainer(props) {
             setView("d");
           }}
           account={account}
-          projectId={Number(projectId)}
           loginId={loginId}
           onSave={onSave}
         />

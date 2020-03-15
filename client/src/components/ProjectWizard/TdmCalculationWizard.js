@@ -85,16 +85,15 @@ const TdmCalculationWizard = props => {
     onPkgSelect,
     resultRuleCodes,
     account,
-    // projectId,
     loginId,
     onSave,
-    // onPageChange,
     onViewChange,
-    pageNo,
+    //pageNo,
     history,
     match
   } = props;
-  const { page, projectId } = match.params;
+  const page = Number(match.params.page);
+  const projectId = Number(match.params);
 
   useEffect(() => {
     if (!projectId) {
@@ -113,7 +112,7 @@ const TdmCalculationWizard = props => {
       history.push(`/calculation/6/${projectId}`);
       // setPage(6);
     }
-  }, [projectId, account, loginId, pageNo, history]);
+  }, [projectId, account, loginId, history]);
 
   const projectDescriptionRules =
     rules && rules.filter(filters.projectDescriptionRules);
@@ -308,7 +307,7 @@ TdmCalculationWizard.propTypes = {
   ).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      page: PropTypes.number,
+      page: PropTypes.string,
       projectId: PropTypes.string
     })
   }),
@@ -321,12 +320,9 @@ TdmCalculationWizard.propTypes = {
   filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,
   account: PropTypes.object.isRequired,
-  projectId: PropTypes.number.isRequired,
   loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  onViewChange: PropTypes.func.isRequired,
-  pageNo: PropTypes.number.isRequired
+  onViewChange: PropTypes.func.isRequired
 };
 
 export default withRouter(TdmCalculationWizard);
