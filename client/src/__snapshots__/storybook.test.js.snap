@@ -41,7 +41,7 @@ exports[`Storyshots Header default 1`] = `
     <li>
       <a
         className="link-0-2-4"
-        href="/calculation?pageNo=1&view=w"
+        href="/calculation/1"
         onClick={[Function]}
       >
         New Project
@@ -2257,34 +2257,12 @@ Array [
 
 exports[`Storyshots Sidebar default 1`] = `
 <div
-  className="container-0-2-75"
+  className="sidebar-container-0-2-75"
 >
   <div />
-  <div>
-    <div
-      className="links-0-2-76"
-    >
-      <a
-        className="link-0-2-77"
-        href="/"
-        onClick={[Function]}
-      >
-         
-        Terms and Conditions
-      </a>
-      <div>
-        |
-      </div>
-      <a
-        className="link-0-2-77"
-        href="/"
-        onClick={[Function]}
-      >
-         
-        Privacy Policy
-      </a>
-    </div>
-  </div>
+  <div
+    className="sidebar-content-0-2-76"
+  />
 </div>
 `;
 
