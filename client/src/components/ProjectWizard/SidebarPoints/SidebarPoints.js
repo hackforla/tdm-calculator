@@ -8,6 +8,12 @@ const useStyles = createUseStyles({
     fontFamily: "Oswald, Calibri",
     fontStyle: "bold"
   },
+  ruleValueHidden: {
+    fontSize: "40px",
+    fontFamily: "Oswald, Calibri",
+    fontStyle: "bold",
+    visibility: "hidden"
+  },
   ruleName: {
     fontSize: "16px",
     textAlign: "center"
@@ -19,7 +25,15 @@ const SidebarPoints = props => {
   const { rule } = props;
   return (
     <div className="tdm-calculation-metrics-panel-item">
-      <div className={classes.ruleValue}>{rule.value}</div>
+      <div
+        className={
+          rule.value && rule.value !== "0"
+            ? classes.ruleValue
+            : classes.ruleValueHidden
+        }
+      >
+        {rule.value}
+      </div>
       <h3 className={classes.ruleName}>{rule.name}</h3>
       {/* <div> {rule.units}</div> */}
     </div>
