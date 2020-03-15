@@ -18,6 +18,11 @@ const useStyles = createUseStyles({
     flex: "1 0 auto",
     display: "flex",
     flexDirection: "row"
+  },
+  "@media (max-width:768px)": {
+    tdmWizard: {
+      flexDirection: "column"
+    }
   }
 });
 

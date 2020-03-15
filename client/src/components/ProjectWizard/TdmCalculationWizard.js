@@ -19,11 +19,16 @@ import {
 
 const useStyles = createUseStyles({
   root: {
-    height: "calc(100vh - 103px)",
-    overflow: "hidden",
+    //height: "calc(100vh - 103px)",
+    //overflow: "hidden",
     flex: "1 1 auto",
     display: "flex",
     flexDirection: "row"
+  },
+  "@media (max-width:768px)": {
+    root: {
+      flexDirection: "column"
+    }
   },
   sidebarOverlay: {
     position: "absolute",
@@ -35,19 +40,20 @@ const useStyles = createUseStyles({
   sidebarContent: {
     zIndex: 1,
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    justifyContent: "space-between"
   },
   contentContainer: {
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     boxSizing: "border-box",
-    height: "calc(100vh - 103px)",
+    // height: "calc(100vh - 103px)",
     overflow: "auto"
   },
   buttonWrapper: {
     textAlign: "center"
   },
   navButtonsWrapper: {
-    marginBottom: "3em",
+    marginBottom: "2em",
     marginTop: "2em"
   },
   unSelectContainer: {

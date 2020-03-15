@@ -6,6 +6,7 @@ import { UserContext } from "./components/user-context";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
 import Projects from "./components/Projects";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import About from "./components/About";
 import ContactUs from "./components/ContactUs";
 import Register from "./components/Authorization/Register";
@@ -112,6 +113,7 @@ const App = () => {
               <Route path="/roles" render={() => <Roles />} />
             ) : null}
           </div>
+          <Footer />
         </Router>
       </UserContext.Provider>
     </React.Fragment>
