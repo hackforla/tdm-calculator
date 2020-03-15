@@ -52,7 +52,7 @@ function ProjectMeasure(props) {
     );
 
     const strategyCount = pkgRules.reduce(
-      (count, r) => count + (r.value ? 1 : 0),
+      (count, r) => count + (r.value && r.value !== "0" ? 1 : 0),
       0
     );
     return strategyCount === 3;
