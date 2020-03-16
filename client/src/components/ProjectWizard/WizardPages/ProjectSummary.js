@@ -126,6 +126,7 @@ const ProjectSummary = props => {
   const targetPoints = getRule("TARGET_POINTS_PARK");
   const earnedPoints = getRule("PTS_EARNED");
 
+  // Note: a rule is not effective if the value is any falsey value or "0"
   const measureRules =
     rules &&
     rules.filter(
@@ -134,10 +135,9 @@ const ProjectSummary = props => {
         rule.used &&
         rule.display &&
         rule.calculationPanelId !== 10 &&
-        (!!rule.value || !!rule.calcValue)
+        (!!(rule.value && rule.value !== "0") ||
+          !!(rule.calcValue && rule.calcValue !== "0"))
     );
-
-  console.log(measureRules);
 
   const specificationRules =
     rules &&
@@ -148,7 +148,8 @@ const ProjectSummary = props => {
         rule.display &&
         rule.calculationPanelId !== 5 &&
         rule.calculationPanelId !== 31 &&
-        (!!rule.value || !!rule.calcValue)
+        (!!(rule.value && rule.value !== "0") ||
+          !!(rule.calcValue && rule.calcValue !== "0"))
     );
 
   const loading =
@@ -261,7 +262,7 @@ const ProjectSummary = props => {
                     <FontAwesomeIcon icon={faCheck} />
                   ) : rule.dataType === "choice" ? (
                     rule.choices.find(
-                      choice => Number(choice.id) === rule.value
+                      choice => Number(choice.id) === Number(rule.value)
                     ).name
                   ) : (
                     rule.value
