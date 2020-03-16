@@ -11,44 +11,52 @@ const uuid4 = require("uuid/v4");
 
 const SALT_ROUNDS = 10;
 
-const selectAll = () => {
-  return mssql.executeProc("Login_SelectAll").then(response => {
+const selectAll = async () => {
+  try {
+    const response = await mssql.executeProc("Login_SelectAll");
     return response.resultSets[0];
-  });
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
-const selectById = id => {
-  return mssql
-    .executeProc("Login_SelectById", sqlRequest => {
+const selectById = async id => {
+  try {
+    const response = await mssql.executeProc("Login_SelectById", sqlRequest => {
       sqlRequest.addParameter("Id", TYPES.Int, id);
-    })
-    .then(response => {
-      if (
-        response.resultSets &&
-        response.resultSets[0] &&
-        response.resultSets[0].length > 0
-      ) {
-        return response.resultSets[0][0];
-      }
-      return null;
     });
+    if (
+      response.resultSets &&
+      response.resultSets[0] &&
+      response.resultSets[0].length > 0
+    ) {
+      return response.resultSets[0][0];
+    }
+    return null;
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
-const selectByEmail = email => {
-  return mssql
-    .executeProc("Login_SelectByEmail", sqlRequest => {
-      sqlRequest.addParameter("Email", TYPES.NVarChar, email);
-    })
-    .then(response => {
-      if (
-        response.resultSets &&
-        response.resultSets[0] &&
-        response.resultSets[0].length > 0
-      ) {
-        return response.resultSets[0][0];
+const selectByEmail = async email => {
+  try {
+    const response = await mssql.executeProc(
+      "Login_SelectByEmail",
+      sqlRequest => {
+        sqlRequest.addParameter("Email", TYPES.NVarChar, email);
       }
-      return null;
-    });
+    );
+    if (
+      response.resultSets &&
+      response.resultSets[0] &&
+      response.resultSets[0].length > 0
+    ) {
+      return response.resultSets[0][0];
+    }
+    return null;
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
 const register = async model => {
@@ -90,18 +98,18 @@ const register = async model => {
 const resendConfirmationEmail = async email => {
   let result = null;
   try {
-    const sql = `select id from  login where email = '${email}'`;
-    const insertResult = await pool.query(sql);
+    const selectByEmailResponse = await mssql.executeProc(
+      "Login_SelectByEmail",
+      sqlRequest => {
+        sqlRequest.addParameter("email", TYPES.NVarChar, email);
+      }
+    );
     result = {
       success: true,
       code: "REG_SUCCESS",
-      newId: insertResult.rows[0].id,
+      newId: selectByEmailResponse.resultSets[0].rows[0].id,
       message: "Account found."
     };
-
-    await mssql.executeProc("Login_SelectByEmail", sqlRequest => {
-      sqlRequest.addParameter("email", TYPES.NVarChar, email);
-    });
     result = await requestRegistrationConfirmation(email, result);
     return result;
   } catch (err) {
@@ -229,10 +237,6 @@ const forgotPassword = async model => {
 const requestResetPasswordConfirmation = async (email, result) => {
   const token = uuid4();
   try {
-    // const sqlToken = `insert into security_token (token, email)
-    //     values ('${token}', '${email}') `;
-    // await pool.query(sqlToken);
-
     await mssql.executeProc("SecurityToken_Insert", sqlRequest => {
       sqlRequest.addParameter("token", TYPES.NVarChar, token);
       sqlRequest.addParameter("email", TYPES.NVarChar, email);
@@ -251,6 +255,7 @@ const requestResetPasswordConfirmation = async (email, result) => {
 // Verify password reset token and change password
 const resetPassword = async ({ token, password }) => {
   const now = moment();
+  let email = "";
   try {
     const tokenResult = await mssql.executeProc(
       "SecurityToken_SelectByToken",
@@ -279,7 +284,7 @@ const resetPassword = async ({ token, password }) => {
 
     // If we get this far, we can update the password
     const passwordHash = await promisify(bcrypt.hash)(password, SALT_ROUNDS);
-    const email = resultSet.email;
+    email = resultSet.email;
 
     await mssql.executeProc("Login_ChangePassword", sqlRequest => {
       sqlRequest.addParameter("email", TYPES.NVarChar, email);
@@ -337,20 +342,22 @@ const authenticate = async (email, password) => {
   return {
     isSuccess: false,
     code: "AUTH_INCORRECT_PASSWORD",
-    reason: `Incorrect password`
+    reason: "Incorrect password"
   };
 };
 
-//TODO
-const update = model => {
-  const { id, firstName, lastName } = model;
-  const sql = `update login
-               set firstName = '${firstName}',
-                lastName = '${lastName}'
-                where id = ${id}`;
-  return pool.query(sql).then(res => {
-    return res;
-  });
+// Not fully implemented - needs sproc
+const update = async model => {
+  try {
+    await mssql.executeProc("Login_Update", sqlRequest => {
+      sqlRequest.addParameter("id", TYPES.Int, model.id);
+      sqlRequest.addParameter("firstName", TYPES.NVarChar, model.firstName);
+      sqlRequest.addParameter("lastName", TYPES.NVarChar, model.lastName);
+      sqlRequest.addParameter("email", TYPES.NVarChar, model.email);
+    });
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
 const updateRoles = async model => {
@@ -367,25 +374,26 @@ const updateRoles = async model => {
     return {
       isSuccess: true,
       code: "ROLES_UPDATE_SUCCESS",
-      message: "Roles Updates.",
-      email
+      message: "Roles Updates."
     };
   } catch (err) {
     return {
       isSuccess: false,
       code: "ROLES_UPDATE_FAILED",
-      message: `Password reset failed. ${err.message}`,
-      email: model.email
+      message: `Password reset failed. ${err.message}`
     };
   }
 };
 
-// TODO
-const remove = id => {
-  const sql = `delete from login where id = ${id}`;
-  return pool.query(sql).then(res => {
-    return res;
-  });
+// Not fully implemented - needs sproc
+const del = async id => {
+  try {
+    await mssql.executeProc("Login_Delete", sqlRequest => {
+      sqlRequest.addParameter("id", TYPES.Int, id);
+    });
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
 async function hashPassword(user) {
@@ -407,5 +415,5 @@ module.exports = {
   authenticate,
   update,
   updateRoles,
-  remove
+  del
 };

@@ -1,32 +1,65 @@
 const mssql = require("../../mssql");
 const TYPES = require("tedious").TYPES;
 
-const getAll = () => {
-  return mssql.executeProc("Calculation_SelectAll").then(response => {
+const getAll = async () => {
+  try {
+    const response = await mssql.executeProc("Calculation_SelectAll");
     return response.resultSets[0];
-  });
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
-const getById = id => {
-  return mssql
-    .executeProc("Calculation_SelectById", sqlRequest => {
-      sqlRequest.addParameter("Id", TYPES.Int, id);
-    })
-    .then(response => {
-      if (
-        response.resultSets &&
-        response.resultSets[0] &&
-        response.resultSets[0].length > 0
-      ) {
-        return response.resultSets[0][0];
+const getById = async id => {
+  try {
+    const response = await mssql.executeProc(
+      "Calculation_SelectById",
+      sqlRequest => {
+        sqlRequest.addParameter("Id", TYPES.Int, id);
       }
-      return null;
-    });
+    );
+    if (
+      response.resultSets &&
+      response.resultSets[0] &&
+      response.resultSets[0].length > 0
+    ) {
+      return response.resultSets[0][0];
+    }
+    return null;
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
-const post = item => {
-  return mssql
-    .executeProc("Calculation_Insert", sqlRequest => {
+const post = async item => {
+  try {
+    const response = await mssql.executeProc(
+      "Calculation_Insert",
+      sqlRequest => {
+        sqlRequest.addParameter("name", TYPES.NVarChar, item.name, {
+          length: 50
+        });
+        sqlRequest.addParameter(
+          "description",
+          TYPES.NVarChar,
+          item.description,
+          {
+            length: Infinity
+          }
+        );
+        sqlRequest.addParameter("deprecated", TYPES.Bit, item.deprecated);
+        sqlRequest.addOutputParameter("id", TYPES.Int, null);
+      }
+    );
+    return response.outputParameters;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+const put = async item => {
+  try {
+    await mssql.executeProc("Calculation_Update", sqlRequest => {
       sqlRequest.addParameter("name", TYPES.NVarChar, item.name, {
         length: 50
       });
@@ -34,31 +67,21 @@ const post = item => {
         length: Infinity
       });
       sqlRequest.addParameter("deprecated", TYPES.Bit, item.deprecated);
-      sqlRequest.addOutputParameter("id", TYPES.Int, null);
-    })
-    .then(response => {
-      return response.outputParameters;
+      sqlRequest.addParameter("id", TYPES.Int, item.id);
     });
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
-const put = item => {
-  console.log(item);
-  return mssql.executeProc("Calculation_Update", sqlRequest => {
-    sqlRequest.addParameter("name", TYPES.NVarChar, item.name, {
-      length: 50
+const del = async id => {
+  try {
+    await mssql.executeProc("Calculation_Delete", sqlRequest => {
+      sqlRequest.addParameter("id", TYPES.Int, id);
     });
-    sqlRequest.addParameter("description", TYPES.NVarChar, item.description, {
-      length: Infinity
-    });
-    sqlRequest.addParameter("deprecated", TYPES.Bit, item.deprecated);
-    sqlRequest.addParameter("id", TYPES.Int, item.id);
-  });
-};
-
-const del = id => {
-  return mssql.executeProc("Calculation_Delete", sqlRequest => {
-    sqlRequest.addParameter("id", TYPES.Int, id);
-  });
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
 module.exports = {

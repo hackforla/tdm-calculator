@@ -6,5 +6,5 @@ module.exports = router;
 
 router.get("/", faqController.get);
 router.post("/", faqController.post);
-router.put("/", faqController.put);
+router.put("/:id", faqController.put);
 router.delete("/:id", faqController.del);

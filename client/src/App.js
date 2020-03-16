@@ -14,6 +14,7 @@ import ConfirmEmail from "./components/Authorization/ConfirmEmail";
 import Login from "./components/Authorization/Login";
 import Admin from "./components/Admin";
 import Roles from "./components/Roles";
+import FaqView from "./components/Faq/FaqView";
 import LandingPage from "./components/LandingPage/LandingPage";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
@@ -112,6 +113,7 @@ const App = () => {
             {account && account.isSecurityAdmin ? (
               <Route path="/roles" render={() => <Roles />} />
             ) : null}
+            <Route path="/faqs" component={FaqView} />
           </div>
           <Footer />
         </Router>
