@@ -179,6 +179,20 @@ It will automatically be published to <a href="https://tdm-calc-staging.herokuap
 git branch -d release-1.0.1
 ```
 
+### Generating release notes
+
+We are using [`gren`](https://github.com/github-tools/github-release-notes) with .grenrc.json config file and generating the log from Github Issues. See [this page](https://github-tools.github.io/github-release-notes/concept.html) on the recommended convention for writing issue titles. We use the `enhancement` and `bug` labels to categorize issues for release notes.
+
+1. Follow instructions on the [`gren` setup section](https://github.com/github-tools/github-release-notes#setup) to generate and install your `Github token`.
+
+1. Be in the project root directory
+
+1. Run the script to update the notes
+
+```
+npm run release-notes
+```
+
 ## Creating a HotFix
 
 Creating a HotFix should only be done by the release manager! A HotFix should only
