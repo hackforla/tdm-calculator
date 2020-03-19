@@ -19,8 +19,6 @@ import {
 
 const useStyles = createUseStyles({
   root: {
-    //height: "calc(100vh - 103px)",
-    //overflow: "hidden",
     flex: "1 1 auto",
     display: "flex",
     flexDirection: "row"
@@ -41,12 +39,11 @@ const useStyles = createUseStyles({
     zIndex: 1,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between"
+    height: "100%"
   },
   contentContainer: {
-    //justifyContent: "space-between",
+    justifyContent: "flex-start",
     boxSizing: "border-box",
-    // height: "calc(100vh - 103px)",
     overflow: "auto"
   },
   buttonWrapper: {

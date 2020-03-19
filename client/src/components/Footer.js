@@ -9,15 +9,18 @@ export const useStyles = createUseStyles({
   links: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
-    alignSelf: "center",
     color: "white",
-    padding: "1em 0"
+    padding: "1em 0 1em 1em"
   },
   link: {
     color: "white",
     textAlign: "center",
     margin: "0 10px"
+  },
+  "@media (max-width:768px)": {
+    links: {
+      justifyContent: "center"
+    }
   }
 });
 
