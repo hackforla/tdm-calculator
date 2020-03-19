@@ -126,6 +126,7 @@ const ProjectSummary = props => {
   const targetPoints = getRule("TARGET_POINTS_PARK");
   const earnedPoints = getRule("PTS_EARNED");
 
+  // Note: a rule is not effective if the value is any falsey value or "0"
   const measureRules =
     rules &&
     rules.filter(
@@ -134,7 +135,8 @@ const ProjectSummary = props => {
         rule.used &&
         rule.display &&
         rule.calculationPanelId !== 10 &&
-        (!!rule.value || !!rule.calcValue)
+        (!!(rule.value && rule.value !== "0") ||
+          !!(rule.calcValue && rule.calcValue !== "0"))
     );
 
   const specificationRules =
@@ -146,7 +148,8 @@ const ProjectSummary = props => {
         rule.display &&
         rule.calculationPanelId !== 5 &&
         rule.calculationPanelId !== 31 &&
-        (!!rule.value || !!rule.calcValue)
+        (!!(rule.value && rule.value !== "0") ||
+          !!(rule.calcValue && rule.calcValue !== "0"))
     );
 
   const loading =
@@ -252,45 +255,46 @@ const ProjectSummary = props => {
           <h2 className={classes.heading}>TDM Measures Selected</h2>
           {rules && rules.length > 0
             ? measureRules.map(rule => (
-                <div key={rule.id} className={classes.rule}>
-                  <div className={classes.ruleName}>{rule.name}</div>
-                  <div className={classes.value}>
-                    {rule.dataType === "boolean" ? (
-                      <FontAwesomeIcon icon={faCheck} />
-                    ) : rule.dataType === "choice" ? (
-                      rule.choices.filter(choice => choice.id === rule.value)[0]
-                        .name
-                    ) : (
-                      rule.value
-                    )}
-                  </div>
-                  <div className={classes.ruleUnits}>{rule.units}</div>
-                  <div className={classes.icon}>
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </div>
-                  <div className={classes.value}>
-                    {Math.round(rule.calcValue * 100) / 100}
-                  </div>
-                  <div className={classes.calcUnits}>{rule.calcUnits}</div>
+              <div key={rule.id} className={classes.rule}>
+                <div className={classes.ruleName}>{rule.name}</div>
+                <div className={classes.value}>
+                  {rule.dataType === "boolean" ? (
+                    <FontAwesomeIcon icon={faCheck} />
+                  ) : rule.dataType === "choice" ? (
+                    rule.choices.find(
+                      choice => Number(choice.id) === Number(rule.value)
+                    ).name
+                  ) : (
+                    rule.value
+                  )}
                 </div>
-              ))
+                <div className={classes.ruleUnits}>{rule.units}</div>
+                <div className={classes.icon}>
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </div>
+                <div className={classes.value}>
+                  {Math.round(rule.calcValue * 100) / 100}
+                </div>
+                <div className={classes.calcUnits}>{rule.calcUnits}</div>
+              </div>
+            ))
             : null}
           <h2 className={classes.heading}>Required Parking Calculation</h2>
           {rules && rules.length > 0
             ? specificationRules.map(rule => (
-                <div key={rule.id} className={classes.rule}>
-                  <div className={classes.ruleName}>{rule.name}</div>
-                  <div className={classes.value}>{rule.value}</div>
-                  <div className={classes.ruleUnits}>{rule.units}</div>
-                  <div className={classes.icon}>
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </div>
-                  <div className={classes.value}>
-                    {Math.round(rule.calcValue * 100) / 100}
-                  </div>
-                  <div className={classes.calcUnits}>{rule.calcUnits}</div>
+              <div key={rule.id} className={classes.rule}>
+                <div className={classes.ruleName}>{rule.name}</div>
+                <div className={classes.value}>{rule.value}</div>
+                <div className={classes.ruleUnits}>{rule.units}</div>
+                <div className={classes.icon}>
+                  <FontAwesomeIcon icon={faArrowRight} />
                 </div>
-              ))
+                <div className={classes.value}>
+                  {Math.round(rule.calcValue * 100) / 100}
+                </div>
+                <div className={classes.calcUnits}>{rule.calcUnits}</div>
+              </div>
+            ))
             : null}
           {parkingRequired ? (
             <div className={classes.rule}>

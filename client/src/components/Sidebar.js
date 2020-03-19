@@ -1,35 +1,37 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { Link } from "react-router-dom";
 
 export const useStyles = createUseStyles({
-  container: {
+  "sidebar-container": {
     margin: "0",
-    height: "calc(100vh - 103px)",
     flexBasis: "387px",
-    flexGrow: "0",
-    flexShrink: "0",
-    backgroundImage: 'url("/assets/hard-hats-silvia-brazzoduro.png")',
+    flexGrow: 0,
+    flexShrink: 1,
+    backgroundImage: "url(/assets/hard-hats-silvia-brazzoduro.png)",
     backgroundPosition: "15% center",
     backgroundSize: "cover",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start",
-    position: "relative"
+    justifyContent: "flex-start"
   },
-  links: {
+  "sidebar-content": {
     display: "flex",
-    justifyContent: "center",
-    color: "white",
-    width: "100%",
-    height: "auto",
-    position: "absolute",
-    bottom: "20px"
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    height: "100%"
   },
-  link: {
-    color: "white",
-    margin: "0 10px"
+  "@media (max-width: 1024px)": {
+    "sidebar-container": {
+      flexBasis: "200px",
+      flexShrink: 0
+    }
+  },
+  "@media (max-width:768px)": {
+    "sidebar-container": {
+      flexBasis: "auto",
+      backgroundPosition: "15% 44%"
+    }
   }
 });
 
@@ -37,25 +39,13 @@ export function Sidebar(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.container}>
+    <div className={classes["sidebar-container"]}>
       <div className={classes.overlay} />
-      <div className={classes.content}>
-        {props.children}
-        <div className={classes.links}>
-          <Link className={classes.link} to="/">
-            {" "}
-            Terms and Conditions
-          </Link>
-          <div>|</div>
-          <Link className={classes.link} to="/">
-            {" "}
-            Privacy Policy
-          </Link>
-        </div>
-      </div>
+      <div className={classes["sidebar-content"]}>{props.children}</div>
     </div>
   );
 }
+
 Sidebar.propTypes = {
   children: PropTypes.any
 };

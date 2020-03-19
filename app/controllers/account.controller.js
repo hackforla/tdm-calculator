@@ -109,7 +109,7 @@ const putRoles = async (req, res) => {
     await accountService.updateRoles(req.body);
     res.sendStatus(200);
   } catch (err) {
-    res.set(500).send(err);
+    res.status(500).send(err);
   }
 };
 

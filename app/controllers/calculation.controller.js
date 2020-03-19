@@ -1,62 +1,52 @@
 const calculationService = require("../services/calculation.service");
 
-const getAll = (req, res) => {
-  calculationService
-    .getAll()
-    .then(resultSet => {
-      res.json(resultSet);
-    })
-    .catch(err => {
-      res.set(500).send(err);
-    });
+const getAll = async (req, res) => {
+  try {
+    const response = await calculationService.getAll();
+    res.json(response);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
-const getById = (req, res) => {
-  calculationService
-    .getById(req.params.id)
-    .then(item => {
-      if (!item) {
-        res.status(404).send("Calculation " + req.params.id + " not found.");
-      }
-      res.json(item);
-    })
-    .catch(err => {
-      res.set(500).send(err);
-    });
+const getById = async (req, res) => {
+  try {
+    const response = await calculationService.getById(req.params.id);
+    if (!response) {
+      res.status(404).send("Calculation " + req.params.id + " not found.");
+      return;
+    }
+    res.json(response);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
-const post = (req, res) => {
-  calculationService
-    .post(req.body)
-    .then(outputParms => {
-      res.status(201).json(outputParms);
-      console.log(outputParms);
-    })
-    .catch(err => {
-      res.set(500).send(err);
-    });
+const post = async (req, res) => {
+  try {
+    const outputParms = await calculationService.post(req.body);
+    res.status(201).json(outputParms);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
-const put = (req, res) => {
-  calculationService
-    .put(req.body)
-    .then(() => {
-      res.sendStatus(200);
-    })
-    .catch(err => {
-      res.set(500).send(err);
-    });
+const put = async (req, res) => {
+  try {
+    await calculationService.put(req.body);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
-const del = (req, res) => {
-  calculationService
-    .del(req.params.id)
-    .then(() => {
-      res.sendStatus(200);
-    })
-    .catch(err => {
-      res.set(500).send(err);
-    });
+const del = async (req, res) => {
+  try {
+    await calculationService.del(req.params.id);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
 module.exports = {

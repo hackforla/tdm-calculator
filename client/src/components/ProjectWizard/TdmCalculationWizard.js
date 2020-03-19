@@ -19,11 +19,16 @@ import {
 
 const useStyles = createUseStyles({
   root: {
-    height: "calc(100vh - 103px)",
-    overflow: "hidden",
+    //height: "calc(100vh - 103px)",
+    //overflow: "hidden",
     flex: "1 1 auto",
     display: "flex",
     flexDirection: "row"
+  },
+  "@media (max-width:768px)": {
+    root: {
+      flexDirection: "column"
+    }
   },
   sidebarOverlay: {
     position: "absolute",
@@ -35,19 +40,20 @@ const useStyles = createUseStyles({
   sidebarContent: {
     zIndex: 1,
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    justifyContent: "space-between"
   },
   contentContainer: {
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     boxSizing: "border-box",
-    height: "calc(100vh - 103px)",
+    // height: "calc(100vh - 103px)",
     overflow: "auto"
   },
   buttonWrapper: {
     textAlign: "center"
   },
   navButtonsWrapper: {
-    marginBottom: "3em",
+    marginBottom: "2em",
     marginTop: "2em"
   },
   unSelectContainer: {
@@ -79,16 +85,15 @@ const TdmCalculationWizard = props => {
     onPkgSelect,
     resultRuleCodes,
     account,
-    // projectId,
     loginId,
     onSave,
-    // onPageChange,
     onViewChange,
-    pageNo,
+    //pageNo,
     history,
     match
   } = props;
-  const { page, projectId } = match.params;
+  const page = Number(match.params.page);
+  const projectId = Number(match.params);
 
   useEffect(() => {
     if (!projectId) {
@@ -107,7 +112,7 @@ const TdmCalculationWizard = props => {
       history.push(`/calculation/6/${projectId}`);
       // setPage(6);
     }
-  }, [projectId, account, loginId, pageNo, history]);
+  }, [projectId, account, loginId, history]);
 
   const projectDescriptionRules =
     rules && rules.filter(filters.projectDescriptionRules);
@@ -302,7 +307,7 @@ TdmCalculationWizard.propTypes = {
   ).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      page: PropTypes.number,
+      page: PropTypes.string,
       projectId: PropTypes.string
     })
   }),
@@ -315,12 +320,9 @@ TdmCalculationWizard.propTypes = {
   filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,
   account: PropTypes.object.isRequired,
-  projectId: PropTypes.number.isRequired,
   loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  onViewChange: PropTypes.func.isRequired,
-  pageNo: PropTypes.number.isRequired
+  onViewChange: PropTypes.func.isRequired
 };
 
 export default withRouter(TdmCalculationWizard);
