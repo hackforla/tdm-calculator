@@ -93,7 +93,7 @@ const TdmCalculationWizard = props => {
     match
   } = props;
   const page = Number(match.params.page);
-  const projectId = Number(match.params);
+  const projectId = Number(match.params.projectId);
 
   useEffect(() => {
     if (!projectId) {

@@ -18,7 +18,6 @@ class Engine {
   }
 
   run(formInputs, ruleCodes) {
-    console.log("input", formInputs);
     try {
       for (let i = 0; i < ruleCodes.length; i++) {
         if (!this.initialRules[ruleCodes[i]]) {
