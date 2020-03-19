@@ -251,30 +251,30 @@ const TdmCalculationWizard = props => {
           )}
         >
           <div>{routes}</div>
-          {/* {!projectId || (account && account.id && account.id === loginId) ? ( */}
-          <div className={classes.navButtonsWrapper}>
-            {rules && rules.length ? ( //navigation disabled until rules have loaded
-              <>
-                <NavButton
-                  disabled={Number(page) === 1}
-                  onClick={() => {
-                    onPageChange(Number(page) - 1);
-                  }}
-                >
-                  &lt;
-                </NavButton>
-                <NavButton
-                  disabled={page === 6 || disablePageNavigation}
-                  onClick={() => {
-                    onPageChange(Number(page) + 1);
-                  }}
-                >
-                  &gt;
-                </NavButton>
-              </>
-            ) : null}
-          </div>
-          {/* ) : null} */}
+          {!projectId || (account && account.id && account.id === loginId) ? (
+            <div className={classes.navButtonsWrapper}>
+              {rules && rules.length ? ( //navigation disabled until rules have loaded
+                <>
+                  <NavButton
+                    disabled={Number(page) === 1}
+                    onClick={() => {
+                      onPageChange(Number(page) - 1);
+                    }}
+                  >
+                    &lt;
+                  </NavButton>
+                  <NavButton
+                    disabled={page === 6 || disablePageNavigation}
+                    onClick={() => {
+                      onPageChange(Number(page) + 1);
+                    }}
+                  >
+                    &gt;
+                  </NavButton>
+                </>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </div>
     </React.Fragment>
