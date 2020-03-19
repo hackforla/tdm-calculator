@@ -13,7 +13,7 @@
     "heroku-postbuild": "cd client && npm i && npm run build",
     "start": "nodemon --ignore './client/'",
     "cypress": "cypress open",
-    "release-notes": "gren release --override"
+    "release-notes": "gren release"
   },
   "author": "Hack for LA",
   "license": "ISC",

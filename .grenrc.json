@@ -10,6 +10,7 @@
       "closed","documentation","duplicate","question"
     ],
     "prefix": "v",
+    "override": true,
     "onlyMilestones": false,
     "groupBy": {
       "Enhancements:": ["enhancement"],
