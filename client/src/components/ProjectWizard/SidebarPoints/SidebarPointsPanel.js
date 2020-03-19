@@ -15,7 +15,7 @@ const SidebarPointsPanel = props => {
 
   return (
     <React.Fragment>
-      {rules ? (
+      {rules && targetPointsRule.value ? (
         <div className="tdm-results-panel">
           <SidebarPoints key={targetPointsRule.id} rule={targetPointsRule} />
           <SidebarPoints key={earnedPointsRule.id} rule={earnedPointsRule} />

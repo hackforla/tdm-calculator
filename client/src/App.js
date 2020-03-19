@@ -40,7 +40,6 @@ const App = () => {
       try {
         const account = JSON.parse(currentUser);
         // TODO: remove console.log when stable.
-        console.log(account);
         setAccount(account);
       } catch (err) {
         // TODO: replace with production error logging.
