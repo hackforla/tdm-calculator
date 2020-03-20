@@ -23,9 +23,12 @@ const useStyles = createUseStyles({
   link: {
     color: "#ffffff",
     textDecoration: "none",
-    paddingRight: "2em",
+    marginRight: "2em",
     "&:hover": {
       textDecoration: "underline"
+    },
+    "@media (max-width:900px)": {
+      marginRight: "1em"
     }
   },
   userLogin: {
@@ -34,7 +37,10 @@ const useStyles = createUseStyles({
   lastItem: {
     marginLeft: "2em",
     paddingRight: 0,
-    marginRight: "1em"
+    marginRight: "1em",
+    "@media (max-width:900px)": {
+      marginLeft: "1em"
+    }
   }
 });
 
@@ -72,7 +78,7 @@ const NavBar = props => {
           </Link>
         </li>
       )} */}
-      {account && account.isSecurityAdmin && (
+      {account /* && account.isSecurityAdmin */ && (
         <li>
           <Link className={classes.link} to="/roles">
             Security
