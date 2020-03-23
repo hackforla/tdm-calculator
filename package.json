@@ -12,7 +12,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "cd client && npm i && npm run build",
     "start": "nodemon --ignore './client/'",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "release-notes": "gren release"
   },
   "author": "Hack for LA",
   "license": "ISC",
