@@ -59,11 +59,14 @@ const NavBar = props => {
           Home
         </Link>
       </li>
-      <li>
-        <Link className={classes.link} to="/projects">
-          Projects
-        </Link>
-      </li>
+      {account && account.id && (
+        <li>
+          <Link className={classes.link} to="/projects">
+            Projects
+          </Link>
+        </li>
+      )}
+
       {showNewProjectLink()}
       {/* {account && account.isAdmin && (
         <li>
@@ -98,24 +101,8 @@ const NavBar = props => {
 };
 
 NavBar.propTypes = {
-  // rule: PropTypes.shape({
-  //   id: PropTypes.number.isRequired,
-  //   calculationId: PropTypes.number.isRequired,
-  //   code: PropTypes.string.isRequired,
-  //   name: PropTypes.string.isRequired,
-  //   category: PropTypes.string.isRequired,
-  //   dataType: PropTypes.string.isRequired,
-  //   value: PropTypes.any,
-  //   units: PropTypes.string,
-  //   functionBody: PropTypes.string,
-  //   cssClass: PropTypes.string,
-  //   panelDisplayOrder: PropTypes.number.isRequired,
-  //   displayOrder: PropTypes.number.isRequired,
-  //   calculationPanelId: PropTypes.number.isRequired,
-  //   panelName: PropTypes.string
-  // }),
-  // onInputChange: PropTypes.func,
   account: PropTypes.shape({
+    id: PropTypes.number,
     email: PropTypes.string,
     role: PropTypes.string,
     isAdmin: PropTypes.bool,
