@@ -2,25 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const NavBarLogin = props => {
-  const { account, classes, setLoggedOutAccount } = props;
-
+const NavBarLogin = ({ account, classes, setLoggedOutAccount }) => {
   const loginLink = (
-    <li className={classes.userLogin}>
+    <li className={(classes.userLogin, classes.linkBlock)}>
       <Link className={`${classes.link} ${classes.lastItem}`} to="/login">
         Login
       </Link>
     </li>
   );
 
-  const getUserGreeting = (account) => (
+  const getUserGreeting = account => (
     <li className={classes.userLogin}>
       <h4>Hello, {`${account.firstName} ${account.lastName} `}</h4>
     </li>
   );
 
   const logoutLink = (
-    <li>
+    <li className={classes.linkBlock}>
       <button
         className={`link ${classes.lastItem}`}
         onClick={setLoggedOutAccount}

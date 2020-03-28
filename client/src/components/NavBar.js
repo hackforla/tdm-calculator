@@ -3,13 +3,14 @@ import { createUseStyles } from "react-jss";
 import { Link, withRouter } from "react-router-dom";
 import NavBarLogin from "./NavBarLogin";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 
 const useStyles = createUseStyles({
   navbar: {
     flexGrow: "1",
     flexShrink: "0",
     flexBasis: "content",
-    padding: "0.1em 0.1em 0.1em 2em",
+    marginLeft: "2em",
     display: "flex",
     // display: 'none',
     flexDirection: "row",
@@ -18,6 +19,19 @@ const useStyles = createUseStyles({
     listStyleType: "none",
     "@media print": {
       display: "none"
+    },
+    "@media (max-width:900px)": {
+      marginLeft: "1em"
+    },
+    "@media (max-width:768px)": {
+      marginLeft: 0,
+      transition: "height .9s ease-in-out"
+    }
+  },
+  hidden: {
+    "@media (max-width:768px)": {
+      height: 0,
+      visibility: "hidden"
     }
   },
   link: {
@@ -31,6 +45,19 @@ const useStyles = createUseStyles({
       marginRight: "1em"
     }
   },
+  linkBlock: {
+    "@media (max-width:768px)": {
+      borderTop: "2px solid #0f2940",
+      width: "100%",
+      paddingTop: ".5em",
+      paddingBottom: ".5em",
+      display: "flex",
+      justifyContent: "center",
+      "&:last-child": {
+        borderBottom: "2px solid #0f2940"
+      }
+    }
+  },
   userLogin: {
     marginLeft: "auto"
   },
@@ -40,17 +67,35 @@ const useStyles = createUseStyles({
     marginRight: "1em",
     "@media (max-width:900px)": {
       marginLeft: "1em"
+    },
+    "@media (max-width:768px)": {
+      marginLeft: 0
+    }
+  },
+  "@media (max-width:768px)": {
+    navbar: {
+      flexDirection: "column",
+      minWidth: "100%"
+    },
+    userLogin: {
+      marginLeft: 0,
+      borderTop: "2px solid #0f2940",
+      width: "100%",
+      paddingTop: ".5em",
+      paddingBottom: ".5em",
+      display: "flex",
+      justifyContent: "center"
     }
   }
 });
 
 const NavBar = props => {
-  const { account, setLoggedOutAccount, location } = props;
+  const { account, setLoggedOutAccount, location, isActive } = props;
   const classes = useStyles();
 
   const showNewProjectLink = () => {
     return location.pathname.split("/")[1] === "calculation" ? null : (
-      <li>
+      <li className={classes.linkBlock}>
         <Link className={classes.link} to="/calculation/1">
           New Project
         </Link>
@@ -59,13 +104,13 @@ const NavBar = props => {
   };
 
   return (
-    <ul className={classes.navbar}>
-      <li>
+    <ul className={clsx(classes.navbar, isActive ? "" : classes.hidden)}>
+      <li className={classes.linkBlock}>
         <Link className={classes.link} to="/">
           Home
         </Link>
       </li>
-      <li>
+      <li className={classes.linkBlock}>
         <Link className={classes.link} to="/projects">
           Projects
         </Link>
@@ -79,13 +124,13 @@ const NavBar = props => {
         </li>
       )} */}
       {account /* && account.isSecurityAdmin */ && (
-        <li>
+        <li className={classes.linkBlock}>
           <Link className={classes.link} to="/roles">
             Security
           </Link>
         </li>
       )}
-      <li>
+      <li className={classes.linkBlock}>
         <Link className={classes.link} to="/about">
           About
         </Link>
@@ -128,6 +173,7 @@ NavBar.propTypes = {
     isSecurityAdmin: PropTypes.bool
   }),
   setLoggedOutAccount: PropTypes.func,
+  isActive: PropTypes.bool,
   isCreatingNewProject: PropTypes.bool,
   location: PropTypes.shape({
     pathname: PropTypes.string
