@@ -32,15 +32,6 @@ exports[`Storyshots Header default 1`] = `
     <li>
       <a
         className="link-0-2-4"
-        href="/projects"
-        onClick={[Function]}
-      >
-        Projects
-      </a>
-    </li>
-    <li>
-      <a
-        className="link-0-2-4"
         href="/calculation/1"
         onClick={[Function]}
       >
