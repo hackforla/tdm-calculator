@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import RuleInputPanels from "../RuleInput/RuleInputPanels";
+import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
 
 const useStyles = createUseStyles({
   page4: {
@@ -48,7 +48,7 @@ function ProjectTargetPoints(props) {
         Enter the # of parking spaces you intend to build to complete the Target
         Point calculation
       </h3>
-      <RuleInputPanels
+      <RuleCalculationPanels
         rules={rules}
         onInputChange={onInputChange}
         suppressHeader

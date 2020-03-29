@@ -289,12 +289,12 @@ class Engine {
   // result to database.
   showRulesArray() {
     const rulesArray = [];
-    console.log("engine-show", this.rules);
+    // console.log("engine-show", this.rules);
 
     for (var ruleCode in this.rules) {
       rulesArray.push(this.rules[ruleCode]);
     }
-    console.log("rules array", rulesArray);
+    // console.log("rules array", rulesArray);
     return rulesArray;
   }
 }
