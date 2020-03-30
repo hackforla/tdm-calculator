@@ -40,7 +40,6 @@ const App = () => {
       try {
         const account = JSON.parse(currentUser);
         // TODO: remove console.log when stable.
-        console.log(account);
         setAccount(account);
       } catch (err) {
         // TODO: replace with production error logging.
@@ -85,7 +84,7 @@ const App = () => {
           <div className={classes.root}>
             <Route exact path="/" component={LandingPage} />
             <Route
-              path="/calculation/:page/:projectId?"
+              path="/calculation/:page?/:projectId?"
               render={() => (
                 <TdmCalculationContainer
                   account={account}

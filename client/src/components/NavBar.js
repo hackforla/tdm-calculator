@@ -3,7 +3,6 @@ import { createUseStyles } from "react-jss";
 import { Link, withRouter } from "react-router-dom";
 import NavBarLogin from "./NavBarLogin";
 import PropTypes from "prop-types";
-import clsx from "clsx";
 
 const useStyles = createUseStyles({
   navbar: {
@@ -116,11 +115,13 @@ const NavBar = props => {
           Home
         </Link>
       </li>
-      <li className={classes.linkBlock}>
-        <Link className={classes.link} to="/projects" onClick={handleClick}>
-          Projects
-        </Link>
-      </li>
+      {account && account.id && (
+        <li className={classes.linkBlock}>
+          <Link className={classes.link} to="/projects" onClick={handleClick}>
+            Projects
+          </Link>
+        </li>
+      )}
       {showNewProjectLink()}
       {/* {account && account.isAdmin && (
         <li>
@@ -129,7 +130,7 @@ const NavBar = props => {
           </Link>
         </li>
       )} */}
-      {account /* && account.isSecurityAdmin */ && (
+      {account && account.isSecurityAdmin && (
         <li className={classes.linkBlock}>
           <Link className={classes.link} to="/roles" onClick={handleClick}>
             Security
@@ -157,24 +158,8 @@ const NavBar = props => {
 };
 
 NavBar.propTypes = {
-  // rule: PropTypes.shape({
-  //   id: PropTypes.number.isRequired,
-  //   calculationId: PropTypes.number.isRequired,
-  //   code: PropTypes.string.isRequired,
-  //   name: PropTypes.string.isRequired,
-  //   category: PropTypes.string.isRequired,
-  //   dataType: PropTypes.string.isRequired,
-  //   value: PropTypes.any,
-  //   units: PropTypes.string,
-  //   functionBody: PropTypes.string,
-  //   cssClass: PropTypes.string,
-  //   panelDisplayOrder: PropTypes.number.isRequired,
-  //   displayOrder: PropTypes.number.isRequired,
-  //   calculationPanelId: PropTypes.number.isRequired,
-  //   panelName: PropTypes.string
-  // }),
-  // onInputChange: PropTypes.func,
   account: PropTypes.shape({
+    id: PropTypes.number,
     email: PropTypes.string,
     role: PropTypes.string,
     isAdmin: PropTypes.bool,

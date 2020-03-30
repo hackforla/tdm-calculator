@@ -1,20 +1,26 @@
 const mssql = require("../../mssql");
 const TYPES = require("tedious").TYPES;
 
-const getAll = async () => {
+const getAll = async loginId => {
   try {
-    const response = await mssql.executeProc("Project_SelectAll");
+    const response = await mssql.executeProc(
+      "Project_SelectAll",
+      sqlRequest => {
+        sqlRequest.addParameter("LoginId", TYPES.Int, loginId);
+      }
+    );
     return response.resultSets[0];
   } catch (err) {
     console.log(err);
   }
 };
 
-const getById = async id => {
+const getById = async (loginId, id) => {
   try {
     const response = await mssql.executeProc(
       "Project_SelectById",
       sqlRequest => {
+        sqlRequest.addParameter("LoginId", TYPES.Int, loginId);
         sqlRequest.addParameter("Id", TYPES.Int, id);
       }
     );
@@ -81,9 +87,10 @@ const put = async item => {
   }
 };
 
-const del = async id => {
+const del = async (loginId, id) => {
   try {
     await mssql.executeProc("Project_Delete", sqlRequest => {
+      sqlRequest.addParameter("loginId", TYPES.Int, loginId);
       sqlRequest.addParameter("id", TYPES.Int, id);
     });
   } catch (err) {

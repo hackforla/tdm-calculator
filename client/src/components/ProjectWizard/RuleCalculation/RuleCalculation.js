@@ -148,7 +148,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const RuleInput = ({
+const RuleCalculation = ({
   rule: {
     code,
     name,
@@ -159,7 +159,7 @@ const RuleInput = ({
     maxValue,
     choices,
     calcValue,
-    //calcUnits,
+    calcUnits,
     required,
     minStringLength,
     maxStringLength,
@@ -207,11 +207,11 @@ const RuleInput = ({
             />
           </div>
           <div className={classes.numberFieldUnits}>{units}</div>
-          {/* <div className={classes.calcUnitsCaption}>
+          <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
-          </div> */}
+          </div>
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
@@ -231,11 +231,11 @@ const RuleInput = ({
           {calcValue ? (
             <>
               <div className={classes.unitsCaption}>{units}</div>
-              {/* <div className={classes.calcUnitsCaption}>
+              <div className={classes.calcUnitsCaption}>
                 {`${
                   calcValue ? Math.round(calcValue * 100) / 100 : ""
                 } ${calcUnits || ""}`}
-              </div> */}
+              </div>
             </>
           ) : null}
         </div>
@@ -258,11 +258,11 @@ const RuleInput = ({
               </option>
             ))}
           </select>
-          {/* <div className={classes.calcUnitsCaption}>
+          <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
-          </div> */}
+          </div>
         </div>
       ) : dataType === "string" || dataType === "textarea" ? (
         <div
@@ -315,11 +315,11 @@ const RuleInput = ({
           </label>
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
-          {/* <div className={classes.calcUnitsCaption}>
+          <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
-          </div> */}
+          </div>
         </div>
       )}
       {validationErrors && showValidationErrors ? (
@@ -334,7 +334,7 @@ const RuleInput = ({
   );
 };
 
-RuleInput.propTypes = {
+RuleCalculation.propTypes = {
   rule: PropTypes.shape({
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -354,4 +354,4 @@ RuleInput.propTypes = {
   onPropInputChange: PropTypes.func
 };
 
-export default RuleInput;
+export default RuleCalculation;

@@ -61,9 +61,10 @@ export function TdmCalculationContainer(props) {
       try {
         let projectResponse = null;
         let inputs = {};
-        if (projectId > 0) {
+        if (Number(projectId) > 0) {
           projectResponse = await projectService.getById(projectId);
           setLoginId(projectResponse.data.loginId);
+          console.log("inputs", projectResponse);
           inputs = JSON.parse(projectResponse.data.formInputs);
         }
         engine.run(inputs, resultRuleCodes);
@@ -75,7 +76,6 @@ export function TdmCalculationContainer(props) {
     };
     initiateEngine();
   }, [props.match.params.projectId, engine]);
-
   const recalculate = formInputs => {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
@@ -245,7 +245,6 @@ export function TdmCalculationContainer(props) {
       rule.display &&
       rule.calculationPanelId !== 10
   };
-
   const { account, classes } = props;
   return (
     <div className={classes.root}>

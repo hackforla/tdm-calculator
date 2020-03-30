@@ -61,11 +61,17 @@ const useStyles = createUseStyles({
     fontSize: "20px",
     fontWeight: "normal",
     fontStyle: "normal"
+  },
+  searchBar: {
+    width: "50%",
+    padding: "12px",
+    margin: "12px"
   }
 });
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
+  const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("dateCreated");
   const classes = useStyles();
@@ -135,6 +141,47 @@ const Projects = () => {
     setOrderBy(property);
   };
 
+  const handleFilterTextChange = text => {
+    setFilterText(text);
+  };
+
+  const filterProjects = project => {
+    // fullName attr allows searching by full name, not just by first or last name
+    project["fullName"] = `${project["firstName"]} ${project["lastName"]}`;
+    project["versionNum"] = JSON.parse(project["formInputs"]).VERSION_NO
+      ? JSON.parse(project["formInputs"]).VERSION_NO
+      : "";
+    project["buildingPermit"] = JSON.parse(project["formInputs"])
+      .BUILDING_PERMIT
+      ? JSON.parse(project["formInputs"]).BUILDING_PERMIT
+      : "";
+    project["dateCreated"] = moment(project["dateCreated"]).format(
+      "M/DD/YYYY h:mm A"
+    );
+    project["dateModified"] = moment(project["dateModified"]).format(
+      "M/DD/YYYY h:mm A"
+    );
+
+    if (filterText !== "") {
+      let ids = [
+        "name",
+        "address",
+        "fullName",
+        "versionNum",
+        "buildingPermit",
+        "dateCreated",
+        "dateModified"
+      ];
+
+      return ids.some(id => {
+        let colValue = String(project[id]).toLowerCase();
+        return colValue.includes(filterText.toLowerCase());
+      });
+    }
+
+    return true;
+  };
+
   const headerData = [
     { id: "name", label: "Name" },
     { id: "address", label: "Address" },
@@ -148,6 +195,15 @@ const Projects = () => {
   return (
     <div className={classes.main}>
       <h1 className={classes.pageTitle}>Projects</h1>
+      <input
+        className={classes.searchBar}
+        type="search"
+        id="filterText"
+        name="filterText"
+        placeholder="Search"
+        value={filterText}
+        onChange={e => handleFilterTextChange(e.target.value)}
+      />
       <table className={classes.table}>
         <thead className={classes.thead}>
           <tr className={classes.tr}>
@@ -175,9 +231,13 @@ const Projects = () => {
         </thead>
         <tbody className={classes.tbody}>
           {Boolean(projects.length) &&
-            stableSort(projects, getComparator(order, orderBy)).map(project => (
+            stableSort(
+              projects.filter(filterProjects),
+              getComparator(order, orderBy)
+            ).map(project => (
               <tr key={project.id}>
                 <td className={classes.td}>
+                  {console.log("project id????", project)}
                   <Link
                     to={`/calculation/1/${project.id}`}
                     className={classes.link}

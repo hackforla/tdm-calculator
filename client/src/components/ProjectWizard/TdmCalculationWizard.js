@@ -19,8 +19,6 @@ import {
 
 const useStyles = createUseStyles({
   root: {
-    //height: "calc(100vh - 103px)",
-    //overflow: "hidden",
     flex: "1 1 auto",
     display: "flex",
     flexDirection: "row"
@@ -41,12 +39,11 @@ const useStyles = createUseStyles({
     zIndex: 1,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between"
+    height: "100%"
   },
   contentContainer: {
-    //justifyContent: "space-between",
+    justifyContent: "flex-start",
     boxSizing: "border-box",
-    // height: "calc(100vh - 103px)",
     overflow: "auto"
   },
   buttonWrapper: {
@@ -93,7 +90,7 @@ const TdmCalculationWizard = props => {
     match
   } = props;
   const page = Number(match.params.page);
-  const projectId = Number(match.params);
+  const projectId = Number(match.params.projectId);
 
   useEffect(() => {
     if (!projectId) {
@@ -256,30 +253,34 @@ const TdmCalculationWizard = props => {
           )}
         >
           <div>{routes}</div>
-          {/* {!projectId || (account && account.id && account.id === loginId) ? ( */}
-          <div className={classes.navButtonsWrapper}>
-            {rules && rules.length ? ( //navigation disabled until rules have loaded
-              <>
-                <NavButton
-                  disabled={Number(page) === 1}
-                  onClick={() => {
-                    onPageChange(Number(page) - 1);
-                  }}
-                >
-                  &lt;
-                </NavButton>
-                <NavButton
-                  disabled={page === 6 || disablePageNavigation}
-                  onClick={() => {
-                    onPageChange(Number(page) + 1);
-                  }}
-                >
-                  &gt;
-                </NavButton>
-              </>
+          {!projectId ||
+          (account &&
+            account.id &&
+            (account.id === loginId || account.isAdmin)) ||
+          (account && account.isAdmin) ? (
+              <div className={classes.navButtonsWrapper}>
+                {rules && rules.length ? ( //navigation disabled until rules have loaded
+                  <>
+                    <NavButton
+                      disabled={Number(page) === 1}
+                      onClick={() => {
+                        onPageChange(Number(page) - 1);
+                      }}
+                    >
+                    &lt;
+                    </NavButton>
+                    <NavButton
+                      disabled={page === 6 || disablePageNavigation}
+                      onClick={() => {
+                        onPageChange(Number(page) + 1);
+                      }}
+                    >
+                    &gt;
+                    </NavButton>
+                  </>
+                ) : null}
+              </div>
             ) : null}
-          </div>
-          {/* ) : null} */}
         </div>
       </div>
     </React.Fragment>
