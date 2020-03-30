@@ -1,11 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 
-const NavBarLogin = ({ account, classes, setLoggedOutAccount }) => {
+const NavBarLogin = ({
+  account,
+  classes,
+  setLoggedOutAccount,
+  handleClick
+}) => {
+  const handleLogOut = () => {
+    handleClick();
+    setLoggedOutAccount();
+  };
+
   const loginLink = (
-    <li className={(classes.userLogin, classes.linkBlock)}>
-      <Link className={`${classes.link} ${classes.lastItem}`} to="/login">
+    <li className={clsx(classes.userLogin, classes.linkBlock)}>
+      <Link
+        className={`${classes.link} ${classes.lastItem}`}
+        to="/login"
+        onClick={handleClick}
+      >
         Login
       </Link>
     </li>
@@ -19,10 +34,7 @@ const NavBarLogin = ({ account, classes, setLoggedOutAccount }) => {
 
   const logoutLink = (
     <li className={classes.linkBlock}>
-      <button
-        className={`link ${classes.lastItem}`}
-        onClick={setLoggedOutAccount}
-      >
+      <button className={`link ${classes.lastItem}`} onClick={handleLogOut}>
         Logout
       </button>
     </li>
@@ -41,7 +53,8 @@ const NavBarLogin = ({ account, classes, setLoggedOutAccount }) => {
 NavBarLogin.propTypes = {
   account: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  setLoggedOutAccount: PropTypes.func
+  setLoggedOutAccount: PropTypes.func,
+  handleClick: PropTypes.func
 };
 
 export default NavBarLogin;

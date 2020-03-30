@@ -66,7 +66,7 @@ const Header = props => {
   const { account, setAccount, isCreatingNewProject } = props;
   const classes = useStyles();
 
-  const [isActive, setIsActive] = useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(false);
 
   // TODO: url path changes to /login, but page doesn't actually redirect you to login page
   const setLoggedOutAccount = () => {
@@ -75,7 +75,7 @@ const Header = props => {
     history.push("/login");
   };
 
-  const handleClick = () => setIsActive(!isActive);
+  const handleClick = () => setNavbarOpen(!navbarOpen);
 
   return (
     <div className={classes.root}>
@@ -92,7 +92,8 @@ const Header = props => {
         <FontAwesomeIcon icon={faBars} className={classes.hamburger} />
       </button>
       <NavBar
-        isActive={isActive}
+        navbarOpen={navbarOpen}
+        setNavbarOpen={setNavbarOpen}
         account={account}
         setLoggedOutAccount={setLoggedOutAccount}
         isCreatingNewProject={isCreatingNewProject}

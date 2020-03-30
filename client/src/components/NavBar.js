@@ -90,13 +90,27 @@ const useStyles = createUseStyles({
 });
 
 const NavBar = props => {
-  const { account, setLoggedOutAccount, location, isActive } = props;
+  const {
+    account,
+    setLoggedOutAccount,
+    location,
+    navbarOpen,
+    setNavbarOpen
+  } = props;
   const classes = useStyles();
+
+  const handleClick = () => {
+    setNavbarOpen(window.innerWidth < 768 ? !navbarOpen : false);
+  };
 
   const showNewProjectLink = () => {
     return location.pathname.split("/")[1] === "calculation" ? null : (
       <li className={classes.linkBlock}>
-        <Link className={classes.link} to="/calculation/1">
+        <Link
+          className={classes.link}
+          to="/calculation/1"
+          onClick={handleClick}
+        >
           New Project
         </Link>
       </li>
@@ -104,14 +118,14 @@ const NavBar = props => {
   };
 
   return (
-    <ul className={clsx(classes.navbar, isActive ? "" : classes.hidden)}>
+    <ul className={clsx(classes.navbar, navbarOpen ? "" : classes.hidden)}>
       <li className={classes.linkBlock}>
-        <Link className={classes.link} to="/">
+        <Link className={classes.link} to="/" onClick={handleClick}>
           Home
         </Link>
       </li>
       <li className={classes.linkBlock}>
-        <Link className={classes.link} to="/projects">
+        <Link className={classes.link} to="/projects" onClick={handleClick}>
           Projects
         </Link>
       </li>
@@ -125,13 +139,13 @@ const NavBar = props => {
       )} */}
       {account /* && account.isSecurityAdmin */ && (
         <li className={classes.linkBlock}>
-          <Link className={classes.link} to="/roles">
+          <Link className={classes.link} to="/roles" onClick={handleClick}>
             Security
           </Link>
         </li>
       )}
       <li className={classes.linkBlock}>
-        <Link className={classes.link} to="/about">
+        <Link className={classes.link} to="/about" onClick={handleClick}>
           About
         </Link>
       </li>
@@ -143,6 +157,8 @@ const NavBar = props => {
         account={account}
         classes={classes}
         setLoggedOutAccount={setLoggedOutAccount}
+        navbarOpen={navbarOpen}
+        handleClick={handleClick}
       />
     </ul>
   );
@@ -173,7 +189,8 @@ NavBar.propTypes = {
     isSecurityAdmin: PropTypes.bool
   }),
   setLoggedOutAccount: PropTypes.func,
-  isActive: PropTypes.bool,
+  navbarOpen: PropTypes.bool,
+  setNavbarOpen: PropTypes.func,
   isCreatingNewProject: PropTypes.bool,
   location: PropTypes.shape({
     pathname: PropTypes.string
