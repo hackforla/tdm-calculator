@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { createBrowserHistory } from "history";
+import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import logo from "../images/ladot_white.png";
@@ -27,7 +28,13 @@ const useStyles = createUseStyles({
     },
     "@media (max-width:768px)": {
       paddingLeft: 0,
-      flexWrap: "wrap"
+      flexWrap: "wrap",
+      overflow: "hidden",
+      maxHeight: 54.4,
+      transition: "max-height .5s ease-in-out",
+      "&.navbarOpen": {
+        maxHeight: 301.6
+      }
     }
   },
   logo: {
@@ -65,7 +72,6 @@ const history = createBrowserHistory();
 const Header = props => {
   const { account, setAccount, isCreatingNewProject } = props;
   const classes = useStyles();
-
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   // TODO: url path changes to /login, but page doesn't actually redirect you to login page
@@ -78,7 +84,7 @@ const Header = props => {
   const handleClick = () => setNavbarOpen(!navbarOpen);
 
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, navbarOpen ? "navbarOpen" : "")}>
       <div className={classes.logoContainer}>
         <a href="//ladot.lacity.org" target="_blank" rel="noopener noreferrer">
           <img

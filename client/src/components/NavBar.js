@@ -12,7 +12,6 @@ const useStyles = createUseStyles({
     flexBasis: "content",
     marginLeft: "2em",
     display: "flex",
-    // display: 'none',
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
@@ -24,14 +23,7 @@ const useStyles = createUseStyles({
       marginLeft: "1em"
     },
     "@media (max-width:768px)": {
-      marginLeft: 0,
-      transition: "height .9s ease-in-out"
-    }
-  },
-  hidden: {
-    "@media (max-width:768px)": {
-      height: 0,
-      visibility: "hidden"
+      marginLeft: 0
     }
   },
   link: {
@@ -118,7 +110,7 @@ const NavBar = props => {
   };
 
   return (
-    <ul className={clsx(classes.navbar, navbarOpen ? "" : classes.hidden)}>
+    <ul className={classes.navbar}>
       <li className={classes.linkBlock}>
         <Link className={classes.link} to="/" onClick={handleClick}>
           Home
