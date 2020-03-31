@@ -70,6 +70,9 @@ const resetPassword = async (req, res) => {
 const confirmRegister = async (req, res) => {
   try {
     const { id } = req.params;
+    if (id !== req.body.id) {
+      res.status("400");
+    }
     const response = await accountService.confirmRegistration(req.body.token);
     res.send(response);
   } catch (err) {
@@ -101,10 +104,19 @@ const put = async (req, res) => {
   }
 };
 
+const putRoles = async (req, res) => {
+  try {
+    await accountService.updateRoles(req.body);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
-    const response = await accountService.remove(id);
+    await accountService.remove(id);
     res.sendStatus(200);
   } catch (err) {
     res.status("500").json({ error: err.toString() });
@@ -122,5 +134,6 @@ module.exports = {
   resetPassword,
   login,
   put,
+  putRoles,
   remove
 };

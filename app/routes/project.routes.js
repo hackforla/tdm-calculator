@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const projectController = require("../controllers/project.controller");
+const jwtSession = require("../../middleware/jwt-session");
 
 module.exports = router;
 
-router.get("/:id", projectController.getById);
-router.get("/", projectController.getAll);
-router.post("/", projectController.post);
-router.put("/:id", projectController.put);
-router.delete("/", projectController.del);
+router.get("/:id", jwtSession.validateUser, projectController.getById);
+router.get("/", jwtSession.validateUser, projectController.getAll);
+router.post("/", jwtSession.validateUser, projectController.post);
+router.put("/:id", jwtSession.validateUser, projectController.put);
+router.delete("/", jwtSession.validateUser, projectController.del);

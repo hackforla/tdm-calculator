@@ -6,30 +6,15 @@
   margin: 0.5em;
   padding: 0.5em;
   border-radius: 5px;
-
   background-color: $color-primary;
   color: $color-background;
 }
 
 // Photo by Silvia Brazzoduro on Unsplash
 .tdm-wizard {
-  height: 100%;
+  min-height: calc(100vh - 103px - 48px);
 }
 
-// .tdm-wizard-sidebar {
-//   margin: 0;
-//   flex-basis: 387px;
-//   flex-grow: 0;
-//   flex-shrink: 0;
-//   height: 929px;
-//   background-image: url("../images/hardhats.jpg");
-//   background-position: center;
-//   background-size: cover;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-start;
-//   position: relative;
-// }
 @media print {
   .tdm-wizard-sidebar {
     display: none;
@@ -44,8 +29,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-y: scroll;
-  padding: 2em;
+  padding: 2em 2em;
 }
 
 .tdm-wizard-page-title {
@@ -71,7 +55,6 @@
   display: inline;
   margin: 0.5em;
   font-weight: bold;
-  width: 20em;
   box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
   text-align: center;
 }
@@ -132,7 +115,6 @@
   text-align: center;
   border: 0;
   border-radius: 0;
-  
 }
 
 .tdm-wizard-navbutton {
@@ -149,10 +131,10 @@
 .tdm-results-panel {
   display: flex;
   flex-direction: row;
-  justify-content: "space-around";
-  margin-top: 10em;
   background-color: transparent;
   color: $color-background;
+  top: calc((100vh - 275px)/2);
+  position: relative;
 }
 
 .tdm-calculation-metrics-panel-item {
@@ -171,4 +153,10 @@
   flex-direction: column;
   flex: 1 1 auto;
   min-width: 60vw;
+}
+
+@media (max-width: 768px) {
+  .tdm-results-panel {
+    top: 0
+  }
 }

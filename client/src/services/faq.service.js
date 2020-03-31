@@ -11,7 +11,7 @@ export function post(faq) {
 }
 
 export function put(faq) {
-  return axios.put(baseUrl, faq);
+  return axios.put(baseUrl + "/" + faq.faqId, faq);
 }
 
 export function del(id) {

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -47,10 +48,16 @@ const Toast = ({ children, remove }) => {
     <div className={classes.root}>
       <div className={classes.container}>{children}</div>
       <div>
-        <button onClick={remove} className={classes.button}>X</button>
+        <button onClick={remove} className={classes.button}>
+          X
+        </button>
       </div>
     </div>
   );
+};
+Toast.propTypes = {
+  children: PropTypes.array,
+  remove: PropTypes.func.isRequired
 };
 
 export default Toast;

@@ -1,47 +1,39 @@
 const faqService = require("../services/faq.service");
 
-const get = (req, res) => {
-  faqService
-    .getFaq()
-    .then(resultSet => {
-      res.json(resultSet);
-    })
-    .catch(err => {
-      res.set(500).send(err);
-    });
+const get = async (req, res) => {
+  try {
+    const response = await faqService.getFaq();
+    res.json(response);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
-const post = (req, res) => {
-  faqService
-    .postFaq(req.body)
-    .then(outputParms => {
-      res.status(201);
-    })
-    .catch(err => {
-      res.set(500).send(err);
-    });
+const post = async (req, res) => {
+  try {
+    await faqService.postFaq(req.body);
+    res.sendStatus(201);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
-const put = (req, res) => {
-  faqService
-    .putFaqById(req.body)
-    .then(outputParms => {
-      res.sendStatus(200);
-    })
-    .catch(err => {
-      res.set(500).send(err);
-    });
+const put = async (req, res) => {
+  try {
+    await faqService.putFaqById(req.body);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
-const del = (req, res) => {
-  faqService
-    .deleteFaq(req.params.id)
-    .then(response => {
-      res.sendStatus(200);
-    })
-    .catch(err => {
-      res.set(500).send(err);
-    });
+const del = async (req, res) => {
+  try {
+    await faqService.deleteFaq(req.params.id);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
 module.exports = {

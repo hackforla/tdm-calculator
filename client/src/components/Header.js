@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { createBrowserHistory } from "history";
 import NavBar from "./NavBar";
@@ -21,7 +22,7 @@ const useStyles = createUseStyles({
     }
   },
   logo: {
-    height: "2em", 
+    height: "2em",
     padding: 10
   }
 });
@@ -50,12 +51,22 @@ const Header = props => {
           />
         </a>
       </div>
-      <NavBar account={account} setLoggedOutAccount={setLoggedOutAccount} isCreatingNewProject={isCreatingNewProject}/>
-      {account && account.firstName ? (
-        <h4>Hello, {`${account.firstName} ${account.lastName} `}</h4>
-      ) : null}
+      <NavBar
+        account={account}
+        setLoggedOutAccount={setLoggedOutAccount}
+        isCreatingNewProject={isCreatingNewProject}
+      />
     </div>
   );
+};
+
+Header.propTypes = {
+  account: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string
+  }),
+  setAccount: PropTypes.func,
+  isCreatingNewProject: PropTypes.bool
 };
 
 export default Header;

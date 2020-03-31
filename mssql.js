@@ -1,10 +1,14 @@
-const { Connection, Request } = require("tedious");
+const { Request } = require("tedious");
 const ConnectionPool = require("tedious-connection-pool");
 const dotenv = require("dotenv");
 
 dotenv.config();
 
-const poolConfig = { min: 2, max: 4, log: false };
+const poolConfig = {
+  min: 2,
+  max: 4,
+  log: false
+};
 
 var connectionConfig = {
   server: process.env.SQL_SERVER_NAME,
@@ -13,7 +17,8 @@ var connectionConfig = {
   options: {
     database: process.env.SQL_DATABASE_NAME,
     instanceName: process.env.SQL_INSTANCE_NAME,
-    port: process.env.SQL_SERVER_PORT || 1433
+    port: process.env.SQL_SERVER_PORT || 1433,
+    encrypt: process.env.SQL_ENCRYPT
   }
 };
 
@@ -33,7 +38,7 @@ function executeProc(procName, paramsCallback) {
       let setIndex = -1;
       const response = {};
 
-      const request = new Request(procName, (err, rowcount) => {
+      const request = new Request(procName, err => {
         conn.release();
         if (err) {
           reject(err);
@@ -60,16 +65,16 @@ function executeProc(procName, paramsCallback) {
         response.resultSets[setIndex].push(row);
       });
 
-      request.on("returnValue", (paramName, value, metadata) => {
+      request.on("returnValue", (paramName, value) => {
         response.outputParameters = response.outputParameters || {};
         response.outputParameters[paramName] = value;
       });
 
-      request.on("columnMetadata", function(columns) {
+      request.on("columnMetadata", function() {
         setIndex++;
       });
 
-      request.on("doneProc", function(rowCount, more, returnStatus, rows) {
+      request.on("doneProc", function(rowCount, more, returnStatus) {
         response.returnStatus = returnStatus;
       });
 

@@ -11,4 +11,4 @@ router.get("/:id/rules", ruleController.getByCalculationId);
 router.get("/", calculationController.getAll);
 router.post("/", calculationController.post);
 router.put("/:id", calculationController.put);
-router.delete("/", calculationController.del);
+router.delete("/:id", calculationController.del);

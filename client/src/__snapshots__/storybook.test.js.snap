@@ -1,52 +1,2276 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots ResultList default 1`] = `
+exports[`Storyshots Header default 1`] = `
 <div
-  style={
-    Object {
-      "display": "flex",
-      "flexDirection": "row",
-      "justifyContent": "space-between",
-      "margin": "-0.5em",
-    }
-  }
+  className="root-0-2-1"
+>
+  <div>
+    <a
+      href="//ladot.lacity.org"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        alt="LA Department of Transportation Logo"
+        className="logo-0-2-2"
+        src="ladot_white.png"
+      />
+    </a>
+  </div>
+  <ul
+    className="navbar-0-2-3"
+  >
+    <li>
+      <a
+        className="link-0-2-4"
+        href="/"
+        onClick={[Function]}
+      >
+        Home
+      </a>
+    </li>
+    <li>
+      <a
+        className="link-0-2-4"
+        href="/calculation/1"
+        onClick={[Function]}
+      >
+        New Project
+      </a>
+    </li>
+    <li>
+      <a
+        className="link-0-2-4"
+        href="/about"
+        onClick={[Function]}
+      >
+        About
+      </a>
+    </li>
+    <li
+      className="userLogin-0-2-5"
+    >
+      <a
+        className="link-0-2-4 lastItem-0-2-6"
+        href="/login"
+        onClick={[Function]}
+      >
+        Login
+      </a>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Storyshots NavButton disabled 1`] = `
+<div
+  className="tdm-wizard-nav-button-disabled"
+  data-testid="Wizard Nav Button Label"
+>
+  Wizard Nav Button Label
+</div>
+`;
+
+exports[`Storyshots NavButton enabled 1`] = `
+<div
+  className="tdm-wizard-nav-button"
+  data-testid="Wizard Nav Button Label"
+  onClick={[Function]}
+>
+  Wizard Nav Button Label
+</div>
+`;
+
+exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
+<div
+  className="field-0-2-30 checkboxFieldWrapper-0-2-37"
+>
+  <label
+    className="checkboxFieldLabel-0-2-38"
+    htmlFor="LAND_USE_RESIDENTIAL"
+  >
+    Residential
+  </label>
+  <input
+    checked={false}
+    className="checkbox-0-2-39"
+    data-testid="LAND_USE_RESIDENTIAL"
+    id="LAND_USE_RESIDENTIAL"
+    name="LAND_USE_RESIDENTIAL"
+    onChange={[Function]}
+    type="checkbox"
+    value={true}
+  />
+</div>
+`;
+
+exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
+<div
+  className="field-0-2-30 checkboxFieldWrapper-0-2-37"
+>
+  <label
+    className="checkboxFieldLabel-0-2-38"
+    htmlFor="LAND_USE_RESIDENTIAL"
+  >
+    Residential
+  </label>
+  <input
+    checked={true}
+    className="checkbox-0-2-39"
+    data-testid="LAND_USE_RESIDENTIAL"
+    id="LAND_USE_RESIDENTIAL"
+    name="LAND_USE_RESIDENTIAL"
+    onChange={[Function]}
+    type="checkbox"
+    value={true}
+  />
+</div>
+`;
+
+exports[`Storyshots RuleInput default Input Number 1`] = `
+<div
+  className="field-0-2-30 numberFieldWrapper-0-2-31"
+>
+  <label
+    className="textInputLabel-0-2-49"
+    htmlFor="SF_RETAIL"
+  >
+    Sq Ft - Retail
+  </label>
+  <div
+    className="numberField-0-2-32"
+  >
+    <input
+      className="input-0-2-34"
+      data-testid="SF_RETAIL"
+      id="SF_RETAIL"
+      max={null}
+      min={null}
+      name="SF_RETAIL"
+      onChange={[Function]}
+      type="text"
+      value={42}
+    />
+  </div>
+  <div
+    className="numberFieldUnits-0-2-33"
+  >
+    sq ft
+  </div>
+  <div
+    className="calcUnitsCaption-0-2-36"
+  >
+     
+  </div>
+</div>
+`;
+
+exports[`Storyshots RuleInput default Input String 1`] = `
+<div
+  className="field-0-2-30 textFieldWrapper-0-2-43"
+  onBlur={[Function]}
+>
+  <label
+    className="textInputLabel-0-2-49 requiredInputLabel-0-2-53"
+    htmlFor="PROJECT_NAME"
+  >
+    Project Name*
+  </label>
+  <input
+    className="textInput-0-2-47"
+    data-testid="PROJECT_NAME"
+    id="PROJECT_NAME"
+    maxLength={400}
+    name="PROJECT_NAME"
+    onChange={[Function]}
+    type="text"
+    value="My Project Name"
+  />
+</div>
+`;
+
+exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
+<div
+  className="strategyContainer-0-2-55"
+>
+  <label
+    className="strategyName-0-2-56"
+    htmlFor="STRATEGY_PARKING_1"
+  >
+     
+    Pricing/Unbundling
+     
+  </label>
+  <div>
+    <input
+      checked={false}
+      id="STRATEGY_PARKING_1"
+      name="STRATEGY_PARKING_1"
+      onChange={[Function]}
+      type="checkbox"
+      value={true}
+    />
+  </div>
+  <div
+    className="points-0-2-57"
+  >
+    NaN 
+  </div>
+  <div
+    className="points-0-2-57"
+  >
+     
+  </div>
+</div>
+`;
+
+exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
+<div
+  className="strategyContainer-0-2-55"
+>
+  <label
+    className="strategyName-0-2-56"
+    htmlFor="STRATEGY_PARKING_1"
+  >
+     
+    Pricing/Unbundling
+     
+  </label>
+  <div>
+    <input
+      checked={true}
+      id="STRATEGY_PARKING_1"
+      name="STRATEGY_PARKING_1"
+      onChange={[Function]}
+      type="checkbox"
+      value={true}
+    />
+  </div>
+  <div
+    className="points-0-2-57"
+  >
+    NaN 
+  </div>
+  <div
+    className="points-0-2-57"
+  >
+     
+  </div>
+</div>
+`;
+
+exports[`Storyshots RuleInput default Strategy Choice 1`] = `
+<div
+  className="strategyContainer-0-2-55"
+>
+  <label
+    className="strategyName-0-2-56"
+    htmlFor="STRATEGY_AFFORDABLE"
+  >
+     
+    Affordable Housing Level
+     
+  </label>
+  <div
+    className="choiceSelectContainer-0-2-60"
+  >
+    <select
+      id="STRATEGY_AFFORDABLE"
+      name="STRATEGY_AFFORDABLE"
+      onChange={[Function]}
+      value=""
+      width="100%"
+    >
+      <option
+        value=""
+      >
+        &lt; 35% of State Density Bonus
+      </option>
+      <option
+        value="1"
+      >
+        35% of State Density Bonus
+      </option>
+      <option
+        value="2"
+      >
+        TOC Tier 1
+      </option>
+      <option
+        value="3"
+      >
+        TOC Tier 4
+      </option>
+      <option
+        value="4"
+      >
+        100% Affortdable
+      </option>
+    </select>
+  </div>
+  <div
+    className="points-0-2-57"
+  >
+    NaN 
+  </div>
+  <div
+    className="points-0-2-57"
+  >
+     
+  </div>
+</div>
+`;
+
+exports[`Storyshots RuleInput default Strategy Number 1`] = `
+<div
+  className="strategyContainer-0-2-55"
+>
+  <label
+    className="strategyName-0-2-56"
+    htmlFor="PTS_ACCESS_3"
+  >
+     
+    Network Improvement
+     
+  </label>
+  <div
+    className="numberInputContainer-0-2-58"
+  >
+    <input
+      className="numberInput-0-2-59"
+      id="PTS_ACCESS_3"
+      max={100}
+      min={0}
+      name="PTS_ACCESS_3"
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    className="points-0-2-57"
+  >
+    NaN 
+  </div>
+  <div
+    className="points-0-2-57"
+  >
+     
+  </div>
+</div>
+`;
+
+exports[`Storyshots RuleInputList default 1`] = `
+<div
+  className="root-0-2-63"
+>
+  <div
+    className="field-0-2-30 numberFieldWrapper-0-2-31"
+  >
+    <label
+      className="textInputLabel-0-2-49"
+      htmlFor="UNITS_HABIT_LT3"
+    >
+      # Habitable Rooms &lt; 3
+    </label>
+    <div
+      className="numberField-0-2-32"
+    >
+      <input
+        className="input-0-2-34"
+        data-testid="UNITS_HABIT_LT3"
+        id="UNITS_HABIT_LT3"
+        max={null}
+        min={0}
+        name="UNITS_HABIT_LT3"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="numberFieldUnits-0-2-33"
+    >
+      dwelling units
+    </div>
+    <div
+      className="calcUnitsCaption-0-2-36"
+    >
+       
+    </div>
+  </div>
+  <div
+    className="field-0-2-30 numberFieldWrapper-0-2-31"
+  >
+    <label
+      className="textInputLabel-0-2-49"
+      htmlFor="UNITS_HABIT_3"
+    >
+      # Habitable Rooms = 3
+    </label>
+    <div
+      className="numberField-0-2-32"
+    >
+      <input
+        className="input-0-2-34"
+        data-testid="UNITS_HABIT_3"
+        id="UNITS_HABIT_3"
+        max={null}
+        min={0}
+        name="UNITS_HABIT_3"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="numberFieldUnits-0-2-33"
+    >
+      dwelling units
+    </div>
+    <div
+      className="calcUnitsCaption-0-2-36"
+    >
+       
+    </div>
+  </div>
+  <div
+    className="field-0-2-30 numberFieldWrapper-0-2-31"
+  >
+    <label
+      className="textInputLabel-0-2-49"
+      htmlFor="UNITS_HABIT_GT3"
+    >
+      # Habitable Rooms &gt; 3
+    </label>
+    <div
+      className="numberField-0-2-32"
+    >
+      <input
+        className="input-0-2-34"
+        data-testid="UNITS_HABIT_GT3"
+        id="UNITS_HABIT_GT3"
+        max={null}
+        min={0}
+        name="UNITS_HABIT_GT3"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="numberFieldUnits-0-2-33"
+    >
+      dwelling units
+    </div>
+    <div
+      className="calcUnitsCaption-0-2-36"
+    >
+       
+    </div>
+  </div>
+  <div
+    className="field-0-2-30 numberFieldWrapper-0-2-31"
+  >
+    <label
+      className="textInputLabel-0-2-49"
+      htmlFor="UNITS_CONDO"
+    >
+      Condo - Units
+    </label>
+    <div
+      className="numberField-0-2-32"
+    >
+      <input
+        className="input-0-2-34"
+        data-testid="UNITS_CONDO"
+        id="UNITS_CONDO"
+        max={null}
+        min={0}
+        name="UNITS_CONDO"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="numberFieldUnits-0-2-33"
+    >
+      dwelling units
+    </div>
+    <div
+      className="calcUnitsCaption-0-2-36"
+    >
+       
+    </div>
+  </div>
+  <div
+    className="field-0-2-30 numberFieldWrapper-0-2-31"
+  >
+    <label
+      className="textInputLabel-0-2-49"
+      htmlFor="PARK_CONDO"
+    >
+      Condo - Enter Parking Space Req'd
+    </label>
+    <div
+      className="numberField-0-2-32"
+    >
+      <input
+        className="input-0-2-34"
+        data-testid="PARK_CONDO"
+        id="PARK_CONDO"
+        max={null}
+        min={0}
+        name="PARK_CONDO"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="numberFieldUnits-0-2-33"
+    >
+      spcs
+    </div>
+    <div
+      className="calcUnitsCaption-0-2-36"
+    >
+       
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots RuleInputPanels default 1`] = `
+Array [
+  <div
+    className="panelContainer-0-2-64"
+  >
+    <div
+      className="strategyContainer-0-2-65"
+    >
+      <h4
+        className="strategyName-0-2-66"
+      >
+        Residential Inputs
+      </h4>
+    </div>
+    <div
+      className="root-0-2-63"
+    >
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="UNITS_HABIT_LT3"
+        >
+          # Habitable Rooms &lt; 3
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="UNITS_HABIT_LT3"
+            id="UNITS_HABIT_LT3"
+            max={null}
+            min={0}
+            name="UNITS_HABIT_LT3"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          dwelling units
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="UNITS_HABIT_3"
+        >
+          # Habitable Rooms = 3
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="UNITS_HABIT_3"
+            id="UNITS_HABIT_3"
+            max={null}
+            min={0}
+            name="UNITS_HABIT_3"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          dwelling units
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="UNITS_HABIT_GT3"
+        >
+          # Habitable Rooms &gt; 3
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="UNITS_HABIT_GT3"
+            id="UNITS_HABIT_GT3"
+            max={null}
+            min={0}
+            name="UNITS_HABIT_GT3"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          dwelling units
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="UNITS_CONDO"
+        >
+          Condo - Units
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="UNITS_CONDO"
+            id="UNITS_CONDO"
+            max={null}
+            min={0}
+            name="UNITS_CONDO"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          dwelling units
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="PARK_CONDO"
+        >
+          Condo - Enter Parking Space Req'd
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="PARK_CONDO"
+            id="PARK_CONDO"
+            max={null}
+            min={0}
+            name="PARK_CONDO"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          spcs
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="panelContainer-0-2-64"
+  >
+    <div
+      className="strategyContainer-0-2-65"
+    >
+      <h4
+        className="strategyName-0-2-66"
+      >
+        Commercial Inputs
+      </h4>
+    </div>
+    <div
+      className="root-0-2-63"
+    >
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="SF_RESTAURANT"
+        >
+          Sq Ft - Restaurant/Bar/General
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="SF_RESTAURANT"
+            id="SF_RESTAURANT"
+            max={null}
+            min={0}
+            name="SF_RESTAURANT"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          sq ft
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="SF_HEALTH_CLUB"
+        >
+          Sq Ft - Health Club
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="SF_HEALTH_CLUB"
+            id="SF_HEALTH_CLUB"
+            max={null}
+            min={0}
+            name="SF_HEALTH_CLUB"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          sq ft
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="SF_RESTAURANT_TAKEOUT"
+        >
+          Sq Ft - Take-out Restaurant
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="SF_RESTAURANT_TAKEOUT"
+            id="SF_RESTAURANT_TAKEOUT"
+            max={null}
+            min={0}
+            name="SF_RESTAURANT_TAKEOUT"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          sq ft
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="SF_OFFICE"
+        >
+          Sq Ft - Office, Business, Manufacturing, Industrial
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="SF_OFFICE"
+            id="SF_OFFICE"
+            max={null}
+            min={0}
+            name="SF_OFFICE"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          sq ft
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="SF_WAREHOUSE"
+        >
+          Sq Ft - Warehouse
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="SF_WAREHOUSE"
+            id="SF_WAREHOUSE"
+            max={null}
+            min={0}
+            name="SF_WAREHOUSE"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          sq ft
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="panelContainer-0-2-64"
+  >
+    <div
+      className="strategyContainer-0-2-65"
+    >
+      <h4
+        className="strategyName-0-2-66"
+      >
+        Institutional Inputs
+      </h4>
+    </div>
+    <div
+      className="root-0-2-63"
+    >
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="SF_INST_MEDICAL_SVC"
+        >
+          Sq Ft - Medical Offices, Clinics, Service Facilities
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="SF_INST_MEDICAL_SVC"
+            id="SF_INST_MEDICAL_SVC"
+            max={null}
+            min={0}
+            name="SF_INST_MEDICAL_SVC"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          sq ft
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="SF_INST_OTHER"
+        >
+          Sq Ft - Other Institutional
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="SF_INST_OTHER"
+            id="SF_INST_OTHER"
+            max={null}
+            min={0}
+            name="SF_INST_OTHER"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          sq ft
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="SF_INST_GOV"
+        >
+          Sq Ft - Government Institution
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="SF_INST_GOV"
+            id="SF_INST_GOV"
+            max={null}
+            min={0}
+            name="SF_INST_GOV"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          sq ft
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="BED_HOSPITAL"
+        >
+          Patient Hospital Beds
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="BED_HOSPITAL"
+            id="BED_HOSPITAL"
+            max={null}
+            min={0}
+            name="BED_HOSPITAL"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          beds
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="BED_CONVALESCENT"
+        >
+          Convalescent Institution Beds
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="BED_CONVALESCENT"
+            id="BED_CONVALESCENT"
+            max={null}
+            min={0}
+            name="BED_CONVALESCENT"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          beds
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="panelContainer-0-2-64"
+  >
+    <div
+      className="strategyContainer-0-2-65"
+    >
+      <h4
+        className="strategyName-0-2-66"
+      >
+        Other Land Use Inputs
+      </h4>
+    </div>
+    <div
+      className="root-0-2-63"
+    >
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="SEAT_AUDITORIUM"
+        >
+          # Seats - Auditorium
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="SEAT_AUDITORIUM"
+            id="SEAT_AUDITORIUM"
+            max={null}
+            min={0}
+            name="SEAT_AUDITORIUM"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          seats
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="field-0-2-30 numberFieldWrapper-0-2-31"
+      >
+        <label
+          className="textInputLabel-0-2-49"
+          htmlFor="SF_AUDITORIUM_NO_SEATS"
+        >
+          Sq Ft - Auditorium w/o Seats
+        </label>
+        <div
+          className="numberField-0-2-32"
+        >
+          <input
+            className="input-0-2-34"
+            data-testid="SF_AUDITORIUM_NO_SEATS"
+            id="SF_AUDITORIUM_NO_SEATS"
+            max={null}
+            min={0}
+            name="SF_AUDITORIUM_NO_SEATS"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-33"
+        >
+          sq ft
+        </div>
+        <div
+          className="calcUnitsCaption-0-2-36"
+        >
+           
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots RuleStrategyList default 1`] = `
+<div
+  className="root-0-2-69"
+>
+  <div
+    className="strategyContainer-0-2-55"
+  >
+    <label
+      className="strategyName-0-2-56"
+      htmlFor="STRATEGY_PARKING_2"
+    >
+       
+      Cash-Out
+       
+    </label>
+    <div>
+      <input
+        checked={false}
+        id="STRATEGY_PARKING_2"
+        name="STRATEGY_PARKING_2"
+        onChange={[Function]}
+        type="checkbox"
+        value={true}
+      />
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+       
+    </div>
+  </div>
+  <div
+    className="strategyContainer-0-2-55"
+  >
+    <label
+      className="strategyName-0-2-56"
+      htmlFor="STRATEGY_PARKING_1"
+    >
+       
+      Pricing/Unbundling
+       
+    </label>
+    <div>
+      <input
+        checked={false}
+        id="STRATEGY_PARKING_1"
+        name="STRATEGY_PARKING_1"
+        onChange={[Function]}
+        type="checkbox"
+        value={true}
+      />
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+       
+    </div>
+  </div>
+  <div
+    className="strategyContainer-0-2-55"
+  >
+    <label
+      className="strategyName-0-2-56"
+      htmlFor="STRATEGY_PARKING_3"
+    >
+       
+      Shared Parking
+       
+    </label>
+    <div
+      className="choiceSelectContainer-0-2-60"
+    >
+      <select
+        id="STRATEGY_PARKING_3"
+        name="STRATEGY_PARKING_3"
+        onChange={[Function]}
+        value=""
+        width="100%"
+      >
+        <option
+          value="0"
+        >
+          &lt; 25% spaces shared
+        </option>
+        <option
+          value="25"
+        >
+          25%+ spaces shared
+        </option>
+        <option
+          value="50"
+        >
+          50%+ spaces shared
+        </option>
+        <option
+          value="75"
+        >
+          75%+ spaces shared
+        </option>
+        <option
+          value="100"
+        >
+          100% spaces shared
+        </option>
+      </select>
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+       
+    </div>
+  </div>
+  <div
+    className="strategyContainer-0-2-55"
+  >
+    <label
+      className="strategyName-0-2-56"
+      htmlFor="STRATEGY_PARKING_4"
+    >
+       
+      Public Parking
+       
+    </label>
+    <div>
+      <input
+        checked={false}
+        id="STRATEGY_PARKING_4"
+        name="STRATEGY_PARKING_4"
+        onChange={[Function]}
+        type="checkbox"
+        value={true}
+      />
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+       
+    </div>
+  </div>
+  <div
+    className="strategyContainer-0-2-55"
+  >
+    <label
+      className="strategyName-0-2-56"
+      htmlFor="STRATEGY_PARKING_5"
+    >
+       
+      Reduced Parking Supply
+       
+    </label>
+    <div>
+      <input
+        checked={false}
+        id="STRATEGY_PARKING_5"
+        name="STRATEGY_PARKING_5"
+        onChange={[Function]}
+        type="checkbox"
+        value={true}
+      />
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+       
+    </div>
+  </div>
+  <div
+    className="strategyContainer-0-2-55"
+  >
+    <label
+      className="strategyName-0-2-56"
+      htmlFor="PTS_PARKING_1"
+    >
+       
+      Pts for Pricing/Unbundling
+       
+    </label>
+    <div
+      className="numberInputContainer-0-2-58"
+    >
+      <input
+        className="numberInput-0-2-59"
+        id="PTS_PARKING_1"
+        max={8}
+        min={8}
+        name="PTS_PARKING_1"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-57"
+    >
+       
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots RuleStrategyPanels default 1`] = `
+Array [
+  <div
+    className="panelContainer-0-2-70"
+  >
+    <div
+      className="strategyContainer-0-2-71"
+    >
+      <h4
+        className="strategyName-0-2-72"
+      >
+        Accessibility
+      </h4>
+      <div
+        className="points-0-2-73"
+      >
+        Possible
+      </div>
+      <div
+        className="points-0-2-73"
+      >
+        Earned
+      </div>
+    </div>
+    <div
+      className="root-0-2-69"
+    >
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="PTS_ACCESS_1"
+        >
+           
+          Pts for Correct Substandard Infrastructure
+           
+        </label>
+        <div
+          className="numberInputContainer-0-2-58"
+        >
+          <input
+            className="numberInput-0-2-59"
+            id="PTS_ACCESS_1"
+            max={5}
+            min={2}
+            name="PTS_ACCESS_1"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="PTS_ACCESS_2"
+        >
+           
+          Pts for Intersection Improvement
+           
+        </label>
+        <div
+          className="numberInputContainer-0-2-58"
+        >
+          <input
+            className="numberInput-0-2-59"
+            id="PTS_ACCESS_2"
+            max={5}
+            min={2}
+            name="PTS_ACCESS_2"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_ACCESS_1"
+        >
+           
+          Correct Substandard Infrastructure
+           
+        </label>
+        <div
+          className="choiceSelectContainer-0-2-60"
+        >
+          <select
+            id="STRATEGY_ACCESS_1"
+            name="STRATEGY_ACCESS_1"
+            onChange={[Function]}
+            value=""
+            width="100%"
+          >
+            <option
+              value="0"
+            >
+              &lt; 25% streets improved
+            </option>
+            <option
+              value="25"
+            >
+              25%+ streets improved
+            </option>
+            <option
+              value="50"
+            >
+              50%+ streets improved
+            </option>
+            <option
+              value="75"
+            >
+              75%+ streets improved
+            </option>
+            <option
+              value="100"
+            >
+              100% streets improved
+            </option>
+          </select>
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_ACCESS_2"
+        >
+           
+          Intersection Improvements
+           
+        </label>
+        <div
+          className="choiceSelectContainer-0-2-60"
+        >
+          <select
+            id="STRATEGY_ACCESS_2"
+            name="STRATEGY_ACCESS_2"
+            onChange={[Function]}
+            value=""
+            width="100%"
+          >
+            <option
+              value="0"
+            >
+              &lt; 25% intersections improved
+            </option>
+            <option
+              value="25"
+            >
+              25%+ intersections improved
+            </option>
+            <option
+              value="50"
+            >
+              50%+ intersections improved
+            </option>
+            <option
+              value="75"
+            >
+              75%+ intersections improved
+            </option>
+            <option
+              value="100"
+            >
+              100% intersections improved
+            </option>
+          </select>
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="PTS_ACCESS_3"
+        >
+           
+          Network Improvement
+           
+        </label>
+        <div
+          className="numberInputContainer-0-2-58"
+        >
+          <input
+            className="numberInput-0-2-59"
+            id="PTS_ACCESS_3"
+            max={100}
+            min={0}
+            name="PTS_ACCESS_3"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="panelContainer-0-2-70"
+  >
+    <div
+      className="strategyContainer-0-2-71"
+    >
+      <h4
+        className="strategyName-0-2-72"
+      >
+        Affordable Housing
+      </h4>
+      <div
+        className="points-0-2-73"
+      >
+        Possible
+      </div>
+      <div
+        className="points-0-2-73"
+      >
+        Earned
+      </div>
+    </div>
+    <div
+      className="root-0-2-69"
+    >
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_AFFORDABLE"
+        >
+           
+          Affordable Housing Level
+           
+        </label>
+        <div
+          className="choiceSelectContainer-0-2-60"
+        >
+          <select
+            id="STRATEGY_AFFORDABLE"
+            name="STRATEGY_AFFORDABLE"
+            onChange={[Function]}
+            value=""
+            width="100%"
+          >
+            <option
+              value=""
+            >
+              &lt; 35% of State Density Bonus
+            </option>
+            <option
+              value="1"
+            >
+              35% of State Density Bonus
+            </option>
+            <option
+              value="2"
+            >
+              TOC Tier 1
+            </option>
+            <option
+              value="3"
+            >
+              TOC Tier 4
+            </option>
+            <option
+              value="4"
+            >
+              100% Affortdable
+            </option>
+          </select>
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="panelContainer-0-2-70"
+  >
+    <div
+      className="strategyContainer-0-2-71"
+    >
+      <h4
+        className="strategyName-0-2-72"
+      >
+        Bicycle Facilities
+      </h4>
+      <div
+        className="points-0-2-73"
+      >
+        Possible
+      </div>
+      <div
+        className="points-0-2-73"
+      >
+        Earned
+      </div>
+    </div>
+    <div
+      className="root-0-2-69"
+    >
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_BIKE_1"
+        >
+           
+          Locate Near Bike Share
+           
+        </label>
+        <div>
+          <input
+            checked={false}
+            id="STRATEGY_BIKE_1"
+            name="STRATEGY_BIKE_1"
+            onChange={[Function]}
+            type="checkbox"
+            value={true}
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="PTS_BIKE_1"
+        >
+           
+          Points for Locate Near Bike Share
+           
+        </label>
+        <div
+          className="numberInputContainer-0-2-58"
+        >
+          <input
+            className="numberInput-0-2-59"
+            id="PTS_BIKE_1"
+            max={2}
+            min={2}
+            name="PTS_BIKE_1"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_BIKE_2"
+        >
+           
+          Bike Share Station
+           
+        </label>
+        <div>
+          <input
+            checked={false}
+            id="STRATEGY_BIKE_2"
+            name="STRATEGY_BIKE_2"
+            onChange={[Function]}
+            type="checkbox"
+            value={true}
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_BIKE_3"
+        >
+           
+          Bike Share Memberships
+           
+        </label>
+        <div>
+          <input
+            checked={false}
+            id="STRATEGY_BIKE_3"
+            name="STRATEGY_BIKE_3"
+            onChange={[Function]}
+            type="checkbox"
+            value={true}
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_BIKE_4"
+        >
+           
+          Bike Parking
+           
+        </label>
+        <div>
+          <input
+            checked={false}
+            id="STRATEGY_BIKE_4"
+            name="STRATEGY_BIKE_4"
+            onChange={[Function]}
+            type="checkbox"
+            value={true}
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_BIKE_5"
+        >
+           
+          Changing / Shower / Locker Facilities
+           
+        </label>
+        <div>
+          <input
+            checked={false}
+            id="STRATEGY_BIKE_5"
+            name="STRATEGY_BIKE_5"
+            onChange={[Function]}
+            type="checkbox"
+            value={true}
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_BIKE_BONUS"
+        >
+           
+          Bike Bonus
+           
+        </label>
+        <div
+          className="allElse-0-2-62"
+          name="STRATEGY_BIKE_BONUS"
+        />
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="panelContainer-0-2-70"
+  >
+    <div
+      className="strategyContainer-0-2-71"
+    >
+      <h4
+        className="strategyName-0-2-72"
+      >
+        Car Sharing
+      </h4>
+      <div
+        className="points-0-2-73"
+      >
+        Possible
+      </div>
+      <div
+        className="points-0-2-73"
+      >
+        Earned
+      </div>
+    </div>
+    <div
+      className="root-0-2-69"
+    >
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_CAR_SHARE_1"
+        >
+           
+          Car Share Parking
+           
+        </label>
+        <div>
+          <input
+            checked={false}
+            id="STRATEGY_CAR_SHARE_1"
+            name="STRATEGY_CAR_SHARE_1"
+            onChange={[Function]}
+            type="checkbox"
+            value={true}
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_CAR_SHARE_2"
+        >
+           
+          Car Share Memberships
+           
+        </label>
+        <div>
+          <input
+            checked={false}
+            id="STRATEGY_CAR_SHARE_2"
+            name="STRATEGY_CAR_SHARE_2"
+            onChange={[Function]}
+            type="checkbox"
+            value={true}
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_CAR_SHARE_3"
+        >
+           
+          Blue LA Car Share Memberships
+           
+        </label>
+        <div>
+          <input
+            checked={false}
+            id="STRATEGY_CAR_SHARE_3"
+            name="STRATEGY_CAR_SHARE_3"
+            onChange={[Function]}
+            type="checkbox"
+            value={true}
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_CAR_SHARE_4"
+        >
+           
+          Private Car Share Fleet
+           
+        </label>
+        <div>
+          <input
+            checked={false}
+            id="STRATEGY_CAR_SHARE_4"
+            name="STRATEGY_CAR_SHARE_4"
+            onChange={[Function]}
+            type="checkbox"
+            value={true}
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_CAR_SHARE_ELECTRIC"
+        >
+           
+          Electric Vehicle Bonus
+           
+        </label>
+        <div>
+          <input
+            checked={false}
+            id="STRATEGY_CAR_SHARE_ELECTRIC"
+            name="STRATEGY_CAR_SHARE_ELECTRIC"
+            onChange={[Function]}
+            type="checkbox"
+            value={true}
+          />
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+      <div
+        className="strategyContainer-0-2-55"
+      >
+        <label
+          className="strategyName-0-2-56"
+          htmlFor="STRATEGY_CAR_SHARE_BONUS"
+        >
+           
+          Car Share Bonus
+           
+        </label>
+        <div
+          className="allElse-0-2-62"
+          name="STRATEGY_CAR_SHARE_BONUS"
+        />
+        <div
+          className="points-0-2-57"
+        >
+          NaN 
+        </div>
+        <div
+          className="points-0-2-57"
+        >
+           
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots Sidebar default 1`] = `
+<div
+  className="sidebar-container-0-2-75"
+>
+  <div />
+  <div
+    className="sidebar-content-0-2-76"
+  />
+</div>
+`;
+
+exports[`Storyshots SinglePageResultList default 1`] = `
+<div
+  className="root-0-2-7"
 >
   <div
     className="tdm-calculation-metrics-panel"
   >
     <h3>
-      Target Points for Parking
+      Req'd Parking
     </h3>
-    <div
-      style={
-        Object {
-          "flexBasis": "50%",
-          "fontSize": "2em",
-        }
-      }
-    />
+    <div />
     <div>
        
-      points
-    </div>
-  </div>
-  <div
-    className="tdm-calculation-metrics-panel"
-  >
-    <h3>
-      Parking Requirement - Total
-    </h3>
-    <div
-      style={
-        Object {
-          "flexBasis": "50%",
-          "fontSize": "2em",
-        }
-      }
-    />
-    <div>
-       
-      spaces
+      spcs
     </div>
   </div>
   <div
@@ -55,4305 +2279,807 @@ exports[`Storyshots ResultList default 1`] = `
     <h3>
       Parking Requirement - Residential
     </h3>
-    <div
-      style={
-        Object {
-          "flexBasis": "50%",
-          "fontSize": "2em",
-        }
-      }
-    />
+    <div />
     <div>
        
-      spaces
+      spcs
     </div>
   </div>
   <div
     className="tdm-calculation-metrics-panel"
   >
     <h3>
-      Parking Requirement - Commercial
+      Target Points
     </h3>
-    <div
-      style={
-        Object {
-          "flexBasis": "50%",
-          "fontSize": "2em",
-        }
-      }
-    />
+    <div />
     <div>
        
-      spaces
+      pts
+    </div>
+  </div>
+  <div
+    className="tdm-calculation-metrics-panel"
+  >
+    <h3>
+      Parking Requirement - Hotel
+    </h3>
+    <div />
+    <div>
+       
+      spcs
     </div>
   </div>
 </div>
 `;
 
-exports[`Storyshots ResultView default 1`] = `
+exports[`Storyshots SinglePageResultView default 1`] = `
 <div
   className="tdm-calculation-metrics-panel"
 >
-  <h3>
-    Target Points for Parking
-  </h3>
-  <div
-    style={
-      Object {
-        "flexBasis": "50%",
-        "fontSize": "2em",
-      }
-    }
-  >
+  <h3 />
+  <div>
     -1
   </div>
   <div>
      
-    points
   </div>
 </div>
 `;
 
-exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
+exports[`Storyshots SinglePageRuleInput default Input Boolean (False) 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "baseline",
-      "display": "flex",
-      "flexDirection": "row",
-      "justifyContent": "space-between",
-      "margin": "0.2em",
-    }
-  }
+  className="rule-0-2-9"
 >
   <div
-    style={
-      Object {
-        "flexBasis": "75%",
-        "flexGrow": "1",
-        "flexShrink": "1",
-      }
-    }
+    className="name-0-2-11"
   >
-    Unbundle Parking from Rent
+    Residential
   </div>
   <input
     checked={false}
-    name="UNBUNDLE_PARKING"
+    className="code-0-2-13"
+    name="LAND_USE_RESIDENTIAL"
     onChange={[Function]}
-    style={
-      Object {
-        "flexBasis": "5%",
-        "flexGrow": "0",
-        "flexShrink": "1",
-      }
-    }
     type="checkbox"
     value={true}
   />
   <div
-    style={
-      Object {
-        "flexBasis": "10%",
-        "flexGrow": "0",
-        "flexShrink": "1",
-        "marginLeft": "1em",
-      }
-    }
+    className="units-0-2-14"
   >
     
   </div>
   <div
-    style={
-      Object {
-        "flexBasis": "5%",
-        "flexGrow": "0",
-        "flexShrink": "1",
-        "marginLeft": "1em",
-        "marginRight": "0.5em",
-      }
-    }
-  />
+    className="calcUnits-0-2-15"
+  >
+     
+  </div>
 </div>
 `;
 
-exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
+exports[`Storyshots SinglePageRuleInput default Input Boolean (True) 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "baseline",
-      "display": "flex",
-      "flexDirection": "row",
-      "justifyContent": "space-between",
-      "margin": "0.2em",
-    }
-  }
+  className="rule-0-2-9"
 >
   <div
-    style={
-      Object {
-        "flexBasis": "75%",
-        "flexGrow": "1",
-        "flexShrink": "1",
-      }
-    }
+    className="name-0-2-11"
   >
-    Unbundle Parking from Rent
+    Residential
   </div>
   <input
     checked={true}
-    name="UNBUNDLE_PARKING"
+    className="code-0-2-13"
+    name="LAND_USE_RESIDENTIAL"
     onChange={[Function]}
-    style={
-      Object {
-        "flexBasis": "5%",
-        "flexGrow": "0",
-        "flexShrink": "1",
-      }
-    }
     type="checkbox"
     value={true}
   />
   <div
-    style={
-      Object {
-        "flexBasis": "10%",
-        "flexGrow": "0",
-        "flexShrink": "1",
-        "marginLeft": "1em",
-      }
-    }
+    className="units-0-2-14"
   >
     
   </div>
   <div
-    style={
-      Object {
-        "flexBasis": "5%",
-        "flexGrow": "0",
-        "flexShrink": "1",
-        "marginLeft": "1em",
-        "marginRight": "0.5em",
-      }
-    }
-  />
+    className="calcUnits-0-2-15"
+  >
+     
+  </div>
 </div>
 `;
 
-exports[`Storyshots RuleInput default Input Number 1`] = `
+exports[`Storyshots SinglePageRuleInput default Input Number 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "center",
-      "display": "flex",
-      "flexDirection": "row",
-      "justifyContent": "space-between",
-      "margin": "0.2em",
-    }
-  }
+  className="rule-0-2-9 numberRule-0-2-10"
 >
   <div
-    style={
-      Object {
-        "flexBasis": "75%",
-        "flexGrow": "1",
-        "flexShrink": "1",
-      }
-    }
+    className="name-0-2-11"
   >
     Sq Ft - Retail
   </div>
   <input
+    className="code-0-2-13"
     name="SF_RETAIL"
     onChange={[Function]}
-    style={
-      Object {
-        "flexBasis": "10%",
-        "flexGrow": "0",
-        "flexShrink": "1",
-      }
-    }
-    type="number"
+    type="text"
     value=""
   />
   <div
-    style={
-      Object {
-        "flexBasis": "10%",
-        "flexGrow": "0",
-        "flexShrink": "1",
-        "marginLeft": "1em",
-      }
-    }
+    className="units-0-2-14"
   >
     sq ft
   </div>
   <div
-    style={
-      Object {
-        "flexBasis": "5%",
-        "flexGrow": "0",
-        "flexShrink": "1",
-        "marginLeft": "1em",
-        "marginRight": "0.5em",
-        "textAlign": "right",
-      }
-    }
-  />
+    className="calcUnits-0-2-15"
+  >
+     
+  </div>
 </div>
 `;
 
-exports[`Storyshots RuleList default 1`] = `
-Array [
+exports[`Storyshots SinglePageRuleList default 1`] = `
+<div
+  className="root-0-2-18"
+>
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
+    className="rule-0-2-9 numberRule-0-2-10"
   >
     <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
+      className="name-0-2-11"
     >
       # Habitable Rooms &lt; 3
     </div>
     <input
+      className="code-0-2-13"
       name="UNITS_HABIT_LT3"
       onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
+      type="text"
       value=""
     />
     <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
+      className="units-0-2-14"
     >
       dwelling units
     </div>
     <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
+      className="calcUnits-0-2-15"
+    >
+       
+    </div>
+  </div>
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
+    className="rule-0-2-9 numberRule-0-2-10"
   >
     <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
+      className="name-0-2-11"
     >
       # Habitable Rooms = 3
     </div>
     <input
+      className="code-0-2-13"
       name="UNITS_HABIT_3"
       onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
+      type="text"
       value=""
     />
     <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
+      className="units-0-2-14"
     >
       dwelling units
     </div>
     <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
+      className="calcUnits-0-2-15"
+    >
+       
+    </div>
+  </div>
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
+    className="rule-0-2-9 numberRule-0-2-10"
   >
     <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
+      className="name-0-2-11"
     >
       # Habitable Rooms &gt; 3
     </div>
     <input
+      className="code-0-2-13"
       name="UNITS_HABIT_GT3"
       onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
+      type="text"
       value=""
     />
     <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
+      className="units-0-2-14"
     >
       dwelling units
     </div>
     <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
+      className="calcUnits-0-2-15"
+    >
+       
+    </div>
+  </div>
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
+    className="rule-0-2-9 numberRule-0-2-10"
   >
     <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
+      className="name-0-2-11"
     >
-      # Guest Rooms &lt; 30
+      Condo - Units
     </div>
     <input
-      name="UNITS_GUEST_LT30"
+      className="code-0-2-13"
+      name="UNITS_CONDO"
       onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
+      type="text"
       value=""
     />
     <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      rooms
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Guest Rooms 30-60
-    </div>
-    <input
-      name="UNITS_GUEST_30-60"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      rooms
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Guest Rooms &gt; 60
-    </div>
-    <input
-      name="UNITS_GUEST_GT60"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      rooms
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Condos Units &lt; 6
-    </div>
-    <input
-      name="UNITS_CONDO_LT6"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
+      className="units-0-2-14"
     >
       dwelling units
     </div>
     <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
+      className="calcUnits-0-2-15"
+    >
+       
+    </div>
+  </div>
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
+    className="rule-0-2-9 numberRule-0-2-10"
   >
     <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
+      className="name-0-2-11"
     >
-      # Condos Units &gt;= 6
+      Condo - Enter Parking Space Req'd
     </div>
     <input
-      name="UNITS_CONDO_GTE6"
+      className="code-0-2-13"
+      name="PARK_CONDO"
       onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
+      type="text"
       value=""
     />
     <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
+      className="units-0-2-14"
     >
-      dwelling units
+      spcs
     </div>
     <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
+      className="calcUnits-0-2-15"
     >
-      # Condo Units &gt;=6 (congested area)
+       
     </div>
-    <input
-      name="UNITS_CONDO_CONGESTED"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # TOC-ABB 744 Mixed Income Bedrooms
-    </div>
-    <input
-      name="UNITS_AB744_MIXED"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      bedroom
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # TOC-ABB 744 Affordable incl Sr.
-    </div>
-    <input
-      name="UNITS_AB744_AFF_SR"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # TOC-ABB 744 Special Needs
-    </div>
-    <input
-      name="UNITS_AB744_AFF_SPECIAL"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # TOC-ABB 744 Eligible Housing Development
-    </div>
-    <input
-      name="UNITS_AB744_ELIGIBLE"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Density Bonus Opt 1 Bedrooms &lt;= 1
-    </div>
-    <input
-      name="UNITS_DENSITY_OPT1_LTE1"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Density Bonus Opt 1 Bedrooms 2-3
-    </div>
-    <input
-      name="UNITS_DENSITY_OPT1_2-3"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Density Bonus Opt 1 Bedrooms GTE4
-    </div>
-    <input
-      name="UNITS_DENSITY_OPT1_GTE4"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Density Bonus Opt 2 Restricted Unit
-    </div>
-    <input
-      name="UNITS_DENSITY_OPT2_RESTRICTED"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Density Bonus Opt 2 Disabled
-    </div>
-    <input
-      name="UNITS_DENSITY_OPT2_DISABLED"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Density Bonus Opt 2 Residential Hotel
-    </div>
-    <input
-      name="UNITS_DENSITY_OPT2_HOTEL"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Senior Independent Housing
-    </div>
-    <input
-      name="UNITS_SR_INDEPENDENT"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Assisted Living Care Unit
-    </div>
-    <input
-      name="UNITS_SR_ASSISTED"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      dwelling units
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Assisted Living Care Guest Rooms
-    </div>
-    <input
-      name="UNITS_SR_ASSISTED_GUEST"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      guest rm
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Skilled Nursing Care Housing Beds
-    </div>
-    <input
-      name="UNITS_SKILLED_NURSING"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      guest bed
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "margin": "0.2em",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flexBasis": "75%",
-          "flexGrow": "1",
-          "flexShrink": "1",
-        }
-      }
-    >
-      # Alzheimer's / Dementia Care Housing
-    </div>
-    <input
-      name="UNITS_DEMENTIA"
-      onChange={[Function]}
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-        }
-      }
-      type="number"
-      value=""
-    />
-    <div
-      style={
-        Object {
-          "flexBasis": "10%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-        }
-      }
-    >
-      guest bed
-    </div>
-    <div
-      style={
-        Object {
-          "flexBasis": "5%",
-          "flexGrow": "0",
-          "flexShrink": "1",
-          "marginLeft": "1em",
-          "marginRight": "0.5em",
-          "textAlign": "right",
-        }
-      }
-    />
-  </div>,
-]
+  </div>
+</div>
 `;
 
-exports[`Storyshots RulePanels default 1`] = `
+exports[`Storyshots SinglePageRulePanels default 1`] = `
 Array [
-  <fieldset
-    style={
-      Object {
-        "margin": "0.75em",
-      }
-    }
+  <div
+    className="panel-0-2-19"
   >
-    <legend>
-      <h4>
-        Land Use - Residential
-      </h4>
-       
-    </legend>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
+    <fieldset>
+      <legend
+        className="legend-0-2-20"
       >
-        # Habitable Rooms &lt; 3
-      </div>
-      <input
-        name="UNITS_HABIT_LT3"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
+        Residential Inputs
+      </legend>
       <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
+        className="root-0-2-18"
       >
-        dwelling units
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            # Habitable Rooms &lt; 3
+          </div>
+          <input
+            className="code-0-2-13"
+            name="UNITS_HABIT_LT3"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            dwelling units
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            # Habitable Rooms = 3
+          </div>
+          <input
+            className="code-0-2-13"
+            name="UNITS_HABIT_3"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            dwelling units
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            # Habitable Rooms &gt; 3
+          </div>
+          <input
+            className="code-0-2-13"
+            name="UNITS_HABIT_GT3"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            dwelling units
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Condo - Units
+          </div>
+          <input
+            className="code-0-2-13"
+            name="UNITS_CONDO"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            dwelling units
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Condo - Enter Parking Space Req'd
+          </div>
+          <input
+            className="code-0-2-13"
+            name="PARK_CONDO"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            spcs
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
       </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Habitable Rooms = 3
-      </div>
-      <input
-        name="UNITS_HABIT_3"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Habitable Rooms &gt; 3
-      </div>
-      <input
-        name="UNITS_HABIT_GT3"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Guest Rooms &lt; 30
-      </div>
-      <input
-        name="UNITS_GUEST_LT30"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        rooms
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Guest Rooms 30-60
-      </div>
-      <input
-        name="UNITS_GUEST_30-60"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        rooms
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Guest Rooms &gt; 60
-      </div>
-      <input
-        name="UNITS_GUEST_GT60"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        rooms
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Condos Units &lt; 6
-      </div>
-      <input
-        name="UNITS_CONDO_LT6"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Condos Units &gt;= 6
-      </div>
-      <input
-        name="UNITS_CONDO_GTE6"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Condo Units &gt;=6 (congested area)
-      </div>
-      <input
-        name="UNITS_CONDO_CONGESTED"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # TOC-ABB 744 Mixed Income Bedrooms
-      </div>
-      <input
-        name="UNITS_AB744_MIXED"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        bedroom
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # TOC-ABB 744 Affordable incl Sr.
-      </div>
-      <input
-        name="UNITS_AB744_AFF_SR"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # TOC-ABB 744 Special Needs
-      </div>
-      <input
-        name="UNITS_AB744_AFF_SPECIAL"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # TOC-ABB 744 Eligible Housing Development
-      </div>
-      <input
-        name="UNITS_AB744_ELIGIBLE"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Density Bonus Opt 1 Bedrooms &lt;= 1
-      </div>
-      <input
-        name="UNITS_DENSITY_OPT1_LTE1"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Density Bonus Opt 1 Bedrooms 2-3
-      </div>
-      <input
-        name="UNITS_DENSITY_OPT1_2-3"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Density Bonus Opt 1 Bedrooms GTE4
-      </div>
-      <input
-        name="UNITS_DENSITY_OPT1_GTE4"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Density Bonus Opt 2 Restricted Unit
-      </div>
-      <input
-        name="UNITS_DENSITY_OPT2_RESTRICTED"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Density Bonus Opt 2 Disabled
-      </div>
-      <input
-        name="UNITS_DENSITY_OPT2_DISABLED"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Density Bonus Opt 2 Residential Hotel
-      </div>
-      <input
-        name="UNITS_DENSITY_OPT2_HOTEL"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Senior Independent Housing
-      </div>
-      <input
-        name="UNITS_SR_INDEPENDENT"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Assisted Living Care Unit
-      </div>
-      <input
-        name="UNITS_SR_ASSISTED"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        dwelling units
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Assisted Living Care Guest Rooms
-      </div>
-      <input
-        name="UNITS_SR_ASSISTED_GUEST"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        guest rm
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Skilled Nursing Care Housing Beds
-      </div>
-      <input
-        name="UNITS_SKILLED_NURSING"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        guest bed
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        # Alzheimer's / Dementia Care Housing
-      </div>
-      <input
-        name="UNITS_DEMENTIA"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        guest bed
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-  </fieldset>,
-  <fieldset
-    style={
-      Object {
-        "margin": "0.75em",
-      }
-    }
+    </fieldset>
+  </div>,
+  <div
+    className="panel-0-2-19"
   >
-    <legend>
-      <h4>
-        Land Use - Commercial
-      </h4>
-       
-    </legend>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
+    <fieldset>
+      <legend
+        className="legend-0-2-20"
       >
-        Sq Ft - Restaurant/Bar/General
-      </div>
-      <input
-        name="SF_RESTAURANT"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
+        Commercial Inputs
+      </legend>
       <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
+        className="root-0-2-18"
       >
-        sq ft
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Sq Ft - Restaurant/Bar/General
+          </div>
+          <input
+            className="code-0-2-13"
+            name="SF_RESTAURANT"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            sq ft
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Sq Ft - Health Club
+          </div>
+          <input
+            className="code-0-2-13"
+            name="SF_HEALTH_CLUB"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            sq ft
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Sq Ft - Take-out Restaurant
+          </div>
+          <input
+            className="code-0-2-13"
+            name="SF_RESTAURANT_TAKEOUT"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            sq ft
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Sq Ft - Office, Business, Manufacturing, Industrial
+          </div>
+          <input
+            className="code-0-2-13"
+            name="SF_OFFICE"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            sq ft
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Sq Ft - Warehouse
+          </div>
+          <input
+            className="code-0-2-13"
+            name="SF_WAREHOUSE"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            sq ft
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
       </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft - Health Club
-      </div>
-      <input
-        name="SF_HEALTH_CLUB"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sql Ft - Restaurant &lt; 1000 sq ft
-      </div>
-      <input
-        name="SF_RESTAURANT_SMALL"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft - Take-out Restaurant
-      </div>
-      <input
-        name="SF_RESTAURANT_TAKEOUT"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft - Retail
-      </div>
-      <input
-        name="SF_RETAIL"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft - Office, Business, Manufacturing, Industrial
-      </div>
-      <input
-        name="SF_OFFICE"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft - Retail Furniture
-      </div>
-      <input
-        name="SF_FURNITURE"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft - Warehouse &gt; 10,000 sq ft
-      </div>
-      <input
-        name="SF_WAREHOUSE"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Frt - Small Warehouse (&lt;=10,000 sf)
-      </div>
-      <input
-        name="SF_WAREHOUSE_SMALL"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-  </fieldset>,
-  <fieldset
-    style={
-      Object {
-        "margin": "0.75em",
-      }
-    }
+    </fieldset>
+  </div>,
+  <div
+    className="panel-0-2-19"
   >
-    <legend>
-      <h4>
-        Land Use - Institutional
-      </h4>
-       
-    </legend>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
+    <fieldset>
+      <legend
+        className="legend-0-2-20"
       >
-        Patient Hospital Beds
-      </div>
-      <input
-        name="BED_HOSPITAL"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
+        Institutional Inputs
+      </legend>
       <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
+        className="root-0-2-18"
       >
-        beds
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Sq Ft - Medical Offices, Clinics, Service Facilities
+          </div>
+          <input
+            className="code-0-2-13"
+            name="SF_INST_MEDICAL_SVC"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            sq ft
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Sq Ft - Other Institutional
+          </div>
+          <input
+            className="code-0-2-13"
+            name="SF_INST_OTHER"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            sq ft
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Sq Ft - Government Institution
+          </div>
+          <input
+            className="code-0-2-13"
+            name="SF_INST_GOV"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            sq ft
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Patient Hospital Beds
+          </div>
+          <input
+            className="code-0-2-13"
+            name="BED_HOSPITAL"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            beds
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Convalescent Institution Beds
+          </div>
+          <input
+            className="code-0-2-13"
+            name="BED_CONVALESCENT"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            beds
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
       </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft - Medical Offices, Clinics, Service Facilities
-      </div>
-      <input
-        name="SF_INST_MEDICAL_SVC"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft - Other Institutional
-      </div>
-      <input
-        name="SF_INST_OTHER"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft - Government Institution
-      </div>
-      <input
-        name="SF_INST_GOV"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        spaces
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Convalescent Institution Beds
-      </div>
-      <input
-        name="BED_CONVALESCENT"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        beds
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-  </fieldset>,
-  <fieldset
-    style={
-      Object {
-        "margin": "0.75em",
-      }
-    }
+    </fieldset>
+  </div>,
+  <div
+    className="panel-0-2-19"
   >
-    <legend>
-      <h4>
-        Land Use - Other
-      </h4>
-       
-    </legend>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
+    <fieldset>
+      <legend
+        className="legend-0-2-20"
       >
-        # Seats - Auditorium
-      </div>
-      <input
-        name="SEAT_AUDITORIUM"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
+        Other Land Use Inputs
+      </legend>
       <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
+        className="root-0-2-18"
       >
-        seats
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            # Seats - Auditorium
+          </div>
+          <input
+            className="code-0-2-13"
+            name="SEAT_AUDITORIUM"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            seats
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
+        <div
+          className="rule-0-2-9 numberRule-0-2-10"
+        >
+          <div
+            className="name-0-2-11"
+          >
+            Sq Ft - Auditorium w/o Seats
+          </div>
+          <input
+            className="code-0-2-13"
+            name="SF_AUDITORIUM_NO_SEATS"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="units-0-2-14"
+          >
+            sq ft
+          </div>
+          <div
+            className="calcUnits-0-2-15"
+          >
+             
+          </div>
+        </div>
       </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft - Auditorium w/o Seats
-      </div>
-      <input
-        name="SF_AUDITORIUM_NO_SEATS"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Elementary School Classrooms
-      </div>
-      <input
-        name="CLASSROOM_SCHOOL"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        classrooms
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-    <div
-      style={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "margin": "0.2em",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flexBasis": "75%",
-            "flexGrow": "1",
-            "flexShrink": "1",
-          }
-        }
-      >
-        Sq Ft. - Trade School
-      </div>
-      <input
-        name="SF_TRADE_SCHOOL"
-        onChange={[Function]}
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-          }
-        }
-        type="number"
-        value=""
-      />
-      <div
-        style={
-          Object {
-            "flexBasis": "10%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-          }
-        }
-      >
-        sq ft
-      </div>
-      <div
-        style={
-          Object {
-            "flexBasis": "5%",
-            "flexGrow": "0",
-            "flexShrink": "1",
-            "marginLeft": "1em",
-            "marginRight": "0.5em",
-            "textAlign": "right",
-          }
-        }
-      />
-    </div>
-  </fieldset>,
+    </fieldset>
+  </div>,
 ]
 `;
 
-exports[`Storyshots TdmCalculation default 1`] = `
-<div>
+exports[`Storyshots SinglePageTdmCalculation default 1`] = `
+<div
+  className="root-0-2-21"
+>
   <div
-    style={
-      Object {
-        "margin": "1em",
-      }
-    }
+    className="container-0-2-22"
   >
     <div
-      style={
-        Object {
-          "margin": "0.5em",
-        }
-      }
+      className="switchButtonWrapper-0-2-23"
     >
       <div
-        style={
-          Object {
-            "display": "flex",
-            "flexDirection": "row",
-            "justifyContent": "space-between",
-            "margin": "-0.5em",
-          }
-        }
+        className="switchButton-0-2-24"
+      >
+        <button
+          className="root-0-2-29"
+        >
+          Switch to View
+        </button>
+      </div>
+      <div
+        className="root-0-2-7"
       >
         <div
           className="tdm-calculation-metrics-panel"
@@ -4361,14 +3087,7 @@ exports[`Storyshots TdmCalculation default 1`] = `
           <h3>
             A + B
           </h3>
-          <div
-            style={
-              Object {
-                "flexBasis": "50%",
-                "fontSize": "2em",
-              }
-            }
-          >
+          <div>
             21
           </div>
           <div>
@@ -4382,14 +3101,7 @@ exports[`Storyshots TdmCalculation default 1`] = `
           <h3>
             A * B
           </h3>
-          <div
-            style={
-              Object {
-                "flexBasis": "50%",
-                "fontSize": "2em",
-              }
-            }
-          >
+          <div>
             68
           </div>
           <div>
@@ -4403,14 +3115,7 @@ exports[`Storyshots TdmCalculation default 1`] = `
           <h3>
             Hypotenuse of Triangle with Sides A and B
           </h3>
-          <div
-            style={
-              Object {
-                "flexBasis": "50%",
-                "fontSize": "2em",
-              }
-            }
-          >
+          <div>
             17.46424919657298
           </div>
           <div>
@@ -4421,169 +3126,108 @@ exports[`Storyshots TdmCalculation default 1`] = `
       </div>
     </div>
     <div
-      style={
-        Object {
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-        }
-      }
+      className="rulePanelWrapper-0-2-25"
     >
       <div
-        style={
-          Object {
-            "width": "50%",
-          }
-        }
+        className="rulePanel-0-2-26"
       >
         <h2>
           Project Parameters
         </h2>
-        <fieldset
-          style={
-            Object {
-              "margin": "0.75em",
-            }
-          }
+        <div
+          className="panel-0-2-19"
         >
-          <legend>
-            <h4 />
-             
-          </legend>
-          <div
-            style={
-              Object {
-                "alignItems": "center",
-                "display": "flex",
-                "flexDirection": "row",
-                "justifyContent": "space-between",
-                "margin": "0.2em",
-              }
-            }
-          >
-            <div
-              style={
-                Object {
-                  "flexBasis": "75%",
-                  "flexGrow": "1",
-                  "flexShrink": "1",
-                }
-              }
-            >
-              Input Integer A
-            </div>
-            <input
-              name="INPUT_INTEGER_A"
-              onChange={[Function]}
-              style={
-                Object {
-                  "flexBasis": "10%",
-                  "flexGrow": "0",
-                  "flexShrink": "1",
-                }
-              }
-              type="number"
-              value={4}
+          <fieldset>
+            <legend
+              className="legend-0-2-20"
             />
             <div
-              style={
-                Object {
-                  "flexBasis": "10%",
-                  "flexGrow": "0",
-                  "flexShrink": "1",
-                  "marginLeft": "1em",
-                }
-              }
+              className="root-0-2-18"
             >
-              beans
+              <div
+                className="rule-0-2-9 numberRule-0-2-10"
+              >
+                <div
+                  className="name-0-2-11"
+                >
+                  Input Integer A
+                </div>
+                <input
+                  className="code-0-2-13"
+                  name="INPUT_INTEGER_A"
+                  onChange={[Function]}
+                  type="text"
+                  value={4}
+                />
+                <div
+                  className="units-0-2-14"
+                >
+                  beans
+                </div>
+                <div
+                  className="calcUnits-0-2-15"
+                >
+                   
+                </div>
+              </div>
+              <div
+                className="rule-0-2-9 numberRule-0-2-10"
+              >
+                <div
+                  className="name-0-2-11"
+                >
+                  Input Integer B
+                </div>
+                <input
+                  className="code-0-2-13"
+                  name="INPUT_INTEGER_B"
+                  onChange={[Function]}
+                  type="text"
+                  value={17}
+                />
+                <div
+                  className="units-0-2-14"
+                >
+                  beans
+                </div>
+                <div
+                  className="calcUnits-0-2-15"
+                >
+                   
+                </div>
+              </div>
             </div>
-            <div
-              style={
-                Object {
-                  "flexBasis": "5%",
-                  "flexGrow": "0",
-                  "flexShrink": "1",
-                  "marginLeft": "1em",
-                  "marginRight": "0.5em",
-                  "textAlign": "right",
-                }
-              }
-            />
-          </div>
-          <div
-            style={
-              Object {
-                "alignItems": "center",
-                "display": "flex",
-                "flexDirection": "row",
-                "justifyContent": "space-between",
-                "margin": "0.2em",
-              }
-            }
-          >
-            <div
-              style={
-                Object {
-                  "flexBasis": "75%",
-                  "flexGrow": "1",
-                  "flexShrink": "1",
-                }
-              }
-            >
-              Input Integer B
-            </div>
-            <input
-              name="INPUT_INTEGER_B"
-              onChange={[Function]}
-              style={
-                Object {
-                  "flexBasis": "10%",
-                  "flexGrow": "0",
-                  "flexShrink": "1",
-                }
-              }
-              type="number"
-              value={17}
-            />
-            <div
-              style={
-                Object {
-                  "flexBasis": "10%",
-                  "flexGrow": "0",
-                  "flexShrink": "1",
-                  "marginLeft": "1em",
-                }
-              }
-            >
-              beans
-            </div>
-            <div
-              style={
-                Object {
-                  "flexBasis": "5%",
-                  "flexGrow": "0",
-                  "flexShrink": "1",
-                  "marginLeft": "1em",
-                  "marginRight": "0.5em",
-                  "textAlign": "right",
-                }
-              }
-            />
-          </div>
-        </fieldset>
+          </fieldset>
+        </div>
       </div>
       <div
-        style={
-          Object {
-            "width": "50%",
-          }
-        }
+        className="transportDemandStrategies-0-2-27"
       >
         <h2>
            Transportation Demand Strategies
         </h2>
+        <div
+          className="buttonWrapper-0-2-28"
+        >
+          &gt;
+          <button
+            className="tdm-wizard-pkg-button"
+            onClick={[Function]}
+          >
+            Reset All Strategies
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
+`;
+
+exports[`Storyshots SwitchViewButton default 1`] = `
+<button
+  className="root-0-2-29"
+  onClick={[Function]}
+>
+  Switch View Button Label
+</button>
 `;

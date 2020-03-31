@@ -36,18 +36,14 @@ const useStyles = createUseStyles({
   }
 });
 
-const LandingPageSectionEnd = props => {
+const LandingPageSectionEnd = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <h2 className={classes.heading}>
-        Preparing for a new project?
-      </h2>
-      <p className={classes.paragraph}>
-        Let us help you get started right.
-      </p>
-      <Link to="/calculation?pageNo=1&view=w" className={classes.startButton}>
+      <h2 className={classes.heading}>Preparing for a new project?</h2>
+      <p className={classes.paragraph}>Let us help you get started right.</p>
+      <Link to="/calculation/1" className={classes.startButton}>
         Get Started
       </Link>
     </div>

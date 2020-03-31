@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RulePanels from "./RulePanels";
 import ResultList from "./ResultList";
@@ -44,8 +45,15 @@ const useStyles = createUseStyles({
 
 const TdmCalculation = props => {
   const classes = useStyles();
-  const { rules, onInputChange, onUncheckAll, filters, onPkgSelect, resultRuleCodes } = props;
-  const inputRules =
+  const {
+    rules,
+    onInputChange,
+    onUncheckAll,
+    filters,
+    onPkgSelect,
+    resultRuleCodes
+  } = props;
+  const specificationRules =
     rules &&
     rules.filter(
       rule => rule.category === "input" && rule.used && rule.display
@@ -81,7 +89,7 @@ const TdmCalculation = props => {
     );
 
     const strategyCount = pkgRules.reduce(
-      (count, r) => count + (!!r.value ? 1 : 0),
+      (count, r) => count + (r.value ? 1 : 0),
       0
     );
     return strategyCount === 3;
@@ -97,7 +105,7 @@ const TdmCalculation = props => {
     );
 
     const strategyCount = pkgRules.reduce(
-      (count, r) => count + (!!r.value ? 1 : 0),
+      (count, r) => count + (r.value ? 1 : 0),
       0
     );
     return strategyCount === 3;
@@ -107,10 +115,9 @@ const TdmCalculation = props => {
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.switchButtonWrapper}>
-          <div
-            className={classes.switchButton}>
+          <div className={classes.switchButton}>
             <SwitchViewButton onClick={props.onViewChange}>
-              Switch to Wizard View
+              Switch to View
             </SwitchViewButton>
           </div>
           {rules && rules.length > 0 ? (
@@ -123,23 +130,27 @@ const TdmCalculation = props => {
           <div className={classes.rulePanel}>
             <h2>Project Parameters</h2>
             {rules && rules.length > 0 ? (
-              <RulePanels rules={inputRules} onInputChange={onInputChange} />
+              <RulePanels
+                rules={specificationRules}
+                onInputChange={onInputChange}
+              />
             ) : (
               <div>No Rules Loaded</div>
             )}
           </div>
           <div className={classes.transportDemandStrategies}>
             <h2> Transportation Demand Strategies</h2>
-            <div sclassName={classes.buttonWrapper}>>
+            <div className={classes.buttonWrapper}>
+              &gt;
               <button
-                className='tdm-wizard-pkg-button'
+                className="tdm-wizard-pkg-button"
                 onClick={() => onUncheckAll(filters.strategyRules)}
               >
                 Reset All Strategies
               </button>
               {showResidentialPkg ? (
                 <button
-                  className='tdm-wizard-pkg-button'
+                  className="tdm-wizard-pkg-button"
                   onClick={() => onPkgSelect("Residential")}
                   disabled={disabledResidentialPkg}
                 >
@@ -148,7 +159,7 @@ const TdmCalculation = props => {
               ) : null}
               {showCommercialPkg ? (
                 <button
-                  className='tdm-wizard-pkg-button'
+                  className="tdm-wizard-pkg-button"
                   onClick={() => onPkgSelect("Commercial")}
                   disabled={disabledCommercialPkg}
                 >
@@ -166,6 +177,17 @@ const TdmCalculation = props => {
       </div>
     </div>
   );
+};
+TdmCalculation.propTypes = {
+  rules: PropTypes.array.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  onViewChange: PropTypes.func,
+  onPkgSelect: PropTypes.func,
+  onUncheckAll: PropTypes.func,
+  filters: PropTypes.shape({
+    strategyRules: PropTypes.func.isRequired
+  }),
+  resultRuleCodes: PropTypes.array.isRequired
 };
 
 export default TdmCalculation;

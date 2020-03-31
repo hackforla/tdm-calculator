@@ -21,7 +21,7 @@ module.exports = {
 // the client. The token is returned as both an authorization cookie,
 // as as a JSON response body (for clients that may not be able to
 // work with cookies).
-async function login(req, res, next) {
+async function login(req, res) {
   const token = await sign({ email: req.user.email, id: req.user.id });
   res.cookie("jwt", token, { httpOnly: true });
   const user = req.user;
@@ -33,16 +33,20 @@ async function login(req, res, next) {
 // the authorization cookie has a valid JWT.
 async function validateUser(req, res, next) {
   const jwtString = req.headers.authorization || req.cookies.jwt;
-  const payload = await verify(jwtString);
+  try {
+    const payload = await verify(jwtString);
 
-  if (payload.email) {
-    req.user = payload;
-    return next();
+    if (payload.email) {
+      req.user = payload;
+      return next();
+    }
+
+    const err = new Error("Unauthorized");
+    err.statusCode = 401;
+    next(err);
+  } catch (er) {
+    next(er);
   }
-
-  const err = new Error("Unauthorized");
-  err.statusCode = 401;
-  next(err);
 }
 
 // Helper function to create JWT token

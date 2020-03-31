@@ -6,13 +6,12 @@ import {
   numberInputRule,
   booleanInputRule
 } from "../../test-data/tdm-calc-rules";
-import "../styles/App.scss";
 
 export const actions = {
   onInputChange: action("onInputChange")
 };
 
-storiesOf("RuleInput", module)
+storiesOf("SinglePageRuleInput", module)
   .add("default Input Number", () => (
     <RuleInput rule={numberInputRule} {...actions} />
   ))

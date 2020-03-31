@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import * as ruleService from "../services/rule.service";
 import RuleViewContainer from "./ProjectSinglePage/RuleViewContainer";
-import FaqView from "./FaqView";
+import FaqView from "./Faq/FaqView";
 
 const calculationId = 1;
 
@@ -32,7 +33,7 @@ const Admin = props => {
   //console.log(calculationRules);
 
   return (
-    <div>
+    <div className="tdm-wizard">
       <h3>Admin</h3>
       <div>
         <h4>Calculation Rules</h4>
@@ -48,6 +49,9 @@ const Admin = props => {
       <FaqView />
     </div>
   );
+};
+Admin.propTypes = {
+  onInputChange: PropTypes.func.isRequired
 };
 
 export default Admin;

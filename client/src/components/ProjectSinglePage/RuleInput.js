@@ -1,6 +1,6 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
+import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
@@ -56,25 +56,7 @@ const useStyles = createUseStyles({
 });
 
 const RuleInput = ({
-  rule: {
-    id,
-    calculationId,
-    code,
-    name,
-    category,
-    dataType,
-    value,
-    units,
-    functionBody,
-    displayOrder,
-    cssClass,
-    calculationPanelId,
-    panelName,
-    panelDisplayOrder,
-    choices,
-    calcValue,
-    calcUnits
-  },
+  rule: { code, name, dataType, value, units, choices, calcValue, calcUnits },
   onInputChange
 }) => {
   const classes = useStyles();
@@ -83,9 +65,7 @@ const RuleInput = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={clsx(classes.rule, classes.numberRule)}>
-          <div className={classes.name}>
-            {name}
-          </div>
+          <div className={classes.name}>{name}</div>
           <input
             type="text"
             className={classes.code}
@@ -93,9 +73,7 @@ const RuleInput = ({
             onChange={onInputChange}
             name={code}
           />
-          <div className={classes.units}>
-            {units}
-          </div>
+          <div className={classes.units}>{units}</div>
           <div className={classes.calcUnits}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
@@ -104,9 +82,7 @@ const RuleInput = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={classes.rule}>
-          <div className={classes.name}>
-            {name}
-          </div>
+          <div className={classes.name}>{name}</div>
           <input
             type="checkbox"
             className={classes.code}
@@ -115,9 +91,7 @@ const RuleInput = ({
             onChange={onInputChange}
             name={code}
           />
-          <div className={classes.units}>
-            {units}
-          </div>
+          <div className={classes.units}>{units}</div>
           <div className={classes.calcUnits}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
@@ -126,9 +100,7 @@ const RuleInput = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={classes.rule}>
-          <div className={classes.nameSmall}>
-            {name}
-          </div>
+          <div className={classes.nameSmall}>{name}</div>
           <select
             className={classes.select}
             value={value || ""}
@@ -149,9 +121,7 @@ const RuleInput = ({
         </div>
       ) : dataType === "string" ? (
         <div className={classes.rule}>
-          <div className={classes.nameSmall}>
-            {name}
-          </div>
+          <div className={classes.nameSmall}>{name}</div>
           <input
             type="text"
             className={classes.stringInput}
@@ -162,16 +132,9 @@ const RuleInput = ({
         </div>
       ) : (
         <div className={classes.rule}>
-          <div className={classes.name}>
-            {name}
-          </div>
-          <div
-            className={classes.code}
-            name={code}
-          ></div>
-          <div className={classes.units}>
-            {units}
-          </div>
+          <div className={classes.name}>{name}</div>
+          <div className={classes.code} name={code} />
+          <div className={classes.units}>{units}</div>
           <div className={classes.calcUnits}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
@@ -185,20 +148,14 @@ const RuleInput = ({
 
 RuleInput.propTypes = {
   rule: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    calculationId: PropTypes.number.isRequired,
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
     dataType: PropTypes.string.isRequired,
     value: PropTypes.any,
     units: PropTypes.string,
-    functionBody: PropTypes.string,
-    cssClass: PropTypes.string,
-    panelDisplayOrder: PropTypes.number.isRequired,
-    displayOrder: PropTypes.number.isRequired,
-    calculationPanelId: PropTypes.number.isRequired,
-    panelName: PropTypes.string
+    choices: PropTypes.array,
+    calcValue: PropTypes.number,
+    calcUnits: PropTypes.string
   }),
   onInputChange: PropTypes.func
 };

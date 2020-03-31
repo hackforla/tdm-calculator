@@ -6,12 +6,15 @@ import { UserContext } from "./components/user-context";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
 import Projects from "./components/Projects";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import About from "./components/About";
 import ContactUs from "./components/ContactUs";
 import Register from "./components/Authorization/Register";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
 import Login from "./components/Authorization/Login";
 import Admin from "./components/Admin";
+import Roles from "./components/Roles";
+import FaqView from "./components/Faq/FaqView";
 import LandingPage from "./components/LandingPage/LandingPage";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
@@ -26,10 +29,10 @@ const useStyles = createUseStyles({
   }
 });
 
-const App = props => {
+const App = () => {
   const classes = useStyles();
   const [account, setAccount] = useState({});
-  const [isCreatingNewProject, setIsCreatingNewProject] = useState(false)
+  const [isCreatingNewProject, setIsCreatingNewProject] = useState(false);
 
   useEffect(() => {
     const currentUser = localStorage.getItem("currentUser");
@@ -37,7 +40,6 @@ const App = props => {
       try {
         const account = JSON.parse(currentUser);
         // TODO: remove console.log when stable.
-        console.log(account);
         setAccount(account);
       } catch (err) {
         // TODO: replace with production error logging.
@@ -74,12 +76,21 @@ const App = props => {
     <React.Fragment>
       <UserContext.Provider value={account}>
         <Router>
-          <Header account={account} setAccount={setAccount} isCreatingNewProject={isCreatingNewProject}/>
+          <Header
+            account={account}
+            setAccount={setAccount}
+            isCreatingNewProject={isCreatingNewProject}
+          />
           <div className={classes.root}>
             <Route exact path="/" component={LandingPage} />
             <Route
-              path="/calculation/:projectId?"
-              render={() => <TdmCalculationContainer account={account} setIsCreatingNewProject={setIsCreatingNewProject} />}
+              path="/calculation/:page?/:projectId?"
+              render={() => (
+                <TdmCalculationContainer
+                  account={account}
+                  setIsCreatingNewProject={setIsCreatingNewProject}
+                />
+              )}
             />
             <Route
               path="/projects"
@@ -95,10 +106,15 @@ const App = props => {
             <Route path="/forgotpassword" component={ResetPasswordRequest} />
             <Route path="/resetPassword/:token" component={ResetPassword} />
             <Route path="/contactus" component={ContactUs} />
-            {account && account.role === "admin" ? (
+            {account && account.isAdmin ? (
               <Route path="/admin" render={() => <Admin account={account} />} />
             ) : null}
+            {account && account.isSecurityAdmin ? (
+              <Route path="/roles" render={() => <Roles />} />
+            ) : null}
+            <Route path="/faqs" component={FaqView} />
           </div>
+          <Footer />
         </Router>
       </UserContext.Provider>
     </React.Fragment>

@@ -179,13 +179,89 @@ It will automatically be published to <a href="https://tdm-calc-staging.herokuap
 git branch -d release-1.0.1
 ```
 
+### Generating release notes
+
+We are using [`gren`](https://github.com/github-tools/github-release-notes) with .grenrc.json config file and generating the log from Github Issues. See [this page](https://github-tools.github.io/github-release-notes/concept.html) on the recommended convention for writing issue titles. We use the `enhancement` and `bug` labels to categorize issues for release notes.
+
+1. Follow instructions on the [`gren` setup section](https://github.com/github-tools/github-release-notes#setup) to generate and install your `Github token`.
+
+1. Be in the project root directory
+
+1. Run the script to update the notes
+
+```
+npm run release-notes
+```
+
 ## Creating a HotFix
 
-TBD
+Creating a HotFix should only be done by the release manager! A HotFix should only
+include very minor patches to the application, and is always based on the _master_ branch.
+The new release number will be the same as the master branch number with the patch
+number incremented by one. For example a patch to release 34.67.22 should be 34.67.23.
 
-Resources from our very own Hack For LA member!
-[Intro to Git CLI exercises](https://github.com/ndanielsen/intro-cli-git-github)
-[Intermediate Git CLI exercises](https://github.com/ndanielsen/intermediate-cli-git-github)
+- Make sure your local machine has an up-to-date version of the _master_ branch:
+
+```
+git checkout master
+git pull origin master
+```
+
+- Create a new release branch from _master_ with the name hotfix-<release#>:
+
+```
+git checkout -b hotfix-34.67.23 master
+```
+
+- Update the release number in the application. This typically entails updating the package.json file version properties, and perhaps other locations where the release number might appear (For now, I just added it to the About.js component, though we should probably put it in a site footer or some inconspicuous place, so it can be viewed from the UI.)
+
+- Commit the version number change:
+
+```
+git add -A
+git commit -m "Bumped version number to 34.67.23"
+```
+
+- Run the application (locally and/or in a deployment environment) and modify the code to implement the fixe(s). These should be very minor changes - significant changes should be made by creating a feature release based on the _develop_ branch as described above. When the hotfix is ready for release...
+- Merge the hotfix branch into _master_:
+
+```
+git checkout master
+git pull origin master
+git merge --no-ff hotfix-34.67.23
+git tag -a 34.67.23 -m "Release version 34.67.23"
+git push origin HEAD
+```
+
+At present, Heroku is configured to detect the commit to _master_ and automatically deploy the application to production. You should navigate to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a> after giving Heroku time to deploy and verify that the application runs, and any visible release # has been incremented.
+
+The hotfix is now done and tagged for future reference.
+
+- Merge the hotfix branch into _develop_:
+
+```
+git checkout develop
+git merge --no-ff hotfix-34.67.23
+```
+
+(Resolve any merge conflicts)
+
+```
+git push origin HEAD
+```
+
+It will automatically be published to <a href="https://tdm-calc-staging.herokuapp.com"> https://tdm-calc-staging.herokuapp.com</a>. Please be sure to run the application here and make sure your changes are reflected in this deployed version of the develop branch.
+
+- We are now done with this release and can delete the release branch:
+
+```
+git branch -d hotfix-34.67.23
+```
+
+## Resources from our very own Hack For LA member!
+
+- [Intro to Git CLI exercises](https://github.com/ndanielsen/intro-cli-git-github) Nathan Danielsen
+- [Intermediate Git CLI exercises](https://github.com/ndanielsen/intermediate-cli-git-github) Nathan Danielsen
 
 ### Testing
 
@@ -199,14 +275,6 @@ We have three levels of testing built into the application at this time for just
 
 from the command line in the /client directory to view the storybook catalog for our project. Though this gives a human-visible look at a component, it does not really comprise an automated test of the component, so...
 
-#### Snapshot Testing React Components
-
-Snapshot testing uses the storybook [Storyshots addon](https://github.com/storybookjs/storybook/tree/master/addons/storyshots). A snapshot test is automatically generated for each story in storybook. when you run
-
-`npm test`
-
-from the command line, each story will be run to generate a rendered snippet of HTML. The first time each snapshot is run, the generated HTML will be recorded by storyshot in the /client/src/\_\_snapshots\_\_ directory for subsequent test runs. If on a subsequent test run, the new snapshot differs at all from the previous snapshot, the snapshot test will be considered "failed", and you should review it to see if the difference is intentional or not. If it is intentional, you can type "u" in the console to update the snapshot(s), and the new snapshot will be considered the "expected" output of the component for subsequent snapshot tests.
-
 #### Unit Tests
 
 [Jest](https://jestjs.io/) is used for unit testing of non-react ES6 modules, such as the tdm-engine. These also get run when you type
@@ -214,3 +282,21 @@ from the command line, each story will be run to generate a rendered snippet of 
 `npm test`
 
 at the command line, and all should pass. In fact, we should eventually implement a "gated check-in" policy in github that automatically runs the unit tests, and blocks the check-in if any unit test fails. See the Create React App documentation on testing with Jest [here](https://facebook.github.io/create-react-app/docs/running-tests) for further information on how this works.
+
+#### Cypress Integration Tests (aka Acceptance Tests aka End-to-End Tests aka Journey Tests)
+
+[Cypress](https://www.cypress.io/) is a front end testing tool built for the modern web. Cypress can test anything that runs in a browser. Cypress enables you to write all types of tests End-to-end tests, Integration tests, Unit tests. We're currently using Cypress for integration tests.
+
+To run the Cypress Tests from the root directory, you will need 3 terminal windows open for the server, client, and cypress servers:
+
+- `npm start` or `yarn start` to start the backend node server
+- `cd client` to change into the client directory from the root directory
+- `npm start` or `yarn start` and start the frontend React server
+- `cd cypress` to change into the cypress from the root directory
+- `npm run cypress` or `yarn cypress` to start the Cypress Tests
+
+After a moment, the [Cypress Test Runner](https://docs.cypress.io/guides/core-concepts/test-runner.html#Overview) will launch.
+
+- Click `Run all specs` to run the tests.
+
+You can read the [Cypress Test Runner](https://docs.cypress.io/guides/core-concepts/test-runner.html#Overview) docs to learn more about the tool and how to debug using the test runner.

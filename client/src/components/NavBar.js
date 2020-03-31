@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { createUseStyles } from "react-jss";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import NavBarLogin from "./NavBarLogin";
+import PropTypes from "prop-types";
 
 const useStyles = createUseStyles({
   navbar: {
@@ -25,26 +27,30 @@ const useStyles = createUseStyles({
     "&:hover": {
       textDecoration: "underline"
     }
+  },
+  userLogin: {
+    marginLeft: "auto"
+  },
+  lastItem: {
+    marginLeft: "2em",
+    paddingRight: 0,
+    marginRight: "1em"
   }
 });
 
 const NavBar = props => {
-  const { account, setLoggedOutAccount, isCreatingNewProject } = props;
+  const { account, setLoggedOutAccount, location } = props;
   const classes = useStyles();
 
   const showNewProjectLink = () => {
-    return isCreatingNewProject 
-    ? null
-    : <li>
-        <Link className={classes.link} to="/calculation?pageNo=1&view=w" >
+    return location.pathname.split("/")[1] === "calculation" ? null : (
+      <li>
+        <Link className={classes.link} to="/calculation/1">
           New Project
         </Link>
       </li>
-  }
-
-  useEffect(() => {
-    showNewProjectLink()
-  }, [isCreatingNewProject])
+    );
+  };
 
   return (
     <ul className={classes.navbar}>
@@ -53,47 +59,60 @@ const NavBar = props => {
           Home
         </Link>
       </li>
-      <li>
-        <Link className={classes.link} to="/projects">
-          Projects
-        </Link>
-      </li>
+      {account && account.id && (
+        <li>
+          <Link className={classes.link} to="/projects">
+            Projects
+          </Link>
+        </li>
+      )}
 
       {showNewProjectLink()}
-      {/* <li>
-        <Link className={classes.link} to="/about">About</Link>
+      {/* {account && account.isAdmin && (
+        <li>
+          <Link className={classes.link} to="/admin">
+            Admin
+          </Link>
+        </li>
+      )} */}
+      {account && account.isSecurityAdmin && (
+        <li>
+          <Link className={classes.link} to="/roles">
+            Security
+          </Link>
+        </li>
+      )}
+      <li>
+        <Link className={classes.link} to="/about">
+          About
+        </Link>
       </li>
+      {/* 
       <li>
         <Link className={classes.link} to="/contactus">Contact Us</Link>
       </li> */}
-      {/* if there's an account in state, display logout and check if they are admin*/}
-      {account && account.email ? (
-        <>
-          {account.role === "admin" ? (
-            <li>
-              <Link className={classes.link} to="/admin">
-                Admin
-              </Link>
-            </li>
-          ) : null}
-          <li>
-            <button className="link" onClick={setLoggedOutAccount}>
-              Logout
-            </button>
-          </li>
-        </>
-      ) : (
-        <>
-          {/* if no account in state, show login button*/}
-          <li>
-            <Link className={classes.link} to="/login">
-              Login
-            </Link>
-          </li>
-        </>
-      )}
+      <NavBarLogin
+        account={account}
+        classes={classes}
+        setLoggedOutAccount={setLoggedOutAccount}
+      />
     </ul>
   );
 };
 
-export default NavBar;
+NavBar.propTypes = {
+  account: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    role: PropTypes.string,
+    isAdmin: PropTypes.bool,
+    isSecurityAdmin: PropTypes.bool
+  }),
+  setLoggedOutAccount: PropTypes.func,
+  isCreatingNewProject: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string
+  })
+};
+
+export default withRouter(NavBar);

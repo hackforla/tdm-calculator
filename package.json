@@ -1,22 +1,29 @@
 {
   "name": "tdm-calculator",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "Traffic Data Management Calculator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hackforla/tdm-calculator"
+  },
   "main": "server.js",
   "scripts": {
+    "precommit": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "cd client && npm i && npm run build",
-    "start": "nodemon --ignore './client/'"
+    "start": "nodemon --ignore './client/'",
+    "cypress": "cypress open",
+    "release-notes": "gren release"
   },
   "author": "Hack for LA",
   "license": "ISC",
   "dependencies": {
-    "@sendgrid/mail": "^6.4.0",
-    "bcrypt": "^3.0.6",
+    "@sendgrid/mail": "^6.5.4",
+    "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.4",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.2.0",
     "error-handler": "^1.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
@@ -25,6 +32,24 @@
     "tedious-connection-pool": "^1.0.5"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "@testing-library/cypress": "^5.3.1",
+    "eslint": "^6.8.0",
+    "eslint-plugin-cypress": "^2.10.3",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-react": "^7.19.0",
+    "husky": "^4.2.3",
+    "lerna": "^3.20.2",
+    "lint-staged": "^10.0.8",
+    "nodemon": "^2.0.2",
+    "prettier": "1.19.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit"
+    }
+  },
+  "lint-staged": {
+    "*.{js,md}": "prettier --write",
+    "*.js": "eslint --cache --fix"
   }
 }
