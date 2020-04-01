@@ -17,6 +17,8 @@ Real estate developers currently don't have any way to understand where their de
 
 The city will benefit by having more time to review edge cases for building development plans, while being able to approve plans that fit criteria with more ease and less hassle.
 
+[LADOT New Requirements for Sustainable Developments](https://ladot.lacity.org/businesses/development-review#new-requirements-for-sustainable-developments)
+
 [LA Mobility Plan 2035](https://planning.lacity.org/documents/policy/mobilityplnmemo.pdf)
 
 [Hack for LA Code of Conduct](https://github.com/hackforla/codeofconduct)
