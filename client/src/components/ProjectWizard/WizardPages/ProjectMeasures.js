@@ -20,7 +20,7 @@ function ProjectMeasure(props) {
     return triggerRule[0] && !!triggerRule[0].value;
   })();
 
-  const showCommercialPkg = (() => {
+  const showEmploymentPkg = (() => {
     // Only show button if Parking Cash-Out strategy is available
     const triggerRule = rules.filter((r) => r.code === "STRATEGY_PARKING_2");
     return triggerRule[0] && triggerRule[0].display;
@@ -42,7 +42,7 @@ function ProjectMeasure(props) {
     return strategyCount === 3;
   })();
 
-  const disabledCommercialPkg = (() => {
+  const disabledEmploymentPkg = (() => {
     // Only enable button if
     // component strategies are not already selected
     const pkgRules = rules.filter((rule) =>
@@ -76,11 +76,11 @@ function ProjectMeasure(props) {
             Select Residential Package
           </button>
         ) : null}
-        {showCommercialPkg ? (
+        {showEmploymentPkg ? (
           <button
             className="tdm-wizard-pkg-button"
-            onClick={() => onPkgSelect("Commercial")}
-            disabled={disabledCommercialPkg}
+            onClick={() => onPkgSelect("Employment")}
+            disabled={disabledEmploymentPkg}
           >
             Select Employment Package
           </button>
