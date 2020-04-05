@@ -9,27 +9,27 @@ function ProjectMeasure(props) {
     onInputChange,
     classes,
     onPkgSelect,
-    uncheckAll
+    uncheckAll,
   } = props;
 
   const showResidentialPkg = (() => {
     // Only show button if one of the land uses is Residential
     const triggerRule = landUseRules.filter(
-      r => r.code === "LAND_USE_RESIDENTIAL"
+      (r) => r.code === "LAND_USE_RESIDENTIAL"
     );
     return triggerRule[0] && !!triggerRule[0].value;
   })();
 
   const showCommercialPkg = (() => {
     // Only show button if Parking Cash-Out strategy is available
-    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_2");
+    const triggerRule = rules.filter((r) => r.code === "STRATEGY_PARKING_2");
     return triggerRule[0] && triggerRule[0].display;
   })();
 
   const disabledResidentialPkg = (() => {
     // Only enable button if
     // component strategies are not already selected
-    const pkgRules = rules.filter(rule =>
+    const pkgRules = rules.filter((rule) =>
       ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_1"].includes(
         rule.code
       )
@@ -45,7 +45,7 @@ function ProjectMeasure(props) {
   const disabledCommercialPkg = (() => {
     // Only enable button if
     // component strategies are not already selected
-    const pkgRules = rules.filter(rule =>
+    const pkgRules = rules.filter((rule) =>
       ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
         rule.code
       )
@@ -82,7 +82,7 @@ function ProjectMeasure(props) {
             onClick={() => onPkgSelect("Commercial")}
             disabled={disabledCommercialPkg}
           >
-            Select Commercial Package
+            Select Employment Package
           </button>
         ) : null}
         <button className={classes.unSelectButton} onClick={uncheckAll}>
@@ -98,14 +98,14 @@ ProjectMeasure.propTypes = {
     PropTypes.shape({
       calculationPanelId: PropTypes.number.isRequired,
       panelName: PropTypes.string.isRequired,
-      calcUnits: PropTypes.string
+      calcUnits: PropTypes.string,
     })
   ).isRequired,
   landUseRules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
-  uncheckAll: PropTypes.func.isRequired
+  uncheckAll: PropTypes.func.isRequired,
 };
 
 export default ProjectMeasure;
