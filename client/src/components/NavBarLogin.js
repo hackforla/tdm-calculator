@@ -1,30 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 
-const NavBarLogin = props => {
-  const { account, classes, setLoggedOutAccount } = props;
+const NavBarLogin = ({
+  account,
+  classes,
+  setLoggedOutAccount,
+  handleClick
+}) => {
+  const handleLogOut = () => {
+    handleClick();
+    setLoggedOutAccount();
+  };
 
   const loginLink = (
-    <li className={classes.userLogin}>
-      <Link className={`${classes.link} ${classes.lastItem}`} to="/login">
+    <li className={clsx(classes.userLogin, classes.linkBlock)}>
+      <Link
+        className={`${classes.link} ${classes.lastItem}`}
+        to="/login"
+        onClick={handleClick}
+      >
         Login
       </Link>
     </li>
   );
 
-  const getUserGreeting = (account) => (
+  const getUserGreeting = account => (
     <li className={classes.userLogin}>
       <h4>Hello, {`${account.firstName} ${account.lastName} `}</h4>
     </li>
   );
 
   const logoutLink = (
-    <li>
-      <button
-        className={`link ${classes.lastItem}`}
-        onClick={setLoggedOutAccount}
-      >
+    <li className={classes.linkBlock}>
+      <button className={`link ${classes.lastItem}`} onClick={handleLogOut}>
         Logout
       </button>
     </li>
@@ -43,7 +53,8 @@ const NavBarLogin = props => {
 NavBarLogin.propTypes = {
   account: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  setLoggedOutAccount: PropTypes.func
+  setLoggedOutAccount: PropTypes.func,
+  handleClick: PropTypes.func
 };
 
 export default NavBarLogin;
