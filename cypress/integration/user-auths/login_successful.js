@@ -14,19 +14,6 @@ describe("Login successfully as an existing user", () => {
       cy.clearCookies();
     });
 
-    it("greets with sign in message", () => {
-      cy.findByText("Welcome to Los Angeles’ TDM Calculator");
-      cy.findByText("Please sign into your account to save progress.");
-    });
-
-    it("links to /register", () => {
-      cy.findByText("Create an account").should(
-        "have.attr",
-        "href",
-        "/register"
-      );
-    });
-
     it("enters valid credentials and clicks login button to submit form", () => {
       cy.findByPlaceholderText("Email Address").type(
         "test_regular_user@dispostable.com"
