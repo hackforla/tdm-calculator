@@ -15,6 +15,11 @@ const useStyles = createUseStyles({
       backgroundColor: "#f0e300"
     }
   },
+  commentContainer: {
+    minWidth: "60vw",
+    margin: "0.2em",
+    paddingRight: "1em"
+  },
   strategyName: {
     flexGrow: "1",
     flexShrink: "1"
@@ -53,6 +58,9 @@ const useStyles = createUseStyles({
     flexBasis: "10%",
     flexGrow: "0",
     flexShrink: "1"
+  },
+  commentTextarea: {
+    marginTop: "4px"
   }
 });
 
@@ -193,14 +201,18 @@ const RuleStrategy = ({
         </div>
       )}
       {displayComment ? (
-        <div>
-          <textarea
-            type="textarea"
-            value={comment || ""}
-            onChange={onCommentChange}
-            name={code}
-            id={comment}
-          />
+        <div className={classes.commentContainer}>
+          <div>{`If applicable, please input the details about ${name}.`}</div>
+          <div>
+            <textarea
+              type="textarea"
+              value={comment || ""}
+              onChange={onCommentChange}
+              name={code}
+              id={comment}
+              className={classes.commentTextarea}
+            />
+          </div>
         </div>
       ) : null}
     </React.Fragment>
