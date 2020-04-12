@@ -76,6 +76,7 @@ const RuleStrategyPanels = props => {
                 key={rules[0].calculationPanelId}
                 rules={rules}
                 onInputChange={props.onInputChange}
+                onCommentChange={props.onCommentChange}
               />
             </div>
           ))}
@@ -96,7 +97,8 @@ RuleStrategyPanels.propTypes = {
     })
   ).isRequired,
   suppressHeader: PropTypes.bool,
-  onInputChange: PropTypes.func.isRequired
+  onInputChange: PropTypes.func.isRequired,
+  onCommentChange: PropTypes.func.isRequired
 };
 
 export default RuleStrategyPanels;

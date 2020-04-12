@@ -77,6 +77,7 @@ const TdmCalculationWizard = props => {
   const {
     rules,
     onInputChange,
+    onCommentChange,
     onUncheckAll,
     filters,
     onPkgSelect,
@@ -170,6 +171,7 @@ const TdmCalculationWizard = props => {
           rules={strategyRules}
           landUseRules={landUseRules}
           onInputChange={onInputChange}
+          onCommentChange={onCommentChange}
           classes={classes}
           onPkgSelect={onPkgSelect}
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
@@ -316,6 +318,7 @@ TdmCalculationWizard.propTypes = {
     push: PropTypes.func.isRequired
   }),
   onInputChange: PropTypes.func.isRequired,
+  onCommentChange: PropTypes.func,
   onPkgSelect: PropTypes.func.isRequired,
   onUncheckAll: PropTypes.func.isRequired,
   filters: PropTypes.object.isRequired,
