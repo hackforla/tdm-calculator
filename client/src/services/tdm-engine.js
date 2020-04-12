@@ -10,6 +10,9 @@ class Engine {
     // access to rules by code value
     const rulesDictionary = {};
     for (let rule of rulesArray) {
+      // Add properties to rule that aren't needed in CalculationRule table,
+      // but are used for calculation and project storage purposes.
+      rule.comment = "";
       rulesDictionary[rule.code] = rule;
     }
     this.initialRules = rulesDictionary;
@@ -33,6 +36,15 @@ class Engine {
       // Merge Form Input values with other independent variables
       // in the calculation.
       for (const input in formInputs) {
+        if (input.endsWith("_comment")) {
+          const commentRuleCode = input.substr(
+            0,
+            input.length - "_comment".length
+          );
+          if (this.rules[commentRuleCode]) {
+            this.rules[commentRuleCode].comment = formInputs[input];
+          }
+        }
         if (this.rules[input]) {
           this.rules[input].value = formInputs[input];
         }

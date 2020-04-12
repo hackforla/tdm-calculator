@@ -17,20 +17,25 @@ const RuleStrategyList = props => {
   return (
     <div className={classes.root}>
       {rules && rules.length > 0
-        ? rules.map(rule => (
-          <RuleStrategy
-            key={rule.id}
-            rule={rule}
-            onInputChange={props.onInputChange}
-          />
-        ))
+        ? rules.map(rule => {
+          return (
+            <RuleStrategy
+              key={rule.id}
+              rule={rule}
+              onInputChange={props.onInputChange}
+              onCommentChange={props.onCommentChange}
+            />
+          );
+        })
         : null}
     </div>
   );
 };
+
 RuleStrategyList.propTypes = {
   rules: PropTypes.array.isRequired,
-  onInputChange: PropTypes.func.isRequired
+  onInputChange: PropTypes.func.isRequired,
+  onCommentChange: PropTypes.func.isRequired
 };
 
 export default RuleStrategyList;

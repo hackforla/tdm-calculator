@@ -68,11 +68,18 @@ const RuleStrategy = ({
     calcValue,
     calcUnits,
     calcMinValue,
-    calcMaxValue
+    calcMaxValue,
+    displayComment,
+    comment
   },
-  onInputChange
+  onInputChange,
+  onCommentChange
 }) => {
   const classes = useStyles();
+
+  if (comment) {
+    console.log(comment);
+  }
 
   const possibleAndEarnedPointsContainers = () => {
     const calculationUnits = calcUnits ? calcUnits : "";
@@ -83,10 +90,10 @@ const RuleStrategy = ({
           {calcMinValue === calcMaxValue
             ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
             : calcMinValue < calcMaxValue
-            ? `${Math.round(calcMinValue).toString()}-${Math.round(
+              ? `${Math.round(calcMinValue).toString()}-${Math.round(
                 calcMaxValue
               ).toString()} ${calculationUnits}`
-            : null}
+              : null}
         </div>
         <div className={classes.points}>
           {`${
@@ -185,6 +192,17 @@ const RuleStrategy = ({
           {possibleAndEarnedPointsContainers()}
         </div>
       )}
+      {displayComment ? (
+        <div>
+          <textarea
+            type="textarea"
+            value={comment || ""}
+            onChange={onCommentChange}
+            name={code}
+            id={comment}
+          />
+        </div>
+      ) : null}
     </React.Fragment>
   );
 };
@@ -211,9 +229,12 @@ RuleStrategy.propTypes = {
     calcValue: PropTypes.number,
     calcUnits: PropTypes.string,
     calcMinValue: PropTypes.number,
-    calcMaxValue: PropTypes.number
+    calcMaxValue: PropTypes.number,
+    displayComment: PropTypes.bool,
+    comment: PropTypes.string
   }),
-  onInputChange: PropTypes.func
+  onInputChange: PropTypes.func,
+  onCommentChange: PropTypes.func
 };
 
 export default RuleStrategy;
