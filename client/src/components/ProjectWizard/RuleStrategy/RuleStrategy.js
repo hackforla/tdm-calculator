@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import ReactTooltip from "react-tooltip";
 
 const useStyles = createUseStyles({
   strategyContainer: {
@@ -77,6 +78,7 @@ const RuleStrategy = ({
     calcUnits,
     calcMinValue,
     calcMaxValue,
+    description,
     displayComment,
     comment
   },
@@ -116,7 +118,14 @@ const RuleStrategy = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={classes.strategyContainer}>
-          <label htmlFor={code} className={classes.strategyName}>
+          <label
+            htmlFor={code}
+            className={classes.strategyName}
+            data-for="main"
+            data-tip={description}
+            data-iscapture="true"
+            data-html="true"
+          >
             {" "}
             {name}{" "}
           </label>
@@ -136,7 +145,14 @@ const RuleStrategy = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={classes.strategyContainer}>
-          <label htmlFor={code} className={classes.strategyName}>
+          <label
+            htmlFor={code}
+            className={classes.strategyName}
+            data-for="main"
+            data-tip={description}
+            data-iscapture="true"
+            data-html="true"
+          >
             {" "}
             {name}{" "}
           </label>
@@ -154,7 +170,14 @@ const RuleStrategy = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={classes.strategyContainer}>
-          <label htmlFor={code} className={classes.strategyName}>
+          <label
+            htmlFor={code}
+            className={classes.strategyName}
+            data-for="main"
+            data-tip={description}
+            data-iscapture="true"
+            data-html="true"
+          >
             {" "}
             {name}{" "}
           </label>
@@ -177,7 +200,14 @@ const RuleStrategy = ({
         </div>
       ) : dataType === "string" ? (
         <div className={classes.strategyContainer}>
-          <label htmlFor={code} className={classes.strategyName}>
+          <label
+            htmlFor={code}
+            className={classes.strategyName}
+            data-for="main"
+            data-tip={description}
+            data-iscapture="true"
+            data-html="true"
+          >
             {" "}
             {name}{" "}
           </label>
@@ -191,7 +221,13 @@ const RuleStrategy = ({
           />
         </div>
       ) : (
-        <div className={classes.strategyContainer}>
+        <div
+          className={classes.strategyContainer}
+          data-for="main"
+          data-tip={description}
+          data-iscapture="true"
+          data-html="true"
+        >
           <label htmlFor={code} className={classes.strategyName}>
             {" "}
             {name}{" "}
@@ -215,6 +251,14 @@ const RuleStrategy = ({
           </div>
         </div>
       ) : null}
+      <ReactTooltip
+        id="main"
+        place="top"
+        type="info"
+        effect="float"
+        multiline={true}
+        style={{ width: "25vw" }}
+      />
     </React.Fragment>
   );
 };
@@ -242,6 +286,7 @@ RuleStrategy.propTypes = {
     calcUnits: PropTypes.string,
     calcMinValue: PropTypes.number,
     calcMaxValue: PropTypes.number,
+    description: PropTypes.string,
     displayComment: PropTypes.bool,
     comment: PropTypes.string
   }),
