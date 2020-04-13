@@ -40,8 +40,37 @@ const useStyles = createUseStyles({
   }
 });
 
+const testObj = {
+  id: 217,
+  calculationId: 1,
+  code: "STRATEGY_APPLICANT_2",
+  name:
+    "If applicable, please input the details about <a href='#'>applicant defined strategy</a>",
+  category: "measure",
+  dataType: "textarea",
+  units: "",
+  value: null,
+  functionBody: "",
+  displayOrder: 1903,
+  panelName: "Applicant-Defined Strategies",
+  cssClass: "strategies",
+  panelDisplayOrder: 1900,
+  calculationPanelId: 26,
+  used: false,
+  displayFunctionBody: "return true;",
+  minValue: null,
+  maxValue: null,
+  choices: null,
+  calcCode: "STRATEGY_APPLICANT_2",
+  required: false,
+  minStringLength: null,
+  maxStringLength: 500
+};
+
 const RuleStrategyPanels = props => {
   const { rules, suppressHeader } = props;
+  // Lou testing 4/9 erase the next line:
+  rules.push(testObj);
   const panelIds = rules.reduce((acc, rule) => {
     if (!acc.includes(rule.calculationPanelId)) {
       acc.push(rule.calculationPanelId);

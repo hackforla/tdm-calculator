@@ -12,12 +12,12 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     alignItems: "center",
     "&:hover": {
-      backgroundColor: "#f0e300"
-    }
+      backgroundColor: "#f0e300",
+    },
   },
   strategyName: {
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   points: {
     flexBasis: "10%",
@@ -25,35 +25,35 @@ const useStyles = createUseStyles({
     marginRight: "0.5em",
     textAlign: "right",
     flexGrow: "0",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   numberInputContainer: {
     flexBasis: "40%",
     flexGrow: "1",
     flexShrink: "1",
-    textAlign: "right"
+    textAlign: "right",
   },
   numberInput: {
     padding: "0.1em",
     width: "auto",
-    textAlign: "right"
+    textAlign: "right",
   },
   choiceSelectContainer: {
     flexBasis: "40%",
     flexGrow: "1",
     flexShrink: "1",
-    textAlign: "right"
+    textAlign: "right",
   },
   stringInput: {
     flexBasis: "50%",
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   allElse: {
     flexBasis: "10%",
     flexGrow: "0",
-    flexShrink: "1"
-  }
+    flexShrink: "1",
+  },
 });
 
 const RuleStrategy = ({
@@ -68,9 +68,9 @@ const RuleStrategy = ({
     calcValue,
     calcUnits,
     calcMinValue,
-    calcMaxValue
+    calcMaxValue,
   },
-  onInputChange
+  onInputChange,
 }) => {
   const classes = useStyles();
 
@@ -78,7 +78,7 @@ const RuleStrategy = ({
     const calculationUnits = calcUnits ? calcUnits : "";
 
     return (
-      <>
+      <React.Fragment>
         <div className={classes.points}>
           {calcMinValue === calcMaxValue
             ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
@@ -93,7 +93,7 @@ const RuleStrategy = ({
             calcValue ? Math.round(calcValue * 100) / 100 : ""
           } ${calculationUnits || ""}`}
         </div>
-      </>
+      </React.Fragment>
     );
   };
 
@@ -151,7 +151,7 @@ const RuleStrategy = ({
               name={code}
               id={code}
             >
-              {choices.map(choice => (
+              {choices.map((choice) => (
                 <option key={choice.id} value={choice.id}>
                   {choice.name}
                 </option>
@@ -169,6 +169,21 @@ const RuleStrategy = ({
           <input
             type="text"
             className={classes.stringInput}
+            value={value || ""}
+            onChange={onInputChange}
+            name={code}
+            id={code}
+          />
+        </div>
+      ) : dataType === "textarea" ? (
+        <div className={classes.strategyContainer}>
+          <label htmlFor={code} className={classes.strategyName}>
+            {" "}
+            {name}{" "}
+          </label>
+          <textarea
+            type="text"
+            className={classes.stringInput} // change this
             value={value || ""}
             onChange={onInputChange}
             name={code}
@@ -211,9 +226,9 @@ RuleStrategy.propTypes = {
     calcValue: PropTypes.number,
     calcUnits: PropTypes.string,
     calcMinValue: PropTypes.number,
-    calcMaxValue: PropTypes.number
+    calcMaxValue: PropTypes.number,
   }),
-  onInputChange: PropTypes.func
+  onInputChange: PropTypes.func,
 };
 
 export default RuleStrategy;
