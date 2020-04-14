@@ -19,6 +19,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.0",
     "react-string-replace": "^0.4.4",
+    "react-tooltip": "^4.2.2",
     "yup": "^0.28.3"
   },
   "scripts": {

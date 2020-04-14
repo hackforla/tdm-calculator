@@ -24,7 +24,7 @@ const getById = async (req, res) => {
 
 const post = async (req, res) => {
   try {
-    if (!isAuthorizedUser(req) && !isAdmin(req)) {
+    if (!isAuthorizedUser(req)) {
       res.status(403).send("You can only create your own projects.");
     }
 
@@ -37,7 +37,7 @@ const post = async (req, res) => {
 
 const put = async (req, res) => {
   try {
-    if (!isAuthorizedUser(req) && !isAdmin(req)) {
+    if (!isAuthorizedUser(req)) {
       res.status(403).send("You can only make changes to your own projects.");
     }
 
@@ -50,7 +50,7 @@ const put = async (req, res) => {
 
 const del = async (req, res) => {
   try {
-    if (!isAuthorizedUser(req) && !isAdmin(req)) {
+    if (!isAuthorizedUser(req)) {
       res.status(403).send("You can only delete your own projects.");
     }
 
@@ -61,8 +61,7 @@ const del = async (req, res) => {
   }
 };
 
-// HELPER FUNCTIONS:
-const isAdmin = req => (req.user.isAdmin ? true : false);
+// HELPER FUNCTION:
 
 const isAuthorizedUser = req => {
   const loginIdOfCurrentUser = req.user.id;

@@ -76,6 +76,7 @@ export function TdmCalculationContainer(props) {
     };
     initiateEngine();
   }, [props.match.params.projectId, engine]);
+
   const recalculate = formInputs => {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
@@ -161,6 +162,25 @@ export function TdmCalculationContainer(props) {
     const newFormInputs = {
       ...formInputs,
       [e.target.name]: value
+    };
+    recalculate(newFormInputs);
+  };
+
+  const onCommentChange = e => {
+    let ruleCode = e.target.name;
+    let value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+
+    const rule = getRuleByCode(ruleCode);
+
+    if (!rule) {
+      throw new Error(`Rule ${ruleCode} not found.`);
+    }
+
+    // In formInputs, comments are stored with the key <ruleCode>_comment
+    const newFormInputs = {
+      ...formInputs,
+      [`${e.target.name}_comment`]: value
     };
     recalculate(newFormInputs);
   };
@@ -252,6 +272,7 @@ export function TdmCalculationContainer(props) {
         <TdmCalculationWizard
           rules={rules}
           onInputChange={onInputChange}
+          onCommentChange={onCommentChange}
           onUncheckAll={onUncheckAll}
           filters={filters}
           onPkgSelect={onPkgSelect}
@@ -267,6 +288,7 @@ export function TdmCalculationContainer(props) {
         <TdmCalculation
           rules={rules}
           onInputChange={onInputChange}
+          onCommentChange={onCommentChange}
           onUncheckAll={onUncheckAll}
           filters={filters}
           onPkgSelect={onPkgSelect}

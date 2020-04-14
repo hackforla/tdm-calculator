@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import ReactTooltip from "react-tooltip";
 
 const useStyles = createUseStyles({
   strategyContainer: {
@@ -12,12 +13,17 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     alignItems: "center",
     "&:hover": {
-      backgroundColor: "#f0e300",
-    },
+      backgroundColor: "#f0e300"
+    }
+  },
+  commentContainer: {
+    minWidth: "60vw",
+    margin: "0.2em",
+    paddingRight: "1em"
   },
   strategyName: {
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   points: {
     flexBasis: "10%",
@@ -25,35 +31,38 @@ const useStyles = createUseStyles({
     marginRight: "0.5em",
     textAlign: "right",
     flexGrow: "0",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   numberInputContainer: {
     flexBasis: "40%",
     flexGrow: "1",
     flexShrink: "1",
-    textAlign: "right",
+    textAlign: "right"
   },
   numberInput: {
     padding: "0.1em",
     width: "auto",
-    textAlign: "right",
+    textAlign: "right"
   },
   choiceSelectContainer: {
     flexBasis: "40%",
     flexGrow: "1",
     flexShrink: "1",
-    textAlign: "right",
+    textAlign: "right"
   },
   stringInput: {
     flexBasis: "50%",
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   allElse: {
     flexBasis: "10%",
     flexGrow: "0",
-    flexShrink: "1",
+    flexShrink: "1"
   },
+  commentTextarea: {
+    marginTop: "4px"
+  }
 });
 
 const RuleStrategy = ({
@@ -69,10 +78,18 @@ const RuleStrategy = ({
     calcUnits,
     calcMinValue,
     calcMaxValue,
+    description,
+    displayComment,
+    comment
   },
   onInputChange,
+  onCommentChange
 }) => {
   const classes = useStyles();
+
+  if (comment) {
+    console.log(comment);
+  }
 
   const possibleAndEarnedPointsContainers = () => {
     const calculationUnits = calcUnits ? calcUnits : "";
@@ -101,7 +118,14 @@ const RuleStrategy = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={classes.strategyContainer}>
-          <label htmlFor={code} className={classes.strategyName}>
+          <label
+            htmlFor={code}
+            className={classes.strategyName}
+            data-for="main"
+            data-tip={description}
+            data-iscapture="true"
+            data-html="true"
+          >
             {" "}
             {name}{" "}
           </label>
@@ -121,7 +145,14 @@ const RuleStrategy = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={classes.strategyContainer}>
-          <label htmlFor={code} className={classes.strategyName}>
+          <label
+            htmlFor={code}
+            className={classes.strategyName}
+            data-for="main"
+            data-tip={description}
+            data-iscapture="true"
+            data-html="true"
+          >
             {" "}
             {name}{" "}
           </label>
@@ -139,7 +170,14 @@ const RuleStrategy = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={classes.strategyContainer}>
-          <label htmlFor={code} className={classes.strategyName}>
+          <label
+            htmlFor={code}
+            className={classes.strategyName}
+            data-for="main"
+            data-tip={description}
+            data-iscapture="true"
+            data-html="true"
+          >
             {" "}
             {name}{" "}
           </label>
@@ -151,7 +189,7 @@ const RuleStrategy = ({
               name={code}
               id={code}
             >
-              {choices.map((choice) => (
+              {choices.map(choice => (
                 <option key={choice.id} value={choice.id}>
                   {choice.name}
                 </option>
@@ -162,7 +200,14 @@ const RuleStrategy = ({
         </div>
       ) : dataType === "string" ? (
         <div className={classes.strategyContainer}>
-          <label htmlFor={code} className={classes.strategyName}>
+          <label
+            htmlFor={code}
+            className={classes.strategyName}
+            data-for="main"
+            data-tip={description}
+            data-iscapture="true"
+            data-html="true"
+          >
             {" "}
             {name}{" "}
           </label>
@@ -191,7 +236,13 @@ const RuleStrategy = ({
           />
         </div>
       ) : (
-        <div className={classes.strategyContainer}>
+        <div
+          className={classes.strategyContainer}
+          data-for="main"
+          data-tip={description}
+          data-iscapture="true"
+          data-html="true"
+        >
           <label htmlFor={code} className={classes.strategyName}>
             {" "}
             {name}{" "}
@@ -200,6 +251,29 @@ const RuleStrategy = ({
           {possibleAndEarnedPointsContainers()}
         </div>
       )}
+      {displayComment ? (
+        <div className={classes.commentContainer}>
+          <div>{`If applicable, please input the details about ${name}.`}</div>
+          <div>
+            <textarea
+              type="textarea"
+              value={comment || ""}
+              onChange={onCommentChange}
+              name={code}
+              id={comment}
+              className={classes.commentTextarea}
+            />
+          </div>
+        </div>
+      ) : null}
+      <ReactTooltip
+        id="main"
+        place="top"
+        type="info"
+        effect="float"
+        multiline={true}
+        style={{ width: "25vw" }}
+      />
     </React.Fragment>
   );
 };
@@ -227,8 +301,12 @@ RuleStrategy.propTypes = {
     calcUnits: PropTypes.string,
     calcMinValue: PropTypes.number,
     calcMaxValue: PropTypes.number,
+    description: PropTypes.string,
+    displayComment: PropTypes.bool,
+    comment: PropTypes.string
   }),
   onInputChange: PropTypes.func,
+  onCommentChange: PropTypes.func
 };
 
 export default RuleStrategy;
