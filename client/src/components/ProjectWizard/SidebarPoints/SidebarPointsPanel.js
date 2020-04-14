@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SidebarPoints from "./SidebarPoints";
+import SidebarProjectLevel from "./SidebarProjectLevel";
 import { withTheme } from "react-jss";
 import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,18 +17,27 @@ const SidebarPointsPanel = props => {
     earnedPointsRule = rules.filter(rule => rule.code === "PTS_EARNED")[0];
     projectLevelRule = rules.filter(rule => rule.code === "PROJECT_LEVEL")[0];
   }
-  console.log(projectLevelRule.value);
+  const targetPointsTipText = "Target Points Tool Tip";
+  const earnedPointsTipText = "Earned Points Tool Tip";
+
   return (
     <React.Fragment>
-      <div style={{ color: "white", fontSize: 28 }}>
-        Project Level: {projectLevelRule.value}
+      <div className="tdm-results-panel">
+        <SidebarProjectLevel level={projectLevelRule.value} />
       </div>
-      {rules && targetPointsRule.value ? (
-        <div className="tdm-results-panel">
-          <SidebarPoints key={targetPointsRule.id} rule={targetPointsRule} />
-          <SidebarPoints key={earnedPointsRule.id} rule={earnedPointsRule} />
-        </div>
-      ) : null}
+      <hr className="tdm-divider" />
+      <div className="tdm-results-panel">
+        <SidebarPoints
+          key={targetPointsRule.id}
+          rule={targetPointsRule}
+          tipText={targetPointsTipText}
+        />
+        <SidebarPoints
+          key={earnedPointsRule.id}
+          rule={earnedPointsRule}
+          tipText={earnedPointsTipText}
+        />
+      </div>
     </React.Fragment>
   );
 };
