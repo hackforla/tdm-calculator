@@ -48,6 +48,12 @@ const useStyles = createUseStyles({
       fontSize: 22,
       textAlign: "center",
       padding: "22px 0"
+    },
+    "& > div": {
+      marginTop: 30,
+      marginBottom: 30,
+      fontWeight: "bold",
+      fontSize: 22
     }
   }
 });
