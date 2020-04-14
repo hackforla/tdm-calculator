@@ -2,19 +2,21 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import Tooltip from "./ToolTip";
+import clsx from "clsx";
 
 const useStyles = createUseStyles({
   projectLevelHeader: {
     color: "white",
     fontSize: 20,
-    fontFamily: "Oswald",
+    fontFamily: "Oswald, Calibri",
     fontWeight: 500,
-    textAlign: "center"
+    textAlign: "center",
+    transition: "opacity 1s"
   },
   projectLevelValue: {
     color: "white",
     fontSize: 100,
-    fontFamily: "Oswald",
+    fontFamily: "Oswald, Calibri",
     fontWeight: "bold",
     marginBottom: 0,
     textAlign: "center",
@@ -22,14 +24,20 @@ const useStyles = createUseStyles({
   },
   projectLevelContainer: {
     flex: 1
+  },
+  lowOpacity: {
+    opacity: 0.4
   }
 });
 
 const SidebarProjectLevel = ({ level }) => {
   const classes = useStyles();
   const tipText = "Project Level Toop Tip";
+  console.log(level, typeof level);
+  const opacityTest = level === 0 ? classes.lowOpacity : "";
+  console.log(level === 0);
   return (
-    <div className={classes.projectLevelContainer}>
+    <div className={clsx(classes.projectLevelContainer, opacityTest)}>
       <p className={classes.projectLevelValue}>{level}</p>
       <h3 className={classes.projectLevelHeader}>
         PROJECT LEVEL
