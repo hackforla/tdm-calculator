@@ -19,7 +19,7 @@ export const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    height: "100%"
+    height: "calc(100vh - 100px)"
   },
   "@media (max-width: 1024px)": {
     "sidebar-container": {
