@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import SidebarPoints from "./SidebarPoints";
 import SidebarProjectLevel from "./SidebarProjectLevel";
-import { withTheme } from "react-jss";
-import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
 
 const SidebarPointsPanel = props => {
   const { rules } = props;

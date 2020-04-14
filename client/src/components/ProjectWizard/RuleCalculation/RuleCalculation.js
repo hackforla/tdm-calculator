@@ -5,7 +5,6 @@ import clsx from "clsx";
 
 const useStyles = createUseStyles({
   field: {
-    //minWidth: "60vw",
     margin: "1em",
     display: "flex",
     flexDirection: "row",
@@ -24,7 +23,6 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1",
     marginBottom: ".5em"
-    //marginBottom: 5
   },
   numberFieldUnits: {
     flexBasis: "20%",
@@ -36,14 +34,11 @@ const useStyles = createUseStyles({
   },
   input: {
     padding: "0.1em",
-    //width: "auto",
     textAlign: "right",
     marginTop: ".5em",
     height: 45
   },
   unitsCaption: {
-    //flexBasis: "10%",
-    //marginLeft: "1em",
     flexGrow: "0",
     flexShrink: "1"
   },
@@ -97,7 +92,6 @@ const useStyles = createUseStyles({
     }
   },
   miscFieldLabel: {
-    //flexBasis: "70%",
     flexGrow: "1",
     flexShrink: "1",
     textAlign: "right"

@@ -220,21 +220,6 @@ const RuleStrategy = ({
             id={code}
           />
         </div>
-      ) : dataType === "textarea" ? (
-        <div className={classes.strategyContainer}>
-          <label htmlFor={code} className={classes.strategyName}>
-            {" "}
-            {name}{" "}
-          </label>
-          <textarea
-            type="text"
-            className={classes.stringInput} // change this
-            value={value || ""}
-            onChange={onInputChange}
-            name={code}
-            id={code}
-          />
-        </div>
       ) : (
         <div
           className={classes.strategyContainer}
