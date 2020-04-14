@@ -21,7 +21,8 @@ const useStyles = createUseStyles({
   numberField: {
     flexBasis: "20%",
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
+    marginBottom: 5
   },
   numberFieldUnits: {
     flexBasis: "20%",
@@ -136,7 +137,7 @@ const useStyles = createUseStyles({
   },
   requiredInputLabel: {
     "&:after": {
-      content: "\" *\"",
+      content: '" *"',
       color: "red"
     }
   },

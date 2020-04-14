@@ -33,9 +33,7 @@ const useStyles = createUseStyles({
 const SidebarProjectLevel = ({ level }) => {
   const classes = useStyles();
   const tipText = "Project Level Toop Tip";
-  console.log(level, typeof level);
   const opacityTest = level === 0 ? classes.lowOpacity : "";
-  console.log(level === 0);
   return (
     <div className={clsx(classes.projectLevelContainer, opacityTest)}>
       <p className={classes.projectLevelValue}>{level}</p>
