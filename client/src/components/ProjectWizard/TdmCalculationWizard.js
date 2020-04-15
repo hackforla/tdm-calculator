@@ -42,7 +42,7 @@ const useStyles = createUseStyles({
     height: "100%"
   },
   contentContainer: {
-    justifyContent: "flex-start",
+    justifyContent: "space-around",
     boxSizing: "border-box",
     overflow: "auto"
   },
@@ -50,6 +50,9 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   navButtonsWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     marginBottom: "2em",
     marginTop: "2em"
   },
@@ -254,7 +257,7 @@ const TdmCalculationWizard = props => {
             classes.contentContainer
           )}
         >
-          <div>{routes}</div>
+          {routes}
           {!projectId ||
           (account &&
             account.id &&
@@ -263,22 +266,35 @@ const TdmCalculationWizard = props => {
               <div className={classes.navButtonsWrapper}>
                 {rules && rules.length ? ( //navigation disabled until rules have loaded
                   <>
-                    <NavButton
-                      disabled={Number(page) === 1}
-                      onClick={() => {
-                        onPageChange(Number(page) - 1);
-                      }}
-                    >
-                    &lt;
-                    </NavButton>
-                    <NavButton
-                      disabled={page === 6 || disablePageNavigation}
-                      onClick={() => {
-                        onPageChange(Number(page) + 1);
-                      }}
-                    >
-                    &gt;
-                    </NavButton>
+                    <div>
+                      <NavButton
+                        disabled={Number(page) === 1}
+                        onClick={() => {
+                          onPageChange(Number(page) - 1);
+                        }}
+                      >
+                      &lt;
+                      </NavButton>
+                      <NavButton
+                        disabled={page === 6 || disablePageNavigation}
+                        onClick={() => {
+                          onPageChange(Number(page) + 1);
+                        }}
+                      >
+                      &gt;
+                      </NavButton>
+                    </div>
+                    <div>
+                      <a
+                        className={clsx(
+                          "return-home-button",
+                          "tdm-wizard-nav-button"
+                        )}
+                        href="/"
+                      >
+                      Return to Home
+                      </a>
+                    </div>
                   </>
                 ) : null}
               </div>
