@@ -133,8 +133,14 @@
   flex-direction: row;
   background-color: transparent;
   color: $color-background;
-  top: calc((100vh - 275px)/2);
-  position: relative;
+  flex: 1;
+  align-items: center;
+}
+
+.tdm-divider {
+  border: none;
+  border-top: 3px dotted #e7ebf0;
+  width: 100%;
 }
 
 .tdm-calculation-metrics-panel-item {
@@ -157,6 +163,6 @@
 
 @media (max-width: 768px) {
   .tdm-results-panel {
-    top: 0
+    top: 0;
   }
 }

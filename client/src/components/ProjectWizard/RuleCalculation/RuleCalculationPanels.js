@@ -59,7 +59,7 @@ const RuleCalculationPanels = props => {
   return (
     <React.Fragment>
       {panelsRules && panelsRules.length > 0 ? (
-        <>
+        <React.Fragment>
           {panelsRules.map(rules => (
             <div
               key={rules[0].calculationPanelId}
@@ -77,7 +77,7 @@ const RuleCalculationPanels = props => {
               />
             </div>
           ))}
-        </>
+        </React.Fragment>
       ) : (
         <div className={classes.loaderContainer}>
           <Loader loaded={false} className="spinner" left="auto" />
