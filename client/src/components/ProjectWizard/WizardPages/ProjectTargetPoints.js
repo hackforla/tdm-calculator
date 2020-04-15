@@ -2,8 +2,21 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
+import clsx from "clsx";
 
 const useStyles = createUseStyles({
+  page4: {
+    "&.level0 + div > div:first-child > .tdm-wizard-nav-button:last-child": {
+      visibility: "hidden"
+    },
+    "&.level0 + div > div > .tdm-wizard-nav-button.return-home-button": {
+      display: "block"
+    }
+  },
+  level0Message: {
+    marginTop: "20px",
+    maxWidth: "600px"
+  },
   projectBox: {
     border: "2px solid #002E6D",
     "& h4": {
@@ -36,34 +49,50 @@ function ProjectTargetPoints(props) {
   const classes = useStyles();
   const { rules, onInputChange } = props;
   const projectLevel = rules.find(e => e.id === 16);
+  const level0Class = projectLevel && projectLevel.calcValue === 0 ? "level0" : "";
   // removing the parking input rule to display it above the box
   const parkingInputIndex = rules.findIndex(e => e.id === 7);
   const parkingRule = rules.splice(parkingInputIndex, 1);
   return (
-    <div>
-      <h1 className="tdm-wizard-page-title">Calculate TDM Target Points</h1>
-      <h3 className="tdm-wizard-page-subtitle">
-        Enter the amount of parking spaces you will provide to determine your
-        TDM target number
-      </h3>
-      <RuleCalculationPanels
-        rules={parkingRule}
-        onInputChange={onInputChange}
-        suppressHeader
-      />
-      <div className={classes.projectBox}>
-        <h4>
-          <span className={classes.PLLabel}>Your project level </span>
-          <span className={classes.PLValue}>
-            {(projectLevel && projectLevel.calcValue) || ""}
-          </span>
-        </h4>
-        <RuleCalculationPanels
-          rules={rules}
-          onInputChange={onInputChange}
-          suppressHeader
-        />
-      </div>
+    <div className={clsx(classes.page4, level0Class)}>
+      {projectLevel && projectLevel.calcValue === 0 && (
+        <div className={classes.level0Container}>
+          <h1>Your project level is 0!</h1>
+          <p className={classes.level0Message}>
+            Based on the information you provided, the Transportation Demand
+            Management (TDM) Ordinance may not apply to your project. Final
+            determination of the TDM Ordinance applicability will be made by the
+            Department of City Planning upon review of your project application.
+          </p>
+        </div>
+      )}
+      {projectLevel && projectLevel.calcValue > 0 && (
+        <div>
+          <h1 className="tdm-wizard-page-title">Calculate TDM Target Points</h1>
+          <h3 className="tdm-wizard-page-subtitle">
+            Enter the amount of parking spaces you will provide to determine your
+            TDM target number
+          </h3>
+          <RuleCalculationPanels
+            rules={parkingRule}
+            onInputChange={onInputChange}
+            suppressHeader
+          />
+          <div className={classes.projectBox}>
+            <h4>
+              <span className={classes.PLLabel}>Your project level </span>
+              <span className={classes.PLValue}>
+                {(projectLevel && projectLevel.calcValue) || ""}
+              </span>
+            </h4>
+            <RuleCalculationPanels
+              rules={rules}
+              onInputChange={onInputChange}
+              suppressHeader
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
