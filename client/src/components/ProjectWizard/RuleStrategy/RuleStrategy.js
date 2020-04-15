@@ -62,6 +62,11 @@ const useStyles = createUseStyles({
   },
   commentTextarea: {
     marginTop: "4px"
+  },
+  tooltip: {
+    padding: "10px",
+    minWidth: "200px",
+    maxWidth: "400px"
   }
 });
 
@@ -125,6 +130,7 @@ const RuleStrategy = ({
             data-tip={description}
             data-iscapture="true"
             data-html="true"
+            data-class={classes.tooltip}
           >
             {" "}
             {name}{" "}
@@ -152,6 +158,7 @@ const RuleStrategy = ({
             data-tip={description}
             data-iscapture="true"
             data-html="true"
+            data-class={classes.tooltip}
           >
             {" "}
             {name}{" "}
@@ -177,6 +184,7 @@ const RuleStrategy = ({
             data-tip={description}
             data-iscapture="true"
             data-html="true"
+            data-class={classes.tooltip}
           >
             {" "}
             {name}{" "}
@@ -207,6 +215,7 @@ const RuleStrategy = ({
             data-tip={description}
             data-iscapture="true"
             data-html="true"
+            data-class={classes.tooltip}
           >
             {" "}
             {name}{" "}
@@ -227,6 +236,7 @@ const RuleStrategy = ({
           data-tip={description}
           data-iscapture="true"
           data-html="true"
+          data-class={classes.tooltip}
         >
           <label htmlFor={code} className={classes.strategyName}>
             {" "}
