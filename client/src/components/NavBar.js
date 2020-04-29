@@ -9,23 +9,44 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "0",
     flexBasis: "content",
-    padding: "0.1em 0.1em 0.1em 2em",
+    marginLeft: "2em",
     display: "flex",
-    // display: 'none',
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
     listStyleType: "none",
     "@media print": {
       display: "none"
+    },
+    "@media (max-width:900px)": {
+      marginLeft: "1em"
+    },
+    "@media (max-width:768px)": {
+      marginLeft: 0
     }
   },
   link: {
     color: "#ffffff",
     textDecoration: "none",
-    paddingRight: "2em",
+    marginRight: "2em",
     "&:hover": {
       textDecoration: "underline"
+    },
+    "@media (max-width:900px)": {
+      marginRight: "1em"
+    }
+  },
+  linkBlock: {
+    "@media (max-width:768px)": {
+      borderTop: "2px solid #0f2940",
+      width: "100%",
+      paddingTop: ".5em",
+      paddingBottom: ".5em",
+      display: "flex",
+      justifyContent: "center",
+      "&:last-child": {
+        borderBottom: "2px solid #0f2940"
+      }
     }
   },
   userLogin: {
@@ -34,18 +55,53 @@ const useStyles = createUseStyles({
   lastItem: {
     marginLeft: "2em",
     paddingRight: 0,
-    marginRight: "1em"
+    marginRight: "1em",
+    "@media (max-width:900px)": {
+      marginLeft: "1em"
+    },
+    "@media (max-width:768px)": {
+      marginLeft: 0
+    }
+  },
+  "@media (max-width:768px)": {
+    navbar: {
+      flexDirection: "column",
+      minWidth: "100%"
+    },
+    userLogin: {
+      marginLeft: 0,
+      borderTop: "2px solid #0f2940",
+      width: "100%",
+      paddingTop: ".5em",
+      paddingBottom: ".5em",
+      display: "flex",
+      justifyContent: "center"
+    }
   }
 });
 
 const NavBar = props => {
-  const { account, setLoggedOutAccount, location } = props;
+  const {
+    account,
+    setLoggedOutAccount,
+    location,
+    navbarOpen,
+    setNavbarOpen
+  } = props;
   const classes = useStyles();
+
+  const handleClick = () => {
+    setNavbarOpen(window.innerWidth < 768 ? !navbarOpen : false);
+  };
 
   const showNewProjectLink = () => {
     return location.pathname.split("/")[1] === "calculation" ? null : (
-      <li>
-        <Link className={classes.link} to="/calculation/1">
+      <li className={classes.linkBlock}>
+        <Link
+          className={classes.link}
+          to="/calculation/1"
+          onClick={handleClick}
+        >
           New Project
         </Link>
       </li>
@@ -54,19 +110,18 @@ const NavBar = props => {
 
   return (
     <ul className={classes.navbar}>
-      <li>
-        <Link className={classes.link} to="/">
+      <li className={classes.linkBlock}>
+        <Link className={classes.link} to="/" onClick={handleClick}>
           Home
         </Link>
       </li>
       {account && account.id && (
-        <li>
-          <Link className={classes.link} to="/projects">
+        <li className={classes.linkBlock}>
+          <Link className={classes.link} to="/projects" onClick={handleClick}>
             Projects
           </Link>
         </li>
       )}
-
       {showNewProjectLink()}
       {/* {account && account.isAdmin && (
         <li>
@@ -76,14 +131,14 @@ const NavBar = props => {
         </li>
       )} */}
       {account && account.isSecurityAdmin && (
-        <li>
-          <Link className={classes.link} to="/roles">
+        <li className={classes.linkBlock}>
+          <Link className={classes.link} to="/roles" onClick={handleClick}>
             Security
           </Link>
         </li>
       )}
-      <li>
-        <Link className={classes.link} to="/about">
+      <li className={classes.linkBlock}>
+        <Link className={classes.link} to="/about" onClick={handleClick}>
           About
         </Link>
       </li>
@@ -95,6 +150,8 @@ const NavBar = props => {
         account={account}
         classes={classes}
         setLoggedOutAccount={setLoggedOutAccount}
+        navbarOpen={navbarOpen}
+        handleClick={handleClick}
       />
     </ul>
   );
@@ -109,6 +166,8 @@ NavBar.propTypes = {
     isSecurityAdmin: PropTypes.bool
   }),
   setLoggedOutAccount: PropTypes.func,
+  navbarOpen: PropTypes.bool,
+  setNavbarOpen: PropTypes.func,
   isCreatingNewProject: PropTypes.bool,
   location: PropTypes.shape({
     pathname: PropTypes.string

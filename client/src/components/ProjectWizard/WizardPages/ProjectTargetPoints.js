@@ -2,57 +2,97 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
+import clsx from "clsx";
 
 const useStyles = createUseStyles({
   page4: {
-    "& > div > div > div": {
-      minWidth: 0,
-      width: 460,
-      margin: "0 auto 10px",
-      left: "-100px",
-      position: "relative",
-      fontSize: 22,
-      fontFamily: "Calibri Bold",
-      "& label": {
-        textAlign: "right",
-        flexBasis: "80%"
-      },
-      "& div:last-child": {
-        flexBasis: "20%"
-      }
+    "&.level0 + div > div:first-child > .tdm-wizard-nav-button:last-child": {
+      visibility: "hidden"
     },
-    "& > div > div > div:first-child": {
-      textAlign: "center",
-      width: "auto",
-      marginBottom: 74,
-      marginTop: 40,
-      left: "auto",
-      display: "block",
-      fontFamily: "Calibri",
-      "& input": {
-        fontSize: 16,
-        height: 45,
-        width: 426
-      }
+    "&.level0 + div > div > .tdm-wizard-nav-button.return-home-button": {
+      display: "block"
     }
+  },
+  level0Message: {
+    marginTop: "20px",
+    maxWidth: "600px"
+  },
+  projectBox: {
+    border: "2px solid #002E6D",
+    "& h4": {
+      backgroundColor: "#002E6D",
+      color: "white",
+      fontFamily: "Oswald, Calibri",
+      fontSize: 22,
+      textAlign: "center",
+      padding: "22px 0"
+    },
+    "& > div": {
+      marginTop: 30,
+      marginBottom: 30,
+      fontWeight: "bold",
+      fontSize: 22
+    }
+  },
+  PLValue: {
+    marginLeft: "2em",
+    fontSize: 50,
+    fontWeight: "bold"
+  },
+  PLLabel: {
+    position: "relative",
+    bottom: 6
   }
 });
 
 function ProjectTargetPoints(props) {
   const classes = useStyles();
   const { rules, onInputChange } = props;
+  const projectLevel = rules.find(e => e.id === 16);
+  const level0Class = projectLevel && projectLevel.calcValue === 0 ? "level0" : "";
+  // removing the parking input rule to display it above the box
+  const parkingInputIndex = rules.findIndex(e => e.id === 7);
+  const parkingRule = rules.splice(parkingInputIndex, 1);
   return (
-    <div className={classes.page4}>
-      <h1 className="tdm-wizard-page-title">Calculate TDM Target Points</h1>
-      <h3 className="tdm-wizard-page-subtitle">
-        Enter the # of parking spaces you intend to build to complete the Target
-        Point calculation
-      </h3>
-      <RuleCalculationPanels
-        rules={rules}
-        onInputChange={onInputChange}
-        suppressHeader
-      />
+    <div className={clsx(classes.page4, level0Class)}>
+      {projectLevel && projectLevel.calcValue === 0 && (
+        <div className={classes.level0Container}>
+          <h1>Your project level is 0!</h1>
+          <p className={classes.level0Message}>
+            Based on the information you provided, the Transportation Demand
+            Management (TDM) Ordinance may not apply to your project. Final
+            determination of the TDM Ordinance applicability will be made by the
+            Department of City Planning upon review of your project application.
+          </p>
+        </div>
+      )}
+      {projectLevel && projectLevel.calcValue > 0 && (
+        <div>
+          <h1 className="tdm-wizard-page-title">Calculate TDM Target Points</h1>
+          <h3 className="tdm-wizard-page-subtitle">
+            Enter the amount of parking spaces you will provide to determine your
+            TDM target number
+          </h3>
+          <RuleCalculationPanels
+            rules={parkingRule}
+            onInputChange={onInputChange}
+            suppressHeader
+          />
+          <div className={classes.projectBox}>
+            <h4>
+              <span className={classes.PLLabel}>Your project level </span>
+              <span className={classes.PLValue}>
+                {(projectLevel && projectLevel.calcValue) || ""}
+              </span>
+            </h4>
+            <RuleCalculationPanels
+              rules={rules}
+              onInputChange={onInputChange}
+              suppressHeader
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

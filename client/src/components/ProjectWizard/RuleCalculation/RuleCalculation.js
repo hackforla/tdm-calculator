@@ -5,14 +5,14 @@ import clsx from "clsx";
 
 const useStyles = createUseStyles({
   field: {
-    minWidth: "60vw",
-    margin: "0.2em",
+    margin: "1em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "center"
   },
   numberFieldWrapper: {
-    marginBottom: "0.4em",
+    marginBottom: "2em",
+    marginTop: "2em",
     alignItems: "center",
     "&:hover": {
       backgroundColor: "#f0e300"
@@ -21,30 +21,32 @@ const useStyles = createUseStyles({
   numberField: {
     flexBasis: "20%",
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
+    marginBottom: ".5em"
   },
   numberFieldUnits: {
     flexBasis: "20%",
     marginLeft: "1em",
     flexGrow: "0",
-    flexShrink: "1"
+    flexShrink: "1",
+    fontSize: 22,
+    paddingTop: 22
   },
   input: {
     padding: "0.1em",
-    width: "auto",
-    textAlign: "right"
+    textAlign: "right",
+    marginTop: ".5em",
+    height: 45
   },
   unitsCaption: {
-    flexBasis: "10%",
-    marginLeft: "1em",
     flexGrow: "0",
     flexShrink: "1"
   },
   calcUnitsCaption: {
-    flexBasis: "10%",
+    flexBasis: "30%",
     marginLeft: "1em",
     marginRight: "0.5em",
-    textAlign: "right",
+    textAlign: "left",
     flexGrow: "0",
     flexShrink: "1"
   },
@@ -90,9 +92,9 @@ const useStyles = createUseStyles({
     }
   },
   miscFieldLabel: {
-    flexBasis: "70%",
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
+    textAlign: "right"
   },
   codeWrapper: {
     flexBasis: "10%",
@@ -113,7 +115,10 @@ const useStyles = createUseStyles({
   textInputLabel: {
     flexBasis: "50%",
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
+    textAlign: "center",
+    marginLeft: 100,
+    fontSize: 22
   },
   textarea: {
     flexBasis: "50%",
@@ -136,7 +141,7 @@ const useStyles = createUseStyles({
   },
   requiredInputLabel: {
     "&:after": {
-      content: "\" *\"",
+      content: '" *"',
       color: "red"
     }
   },
@@ -192,26 +197,26 @@ const RuleCalculation = ({
         <div className={clsx(classes.field, classes.numberFieldWrapper)}>
           <label htmlFor={code} className={classes.textInputLabel}>
             {name}
+            <div className={classes.numberField}>
+              <input
+                className={classes.input}
+                type="text"
+                value={value || ""}
+                onChange={onInputChange}
+                name={code}
+                id={code}
+                data-testid={code}
+                min={minValue}
+                max={maxValue}
+              />
+            </div>
           </label>
-          <div className={classes.numberField}>
-            <input
-              className={classes.input}
-              type="text"
-              value={value || ""}
-              onChange={onInputChange}
-              name={code}
-              id={code}
-              data-testid={code}
-              min={minValue}
-              max={maxValue}
-            />
-          </div>
           <div className={classes.numberFieldUnits}>{units}</div>
-          <div className={classes.calcUnitsCaption}>
+          {/*} <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
             } ${calcUnits || ""}`}
-          </div>
+          </div>*/}
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>

@@ -71,12 +71,21 @@
   padding-top: 0.35em;
   padding-bottom: 0.35em;
   background-color: $color-highlight;
+  color: #0F2940;
   display: inline;
   margin: 0.5em;
   font-size: 2em;
   box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
   text-align: center;
   cursor: pointer;
+
+  &.return-home-button {
+    margin-top: 40px;
+    display: none;
+    text-transform: uppercase;
+    font-size: 1.25em;
+    padding: 15px 50px;
+  }
 }
 
 .tdm-wizard-nav-button-disabled {
@@ -133,8 +142,14 @@
   flex-direction: row;
   background-color: transparent;
   color: $color-background;
-  top: calc((100vh - 275px)/2);
-  position: relative;
+  flex: 1;
+  align-items: center;
+}
+
+.tdm-divider {
+  border: none;
+  border-top: 3px dotted #e7ebf0;
+  width: 100%;
 }
 
 .tdm-calculation-metrics-panel-item {
@@ -157,6 +172,6 @@
 
 @media (max-width: 768px) {
   .tdm-results-panel {
-    top: 0
+    top: 0;
   }
 }

@@ -150,8 +150,9 @@ git commit -m "Bumped version number to 1.0.1"
 git checkout master
 git pull origin master
 git merge --no-ff release-1.0.0
-git tag -a v1.0.1 -m "Release version 1.0.1"
+git tag -a 1.0.1 -m "Release version 1.0.1"
 git push origin HEAD
+git push origin 1.0.1
 ```
 
 At present, Heroku is configured to detect the commit to _master_ and automatically deploy the application to production. You should navigate to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a> after giving Heroku time to deploy and verify that the application runs, and any visible release # has been incremented.

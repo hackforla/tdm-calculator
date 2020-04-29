@@ -4,24 +4,26 @@ const rules = require("./tdm-calc-rules.json");
 export const tdmRules = rules;
 
 // Explicitly pick some rules to export for testing
-export const numberInputRule = tdmRules.find(rule => rule.code === "SF_RETAIL");
+export const numberInputRule = tdmRules.find(
+  (rule) => rule.code === "SF_RETAIL"
+);
 export const booleanInputRule = tdmRules.find(
-  rule => rule.code === "LAND_USE_RESIDENTIAL"
+  (rule) => rule.code === "LAND_USE_RESIDENTIAL"
 );
 export const stringInputRule = tdmRules.find(
-  rule => rule.code === "PROJECT_NAME"
+  (rule) => rule.code === "PROJECT_NAME"
 );
 
 export const booleanStrategyRule = tdmRules.find(
-  rule => rule.code === "STRATEGY_PARKING_1"
+  (rule) => rule.code === "STRATEGY_PARKING_1"
 );
 export const numberStrategyRule = tdmRules.find(
-  rule => rule.code === "PTS_ACCESS_3"
+  (rule) => rule.code === "PTS_ACCESS_3"
 );
 export const choiceStrategyRule = tdmRules.find(
-  rule => rule.code === "STRATEGY_AFFORDABLE"
+  (rule) => rule.code === "STRATEGY_AFFORDABLE"
 );
 
 export const targetPointsRule = tdmRules.find(
-  rule => rule.code === "TARGET_POINTS_PARK"
+  (rule) => rule.code === "TARGET_POINTS_PARK"
 )[0];
