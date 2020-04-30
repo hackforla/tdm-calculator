@@ -2,8 +2,9 @@ const projectService = require("../services/project.service");
 
 const getAll = async (req, res) => {
   try {
-    const response = await projectService.getAll(req.user.id);
-    res.json(response);
+    const projects = await projectService.getAll(req.user.id);
+    res.status(200).json(projects);
+    return;
   } catch (err) {
     res.status(500).send(err);
   }
@@ -11,12 +12,8 @@ const getAll = async (req, res) => {
 
 const getById = async (req, res) => {
   try {
-    const response = await projectService.getById(req.user.id, req.params.id);
-    if (!response) {
-      res.status(404).send("project " + req.params.id + " not found.");
-      return;
-    }
-    res.json(response);
+    const project = await getProject(req, res);
+    res.status(200).json(project);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -24,8 +21,9 @@ const getById = async (req, res) => {
 
 const post = async (req, res) => {
   try {
-    if (!isAuthorizedUser(req)) {
+    if (req.body.loginId !== req.user.id) {
       res.status(403).send("You can only create your own projects.");
+      return;
     }
 
     const response = await projectService.post(req.body);
@@ -37,12 +35,14 @@ const post = async (req, res) => {
 
 const put = async (req, res) => {
   try {
-    if (!isAuthorizedUser(req)) {
+    const project = await getProject(req, res);
+    if (project.loginId !== req.user.id) {
       res.status(403).send("You can only make changes to your own projects.");
+      return;
     }
 
     await projectService.put(req.body);
-    res.sendStatus(200);
+    res.sendStatus(204);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -50,24 +50,27 @@ const put = async (req, res) => {
 
 const del = async (req, res) => {
   try {
-    if (!isAuthorizedUser(req)) {
+    const project = await getProject(req, res);
+    if (project.loginId !== req.user.id) {
       res.status(403).send("You can only delete your own projects.");
+      return;
     }
 
     await projectService.del(req.user.id, req.params.id);
-    res.sendStatus(200);
+    res.sendStatus(204);
   } catch (err) {
     res.status(500).send(err);
   }
 };
 
 // HELPER FUNCTION:
-
-const isAuthorizedUser = req => {
-  const loginIdOfCurrentUser = req.user.id;
-  const loginIdInRequestBody = req.body.loginId;
-
-  return loginIdOfCurrentUser === loginIdInRequestBody ? true : false;
+const getProject = async (req, res) => {
+  const project = await projectService.getById(req.user.id, req.params.id); //TODO: Check on purpose of sending req.user.id
+  if (!project) {
+    res.status(404).send("project " + req.params.id + " not found.");
+    return;
+  }
+  return project;
 };
 
 module.exports = {
