@@ -5,19 +5,17 @@ import RuleCalculation from "./RuleCalculation";
 
 const useStyles = createUseStyles({
   root: {
-    marginRight: "0.75em",
-    marginLeft: "0.75em",
-    minWidth: "60%"
-  }
+    minWidth: "60%",
+  },
 });
 
-const RuleCalculationList = props => {
+const RuleCalculationList = (props) => {
   const classes = useStyles();
   const { rules } = props;
   return (
     <div className={classes.root}>
       {rules && rules.length > 0
-        ? rules.map(rule => {
+        ? rules.map((rule) => {
             if (
               rule.id === 38 ||
               rule.id === 39 ||
@@ -40,7 +38,7 @@ const RuleCalculationList = props => {
 };
 RuleCalculationList.propTypes = {
   rules: PropTypes.array,
-  onInputChange: PropTypes.func.isRequired
+  onInputChange: PropTypes.func.isRequired,
 };
 
 export default RuleCalculationList;
