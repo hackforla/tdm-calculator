@@ -2,64 +2,62 @@
 import "@testing-library/cypress/add-commands";
 
 /// <reference types="cypress" />
-describe("Marina Towers Village", () => {
+describe("Jewish Family Service", () => {
   describe("project inputs", () => {
     it("should enter project information - minimum requirements", () => {
       cy.visit("http://localhost:3000/");
       cy.findAllByText("New Project").click();
-      cy.findByLabelText("Project Name").type("Marina Towers Village");
-      cy.findByLabelText("Address").type("13428 Maxella Ave");
+      cy.findByLabelText("Project Name").type(
+        "Jewish Family Service - Social Services Center"
+      );
+      cy.findByLabelText("Address").type("320 N. Fairfax Av.");
       cy.findByLabelText("Project Description").type(
-        "A mixed use development scheduled for 2025"
+        "New 28,023 sf three-story building"
       );
       cy.findByTestId(">").click();
     });
     it("should select development type", () => {
-      cy.findByLabelText("Residential").click();
       cy.findByLabelText("Commercial").click();
       cy.findByTestId(">").click();
     });
     it("should enter information for selected development type(s)", () => {
-      cy.findByLabelText("# Habitable Rooms < 3").type("140");
-      cy.findByLabelText("Sq Ft - Restaurant/Bar/General").type("30000");
       cy.findByLabelText(
         "Sq Ft - Office, Business, Manufacturing, Industrial"
-      ).type("100000");
-      cy.findByText("140 spcs");
-      cy.findByText("300 spcs");
-      cy.findByText("200 spcs");
+      ).type("28341");
       cy.findByTestId(">").click();
     });
     it("should enter in number of parking spaces", () => {
-      cy.findByLabelText("Parking Provided").type("1000");
-      cy.findByText("640 spcs").should("exist");
-      cy.findByText("156.25 %").should("exist");
-      cy.findByText("35 pts").should("exist");
+      cy.findByLabelText("Parking Provided").type("63");
+      cy.findByText("57 spcs").should("exist");
+      cy.findByText("110.53 %").should("exist");
       cy.findByTestId(">").click();
     });
   });
   describe("project strategies", () => {
     it("should select transporation demand strategies and receive enough earned points", () => {
-      cy.findByLabelText("Bike Share Station").click();
-      cy.findByLabelText("Bike Share Memberships").click();
       cy.findByLabelText("Bike Parking").click();
-      cy.findByLabelText("Education, Marketing, Outreach").click();
-      cy.findByLabelText("Cash-Out").click();
-      cy.findByLabelText("Pricing/Unbundling").click();
+      cy.findByLabelText("Changing / Shower / Locker Facilities").click();
+      cy.findByLabelText("Car Share Parking").click();
+      cy.findByLabelText("HOV Parking").click();
+      cy.findByLabelText("Transit Displays").click();
+      cy.findByLabelText("Wayfinding").click();
+      cy.findByLabelText("Encouragement Program").select(
+        "Education, Marketing & Outreach"
+      );
       cy.findByTestId(">").click();
     });
   });
   describe("calculation summary", () => {
     it("should show the correct calculation summary", () => {
-      cy.findByText("Marina Towers Village").should("exist");
-      cy.findByText("13428 Maxella Ave").should("exist");
-      cy.findByText("A mixed use development scheduled for 2025").should(
+      cy.findByText("Jewish Family Service - Social Services Center").should(
         "exist"
       );
+      cy.findByText("320 N. Fairfax Av.").should("exist");
+      cy.findByText("New 28,023 sf three-story building").should("exist");
 
-      cy.findAllByText("Residential, Commercial").should("exist");
+      cy.findAllByText("Commercial").should("exist");
 
-      cy.findByTestId("summary-project-level-value").should("have.text", "3");
+      cy.findByTestId("summary-project-level-value").should("have.text", "1");
       cy.findByTestId("summary-project-level-label").should(
         "have.text",
         "Project Level"
@@ -67,20 +65,20 @@ describe("Marina Towers Village", () => {
 
       cy.findByTestId("summary-parking-ratio-value").should(
         "have.text",
-        "156 %"
+        "110 %"
       );
       cy.findByTestId("summary-parking-ratio-label").should(
         "have.text",
         "Provided / Required Parking"
       );
 
-      cy.findByTestId("summary-target-points-value").should("have.text", "35");
+      cy.findByTestId("summary-target-points-value").should("have.text", "17");
       cy.findByTestId("summary-target-points-label").should(
         "have.text",
         "Target Points"
       );
 
-      cy.findByTestId("summary-earned-points-value").should("have.text", "36");
+      cy.findByTestId("summary-earned-points-value").should("have.text", "17");
       cy.findByTestId("summary-earned-points-label").should(
         "have.text",
         "Earned Points"

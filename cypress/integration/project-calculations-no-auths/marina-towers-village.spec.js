@@ -2,65 +2,60 @@
 import "@testing-library/cypress/add-commands";
 
 /// <reference types="cypress" />
-describe("Beatrice Building", () => {
+describe("Marina Towers Village", () => {
   describe("project inputs", () => {
     it("should enter project information - minimum requirements", () => {
       cy.visit("http://localhost:3000/");
       cy.findAllByText("New Project").click();
-      cy.findByLabelText("Project Name").type("Beatrice Building");
-      cy.findByLabelText("Address").type("12575 Beatrice St.");
+      cy.findByLabelText("Project Name").type("Marina Towers Village");
+      cy.findByLabelText("Address").type("13428 Maxella Ave");
       cy.findByLabelText("Project Description").type(
-        "Sq Ft differs between spreadsheet and PDF supplied"
+        "A mixed use development scheduled for 2025"
       );
       cy.findByTestId(">").click();
     });
     it("should select development type", () => {
-      cy.findByLabelText("Retail").click();
+      cy.findByLabelText("Residential").click();
       cy.findByLabelText("Commercial").click();
       cy.findByTestId(">").click();
     });
     it("should enter information for selected development type(s)", () => {
-      cy.findByLabelText("Sq Ft - Retail").type("900");
-      cy.findByLabelText("Sq Ft - Restaurant/Bar/General").type("2500");
+      cy.findByLabelText("# Habitable Rooms < 3").type("140");
+      cy.findByLabelText("Sq Ft - Restaurant/Bar/General").type("30000");
       cy.findByLabelText(
         "Sq Ft - Office, Business, Manufacturing, Industrial"
-      ).type("283981");
-      cy.findByText("3.6 spcs");
-      cy.findByText("25 spcs");
-      cy.findByText("567.96 spcs");
+      ).type("100000");
       cy.findByTestId(">").click();
     });
     it("should enter in number of parking spaces", () => {
-      cy.findByLabelText("Parking Provided").type("845");
-      cy.findByText("597 spcs").should("exist");
-      cy.findByText("141.54 %").should("exist");
-      cy.findByText("33 pts").should("exist");
+      cy.findByLabelText("Parking Provided").type("1000");
+      cy.findByText("640 spcs").should("exist");
+      cy.findByText("156.25 %").should("exist");
       cy.findByTestId(">").click();
     });
   });
   describe("project strategies", () => {
     it("should select transporation demand strategies and receive enough earned points", () => {
+      cy.findByLabelText("Bike Share Station").click();
+      cy.findByLabelText("Bike Share Memberships").click();
       cy.findByLabelText("Bike Parking").click();
-      cy.findByLabelText("Changing / Shower / Locker Facilities").click();
-      cy.findByLabelText("Car Share Parking").click();
-      cy.findByLabelText("HOV Parking").click();
-      cy.findByLabelText("Transit Displays").click();
-      cy.findByLabelText("Wayfinding").click();
-      cy.findByLabelText("Education, Marketing, Outreach").click();
+      cy.findByLabelText("Encouragement Program").select(
+        "Education, Marketing & Outreach"
+      );
       cy.findByLabelText("Cash-Out").click();
-      cy.findByLabelText("Transit Passes").select("25%+ of Monthly Fare");
+      cy.findByLabelText("Pricing/Unbundling").click();
       cy.findByTestId(">").click();
     });
   });
   describe("calculation summary", () => {
     it("should show the correct calculation summary", () => {
-      cy.findByText("Beatrice Building").should("exist");
-      cy.findByText("12575 Beatrice St.").should("exist");
-      cy.findByText(
-        "Sq Ft differs between spreadsheet and PDF supplied"
-      ).should("exist");
+      cy.findByText("Marina Towers Village").should("exist");
+      cy.findByText("13428 Maxella Ave").should("exist");
+      cy.findByText("A mixed use development scheduled for 2025").should(
+        "exist"
+      );
 
-      cy.findAllByText("Retail, Commercial").should("exist");
+      cy.findAllByText("Residential, Commercial").should("exist");
 
       cy.findByTestId("summary-project-level-value").should("have.text", "3");
       cy.findByTestId("summary-project-level-label").should(
@@ -70,20 +65,20 @@ describe("Beatrice Building", () => {
 
       cy.findByTestId("summary-parking-ratio-value").should(
         "have.text",
-        "141 %"
+        "156 %"
       );
       cy.findByTestId("summary-parking-ratio-label").should(
         "have.text",
         "Provided / Required Parking"
       );
 
-      cy.findByTestId("summary-target-points-value").should("have.text", "33");
+      cy.findByTestId("summary-target-points-value").should("have.text", "35");
       cy.findByTestId("summary-target-points-label").should(
         "have.text",
         "Target Points"
       );
 
-      cy.findByTestId("summary-earned-points-value").should("have.text", "33");
+      cy.findByTestId("summary-earned-points-value").should("have.text", "36");
       cy.findByTestId("summary-earned-points-label").should(
         "have.text",
         "Earned Points"

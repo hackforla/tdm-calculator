@@ -2,62 +2,60 @@
 import "@testing-library/cypress/add-commands";
 
 /// <reference types="cypress" />
-describe("Jewish Family Service", () => {
+describe("Fountain Apartments", () => {
   describe("project inputs", () => {
     it("should enter project information - minimum requirements", () => {
       cy.visit("http://localhost:3000/");
       cy.findAllByText("New Project").click();
-      cy.findByLabelText("Project Name").type(
-        "Jewish Family Service - Social Services Center"
-      );
-      cy.findByLabelText("Address").type("320 N. Fairfax Av.");
+      cy.findByLabelText("Project Name").type("Fountain Apartments");
+      cy.findByLabelText("Address").type("5460 W. Fountain Av.");
       cy.findByLabelText("Project Description").type(
-        "New 28,023 sf three-story building"
+        "A 75-unit six-story apartment building"
       );
       cy.findByTestId(">").click();
     });
     it("should select development type", () => {
-      cy.findByLabelText("Commercial").click();
+      cy.findByLabelText("Residential").click();
       cy.findByTestId(">").click();
     });
     it("should enter information for selected development type(s)", () => {
-      cy.findByLabelText(
-        "Sq Ft - Office, Business, Manufacturing, Industrial"
-      ).type("28341");
-      cy.findByText("56.68 spcs");
+      cy.findByLabelText("# Habitable Rooms < 3").type("37");
+      cy.findByLabelText("# Habitable Rooms = 3").type("36");
+      cy.findByLabelText("# Habitable Rooms > 3").type("2");
       cy.findByTestId(">").click();
     });
     it("should enter in number of parking spaces", () => {
-      cy.findByLabelText("Parking Provided").type("63");
-      cy.findByText("57 spcs").should("exist");
-      cy.findByText("110.53 %").should("exist");
-      cy.findByText("17 pts").should("exist");
+      cy.findByLabelText("Parking Provided").type("108");
+      cy.findByText("95 spcs").should("exist");
+      cy.findByText("113.68 %").should("exist");
       cy.findByTestId(">").click();
     });
   });
   describe("project strategies", () => {
     it("should select transporation demand strategies and receive enough earned points", () => {
       cy.findByLabelText("Bike Parking").click();
-      cy.findByLabelText("Changing / Shower / Locker Facilities").click();
       cy.findByLabelText("Car Share Parking").click();
-      cy.findByLabelText("HOV Parking").click();
-      cy.findByLabelText("Transit Displays").click();
       cy.findByLabelText("Wayfinding").click();
-      cy.findByLabelText("Education, Marketing, Outreach").click();
+      cy.findByLabelText("Encouragement Program").select(
+        "Education, Marketing & Outreach"
+      );
+      cy.findByLabelText("Pricing/Unbundling").click();
+      cy.findByLabelText("Existing Provider").click();
+      cy.findByLabelText("Affordable Housing Level").select(
+        "35% of State Density Bonus"
+      );
       cy.findByTestId(">").click();
     });
   });
   describe("calculation summary", () => {
     it("should show the correct calculation summary", () => {
-      cy.findByText("Jewish Family Service - Social Services Center").should(
-        "exist"
-      );
-      cy.findByText("320 N. Fairfax Av.").should("exist");
-      cy.findByText("New 28,023 sf three-story building").should("exist");
+      cy.findByText("Fountain Apartments").should("exist");
+      cy.findByText("5460 W. Fountain Av.").should("exist");
+      cy.findByText("A 75-unit six-story apartment building").should("exist");
 
-      cy.findAllByText("Commercial").should("exist");
+      cy.findAllByText("Residential").should("exist");
 
-      cy.findByTestId("summary-project-level-value").should("have.text", "1");
+      cy.findByTestId("summary-project-level-value").should("have.text", "2");
       cy.findByTestId("summary-project-level-label").should(
         "have.text",
         "Project Level"
@@ -65,20 +63,20 @@ describe("Jewish Family Service", () => {
 
       cy.findByTestId("summary-parking-ratio-value").should(
         "have.text",
-        "110 %"
+        "113 %"
       );
       cy.findByTestId("summary-parking-ratio-label").should(
         "have.text",
         "Provided / Required Parking"
       );
 
-      cy.findByTestId("summary-target-points-value").should("have.text", "17");
+      cy.findByTestId("summary-target-points-value").should("have.text", "22");
       cy.findByTestId("summary-target-points-label").should(
         "have.text",
         "Target Points"
       );
 
-      cy.findByTestId("summary-earned-points-value").should("have.text", "17");
+      cy.findByTestId("summary-earned-points-value").should("have.text", "22");
       cy.findByTestId("summary-earned-points-label").should(
         "have.text",
         "Earned Points"
