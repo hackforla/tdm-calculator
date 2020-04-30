@@ -4,7 +4,7 @@ import "@testing-library/cypress/add-commands";
 /// <reference types="cypress" />
 describe("Marina Towers Village", () => {
   describe("project inputs", () => {
-    it("should enter project information - minimum requirements", () => {
+    it("enters project information - minimum requirements", () => {
       cy.visit("http://localhost:3000/");
       cy.findAllByText("New Project").click();
       cy.findByLabelText("Project Name").type("Marina Towers Village");
@@ -14,12 +14,12 @@ describe("Marina Towers Village", () => {
       );
       cy.findByTestId(">").click();
     });
-    it("should select development type", () => {
+    it("selects development type", () => {
       cy.findByLabelText("Residential").click();
       cy.findByLabelText("Commercial").click();
       cy.findByTestId(">").click();
     });
-    it("should enter information for selected development type(s)", () => {
+    it("enters information for selected development type(s)", () => {
       cy.findByLabelText("# Habitable Rooms < 3").type("140");
       cy.findByLabelText("Sq Ft - Restaurant/Bar/General").type("30000");
       cy.findByLabelText(
@@ -27,7 +27,7 @@ describe("Marina Towers Village", () => {
       ).type("100000");
       cy.findByTestId(">").click();
     });
-    it("should enter in number of parking spaces", () => {
+    it("enters in number of parking spaces", () => {
       cy.findByLabelText("Parking Provided").type("1000");
       cy.findByText("640 spcs").should("exist");
       cy.findByText("156.25 %").should("exist");
@@ -35,7 +35,7 @@ describe("Marina Towers Village", () => {
     });
   });
   describe("project strategies", () => {
-    it("should select transporation demand strategies and receive enough earned points", () => {
+    it("selects transporation demand strategies and receive enough earned points", () => {
       cy.findByLabelText("Bike Share Station").click();
       cy.findByLabelText("Bike Share Memberships").click();
       cy.findByLabelText("Bike Parking").click();
@@ -48,7 +48,7 @@ describe("Marina Towers Village", () => {
     });
   });
   describe("calculation summary", () => {
-    it("should show the correct calculation summary", () => {
+    it("shows the correct calculation summary", () => {
       cy.findByText("Marina Towers Village").should("exist");
       cy.findByText("13428 Maxella Ave").should("exist");
       cy.findByText("A mixed use development scheduled for 2025").should(

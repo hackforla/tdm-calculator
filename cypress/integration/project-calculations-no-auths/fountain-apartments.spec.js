@@ -4,7 +4,7 @@ import "@testing-library/cypress/add-commands";
 /// <reference types="cypress" />
 describe("Fountain Apartments", () => {
   describe("project inputs", () => {
-    it("should enter project information - minimum requirements", () => {
+    it("enters project information - minimum requirements", () => {
       cy.visit("http://localhost:3000/");
       cy.findAllByText("New Project").click();
       cy.findByLabelText("Project Name").type("Fountain Apartments");
@@ -14,17 +14,17 @@ describe("Fountain Apartments", () => {
       );
       cy.findByTestId(">").click();
     });
-    it("should select development type", () => {
+    it("selects development type", () => {
       cy.findByLabelText("Residential").click();
       cy.findByTestId(">").click();
     });
-    it("should enter information for selected development type(s)", () => {
+    it("enters information for selected development type(s)", () => {
       cy.findByLabelText("# Habitable Rooms < 3").type("37");
       cy.findByLabelText("# Habitable Rooms = 3").type("36");
       cy.findByLabelText("# Habitable Rooms > 3").type("2");
       cy.findByTestId(">").click();
     });
-    it("should enter in number of parking spaces", () => {
+    it("enters in number of parking spaces", () => {
       cy.findByLabelText("Parking Provided").type("108");
       cy.findByText("95 spcs").should("exist");
       cy.findByText("113.68 %").should("exist");
@@ -32,7 +32,7 @@ describe("Fountain Apartments", () => {
     });
   });
   describe("project strategies", () => {
-    it("should select transporation demand strategies and receive enough earned points", () => {
+    it("selects transporation demand strategies and receive enough earned points", () => {
       cy.findByLabelText("Bike Parking").click();
       cy.findByLabelText("Car Share Parking").click();
       cy.findByLabelText("Wayfinding").click();
@@ -48,7 +48,7 @@ describe("Fountain Apartments", () => {
     });
   });
   describe("calculation summary", () => {
-    it("should show the correct calculation summary", () => {
+    it("shows the correct calculation summary", () => {
       cy.findByText("Fountain Apartments").should("exist");
       cy.findByText("5460 W. Fountain Av.").should("exist");
       cy.findByText("A 75-unit six-story apartment building").should("exist");
