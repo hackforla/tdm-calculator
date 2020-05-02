@@ -97,13 +97,7 @@ const ProjectSummary = props => {
   const { rules, account, projectId, loginId, onSave } = props;
 
   const landUses = rules
-    .filter(
-      rule =>
-        rule.category === "input" &&
-        rule.used &&
-        rule.value &&
-        rule.calculationPanelId === 5
-    )
+    .filter(rule => rule.used && rule.value && rule.calculationPanelId === 5)
     .map(r => r.name)
     .join(", ");
 

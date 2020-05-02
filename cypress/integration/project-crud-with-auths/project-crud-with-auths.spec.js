@@ -3,10 +3,8 @@ import "@testing-library/cypress/add-commands";
 
 /// <reference types="cypress" />
 describe("Create, Read, and Update a Project as a Regular User", () => {
-
   beforeEach(() => {
-    cy.loginAs("regularUser")
-      .then(cy.resetProjects);
+    cy.loginAs("regularUser").then(cy.resetProjects);
     cy.visit("/");
     cy.findAllByText("New Project").click();
     cy.findByText("Hello, Test Regular User").should("be.visible");
@@ -26,7 +24,9 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
     postNewProject();
 
     cy.visit("/projects");
-    cy.findAllByText("Cypress Victory Hotel").should("be.visible").click();
+    cy.findAllByText("Cypress Victory Hotel")
+      .should("be.visible")
+      .click();
 
     cy.findByLabelText("Project Name").type(" Updated");
     cy.findByLabelText("Version #").type("v2");
@@ -73,14 +73,15 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
       method: "POST",
       url: "http://localhost:5000/api/projects",
       body: {
-        "name": "Cypress Victory Hotel",
-        "address": "12425 Victory Bl.",
-        "formInputs": "{\"UNITS_GUEST\":\"80\",\"STRATEGY_BIKE_5\":true,\"STRATEGY_CAR_SHARE_1\":true,\"STRATEGY_HOV_1\":true,\"STRATEGY_HOV_3\":true,\"PROJECT_NAME\":\"Cypress Victory Hotel\",\"PROJECT_ADDRESS\":\"12425 Victory Bl.\",\"PROJECT_DESCRIPTION\":\"80-room four-story hotel. Spreadsheet has parkingcalc error.\",\"LAND_USE_HOTEL\":true,\"PARK_SPACES\":\"76\",\"STRATEGY_ACCESS_1\":\"25\",\"STRATEGY_BIKE_4\":true,\"STRATEGY_INFO_1\":true,\"STRATEGY_INFO_2\":true,\"STRATEGY_INFO_3\":true,\"STRATEGY_TRANSIT_ACCESS_3\":\"25\"}",
-        "loginId": 61,
-        "calculationId": 1,
-        "description": "80-room four-story hotel.",
-        "firstName": "Test Regular",
-        "lastName": "User"
+        name: "Cypress Victory Hotel",
+        address: "12425 Victory Bl.",
+        formInputs:
+          "{\"UNITS_GUEST\":\"80\",\"STRATEGY_BIKE_5\":true,\"STRATEGY_CAR_SHARE_1\":true,\"STRATEGY_HOV_1\":true,\"STRATEGY_HOV_3\":true,\"PROJECT_NAME\":\"Cypress Victory Hotel\",\"PROJECT_ADDRESS\":\"12425 Victory Bl.\",\"PROJECT_DESCRIPTION\":\"80-room four-story hotel. Spreadsheet has parkingcalc error.\",\"LAND_USE_HOTEL\":true,\"PARK_SPACES\":\"76\",\"STRATEGY_ACCESS_1\":\"25\",\"STRATEGY_BIKE_4\":true,\"STRATEGY_INFO_1\":true,\"STRATEGY_INFO_2\":true,\"STRATEGY_INFO_3\":true,\"STRATEGY_TRANSIT_ACCESS_3\":\"25\"}",
+        loginId: 61,
+        calculationId: 1,
+        description: "80-room four-story hotel.",
+        firstName: "Test Regular",
+        lastName: "User"
       }
     });
   };

@@ -9,11 +9,11 @@ import WarningIcon from "../../../images/warning-icon.png";
 const useStyles = createUseStyles({
   page4: {
     "&.level0 + div > div:first-child > .tdm-wizard-nav-button:last-child": {
-      visibility: "hidden",
+      visibility: "hidden"
     },
     "&.level0 + div > div > .tdm-wizard-nav-button.return-home-button": {
-      display: "block",
-    },
+      display: "block"
+    }
   },
   level0Container: {
     textAlign: "center",
@@ -28,7 +28,7 @@ const useStyles = createUseStyles({
   },
   level0Message: {
     marginTop: "20px",
-    maxWidth: "600px",
+    maxWidth: "600px"
   },
   projectBox: {
     backgroundColor: "#E5EAF0",
@@ -40,18 +40,18 @@ const useStyles = createUseStyles({
       padding: "12px 0",
       display: "flex",
       "&:first-of-type": {
-        paddingTop: 30,
+        paddingTop: 30
       },
       "&:last-of-type": {
-        paddingBottom: 30,
-      },
+        paddingBottom: 30
+      }
     },
     "& > div": {
       paddingBottom: 20,
       fontFamily: "Arial",
       fontWeight: "bold",
-      fontSize: 22,
-    },
+      fontSize: 22
+    }
   },
   PLValue: {
     marginLeft: ".5em",
@@ -60,26 +60,26 @@ const useStyles = createUseStyles({
     width: "2em",
     textAlign: "right",
     position: "relative",
-    bottom: 6,
+    bottom: 6
   },
   PLLabel: {
     flex: 2,
     maxWidth: "55%",
-    textAlign: "right",
-  },
+    textAlign: "right"
+  }
 });
 
 function ProjectTargetPoints(props) {
   const classes = useStyles();
   const { rules, onInputChange } = props;
   console.log(rules);
-  const projectLevel = rules.find((e) => e.id === 16);
-  const targetValue = rules.find((e) => e.id === 237);
+  const projectLevel = rules.find(e => e.id === 16);
+  const targetValue = rules.find(e => e.id === 237);
 
   const level0Class =
     projectLevel && projectLevel.calcValue === 0 ? "level0" : "";
   // removing the parking input rule to display it above the box
-  const parkingInputIndex = rules.findIndex((e) => e.id === 7);
+  const parkingInputIndex = rules.findIndex(e => e.id === 7);
   const parkingRule = rules.splice(parkingInputIndex, 1);
   return (
     <div className={clsx(classes.page4, level0Class)}>
@@ -140,7 +140,7 @@ function ProjectTargetPoints(props) {
 ProjectTargetPoints.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default ProjectTargetPoints;
