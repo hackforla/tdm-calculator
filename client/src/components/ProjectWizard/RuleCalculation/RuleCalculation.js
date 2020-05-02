@@ -8,21 +8,18 @@ const useStyles = createUseStyles({
     margin: "1em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   numberFieldWrapper: {
     marginBottom: "2em",
     marginTop: "2em",
     alignItems: "center",
-    "&:hover": {
-      backgroundColor: "#f0e300"
-    }
   },
   numberField: {
     flexBasis: "20%",
     flexGrow: "1",
     flexShrink: "1",
-    marginBottom: ".5em"
+    marginBottom: ".5em",
   },
   numberFieldUnits: {
     flexBasis: "20%",
@@ -30,87 +27,86 @@ const useStyles = createUseStyles({
     flexGrow: "0",
     flexShrink: "1",
     fontSize: 22,
-    paddingTop: 22
+    paddingTop: 22,
   },
   input: {
     padding: "0.1em",
     textAlign: "right",
     marginTop: ".5em",
-    height: 45
+    height: 45,
   },
   unitsCaption: {
     flexGrow: "0",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   calcUnitsCaption: {
-    flexBasis: "30%",
-    marginLeft: "1em",
+    flexBasis: "33%",
     marginRight: "0.5em",
     textAlign: "left",
     flexGrow: "0",
-    flexShrink: "1"
+    flexShrink: "1",
+  },
+  calcNumber: {
+    fontSize: 40,
   },
   checkboxFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300"
-    }
+      backgroundColor: "#f0e300",
+    },
   },
   checkboxFieldLabel: {
     flexBasis: "70%",
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   checkbox: {
     flexBasis: "10%",
     flexGrow: "0",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   selectFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300"
-    }
+      backgroundColor: "#f0e300",
+    },
   },
   selectFieldLabel: {
     flexBasis: "45%",
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   select: {
     flexBasis: "45%",
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   textFieldWrapper: {
-    alignItems: "center"
+    alignItems: "center",
   },
   miscFieldWrapper: {
     alignItems: "baseline",
-    "&:hover": {
-      backgroundColor: "#f0e300"
-    }
   },
   miscFieldLabel: {
     flexGrow: "1",
     flexShrink: "1",
-    textAlign: "right"
+    textAlign: "right",
   },
   codeWrapper: {
-    flexBasis: "10%",
+    flexBasis: "8%",
     flexGrow: "0",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   textInput: {
     flexBasis: "50%",
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
   },
   textInputInvalid: {
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
-    border: "1px dashed red"
+    border: "1px dashed red",
   },
   textInputLabel: {
     flexBasis: "50%",
@@ -118,39 +114,39 @@ const useStyles = createUseStyles({
     flexShrink: "1",
     textAlign: "center",
     marginLeft: 100,
-    fontSize: 22
+    fontSize: 22,
   },
   textarea: {
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
-    minHeight: "5em"
+    minHeight: "5em",
   },
   textareaInvalid: {
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
     minHeight: "5em",
-    border: "1px dashed red"
+    border: "1px dashed red",
   },
   textareaLabel: {
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
-    minHeight: "5em"
+    minHeight: "5em",
   },
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: "red"
-    }
+      color: "red",
+    },
   },
   errorLabel: {
     color: "red",
     flexBasis: "50%",
     flexGrow: "1",
-    flexShrink: "1"
-  }
+    flexShrink: "1",
+  },
 });
 
 const RuleCalculation = ({
@@ -168,9 +164,9 @@ const RuleCalculation = ({
     required,
     minStringLength,
     maxStringLength,
-    validationErrors
+    validationErrors,
   },
-  onPropInputChange
+  onPropInputChange,
 }) => {
   const classes = useStyles();
 
@@ -182,7 +178,7 @@ const RuleCalculation = ({
   // user first touches the input field to display the text of the error message.
   const [showValidationErrors, setShowValidationErrors] = useState(false);
 
-  const onInputChange = e => {
+  const onInputChange = (e) => {
     setShowValidationErrors(true);
     onPropInputChange(e);
   };
@@ -257,7 +253,7 @@ const RuleCalculation = ({
             id={code}
             data-testid={code}
           >
-            {choices.map(choice => (
+            {choices.map((choice) => (
               <option key={choice.id} value={choice.id}>
                 {choice.name}
               </option>
@@ -321,9 +317,10 @@ const RuleCalculation = ({
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
           <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
+            <span className={classes.calcNumber}>
+              {calcValue ? Math.round(calcValue * 100) / 100 : ""}
+            </span>
+            <span className={classes.calcUnits}> {calcUnits || ""}</span>
           </div>
         </div>
       )}
@@ -354,9 +351,9 @@ RuleCalculation.propTypes = {
     required: PropTypes.bool,
     minStringLength: PropTypes.number,
     maxStringLength: PropTypes.number,
-    validationErrors: PropTypes.array
+    validationErrors: PropTypes.array,
   }),
-  onPropInputChange: PropTypes.func
+  onPropInputChange: PropTypes.func,
 };
 
 export default RuleCalculation;

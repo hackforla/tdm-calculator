@@ -9,11 +9,11 @@ import WarningIcon from "../../../images/warning-icon.png";
 const useStyles = createUseStyles({
   page4: {
     "&.level0 + div > div:first-child > .tdm-wizard-nav-button:last-child": {
-      visibility: "hidden"
+      visibility: "hidden",
     },
     "&.level0 + div > div > .tdm-wizard-nav-button.return-home-button": {
-      display: "block"
-    }
+      display: "block",
+    },
   },
   level0Container: {
     textAlign: "center",
@@ -27,58 +27,59 @@ const useStyles = createUseStyles({
     }
   },
   level0Message: {
-    marginTop: "30px",
-    maxWidth: "800px",
-    backgroundColor: "#FEF4F2",
-    color: "#B64E38",
-    fontSize: "22px",
-    lineHeight: "38px",
-    padding: "60px 48px 40px",
-    textAlign: "initial",
-
-    "& p": {
-      paddingLeft: "48px"
-    }
-  },
-  warningIcon: {
-    float: "left"
+    marginTop: "20px",
+    maxWidth: "600px",
   },
   projectBox: {
-    border: "2px solid #002E6D",
+    backgroundColor: "#E5EAF0",
     "& h4": {
       backgroundColor: "#002E6D",
       color: "white",
       fontFamily: "Oswald, Calibri",
       fontSize: 22,
-      textAlign: "center",
-      padding: "22px 0"
+      padding: "12px 0",
+      display: "flex",
+      "&:first-of-type": {
+        paddingTop: 30,
+      },
+      "&:last-of-type": {
+        paddingBottom: 30,
+      },
     },
     "& > div": {
-      marginTop: 30,
-      marginBottom: 30,
+      paddingBottom: 20,
+      fontFamily: "Arial",
       fontWeight: "bold",
-      fontSize: 22
-    }
+      fontSize: 22,
+    },
   },
   PLValue: {
-    marginLeft: "2em",
-    fontSize: 50,
-    fontWeight: "bold"
+    marginLeft: ".5em",
+    fontSize: 40,
+    fontWeight: "bold",
+    width: "2em",
+    textAlign: "right",
+    position: "relative",
+    bottom: 6,
   },
   PLLabel: {
-    position: "relative",
-    bottom: 6
-  }
+    flex: 2,
+    maxWidth: "55%",
+    textAlign: "right",
+  },
 });
 
 function ProjectTargetPoints(props) {
   const classes = useStyles();
   const { rules, onInputChange } = props;
-  const projectLevel = rules.find(e => e.id === 16);
+  console.log(rules);
+  const projectLevel = rules.find((e) => e.id === 16);
+  const targetValue = rules.find((e) => e.id === 237);
+
   const level0Class =
     projectLevel && projectLevel.calcValue === 0 ? "level0" : "";
   // removing the parking input rule to display it above the box
-  const parkingInputIndex = rules.findIndex(e => e.id === 7);
+  const parkingInputIndex = rules.findIndex((e) => e.id === 7);
   const parkingRule = rules.splice(parkingInputIndex, 1);
   return (
     <div className={clsx(classes.page4, level0Class)}>
@@ -119,6 +120,12 @@ function ProjectTargetPoints(props) {
                 {(projectLevel && projectLevel.calcValue) || ""}
               </span>
             </h4>
+            <h4>
+              <span className={classes.PLLabel}>Your target points </span>
+              <span className={classes.PLValue}>
+                {(targetValue && targetValue.calcValue) || ""}
+              </span>
+            </h4>
             <RuleCalculationPanels
               rules={rules}
               onInputChange={onInputChange}
@@ -133,7 +140,7 @@ function ProjectTargetPoints(props) {
 ProjectTargetPoints.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default ProjectTargetPoints;
