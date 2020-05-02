@@ -244,7 +244,7 @@ export function TdmCalculationContainer(props) {
       rule.used &&
       rule.display,
     landUseRules: rule =>
-      rule.category === "input" &&
+      rule.category === "calculation" &&
       rule.calculationPanelId === 5 &&
       rule.used &&
       rule.display,
