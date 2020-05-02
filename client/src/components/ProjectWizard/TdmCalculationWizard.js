@@ -290,9 +290,9 @@ const TdmCalculationWizard = props => {
                           "return-home-button",
                           "tdm-wizard-nav-button"
                         )}
-                        href="/"
+                        href="/calculation"
                       >
-                      Return to Home
+                      Begin New Project
                       </a>
                     </div>
                   </>
