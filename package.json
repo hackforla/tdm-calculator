@@ -12,14 +12,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "cd client && npm i && npm run build",
     "start": "nodemon --ignore './client/'",
-    "cypress": "cypress open",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "release-notes": "gren release"
   },
   "author": "Hack for LA",
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^6.5.4",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^3.0.8",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -32,7 +33,7 @@
     "tedious-connection-pool": "^1.0.5"
   },
   "devDependencies": {
-    "@testing-library/cypress": "^5.3.1",
+    "@testing-library/cypress": "^6.0.0",
     "eslint": "^6.8.0",
     "eslint-plugin-cypress": "^2.10.3",
     "eslint-plugin-jest": "^23.8.2",

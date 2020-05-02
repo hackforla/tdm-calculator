@@ -2,10 +2,9 @@ import "@testing-library/cypress/add-commands";
 
 /// <reference types="cypress"/>
 describe("Login unsuccessfully", () => {
-  beforeEach(() => {
-    cy.visit("http://localhost:3000/login");
-  });
   it("requires correct password", () => {
+    cy.visit("/login");
+
     cy.findByPlaceholderText("Email Address").type(
       "test_regular_user@dispostable.com"
     );

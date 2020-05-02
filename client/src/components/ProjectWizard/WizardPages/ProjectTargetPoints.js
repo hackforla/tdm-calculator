@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
 import clsx from "clsx";
+import PlanningIcon from "../../../images/planning.png";
+import WarningIcon from "../../../images/warning-icon.png";
 
 const useStyles = createUseStyles({
   page4: {
@@ -12,6 +14,17 @@ const useStyles = createUseStyles({
     "&.level0 + div > div > .tdm-wizard-nav-button.return-home-button": {
       display: "block",
     },
+  },
+  level0Container: {
+    textAlign: "center",
+
+    "& h1": {
+      fontFamily: "Oswald",
+      fontWeight: "bold",
+      fontSize: "30px",
+      lineHeight: "44px",
+      marginTop: "22px"
+    }
   },
   level0Message: {
     marginTop: "20px",
@@ -62,6 +75,7 @@ function ProjectTargetPoints(props) {
   console.log(rules);
   const projectLevel = rules.find((e) => e.id === 16);
   const targetValue = rules.find((e) => e.id === 237);
+
   const level0Class =
     projectLevel && projectLevel.calcValue === 0 ? "level0" : "";
   // removing the parking input rule to display it above the box
@@ -71,13 +85,20 @@ function ProjectTargetPoints(props) {
     <div className={clsx(classes.page4, level0Class)}>
       {projectLevel && projectLevel.calcValue === 0 && (
         <div className={classes.level0Container}>
+          <img src={PlanningIcon} />
           <h1>Your project level is 0!</h1>
-          <p className={classes.level0Message}>
-            Based on the information you provided, the Transportation Demand
-            Management (TDM) Ordinance may not apply to your project. Final
-            determination of the TDM Ordinance applicability will be made by the
-            Department of City Planning upon review of your project application.
-          </p>
+          <div className={classes.level0Message}>
+            <img src={WarningIcon} className={classes.warningIcon} />
+            <p>
+              Based on the information you provided, the Transportation Demand
+              Management (TDM) Ordinance may not apply to your project.
+            </p>
+            <p>
+              Final determination of the TDM Ordinance applicability will be
+              made by the Department of City Planning upon review of your
+              project application.
+            </p>
+          </div>
         </div>
       )}
       {projectLevel && projectLevel.calcValue > 0 && (
