@@ -43,6 +43,7 @@ export function TdmCalculationContainer(props) {
       const ruleResponse = await ruleService.getByCalculationId(
         TdmCalculationContainer.calculationId
       );
+      console.log(ruleResponse.data);
       setEngine(new Engine(ruleResponse.data));
     };
     getRules();
@@ -250,7 +251,6 @@ export function TdmCalculationContainer(props) {
       rule.display,
     specificationRules: rule =>
       rule.category === "input" &&
-      rule.calculationPanelId !== 5 &&
       rule.calculationPanelId !== 31 &&
       rule.used &&
       rule.display,
