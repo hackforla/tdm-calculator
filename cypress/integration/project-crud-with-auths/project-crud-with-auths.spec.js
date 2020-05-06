@@ -33,7 +33,6 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
     cy.findByTestId(">").click();
     cy.findByTestId(">").click();
     cy.findByTestId(">").click();
-    cy.findByTestId(">").click();
     cy.findByLabelText("Bike Share Station").click();
     cy.findByTestId(">").click();
     cy.findByText("Save Project Changes").click();
@@ -50,14 +49,12 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
     cy.findByLabelText("Project Name").type("Cypress Barrington Condos");
     cy.findByLabelText("Address").type("825 S. Barrington Ave");
     cy.findByTestId(">").click();
-    cy.findByLabelText("Residential").click();
-    cy.findByTestId(">").click();
     cy.findByLabelText("Condo - Units").type("46");
     cy.findByLabelText("Condo - Enter Parking Space Req'd").type("92");
     cy.findByTestId(">").click();
     cy.findByLabelText("Parking Provided").type("88");
-    cy.findByText("92 spcs").should("exist");
-    cy.findByText("95.65 %").should("exist");
+    cy.findByText("92").should("exist");
+    cy.findByText("95.65").should("exist");
     cy.findByTestId(">").click();
     cy.findByLabelText("Bike Parking").click();
     cy.findByLabelText("Pricing/Unbundling").click();
