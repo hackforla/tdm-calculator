@@ -28,7 +28,7 @@ const useStyles = createUseStyles({
   },
   level0Message: {
     marginTop: "20px",
-    maxWidth: "600px",
+    maxWidth: "800px",
     backgroundColor: "#FEF4F2",
     color: "#B64E38",
     fontSize: "22px",
@@ -104,7 +104,8 @@ function ProjectTargetPoints(props) {
             <img src={WarningIcon} className={classes.warningIcon} />
             <p>
               Based on the information you provided, the Transportation Demand
-              Management (TDM) Ordinance may not apply to your project.
+              Management (TDM) Ordinance <strong>may</strong> not apply to your
+              project.
             </p>
             <p>
               Final determination of the TDM Ordinance applicability will be
