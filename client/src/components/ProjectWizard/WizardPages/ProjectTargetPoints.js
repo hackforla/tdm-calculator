@@ -35,9 +35,10 @@ const useStyles = createUseStyles({
     lineHeight: "38px",
     padding: "60px 48px 40px",
     textAlign: "initial",
+    boxSizing: "border-box",
 
     "& p": {
-      paddingLeft: "48px"
+      marginLeft: "44px"
     }
   },
   warningIcon: {
