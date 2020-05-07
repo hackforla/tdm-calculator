@@ -28,7 +28,20 @@ const useStyles = createUseStyles({
   },
   level0Message: {
     marginTop: "20px",
-    maxWidth: "600px"
+    maxWidth: "600px",
+    backgroundColor: "#FEF4F2",
+    color: "#B64E38",
+    fontSize: "22px",
+    lineHeight: "38px",
+    padding: "60px 48px 40px",
+    textAlign: "initial",
+
+    "& p": {
+      paddingLeft: "48px"
+    }
+  },
+  warningIcon: {
+    float: "left"
   },
   projectBox: {
     backgroundColor: "#E5EAF0",
