@@ -86,7 +86,6 @@ const useStyles = createUseStyles({
 function ProjectTargetPoints(props) {
   const classes = useStyles();
   const { rules, onInputChange } = props;
-  console.log(rules);
   const projectLevel = rules.find(e => e.id === 16);
   const targetValue = rules.find(e => e.id === 237);
 

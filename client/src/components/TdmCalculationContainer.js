@@ -81,8 +81,14 @@ export function TdmCalculationContainer(props) {
   const recalculate = formInputs => {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
+    // The following several lines can be uncommented for debugging
+    // console.log("Updated Rules:");
+    // console.log(rules);
+    // const showWork = engine.showWork("PARK_REQUIREMENT");
+    // console.log("Show Work:");
+    // console.log(showWork);
+
     // update state with modified formInputs and rules
-    // const showWork = this.engine.showWork("PARK_REQUIREMENT");
     setFormInputs(formInputs);
     setRules(rules);
   };
@@ -242,12 +248,10 @@ export function TdmCalculationContainer(props) {
     projectDescriptionRules: rule =>
       rule.category === "input" &&
       rule.calculationPanelId === 31 &&
-      rule.used &&
       rule.display,
     landUseRules: rule =>
       rule.category === "calculation" &&
       rule.calculationPanelId === 5 &&
-      rule.used &&
       rule.display,
     specificationRules: rule =>
       rule.category === "input" &&
@@ -256,12 +260,10 @@ export function TdmCalculationContainer(props) {
       rule.display,
     targetPointRules: rule =>
       rule.category === "measure" &&
-      rule.used &&
       rule.display &&
       rule.calculationPanelId === 10,
     strategyRules: rule =>
       rule.category === "measure" &&
-      rule.used &&
       rule.display &&
       rule.calculationPanelId !== 10
   };

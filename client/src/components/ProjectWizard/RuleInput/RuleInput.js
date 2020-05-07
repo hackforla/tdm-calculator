@@ -199,6 +199,7 @@ const RuleInput = ({
               data-testid={code}
               min={minValue}
               max={maxValue}
+              autoComplete="off"
             />
           </div>
           <div className={classes.numberFieldUnits}>{units}</div>
@@ -286,6 +287,7 @@ const RuleInput = ({
               id={code}
               data-testid={code}
               maxLength={maxStringLength}
+              autoComplete="off"
             />
           ) : (
             <textarea
@@ -300,6 +302,7 @@ const RuleInput = ({
               required={required}
               minLength={minStringLength}
               maxLength={maxStringLength}
+              autoComplete="off"
             />
           )}
         </div>
