@@ -105,10 +105,10 @@ const RuleStrategy = ({
           {calcMinValue === calcMaxValue
             ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
             : calcMinValue < calcMaxValue
-            ? `${Math.round(calcMinValue).toString()}-${Math.round(
+              ? `${Math.round(calcMinValue).toString()}-${Math.round(
                 calcMaxValue
               ).toString()} ${calculationUnits}`
-            : null}
+              : null}
         </div>
         <div className={classes.points}>
           {`${
@@ -145,6 +145,7 @@ const RuleStrategy = ({
               id={code}
               min={minValue}
               max={maxValue}
+              autoComplete="off"
             />
           </div>
           {possibleAndEarnedPointsContainers()}
@@ -227,6 +228,7 @@ const RuleStrategy = ({
             onChange={onInputChange}
             name={code}
             id={code}
+            autoComplete="off"
           />
         </div>
       ) : (
@@ -257,6 +259,7 @@ const RuleStrategy = ({
               name={code}
               id={comment}
               className={classes.commentTextarea}
+              autoComplete="off"
             />
           </div>
         </div>
