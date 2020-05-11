@@ -13,7 +13,6 @@
     "sourceType": "module"
   },
   "rules": {
-    "prettier/prettier": "error",
-    "indent": "off"
+    "prettier/prettier": "error"
   }
 }
