@@ -11,10 +11,6 @@ describe("Barrington Condos", () => {
       cy.findByLabelText("Address").type("825 S. Barrington Ave");
       cy.findByTestId(">").click();
     });
-    it("selects development type", () => {
-      cy.findByLabelText("Residential").click();
-      cy.findByTestId(">").click();
-    });
     it("enters information for selected development type(s)", () => {
       cy.findByLabelText("Condo - Units").type("46");
       cy.findByLabelText("Condo - Enter Parking Space Req'd").type("92");
@@ -22,8 +18,8 @@ describe("Barrington Condos", () => {
     });
     it("enters in number of parking spaces", () => {
       cy.findByLabelText("Parking Provided").type("88");
-      cy.findByText("92 spcs").should("exist");
-      cy.findByText("95.65 %").should("exist");
+      cy.findByText("92").should("exist");
+      cy.findByText("95.65").should("exist");
       cy.findByTestId(">").click();
     });
   });

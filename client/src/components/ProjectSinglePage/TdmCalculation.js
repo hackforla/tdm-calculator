@@ -117,7 +117,7 @@ const TdmCalculation = props => {
         <div className={classes.switchButtonWrapper}>
           <div className={classes.switchButton}>
             <SwitchViewButton onClick={props.onViewChange}>
-              Switch to View
+              Switch to Wizard View
             </SwitchViewButton>
           </div>
           {rules && rules.length > 0 ? (

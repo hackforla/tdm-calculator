@@ -47,15 +47,17 @@ Cypress.Commands.add("resetProjects", loginResponse => {
     }
   }).then(projectResponse => {
     const projects = projectResponse.body;
-    projects.map(project => {
-      cy.request({
-        method: "DELETE",
-        url: `http://localhost:5000/api/projects/${project.id}`,
-        auth: {
-          bearer: cookie
-        }
+    if (projects.length > 0) {
+      projects.map(project => {
+        cy.request({
+          method: "DELETE",
+          url: `http://localhost:5000/api/projects/${project.id}`,
+          auth: {
+            bearer: cookie
+          }
+        });
       });
-    });
+    }
   });
 });
 

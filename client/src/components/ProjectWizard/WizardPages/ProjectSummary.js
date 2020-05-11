@@ -187,7 +187,7 @@ const ProjectSummary = props => {
                   className={clsx(classes.alignCenter, classes.label)}
                   data-testid="summary-project-level-label"
                 >
-                  Project Level
+                  {level.name}
                 </div>
               </div>
             ) : null}
@@ -204,7 +204,7 @@ const ProjectSummary = props => {
                   className={clsx(classes.alignCenter, classes.label)}
                   data-testid="summary-parking-ratio-label"
                 >
-                  Provided / Required Parking
+                  {parkingRatio.name}
                 </div>
               </div>
             ) : null}
@@ -222,7 +222,7 @@ const ProjectSummary = props => {
                   className={clsx(classes.alignCenter, classes.label)}
                   data-testid={"summary-target-points-label"}
                 >
-                  Target Points
+                  {targetPoints.name}
                 </div>
               </div>
             ) : null}
@@ -239,7 +239,7 @@ const ProjectSummary = props => {
                   className={clsx(classes.alignCenter, classes.label)}
                   data-testid={"summary-earned-points-label"}
                 >
-                  Earned Points
+                  {earnedPoints.name}
                 </div>
               </div>
             ) : null}

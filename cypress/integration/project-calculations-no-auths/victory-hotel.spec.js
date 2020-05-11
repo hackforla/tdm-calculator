@@ -14,18 +14,14 @@ describe("Victory Hotel", () => {
       );
       cy.findByTestId(">").click();
     });
-    it("selects development type", () => {
-      cy.findByLabelText("Hotel").click();
-      cy.findByTestId(">").click();
-    });
     it("enters information for selected development type(s)", () => {
       cy.findByLabelText("# Guest Rooms").type("80");
       cy.findByTestId(">").click();
     });
     it("enters in number of parking spaces", () => {
       cy.findByLabelText("Parking Provided").type("76");
-      cy.findByText("51 spcs").should("exist");
-      cy.findByText("149.02 %").should("exist");
+      cy.findByText("51").should("exist");
+      cy.findByText("149.02").should("exist");
       cy.findByTestId(">").click();
     });
   });

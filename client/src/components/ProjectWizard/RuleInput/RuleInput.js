@@ -18,11 +18,6 @@ const useStyles = createUseStyles({
       backgroundColor: "#f0e300"
     }
   },
-  numberField: {
-    flexBasis: "20%",
-    flexGrow: "1",
-    flexShrink: "1"
-  },
   numberFieldUnits: {
     flexBasis: "20%",
     marginLeft: "1em",
@@ -31,7 +26,7 @@ const useStyles = createUseStyles({
   },
   input: {
     padding: "0.1em",
-    width: "auto",
+    width: "5.5em",
     textAlign: "right"
   },
   unitsCaption: {
@@ -193,7 +188,7 @@ const RuleInput = ({
           <label htmlFor={code} className={classes.textInputLabel}>
             {name}
           </label>
-          <div className={classes.numberField}>
+          <div>
             <input
               className={classes.input}
               type="text"
