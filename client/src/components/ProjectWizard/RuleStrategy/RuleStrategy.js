@@ -105,15 +105,15 @@ const RuleStrategy = ({
           {calcMinValue === calcMaxValue
             ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
             : calcMinValue < calcMaxValue
-              ? `${Math.round(calcMinValue).toString()}-${Math.round(
+            ? `${Math.round(calcMinValue).toString()}-${Math.round(
                 calcMaxValue
               ).toString()} ${calculationUnits}`
-              : null}
+            : null}
         </div>
         <div className={classes.points}>
-          {`${
-            calcValue ? Math.round(calcValue * 100) / 100 : ""
-          } ${calculationUnits || ""}`}
+          {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+            calculationUnits || ""
+          }`}
         </div>
       </React.Fragment>
     );

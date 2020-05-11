@@ -7,15 +7,15 @@ import SwitchViewButton from "../SwitchViewButton";
 
 const useStyles = createUseStyles({
   root: {
-    flex: "1 0 auto",
+    flex: "1 0 auto"
   },
   container: {
-    margin: "1em",
+    margin: "1em"
   },
   switchButtonWrapper: {
     margin: "0.5em",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   switchButton: {
     display: "flex",
@@ -23,27 +23,27 @@ const useStyles = createUseStyles({
     justifyContent: "center",
     flexGrow: "0",
     flexShrink: "0",
-    flexBasis: "20%",
+    flexBasis: "20%"
   },
   rulePanelWrapper: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
   rulePanel: {
     width: "50%",
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "column"
   },
   transportDemandStrategies: {
-    width: "50%",
+    width: "50%"
   },
   buttonWrapper: {
-    textAlign: "center",
-  },
+    textAlign: "center"
+  }
 });
 
-const TdmCalculation = (props) => {
+const TdmCalculation = props => {
   const classes = useStyles();
   const {
     rules,
@@ -51,38 +51,38 @@ const TdmCalculation = (props) => {
     onUncheckAll,
     filters,
     onPkgSelect,
-    resultRuleCodes,
+    resultRuleCodes
   } = props;
   const specificationRules =
     rules &&
     rules.filter(
-      (rule) => rule.category === "input" && rule.used && rule.display
+      rule => rule.category === "input" && rule.used && rule.display
     );
   const measureRules =
     rules &&
     rules.filter(
-      (rule) => rule.category === "measure" && rule.used && rule.display
+      rule => rule.category === "measure" && rule.used && rule.display
     );
   const resultRules =
     rules &&
-    rules.filter((rule) => resultRuleCodes.includes(rule.code) && rule.display);
+    rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
 
   const showResidentialPkg = (() => {
     // Only show button if Pricing/Unbundling strategy is available
-    const triggerRule = rules.filter((r) => r.code === "STRATEGY_PARKING_1");
+    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_1");
     return triggerRule[0] && triggerRule[0].display;
   })();
 
   const showEmploymentPkg = (() => {
     // Only show button if Parking Cash-Out strategy is available
-    const triggerRule = rules.filter((r) => r.code === "STRATEGY_PARKING_2");
+    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_2");
     return triggerRule[0] && triggerRule[0].display;
   })();
 
   const disabledResidentialPkg = (() => {
     // Only enable button if
     // component strategies are not already selected
-    const pkgRules = rules.filter((rule) =>
+    const pkgRules = rules.filter(rule =>
       ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_1"].includes(
         rule.code
       )
@@ -98,7 +98,7 @@ const TdmCalculation = (props) => {
   const disabledEmploymentPkg = (() => {
     // Only enable button if
     // component strategies are not already selected
-    const pkgRules = rules.filter((rule) =>
+    const pkgRules = rules.filter(rule =>
       ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
         rule.code
       )
@@ -185,9 +185,9 @@ TdmCalculation.propTypes = {
   onPkgSelect: PropTypes.func,
   onUncheckAll: PropTypes.func,
   filters: PropTypes.shape({
-    strategyRules: PropTypes.func.isRequired,
+    strategyRules: PropTypes.func.isRequired
   }),
-  resultRuleCodes: PropTypes.array.isRequired,
+  resultRuleCodes: PropTypes.array.isRequired
 };
 
 export default TdmCalculation;

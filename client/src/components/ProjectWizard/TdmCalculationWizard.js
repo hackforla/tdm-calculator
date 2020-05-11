@@ -263,42 +263,42 @@ const TdmCalculationWizard = props => {
             account.id &&
             (account.id === loginId || account.isAdmin)) ||
           (account && account.isAdmin) ? (
-              <div className={classes.navButtonsWrapper}>
-                {rules && rules.length ? ( //navigation disabled until rules have loaded
-                  <>
-                    <div>
-                      <NavButton
-                        disabled={Number(page) === 1}
-                        onClick={() => {
-                          onPageChange(Number(page) - 1);
-                        }}
-                      >
+            <div className={classes.navButtonsWrapper}>
+              {rules && rules.length ? ( //navigation disabled until rules have loaded
+                <>
+                  <div>
+                    <NavButton
+                      disabled={Number(page) === 1}
+                      onClick={() => {
+                        onPageChange(Number(page) - 1);
+                      }}
+                    >
                       &lt;
-                      </NavButton>
-                      <NavButton
-                        disabled={page === 5 || disablePageNavigation}
-                        onClick={() => {
-                          onPageChange(Number(page) + 1);
-                        }}
-                      >
+                    </NavButton>
+                    <NavButton
+                      disabled={page === 5 || disablePageNavigation}
+                      onClick={() => {
+                        onPageChange(Number(page) + 1);
+                      }}
+                    >
                       &gt;
-                      </NavButton>
-                    </div>
-                    <div>
-                      <a
-                        className={clsx(
-                          "return-home-button",
-                          "tdm-wizard-nav-button"
-                        )}
-                        href="/calculation"
-                      >
+                    </NavButton>
+                  </div>
+                  <div>
+                    <a
+                      className={clsx(
+                        "return-home-button",
+                        "tdm-wizard-nav-button"
+                      )}
+                      href="/calculation"
+                    >
                       Begin New Project
-                      </a>
-                    </div>
-                  </>
-                ) : null}
-              </div>
-            ) : null}
+                    </a>
+                  </div>
+                </>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </div>
     </React.Fragment>

@@ -3,11 +3,8 @@
     "es6": true,
     "node": true
   },
-  "extends": ["eslint:recommended"],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
+  "extends": ["eslint:recommended", "prettier", "plugin:prettier/recommended"],
+  "plugins": ["react", "prettier", "eslint-plugin-react"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -16,9 +13,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "indent": ["error", 2],
-    "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "double"],
-    "semi": ["error", "always"]
+    "prettier/prettier": "error",
+    "indent": "off"
   }
 }
