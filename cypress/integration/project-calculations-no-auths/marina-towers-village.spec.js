@@ -14,11 +14,6 @@ describe("Marina Towers Village", () => {
       );
       cy.findByTestId(">").click();
     });
-    it("selects development type", () => {
-      cy.findByLabelText("Residential").click();
-      cy.findByLabelText("Commercial").click();
-      cy.findByTestId(">").click();
-    });
     it("enters information for selected development type(s)", () => {
       cy.findByLabelText("# Habitable Rooms < 3").type("140");
       cy.findByLabelText("Sq Ft - Restaurant/Bar/General").type("30000");
@@ -29,8 +24,8 @@ describe("Marina Towers Village", () => {
     });
     it("enters in number of parking spaces", () => {
       cy.findByLabelText("Parking Provided").type("1000");
-      cy.findByText("640 spcs").should("exist");
-      cy.findByText("156.25 %").should("exist");
+      cy.findByText("640").should("exist");
+      cy.findByText("156.25").should("exist");
       cy.findByTestId(">").click();
     });
   });
