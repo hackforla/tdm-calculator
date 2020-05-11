@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
+import InfoBox from "../InfoBox";
+import ToolTipIcon from "../SidebarPoints/ToolTipIcon";
 
 function ProjectMeasure(props) {
   const {
@@ -10,27 +12,27 @@ function ProjectMeasure(props) {
     onCommentChange,
     classes,
     onPkgSelect,
-    uncheckAll
+    uncheckAll,
   } = props;
 
   const showResidentialPkg = (() => {
     // Only show button if one of the land uses is Residential
     const triggerRule = landUseRules.filter(
-      r => r.code === "LAND_USE_RESIDENTIAL"
+      (r) => r.code === "LAND_USE_RESIDENTIAL"
     );
     return triggerRule[0] && !!triggerRule[0].value;
   })();
 
   const showEmploymentPkg = (() => {
     // Only show button if Parking Cash-Out strategy is available
-    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_2");
+    const triggerRule = rules.filter((r) => r.code === "STRATEGY_PARKING_2");
     return triggerRule[0] && triggerRule[0].display;
   })();
 
   const disabledResidentialPkg = (() => {
     // Only enable button if
     // component strategies are not already selected
-    const pkgRules = rules.filter(rule =>
+    const pkgRules = rules.filter((rule) =>
       ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_1"].includes(
         rule.code
       )
@@ -46,7 +48,7 @@ function ProjectMeasure(props) {
   const disabledEmploymentPkg = (() => {
     // Only enable button if
     // component strategies are not already selected
-    const pkgRules = rules.filter(rule =>
+    const pkgRules = rules.filter((rule) =>
       ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
         rule.code
       )
@@ -67,6 +69,10 @@ function ProjectMeasure(props) {
       <h3 className="tdm-wizard-page-subtitle">
         Select strategies to earn TDM points
       </h3>
+      <InfoBox>
+        <ToolTipIcon /> For detailed information, hover the mouse cursor over
+        the terminology
+      </InfoBox>
       <div className={classes.unSelectContainer}>
         {showResidentialPkg ? (
           <button
@@ -103,7 +109,7 @@ ProjectMeasure.propTypes = {
     PropTypes.shape({
       calculationPanelId: PropTypes.number.isRequired,
       panelName: PropTypes.string.isRequired,
-      calcUnits: PropTypes.string
+      calcUnits: PropTypes.string,
     })
   ).isRequired,
   landUseRules: PropTypes.array.isRequired,
@@ -111,7 +117,7 @@ ProjectMeasure.propTypes = {
   onCommentChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
-  uncheckAll: PropTypes.func.isRequired
+  uncheckAll: PropTypes.func.isRequired,
 };
 
 export default ProjectMeasure;
