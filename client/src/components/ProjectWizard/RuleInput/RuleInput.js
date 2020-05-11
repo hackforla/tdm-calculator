@@ -9,31 +9,31 @@ const useStyles = createUseStyles({
     margin: "0.2em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
   numberFieldWrapper: {
     marginBottom: "0.4em",
     alignItems: "center",
     "&:hover": {
-      backgroundColor: "#f0e300",
-    },
+      backgroundColor: "#f0e300"
+    }
   },
   numberFieldUnits: {
     flexBasis: "20%",
     marginLeft: "1em",
     flexGrow: "0",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   input: {
     padding: "0.1em",
     width: "5.5em",
-    textAlign: "right",
+    textAlign: "right"
   },
   unitsCaption: {
     flexBasis: "10%",
     marginLeft: "1em",
     flexGrow: "0",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   calcUnitsCaption: {
     flexBasis: "10%",
@@ -41,106 +41,106 @@ const useStyles = createUseStyles({
     marginRight: "0.5em",
     textAlign: "right",
     flexGrow: "0",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   checkboxFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300",
-    },
+      backgroundColor: "#f0e300"
+    }
   },
   checkboxFieldLabel: {
     flexBasis: "70%",
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   checkbox: {
     flexBasis: "10%",
     flexGrow: "0",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   selectFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300",
-    },
+      backgroundColor: "#f0e300"
+    }
   },
   selectFieldLabel: {
     flexBasis: "45%",
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   select: {
     flexBasis: "45%",
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   textFieldWrapper: {
-    alignItems: "center",
+    alignItems: "center"
   },
   miscFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300",
-    },
+      backgroundColor: "#f0e300"
+    }
   },
   miscFieldLabel: {
     flexBasis: "70%",
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   codeWrapper: {
     flexBasis: "10%",
     flexGrow: "0",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   textInput: {
     flexBasis: "50%",
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   textInputInvalid: {
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
-    border: "1px dashed red",
+    border: "1px dashed red"
   },
   textInputLabel: {
     flexBasis: "50%",
     flexGrow: "1",
-    flexShrink: "1",
+    flexShrink: "1"
   },
   textarea: {
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
-    minHeight: "5em",
+    minHeight: "5em"
   },
   textareaInvalid: {
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
     minHeight: "5em",
-    border: "1px dashed red",
+    border: "1px dashed red"
   },
   textareaLabel: {
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
-    minHeight: "5em",
+    minHeight: "5em"
   },
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: "red",
-    },
+      color: "red"
+    }
   },
   errorLabel: {
     color: "red",
     flexBasis: "50%",
     flexGrow: "1",
-    flexShrink: "1",
-  },
+    flexShrink: "1"
+  }
 });
 
 const RuleInput = ({
@@ -158,9 +158,9 @@ const RuleInput = ({
     required,
     minStringLength,
     maxStringLength,
-    validationErrors,
+    validationErrors
   },
-  onPropInputChange,
+  onPropInputChange
 }) => {
   const classes = useStyles();
 
@@ -172,7 +172,7 @@ const RuleInput = ({
   // user first touches the input field to display the text of the error message.
   const [showValidationErrors, setShowValidationErrors] = useState(false);
 
-  const onInputChange = (e) => {
+  const onInputChange = e => {
     setShowValidationErrors(true);
     onPropInputChange(e);
   };
@@ -248,7 +248,7 @@ const RuleInput = ({
             id={code}
             data-testid={code}
           >
-            {choices.map((choice) => (
+            {choices.map(choice => (
               <option key={choice.id} value={choice.id}>
                 {choice.name}
               </option>
@@ -347,9 +347,9 @@ RuleInput.propTypes = {
     required: PropTypes.bool,
     minStringLength: PropTypes.number,
     maxStringLength: PropTypes.number,
-    validationErrors: PropTypes.array,
+    validationErrors: PropTypes.array
   }),
-  onPropInputChange: PropTypes.func,
+  onPropInputChange: PropTypes.func
 };
 
 export default RuleInput;

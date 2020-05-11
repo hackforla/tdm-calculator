@@ -15,12 +15,8 @@ context("Viewport", () => {
 
     // the navbar should have collapse since our screen is smaller
     cy.get("#navbar").should("not.be.visible");
-    cy.get(".navbar-toggle")
-      .should("be.visible")
-      .click();
-    cy.get(".nav")
-      .find("a")
-      .should("be.visible");
+    cy.get(".navbar-toggle").should("be.visible").click();
+    cy.get(".nav").find("a").should("be.visible");
 
     // lets see what our app looks like on a super large screen
     cy.viewport(2999, 2999);

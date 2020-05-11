@@ -137,7 +137,7 @@ const useStyles = createUseStyles({
   },
   requiredInputLabel: {
     "&:after": {
-      content: "\" *\"",
+      content: '" *"',
       color: "red"
     }
   },
@@ -233,9 +233,9 @@ const RuleCalculation = ({
             <>
               <div className={classes.unitsCaption}>{units}</div>
               <div className={classes.calcUnitsCaption}>
-                {`${
-                  calcValue ? Math.round(calcValue * 100) / 100 : ""
-                } ${calcUnits || ""}`}
+                {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+                  calcUnits || ""
+                }`}
               </div>
             </>
           ) : null}
@@ -260,9 +260,9 @@ const RuleCalculation = ({
             ))}
           </select>
           <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
+            {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+              calcUnits || ""
+            }`}
           </div>
         </div>
       ) : dataType === "string" || dataType === "textarea" ? (

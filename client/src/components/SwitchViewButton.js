@@ -12,11 +12,11 @@ const useStyles = createUseStyles({
     fontSize: "1em",
     boxShadow: "0px 6px 4px rgba(0,46,109,0.3)",
     border: "none",
-    cursor: "pointer",
-  },
+    cursor: "pointer"
+  }
 });
 
-const SwitchViewButton = (props) => {
+const SwitchViewButton = props => {
   const classes = useStyles();
   return (
     <button className={classes.root} onClick={props.onClick}>
@@ -26,7 +26,7 @@ const SwitchViewButton = (props) => {
 };
 SwitchViewButton.propTypes = {
   children: PropTypes.string,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func
 };
 
 export default SwitchViewButton;

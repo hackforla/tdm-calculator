@@ -14,47 +14,47 @@ import {
   // ProjectUse,
   ProjectSpecifications,
   ProjectTargetPoints,
-  ProjectMeasures,
+  ProjectMeasures
 } from "./WizardPages";
 
 const useStyles = createUseStyles({
   root: {
     flex: "1 1 auto",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   "@media (max-width:768px)": {
     root: {
-      flexDirection: "column",
-    },
+      flexDirection: "column"
+    }
   },
   sidebarOverlay: {
     position: "absolute",
     background: "rgba(0, 46, 109, 0.65)",
     height: "100%",
     width: "100%",
-    zIndex: 0,
+    zIndex: 0
   },
   sidebarContent: {
     zIndex: 1,
     display: "flex",
     flexDirection: "column",
-    height: "100%",
+    height: "100%"
   },
   contentContainer: {
     justifyContent: "space-around",
     boxSizing: "border-box",
-    overflow: "auto",
+    overflow: "auto"
   },
   buttonWrapper: {
-    textAlign: "center",
+    textAlign: "center"
   },
   navButtonsWrapper: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     marginBottom: "2em",
-    marginTop: "2em",
+    marginTop: "2em"
   },
   unSelectContainer: {
     display: "flex",
@@ -62,7 +62,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
-    height: "32px",
+    height: "32px"
   },
   unSelectButton: {
     position: "absolute",
@@ -70,11 +70,11 @@ const useStyles = createUseStyles({
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
-    textDecoration: "underline",
-  },
+    textDecoration: "underline"
+  }
 });
 
-const TdmCalculationWizard = (props) => {
+const TdmCalculationWizard = props => {
   const context = useContext(ToastContext);
   const classes = useStyles();
   const {
@@ -91,7 +91,7 @@ const TdmCalculationWizard = (props) => {
     onViewChange,
     //pageNo,
     history,
-    match,
+    match
   } = props;
   const page = Number(match.params.page);
   const projectId = Number(match.params.projectId);
@@ -123,13 +123,13 @@ const TdmCalculationWizard = (props) => {
   const strategyRules = rules && rules.filter(filters.strategyRules);
   const resultRules =
     rules &&
-    rules.filter((rule) => resultRuleCodes.includes(rule.code) && rule.display);
+    rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
 
   // Disable the page navigation buttons if page-specific rules are not satisfied
   let disablePageNavigation = false;
   if (
     page === 1 &&
-    projectDescriptionRules.find((rule) => !!rule.validationErrors)
+    projectDescriptionRules.find(rule => !!rule.validationErrors)
   ) {
     disablePageNavigation = true;
   }
@@ -197,12 +197,10 @@ const TdmCalculationWizard = (props) => {
     const validations = {
       1: {
         function: () => {
-          return !projectDescriptionRules.find(
-            (rule) => !!rule.validationErrors
-          );
+          return !projectDescriptionRules.find(rule => !!rule.validationErrors);
         },
-        toast: "Please fill out all required fields",
-      },
+        toast: "Please fill out all required fields"
+      }
       // 2: {
       //   function: () => {
       //     let selected = false;
@@ -226,7 +224,7 @@ const TdmCalculationWizard = (props) => {
     }
   };
 
-  const onPageChange = (pageNo) => {
+  const onPageChange = pageNo => {
     const { page, projectId } = props.match.params;
     const projectIdParam = projectId ? `/${projectId}` : "";
     if (Number(pageNo) > Number(props.match.params.page)) {
@@ -323,17 +321,17 @@ TdmCalculationWizard.propTypes = {
       required: PropTypes.bool,
       minStringLength: PropTypes.number,
       maxStringLength: PropTypes.number,
-      validationErrors: PropTypes.array,
+      validationErrors: PropTypes.array
     })
   ).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       page: PropTypes.string,
-      projectId: PropTypes.string,
-    }),
+      projectId: PropTypes.string
+    })
   }),
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired
   }),
   onInputChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func,
@@ -344,7 +342,7 @@ TdmCalculationWizard.propTypes = {
   account: PropTypes.object.isRequired,
   loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
-  onViewChange: PropTypes.func.isRequired,
+  onViewChange: PropTypes.func.isRequired
 };
 
 export default withRouter(TdmCalculationWizard);

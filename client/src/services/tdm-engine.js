@@ -204,7 +204,7 @@ class Engine {
   // dynamically creating functions, but that's what we need.
   buildFunction(body) {
     // eslint-disable-next-line no-new-func
-    return Function("\"use strict\";" + body);
+    return Function('"use strict";' + body);
   }
 
   executeCalc(ruleCode) {
