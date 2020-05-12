@@ -88,7 +88,7 @@ function ProjectMeasure(props) {
             marginTop: 0,
             marginBottom: 0,
             marginRight: "auto",
-            marginLeft: ".5em",
+            marginLeft: "1em",
             backgroundColor: "transparent",
             borderStyle: "none",
             cursor: "pointer",

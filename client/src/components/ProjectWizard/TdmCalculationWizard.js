@@ -66,7 +66,7 @@ const useStyles = createUseStyles({
   },
   unSelectButton: {
     marginLeft: "auto",
-    marginRight: ".5em",
+    marginRight: "1em",
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
