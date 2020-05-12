@@ -82,9 +82,13 @@ function ProjectMeasure(props) {
         <button
           onClick={() => setDisplayInfoBox(true)}
           style={{
+            visibility: displayInfoBox ? "hidden" : "visible",
             height: 30,
             padding: 0,
-            margin: 0,
+            marginTop: 0,
+            marginBottom: 0,
+            marginRight: "auto",
+            marginLeft: ".5em",
             backgroundColor: "transparent",
             borderStyle: "none",
             cursor: "pointer",
