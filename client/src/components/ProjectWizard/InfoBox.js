@@ -46,21 +46,17 @@ const useStyles = createUseStyles({
   },
 });
 
-const InfoBox = ({ children }) => {
+const InfoBox = ({ children, displayStatus, handleClick }) => {
   const classes = useStyles();
-  const [openStatus, setOpenStatus] = useState(true);
-  const closeBox = () => {
-    console.log("closing box");
-    setOpenStatus(false);
-  };
+
   return (
     <div
       className={clsx(
         classes.container,
-        openStatus ? classes.open : classes.closed
+        displayStatus ? classes.open : classes.closed
       )}
     >
-      <button onClick={closeBox} className={classes.closeButton}>
+      <button onClick={handleClick} className={classes.closeButton}>
         <span className={classes.bigX}>{"\u00d7"}</span>
       </button>
       <div className={classes.content}>{children}</div>
@@ -68,6 +64,10 @@ const InfoBox = ({ children }) => {
   );
 };
 
-InfoBox.propTypes = {};
+InfoBox.propTypes = {
+  children: PropTypes.any,
+  displayStatus: PropTypes.bool,
+  handleClick: PropTypes.func,
+};
 
 export default InfoBox;

@@ -6,42 +6,36 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
-  textStyle: {
+  textStyle: (styles) => ({
     color: "white",
     fontFamily: "Calibri",
-  },
-  circleStyle: {
+    ...styles.textStyle,
+  }),
+  circleStyle: (styles) => ({
     color: "#A7C539",
-  },
-  containerStyle: {
+    ...styles.circleStyle,
+  }),
+  containerStyle: (styles) => ({
     fontSize: 25,
     verticalAlign: "-.25em",
-  },
+    ...styles.containerStyle,
+  }),
 });
 
-const ToolTipIcon = ({ circleStyle, containerStyle, textStyle }) => {
-  const classes = useStyles();
+const ToolTipIcon = ({
+  containerStyle,
+  circleStyle,
+  textStyle,
+  handleClick,
+}) => {
+  const classes = useStyles({ containerStyle, circleStyle, textStyle });
   return (
     <span
-      className={clsx(
-        "fa-layers",
-        "fa-fw",
-        classes.containerStyle,
-        containerStyle
-      )}
+      onClick={handleClick}
+      className={clsx("fa-layers", "fa-fw", classes.containerStyle)}
     >
-      <FontAwesomeIcon
-        icon={faCircle}
-        className={clsx(classes.circleStyle, circleStyle)}
-      />
-      <span
-        className={clsx(
-          "fa-layers-text",
-          "fa-inverse",
-          classes.textStyle,
-          textStyle
-        )}
-      >
+      <FontAwesomeIcon icon={faCircle} className={clsx(classes.circleStyle)} />
+      <span className={clsx("fa-layers-text", "fa-inverse", classes.textStyle)}>
         ?
       </span>
     </span>
@@ -52,6 +46,7 @@ ToolTipIcon.propTypes = {
   circleStyle: PropTypes.object,
   containerStyle: PropTypes.object,
   textStyle: PropTypes.object,
+  handleClick: PropTypes.func,
 };
 
 export default ToolTipIcon;

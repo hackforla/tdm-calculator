@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import InfoBox from "../InfoBox";
@@ -14,6 +14,8 @@ function ProjectMeasure(props) {
     onPkgSelect,
     uncheckAll,
   } = props;
+
+  const [displayInfoBox, setDisplayInfoBox] = useState(true);
 
   const showResidentialPkg = (() => {
     // Only show button if one of the land uses is Residential
@@ -69,11 +71,32 @@ function ProjectMeasure(props) {
       <h3 className="tdm-wizard-page-subtitle">
         Select strategies to earn TDM points
       </h3>
-      <InfoBox>
+      <InfoBox
+        displayStatus={displayInfoBox}
+        handleClick={() => setDisplayInfoBox(false)}
+      >
         <ToolTipIcon /> For detailed information, hover the mouse cursor over
-        the terminology
+        the terminology.
       </InfoBox>
       <div className={classes.unSelectContainer}>
+        <button
+          onClick={() => setDisplayInfoBox(true)}
+          style={{
+            height: 30,
+            padding: 0,
+            margin: 0,
+            backgroundColor: "transparent",
+            borderStyle: "none",
+            cursor: "pointer",
+          }}
+        >
+          <ToolTipIcon
+            circleStyle={{
+              filter: "drop-shadow(0px 4px 2px rgba(0, 46, 109, 0.3))",
+            }}
+            handleClick={() => setDisplayInfoBox(false)}
+          />
+        </button>
         {showResidentialPkg ? (
           <button
             className="tdm-wizard-pkg-button"
