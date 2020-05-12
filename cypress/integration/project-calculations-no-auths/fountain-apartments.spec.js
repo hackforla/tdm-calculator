@@ -14,10 +14,6 @@ describe("Fountain Apartments", () => {
       );
       cy.findByTestId(">").click();
     });
-    it("selects development type", () => {
-      cy.findByLabelText("Residential").click();
-      cy.findByTestId(">").click();
-    });
     it("enters information for selected development type(s)", () => {
       cy.findByLabelText("# Habitable Rooms < 3").type("37");
       cy.findByLabelText("# Habitable Rooms = 3").type("36");
@@ -26,8 +22,8 @@ describe("Fountain Apartments", () => {
     });
     it("enters in number of parking spaces", () => {
       cy.findByLabelText("Parking Provided").type("108");
-      cy.findByText("95 spcs").should("exist");
-      cy.findByText("113.68 %").should("exist");
+      cy.findByText("95").should("exist");
+      cy.findByText("113.68").should("exist");
       cy.findByTestId(">").click();
     });
   });
@@ -67,7 +63,7 @@ describe("Fountain Apartments", () => {
       );
       cy.findByTestId("summary-parking-ratio-label").should(
         "have.text",
-        "Provided / Required Parking"
+        "Parking Provided / Baseline"
       );
 
       cy.findByTestId("summary-target-points-value").should("have.text", "22");

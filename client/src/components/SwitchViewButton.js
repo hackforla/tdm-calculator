@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   root: {
-    maxHeight: "2em",
+    height: "min-content",
     margin: "0.5em",
     padding: "0.5em 1em",
     backgroundColor: "#A7C539",

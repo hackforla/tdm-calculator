@@ -14,11 +14,6 @@ describe("Beatrice Building", () => {
       );
       cy.findByTestId(">").click();
     });
-    it("selects development type", () => {
-      cy.findByLabelText("Retail").click();
-      cy.findByLabelText("Commercial").click();
-      cy.findByTestId(">").click();
-    });
     it("enters information for selected development type(s)", () => {
       cy.findByLabelText("Sq Ft - Retail").type("900");
       cy.findByLabelText("Sq Ft - Restaurant/Bar/General").type("2500");
@@ -29,8 +24,8 @@ describe("Beatrice Building", () => {
     });
     it("enters in number of parking spaces", () => {
       cy.findByLabelText("Parking Provided").type("845");
-      cy.findByText("597 spcs").should("exist");
-      cy.findByText("141.54 %").should("exist");
+      cy.findByText("597").should("exist");
+      cy.findByText("141.54").should("exist");
       cy.findByTestId(">").click();
     });
   });
@@ -72,7 +67,7 @@ describe("Beatrice Building", () => {
       );
       cy.findByTestId("summary-parking-ratio-label").should(
         "have.text",
-        "Provided / Required Parking"
+        "Parking Provided / Baseline"
       );
 
       cy.findByTestId("summary-target-points-value").should("have.text", "33");

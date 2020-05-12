@@ -18,11 +18,6 @@ const useStyles = createUseStyles({
       backgroundColor: "#f0e300"
     }
   },
-  numberField: {
-    flexBasis: "20%",
-    flexGrow: "1",
-    flexShrink: "1"
-  },
   numberFieldUnits: {
     flexBasis: "20%",
     marginLeft: "1em",
@@ -31,7 +26,7 @@ const useStyles = createUseStyles({
   },
   input: {
     padding: "0.1em",
-    width: "auto",
+    width: "5.5em",
     textAlign: "right"
   },
   unitsCaption: {
@@ -136,7 +131,7 @@ const useStyles = createUseStyles({
   },
   requiredInputLabel: {
     "&:after": {
-      content: "\" *\"",
+      content: '" *"',
       color: "red"
     }
   },
@@ -193,7 +188,7 @@ const RuleInput = ({
           <label htmlFor={code} className={classes.textInputLabel}>
             {name}
           </label>
-          <div className={classes.numberField}>
+          <div>
             <input
               className={classes.input}
               type="text"
@@ -204,6 +199,7 @@ const RuleInput = ({
               data-testid={code}
               min={minValue}
               max={maxValue}
+              autoComplete="off"
             />
           </div>
           <div className={classes.numberFieldUnits}>{units}</div>
@@ -291,6 +287,7 @@ const RuleInput = ({
               id={code}
               data-testid={code}
               maxLength={maxStringLength}
+              autoComplete="off"
             />
           ) : (
             <textarea
@@ -305,6 +302,7 @@ const RuleInput = ({
               required={required}
               minLength={minStringLength}
               maxLength={maxStringLength}
+              autoComplete="off"
             />
           )}
         </div>

@@ -14,10 +14,6 @@ describe("Clarendon Apartments", () => {
       );
       cy.findByTestId(">").click();
     });
-    it("selects development type", () => {
-      cy.findByLabelText("Residential").click();
-      cy.findByTestId(">").click();
-    });
     it("enters information for selected development type(s)", () => {
       cy.findByLabelText("# Habitable Rooms < 3").type("51");
       cy.findByLabelText("# Habitable Rooms = 3").type("134");
@@ -26,8 +22,8 @@ describe("Clarendon Apartments", () => {
     });
     it("enters in number of parking spaces", () => {
       cy.findByLabelText("Parking Provided").type("564");
-      cy.findByText("552 spcs").should("exist");
-      cy.findByText("102.17 %").should("exist");
+      cy.findByText("552").should("exist");
+      cy.findByText("102.17").should("exist");
       cy.findByTestId(">").click();
     });
   });
@@ -66,7 +62,7 @@ describe("Clarendon Apartments", () => {
       );
       cy.findByTestId("summary-parking-ratio-label").should(
         "have.text",
-        "Provided / Required Parking"
+        "Parking Provided / Baseline"
       );
 
       cy.findByTestId("summary-target-points-value").should("have.text", "25");

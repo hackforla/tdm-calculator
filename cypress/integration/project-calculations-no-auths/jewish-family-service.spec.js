@@ -16,10 +16,6 @@ describe("Jewish Family Service", () => {
       );
       cy.findByTestId(">").click();
     });
-    it("selects development type", () => {
-      cy.findByLabelText("Commercial").click();
-      cy.findByTestId(">").click();
-    });
     it("enters information for selected development type(s)", () => {
       cy.findByLabelText(
         "Sq Ft - Office, Business, Manufacturing, Industrial"
@@ -28,8 +24,8 @@ describe("Jewish Family Service", () => {
     });
     it("enters in number of parking spaces", () => {
       cy.findByLabelText("Parking Provided").type("63");
-      cy.findByText("57 spcs").should("exist");
-      cy.findByText("110.53 %").should("exist");
+      cy.findByText("57").should("exist");
+      cy.findByText("110.53").should("exist");
       cy.findByTestId(">").click();
     });
   });
@@ -69,7 +65,7 @@ describe("Jewish Family Service", () => {
       );
       cy.findByTestId("summary-parking-ratio-label").should(
         "have.text",
-        "Provided / Required Parking"
+        "Parking Provided / Baseline"
       );
 
       cy.findByTestId("summary-target-points-value").should("have.text", "17");

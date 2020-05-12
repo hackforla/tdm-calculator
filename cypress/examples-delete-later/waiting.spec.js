@@ -29,8 +29,6 @@ context("Waiting", () => {
     cy.get(".network-btn").click();
 
     // wait for GET comments/1
-    cy.wait("@getComment")
-      .its("status")
-      .should("eq", 200);
+    cy.wait("@getComment").its("status").should("eq", 200);
   });
 });

@@ -251,7 +251,7 @@ const TdmCalculationWizard = (props) => {
           {rules && rules.length > 0 && (
             <div className={classes.sidebarContent}>
               <SwitchViewButton onClick={onViewChange}>
-                Switch to Default View
+                Switch to Single Page View
               </SwitchViewButton>
               <SidebarPointsPanel rules={resultRules} />
             </div>

@@ -12,7 +12,9 @@ it("renders without crashing", () => {
     <RuleInput rule={numberInputRule} onInputChange={e => e.target} />,
     div
   );
+  expect(div).toBeDefined();
 });
+
 it("renders without crashing - boolean", () => {
   const div = document.createElement("div");
   ReactDOM.render(
@@ -22,4 +24,5 @@ it("renders without crashing - boolean", () => {
     />,
     div
   );
+  expect(div).toBeDefined();
 });

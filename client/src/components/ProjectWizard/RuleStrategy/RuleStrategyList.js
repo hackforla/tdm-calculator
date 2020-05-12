@@ -18,15 +18,15 @@ const RuleStrategyList = props => {
     <div className={classes.root}>
       {rules && rules.length > 0
         ? rules.map(rule => {
-          return (
-            <RuleStrategy
-              key={rule.id}
-              rule={rule}
-              onInputChange={props.onInputChange}
-              onCommentChange={props.onCommentChange}
-            />
-          );
-        })
+            return (
+              <RuleStrategy
+                key={rule.id}
+                rule={rule}
+                onInputChange={props.onInputChange}
+                onCommentChange={props.onCommentChange}
+              />
+            );
+          })
         : null}
     </div>
   );
