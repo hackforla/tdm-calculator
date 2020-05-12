@@ -13,10 +13,15 @@ function ProjectMeasure(props) {
     classes,
     onPkgSelect,
     uncheckAll,
+    hasClosedInfoBox,
+    setHasClosedInfoBox,
   } = props;
 
-  const [displayInfoBox, setDisplayInfoBox] = useState(true);
-
+  const [displayInfoBox, setDisplayInfoBox] = useState(!hasClosedInfoBox);
+  const closeInfoBox = () => {
+    setHasClosedInfoBox(true);
+    setDisplayInfoBox(false);
+  };
   const showResidentialPkg = (() => {
     // Only show button if one of the land uses is Residential
     const triggerRule = landUseRules.filter(
@@ -71,10 +76,7 @@ function ProjectMeasure(props) {
       <h3 className="tdm-wizard-page-subtitle">
         Select strategies to earn TDM points
       </h3>
-      <InfoBox
-        displayStatus={displayInfoBox}
-        handleClick={() => setDisplayInfoBox(false)}
-      >
+      <InfoBox displayStatus={displayInfoBox} handleClick={closeInfoBox}>
         <ToolTipIcon /> For detailed information, hover the mouse cursor over
         the terminology.
       </InfoBox>
@@ -145,6 +147,8 @@ ProjectMeasure.propTypes = {
   classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
+  hasClosedInfoBox: PropTypes.bool,
+  setHasClosedInfoBox: PropTypes.func,
 };
 
 export default ProjectMeasure;

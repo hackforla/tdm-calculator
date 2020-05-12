@@ -14,8 +14,8 @@ const styles = {
   root: {
     flex: "1 1 auto",
     display: "flex",
-    flexDirection: "column"
-  }
+    flexDirection: "column",
+  },
 };
 
 // These are the calculation results we want to calculate
@@ -24,7 +24,7 @@ const resultRuleCodes = [
   "PROJECT_LEVEL",
   "CALC_PARK_RATIO",
   "TARGET_POINTS_PARK",
-  "PTS_EARNED"
+  "PTS_EARNED",
 ];
 
 export function TdmCalculationContainer(props) {
@@ -78,7 +78,7 @@ export function TdmCalculationContainer(props) {
     initiateEngine();
   }, [props.match.params.projectId, engine]);
 
-  const recalculate = formInputs => {
+  const recalculate = (formInputs) => {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
     // update state with modified formInputs and rules
@@ -87,16 +87,16 @@ export function TdmCalculationContainer(props) {
     setRules(rules);
   };
 
-  const onPkgSelect = pkgType => {
+  const onPkgSelect = (pkgType) => {
     let pkgRules = [];
     if (pkgType === "Residential") {
-      pkgRules = rules.filter(rule =>
+      pkgRules = rules.filter((rule) =>
         ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_1"].includes(
           rule.code
         )
       );
     } else {
-      pkgRules = rules.filter(rule =>
+      pkgRules = rules.filter((rule) =>
         ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
           rule.code
         )
@@ -116,20 +116,20 @@ export function TdmCalculationContainer(props) {
     }, {});
     const newFormInputs = {
       ...formInputs,
-      ...modifiedInputs
+      ...modifiedInputs,
     };
     recalculate(newFormInputs);
   };
 
-  const getRuleByCode = ruleCode => {
-    const rule = rules.find(rule => rule.code === ruleCode);
+  const getRuleByCode = (ruleCode) => {
+    const rule = rules.find((rule) => rule.code === ruleCode);
     if (rule === undefined) {
       throw new Error("Rule not found for code " + ruleCode);
     }
     return rule;
   };
 
-  const limitToInt = value => {
+  const limitToInt = (value) => {
     return value.replace(/\D/g, "");
   };
 
@@ -143,7 +143,7 @@ export function TdmCalculationContainer(props) {
     return value;
   };
 
-  const onInputChange = e => {
+  const onInputChange = (e) => {
     const ruleCode = e.target.name;
     let value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -162,12 +162,12 @@ export function TdmCalculationContainer(props) {
 
     const newFormInputs = {
       ...formInputs,
-      [e.target.name]: value
+      [e.target.name]: value,
     };
     recalculate(newFormInputs);
   };
 
-  const onCommentChange = e => {
+  const onCommentChange = (e) => {
     let ruleCode = e.target.name;
     let value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -181,12 +181,12 @@ export function TdmCalculationContainer(props) {
     // In formInputs, comments are stored with the key <ruleCode>_comment
     const newFormInputs = {
       ...formInputs,
-      [`${e.target.name}_comment`]: value
+      [`${e.target.name}_comment`]: value,
     };
     recalculate(newFormInputs);
   };
 
-  const onUncheckAll = filterRules => {
+  const onUncheckAll = (filterRules) => {
     let updateInputs = { ...formInputs };
     for (let i = 0; i < rules.length; i++) {
       if (filterRules(rules[i])) {
@@ -212,7 +212,7 @@ export function TdmCalculationContainer(props) {
       description: formInputs.PROJECT_DESCRIPTION,
       formInputs: JSON.stringify(inputsToSave),
       loginId: props.account.id,
-      calculationId: TdmCalculationContainer.calculationId
+      calculationId: TdmCalculationContainer.calculationId,
     };
     if (!requestBody.name) {
       context.add("You must give the project a name before saving.");
@@ -239,33 +239,33 @@ export function TdmCalculationContainer(props) {
   };
 
   const filters = {
-    projectDescriptionRules: rule =>
+    projectDescriptionRules: (rule) =>
       rule.category === "input" &&
       rule.calculationPanelId === 31 &&
       rule.used &&
       rule.display,
-    landUseRules: rule =>
+    landUseRules: (rule) =>
       rule.category === "calculation" &&
       rule.calculationPanelId === 5 &&
       rule.used &&
       rule.display,
-    specificationRules: rule =>
+    specificationRules: (rule) =>
       rule.category === "input" &&
       rule.calculationPanelId !== 31 &&
       rule.used &&
       rule.display,
-    targetPointRules: rule =>
+    targetPointRules: (rule) =>
       rule.category === "measure" &&
       rule.used &&
       rule.display &&
       rule.calculationPanelId === 10,
-    strategyRules: rule =>
+    strategyRules: (rule) =>
       rule.category === "measure" &&
       rule.used &&
       rule.display &&
-      rule.calculationPanelId !== 10
+      rule.calculationPanelId !== 10,
   };
-  const { account, classes } = props;
+  const { account, classes, hasClosedInfoBox, setHasClosedInfoBox } = props;
   return (
     <div className={classes.root}>
       {view === "w" ? (
@@ -283,6 +283,8 @@ export function TdmCalculationContainer(props) {
           account={account}
           loginId={loginId}
           onSave={onSave}
+          hasClosedInfoBox={hasClosedInfoBox}
+          setHasClosedInfoBox={setHasClosedInfoBox}
         />
       ) : (
         <TdmCalculation
@@ -308,20 +310,22 @@ TdmCalculationContainer.propTypes = {
   account: PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
-    id: PropTypes.number
+    id: PropTypes.number,
   }),
   match: PropTypes.shape({
     params: PropTypes.shape({
       page: PropTypes.string,
-      projectId: PropTypes.string
-    })
+      projectId: PropTypes.string,
+    }),
   }),
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
   }),
   classes: PropTypes.object.isRequired,
   location: PropTypes.shape({
-    search: PropTypes.string
-  })
+    search: PropTypes.string,
+  }),
+  hasClosedInfoBox: PropTypes.bool,
+  setHasClosedInfoBox: PropTypes.func,
 };
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));
