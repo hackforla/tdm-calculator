@@ -82,7 +82,7 @@ const Projects = () => {
         const result = await projectService.get();
         setProjects(result.data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
     getProjects();
@@ -237,7 +237,6 @@ const Projects = () => {
             ).map(project => (
               <tr key={project.id}>
                 <td className={classes.td}>
-                  {console.log("project id????", project)}
                   <Link
                     to={`/calculation/1/${project.id}`}
                     className={classes.link}

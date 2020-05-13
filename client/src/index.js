@@ -5,5 +5,5 @@ import App from "./App";
 try {
   ReactDom.render(<App />, document.querySelector("#root"));
 } catch (err) {
-  console.log(err);
+  console.error(err);
 }
