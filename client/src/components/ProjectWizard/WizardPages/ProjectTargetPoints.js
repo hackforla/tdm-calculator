@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
 import clsx from "clsx";
+import PlanningIcon from "../../../images/planning.png";
+import WarningIcon from "../../../images/warning-icon.png";
 
 const useStyles = createUseStyles({
   page4: {
@@ -13,35 +15,71 @@ const useStyles = createUseStyles({
       display: "block"
     }
   },
+  level0Container: {
+    textAlign: "center",
+
+    "& h1": {
+      fontFamily: "Oswald",
+      fontWeight: "bold",
+      fontSize: "30px",
+      lineHeight: "44px",
+      marginTop: "22px"
+    }
+  },
   level0Message: {
     marginTop: "20px",
-    maxWidth: "600px"
+    maxWidth: "800px",
+    backgroundColor: "#FEF4F2",
+    color: "#B64E38",
+    fontSize: "22px",
+    lineHeight: "38px",
+    padding: "60px 48px 40px",
+    textAlign: "initial",
+    boxSizing: "border-box",
+
+    "& p": {
+      marginLeft: "44px"
+    }
+  },
+  warningIcon: {
+    float: "left"
   },
   projectBox: {
-    border: "2px solid #002E6D",
+    backgroundColor: "#E5EAF0",
     "& h4": {
       backgroundColor: "#002E6D",
       color: "white",
       fontFamily: "Oswald, Calibri",
       fontSize: 22,
-      textAlign: "center",
-      padding: "22px 0"
+      padding: "12px 0",
+      display: "flex",
+      "&:first-of-type": {
+        paddingTop: 30
+      },
+      "&:last-of-type": {
+        paddingBottom: 30
+      }
     },
     "& > div": {
-      marginTop: 30,
-      marginBottom: 30,
+      paddingBottom: 20,
+      fontFamily: "Arial",
       fontWeight: "bold",
       fontSize: 22
     }
   },
   PLValue: {
-    marginLeft: "2em",
-    fontSize: 50,
-    fontWeight: "bold"
-  },
-  PLLabel: {
+    marginLeft: ".5em",
+    fontSize: 40,
+    fontWeight: "bold",
+    width: "2em",
+    textAlign: "right",
     position: "relative",
     bottom: 6
+  },
+  PLLabel: {
+    flex: 2,
+    maxWidth: "55%",
+    textAlign: "right"
   }
 });
 
@@ -49,7 +87,10 @@ function ProjectTargetPoints(props) {
   const classes = useStyles();
   const { rules, onInputChange } = props;
   const projectLevel = rules.find(e => e.id === 16);
-  const level0Class = projectLevel && projectLevel.calcValue === 0 ? "level0" : "";
+  const targetValue = rules.find(e => e.id === 237);
+
+  const level0Class =
+    projectLevel && projectLevel.calcValue === 0 ? "level0" : "";
   // removing the parking input rule to display it above the box
   const parkingInputIndex = rules.findIndex(e => e.id === 7);
   const parkingRule = rules.splice(parkingInputIndex, 1);
@@ -57,21 +98,29 @@ function ProjectTargetPoints(props) {
     <div className={clsx(classes.page4, level0Class)}>
       {projectLevel && projectLevel.calcValue === 0 && (
         <div className={classes.level0Container}>
+          <img src={PlanningIcon} />
           <h1>Your project level is 0!</h1>
-          <p className={classes.level0Message}>
-            Based on the information you provided, the Transportation Demand
-            Management (TDM) Ordinance may not apply to your project. Final
-            determination of the TDM Ordinance applicability will be made by the
-            Department of City Planning upon review of your project application.
-          </p>
+          <div className={classes.level0Message}>
+            <img src={WarningIcon} className={classes.warningIcon} />
+            <p>
+              Based on the information you provided, the Transportation Demand
+              Management (TDM) Ordinance <strong>may</strong> not apply to your
+              project.
+            </p>
+            <p>
+              Final determination of the TDM Ordinance applicability will be
+              made by the Department of City Planning upon review of your
+              project application.
+            </p>
+          </div>
         </div>
       )}
       {projectLevel && projectLevel.calcValue > 0 && (
         <div>
           <h1 className="tdm-wizard-page-title">Calculate TDM Target Points</h1>
           <h3 className="tdm-wizard-page-subtitle">
-            Enter the amount of parking spaces you will provide to determine your
-            TDM target number
+            Enter the amount of parking spaces you will provide to determine
+            your TDM target number
           </h3>
           <RuleCalculationPanels
             rules={parkingRule}
@@ -83,6 +132,12 @@ function ProjectTargetPoints(props) {
               <span className={classes.PLLabel}>Your project level </span>
               <span className={classes.PLValue}>
                 {(projectLevel && projectLevel.calcValue) || ""}
+              </span>
+            </h4>
+            <h4>
+              <span className={classes.PLLabel}>Your target points </span>
+              <span className={classes.PLValue}>
+                {(targetValue && targetValue.calcValue) || ""}
               </span>
             </h4>
             <RuleCalculationPanels

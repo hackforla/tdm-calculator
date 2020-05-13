@@ -16,13 +16,48 @@ Cypress.Commands.add("loginAs", userType => {
   };
 
   const userCredentials = types[userType];
+  Cypress.Cookies.debug(true);
+  cy.visit("/");
 
   cy.request({
     method: "POST",
     url: "http://localhost:5000/api/accounts/login",
     body: userCredentials
-  }).then(res => {
-    window.localStorage.setItem("jwt", res.body.user.token);
+  }).then(loginResponse => {
+    //TODO: check implementation if there's a better way to set localstorage. see setLoggedInAccount
+    localStorage.setItem(
+      "currentUser",
+      JSON.stringify(loginResponse.body.user)
+    );
+  });
+});
+
+Cypress.Commands.add("logout", () => {
+  cy.window().its("localStorage").invoke("removeItem", "jwt");
+  cy.visit("/login");
+});
+
+Cypress.Commands.add("resetProjects", loginResponse => {
+  const cookie = loginResponse.body.token;
+  cy.request({
+    method: "GET",
+    url: "http://localhost:5000/api/projects",
+    auth: {
+      bearer: cookie
+    }
+  }).then(projectResponse => {
+    const projects = projectResponse.body;
+    if (projects.length > 0) {
+      projects.map(project => {
+        cy.request({
+          method: "DELETE",
+          url: `http://localhost:5000/api/projects/${project.id}`,
+          auth: {
+            bearer: cookie
+          }
+        });
+      });
+    }
   });
 });
 

@@ -97,13 +97,7 @@ const ProjectSummary = props => {
   const { rules, account, projectId, loginId, onSave } = props;
 
   const landUses = rules
-    .filter(
-      rule =>
-        rule.category === "input" &&
-        rule.used &&
-        rule.value &&
-        rule.calculationPanelId === 5
-    )
+    .filter(rule => rule.used && rule.value && rule.calculationPanelId === 5)
     .map(r => r.name)
     .join(", ");
 
@@ -193,7 +187,7 @@ const ProjectSummary = props => {
                   className={clsx(classes.alignCenter, classes.label)}
                   data-testid="summary-project-level-label"
                 >
-                  Project Level
+                  {level.name}
                 </div>
               </div>
             ) : null}
@@ -210,7 +204,7 @@ const ProjectSummary = props => {
                   className={clsx(classes.alignCenter, classes.label)}
                   data-testid="summary-parking-ratio-label"
                 >
-                  Provided / Required Parking
+                  {parkingRatio.name}
                 </div>
               </div>
             ) : null}
@@ -228,7 +222,7 @@ const ProjectSummary = props => {
                   className={clsx(classes.alignCenter, classes.label)}
                   data-testid={"summary-target-points-label"}
                 >
-                  Target Points
+                  {targetPoints.name}
                 </div>
               </div>
             ) : null}
@@ -245,7 +239,7 @@ const ProjectSummary = props => {
                   className={clsx(classes.alignCenter, classes.label)}
                   data-testid={"summary-earned-points-label"}
                 >
-                  Earned Points
+                  {earnedPoints.name}
                 </div>
               </div>
             ) : null}
@@ -255,46 +249,46 @@ const ProjectSummary = props => {
           <h2 className={classes.heading}>TDM Measures Selected</h2>
           {rules && rules.length > 0
             ? measureRules.map(rule => (
-              <div key={rule.id} className={classes.rule}>
-                <div className={classes.ruleName}>{rule.name}</div>
-                <div className={classes.value}>
-                  {rule.dataType === "boolean" ? (
-                    <FontAwesomeIcon icon={faCheck} />
-                  ) : rule.dataType === "choice" ? (
-                    rule.choices.find(
-                      choice => Number(choice.id) === Number(rule.value)
-                    ).name
-                  ) : (
-                    rule.value
-                  )}
+                <div key={rule.id} className={classes.rule}>
+                  <div className={classes.ruleName}>{rule.name}</div>
+                  <div className={classes.value}>
+                    {rule.dataType === "boolean" ? (
+                      <FontAwesomeIcon icon={faCheck} />
+                    ) : rule.dataType === "choice" ? (
+                      rule.choices.find(
+                        choice => Number(choice.id) === Number(rule.value)
+                      ).name
+                    ) : (
+                      rule.value
+                    )}
+                  </div>
+                  <div className={classes.ruleUnits}>{rule.units}</div>
+                  <div className={classes.icon}>
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </div>
+                  <div className={classes.value}>
+                    {Math.round(rule.calcValue * 100) / 100}
+                  </div>
+                  <div className={classes.calcUnits}>{rule.calcUnits}</div>
                 </div>
-                <div className={classes.ruleUnits}>{rule.units}</div>
-                <div className={classes.icon}>
-                  <FontAwesomeIcon icon={faArrowRight} />
-                </div>
-                <div className={classes.value}>
-                  {Math.round(rule.calcValue * 100) / 100}
-                </div>
-                <div className={classes.calcUnits}>{rule.calcUnits}</div>
-              </div>
-            ))
+              ))
             : null}
           <h2 className={classes.heading}>Required Parking Calculation</h2>
           {rules && rules.length > 0
             ? specificationRules.map(rule => (
-              <div key={rule.id} className={classes.rule}>
-                <div className={classes.ruleName}>{rule.name}</div>
-                <div className={classes.value}>{rule.value}</div>
-                <div className={classes.ruleUnits}>{rule.units}</div>
-                <div className={classes.icon}>
-                  <FontAwesomeIcon icon={faArrowRight} />
+                <div key={rule.id} className={classes.rule}>
+                  <div className={classes.ruleName}>{rule.name}</div>
+                  <div className={classes.value}>{rule.value}</div>
+                  <div className={classes.ruleUnits}>{rule.units}</div>
+                  <div className={classes.icon}>
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </div>
+                  <div className={classes.value}>
+                    {Math.round(rule.calcValue * 100) / 100}
+                  </div>
+                  <div className={classes.calcUnits}>{rule.calcUnits}</div>
                 </div>
-                <div className={classes.value}>
-                  {Math.round(rule.calcValue * 100) / 100}
-                </div>
-                <div className={classes.calcUnits}>{rule.calcUnits}</div>
-              </div>
-            ))
+              ))
             : null}
           {parkingRequired ? (
             <div className={classes.rule}>

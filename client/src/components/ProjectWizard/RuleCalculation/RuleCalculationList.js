@@ -5,8 +5,6 @@ import RuleCalculation from "./RuleCalculation";
 
 const useStyles = createUseStyles({
   root: {
-    marginRight: "0.75em",
-    marginLeft: "0.75em",
     minWidth: "60%"
   }
 });

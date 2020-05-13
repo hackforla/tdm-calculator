@@ -75,9 +75,9 @@ const RuleInput = ({
           />
           <div className={classes.units}>{units}</div>
           <div className={classes.calcUnits}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
+            {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+              calcUnits || ""
+            }`}
           </div>
         </div>
       ) : dataType === "boolean" ? (
@@ -93,9 +93,9 @@ const RuleInput = ({
           />
           <div className={classes.units}>{units}</div>
           <div className={classes.calcUnits}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
+            {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+              calcUnits || ""
+            }`}
           </div>
         </div>
       ) : dataType === "choice" ? (
@@ -114,9 +114,9 @@ const RuleInput = ({
             ))}
           </select>
           <div className={classes.calcUnits}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
+            {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+              calcUnits || ""
+            }`}
           </div>
         </div>
       ) : dataType === "string" ? (
@@ -136,9 +136,9 @@ const RuleInput = ({
           <div className={classes.code} name={code} />
           <div className={classes.units}>{units}</div>
           <div className={classes.calcUnits}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
+            {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+              calcUnits || ""
+            }`}
           </div>
         </div>
       )}

@@ -111,9 +111,9 @@ const RuleStrategy = ({
             : null}
         </div>
         <div className={classes.points}>
-          {`${
-            calcValue ? Math.round(calcValue * 100) / 100 : ""
-          } ${calculationUnits || ""}`}
+          {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+            calculationUnits || ""
+          }`}
         </div>
       </React.Fragment>
     );
@@ -145,6 +145,7 @@ const RuleStrategy = ({
               id={code}
               min={minValue}
               max={maxValue}
+              autoComplete="off"
             />
           </div>
           {possibleAndEarnedPointsContainers()}
@@ -227,6 +228,7 @@ const RuleStrategy = ({
             onChange={onInputChange}
             name={code}
             id={code}
+            autoComplete="off"
           />
         </div>
       ) : (
@@ -257,6 +259,7 @@ const RuleStrategy = ({
               name={code}
               id={comment}
               className={classes.commentTextarea}
+              autoComplete="off"
             />
           </div>
         </div>

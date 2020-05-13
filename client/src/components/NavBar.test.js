@@ -11,4 +11,5 @@ it("renders without crashing", () => {
     </Router>,
     div
   );
+  expect(div).toBeDefined();
 });

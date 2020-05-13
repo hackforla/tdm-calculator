@@ -1,3 +1,5 @@
+const REGEX_TOKEN = /<<[\w-]+?>>/gi;
+
 // This service is the calculation engine for the app. It does not
 // access a database but performs the service of performing calculations.
 // It is pure ES6 and could be used server-side, should we decide to
@@ -50,12 +52,14 @@ class Engine {
         }
       }
 
-      // set display property of each rule based upon land uses
+      // set display property of each input rule based upon displayFunctionBody
       for (const property in this.rules) {
-        this.calcDisplay(property);
-        // if a rule is not displayed, set its value to null
         const rule = this.rules[property];
-        if (!rule.display && rule.category !== "calculation") {
+        // Start the calc with all properties.display = true
+        // display is re-calculated below, after the recursive calc.
+        rule.display = true;
+        // if an input rule is not displayed, set its value to null
+        if (!rule.display && rule.category === "input") {
           rule.value = null;
           // Also null out the formInput property
           formInputs[property] = null;
@@ -66,6 +70,11 @@ class Engine {
       const results = {};
       for (let i = 0; i < ruleCodes.length; i++) {
         results[ruleCodes[i]] = this.executeCalc(ruleCodes[i]);
+      }
+
+      // Now calculate the final display property value
+      for (const property in this.rules) {
+        this.calcDisplay(property);
       }
 
       // Match up inputs or measures with the primary calculation
@@ -149,8 +158,7 @@ class Engine {
     const rule = this.rules[property];
     // Extract rules that this one depends upon
     // from displayFunctionBody tokens
-    const regExPattern = /<<[\w-]+?>>/gi;
-    const tokenArray = rule.displayFunctionBody.match(regExPattern);
+    const tokenArray = rule.displayFunctionBody.match(REGEX_TOKEN);
     let tokens = [];
     if (tokenArray && tokenArray.length > 0) {
       tokens = tokenArray.map(t => t.substr(2, t.length - 4));
@@ -196,7 +204,7 @@ class Engine {
   // dynamically creating functions, but that's what we need.
   buildFunction(body) {
     // eslint-disable-next-line no-new-func
-    return Function("\"use strict\";" + body);
+    return Function('"use strict";' + body);
   }
 
   executeCalc(ruleCode) {
@@ -205,12 +213,10 @@ class Engine {
     rule.used = true;
     if (rule.category === "calculation" && rule.functionBody) {
       //console.log("exeucteCalc: " + code);
-
       // Extract rules that this one depends upon
       // from functionBody tokens
-      const regExPattern = /<<[\w-]+?>>/gi;
       const tokens = rule.functionBody
-        .match(regExPattern)
+        .match(REGEX_TOKEN)
         .map(t => t.substr(2, t.length - 4));
       //console.log("tokens: " + JSON.stringify(tokens));
       let functionBody = rule.functionBody;
@@ -265,9 +271,8 @@ class Engine {
     if (!rule || !rule.functionBody) {
       return [];
     }
-    const regExPattern = /<<[A-Z_]+?>>/gi;
     return rule.functionBody
-      .match(regExPattern)
+      .match(REGEX_TOKEN)
       .map(t => t.substr(2, t.length - 4));
   }
 

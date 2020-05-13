@@ -13,10 +13,7 @@ const useStyles = createUseStyles({
   numberFieldWrapper: {
     marginBottom: "2em",
     marginTop: "2em",
-    alignItems: "center",
-    "&:hover": {
-      backgroundColor: "#f0e300"
-    }
+    alignItems: "center"
   },
   numberField: {
     flexBasis: "20%",
@@ -43,12 +40,14 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   calcUnitsCaption: {
-    flexBasis: "30%",
-    marginLeft: "1em",
+    flexBasis: "33%",
     marginRight: "0.5em",
     textAlign: "left",
     flexGrow: "0",
     flexShrink: "1"
+  },
+  calcNumber: {
+    fontSize: 40
   },
   checkboxFieldWrapper: {
     alignItems: "baseline",
@@ -86,10 +85,7 @@ const useStyles = createUseStyles({
     alignItems: "center"
   },
   miscFieldWrapper: {
-    alignItems: "baseline",
-    "&:hover": {
-      backgroundColor: "#f0e300"
-    }
+    alignItems: "baseline"
   },
   miscFieldLabel: {
     flexGrow: "1",
@@ -97,7 +93,7 @@ const useStyles = createUseStyles({
     textAlign: "right"
   },
   codeWrapper: {
-    flexBasis: "10%",
+    flexBasis: "8%",
     flexGrow: "0",
     flexShrink: "1"
   },
@@ -237,9 +233,9 @@ const RuleCalculation = ({
             <>
               <div className={classes.unitsCaption}>{units}</div>
               <div className={classes.calcUnitsCaption}>
-                {`${
-                  calcValue ? Math.round(calcValue * 100) / 100 : ""
-                } ${calcUnits || ""}`}
+                {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+                  calcUnits || ""
+                }`}
               </div>
             </>
           ) : null}
@@ -264,9 +260,9 @@ const RuleCalculation = ({
             ))}
           </select>
           <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
+            {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+              calcUnits || ""
+            }`}
           </div>
         </div>
       ) : dataType === "string" || dataType === "textarea" ? (
@@ -321,9 +317,10 @@ const RuleCalculation = ({
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
           <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
+            <span className={classes.calcNumber}>
+              {calcValue ? Math.round(calcValue * 100) / 100 : ""}
+            </span>
+            <span className={classes.calcUnits}> {calcUnits || ""}</span>
           </div>
         </div>
       )}

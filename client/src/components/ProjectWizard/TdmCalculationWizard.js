@@ -11,7 +11,7 @@ import Sidebar from "../Sidebar";
 import { Switch, Route, withRouter } from "react-router-dom";
 import {
   ProjectDescriptions,
-  ProjectUse,
+  // ProjectUse,
   ProjectSpecifications,
   ProjectTargetPoints,
   ProjectMeasures
@@ -133,9 +133,9 @@ const TdmCalculationWizard = props => {
   ) {
     disablePageNavigation = true;
   }
-  if (page === 2 && !landUseRules.find(rule => rule.value)) {
-    disablePageNavigation = true;
-  }
+  // if (page === 2 && !landUseRules.find(rule => rule.value)) {
+  //   disablePageNavigation = true;
+  // }
 
   const routes = (
     <Switch>
@@ -146,15 +146,15 @@ const TdmCalculationWizard = props => {
           classes={classes}
         />
       </Route>
-      <Route path="/calculation/2/:projectId?">
+      {/* <Route path="/calculation/2/:projectId?">
         <ProjectUse
           rules={landUseRules}
           onInputChange={onInputChange}
           classes={classes}
           uncheckAll={() => onUncheckAll(filters.landUseRules)}
         />
-      </Route>
-      <Route path="/calculation/3/:projectId?">
+      </Route> */}
+      <Route path="/calculation/2/:projectId?">
         <ProjectSpecifications
           rules={specificationRules}
           onInputChange={onInputChange}
@@ -162,14 +162,14 @@ const TdmCalculationWizard = props => {
           uncheckAll={() => onUncheckAll(filters.specificationRules)}
         />
       </Route>
-      <Route path="/calculation/4/:projectId?">
+      <Route path="/calculation/3/:projectId?">
         <ProjectTargetPoints
           rules={targetPointRules}
           onInputChange={onInputChange}
           classes={classes}
         />
       </Route>
-      <Route path="/calculation/5/:projectId?">
+      <Route path="/calculation/4/:projectId?">
         <ProjectMeasures
           rules={strategyRules}
           landUseRules={landUseRules}
@@ -180,7 +180,7 @@ const TdmCalculationWizard = props => {
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
         />
       </Route>
-      <Route path="/calculation/6/:projectId?">
+      <Route path="/calculation/5/:projectId?">
         <ProjectSummary
           rules={rules}
           account={account}
@@ -200,20 +200,20 @@ const TdmCalculationWizard = props => {
           return !projectDescriptionRules.find(rule => !!rule.validationErrors);
         },
         toast: "Please fill out all required fields"
-      },
-      2: {
-        function: () => {
-          let selected = false;
-          let landUseRules = rules.filter(filters.landUseRules);
-          landUseRules.forEach(val => {
-            if (val.value === true) {
-              selected = true;
-            }
-          });
-          return selected;
-        },
-        toast: "Please select at least one land use type."
       }
+      // 2: {
+      //   function: () => {
+      //     let selected = false;
+      //     let landUseRules = rules.filter(filters.landUseRules);
+      //     landUseRules.forEach(val => {
+      //       if (val.value === true) {
+      //         selected = true;
+      //       }
+      //     });
+      //     return selected;
+      //   },
+      //   toast: "Please select at least one land use type."
+      // }
     };
     const result = validations[page] ? validations[page].function() : true;
     if (result === false) {
@@ -245,7 +245,7 @@ const TdmCalculationWizard = props => {
           {rules && rules.length > 0 && (
             <div className={classes.sidebarContent}>
               <SwitchViewButton onClick={onViewChange}>
-                Switch to Default View
+                Switch to Single Page View
               </SwitchViewButton>
               <SidebarPointsPanel rules={resultRules} />
             </div>
@@ -263,42 +263,42 @@ const TdmCalculationWizard = props => {
             account.id &&
             (account.id === loginId || account.isAdmin)) ||
           (account && account.isAdmin) ? (
-              <div className={classes.navButtonsWrapper}>
-                {rules && rules.length ? ( //navigation disabled until rules have loaded
-                  <>
-                    <div>
-                      <NavButton
-                        disabled={Number(page) === 1}
-                        onClick={() => {
-                          onPageChange(Number(page) - 1);
-                        }}
-                      >
+            <div className={classes.navButtonsWrapper}>
+              {rules && rules.length ? ( //navigation disabled until rules have loaded
+                <>
+                  <div>
+                    <NavButton
+                      disabled={Number(page) === 1}
+                      onClick={() => {
+                        onPageChange(Number(page) - 1);
+                      }}
+                    >
                       &lt;
-                      </NavButton>
-                      <NavButton
-                        disabled={page === 6 || disablePageNavigation}
-                        onClick={() => {
-                          onPageChange(Number(page) + 1);
-                        }}
-                      >
+                    </NavButton>
+                    <NavButton
+                      disabled={page === 5 || disablePageNavigation}
+                      onClick={() => {
+                        onPageChange(Number(page) + 1);
+                      }}
+                    >
                       &gt;
-                      </NavButton>
-                    </div>
-                    <div>
-                      <a
-                        className={clsx(
-                          "return-home-button",
-                          "tdm-wizard-nav-button"
-                        )}
-                        href="/"
-                      >
-                      Return to Home
-                      </a>
-                    </div>
-                  </>
-                ) : null}
-              </div>
-            ) : null}
+                    </NavButton>
+                  </div>
+                  <div>
+                    <a
+                      className={clsx(
+                        "return-home-button",
+                        "tdm-wizard-nav-button"
+                      )}
+                      href="/calculation"
+                    >
+                      Begin New Project
+                    </a>
+                  </div>
+                </>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </div>
     </React.Fragment>

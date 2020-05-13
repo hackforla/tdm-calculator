@@ -70,11 +70,11 @@ function executeProc(procName, paramsCallback) {
         response.outputParameters[paramName] = value;
       });
 
-      request.on("columnMetadata", function() {
+      request.on("columnMetadata", function () {
         setIndex++;
       });
 
-      request.on("doneProc", function(rowCount, more, returnStatus) {
+      request.on("doneProc", function (rowCount, more, returnStatus) {
         response.returnStatus = returnStatus;
       });
 

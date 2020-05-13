@@ -4,32 +4,27 @@ import "@testing-library/cypress/add-commands";
 /// <reference types="cypress" />
 describe("Barrington Condos", () => {
   describe("project inputs", () => {
-    it("should enter project information - minimum requirements", () => {
+    it("enters project information - minimum requirements", () => {
       cy.visit("http://localhost:3000/");
       cy.findAllByText("New Project").click();
       cy.findByLabelText("Project Name").type("Barrington Condos");
       cy.findByLabelText("Address").type("825 S. Barrington Ave");
       cy.findByTestId(">").click();
     });
-    it("should select development type", () => {
-      cy.findByLabelText("Residential").click();
-      cy.findByTestId(">").click();
-    });
-    it("should enter information for selected development type(s)", () => {
+    it("enters information for selected development type(s)", () => {
       cy.findByLabelText("Condo - Units").type("46");
       cy.findByLabelText("Condo - Enter Parking Space Req'd").type("92");
       cy.findByTestId(">").click();
     });
-    it("should enter in number of parking spaces", () => {
+    it("enters in number of parking spaces", () => {
       cy.findByLabelText("Parking Provided").type("88");
-      cy.findByText("92 spcs").should("exist");
-      cy.findByText("95.65 %").should("exist");
-      cy.findByText("15 pts").should("exist");
+      cy.findByText("92").should("exist");
+      cy.findByText("95.65").should("exist");
       cy.findByTestId(">").click();
     });
   });
   describe("project strategies", () => {
-    it("should select transporation demand strategies and receive enough earned points", () => {
+    it("selects transporation demand strategies and receive enough earned points", () => {
       cy.findByLabelText("Bike Parking").click();
       cy.findByLabelText("Pricing/Unbundling").click();
       cy.findByLabelText("Reduced Parking Supply").click();
@@ -40,7 +35,7 @@ describe("Barrington Condos", () => {
     });
   });
   describe("calculation summary", () => {
-    it("should show the correct calculation summary", () => {
+    it("shows the correct calculation summary", () => {
       cy.findByText("Barrington Condos").should("exist");
       cy.findByText("825 S. Barrington Ave").should("exist");
 
@@ -58,7 +53,7 @@ describe("Barrington Condos", () => {
       );
       cy.findByTestId("summary-parking-ratio-label").should(
         "have.text",
-        "Provided / Required Parking"
+        "Parking Provided / Baseline"
       );
 
       cy.findByTestId("summary-target-points-value").should("have.text", "15");
