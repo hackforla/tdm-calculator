@@ -240,3 +240,6 @@ node_modules
 
 # End of project-specific exclusions
 .eslintcache
+
+# Yarn lockfile 
+yarn.lock
