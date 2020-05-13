@@ -43,7 +43,7 @@ export const login = async (email, password) => {
     const response = await axios.post(baseUrl + "/login", body);
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 

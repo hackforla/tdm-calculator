@@ -43,7 +43,7 @@ export function TdmCalculationContainer(props) {
       const ruleResponse = await ruleService.getByCalculationId(
         TdmCalculationContainer.calculationId
       );
-      console.log(ruleResponse.data);
+      // console.log(ruleResponse.data);
       setEngine(new Engine(ruleResponse.data));
     };
     getRules();
@@ -65,14 +65,14 @@ export function TdmCalculationContainer(props) {
         if (Number(projectId) > 0) {
           projectResponse = await projectService.getById(projectId);
           setLoginId(projectResponse.data.loginId);
-          console.log("inputs", projectResponse);
+          // console.log("inputs", projectResponse);
           inputs = JSON.parse(projectResponse.data.formInputs);
         }
         engine.run(inputs, resultRuleCodes);
         setFormInputs(inputs);
         setRules(engine.showRulesArray());
       } catch (err) {
-        console.log(JSON.stringify(err, null, 2));
+        console.error(JSON.stringify(err, null, 2));
       }
     };
     initiateEngine();
@@ -230,7 +230,7 @@ export function TdmCalculationContainer(props) {
         await projectService.put(requestBody);
         context.add("Saved Project Changes");
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     } else {
       try {
@@ -239,7 +239,7 @@ export function TdmCalculationContainer(props) {
         setLoginId(props.account.id);
         context.add("Saved New Project");
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     }
   };

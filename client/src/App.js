@@ -44,7 +44,7 @@ const App = () => {
         setAccount(account);
       } catch (err) {
         // TODO: replace with production error logging.
-        console.log(
+        console.error(
           "Unable to parse current user from local storage.",
           currentUser
         );
