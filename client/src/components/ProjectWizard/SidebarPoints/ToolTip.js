@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import ToolTipIcon from "./ToolTipIcon";
 
 const useStyles = createUseStyles({
   tipIcon: {
@@ -45,14 +46,19 @@ const ToolTip = ({ tipText }) => {
   const [tipVisibility, setTipVisibility] = useState(false);
   const classes = useStyles();
   const handleClick = () => {
-    setTipVisibility(!tipVisibility);
+    //setTipVisibility(!tipVisibility);
   };
+  // will need to be changed to onHover
   const showTip = tipVisibility ? "showTip" : "";
   return (
     <React.Fragment>
-      <button className={classes.tipIcon} onClick={handleClick}>
-        ?
-      </button>
+      <ToolTipIcon
+        containerStyle={{
+          fontSize: 16,
+          verticalAlign: "top",
+          "&:hover": { cursor: "pointer" }
+        }}
+      />
       <span className={clsx(classes.tipText, showTip)}>{tipText}</span>
     </React.Fragment>
   );

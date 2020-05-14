@@ -99,7 +99,6 @@ function ProjectMeasure(props) {
             circleStyle={{
               filter: "drop-shadow(0px 4px 2px rgba(0, 46, 109, 0.3))"
             }}
-            handleClick={() => setDisplayInfoBox(false)}
           />
         </button>
         {showResidentialPkg ? (
