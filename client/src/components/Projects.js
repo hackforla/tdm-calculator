@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import * as projectService from "../services/project.service";
 import moment from "moment";
+import { useToast } from "../contexts/Toast";
 
 const useStyles = createUseStyles({
   main: {
@@ -69,12 +71,22 @@ const useStyles = createUseStyles({
   }
 });
 
-const Projects = () => {
+const Projects = ({ account, history }) => {
   const [projects, setProjects] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("dateCreated");
   const classes = useStyles();
+  const toast = useToast();
+
+  const email = account.email;
+
+  const expiredTokenRedirect = useCallback(() => {
+    toast.add(
+      "For your security, your session has expired. Please log in again."
+    );
+    history.push(`/login/${encodeURIComponent(email)}`);
+  }, []);
 
   useEffect(() => {
     const getProjects = async () => {
@@ -82,11 +94,17 @@ const Projects = () => {
         const result = await projectService.get();
         setProjects(result.data);
       } catch (err) {
+        // If user's session token has expired or they are not
+        // authorized for this web api request, let them know
+        // and redirect to login
+        if (err.response && err.response.status === 401) {
+          expiredTokenRedirect();
+        }
         console.error(err);
       }
     };
     getProjects();
-  }, []);
+  }, [expiredTokenRedirect]);
 
   const descCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
@@ -274,6 +292,24 @@ const Projects = () => {
       </table>
     </div>
   );
+};
+
+Projects.propTypes = {
+  account: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    id: PropTypes.number,
+    email: PropTypes.string
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      page: PropTypes.string,
+      projectId: PropTypes.string
+    })
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  })
 };
 
 export default withRouter(Projects);

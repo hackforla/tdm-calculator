@@ -1,14 +1,12 @@
 const jwt = require("jsonwebtoken");
 
-// const autoCatch = require("./lib/auto-catch");
-
 const jwtSecret = process.env.JWT_SECRET || "mark it zero";
+// Session time-ut set to two weeks, could be shorted for
+// more security
 const jwtOpts = { algorithm: "HS256", expiresIn: "14d" };
 
 module.exports = {
-  //login: autoCatch(login),
   login,
-  //ensureUser: autoCatch(ensureUser),
   validateUser
 };
 
@@ -40,12 +38,8 @@ async function validateUser(req, res, next) {
       req.user = payload;
       return next();
     }
-
-    const err = new Error("Unauthorized");
-    err.statusCode = 401;
-    next(err);
   } catch (er) {
-    next(er);
+    res.status("401").send("Login session expired");
   }
 }
 
@@ -58,12 +52,5 @@ async function sign(payload) {
 // Helper function to validate the JWT token
 async function verify(jwtString = "") {
   jwtString = jwtString.replace(/^Bearer /i, "");
-
-  try {
-    const payload = await jwt.verify(jwtString, jwtSecret);
-    return payload;
-  } catch (err) {
-    err.statusCode = 401;
-    throw err;
-  }
+  return jwt.verify(jwtString, jwtSecret);
 }
