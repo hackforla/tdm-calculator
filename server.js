@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === "production") {
     // Most wweb servers will set the secure property of the
     // request, but Heroku sets x-forwarded-proto to http if
     // not secure
-    if (!req.secure || req.header("x-forwarded-proto") !== "https")
+    if (req.header("x-forwarded-proto") !== "https")
       // redirect to https with same host & url
       res.redirect(`https://${req.header("host")}${req.url}`);
     else next();
