@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import InfoBox from "../InfoBox";
 import ToolTipIcon from "../SidebarPoints/ToolTipIcon";
+import useLocalStorage from "../../useLocalStorage";
 
 function ProjectMeasure(props) {
   const {
@@ -12,14 +13,16 @@ function ProjectMeasure(props) {
     onCommentChange,
     classes,
     onPkgSelect,
-    uncheckAll,
-    hasClosedInfoBox,
-    setHasClosedInfoBox
+    uncheckAll
   } = props;
-  const [displayInfoBox, setDisplayInfoBox] = useState(!hasClosedInfoBox);
+  const [hasClosedBox, setHasClosedBox] = useLocalStorage(
+    "hasClosedBox",
+    false
+  );
+  const [displayInfoBox, setDisplayInfoBox] = useState(!hasClosedBox);
   const closeInfoBox = () => {
-    setHasClosedInfoBox(true);
     setDisplayInfoBox(false);
+    setHasClosedBox(true);
   };
   const showResidentialPkg = (() => {
     // Only show button if one of the land uses is Residential
@@ -145,9 +148,7 @@ ProjectMeasure.propTypes = {
   onCommentChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
-  uncheckAll: PropTypes.func.isRequired,
-  hasClosedInfoBox: PropTypes.bool,
-  setHasClosedInfoBox: PropTypes.func
+  uncheckAll: PropTypes.func.isRequired
 };
 
 export default ProjectMeasure;

@@ -79,8 +79,6 @@ const TdmCalculationWizard = props => {
   const context = useContext(ToastContext);
   const classes = useStyles();
   const {
-    hasClosedInfoBox,
-    setHasClosedInfoBox,
     rules,
     onInputChange,
     onCommentChange,
@@ -178,8 +176,6 @@ const TdmCalculationWizard = props => {
           landUseRules={landUseRules}
           onInputChange={onInputChange}
           onCommentChange={onCommentChange}
-          hasClosedInfoBox={hasClosedInfoBox}
-          setHasClosedInfoBox={setHasClosedInfoBox}
           classes={classes}
           onPkgSelect={onPkgSelect}
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
@@ -347,9 +343,7 @@ TdmCalculationWizard.propTypes = {
   account: PropTypes.object.isRequired,
   loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
-  onViewChange: PropTypes.func.isRequired,
-  hasClosedInfoBox: PropTypes.bool,
-  setHasClosedInfoBox: PropTypes.func
+  onViewChange: PropTypes.func.isRequired
 };
 
 export default withRouter(TdmCalculationWizard);
