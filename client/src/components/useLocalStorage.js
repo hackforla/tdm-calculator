@@ -3,8 +3,7 @@ import { useState } from "react";
 // from https://usehooks.com/useLocalStorage/
 // Usage:
 // const [name, setName] = useLocalStorage('name', 'Bob');
-// searches localStorage for 'name' value or sets 'Bob' as the name constant
-// does not set 'name=Bob' in local storage, could probably be configured to
+// searches localStorage for 'name' value or sets 'name=Bob'
 
 const useLocalStorage = (key, initialValue) => {
   // State to store our value
