@@ -58,7 +58,7 @@ const useStyles = createUseStyles({
   },
   unSelectContainer: {
     display: "grid",
-    gridTemplateColumns: "20% auto 20%",
+    gridTemplateColumns: "[h-start] 20% [h-mid] auto [h-end] 20%",
     alignItems: "center",
     justifyContent: "space-between",
     position: "relative",
@@ -67,11 +67,14 @@ const useStyles = createUseStyles({
   unSelectButton: {
     marginLeft: "auto",
     marginRight: "1em",
-    gridColumn: 3,
+    gridColumn: "h-end",
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
     textDecoration: "underline"
+  },
+  alignMid: {
+    gridColumn: "h-mid"
   }
 });
 
