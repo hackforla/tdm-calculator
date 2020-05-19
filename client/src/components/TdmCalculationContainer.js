@@ -29,7 +29,13 @@ const resultRuleCodes = [
 ];
 
 export function TdmCalculationContainer(props) {
-  const { history } = props;
+  const {
+    history,
+    account,
+    classes,
+    hasClosedInfoBox,
+    setHasClosedInfoBox
+  } = props;
   const context = useContext(ToastContext);
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
@@ -76,6 +82,8 @@ export function TdmCalculationContainer(props) {
         setRules(engine.showRulesArray());
       } catch (err) {
         console.error(JSON.stringify(err, null, 2));
+        toast.add(`Error: ${err.message}`);
+        account.id ? history.push("/projects") : history.push(`/login/`);
       }
     };
     initiateEngine();
@@ -294,7 +302,6 @@ export function TdmCalculationContainer(props) {
       rule.display &&
       rule.calculationPanelId !== 10
   };
-  const { account, classes, hasClosedInfoBox, setHasClosedInfoBox } = props;
   return (
     <div className={classes.root}>
       {view === "w" ? (
