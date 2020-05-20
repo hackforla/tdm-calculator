@@ -92,10 +92,6 @@ const RuleStrategy = ({
 }) => {
   const classes = useStyles();
 
-  if (comment) {
-    console.log(comment);
-  }
-
   const possibleAndEarnedPointsContainers = () => {
     const calculationUnits = calcUnits ? calcUnits : "";
 

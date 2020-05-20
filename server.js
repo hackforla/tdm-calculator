@@ -12,6 +12,18 @@ const port = process.env.PORT || 8080;
 
 const app = express();
 
+if (process.env.NODE_ENV === "production") {
+  app.use((req, res, next) => {
+    // Most wweb servers will set the secure property of the
+    // request, but Heroku sets x-forwarded-proto to http if
+    // not secure
+    if (req.header("x-forwarded-proto") !== "https")
+      // redirect to https with same host & url
+      res.redirect(`https://${req.header("host")}${req.url}`);
+    else next();
+  });
+}
+
 // Set headers & end pre-flight requests
 app.use(cors());
 app.use(bodyParser.json());

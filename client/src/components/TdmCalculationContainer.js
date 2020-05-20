@@ -9,6 +9,7 @@ import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";
 import ToastContext from "../contexts/Toast/ToastContext";
 import injectSheet from "react-jss";
+import { useToast } from "../contexts/Toast";
 
 const styles = {
   root: {
@@ -28,6 +29,7 @@ const resultRuleCodes = [
 ];
 
 export function TdmCalculationContainer(props) {
+  const { history } = props;
   const context = useContext(ToastContext);
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
@@ -35,6 +37,7 @@ export function TdmCalculationContainer(props) {
   const [projectId, setProjectId] = useState(null);
   const [loginId, setLoginId] = useState(0);
   const [view, setView] = useState("w");
+  const toast = useToast();
 
   // Get the rules for the calculation. Runs once when
   // component is loaded.
@@ -43,7 +46,7 @@ export function TdmCalculationContainer(props) {
       const ruleResponse = await ruleService.getByCalculationId(
         TdmCalculationContainer.calculationId
       );
-      console.log(ruleResponse.data);
+      // console.log(ruleResponse.data);
       setEngine(new Engine(ruleResponse.data));
     };
     getRules();
@@ -65,14 +68,14 @@ export function TdmCalculationContainer(props) {
         if (Number(projectId) > 0) {
           projectResponse = await projectService.getById(projectId);
           setLoginId(projectResponse.data.loginId);
-          console.log("inputs", projectResponse);
+          // console.log("inputs", projectResponse);
           inputs = JSON.parse(projectResponse.data.formInputs);
         }
         engine.run(inputs, resultRuleCodes);
         setFormInputs(inputs);
         setRules(engine.showRulesArray());
       } catch (err) {
-        console.log(JSON.stringify(err, null, 2));
+        console.error(JSON.stringify(err, null, 2));
       }
     };
     initiateEngine();
@@ -230,7 +233,19 @@ export function TdmCalculationContainer(props) {
         await projectService.put(requestBody);
         context.add("Saved Project Changes");
       } catch (err) {
-        console.log(err);
+        if (err.response) {
+          if (err.response.status === 401) {
+            toast.add(
+              "For your security, your session has expired. Please log in again."
+            );
+            history.push(`/login/${encodeURIComponent(account.email)}`);
+          } else {
+            console.error(err.response);
+          }
+        } else if (err.request) {
+          console.error(err.request);
+        }
+        console.error(err);
       }
     } else {
       try {
@@ -239,7 +254,19 @@ export function TdmCalculationContainer(props) {
         setLoginId(props.account.id);
         context.add("Saved New Project");
       } catch (err) {
-        console.log(err);
+        if (err.response) {
+          if (err.response.status === 401) {
+            toast.add(
+              "For your security, your session has expired. Please log in again."
+            );
+            history.push(`/login/${encodeURIComponent(account.email)}`);
+          } else {
+            console.error(err.response);
+          }
+        } else if (err.request) {
+          console.error(err.request);
+        }
+        console.error(err);
       }
     }
   };
@@ -326,4 +353,5 @@ TdmCalculationContainer.propTypes = {
     search: PropTypes.string
   })
 };
+
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));
