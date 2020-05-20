@@ -294,7 +294,7 @@ export function TdmCalculationContainer(props) {
       rule.display &&
       rule.calculationPanelId !== 10
   };
-  const { account, classes } = props;
+  const { account, classes, hasClosedInfoBox, setHasClosedInfoBox } = props;
   return (
     <div className={classes.root}>
       {view === "w" ? (
@@ -312,6 +312,8 @@ export function TdmCalculationContainer(props) {
           account={account}
           loginId={loginId}
           onSave={onSave}
+          hasClosedInfoBox={hasClosedInfoBox}
+          setHasClosedInfoBox={setHasClosedInfoBox}
         />
       ) : (
         <TdmCalculation
@@ -351,7 +353,9 @@ TdmCalculationContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   location: PropTypes.shape({
     search: PropTypes.string
-  })
+  }),
+  hasClosedInfobox: PropTypes.bool,
+  setHasClosedInfoBox: PropTypes.func
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

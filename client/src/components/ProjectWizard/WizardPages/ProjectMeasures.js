@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
+import InfoBox from "../InfoBox";
+import ToolTipIcon from "../SidebarPoints/ToolTipIcon";
 
 function ProjectMeasure(props) {
   const {
@@ -10,9 +12,15 @@ function ProjectMeasure(props) {
     onCommentChange,
     classes,
     onPkgSelect,
-    uncheckAll
+    uncheckAll,
+    hasClosedInfoBox,
+    setHasClosedInfoBox
   } = props;
-
+  const [displayInfoBox, setDisplayInfoBox] = useState(!hasClosedInfoBox);
+  const closeInfoBox = () => {
+    setHasClosedInfoBox(true);
+    setDisplayInfoBox(false);
+  };
   const showResidentialPkg = (() => {
     // Only show button if one of the land uses is Residential
     const triggerRule = landUseRules.filter(
@@ -67,7 +75,32 @@ function ProjectMeasure(props) {
       <h3 className="tdm-wizard-page-subtitle">
         Select strategies to earn TDM points
       </h3>
+      <InfoBox displayStatus={displayInfoBox} handleClick={closeInfoBox}>
+        <ToolTipIcon /> For detailed information, hover the mouse cursor over
+        the terminology.
+      </InfoBox>
       <div className={classes.unSelectContainer}>
+        <button
+          onClick={() => setDisplayInfoBox(true)}
+          style={{
+            visibility: displayInfoBox ? "hidden" : "visible",
+            height: 30,
+            padding: 0,
+            marginTop: 0,
+            marginBottom: 0,
+            marginRight: "auto",
+            marginLeft: "1em",
+            backgroundColor: "transparent",
+            borderStyle: "none",
+            cursor: "pointer"
+          }}
+        >
+          <ToolTipIcon
+            circleStyle={{
+              filter: "drop-shadow(0px 4px 2px rgba(0, 46, 109, 0.3))"
+            }}
+          />
+        </button>
         {showResidentialPkg ? (
           <button
             className="tdm-wizard-pkg-button"
@@ -111,7 +144,9 @@ ProjectMeasure.propTypes = {
   onCommentChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
-  uncheckAll: PropTypes.func.isRequired
+  uncheckAll: PropTypes.func.isRequired,
+  hasClosedInfoBox: PropTypes.bool,
+  setHasClosedInfoBox: PropTypes.func
 };
 
 export default ProjectMeasure;
