@@ -354,7 +354,7 @@ TdmCalculationContainer.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string
   }),
-  hasClosedInfobox: PropTypes.bool,
+  hasClosedInfoBox: PropTypes.bool,
   setHasClosedInfoBox: PropTypes.func
 };
 

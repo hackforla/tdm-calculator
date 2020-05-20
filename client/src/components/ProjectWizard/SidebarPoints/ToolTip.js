@@ -43,11 +43,9 @@ const useStyles = createUseStyles({
 });
 
 const ToolTip = ({ tipText }) => {
-  const [tipVisibility, setTipVisibility] = useState(false);
+  const [tipVisibility] = useState(false);
   const classes = useStyles();
-  const handleClick = () => {
-    //setTipVisibility(!tipVisibility);
-  };
+
   // will need to be changed to onHover
   const showTip = tipVisibility ? "showTip" : "";
   return (

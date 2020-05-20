@@ -13,7 +13,7 @@ const useStyles = createUseStyles({
     marginLeft: "auto",
     width: "50vw",
     minWidth: 550,
-    maxWidth: 700,
+    maxWidth: 700
   },
   closeButton: {
     alignSelf: "flex-end",
@@ -27,23 +27,23 @@ const useStyles = createUseStyles({
     width: "2em",
     "&:hover": {
       cursor: "pointer",
-      color: "#8E99A8",
-    },
+      color: "#8E99A8"
+    }
   },
   bigX: {
-    fontSize: "25px",
+    fontSize: "25px"
   },
   content: {
     margin: "0 1em",
     paddingBottom: "2em",
-    alignSelf: "center",
+    alignSelf: "center"
   },
   open: {
-    display: "flex",
+    display: "flex"
   },
   closed: {
-    display: "none",
-  },
+    display: "none"
+  }
 });
 
 const InfoBox = ({ children, displayStatus, handleClick }) => {
@@ -67,7 +67,7 @@ const InfoBox = ({ children, displayStatus, handleClick }) => {
 InfoBox.propTypes = {
   children: PropTypes.any,
   displayStatus: PropTypes.bool,
-  handleClick: PropTypes.func,
+  handleClick: PropTypes.func
 };
 
 export default InfoBox;

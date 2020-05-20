@@ -25,8 +25,8 @@ const useStyles = createUseStyles({
   root: {
     flex: "1 0 auto",
     display: "flex",
-    flexDirection: "column",
-  },
+    flexDirection: "column"
+  }
 });
 
 const App = () => {
@@ -52,7 +52,7 @@ const App = () => {
     }
   }, [setAccount]);
 
-  const setLoggedInAccount = (loggedInUser) => {
+  const setLoggedInAccount = loggedInUser => {
     setAccount(loggedInUser);
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
   };
@@ -60,14 +60,14 @@ const App = () => {
   //TODO: This doesn't seem like it's getting used anymore. Don't see token in local storage. Check on authorization flow to see if token is still needed.
   const setTokenInHeaders = () => {
     axios.interceptors.request.use(
-      (config) => {
+      config => {
         let token = localStorage.getItem("token");
         if (token) {
           config.headers["Authorization"] = `Bearer ${token}`;
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      error => Promise.reject(error)
     );
   };
 
