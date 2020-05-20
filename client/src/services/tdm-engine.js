@@ -102,7 +102,7 @@ class Engine {
       // console.log(this.rules);
       return results;
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
@@ -172,7 +172,7 @@ class Engine {
       const token = tokens[i];
       const tokenRule = this.rules[token];
       if (!tokenRule) {
-        console.log("Token not found: " + token);
+        console.error("Token not found: " + token);
       } else {
         let value;
         if (tokenRule.dataType === "string") {
@@ -191,7 +191,7 @@ class Engine {
     try {
       rule.display = this.buildFunction(displayFunctionBody).call(this);
     } catch (error) {
-      console.log(
+      console.error(
         "Failed to build function for " + rule.code + " " + displayFunctionBody
       );
     }
@@ -227,7 +227,7 @@ class Engine {
         const token = tokens[i];
         const tokenRule = this.rules[token];
         if (!tokenRule) {
-          console.log("Token not found: " + token);
+          console.error("Token not found: " + token);
         } else {
           if (
             tokenRule.category === "calculation" &&
@@ -257,7 +257,9 @@ class Engine {
       try {
         rule.value = this.buildFunction(functionBody).call(this);
       } catch (error) {
-        console.log("Failed to build function for " + rule.code + functionBody);
+        console.error(
+          "Failed to build function for " + rule.code + functionBody
+        );
       }
     }
 

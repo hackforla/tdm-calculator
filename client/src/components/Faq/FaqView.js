@@ -16,7 +16,7 @@ const FaqView = () => {
         setFaqList(response.data);
       })
       .catch(error => {
-        console.log(JSON.stringify(error, null, 2));
+        console.error(JSON.stringify(error, null, 2));
       });
 
     // check if admin

@@ -24,13 +24,13 @@ const Faq = ({ faq, admin }) => {
         setToggleUpdate(!toggleUpdate);
       })
       .catch(error => {
-        console.log(JSON.stringify(error, null, 2));
+        console.error(JSON.stringify(error, null, 2));
       });
   };
 
   const onDelete = () => {
     faqService.del(faq.faqId).catch(error => {
-      console.log(JSON.stringify(error, null, 2));
+      console.error(JSON.stringify(error, null, 2));
     });
   };
 

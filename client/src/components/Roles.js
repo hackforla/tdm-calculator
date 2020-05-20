@@ -69,13 +69,9 @@ const Roles = () => {
 
   useEffect(() => {
     const getAccounts = async () => {
-      try {
-        const result = await accountService.search();
-        setAccounts(result);
-        setFilteredAccounts(result);
-      } catch (err) {
-        console.log(err);
-      }
+      const result = await accountService.search();
+      setAccounts(result);
+      setFilteredAccounts(result);
     };
     getAccounts();
   }, []);
@@ -118,7 +114,7 @@ const Roles = () => {
       await accountService.putRoles(reqBody);
       toast.add(msg);
     } catch (err) {
-      console.log(err);
+      toast.add(err);
     }
   };
 

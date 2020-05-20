@@ -19,7 +19,7 @@ const FaqAdd = () => {
   const onSubmitFaq = event => {
     event.preventDefault();
     faqService.post(newFaq).catch(error => {
-      console.log(JSON.stringify(error, null, 2));
+      console.error(JSON.stringify(error, null, 2));
     });
 
     setToggle(!toggle);
