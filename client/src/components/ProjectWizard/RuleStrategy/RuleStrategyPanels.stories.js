@@ -9,7 +9,8 @@ const rules = tdmRules.filter(
 );
 
 export const actions = {
-  onInputChange: action("onInputChange")
+  onInputChange: action("onInputChange"),
+  onCommentChange: action("onCommentChange")
 };
 
 storiesOf("RuleStrategyPanels", module).add("default", () => (
