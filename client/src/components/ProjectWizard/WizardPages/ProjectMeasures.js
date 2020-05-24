@@ -103,24 +103,26 @@ function ProjectMeasure(props) {
             }}
           />
         </button>
-        {showResidentialPkg ? (
-          <button
-            className="tdm-wizard-pkg-button"
-            onClick={() => onPkgSelect("Residential")}
-            disabled={disabledResidentialPkg}
-          >
-            Select Residential Package
-          </button>
-        ) : null}
-        {showEmploymentPkg ? (
-          <button
-            className="tdm-wizard-pkg-button"
-            onClick={() => onPkgSelect("Employment")}
-            disabled={disabledEmploymentPkg}
-          >
-            Select Employment Package
-          </button>
-        ) : null}
+        <div className={classes.alignMid}>
+          {showResidentialPkg ? (
+            <button
+              className="tdm-wizard-pkg-button"
+              onClick={() => onPkgSelect("Residential")}
+              disabled={disabledResidentialPkg}
+            >
+              Select Residential Package
+            </button>
+          ) : null}
+          {showEmploymentPkg ? (
+            <button
+              className="tdm-wizard-pkg-button"
+              onClick={() => onPkgSelect("Employment")}
+              disabled={disabledEmploymentPkg}
+            >
+              Select Employment Package
+            </button>
+          ) : null}
+        </div>
         <button className={classes.unSelectButton} onClick={uncheckAll}>
           Reset Page
         </button>

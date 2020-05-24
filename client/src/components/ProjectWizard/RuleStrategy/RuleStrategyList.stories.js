@@ -7,7 +7,8 @@ import { tdmRules } from "../../../test-data/tdm-calc-rules";
 const rules = tdmRules.filter(rule => rule.calculationPanelId === 22);
 
 export const actions = {
-  onInputChange: action("onInputChange")
+  onInputChange: action("onInputChange"),
+  onCommentChange: action("onCommentChange")
 };
 
 storiesOf("RuleStrategyList", module).add("default", () => (
