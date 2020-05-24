@@ -32,7 +32,6 @@ const useStyles = createUseStyles({
 const App = () => {
   const classes = useStyles();
   const [account, setAccount] = useState({});
-  const [hasClosedInfoBox, setHasClosedInfoBox] = useState(false);
   const [isCreatingNewProject, setIsCreatingNewProject] = useState(false);
 
   useEffect(() => {
@@ -88,8 +87,6 @@ const App = () => {
               path="/calculation/:page?/:projectId?"
               render={() => (
                 <TdmCalculationContainer
-                  hasClosedInfoBox={hasClosedInfoBox}
-                  setHasClosedInfoBox={setHasClosedInfoBox}
                   account={account}
                   setIsCreatingNewProject={setIsCreatingNewProject}
                 />
