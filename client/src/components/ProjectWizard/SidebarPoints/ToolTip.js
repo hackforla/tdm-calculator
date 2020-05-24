@@ -45,7 +45,7 @@ const ToolTip = ({ tipText }) => {
   const [tipVisibility, setTipVisibility] = useState(false);
   const classes = useStyles();
   const handleClick = () => {
-    setTipVisibility(!tipVisibility);
+    //setTipVisibility(!tipVisibility);
   };
   const showTip = tipVisibility ? "showTip" : "";
   return (
