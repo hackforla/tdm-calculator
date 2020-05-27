@@ -64,14 +64,29 @@ const useStyles = createUseStyles({
     marginTop: "4px"
   },
   tooltip: {
-    padding: "10px",
+    padding: "15px",
     minWidth: "200px",
-    maxWidth: "400px"
+    maxWidth: "400px",
+    fontFamily: "Arial",
+    fontSize: 12,
+    lineHeight: "16px",
+    fontWeight: "bold",
+    "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    "-webkit-border-radius": 2,
+    "-moz-border-radius": 2,
+    borderRadius: 2,
+    "&.show": {
+      visibility: "visible !important",
+      opacity: "1 !important"
+    }
   }
 });
 
 const RuleStrategy = ({
   rule: {
+    id,
     code,
     name,
     dataType,
@@ -91,10 +106,8 @@ const RuleStrategy = ({
   onCommentChange
 }) => {
   const classes = useStyles();
-
   const possibleAndEarnedPointsContainers = () => {
     const calculationUnits = calcUnits ? calcUnits : "";
-
     return (
       <React.Fragment>
         <div className={classes.points}>
@@ -107,9 +120,9 @@ const RuleStrategy = ({
             : null}
         </div>
         <div className={classes.points}>
-          {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
-            calculationUnits || ""
-          }`}
+          {`${
+            calcValue ? Math.round(calcValue * 100) / 100 : ""
+          } ${calculationUnits || ""}`}
         </div>
       </React.Fragment>
     );
@@ -122,7 +135,7 @@ const RuleStrategy = ({
           <label
             htmlFor={code}
             className={classes.strategyName}
-            data-for="main"
+            data-for={"main" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -151,7 +164,7 @@ const RuleStrategy = ({
           <label
             htmlFor={code}
             className={classes.strategyName}
-            data-for="main"
+            data-for={"main" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -177,7 +190,7 @@ const RuleStrategy = ({
           <label
             htmlFor={code}
             className={classes.strategyName}
-            data-for="main"
+            data-for={"main" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -208,7 +221,7 @@ const RuleStrategy = ({
           <label
             htmlFor={code}
             className={classes.strategyName}
-            data-for="main"
+            data-for={"main" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -230,7 +243,7 @@ const RuleStrategy = ({
       ) : (
         <div
           className={classes.strategyContainer}
-          data-for="main"
+          data-for={"main" + id}
           data-tip={description}
           data-iscapture="true"
           data-html="true"
@@ -261,12 +274,19 @@ const RuleStrategy = ({
         </div>
       ) : null}
       <ReactTooltip
-        id="main"
-        place="top"
+        id={"main" + id}
+        place="right"
         type="info"
         effect="float"
         multiline={true}
-        style={{ width: "25vw" }}
+        style={{
+          width: "25vw"
+        }}
+        textColor="#32578A"
+        backgroundColor="#F7F9FA"
+        border={true}
+        borderColor="#B2C0D3"
+        offset={{ right: 20 }}
       />
     </React.Fragment>
   );
