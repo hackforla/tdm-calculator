@@ -29,13 +29,7 @@ const resultRuleCodes = [
 ];
 
 export function TdmCalculationContainer(props) {
-  const {
-    history,
-    account,
-    classes,
-    hasClosedInfoBox,
-    setHasClosedInfoBox
-  } = props;
+  const { history, account, classes } = props;
   const context = useContext(ToastContext);
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
@@ -323,8 +317,6 @@ export function TdmCalculationContainer(props) {
           account={account}
           loginId={loginId}
           onSave={onSave}
-          hasClosedInfoBox={hasClosedInfoBox}
-          setHasClosedInfoBox={setHasClosedInfoBox}
         />
       ) : (
         <TdmCalculation
@@ -365,9 +357,7 @@ TdmCalculationContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   location: PropTypes.shape({
     search: PropTypes.string
-  }),
-  hasClosedInfoBox: PropTypes.bool,
-  setHasClosedInfoBox: PropTypes.func
+  })
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

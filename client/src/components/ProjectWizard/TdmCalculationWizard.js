@@ -58,20 +58,24 @@ const useStyles = createUseStyles({
   },
   unSelectContainer: {
     display: "grid",
-    gridTemplateColumns: "20% auto 20%",
+    gridTemplateColumns: "[h-start] 20% [h-mid] auto [h-end] 20%",
     alignItems: "center",
     justifyContent: "space-between",
-    position: "relative",
-    height: "32px"
+    position: "relative"
   },
   unSelectButton: {
     marginLeft: "auto",
     marginRight: "1em",
-    gridColumn: 3,
+    gridColumn: "h-end",
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
     textDecoration: "underline"
+  },
+  alignMid: {
+    gridColumn: "h-mid",
+    display: "flex",
+    justifyContent: "center"
   }
 });
 
@@ -79,8 +83,6 @@ const TdmCalculationWizard = props => {
   const context = useContext(ToastContext);
   const classes = useStyles();
   const {
-    hasClosedInfoBox,
-    setHasClosedInfoBox,
     rules,
     onInputChange,
     onCommentChange,
@@ -178,8 +180,6 @@ const TdmCalculationWizard = props => {
           landUseRules={landUseRules}
           onInputChange={onInputChange}
           onCommentChange={onCommentChange}
-          hasClosedInfoBox={hasClosedInfoBox}
-          setHasClosedInfoBox={setHasClosedInfoBox}
           classes={classes}
           onPkgSelect={onPkgSelect}
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
@@ -347,9 +347,7 @@ TdmCalculationWizard.propTypes = {
   account: PropTypes.object.isRequired,
   loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
-  onViewChange: PropTypes.func.isRequired,
-  hasClosedInfoBox: PropTypes.bool,
-  setHasClosedInfoBox: PropTypes.func
+  onViewChange: PropTypes.func.isRequired
 };
 
 export default withRouter(TdmCalculationWizard);
