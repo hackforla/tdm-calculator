@@ -82,8 +82,12 @@ export function TdmCalculationContainer(props) {
         setRules(engine.showRulesArray());
       } catch (err) {
         console.error(JSON.stringify(err, null, 2));
-        toast.add(`Error: ${err.message}`);
-        account.id ? history.push("/projects") : history.push(`/login/`);
+        const errMessage = account.id
+          ? "The project you are trying to view can only be viewed by the user."
+          : "You must be logged in to view project.";
+        const redirect = account.id ? "/projects" : "/login";
+        toast.add(errMessage);
+        history.push(redirect);
       }
     };
     initiateEngine();
@@ -346,7 +350,8 @@ TdmCalculationContainer.propTypes = {
   account: PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
-    id: PropTypes.number
+    id: PropTypes.number,
+    email: PropTypes.string
   }),
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -361,7 +366,7 @@ TdmCalculationContainer.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string
   }),
-  hasClosedInfobox: PropTypes.bool,
+  hasClosedInfoBox: PropTypes.bool,
   setHasClosedInfoBox: PropTypes.func
 };
 
