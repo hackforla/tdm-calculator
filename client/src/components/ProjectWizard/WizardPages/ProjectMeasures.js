@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
+import InfoBox from "../InfoBox";
+import ToolTipIcon from "../SidebarPoints/ToolTipIcon";
+import useLocalStorage from "../../useLocalStorage";
 
 function ProjectMeasure(props) {
   const {
@@ -13,6 +16,10 @@ function ProjectMeasure(props) {
     uncheckAll
   } = props;
 
+  const [displayInfoBox, setDisplayInfoBox] = useLocalStorage(
+    "displayBox",
+    true
+  );
   const showResidentialPkg = (() => {
     // Only show button if one of the land uses is Residential
     const triggerRule = landUseRules.filter(
@@ -67,25 +74,55 @@ function ProjectMeasure(props) {
       <h3 className="tdm-wizard-page-subtitle">
         Select strategies to earn TDM points
       </h3>
+      <InfoBox
+        displayStatus={displayInfoBox}
+        handleClick={() => setDisplayInfoBox(false)}
+      >
+        <ToolTipIcon /> For detailed information, hover the mouse cursor over
+        the terminology.
+      </InfoBox>
       <div className={classes.unSelectContainer}>
-        {showResidentialPkg ? (
-          <button
-            className="tdm-wizard-pkg-button"
-            onClick={() => onPkgSelect("Residential")}
-            disabled={disabledResidentialPkg}
-          >
-            Select Residential Package
-          </button>
-        ) : null}
-        {showEmploymentPkg ? (
-          <button
-            className="tdm-wizard-pkg-button"
-            onClick={() => onPkgSelect("Employment")}
-            disabled={disabledEmploymentPkg}
-          >
-            Select Employment Package
-          </button>
-        ) : null}
+        <button
+          onClick={() => setDisplayInfoBox(true)}
+          style={{
+            visibility: displayInfoBox ? "hidden" : "visible",
+            height: 30,
+            padding: 0,
+            marginTop: 0,
+            marginBottom: 0,
+            marginRight: "auto",
+            marginLeft: "1em",
+            backgroundColor: "transparent",
+            borderStyle: "none",
+            cursor: "pointer"
+          }}
+        >
+          <ToolTipIcon
+            circleStyle={{
+              filter: "drop-shadow(0px 4px 2px rgba(0, 46, 109, 0.3))"
+            }}
+          />
+        </button>
+        <div className={classes.alignMid}>
+          {showResidentialPkg ? (
+            <button
+              className="tdm-wizard-pkg-button"
+              onClick={() => onPkgSelect("Residential")}
+              disabled={disabledResidentialPkg}
+            >
+              Select Residential Package
+            </button>
+          ) : null}
+          {showEmploymentPkg ? (
+            <button
+              className="tdm-wizard-pkg-button"
+              onClick={() => onPkgSelect("Employment")}
+              disabled={disabledEmploymentPkg}
+            >
+              Select Employment Package
+            </button>
+          ) : null}
+        </div>
         <button className={classes.unSelectButton} onClick={uncheckAll}>
           Reset Page
         </button>

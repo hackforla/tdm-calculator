@@ -57,20 +57,25 @@ const useStyles = createUseStyles({
     marginTop: "2em"
   },
   unSelectContainer: {
-    display: "flex",
-    flexDirection: "row",
+    display: "grid",
+    gridTemplateColumns: "[h-start] 20% [h-mid] auto [h-end] 20%",
     alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-    height: "32px"
+    justifyContent: "space-between",
+    position: "relative"
   },
   unSelectButton: {
-    position: "absolute",
-    right: "24px",
+    marginLeft: "auto",
+    marginRight: "1em",
+    gridColumn: "h-end",
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
     textDecoration: "underline"
+  },
+  alignMid: {
+    gridColumn: "h-mid",
+    display: "flex",
+    justifyContent: "center"
   }
 });
 
