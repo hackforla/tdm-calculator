@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { createBrowserHistory } from "history";
+import { useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -67,11 +67,10 @@ const useStyles = createUseStyles({
   }
 });
 
-const history = createBrowserHistory();
-
 const Header = props => {
   const { account, setAccount, isCreatingNewProject } = props;
   const classes = useStyles();
+  const history = useHistory();
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   // TODO: url path changes to /login, but page doesn't actually redirect you to login page
