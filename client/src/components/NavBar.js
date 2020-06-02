@@ -30,7 +30,7 @@ const useStyles = createUseStyles({
     textDecoration: "none",
     marginRight: "2em",
     "&:hover": {
-      textDecoration: "underline"
+      color: "#a7c539"
     },
     "@media (max-width:900px)": {
       marginRight: "1em"
@@ -38,14 +38,12 @@ const useStyles = createUseStyles({
   },
   currentLink: {
     borderBottom: "2px solid #a7c539"
-    // backgroundColor: "#a7c539"
   },
   linkUnclickable: {
-    color: "#ffffff",
+    color: "rgba(255, 255, 255, 0.5)",
     textDecoration: "none",
     marginRight: "2em",
     pointer: "none",
-    // opacity: "50%",
     cursor: "default",
     "@media (max-width:900px)": {
       marginRight: "1em"
