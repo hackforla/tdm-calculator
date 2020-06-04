@@ -73,7 +73,6 @@ const Header = props => {
   const history = useHistory();
   const [navbarOpen, setNavbarOpen] = useState(false);
 
-  // TODO: url path changes to /login, but page doesn't actually redirect you to login page
   const setLoggedOutAccount = () => {
     localStorage.clear();
     setAccount({});
