@@ -273,7 +273,7 @@ const ProjectSummary = props => {
                 </div>
               ))
             : null}
-          <h2 className={classes.heading}>Required Parking Calculation</h2>
+          <h2 className={classes.heading}>Baseline Parking Calculation</h2>
           {rules && rules.length > 0
             ? specificationRules.map(rule => (
                 <div key={rule.id} className={classes.rule}>
