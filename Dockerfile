@@ -1,28 +1,21 @@
- FROM node:alpine as clientBuilder
+FROM node:alpine as clientBuilder
 
-COPY ./client /
-WORKDIR /
+COPY ./client /app
+WORKDIR /app
 
-RUN apk update && apk add bash
 RUN npm install
 RUN npm run build
 
-FROM node:alpine
+FROM node
 
-RUN apk update
-RUN apk add --no-cache ca-certificates
+COPY --from=clientBuilder /app/build /client
+
+COPY . /
+
+WORKDIR /
+
+RUN npm install
+
+ENTRYPOINT ["/usr/local/bin/node", "server.js"]
 
 
-COPY --from=clientBuilder /dist ./static
-
-COPY ./server .
-
-RUN pip3 install -r requirements.txt
-# COPY server/templates /app/templates
-# COPY server/static /app/static
-
-RUN chmod 777 /app/startup.sh
-
-EXPOSE 80
-
-ENTRYPOINT ["/app/startup.sh"]
