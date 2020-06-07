@@ -120,9 +120,9 @@ const RuleStrategy = ({
             : null}
         </div>
         <div className={classes.points}>
-          {`${
-            calcValue ? Math.round(calcValue * 100) / 100 : ""
-          } ${calculationUnits || ""}`}
+          {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+            calculationUnits || ""
+          }`}
         </div>
       </React.Fragment>
     );

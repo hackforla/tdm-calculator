@@ -29,7 +29,7 @@ const resultRuleCodes = [
 ];
 
 export function TdmCalculationContainer(props) {
-  const { history } = props;
+  const { history, account, classes } = props;
   const context = useContext(ToastContext);
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
@@ -76,6 +76,12 @@ export function TdmCalculationContainer(props) {
         setRules(engine.showRulesArray());
       } catch (err) {
         console.error(JSON.stringify(err, null, 2));
+        const errMessage = account.id
+          ? "The project you are trying to view can only be viewed by the user."
+          : "You must be logged in to view project.";
+        const redirect = account.id ? "/projects" : "/login";
+        toast.add(errMessage);
+        history.push(redirect);
       }
     };
     initiateEngine();
@@ -294,7 +300,6 @@ export function TdmCalculationContainer(props) {
       rule.display &&
       rule.calculationPanelId !== 10
   };
-  const { account, classes } = props;
   return (
     <div className={classes.root}>
       {view === "w" ? (
@@ -337,7 +342,8 @@ TdmCalculationContainer.propTypes = {
   account: PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
-    id: PropTypes.number
+    id: PropTypes.number,
+    email: PropTypes.string
   }),
   match: PropTypes.shape({
     params: PropTypes.shape({
