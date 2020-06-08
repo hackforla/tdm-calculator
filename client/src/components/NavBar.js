@@ -97,7 +97,7 @@ const NavBar = props => {
   const {
     account,
     setLoggedOutAccount,
-    location,
+    // location,
     navbarOpen,
     setNavbarOpen
   } = props;
@@ -107,30 +107,30 @@ const NavBar = props => {
     setNavbarOpen(window.innerWidth < 768 ? !navbarOpen : false);
   };
 
-  const showNewProjectLink = () => {
-    return location.pathname.split("/")[1] === "calculation" ? (
-      <li className={classes.linkBlock}>
-        <NavLink
-          className={classes.linkUnclickable}
-          activeClassName={classes.currentLink}
-          to="/calculation/1"
-        >
-          New Project
-        </NavLink>
-      </li>
-    ) : (
-      <li className={classes.linkBlock}>
-        <NavLink
-          className={classes.link}
-          exact
-          to="/calculation/1"
-          onClick={handleClick}
-        >
-          New Project
-        </NavLink>
-      </li>
-    );
-  };
+  // const showNewProjectLink = () => {
+  //   return location.pathname.split("/")[1] === "calculation" ? (
+  //     <li className={classes.linkBlock}>
+  //       <NavLink
+  //         className={classes.linkUnclickable}
+  //         activeClassName={classes.currentLink}
+  //         to="/calculation/1"
+  //       >
+  //         Create Project
+  //       </NavLink>
+  //     </li>
+  //   ) : (
+  //     <li className={classes.linkBlock}>
+  //       <NavLink
+  //         className={classes.link}
+  //         exact
+  //         to="/calculation/1"
+  //         onClick={handleClick}
+  //       >
+  //         Create Project
+  //       </NavLink>
+  //     </li>
+  //   );
+  // };
 
   return (
     <ul className={classes.navbar}>
@@ -153,11 +153,21 @@ const NavBar = props => {
             to="/projects"
             onClick={handleClick}
           >
-            Projects
+            My Projects
           </NavLink>
         </li>
       )}
-      {showNewProjectLink()}
+      <li className={classes.linkBlock}>
+        <NavLink
+          className={classes.link}
+          activeClassName={classes.currentLink}
+          exact
+          to="/calculation/1"
+        >
+          Create Project
+        </NavLink>
+      </li>
+      {/* {showNewProjectLink()} */}
       {/* {account && account.isAdmin && (
         <li>
           <Link className={classes.link} to="/admin">
