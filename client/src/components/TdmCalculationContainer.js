@@ -65,7 +65,7 @@ export function TdmCalculationContainer(props) {
       try {
         let projectResponse = null;
         let inputs = {};
-        if (Number(projectId) > 0) {
+        if (Number(projectId) > 0 && account.id) {
           projectResponse = await projectService.getById(projectId);
           setLoginId(projectResponse.data.loginId);
           // console.log("inputs", projectResponse);
@@ -85,7 +85,7 @@ export function TdmCalculationContainer(props) {
       }
     };
     initiateEngine();
-  }, [props.match.params.projectId, engine]);
+  }, [props.match.params.projectId, engine, account]);
 
   const recalculate = formInputs => {
     engine.run(formInputs, resultRuleCodes);
