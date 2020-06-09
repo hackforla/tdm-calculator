@@ -1,6 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { Link, withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import NavBarLogin from "./NavBarLogin";
 import PropTypes from "prop-types";
 
@@ -30,8 +30,21 @@ const useStyles = createUseStyles({
     textDecoration: "none",
     marginRight: "2em",
     "&:hover": {
-      textDecoration: "underline"
+      color: "#a7c539"
     },
+    "@media (max-width:900px)": {
+      marginRight: "1em"
+    }
+  },
+  currentLink: {
+    borderBottom: "2px solid #a7c539"
+  },
+  linkUnclickable: {
+    color: "rgba(255, 255, 255, 0.5)",
+    textDecoration: "none",
+    marginRight: "2em",
+    pointer: "none",
+    cursor: "default",
     "@media (max-width:900px)": {
       marginRight: "1em"
     }
@@ -84,7 +97,7 @@ const NavBar = props => {
   const {
     account,
     setLoggedOutAccount,
-    location,
+    // location,
     navbarOpen,
     setNavbarOpen
   } = props;
@@ -94,35 +107,40 @@ const NavBar = props => {
     setNavbarOpen(window.innerWidth < 768 ? !navbarOpen : false);
   };
 
-  const showNewProjectLink = () => {
-    return location.pathname.split("/")[1] === "calculation" ? null : (
-      <li className={classes.linkBlock}>
-        <Link
-          className={classes.link}
-          to="/calculation/1"
-          onClick={handleClick}
-        >
-          New Project
-        </Link>
-      </li>
-    );
-  };
-
   return (
     <ul className={classes.navbar}>
       <li className={classes.linkBlock}>
-        <Link className={classes.link} to="/" onClick={handleClick}>
+        <NavLink
+          className={classes.link}
+          activeClassName={classes.currentLink}
+          exact
+          to="/"
+          onClick={handleClick}
+        >
           Home
-        </Link>
+        </NavLink>
       </li>
       {account && account.id && (
         <li className={classes.linkBlock}>
-          <Link className={classes.link} to="/projects" onClick={handleClick}>
-            Projects
-          </Link>
+          <NavLink
+            className={classes.link}
+            activeClassName={classes.currentLink}
+            to="/projects"
+            onClick={handleClick}
+          >
+            My Projects
+          </NavLink>
         </li>
       )}
-      {showNewProjectLink()}
+      <li className={classes.linkBlock}>
+        <NavLink
+          className={classes.link}
+          activeClassName={classes.currentLink}
+          to="/calculation"
+        >
+          Create Project
+        </NavLink>
+      </li>
       {/* {account && account.isAdmin && (
         <li>
           <Link className={classes.link} to="/admin">
@@ -132,15 +150,25 @@ const NavBar = props => {
       )} */}
       {account && account.isSecurityAdmin && (
         <li className={classes.linkBlock}>
-          <Link className={classes.link} to="/roles" onClick={handleClick}>
+          <NavLink
+            className={classes.link}
+            activeClassName={classes.currentLink}
+            to="/roles"
+            onClick={handleClick}
+          >
             Security
-          </Link>
+          </NavLink>
         </li>
       )}
       <li className={classes.linkBlock}>
-        <Link className={classes.link} to="/about" onClick={handleClick}>
+        <NavLink
+          className={classes.link}
+          activeClassName={classes.currentLink}
+          to="/about"
+          onClick={handleClick}
+        >
           About
-        </Link>
+        </NavLink>
       </li>
       {/* 
       <li>
