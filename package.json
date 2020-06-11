@@ -33,6 +33,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "path": "^0.12.7",
+    "react-modal": "^3.11.2",
     "tedious-connection-pool": "^1.0.5"
   },
   "devDependencies": {
