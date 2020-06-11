@@ -71,6 +71,7 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1"
   },
+
   select: {
     flexBasis: "45%",
     flexGrow: "1",
@@ -110,6 +111,9 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
+  },
+  textInputLabelAnchor: {
+    textDecoration: "underline"
   },
   textarea: {
     flexBasis: "50%",
@@ -197,7 +201,12 @@ const RuleInput = ({
             }
           >
             {link ? (
-              <a href={link} target="_blank" rel="noopener noreferrer">
+              <a
+                href={link}
+                className={classes.textInputLabelAnchor}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {name}
               </a>
             ) : (
@@ -236,7 +245,12 @@ const RuleInput = ({
             }
           >
             {link ? (
-              <a href={link} target="_blank" rel="noopener noreferrer">
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.textInputLabelAnchor}
+              >
                 {name}
               </a>
             ) : (
@@ -275,7 +289,12 @@ const RuleInput = ({
             }
           >
             {link ? (
-              <a href={link} target="_blank" rel="noopener noreferrer">
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.textInputLabelAnchor}
+              >
                 {name}
               </a>
             ) : (
@@ -318,7 +337,12 @@ const RuleInput = ({
             }
           >
             {link ? (
-              <a href={link} target="_blank" rel="noopener noreferrer">
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.textInputLabelAnchor}
+              >
                 {name}
               </a>
             ) : (
@@ -382,7 +406,12 @@ const RuleInput = ({
             }
           >
             {link ? (
-              <a href={link} target="_blank" rel="noopener noreferrer">
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.textInputLabelAnchor}
+              >
                 {name}
               </a>
             ) : (
