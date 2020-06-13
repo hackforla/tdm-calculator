@@ -211,10 +211,12 @@ const Projects = ({ account, history }) => {
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
   const classes = useStyles();
   const toast = useToast();
 
   const email = account.email;
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   const expiredTokenRedirect = useCallback(() => {
     toast.add(
@@ -239,13 +241,14 @@ const Projects = ({ account, history }) => {
       }
     };
     getProjects();
-  }, [expiredTokenRedirect]);
+  }, [expiredTokenRedirect, selectedProject]);
 
   const toggleDuplicateModal = () => {
     setDuplicateModalOpen(!duplicateModalOpen);
   };
 
-  const toggleDeleteModal = () => {
+  const toggleDeleteModal = project => {
+    project ? setSelectedProject(project) : setSelectedProject(null);
     setDeleteModalOpen(!deleteModalOpen);
   };
 
@@ -341,6 +344,12 @@ const Projects = ({ account, history }) => {
     }
 
     return true;
+  };
+
+  const deleteProject = async project => {
+    await projectService.del(project.id);
+    toggleDeleteModal();
+    setSelectedProject(null);
   };
 
   const headerData = [
@@ -443,12 +452,15 @@ const Projects = ({ account, history }) => {
                     : moment(project.dateModified).format("MM/DD/YYYY")}
                 </td>
                 <td className={classes.actionIcons}>
+                  {/* Temporarily commenting this out until it is hooked up to the backend
                   <button onClick={toggleDuplicateModal}>
                     <img src={CopyIcon} alt="Duplicate Project" />
-                  </button>
-                  <button onClick={toggleDeleteModal}>
-                    <img src={DeleteIcon} alt="Delete Project" />
-                  </button>
+                  </button> */}
+                  {project.loginId === currentUser.id && (
+                    <button onClick={() => toggleDeleteModal(project)}>
+                      <img src={DeleteIcon} alt="Delete Project" />
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
@@ -495,19 +507,28 @@ const Projects = ({ account, history }) => {
           <img src={DeleteIcon} /> Delete
         </h2>
         <p className={classes.deleteCopy}>
-          <img src={WarningIcon} className={classes.warningIcon} /> Do you want
-          delete the selected project permanently?
+          <img src={WarningIcon} className={classes.warningIcon} />
+          Are you sure you want to permanently delete the selected project
+          <strong> ({selectedProject && selectedProject.name}) </strong>?
         </p>
         <div className={classes.modalActions}>
           <button onClick={toggleDeleteModal} className={classes.cancelBtn}>
             Cancel
           </button>
-          <button className={classes.deleteBtn}>Delete</button>
+          <button
+            className={classes.deleteBtn}
+            onClick={() => deleteProject(selectedProject)}
+          >
+            Delete
+          </button>
         </div>
       </Modal>
     </div>
   );
 };
+
+// Required to bind modal to our appElement (http://reactcommunity.org/react-modal/accessibility/)
+Modal.setAppElement("#root");
 
 Projects.propTypes = {
   account: PropTypes.shape({
