@@ -28,13 +28,6 @@ const useStyles = createUseStyles({
   pageTitle: {
     marginTop: "2em"
   },
-  pageSubtitle: {
-    marginTop: "0.5em",
-    textAlign: "center",
-    fontSize: "20px",
-    fontWeight: "normal",
-    fontStyle: "normal"
-  },
   searchBarWrapper: {
     position: "relative",
     alignSelf: "flex-end"
@@ -42,13 +35,12 @@ const useStyles = createUseStyles({
   searchBar: {
     maxWidth: "100%",
     width: "382px",
-    padding: "12px 12px 12px 48px",
-    margin: "40px 0 0"
+    padding: "12px 12px 12px 48px"
   },
   searchIcon: {
     position: "absolute",
     left: "16px",
-    top: "52px"
+    top: "12px"
   },
   table: {
     margin: "20px",
