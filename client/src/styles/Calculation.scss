@@ -71,7 +71,7 @@
   padding-top: 0.35em;
   padding-bottom: 0.35em;
   background-color: $color-highlight;
-  color: #0F2940;
+  color: #0f2940;
   display: inline;
   margin: 0.5em;
   font-size: 2em;
@@ -168,6 +168,9 @@
   flex-direction: column;
   flex: 1 1 auto;
   min-width: 60vw;
+  max-width: 600px;
+  // border: 1px solid blue;
+  color: #0f2940;
 }
 
 @media (max-width: 768px) {

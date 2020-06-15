@@ -208,6 +208,23 @@ button.link {
   display: none;
 }
 
+.center {
+  margin: 0 auto;
+}
+
+.background-gray {
+  background: #e7ebf0;
+}
+
+.border-gray {
+  border: 1px solid #e7ebf0;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 // add any override to the default styles in the individual component styles
 @import "./AuthForms.scss"; // Login and Register components
 @import "./Calculation.scss";

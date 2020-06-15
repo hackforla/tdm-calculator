@@ -364,6 +364,27 @@ button.link {
   display: none;
 }
 
+.center {
+  margin: 0 auto;
+}
+
+.background-gray {
+  background: #e7ebf0;
+}
+
+.border-gray {
+  border: 1px solid #e7ebf0;
+}
+
+.space-between {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
 @font-face {
   font-family: "Calibri";
   src: url("fonts/calibri.eot");
@@ -718,6 +739,8 @@ button.link {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   min-width: 60vw;
+  max-width: 600px;
+  color: #0f2940;
 }
 
 @media (max-width: 768px) {

@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     flex: "1 1 auto",
-    minWidth: "60vw"
+    minWidth: "600px"
   },
   subtitle: {
     marginBottom: 0
@@ -26,21 +26,27 @@ const useStyles = createUseStyles({
     marginBottom: "20px"
   },
   measure: {
-    width: "25%",
+    height: "132px",
+    minWidth: "293px",
     display: "flex",
     flexDirection: "column",
-    border: "1px solid black",
-    borderRadius: "6px",
-    padding: "0.5em",
-    alignItems: "center"
+    alignItems: "center",
+    fontFamily: "Oswald"
   },
   measureValue: {
-    fontFamily: "Calibri Bold",
-    fontSize: "3em"
+    fontSize: "42px",
+    marginTop: "33px",
+    fontWeight: "bold"
+  },
+  measurePercent: {
+    fontSize: "24px",
+    marginLeft: "3px"
   },
   label: {
-    fontFamily: "Calibri Bold",
-    fontSize: "1em"
+    fontSize: "16px",
+    fontWeight: 500,
+    marginTop: "10px",
+    textTransform: "uppercase"
   },
   heading: {
     marginTop: "1em"
@@ -89,6 +95,76 @@ const useStyles = createUseStyles({
     height: "50px",
     display: "flex",
     justifyContent: "center"
+  },
+  lastSaved: {
+    fontSize: "14px",
+    color: "#6F6C64"
+  },
+  lastSavedContainer: {
+    margin: "24px auto 0"
+  },
+  projectInfoContainer: {
+    margin: "70px auto 0",
+    width: "100%",
+    minHeight: "100px"
+  },
+  textProjectInfoHeader: {
+    fontSize: "18px",
+    fontWeight: "900",
+    fontFamily: "Calibri Bold"
+  },
+  projectInfoDetailsContainer: {
+    borderTop: "1px solid #E7EBF0",
+    marginTop: "13px",
+    paddingTop: "13px",
+    height: "55px",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    maxWidth: "100%"
+  },
+  projectInfoDetailsSubContainer: {
+    display: "flex",
+    alignItems: "center",
+    maxHeight: "20px",
+    width: "50%"
+  },
+  projectInfoCategory: {
+    fontFamily: "Oswald",
+    fontSize: "12px",
+    textTransform: "uppercase",
+    textAlign: "right",
+    color: "rgba(15, 41, 64, 0.5)",
+    minWidth: "100px",
+    marginRight: "17px"
+  },
+  projectInfoDetails: {
+    fontSize: "16px",
+    fontFamily: "Calibri Bold"
+  },
+  categoryContainer: {
+    marginTop: "40px"
+  },
+  categoryHeader: {
+    fontFamily: "Oswald, Calibri",
+    fontSize: "16px",
+    fontWeight: "500"
+  },
+  resultsContainer: {
+    borderTop: "1px solid #E7EBF0",
+    marginTop: "3px",
+    paddingTop: "13px",
+    height: "350px",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    maxWidth: "100%"
+  },
+  resultsSuccess: {
+    fontSize: "16px",
+    width: "100%",
+    textAlign: "center",
+    color: "#748927"
   }
 });
 
@@ -159,90 +235,130 @@ const ProjectSummary = props => {
   return (
     <div className={clsx("tdm-wizard-review-page", classes.root)}>
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
-      {projectName && projectName.value ? (
-        <h3 className={clsx("tdm-wizard-page-subtitle", classes.subtitle)}>
-          {projectName.value}
-        </h3>
-      ) : null}
-      {projectAddress && projectAddress.value ? (
-        <h3 className={clsx("tdm-wizard-page-subtitle", classes.subtitle)}>
-          {projectAddress.value}
-        </h3>
-      ) : null}
-      {projectDescription && projectDescription.value ? (
-        <p className={classes.alignCenter}>{projectDescription.value} </p>
-      ) : null}
+      <div className={classes.lastSavedContainer}>
+        <span className={classes.lastSaved}>
+          <i className="far fa-clock"></i>Last saved: 6/14/20 12:56pm
+        </span>
+      </div>
+      <div className={classes.projectInfoContainer}>
+        {projectName && projectName.value ? (
+          <span className={classes.textProjectInfoHeader}>
+            {projectName.value}
+          </span>
+        ) : null}
+        {projectAddress && projectAddress.value ? (
+          <span className={classes.textProjectInfoHeader}>
+            {projectAddress.value}
+          </span>
+        ) : null}
+        {projectDescription && projectDescription.value ? (
+          <p className={classes.alignCenter}>{projectDescription.value} </p>
+        ) : null}
+        <div className={classes.projectInfoDetailsContainer}>
+          <div className={classes.projectInfoDetailsSubContainer}>
+            <span className={classes.projectInfoCategory}>
+              BUILDING PERMIT #
+            </span>
+            <span className={classes.projectInfoDetails}>2020LA51416</span>
+          </div>
+          <div className={classes.projectInfoDetailsSubContainer}>
+            <span className={classes.projectInfoCategory}>PARCEL # (AIN)</span>
+            <span className={classes.projectInfoDetails}>4239-016-006</span>
+          </div>
+          <div className={classes.projectInfoDetailsSubContainer}>
+            <span className={classes.projectInfoCategory}>CASE #</span>
+            <span className={classes.projectInfoDetails}>000000-09LK</span>
+          </div>
+          <div className={classes.projectInfoDetailsSubContainer}>
+            <span className={classes.projectInfoCategory}>VERSION #</span>
+            <span className={classes.projectInfoDetails}>005</span>
+          </div>
+        </div>
+      </div>
+
       {!loading ? (
         <>
-          <div className={classes.grid}>
-            {level ? (
-              <div className={classes.measure}>
-                <div
-                  className={classes.measureValue}
-                  data-testid="summary-project-level-value"
-                >
-                  {level.value}
+          <div className={classes.categoryContainer}>
+            <span className={classes.categoryHeader}>RESULTS</span>
+            <div className={clsx("space-between", classes.resultsContainer)}>
+              {level ? (
+                <div className={clsx("background-gray", classes.measure)}>
+                  <div
+                    className={classes.measureValue}
+                    data-testid="summary-project-level-value"
+                  >
+                    {level.value}
+                  </div>
+                  <div
+                    className={clsx(classes.alignCenter, classes.label)}
+                    data-testid="summary-project-level-label"
+                  >
+                    {level.name}
+                  </div>
                 </div>
-                <div
-                  className={clsx(classes.alignCenter, classes.label)}
-                  data-testid="summary-project-level-label"
-                >
-                  {level.name}
-                </div>
-              </div>
-            ) : null}
+              ) : null}
 
-            {parkingRatio ? (
-              <div className={classes.measure}>
-                <div
-                  className={classes.measureValue}
-                  data-testid="summary-parking-ratio-value"
-                >
-                  {`${Math.floor(parkingRatio.value).toString()} %`}
+              {parkingRatio ? (
+                <div className={clsx("background-gray", classes.measure)}>
+                  <div
+                    className={classes.measureValue}
+                    data-testid="summary-parking-ratio-value"
+                  >
+                    {`${Math.floor(parkingRatio.value).toString()}`}
+                    <span className={classes.measurePercent}>%</span>
+                  </div>
+                  <div
+                    className={clsx(classes.alignCenter, classes.label)}
+                    data-testid="summary-parking-ratio-label"
+                  >
+                    {parkingRatio.name}
+                  </div>
                 </div>
-                <div
-                  className={clsx(classes.alignCenter, classes.label)}
-                  data-testid="summary-parking-ratio-label"
-                >
-                  {parkingRatio.name}
-                </div>
-              </div>
-            ) : null}
-          </div>
-          <div className={classes.grid}>
-            {targetPoints ? (
-              <div className={classes.measure}>
-                <div
-                  className={classes.measureValue}
-                  data-testid={"summary-target-points-value"}
-                >
-                  {Math.round(targetPoints.value)}
-                </div>
-                <div
-                  className={clsx(classes.alignCenter, classes.label)}
-                  data-testid={"summary-target-points-label"}
-                >
-                  {targetPoints.name}
-                </div>
-              </div>
-            ) : null}
+              ) : null}
 
-            {earnedPoints ? (
-              <div className={classes.measure}>
-                <div
-                  className={classes.measureValue}
-                  data-testid={"summary-earned-points-value"}
-                >
-                  {Math.round(earnedPoints.value)}
+              {targetPoints ? (
+                <div className={clsx("border-gray", classes.measure)}>
+                  <div
+                    className={classes.measureValue}
+                    data-testid={"summary-target-points-value"}
+                  >
+                    {Math.round(targetPoints.value)}
+                  </div>
+                  <div
+                    className={clsx(classes.alignCenter, classes.label)}
+                    data-testid={"summary-target-points-label"}
+                  >
+                    {targetPoints.name}
+                  </div>
                 </div>
-                <div
-                  className={clsx(classes.alignCenter, classes.label)}
-                  data-testid={"summary-earned-points-label"}
-                >
-                  {earnedPoints.name}
+              ) : null}
+
+              {earnedPoints ? (
+                <div className={clsx("border-gray", classes.measure)}>
+                  <div
+                    className={classes.measureValue}
+                    data-testid={"summary-earned-points-value"}
+                  >
+                    {Math.round(earnedPoints.value)}
+                  </div>
+                  <div
+                    className={clsx(classes.alignCenter, classes.label)}
+                    data-testid={"summary-earned-points-label"}
+                  >
+                    {earnedPoints.name}
+                  </div>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
+
+              {
+                // Math.round(earnedPoints.value) >= Math.round(targetPoints.value)
+                targetPoints.value ? (
+                  <span className={classes.resultsSuccess}>
+                    Your earned points successfully meet the target points
+                  </span>
+                ) : null
+              }
+            </div>
           </div>
           <h2 className={classes.heading}>Land Uses</h2>
           <div> {`${landUses}`}</div>
