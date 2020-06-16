@@ -76,6 +76,9 @@ const useStyles = createUseStyles({
     gridColumn: "h-mid",
     display: "flex",
     justifyContent: "center"
+  },
+  buttonContainer: {
+    marginTop: "5px"
   }
 });
 
@@ -271,7 +274,7 @@ const TdmCalculationWizard = props => {
             <div className={classes.navButtonsWrapper}>
               {rules && rules.length ? ( //navigation disabled until rules have loaded
                 <>
-                  <div>
+                  <div className="space-between">
                     <NavButton
                       disabled={Number(page) === 1}
                       onClick={() => {
@@ -280,6 +283,20 @@ const TdmCalculationWizard = props => {
                     >
                       &lt;
                     </NavButton>
+
+                    {account.id &&
+                    (!projectId || account.id === loginId) &&
+                    page === 5 ? (
+                      <div className={classes.buttonContainer}>
+                        <button
+                          className="tdm-wizard-save-button"
+                          onClick={onSave}
+                        >
+                          {projectId ? "Save Project" : "Save As New Project"}
+                        </button>
+                      </div>
+                    ) : null}
+
                     <NavButton
                       disabled={page === 5 || disablePageNavigation}
                       onClick={() => {

@@ -214,6 +214,7 @@ const useStyles = createUseStyles({
 
 const ProjectSummary = props => {
   const classes = useStyles();
+  // eslint-disable-next-line
   const { rules, account, projectId, loginId, onSave } = props;
 
   const landUses = rules
@@ -292,6 +293,7 @@ const ProjectSummary = props => {
         ) : null}
         {projectAddress && projectAddress.value ? (
           <span className={classes.textProjectInfoHeader}>
+            {" "}
             {projectAddress.value}
           </span>
         ) : null}
@@ -512,14 +514,6 @@ const ProjectSummary = props => {
               ) : null}
             </div>
           </div>
-
-          {account.id && (!projectId || account.id === loginId) ? (
-            <div className={classes.buttonContainer}>
-              <button className="tdm-wizard-save-button" onClick={onSave}>
-                {projectId ? "Save Project" : "Save As New Project"}
-              </button>
-            </div>
-          ) : null}
         </>
       ) : (
         <div className={classes.loaderContainer}>
