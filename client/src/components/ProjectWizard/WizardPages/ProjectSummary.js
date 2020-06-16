@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
 
 const useStyles = createUseStyles({
@@ -54,17 +54,21 @@ const useStyles = createUseStyles({
   rule: {
     width: "100%",
     display: "flex",
-    displayDirection: "row",
-    marginLeft: "1em"
+    minHeight: "30px"
   },
   ruleName: {
-    flex: "1 1 auto"
+    width: "350px",
+    // flex: "1 1 auto",
+    fontFamily: "Calibri",
+    fontSize: "16px"
   },
   wideRule: {
     flex: "1 0 75%"
   },
   value: {
-    flex: "0 0 10%",
+    fontFamily: "Oswald",
+    fontSize: "18px",
+    fontWeight: "bold",
     textAlign: "right"
   },
   ruleUnits: {
@@ -75,8 +79,7 @@ const useStyles = createUseStyles({
     flex: "0 0 5%"
   },
   calcUnits: {
-    flex: "0 0 10%",
-    paddingLeft: "1em"
+    margin: "3px 12px 0 10px"
   },
   overline: {
     borderTop: "2px solid black"
@@ -146,14 +149,14 @@ const useStyles = createUseStyles({
     marginTop: "40px"
   },
   categoryHeader: {
-    fontFamily: "Oswald, Calibri",
+    fontFamily: "Oswald",
     fontSize: "16px",
-    fontWeight: "500"
+    fontWeight: "bold"
   },
   resultsContainer: {
     borderTop: "1px solid #E7EBF0",
     marginTop: "3px",
-    paddingTop: "13px",
+    paddingTop: "16px",
     height: "350px",
     display: "flex",
     flexDirection: "row",
@@ -165,6 +168,47 @@ const useStyles = createUseStyles({
     width: "100%",
     textAlign: "center",
     color: "#748927"
+  },
+  landUsesContainer: {
+    borderTop: "1px solid #E7EBF0",
+    marginTop: "3px",
+    paddingTop: "16px"
+  },
+  categoryText: {
+    fontFamily: "Calibri",
+    fontSize: "16px"
+  },
+  measuresContainer: {
+    borderTop: "1px solid #E7EBF0",
+    marginTop: "5px",
+    paddingTop: "16px"
+  },
+  earnedPoints: {
+    fontFamily: "Oswald",
+    fontWeight: "500",
+    fontSize: "12px",
+    color: "rgba(15, 41, 64, 0.5)",
+    paddingTop: "5px"
+  },
+  measureDetails: {
+    fontFamily: "Calibri",
+    fontSize: "14px",
+    textAlign: "right",
+    minWidth: "40px",
+    marginRight: "10px"
+  },
+  measureUnits: {
+    fontFamily: "Calibri",
+    fontSize: "14px"
+  },
+  detailsContainer: {
+    width: "150px",
+    display: "flex"
+  },
+  pointsContainer: {
+    width: "100px",
+    display: "flex",
+    justifyContent: "flex-end"
   }
 });
 
@@ -237,7 +281,7 @@ const ProjectSummary = props => {
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
       <div className={classes.lastSavedContainer}>
         <span className={classes.lastSaved}>
-          <i className="far fa-clock"></i>Last saved: 6/14/20 12:56pm
+          <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved: 6/14/20 12:56pm
         </span>
       </div>
       <div className={classes.projectInfoContainer}>
@@ -350,100 +394,129 @@ const ProjectSummary = props => {
                 </div>
               ) : null}
 
-              {
-                // Math.round(earnedPoints.value) >= Math.round(targetPoints.value)
-                targetPoints.value ? (
-                  <span className={classes.resultsSuccess}>
-                    Your earned points successfully meet the target points
-                  </span>
-                ) : null
-              }
+              {Math.round(earnedPoints.value) >=
+              Math.round(targetPoints.value) ? (
+                <span className={classes.resultsSuccess}>
+                  <FontAwesomeIcon icon={faCheckCircle} color="#748927" />{" "}
+                  &nbsp;Your earned points successfully meet the target points
+                </span>
+              ) : null}
             </div>
           </div>
-          <h2 className={classes.heading}>Land Uses</h2>
-          <div> {`${landUses}`}</div>
-          <h2 className={classes.heading}>TDM Measures Selected</h2>
-          {rules && rules.length > 0
-            ? measureRules.map(rule => (
-                <div key={rule.id} className={classes.rule}>
-                  <div className={classes.ruleName}>{rule.name}</div>
-                  <div className={classes.value}>
-                    {rule.dataType === "boolean" ? (
-                      <FontAwesomeIcon icon={faCheck} />
-                    ) : rule.dataType === "choice" ? (
-                      rule.choices.find(
-                        choice => Number(choice.id) === Number(rule.value)
-                      ).name
-                    ) : (
-                      rule.value
-                    )}
-                  </div>
-                  <div className={classes.ruleUnits}>{rule.units}</div>
-                  <div className={classes.icon}>
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </div>
-                  <div className={classes.value}>
-                    {Math.round(rule.calcValue * 100) / 100}
-                  </div>
-                  <div className={classes.calcUnits}>{rule.calcUnits}</div>
-                </div>
-              ))
-            : null}
-          <h2 className={classes.heading}>Baseline Parking Calculation</h2>
-          {rules && rules.length > 0
-            ? specificationRules.map(rule => (
-                <div key={rule.id} className={classes.rule}>
-                  <div className={classes.ruleName}>{rule.name}</div>
-                  <div className={classes.value}>{rule.value}</div>
-                  <div className={classes.ruleUnits}>{rule.units}</div>
-                  <div className={classes.icon}>
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </div>
-                  <div className={classes.value}>
-                    {Math.round(rule.calcValue * 100) / 100}
-                  </div>
-                  <div className={classes.calcUnits}>{rule.calcUnits}</div>
-                </div>
-              ))
-            : null}
-          {parkingRequired ? (
-            <div className={classes.rule}>
-              <div className={clsx(classes.wideRule, classes.bold)}>
-                {parkingRequired.name}
-              </div>
-              <div
-                className={clsx(classes.value, classes.overline, classes.bold)}
-              >
-                {Math.round(parkingRequired.value * 100) / 100}
-              </div>
-              <div
-                className={clsx(
-                  classes.calcUnits,
-                  classes.overline,
-                  classes.bold
-                )}
-              >
-                {parkingRequired.units}
-              </div>
+
+          <div className={classes.categoryContainer}>
+            <span className={classes.categoryHeader}>LAND USES</span>
+            <div className={classes.landUsesContainer}>
+              <span className={classes.categoryText}> {`${landUses}`}</span>
             </div>
-          ) : null}
-          {parkingProvided ? (
-            <div className={classes.rule}>
-              <div className={clsx(classes.wideRule, classes.bold)}>
-                {parkingProvided.name}
-              </div>
-              <div className={clsx(classes.value, classes.bold)}>
-                {Math.round(parkingProvided.value * 100) / 100}
-              </div>
-              <div className={clsx(classes.calcUnits, classes.bold)}>
-                {parkingProvided.units}
-              </div>
+          </div>
+
+          <div className={classes.categoryContainer}>
+            <div className={clsx("space-between")}>
+              <span className={classes.categoryHeader}>
+                TDM MEASURES SELECTED
+              </span>
+              <span className={classes.earnedPoints}>EARNED POINTS</span>
             </div>
-          ) : null}
+            <div className={classes.measuresContainer}>
+              {rules && rules.length > 0
+                ? measureRules.map(rule => (
+                    <div key={rule.id} className={classes.rule}>
+                      <div className={classes.ruleName}>{rule.name}</div>
+                      <div className={classes.detailsContainer}></div>
+                      {/* <div className={classes.value}>
+                      {rule.dataType === "boolean" ? (
+                        <FontAwesomeIcon icon={faCheck} />
+                      ) : rule.dataType === "choice" ? (
+                        rule.choices.find(
+                          choice => Number(choice.id) === Number(rule.value)
+                        ).name
+                      ) : (
+                            rule.value
+                          )}
+                    </div> */}
+                      <div className={classes.pointsContainer}>
+                        <div className={classes.value}>
+                          {Math.round(rule.calcValue * 100) / 100}
+                        </div>
+                        <div className={classes.calcUnits}>
+                          {rule.calcUnits}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                : null}
+            </div>
+          </div>
+
+          <div className={classes.categoryContainer}>
+            <div className={clsx("space-between")}>
+              <span className={classes.categoryHeader}>
+                REQUIRED PARKING CALCULATION
+              </span>
+              <span className={classes.earnedPoints}>EARNED POINTS</span>
+            </div>
+            <div className={classes.measuresContainer}>
+              {rules && rules.length > 0
+                ? specificationRules.map(rule => (
+                    <div key={rule.id} className={classes.rule}>
+                      <div className={classes.ruleName}>{rule.name}</div>
+                      <div className={classes.detailsContainer}>
+                        <div className={classes.measureDetails}>
+                          {rule.value}
+                        </div>
+                        <div className={classes.measureUnits}>{rule.units}</div>
+                      </div>
+                      <div
+                        className={clsx(
+                          Math.round(rule.calcValue * 100) / 100 === 0 &&
+                            "colorGray",
+                          classes.pointsContainer
+                        )}
+                      >
+                        <div className={classes.value}>
+                          {Math.round(rule.calcValue * 100) / 100}
+                        </div>
+                        <div className={classes.calcUnits}>pts</div>
+                      </div>
+                    </div>
+                  ))
+                : null}
+              <div className={classes.measuresContainer}>
+                {parkingRequired ? (
+                  <div className={classes.rule}>
+                    <div className={clsx(classes.wideRule, classes.bold)}>
+                      {parkingRequired.name}
+                    </div>
+                    <div className={clsx(classes.pointsContainer)}>
+                      <div className={clsx(classes.value)}>
+                        {Math.round(parkingRequired.value * 100) / 100}
+                      </div>
+                      <div className={clsx(classes.calcUnits)}>pts</div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+              {parkingProvided ? (
+                <div className={classes.rule}>
+                  <div className={clsx(classes.wideRule, classes.bold)}>
+                    {parkingProvided.name}
+                  </div>
+                  <div className={classes.pointsContainer}>
+                    <div className={clsx(classes.value)}>
+                      {Math.round(parkingProvided.value * 100) / 100}
+                    </div>
+                    <div className={clsx(classes.calcUnits)}>pts</div>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </div>
+
           {account.id && (!projectId || account.id === loginId) ? (
             <div className={classes.buttonContainer}>
               <button className="tdm-wizard-save-button" onClick={onSave}>
-                {projectId ? "Save Project Changes" : "Save As New Project"}
+                {projectId ? "Save Project" : "Save As New Project"}
               </button>
             </div>
           ) : null}
@@ -453,6 +526,11 @@ const ProjectSummary = props => {
           <Loader loaded={false} className="spinner" left="auto" />
         </div>
       )}
+      <div className={classes.lastSavedContainer}>
+        <span className={classes.lastSaved}>
+          <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved: 6/14/20 12:56pm
+        </span>
+      </div>
     </div>
   );
 };

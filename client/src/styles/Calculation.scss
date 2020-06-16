@@ -47,14 +47,22 @@
 }
 
 .tdm-wizard-save-button {
+  width: 240px;
+  height: 60px;
   padding-left: 0.7em;
   padding-right: 0.7em;
   padding-top: 0.35em;
   padding-bottom: 0.35em;
   background-color: $color-highlight;
-  display: inline;
+  // display: inline;
   margin: 0.5em;
+  color: #253d52;
+  font-family: "Calibri Bold";
+  font-size: 20px;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: none;
   box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
   text-align: center;
 }
@@ -169,8 +177,7 @@
   flex: 1 1 auto;
   min-width: 60vw;
   max-width: 600px;
-  // border: 1px solid blue;
-  color: #0f2940;
+  // color: #0f2940;
 }
 
 @media (max-width: 768px) {

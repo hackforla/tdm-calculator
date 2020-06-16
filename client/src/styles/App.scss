@@ -225,6 +225,11 @@ button.link {
   justify-content: space-between;
 }
 
+.colorGray {
+  // color: "#E7EBF0";
+  color: rgba(15, 41, 64, 0.5);
+}
+
 // add any override to the default styles in the individual component styles
 @import "./AuthForms.scss"; // Login and Register components
 @import "./Calculation.scss";
