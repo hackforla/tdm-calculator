@@ -209,6 +209,10 @@ const useStyles = createUseStyles({
     width: "100px",
     display: "flex",
     justifyContent: "flex-end"
+  },
+  ruleText: {
+    fontSize: "14px",
+    textAlign: "center"
   }
 });
 
@@ -425,18 +429,18 @@ const ProjectSummary = props => {
                 ? measureRules.map(rule => (
                     <div key={rule.id} className={classes.rule}>
                       <div className={classes.ruleName}>{rule.name}</div>
-                      <div className={classes.detailsContainer}></div>
-                      {/* <div className={classes.value}>
-                      {rule.dataType === "boolean" ? (
-                        <FontAwesomeIcon icon={faCheck} />
-                      ) : rule.dataType === "choice" ? (
-                        rule.choices.find(
-                          choice => Number(choice.id) === Number(rule.value)
-                        ).name
-                      ) : (
-                            rule.value
-                          )}
-                    </div> */}
+                      <div className={classes.detailsContainer}>
+                        <div className={classes.ruleText}>
+                          {rule.dataType === "boolean"
+                            ? null
+                            : rule.dataType === "choice"
+                            ? rule.choices.find(
+                                choice =>
+                                  Number(choice.id) === Number(rule.value)
+                              ).name
+                            : rule.value}
+                        </div>
+                      </div>
                       <div className={classes.pointsContainer}>
                         <div className={classes.value}>
                           {Math.round(rule.calcValue * 100) / 100}
