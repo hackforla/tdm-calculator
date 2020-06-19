@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET || "mark it zero";
 // Session time-ut set to two weeks, could be shorted for
 // more security
-const jwtOpts = { algorithm: "HS256", expiresIn: "14d" };
+const jwtOpts = { algorithm: "HS256", expiresIn: "12h" };
 
 module.exports = {
   login,
@@ -21,7 +21,10 @@ module.exports = {
 // work with cookies).
 async function login(req, res) {
   const token = await sign({ email: req.user.email, id: req.user.id });
-  res.cookie("jwt", token, { httpOnly: true });
+  res.cookie("jwt", token, {
+    httpOnly: true,
+    expires: new Date(Date.now() + 43200000) // 12 hours
+  });
   const user = req.user;
   res.json({ isSuccess: true, token: token, user });
 }
