@@ -57,8 +57,7 @@ const useStyles = createUseStyles({
     minHeight: "30px"
   },
   ruleName: {
-    width: "350px",
-    // flex: "1 1 auto",
+    width: "325px",
     fontFamily: "Calibri",
     fontSize: "16px"
   },
@@ -202,7 +201,7 @@ const useStyles = createUseStyles({
     fontSize: "14px"
   },
   detailsContainer: {
-    width: "150px",
+    width: "175px",
     display: "flex"
   },
   pointsContainer: {
@@ -213,13 +212,17 @@ const useStyles = createUseStyles({
   ruleText: {
     fontSize: "14px",
     textAlign: "center"
+  },
+  projectDescription: {
+    fontSize: "16px",
+    display: "block",
+    marginTop: "6px"
   }
 });
 
 const ProjectSummary = props => {
   const classes = useStyles();
-  // eslint-disable-next-line
-  const { rules, account, projectId, loginId, onSave } = props;
+  const { rules } = props;
 
   const landUses = rules
     .filter(rule => rule.used && rule.value && rule.calculationPanelId === 5)
@@ -237,6 +240,11 @@ const ProjectSummary = props => {
   const projectName = getRule("PROJECT_NAME");
   const projectAddress = getRule("PROJECT_ADDRESS");
   const projectDescription = getRule("PROJECT_DESCRIPTION");
+
+  const buildingPermit = getRule("BUILDING_PERMIT");
+  const caseNumber = getRule("CASE_NO_LADOT");
+  const parcelNumber = getRule("APN");
+  const versionNumber = getRule("VERSION_NO");
 
   const parkingRequired = getRule("PARK_REQUIREMENT");
   const parkingProvided = getRule("PARK_SPACES");
@@ -286,7 +294,8 @@ const ProjectSummary = props => {
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
       <div className={classes.lastSavedContainer}>
         <span className={classes.lastSaved}>
-          <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved: 6/14/20 12:56pm
+          <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
+          {props.dateModified}
         </span>
       </div>
       <div className={classes.projectInfoContainer}>
@@ -302,26 +311,44 @@ const ProjectSummary = props => {
           </span>
         ) : null}
         {projectDescription && projectDescription.value ? (
-          <p className={classes.alignCenter}>{projectDescription.value} </p>
+          <span className={classes.projectDescription}>
+            {projectDescription.value}{" "}
+          </span>
         ) : null}
         <div className={classes.projectInfoDetailsContainer}>
           <div className={classes.projectInfoDetailsSubContainer}>
             <span className={classes.projectInfoCategory}>
               BUILDING PERMIT #
             </span>
-            <span className={classes.projectInfoDetails}>2020LA51416</span>
+            {buildingPermit && buildingPermit.value ? (
+              <span className={classes.projectInfoDetails}>
+                {buildingPermit.value}
+              </span>
+            ) : null}
           </div>
           <div className={classes.projectInfoDetailsSubContainer}>
             <span className={classes.projectInfoCategory}>PARCEL # (AIN)</span>
-            <span className={classes.projectInfoDetails}>4239-016-006</span>
+            {parcelNumber && parcelNumber.value ? (
+              <span className={classes.projectInfoDetails}>
+                {parcelNumber.value}
+              </span>
+            ) : null}
           </div>
           <div className={classes.projectInfoDetailsSubContainer}>
             <span className={classes.projectInfoCategory}>CASE #</span>
-            <span className={classes.projectInfoDetails}>000000-09LK</span>
+            {caseNumber && caseNumber.value ? (
+              <span className={classes.projectInfoDetails}>
+                {caseNumber.value}
+              </span>
+            ) : null}
           </div>
           <div className={classes.projectInfoDetailsSubContainer}>
             <span className={classes.projectInfoCategory}>VERSION #</span>
-            <span className={classes.projectInfoDetails}>005</span>
+            {versionNumber && versionNumber.value ? (
+              <span className={classes.projectInfoDetails}>
+                {versionNumber.value}
+              </span>
+            ) : null}
           </div>
         </div>
       </div>
@@ -429,7 +456,12 @@ const ProjectSummary = props => {
                 ? measureRules.map(rule => (
                     <div key={rule.id} className={classes.rule}>
                       <div className={classes.ruleName}>{rule.name}</div>
-                      <div className={classes.detailsContainer}>
+                      <div
+                        className={clsx(
+                          "justify-content-center",
+                          classes.detailsContainer
+                        )}
+                      >
                         <div className={classes.ruleText}>
                           {rule.dataType === "boolean"
                             ? null
@@ -524,11 +556,6 @@ const ProjectSummary = props => {
           <Loader loaded={false} className="spinner" left="auto" />
         </div>
       )}
-      <div className={classes.lastSavedContainer}>
-        <span className={classes.lastSaved}>
-          <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved: 6/14/20 12:56pm
-        </span>
-      </div>
     </div>
   );
 };
@@ -537,7 +564,8 @@ ProjectSummary.propTypes = {
   account: PropTypes.object.isRequired,
   projectId: PropTypes.number.isRequired,
   loginId: PropTypes.number.isRequired,
-  onSave: PropTypes.func.isRequired
+  onSave: PropTypes.func.isRequired,
+  dateModified: PropTypes.string.isRequired
 };
 
 export default ProjectSummary;
