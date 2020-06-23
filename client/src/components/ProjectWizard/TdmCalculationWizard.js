@@ -105,7 +105,7 @@ const useStyles = createUseStyles({
 });
 
 const TdmCalculationWizard = props => {
-  const [dateModified, setDateModified] = useState("placeholder");
+  const [dateModified, setDateModified] = useState("");
 
   useEffect(() => {
     const getDateModified = async () => {
@@ -370,10 +370,12 @@ const TdmCalculationWizard = props => {
           ) : null}
           {page === 5 ? (
             <div className={classes.lastSavedContainer}>
-              <span className={classes.lastSaved}>
-                <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
-                {dateModified}
-              </span>
+              {dateModified && (
+                <span className={classes.lastSaved}>
+                  <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
+                  {dateModified}
+                </span>
+              )}
             </div>
           ) : null}
         </div>
