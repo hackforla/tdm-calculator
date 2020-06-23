@@ -46,8 +46,13 @@ const useStyles = createUseStyles({
   sidebarContent: {
     zIndex: 1,
     display: "flex",
+    position: "sticky",
+    top: 0,
+    height: "calc(100vh - 103px)",
     flexDirection: "column",
-    height: "100%"
+    "@media (max-width:768px)": {
+      height: "auto"
+    }
   },
   contentContainer: {
     justifyContent: "space-around",
