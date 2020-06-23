@@ -106,7 +106,7 @@ const useStyles = createUseStyles({
       lineHeight: "31px",
       fontWeight: "bold",
       textAlign: "center",
-      marginBottom: "40px",
+      marginBottom: "30px",
       "& img": {
         margin: "0 6px 0 0",
         verticalAlign: "middle"
@@ -114,9 +114,11 @@ const useStyles = createUseStyles({
     },
     "& p": {
       fontSize: "20px",
-      lineHeight: "38px",
+      lineHeight: "32px",
+      textAlign: "center",
+
       "& img": {
-        margin: "4px 12px 0 0"
+        margin: "4px 12px 12px 0"
       }
     },
     "& input": {
@@ -128,7 +130,10 @@ const useStyles = createUseStyles({
     }
   },
   deleteCopy: {
-    color: "#B64E38"
+    color: "#B64E38",
+    "& span": {
+      fontStyle: "italic"
+    }
   },
   modalActions: {
     display: "flex",
@@ -202,6 +207,7 @@ const Projects = ({ account, history }) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
+  const [duplicateProjectName, setDuplicateProjectName] = useState("");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const classes = useStyles();
@@ -215,7 +221,7 @@ const Projects = ({ account, history }) => {
       "For your security, your session has expired. Please log in again."
     );
     history.push(`/login/${encodeURIComponent(email)}`);
-  }, []);
+  }, [toast, history]);
 
   useEffect(() => {
     const getProjects = async () => {
@@ -233,15 +239,44 @@ const Projects = ({ account, history }) => {
       }
     };
     getProjects();
-  }, [expiredTokenRedirect, selectedProject]);
+  }, [expiredTokenRedirect, selectedProject, duplicateProjectName]);
 
-  const toggleDuplicateModal = () => {
+  const toggleDuplicateModal = async project => {
+    if (project) {
+      setSelectedProject(project);
+      // setDuplicateProjectName(`${project.name} (COPY)`);
+    } else {
+      setSelectedProject(null);
+    }
     setDuplicateModalOpen(!duplicateModalOpen);
   };
 
   const toggleDeleteModal = project => {
     project ? setSelectedProject(project) : setSelectedProject(null);
     setDeleteModalOpen(!deleteModalOpen);
+  };
+
+  const duplicateProject = async project => {
+    const jsonProject = JSON.parse(project.formInputs);
+    jsonProject.PROJECT_NAME = duplicateProjectName;
+
+    await projectService.post({
+      ...project,
+      name: duplicateProjectName,
+      formInputs: JSON.stringify(jsonProject)
+    });
+    toggleDuplicateModal();
+    setSelectedProject(null);
+  };
+
+  const deleteProject = async project => {
+    await projectService.del(project.id);
+    toggleDeleteModal();
+    setSelectedProject(null);
+  };
+
+  const handleDuplicateProjectNameChange = newProjectName => {
+    setDuplicateProjectName(newProjectName);
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -336,12 +371,6 @@ const Projects = ({ account, history }) => {
     }
 
     return true;
-  };
-
-  const deleteProject = async project => {
-    await projectService.del(project.id);
-    toggleDeleteModal();
-    setSelectedProject(null);
   };
 
   const headerData = [
@@ -444,14 +473,15 @@ const Projects = ({ account, history }) => {
                     : moment(project.dateModified).format("MM/DD/YYYY")}
                 </td>
                 <td className={classes.actionIcons}>
-                  {/* Temporarily commenting this out until it is hooked up to the backend
-                  <button onClick={toggleDuplicateModal}>
-                    <img src={CopyIcon} alt="Duplicate Project" />
-                  </button> */}
                   {project.loginId === currentUser.id && (
-                    <button onClick={() => toggleDeleteModal(project)}>
-                      <img src={DeleteIcon} alt="Delete Project" />
-                    </button>
+                    <>
+                      <button onClick={() => toggleDuplicateModal(project)}>
+                        <img src={CopyIcon} alt="Duplicate Project" />
+                      </button>
+                      <button onClick={() => toggleDeleteModal(project)}>
+                        <img src={DeleteIcon} alt="Delete Project" />
+                      </button>
+                    </>
                   )}
                 </td>
               </tr>
@@ -469,11 +499,22 @@ const Projects = ({ account, history }) => {
           <img src={CloseIcon} alt="Close" />
         </button>
         <h2>
-          <img src={CopyIcon} /> Duplicate
+          <img src={CopyIcon} /> Duplicate Project
         </h2>
-        <p>Type in the title of the duplicated project.</p>
+        <p>
+          Type a new name to duplicate the project,&nbsp;
+          <br />
+          <strong>{selectedProject && selectedProject.name}</strong>.
+        </p>
         <form>
-          <input placeholder="Title of A Project" />
+          <input
+            placeholder="Name of Duplicated Project"
+            type="text"
+            id="duplicateName"
+            name="duplicateName"
+            value={duplicateProjectName}
+            onChange={e => handleDuplicateProjectNameChange(e.target.value)}
+          />
           <div className={classes.modalActions}>
             <button
               onClick={toggleDuplicateModal}
@@ -481,7 +522,12 @@ const Projects = ({ account, history }) => {
             >
               Cancel
             </button>
-            <button className={classes.createBtn}>Create a Copy</button>
+            <button
+              className={classes.createBtn}
+              onClick={() => duplicateProject(selectedProject)}
+            >
+              Create a Copy
+            </button>
           </div>
         </form>
       </Modal>
@@ -496,12 +542,13 @@ const Projects = ({ account, history }) => {
           <img src={CloseIcon} alt="Close" />
         </button>
         <h2>
-          <img src={DeleteIcon} /> Delete
+          <img src={DeleteIcon} /> Delete Project
         </h2>
         <p className={classes.deleteCopy}>
           <img src={WarningIcon} className={classes.warningIcon} />
-          Are you sure you want to permanently delete the selected project
-          <strong> ({selectedProject && selectedProject.name}) </strong>?
+          Are you sure you want to <span>permanently</span> delete this project,
+          &nbsp;
+          <strong>{selectedProject && selectedProject.name}</strong>?
         </p>
         <div className={classes.modalActions}>
           <button onClick={toggleDeleteModal} className={classes.cancelBtn}>
