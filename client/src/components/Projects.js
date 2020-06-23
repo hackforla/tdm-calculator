@@ -116,7 +116,6 @@ const useStyles = createUseStyles({
       fontSize: "20px",
       lineHeight: "32px",
       textAlign: "center",
-
       "& img": {
         margin: "4px 12px 12px 0"
       }
@@ -126,7 +125,8 @@ const useStyles = createUseStyles({
       fontSize: "20px",
       lineHeight: "24px",
       padding: "16px",
-      border: "1px solid #979797"
+      border: "1px solid #979797",
+      marginTop: "8px"
     }
   },
   deleteCopy: {
@@ -192,7 +192,7 @@ const modalStyles = {
     bottom: "auto",
     left: "auto",
     boxSizing: "border-box",
-    maxHeight: "420px",
+    maxHeight: "480px",
     width: "666px",
     maxWidth: "100%",
     padding: "60px",
