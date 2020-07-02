@@ -244,3 +244,5 @@ node_modules
 
 # Yarn lockfile
 yarn.lock
+
+.mssql.json
