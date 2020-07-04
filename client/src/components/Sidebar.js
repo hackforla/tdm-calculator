@@ -19,7 +19,8 @@ export const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    height: "calc(100vh - 103px)"
+    height: "100%",
+    minHeight: "calc(100vh - 103px)"
   },
   "@media (max-width: 1024px)": {
     "sidebar-container": {
@@ -33,7 +34,8 @@ export const useStyles = createUseStyles({
       backgroundPosition: "15% 44%"
     },
     "sidebar-content": {
-      height: "auto"
+      height: "auto",
+      minHeight: 0
     }
   }
 });

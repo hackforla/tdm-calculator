@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator",
-  "version": "0.2.7",
+  "version": "0.2.10",
   "description": "Traffic Data Management Calculator",
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^6.5.4",
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -38,6 +38,7 @@
     "moment": "^2.24.0",
     "node-flywaydb": "^3.0.2",
     "path": "^0.12.7",
+    "react-modal": "^3.11.2",
     "tedious-connection-pool": "^1.0.5"
   },
   "devDependencies": {

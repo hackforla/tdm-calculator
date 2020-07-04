@@ -34,7 +34,7 @@ figure {
 
 body {
   background: $color-background;
-  font: $font;
+  font-family: $font;
   -webkit-text-size-adjust: 100%;
   color: #474747;
 }
@@ -206,6 +206,31 @@ button.link {
 
 .hide {
   display: none;
+}
+
+.center {
+  margin: 0 auto;
+}
+
+.background-gray {
+  background: #e7ebf0;
+}
+
+.border-gray {
+  border: 1px solid #e7ebf0;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.colorGray {
+  color: rgba(15, 41, 64, 0.5);
 }
 
 // add any override to the default styles in the individual component styles

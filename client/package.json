@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "version": "0.2.7",
+  "version": "0.2.10",
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
@@ -16,6 +16,7 @@
     "node-sass": "^4.14.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-input-mask": "^2.0.4",
     "react-jss": "^10.1.0",
     "react-loader": "^2.4.7",
     "react-router-dom": "^5.1.2",
