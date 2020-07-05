@@ -25,7 +25,7 @@ module.exports = function () {
       password: password,
       sqlMigrationSuffixes: ".sql",
       baselineOnMigrate: true,
-      baselineVersion: 1,
+      baselineVersion: 2,
       baselineDescription: "setup_db_baseline_data_as_of_07012020"
     }
   };
