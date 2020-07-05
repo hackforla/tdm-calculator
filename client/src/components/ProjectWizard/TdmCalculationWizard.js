@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { createUseStyles } from "react-jss";
@@ -9,6 +9,12 @@ import NavButton from "./NavButton";
 import SwitchViewButton from "../SwitchViewButton";
 import Sidebar from "../Sidebar";
 import { Switch, Route, withRouter } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faClock,
+  faAngleLeft,
+  faAngleRight
+} from "@fortawesome/free-solid-svg-icons";
 import {
   ProjectDescriptions,
   // ProjectUse,
@@ -16,6 +22,8 @@ import {
   ProjectTargetPoints,
   ProjectMeasures
 } from "./WizardPages";
+import * as projectService from "../../services/project.service";
+import moment from "moment";
 
 const useStyles = createUseStyles({
   root: {
@@ -58,8 +66,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginBottom: "2em",
-    marginTop: "2em"
+    margin: "2em 0"
   },
   unSelectContainer: {
     display: "grid",
@@ -81,10 +88,43 @@ const useStyles = createUseStyles({
     gridColumn: "h-mid",
     display: "flex",
     justifyContent: "center"
+  },
+  buttonContainer: {
+    marginTop: "5px"
+  },
+  lastSaved: {
+    fontSize: "14px",
+    color: "#6F6C64"
+  },
+  lastSavedContainer: {
+    margin: "0 auto"
+  },
+  navArrow: {
+    marginTop: "6px"
   }
 });
 
 const TdmCalculationWizard = props => {
+  const [dateModified, setDateModified] = useState("");
+
+  useEffect(() => {
+    const getDateModified = async () => {
+      try {
+        const result = await projectService.get();
+        const currentProject = result.data.filter(
+          project => project.id === projectId
+        );
+        let lastSaved = currentProject[0].dateModified;
+        lastSaved = moment(lastSaved).format("MM/DD/YYYY h:mm A");
+        setDateModified(lastSaved);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (projectId) getDateModified();
+  });
+
   const context = useContext(ToastContext);
   const classes = useStyles();
   const {
@@ -197,6 +237,7 @@ const TdmCalculationWizard = props => {
           projectId={projectId}
           loginId={loginId}
           onSave={onSave}
+          dateModified={dateModified}
         />
       </Route>
     </Switch>
@@ -276,23 +317,41 @@ const TdmCalculationWizard = props => {
             <div className={classes.navButtonsWrapper}>
               {rules && rules.length ? ( //navigation disabled until rules have loaded
                 <>
-                  <div>
-                    <NavButton
-                      disabled={Number(page) === 1}
-                      onClick={() => {
-                        onPageChange(Number(page) - 1);
-                      }}
-                    >
-                      &lt;
-                    </NavButton>
-                    <NavButton
-                      disabled={page === 5 || disablePageNavigation}
-                      onClick={() => {
-                        onPageChange(Number(page) + 1);
-                      }}
-                    >
-                      &gt;
-                    </NavButton>
+                  <div className="space-between">
+                    {page !== 1 ? (
+                      <NavButton
+                        disabled={Number(page) === 1}
+                        onClick={() => {
+                          onPageChange(Number(page) - 1);
+                        }}
+                      >
+                        <div className={classes.navArrow}>
+                          <FontAwesomeIcon icon={faAngleLeft} />
+                        </div>
+                      </NavButton>
+                    ) : null}
+                    {account.id &&
+                    (!projectId || account.id === loginId) &&
+                    page === 5 ? (
+                      <button
+                        className="tdm-wizard-save-button"
+                        onClick={onSave}
+                      >
+                        {projectId ? "Save Project" : "Save As New Project"}
+                      </button>
+                    ) : null}
+                    {page !== 5 ? (
+                      <NavButton
+                        disabled={Number(page) === 5 || disablePageNavigation}
+                        onClick={() => {
+                          onPageChange(Number(page) + 1);
+                        }}
+                      >
+                        <div className={classes.navArrow}>
+                          <FontAwesomeIcon icon={faAngleRight} />
+                        </div>
+                      </NavButton>
+                    ) : null}
                   </div>
                   <div>
                     <a
@@ -307,6 +366,16 @@ const TdmCalculationWizard = props => {
                   </div>
                 </>
               ) : null}
+            </div>
+          ) : null}
+          {page === 5 ? (
+            <div className={classes.lastSavedContainer}>
+              {dateModified && (
+                <span className={classes.lastSaved}>
+                  <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
+                  {dateModified}
+                </span>
+              )}
             </div>
           ) : null}
         </div>

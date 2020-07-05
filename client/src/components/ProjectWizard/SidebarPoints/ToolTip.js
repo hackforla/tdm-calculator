@@ -45,8 +45,9 @@ const useStyles = createUseStyles({
 const ToolTip = ({ tipText }) => {
   const [tipVisibility] = useState(false);
   const classes = useStyles();
-
-  // will need to be changed to onHover
+  const handleClick = () => {
+    //setTipVisibility(!tipVisibility);
+  };
   const showTip = tipVisibility ? "showTip" : "";
   return (
     <React.Fragment>
