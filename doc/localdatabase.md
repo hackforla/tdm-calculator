@@ -55,7 +55,7 @@ docker version
 Then you can download the official Microsoft SQL Server and create a local container named `tdmdb` by running:
 
 ```
-sudo docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Dogfood1!" -e "MSSQL_PID=Express"
+sudo docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Dogfood1!' -e 'MSSQL_PID=Express'
    -p 1434:1433 --name tdmdb
    -d mcr.microsoft.com/mssql/server:2017-latest
 ```
@@ -102,7 +102,7 @@ Option 2 (run sqlcmd in the docker container):
 
 ```
 docker exec -it tdmdb bash
-/opt/msswl-tools/bin/sqlcmd -U sa -P Dogfood1! -Q "CREATE DATABASE tdmdev"
+/opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1! -Q "CREATE DATABASE tdmdev"
 exit
 ```
 
@@ -113,7 +113,7 @@ the sqlcmd that is pre-isntalled inside the container:
 
 ```
 sudo docker exec -it tdmdb bash
-/opt/msswl-tools/bin/sqlcmd -U sa -P Dogfood1! -Q "CREATE DATABASE tdmdev"
+/opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1! -Q "CREATE DATABASE tdmdev"
 exit
 ```
 
