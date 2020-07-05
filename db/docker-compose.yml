@@ -1,0 +1,12 @@
+version: "3.2"
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    ports:
+      # exposed on localhost 1434
+      - "1400:1433"
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Dogfood1!
+      MSSQL_PID: Express
+    command: ls
