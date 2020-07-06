@@ -6,8 +6,6 @@ WORKDIR /app
 RUN npm install
 RUN npm run build
 
-
-
 FROM node
 
 COPY --from=clientBuilder /app/build /client

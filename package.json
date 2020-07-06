@@ -16,13 +16,17 @@
     "cypress:run": "cypress run",
     "release-notes": "gren release",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  **/*.{js,jsx}",
-    "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  **/*.{js,jsx}"
+    "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  **/*.{js,jsx}",
+    "flyway:migrate": "flyway -c ./db/flyway-config.js migrate",
+    "flyway:repair": "flyway -c ./db/flyway-config.js repair",
+    "flyway:info": "flyway -c ./db/flyway-config.js info",
+    "flyway:validate": "flyway -c ./db/flyway-config.js validate"
   },
   "author": "Hack for LA",
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^6.5.4",
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -32,7 +36,9 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
+    "node-flywaydb": "^3.0.2",
     "path": "^0.12.7",
+    "react-modal": "^3.11.2",
     "tedious-connection-pool": "^1.0.5"
   },
   "devDependencies": {

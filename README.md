@@ -38,8 +38,8 @@ The city will benefit by having more time to review edge cases for building deve
 
 # Feature Descriptions
 
-- [register](./register.md)
-- [forgot-password](./forgot-password.md)
+- [register](./doc/register.md)
+- [forgot-password](./doc/forgot-password.md)
 
 # How to contribute
 
@@ -47,7 +47,7 @@ The city will benefit by having more time to review edge cases for building deve
 
 - To help with user research, find other cities' TDM calculators. For example, check out [SF's TDM Tool](http://www.sftdmtool.org/)
 
-- To contribute to the code, see [Contributing](./Contributing.md)
+- To contribute to the code, see [Contributing](./doc/Contributing.md)
 
 ### Working with issues
 

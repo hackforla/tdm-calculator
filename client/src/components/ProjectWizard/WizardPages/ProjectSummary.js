@@ -228,7 +228,6 @@ const ProjectSummary = props => {
   const classes = useStyles();
   const { rules } = props;
 
-  console.log(rules);
   const landUses = rules
     .filter(rule => rule.used && rule.value && rule.calculationPanelId === 5)
     .map(r => r.name)
@@ -298,10 +297,12 @@ const ProjectSummary = props => {
     <div className={clsx("tdm-wizard-review-page", classes.root)}>
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
       <div className={classes.lastSavedContainer}>
-        <span className={classes.lastSaved}>
-          <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
-          {props.dateModified}
-        </span>
+        {props.dateModified && (
+          <span className={classes.lastSaved}>
+            <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
+            {props.dateModified}
+          </span>
+        )}
       </div>
       <div className={classes.projectInfoContainer}>
         {projectName && projectName.value ? (
