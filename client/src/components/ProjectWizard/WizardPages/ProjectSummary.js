@@ -204,6 +204,10 @@ const useStyles = createUseStyles({
     width: "175px",
     display: "flex"
   },
+  specificationDetailsContainer: {
+    width: "140px",
+    display: "flex"
+  },
   pointsContainer: {
     width: "100px",
     display: "flex",
@@ -224,6 +228,7 @@ const ProjectSummary = props => {
   const classes = useStyles();
   const { rules } = props;
 
+  console.log(rules);
   const landUses = rules
     .filter(rule => rule.used && rule.value && rule.calculationPanelId === 5)
     .map(r => r.name)
@@ -490,32 +495,23 @@ const ProjectSummary = props => {
           <div className={classes.categoryContainer}>
             <div className={clsx("space-between")}>
               <span className={classes.categoryHeader}>
-                REQUIRED PARKING CALCULATION
+                PROJECT SPECIFICATIONS
               </span>
               <span className={classes.earnedPoints}>EARNED POINTS</span>
             </div>
             <div className={classes.measuresContainer}>
               {rules && rules.length > 0
                 ? specificationRules.map(rule => (
-                    <div key={rule.id} className={classes.rule}>
+                    <div
+                      key={rule.id}
+                      className={clsx("space-between", classes.rule)}
+                    >
                       <div className={classes.ruleName}>{rule.name}</div>
-                      <div className={classes.detailsContainer}>
+                      <div className={classes.specificationDetailsContainer}>
                         <div className={classes.measureDetails}>
                           {rule.value}
                         </div>
                         <div className={classes.measureUnits}>{rule.units}</div>
-                      </div>
-                      <div
-                        className={clsx(
-                          Math.round(rule.calcValue * 100) / 100 === 0 &&
-                            "colorGray",
-                          classes.pointsContainer
-                        )}
-                      >
-                        <div className={classes.value}>
-                          {Math.round(rule.calcValue * 100) / 100}
-                        </div>
-                        <div className={classes.calcUnits}>pts</div>
                       </div>
                     </div>
                   ))
@@ -530,7 +526,7 @@ const ProjectSummary = props => {
                       <div className={clsx(classes.value)}>
                         {Math.round(parkingRequired.value * 100) / 100}
                       </div>
-                      <div className={clsx(classes.calcUnits)}>pts</div>
+                      <div className={clsx(classes.calcUnits)}>spcs</div>
                     </div>
                   </div>
                 ) : null}
@@ -544,7 +540,7 @@ const ProjectSummary = props => {
                     <div className={clsx(classes.value)}>
                       {Math.round(parkingProvided.value * 100) / 100}
                     </div>
-                    <div className={clsx(classes.calcUnits)}>pts</div>
+                    <div className={clsx(classes.calcUnits)}>spcs</div>
                   </div>
                 </div>
               ) : null}
