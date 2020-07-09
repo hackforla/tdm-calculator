@@ -55,8 +55,8 @@ docker version
 Then you can download the official Microsoft SQL Server and create a local container named `tdmdb` by running:
 
 ```
-sudo docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Dogfood1!' -e 'MSSQL_PID=Express'
-   -p 1434:1433 --name tdmdb
+sudo docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Dogfood1!' -e 'MSSQL_PID=Express' \
+   -p 1434:1433 --name tdmdb \
    -d mcr.microsoft.com/mssql/server:2017-latest
 ```
 
@@ -105,6 +105,34 @@ docker exec -it tdmdb bash
 /opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1! -Q "CREATE DATABASE tdmdev"
 exit
 ```
+
+Note about running the above command in a Git Bash shell: You should be able to run the above
+command in a single line, like this:
+
+```
+docker exec -it tdmdb /opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1! -Q "CREATE DATABASE tdmdev"
+```
+
+However, if you try this on Windows from a Bash shell, you will likely get this:
+
+```
+$ docker exec -it tdmdb /opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1! -Q "CREATE DATABASE tdmdev"
+OCI runtime exec failed: exec failed: container_linux.go:349: starting container process caused "exec: \"C:/Program Files/Git/opt/mssql-tools/bin/sqlcmd\": stat C:/Program Files/Git/opt/mssql-tools/bin/sqlcmd: no such file or directory": unknown
+```
+
+This is a problem with the heuristics that MinGW / Git Bash uses to map Windows paths to POSIX paths in the target container. [This page](https://andydote.co.uk/2018/06/18/git-bash-docker-volume-paths/) suggests the following work-around:
+
+```
+MSYS_NO_PATHCONV=1 docker exec -it tdmdb /opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1! -Q "CREATE DATABASE tdmdev"
+```
+
+However, [this page](http://mingw.org/wiki/Posix_path_conversion) describes the heuristics that Git Bash uses to to map paths from Windows to the bash shell, so you can also just change the path to the sqlcmd to start with two slashes like this:
+
+```
+docker exec -it tdmdb //opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1! -Q "CREATE DATABASE tdmdev"
+```
+
+This problem also affects docker volume mapping from a Git Bash shell.
 
 ### Create the Database (Mac)
 

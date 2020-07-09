@@ -1,34 +1,18 @@
 version: "3.2"
 services:
-  db:
-    image: "mcr.microsoft.com/mssql/server:2017-latest"
-    ports:
-      # exposed on localhost 1434
-      - "1434:1433"
-    environment:
-      ACCEPT_EULA: Y
-      SA_PASSWORD: Dogfood1!
-      MSSQL_PID: Express
-
   api:
-    image: tdmcalc/tdmapi
-    restart: "no"
     build:
       context: .
       dockerfile: Dockerfile.dev
-    links:
-      - db
-    depends_on:
-      - db
     ports:
-      - "5012:5000"
+      - "5050:5000"
     environment:
-      SQL_SERVER_NAME: db
+      SQL_SERVER_NAME: "host.docker.internal"
       SQL_SERVER_PORT: 1434
+      SQL_SERVER_INSTANCE_NAME: ""
       SQL_DATABASE_NAME: tdmdev
       SQL_USER_NAME: sa
       SQL_PASSWORD: Dogfood1!
-      WAIT_FOR: db:1434
       PORT: 5000
     volumes:
       - ./:/tdm

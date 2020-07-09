@@ -8,7 +8,7 @@ const errorHandler = require("error-handler");
 const routes = require("./app/routes");
 
 dotenv.config();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 
 const app = express();
 
