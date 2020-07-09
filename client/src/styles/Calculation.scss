@@ -47,14 +47,20 @@
 }
 
 .tdm-wizard-save-button {
+  width: 240px;
+  height: 60px;
   padding-left: 0.7em;
   padding-right: 0.7em;
   padding-top: 0.35em;
   padding-bottom: 0.35em;
   background-color: $color-highlight;
-  display: inline;
-  margin: 0.5em;
+  color: #253d52;
+  font-family: "Calibri Bold";
+  font-size: 20px;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: none;
   box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
   text-align: center;
 }
@@ -66,15 +72,12 @@
 }
 
 .tdm-wizard-nav-button {
-  padding-left: 0.7em;
-  padding-right: 0.7em;
-  padding-top: 0.35em;
-  padding-bottom: 0.35em;
+  height: 37px;
+  margin: 0 1em;
+  padding: .5em 1em;
   background-color: $color-highlight;
-  color: #0F2940;
-  display: inline;
-  margin: 0.5em;
-  font-size: 2em;
+  color: #0f2940;
+  font-size: 1.5em;
   box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
   text-align: center;
   cursor: pointer;
@@ -168,6 +171,7 @@
   flex-direction: column;
   flex: 1 1 auto;
   min-width: 60vw;
+  max-width: 600px;
 }
 
 @media (max-width: 768px) {

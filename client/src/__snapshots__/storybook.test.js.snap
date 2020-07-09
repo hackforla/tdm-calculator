@@ -17,30 +17,62 @@ exports[`Storyshots Header default 1`] = `
       />
     </a>
   </div>
-  <ul
-    className="navbar-0-2-3"
+  <button
+    className="hamburgerButton-0-2-3"
+    onClick={[Function]}
   >
-    <li>
+    <svg
+      aria-hidden="true"
+      className="svg-inline--fa fa-bars fa-w-14 hamburger-0-2-4"
+      data-icon="bars"
+      data-prefix="fas"
+      focusable="false"
+      role="img"
+      style={Object {}}
+      viewBox="0 0 448 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
+        fill="currentColor"
+        style={Object {}}
+      />
+    </svg>
+  </button>
+  <ul
+    className="navbar-0-2-6"
+  >
+    <li
+      className="linkBlock-0-2-10"
+    >
       <a
-        className="link-0-2-4"
+        aria-current="page"
+        className="link-0-2-7 currentLink-0-2-8"
         href="/"
         onClick={[Function]}
+        style={Object {}}
       >
         Home
       </a>
     </li>
-    <li>
+    <li
+      className="linkBlock-0-2-10"
+    >
       <a
-        className="link-0-2-4"
-        href="/calculation/1"
+        aria-current={null}
+        className="link-0-2-7"
+        href="/calculation"
         onClick={[Function]}
       >
-        New Project
+        Create Project
       </a>
     </li>
-    <li>
+    <li
+      className="linkBlock-0-2-10"
+    >
       <a
-        className="link-0-2-4"
+        aria-current={null}
+        className="link-0-2-7"
         href="/about"
         onClick={[Function]}
       >
@@ -48,10 +80,10 @@ exports[`Storyshots Header default 1`] = `
       </a>
     </li>
     <li
-      className="userLogin-0-2-5"
+      className="userLogin-0-2-11 linkBlock-0-2-10"
     >
       <a
-        className="link-0-2-4 lastItem-0-2-6"
+        className="link-0-2-7 lastItem-0-2-12"
         href="/login"
         onClick={[Function]}
       >
@@ -83,17 +115,17 @@ exports[`Storyshots NavButton enabled 1`] = `
 
 exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
 <div
-  className="field-0-2-30 checkboxFieldWrapper-0-2-37"
+  className="field-0-2-36 checkboxFieldWrapper-0-2-42"
 >
   <label
-    className="checkboxFieldLabel-0-2-38"
+    className="textInputLabel-0-2-54"
     htmlFor="LAND_USE_RESIDENTIAL"
   >
     Residential
   </label>
   <input
     checked={false}
-    className="checkbox-0-2-39"
+    className="checkbox-0-2-44"
     data-testid="LAND_USE_RESIDENTIAL"
     id="LAND_USE_RESIDENTIAL"
     name="LAND_USE_RESIDENTIAL"
@@ -106,17 +138,17 @@ exports[`Storyshots RuleInput default Input Boolean (False) 1`] = `
 
 exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
 <div
-  className="field-0-2-30 checkboxFieldWrapper-0-2-37"
+  className="field-0-2-36 checkboxFieldWrapper-0-2-42"
 >
   <label
-    className="checkboxFieldLabel-0-2-38"
+    className="textInputLabel-0-2-54"
     htmlFor="LAND_USE_RESIDENTIAL"
   >
     Residential
   </label>
   <input
     checked={true}
-    className="checkbox-0-2-39"
+    className="checkbox-0-2-44"
     data-testid="LAND_USE_RESIDENTIAL"
     id="LAND_USE_RESIDENTIAL"
     name="LAND_USE_RESIDENTIAL"
@@ -129,19 +161,18 @@ exports[`Storyshots RuleInput default Input Boolean (True) 1`] = `
 
 exports[`Storyshots RuleInput default Input Number 1`] = `
 <div
-  className="field-0-2-30 numberFieldWrapper-0-2-31"
+  className="field-0-2-36 numberFieldWrapper-0-2-37"
 >
   <label
-    className="textInputLabel-0-2-49"
+    className="textInputLabel-0-2-54"
     htmlFor="SF_RETAIL"
   >
     Sq Ft - Retail
   </label>
-  <div
-    className="numberField-0-2-32"
-  >
+  <div>
     <input
-      className="input-0-2-34"
+      autoComplete="off"
+      className="input-0-2-39"
       data-testid="SF_RETAIL"
       id="SF_RETAIL"
       max={null}
@@ -153,31 +184,27 @@ exports[`Storyshots RuleInput default Input Number 1`] = `
     />
   </div>
   <div
-    className="numberFieldUnits-0-2-33"
+    className="numberFieldUnits-0-2-38"
   >
     sq ft
-  </div>
-  <div
-    className="calcUnitsCaption-0-2-36"
-  >
-     
   </div>
 </div>
 `;
 
 exports[`Storyshots RuleInput default Input String 1`] = `
 <div
-  className="field-0-2-30 textFieldWrapper-0-2-43"
+  className="field-0-2-36 textFieldWrapper-0-2-48"
   onBlur={[Function]}
 >
   <label
-    className="textInputLabel-0-2-49 requiredInputLabel-0-2-53"
+    className="textInputLabel-0-2-54 requiredInputLabel-0-2-59"
     htmlFor="PROJECT_NAME"
   >
     Project Name*
   </label>
   <input
-    className="textInput-0-2-47"
+    autoComplete="off"
+    className="textInput-0-2-52"
     data-testid="PROJECT_NAME"
     id="PROJECT_NAME"
     maxLength={400}
@@ -190,1067 +217,16 @@ exports[`Storyshots RuleInput default Input String 1`] = `
 `;
 
 exports[`Storyshots RuleInput default Strategy Boolean (False) 1`] = `
-<div
-  className="strategyContainer-0-2-55"
->
-  <label
-    className="strategyName-0-2-56"
-    htmlFor="STRATEGY_PARKING_1"
-  >
-     
-    Pricing/Unbundling
-     
-  </label>
-  <div>
-    <input
-      checked={false}
-      id="STRATEGY_PARKING_1"
-      name="STRATEGY_PARKING_1"
-      onChange={[Function]}
-      type="checkbox"
-      value={true}
-    />
-  </div>
-  <div
-    className="points-0-2-57"
-  >
-    NaN 
-  </div>
-  <div
-    className="points-0-2-57"
-  >
-     
-  </div>
-</div>
-`;
-
-exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
-<div
-  className="strategyContainer-0-2-55"
->
-  <label
-    className="strategyName-0-2-56"
-    htmlFor="STRATEGY_PARKING_1"
-  >
-     
-    Pricing/Unbundling
-     
-  </label>
-  <div>
-    <input
-      checked={true}
-      id="STRATEGY_PARKING_1"
-      name="STRATEGY_PARKING_1"
-      onChange={[Function]}
-      type="checkbox"
-      value={true}
-    />
-  </div>
-  <div
-    className="points-0-2-57"
-  >
-    NaN 
-  </div>
-  <div
-    className="points-0-2-57"
-  >
-     
-  </div>
-</div>
-`;
-
-exports[`Storyshots RuleInput default Strategy Choice 1`] = `
-<div
-  className="strategyContainer-0-2-55"
->
-  <label
-    className="strategyName-0-2-56"
-    htmlFor="STRATEGY_AFFORDABLE"
-  >
-     
-    Affordable Housing Level
-     
-  </label>
-  <div
-    className="choiceSelectContainer-0-2-60"
-  >
-    <select
-      id="STRATEGY_AFFORDABLE"
-      name="STRATEGY_AFFORDABLE"
-      onChange={[Function]}
-      value=""
-      width="100%"
-    >
-      <option
-        value=""
-      >
-        &lt; 35% of State Density Bonus
-      </option>
-      <option
-        value="1"
-      >
-        35% of State Density Bonus
-      </option>
-      <option
-        value="2"
-      >
-        TOC Tier 1
-      </option>
-      <option
-        value="3"
-      >
-        TOC Tier 4
-      </option>
-      <option
-        value="4"
-      >
-        100% Affortdable
-      </option>
-    </select>
-  </div>
-  <div
-    className="points-0-2-57"
-  >
-    NaN 
-  </div>
-  <div
-    className="points-0-2-57"
-  >
-     
-  </div>
-</div>
-`;
-
-exports[`Storyshots RuleInput default Strategy Number 1`] = `
-<div
-  className="strategyContainer-0-2-55"
->
-  <label
-    className="strategyName-0-2-56"
-    htmlFor="PTS_ACCESS_3"
-  >
-     
-    Network Improvement
-     
-  </label>
-  <div
-    className="numberInputContainer-0-2-58"
-  >
-    <input
-      className="numberInput-0-2-59"
-      id="PTS_ACCESS_3"
-      max={100}
-      min={0}
-      name="PTS_ACCESS_3"
-      onChange={[Function]}
-      type="text"
-      value=""
-    />
-  </div>
-  <div
-    className="points-0-2-57"
-  >
-    NaN 
-  </div>
-  <div
-    className="points-0-2-57"
-  >
-     
-  </div>
-</div>
-`;
-
-exports[`Storyshots RuleInputList default 1`] = `
-<div
-  className="root-0-2-63"
->
-  <div
-    className="field-0-2-30 numberFieldWrapper-0-2-31"
-  >
-    <label
-      className="textInputLabel-0-2-49"
-      htmlFor="UNITS_HABIT_LT3"
-    >
-      # Habitable Rooms &lt; 3
-    </label>
-    <div
-      className="numberField-0-2-32"
-    >
-      <input
-        className="input-0-2-34"
-        data-testid="UNITS_HABIT_LT3"
-        id="UNITS_HABIT_LT3"
-        max={null}
-        min={0}
-        name="UNITS_HABIT_LT3"
-        onChange={[Function]}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="numberFieldUnits-0-2-33"
-    >
-      dwelling units
-    </div>
-    <div
-      className="calcUnitsCaption-0-2-36"
-    >
-       
-    </div>
-  </div>
-  <div
-    className="field-0-2-30 numberFieldWrapper-0-2-31"
-  >
-    <label
-      className="textInputLabel-0-2-49"
-      htmlFor="UNITS_HABIT_3"
-    >
-      # Habitable Rooms = 3
-    </label>
-    <div
-      className="numberField-0-2-32"
-    >
-      <input
-        className="input-0-2-34"
-        data-testid="UNITS_HABIT_3"
-        id="UNITS_HABIT_3"
-        max={null}
-        min={0}
-        name="UNITS_HABIT_3"
-        onChange={[Function]}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="numberFieldUnits-0-2-33"
-    >
-      dwelling units
-    </div>
-    <div
-      className="calcUnitsCaption-0-2-36"
-    >
-       
-    </div>
-  </div>
-  <div
-    className="field-0-2-30 numberFieldWrapper-0-2-31"
-  >
-    <label
-      className="textInputLabel-0-2-49"
-      htmlFor="UNITS_HABIT_GT3"
-    >
-      # Habitable Rooms &gt; 3
-    </label>
-    <div
-      className="numberField-0-2-32"
-    >
-      <input
-        className="input-0-2-34"
-        data-testid="UNITS_HABIT_GT3"
-        id="UNITS_HABIT_GT3"
-        max={null}
-        min={0}
-        name="UNITS_HABIT_GT3"
-        onChange={[Function]}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="numberFieldUnits-0-2-33"
-    >
-      dwelling units
-    </div>
-    <div
-      className="calcUnitsCaption-0-2-36"
-    >
-       
-    </div>
-  </div>
-  <div
-    className="field-0-2-30 numberFieldWrapper-0-2-31"
-  >
-    <label
-      className="textInputLabel-0-2-49"
-      htmlFor="UNITS_CONDO"
-    >
-      Condo - Units
-    </label>
-    <div
-      className="numberField-0-2-32"
-    >
-      <input
-        className="input-0-2-34"
-        data-testid="UNITS_CONDO"
-        id="UNITS_CONDO"
-        max={null}
-        min={0}
-        name="UNITS_CONDO"
-        onChange={[Function]}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="numberFieldUnits-0-2-33"
-    >
-      dwelling units
-    </div>
-    <div
-      className="calcUnitsCaption-0-2-36"
-    >
-       
-    </div>
-  </div>
-  <div
-    className="field-0-2-30 numberFieldWrapper-0-2-31"
-  >
-    <label
-      className="textInputLabel-0-2-49"
-      htmlFor="PARK_CONDO"
-    >
-      Condo - Enter Parking Space Req'd
-    </label>
-    <div
-      className="numberField-0-2-32"
-    >
-      <input
-        className="input-0-2-34"
-        data-testid="PARK_CONDO"
-        id="PARK_CONDO"
-        max={null}
-        min={0}
-        name="PARK_CONDO"
-        onChange={[Function]}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="numberFieldUnits-0-2-33"
-    >
-      spcs
-    </div>
-    <div
-      className="calcUnitsCaption-0-2-36"
-    >
-       
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Storyshots RuleInputPanels default 1`] = `
 Array [
   <div
-    className="panelContainer-0-2-64"
-  >
-    <div
-      className="strategyContainer-0-2-65"
-    >
-      <h4
-        className="strategyName-0-2-66"
-      >
-        Residential Inputs
-      </h4>
-    </div>
-    <div
-      className="root-0-2-63"
-    >
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="UNITS_HABIT_LT3"
-        >
-          # Habitable Rooms &lt; 3
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="UNITS_HABIT_LT3"
-            id="UNITS_HABIT_LT3"
-            max={null}
-            min={0}
-            name="UNITS_HABIT_LT3"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          dwelling units
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="UNITS_HABIT_3"
-        >
-          # Habitable Rooms = 3
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="UNITS_HABIT_3"
-            id="UNITS_HABIT_3"
-            max={null}
-            min={0}
-            name="UNITS_HABIT_3"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          dwelling units
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="UNITS_HABIT_GT3"
-        >
-          # Habitable Rooms &gt; 3
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="UNITS_HABIT_GT3"
-            id="UNITS_HABIT_GT3"
-            max={null}
-            min={0}
-            name="UNITS_HABIT_GT3"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          dwelling units
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="UNITS_CONDO"
-        >
-          Condo - Units
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="UNITS_CONDO"
-            id="UNITS_CONDO"
-            max={null}
-            min={0}
-            name="UNITS_CONDO"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          dwelling units
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="PARK_CONDO"
-        >
-          Condo - Enter Parking Space Req'd
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="PARK_CONDO"
-            id="PARK_CONDO"
-            max={null}
-            min={0}
-            name="PARK_CONDO"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          spcs
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-    </div>
-  </div>,
-  <div
-    className="panelContainer-0-2-64"
-  >
-    <div
-      className="strategyContainer-0-2-65"
-    >
-      <h4
-        className="strategyName-0-2-66"
-      >
-        Commercial Inputs
-      </h4>
-    </div>
-    <div
-      className="root-0-2-63"
-    >
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="SF_RESTAURANT"
-        >
-          Sq Ft - Restaurant/Bar/General
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="SF_RESTAURANT"
-            id="SF_RESTAURANT"
-            max={null}
-            min={0}
-            name="SF_RESTAURANT"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          sq ft
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="SF_HEALTH_CLUB"
-        >
-          Sq Ft - Health Club
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="SF_HEALTH_CLUB"
-            id="SF_HEALTH_CLUB"
-            max={null}
-            min={0}
-            name="SF_HEALTH_CLUB"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          sq ft
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="SF_RESTAURANT_TAKEOUT"
-        >
-          Sq Ft - Take-out Restaurant
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="SF_RESTAURANT_TAKEOUT"
-            id="SF_RESTAURANT_TAKEOUT"
-            max={null}
-            min={0}
-            name="SF_RESTAURANT_TAKEOUT"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          sq ft
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="SF_OFFICE"
-        >
-          Sq Ft - Office, Business, Manufacturing, Industrial
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="SF_OFFICE"
-            id="SF_OFFICE"
-            max={null}
-            min={0}
-            name="SF_OFFICE"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          sq ft
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="SF_WAREHOUSE"
-        >
-          Sq Ft - Warehouse
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="SF_WAREHOUSE"
-            id="SF_WAREHOUSE"
-            max={null}
-            min={0}
-            name="SF_WAREHOUSE"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          sq ft
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-    </div>
-  </div>,
-  <div
-    className="panelContainer-0-2-64"
-  >
-    <div
-      className="strategyContainer-0-2-65"
-    >
-      <h4
-        className="strategyName-0-2-66"
-      >
-        Institutional Inputs
-      </h4>
-    </div>
-    <div
-      className="root-0-2-63"
-    >
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="SF_INST_MEDICAL_SVC"
-        >
-          Sq Ft - Medical Offices, Clinics, Service Facilities
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="SF_INST_MEDICAL_SVC"
-            id="SF_INST_MEDICAL_SVC"
-            max={null}
-            min={0}
-            name="SF_INST_MEDICAL_SVC"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          sq ft
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="SF_INST_OTHER"
-        >
-          Sq Ft - Other Institutional
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="SF_INST_OTHER"
-            id="SF_INST_OTHER"
-            max={null}
-            min={0}
-            name="SF_INST_OTHER"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          sq ft
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="SF_INST_GOV"
-        >
-          Sq Ft - Government Institution
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="SF_INST_GOV"
-            id="SF_INST_GOV"
-            max={null}
-            min={0}
-            name="SF_INST_GOV"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          sq ft
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="BED_HOSPITAL"
-        >
-          Patient Hospital Beds
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="BED_HOSPITAL"
-            id="BED_HOSPITAL"
-            max={null}
-            min={0}
-            name="BED_HOSPITAL"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          beds
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="BED_CONVALESCENT"
-        >
-          Convalescent Institution Beds
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="BED_CONVALESCENT"
-            id="BED_CONVALESCENT"
-            max={null}
-            min={0}
-            name="BED_CONVALESCENT"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          beds
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-    </div>
-  </div>,
-  <div
-    className="panelContainer-0-2-64"
-  >
-    <div
-      className="strategyContainer-0-2-65"
-    >
-      <h4
-        className="strategyName-0-2-66"
-      >
-        Other Land Use Inputs
-      </h4>
-    </div>
-    <div
-      className="root-0-2-63"
-    >
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="SEAT_AUDITORIUM"
-        >
-          # Seats - Auditorium
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="SEAT_AUDITORIUM"
-            id="SEAT_AUDITORIUM"
-            max={null}
-            min={0}
-            name="SEAT_AUDITORIUM"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          seats
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-      <div
-        className="field-0-2-30 numberFieldWrapper-0-2-31"
-      >
-        <label
-          className="textInputLabel-0-2-49"
-          htmlFor="SF_AUDITORIUM_NO_SEATS"
-        >
-          Sq Ft - Auditorium w/o Seats
-        </label>
-        <div
-          className="numberField-0-2-32"
-        >
-          <input
-            className="input-0-2-34"
-            data-testid="SF_AUDITORIUM_NO_SEATS"
-            id="SF_AUDITORIUM_NO_SEATS"
-            max={null}
-            min={0}
-            name="SF_AUDITORIUM_NO_SEATS"
-            onChange={[Function]}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="numberFieldUnits-0-2-33"
-        >
-          sq ft
-        </div>
-        <div
-          className="calcUnitsCaption-0-2-36"
-        >
-           
-        </div>
-      </div>
-    </div>
-  </div>,
-]
-`;
-
-exports[`Storyshots RuleStrategyList default 1`] = `
-<div
-  className="root-0-2-69"
->
-  <div
-    className="strategyContainer-0-2-55"
+    className="strategyContainer-0-2-61"
   >
     <label
-      className="strategyName-0-2-56"
-      htmlFor="STRATEGY_PARKING_2"
-    >
-       
-      Cash-Out
-       
-    </label>
-    <div>
-      <input
-        checked={false}
-        id="STRATEGY_PARKING_2"
-        name="STRATEGY_PARKING_2"
-        onChange={[Function]}
-        type="checkbox"
-        value={true}
-      />
-    </div>
-    <div
-      className="points-0-2-57"
-    >
-      NaN 
-    </div>
-    <div
-      className="points-0-2-57"
-    >
-       
-    </div>
-  </div>
-  <div
-    className="strategyContainer-0-2-55"
-  >
-    <label
-      className="strategyName-0-2-56"
+      className="strategyName-0-2-63"
+      data-class="tooltip-0-2-71"
+      data-for="main110"
+      data-html="true"
+      data-iscapture="true"
       htmlFor="STRATEGY_PARKING_1"
     >
        
@@ -1268,21 +244,1499 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-57"
+      className="points-0-2-64"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-57"
+      className="points-0-2-64"
+    >
+       
+    </div>
+  </div>,
+  <div
+    className="__react_component_tooltip t625583ed-202b-4965-aa2a-d1b7c859cded place-right type-dark"
+    data-id="tooltip"
+    id="main110"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  	.t625583ed-202b-4965-aa2a-d1b7c859cded {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t625583ed-202b-4965-aa2a-d1b7c859cded.place-top {
+        margin-top: -10px;
+    }
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-bottom {
+        margin-top: 10px;
+    }
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-left {
+        margin-left: -10px;
+    }
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-right {
+        margin-left: 10px;
+    }
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t625583ed-202b-4965-aa2a-d1b7c859cded.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+        }
+      }
+    />
+  </div>,
+]
+`;
+
+exports[`Storyshots RuleInput default Strategy Boolean (True) 1`] = `
+Array [
+  <div
+    className="strategyContainer-0-2-61"
+  >
+    <label
+      className="strategyName-0-2-63"
+      data-class="tooltip-0-2-71"
+      data-for="main110"
+      data-html="true"
+      data-iscapture="true"
+      htmlFor="STRATEGY_PARKING_1"
+    >
+       
+      Pricing/Unbundling
+       
+    </label>
+    <div>
+      <input
+        checked={true}
+        id="STRATEGY_PARKING_1"
+        name="STRATEGY_PARKING_1"
+        onChange={[Function]}
+        type="checkbox"
+        value={true}
+      />
+    </div>
+    <div
+      className="points-0-2-64"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-64"
+    >
+       
+    </div>
+  </div>,
+  <div
+    className="__react_component_tooltip t8bfdca15-881a-4ac1-af93-8d310c08b327 place-right type-dark"
+    data-id="tooltip"
+    id="main110"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  	.t8bfdca15-881a-4ac1-af93-8d310c08b327 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t8bfdca15-881a-4ac1-af93-8d310c08b327.place-top {
+        margin-top: -10px;
+    }
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-bottom {
+        margin-top: 10px;
+    }
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-left {
+        margin-left: -10px;
+    }
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-right {
+        margin-left: 10px;
+    }
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t8bfdca15-881a-4ac1-af93-8d310c08b327.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+        }
+      }
+    />
+  </div>,
+]
+`;
+
+exports[`Storyshots RuleInput default Strategy Choice 1`] = `
+Array [
+  <div
+    className="strategyContainer-0-2-61"
+  >
+    <label
+      className="strategyName-0-2-63"
+      data-class="tooltip-0-2-71"
+      data-for="main124"
+      data-html="true"
+      data-iscapture="true"
+      htmlFor="STRATEGY_AFFORDABLE"
+    >
+       
+      Affordable Housing Level
+       
+    </label>
+    <div
+      className="choiceSelectContainer-0-2-67"
+    >
+      <select
+        id="STRATEGY_AFFORDABLE"
+        name="STRATEGY_AFFORDABLE"
+        onChange={[Function]}
+        value=""
+        width="100%"
+      >
+        <option
+          value=""
+        >
+          &lt; 35% of State Density Bonus
+        </option>
+        <option
+          value="1"
+        >
+          35% of State Density Bonus
+        </option>
+        <option
+          value="2"
+        >
+          TOC Tier 1
+        </option>
+        <option
+          value="3"
+        >
+          TOC Tier 4
+        </option>
+        <option
+          value="4"
+        >
+          100% Affortdable
+        </option>
+      </select>
+    </div>
+    <div
+      className="points-0-2-64"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-64"
+    >
+       
+    </div>
+  </div>,
+  <div
+    className="__react_component_tooltip t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b place-right type-dark"
+    data-id="tooltip"
+    id="main124"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  	.t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-top {
+        margin-top: -10px;
+    }
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-bottom {
+        margin-top: 10px;
+    }
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-left {
+        margin-left: -10px;
+    }
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-right {
+        margin-left: 10px;
+    }
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t077d79a0-f1af-4fb6-9848-ebf10b9d7f1b.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+        }
+      }
+    />
+  </div>,
+]
+`;
+
+exports[`Storyshots RuleInput default Strategy Number 1`] = `
+Array [
+  <div
+    className="strategyContainer-0-2-61"
+  >
+    <label
+      className="strategyName-0-2-63"
+      data-class="tooltip-0-2-71"
+      data-for="main123"
+      data-html="true"
+      data-iscapture="true"
+      htmlFor="PTS_ACCESS_3"
+    >
+       
+      Network Improvement
+       
+    </label>
+    <div
+      className="numberInputContainer-0-2-65"
+    >
+      <input
+        autoComplete="off"
+        className="numberInput-0-2-66"
+        id="PTS_ACCESS_3"
+        max={100}
+        min={0}
+        name="PTS_ACCESS_3"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="points-0-2-64"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-64"
+    >
+       
+    </div>
+  </div>,
+  <div
+    className="__react_component_tooltip ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b place-right type-dark"
+    data-id="tooltip"
+    id="main123"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  	.ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-top {
+        margin-top: -10px;
+    }
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-bottom {
+        margin-top: 10px;
+    }
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-left {
+        margin-left: -10px;
+    }
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-right {
+        margin-left: 10px;
+    }
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .ta6f5ea87-c22e-493a-b86f-6d4d1bb7811b.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+        }
+      }
+    />
+  </div>,
+]
+`;
+
+exports[`Storyshots RuleInputList default 1`] = `
+<div
+  className="root-0-2-72"
+>
+  <div
+    className="field-0-2-36 numberFieldWrapper-0-2-37"
+  >
+    <label
+      className="textInputLabel-0-2-54"
+      htmlFor="UNITS_HABIT_LT3"
+    >
+      # Habitable Rooms &lt; 3
+    </label>
+    <div>
+      <input
+        autoComplete="off"
+        className="input-0-2-39"
+        data-testid="UNITS_HABIT_LT3"
+        id="UNITS_HABIT_LT3"
+        max={null}
+        min={0}
+        name="UNITS_HABIT_LT3"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="numberFieldUnits-0-2-38"
+    >
+      dwelling units
+    </div>
+  </div>
+  <div
+    className="field-0-2-36 numberFieldWrapper-0-2-37"
+  >
+    <label
+      className="textInputLabel-0-2-54"
+      htmlFor="UNITS_HABIT_3"
+    >
+      # Habitable Rooms = 3
+    </label>
+    <div>
+      <input
+        autoComplete="off"
+        className="input-0-2-39"
+        data-testid="UNITS_HABIT_3"
+        id="UNITS_HABIT_3"
+        max={null}
+        min={0}
+        name="UNITS_HABIT_3"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="numberFieldUnits-0-2-38"
+    >
+      dwelling units
+    </div>
+  </div>
+  <div
+    className="field-0-2-36 numberFieldWrapper-0-2-37"
+  >
+    <label
+      className="textInputLabel-0-2-54"
+      htmlFor="UNITS_HABIT_GT3"
+    >
+      # Habitable Rooms &gt; 3
+    </label>
+    <div>
+      <input
+        autoComplete="off"
+        className="input-0-2-39"
+        data-testid="UNITS_HABIT_GT3"
+        id="UNITS_HABIT_GT3"
+        max={null}
+        min={0}
+        name="UNITS_HABIT_GT3"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="numberFieldUnits-0-2-38"
+    >
+      dwelling units
+    </div>
+  </div>
+  <div
+    className="field-0-2-36 numberFieldWrapper-0-2-37"
+  >
+    <label
+      className="textInputLabel-0-2-54"
+      htmlFor="UNITS_CONDO"
+    >
+      Condo - Units
+    </label>
+    <div>
+      <input
+        autoComplete="off"
+        className="input-0-2-39"
+        data-testid="UNITS_CONDO"
+        id="UNITS_CONDO"
+        max={null}
+        min={0}
+        name="UNITS_CONDO"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="numberFieldUnits-0-2-38"
+    >
+      dwelling units
+    </div>
+  </div>
+  <div
+    className="field-0-2-36 numberFieldWrapper-0-2-37"
+  >
+    <label
+      className="textInputLabel-0-2-54"
+      htmlFor="PARK_CONDO"
+    >
+      Condo - Enter Parking Space Req'd
+    </label>
+    <div>
+      <input
+        autoComplete="off"
+        className="input-0-2-39"
+        data-testid="PARK_CONDO"
+        id="PARK_CONDO"
+        max={null}
+        min={0}
+        name="PARK_CONDO"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="numberFieldUnits-0-2-38"
+    >
+      spcs
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots RuleInputPanels default 1`] = `
+Array [
+  <div
+    className="panelContainer-0-2-73"
+  >
+    <div
+      className="strategyContainer-0-2-74"
+    >
+      <h4
+        className="strategyName-0-2-75"
+      >
+        Residential Inputs
+      </h4>
+    </div>
+    <div
+      className="root-0-2-72"
+    >
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="UNITS_HABIT_LT3"
+        >
+          # Habitable Rooms &lt; 3
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="UNITS_HABIT_LT3"
+            id="UNITS_HABIT_LT3"
+            max={null}
+            min={0}
+            name="UNITS_HABIT_LT3"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          dwelling units
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="UNITS_HABIT_3"
+        >
+          # Habitable Rooms = 3
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="UNITS_HABIT_3"
+            id="UNITS_HABIT_3"
+            max={null}
+            min={0}
+            name="UNITS_HABIT_3"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          dwelling units
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="UNITS_HABIT_GT3"
+        >
+          # Habitable Rooms &gt; 3
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="UNITS_HABIT_GT3"
+            id="UNITS_HABIT_GT3"
+            max={null}
+            min={0}
+            name="UNITS_HABIT_GT3"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          dwelling units
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="UNITS_CONDO"
+        >
+          Condo - Units
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="UNITS_CONDO"
+            id="UNITS_CONDO"
+            max={null}
+            min={0}
+            name="UNITS_CONDO"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          dwelling units
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="PARK_CONDO"
+        >
+          Condo - Enter Parking Space Req'd
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="PARK_CONDO"
+            id="PARK_CONDO"
+            max={null}
+            min={0}
+            name="PARK_CONDO"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          spcs
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="panelContainer-0-2-73"
+  >
+    <div
+      className="strategyContainer-0-2-74"
+    >
+      <h4
+        className="strategyName-0-2-75"
+      >
+        Commercial Inputs
+      </h4>
+    </div>
+    <div
+      className="root-0-2-72"
+    >
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="SF_RESTAURANT"
+        >
+          Sq Ft - Restaurant/Bar/General
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="SF_RESTAURANT"
+            id="SF_RESTAURANT"
+            max={null}
+            min={0}
+            name="SF_RESTAURANT"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          sq ft
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="SF_HEALTH_CLUB"
+        >
+          Sq Ft - Health Club
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="SF_HEALTH_CLUB"
+            id="SF_HEALTH_CLUB"
+            max={null}
+            min={0}
+            name="SF_HEALTH_CLUB"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          sq ft
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="SF_RESTAURANT_TAKEOUT"
+        >
+          Sq Ft - Take-out Restaurant
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="SF_RESTAURANT_TAKEOUT"
+            id="SF_RESTAURANT_TAKEOUT"
+            max={null}
+            min={0}
+            name="SF_RESTAURANT_TAKEOUT"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          sq ft
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="SF_OFFICE"
+        >
+          Sq Ft - Office, Business, Manufacturing, Industrial
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="SF_OFFICE"
+            id="SF_OFFICE"
+            max={null}
+            min={0}
+            name="SF_OFFICE"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          sq ft
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="SF_WAREHOUSE"
+        >
+          Sq Ft - Warehouse
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="SF_WAREHOUSE"
+            id="SF_WAREHOUSE"
+            max={null}
+            min={0}
+            name="SF_WAREHOUSE"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          sq ft
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="panelContainer-0-2-73"
+  >
+    <div
+      className="strategyContainer-0-2-74"
+    >
+      <h4
+        className="strategyName-0-2-75"
+      >
+        Institutional Inputs
+      </h4>
+    </div>
+    <div
+      className="root-0-2-72"
+    >
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="SF_INST_MEDICAL_SVC"
+        >
+          Sq Ft - Medical Offices, Clinics, Service Facilities
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="SF_INST_MEDICAL_SVC"
+            id="SF_INST_MEDICAL_SVC"
+            max={null}
+            min={0}
+            name="SF_INST_MEDICAL_SVC"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          sq ft
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="SF_INST_OTHER"
+        >
+          Sq Ft - Other Institutional
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="SF_INST_OTHER"
+            id="SF_INST_OTHER"
+            max={null}
+            min={0}
+            name="SF_INST_OTHER"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          sq ft
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="SF_INST_GOV"
+        >
+          Sq Ft - Government Institution
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="SF_INST_GOV"
+            id="SF_INST_GOV"
+            max={null}
+            min={0}
+            name="SF_INST_GOV"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          sq ft
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="BED_HOSPITAL"
+        >
+          Patient Hospital Beds
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="BED_HOSPITAL"
+            id="BED_HOSPITAL"
+            max={null}
+            min={0}
+            name="BED_HOSPITAL"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          beds
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="BED_CONVALESCENT"
+        >
+          Convalescent Institution Beds
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="BED_CONVALESCENT"
+            id="BED_CONVALESCENT"
+            max={null}
+            min={0}
+            name="BED_CONVALESCENT"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          beds
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="panelContainer-0-2-73"
+  >
+    <div
+      className="strategyContainer-0-2-74"
+    >
+      <h4
+        className="strategyName-0-2-75"
+      >
+        Other Land Use Inputs
+      </h4>
+    </div>
+    <div
+      className="root-0-2-72"
+    >
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="SEAT_AUDITORIUM"
+        >
+          # Seats - Auditorium
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="SEAT_AUDITORIUM"
+            id="SEAT_AUDITORIUM"
+            max={null}
+            min={0}
+            name="SEAT_AUDITORIUM"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          seats
+        </div>
+      </div>
+      <div
+        className="field-0-2-36 numberFieldWrapper-0-2-37"
+      >
+        <label
+          className="textInputLabel-0-2-54"
+          htmlFor="SF_AUDITORIUM_NO_SEATS"
+        >
+          Sq Ft - Auditorium w/o Seats
+        </label>
+        <div>
+          <input
+            autoComplete="off"
+            className="input-0-2-39"
+            data-testid="SF_AUDITORIUM_NO_SEATS"
+            id="SF_AUDITORIUM_NO_SEATS"
+            max={null}
+            min={0}
+            name="SF_AUDITORIUM_NO_SEATS"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="numberFieldUnits-0-2-38"
+        >
+          sq ft
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots RuleStrategyList default 1`] = `
+<div
+  className="root-0-2-78"
+>
+  <div
+    className="strategyContainer-0-2-61"
+  >
+    <label
+      className="strategyName-0-2-63"
+      data-class="tooltip-0-2-71"
+      data-for="main187"
+      data-html="true"
+      data-iscapture="true"
+      htmlFor="STRATEGY_PARKING_2"
+    >
+       
+      Cash-Out
+       
+    </label>
+    <div>
+      <input
+        checked={false}
+        id="STRATEGY_PARKING_2"
+        name="STRATEGY_PARKING_2"
+        onChange={[Function]}
+        type="checkbox"
+        value={true}
+      />
+    </div>
+    <div
+      className="points-0-2-64"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-64"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-55"
+    className="__react_component_tooltip t16f65dfa-f679-49ae-981d-419848c684b2 place-right type-dark"
+    data-id="tooltip"
+    id="main187"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  	.t16f65dfa-f679-49ae-981d-419848c684b2 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t16f65dfa-f679-49ae-981d-419848c684b2.place-top {
+        margin-top: -10px;
+    }
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-bottom {
+        margin-top: 10px;
+    }
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-left {
+        margin-left: -10px;
+    }
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-right {
+        margin-left: 10px;
+    }
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t16f65dfa-f679-49ae-981d-419848c684b2.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+        }
+      }
+    />
+  </div>
+  <div
+    className="strategyContainer-0-2-61"
   >
     <label
-      className="strategyName-0-2-56"
+      className="strategyName-0-2-63"
+      data-class="tooltip-0-2-71"
+      data-for="main110"
+      data-html="true"
+      data-iscapture="true"
+      htmlFor="STRATEGY_PARKING_1"
+    >
+       
+      Pricing/Unbundling
+       
+    </label>
+    <div>
+      <input
+        checked={false}
+        id="STRATEGY_PARKING_1"
+        name="STRATEGY_PARKING_1"
+        onChange={[Function]}
+        type="checkbox"
+        value={true}
+      />
+    </div>
+    <div
+      className="points-0-2-64"
+    >
+      NaN 
+    </div>
+    <div
+      className="points-0-2-64"
+    >
+       
+    </div>
+  </div>
+  <div
+    className="__react_component_tooltip t214ad9c8-0dea-4855-bfa3-9277f52118b8 place-right type-dark"
+    data-id="tooltip"
+    id="main110"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  	.t214ad9c8-0dea-4855-bfa3-9277f52118b8 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-top {
+        margin-top: -10px;
+    }
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-bottom {
+        margin-top: 10px;
+    }
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-left {
+        margin-left: -10px;
+    }
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-right {
+        margin-left: 10px;
+    }
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t214ad9c8-0dea-4855-bfa3-9277f52118b8.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+        }
+      }
+    />
+  </div>
+  <div
+    className="strategyContainer-0-2-61"
+  >
+    <label
+      className="strategyName-0-2-63"
+      data-class="tooltip-0-2-71"
+      data-for="main189"
+      data-html="true"
+      data-iscapture="true"
       htmlFor="STRATEGY_PARKING_3"
     >
        
@@ -1290,7 +1744,7 @@ exports[`Storyshots RuleStrategyList default 1`] = `
        
     </label>
     <div
-      className="choiceSelectContainer-0-2-60"
+      className="choiceSelectContainer-0-2-67"
     >
       <select
         id="STRATEGY_PARKING_3"
@@ -1327,21 +1781,112 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       </select>
     </div>
     <div
-      className="points-0-2-57"
+      className="points-0-2-64"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-57"
+      className="points-0-2-64"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-55"
+    className="__react_component_tooltip t341a24cd-a16a-475f-b116-9e6c82aabac6 place-right type-dark"
+    data-id="tooltip"
+    id="main189"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  	.t341a24cd-a16a-475f-b116-9e6c82aabac6 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t341a24cd-a16a-475f-b116-9e6c82aabac6.place-top {
+        margin-top: -10px;
+    }
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-bottom {
+        margin-top: 10px;
+    }
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-left {
+        margin-left: -10px;
+    }
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-right {
+        margin-left: 10px;
+    }
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t341a24cd-a16a-475f-b116-9e6c82aabac6.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+        }
+      }
+    />
+  </div>
+  <div
+    className="strategyContainer-0-2-61"
   >
     <label
-      className="strategyName-0-2-56"
+      className="strategyName-0-2-63"
+      data-class="tooltip-0-2-71"
+      data-for="main191"
+      data-html="true"
+      data-iscapture="true"
       htmlFor="STRATEGY_PARKING_4"
     >
        
@@ -1359,21 +1904,112 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-57"
+      className="points-0-2-64"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-57"
+      className="points-0-2-64"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-55"
+    className="__react_component_tooltip t55d3eece-e531-4eae-94b5-97cf023153b5 place-right type-dark"
+    data-id="tooltip"
+    id="main191"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  	.t55d3eece-e531-4eae-94b5-97cf023153b5 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t55d3eece-e531-4eae-94b5-97cf023153b5.place-top {
+        margin-top: -10px;
+    }
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-bottom {
+        margin-top: 10px;
+    }
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-left {
+        margin-left: -10px;
+    }
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-right {
+        margin-left: 10px;
+    }
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t55d3eece-e531-4eae-94b5-97cf023153b5.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+        }
+      }
+    />
+  </div>
+  <div
+    className="strategyContainer-0-2-61"
   >
     <label
-      className="strategyName-0-2-56"
+      className="strategyName-0-2-63"
+      data-class="tooltip-0-2-71"
+      data-for="main193"
+      data-html="true"
+      data-iscapture="true"
       htmlFor="STRATEGY_PARKING_5"
     >
        
@@ -1391,21 +2027,112 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-57"
+      className="points-0-2-64"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-57"
+      className="points-0-2-64"
     >
        
     </div>
   </div>
   <div
-    className="strategyContainer-0-2-55"
+    className="__react_component_tooltip t36e2e5ec-f4e8-4307-9371-6c86119ea884 place-right type-dark"
+    data-id="tooltip"
+    id="main193"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  	.t36e2e5ec-f4e8-4307-9371-6c86119ea884 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-top {
+        margin-top: -10px;
+    }
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-bottom {
+        margin-top: 10px;
+    }
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-left {
+        margin-left: -10px;
+    }
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-right {
+        margin-left: 10px;
+    }
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t36e2e5ec-f4e8-4307-9371-6c86119ea884.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+        }
+      }
+    />
+  </div>
+  <div
+    className="strategyContainer-0-2-61"
   >
     <label
-      className="strategyName-0-2-56"
+      className="strategyName-0-2-63"
+      data-class="tooltip-0-2-71"
+      data-for="main113"
+      data-html="true"
+      data-iscapture="true"
       htmlFor="PTS_PARKING_1"
     >
        
@@ -1413,10 +2140,11 @@ exports[`Storyshots RuleStrategyList default 1`] = `
        
     </label>
     <div
-      className="numberInputContainer-0-2-58"
+      className="numberInputContainer-0-2-65"
     >
       <input
-        className="numberInput-0-2-59"
+        autoComplete="off"
+        className="numberInput-0-2-66"
         id="PTS_PARKING_1"
         max={8}
         min={8}
@@ -1427,15 +2155,102 @@ exports[`Storyshots RuleStrategyList default 1`] = `
       />
     </div>
     <div
-      className="points-0-2-57"
+      className="points-0-2-64"
     >
       NaN 
     </div>
     <div
-      className="points-0-2-57"
+      className="points-0-2-64"
     >
        
     </div>
+  </div>
+  <div
+    className="__react_component_tooltip tb042bce3-7481-4499-a7eb-62e5d1fb1ef4 place-right type-dark"
+    data-id="tooltip"
+    id="main113"
+  >
+    <style
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  	.tb042bce3-7481-4499-a7eb-62e5d1fb1ef4 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-top {
+        margin-top: -10px;
+    }
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-bottom {
+        margin-top: 10px;
+    }
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-left {
+        margin-left: -10px;
+    }
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-right {
+        margin-left: 10px;
+    }
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .tb042bce3-7481-4499-a7eb-62e5d1fb1ef4.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -1443,35 +2258,39 @@ exports[`Storyshots RuleStrategyList default 1`] = `
 exports[`Storyshots RuleStrategyPanels default 1`] = `
 Array [
   <div
-    className="panelContainer-0-2-70"
+    className="panelContainer-0-2-79"
   >
     <div
-      className="strategyContainer-0-2-71"
+      className="strategyContainer-0-2-80"
     >
       <h4
-        className="strategyName-0-2-72"
+        className="strategyName-0-2-81"
       >
         Accessibility
       </h4>
       <div
-        className="points-0-2-73"
+        className="points-0-2-82"
       >
         Possible
       </div>
       <div
-        className="points-0-2-73"
+        className="points-0-2-82"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-69"
+      className="root-0-2-78"
     >
       <div
-        className="strategyContainer-0-2-55"
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main225"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="PTS_ACCESS_1"
         >
            
@@ -1479,10 +2298,11 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-58"
+          className="numberInputContainer-0-2-65"
         >
           <input
-            className="numberInput-0-2-59"
+            autoComplete="off"
+            className="numberInput-0-2-66"
             id="PTS_ACCESS_1"
             max={5}
             min={2}
@@ -1493,21 +2313,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip tbcda78a4-4d6b-43b8-8ac9-f819db33c223 place-right type-dark"
+        data-id="tooltip"
+        id="main225"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.tbcda78a4-4d6b-43b8-8ac9-f819db33c223 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-top {
+        margin-top: -10px;
+    }
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-bottom {
+        margin-top: 10px;
+    }
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-left {
+        margin-left: -10px;
+    }
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-right {
+        margin-left: 10px;
+    }
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .tbcda78a4-4d6b-43b8-8ac9-f819db33c223.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main226"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="PTS_ACCESS_2"
         >
            
@@ -1515,10 +2426,11 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-58"
+          className="numberInputContainer-0-2-65"
         >
           <input
-            className="numberInput-0-2-59"
+            autoComplete="off"
+            className="numberInput-0-2-66"
             id="PTS_ACCESS_2"
             max={5}
             min={2}
@@ -1529,21 +2441,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t05d867c3-8be5-456e-aaac-1e81b2017f8f place-right type-dark"
+        data-id="tooltip"
+        id="main226"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t05d867c3-8be5-456e-aaac-1e81b2017f8f {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-top {
+        margin-top: -10px;
+    }
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-bottom {
+        margin-top: 10px;
+    }
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-left {
+        margin-left: -10px;
+    }
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-right {
+        margin-left: 10px;
+    }
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t05d867c3-8be5-456e-aaac-1e81b2017f8f.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main125"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_ACCESS_1"
         >
            
@@ -1551,7 +2554,7 @@ Array [
            
         </label>
         <div
-          className="choiceSelectContainer-0-2-60"
+          className="choiceSelectContainer-0-2-67"
         >
           <select
             id="STRATEGY_ACCESS_1"
@@ -1588,21 +2591,112 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t51180a88-18e4-4021-818e-4cb3c455e66b place-right type-dark"
+        data-id="tooltip"
+        id="main125"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t51180a88-18e4-4021-818e-4cb3c455e66b {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t51180a88-18e4-4021-818e-4cb3c455e66b.place-top {
+        margin-top: -10px;
+    }
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-bottom {
+        margin-top: 10px;
+    }
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-left {
+        margin-left: -10px;
+    }
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-right {
+        margin-left: 10px;
+    }
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t51180a88-18e4-4021-818e-4cb3c455e66b.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main120"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_ACCESS_2"
         >
            
@@ -1610,7 +2704,7 @@ Array [
            
         </label>
         <div
-          className="choiceSelectContainer-0-2-60"
+          className="choiceSelectContainer-0-2-67"
         >
           <select
             id="STRATEGY_ACCESS_2"
@@ -1647,21 +2741,112 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t9c6b0403-e5d5-4a87-982d-0375dd642601 place-right type-dark"
+        data-id="tooltip"
+        id="main120"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t9c6b0403-e5d5-4a87-982d-0375dd642601 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t9c6b0403-e5d5-4a87-982d-0375dd642601.place-top {
+        margin-top: -10px;
+    }
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-bottom {
+        margin-top: 10px;
+    }
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-left {
+        margin-left: -10px;
+    }
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-right {
+        margin-left: 10px;
+    }
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t9c6b0403-e5d5-4a87-982d-0375dd642601.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main123"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="PTS_ACCESS_3"
         >
            
@@ -1669,10 +2854,11 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-58"
+          className="numberInputContainer-0-2-65"
         >
           <input
-            className="numberInput-0-2-59"
+            autoComplete="off"
+            className="numberInput-0-2-66"
             id="PTS_ACCESS_3"
             max={100}
             min={0}
@@ -1683,48 +2869,139 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
+      <div
+        className="__react_component_tooltip tf2144741-d31c-4fbd-9b72-4c8fff21daa0 place-right type-dark"
+        data-id="tooltip"
+        id="main123"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.tf2144741-d31c-4fbd-9b72-4c8fff21daa0 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-top {
+        margin-top: -10px;
+    }
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-bottom {
+        margin-top: 10px;
+    }
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-left {
+        margin-left: -10px;
+    }
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-right {
+        margin-left: 10px;
+    }
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .tf2144741-d31c-4fbd-9b72-4c8fff21daa0.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-70"
+    className="panelContainer-0-2-79"
   >
     <div
-      className="strategyContainer-0-2-71"
+      className="strategyContainer-0-2-80"
     >
       <h4
-        className="strategyName-0-2-72"
+        className="strategyName-0-2-81"
       >
         Affordable Housing
       </h4>
       <div
-        className="points-0-2-73"
+        className="points-0-2-82"
       >
         Possible
       </div>
       <div
-        className="points-0-2-73"
+        className="points-0-2-82"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-69"
+      className="root-0-2-78"
     >
       <div
-        className="strategyContainer-0-2-55"
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main124"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_AFFORDABLE"
         >
            
@@ -1732,7 +3009,7 @@ Array [
            
         </label>
         <div
-          className="choiceSelectContainer-0-2-60"
+          className="choiceSelectContainer-0-2-67"
         >
           <select
             id="STRATEGY_AFFORDABLE"
@@ -1769,48 +3046,139 @@ Array [
           </select>
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
+      <div
+        className="__react_component_tooltip te73de6d4-1cbe-4634-814c-7f1b83bebb6f place-right type-dark"
+        data-id="tooltip"
+        id="main124"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.te73de6d4-1cbe-4634-814c-7f1b83bebb6f {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-top {
+        margin-top: -10px;
+    }
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-bottom {
+        margin-top: 10px;
+    }
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-left {
+        margin-left: -10px;
+    }
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-right {
+        margin-left: 10px;
+    }
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .te73de6d4-1cbe-4634-814c-7f1b83bebb6f.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-70"
+    className="panelContainer-0-2-79"
   >
     <div
-      className="strategyContainer-0-2-71"
+      className="strategyContainer-0-2-80"
     >
       <h4
-        className="strategyName-0-2-72"
+        className="strategyName-0-2-81"
       >
         Bicycle Facilities
       </h4>
       <div
-        className="points-0-2-73"
+        className="points-0-2-82"
       >
         Possible
       </div>
       <div
-        className="points-0-2-73"
+        className="points-0-2-82"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-69"
+      className="root-0-2-78"
     >
       <div
-        className="strategyContainer-0-2-55"
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main111"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_BIKE_1"
         >
            
@@ -1828,21 +3196,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d place-right type-dark"
+        data-id="tooltip"
+        id="main111"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-top {
+        margin-top: -10px;
+    }
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-bottom {
+        margin-top: 10px;
+    }
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-left {
+        margin-left: -10px;
+    }
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-right {
+        margin-left: 10px;
+    }
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t1a47ef1d-8833-4ad9-8dd9-5a6bbd45929d.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main115"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="PTS_BIKE_1"
         >
            
@@ -1850,10 +3309,11 @@ Array [
            
         </label>
         <div
-          className="numberInputContainer-0-2-58"
+          className="numberInputContainer-0-2-65"
         >
           <input
-            className="numberInput-0-2-59"
+            autoComplete="off"
+            className="numberInput-0-2-66"
             id="PTS_BIKE_1"
             max={2}
             min={2}
@@ -1864,21 +3324,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t8b708818-4647-45f8-b44c-fe2447bd7d15 place-right type-dark"
+        data-id="tooltip"
+        id="main115"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t8b708818-4647-45f8-b44c-fe2447bd7d15 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t8b708818-4647-45f8-b44c-fe2447bd7d15.place-top {
+        margin-top: -10px;
+    }
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-bottom {
+        margin-top: 10px;
+    }
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-left {
+        margin-left: -10px;
+    }
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-right {
+        margin-left: 10px;
+    }
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t8b708818-4647-45f8-b44c-fe2447bd7d15.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main139"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_BIKE_2"
         >
            
@@ -1896,21 +3447,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t951a3948-452a-4172-a0f0-06ce489b4b1b place-right type-dark"
+        data-id="tooltip"
+        id="main139"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t951a3948-452a-4172-a0f0-06ce489b4b1b {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t951a3948-452a-4172-a0f0-06ce489b4b1b.place-top {
+        margin-top: -10px;
+    }
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-bottom {
+        margin-top: 10px;
+    }
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-left {
+        margin-left: -10px;
+    }
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-right {
+        margin-left: 10px;
+    }
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t951a3948-452a-4172-a0f0-06ce489b4b1b.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main141"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_BIKE_3"
         >
            
@@ -1928,21 +3570,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t9f486b55-a328-4424-9b18-76532d6d6f3c place-right type-dark"
+        data-id="tooltip"
+        id="main141"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t9f486b55-a328-4424-9b18-76532d6d6f3c {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t9f486b55-a328-4424-9b18-76532d6d6f3c.place-top {
+        margin-top: -10px;
+    }
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-bottom {
+        margin-top: 10px;
+    }
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-left {
+        margin-left: -10px;
+    }
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-right {
+        margin-left: 10px;
+    }
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t9f486b55-a328-4424-9b18-76532d6d6f3c.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main143"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_BIKE_4"
         >
            
@@ -1960,21 +3693,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t99fd28b6-6519-4426-a4e0-4180486298fc place-right type-dark"
+        data-id="tooltip"
+        id="main143"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t99fd28b6-6519-4426-a4e0-4180486298fc {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t99fd28b6-6519-4426-a4e0-4180486298fc.place-top {
+        margin-top: -10px;
+    }
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-bottom {
+        margin-top: 10px;
+    }
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-left {
+        margin-left: -10px;
+    }
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-right {
+        margin-left: 10px;
+    }
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t99fd28b6-6519-4426-a4e0-4180486298fc.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main145"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_BIKE_5"
         >
            
@@ -1992,21 +3816,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip tf787ee48-7e6c-4e6f-9570-9eebd6e848d5 place-right type-dark"
+        data-id="tooltip"
+        id="main145"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.tf787ee48-7e6c-4e6f-9570-9eebd6e848d5 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-top {
+        margin-top: -10px;
+    }
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-bottom {
+        margin-top: 10px;
+    }
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-left {
+        margin-left: -10px;
+    }
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-right {
+        margin-left: 10px;
+    }
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .tf787ee48-7e6c-4e6f-9570-9eebd6e848d5.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
+        data-class="tooltip-0-2-71"
+        data-for="main222"
+        data-html="true"
+        data-iscapture="true"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
           htmlFor="STRATEGY_BIKE_BONUS"
         >
            
@@ -2014,52 +3929,143 @@ Array [
            
         </label>
         <div
-          className="allElse-0-2-62"
+          className="allElse-0-2-69"
           name="STRATEGY_BIKE_BONUS"
         />
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
+      <div
+        className="__react_component_tooltip ta1d82496-f7eb-4817-bde0-2fa1b0c5f918 place-right type-dark"
+        data-id="tooltip"
+        id="main222"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.ta1d82496-f7eb-4817-bde0-2fa1b0c5f918 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-top {
+        margin-top: -10px;
+    }
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-bottom {
+        margin-top: 10px;
+    }
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-left {
+        margin-left: -10px;
+    }
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-right {
+        margin-left: 10px;
+    }
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .ta1d82496-f7eb-4817-bde0-2fa1b0c5f918.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
     </div>
   </div>,
   <div
-    className="panelContainer-0-2-70"
+    className="panelContainer-0-2-79"
   >
     <div
-      className="strategyContainer-0-2-71"
+      className="strategyContainer-0-2-80"
     >
       <h4
-        className="strategyName-0-2-72"
+        className="strategyName-0-2-81"
       >
         Car Sharing
       </h4>
       <div
-        className="points-0-2-73"
+        className="points-0-2-82"
       >
         Possible
       </div>
       <div
-        className="points-0-2-73"
+        className="points-0-2-82"
       >
         Earned
       </div>
     </div>
     <div
-      className="root-0-2-69"
+      className="root-0-2-78"
     >
       <div
-        className="strategyContainer-0-2-55"
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main149"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_CAR_SHARE_1"
         >
            
@@ -2077,21 +4083,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t0e68987e-1016-4255-aa89-49adf4e8c215 place-right type-dark"
+        data-id="tooltip"
+        id="main149"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t0e68987e-1016-4255-aa89-49adf4e8c215 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t0e68987e-1016-4255-aa89-49adf4e8c215.place-top {
+        margin-top: -10px;
+    }
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-bottom {
+        margin-top: 10px;
+    }
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-left {
+        margin-left: -10px;
+    }
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-right {
+        margin-left: 10px;
+    }
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t0e68987e-1016-4255-aa89-49adf4e8c215.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main151"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_CAR_SHARE_2"
         >
            
@@ -2109,21 +4206,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t44249ace-2262-4ef4-8232-d1f5e8c0b300 place-right type-dark"
+        data-id="tooltip"
+        id="main151"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t44249ace-2262-4ef4-8232-d1f5e8c0b300 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-top {
+        margin-top: -10px;
+    }
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-bottom {
+        margin-top: 10px;
+    }
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-left {
+        margin-left: -10px;
+    }
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-right {
+        margin-left: 10px;
+    }
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t44249ace-2262-4ef4-8232-d1f5e8c0b300.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main153"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_CAR_SHARE_3"
         >
            
@@ -2141,21 +4329,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip tad6eeb0f-b387-4488-a774-7f0957b4b7a8 place-right type-dark"
+        data-id="tooltip"
+        id="main153"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.tad6eeb0f-b387-4488-a774-7f0957b4b7a8 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-top {
+        margin-top: -10px;
+    }
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-bottom {
+        margin-top: 10px;
+    }
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-left {
+        margin-left: -10px;
+    }
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-right {
+        margin-left: 10px;
+    }
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .tad6eeb0f-b387-4488-a774-7f0957b4b7a8.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main155"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_CAR_SHARE_4"
         >
            
@@ -2173,21 +4452,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t8f003a18-2f57-4a9a-b45a-f26bcf1af69e place-right type-dark"
+        data-id="tooltip"
+        id="main155"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t8f003a18-2f57-4a9a-b45a-f26bcf1af69e {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-top {
+        margin-top: -10px;
+    }
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-bottom {
+        margin-top: 10px;
+    }
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-left {
+        margin-left: -10px;
+    }
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-right {
+        margin-left: 10px;
+    }
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t8f003a18-2f57-4a9a-b45a-f26bcf1af69e.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
+          data-class="tooltip-0-2-71"
+          data-for="main158"
+          data-html="true"
+          data-iscapture="true"
           htmlFor="STRATEGY_CAR_SHARE_ELECTRIC"
         >
            
@@ -2205,21 +4575,112 @@ Array [
           />
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
       </div>
       <div
-        className="strategyContainer-0-2-55"
+        className="__react_component_tooltip t203b7b67-f900-4bd5-bcab-2b32cb19736d place-right type-dark"
+        data-id="tooltip"
+        id="main158"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.t203b7b67-f900-4bd5-bcab-2b32cb19736d {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-top {
+        margin-top: -10px;
+    }
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-bottom {
+        margin-top: 10px;
+    }
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-left {
+        margin-left: -10px;
+    }
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-right {
+        margin-left: 10px;
+    }
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t203b7b67-f900-4bd5-bcab-2b32cb19736d.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
+      </div>
+      <div
+        className="strategyContainer-0-2-61"
+        data-class="tooltip-0-2-71"
+        data-for="main231"
+        data-html="true"
+        data-iscapture="true"
       >
         <label
-          className="strategyName-0-2-56"
+          className="strategyName-0-2-63"
           htmlFor="STRATEGY_CAR_SHARE_BONUS"
         >
            
@@ -2227,19 +4688,106 @@ Array [
            
         </label>
         <div
-          className="allElse-0-2-62"
+          className="allElse-0-2-69"
           name="STRATEGY_CAR_SHARE_BONUS"
         />
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
           NaN 
         </div>
         <div
-          className="points-0-2-57"
+          className="points-0-2-64"
         >
            
         </div>
+      </div>
+      <div
+        className="__react_component_tooltip tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca place-right type-dark"
+        data-id="tooltip"
+        id="main231"
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+  	.tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-top {
+        margin-top: -10px;
+    }
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-bottom {
+        margin-top: 10px;
+    }
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-left {
+        margin-left: -10px;
+    }
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-right {
+        margin-left: 10px;
+    }
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .tb2dca759-d9ef-437f-9a70-c3ef5fa0c7ca.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+            }
+          }
+        />
       </div>
     </div>
   </div>,
@@ -2248,18 +4796,18 @@ Array [
 
 exports[`Storyshots Sidebar default 1`] = `
 <div
-  className="sidebar-container-0-2-75"
+  className="sidebar-container-0-2-84"
 >
   <div />
   <div
-    className="sidebar-content-0-2-76"
+    className="sidebar-content-0-2-85"
   />
 </div>
 `;
 
 exports[`Storyshots SinglePageResultList default 1`] = `
 <div
-  className="root-0-2-7"
+  className="root-0-2-13"
 >
   <div
     className="tdm-calculation-metrics-panel"
@@ -2328,28 +4876,28 @@ exports[`Storyshots SinglePageResultView default 1`] = `
 
 exports[`Storyshots SinglePageRuleInput default Input Boolean (False) 1`] = `
 <div
-  className="rule-0-2-9"
+  className="rule-0-2-15"
 >
   <div
-    className="name-0-2-11"
+    className="name-0-2-17"
   >
     Residential
   </div>
   <input
     checked={false}
-    className="code-0-2-13"
+    className="code-0-2-19"
     name="LAND_USE_RESIDENTIAL"
     onChange={[Function]}
     type="checkbox"
     value={true}
   />
   <div
-    className="units-0-2-14"
+    className="units-0-2-20"
   >
     
   </div>
   <div
-    className="calcUnits-0-2-15"
+    className="calcUnits-0-2-21"
   >
      
   </div>
@@ -2358,28 +4906,28 @@ exports[`Storyshots SinglePageRuleInput default Input Boolean (False) 1`] = `
 
 exports[`Storyshots SinglePageRuleInput default Input Boolean (True) 1`] = `
 <div
-  className="rule-0-2-9"
+  className="rule-0-2-15"
 >
   <div
-    className="name-0-2-11"
+    className="name-0-2-17"
   >
     Residential
   </div>
   <input
     checked={true}
-    className="code-0-2-13"
+    className="code-0-2-19"
     name="LAND_USE_RESIDENTIAL"
     onChange={[Function]}
     type="checkbox"
     value={true}
   />
   <div
-    className="units-0-2-14"
+    className="units-0-2-20"
   >
     
   </div>
   <div
-    className="calcUnits-0-2-15"
+    className="calcUnits-0-2-21"
   >
      
   </div>
@@ -2388,27 +4936,27 @@ exports[`Storyshots SinglePageRuleInput default Input Boolean (True) 1`] = `
 
 exports[`Storyshots SinglePageRuleInput default Input Number 1`] = `
 <div
-  className="rule-0-2-9 numberRule-0-2-10"
+  className="rule-0-2-15 numberRule-0-2-16"
 >
   <div
-    className="name-0-2-11"
+    className="name-0-2-17"
   >
     Sq Ft - Retail
   </div>
   <input
-    className="code-0-2-13"
+    className="code-0-2-19"
     name="SF_RETAIL"
     onChange={[Function]}
     type="text"
     value=""
   />
   <div
-    className="units-0-2-14"
+    className="units-0-2-20"
   >
     sq ft
   </div>
   <div
-    className="calcUnits-0-2-15"
+    className="calcUnits-0-2-21"
   >
      
   </div>
@@ -2417,134 +4965,134 @@ exports[`Storyshots SinglePageRuleInput default Input Number 1`] = `
 
 exports[`Storyshots SinglePageRuleList default 1`] = `
 <div
-  className="root-0-2-18"
+  className="root-0-2-24"
 >
   <div
-    className="rule-0-2-9 numberRule-0-2-10"
+    className="rule-0-2-15 numberRule-0-2-16"
   >
     <div
-      className="name-0-2-11"
+      className="name-0-2-17"
     >
       # Habitable Rooms &lt; 3
     </div>
     <input
-      className="code-0-2-13"
+      className="code-0-2-19"
       name="UNITS_HABIT_LT3"
       onChange={[Function]}
       type="text"
       value=""
     />
     <div
-      className="units-0-2-14"
+      className="units-0-2-20"
     >
       dwelling units
     </div>
     <div
-      className="calcUnits-0-2-15"
+      className="calcUnits-0-2-21"
     >
        
     </div>
   </div>
   <div
-    className="rule-0-2-9 numberRule-0-2-10"
+    className="rule-0-2-15 numberRule-0-2-16"
   >
     <div
-      className="name-0-2-11"
+      className="name-0-2-17"
     >
       # Habitable Rooms = 3
     </div>
     <input
-      className="code-0-2-13"
+      className="code-0-2-19"
       name="UNITS_HABIT_3"
       onChange={[Function]}
       type="text"
       value=""
     />
     <div
-      className="units-0-2-14"
+      className="units-0-2-20"
     >
       dwelling units
     </div>
     <div
-      className="calcUnits-0-2-15"
+      className="calcUnits-0-2-21"
     >
        
     </div>
   </div>
   <div
-    className="rule-0-2-9 numberRule-0-2-10"
+    className="rule-0-2-15 numberRule-0-2-16"
   >
     <div
-      className="name-0-2-11"
+      className="name-0-2-17"
     >
       # Habitable Rooms &gt; 3
     </div>
     <input
-      className="code-0-2-13"
+      className="code-0-2-19"
       name="UNITS_HABIT_GT3"
       onChange={[Function]}
       type="text"
       value=""
     />
     <div
-      className="units-0-2-14"
+      className="units-0-2-20"
     >
       dwelling units
     </div>
     <div
-      className="calcUnits-0-2-15"
+      className="calcUnits-0-2-21"
     >
        
     </div>
   </div>
   <div
-    className="rule-0-2-9 numberRule-0-2-10"
+    className="rule-0-2-15 numberRule-0-2-16"
   >
     <div
-      className="name-0-2-11"
+      className="name-0-2-17"
     >
       Condo - Units
     </div>
     <input
-      className="code-0-2-13"
+      className="code-0-2-19"
       name="UNITS_CONDO"
       onChange={[Function]}
       type="text"
       value=""
     />
     <div
-      className="units-0-2-14"
+      className="units-0-2-20"
     >
       dwelling units
     </div>
     <div
-      className="calcUnits-0-2-15"
+      className="calcUnits-0-2-21"
     >
        
     </div>
   </div>
   <div
-    className="rule-0-2-9 numberRule-0-2-10"
+    className="rule-0-2-15 numberRule-0-2-16"
   >
     <div
-      className="name-0-2-11"
+      className="name-0-2-17"
     >
       Condo - Enter Parking Space Req'd
     </div>
     <input
-      className="code-0-2-13"
+      className="code-0-2-19"
       name="PARK_CONDO"
       onChange={[Function]}
       type="text"
       value=""
     />
     <div
-      className="units-0-2-14"
+      className="units-0-2-20"
     >
       spcs
     </div>
     <div
-      className="calcUnits-0-2-15"
+      className="calcUnits-0-2-21"
     >
        
     </div>
@@ -2555,143 +5103,143 @@ exports[`Storyshots SinglePageRuleList default 1`] = `
 exports[`Storyshots SinglePageRulePanels default 1`] = `
 Array [
   <div
-    className="panel-0-2-19"
+    className="panel-0-2-25"
   >
     <fieldset>
       <legend
-        className="legend-0-2-20"
+        className="legend-0-2-26"
       >
         Residential Inputs
       </legend>
       <div
-        className="root-0-2-18"
+        className="root-0-2-24"
       >
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             # Habitable Rooms &lt; 3
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="UNITS_HABIT_LT3"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             dwelling units
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             # Habitable Rooms = 3
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="UNITS_HABIT_3"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             dwelling units
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             # Habitable Rooms &gt; 3
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="UNITS_HABIT_GT3"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             dwelling units
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Condo - Units
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="UNITS_CONDO"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             dwelling units
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Condo - Enter Parking Space Req'd
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="PARK_CONDO"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             spcs
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
@@ -2700,143 +5248,143 @@ Array [
     </fieldset>
   </div>,
   <div
-    className="panel-0-2-19"
+    className="panel-0-2-25"
   >
     <fieldset>
       <legend
-        className="legend-0-2-20"
+        className="legend-0-2-26"
       >
         Commercial Inputs
       </legend>
       <div
-        className="root-0-2-18"
+        className="root-0-2-24"
       >
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Sq Ft - Restaurant/Bar/General
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="SF_RESTAURANT"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Sq Ft - Health Club
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="SF_HEALTH_CLUB"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Sq Ft - Take-out Restaurant
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="SF_RESTAURANT_TAKEOUT"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Sq Ft - Office, Business, Manufacturing, Industrial
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="SF_OFFICE"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Sq Ft - Warehouse
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="SF_WAREHOUSE"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
@@ -2845,143 +5393,143 @@ Array [
     </fieldset>
   </div>,
   <div
-    className="panel-0-2-19"
+    className="panel-0-2-25"
   >
     <fieldset>
       <legend
-        className="legend-0-2-20"
+        className="legend-0-2-26"
       >
         Institutional Inputs
       </legend>
       <div
-        className="root-0-2-18"
+        className="root-0-2-24"
       >
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Sq Ft - Medical Offices, Clinics, Service Facilities
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="SF_INST_MEDICAL_SVC"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Sq Ft - Other Institutional
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="SF_INST_OTHER"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Sq Ft - Government Institution
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="SF_INST_GOV"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Patient Hospital Beds
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="BED_HOSPITAL"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             beds
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Convalescent Institution Beds
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="BED_CONVALESCENT"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             beds
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
@@ -2990,65 +5538,65 @@ Array [
     </fieldset>
   </div>,
   <div
-    className="panel-0-2-19"
+    className="panel-0-2-25"
   >
     <fieldset>
       <legend
-        className="legend-0-2-20"
+        className="legend-0-2-26"
       >
         Other Land Use Inputs
       </legend>
       <div
-        className="root-0-2-18"
+        className="root-0-2-24"
       >
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             # Seats - Auditorium
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="SEAT_AUDITORIUM"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             seats
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
         </div>
         <div
-          className="rule-0-2-9 numberRule-0-2-10"
+          className="rule-0-2-15 numberRule-0-2-16"
         >
           <div
-            className="name-0-2-11"
+            className="name-0-2-17"
           >
             Sq Ft - Auditorium w/o Seats
           </div>
           <input
-            className="code-0-2-13"
+            className="code-0-2-19"
             name="SF_AUDITORIUM_NO_SEATS"
             onChange={[Function]}
             type="text"
             value=""
           />
           <div
-            className="units-0-2-14"
+            className="units-0-2-20"
           >
             sq ft
           </div>
           <div
-            className="calcUnits-0-2-15"
+            className="calcUnits-0-2-21"
           >
              
           </div>
@@ -3061,25 +5609,25 @@ Array [
 
 exports[`Storyshots SinglePageTdmCalculation default 1`] = `
 <div
-  className="root-0-2-21"
+  className="root-0-2-27"
 >
   <div
-    className="container-0-2-22"
+    className="container-0-2-28"
   >
     <div
-      className="switchButtonWrapper-0-2-23"
+      className="switchButtonWrapper-0-2-29"
     >
       <div
-        className="switchButton-0-2-24"
+        className="switchButton-0-2-30"
       >
         <button
-          className="root-0-2-29"
+          className="root-0-2-35"
         >
-          Switch to View
+          Switch to Wizard View
         </button>
       </div>
       <div
-        className="root-0-2-7"
+        className="root-0-2-13"
       >
         <div
           className="tdm-calculation-metrics-panel"
@@ -3126,72 +5674,72 @@ exports[`Storyshots SinglePageTdmCalculation default 1`] = `
       </div>
     </div>
     <div
-      className="rulePanelWrapper-0-2-25"
+      className="rulePanelWrapper-0-2-31"
     >
       <div
-        className="rulePanel-0-2-26"
+        className="rulePanel-0-2-32"
       >
         <h2>
           Project Parameters
         </h2>
         <div
-          className="panel-0-2-19"
+          className="panel-0-2-25"
         >
           <fieldset>
             <legend
-              className="legend-0-2-20"
+              className="legend-0-2-26"
             />
             <div
-              className="root-0-2-18"
+              className="root-0-2-24"
             >
               <div
-                className="rule-0-2-9 numberRule-0-2-10"
+                className="rule-0-2-15 numberRule-0-2-16"
               >
                 <div
-                  className="name-0-2-11"
+                  className="name-0-2-17"
                 >
                   Input Integer A
                 </div>
                 <input
-                  className="code-0-2-13"
+                  className="code-0-2-19"
                   name="INPUT_INTEGER_A"
                   onChange={[Function]}
                   type="text"
                   value={4}
                 />
                 <div
-                  className="units-0-2-14"
+                  className="units-0-2-20"
                 >
                   beans
                 </div>
                 <div
-                  className="calcUnits-0-2-15"
+                  className="calcUnits-0-2-21"
                 >
                    
                 </div>
               </div>
               <div
-                className="rule-0-2-9 numberRule-0-2-10"
+                className="rule-0-2-15 numberRule-0-2-16"
               >
                 <div
-                  className="name-0-2-11"
+                  className="name-0-2-17"
                 >
                   Input Integer B
                 </div>
                 <input
-                  className="code-0-2-13"
+                  className="code-0-2-19"
                   name="INPUT_INTEGER_B"
                   onChange={[Function]}
                   type="text"
                   value={17}
                 />
                 <div
-                  className="units-0-2-14"
+                  className="units-0-2-20"
                 >
                   beans
                 </div>
                 <div
-                  className="calcUnits-0-2-15"
+                  className="calcUnits-0-2-21"
                 >
                    
                 </div>
@@ -3201,13 +5749,13 @@ exports[`Storyshots SinglePageTdmCalculation default 1`] = `
         </div>
       </div>
       <div
-        className="transportDemandStrategies-0-2-27"
+        className="transportDemandStrategies-0-2-33"
       >
         <h2>
            Transportation Demand Strategies
         </h2>
         <div
-          className="buttonWrapper-0-2-28"
+          className="buttonWrapper-0-2-34"
         >
           &gt;
           <button
@@ -3225,7 +5773,7 @@ exports[`Storyshots SinglePageTdmCalculation default 1`] = `
 
 exports[`Storyshots SwitchViewButton default 1`] = `
 <button
-  className="root-0-2-29"
+  className="root-0-2-35"
   onClick={[Function]}
 >
   Switch View Button Label

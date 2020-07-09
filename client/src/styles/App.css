@@ -364,6 +364,31 @@ button.link {
   display: none;
 }
 
+.center {
+  margin: 0 auto;
+}
+
+.background-gray {
+  background: #e7ebf0;
+}
+
+.border-gray {
+  border: 1px solid #e7ebf0;
+}
+
+.space-between {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.colorGray {
+  color: rgba(15, 41, 64, 0.5);
+}
+
 @font-face {
   font-family: "Calibri";
   src: url("fonts/calibri.eot");
@@ -571,14 +596,21 @@ button.link {
 }
 
 .tdm-wizard-save-button {
+  width: 240px;
+  height: 60px;
   padding-left: 0.7em;
   padding-right: 0.7em;
   padding-top: 0.35em;
   padding-bottom: 0.35em;
   background-color: #a7c539;
-  display: inline;
   margin: 0.5em;
+  color: #253d52;
+  font-family: "Calibri Bold";
+  font-size: 20px;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: none;
   -webkit-box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
   box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
   text-align: center;
@@ -718,6 +750,7 @@ button.link {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   min-width: 60vw;
+  max-width: 600px;
 }
 
 @media (max-width: 768px) {

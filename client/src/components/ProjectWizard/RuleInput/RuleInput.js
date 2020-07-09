@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import InputMask from "react-input-mask";
 
 const useStyles = createUseStyles({
   field: {
@@ -70,6 +71,7 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1"
   },
+
   select: {
     flexBasis: "45%",
     flexGrow: "1",
@@ -109,6 +111,9 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
+  },
+  textInputLabelAnchor: {
+    textDecoration: "underline"
   },
   textarea: {
     flexBasis: "50%",
@@ -158,7 +163,9 @@ const RuleInput = ({
     required,
     minStringLength,
     maxStringLength,
-    validationErrors
+    validationErrors,
+    mask,
+    link
   },
   onPropInputChange
 }) => {
@@ -185,8 +192,26 @@ const RuleInput = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={clsx(classes.field, classes.numberFieldWrapper)}>
-          <label htmlFor={code} className={classes.textInputLabel}>
-            {name}
+          <label
+            htmlFor={code}
+            className={
+              required
+                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
+                : classes.textInputLabel
+            }
+          >
+            {link ? (
+              <a
+                href={link}
+                className={classes.textInputLabelAnchor}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}
           </label>
           <div>
             <input
@@ -211,8 +236,26 @@ const RuleInput = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
-          <label htmlFor={code} className={classes.checkboxFieldLabel}>
-            {name}
+          <label
+            htmlFor={code}
+            className={
+              required
+                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
+                : classes.textInputLabel
+            }
+          >
+            {link ? (
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.textInputLabelAnchor}
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}
           </label>
           <input
             type="checkbox"
@@ -237,8 +280,26 @@ const RuleInput = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>
-          <label htmlFor={code} className={classes.selectFieldLabel}>
-            {name}
+          <label
+            htmlFor={code}
+            className={
+              required
+                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
+                : classes.textInputLabel
+            }
+          >
+            {link ? (
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.textInputLabelAnchor}
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}
           </label>
           <select
             className={classes.select}
@@ -260,7 +321,9 @@ const RuleInput = ({
             } ${calcUnits || ""}`}
           </div> */}
         </div>
-      ) : dataType === "string" || dataType === "textarea" ? (
+      ) : dataType === "string" ||
+        dataType === "textarea" ||
+        dataType === "mask" ? (
         <div
           className={clsx(classes.field, classes.textFieldWrapper)}
           onBlur={onBlur}
@@ -273,7 +336,18 @@ const RuleInput = ({
                 : classes.textInputLabel
             }
           >
-            {name}
+            {link ? (
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.textInputLabelAnchor}
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}
           </label>
           {dataType === "string" ? (
             <input
@@ -289,7 +363,7 @@ const RuleInput = ({
               maxLength={maxStringLength}
               autoComplete="off"
             />
-          ) : (
+          ) : dataType === "string" ? (
             <textarea
               className={
                 validationErrors ? classes.textareaInvalid : classes.textarea
@@ -304,12 +378,45 @@ const RuleInput = ({
               maxLength={maxStringLength}
               autoComplete="off"
             />
+          ) : (
+            <InputMask
+              type="text"
+              mask={mask}
+              className={
+                validationErrors ? classes.textInputInvalid : classes.textInput
+              }
+              value={value || ""}
+              onChange={onInputChange}
+              name={code}
+              id={code}
+              data-testid={code}
+              maxLength={maxStringLength}
+              autoComplete="off"
+            />
           )}
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <label htmlFor={code} className={classes.miscFieldLabel}>
-            {name}
+          <label
+            htmlFor={code}
+            className={
+              required
+                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
+                : classes.textInputLabel
+            }
+          >
+            {link ? (
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.textInputLabelAnchor}
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}
           </label>
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
@@ -347,7 +454,9 @@ RuleInput.propTypes = {
     required: PropTypes.bool,
     minStringLength: PropTypes.number,
     maxStringLength: PropTypes.number,
-    validationErrors: PropTypes.array
+    validationErrors: PropTypes.array,
+    mask: PropTypes.string,
+    link: PropTypes.string
   }),
   onPropInputChange: PropTypes.func
 };
