@@ -13,6 +13,7 @@ import WarningIcon from "../images/warning-icon.png";
 import CopyIcon from "../images/copy.png";
 import DeleteIcon from "../images/trash.png";
 import CloseIcon from "../images/close.png";
+import Pagination from "./Pagination.js";
 
 const useStyles = createUseStyles({
   main: {
@@ -212,6 +213,25 @@ const Projects = ({ account, history }) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const classes = useStyles();
   const toast = useToast();
+  const [currentPage, setCurrentPage] = useState(1);
+  const projectsPerPage = 10;
+  const highestPage = Math.ceil(projects.length / projectsPerPage);
+
+  const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
+  for (let i = 0; i < pageLinks.length; i++) {
+    pageLinks[i].classList.remove("highlightPage");
+    if (i === currentPage - 1) pageLinks[i].classList.add("highlightPage");
+  }
+
+  const paginate = pageNumber => {
+    if (typeof pageNumber === "number") {
+      setCurrentPage(pageNumber);
+    } else if (pageNumber === "left" && currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    } else if (pageNumber === "right" && currentPage !== highestPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   const email = account.email;
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -383,6 +403,10 @@ const Projects = ({ account, history }) => {
     { id: "dateModified", label: "Last Modified" }
   ];
 
+  const indexOfLastPost = currentPage * projectsPerPage;
+  const indexOfFirstPost = indexOfLastPost - projectsPerPage;
+  const currentProjects = projects.slice(indexOfFirstPost, indexOfLastPost);
+
   return (
     <div className={classes.main}>
       <h1 className={classes.pageTitle}>Projects</h1>
@@ -436,7 +460,7 @@ const Projects = ({ account, history }) => {
         <tbody className={classes.tbody}>
           {Boolean(projects.length) &&
             stableSort(
-              projects.filter(filterProjects),
+              currentProjects.filter(filterProjects),
               getComparator(order, orderBy)
             ).map(project => (
               <tr key={project.id}>
@@ -488,6 +512,13 @@ const Projects = ({ account, history }) => {
             ))}
         </tbody>
       </table>
+
+      <Pagination
+        projectsPerPage={projectsPerPage}
+        totalProjects={projects.length}
+        paginate={paginate}
+      />
+
       <Modal
         isOpen={duplicateModalOpen}
         onRequestClose={toggleDuplicateModal}
