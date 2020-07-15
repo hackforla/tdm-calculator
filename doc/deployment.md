@@ -1,5 +1,11 @@
 # Deployment
 
+## Building a dev version of the web api server
+
+```
+docker-compose up
+```
+
 The TDM project deployment environment consists of:
 
 1. A Microsoft SQL Server database, and
@@ -10,18 +16,23 @@ Assuming that the production environment is already set up, deployment consists 
 1. Applying database migrations to the database, and
 1. Building the docker image of the web server, publishing the image to Docker Hub, and loading this image into the hosted docker engine.
 
-To build the docker image `tdm-calc` from the project root directory:
+## Running the application in a container
+
+We can build and run the application (express and react) in a container using the database connection parameters
+from the .env file by building and running the build instructions in the Dockerfile image.
+
+To build the docker image `tdmcalc/tdmapp` from the project root directory:
 
 ```
-docker build -t tdmcalc/tdmapi .
+docker build -t tdmcalc/tdmapp .
 ```
 
-This will use the instructions in the file `Dockerfile` to build a docker image named `tdmcalc/tdmapi`. By default, docker looks for the file named `Dockerfile` for instructions, the -t option allows us to give the image a friendly name `tdmcalc/tdmapi`, and the period tells docker to start from the current (i.e. root) directory.
+This will use the instructions in the file `Dockerfile` to build a docker image named `tdmcalc/tdmapi`. By default, docker looks for the file named `Dockerfile` for instructions, the -t option allows us to tag the image with a friendly name `tdmcalc/tdmapi`, and the period tells docker to start from the current (i.e. root) directory. Note that this will use the connection parameters from the .env file to connect to a database, and build the connection parameters into the docker image.
 
 To create a container from this image and run it on the local docker engine:
 
 ```
-docker run -it -p 5050:5000 tdmcalc/tdmapi
+docker run -it -p 5050:5000 tdmcalc/tdmapp
 ```
 
 Where the -it option allows the command line to interact with the running container
@@ -31,6 +42,8 @@ To inspect the running container:
 ```
 docker container inspect <containerid>
 ```
+
+This will run our application in an environment that duplicates the production environment.
 
 ## Docker Basics
 
@@ -148,6 +161,14 @@ This runs the shell as the primary process, which is sometimes useful. More comm
 #### Notes
 
 Different docker containers do not, by default share any disk space and are completely isolated.
+
+## Docker Volumes
+
+Git Bash on Windows
+
+MSYS_NO_PATHCONV=1 docker run -p 8080:3000 -v \$(pwd):/var/www -w /var/www node npm start
+
+There should be a way to use escape characters for the volume and workdir related strings, but I haven't figured it out.
 
 ## Docker custom images
 
