@@ -347,7 +347,7 @@ Because our [node library](https://www.npmjs.com/package/node-flywaydb) is simpl
 - Rolling back a migration?
 - Writing a script using DBeaver or MSSMS.
 
-<!-- ## Debugging Tips -->
+## Debugging Tips
 
 ### Docker
 
