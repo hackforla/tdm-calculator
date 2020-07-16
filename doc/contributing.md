@@ -5,21 +5,21 @@ with the test version of the application at [https://tdm-calc-staging.herokuapp.
 
 The version that LA DOT personnel are using is deployed to [https://tdm-calc.herokuapp.com](https://tdm-calc.herokuapp.com).
 
-If you wish to study or contribute to the code base, follow these Installation
-Instructions to install a development environment on your machine.
+If you wish to study or _contribute to the code base_, follow the [Installation
+Instructions](#installation-instructions) below to install a development environment on your machine.
 
-If you intend to make changes to the database structure or reference data, you will want to do your database changes using a [local development database](./dod/localdatabase.md) instead of the shared development database.
+If you intend to make _changes to the database_ structure or reference data, you will want connect to a local development database instead of the shared development database. See [Local Database](./local-database.md).
 
-If you are involved in the release process and need to run an environment that exactly mirrors the deployment environments, you can develop and test in a docker development environment.
+If you are involved in the _release process_ and need to run an environment that exactly mirrors the deployment environments, you can develop and test in a docker development environment. See [Deployment](./deployment.md).
 
-For a list of other development topics, see [Development](/doc/development.md).
+For a list of _other development topics_, see [Development.md](./development.md).
 
 ## Installation Instructions
 
 ### Prerequisites
 
-1. Git for working with Github source code
-1. Node and npm for running the web app
+1. Git - for working with Github source code
+1. Node and npm - for running the web app
 
 ### Full-Stack React/Node Application Installation
 
@@ -107,7 +107,7 @@ We use the "Git Flow" workflow to manage source code. See [Vincent Driessen's se
    git push origin HEAD
    ```
 
-    Pay close attention to the messages you get when you try to commit. There is a git commit hook that will run eslint and prettier on your code to check for compliance with our coding conventions, and any deviation will be flagged as errors and block the commit from completing. You will need to resolve these problems and then try again.
+   Pay close attention to the messages you get when you try to commit. There is a git commit hook that will run eslint and prettier on your code to check for compliance with our coding conventions, and any deviation will be flagged as errors and block the commit from completing. You will need to resolve these problems and then try again.
 
 1. When an issue is completed and is ready for a pull request, first add and commit your latest changes as in Step 3 above, then make sure your code has the latest code from the _develop_ branch by pulling from the develop branch. This is to ensure merge conflicts are in your local envinronment, which is easier to clean up, than in GitHub:
 

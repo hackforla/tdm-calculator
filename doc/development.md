@@ -1,7 +1,7 @@
 # More about the Development Environment
 
-- [Contributing - Getting Started](/doc/Contributing.md)
-- [Running a Local Development Database](/doc/localdatabase.md)
-- [Release and Hotfix Procedures](/doc/releases.md)
-- [Testing](/doc/testing.md)
-- [Docker and Deployment](/doc/deployment.md)
+- [Contributing - Getting Started](/docs/contributing.md)
+- [Running a Local Development Database](/docs/local-database.md)
+- [Release and Hotfix Procedures](/docs/releases.md)
+- [Testing](/docs/testing.md)
+- [Docker and Deployment](/docs/deployment.md)

@@ -27,7 +27,7 @@ To build the docker image `tdmcalc/tdmapp` from the project root directory:
 docker build -t tdmcalc/tdmapp .
 ```
 
-This will use the instructions in the file `Dockerfile` to build a docker image named `tdmcalc/tdmapi`. By default, docker looks for the file named `Dockerfile` for instructions, the -t option allows us to tag the image with a friendly name `tdmcalc/tdmapi`, and the period tells docker to start from the current (i.e. root) directory. Note that this will use the connection parameters from the .env file to connect to a database, and build the connection parameters into the docker image.
+This will use the instructions in the file `Dockerfile` to build a docker image named `tdmcalc/tdmapp`. By default, docker looks for the file named `Dockerfile` for instructions, the -t option allows us to tag the image with a friendly name `tdmcalc/tdmapp`, and the period tells docker to start from the current (i.e. root) directory. Note that this will use the connection parameters from the .env file to connect to a database, and build the connection parameters into the docker image.
 
 To create a container from this image and run it on the local docker engine:
 
