@@ -124,7 +124,7 @@ function ProjectMeasure(props) {
           ) : null}
         </div>
         <button className={classes.unSelectButton} onClick={uncheckAll}>
-          Reset Page
+          Reset All Strategies
         </button>
       </div>
       <RuleStrategyPanels
