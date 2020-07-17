@@ -136,7 +136,7 @@ const NavBar = props => {
         <NavLink
           className={classes.link}
           activeClassName={classes.currentLink}
-          to="/calculation"
+          to="/calculation/1/"
         >
           Create Project
         </NavLink>
