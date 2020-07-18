@@ -32,7 +32,7 @@ This will use the instructions in the file `Dockerfile` to build a docker image 
 To create a container from this image and run it on the local docker engine:
 
 ```
-docker run -it -p 5050:5000 tdmcalc/tdmapp
+docker run -d -p 5050:5000 --name tdm tdmcalc/tdmapp
 ```
 
 Where the -it option allows the command line to interact with the running container
@@ -44,6 +44,67 @@ docker container inspect <containerid>
 ```
 
 This will run our application in an environment that duplicates the production environment.
+
+We can swap in different environment variables to run against our local database:
+
+```
+docker run -d -p 5052:5000 --name tdmlocal \
+-e SQL_SERVER_NAME=host.docker.internal \
+-e SQL_SERVER_INSTANCE= \
+-e SQL_SERVER_PORT=1434 \
+-e SQL_DATABASE_NAME=tdmdev \
+-e SQL_USER_NAME=sa \
+-e SQL_PASSWORD=Dogfood1! \
+tdmcalc/tdmapp
+
+```
+
+Since our database has a servername of localhost, and we need to access the
+localhost on our native machine (Mac or Windows) from within the node container,
+there is a special docker alias of `host.docker.interal` that refers to
+localhost outside the container. This apparently does not work on Linux
+see [this article](https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach).
+
+We can then push this image to the Docker Hub container under our tdmcalc team by:
+
+```
+docker push tdmcalc/tdmapp
+```
+
+This publishes the application to Docker Hub under the tdmcalc account with the
+image name tdmapp and the tag `latest`.
+
+## Setting up a Container App Service in Azure
+
+Log into Azure, and decide on an Azure Region near your users' location. I chose US West 2.
+
+Create a Resource group for TDM
+
+- Create an App Service Plan for TDM - The level you choose here will determine the
+  pricing for the App Service. I chose the B1 plan to get this going, but we could
+  also try the free App Service Plan.
+
+- Create an App Service. This represents the actual container service.
+
+  - Specify the
+    Resource Group and App Service Plan from above.
+  - Specify a Container App Service
+    and Linux Operating System.
+  - You will need to specify an application name. I chose
+    tdmapp, so the default url is `tdmapp.azurewebsites.net`.
+
+  - For Container settings, select Docker Hub, Repository Access = Public and the
+    Full Image Name and Tag as `tdmcalc/tdmapp` and leave the Startup File blank.
+
+  - Under TLS/SSL settings,
+    set the HTTPS Only to On, and the minimum TLS Version to 1.2. I am not using a
+    custom domain, so azure allows me to just use their SSL certificate.
+
+  - Under Configuration, you will need to specify each of the environment variables
+    for the SQL Server Connection as new "Application Settings"
+  - Save your settings and wait a while (about 10 minutes?)
+
+Then I was able to run the app (with HTTPS!) by navigating my browser to tdmapp.azurwebsites.net!!!
 
 ## Docker Basics
 
