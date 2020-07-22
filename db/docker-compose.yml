@@ -4,7 +4,7 @@ services:
     image: "mcr.microsoft.com/mssql/server:2017-latest"
     ports:
       # exposed on localhost 1434
-      - "1400:1433"
+      - "1434:1433"
     environment:
       ACCEPT_EULA: Y
       SA_PASSWORD: Dogfood1!

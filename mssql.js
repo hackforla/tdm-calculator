@@ -10,17 +10,27 @@ const poolConfig = {
   log: false
 };
 
-var connectionConfig = {
-  server: process.env.SQL_SERVER_NAME,
-  userName: process.env.SQL_USER_NAME,
-  password: process.env.SQL_PASSWORD,
-  options: {
-    database: process.env.SQL_DATABASE_NAME,
-    instanceName: process.env.SQL_INSTANCE_NAME,
-    port: process.env.SQL_SERVER_PORT || 1433,
-    encrypt: process.env.SQL_ENCRYPT
-  }
-};
+var connectionConfig = process.env.SQL_INSTANCE_NAME
+  ? {
+      server: process.env.SQL_SERVER_NAME,
+      userName: process.env.SQL_USER_NAME,
+      password: process.env.SQL_PASSWORD,
+      options: {
+        database: process.env.SQL_DATABASE_NAME,
+        instanceName: process.env.SQL_INSTANCE_NAME,
+        encrypt: process.env.SQL_ENCRYPT == "false" ? false : true
+      }
+    }
+  : {
+      server: process.env.SQL_SERVER_NAME,
+      userName: process.env.SQL_USER_NAME,
+      password: process.env.SQL_PASSWORD,
+      options: {
+        database: process.env.SQL_DATABASE_NAME,
+        port: process.env.SQL_SERVER_PORT || 1433,
+        encrypt: process.env.SQL_ENCRYPT == "false" ? false : true
+      }
+    };
 
 const pool = new ConnectionPool(poolConfig, connectionConfig);
 pool.on("error", err => {

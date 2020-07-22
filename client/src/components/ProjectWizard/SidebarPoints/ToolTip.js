@@ -45,9 +45,11 @@ const useStyles = createUseStyles({
 const ToolTip = ({ tipText }) => {
   const [tipVisibility] = useState(false);
   const classes = useStyles();
+  /*eslint-disable */
   const handleClick = () => {
     //setTipVisibility(!tipVisibility);
   };
+  /*eslint-enable */
   const showTip = tipVisibility ? "showTip" : "";
   return (
     <React.Fragment>
