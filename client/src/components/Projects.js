@@ -405,7 +405,14 @@ const Projects = ({ account, history }) => {
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  const currentProjects = projects.slice(indexOfFirstPost, indexOfLastPost);
+  const sortedProjects = stableSort(
+    projects.filter(filterProjects),
+    getComparator(order, orderBy)
+  );
+  const currentProjects = sortedProjects.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
 
   return (
     <div className={classes.main}>
@@ -459,10 +466,7 @@ const Projects = ({ account, history }) => {
         </thead>
         <tbody className={classes.tbody}>
           {Boolean(projects.length) &&
-            stableSort(
-              currentProjects.filter(filterProjects),
-              getComparator(order, orderBy)
-            ).map(project => (
+            currentProjects.map(project => (
               <tr key={project.id}>
                 <td className={classes.td}>
                   <Link
