@@ -5,9 +5,9 @@ then you should work with a _copy_ of the shared development database on your lo
 
 ## Overview
 
-This is a summary of the instructions. See other sections below for more details.
+This is a _summary_ of the instructions. See other sections below for more detailed steps.
 
-1. [Install SQL Server](#Installing-SQL-Server) Express directly (Windows) or via a Docker container (macOS, Linux, or Windows)
+- [Install SQL Server](#Installing-SQL-Server) Express directly (Windows) or via a Docker container (macOS, Linux, or Windows)
 
    - For **_macOS or Linux_** computers, you should install **[Docker CE](https://hub.docker.com/editions/community/docker-ce-desktop-mac/)** and run the **[Microsoft SQL Server image](https://hub.docker.com/_/microsoft-mssql-server)**.
 
@@ -21,21 +21,21 @@ This is a summary of the instructions. See other sections below for more details
 
    - If you are working on Windows and already have any instance of SQL Server installed, you may just use your existing instance for development.
 
-1. [Create a database](#creating-the-database) called `tdmdev` once you have a local copy of SQL Server on your machine. (You can use a different name if you want, and modify the subsequent instructions accordingly.)
+- [Create a database](#creating-the-database) called `tdmdev` once you have a local copy of SQL Server on your machine. (You can use a different name if you want, and modify the subsequent instructions accordingly.)
 
-1. [Connect to the local database](#connecting-to-the-local-database)
+- [Connect to the local database](#connecting-to-the-local-database)
 
    - Edit the `.env` file with your local database connection string information.
 
-1. [Run the database migrations](#running-database-migrations-and-the-app) to create the database schema and populate it with seed data by opening a terminal in the root directory of the repo and running:
+- [Run the database migrations](#running-database-migrations-and-the-app) to create the database schema and populate it with seed data by opening a terminal in the root directory of the repo and running:
 
    ```bash
    npm run flyway:migrate
    ```
 
-1. At this point, you should be able to run the application (`npm start`), and it will be using the local database.
+- Run the application (`npm start`), and it will be using the local database.
 
-1. Additional info is provided at the end: [Working With Migrations](#working-with-migrations), [Debugging Tips](#debugging-tips)
+- Additional info is provided at the end: [Working With Migrations](#working-with-migrations), [Debugging Tips](#debugging-tips)
 
 > **NOTE:** If for any reason, you corrupt your local database, you can simply drop the `tdmdev` database from your local SQL Server, re-create it, and run migrations again to start over.
 
@@ -172,7 +172,7 @@ If running SQL Server in Docker, run one of the following options:
 
 ## Connecting to the Local Database
 
-You can [connect the application](#connecting-the-application) to your local database using by configuring your `.env` file with the correct local database settings. Optionally, you can also [connect to a client tool](#connecting-with-a-client-tool-optional) so you can easily view the database with a GUI.
+You can [connect the application](#connecting-the-application) to your local database by configuring your `.env` file with the correct local database settings. [Connecting to a database with a client tool](#connecting-with-a-client-tool-optional) is optional but highly encouraged, especially if you are new to working with databases as it allows you to easily view the database with a GUI.
 
 ### Connecting the Application
 
@@ -208,7 +208,9 @@ If you followed the instructions from the previous sections, you should have the
     source .env
     ```
 
-    > NOTE: You will need to `source` the `.env` file any time you update your local environment variables
+ > NOTE: You may need to run `source` on the `.env` file any time you update your local environment variables. 
+ 
+   To validate that you are using the correct local environment variables, run `echo $SQL_DATABASE_NAME` or `echo $SQL_PASSWORD` and ensure that they match the values indicated in your `.env` file. 
 
 **On Windows:**
 
@@ -239,11 +241,11 @@ If you followed the instructions from the previous sections, you should have the
 
 ### Connecting with a Client Tool (Optional)
 
-It is generally helpful when working with SQL Server to have a client for testing connections and developing queries. There are a few good options:
+It is generally helpful when working with SQL Server to have a client tool for testing database connections and SQL queries, especially if you are new to working with databases. There are a few good options out there, including:
 
 - You can download [Azure Data Studio](https://docs.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio?view=sql-server-ver15). Since this is a cross-platform (Windows/macOS/Linux) application, we will be using it in any examples below.
 - [Microsoft's SQL Server Management Studio](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15) is the historical standard tool for working with MS SQL Server, but only runs on Windows machines. It is an installation option when you install any version of MS SQL Server on your machine, and can also be installed separately.
-- You can also use some other tool, like [DBeaver](https://dbeaver.io/download/).
+- [DBeaver](https://dbeaver.io/download/) is a great option, for both Mac and Windows users
 
 To connect with Azure Data Studio:
 
@@ -270,7 +272,7 @@ To connect with DBeaver:
   - Port: `1434` for SQL on docker, or `SQLEXPRESS` for SQL on Windows
   - Authentication: `SQL Server Authentication`
   - User name: `sa`
-  - Password: `Dogfood!`
+  - Password: `Dogfood1!`
   - Leave the other settings at their default, press "Test Connection" to validate the connection, and press "Finish"
 
 ## Running Database Migrations and the App
