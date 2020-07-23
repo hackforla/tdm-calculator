@@ -9,29 +9,29 @@ This is a _summary_ of the instructions. See other sections below for more detai
 
 - [Install SQL Server](#Installing-SQL-Server) Express directly (Windows) or via a Docker container (macOS, Linux, or Windows)
 
-   - For **_macOS or Linux_** computers, you should install **[Docker CE](https://hub.docker.com/editions/community/docker-ce-desktop-mac/)** and run the **[Microsoft SQL Server image](https://hub.docker.com/_/microsoft-mssql-server)**.
+  - For **_macOS or Linux_** computers, you should install **[Docker CE](https://hub.docker.com/editions/community/docker-ce-desktop-mac/)** and run the **[Microsoft SQL Server image](https://hub.docker.com/_/microsoft-mssql-server)**.
 
-   - For **_Windows Pro Edition_** computers, you can install _either_:
+  - For **_Windows Pro Edition_** computers, you can install _either_:
 
-     - **[Docker CE](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)** and run the database in a Docker container and run the **[Microsoft SQL Server image](https://hub.docker.com/_/microsoft-mssql-server)** _or_
-     - **[Microsoft SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)** edition.
-     - If you are new to SQL Server, Docker is probably easier.
+    - **[Docker CE](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)** and run the database in a Docker container and run the **[Microsoft SQL Server image](https://hub.docker.com/_/microsoft-mssql-server)** _or_
+    - **[Microsoft SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)** edition.
+    - If you are new to SQL Server, Docker is probably easier.
 
-   - For **_Windows Home Edition_** computers, you should install **[Microsoft SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)** edition, since running Docker on a Windows Home machine is very painful.
+  - For **_Windows Home Edition_** computers, you should install **[Microsoft SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)** edition, since running Docker on a Windows Home machine is very painful.
 
-   - If you are working on Windows and already have any instance of SQL Server installed, you may just use your existing instance for development.
+  - If you are working on Windows and already have any instance of SQL Server installed, you may just use your existing instance for development.
 
 - [Create a database](#creating-the-database) called `tdmdev` once you have a local copy of SQL Server on your machine. (You can use a different name if you want, and modify the subsequent instructions accordingly.)
 
 - [Connect to the local database](#connecting-to-the-local-database)
 
-   - Edit the `.env` file with your local database connection string information.
+  - Edit the `.env` file with your local database connection string information.
 
 - [Run the database migrations](#running-database-migrations-and-the-app) to create the database schema and populate it with seed data by opening a terminal in the root directory of the repo and running:
 
-   ```bash
-   npm run flyway:migrate
-   ```
+  ```bash
+  npm run flyway:migrate
+  ```
 
 - Run the application (`npm start`), and it will be using the local database.
 
@@ -208,9 +208,9 @@ If you followed the instructions from the previous sections, you should have the
     source .env
     ```
 
- > NOTE: You may need to run `source` on the `.env` file any time you update your local environment variables. 
- 
-   To validate that you are using the correct local environment variables, run `echo $SQL_DATABASE_NAME` or `echo $SQL_PASSWORD` and ensure that they match the values indicated in your `.env` file. 
+> NOTE: You may need to run `source` on the `.env` file any time you update your local environment variables.
+
+To validate that you are using the correct local environment variables, run `echo $SQL_DATABASE_NAME` or `echo $SQL_PASSWORD` and ensure that they match the values indicated in your `.env` file.
 
 **On Windows:**
 

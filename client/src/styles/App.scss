@@ -233,6 +233,14 @@ button.link {
   color: rgba(15, 41, 64, 0.5);
 }
 
+.highlightPage {
+  background: #ebeff3;
+}
+
+.hoverPointer:hover {
+  cursor: pointer;
+}
+
 // add any override to the default styles in the individual component styles
 @import "./AuthForms.scss"; // Login and Register components
 @import "./Calculation.scss";
