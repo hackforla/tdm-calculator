@@ -36,10 +36,10 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
+    "mssql": "^6.2.0",
     "node-flywaydb": "^3.0.2",
     "path": "^0.12.7",
-    "react-modal": "^3.11.2",
-    "tedious-connection-pool": "^1.0.5"
+    "react-modal": "^3.11.2"
   },
   "devDependencies": {
     "@testing-library/cypress": "^6.0.0",

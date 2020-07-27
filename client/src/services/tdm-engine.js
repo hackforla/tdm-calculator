@@ -250,9 +250,9 @@ class Engine {
       }
       // Uncomment if statement and replace code value to debug specific
       // calculation
-      // if (rule.code === "PROJECT_LEVEL") {
-      //   console.log("functionBody: " + functionBody);
-      // }
+      if (rule.code === "PROJECT_LEVEL") {
+        console.log("functionBody: " + functionBody);
+      }
 
       try {
         rule.value = this.buildFunction(functionBody).call(this);
