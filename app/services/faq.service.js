@@ -1,10 +1,12 @@
-const mssql = require("../../mssql");
-const TYPES = require("tedious").TYPES;
+const { pool, poolConnect } = require("./tedious-pool");
+const mssql = require("mssql");
 
 const getFaq = async () => {
   try {
-    const response = await mssql.executeProc("Faq_SelectAll");
-    return response.resultSets[0];
+    await poolConnect;
+    const request = pool.request();
+    const response = await request.execute("Faq_SelectAll");
+    return response.recordset;
   } catch (err) {
     return Promise.reject(err);
   }
@@ -12,15 +14,12 @@ const getFaq = async () => {
 
 const postFaq = async faq => {
   try {
-    const response = await mssql.executeProc("Faq_Insert", sqlRequest => {
-      sqlRequest.addParameter("faqId", TYPES.Int, null);
-      sqlRequest.addParameter("question", TYPES.VarChar, faq.question, {
-        length: 250
-      });
-      sqlRequest.addParameter("answer", TYPES.VarChar, faq.answer, {
-        length: 500
-      });
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("faqId", mssql.Int, null);
+    request.input("question", mssql.VarChar, faq.question); // 250
+    request.input("answer", mssql.VarChar, faq.answer); // 500
+    const response = await request.execute("Faq_Insert");
     return response.returnStatus;
   } catch (err) {
     return Promise.reject(err);
@@ -29,15 +28,12 @@ const postFaq = async faq => {
 
 const putFaqById = async faq => {
   try {
-    await mssql.executeProc("Faq_Update", sqlRequest => {
-      sqlRequest.addParameter("faqId", TYPES.Int, faq.faqId);
-      sqlRequest.addParameter("question", TYPES.VarChar, faq.question, {
-        length: 250
-      });
-      sqlRequest.addParameter("answer", TYPES.VarChar, faq.answer, {
-        length: 500
-      });
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("faqId", mssql.Int, faq.faqId);
+    request.input("question", mssql.VarChar, faq.question); // 250
+    request.input("answer", mssql.VarChar, faq.answer); // 500
+    await request.execute("Faq_Update");
   } catch (err) {
     return Promise.reject(err);
   }
@@ -45,9 +41,10 @@ const putFaqById = async faq => {
 
 const deleteFaq = async id => {
   try {
-    await mssql.executeProc("Faq_Delete", sqlRequest => {
-      sqlRequest.addParameter("faqId", TYPES.Int, id);
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("faqId", mssql.Int, id);
+    await request.execute("Faq_Delete");
   } catch (err) {
     return Promise.reject(err);
   }
