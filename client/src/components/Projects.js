@@ -247,7 +247,11 @@ const Projects = ({ account, history }) => {
     const getProjects = async () => {
       try {
         const result = await projectService.get();
-        setProjects(result.data);
+        if (result.data == "" || result.data == false) {
+          setProjects([]);
+        } else {
+          setProjects(result.data);
+        }
       } catch (err) {
         // If user's session token has expired or they are not
         // authorized for this web api request, let them know
