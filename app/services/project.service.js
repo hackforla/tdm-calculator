@@ -6,7 +6,7 @@ const getAll = async loginId => {
     await poolConnect;
     const request = pool.request();
     request.input("LoginId", mssql.Int, loginId);
-    const response = await mssql.executeProc("Project_SelectAll");
+    const response = await request.execute("Project_SelectAll");
     return response.recordset;
   } catch (err) {
     console.log(err);
@@ -19,7 +19,7 @@ const getById = async (loginId, id) => {
     const request = pool.request();
     request.input("LoginId", mssql.Int, loginId);
     request.input("Id", mssql.Int, id);
-    const response = await mssql.executeProc("Project_SelectById");
+    const response = await request.execute("Project_SelectById");
     if (response.recordset && response.recordset.length > 0) {
       return response.recordset[0];
     } else {
@@ -41,7 +41,7 @@ const post = async item => {
     request.input("loginId", mssql.Int, item.loginId);
     request.input("calculationId", mssql.Int, item.calculationId);
     request.output("id", mssql.Int, null);
-    const response = await mssql.executeProc("Project_Insert");
+    const response = await request.execute("Project_Insert");
     return response.output;
   } catch (err) {
     return Promise.reject(err);
@@ -60,7 +60,7 @@ const put = async item => {
     request.input("loginId", mssql.Int, item.loginId);
     request.input("calculationId", mssql.Int, item.calculationId);
     request.input("id", mssql.Int, item.id);
-    await mssql.executeProc("Project_Update");
+    await request.execute("Project_Update");
   } catch (err) {
     return Promise.reject(err);
   }
@@ -72,7 +72,7 @@ const del = async (loginId, id) => {
     const request = pool.request();
     request.input("loginId", mssql.Int, loginId);
     request.input("id", mssql.Int, id);
-    await mssql.executeProc("Project_Delete");
+    await request.execute("Project_Delete");
   } catch (err) {
     return Promise.reject(err);
   }
