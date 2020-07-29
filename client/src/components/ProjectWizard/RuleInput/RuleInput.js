@@ -56,9 +56,9 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   checkbox: {
-    flexBasis: "10%",
     flexGrow: "0",
-    flexShrink: "1"
+    flexShrink: "1",
+    textAlign: "right"
   },
   selectFieldWrapper: {
     alignItems: "baseline",
@@ -158,7 +158,7 @@ const RuleInput = ({
     minValue,
     maxValue,
     choices,
-    calcValue,
+    //calcValue,
     //calcUnits,
     required,
     minStringLength,
@@ -267,16 +267,17 @@ const RuleInput = ({
             id={code}
             data-testid={code}
           />
-          {calcValue ? (
+          <div className={classes.numberFieldUnits}>{units}</div>
+          {/* {calcValue ? (
             <>
               <div className={classes.unitsCaption}>{units}</div>
-              {/* <div className={classes.calcUnitsCaption}>
-                {`${
-                  calcValue ? Math.round(calcValue * 100) / 100 : ""
-                } ${calcUnits || ""}`}
-              </div> */}
+              <div className={classes.calcUnitsCaption}>
+                {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+                  calcUnits || ""
+                }`}
+              </div>
             </>
-          ) : null}
+          ) : null} */}
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>
