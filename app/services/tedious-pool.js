@@ -3,14 +3,14 @@ const sql = require("mssql");
 const dotenv = require("dotenv");
 dotenv.config();
 
-var config = process.env.SQL_INSTANCE_NAME
+var config = process.env.SQL_SERVER_INSTANCE
   ? {
       server: process.env.SQL_SERVER_NAME,
       user: process.env.SQL_USER_NAME,
       password: process.env.SQL_PASSWORD,
       database: process.env.SQL_DATABASE_NAME,
       options: {
-        instanceName: process.env.SQL_INSTANCE_NAME,
+        instanceName: process.env.SQL_SERVER_INSTANCE,
         encrypt: process.env.SQL_ENCRYPT == "false" ? false : true,
         enableArithAbort: true
       }
