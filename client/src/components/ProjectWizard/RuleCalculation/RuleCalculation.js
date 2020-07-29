@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import ToolTip from "./ToolTip";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
@@ -151,6 +152,7 @@ const useStyles = createUseStyles({
 
 const RuleCalculation = ({
   rule: {
+    id,
     code,
     name,
     dataType,
@@ -164,7 +166,8 @@ const RuleCalculation = ({
     required,
     minStringLength,
     maxStringLength,
-    validationErrors
+    validationErrors,
+    description
   },
   onPropInputChange
 }) => {
@@ -311,8 +314,17 @@ const RuleCalculation = ({
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <label htmlFor={code} className={classes.miscFieldLabel}>
+          <label
+            htmlFor={code}
+            className={classes.miscFieldLabel}
+            data-for={"main" + id}
+            data-tip={description}
+            data-iscapture="true"
+            data-html="true"
+            data-class={classes.tooltip}
+          >
             {name}
+            <ToolTip tipText={description} />
           </label>
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
@@ -338,6 +350,7 @@ const RuleCalculation = ({
 
 RuleCalculation.propTypes = {
   rule: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     dataType: PropTypes.string.isRequired,
@@ -351,7 +364,8 @@ RuleCalculation.propTypes = {
     required: PropTypes.bool,
     minStringLength: PropTypes.number,
     maxStringLength: PropTypes.number,
-    validationErrors: PropTypes.array
+    validationErrors: PropTypes.array,
+    description: PropTypes.string
   }),
   onPropInputChange: PropTypes.func
 };
