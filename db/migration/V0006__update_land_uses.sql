@@ -1,13 +1,4 @@
-/*
-UPDATE CalculationPanel SET name = 'Residential' WHERE id = 6;
-UPDATE CalculationPanel SET name = 'Retail', displayOrder = 275 WHERE id = 28;
-UPDATE CalculationPanel SET name = 'Employment / Office' WHERE id = 7;
-UPDATE CalculationPanel SET name = 'Warehouse Space', displayOrder = 350, cssClass = 'landUse' WHERE id =33;
-UPDATE CalculationPanel SET name = 'Medical Care' WHERE id = 8;
-UPDATE CalculationPanel SET name = 'Schools' WHERE id = 29;
-UPDATE CalculationPanel SET name = 'Special Uses' WHERE id = 9;
 
-*/
 
 UPDATE CalculationRule SET displayOrder = 2260
 WHERE calculationId = 1 and code = 'UNITS_CONDO'
@@ -124,27 +115,6 @@ INSERT INTO [dbo].[CalculationRule]
 GO
 
 /* Add Middle / High School Inputs */
-USE [tdmdev]
-GO
-
-/*
-INSERT INTO CalculationRule
-(calculationId, code ,name, category
-, dataType, units, value, functionBody
-, displayOrder, inactive, calculationPanelId, used
-, displayFunctionBody, minValue, maxValue, choices
-, calcCode, required, minStringLength, maxStringLength
-, displayComment, description, mask, link)
-VALUES(
-<calculationId, int,>, <code, varchar(50),>,<name, nvarchar(100),>,<category, varchar(20),>
-,<dataType, varchar(20),>,<units, nvarchar(50),>,<value, nvarchar(200),>,<functionBody, nvarchar(max),>
-,<displayOrder, int,>,<inactive, bit,>,<calculationPanelId, int,>,<used, bit,>
-,<displayFunctionBody, nvarchar(max),>,<minValue, numeric(6,2),>,<maxValue, numeric(6,2),>,<choices, nvarchar(max),>
-,<calcCode, varchar(50),>,<required, bit,>,<minStringLength, int,>,<maxStringLength, int,>
-,<displayComment, bit,>,<description, nvarchar(max),>,<mask, varchar(50),>,<link, varchar(100),>
-)
-GO
-*/
 
 INSERT INTO CalculationRule
 (calculationId, code ,name, category
