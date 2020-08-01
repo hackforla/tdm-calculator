@@ -15,7 +15,6 @@ import Login from "./components/Authorization/Login";
 import Admin from "./components/Admin";
 import Roles from "./components/Roles";
 import FaqView from "./components/Faq/FaqView";
-import LandingPage from "./components/LandingPage/LandingPage";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
 import "./styles/App.scss";
@@ -82,7 +81,11 @@ const App = () => {
             isCreatingNewProject={isCreatingNewProject}
           />
           <div className={classes.root}>
-            <Route exact path="/" component={LandingPage} />
+            <Route
+              exact
+              path="/"
+              render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
+            />
             <Route
               path="/calculation/:page?/:projectId?"
               render={() => (

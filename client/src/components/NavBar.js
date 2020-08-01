@@ -109,7 +109,7 @@ const NavBar = props => {
 
   return (
     <ul className={classes.navbar}>
-      <li className={classes.linkBlock}>
+      {/* <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
           activeClassName={classes.currentLink}
@@ -119,7 +119,7 @@ const NavBar = props => {
         >
           Home
         </NavLink>
-      </li>
+      </li> */}
       {account && account.id && (
         <li className={classes.linkBlock}>
           <NavLink
