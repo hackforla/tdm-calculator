@@ -156,6 +156,9 @@ class Engine {
   /// with a boolean indicating whether rule should be displayed (or hidden)
   calcDisplay(property) {
     const rule = this.rules[property];
+    // if (property === "PARK_CONDO") {
+    //   console.log(rule);
+    // }
     // Extract rules that this one depends upon
     // from displayFunctionBody tokens
     const tokenArray = rule.displayFunctionBody.match(REGEX_TOKEN);
@@ -250,9 +253,9 @@ class Engine {
       }
       // Uncomment if statement and replace code value to debug specific
       // calculation
-      if (rule.code === "PROJECT_LEVEL") {
-        console.log("functionBody: " + functionBody);
-      }
+      // if (rule.code === "PROJECT_LEVEL") {
+      //   console.log("functionBody: " + functionBody);
+      // }
 
       try {
         rule.value = this.buildFunction(functionBody).call(this);
