@@ -17,3 +17,7 @@ displayOrder = 3515,
 displayFunctionBody = 
 'return !!<<STUDENTS_ELEMENTARY>>;'
 where calculationId = 1 and code = 'CLASSROOM_SCHOOL'
+
+update CalculationRule set
+category = 'calculation'
+where calculationId = 1 and code = 'LAND_USE_MAJOR'
