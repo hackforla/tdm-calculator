@@ -106,15 +106,21 @@ export function TdmCalculationContainer(props) {
     let pkgRules = [];
     if (pkgType === "Residential") {
       pkgRules = rules.filter(rule =>
-        ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_1"].includes(
-          rule.code
-        )
+        [
+          "STRATEGY_BIKE_4",
+          "STRATEGY_INFO_3",
+          "STRATEGY_PARKING_1",
+          "STRATEGY_HOV_5"
+        ].includes(rule.code)
       );
     } else {
       pkgRules = rules.filter(rule =>
-        ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
-          rule.code
-        )
+        [
+          "STRATEGY_BIKE_4",
+          "STRATEGY_INFO_3",
+          "STRATEGY_PARKING_2",
+          "STRATEGY_HOV_5"
+        ].includes(rule.code)
       );
     }
 
@@ -124,6 +130,9 @@ export function TdmCalculationContainer(props) {
         // set to non-zero value
         changedProps[rule.code] =
           !rule.value || rule.value === "0" ? 1 : rule.value;
+      } else if (rule.code === "STRATEGY_HOV_5") {
+        // If a package is selected, de-select the Mandatory Trip-Reduction Program
+        changedProps[rule.code] = false;
       } else if (rule.code === "STRATEGY_PARKING_1") {
         // For Pricing/Unbundling, set to 8 if not
         // already set to 8
@@ -292,18 +301,13 @@ export function TdmCalculationContainer(props) {
       rule.calculationPanelId === 5 &&
       rule.display,
     specificationRules: rule =>
-      rule.category === "input" &&
-      rule.calculationPanelId !== 31 &&
-      rule.used &&
-      rule.display,
+      rule.category === "input" && rule.calculationPanelId !== 31 && rule.used,
     targetPointRules: rule =>
       rule.category === "measure" &&
       rule.display &&
       rule.calculationPanelId === 10,
     strategyRules: rule =>
-      rule.category === "measure" &&
-      rule.display &&
-      rule.calculationPanelId !== 10
+      rule.category === "measure" && rule.calculationPanelId !== 10
   };
   return (
     <div className={classes.root}>

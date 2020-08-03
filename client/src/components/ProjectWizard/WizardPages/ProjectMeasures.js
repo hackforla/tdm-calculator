@@ -128,7 +128,7 @@ function ProjectMeasure(props) {
         </button>
       </div>
       <RuleStrategyPanels
-        rules={rules}
+        rules={rules.filter(rules => rules.display)}
         onInputChange={onInputChange}
         onCommentChange={onCommentChange}
       />
