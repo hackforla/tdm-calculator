@@ -156,6 +156,9 @@ class Engine {
   /// with a boolean indicating whether rule should be displayed (or hidden)
   calcDisplay(property) {
     const rule = this.rules[property];
+    // if (property === "PARK_CONDO") {
+    //   console.log(rule);
+    // }
     // Extract rules that this one depends upon
     // from displayFunctionBody tokens
     const tokenArray = rule.displayFunctionBody.match(REGEX_TOKEN);

@@ -1,10 +1,12 @@
-const mssql = require("../../mssql");
-const TYPES = require("tedious").TYPES;
+const { pool, poolConnect } = require("./tedious-pool");
+const mssql = require("mssql");
 
 const getAll = async () => {
   try {
-    const r = await mssql.executeProc("CalculationRule_SelectAll");
-    return r.resultSets[0].map(rule => {
+    await poolConnect;
+    const request = pool.request();
+    const r = await request.execute("CalculationRule_SelectAll");
+    return r.recordsets[0].map(rule => {
       rule.value = JSON.parse(rule.value);
       rule.choices = JSON.parse(rule.choices);
       return rule;
@@ -16,14 +18,18 @@ const getAll = async () => {
 
 const getById = async id => {
   try {
-    const r = await mssql.executeProc(
-      "CalculationRule_SelectById",
-      sqlRequest => {
-        sqlRequest.addParameter("Id", TYPES.Int, id);
-      }
-    );
-    if (r.resultSets && r.resultSets[0] && r.resultSets[0].length) {
-      const rule = r.resultSets[0][0];
+    await poolConnect;
+    const request = pool.request();
+    request.input("Id", mssql.Int, id);
+    // const r = await mssql.executeProc(
+    //   "CalculationRule_SelectById",
+    //   sqlRequest => {
+    //     sqlRequest.addParameter("Id", mssql.Int, id);
+    //   }
+    // );
+    const r = await request.execute("CalculationRule_SelectById");
+    if (r.recordset && r.recordset.length) {
+      const rule = r.recordset[0];
       rule.value = JSON.parse(rule.value);
       rule.choices = JSON.parse(rule.choices);
       return rule;
@@ -36,13 +42,11 @@ const getById = async id => {
 
 const getByCalculationId = async calculationId => {
   try {
-    const r = await mssql.executeProc(
-      "CalculationRule_SelectByCalculationId",
-      sqlRequest => {
-        sqlRequest.addParameter("CalculationId", TYPES.Int, calculationId);
-      }
-    );
-    const rules = r.resultSets[0];
+    await poolConnect;
+    const request = pool.request();
+    request.input("CalculationId", mssql.Int, calculationId);
+    const r = await request.execute("CalculationRule_SelectByCalculationId");
+    const rules = r.recordset;
     return rules.map(rule => {
       rule.value = JSON.parse(rule.value);
       rule.choices = JSON.parse(rule.choices);
@@ -56,46 +60,22 @@ const getByCalculationId = async calculationId => {
 // TODO: some columns missing
 const post = async item => {
   try {
-    const response = await mssql.executeProc(
-      "CalculationRule_Insert",
-      sqlRequest => {
-        sqlRequest.addParameter("calculationId", TYPES.Int, item.calculationId);
-        sqlRequest.addParameter("code", TYPES.NVarChar, item.code, {
-          length: 50
-        });
-        sqlRequest.addParameter("name", TYPES.NVarChar, item.name, {
-          length: 100
-        });
-        sqlRequest.addParameter("category", TYPES.VarChar, item.category, {
-          length: 20
-        });
-        sqlRequest.addParameter("dataType", TYPES.VarChar, item.dataType, {
-          length: 20
-        });
-        sqlRequest.addParameter("units", TYPES.VarChar, item.units, {
-          length: 50
-        });
-        sqlRequest.addParameter(
-          "value",
-          TYPES.VarChar,
-          JSON.stringify(item.value),
-          {
-            length: 200
-          }
-        );
-        sqlRequest.addParameter(
-          "functionBody",
-          TYPES.NVarChar,
-          item.functionBody,
-          {
-            length: 2000
-          }
-        );
-        sqlRequest.addParameter("displayOrder", TYPES.Int, item.displayOrder);
-        sqlRequest.addOutputParameter("id", TYPES.Int, null);
-      }
-    );
-    return response.outputParameters;
+    await poolConnect;
+    const request = pool.request();
+    request.input("calculationId", mssql.Int, item.calculationId);
+    request.input("code", mssql.NVarChar, item.code); // 50
+    request.input("name", mssql.NVarChar, item.name); // 100
+    request.input("category", mssql.VarChar, item.category); // 20
+    request.input("dataType", mssql.VarChar, item.dataType); // 20
+    request.input("units", mssql.VarChar, item.units); // 50
+    request.input("value", mssql.VarChar, JSON.stringify(item.value)); // 200
+    request.input("functionBody", mssql.NVarChar, item.functionBody); // 2000
+    request.input("displayOrder", mssql.Int, item.displayOrder);
+    request.output("id", mssql.Int, null);
+
+    const response = await request.execute("CalculationRule_Insert");
+
+    return response.output;
   } catch (err) {
     return Promise.reject(err);
   }
@@ -104,41 +84,20 @@ const post = async item => {
 // TODO: some columns missing
 const put = async item => {
   try {
-    await mssql.executeProc("CalculationRule_Update", sqlRequest => {
-      sqlRequest.addParameter("code", TYPES.NVarChar, item.code, {
-        length: 50
-      });
-      sqlRequest.addParameter("name", TYPES.NVarChar, item.name, {
-        length: 100
-      });
-      sqlRequest.addParameter("category", TYPES.VarChar, item.category, {
-        length: 20
-      });
-      sqlRequest.addParameter("dataType", TYPES.VarChar, item.dataType, {
-        length: 20
-      });
-      sqlRequest.addParameter("units", TYPES.VarChar, item.units, {
-        length: 50
-      });
-      sqlRequest.addParameter(
-        "value",
-        TYPES.VarChar,
-        JSON.stringify(item.value),
-        {
-          length: 200
-        }
-      );
-      sqlRequest.addParameter(
-        "functionBody",
-        TYPES.NVarChar,
-        item.functionBody,
-        {
-          length: 2000
-        }
-      );
-      sqlRequest.addParameter("displayOrder", TYPES.Int, item.displayOrder);
-      sqlRequest.addParameter("id", TYPES.Int, item.id);
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("calculationId", mssql.Int, item.calculationId);
+    request.input("code", mssql.NVarChar, item.code); // 50
+    request.input("name", mssql.NVarChar, item.name); // 100
+    request.input("category", mssql.VarChar, item.category); // 20
+    request.input("dataType", mssql.VarChar, item.dataType); // 20
+    request.input("units", mssql.VarChar, item.units); // 50
+    request.input("value", mssql.VarChar, JSON.stringify(item.value)); // 200
+    request.input("functionBody", mssql.NVarChar, item.functionBody); // 2000
+    request.input("displayOrder", mssql.Int, item.displayOrder);
+    request.input("id", mssql.Int, item.id);
+
+    await request.execute("CalculationRule_Update");
   } catch (err) {
     return Promise.reject(err);
   }
@@ -146,9 +105,11 @@ const put = async item => {
 
 const del = async id => {
   try {
-    await mssql.executeProc("CalculationRule_Delete", sqlRequest => {
-      sqlRequest.addParameter("Id", TYPES.Int, id);
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("Id", mssql.Int, id);
+
+    await request.execute("CalculationRule_Delete");
   } catch (err) {
     return Promise.reject(err);
   }

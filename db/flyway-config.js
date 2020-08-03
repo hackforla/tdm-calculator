@@ -19,7 +19,7 @@ module.exports = function () {
 
   return {
     flywayArgs: {
-      url: `jdbc:sqlserver://${origin};databaseName="${databaseName}"`,
+      url: `jdbc:sqlserver://${origin};databaseName={${databaseName}}`,
       locations: `filesystem:${__dirname}/migration`,
       user: username,
       password: password,

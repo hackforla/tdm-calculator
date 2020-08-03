@@ -90,7 +90,7 @@ export function TdmCalculationContainer(props) {
   const recalculate = formInputs => {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
-    // The following several lines can be uncommented for debugging
+    //The following several lines can be uncommented for debugging
     // console.log("Updated Rules:");
     // console.log(rules);
     // const showWork = engine.showWork("PARK_REQUIREMENT");
@@ -124,6 +124,11 @@ export function TdmCalculationContainer(props) {
         // set to non-zero value
         changedProps[rule.code] =
           !rule.value || rule.value === "0" ? 1 : rule.value;
+      } else if (rule.code === "STRATEGY_PARKING_1") {
+        // For Pricing/Unbundling, set to 8 if not
+        // already set to 8
+        changedProps[rule.code] =
+          !rule.value || rule.value < 8 ? 8 : rule.value;
       } else {
         changedProps[rule.code] = true;
       }
