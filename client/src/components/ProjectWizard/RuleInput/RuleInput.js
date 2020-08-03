@@ -112,6 +112,9 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1"
   },
+  textDisabledInputLabel: {
+    opacity: "0.5"
+  },
   textInputLabelAnchor: {
     textDecoration: "underline"
   },
@@ -160,6 +163,7 @@ const RuleInput = ({
     choices,
     //calcValue,
     //calcUnits,
+    display,
     required,
     minStringLength,
     maxStringLength,
@@ -195,7 +199,9 @@ const RuleInput = ({
           <label
             htmlFor={code}
             className={
-              required
+              !display
+                ? clsx(classes.textInputLabel, classes.textDisabledInputLabel)
+                : required
                 ? clsx(classes.textInputLabel, classes.requiredInputLabel)
                 : classes.textInputLabel
             }
@@ -225,9 +231,18 @@ const RuleInput = ({
               min={minValue}
               max={maxValue}
               autoComplete="off"
+              disabled={!display}
             />
           </div>
-          <div className={classes.numberFieldUnits}>{units}</div>
+          <div
+            className={
+              !display
+                ? clsx(classes.numberFieldUnits, classes.textDisabledInputLabel)
+                : classes.numberFieldUnits
+            }
+          >
+            {units}
+          </div>
           {/* <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
@@ -452,6 +467,7 @@ RuleInput.propTypes = {
     choices: PropTypes.string,
     calcValue: PropTypes.any,
     calcUnits: PropTypes.string,
+    display: PropTypes.bool,
     required: PropTypes.bool,
     minStringLength: PropTypes.number,
     maxStringLength: PropTypes.number,
