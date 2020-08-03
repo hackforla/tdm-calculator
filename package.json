@@ -18,6 +18,7 @@
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  **/*.{js,jsx}",
     "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  **/*.{js,jsx}",
     "flyway:migrate": "flyway -c ./db/flyway-config.js migrate",
+    "flyway:clean": "flyway -c ./db/flyway-config.js clean",
     "flyway:repair": "flyway -c ./db/flyway-config.js repair",
     "flyway:info": "flyway -c ./db/flyway-config.js info",
     "flyway:validate": "flyway -c ./db/flyway-config.js validate"
