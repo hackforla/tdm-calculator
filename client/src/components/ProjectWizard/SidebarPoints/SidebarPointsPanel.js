@@ -15,13 +15,18 @@ const SidebarPointsPanel = props => {
     earnedPointsRule = rules.filter(rule => rule.code === "PTS_EARNED")[0];
     projectLevelRule = rules.filter(rule => rule.code === "PROJECT_LEVEL")[0];
   }
-  const targetPointsTipText = "Target Points Tool Tip";
-  const earnedPointsTipText = "Earned Points Tool Tip";
+  const targetPointsTipText = rules[2].description;
+  const earnedPointsTipText = rules[3].description;
 
   return (
     <React.Fragment>
       <div className="tdm-results-panel">
-        <SidebarProjectLevel level={projectLevelRule.value} />
+        <SidebarProjectLevel
+          key={projectLevelRule.key}
+          rule={projectLevelRule}
+          level={projectLevelRule.value}
+          rules={rules}
+        />
       </div>
       <hr className="tdm-divider" />
       <div className="tdm-results-panel">
