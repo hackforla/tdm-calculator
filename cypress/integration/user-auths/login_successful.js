@@ -5,7 +5,7 @@ import "@testing-library/cypress/add-commands";
 describe("Login successfully as an existing user", () => {
   it("finds and clicks the login menu item on home page", () => {
     cy.visit("/");
-    cy.findByText("Login").click();
+    cy.get(".btn-submit").click();
     cy.url().should("include", "/login");
   });
   describe("Login from /login", () => {

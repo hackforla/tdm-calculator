@@ -5,7 +5,7 @@ import "@testing-library/cypress/add-commands";
 describe("Jewish Family Service", () => {
   describe("project inputs", () => {
     it("enters project information - minimum requirements", () => {
-      cy.visit("http://localhost:3000/");
+      cy.visit("/");
       cy.findAllByText("New Project").click();
       cy.findByLabelText("Project Name").type(
         "Jewish Family Service - Social Services Center"

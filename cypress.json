@@ -1,4 +1,5 @@
 {
-  "baseUrl": "http://localhost:3000",
-  "video": false
+  "baseUrl": "https://tdmdev.azurewebsites.net/",
+  "video": false,
+  "projectId": "z976tp"
 }
