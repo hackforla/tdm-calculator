@@ -21,7 +21,7 @@ Cypress.Commands.add("loginAs", userType => {
 
   cy.request({
     method: "POST",
-    url: "http://localhost:5000/api/accounts/login",
+    url: "http://tdmdev.azurewebsites.net/api/accounts/login",
     body: userCredentials
   }).then(loginResponse => {
     //TODO: check implementation if there's a better way to set localstorage. see setLoggedInAccount
@@ -63,6 +63,13 @@ Cypress.Commands.add("resetProjects", loginResponse => {
 
 Cypress.Screenshot.defaults({
   screenshotOnRunFailure: false
+});
+
+Cypress.Commands.add("loginViaUIAs", (username, password) => {
+  cy.visit("/");
+  cy.get(":nth-child(1) > .form-control").type(username);
+  cy.get(":nth-child(2) > .form-control").type(password);
+  cy.get(".btn-submit").click();
 });
 
 // ***********************************************
