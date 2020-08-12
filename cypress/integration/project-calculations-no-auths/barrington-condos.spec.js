@@ -93,7 +93,6 @@ describe("Barrington Condos", () => {
       cy.get(
         ".tdm-wizard-content-container > div > div:nth-child(6) > div > div:nth-child(2) > div:nth-child(3) > div:nth-child(1)"
       ).should("have.text", strategyParkingPoints);
-
       cy.get(
         ":nth-child(3) > .justify-content-center > .ruleText-0-2-207"
       ).should("have.text", reducedParkingSupply);
