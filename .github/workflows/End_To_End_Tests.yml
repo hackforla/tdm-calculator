@@ -15,7 +15,7 @@ jobs:
           spec: cypress/integration/barrington-condos.spec.js
           wait-on: https://tdmdev.azurewebsites.net/
           record: true
-          working-directory: cypress
+          working-directory: tdm-calculator
         env:
           # pass the Dashboard record key as an environment variable
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
