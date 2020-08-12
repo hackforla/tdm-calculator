@@ -12,7 +12,7 @@ jobs:
         with:
           #build: npm run build
           #start: npm start
-          spec: cypress/integration/barrington-condos.spec.js
+          spec: cypress/integration/project-calculations-no-auths/barrington-condos.spec.js
           wait-on: https://tdmdev.azurewebsites.net/
           record: true
 
