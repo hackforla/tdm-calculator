@@ -35,6 +35,7 @@ The city will benefit by having more time to review edge cases for building deve
 - Visual Component Library: [Storybook](https://storybook.js.org/) / [Tutorial](https://www.learnstorybook.com/react/en/get-started) - The first three sections are enough to get you started.
 - JavaScript Unit Test Framework: [Jest](https://jestjs.io/)
 - Database Engine: [Microsoft SQL Server](http://www.sqlservertutorial.net/) / [Tutorial](http://www.sqlservertutorial.net/)
+- [![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
 
 ## Feature Descriptions
 
