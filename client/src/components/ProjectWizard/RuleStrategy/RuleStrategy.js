@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import clsx from "clsx";
 import ReactTooltip from "react-tooltip";
 
 const useStyles = createUseStyles({
@@ -24,6 +25,9 @@ const useStyles = createUseStyles({
   strategyName: {
     flexGrow: "1",
     flexShrink: "1"
+  },
+  disabled: {
+    opacity: 0.5
   },
   points: {
     flexBasis: "10%",
@@ -99,6 +103,7 @@ const RuleStrategy = ({
     calcMinValue,
     calcMaxValue,
     description,
+    display,
     displayComment,
     comment
   },
@@ -131,7 +136,13 @@ const RuleStrategy = ({
   return (
     <React.Fragment>
       {dataType === "number" ? (
-        <div className={classes.strategyContainer}>
+        <div
+          className={
+            display
+              ? classes.strategyContainer
+              : clsx(classes.strategyContainer, classes.disabled)
+          }
+        >
           <label
             htmlFor={code}
             className={classes.strategyName}
@@ -155,12 +166,19 @@ const RuleStrategy = ({
               min={minValue}
               max={maxValue}
               autoComplete="off"
+              disabled={!display}
             />
           </div>
           {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "boolean" ? (
-        <div className={classes.strategyContainer}>
+        <div
+          className={
+            display
+              ? classes.strategyContainer
+              : clsx(classes.strategyContainer, classes.disabled)
+          }
+        >
           <label
             htmlFor={code}
             className={classes.strategyName}
@@ -181,12 +199,19 @@ const RuleStrategy = ({
               onChange={onInputChange}
               name={code}
               id={code}
+              disabled={!display}
             />
           </div>
           {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "choice" ? (
-        <div className={classes.strategyContainer}>
+        <div
+          className={
+            display
+              ? classes.strategyContainer
+              : clsx(classes.strategyContainer, classes.disabled)
+          }
+        >
           <label
             htmlFor={code}
             className={classes.strategyName}
@@ -206,6 +231,7 @@ const RuleStrategy = ({
               onChange={onInputChange}
               name={code}
               id={code}
+              disabled={!display}
             >
               {choices.map(choice => (
                 <option key={choice.id} value={choice.id}>
@@ -217,7 +243,13 @@ const RuleStrategy = ({
           {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "string" ? (
-        <div className={classes.strategyContainer}>
+        <div
+          className={
+            display
+              ? classes.strategyContainer
+              : clsx(classes.strategyContainer, classes.disabled)
+          }
+        >
           <label
             htmlFor={code}
             className={classes.strategyName}
@@ -238,11 +270,16 @@ const RuleStrategy = ({
             name={code}
             id={code}
             autoComplete="off"
+            disabled={!display}
           />
         </div>
       ) : (
         <div
-          className={classes.strategyContainer}
+          className={
+            display
+              ? classes.strategyContainer
+              : clsx(classes.strategyContainer, classes.disabled)
+          }
           data-for={"main" + id}
           data-tip={description}
           data-iscapture="true"
@@ -258,7 +295,13 @@ const RuleStrategy = ({
         </div>
       )}
       {displayComment ? (
-        <div className={classes.commentContainer}>
+        <div
+          className={
+            display
+              ? classes.commentContainer
+              : clsx(classes.commentContainer, classes.disabled)
+          }
+        >
           <div>{`If applicable, please input the details about ${name}.`}</div>
           <div>
             <textarea
@@ -269,6 +312,7 @@ const RuleStrategy = ({
               id={comment}
               className={classes.commentTextarea}
               autoComplete="off"
+              disabled={!display}
             />
           </div>
         </div>
@@ -316,6 +360,7 @@ RuleStrategy.propTypes = {
     calcMinValue: PropTypes.number,
     calcMaxValue: PropTypes.number,
     description: PropTypes.string,
+    display: PropTypes.bool,
     displayComment: PropTypes.bool,
     comment: PropTypes.string
   }),
