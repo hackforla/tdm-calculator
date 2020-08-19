@@ -285,17 +285,25 @@ In order to make changes to the database schema or reference data, you will need
 
 Most client tools allow you to create a "New Query" where you can directly write and test your SQL or Transact-SQL scripts in your local database. You could also write your SQL scripts in the Docker SQL Server container. (See step-by-step instructions in the [Create the Database](#create-the-database-via-docker-mac-linux-windows) section for example.)
 
-When you are confident in your SQL or TRANSACT-SQL script, you will need to create a new migration file, e.g.`V0002__update_foobar_table.sql`.
+When you are confident in your SQL or TRANSACT-SQL script, you will need to create a new migration file.
 
 ### Adding New Migration Files - Naming Convention
 
 ![Image of Flyway Naming Convention](https://i.stack.imgur.com/sTJeU.png)
 
-Create a new file in the `/db/migration` directory, using Flyway's naming convention, e.g. `VXXXX__*.sql`.
+To create a new migration file, run the following from your root directory:
 
-- Version (`XXXX`): four digit numbers in sequence of files already there
+```bash
+./db/create-migration
+```  
+
+This is an executable file that will generate a `.sql` file in your `/db/migration/` folder.
+
+The file uses the following naming convention `VYYYYMMDD.HHMM__*.sql`, e.g. `V20200812.2148__update_foobar_table.sql`
+
+- Version (`VYYYYMMDD.HHMM`): 8-digit date and 4-digit time separated by a period, in sequence order of files already there
 - Separator (`__`): two consecutive underscores that separate the version from the description
-- Description (`*`): a snake-cased short description of the change you are making
+- Description (`*`): a snake-cased short description of the changes you are making
 
 ### Testing Migration Files and Running Flyway Commands
 
