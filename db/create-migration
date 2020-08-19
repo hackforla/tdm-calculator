@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+/* 
+  This file is an executable file.
+  To create a migration file, simply run this file. e.g. in the terminal from the root directory, run: 
+  `./db/create-migration` 
+  This will create a new migration file using the current datetime as the version number.
+  Edit the description of the file name. (Keep the two underscores that separate version number and description.)
+*/
+
+const fs = require('fs')
+
+const timestamp = new Date().toLocaleString('sv', { timeZone: 'America/Los_Angeles' }).slice(0, 17).replace(/[^0-9\s]/g, "").replace(/\s/g, ".")
+
+fs.openSync(`${__dirname}/migration/V${timestamp}__edit_this_description_after_the_two_underscores.sql`, 'w')
+
+console.log(`A new migration file has been created: \n/db/migration/V${timestamp}__edit_this_description_after_the_two_underscores.sql`)
+
