@@ -30,6 +30,12 @@ const useStyles = createUseStyles({
     width: "5.5em",
     textAlign: "right"
   },
+  inputInvalid: {
+    padding: "0.1em",
+    width: "5.5em",
+    textAlign: "right",
+    border: "1px dashed red"
+  },
   unitsCaption: {
     flexBasis: "10%",
     marginLeft: "1em",
@@ -221,7 +227,9 @@ const RuleInput = ({
           </label>
           <div>
             <input
-              className={classes.input}
+              className={
+                validationErrors ? classes.inputInvalid : classes.input
+              }
               type="text"
               value={value || ""}
               onChange={onInputChange}

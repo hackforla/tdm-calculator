@@ -183,9 +183,9 @@ const TdmCalculationWizard = props => {
   ) {
     disablePageNavigation = true;
   }
-  // if (page === 2 && !landUseRules.find(rule => rule.value)) {
-  //   disablePageNavigation = true;
-  // }
+  if (page === 2 && specificationRules.find(rule => !!rule.validationErrors)) {
+    disablePageNavigation = true;
+  }
 
   const routes = (
     <Switch>
