@@ -17,7 +17,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {
   ProjectDescriptions,
-  // ProjectUse,
   ProjectSpecifications,
   ProjectTargetPoints,
   ProjectMeasures
@@ -98,9 +97,6 @@ const useStyles = createUseStyles({
   },
   lastSavedContainer: {
     margin: "0 auto"
-  },
-  navArrow: {
-    marginTop: "6px"
   }
 });
 
@@ -307,12 +303,12 @@ const TdmCalculationWizard = props => {
                         onClick={() => {
                           onPageChange(Number(page) - 1);
                         }}
+                        dataTestId="leftNavArrow"
                       >
-                        <div className={classes.navArrow}>
-                          <FontAwesomeIcon icon={faAngleLeft} />
-                        </div>
+                        <FontAwesomeIcon icon={faAngleLeft} />
                       </NavButton>
                     ) : null}
+
                     {account.id &&
                     (!projectId || account.id === loginId) &&
                     page === 5 ? (
@@ -323,16 +319,16 @@ const TdmCalculationWizard = props => {
                         {projectId ? "Save Project" : "Save As New Project"}
                       </button>
                     ) : null}
+
                     {page !== 5 ? (
                       <NavButton
                         disabled={Number(page) === 5 || disablePageNavigation}
                         onClick={() => {
                           onPageChange(Number(page) + 1);
                         }}
+                        dataTestId="rightNavArrow"
                       >
-                        <div className={classes.navArrow}>
-                          <FontAwesomeIcon icon={faAngleRight} />
-                        </div>
+                        <FontAwesomeIcon icon={faAngleRight} />
                       </NavButton>
                     ) : null}
                   </div>

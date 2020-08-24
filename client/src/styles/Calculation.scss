@@ -71,17 +71,21 @@
   }
 }
 
-.tdm-wizard-nav-button {
-  height: 37px;
-  margin: 0 1em;
-  padding: 0.5em 1em;
-  background-color: $color-highlight;
-  color: #0f2940;
-  font-size: 1.5em;
-  box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
-  text-align: center;
-  cursor: pointer;
+//TODO: THIS IS THE ONE
 
+.tdm-wizard-nav-button {
+  cursor: pointer;
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  padding-top: 0.35em;
+  padding-bottom: 0.35em;
+  display: inline;
+  margin: 0.5em;
+  font-size: 2em;
+  border: none;
+  background-color: $color-highlight;
+
+  //TODO CHECK ON THIS
   &.return-home-button {
     margin-top: 40px;
     display: none;
@@ -97,9 +101,9 @@
   padding-bottom: 0.35em;
   display: inline;
   margin: 0.5em;
-  font-size: 1.5em;
-  text-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
-  text-align: center;
+  font-size: 2em;
+  border: none;
+  background-color: white;
 }
 
 @media print {

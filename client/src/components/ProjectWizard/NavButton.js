@@ -1,24 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const NavButton = props => {
+const NavButton = ({ disabled, dataTestId, children, onClick }) => {
   return (
     <React.Fragment>
-      {props.disabled ? (
-        <div
+      {disabled ? (
+        <button
           className="tdm-wizard-nav-button-disabled"
-          data-testid={props.children}
+          data-testid={dataTestId}
         >
-          {props.children}
-        </div>
+          {children}
+        </button>
       ) : (
-        <div
+        <button
           className="tdm-wizard-nav-button"
-          data-testid={props.children}
-          onClick={props.onClick}
+          data-testid={dataTestId}
+          onClick={onClick}
         >
-          {props.children}
-        </div>
+          {children}
+        </button>
       )}
     </React.Fragment>
   );
@@ -27,7 +27,8 @@ const NavButton = props => {
 NavButton.propTypes = {
   disabled: PropTypes.bool.isRequired,
   children: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  dataTestId: PropTypes.string.isRequired
 };
 
 export default NavButton;

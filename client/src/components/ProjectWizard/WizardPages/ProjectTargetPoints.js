@@ -2,48 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
-import clsx from "clsx";
-import PlanningIcon from "../../../images/planning.png";
-import WarningIcon from "../../../images/warning-icon.png";
+import Level0Page from "../WizardPages/Level0Page";
 
 const useStyles = createUseStyles({
-  page4: {
-    "&.level0 + div > div:first-child > .tdm-wizard-nav-button:last-child": {
-      visibility: "hidden"
-    },
-    "&.level0 + div > div > .tdm-wizard-nav-button.return-home-button": {
-      display: "block"
-    }
-  },
-  level0Container: {
-    textAlign: "center",
-
-    "& h1": {
-      fontFamily: "Oswald",
-      fontWeight: "bold",
-      fontSize: "30px",
-      lineHeight: "44px",
-      marginTop: "22px"
-    }
-  },
-  level0Message: {
-    marginTop: "20px",
-    maxWidth: "800px",
-    backgroundColor: "#FEF4F2",
-    color: "#B64E38",
-    fontSize: "22px",
-    lineHeight: "38px",
-    padding: "60px 48px 40px",
-    textAlign: "initial",
-    boxSizing: "border-box",
-
-    "& p": {
-      marginLeft: "44px"
-    }
-  },
-  warningIcon: {
-    float: "left"
-  },
   projectBox: {
     backgroundColor: "#E5EAF0",
     "& h4": {
@@ -89,36 +50,15 @@ function ProjectTargetPoints(props) {
   const projectLevel = rules.find(e => e.id === 16);
   const targetValue = rules.find(e => e.id === 237);
 
-  const level0Class =
-    projectLevel && projectLevel.calcValue === 0 ? "level0" : "";
   // removing the parking input rule to display it above the box
   const parkingInputIndex = rules.findIndex(e => e.id === 7);
   const parkingRule = rules.splice(parkingInputIndex, 1);
+
+  const isLevel0 = projectLevel && projectLevel.calcValue === 0;
   return (
-    <div className={clsx(classes.page4, level0Class)}>
-      {projectLevel && projectLevel.calcValue === 0 && (
-        <div className={classes.level0Container}>
-          <img src={PlanningIcon} alt="Project Level" />
-          <h1>Your project level is 0!</h1>
-          <div className={classes.level0Message}>
-            <img
-              src={WarningIcon}
-              className={classes.warningIcon}
-              alt="Warning"
-            />
-            <p>
-              Based on the information you provided, the Transportation Demand
-              Management (TDM) Ordinance <strong>may</strong> not apply to your
-              project.
-            </p>
-            <p>
-              Final determination of the TDM Ordinance applicability will be
-              made by the Department of City Planning upon review of your
-              project application.
-            </p>
-          </div>
-        </div>
-      )}
+    <>
+      <Level0Page isLevel0={isLevel0} />
+
       {projectLevel && projectLevel.calcValue > 0 && (
         <div>
           <h1 className="tdm-wizard-page-title">Calculate TDM Target Points</h1>
@@ -152,7 +92,7 @@ function ProjectTargetPoints(props) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 ProjectTargetPoints.propTypes = {

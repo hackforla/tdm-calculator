@@ -1,71 +1,104 @@
-//Reference : https://github.com/testing-library/cypress-testing-library
-import "@testing-library/cypress/add-commands";
-
 /// <reference types="cypress" />
+
+const p = {
+  projectName: "Barrington Condos",
+  address: "825 S. Barrington Ave",
+  ain: "9999999999",
+  condoUnits: "46",
+  requiredParkingSpaces: "92",
+  parkingProvided: "88",
+  expectedParkingBaselineSpaces: "92",
+  expectedParkingBaselinePercentage: "95.65",
+  pricingUnbundling: "the cost of each parking space is $220/mo",
+  reducedParkingSupply:
+    "Reduces 100% of the parking spaces available relative to the  parking baseline",
+  affordableHousingLevel: "35% of State Density Bonus",
+  expectedProjectLevelLabel: "Project Level",
+  expectedProjectLevelValue: "1",
+  expectedParkingRatioLabel: "Parking Provided / Baseline",
+  expectedParkingRatioValue: "95%",
+  expectedTargetPointsLabel: "Target Points",
+  expectedTargetPointsValue: "15",
+  expectedEarnedPointsLabel: "Earned Points",
+  expectedEarnedPointsValue: "16"
+};
+
 describe("Barrington Condos", () => {
-  describe("project inputs", () => {
+  context("project inputs", () => {
     it("enters project information - minimum requirements", () => {
-      cy.visit("http://localhost:3000/");
-      cy.findAllByText("New Project").click();
-      cy.findByLabelText("Project Name").type("Barrington Condos");
-      cy.findByLabelText("Address").type("825 S. Barrington Ave");
-      cy.findByTestId(">").click();
+      cy.visit("/");
+      cy.findAllByText("Create Project").click();
+      cy.findByLabelText("Project Name").type(p.projectName);
+      cy.findByLabelText("Address").type(p.address);
+      cy.findByLabelText("AIN").type(p.ain);
+      cy.findByTestId("rightNavArrow").click();
     });
-    it("enters information for selected development type(s)", () => {
-      cy.findByLabelText("Condo - Units").type("46");
-      cy.findByLabelText("Condo - Enter Parking Space Req'd").type("92");
-      cy.findByTestId(">").click();
-    });
-    it("enters in number of parking spaces", () => {
-      cy.findByLabelText("Parking Provided").type("88");
-      cy.findByText("92").should("exist");
-      cy.findByText("95.65").should("exist");
-      cy.findByTestId(">").click();
-    });
-  });
-  describe("project strategies", () => {
-    it("selects transporation demand strategies and receive enough earned points", () => {
-      cy.findByLabelText("Bike Parking").click();
-      cy.findByLabelText("Pricing/Unbundling").click();
-      cy.findByLabelText("Reduced Parking Supply").click();
-      cy.findByLabelText("Affordable Housing Level").select(
-        "35% of State Density Bonus"
+    it("enters project specification", () => {
+      cy.findByLabelText("Condo - Units").type(p.condoUnits);
+      cy.findByLabelText("..... Enter Parking Spaces req'd").type(
+        p.requiredParkingSpaces
       );
-      cy.findByTestId(">").click();
+      cy.findByTestId("rightNavArrow").click();
+    });
+    it("enters in number for parking spaces provided", () => {
+      cy.findByLabelText("Parking Provided").type(p.parkingProvided);
+      cy.findByText(p.expectedParkingBaselineSpaces).should("be.visible");
+      cy.findByText(p.expectedParkingBaselinePercentage).should("be.visible");
+      cy.findByTestId("rightNavArrow").click();
     });
   });
-  describe("calculation summary", () => {
+  context("project strategies", () => {
+    it("selects transporation demand strategies and receive enough earned points", () => {
+      cy.findByLabelText("Bike Parking").should("be.checked");
+      cy.findByLabelText("Pricing/Unbundling").select(p.pricingUnbundling);
+      cy.findByLabelText("Reduced Parking Supply").select(
+        p.reducedParkingSupply
+      );
+      cy.findByLabelText("Affordable Housing Level").select(
+        p.affordableHousingLevel
+      );
+      cy.findByTestId("rightNavArrow").click();
+    });
+  });
+  context("calculation summary", () => {
     it("shows the correct calculation summary", () => {
-      cy.findByText("Barrington Condos").should("exist");
-      cy.findByText("825 S. Barrington Ave").should("exist");
+      cy.findByText(p.projectName).should("be.visible");
+      cy.findByText(p.address).should("be.visible");
 
-      cy.findAllByText("Residential").should("exist");
-
-      cy.findByTestId("summary-project-level-value").should("have.text", "1");
       cy.findByTestId("summary-project-level-label").should(
         "have.text",
-        "Project Level"
+        p.expectedProjectLevelLabel
+      );
+      cy.findByTestId("summary-project-level-value").should(
+        "have.text",
+        p.expectedProjectLevelValue
       );
 
-      cy.findByTestId("summary-parking-ratio-value").should(
-        "have.text",
-        "95 %"
-      );
       cy.findByTestId("summary-parking-ratio-label").should(
         "have.text",
-        "Parking Provided / Baseline"
+        p.expectedParkingRatioLabel
+      );
+      cy.findByTestId("summary-parking-ratio-value").should(
+        "have.text",
+        p.expectedParkingRatioValue
       );
 
-      cy.findByTestId("summary-target-points-value").should("have.text", "15");
       cy.findByTestId("summary-target-points-label").should(
         "have.text",
-        "Target Points"
+        p.expectedTargetPointsLabel
+      );
+      cy.findByTestId("summary-target-points-value").should(
+        "have.text",
+        p.expectedTargetPointsValue
       );
 
-      cy.findByTestId("summary-earned-points-value").should("have.text", "16");
       cy.findByTestId("summary-earned-points-label").should(
         "have.text",
-        "Earned Points"
+        p.expectedEarnedPointsLabel
+      );
+      cy.findByTestId("summary-earned-points-value").should(
+        "have.text",
+        p.expectedEarnedPointsValue
       );
     });
   });
