@@ -14,6 +14,7 @@ const useStyles = createUseStyles({
     borderRadius: "50%",
     textAlign: "center",
     verticalAlign: "top",
+    opacity: "1 !important",
     border: "none",
     "&:hover": {
       cursor: "pointer"
@@ -47,7 +48,7 @@ const useStyles = createUseStyles({
       color: "rgb(30, 36, 63) !important",
       backgroundColor: "rgb(230, 234, 239) !important",
       opacity: "1 !important",
-      textTransform: "capitalize !important"
+      textTransform: "none !important"
     }
   }
 });
