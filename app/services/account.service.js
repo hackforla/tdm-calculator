@@ -1,5 +1,5 @@
-const mssql = require("../../mssql");
-const TYPES = require("tedious").TYPES;
+const { pool, poolConnect } = require("./tedious-pool");
+const mssql = require("mssql");
 const { promisify } = require("util");
 const moment = require("moment");
 const bcrypt = require("bcrypt");
@@ -13,8 +13,10 @@ const SALT_ROUNDS = 10;
 
 const selectAll = async () => {
   try {
-    const response = await mssql.executeProc("Login_SelectAll");
-    return response.resultSets[0];
+    await poolConnect;
+    const request = pool.request();
+    const response = await request.execute("Login_SelectAll");
+    return response.recordset;
   } catch (err) {
     return Promise.reject(err);
   }
@@ -22,15 +24,13 @@ const selectAll = async () => {
 
 const selectById = async id => {
   try {
-    const response = await mssql.executeProc("Login_SelectById", sqlRequest => {
-      sqlRequest.addParameter("Id", TYPES.Int, id);
-    });
-    if (
-      response.resultSets &&
-      response.resultSets[0] &&
-      response.resultSets[0].length > 0
-    ) {
-      return response.resultSets[0][0];
+    await poolConnect;
+    const request = pool.request();
+    request.input("Id", mssql.Int, id);
+
+    const response = await request.execute("Login_SelectById");
+    if (response.recordset && response.recordset.length > 0) {
+      return response.recordset[0];
     }
     return null;
   } catch (err) {
@@ -40,18 +40,13 @@ const selectById = async id => {
 
 const selectByEmail = async email => {
   try {
-    const response = await mssql.executeProc(
-      "Login_SelectByEmail",
-      sqlRequest => {
-        sqlRequest.addParameter("Email", TYPES.NVarChar, email);
-      }
-    );
-    if (
-      response.resultSets &&
-      response.resultSets[0] &&
-      response.resultSets[0].length > 0
-    ) {
-      return response.resultSets[0][0];
+    await poolConnect;
+    const request = pool.request();
+    request.input("Email", mssql.NVarChar, email);
+    const response = await request.execute("Login_SelectByEmail");
+
+    if (response.recordset && response.recordset.length > 0) {
+      return response.recordset[0];
     }
     return null;
   } catch (err) {
@@ -64,22 +59,20 @@ const register = async model => {
   let result = null;
   await hashPassword(model);
   try {
-    const insertResult = await mssql.executeProc("Login_Insert", sqlRequest => {
-      sqlRequest.addParameter("FirstName", TYPES.NVarChar, firstName);
-      sqlRequest.addParameter("LastName", TYPES.NVarChar, lastName);
-      sqlRequest.addParameter("Email", TYPES.NVarChar, email);
-      sqlRequest.addParameter(
-        "PasswordHash",
-        TYPES.NVarChar,
-        model.passwordHash
-      );
-      sqlRequest.addOutputParameter("id", TYPES.Int, null);
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("FirstName", mssql.NVarChar, firstName);
+    request.input("LastName", mssql.NVarChar, lastName);
+    request.input("Email", mssql.NVarChar, email);
+    request.input("PasswordHash", mssql.NVarChar, model.passwordHash);
+    request.output("id", mssql.Int, null);
+    const insertResult = await request.execute("Login_Insert");
+
     if (insertResult) {
       result = {
         isSuccess: true,
         code: "REG_SUCCESS",
-        newId: insertResult.outputParameters.id,
+        newId: insertResult.output["id"],
         message: "Registration successful."
       };
       await requestRegistrationConfirmation(email, result);
@@ -98,16 +91,15 @@ const register = async model => {
 const resendConfirmationEmail = async email => {
   let result = null;
   try {
-    const selectByEmailResponse = await mssql.executeProc(
-      "Login_SelectByEmail",
-      sqlRequest => {
-        sqlRequest.addParameter("email", TYPES.NVarChar, email);
-      }
-    );
+    await poolConnect;
+    const request = pool.request();
+    request.input("email", mssql.NVarChar, email);
+    const selectByEmailResponse = await request.execute("Login_SelectByEmail");
+
     result = {
       success: true,
       code: "REG_SUCCESS",
-      newId: selectByEmailResponse.resultSets[0].rows[0].id,
+      newId: selectByEmailResponse.recordset.rows[0].id,
       message: "Account found."
     };
     result = await requestRegistrationConfirmation(email, result);
@@ -128,10 +120,11 @@ const resendConfirmationEmail = async email => {
 const requestRegistrationConfirmation = async (email, result) => {
   const token = uuid4();
   try {
-    await mssql.executeProc("SecurityToken_Insert", sqlRequest => {
-      sqlRequest.addParameter("token", TYPES.NVarChar, token);
-      sqlRequest.addParameter("email", TYPES.NVarChar, email);
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("token", mssql.NVarChar, token);
+    request.input("email", mssql.NVarChar, email);
+    await request.execute("SecurityToken_Insert");
 
     await sendRegistrationConfirmation(email, token);
     return result;
@@ -146,14 +139,12 @@ const requestRegistrationConfirmation = async (email, result) => {
 
 const confirmRegistration = async token => {
   try {
-    const sqlResult = await mssql.executeProc(
-      "SecurityToken_SelectByToken",
-      sqlRequest => {
-        sqlRequest.addParameter("token", TYPES.NVarChar, token);
-      }
-    );
+    await poolConnect;
+    const request = pool.request();
+    request.input("token", mssql.NVarChar, token);
+    const sqlResult = await request.execute("SecurityToken_SelectByToken");
 
-    const resultSet = sqlResult.resultSets[0];
+    const resultSet = sqlResult.recordset;
 
     const now = moment();
 
@@ -175,9 +166,9 @@ const confirmRegistration = async token => {
 
     // If we get this far, we can update the login.email_confirmed flag
     const email = resultSet[0].email;
-    await mssql.executeProc("Login_ConfirmEmail", sqlRequest => {
-      sqlRequest.addParameter("email", TYPES.NVarChar, email);
-    });
+    const updateRequest = await pool.request();
+    updateRequest.input("email", mssql.NVarChar, email);
+    await updateRequest.execute("Login_ConfirmEmail");
 
     return {
       success: true,
@@ -237,10 +228,12 @@ const forgotPassword = async model => {
 const requestResetPasswordConfirmation = async (email, result) => {
   const token = uuid4();
   try {
-    await mssql.executeProc("SecurityToken_Insert", sqlRequest => {
-      sqlRequest.addParameter("token", TYPES.NVarChar, token);
-      sqlRequest.addParameter("email", TYPES.NVarChar, email);
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("token", mssql.NVarChar, token);
+    request.input("email", mssql.NVarChar, email);
+    await request.execute("SecurityToken_Insert");
+
     result = await sendResetPasswordConfirmation(email, token);
     return result;
   } catch (err) {
@@ -257,14 +250,12 @@ const resetPassword = async ({ token, password }) => {
   const now = moment();
   let email = "";
   try {
-    const tokenResult = await mssql.executeProc(
-      "SecurityToken_SelectByToken",
-      sqlRequest => {
-        sqlRequest.addParameter("token", TYPES.NVarChar, token);
-      }
-    );
+    await poolConnect;
+    const request = pool.request();
+    request.input("token", mssql.NVarChar, token);
+    const tokenResult = await request.execute("SecurityToken_SelectByToken");
 
-    const resultSet = tokenResult.resultSets[0][0];
+    const resultSet = tokenResult.recordset[0];
 
     if (resultSet.length < 1) {
       return {
@@ -286,10 +277,10 @@ const resetPassword = async ({ token, password }) => {
     const passwordHash = await promisify(bcrypt.hash)(password, SALT_ROUNDS);
     email = resultSet.email;
 
-    await mssql.executeProc("Login_ChangePassword", sqlRequest => {
-      sqlRequest.addParameter("email", TYPES.NVarChar, email);
-      sqlRequest.addParameter("passwordHash", TYPES.NVarChar, passwordHash);
-    });
+    const request1 = pool.request();
+    request1.input("email", mssql.NVarChar, email);
+    request1.input("passwordHash", mssql.NVarChar, passwordHash);
+    await request1.execute("Login_ChangePassword");
 
     return {
       isSuccess: true,
@@ -349,12 +340,13 @@ const authenticate = async (email, password) => {
 // Not fully implemented - needs sproc
 const update = async model => {
   try {
-    await mssql.executeProc("Login_Update", sqlRequest => {
-      sqlRequest.addParameter("id", TYPES.Int, model.id);
-      sqlRequest.addParameter("firstName", TYPES.NVarChar, model.firstName);
-      sqlRequest.addParameter("lastName", TYPES.NVarChar, model.lastName);
-      sqlRequest.addParameter("email", TYPES.NVarChar, model.email);
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssql.Int, model.id);
+    request.input("firstName", mssql.NVarChar, model.firstName);
+    request.input("lastName", mssql.NVarChar, model.lastName);
+    request.input("email", mssql.NVarChar, model.email);
+    await request.execute("Login_Update");
   } catch (err) {
     return Promise.reject(err);
   }
@@ -362,15 +354,13 @@ const update = async model => {
 
 const updateRoles = async model => {
   try {
-    await mssql.executeProc("Login_UpdateRoles", sqlRequest => {
-      sqlRequest.addParameter("id", TYPES.Int, model.id);
-      sqlRequest.addParameter("isAdmin", TYPES.Bit, model.isAdmin);
-      sqlRequest.addParameter(
-        "isSecurityAdmin",
-        TYPES.Bit,
-        model.isSecurityAdmin
-      );
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssql.Int, model.id);
+    request.input("isAdmin", mssql.Bit, model.isAdmin);
+    request.input("isSecurityAdmin", mssql.Bit, model.isSecurityAdmin);
+    await request.execute("Login_UpdateRoles");
+
     return {
       isSuccess: true,
       code: "ROLES_UPDATE_SUCCESS",
@@ -388,9 +378,10 @@ const updateRoles = async model => {
 // Not fully implemented - needs sproc
 const del = async id => {
   try {
-    await mssql.executeProc("Login_Delete", sqlRequest => {
-      sqlRequest.addParameter("id", TYPES.Int, id);
-    });
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssql.Int, id);
+    await request.execute("Login_Delete");
   } catch (err) {
     return Promise.reject(err);
   }

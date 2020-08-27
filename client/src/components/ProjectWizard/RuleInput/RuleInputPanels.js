@@ -80,7 +80,13 @@ const RuleInputPanels = props => {
         </>
       ) : (
         <div className={classes.loaderContainer}>
-          <Loader loaded={false} className="spinner" left="auto" />
+          <Loader
+            loaded={false}
+            className="spinner"
+            left="auto"
+            position="relative"
+            top="8vh"
+          />
         </div>
       )}
     </React.Fragment>

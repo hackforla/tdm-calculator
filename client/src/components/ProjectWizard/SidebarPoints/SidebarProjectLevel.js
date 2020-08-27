@@ -27,26 +27,34 @@ const useStyles = createUseStyles({
   },
   lowOpacity: {
     opacity: 0.4
+  },
+  noDisplay: {
+    display: "none !important"
   }
 });
 
-const SidebarProjectLevel = ({ level }) => {
+const SidebarProjectLevel = ({ level, rules }) => {
   const classes = useStyles();
-  const tipText = "Project Level Toop Tip";
+  const tipText = rules[0].description;
   const opacityTest = level === 0 ? classes.lowOpacity : "";
+  const noToolTip = level === 0 ? classes.noDisplay : "";
+
   return (
     <div className={clsx(classes.projectLevelContainer, opacityTest)}>
       <p className={classes.projectLevelValue}>{level}</p>
       <h3 className={classes.projectLevelHeader}>
         PROJECT LEVEL
-        <Tooltip tipText={tipText} />
+        <span className={clsx(classes.projectLevelContainer, noToolTip)}>
+          <Tooltip tipText={tipText} />
+        </span>
       </h3>
     </div>
   );
 };
 
 SidebarProjectLevel.propTypes = {
-  level: PropTypes.number
+  level: PropTypes.number,
+  rules: PropTypes.array
 };
 
 export default SidebarProjectLevel;

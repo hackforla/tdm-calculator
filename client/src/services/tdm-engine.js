@@ -106,15 +106,57 @@ class Engine {
     }
   }
 
+  /// Evaluate validationFunctionBody and populate this.rules[property].display
+  /// with a boolean indicating whether rule should be displayed (or hidden)
+  calcValidation(property) {
+    const rule = this.rules[property];
+    const tokenArray = rule.validationFunctionBody.match(REGEX_TOKEN);
+    let tokens = [];
+    if (tokenArray && tokenArray.length > 0) {
+      tokens = tokenArray.map(t => t.substr(2, t.length - 4));
+      // console.log("tokens: " + JSON.stringify(tokens));
+    }
+    let functionBody = rule.validationFunctionBody;
+
+    // Modify displayFunctionBody to replace tokens
+    // with values
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
+      const tokenRule = this.rules[token];
+      if (!tokenRule) {
+        console.error("Token not found: " + token);
+      } else {
+        let value;
+        if (tokenRule.dataType === "string") {
+          value = " '" + (tokenRule.value || "") + "' ";
+        } else {
+          value = " " + (tokenRule.value || 0) + " ";
+        }
+
+        functionBody = functionBody.replace("<<" + token + ">>", value);
+      }
+    }
+    //console.log("functionBody: " + functionBody);
+    try {
+      return this.buildFunction(functionBody).call(this);
+    } catch (error) {
+      console.error(
+        "Failed to build function for " + rule.code + " " + functionBody
+      );
+    }
+  }
+
   validateRule(rule) {
     const {
+      code,
       name,
       value,
       required,
       minStringLength,
       maxStringLength,
       minValue,
-      maxValue
+      maxValue,
+      validationFunctionBody
     } = rule;
     const validationErrors = [];
 
@@ -145,6 +187,12 @@ class Engine {
           validationErrors.push(`${name} must be no more than ${maxValue}.`);
         }
       }
+      if (validationFunctionBody) {
+        const validationMessage = this.calcValidation(code);
+        if (validationMessage) {
+          validationErrors.push(validationMessage);
+        }
+      }
     }
     // validationErrors will be null if no errors, otherwise contain
     // user-friendly error message(s) in an array
@@ -156,6 +204,9 @@ class Engine {
   /// with a boolean indicating whether rule should be displayed (or hidden)
   calcDisplay(property) {
     const rule = this.rules[property];
+    // if (property === "PARK_CONDO") {
+    //   console.log(rule);
+    // }
     // Extract rules that this one depends upon
     // from displayFunctionBody tokens
     const tokenArray = rule.displayFunctionBody.match(REGEX_TOKEN);

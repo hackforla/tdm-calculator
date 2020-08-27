@@ -1,20 +1,14 @@
-# Deployment
-
-## Building a dev version of the web api server
-
-```bash
-docker-compose up
-```
+# Deployment to Docker Environments
 
 The TDM project deployment environment consists of:
 
 1. A Microsoft SQL Server database, and
-1. A Node/Express web server that serves as both a web api server servicing AJAX request from the client browser and a static page server to HTML pages to the client browser, including react.js and other assets required for running the client application in a web browser.
+1. A Node/Express web server that serves as both a web api server servicing AJAX request from the client browser and a static page server to HTML pages to the client browser, including react.js and other assets required for running the client application in a web browser. This is packaged and deployed as a Docker image to an Azure App Service for Containers.
 
-Assuming that the production environment is already set up, deployment consists of
+Assuming that an environment is already set up, deployment consists of
 
 1. Applying database migrations to the database, and
-1. Building the docker image of the web server, publishing the image to Docker Hub, and loading this image into the hosted docker engine.
+1. Building the docker image of the web server, publishing the image to Docker Hub, and loading this image into the hosted docker daemon.
 
 ## Running the application in a container
 
@@ -61,7 +55,7 @@ tdmcalc/tdmapp
 
 Since our database has a servername of localhost, and we need to access the
 localhost on our native machine (Mac or Windows) from within the node container,
-there is a special docker alias of `host.docker.interal` that refers to
+there is a special docker alias of `host.docker.internal` that refers to
 localhost outside the container. This apparently does not work on Linux
 see [this article](https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach).
 
@@ -72,7 +66,24 @@ docker push tdmcalc/tdmapp
 ```
 
 This publishes the application to Docker Hub under the tdmcalc account with the
-image name tdmapp and the tag `latest`.
+image name tdmapp and the tag `latest`, so the fully-qualified container name
+on Docker Hub will be tdmcalc/tdmapp:latest.
+
+For a UAT or production release, we want to use the release version number as the tag.
+To do this, you can tag the image created above with a version number:
+
+```
+docker tag tdmcalc/tdmapp tdmcalc/tdmapp:0.2.14
+```
+
+and then publish this image to Docker Hub:
+
+```
+docker push tdmcalc/tdmapp:0.2.14
+```
+
+Now it should be available for your deployment environment to pull the image
+for deployment.
 
 ## Setting up a Container App Service in Azure
 

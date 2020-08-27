@@ -83,7 +83,7 @@ There are several ways to create a new database on a SQL Server, but the followi
 
 ### Creating the Database via Docker (Mac, Linux, Windows)
 
-You can run a single-line command to create the database in a **Git Bash** shell (or see below for step-by-step instructions):
+You can run a single-line command to create the database in a **Git Bash** shell:
 
 ```bash
 docker exec -it tdm_sql_server /opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1! -Q "CREATE DATABASE tdmdev"
@@ -91,35 +91,15 @@ docker exec -it tdm_sql_server /opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1! -Q
 
 > See `Option 2 > NOTE` under the [Creating the Database (Windows)](#creating-the-database-windows) Docker section if you are trying to run in a **Windows Bash** shell.
 
-The following steps are the same as the single-line command above but broken down step-by-step:
+_If_ you want use the command line (CLI) to write other SQL scripts, you can use the `sqlcmd` utility:
 
-1. Start an interactive bash shell inside your running Docker container:
+```bash
+docker exec -it tdm_sql_server /opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1!
+```
 
-   ```bash
-   docker exec -it tdm_sql_server bash
-   ```
-
-   Enter computer password, if prompted.
-
-2. Inside the container, you can run the `sqlcmd` command that is pre-installed inside the container with your database credentials for your `sa` user:
-
-   ```bash
-   /opt/mssql-tools/bin/sqlcmd -U sa -P Dogfood1!
-   ```
-
-3. Create a `tdmdev` database (or any other name) inside the SQL Server container:
-
-   ```SQL
-   CREATE DATABASE tdmdev
-   ```
-
-   then on a separate line,
-
-   ```SQL
-   GO
-   ```
-
-   To learn more about Docker and understand the above commands, see this [Quickstart Guide.](https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&pivots=cs1-bash)
+- If successful, you should get to a `sqlcmd` command prompt: `1>`.
+- Try running a SQL command, such as `SELECT name FROM sys.sysdatabases`, then on a separate line run `GO`. You should see your `tdmdev` database.
+- For more tips, see the [Docker Debugging Tips](#docker-tips) below or this [Quickstart Guide.](https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&pivots=cs1-bash)
 
 ### Creating the Database (Windows)
 
@@ -188,25 +168,25 @@ If you followed the instructions from the previous sections, you should have the
 
 **On Docker (Mac, Linux, Windows):**
 
-1.  **Edit the `.env` file with your local database connection string information.**
-    To run in Docker, we use port number `1434` and do not use an instance name:
+1. **Edit the `.env` file with your local database connection string information.**
+   To run in Docker, we use port number `1434` and do not use an instance name:
 
-        ```env
-        SQL_SERVER_NAME=localhost
-        SQL_SERVER_INSTANCE=
-        SQL_SERVER_PORT=1434
-        SQL_DATABASE_NAME=tdmdev
-        SQL_USER_NAME=sa
-        SQL_PASSWORD=Dogfood1!
-        ```
+   ```env
+   SQL_SERVER_NAME=localhost
+   SQL_SERVER_INSTANCE=
+   SQL_SERVER_PORT=1434
+   SQL_DATABASE_NAME=tdmdev
+   SQL_USER_NAME=sa
+   SQL_PASSWORD=Dogfood1!
+   ```
 
-    - The container will be running SQL Server without an instance name on port 1433 internally; the previous set of instructions re-mapped this to a different external port, which we arbitrarily chose as `1434`. This alternative port number helps avoid a potential conflict with the default instance of SQL Server for those who are running Windows Pro, and may want to run your local database for the project in Docker.
+   - The container will be running SQL Server without an instance name on port 1433 internally; the previous set of instructions re-mapped this to a different external port, which we arbitrarily chose as `1434`. This alternative port number helps avoid a potential conflict with the default instance of SQL Server for those who are running Windows Pro, and may want to run your local database for the project in Docker.
 
-1.  Source the `.env` file in order to specify the updated configurations in your local shell environment by running:
+1. Source the `.env` file in order to specify the updated configurations in your local shell environment by running:
 
-    ```bash
-    source .env
-    ```
+   ```bash
+   source .env
+   ```
 
 > NOTE: You may need to run `source` on the `.env` file any time you update your local environment variables.
 
@@ -277,21 +257,23 @@ To connect with DBeaver:
 
 ## Running Database Migrations and the App
 
-1.  Install all the npm packages if you haven't done so already by running `npm install` in the root directory
+1. Install all the npm packages if you haven't done so already by running `npm install` in the root directory
 
-1.  Create the database schema and populate it with seed data by running:
+1. Create the database schema and populate it with seed data by running:
 
-        ```bash
-        npm run flyway:migrate
-        ```
+   ```bash
+   npm run flyway:migrate
+   ```
 
-        This will run the SQL scripts in the `/db/migration` folder to populate the database with an up-to-date TDM schema and data.
+   This will run the SQL scripts in the `/db/migration` folder to populate the database with an up-to-date TDM schema and data.
 
-        If the migration is successful, you will see a message that ends with a message saying something like
+   If the migration is successful, you will see a message that ends with a message saying something like
 
-    `Successfully applied X migrations for schema [dbo]...`
+   `Successfully applied X migrations for schema [dbo]...`
 
-1.  At this point, you should be able to start the application as usual, by running `npm start`, and it will be using the local database. HOORAY!
+1. If you receive an error that says `ERROR: Validate failed: Migration checksum mismatch for migration version XXXX`, then you may want to run flyway's `repair` or `clean` command [described below](#testing-migration-files-and-running-flyway-commands).
+
+1. At this point, you should be able to start the application as usual, by running `npm start`, and it will be using the local database. HOORAY!
 
 ## Working with Migrations
 
@@ -303,17 +285,25 @@ In order to make changes to the database schema or reference data, you will need
 
 Most client tools allow you to create a "New Query" where you can directly write and test your SQL or Transact-SQL scripts in your local database. You could also write your SQL scripts in the Docker SQL Server container. (See step-by-step instructions in the [Create the Database](#create-the-database-via-docker-mac-linux-windows) section for example.)
 
-When you are confident in your SQL or TRANSACT-SQL script, you will need to create a new migration file, e.g.`V0002__update_foobar_table.sql`.
+When you are confident in your SQL or TRANSACT-SQL script, you will need to create a new migration file.
 
 ### Adding New Migration Files - Naming Convention
 
 ![Image of Flyway Naming Convention](https://i.stack.imgur.com/sTJeU.png)
 
-Create a new file in the `/db/migration` directory, using Flyway's naming convention, e.g. `VXXXX__*.sql`.
+To create a new migration file, run the following from your root directory:
 
-- Version (`XXXX`): four digit numbers in sequence of files already there
+```bash
+./db/create-migration
+```  
+
+This is an executable file that will generate a `.sql` file in your `/db/migration/` folder.
+
+The file uses the following naming convention `VYYYYMMDD.HHMM__*.sql`, e.g. `V20200812.2148__update_foobar_table.sql`
+
+- Version (`VYYYYMMDD.HHMM`): 8-digit date and 4-digit time separated by a period, in sequence order of files already there
 - Separator (`__`): two consecutive underscores that separate the version from the description
-- Description (`*`): a snake-cased short description of the change you are making
+- Description (`*`): a snake-cased short description of the changes you are making
 
 ### Testing Migration Files and Running Flyway Commands
 
@@ -326,18 +316,21 @@ Because our [node library](https://www.npmjs.com/package/node-flywaydb) is simpl
 - `npm run flyway:info`
   - Prints the details and status information about all the migrations
 - `npm run flyway:validate`
-
   - Validates applied migrations against resolved ones (on the filesystem or classpath) to detect accidental changes that may prevent the schema(s) from being recreated exactly.
     - Validation fails if:
       - Differences in migration names, types or checksums are found
       - Versions have been applied that aren't resolved locally anymore
       - Versions have been resolved that haven't been applied yet
-
 - `npm run flyway:repair`
   - Repairs the Flyway metadata table. This will perform the following actions:
     - Remove any failed migrations on databases without DDL transactions
       (User objects left behind must still be cleaned up manually)
     - Correct wrong checksums
+- `npm run flyway:clean`
+
+  - Clean is a great help in development and test. It will effectively give you a fresh start, by wiping your configured schemas completely clean. All objects (tables, views, procedures, …) will be dropped.
+
+  > Needless to say: do not use against the production DB!
 
 ### Creating a Pull Request
 
@@ -351,7 +344,7 @@ Because our [node library](https://www.npmjs.com/package/node-flywaydb) is simpl
 
 ## Debugging Tips
 
-### Docker
+### Docker Tips
 
 - To learn more about using SQL Server in Docker, check out this [Quickstart Guide.](https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&pivots=cs1-bash)
 - To check if your SQL Server container is running, run: `docker ps`
@@ -366,7 +359,7 @@ Because our [node library](https://www.npmjs.com/package/node-flywaydb) is simpl
   - To show existing databases in the SQL container
 
     ```SQL
-      SELECT Name from sys.Databases
+      SELECT name from sys.Databases
       GO
     ```
 
@@ -378,3 +371,7 @@ Because our [node library](https://www.npmjs.com/package/node-flywaydb) is simpl
 - To remove a container, run `docker remove tdm_sql_server`
   > NOTE: The container must be stopped before it can be removed
 - See more Docker examples and basic commands in the [Deployment](./deployment.md) docs
+
+### DBeaver
+
+- If you get this error `No Active Connection` when making a SQL query, you will need to `Set Active Connection` to your current database under the `SQL Editor` setting

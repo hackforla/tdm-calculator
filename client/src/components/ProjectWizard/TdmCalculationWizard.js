@@ -132,6 +132,7 @@ const TdmCalculationWizard = props => {
     onInputChange,
     onCommentChange,
     onUncheckAll,
+    initializeStrategies,
     filters,
     onPkgSelect,
     resultRuleCodes,
@@ -183,9 +184,9 @@ const TdmCalculationWizard = props => {
   ) {
     disablePageNavigation = true;
   }
-  // if (page === 2 && !landUseRules.find(rule => rule.value)) {
-  //   disablePageNavigation = true;
-  // }
+  if (page === 2 && specificationRules.find(rule => !!rule.validationErrors)) {
+    disablePageNavigation = true;
+  }
 
   const routes = (
     <Switch>
@@ -196,14 +197,6 @@ const TdmCalculationWizard = props => {
           classes={classes}
         />
       </Route>
-      {/* <Route path="/calculation/2/:projectId?">
-        <ProjectUse
-          rules={landUseRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          uncheckAll={() => onUncheckAll(filters.landUseRules)}
-        />
-      </Route> */}
       <Route path="/calculation/2/:projectId?">
         <ProjectSpecifications
           rules={specificationRules}
@@ -225,6 +218,7 @@ const TdmCalculationWizard = props => {
           landUseRules={landUseRules}
           onInputChange={onInputChange}
           onCommentChange={onCommentChange}
+          initializeStrategies={initializeStrategies}
           classes={classes}
           onPkgSelect={onPkgSelect}
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
@@ -252,19 +246,6 @@ const TdmCalculationWizard = props => {
         },
         toast: "Please fill out all required fields"
       }
-      // 2: {
-      //   function: () => {
-      //     let selected = false;
-      //     let landUseRules = rules.filter(filters.landUseRules);
-      //     landUseRules.forEach(val => {
-      //       if (val.value === true) {
-      //         selected = true;
-      //       }
-      //     });
-      //     return selected;
-      //   },
-      //   toast: "Please select at least one land use type."
-      // }
     };
     const result = validations[page] ? validations[page].function() : true;
     if (result === false) {
@@ -415,6 +396,7 @@ TdmCalculationWizard.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func,
   onPkgSelect: PropTypes.func.isRequired,
+  initializeStrategies: PropTypes.func.isRequired,
   onUncheckAll: PropTypes.func.isRequired,
   filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,

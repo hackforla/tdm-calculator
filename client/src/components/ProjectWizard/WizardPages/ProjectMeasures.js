@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import InfoBox from "../InfoBox";
@@ -13,8 +13,13 @@ function ProjectMeasure(props) {
     onCommentChange,
     classes,
     onPkgSelect,
-    uncheckAll
+    uncheckAll,
+    initializeStrategies
   } = props;
+
+  useEffect(() => {
+    initializeStrategies();
+  });
 
   const [displayInfoBox, setDisplayInfoBox] = useLocalStorage(
     "displayBox",
@@ -37,17 +42,17 @@ function ProjectMeasure(props) {
   const disabledResidentialPkg = (() => {
     // Only enable button if
     // component strategies are not already selected
-    const pkgRules = rules.filter(rule =>
-      ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_1"].includes(
-        rule.code
-      )
+    const strategyBike4 = rules.find(r => r.code === "STRATEGY_BIKE_4");
+    const strategyInfo3 = rules.find(r => r.code === "STRATEGY_INFO_3");
+    const strategyParking1 = rules.find(r => r.code === "STRATEGY_PARKING_1");
+    return (
+      strategyBike4 &&
+      !!strategyBike4.value &&
+      strategyInfo3 &&
+      !!strategyInfo3.value &&
+      strategyParking1 &&
+      strategyParking1.value === 8
     );
-
-    const strategyCount = pkgRules.reduce(
-      (count, r) => count + (r.value ? 1 : 0),
-      0
-    );
-    return strategyCount === 3;
   })();
 
   const disabledEmploymentPkg = (() => {
@@ -148,7 +153,8 @@ ProjectMeasure.propTypes = {
   onCommentChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
-  uncheckAll: PropTypes.func.isRequired
+  uncheckAll: PropTypes.func.isRequired,
+  initializeStrategies: PropTypes.func.isRequired
 };
 
 export default ProjectMeasure;

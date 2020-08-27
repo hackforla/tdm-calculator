@@ -30,6 +30,12 @@ const useStyles = createUseStyles({
     width: "5.5em",
     textAlign: "right"
   },
+  inputInvalid: {
+    padding: "0.1em",
+    width: "5.5em",
+    textAlign: "right",
+    border: "1px dashed red"
+  },
   unitsCaption: {
     flexBasis: "10%",
     marginLeft: "1em",
@@ -56,9 +62,9 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   checkbox: {
-    flexBasis: "10%",
     flexGrow: "0",
-    flexShrink: "1"
+    flexShrink: "1",
+    textAlign: "right"
   },
   selectFieldWrapper: {
     alignItems: "baseline",
@@ -112,6 +118,9 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1"
   },
+  textDisabledInputLabel: {
+    opacity: "0.5"
+  },
   textInputLabelAnchor: {
     textDecoration: "underline"
   },
@@ -158,8 +167,9 @@ const RuleInput = ({
     minValue,
     maxValue,
     choices,
-    calcValue,
+    //calcValue,
     //calcUnits,
+    display,
     required,
     minStringLength,
     maxStringLength,
@@ -195,7 +205,9 @@ const RuleInput = ({
           <label
             htmlFor={code}
             className={
-              required
+              !display
+                ? clsx(classes.textInputLabel, classes.textDisabledInputLabel)
+                : required
                 ? clsx(classes.textInputLabel, classes.requiredInputLabel)
                 : classes.textInputLabel
             }
@@ -215,7 +227,9 @@ const RuleInput = ({
           </label>
           <div>
             <input
-              className={classes.input}
+              className={
+                validationErrors ? classes.inputInvalid : classes.input
+              }
               type="text"
               value={value || ""}
               onChange={onInputChange}
@@ -225,9 +239,18 @@ const RuleInput = ({
               min={minValue}
               max={maxValue}
               autoComplete="off"
+              disabled={!display}
             />
           </div>
-          <div className={classes.numberFieldUnits}>{units}</div>
+          <div
+            className={
+              !display
+                ? clsx(classes.numberFieldUnits, classes.textDisabledInputLabel)
+                : classes.numberFieldUnits
+            }
+          >
+            {units}
+          </div>
           {/* <div className={classes.calcUnitsCaption}>
             {`${
               calcValue ? Math.round(calcValue * 100) / 100 : ""
@@ -267,16 +290,17 @@ const RuleInput = ({
             id={code}
             data-testid={code}
           />
-          {calcValue ? (
+          <div className={classes.numberFieldUnits}>{units}</div>
+          {/* {calcValue ? (
             <>
               <div className={classes.unitsCaption}>{units}</div>
-              {/* <div className={classes.calcUnitsCaption}>
-                {`${
-                  calcValue ? Math.round(calcValue * 100) / 100 : ""
-                } ${calcUnits || ""}`}
-              </div> */}
+              <div className={classes.calcUnitsCaption}>
+                {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
+                  calcUnits || ""
+                }`}
+              </div>
             </>
-          ) : null}
+          ) : null} */}
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>
@@ -451,6 +475,7 @@ RuleInput.propTypes = {
     choices: PropTypes.string,
     calcValue: PropTypes.any,
     calcUnits: PropTypes.string,
+    display: PropTypes.bool,
     required: PropTypes.bool,
     minStringLength: PropTypes.number,
     maxStringLength: PropTypes.number,

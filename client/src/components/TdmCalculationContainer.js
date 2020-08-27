@@ -37,7 +37,10 @@ export function TdmCalculationContainer(props) {
   const [projectId, setProjectId] = useState(null);
   const [loginId, setLoginId] = useState(0);
   const [view, setView] = useState("w");
+  const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const toast = useToast();
+  const toastAdd = toast.add;
+  const historyPush = history.push;
 
   // Get the rules for the calculation. Runs once when
   // component is loaded.
@@ -70,6 +73,9 @@ export function TdmCalculationContainer(props) {
           setLoginId(projectResponse.data.loginId);
           // console.log("inputs", projectResponse);
           inputs = JSON.parse(projectResponse.data.formInputs);
+          setStrategiesInitialized(true);
+        } else {
+          setStrategiesInitialized(false);
         }
         engine.run(inputs, resultRuleCodes);
         setFormInputs(inputs);
@@ -80,17 +86,17 @@ export function TdmCalculationContainer(props) {
           ? "The project you are trying to view can only be viewed by the user."
           : "You must be logged in to view project.";
         const redirect = account.id ? "/projects" : "/login";
-        toast.add(errMessage);
-        history.push(redirect);
+        toastAdd(errMessage);
+        historyPush(redirect);
       }
     };
     initiateEngine();
-  }, [props.match.params.projectId, engine, account]);
+  }, [props.match.params.projectId, engine, account, toastAdd, historyPush]);
 
   const recalculate = formInputs => {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
-    // The following several lines can be uncommented for debugging
+    //The following several lines can be uncommented for debugging
     // console.log("Updated Rules:");
     // console.log(rules);
     // const showWork = engine.showWork("PARK_REQUIREMENT");
@@ -102,19 +108,32 @@ export function TdmCalculationContainer(props) {
     setRules(rules);
   };
 
+  const initializeStrategies = () => {
+    if (!strategiesInitialized) {
+      onInputChange({ target: { name: "STRATEGY_BIKE_4", value: true } });
+      setStrategiesInitialized(true);
+    }
+  };
+
   const onPkgSelect = pkgType => {
     let pkgRules = [];
     if (pkgType === "Residential") {
       pkgRules = rules.filter(rule =>
-        ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_1"].includes(
-          rule.code
-        )
+        [
+          "STRATEGY_BIKE_4",
+          "STRATEGY_INFO_3",
+          "STRATEGY_PARKING_1",
+          "STRATEGY_HOV_5"
+        ].includes(rule.code)
       );
     } else {
       pkgRules = rules.filter(rule =>
-        ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
-          rule.code
-        )
+        [
+          "STRATEGY_BIKE_4",
+          "STRATEGY_INFO_3",
+          "STRATEGY_PARKING_2",
+          "STRATEGY_HOV_5"
+        ].includes(rule.code)
       );
     }
 
@@ -124,6 +143,14 @@ export function TdmCalculationContainer(props) {
         // set to non-zero value
         changedProps[rule.code] =
           !rule.value || rule.value === "0" ? 1 : rule.value;
+      } else if (rule.code === "STRATEGY_HOV_5") {
+        // If a package is selected, de-select the Mandatory Trip-Reduction Program
+        changedProps[rule.code] = false;
+      } else if (rule.code === "STRATEGY_PARKING_1") {
+        // For Pricing/Unbundling, set to 8 if not
+        // already set to 8
+        changedProps[rule.code] =
+          !rule.value || rule.value < 8 ? 8 : rule.value;
       } else {
         changedProps[rule.code] = true;
       }
@@ -204,7 +231,7 @@ export function TdmCalculationContainer(props) {
   const onUncheckAll = filterRules => {
     let updateInputs = { ...formInputs };
     for (let i = 0; i < rules.length; i++) {
-      if (filterRules(rules[i])) {
+      if (filterRules(rules[i]) && rules[i].code !== "STRATEGY_BIKE_4") {
         if (updateInputs[rules[i].code]) {
           updateInputs[rules[i].code] = null;
         }
@@ -287,18 +314,13 @@ export function TdmCalculationContainer(props) {
       rule.calculationPanelId === 5 &&
       rule.display,
     specificationRules: rule =>
-      rule.category === "input" &&
-      rule.calculationPanelId !== 31 &&
-      rule.used &&
-      rule.display,
+      rule.category === "input" && rule.calculationPanelId !== 31 && rule.used,
     targetPointRules: rule =>
       rule.category === "measure" &&
       rule.display &&
       rule.calculationPanelId === 10,
     strategyRules: rule =>
-      rule.category === "measure" &&
-      rule.display &&
-      rule.calculationPanelId !== 10
+      rule.category === "measure" && rule.calculationPanelId !== 10
   };
   return (
     <div className={classes.root}>
@@ -308,6 +330,7 @@ export function TdmCalculationContainer(props) {
           onInputChange={onInputChange}
           onCommentChange={onCommentChange}
           onUncheckAll={onUncheckAll}
+          initializeStrategies={initializeStrategies}
           filters={filters}
           onPkgSelect={onPkgSelect}
           resultRuleCodes={resultRuleCodes}

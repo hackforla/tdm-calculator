@@ -20,28 +20,34 @@ const useStyles = createUseStyles({
   },
   lowOpacity: {
     opacity: 0.4
+  },
+  noDisplay: {
+    display: "none !important"
   }
 });
 
 const SidebarPoints = props => {
   const classes = useStyles();
-  const { rule, tipText } = props;
+  const { rule } = props;
   const opacityTest =
     rule.value && rule.value !== "0" ? "" : classes.lowOpacity;
+  const noToolTip = rule.value === 0 ? classes.noDisplay : "";
+
   return (
     <div className={clsx("tdm-calculation-metrics-panel-item", opacityTest)}>
       <div className={classes.ruleValue}>{rule.value}</div>
       <h3 className={classes.ruleName}>
         {rule.name}
-        <ToolTip tipText={tipText} />
+        <span className={clsx(classes.projectLevelContainer, noToolTip)}>
+          <ToolTip tipText={rule.description} />
+        </span>
       </h3>
       {/* <div> {rule.units}</div> */}
     </div>
   );
 };
 SidebarPoints.propTypes = {
-  rule: PropTypes.object.isRequired,
-  tipText: PropTypes.string.isRequired
+  rule: PropTypes.object.isRequired
 };
 
 export default SidebarPoints;

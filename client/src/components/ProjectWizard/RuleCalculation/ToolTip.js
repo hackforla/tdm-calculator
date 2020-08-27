@@ -14,7 +14,6 @@ const useStyles = createUseStyles({
     borderRadius: "50%",
     textAlign: "center",
     verticalAlign: "top",
-    opacity: "1 !important",
     border: "none",
     "&:hover": {
       cursor: "pointer"
@@ -45,10 +44,7 @@ const useStyles = createUseStyles({
       display: "inline-block",
       position: "absolute !important",
       visibility: "visible !important",
-      color: "rgb(30, 36, 63) !important",
-      backgroundColor: "rgb(230, 234, 239) !important",
-      opacity: "1 !important",
-      textTransform: "none !important"
+      opacity: "1 !important"
     }
   }
 });
@@ -62,17 +58,33 @@ const ToolTip = ({ tipText }) => {
   };
   /*eslint-enable */
   const showTip = tipVisibility ? "show" : "";
+
   return (
     <React.Fragment>
-      <span onMouseEnter={handleHover} onMouseLeave={handleHover}>
-        <ToolTipIcon
-          containerStyle={{
-            fontSize: 16,
-            verticalAlign: "top",
-            "&:hover": { cursor: "pointer" }
-          }}
-        />
-      </span>
+      {tipText ? (
+        <span onMouseEnter={handleHover} onMouseLeave={handleHover}>
+          <ToolTipIcon
+            containerStyle={{
+              fontSize: 16,
+              verticalAlign: "top",
+              "&:hover": { cursor: "pointer" }
+            }}
+            place="right"
+            type="info"
+            effect="float"
+            multiline={true}
+            style={{
+              width: "25vw"
+            }}
+            textColor="#32578A"
+            backgroundColor="#F7F9FA"
+            border={true}
+            borderColor="#B2C0D3"
+            offset={{ right: 20 }}
+          />{" "}
+        </span>
+      ) : null}
+
       <span className={clsx(classes.tipText, showTip)}>{tipText}</span>
     </React.Fragment>
   );
