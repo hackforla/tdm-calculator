@@ -37,6 +37,7 @@ export function TdmCalculationContainer(props) {
   const [projectId, setProjectId] = useState(null);
   const [loginId, setLoginId] = useState(0);
   const [view, setView] = useState("w");
+  const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const toast = useToast();
 
   // Get the rules for the calculation. Runs once when
@@ -70,6 +71,9 @@ export function TdmCalculationContainer(props) {
           setLoginId(projectResponse.data.loginId);
           // console.log("inputs", projectResponse);
           inputs = JSON.parse(projectResponse.data.formInputs);
+          setStrategiesInitialized(true);
+        } else {
+          setStrategiesInitialized(false);
         }
         engine.run(inputs, resultRuleCodes);
         setFormInputs(inputs);
@@ -100,6 +104,13 @@ export function TdmCalculationContainer(props) {
     // update state with modified formInputs and rules
     setFormInputs(formInputs);
     setRules(rules);
+  };
+
+  const initializeStrategies = () => {
+    if (!strategiesInitialized) {
+      onInputChange({ target: { name: "STRATEGY_BIKE_4", value: true } });
+      setStrategiesInitialized(true);
+    }
   };
 
   const onPkgSelect = pkgType => {
@@ -218,7 +229,7 @@ export function TdmCalculationContainer(props) {
   const onUncheckAll = filterRules => {
     let updateInputs = { ...formInputs };
     for (let i = 0; i < rules.length; i++) {
-      if (filterRules(rules[i]) && rules[i].code != "STRATEGY_BIKE_4") {
+      if (filterRules(rules[i]) && rules[i].code !== "STRATEGY_BIKE_4") {
         if (updateInputs[rules[i].code]) {
           updateInputs[rules[i].code] = null;
         }
@@ -317,6 +328,7 @@ export function TdmCalculationContainer(props) {
           onInputChange={onInputChange}
           onCommentChange={onCommentChange}
           onUncheckAll={onUncheckAll}
+          initializeStrategies={initializeStrategies}
           filters={filters}
           onPkgSelect={onPkgSelect}
           resultRuleCodes={resultRuleCodes}
