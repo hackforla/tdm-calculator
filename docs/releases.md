@@ -28,18 +28,18 @@ git commit -m "Bumped version number to 1.0.1"
 ```
 
 - Run the application (locally and/or in a deployment environment) and make any fixes necessary. These should be very minor changes - significant changes should be made by creating a feature release based on the _develop_ branch as described above. When the application is ready for release...
-- Merge the release branch into _master_:
+- Merge the release branch into _main_:
 
 ```
-git checkout master
-git pull origin master
+git checkout main
+git pull origin main
 git merge --no-ff release-1.0.0
 git tag -a 1.0.1 -m "Release version 1.0.1"
 git push origin HEAD
 git push origin 1.0.1
 ```
 
-At present, Heroku is configured to detect the commit to _master_ and automatically deploy the application to production. You should navigate to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a> after giving Heroku time to deploy and verify that the application runs, and any visible release # has been incremented.
+At present, Heroku is configured to detect the commit to _main_ and automatically deploy the application to production. You should navigate to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a> after giving Heroku time to deploy and verify that the application runs, and any visible release # has been incremented.
 
 The release is now done and tagged for future reference.
 
@@ -81,21 +81,21 @@ npm run release-notes
 ## Creating a HotFix
 
 Creating a HotFix should only be done by the release manager! A HotFix should only
-include very minor patches to the application, and is always based on the _master_ branch.
-The new release number will be the same as the master branch number with the patch
+include very minor patches to the application, and is always based on the _main_ branch.
+The new release number will be the same as the main branch number with the patch
 number incremented by one. For example a patch to release 34.67.22 should be 34.67.23.
 
-- Make sure your local machine has an up-to-date version of the _master_ branch:
+- Make sure your local machine has an up-to-date version of the _main_ branch:
 
 ```
-git checkout master
-git pull origin master
+git checkout main
+git pull origin main
 ```
 
-- Create a new release branch from _master_ with the name hotfix-<release#>:
+- Create a new release branch from _main_ with the name hotfix-<release#>:
 
 ```
-git checkout -b hotfix-34.67.23 master
+git checkout -b hotfix-34.67.23 main
 ```
 
 - Update the release number in the application. This typically entails updating the package.json file version properties, and perhaps other locations where the release number might appear (For now, I just added it to the About.js component, though we should probably put it in a site footer or some inconspicuous place, so it can be viewed from the UI.)
@@ -108,17 +108,17 @@ git commit -m "Bumped version number to 34.67.23"
 ```
 
 - Run the application (locally and/or in a deployment environment) and modify the code to implement the fixe(s). These should be very minor changes - significant changes should be made by creating a feature release based on the _develop_ branch as described above. When the hotfix is ready for release...
-- Merge the hotfix branch into _master_:
+- Merge the hotfix branch into _main_:
 
 ```
-git checkout master
-git pull origin master
+git checkout main
+git pull origin main
 git merge --no-ff hotfix-34.67.23
 git tag -a 34.67.23 -m "Release version 34.67.23"
 git push origin HEAD
 ```
 
-At present, Heroku is configured to detect the commit to _master_ and automatically deploy the application to production. You should navigate to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a> after giving Heroku time to deploy and verify that the application runs, and any visible release # has been incremented.
+At present, Heroku is configured to detect the commit to _main_ and automatically deploy the application to production. You should navigate to <a href="https://tdm-calc.herokuapp.com"> https://tdm-calc.herokuapp.com</a> after giving Heroku time to deploy and verify that the application runs, and any visible release # has been incremented.
 
 The hotfix is now done and tagged for future reference.
 
