@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -235,19 +235,14 @@ const Projects = ({ account, history }) => {
 
   const email = account.email;
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-  const expiredTokenRedirect = useCallback(() => {
-    toast.add(
-      "For your security, your session has expired. Please log in again."
-    );
-    history.push(`/login/${encodeURIComponent(email)}`);
-  }, [toast, history]);
+  const toastAdd = toast.add;
+  const historyPush = history.push;
 
   useEffect(() => {
     const getProjects = async () => {
       try {
         const result = await projectService.get();
-        if (result.data == "" || result.data == false) {
+        if (result.data === "" || result.data === false) {
           setProjects([]);
         } else {
           setProjects(result.data);
@@ -257,13 +252,16 @@ const Projects = ({ account, history }) => {
         // authorized for this web api request, let them know
         // and redirect to login
         if (err.response && err.response.status === 401) {
-          expiredTokenRedirect();
+          toastAdd(
+            "For your security, your session has expired. Please log in again."
+          );
+          historyPush(`/login/${encodeURIComponent(email)}`);
         }
         console.error(err);
       }
     };
     getProjects();
-  }, [expiredTokenRedirect, selectedProject, duplicateProjectName]);
+  }, [email, toastAdd, historyPush]);
 
   const toggleDuplicateModal = async project => {
     if (project) {
@@ -538,7 +536,7 @@ const Projects = ({ account, history }) => {
           <img src={CloseIcon} alt="Close" />
         </button>
         <h2>
-          <img src={CopyIcon} /> Duplicate Project
+          <img src={CopyIcon} alt="Copy" /> Duplicate Project
         </h2>
         <p>
           Type a new name to duplicate the project,&nbsp;
@@ -581,10 +579,14 @@ const Projects = ({ account, history }) => {
           <img src={CloseIcon} alt="Close" />
         </button>
         <h2>
-          <img src={DeleteIcon} /> Delete Project
+          <img src={DeleteIcon} alt="Delete" /> Delete Project
         </h2>
         <p className={classes.deleteCopy}>
-          <img src={WarningIcon} className={classes.warningIcon} />
+          <img
+            src={WarningIcon}
+            className={classes.warningIcon}
+            alt="Warning"
+          />
           Are you sure you want to <span>permanently</span> delete this project,
           &nbsp;
           <strong>{selectedProject && selectedProject.name}</strong>?

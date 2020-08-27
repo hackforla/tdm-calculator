@@ -39,6 +39,8 @@ export function TdmCalculationContainer(props) {
   const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const toast = useToast();
+  const toastAdd = toast.add;
+  const historyPush = history.push;
 
   // Get the rules for the calculation. Runs once when
   // component is loaded.
@@ -84,12 +86,12 @@ export function TdmCalculationContainer(props) {
           ? "The project you are trying to view can only be viewed by the user."
           : "You must be logged in to view project.";
         const redirect = account.id ? "/projects" : "/login";
-        toast.add(errMessage);
-        history.push(redirect);
+        toastAdd(errMessage);
+        historyPush(redirect);
       }
     };
     initiateEngine();
-  }, [props.match.params.projectId, engine, account]);
+  }, [props.match.params.projectId, engine, account, toastAdd, historyPush]);
 
   const recalculate = formInputs => {
     engine.run(formInputs, resultRuleCodes);
