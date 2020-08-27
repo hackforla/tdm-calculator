@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import InfoBox from "../InfoBox";
@@ -13,8 +13,13 @@ function ProjectMeasure(props) {
     onCommentChange,
     classes,
     onPkgSelect,
-    uncheckAll
+    uncheckAll,
+    initializeStrategies
   } = props;
+
+  useEffect(() => {
+    initializeStrategies();
+  });
 
   const [displayInfoBox, setDisplayInfoBox] = useLocalStorage(
     "displayBox",
@@ -148,7 +153,8 @@ ProjectMeasure.propTypes = {
   onCommentChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
-  uncheckAll: PropTypes.func.isRequired
+  uncheckAll: PropTypes.func.isRequired,
+  initializeStrategies: PropTypes.func.isRequired
 };
 
 export default ProjectMeasure;
