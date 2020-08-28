@@ -9,7 +9,7 @@ OR code IN ('PTS_TRANSIT_ACCESS_2', 'STRATEGY_TRANSIT_ACCESS_2');
 
 -- Delete Accessibility, Mobility Hubs, and duplicate Telecommute from CalculationPanel
 DELETE FROM CalculationPanel 
-WHERE calculationId = 1 and [id] IN (13, 21, 33); 
+WHERE calculationId = 1 and [id] IN (13, 21); 
 
 -- Remove <<PTS_ACCESS>> and <<PTS_MOBILITY_HUBS>>
 UPDATE CalculationRule
