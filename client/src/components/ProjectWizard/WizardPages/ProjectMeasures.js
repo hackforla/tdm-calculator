@@ -7,6 +7,7 @@ import useLocalStorage from "../../useLocalStorage";
 
 function ProjectMeasure(props) {
   const {
+    projectLevel,
     rules,
     landUseRules,
     onInputChange,
@@ -30,13 +31,13 @@ function ProjectMeasure(props) {
     const triggerRule = landUseRules.filter(
       r => r.code === "LAND_USE_RESIDENTIAL"
     );
-    return triggerRule[0] && !!triggerRule[0].value;
+    return projectLevel === 1 && triggerRule[0] && !!triggerRule[0].value;
   })();
 
   const showEmploymentPkg = (() => {
     // Only show button if Parking Cash-Out strategy is available
     const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_2");
-    return triggerRule[0] && triggerRule[0].display;
+    return projectLevel === 1 && triggerRule[0] && triggerRule[0].display;
   })();
 
   const disabledResidentialPkg = (() => {
@@ -133,6 +134,7 @@ function ProjectMeasure(props) {
         </button>
       </div>
       <RuleStrategyPanels
+        projectLevel={projectLevel}
         rules={rules}
         onInputChange={onInputChange}
         onCommentChange={onCommentChange}
@@ -141,6 +143,7 @@ function ProjectMeasure(props) {
   );
 }
 ProjectMeasure.propTypes = {
+  projectLevel: PropTypes.number,
   rules: PropTypes.arrayOf(
     PropTypes.shape({
       calculationPanelId: PropTypes.number.isRequired,
