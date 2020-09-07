@@ -128,6 +128,7 @@ const TdmCalculationWizard = props => {
   const context = useContext(ToastContext);
   const classes = useStyles();
   const {
+    projectLevel,
     rules,
     onInputChange,
     onCommentChange,
@@ -214,6 +215,7 @@ const TdmCalculationWizard = props => {
       </Route>
       <Route path="/calculation/4/:projectId?">
         <ProjectMeasures
+          projectLevel={projectLevel}
           rules={strategyRules}
           landUseRules={landUseRules}
           onInputChange={onInputChange}
@@ -366,6 +368,7 @@ const TdmCalculationWizard = props => {
 };
 
 TdmCalculationWizard.propTypes = {
+  projectLevel: PropTypes.number,
   rules: PropTypes.arrayOf(
     PropTypes.shape({
       code: PropTypes.string.isRequired,
