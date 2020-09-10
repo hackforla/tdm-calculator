@@ -3,16 +3,46 @@
 /* 
   This file is an executable file.
   To create a migration file, simply run this file. e.g. in the terminal from the root directory, run: 
-  `./db/create-migration` 
+  `./db/create-migration` (no file extension)
   This will create a new migration file using the current datetime as the version number.
   Edit the description of the file name. (Keep the two underscores that separate version number and description.)
 */
 
-const fs = require('fs')
+const fs = require("fs");
 
-const timestamp = new Date().toLocaleString('sv', { timeZone: 'America/Los_Angeles' }).slice(0, 17).replace(/[^0-9\s]/g, "").replace(/\s/g, ".")
+function convertToDoubleDigits(x) {
+  return (x > 9 ? "" : "0") + x;
+}
 
-fs.openSync(`${__dirname}/migration/V${timestamp}__edit_this_description_after_the_two_underscores.sql`, 'w')
+Date.prototype.toCustomTimestamp = function () {
+  const year = this.getFullYear();
+  const month = this.getMonth() + 1; // getMonth() is zero-based
+  const day = this.getDate();
+  const hour = this.getHours();
+  const minutes = this.getMinutes();
 
-console.log(`A new migration file has been created: \n/db/migration/V${timestamp}__edit_this_description_after_the_two_underscores.sql`)
+  const YYYYMMDD = [
+    year,
+    convertToDoubleDigits(month),
+    convertToDoubleDigits(day)
+  ].join("");
 
+  const hhmm = [
+    convertToDoubleDigits(hour),
+    convertToDoubleDigits(minutes)
+  ].join("");
+
+  return `${YYYYMMDD}.${hhmm}`;
+};
+
+const date = new Date();
+const timestamp = date.toCustomTimestamp();
+
+fs.openSync(
+  `${__dirname}/migration/V${timestamp}__edit_this_description_after_the_two_underscores.sql`,
+  "w"
+);
+
+console.log(
+  `A new migration file has been created: \n/db/migration/V${timestamp}__edit_this_description_after_the_two_underscores.sql`
+);
