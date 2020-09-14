@@ -318,12 +318,13 @@ const TdmCalculationWizard = props => {
                   <div id="save-and-startover-buttons-container">
                     <Button
                       isDisplayed={
-                        account.id &&
-                        (!projectId || account.id === loginId) &&
-                        page === 5
+                        !!(
+                          account.id &&
+                          (!projectId || account.id === loginId) &&
+                          page === 5
+                        )
                       }
                       onClick={onSave}
-                      size="large"
                       backgroundColor="colorPrimary"
                     >
                       {projectId ? "Save Project" : "Save As New Project"}
@@ -331,7 +332,8 @@ const TdmCalculationWizard = props => {
                     <Button
                       isDisplayed={page !== 1}
                       onClick={() => window.location.assign("/calculation")}
-                      size="large"
+                      backgroundColor="colorDefault"
+                      size="medium"
                     >
                       Start Over
                     </Button>

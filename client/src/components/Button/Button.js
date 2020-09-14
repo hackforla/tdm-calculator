@@ -15,7 +15,7 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri bold",
     letterSpacing: "1px"
   },
-  large: {
+  medium: {
     backgroundColor: ({ theme, backgroundColor }) => theme[backgroundColor],
     display: "block",
     width: "240px",
@@ -38,7 +38,7 @@ const Button = ({
   className,
   isDisplayed = true,
   onClick,
-  size = "large",
+  size = "medium",
   backgroundColor = "colorDefault"
 }) => {
   const theme = useTheme();
