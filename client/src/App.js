@@ -8,6 +8,8 @@ import Projects from "./components/Projects";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import About from "./components/About";
+import TermsAndConditions from "./components/TermsAndConditions";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 import ContactUs from "./components/ContactUs";
 import Register from "./components/Authorization/Register";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
@@ -100,6 +102,8 @@ const App = () => {
               render={() => <Projects account={account} />}
             />
             <Route path="/about" component={About} />
+            <Route path="/termsandconditions" component={TermsAndConditions} />
+            <Route path="/privacypolicy" component={PrivacyPolicy} />
             <Route path="/register/:email?" component={Register} />
             <Route path="/confirm/:token" component={ConfirmEmail} />
             <Route

@@ -30,11 +30,11 @@ const Footer = () => {
   return (
     <footer className={classes.root}>
       <div className={classes.links}>
-        <Link className={classes.link} to="/">
+        <Link className={classes.link} to="/termsandconditions">
           Terms and Conditions
         </Link>
         <div>|</div>
-        <Link className={classes.link} to="/">
+        <Link className={classes.link} to="/privacypolicy">
           Privacy Policy
         </Link>
       </div>
