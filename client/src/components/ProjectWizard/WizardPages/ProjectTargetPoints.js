@@ -46,7 +46,7 @@ const useStyles = createUseStyles({
 
 function ProjectTargetPoints(props) {
   const classes = useStyles();
-  const { rules, onInputChange } = props;
+  const { rules, onInputChange, isLevel0 } = props;
   const projectLevel = rules.find(e => e.id === 16);
   const targetValue = rules.find(e => e.id === 237);
 
@@ -54,7 +54,6 @@ function ProjectTargetPoints(props) {
   const parkingInputIndex = rules.findIndex(e => e.id === 7);
   const parkingRule = rules.splice(parkingInputIndex, 1);
 
-  const isLevel0 = projectLevel && projectLevel.calcValue === 0;
   return (
     <>
       <Level0Page isLevel0={isLevel0} />
@@ -98,7 +97,8 @@ function ProjectTargetPoints(props) {
 ProjectTargetPoints.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  isLevel0: PropTypes.bool.isRequired
 };
 
 export default ProjectTargetPoints;

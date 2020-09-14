@@ -5,16 +5,13 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import ProjectSummary from "./WizardPages/ProjectSummary";
 import SidebarPointsPanel from "./SidebarPoints/SidebarPointsPanel";
-import NavButton from "./NavButton";
-import SwitchViewButton from "../SwitchViewButton";
 import Sidebar from "../Sidebar";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faClock,
-  faAngleLeft,
-  faAngleRight
-} from "@fortawesome/free-solid-svg-icons";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+import Button from "../Button/Button.js";
+import NavButton from "../Button/NavButton";
+
 import {
   ProjectDescriptions,
   ProjectSpecifications,
@@ -61,7 +58,7 @@ const useStyles = createUseStyles({
   buttonWrapper: {
     textAlign: "center"
   },
-  navButtonsWrapper: {
+  allButtonsWrapper: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -101,6 +98,24 @@ const useStyles = createUseStyles({
 });
 
 const TdmCalculationWizard = props => {
+  const {
+    projectLevel,
+    rules,
+    onInputChange,
+    onCommentChange,
+    onUncheckAll,
+    initializeStrategies,
+    filters,
+    onPkgSelect,
+    resultRuleCodes,
+    account,
+    loginId,
+    onSave,
+    onViewChange,
+    //pageNo,
+    history,
+    match
+  } = props;
   const [dateModified, setDateModified] = useState("");
 
   useEffect(() => {
@@ -123,24 +138,6 @@ const TdmCalculationWizard = props => {
 
   const context = useContext(ToastContext);
   const classes = useStyles();
-  const {
-    projectLevel,
-    rules,
-    onInputChange,
-    onCommentChange,
-    onUncheckAll,
-    initializeStrategies,
-    filters,
-    onPkgSelect,
-    resultRuleCodes,
-    account,
-    loginId,
-    onSave,
-    onViewChange,
-    //pageNo,
-    history,
-    match
-  } = props;
   const page = Number(match.params.page);
   const projectId = Number(match.params.projectId);
 
@@ -173,17 +170,18 @@ const TdmCalculationWizard = props => {
     rules &&
     rules.filter(rule => resultRuleCodes.includes(rule.code) && rule.display);
 
-  // Disable the page navigation buttons if page-specific rules are not satisfied
-  let disablePageNavigation = false;
-  if (
-    page === 1 &&
-    projectDescriptionRules.find(rule => !!rule.validationErrors)
-  ) {
-    disablePageNavigation = true;
-  }
-  if (page === 2 && specificationRules.find(rule => !!rule.validationErrors)) {
-    disablePageNavigation = true;
-  }
+  const isLevel0 = projectLevel === 0;
+
+  const setDisabledForNextNavButton = () => {
+    const isPage1AndHasErrors =
+      page === 1 &&
+      projectDescriptionRules.find(rule => !!rule.validationErrors);
+    const isPage2AndHasErrors =
+      page === 2 && specificationRules.find(rule => !!rule.validationErrors);
+    const isPage5 = Number(page) === 5;
+
+    return isPage1AndHasErrors || isPage2AndHasErrors || isPage5 ? true : false;
+  };
 
   const routes = (
     <Switch>
@@ -207,6 +205,7 @@ const TdmCalculationWizard = props => {
           rules={targetPointRules}
           onInputChange={onInputChange}
           classes={classes}
+          isLevel0={isLevel0}
         />
       </Route>
       <Route path="/calculation/4/:projectId?">
@@ -236,7 +235,7 @@ const TdmCalculationWizard = props => {
   );
 
   const handleValidate = () => {
-    const { page } = props.match.params;
+    const { page } = match.params;
     const validations = {
       1: {
         function: () => {
@@ -255,16 +254,16 @@ const TdmCalculationWizard = props => {
   };
 
   const onPageChange = pageNo => {
-    const { page, projectId } = props.match.params;
+    const { page, projectId } = match.params;
     const projectIdParam = projectId ? `/${projectId}` : "";
-    if (Number(pageNo) > Number(props.match.params.page)) {
+    if (Number(pageNo) > Number(match.params.page)) {
       if (handleValidate()) {
         // setPageNo(pageNo);
-        props.history.push(`/calculation/${Number(page) + 1}${projectIdParam}`);
+        history.push(`/calculation/${Number(page) + 1}${projectIdParam}`);
       }
     } else {
       // setPageNo(pageNo);
-      props.history.push(`/calculation/${Number(page) - 1}${projectIdParam}`);
+      history.push(`/calculation/${Number(page) - 1}${projectIdParam}`);
     }
   };
 
@@ -274,9 +273,9 @@ const TdmCalculationWizard = props => {
         <Sidebar>
           {rules && rules.length > 0 && (
             <div className={classes.sidebarContent}>
-              <SwitchViewButton onClick={onViewChange}>
+              <Button className="switchView" onClick={onViewChange}>
                 Switch to Single Page View
-              </SwitchViewButton>
+              </Button>
               <SidebarPointsPanel rules={resultRules} />
             </div>
           )}
@@ -293,55 +292,49 @@ const TdmCalculationWizard = props => {
             account.id &&
             (account.id === loginId || account.isAdmin)) ||
           (account && account.isAdmin) ? (
-            <div className={classes.navButtonsWrapper}>
+            <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
               {rules && rules.length ? ( //navigation disabled until rules have loaded
                 <>
-                  <div className="space-between">
-                    {page !== 1 ? (
-                      <NavButton
-                        disabled={Number(page) === 1}
-                        onClick={() => {
-                          onPageChange(Number(page) - 1);
-                        }}
-                        dataTestId="leftNavArrow"
-                      >
-                        <FontAwesomeIcon icon={faAngleLeft} />
-                      </NavButton>
-                    ) : null}
-
-                    {account.id &&
-                    (!projectId || account.id === loginId) &&
-                    page === 5 ? (
-                      <button
-                        className="tdm-wizard-save-button"
-                        onClick={onSave}
-                      >
-                        {projectId ? "Save Project" : "Save As New Project"}
-                      </button>
-                    ) : null}
-
-                    {page !== 5 ? (
-                      <NavButton
-                        disabled={Number(page) === 5 || disablePageNavigation}
-                        onClick={() => {
-                          onPageChange(Number(page) + 1);
-                        }}
-                        dataTestId="rightNavArrow"
-                      >
-                        <FontAwesomeIcon icon={faAngleRight} />
-                      </NavButton>
-                    ) : null}
+                  <div id="nav-container" className="space-between">
+                    <NavButton
+                      id="leftNavArrow"
+                      navDirection="previous"
+                      isVisible={page !== 1}
+                      isDisabled={Number(page) === 1}
+                      onClick={() => {
+                        onPageChange(Number(page) - 1);
+                      }}
+                    />
+                    <NavButton
+                      id="rightNavArrow"
+                      navDirection="next"
+                      isVisible={page !== 5}
+                      isDisabled={setDisabledForNextNavButton()}
+                      onClick={() => {
+                        onPageChange(Number(page) + 1);
+                      }}
+                    />
                   </div>
-                  <div>
-                    <a
-                      className={clsx(
-                        "return-home-button",
-                        "tdm-wizard-nav-button"
-                      )}
-                      href="/calculation"
+                  <div id="save-and-startover-buttons-container">
+                    <Button
+                      isDisplayed={
+                        account.id &&
+                        (!projectId || account.id === loginId) &&
+                        page === 5
+                      }
+                      onClick={onSave}
+                      size="large"
+                      backgroundColor="colorPrimary"
                     >
-                      Begin New Project
-                    </a>
+                      {projectId ? "Save Project" : "Save As New Project"}
+                    </Button>
+                    <Button
+                      isDisplayed={page !== 1}
+                      onClick={() => window.location.assign("/calculation")}
+                      size="large"
+                    >
+                      Start Over
+                    </Button>
                   </div>
                 </>
               ) : null}

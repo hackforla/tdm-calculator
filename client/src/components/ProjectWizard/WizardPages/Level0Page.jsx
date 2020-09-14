@@ -1,17 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
 import PlanningIcon from "../../../images/planning.png";
 import WarningIcon from "../../../images/warning-icon.png";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  level0: {
-    "& + div > div:first-child > .tdm-wizard-nav-button:last-child": {
+  level0NavButtons: {
+    "& + div #rightNavArrow": {
       visibility: "hidden" // this hides the next nav button
-    },
-    "& + div > div > .tdm-wizard-nav-button.return-home-button": {
-      display: "block"
     }
   },
   level0Container: {
@@ -51,7 +47,7 @@ const Level0Page = ({ isLevel0 }) => {
   return (
     <>
       {isLevel0 && (
-        <div className={clsx(classes.level0)}>
+        <div className={classes.level0NavButtons}>
           <div className={classes.level0Container}>
             <img src={PlanningIcon} />
             <h1>Your project level is 0!</h1>
