@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RulePanels from "./RulePanels";
 import ResultList from "./ResultList";
-import SwitchViewButton from "../SwitchViewButton";
+import Button from "../Button/Button.js";
 
 const useStyles = createUseStyles({
   root: {
@@ -116,9 +116,9 @@ const TdmCalculation = props => {
       <div className={classes.container}>
         <div className={classes.switchButtonWrapper}>
           <div className={classes.switchButton}>
-            <SwitchViewButton onClick={props.onViewChange}>
+            <Button className="switchView" onClick={props.onViewChange}>
               Switch to Wizard View
-            </SwitchViewButton>
+            </Button>
           </div>
           {rules && rules.length > 0 ? (
             <ResultList rules={resultRules} />

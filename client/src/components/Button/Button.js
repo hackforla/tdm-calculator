@@ -5,6 +5,7 @@ import { createUseStyles, useTheme } from "react-jss";
 const useStyles = createUseStyles({
   //TODO: make the switchView button more generic/refactor
   switchView: {
+    height: "min-content",
     margin: "0.5em",
     padding: "0.5em 1em",
     boxShadow: "0px 6px 4px rgba(0,46,109,0.3)",
