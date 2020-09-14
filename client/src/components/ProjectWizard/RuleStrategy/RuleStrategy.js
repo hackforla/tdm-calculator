@@ -105,7 +105,8 @@ const RuleStrategy = ({
     description,
     display,
     displayComment,
-    comment
+    comment,
+    link
   },
   onInputChange,
   onCommentChange
@@ -153,7 +154,18 @@ const RuleStrategy = ({
             data-class={classes.tooltip}
           >
             {" "}
-            {name}{" "}
+            {link ? (
+              <a
+                href={link}
+                className={classes.textInputLabelAnchor}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}{" "}
           </label>
           <div className={classes.numberInputContainer}>
             <input
@@ -189,7 +201,18 @@ const RuleStrategy = ({
             data-class={classes.tooltip}
           >
             {" "}
-            {name}{" "}
+            {link ? (
+              <a
+                href={link}
+                className={classes.textInputLabelAnchor}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}{" "}
           </label>
           <div className={classes.booleanInputContainer}>
             <input
@@ -222,7 +245,18 @@ const RuleStrategy = ({
             data-class={classes.tooltip}
           >
             {" "}
-            {name}{" "}
+            {link ? (
+              <a
+                href={link}
+                className={classes.textInputLabelAnchor}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}{" "}
           </label>
           <div className={classes.choiceSelectContainer}>
             <select
@@ -260,7 +294,18 @@ const RuleStrategy = ({
             data-class={classes.tooltip}
           >
             {" "}
-            {name}{" "}
+            {link ? (
+              <a
+                href={link}
+                className={classes.textInputLabelAnchor}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}{" "}
           </label>
           <input
             type="text"
@@ -288,7 +333,18 @@ const RuleStrategy = ({
         >
           <label htmlFor={code} className={classes.strategyName}>
             {" "}
-            {name}{" "}
+            {link ? (
+              <a
+                href={link}
+                className={classes.textInputLabelAnchor}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}{" "}
           </label>
           <div className={classes.allElse} name={code} />
           {possibleAndEarnedPointsContainers()}
@@ -362,7 +418,8 @@ RuleStrategy.propTypes = {
     description: PropTypes.string,
     display: PropTypes.bool,
     displayComment: PropTypes.bool,
-    comment: PropTypes.string
+    comment: PropTypes.string,
+    link: PropTypes.string
   }),
   onInputChange: PropTypes.func,
   onCommentChange: PropTypes.func

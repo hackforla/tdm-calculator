@@ -74,7 +74,7 @@
 .tdm-wizard-nav-button {
   height: 37px;
   margin: 0 1em;
-  padding: .5em 1em;
+  padding: 0.5em 1em;
   background-color: $color-highlight;
   color: #0f2940;
   font-size: 1.5em;
@@ -94,11 +94,10 @@
 .tdm-wizard-nav-button-disabled {
   padding-left: 0.7em;
   padding-right: 0.7em;
-  padding-top: 0.35em;
   padding-bottom: 0.35em;
   display: inline;
   margin: 0.5em;
-  font-size: 2em;
+  font-size: 1.5em;
   text-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
   text-align: center;
 }
