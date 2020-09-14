@@ -9,9 +9,8 @@ const p = {
   parkingProvided: "88",
   expectedParkingBaselineSpaces: "92",
   expectedParkingBaselinePercentage: "95.65",
-  pricingUnbundling: "the cost of each parking space is $220/mo",
-  reducedParkingSupply:
-    "Reduces 100% of the parking spaces available relative to the  parking baseline",
+  pricingUnbundling: "Each parking space is at least $220 a month",
+  reducedParkingSupply: "Reduces 100% of spaces available",
   affordableHousingLevel: "35% of State Density Bonus",
   expectedProjectLevelLabel: "Project Level",
   expectedProjectLevelValue: "1",
@@ -49,7 +48,9 @@ describe("Barrington Condos", () => {
   });
   context("project strategies", () => {
     it("selects transporation demand strategies and receive enough earned points", () => {
-      cy.findByLabelText("Bike Parking").should("be.checked");
+      cy.findByLabelText("Bike Parking (req'd on all new developments)").should(
+        "be.checked"
+      );
       cy.findByLabelText("Pricing/Unbundling").select(p.pricingUnbundling);
       cy.findByLabelText("Reduced Parking Supply").select(
         p.reducedParkingSupply
