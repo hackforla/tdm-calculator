@@ -5,8 +5,8 @@ import "@testing-library/cypress/add-commands";
 describe("Beatrice Building", () => {
   describe("project inputs", () => {
     it("enters project information - minimum requirements", () => {
-      cy.visit("http://localhost:3000/");
-      cy.findAllByText("New Project").click();
+      cy.visit("/");
+      cy.findAllByText("Create Project").click();
       cy.findByLabelText("Project Name").type("Beatrice Building");
       cy.findByLabelText("Address").type("12575 Beatrice St.");
       cy.findByLabelText("Project Description").type(

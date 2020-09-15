@@ -6,7 +6,7 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
   beforeEach(() => {
     cy.loginAs("regularUser").then(cy.resetProjects);
     cy.visit("/");
-    cy.findAllByText("New Project").click();
+    cy.findAllByText("Create Project").click();
     cy.findByText("Hello, Test Regular User").should("be.visible");
     Cypress.Cookies.preserveOnce("jwt");
   });
