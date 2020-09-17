@@ -46,6 +46,7 @@ const NavButton = ({ id, onClick, navDirection, isVisible, isDisabled }) => {
       className={clsx(normalOrDisabledStyle, hiddenVisibilityStyle)}
       data-testid={id}
       onClick={onClick}
+      disabled={isDisabled}
     >
       <FontAwesomeIcon
         icon={navDirection === "previous" ? faAngleLeft : faAngleRight}
