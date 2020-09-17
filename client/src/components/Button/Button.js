@@ -40,17 +40,14 @@ const Button = ({
   const theme = useTheme();
   const classes = useStyles({ color, theme });
 
+  if (!isDisplayed) return null;
   return (
-    <>
-      {isDisplayed && (
-        <button
-          className={clsx(classes.root, classes[variant], className)}
-          onClick={onClick}
-        >
-          {children}
-        </button>
-      )}
-    </>
+    <button
+      className={clsx(classes.root, classes[variant], className)}
+      onClick={onClick}
+    >
+      {children}
+    </button>
   );
 };
 

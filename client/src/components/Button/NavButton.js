@@ -34,13 +34,13 @@ const useStyles = createUseStyles({
 const NavButton = ({ id, onClick, navDirection, isVisible, isDisabled }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
-  const disabledStyle = isDisabled && classes.wizardNavButtonDisabled;
-  const hiddenVisibilityStyle = !isVisible && classes.hidden;
+  const maybeDisabled = isDisabled && classes.wizardNavButtonDisabled;
+  const maybeHiddenVisibility = !isVisible && classes.hidden;
 
   return (
     <button
       id={id}
-      className={clsx(classes.root, disabledStyle, hiddenVisibilityStyle)}
+      className={clsx(classes.root, maybeDisabled, maybeHiddenVisibility)}
       data-testid={id}
       onClick={onClick}
       disabled={isDisabled}
