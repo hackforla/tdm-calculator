@@ -334,7 +334,6 @@ const TdmCalculationWizard = props => {
                     <Button
                       isDisplayed={page !== 1}
                       onClick={() => window.location.assign("/calculation")}
-                      color="colorLightGrey"
                       variant="outlined"
                     >
                       Start Over
