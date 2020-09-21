@@ -9,8 +9,9 @@ import Sidebar from "../Sidebar";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Button/Button.js";
+import Button from "../Button/Button";
 import NavButton from "../Button/NavButton";
+import SwitchViewButton from "../Button/SwitchViewButton";
 
 import {
   ProjectDescriptions,
@@ -273,9 +274,9 @@ const TdmCalculationWizard = props => {
         <Sidebar>
           {rules && rules.length > 0 && (
             <div className={classes.sidebarContent}>
-              <Button className="switchView" onClick={onViewChange}>
+              <SwitchViewButton onViewChange={onViewChange}>
                 Switch to Single Page View
-              </Button>
+              </SwitchViewButton>
               <SidebarPointsPanel rules={resultRules} />
             </div>
           )}
@@ -325,15 +326,15 @@ const TdmCalculationWizard = props => {
                         )
                       }
                       onClick={onSave}
-                      backgroundColor="colorPrimary"
+                      color="colorPrimary"
+                      variant="contained"
                     >
                       {projectId ? "Save Project" : "Save As New Project"}
                     </Button>
                     <Button
                       isDisplayed={page !== 1}
                       onClick={() => window.location.assign("/calculation")}
-                      backgroundColor="colorDefault"
-                      size="medium"
+                      variant="outlined"
                     >
                       Start Over
                     </Button>

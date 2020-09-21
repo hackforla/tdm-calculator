@@ -1,35 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
+import clsx from "clsx";
 
 const useStyles = createUseStyles({
-  //TODO: make the switchView button more generic/refactor
-  switchView: {
+  root: {
+    color: ({ theme }) => theme.colorText,
+    cursor: "pointer",
+    fontFamily: "Calibri Bold",
     height: "min-content",
     margin: "0.5em",
     padding: "0.5em 1em",
-    boxShadow: "0px 6px 4px rgba(0,46,109,0.3)",
-    border: "none",
-    cursor: "pointer",
+    textAlign: "center",
     textTransform: "uppercase",
-    fontFamily: "Calibri bold",
-    letterSpacing: "1px"
+    //TODO: Move these when we figure out size-related props
+    letterSpacing: "0.05em",
+    fontSize: "20px"
   },
-  medium: {
-    backgroundColor: ({ theme, backgroundColor }) => theme[backgroundColor],
-    display: "block",
-    width: "240px",
-    height: "60px",
-    marginBottom: "1em",
-    boxShadow: "0px 6px 4px rgba(0, 46, 109, 0.3)",
-    border: "none",
-    color: "#253d52",
-    fontFamily: "Calibri Bold",
-    fontSize: "20px",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    letterSpacing: "2px",
-    textAlign: "center"
+  contained: {
+    backgroundColor: ({ theme, color }) => theme[color],
+    borderColor: "rgba(0, 0, 0, .05)", //lightest grey
+    boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px"
+  },
+  outlined: {
+    backgroundColor: ({ theme }) => theme.colorWhite,
+    borderColor: "rgba(0, 46, 109, .2)", //medium grey
+    borderWidth: "thin"
   }
 });
 
@@ -38,21 +34,20 @@ const Button = ({
   className,
   isDisplayed = true,
   onClick,
-  size = "medium",
-  backgroundColor = "colorDefault"
+  variant = "contained",
+  color = "colorDefault"
 }) => {
   const theme = useTheme();
-  const styles = useStyles({ backgroundColor, theme });
-  const buttonStyle = size && styles[size];
+  const classes = useStyles({ color, theme });
 
+  if (!isDisplayed) return null;
   return (
-    <>
-      {isDisplayed && (
-        <button className={styles[className] || buttonStyle} onClick={onClick}>
-          {children}
-        </button>
-      )}
-    </>
+    <button
+      className={clsx(classes.root, classes[variant], className)}
+      onClick={onClick}
+    >
+      {children}
+    </button>
   );
 };
 
@@ -60,9 +55,10 @@ Button.propTypes = {
   onClick: PropTypes.func,
   children: PropTypes.string,
   size: PropTypes.string,
+  variant: PropTypes.string,
   isDisplayed: PropTypes.bool,
   className: PropTypes.string,
-  backgroundColor: PropTypes.string
+  color: PropTypes.string
 };
 
 export default Button;
