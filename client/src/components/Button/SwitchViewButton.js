@@ -9,10 +9,11 @@ const useStyles = createUseStyles({
   }
 });
 
-const SwitchViewButton = ({ children, onViewChange }) => {
+const SwitchViewButton = ({ children, onViewChange, isDisplayed = true }) => {
   const theme = useTheme();
   const styles = useStyles({ theme });
 
+  if (!isDisplayed) return null;
   return (
     <Button className={styles.switchView} onClick={onViewChange}>
       {children}
@@ -22,7 +23,8 @@ const SwitchViewButton = ({ children, onViewChange }) => {
 
 SwitchViewButton.propTypes = {
   onViewChange: PropTypes.func,
-  children: PropTypes.string
+  children: PropTypes.string,
+  isDisplayed: PropTypes.bool
 };
 
 export default SwitchViewButton;
