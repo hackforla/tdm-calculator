@@ -17,6 +17,9 @@ const useStyles = createUseStyles({
       backgroundColor: "#f0e300"
     }
   },
+  textInputLabelAnchor: {
+    textDecoration: "underline"
+  },
   commentContainer: {
     minWidth: "60vw",
     margin: "0.2em",
