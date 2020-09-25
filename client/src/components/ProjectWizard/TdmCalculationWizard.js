@@ -12,6 +12,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button/Button";
 import NavButton from "../Button/NavButton";
 import SwitchViewButton from "../Button/SwitchViewButton";
+import Modal from "react-modal";
 
 import {
   ProjectDescriptions,
@@ -95,8 +96,78 @@ const useStyles = createUseStyles({
   },
   lastSavedContainer: {
     margin: "0 auto"
+  },
+  modal: {
+    "& h2": {
+      fontSize: "25px",
+      lineHeight: "31px",
+      fontWeight: "bold",
+      textAlign: "center",
+      marginBottom: "30px",
+      "& img": {
+        margin: "0 6px 0 0",
+        verticalAlign: "middle"
+      }
+    },
+    "& p": {
+      fontSize: "20px",
+      lineHeight: "32px",
+      textAlign: "center",
+      "& img": {
+        margin: "4px 12px 12px 0"
+      }
+    },
+    "& input": {
+      boxSizing: "border-box",
+      fontSize: "20px",
+      lineHeight: "24px",
+      padding: "16px",
+      border: "1px solid #979797",
+      marginTop: "8px"
+    }
+  },
+  modalActions: {
+    display: "flex",
+    justifyContent: "flex-end",
+    marginTop: "42px",
+    "& button": {
+      fontFamily: "Calibri Bold",
+      letterSpacing: "2px",
+      height: "60px",
+      display: "inline",
+      margin: 0,
+      border: "none",
+      fontSize: "20px",
+      lineHeight: "24px",
+      textAlign: "center",
+      cursor: "pointer",
+      textTransform: "uppercase"
+    }
   }
 });
+
+const modalStyles = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  content: {
+    position: "relative",
+    top: "auto",
+    right: "auto",
+    bottom: "auto",
+    left: "auto",
+    boxSizing: "border-box",
+    maxHeight: "480px",
+    width: "666px",
+    maxWidth: "100%",
+    padding: "60px",
+    backgroundColor: "#ffffff",
+    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)"
+  }
+};
 
 const TdmCalculationWizard = props => {
   const {
@@ -118,6 +189,10 @@ const TdmCalculationWizard = props => {
     match
   } = props;
   const [dateModified, setDateModified] = useState("");
+  const [
+    termsAndConditionsModalOpen,
+    setTermsAndConditionsModalOpen
+  ] = useState(true);
 
   useEffect(() => {
     const getDateModified = async () => {
@@ -268,13 +343,26 @@ const TdmCalculationWizard = props => {
     }
   };
 
+  const toggleTermsAndConditionsModal = () => {
+    setTermsAndConditionsModalOpen(!termsAndConditionsModalOpen);
+  };
+
   return (
     <React.Fragment>
+      <Modal
+        isOpen={termsAndConditionsModalOpen}
+        onRequestClose={toggleTermsAndConditionsModal}
+        contentLabel="Terms and Conditions Modal"
+        style={modalStyles}
+        className={classes.modal}
+      >
+        <p>HEY</p>
+      </Modal>
       <div className={clsx("tdm-wizard", classes.root)}>
         <Sidebar>
           {rules && rules.length > 0 && (
             <div className={classes.sidebarContent}>
-              <SwitchViewButton onViewChange={onViewChange} isDisplayed={false}>
+              <SwitchViewButton onViewChange={onViewChange}>
                 Switch to Single Page View
               </SwitchViewButton>
               <SidebarPointsPanel rules={resultRules} />
