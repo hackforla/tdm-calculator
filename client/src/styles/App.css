@@ -608,74 +608,6 @@ button.link {
   font-style: normal;
 }
 
-.tdm-wizard-save-button {
-  width: 240px;
-  height: 60px;
-  padding-left: 0.7em;
-  padding-right: 0.7em;
-  padding-top: 0.35em;
-  padding-bottom: 0.35em;
-  background-color: #a7c539;
-  color: #253d52;
-  font-family: "Calibri Bold";
-  font-size: 20px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  border: none;
-  -webkit-box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
-  box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
-  text-align: center;
-}
-
-@media print {
-  .tdm-wizard-save-button {
-    display: none;
-  }
-}
-
-.tdm-wizard-nav-button {
-  height: 37px;
-  margin: 0 1em;
-  padding: 0.5em 1em;
-  background-color: #a7c539;
-  color: #0f2940;
-  font-size: 1.5em;
-  -webkit-box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
-  box-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
-  text-align: center;
-  cursor: pointer;
-}
-
-.tdm-wizard-nav-button.return-home-button {
-  margin-top: 40px;
-  display: none;
-  text-transform: uppercase;
-  font-size: 1.25em;
-  padding: 15px 50px;
-}
-
-.tdm-wizard-nav-button-disabled {
-  padding-left: 0.7em;
-  padding-right: 0.7em;
-  padding-top: 0.35em;
-  padding-bottom: 0.35em;
-  display: inline;
-  margin: 0.5em;
-  font-size: 2em;
-  text-shadow: 0px 6px 4px rgba(0, 46, 109, 0.3);
-  text-align: center;
-}
-
-@media print {
-  .tdm-wizard-nav-button {
-    display: none;
-  }
-  .tdm-wizard-nav-button-disabled {
-    display: none;
-  }
-}
-
 .tdm-wizard-pkg-button {
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -690,17 +622,6 @@ button.link {
   box-shadow: 0px 4px 2px rgba(0, 46, 109, 0.3);
   text-align: center;
   border: 0;
-  border-radius: 0;
-}
-
-.tdm-wizard-navbutton {
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  margin: 0.5em;
-  font-size: 2em;
-  background-color: #a7c539;
   border-radius: 0;
 }
 

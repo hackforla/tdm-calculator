@@ -1,4 +1,7 @@
-// this will skip the login UI and instead login programmatically
+// This makes cypress-testing-library's query selectors globally available e.g. cy.findByText('Some text in UI')
+import "@testing-library/cypress/add-commands";
+
+// This will skip the login UI and instead login programmatically. We have a separate test for login UI.
 Cypress.Commands.add("loginAs", userType => {
   const types = {
     regularUser: {

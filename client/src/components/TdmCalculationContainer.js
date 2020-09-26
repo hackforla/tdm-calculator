@@ -109,7 +109,7 @@ export function TdmCalculationContainer(props) {
   };
 
   const initializeStrategies = () => {
-    if (!strategiesInitialized) {
+    if (rules.length > 0 && !strategiesInitialized) {
       onInputChange({ target: { name: "STRATEGY_BIKE_4", value: true } });
       setStrategiesInitialized(true);
     }
@@ -162,6 +162,11 @@ export function TdmCalculationContainer(props) {
     };
     recalculate(newFormInputs);
   };
+
+  const projectLevel =
+    rules && rules.find(rule => rule.code === "PROJECT_LEVEL")
+      ? rules.find(rule => rule.code === "PROJECT_LEVEL").value
+      : 0;
 
   const getRuleByCode = ruleCode => {
     const rule = rules.find(rule => rule.code === ruleCode);
@@ -326,6 +331,7 @@ export function TdmCalculationContainer(props) {
     <div className={classes.root}>
       {view === "w" ? (
         <TdmCalculationWizard
+          projectLevel={projectLevel}
           rules={rules}
           onInputChange={onInputChange}
           onCommentChange={onCommentChange}

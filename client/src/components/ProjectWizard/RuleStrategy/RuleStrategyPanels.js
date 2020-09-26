@@ -41,13 +41,18 @@ const useStyles = createUseStyles({
 });
 
 const RuleStrategyPanels = props => {
-  const { rules, suppressHeader } = props;
-  const panelIds = rules.reduce((acc, rule) => {
+  const { rules, suppressHeader, projectLevel } = props;
+  let panelIds = rules.reduce((acc, rule) => {
     if (!acc.includes(rule.calculationPanelId)) {
       acc.push(rule.calculationPanelId);
     }
     return acc;
   }, []);
+
+  // Delete Package Bonus section if not project level != 1
+  if (projectLevel !== 1) {
+    panelIds = panelIds.filter(panelId => panelId != 27);
+  }
   // Group rules into an array where each element is an array of
   // rules for a particular panel
   const classes = useStyles();
@@ -90,6 +95,7 @@ const RuleStrategyPanels = props => {
   );
 };
 RuleStrategyPanels.propTypes = {
+  projectLevel: PropTypes.number,
   rules: PropTypes.arrayOf(
     PropTypes.shape({
       calculationPanelId: PropTypes.number.isRequired,

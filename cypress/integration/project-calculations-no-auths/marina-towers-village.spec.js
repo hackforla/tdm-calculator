@@ -5,8 +5,8 @@ import "@testing-library/cypress/add-commands";
 describe("Marina Towers Village", () => {
   describe("project inputs", () => {
     it("enters project information - minimum requirements", () => {
-      cy.visit("http://localhost:3000/");
-      cy.findAllByText("New Project").click();
+      cy.visit("/");
+      cy.findAllByText("Create Project").click();
       cy.findByLabelText("Project Name").type("Marina Towers Village");
       cy.findByLabelText("Address").type("13428 Maxella Ave");
       cy.findByLabelText("Project Description").type(
