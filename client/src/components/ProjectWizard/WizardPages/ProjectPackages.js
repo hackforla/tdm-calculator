@@ -183,7 +183,7 @@ function ProjectPackages(props) {
             </div>
           </div>
         ) : null}
-        {allowEmploymentPackage ? (
+        {allowEmploymentPackage && allowResidentialPackage ? (
           <div className={classes.box}>
             <div className={classes.boxHeader}>
               <h4 style={{ textAlign: "center" }}>
