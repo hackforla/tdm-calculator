@@ -28,6 +28,23 @@ const resultRuleCodes = [
   "PTS_EARNED"
 ];
 
+const filters = {
+  projectDescriptionRules: rule =>
+    rule.category === "input" && rule.calculationPanelId === 31 && rule.display,
+  landUseRules: rule =>
+    rule.category === "calculation" &&
+    rule.calculationPanelId === 5 &&
+    rule.display,
+  specificationRules: rule =>
+    rule.category === "input" && rule.calculationPanelId !== 31 && rule.used,
+  targetPointRules: rule =>
+    rule.category === "measure" &&
+    rule.display &&
+    rule.calculationPanelId === 10,
+  strategyRules: rule =>
+    rule.category === "measure" && rule.calculationPanelId !== 10
+};
+
 export function TdmCalculationContainer(props) {
   const { history, account, classes } = props;
   const context = useContext(ToastContext);
@@ -115,6 +132,8 @@ export function TdmCalculationContainer(props) {
     }
   };
 
+  const landUseRules = rules && rules.filter(filters.landUseRules);
+
   const onPkgSelect = pkgType => {
     let pkgRules = [];
     if (pkgType === "Residential") {
@@ -167,6 +186,20 @@ export function TdmCalculationContainer(props) {
     rules && rules.find(rule => rule.code === "PROJECT_LEVEL")
       ? rules.find(rule => rule.code === "PROJECT_LEVEL").value
       : 0;
+
+  const allowResidentialPackage = (() => {
+    // Only show button if one of the land uses is Residential
+    const triggerRule = landUseRules.filter(
+      r => r.code === "LAND_USE_RESIDENTIAL"
+    );
+    return projectLevel === 1 && triggerRule[0] && !!triggerRule[0].value;
+  })();
+
+  const allowEmploymentPackage = (() => {
+    // Only show button if Parking Cash-Out strategy is available
+    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_2");
+    return projectLevel === 1 && triggerRule[0] && triggerRule[0].display;
+  })();
 
   const getRuleByCode = ruleCode => {
     const rule = rules.find(rule => rule.code === ruleCode);
@@ -309,24 +342,6 @@ export function TdmCalculationContainer(props) {
     }
   };
 
-  const filters = {
-    projectDescriptionRules: rule =>
-      rule.category === "input" &&
-      rule.calculationPanelId === 31 &&
-      rule.display,
-    landUseRules: rule =>
-      rule.category === "calculation" &&
-      rule.calculationPanelId === 5 &&
-      rule.display,
-    specificationRules: rule =>
-      rule.category === "input" && rule.calculationPanelId !== 31 && rule.used,
-    targetPointRules: rule =>
-      rule.category === "measure" &&
-      rule.display &&
-      rule.calculationPanelId === 10,
-    strategyRules: rule =>
-      rule.category === "measure" && rule.calculationPanelId !== 10
-  };
   return (
     <div className={classes.root}>
       {view === "w" ? (
@@ -346,6 +361,8 @@ export function TdmCalculationContainer(props) {
           account={account}
           loginId={loginId}
           onSave={onSave}
+          allowResidentialPackage={allowResidentialPackage}
+          allowEmploymentPackage={allowEmploymentPackage}
         />
       ) : (
         <TdmCalculation

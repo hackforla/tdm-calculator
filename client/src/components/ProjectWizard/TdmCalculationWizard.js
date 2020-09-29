@@ -16,6 +16,7 @@ import SwitchViewButton from "../Button/SwitchViewButton";
 import {
   ProjectDescriptions,
   ProjectSpecifications,
+  ProjectPackages,
   ProjectTargetPoints,
   ProjectMeasures
 } from "./WizardPages";
@@ -113,9 +114,10 @@ const TdmCalculationWizard = props => {
     loginId,
     onSave,
     onViewChange,
-    //pageNo,
     history,
-    match
+    match,
+    allowResidentialPackage,
+    allowEmploymentPackage
   } = props;
   const [dateModified, setDateModified] = useState("");
 
@@ -179,9 +181,9 @@ const TdmCalculationWizard = props => {
       projectDescriptionRules.find(rule => !!rule.validationErrors);
     const isPage2AndHasErrors =
       page === 2 && specificationRules.find(rule => !!rule.validationErrors);
-    const isPage5 = Number(page) === 5;
+    const isPage6 = Number(page) === 6;
 
-    return isPage1AndHasErrors || isPage2AndHasErrors || isPage5 ? true : false;
+    return isPage1AndHasErrors || isPage2AndHasErrors || isPage6 ? true : false;
   };
 
   const routes = (
@@ -210,6 +212,16 @@ const TdmCalculationWizard = props => {
         />
       </Route>
       <Route path="/calculation/4/:projectId?">
+        <ProjectPackages
+          projectLevel={projectLevel}
+          rules={strategyRules}
+          landUseRules={landUseRules}
+          classes={classes}
+          allowResidentialPackage={allowResidentialPackage}
+          allowEmploymentPackage={allowEmploymentPackage}
+        />
+      </Route>
+      <Route path="/calculation/5/:projectId?">
         <ProjectMeasures
           projectLevel={projectLevel}
           rules={strategyRules}
@@ -222,7 +234,7 @@ const TdmCalculationWizard = props => {
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
         />
       </Route>
-      <Route path="/calculation/5/:projectId?">
+      <Route path="/calculation/6/:projectId?">
         <ProjectSummary
           rules={rules}
           account={account}
@@ -259,12 +271,24 @@ const TdmCalculationWizard = props => {
     const projectIdParam = projectId ? `/${projectId}` : "";
     if (Number(pageNo) > Number(match.params.page)) {
       if (handleValidate()) {
-        // setPageNo(pageNo);
-        history.push(`/calculation/${Number(page) + 1}${projectIdParam}`);
+        // Skip page 4 unless Packages are applicable
+        const nextPage =
+          Number(page) === 3 &&
+          !allowResidentialPackage &&
+          !allowEmploymentPackage
+            ? 5
+            : Number(page) + 1;
+        history.push(`/calculation/${nextPage}${projectIdParam}`);
       }
     } else {
-      // setPageNo(pageNo);
-      history.push(`/calculation/${Number(page) - 1}${projectIdParam}`);
+      // Skip page 4 unless Packages are applicable
+      const prevPage =
+        Number(page) === 5 &&
+        !allowResidentialPackage &&
+        !allowEmploymentPackage
+          ? 3
+          : Number(page) - 1;
+      history.push(`/calculation/${prevPage}${projectIdParam}`);
     }
   };
 
@@ -309,7 +333,7 @@ const TdmCalculationWizard = props => {
                     <NavButton
                       id="rightNavArrow"
                       navDirection="next"
-                      isVisible={page !== 5}
+                      isVisible={page !== 6}
                       isDisabled={setDisabledForNextNavButton()}
                       onClick={() => {
                         onPageChange(Number(page) + 1);
@@ -322,7 +346,7 @@ const TdmCalculationWizard = props => {
                         !!(
                           account.id &&
                           (!projectId || account.id === loginId) &&
-                          page === 5
+                          page === 6
                         )
                       }
                       onClick={onSave}
@@ -343,7 +367,7 @@ const TdmCalculationWizard = props => {
               ) : null}
             </div>
           ) : null}
-          {page === 5 ? (
+          {page === 6 ? (
             <div className={classes.lastSavedContainer}>
               {dateModified && (
                 <span className={classes.lastSaved}>
@@ -398,7 +422,9 @@ TdmCalculationWizard.propTypes = {
   account: PropTypes.object.isRequired,
   loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
-  onViewChange: PropTypes.func.isRequired
+  onViewChange: PropTypes.func.isRequired,
+  allowResidentialPackage: PropTypes.bool.isRequired,
+  allowEmploymentPackage: PropTypes.bool.isRequired
 };
 
 export default withRouter(TdmCalculationWizard);
