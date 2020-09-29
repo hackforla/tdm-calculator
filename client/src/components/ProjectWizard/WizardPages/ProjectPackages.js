@@ -15,9 +15,9 @@ const useStyles = createUseStyles({
     backgroundColor: "#003069",
     padding: "1em",
     minHeight: "3em",
-    fontFamily: "Open Sans",
     fontSize: "20px",
-    fontWeight: "700"
+    fontWeight: "700",
+    fontFamily: "Calibri"
   },
   boxContent: {
     margin: "1em",
@@ -27,6 +27,9 @@ const useStyles = createUseStyles({
     lineHeight: "17px"
   },
   caption: {
+    fontSize: "18px",
+    fontWeight: "700",
+    lineHeight: "22px",
     textAlign: "center"
   },
   table1: {
@@ -71,7 +74,7 @@ function ProjectPackages(props) {
           </h1>
           <h3 className="tdm-wizard-page-subtitle">
             All LEVEL 1 projects qualify for at least one optional bonus
-            package. Based on your land uses you qualify for both pacakges. Here
+            package. Based on your land uses you qualify for both packages. Here
             is a breakdown of each package, and point totals when both are
             selected.
           </h3>
