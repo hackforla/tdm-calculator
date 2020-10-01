@@ -109,17 +109,6 @@ const NavBar = props => {
 
   return (
     <ul className={classes.navbar}>
-      {/* <li className={classes.linkBlock}>
-        <NavLink
-          className={classes.link}
-          activeClassName={classes.currentLink}
-          exact
-          to="/"
-          onClick={handleClick}
-        >
-          Home
-        </NavLink>
-      </li> */}
       {account && account.id && (
         <li className={classes.linkBlock}>
           <NavLink
@@ -141,13 +130,6 @@ const NavBar = props => {
           Create Project
         </NavLink>
       </li>
-      {/* {account && account.isAdmin && (
-        <li>
-          <Link className={classes.link} to="/admin">
-            Admin
-          </Link>
-        </li>
-      )} */}
       {account && account.isSecurityAdmin && (
         <li className={classes.linkBlock}>
           <NavLink
@@ -170,10 +152,16 @@ const NavBar = props => {
           About
         </NavLink>
       </li>
-      {/* 
-      <li>
-        <Link className={classes.link} to="/contactus">Contact Us</Link>
-      </li> */}
+      <li className={classes.linkBlock}>
+        <NavLink
+          className={classes.link}
+          activeClassName={classes.currentLink}
+          to="/publiccomment"
+          onClick={handleClick}
+        >
+          Public Comment
+        </NavLink>
+      </li>
       <NavBarLogin
         account={account}
         classes={classes}
