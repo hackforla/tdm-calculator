@@ -73,6 +73,13 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     position: "relative"
   },
+  pkgSelectContainer: {
+    display: "grid",
+    gridTemplateColumns: "[h-start] auto [h-end] 35%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    position: "relative"
+  },
   unSelectButton: {
     marginLeft: "auto",
     marginRight: "1em",
@@ -86,6 +93,12 @@ const useStyles = createUseStyles({
     gridColumn: "h-mid",
     display: "flex",
     justifyContent: "center"
+  },
+  alignLeft: {
+    gridColumn: "h-start",
+    display: "flex",
+    justifyContent: "flex-start",
+    marginLeft: "2em"
   },
   buttonContainer: {
     marginTop: "5px"
@@ -117,7 +130,9 @@ const TdmCalculationWizard = props => {
     history,
     match,
     allowResidentialPackage,
-    allowEmploymentPackage
+    allowEmploymentPackage,
+    residentialPackageSelected,
+    employmentPackageSelected
   } = props;
   const [dateModified, setDateModified] = useState("");
 
@@ -232,6 +247,10 @@ const TdmCalculationWizard = props => {
           classes={classes}
           onPkgSelect={onPkgSelect}
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
+          allowResidentialPackage={allowResidentialPackage}
+          allowEmploymentPackage={allowEmploymentPackage}
+          residentialPackageSelected={residentialPackageSelected}
+          employmentPackageSelected={employmentPackageSelected}
         />
       </Route>
       <Route path="/calculation/6/:projectId?">
@@ -424,7 +443,9 @@ TdmCalculationWizard.propTypes = {
   onSave: PropTypes.func.isRequired,
   onViewChange: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
-  allowEmploymentPackage: PropTypes.bool.isRequired
+  allowEmploymentPackage: PropTypes.bool.isRequired,
+  residentialPackageSelected: PropTypes.func,
+  employmentPackageSelected: PropTypes.func
 };
 
 export default withRouter(TdmCalculationWizard);

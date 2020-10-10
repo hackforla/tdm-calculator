@@ -105,38 +105,43 @@ function ProjectPackages(props) {
             <div className={classes.boxContent}>
               <div className={classes.caption}>This Package includes:</div>
               <table className={classes.table1}>
-                <tr>
-                  <td className={classes.col1}>+2</td>
-                  <td className={classes.col2}>Points for Bike Parking</td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}>+4</td>
-                  <td className={classes.col2}>
-                    Points for Encouragement Program
-                  </td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}></td>
-                  <td className={classes.col2}>
-                    (Education, Marketing & Outreach)
-                  </td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}>+8</td>
-                  <td className={classes.col2}>
-                    Points for Unbundling Parking
-                  </td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}>+1</td>
-                  <td className={classes.col2}>Bonus Point</td>
-                </tr>
-                <tr
-                  style={{ borderTop: "2px solid #002E6D", marginTop: "0.5em" }}
-                >
-                  <td className={classes.subtotal1}>15</td>
-                  <td className={classes.subtotal2}>Points</td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td className={classes.col1}>+2</td>
+                    <td className={classes.col2}>Points for Bike Parking</td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+4</td>
+                    <td className={classes.col2}>
+                      Points for Encouragement Program
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}></td>
+                    <td className={classes.col2}>
+                      (Education, Marketing & Outreach)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+8</td>
+                    <td className={classes.col2}>
+                      Points for Unbundling Parking
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+1</td>
+                    <td className={classes.col2}>Bonus Point</td>
+                  </tr>
+                  <tr
+                    style={{
+                      borderTop: "2px solid #002E6D",
+                      marginTop: "0.5em"
+                    }}
+                  >
+                    <td className={classes.subtotal1}>15</td>
+                    <td className={classes.subtotal2}>Points</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
@@ -149,36 +154,41 @@ function ProjectPackages(props) {
             <div className={classes.boxContent}>
               <div className={classes.caption}>This Package includes:</div>
               <table className={classes.table1}>
-                <tr>
-                  <td className={classes.col1}>+2</td>
-                  <td className={classes.col2}>Points for Bike Parking</td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}>+4</td>
-                  <td className={classes.col2}>
-                    Points for Encouragement Program
-                  </td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}></td>
-                  <td className={classes.col2}>
-                    (Education, Marketing & Outreach)
-                  </td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}>+8</td>
-                  <td className={classes.col2}>Points for Parking Cashout</td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}>+1</td>
-                  <td className={classes.col2}>Bonus Point</td>
-                </tr>
-                <tr
-                  style={{ borderTop: "2px solid #002E6D", marginTop: "0.5em" }}
-                >
-                  <td className={classes.subtotal1}>15</td>
-                  <td className={classes.subtotal2}>Points</td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td className={classes.col1}>+2</td>
+                    <td className={classes.col2}>Points for Bike Parking</td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+4</td>
+                    <td className={classes.col2}>
+                      Points for Encouragement Program
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}></td>
+                    <td className={classes.col2}>
+                      (Education, Marketing & Outreach)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+8</td>
+                    <td className={classes.col2}>Points for Parking Cashout</td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+1</td>
+                    <td className={classes.col2}>Bonus Point</td>
+                  </tr>
+                  <tr
+                    style={{
+                      borderTop: "2px solid #002E6D",
+                      marginTop: "0.5em"
+                    }}
+                  >
+                    <td className={classes.subtotal1}>15</td>
+                    <td className={classes.subtotal2}>Points</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
@@ -193,47 +203,52 @@ function ProjectPackages(props) {
             <div className={classes.boxContent}>
               <div className={classes.caption}>These Packages include:</div>
               <table className={classes.table1}>
-                <tr>
-                  <td className={classes.col1}>+2</td>
-                  <td className={classes.col2}>Points for Bike Parking</td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}>+4</td>
-                  <td className={classes.col2}>
-                    Points for Encouragement Program
-                  </td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}></td>
-                  <td className={classes.col2}>
-                    (Education, Marketing & Outreach)
-                  </td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}>+8</td>
-                  <td className={classes.col2}>
-                    Points for Unbundling Parking
-                  </td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}>+8</td>
-                  <td className={classes.col2}>Points for Parking Cashout</td>
-                </tr>
-                <tr>
-                  <td className={classes.col1}>+1</td>
-                  <td className={classes.col2}>Bonus Point</td>
-                </tr>
-                <tr
-                  style={{ borderTop: "2px solid #002E6D", marginTop: "0.5em" }}
-                >
-                  <td
-                    className={classes.subtotal1}
-                    styles={{ paddingTop: "1em", fontWeight: "bolder" }}
+                <tbody>
+                  <tr>
+                    <td className={classes.col1}>+2</td>
+                    <td className={classes.col2}>Points for Bike Parking</td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+4</td>
+                    <td className={classes.col2}>
+                      Points for Encouragement Program
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}></td>
+                    <td className={classes.col2}>
+                      (Education, Marketing & Outreach)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+8</td>
+                    <td className={classes.col2}>
+                      Points for Unbundling Parking
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+8</td>
+                    <td className={classes.col2}>Points for Parking Cashout</td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+1</td>
+                    <td className={classes.col2}>Bonus Point</td>
+                  </tr>
+                  <tr
+                    style={{
+                      borderTop: "2px solid #002E6D",
+                      marginTop: "0.5em"
+                    }}
                   >
-                    24
-                  </td>
-                  <td className={classes.subtotal2}>Points</td>
-                </tr>
+                    <td
+                      className={classes.subtotal1}
+                      styles={{ paddingTop: "1em", fontWeight: "bolder" }}
+                    >
+                      24
+                    </td>
+                    <td className={classes.subtotal2}>Points</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>

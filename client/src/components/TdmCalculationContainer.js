@@ -114,8 +114,8 @@ export function TdmCalculationContainer(props) {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
     //The following several lines can be uncommented for debugging
-    // console.log("Updated Rules:");
-    // console.log(rules);
+    console.log("Updated Rules:");
+    console.log(rules);
     // const showWork = engine.showWork("PARK_REQUIREMENT");
     // console.log("Show Work:");
     // console.log(showWork);
@@ -134,47 +134,121 @@ export function TdmCalculationContainer(props) {
 
   const landUseRules = rules && rules.filter(filters.landUseRules);
 
-  const onPkgSelect = pkgType => {
-    let pkgRules = [];
-    if (pkgType === "Residential") {
-      pkgRules = rules.filter(rule =>
-        [
-          "STRATEGY_BIKE_4",
-          "STRATEGY_INFO_3",
-          "STRATEGY_PARKING_1",
-          "STRATEGY_HOV_5"
-        ].includes(rule.code)
-      );
-    } else {
-      pkgRules = rules.filter(rule =>
-        [
-          "STRATEGY_BIKE_4",
-          "STRATEGY_INFO_3",
-          "STRATEGY_PARKING_2",
-          "STRATEGY_HOV_5"
-        ].includes(rule.code)
-      );
-    }
+  const residentialPackageSelected = () => {
+    // Only enable button if
+    // component strategies are not already selected
+    const strategyBike4 = rules.find(r => r.code === "STRATEGY_BIKE_4");
+    const strategyInfo3 = rules.find(r => r.code === "STRATEGY_INFO_3");
+    const strategyParking1 = rules.find(r => r.code === "STRATEGY_PARKING_1");
+    return (
+      strategyBike4 &&
+      !!strategyBike4.value &&
+      strategyInfo3 &&
+      !!strategyInfo3.value &&
+      strategyParking1 &&
+      strategyParking1.value === 8
+    );
+  };
 
-    const modifiedInputs = pkgRules.reduce((changedProps, rule) => {
-      if (rule.code === "STRATEGY_INFO_3") {
-        // For Education, Marketing, and Outreach, set to "basic" if not already
-        // set to non-zero value
-        changedProps[rule.code] =
-          !rule.value || rule.value === "0" ? 1 : rule.value;
-      } else if (rule.code === "STRATEGY_HOV_5") {
-        // If a package is selected, de-select the Mandatory Trip-Reduction Program
-        changedProps[rule.code] = false;
-      } else if (rule.code === "STRATEGY_PARKING_1") {
-        // For Pricing/Unbundling, set to 8 if not
-        // already set to 8
-        changedProps[rule.code] =
-          !rule.value || rule.value < 8 ? 8 : rule.value;
+  const employmentPackageSelected = () => {
+    // Only enable button if
+    // component strategies are not already selected
+    const pkgRules = rules.filter(rule =>
+      ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
+        rule.code
+      )
+    );
+
+    const strategyCount = pkgRules.reduce(
+      (count, r) => count + (r.value && r.value !== "0" ? 1 : 0),
+      0
+    );
+    return strategyCount === 3;
+  };
+
+  const onPkgSelect = (pkgType, selected = true) => {
+    const modifiedInputs = {};
+    if (pkgType === "Residential") {
+      if (selected) {
+        modifiedInputs["STRATEGY_BIKE_4"] = true;
+        if (rules.find(r => r.code === "STRATEGY_INFO_3").value < 1) {
+          modifiedInputs["STRATEGY_INFO_3"] = 1;
+        }
+        // De-select Trip-Reduction Program
+        modifiedInputs["STRATEGY_HOV_5"] = false;
+        // Set Pricing/unbundling to 8
+        modifiedInputs["STRATEGY_PARKING_1"] = 8;
       } else {
-        changedProps[rule.code] = true;
+        // Do not alter Bike Parking setting
+        // De-select Encouragement Program, unless
+        // the employment package is selected
+        if (!employmentPackageSelected()) {
+          modifiedInputs["STRATEGY_INFO_3"] = 0;
+        }
+        // Set Pricing/Unbundling to 0
+        modifiedInputs["STRATEGY_PARKING_1"] = 0;
       }
-      return changedProps;
-    }, {});
+    } else {
+      // Employment Pkg
+      if (selected) {
+        modifiedInputs["STRATEGY_BIKE_4"] = true;
+        if (rules.find(r => r.code === "STRATEGY_INFO_3").value < 1) {
+          modifiedInputs["STRATEGY_INFO_3"] = 1;
+        }
+        // De-select Trip-Reduction Program
+        modifiedInputs["STRATEGY_HOV_5"] = false;
+        // Set parking cashout true
+        modifiedInputs["STRATEGY_PARKING_2"] = true;
+      } else {
+        // Do not alter Bike Parking setting
+        // De-select Encouragement Program, unless
+        // the employment package is selected
+        if (!residentialPackageSelected()) {
+          modifiedInputs["STRATEGY_INFO_3"] = 0;
+        }
+        // Set Parking cashout false
+        modifiedInputs["STRATEGY_PARKING_2"] = false;
+      }
+    }
+    // if (pkgType === "Residential") {
+    //   pkgRules = rules.filter(rule =>
+    //     [
+    //       "STRATEGY_BIKE_4",
+    //       "STRATEGY_INFO_3",
+    //       "STRATEGY_PARKING_1",
+    //       "STRATEGY_HOV_5"
+    //     ].includes(rule.code)
+    //   );
+    // } else {
+    //   pkgRules = rules.filter(rule =>
+    //     [
+    //       "STRATEGY_BIKE_4",
+    //       "STRATEGY_INFO_3",
+    //       "STRATEGY_PARKING_2",
+    //       "STRATEGY_HOV_5"
+    //     ].includes(rule.code)
+    //   );
+    // }
+
+    // const modifiedInputs = pkgRules.reduce((changedProps, rule) => {
+    //   if (rule.code === "STRATEGY_INFO_3") {
+    //     // For Education, Marketing, and Outreach, set to "basic" if not already
+    //     // set to non-zero value
+    //     changedProps[rule.code] =
+    //       !rule.value || rule.value === "0" ? 1 : rule.value;
+    //   } else if (rule.code === "STRATEGY_HOV_5") {
+    //     // If a package is selected, de-select the Mandatory Trip-Reduction Program
+    //     changedProps[rule.code] = false;
+    //   } else if (rule.code === "STRATEGY_PARKING_1") {
+    //     // For Pricing/Unbundling, set to 8 if not
+    //     // already set to 8
+    //     changedProps[rule.code] =
+    //       !rule.value || rule.value < 8 ? 8 : rule.value;
+    //   } else {
+    //     changedProps[rule.code] = true;
+    //   }
+    //   return changedProps;
+    // }, {});
     const newFormInputs = {
       ...formInputs,
       ...modifiedInputs
@@ -363,6 +437,8 @@ export function TdmCalculationContainer(props) {
           onSave={onSave}
           allowResidentialPackage={allowResidentialPackage}
           allowEmploymentPackage={allowEmploymentPackage}
+          residentialPackageSelected={residentialPackageSelected}
+          employmentPackageSelected={employmentPackageSelected}
         />
       ) : (
         <TdmCalculation
