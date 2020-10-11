@@ -10,7 +10,6 @@
   color: $color-background;
 }
 
-// Photo by Silvia Brazzoduro on Unsplash
 .tdm-wizard {
   min-height: calc(100vh - 103px - 48px);
 }
@@ -47,8 +46,8 @@
 }
 
 @media print {
-  #all-buttons-wrapper{
-    display: none
+  #all-buttons-wrapper {
+    display: none;
   }
 }
 

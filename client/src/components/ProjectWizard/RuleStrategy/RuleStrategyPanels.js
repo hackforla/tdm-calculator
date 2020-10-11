@@ -51,7 +51,7 @@ const RuleStrategyPanels = props => {
 
   // Delete Package Bonus section if not project level != 1
   if (projectLevel !== 1) {
-    panelIds = panelIds.filter(panelId => panelId != 27);
+    panelIds = panelIds.filter(panelId => panelId !== 27);
   }
   // Group rules into an array where each element is an array of
   // rules for a particular panel

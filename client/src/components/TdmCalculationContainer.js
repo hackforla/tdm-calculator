@@ -28,6 +28,23 @@ const resultRuleCodes = [
   "PTS_EARNED"
 ];
 
+const filters = {
+  projectDescriptionRules: rule =>
+    rule.category === "input" && rule.calculationPanelId === 31 && rule.display,
+  landUseRules: rule =>
+    rule.category === "calculation" &&
+    rule.calculationPanelId === 5 &&
+    rule.display,
+  specificationRules: rule =>
+    rule.category === "input" && rule.calculationPanelId !== 31 && rule.used,
+  targetPointRules: rule =>
+    rule.category === "measure" &&
+    rule.display &&
+    rule.calculationPanelId === 10,
+  strategyRules: rule =>
+    rule.category === "measure" && rule.calculationPanelId !== 10
+};
+
 export function TdmCalculationContainer(props) {
   const { history, account, classes } = props;
   const context = useContext(ToastContext);
@@ -97,8 +114,8 @@ export function TdmCalculationContainer(props) {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
     //The following several lines can be uncommented for debugging
-    // console.log("Updated Rules:");
-    // console.log(rules);
+    console.log("Updated Rules:");
+    console.log(rules);
     // const showWork = engine.showWork("PARK_REQUIREMENT");
     // console.log("Show Work:");
     // console.log(showWork);
@@ -115,47 +132,85 @@ export function TdmCalculationContainer(props) {
     }
   };
 
-  const onPkgSelect = pkgType => {
-    let pkgRules = [];
+  const landUseRules = rules && rules.filter(filters.landUseRules);
+
+  const residentialPackageSelected = () => {
+    // Only enable button if
+    // component strategies are not already selected
+    const strategyBike4 = rules.find(r => r.code === "STRATEGY_BIKE_4");
+    const strategyInfo3 = rules.find(r => r.code === "STRATEGY_INFO_3");
+    const strategyParking1 = rules.find(r => r.code === "STRATEGY_PARKING_1");
+    return (
+      strategyBike4 &&
+      !!strategyBike4.value &&
+      strategyInfo3 &&
+      !!strategyInfo3.value &&
+      strategyParking1 &&
+      strategyParking1.value === 8
+    );
+  };
+
+  const employmentPackageSelected = () => {
+    // Only enable button if
+    // component strategies are not already selected
+    const pkgRules = rules.filter(rule =>
+      ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
+        rule.code
+      )
+    );
+
+    const strategyCount = pkgRules.reduce(
+      (count, r) => count + (r.value && r.value !== "0" ? 1 : 0),
+      0
+    );
+    return strategyCount === 3;
+  };
+
+  const onPkgSelect = (pkgType, selected = true) => {
+    const modifiedInputs = {};
     if (pkgType === "Residential") {
-      pkgRules = rules.filter(rule =>
-        [
-          "STRATEGY_BIKE_4",
-          "STRATEGY_INFO_3",
-          "STRATEGY_PARKING_1",
-          "STRATEGY_HOV_5"
-        ].includes(rule.code)
-      );
+      if (selected) {
+        modifiedInputs["STRATEGY_BIKE_4"] = true;
+        if (rules.find(r => r.code === "STRATEGY_INFO_3").value < 1) {
+          modifiedInputs["STRATEGY_INFO_3"] = 1;
+        }
+        // De-select Trip-Reduction Program
+        modifiedInputs["STRATEGY_HOV_5"] = false;
+        // Set Pricing/unbundling to 8
+        modifiedInputs["STRATEGY_PARKING_1"] = 8;
+      } else {
+        // Do not alter Bike Parking setting
+        // De-select Encouragement Program, unless
+        // the employment package is selected
+        if (!employmentPackageSelected()) {
+          modifiedInputs["STRATEGY_INFO_3"] = 0;
+        }
+        // Set Pricing/Unbundling to 0
+        modifiedInputs["STRATEGY_PARKING_1"] = 0;
+      }
     } else {
-      pkgRules = rules.filter(rule =>
-        [
-          "STRATEGY_BIKE_4",
-          "STRATEGY_INFO_3",
-          "STRATEGY_PARKING_2",
-          "STRATEGY_HOV_5"
-        ].includes(rule.code)
-      );
+      // Employment Pkg
+      if (selected) {
+        modifiedInputs["STRATEGY_BIKE_4"] = true;
+        if (rules.find(r => r.code === "STRATEGY_INFO_3").value < 1) {
+          modifiedInputs["STRATEGY_INFO_3"] = 1;
+        }
+        // De-select Trip-Reduction Program
+        modifiedInputs["STRATEGY_HOV_5"] = false;
+        // Set parking cashout true
+        modifiedInputs["STRATEGY_PARKING_2"] = true;
+      } else {
+        // Do not alter Bike Parking setting
+        // De-select Encouragement Program, unless
+        // the employment package is selected
+        if (!residentialPackageSelected()) {
+          modifiedInputs["STRATEGY_INFO_3"] = 0;
+        }
+        // Set Parking cashout false
+        modifiedInputs["STRATEGY_PARKING_2"] = false;
+      }
     }
 
-    const modifiedInputs = pkgRules.reduce((changedProps, rule) => {
-      if (rule.code === "STRATEGY_INFO_3") {
-        // For Education, Marketing, and Outreach, set to "basic" if not already
-        // set to non-zero value
-        changedProps[rule.code] =
-          !rule.value || rule.value === "0" ? 1 : rule.value;
-      } else if (rule.code === "STRATEGY_HOV_5") {
-        // If a package is selected, de-select the Mandatory Trip-Reduction Program
-        changedProps[rule.code] = false;
-      } else if (rule.code === "STRATEGY_PARKING_1") {
-        // For Pricing/Unbundling, set to 8 if not
-        // already set to 8
-        changedProps[rule.code] =
-          !rule.value || rule.value < 8 ? 8 : rule.value;
-      } else {
-        changedProps[rule.code] = true;
-      }
-      return changedProps;
-    }, {});
     const newFormInputs = {
       ...formInputs,
       ...modifiedInputs
@@ -168,6 +223,20 @@ export function TdmCalculationContainer(props) {
       ? rules.find(rule => rule.code === "PROJECT_LEVEL").value
       : 0;
 
+  const allowResidentialPackage = (() => {
+    // Only show button if one of the land uses is Residential
+    const triggerRule = landUseRules.filter(
+      r => r.code === "LAND_USE_RESIDENTIAL"
+    );
+    return projectLevel === 1 && triggerRule[0] && !!triggerRule[0].value;
+  })();
+
+  const allowEmploymentPackage = (() => {
+    // Only show button if Parking Cash-Out strategy is available
+    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_2");
+    return projectLevel === 1 && triggerRule[0] && triggerRule[0].display;
+  })();
+
   const getRuleByCode = ruleCode => {
     const rule = rules.find(rule => rule.code === ruleCode);
     if (rule === undefined) {
@@ -178,16 +247,6 @@ export function TdmCalculationContainer(props) {
 
   const limitToInt = value => {
     return value.replace(/\D/g, "");
-  };
-
-  const limitMinMax = (value, min, max) => {
-    if (min !== null) {
-      value = value < min ? min : value;
-    }
-    if (max !== null) {
-      value = value > max ? max : value;
-    }
-    return value;
   };
 
   const onInputChange = e => {
@@ -203,7 +262,7 @@ export function TdmCalculationContainer(props) {
     // Convert value to appropriate Data type
     if (rule.dataType === "number") {
       value = limitToInt(value);
-      value = limitMinMax(value, rule.minValue, rule.maxValue);
+      //value = limitMinMax(value, rule.minValue, rule.maxValue);
       value = value === "0" ? "" : value;
     }
 
@@ -309,24 +368,6 @@ export function TdmCalculationContainer(props) {
     }
   };
 
-  const filters = {
-    projectDescriptionRules: rule =>
-      rule.category === "input" &&
-      rule.calculationPanelId === 31 &&
-      rule.display,
-    landUseRules: rule =>
-      rule.category === "calculation" &&
-      rule.calculationPanelId === 5 &&
-      rule.display,
-    specificationRules: rule =>
-      rule.category === "input" && rule.calculationPanelId !== 31 && rule.used,
-    targetPointRules: rule =>
-      rule.category === "measure" &&
-      rule.display &&
-      rule.calculationPanelId === 10,
-    strategyRules: rule =>
-      rule.category === "measure" && rule.calculationPanelId !== 10
-  };
   return (
     <div className={classes.root}>
       {view === "w" ? (
@@ -346,6 +387,10 @@ export function TdmCalculationContainer(props) {
           account={account}
           loginId={loginId}
           onSave={onSave}
+          allowResidentialPackage={allowResidentialPackage}
+          allowEmploymentPackage={allowEmploymentPackage}
+          residentialPackageSelected={residentialPackageSelected}
+          employmentPackageSelected={employmentPackageSelected}
         />
       ) : (
         <TdmCalculation
