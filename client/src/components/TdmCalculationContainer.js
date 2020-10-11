@@ -114,8 +114,8 @@ export function TdmCalculationContainer(props) {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
     //The following several lines can be uncommented for debugging
-    console.log("Updated Rules:");
-    console.log(rules);
+    // console.log("Updated Rules:");
+    // console.log(rules);
     // const showWork = engine.showWork("PARK_REQUIREMENT");
     // console.log("Show Work:");
     // console.log(showWork);
@@ -210,45 +210,7 @@ export function TdmCalculationContainer(props) {
         modifiedInputs["STRATEGY_PARKING_2"] = false;
       }
     }
-    // if (pkgType === "Residential") {
-    //   pkgRules = rules.filter(rule =>
-    //     [
-    //       "STRATEGY_BIKE_4",
-    //       "STRATEGY_INFO_3",
-    //       "STRATEGY_PARKING_1",
-    //       "STRATEGY_HOV_5"
-    //     ].includes(rule.code)
-    //   );
-    // } else {
-    //   pkgRules = rules.filter(rule =>
-    //     [
-    //       "STRATEGY_BIKE_4",
-    //       "STRATEGY_INFO_3",
-    //       "STRATEGY_PARKING_2",
-    //       "STRATEGY_HOV_5"
-    //     ].includes(rule.code)
-    //   );
-    // }
 
-    // const modifiedInputs = pkgRules.reduce((changedProps, rule) => {
-    //   if (rule.code === "STRATEGY_INFO_3") {
-    //     // For Education, Marketing, and Outreach, set to "basic" if not already
-    //     // set to non-zero value
-    //     changedProps[rule.code] =
-    //       !rule.value || rule.value === "0" ? 1 : rule.value;
-    //   } else if (rule.code === "STRATEGY_HOV_5") {
-    //     // If a package is selected, de-select the Mandatory Trip-Reduction Program
-    //     changedProps[rule.code] = false;
-    //   } else if (rule.code === "STRATEGY_PARKING_1") {
-    //     // For Pricing/Unbundling, set to 8 if not
-    //     // already set to 8
-    //     changedProps[rule.code] =
-    //       !rule.value || rule.value < 8 ? 8 : rule.value;
-    //   } else {
-    //     changedProps[rule.code] = true;
-    //   }
-    //   return changedProps;
-    // }, {});
     const newFormInputs = {
       ...formInputs,
       ...modifiedInputs
@@ -287,16 +249,6 @@ export function TdmCalculationContainer(props) {
     return value.replace(/\D/g, "");
   };
 
-  const limitMinMax = (value, min, max) => {
-    if (min !== null) {
-      value = value < min ? min : value;
-    }
-    if (max !== null) {
-      value = value > max ? max : value;
-    }
-    return value;
-  };
-
   const onInputChange = e => {
     const ruleCode = e.target.name;
     let value =
@@ -310,7 +262,7 @@ export function TdmCalculationContainer(props) {
     // Convert value to appropriate Data type
     if (rule.dataType === "number") {
       value = limitToInt(value);
-      value = limitMinMax(value, rule.minValue, rule.maxValue);
+      //value = limitMinMax(value, rule.minValue, rule.maxValue);
       value = value === "0" ? "" : value;
     }
 
