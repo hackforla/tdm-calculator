@@ -682,7 +682,6 @@ const TdmCalculationWizard = props => {
             className={classes.acceptBtn}
             onClick={e => {
               e.preventDefault();
-              window.localStorage.clear();
               window.localStorage.setItem("termsAndConditions", "Accepted");
               window.location.reload();
             }}
