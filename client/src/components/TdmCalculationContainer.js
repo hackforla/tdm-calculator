@@ -114,8 +114,8 @@ export function TdmCalculationContainer(props) {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
     //The following several lines can be uncommented for debugging
-    // console.log("Updated Rules:");
-    // console.log(rules);
+    console.log("Updated Rules:");
+    console.log(rules);
     // const showWork = engine.showWork("PARK_REQUIREMENT");
     // console.log("Show Work:");
     // console.log(showWork);
