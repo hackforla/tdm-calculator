@@ -178,12 +178,22 @@ class Engine {
           );
         }
       }
-      if (dataType === "number" && value !== null && minValue !== null) {
+      if (
+        dataType === "number" &&
+        value !== null &&
+        value !== "" &&
+        minValue !== null
+      ) {
         if (Number(value) < minValue) {
           validationErrors.push(`${name} must be at least ${minValue}.`);
         }
       }
-      if (dataType === "number" && value !== null && maxValue !== null) {
+      if (
+        dataType === "number" &&
+        value !== null &&
+        value !== "" &&
+        maxValue !== null
+      ) {
         if (Number(value) > maxValue) {
           validationErrors.push(`${name} must be no more than ${maxValue}.`);
         }

@@ -196,9 +196,16 @@ const TdmCalculationWizard = props => {
       projectDescriptionRules.find(rule => !!rule.validationErrors);
     const isPage2AndHasErrors =
       page === 2 && specificationRules.find(rule => !!rule.validationErrors);
+    const isPage5AndHasErrors =
+      page === 5 && strategyRules.find(rule => !!rule.validationErrors);
     const isPage6 = Number(page) === 6;
 
-    return isPage1AndHasErrors || isPage2AndHasErrors || isPage6 ? true : false;
+    return isPage1AndHasErrors ||
+      isPage2AndHasErrors ||
+      isPage5AndHasErrors ||
+      isPage6
+      ? true
+      : false;
   };
 
   const routes = (
