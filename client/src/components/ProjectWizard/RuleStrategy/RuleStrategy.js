@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -145,16 +145,7 @@ const RuleStrategy = ({
 }) => {
   const classes = useStyles();
 
-  // The validationErrors property of the rule indicates whether the
-  // violates any of the database-driven validation rules. For now, this
-  // component is designed to hide the validation error message (but still
-  // show the red outline around the input) if the input is invalid when
-  // first rendered. The showValidationErrors flag will be set when the
-  // user first touches the input field to display the text of the error message.
-  const [showValidationErrors, setShowValidationErrors] = useState(false);
-
   const onInputChange = e => {
-    setShowValidationErrors(true);
     onPropInputChange(e);
   };
 
@@ -425,7 +416,7 @@ const RuleStrategy = ({
           </div>
         </div>
       ) : null}
-      {validationErrors && showValidationErrors ? (
+      {validationErrors ? (
         <div className={classes.field}>
           <div className={classes.textInputLabel}></div>
           <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
