@@ -164,11 +164,8 @@ const RuleInput = ({
     dataType,
     value,
     units,
-    minValue,
     maxValue,
     choices,
-    //calcValue,
-    //calcUnits,
     display,
     required,
     minStringLength,
@@ -236,7 +233,6 @@ const RuleInput = ({
               name={code}
               id={code}
               data-testid={code}
-              min={minValue}
               max={maxValue}
               autoComplete="off"
               disabled={!display}
@@ -387,7 +383,7 @@ const RuleInput = ({
               maxLength={maxStringLength}
               autoComplete="off"
             />
-          ) : dataType === "string" ? (
+          ) : dataType === "textarea" ? (
             <textarea
               className={
                 validationErrors ? classes.textareaInvalid : classes.textarea

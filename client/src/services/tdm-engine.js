@@ -151,6 +151,7 @@ class Engine {
       code,
       name,
       value,
+      dataType,
       required,
       minStringLength,
       maxStringLength,
@@ -177,13 +178,13 @@ class Engine {
           );
         }
       }
-      if (minValue !== null && typeof value !== "string") {
-        if (value < minValue) {
+      if (dataType === "number" && value !== null && minValue !== null) {
+        if (Number(value) < minValue) {
           validationErrors.push(`${name} must be at least ${minValue}.`);
         }
       }
-      if (maxValue !== null && typeof value !== "string") {
-        if (value > maxValue) {
+      if (dataType === "number" && value !== null && maxValue !== null) {
+        if (Number(value) > maxValue) {
           validationErrors.push(`${name} must be no more than ${maxValue}.`);
         }
       }

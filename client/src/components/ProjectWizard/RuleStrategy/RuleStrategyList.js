@@ -22,7 +22,7 @@ const RuleStrategyList = props => {
               <RuleStrategy
                 key={rule.id}
                 rule={rule}
-                onInputChange={props.onInputChange}
+                onPropInputChange={props.onInputChange}
                 onCommentChange={props.onCommentChange}
               />
             );
