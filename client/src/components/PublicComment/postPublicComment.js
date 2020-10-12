@@ -7,7 +7,7 @@ export const postPublicComment = async formElements => {
     name: formElements.name,
     email: formElements.email,
     comment: formElements.comment,
-    forwardToDevs: formElements.forwardToDevs
+    forwardToWebTeam: formElements.forwardToWebTeam
   });
   return response;
 };

@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[PublicComment] (
 	[name] [nvarchar](100) NOT NULL,
 	[email] [nvarchar](100) NULL,
 	[comment] [nvarchar](max) NOT NULL,
-	[forwardToDevs] [bit] NULL,
+	[forwardToWebTeam] [bit] NULL,
 )
 GO
 
@@ -12,11 +12,11 @@ CREATE PROC [dbo].[PublicComment_Insert]
 	,@name varchar(100)
 	,@email varchar(100)
 	,@comment varchar(max)
-	,@forwardToDevs bit
+	,@forwardToWebTeam bit
 AS
 BEGIN
-	INSERT PublicComment (name, email, comment, forwardToDevs)
-	VALUES (@name, @email, @comment, @forwardToDevs)
+	INSERT PublicComment (name, email, comment, forwardToWebTeam)
+	VALUES (@name, @email, @comment, @forwardToWebTeam)
 
 	SET @id = SCOPE_IDENTITY()
 END

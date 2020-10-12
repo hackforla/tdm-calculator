@@ -6,6 +6,7 @@ import Sidebar from "../Sidebar";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../Button/Button";
+import useToast from "../../contexts/Toast/useToast";
 
 const useStyles = createUseStyles({
   publicCommentContainer: {
@@ -82,12 +83,13 @@ const PublicCommentPage = () => {
 
 const PublicCommentForm = () => {
   const classes = useStyles();
+  const toast = useToast();
 
   const initialValues = {
     name: "",
     email: "",
     comment: "",
-    forwardToDevs: false
+    forwardToWebTeam: false
   };
 
   const validationSchema = Yup.object({
@@ -99,12 +101,26 @@ const PublicCommentForm = () => {
   });
 
   const handleSubmit = async (
-    { name, email, comment, forwardToDevs },
-    { setSubmitting }
+    { name, email, comment, forwardToWebTeam },
+    { setSubmitting, resetForm }
   ) => {
     await new Promise(r => setTimeout(r, 500));
 
-    await postPublicComment({ name, email, comment, forwardToDevs });
+    try {
+      const result = await postPublicComment({
+        name,
+        email,
+        comment,
+        forwardToWebTeam
+      });
+
+      if (result.status === 201) {
+        toast.add("Comment delivered successfully");
+        resetForm({});
+      }
+    } catch (e) {
+      toast.add(e);
+    }
     setSubmitting(false);
   };
 
@@ -189,7 +205,11 @@ const PublicCommentForm = () => {
               </label>
             </div>
 
-            <Button className={classes.submitButton} color="colorPrimary">
+            <Button
+              type="submit"
+              className={classes.submitButton}
+              color="colorPrimary"
+            >
               Submit
             </Button>
           </Form>
