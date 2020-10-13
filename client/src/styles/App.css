@@ -562,6 +562,7 @@ button.link {
 
 .tdm-wizard {
   min-height: calc(100vh - 103px - 48px);
+  display: flex;
 }
 
 @media print {
@@ -595,7 +596,6 @@ button.link {
 }
 
 .tdm-wizard-page-title {
-  margin-top: 1em;
   text-align: center;
 }
 

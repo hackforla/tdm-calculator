@@ -32,9 +32,9 @@ function ProjectMeasure(props) {
 
   return (
     <div>
-      <h2 className="tdm-wizard-page-title">
+      <h1 className="tdm-wizard-page-title">
         Transportation Demand Strategies
-      </h2>
+      </h1>
       <h3 className="tdm-wizard-page-subtitle">
         Select strategies to earn TDM points
         <button
