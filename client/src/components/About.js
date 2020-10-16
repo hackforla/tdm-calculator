@@ -39,7 +39,7 @@ const About = () => {
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
         <SideBar />
         <div className="tdm-wizard-content-container">
-          <h2>About TDM Calculator</h2>
+          <h1>About TDM Calculator</h1>
           <br />
           <div className={classes.aboutText}>
             <p>

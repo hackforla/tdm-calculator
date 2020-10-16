@@ -17,6 +17,9 @@ const useStyles = createUseStyles({
       backgroundColor: "#f0e300"
     }
   },
+  textInputLabelAnchor: {
+    textDecoration: "underline"
+  },
   commentContainer: {
     minWidth: "60vw",
     margin: "0.2em",
@@ -48,6 +51,12 @@ const useStyles = createUseStyles({
     width: "auto",
     textAlign: "right"
   },
+  numberInputInvalid: {
+    padding: "0.1em",
+    width: "5.5em",
+    textAlign: "right",
+    border: "1px dashed red"
+  },
   choiceSelectContainer: {
     flexBasis: "40%",
     flexGrow: "1",
@@ -58,6 +67,12 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
+  },
+  stringInputInvalid: {
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    border: "1px dashed red"
   },
   allElse: {
     flexBasis: "10%",
@@ -85,6 +100,24 @@ const useStyles = createUseStyles({
       visibility: "visible !important",
       opacity: "1 !important"
     }
+  },
+  field: {
+    minWidth: "60vw",
+    margin: "0.2em",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  textInputLabel: {
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  errorLabel: {
+    color: "red",
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1"
   }
 });
 
@@ -95,8 +128,6 @@ const RuleStrategy = ({
     name,
     dataType,
     value,
-    minValue,
-    maxValue,
     choices,
     calcValue,
     calcUnits,
@@ -106,12 +137,18 @@ const RuleStrategy = ({
     display,
     displayComment,
     comment,
-    link
+    link,
+    validationErrors
   },
-  onInputChange,
+  onPropInputChange,
   onCommentChange
 }) => {
   const classes = useStyles();
+
+  const onInputChange = e => {
+    onPropInputChange(e);
+  };
+
   const possibleAndEarnedPointsContainers = () => {
     const calculationUnits = calcUnits ? calcUnits : "";
     return (
@@ -169,14 +206,16 @@ const RuleStrategy = ({
           </label>
           <div className={classes.numberInputContainer}>
             <input
-              className={classes.numberInput}
+              className={
+                validationErrors
+                  ? classes.numberInputInvalid
+                  : classes.numberInput
+              }
               type="text"
               value={value || ""}
               onChange={onInputChange}
               name={code}
               id={code}
-              min={minValue}
-              max={maxValue}
               autoComplete="off"
               disabled={!display}
             />
@@ -309,7 +348,11 @@ const RuleStrategy = ({
           </label>
           <input
             type="text"
-            className={classes.stringInput}
+            className={
+              validationErrors
+                ? classes.stringInputInvalid
+                : classes.stringInput
+            }
             value={value || ""}
             onChange={onInputChange}
             name={code}
@@ -373,6 +416,14 @@ const RuleStrategy = ({
           </div>
         </div>
       ) : null}
+      {validationErrors ? (
+        <div className={classes.field}>
+          <div className={classes.textInputLabel}></div>
+          <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
+            {validationErrors[0]}
+          </div>
+        </div>
+      ) : null}
       <ReactTooltip
         id={"main" + id}
         place="right"
@@ -419,9 +470,10 @@ RuleStrategy.propTypes = {
     display: PropTypes.bool,
     displayComment: PropTypes.bool,
     comment: PropTypes.string,
-    link: PropTypes.string
+    link: PropTypes.string,
+    validationErrors: PropTypes.array
   }),
-  onInputChange: PropTypes.func,
+  onPropInputChange: PropTypes.func,
   onCommentChange: PropTypes.func
 };
 

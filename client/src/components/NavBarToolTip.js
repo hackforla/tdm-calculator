@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import { matchPath, useLocation } from "react-router";
 import WarningIcon from "../images/warning-icon.png";
 
 const useStyles = createUseStyles({
@@ -58,14 +59,21 @@ const useStyles = createUseStyles({
 const NavBarToolTip = () => {
   const [tooltipVisibility, toggleVisibility] = useState("container");
   const classes = useStyles();
+  let location = useLocation();
+
+  useEffect(() => {
+    let match = matchPath(location.pathname, {
+      path: "/calculation/:id"
+    });
+    if (!match) {
+      toggleVisibility("containerHidden");
+    }
+  });
 
   return (
     <div className={classes[tooltipVisibility]}>
       <img src={WarningIcon} className={classes.warningIcon} alt="Warning" />
-      <span>
-        Only projects created <br></br>
-        <t className={classes.underLined}>after</t> logging in can be saved
-      </span>
+      <span>You must login in order to save a project</span>
 
       <div className={classes.arrowUp}> </div>
       <button

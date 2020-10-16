@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import NavBarToolTip from "./NavBarToolTip";
 
 const NavBarLogin = ({
   account,
@@ -41,7 +42,10 @@ const NavBarLogin = ({
   );
 
   return !account || !account.email ? (
-    loginLink
+    <React.Fragment>
+      <NavBarToolTip />
+      {loginLink}
+    </React.Fragment>
   ) : (
     <React.Fragment>
       {getUserGreeting(account)}
