@@ -46,14 +46,14 @@ const useStyles = createUseStyles({
     display: "flex",
     position: "sticky",
     top: 0,
-    height: "calc(100vh - 103px)",
+    height: "calc(100vh - 103px - 48px)",
     flexDirection: "column",
     "@media (max-width:768px)": {
       height: "auto"
     }
   },
   contentContainer: {
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     boxSizing: "border-box",
     overflow: "auto"
   },

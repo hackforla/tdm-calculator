@@ -21,6 +21,7 @@ import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
 import "./styles/App.scss";
 import axios from "axios";
+import PublicComment from "./components/PublicComment/PublicCommentPage";
 
 const useStyles = createUseStyles({
   root: {
@@ -120,6 +121,7 @@ const App = () => {
               <Route path="/roles" render={() => <Roles />} />
             ) : null}
             <Route path="/faqs" component={FaqView} />
+            <Route path="/publiccomment" component={PublicComment} />
           </div>
           <Footer />
         </Router>

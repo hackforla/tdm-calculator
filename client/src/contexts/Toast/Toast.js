@@ -6,8 +6,8 @@ const useStyles = createUseStyles({
   root: {
     fontFamily: "Calibri, Arial, sans-serif",
     border: "2px solid transparent",
-    backgroundColor: "#cc4e10",
-    color: "white",
+    backgroundColor: "#a7c539",
+    color: "#0F2940",
     maxWidth: "480px",
     boxShadow: "0px 0px 5px rgba(0, 0, 0, .2)",
     marginTop: "16px",
@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
   button: {
     border: "none",
     backgroundColor: "transparent",
-    color: "white",
+    color: "#0F2940",
     fontSize: "16px",
     marginTop: "8px",
     marginRight: "8px",
@@ -56,7 +56,7 @@ const Toast = ({ children, remove }) => {
   );
 };
 Toast.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.string,
   remove: PropTypes.func.isRequired
 };
 
