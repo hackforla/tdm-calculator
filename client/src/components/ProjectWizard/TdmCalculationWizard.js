@@ -12,7 +12,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button/Button";
 import NavButton from "../Button/NavButton";
 import SwitchViewButton from "../Button/SwitchViewButton";
-
+import TermsAndConditionsModal from "../TermsAndConditionsModal";
 import {
   ProjectDescriptions,
   ProjectSpecifications,
@@ -320,6 +320,7 @@ const TdmCalculationWizard = props => {
 
   return (
     <React.Fragment>
+      <TermsAndConditionsModal />
       <div className={clsx("tdm-wizard", classes.root)}>
         <Sidebar>
           {rules && rules.length > 0 && (
