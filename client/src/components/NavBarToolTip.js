@@ -11,9 +11,8 @@ const useStyles = createUseStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    lineHeight: "1.5",
     opacity: "1 !important",
-    padding: "0.8em 0.5em !important",
+    padding: "0 0.5em !important",
     backgroundColor: "#F9DFDA",
     position: "absolute",
     top: "6.7em",
@@ -62,7 +61,9 @@ const NavBarToolTip = () => {
   return (
     <div className={classes[tooltipVisibility]}>
       <img src={WarningIcon} className={classes.warningIcon} alt="Warning" />
-      <span>You must login in order to save a project</span>
+      <span>
+        You must login <strong>beforehand</strong> in order to save a project
+      </span>
       <div className={classes.arrowUp}> </div>
       <button
         onClick={() => {
