@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { matchPath, useLocation } from "react-router";
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import NavBarToolTip from "./NavBarToolTip";
 
 const NavBarLogin = ({
   account,
@@ -9,6 +11,21 @@ const NavBarLogin = ({
   setLoggedOutAccount,
   handleClick
 }) => {
+  const [isCalculation, setIsCalculation] = useState(false);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    let match = matchPath(location.pathname, {
+      path: "/calculation/:id"
+    });
+    if (match) {
+      setIsCalculation(true);
+    } else {
+      setIsCalculation(false);
+    }
+  });
+
   const handleLogOut = () => {
     handleClick();
     setLoggedOutAccount();
@@ -41,7 +58,14 @@ const NavBarLogin = ({
   );
 
   return !account || !account.email ? (
-    loginLink
+    !isCalculation ? (
+      <React.Fragment>{loginLink}</React.Fragment>
+    ) : (
+      <React.Fragment>
+        <NavBarToolTip />
+        {loginLink}
+      </React.Fragment>
+    )
   ) : (
     <React.Fragment>
       {getUserGreeting(account)}
