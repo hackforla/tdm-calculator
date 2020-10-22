@@ -62,7 +62,7 @@ const NavBarLogin = ({
       <React.Fragment>{loginLink}</React.Fragment>
     ) : (
       <React.Fragment>
-        <NavBarToolTip></NavBarToolTip>
+        <NavBarToolTip />
         {loginLink}
       </React.Fragment>
     )
