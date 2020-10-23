@@ -395,16 +395,16 @@ const TdmCalculationWizard = props => {
               ) : null}
             </div>
           ) : null}
-          {page === 6 ? (
-            <div className={classes.lastSavedContainer}>
-              {dateModified && (
-                <span className={classes.lastSaved}>
-                  <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
-                  {dateModified}
-                </span>
-              )}
-            </div>
-          ) : null}
+          {/* {page === 6 ? ( */}
+          <div className={classes.lastSavedContainer}>
+            {dateModified && (
+              <span className={classes.lastSaved}>
+                <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
+                {dateModified}
+              </span>
+            )}
+          </div>
+          {/* ) : null} */}
         </div>
       </div>
     </React.Fragment>
