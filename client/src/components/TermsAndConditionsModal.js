@@ -39,11 +39,6 @@ const useStyles = createUseStyles({
       padding: "16px",
       border: "1px solid #979797",
       marginTop: "8px"
-    },
-    "& .scroll": {
-      overflowY: "scroll",
-      width: "auto",
-      height: "300px"
     }
   },
   modalActions: {
@@ -89,6 +84,20 @@ const useStyles = createUseStyles({
     height: "20px !important",
     position: "relative",
     marginRight: "10px !important"
+  },
+  scroll: {
+    "&::-webkit-scrollbar": {
+      webkitappearance: "none",
+      width: "7px"
+    },
+    "&::-webkit-scrollbar-thumb": {
+      borderRadius: "4px",
+      backgroundColor: "rgba(0, 0, 0, .5)",
+      webkitBoxShadow: "0 0 1px rgba(255, 255, 255, .5)"
+    },
+    overflowY: "scroll",
+    width: "auto",
+    height: "300px"
   }
 });
 
@@ -141,7 +150,7 @@ const TermsAndConditionsModal = () => {
       className={classes.modal}
     >
       <h2>TDM Calculator User Terms and Conditions</h2>
-      <div className="scroll">
+      <div className={classes.scroll}>
         <p>
           PLEASE READ THIS AGREEMENT CAREFULLY BEFORE USING THIS WEB SITE. BY
           USING THIS WEB SITE, YOU ARE CONSENTING TO BE OBLIGATED AND BECOME A
