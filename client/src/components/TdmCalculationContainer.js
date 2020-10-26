@@ -1,13 +1,12 @@
 /* eslint-disable linebreak-style */
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { Prompt, withRouter } from "react-router-dom";
 import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
 import TdmCalculationWizard from "./ProjectWizard/TdmCalculationWizard";
 import * as ruleService from "../services/rule.service";
 import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";
-import ToastContext from "../contexts/Toast/ToastContext";
 import injectSheet from "react-jss";
 import { useToast } from "../contexts/Toast";
 
@@ -45,9 +44,7 @@ const filters = {
     rule.category === "measure" && rule.calculationPanelId !== 10
 };
 
-export function TdmCalculationContainer(props) {
-  const { history, account, classes } = props;
-  const context = useContext(ToastContext);
+export function TdmCalculationContainer({ history, match, account, classes }) {
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
   const [formInputs, setFormInputs] = useState({});
@@ -55,9 +52,8 @@ export function TdmCalculationContainer(props) {
   const [loginId, setLoginId] = useState(0);
   const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
+  const [formHasSaved, setFormHasSaved] = useState(true);
   const toast = useToast();
-  const toastAdd = toast.add;
-  const historyPush = history.push;
 
   // Get the rules for the calculation. Runs once when
   // component is loaded.
@@ -80,7 +76,7 @@ export function TdmCalculationContainer(props) {
       if (!engine) return;
       // If projectId param is not defined, projectId
       // will be assigned the string "undefined" - ugh!
-      const projectId = Number(props.match.params.projectId) || null;
+      const projectId = Number(match.params.projectId) || null;
       setProjectId(projectId ? Number(projectId) : null);
       try {
         let projectResponse = null;
@@ -103,12 +99,12 @@ export function TdmCalculationContainer(props) {
           ? "The project you are trying to view can only be viewed by the user."
           : "You must be logged in to view project.";
         const redirect = account.id ? "/projects" : "/login";
-        toastAdd(errMessage);
-        historyPush(redirect);
+        toast.add(errMessage);
+        history.push(redirect);
       }
     };
     initiateEngine();
-  }, [props.match.params.projectId, engine, account, toastAdd, historyPush]);
+  }, [match.params.projectId, engine, account, toast.add, history.push]);
 
   const recalculate = formInputs => {
     engine.run(formInputs, resultRuleCodes);
@@ -124,6 +120,7 @@ export function TdmCalculationContainer(props) {
     // update state with modified formInputs and rules
     setFormInputs(formInputs);
     setRules(rules);
+    setFormHasSaved(false); //TODO (optimize): find better location  so it's not called on every recalculate
   };
 
   const initializeStrategies = () => {
@@ -318,18 +315,19 @@ export function TdmCalculationContainer(props) {
       address: formInputs.PROJECT_ADDRESS,
       description: formInputs.PROJECT_DESCRIPTION,
       formInputs: JSON.stringify(inputsToSave),
-      loginId: props.account.id,
+      loginId: account.id,
       calculationId: TdmCalculationContainer.calculationId
     };
     if (!requestBody.name) {
-      context.add("You must give the project a name before saving.");
+      toast.add("You must give the project a name before saving.");
       return;
     }
     if (projectId) {
       requestBody.id = projectId;
       try {
         await projectService.put(requestBody);
-        context.add("Saved Project Changes");
+        toast.add("Saved Project Changes");
+        setFormHasSaved(true);
       } catch (err) {
         if (err.response) {
           if (err.response.status === 401) {
@@ -349,8 +347,9 @@ export function TdmCalculationContainer(props) {
       try {
         const postResponse = await projectService.post(requestBody);
         setProjectId(postResponse.data.id);
-        setLoginId(props.account.id);
-        context.add("Saved New Project");
+        setLoginId(account.id);
+        toast.add("Saved New Project");
+        setFormHasSaved(true);
       } catch (err) {
         if (err.response) {
           if (err.response.status === 401) {
@@ -371,6 +370,14 @@ export function TdmCalculationContainer(props) {
 
   return (
     <div className={classes.root}>
+      <Prompt
+        when={!formHasSaved}
+        message={location => {
+          return location.pathname.startsWith("/calculation")
+            ? true
+            : "This message will not actually appear anywhere because we are using a custom modal instead";
+        }}
+      />
       {view === "w" ? (
         <TdmCalculationWizard
           projectLevel={projectLevel}
@@ -427,7 +434,10 @@ TdmCalculationContainer.propTypes = {
     })
   }),
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string
+    })
   }),
   classes: PropTypes.object.isRequired,
   location: PropTypes.shape({
