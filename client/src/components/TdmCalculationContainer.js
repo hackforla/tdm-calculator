@@ -113,9 +113,10 @@ export function TdmCalculationContainer(props) {
   const recalculate = formInputs => {
     engine.run(formInputs, resultRuleCodes);
     const rules = engine.showRulesArray();
-    //The following several lines can be uncommented for debugging
-    console.log("Updated Rules:");
-    console.log(rules);
+    //The following several lines can be uncommented for debugging.
+    //Keep these commented when making new commits:
+    // console.log("Updated Rules:");
+    // console.log(rules);
     // const showWork = engine.showWork("PARK_REQUIREMENT");
     // console.log("Show Work:");
     // console.log(showWork);

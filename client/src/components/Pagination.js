@@ -7,6 +7,7 @@ import {
   faChevronLeft,
   faChevronRight
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const useStyles = createUseStyles({
   pagination: {
@@ -31,6 +32,7 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri Bold",
     margin: "auto 0",
     fontSize: "18px"
+    // cursor: "pointer"
   }
 });
 
@@ -54,9 +56,13 @@ const Pagination = props => {
         </button>
         {pageNumbers.map(number => (
           <li className={classes.pageLinkContainer} key={number}>
-            <a className={classes.pageLink} onClick={() => paginate(number)}>
+            <Link
+              className={classes.pageLink}
+              to="#"
+              onClick={() => paginate(number)}
+            >
               {number}
-            </a>
+            </Link>
           </li>
         ))}
         <button

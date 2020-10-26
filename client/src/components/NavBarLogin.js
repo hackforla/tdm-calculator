@@ -24,7 +24,7 @@ const NavBarLogin = ({
     } else {
       setIsCalculation(false);
     }
-  });
+  }, [location.pathname]);
 
   const handleLogOut = () => {
     handleClick();
