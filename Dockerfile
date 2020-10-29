@@ -11,7 +11,7 @@ RUN echo package.json
 
 FROM node
 
-COPY . /
+COPY ./server /
 COPY --from=clientBuilder /app/build /client/build
 
 WORKDIR /

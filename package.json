@@ -1,67 +1,27 @@
 {
   "name": "tdm-calculator",
-  "version": "0.2.14",
-  "description": "Traffic Data Management Calculator",
+  "version": "1.0.0",
+  "description": "Workspace for TDM Calculator Projects",
+  "main": ".prettierrc.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "husky": "^4.3.0",
+    "lerna": "^3.22.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hackforla/tdm-calculator"
-  },
-  "main": "server.js",
-  "scripts": {
-    "precommit": "lint-staged",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "cd client && npm i && npm run build",
-    "start": "nodemon --ignore './client/'",
-    "cypress:open": "cypress open -C ./cypress/cypress-config.json",
-    "cypress:run": "cypress run -C ./cypress/cypress-config.json",
-    "release-notes": "gren release",
-    "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  **/*.{js,jsx}",
-    "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  **/*.{js,jsx}",
-    "flyway:migrate": "flyway -c ./db/flyway-config.js migrate",
-    "flyway:clean": "flyway -c ./db/flyway-config.js clean",
-    "flyway:repair": "flyway -c ./db/flyway-config.js repair",
-    "flyway:info": "flyway -c ./db/flyway-config.js info",
-    "flyway:validate": "flyway -c ./db/flyway-config.js validate"
+    "url": "git+https://github.com/hackforla/tdm-calculator.git"
   },
   "author": "Hack for LA",
   "license": "ISC",
-  "dependencies": {
-    "@sendgrid/mail": "^6.5.4",
-    "bcrypt": "^5.0.0",
-    "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.5",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "error-handler": "^1.0.0",
-    "eslint-plugin-react": "^7.20.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "moment": "^2.24.0",
-    "mssql": "^6.2.0",
-    "node-flywaydb": "^3.0.2",
-    "path": "^0.12.7"
+  "bugs": {
+    "url": "https://github.com/hackforla/tdm-calculator/issues"
   },
-  "devDependencies": {
-    "@testing-library/cypress": "^6.0.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-cypress": "^2.10.3",
-    "eslint-plugin-jest": "^23.8.2",
-    "eslint-plugin-prettier": "^3.1.3",
-    "husky": "^4.2.3",
-    "jest": "^24.9.0",
-    "lerna": "^3.20.2",
-    "lint-staged": "^10.0.8",
-    "nodemon": "^2.0.2",
-    "prettier": "^2.0.5"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lerna run --concurrency 1 --stream precommit"
-    }
-  },
-  "lint-staged": {
-    "*.{js,md}": "prettier --write",
-    "*.js": "eslint --cache --fix"
-  }
+  "homepage": "https://github.com/hackforla/tdm-calculator#readme"
 }
