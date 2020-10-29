@@ -369,44 +369,43 @@ const TdmCalculationWizard = props => {
                   </div>
                   <div id="save-and-startover-buttons-container">
                     <Button
-                      isDisplayed={
-                        !!(
-                          account.id &&
-                          (!projectId || account.id === loginId) &&
-                          page === 6
-                        )
-                      }
+                      // isDisplayed={page !== 1}
+                      onClick={() => window.location.assign("/calculation")}
+
+                      variant="outlined"
+                    >
+                      Start Over
+                    </Button>
+                    <Button
+                      // isDisplayed={
+                      //   !!(
+                      //     account.id &&
+                      //     (!projectId || account.id === loginId) &&
+                      //     page === 6
+                      //   )
+                      // }
                       onClick={onSave}
                       color="colorPrimary"
                       variant="contained"
                     >
-                      {projectId ? "Save Project" : "Save As New Project"}
-                    </Button>
-                    <Button
-                      isDisplayed={page !== 1}
-                      onClick={() => {
-                        // TODO setOpenNavConfirmationModal(true);
-                        window.location.assign("/calculation/");
-                      }}
-                      variant="outlined"
-                    >
-                      Start Over
+                      {/* {projectId ? "Save Project" : "Save As New Project"} */}
+                      Save Project
                     </Button>
                   </div>
                 </>
               ) : null}
             </div>
           ) : null}
-          {page === 6 ? (
-            <div className={classes.lastSavedContainer}>
-              {dateModified && (
-                <span className={classes.lastSaved}>
-                  <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
-                  {dateModified}
-                </span>
-              )}
-            </div>
-          ) : null}
+          {/* {page === 6 ? ( */}
+          <div className={classes.lastSavedContainer}>
+            {dateModified && (
+              <span className={classes.lastSaved}>
+                <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
+                {dateModified}
+              </span>
+            )}
+          </div>
+          {/* ) : null} */}
         </div>
       </div>
     </React.Fragment>
