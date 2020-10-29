@@ -20,8 +20,8 @@ import FaqView from "./components/Faq/FaqView";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
 import "./styles/App.scss";
-import axios from "axios";
 import PublicComment from "./components/PublicComment/PublicCommentPage";
+import NavConfirmationModal from "./components/NavConfirmationModal";
 
 const useStyles = createUseStyles({
   root: {
@@ -35,6 +35,8 @@ const App = () => {
   const classes = useStyles();
   const [account, setAccount] = useState({});
   const [isCreatingNewProject, setIsCreatingNewProject] = useState(false);
+  const [confirmCallback, setConfirmCallback] = useState(null);
+  const [openNavModal, setOpenNavConfirmationModal] = useState(false);
 
   useEffect(() => {
     const currentUser = localStorage.getItem("currentUser");
@@ -58,26 +60,20 @@ const App = () => {
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
   };
 
-  //TODO: This doesn't seem like it's getting used anymore. Don't see token in local storage. Check on authorization flow to see if token is still needed.
-  const setTokenInHeaders = () => {
-    axios.interceptors.request.use(
-      config => {
-        let token = localStorage.getItem("token");
-        if (token) {
-          config.headers["Authorization"] = `Bearer ${token}`;
-        }
-        return config;
-      },
-      error => Promise.reject(error)
-    );
+  const getUserConfirmation = (message, callback) => {
+    setConfirmCallback(() => callback);
+    setOpenNavConfirmationModal(!openNavModal);
   };
-
-  setTokenInHeaders();
 
   return (
     <React.Fragment>
       <UserContext.Provider value={account}>
-        <Router>
+        <Router getUserConfirmation={getUserConfirmation}>
+          <NavConfirmationModal
+            confirmCallback={confirmCallback}
+            setOpenNavModal={setOpenNavConfirmationModal}
+            openNavModal={openNavModal}
+          />
           <Header
             account={account}
             setAccount={setAccount}
@@ -95,6 +91,7 @@ const App = () => {
                 <TdmCalculationContainer
                   account={account}
                   setIsCreatingNewProject={setIsCreatingNewProject}
+                  setOpenNavConfirmationModal={setOpenNavConfirmationModal}
                 />
               )}
             />

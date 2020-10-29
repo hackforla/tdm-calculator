@@ -152,7 +152,7 @@ const TdmCalculationWizard = props => {
     };
 
     if (projectId) getDateModified();
-  });
+  }, []);
 
   const context = useContext(ToastContext);
   const classes = useStyles();
@@ -371,6 +371,7 @@ const TdmCalculationWizard = props => {
                     <Button
                       // isDisplayed={page !== 1}
                       onClick={() => window.location.assign("/calculation")}
+
                       variant="outlined"
                     >
                       Start Over
