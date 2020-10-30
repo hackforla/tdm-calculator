@@ -3,6 +3,7 @@ FROM node:alpine as clientBuilder
 RUN mkdir /app
 WORKDIR /app
 COPY /client/package.json .
+COPY /client/package-lock.json .
 RUN npm ci
 COPY /client .
 
