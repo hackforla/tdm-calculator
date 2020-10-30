@@ -29,25 +29,31 @@ To create a container from this image and run it on the local docker engine:
 docker run -d -p 5050:5000 --name tdm tdmcalc/tdmapp
 ```
 
-Where the -it option allows the command line to interact with the running container
+Where the -d option allows the container to run as a daemon in the background.
+
+If there was already a container named tdm, then you can remove it with
+
+```
+docker rm -f tdm
+```
 
 To inspect the running container:
 
 ```bash
-docker container inspect <containerid>
-```
-
-Where <containerid> can be replaced with the container guid or the container name, e.g.,
-
-```
 docker container inspect tdm
+```
+
+Where `tdm` is the name of the running container, or can be replaced with the container guid
+
+```
+docker container inspect <containerId>
 ```
 
 for the container created above.
 
 This will run our application in an environment that duplicates the production environment.
 
-We can swap in different environment variables to run against our local database:
+We can swap in different environment variables to run against our local database (not working yet):
 
 ```
 docker run -d -p 5052:5000 --name tdmlocal \
@@ -58,6 +64,36 @@ docker run -d -p 5052:5000 --name tdmlocal \
 
 -e SQL_USER_NAME=sa \
 -e SQL_PASSWORD=Dogfood1! \
+tdmcalc/tdmapp
+
+```
+
+or for a local Windows database (not working):
+
+```
+docker run -it -p 5001:5000 --name tdmlocal \
+-e SQL_SERVER_NAME=host.docker.internal \
+-e SQL_SERVER_INSTANCE=SQLEXPRESS \
+-e SQL_SERVER_PORT= \
+-e SQL_DATABASE_NAME=tdmdev \
+-e SQL_USER_NAME=sa \
+-e SQL_PASSWORD=Kimosabe1 \
+-e SQL_ENCRYPT=true \
+tdmcalc/tdmapp
+
+```
+
+or for the shared dev database (works):
+
+```
+docker run -it -p 5000:5000 --name tdmazure \
+-e SQL_SERVER_NAME=ladot.database.windows.net \
+-e SQL_SERVER_INSTANCE= \
+-e SQL_SERVER_PORT=1433 \
+-e SQL_DATABASE_NAME=tdmdev \
+-e SQL_USER_NAME=tdmsa \
+-e SQL_PASSWORD=GetOnTheBus! \
+-e SQL_ENCRYPT=true \
 tdmcalc/tdmapp
 
 ```

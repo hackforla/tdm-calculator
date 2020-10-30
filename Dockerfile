@@ -15,17 +15,16 @@ FROM node
 WORKDIR /
 
 COPY --from=clientBuilder /app/build /client/build
-COPY ./server/package.json /
-COPY ./server/package-lock.json /
+COPY ./server/package.json ./
+COPY ./server/package-lock.json ./
 
 RUN npm ci
 
-COPY ./server/server.js /
-COPY ./server/app /
-COPY ./server/middleware /
+COPY ./server/app ./app
+COPY ./server/middleware ./middleware
+COPY ./server/server.js ./
 
 EXPOSE 5000
-
-ENTRYPOINT ["/usr/local/bin/node", "server.js"]
+ENTRYPOINT ["/usr/local/bin/node", "./server.js"]
 
 
