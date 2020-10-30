@@ -37,6 +37,14 @@ To inspect the running container:
 docker container inspect <containerid>
 ```
 
+Where <containerid> can be replaced with the container guid or the container name, e.g.,
+
+```
+docker container inspect tdm
+```
+
+for the container created above.
+
 This will run our application in an environment that duplicates the production environment.
 
 We can swap in different environment variables to run against our local database:
@@ -47,6 +55,7 @@ docker run -d -p 5052:5000 --name tdmlocal \
 -e SQL_SERVER_INSTANCE= \
 -e SQL_SERVER_PORT=1434 \
 -e SQL_DATABASE_NAME=tdmdev \
+
 -e SQL_USER_NAME=sa \
 -e SQL_PASSWORD=Dogfood1! \
 tdmcalc/tdmapp

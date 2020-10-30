@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Modal from "./Modal";
+import Modal from "react-modal";
 import { BrowserRouter as Router } from "react-router-dom";
 
 it("renders without crashing", () => {
