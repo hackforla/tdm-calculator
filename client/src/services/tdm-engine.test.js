@@ -8,9 +8,9 @@ import {
 } from "../test-data/tdm-calc-examples.js";
 
 describe("class Engine", () => {
-  beforeEach(done => {
-    done();
-  });
+  // beforeEach(done => {
+  //   done();
+  // });
   it("Engine Test 1 - A + B", () => {
     return new Promise(done => {
       const engine = new Engine(engineTestRules);
