@@ -37,10 +37,10 @@ For a list of _other development topics_, see [Development.md](./development.md)
    git clone https://github.com/hackforla/tdm-calculator
    ```
 
-1. Change to the tdm-calculator directory:
+1. Change to the tdm-calculator/server directory:
 
    ```bash
-   cd tdm-calculator
+   cd tdm-calculator/server
    ```
 
 1. Install the node server npm depedencies:
@@ -49,12 +49,12 @@ For a list of _other development topics_, see [Development.md](./development.md)
    npm install
    ```
 
-1. Obtain the `.env` file from the tdm-calculator/Developers G-Drive folder and place it in this directory. It contains private info (i.e., the production database connection string) that we cannot put in this public GitHub repo.
+1. Obtain the `.env` file from the tdm-calculator/Developers G-Drive folder and place it in this /server directory. It contains private info (i.e., the production database connection string) that we cannot put in this public GitHub repo.
 
 1. Change to the client directory:
 
    ```bash
-   cd client
+   cd ../client
    ```
 
 1. Install the client (React) dependencies:
@@ -65,10 +65,10 @@ For a list of _other development topics_, see [Development.md](./development.md)
 
 ### To Run the React/Node Application
 
-1. In one terminal window, navigate back to the /tdm-calculator directory and start the node server:
+1. In one terminal window, navigate back to the /tdm-calculator/server directory and start the node server:
 
    ```bash
-   cd ..
+   cd ../server
    npm start
    ```
 
@@ -92,7 +92,7 @@ We use the "Git Flow" workflow to manage source code. See [Vincent Driessen's se
 1. After cloning the repository, create a feature branch with a name containing your name and a feature name, separated by dashes, for example.
 
    ```bash
-   git checkout -b nicholas-issue-100 develop
+   git checkout -b 619-project-level-rule-change develop
    ```
 
    Note that your feature branch is based on the _develop_ branch, which is where feature changes will be integrated for eventual release to production.
