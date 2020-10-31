@@ -23,7 +23,6 @@ RUN npm ci
 COPY ./server/app ./app
 COPY ./server/middleware ./middleware
 COPY ./server/server.js ./
-COPY ./server/.env ./
 
 EXPOSE 5000
 ENTRYPOINT ["/usr/local/bin/node", "./server.js"]
