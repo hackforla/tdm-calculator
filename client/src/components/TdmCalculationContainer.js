@@ -400,19 +400,19 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
           employmentPackageSelected={employmentPackageSelected}
         />
       ) : (
-        <TdmCalculation
-          rules={rules}
-          onInputChange={onInputChange}
-          onCommentChange={onCommentChange}
-          onUncheckAll={onUncheckAll}
-          filters={filters}
-          onPkgSelect={onPkgSelect}
-          resultRuleCodes={resultRuleCodes}
-          onViewChange={() => {
-            setView("w");
-          }}
-        />
-      )}
+          <TdmCalculation
+            rules={rules}
+            onInputChange={onInputChange}
+            onCommentChange={onCommentChange}
+            onUncheckAll={onUncheckAll}
+            filters={filters}
+            onPkgSelect={onPkgSelect}
+            resultRuleCodes={resultRuleCodes}
+            onViewChange={() => {
+              setView("w");
+            }}
+          />
+        )}
     </div>
   );
 }

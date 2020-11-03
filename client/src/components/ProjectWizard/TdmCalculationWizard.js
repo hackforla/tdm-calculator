@@ -136,21 +136,22 @@ const TdmCalculationWizard = props => {
   } = props;
   const [dateModified, setDateModified] = useState("");
 
-  useEffect(() => {
-    const getDateModified = async () => {
-      try {
-        const result = await projectService.get();
-        const currentProject = result.data.filter(
-          project => project.id === projectId
-        );
-        let lastSaved = currentProject[0].dateModified;
-        lastSaved = moment(lastSaved).format("MM/DD/YYYY h:mm A");
-        setDateModified(lastSaved);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  const getDateModified = async () => {
+    try {
+      const result = await projectService.get();
+      const currentProject = result.data.filter(
+        project => project.id === projectId
+      );
+      let lastSaved = currentProject[0].dateModified;
+      lastSaved = moment(lastSaved).format("MM/DD/YYYY h:mm A");
+      setDateModified(lastSaved);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
+  useEffect(() => {
+    getDateModified()
     if (projectId) getDateModified();
   }, []);
 
@@ -300,8 +301,8 @@ const TdmCalculationWizard = props => {
         // Skip page 4 unless Packages are applicable
         const nextPage =
           Number(page) === 3 &&
-          !allowResidentialPackage &&
-          !allowEmploymentPackage
+            !allowResidentialPackage &&
+            !allowEmploymentPackage
             ? 5
             : Number(page) + 1;
         history.push(`/calculation/${nextPage}${projectIdParam}`);
@@ -310,8 +311,8 @@ const TdmCalculationWizard = props => {
       // Skip page 4 unless Packages are applicable
       const prevPage =
         Number(page) === 5 &&
-        !allowResidentialPackage &&
-        !allowEmploymentPackage
+          !allowResidentialPackage &&
+          !allowEmploymentPackage
           ? 3
           : Number(page) - 1;
       history.push(`/calculation/${prevPage}${projectIdParam}`);
@@ -340,62 +341,57 @@ const TdmCalculationWizard = props => {
         >
           {routes}
           {!projectId ||
-          (account &&
-            account.id &&
-            (account.id === loginId || account.isAdmin)) ||
-          (account && account.isAdmin) ? (
-            <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
-              {rules && rules.length ? ( //navigation disabled until rules have loaded
-                <>
-                  <div id="nav-container" className="space-between">
-                    <NavButton
-                      id="leftNavArrow"
-                      navDirection="previous"
-                      isVisible={page !== 1}
-                      isDisabled={Number(page) === 1}
-                      onClick={() => {
-                        onPageChange(Number(page) - 1);
-                      }}
-                    />
-                    <NavButton
-                      id="rightNavArrow"
-                      navDirection="next"
-                      isVisible={page !== 6}
-                      isDisabled={setDisabledForNextNavButton()}
-                      onClick={() => {
-                        onPageChange(Number(page) + 1);
-                      }}
-                    />
-                  </div>
-                  <div id="save-and-startover-buttons-container">
-                    <Button
-                      // isDisplayed={page !== 1}
-                      onClick={() => window.location.assign("/calculation")}
+            (account &&
+              account.id &&
+              (account.id === loginId || account.isAdmin)) ||
+            (account && account.isAdmin) ? (
+              <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
+                {rules && rules.length ? ( //navigation disabled until rules have loaded
+                  <>
+                    <div id="nav-container" className="space-between">
+                      <NavButton
+                        id="leftNavArrow"
+                        navDirection="previous"
+                        isVisible={page !== 1}
+                        isDisabled={Number(page) === 1}
+                        onClick={() => {
+                          onPageChange(Number(page) - 1);
+                        }}
+                      />
+                      <NavButton
+                        id="rightNavArrow"
+                        navDirection="next"
+                        isVisible={page !== 6}
+                        isDisabled={setDisabledForNextNavButton()}
+                        onClick={() => {
+                          onPageChange(Number(page) + 1);
+                        }}
+                      />
+                    </div>
+                    <div id="save-and-startover-buttons-container">
+                      <Button
+                        // isDisplayed={page !== 1}
+                        onClick={() => window.location.assign("/calculation")}
 
-                      variant="outlined"
-                    >
-                      Start Over
+                        variant="outlined"
+                      >
+                        Start Over
                     </Button>
-                    <Button
-                      // isDisplayed={
-                      //   !!(
-                      //     account.id &&
-                      //     (!projectId || account.id === loginId) &&
-                      //     page === 6
-                      //   )
-                      // }
-                      onClick={onSave}
-                      color="colorPrimary"
-                      variant="contained"
-                    >
-                      {/* {projectId ? "Save Project" : "Save As New Project"} */}
-                      Save Project
+                      <Button
+                        onClick={() => {
+                          getDateModified()
+                          onSave()
+                        }}
+                        color="colorPrimary"
+                        variant="contained"
+                      >
+                        Save Project
                     </Button>
-                  </div>
-                </>
-              ) : null}
-            </div>
-          ) : null}
+                    </div>
+                  </>
+                ) : null}
+              </div>
+            ) : null}
           {/* {page === 6 ? ( */}
           <div className={classes.lastSavedContainer}>
             {dateModified && (
