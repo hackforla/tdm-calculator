@@ -1,4 +1,4 @@
-FROM node:12-alpine as clientBuilder
+FROM node:14-alpine as clientBuilder
 
 RUN mkdir /app
 WORKDIR /app
@@ -10,7 +10,7 @@ COPY /client .
 RUN npm run build
 RUN echo package.json
 
-FROM node:12-alpine
+FROM node:14-alpine
 
 WORKDIR /
 
