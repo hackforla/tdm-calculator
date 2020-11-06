@@ -377,16 +377,18 @@ const TdmCalculationWizard = props => {
                       >
                         Start Over
                     </Button>
-                      <Button
-                        onClick={() => {
-                          onSave()
-                          getDateModified()
-                        }}
-                        color="colorPrimary"
-                        variant="contained"
-                      >
-                        Save Project
-                    </Button>
+                      {account.email ? (
+                        <Button
+                          onClick={() => {
+                            onSave()
+                            getDateModified()
+                          }}
+                          color="colorPrimary"
+                          variant="contained"
+                        >
+                          Save Project
+                        </Button>) : (null)}
+
                     </div>
                   </>
                 ) : null}
