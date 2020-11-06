@@ -379,8 +379,8 @@ const TdmCalculationWizard = props => {
                     </Button>
                       <Button
                         onClick={() => {
-                          getDateModified()
                           onSave()
+                          getDateModified()
                         }}
                         color="colorPrimary"
                         variant="contained"
