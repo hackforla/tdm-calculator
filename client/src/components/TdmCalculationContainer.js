@@ -84,7 +84,6 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         if (Number(projectId) > 0 && account.id) {
           projectResponse = await projectService.getById(projectId);
           setLoginId(projectResponse.data.loginId);
-          // console.log("inputs", projectResponse);
           inputs = JSON.parse(projectResponse.data.formInputs);
           setStrategiesInitialized(true);
         } else {

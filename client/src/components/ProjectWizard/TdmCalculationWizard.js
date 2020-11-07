@@ -144,6 +144,7 @@ const TdmCalculationWizard = props => {
       );
       let lastSaved = currentProject[0].dateModified;
       lastSaved = moment(lastSaved).format("MM/DD/YYYY h:mm A");
+      console.log('LASTSAVED', lastSaved)
       setDateModified(lastSaved);
     } catch (err) {
       console.error(err);
@@ -380,7 +381,9 @@ const TdmCalculationWizard = props => {
                       <Button
                         onClick={() => {
                           onSave()
-                          getDateModified()
+                          setTimeout(() => {
+                            getDateModified()
+                          }, 1000);
                         }}
                         color="colorPrimary"
                         variant="contained"
