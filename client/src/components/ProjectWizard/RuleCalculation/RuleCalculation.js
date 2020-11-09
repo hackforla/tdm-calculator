@@ -161,6 +161,7 @@ const RuleCalculation = ({
     minValue,
     maxValue,
     choices,
+    calcCode,
     calcValue,
     calcUnits,
     required,
@@ -329,7 +330,7 @@ const RuleCalculation = ({
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
           <div className={classes.calcUnitsCaption}>
-            <span className={classes.calcNumber}>
+            <span id={calcCode} className={classes.calcNumber}>
               {calcValue ? Math.round(calcValue * 100) / 100 : ""}
             </span>
             <span className={classes.calcUnits}> {calcUnits || ""}</span>
@@ -359,6 +360,7 @@ RuleCalculation.propTypes = {
     minValue: PropTypes.number,
     maxValue: PropTypes.number,
     choices: PropTypes.string,
+    calcCode: PropTypes.string,
     calcValue: PropTypes.any,
     calcUnits: PropTypes.string,
     required: PropTypes.bool,

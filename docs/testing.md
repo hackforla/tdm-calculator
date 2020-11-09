@@ -1,15 +1,5 @@
 # Testing
 
-We have three levels of testing built into the application at this time for just a few components/modules. Ideally, every React component should have a Storybook story and snapshot test, and critical non-react components should have good unit test coverage,as described below.
-
-#### Storybook
-
-[Storybook](https://storybook.js.org/) creates a "visual style guide" of components. Ideally, every visual React component will have a storybook story that allows us to view what each component looks like without having to track down some sort of screen where it might be used. See [this tutorial](https://www.learnstorybook.com/react/en/get-started) to get started with storybook. You can run the storybook preview page by running
-
-`npm run storybook`
-
-from the command line in the /client directory to view the storybook catalog for our project. Though this gives a human-visible look at a component, it does not really comprise an automated test of the component, so...
-
 #### Unit Tests
 
 [Jest](https://jestjs.io/) is used for unit testing of non-react ES6 modules, such as the tdm-engine. These also get run when you type
@@ -24,11 +14,10 @@ at the command line, and all should pass. In fact, we should eventually implemen
 
 To run the Cypress Tests from the root directory, you will need 3 terminal windows open for the server, client, and cypress servers:
 
-- `npm start` or `yarn start` to start the backend node server
-- `cd client` to change into the client directory from the root directory
-- `npm start` or `yarn start` and start the frontend React server
+- `cd server` and then `npm start` to start the backend node server
+- `cd client` and `npm start` to start the frontend React server
 - `cd cypress` to change into the cypress from the root directory
-- `npm run cypress` or `yarn cypress` to start the Cypress Tests
+- `npm run cypress:open` to start the Cypress Test Runner
 
 After a moment, the [Cypress Test Runner](https://docs.cypress.io/guides/core-concepts/test-runner.html#Overview) will launch.
 

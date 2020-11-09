@@ -34,6 +34,7 @@ const NavBarLogin = ({
   const loginLink = (
     <li className={clsx(classes.userLogin, classes.linkBlock)}>
       <Link
+        id="cy-login-menu-item"
         className={`${classes.link} ${classes.lastItem}`}
         to="/login"
         onClick={handleClick}
