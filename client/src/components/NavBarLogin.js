@@ -5,12 +5,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import NavBarToolTip from "./NavBarToolTip";
 
-const NavBarLogin = ({
-  account,
-  classes,
-  setLoggedOutAccount,
-  handleClick
-}) => {
+const NavBarLogin = ({ account, classes, handleHamburgerMenuClick }) => {
   const [isCalculation, setIsCalculation] = useState(false);
 
   const location = useLocation();
@@ -24,19 +19,14 @@ const NavBarLogin = ({
     } else {
       setIsCalculation(false);
     }
-  });
-
-  const handleLogOut = () => {
-    handleClick();
-    setLoggedOutAccount();
-  };
+  }, [location.pathname]);
 
   const loginLink = (
     <li className={clsx(classes.userLogin, classes.linkBlock)}>
       <Link
         className={`${classes.link} ${classes.lastItem}`}
         to="/login"
-        onClick={handleClick}
+        onClick={handleHamburgerMenuClick}
       >
         Login
       </Link>
@@ -51,34 +41,37 @@ const NavBarLogin = ({
 
   const logoutLink = (
     <li className={classes.linkBlock}>
-      <button className={`link ${classes.lastItem}`} onClick={handleLogOut}>
+      <Link
+        className={`${classes.link} ${classes.lastItem}`}
+        to={{ pathname: "/logout", state: { prevPath: location.pathname } }}
+        onClick={handleHamburgerMenuClick}
+      >
         Logout
-      </button>
+      </Link>
     </li>
   );
 
   return !account || !account.email ? (
     !isCalculation ? (
-      <React.Fragment>{loginLink}</React.Fragment>
+      <>{loginLink}</>
     ) : (
-      <React.Fragment>
+      <>
         <NavBarToolTip />
         {loginLink}
-      </React.Fragment>
+      </>
     )
   ) : (
-    <React.Fragment>
+    <>
       {getUserGreeting(account)}
       {logoutLink}
-    </React.Fragment>
+    </>
   );
 };
 
 NavBarLogin.propTypes = {
   account: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  setLoggedOutAccount: PropTypes.func,
-  handleClick: PropTypes.func
+  handleHamburgerMenuClick: PropTypes.func
 };
 
 export default NavBarLogin;

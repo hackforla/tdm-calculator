@@ -135,25 +135,6 @@ const TdmCalculationWizard = props => {
     employmentPackageSelected
   } = props;
   const [dateModified, setDateModified] = useState("");
-
-  useEffect(() => {
-    const getDateModified = async () => {
-      try {
-        const result = await projectService.get();
-        const currentProject = result.data.filter(
-          project => project.id === projectId
-        );
-        let lastSaved = currentProject[0].dateModified;
-        lastSaved = moment(lastSaved).format("MM/DD/YYYY h:mm A");
-        setDateModified(lastSaved);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    if (projectId) getDateModified();
-  }, []);
-
   const context = useContext(ToastContext);
   const classes = useStyles();
   const page = Number(match.params.page);
@@ -178,6 +159,24 @@ const TdmCalculationWizard = props => {
     }
   }, [projectId, account, loginId, history]);
 
+  useEffect(() => {
+    const getDateModified = async () => {
+      try {
+        const result = await projectService.get();
+        const currentProject = result.data.filter(
+          project => project.id === projectId
+        );
+        let lastSaved = currentProject[0].dateModified;
+        lastSaved = moment(lastSaved).format("MM/DD/YYYY h:mm A");
+        setDateModified(lastSaved);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (projectId) getDateModified();
+  }, [projectId]);
+
   const projectDescriptionRules =
     rules && rules.filter(filters.projectDescriptionRules);
   const landUseRules = rules && rules.filter(filters.landUseRules);
@@ -200,12 +199,12 @@ const TdmCalculationWizard = props => {
       page === 5 && strategyRules.find(rule => !!rule.validationErrors);
     const isPage6 = Number(page) === 6;
 
-    return isPage1AndHasErrors ||
+    return !!(
+      isPage1AndHasErrors ||
       isPage2AndHasErrors ||
       isPage5AndHasErrors ||
       isPage6
-      ? true
-      : false;
+    );
   };
 
   const routes = (
@@ -368,14 +367,6 @@ const TdmCalculationWizard = props => {
                     />
                   </div>
                   <div id="save-and-startover-buttons-container">
-                    <Button
-                      // isDisplayed={page !== 1}
-                      onClick={() => window.location.assign("/calculation")}
-
-                      variant="outlined"
-                    >
-                      Start Over
-                    </Button>
                     <Button
                       // isDisplayed={
                       //   !!(
