@@ -6,6 +6,8 @@ module.exports = {
     colorText: "#0F2940", //dark blue
     colorLADOT: "#002E6D",
     colorDisabled: "rgba(0, 0, 0, .05)", //lightest grey transparent
-    colorWhite: "#fff" //white
+    colorCancel: "rgba(0, 0, 0, 0.5)", //light grey, e.g. cancel button
+    colorWhite: "#fff", //white
+    colorError: "#E46247" //e.g. red
   }
 };

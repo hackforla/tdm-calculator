@@ -94,16 +94,10 @@ const useStyles = createUseStyles({
 });
 
 const NavBar = props => {
-  const {
-    account,
-    setLoggedOutAccount,
-    // location,
-    navbarOpen,
-    setNavbarOpen
-  } = props;
+  const { account, navbarOpen, setNavbarOpen } = props;
   const classes = useStyles();
 
-  const handleClick = () => {
+  const handleHamburgerMenuClick = () => {
     setNavbarOpen(window.innerWidth < 768 ? !navbarOpen : false);
   };
 
@@ -115,7 +109,7 @@ const NavBar = props => {
             className={classes.link}
             activeClassName={classes.currentLink}
             to="/projects"
-            onClick={handleClick}
+            onClick={handleHamburgerMenuClick}
           >
             My Projects
           </NavLink>
@@ -125,7 +119,8 @@ const NavBar = props => {
         <NavLink
           className={classes.link}
           activeClassName={classes.currentLink}
-          to="/calculation/1/"
+          to="/create-project"
+          onClick={handleHamburgerMenuClick}
         >
           Create Project
         </NavLink>
@@ -136,7 +131,7 @@ const NavBar = props => {
             className={classes.link}
             activeClassName={classes.currentLink}
             to="/roles"
-            onClick={handleClick}
+            onClick={handleHamburgerMenuClick}
           >
             Security
           </NavLink>
@@ -147,7 +142,7 @@ const NavBar = props => {
           className={classes.link}
           activeClassName={classes.currentLink}
           to="/about"
-          onClick={handleClick}
+          onClick={handleHamburgerMenuClick}
         >
           About
         </NavLink>
@@ -157,7 +152,7 @@ const NavBar = props => {
           className={classes.link}
           activeClassName={classes.currentLink}
           to="/publiccomment"
-          onClick={handleClick}
+          onClick={handleHamburgerMenuClick}
         >
           Public Comment
         </NavLink>
@@ -165,9 +160,8 @@ const NavBar = props => {
       <NavBarLogin
         account={account}
         classes={classes}
-        setLoggedOutAccount={setLoggedOutAccount}
         navbarOpen={navbarOpen}
-        handleClick={handleClick}
+        handleHamburgerMenuClick={handleHamburgerMenuClick}
       />
     </ul>
   );
@@ -181,13 +175,8 @@ NavBar.propTypes = {
     isAdmin: PropTypes.bool,
     isSecurityAdmin: PropTypes.bool
   }),
-  setLoggedOutAccount: PropTypes.func,
   navbarOpen: PropTypes.bool,
-  setNavbarOpen: PropTypes.func,
-  isCreatingNewProject: PropTypes.bool,
-  location: PropTypes.shape({
-    pathname: PropTypes.string
-  })
+  setNavbarOpen: PropTypes.func
 };
 
 export default withRouter(NavBar);

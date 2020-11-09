@@ -84,7 +84,6 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         if (Number(projectId) > 0 && account.id) {
           projectResponse = await projectService.getById(projectId);
           setLoginId(projectResponse.data.loginId);
-          // console.log("inputs", projectResponse);
           inputs = JSON.parse(projectResponse.data.formInputs);
           setStrategiesInitialized(true);
         } else {
@@ -104,10 +103,10 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       }
     };
     initiateEngine();
-  }, [match.params.projectId, engine, account, toast.add, history.push]);
+  }, [match.params.projectId, engine, account, toast.add, history]);
 
-  const recalculate = formInputs => {
-    engine.run(formInputs, resultRuleCodes);
+  const recalculate = updatedFormInputs => {
+    engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
     const rules = engine.showRulesArray();
     //The following several lines can be uncommented for debugging
     // console.log("Updated Rules:");
@@ -115,11 +114,10 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
     // const showWork = engine.showWork("PARK_REQUIREMENT");
     // console.log("Show Work:");
     // console.log(showWork);
-
-    // update state with modified formInputs and rules
-    setFormInputs(formInputs);
+    // update state with modified updatedFormInputs and rules
+    setFormInputs(updatedFormInputs);
     setRules(rules);
-    setFormHasSaved(false); //TODO (optimize): find better location  so it's not called on every recalculate
+    setFormHasSaved(false); // TODO (optimize): find better location so it's not called on every recalculate
   };
 
   const initializeStrategies = () => {
@@ -373,8 +371,8 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         when={!formHasSaved}
         message={location => {
           return location.pathname.startsWith("/calculation")
-            ? true
-            : "This message will not actually appear anywhere because we are using a custom modal instead";
+            ? true // returning true allows user to continue without a prompt/modal
+            : "this message doesn't actaully show, but will cause modal to open";
         }}
       />
       {view === "w" ? (

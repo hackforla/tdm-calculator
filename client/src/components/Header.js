@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -68,18 +67,11 @@ const useStyles = createUseStyles({
 });
 
 const Header = props => {
-  const { account, setAccount, isCreatingNewProject } = props;
+  const { account } = props;
   const classes = useStyles();
-  const history = useHistory();
   const [navbarOpen, setNavbarOpen] = useState(false);
 
-  const setLoggedOutAccount = () => {
-    localStorage.clear();
-    setAccount({});
-    history.push("/login");
-  };
-
-  const handleClick = () => setNavbarOpen(!navbarOpen);
+  const handleHamburgerMenuClick = () => setNavbarOpen(!navbarOpen);
 
   return (
     <div className={clsx(classes.root, navbarOpen ? "navbarOpen" : "")}>
@@ -92,27 +84,23 @@ const Header = props => {
           />
         </a>
       </div>
-      <button className={classes.hamburgerButton} onClick={handleClick}>
+      <button
+        className={classes.hamburgerButton}
+        onClick={handleHamburgerMenuClick}
+      >
         <FontAwesomeIcon icon={faBars} className={classes.hamburger} />
       </button>
       <NavBar
         navbarOpen={navbarOpen}
         setNavbarOpen={setNavbarOpen}
         account={account}
-        setLoggedOutAccount={setLoggedOutAccount}
-        isCreatingNewProject={isCreatingNewProject}
       />
     </div>
   );
 };
 
 Header.propTypes = {
-  account: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string
-  }),
-  setAccount: PropTypes.func,
-  isCreatingNewProject: PropTypes.bool
+  account: PropTypes.object
 };
 
 export default Header;
