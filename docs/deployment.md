@@ -112,7 +112,11 @@ docker build -t tdmcalc/tdmapp .
 We can then push this image to the Docker Hub container under our tdmcalc team by:
 
 ```
-docker push tdmcalc/tdmapp
+docker tag tdmcalc/tdmapp tdmcalc/tdmapp:deploy
+```
+
+```
+docker push tdmcalc/tdmapp:deploy
 ```
 
 This publishes the application to Docker Hub under the tdmcalc account with the

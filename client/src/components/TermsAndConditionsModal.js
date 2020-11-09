@@ -286,6 +286,7 @@ const TermsAndConditionsModal = () => {
 
       <div className={classes.modalActions}>
         <Button
+          id="cy-terms-decline"
           className={classes.declineBtn}
           onClick={e => {
             e.preventDefault();
@@ -296,6 +297,7 @@ const TermsAndConditionsModal = () => {
         </Button>
 
         <Button
+          id="cy-terms-accept"
           className={classes.acceptBtn}
           onClick={e => {
             e.preventDefault();
