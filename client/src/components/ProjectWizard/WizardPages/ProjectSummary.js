@@ -498,7 +498,6 @@ const ProjectSummary = props => {
               <span className={classes.categoryHeader}>
                 PROJECT SPECIFICATIONS
               </span>
-              <span className={classes.earnedPoints}>EARNED POINTS</span>
             </div>
             <div className={classes.measuresContainer}>
               {rules && rules.length > 0
