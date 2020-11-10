@@ -67,6 +67,7 @@ const App = () => {
     }));
     setIsOpenNavConfirmModal(!isOpenNavConfirmModal);
   };
+
   return (
     <React.Fragment>
       <UserContext.Provider value={account}>

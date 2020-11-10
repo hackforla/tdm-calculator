@@ -66,7 +66,7 @@ Button.propTypes = {
   isDisplayed: PropTypes.bool,
   className: PropTypes.string,
   color: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string.isRequired
 };
 
 export default Button;

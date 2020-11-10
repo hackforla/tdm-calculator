@@ -9,6 +9,7 @@ import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";
 import injectSheet from "react-jss";
 import { useToast } from "../contexts/Toast";
+import moment from "moment";
 
 const styles = {
   root: {
@@ -50,6 +51,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
   const [formInputs, setFormInputs] = useState({});
   const [projectId, setProjectId] = useState(null);
   const [loginId, setLoginId] = useState(0);
+  const [dateModified, setDateModified] = useState(null);
   const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
@@ -84,6 +86,11 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         if (Number(projectId) > 0 && account.id) {
           projectResponse = await projectService.getById(projectId);
           setLoginId(projectResponse.data.loginId);
+          setDateModified(
+            moment(projectResponse.data.dateModified).format(
+              "MM/DD/YYYY h:mm A"
+            )
+          );
           inputs = JSON.parse(projectResponse.data.formInputs);
           setStrategiesInitialized(true);
         } else {
@@ -117,7 +124,6 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
     // update state with modified updatedFormInputs and rules
     setFormInputs(updatedFormInputs);
     setRules(rules);
-    setFormHasSaved(false); // TODO (optimize): find better location so it's not called on every recalculate
   };
 
   const initializeStrategies = () => {
@@ -211,6 +217,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       ...modifiedInputs
     };
     recalculate(newFormInputs);
+    setFormHasSaved(false);
   };
 
   const projectLevel =
@@ -266,6 +273,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       [e.target.name]: value
     };
     recalculate(newFormInputs);
+    setFormHasSaved(false);
   };
 
   const onCommentChange = e => {
@@ -285,6 +293,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       [`${e.target.name}_comment`]: value
     };
     recalculate(newFormInputs);
+    setFormHasSaved(false);
   };
 
   const onUncheckAll = filterRules => {
@@ -297,10 +306,21 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       }
     }
     recalculate(updateInputs);
+    setFormHasSaved(false);
+  };
+
+  const projectIsValid = () => {
+    return !rules.find(rule => !!rule.validationErrors);
   };
 
   const onSave = async () => {
+    if (!projectIsValid()) {
+      toast.add("Some project inputs are missing or invalid. Save failed.");
+      return;
+    }
     const inputsToSave = { ...formInputs };
+    // If a saved form had inputs that are obsolete,
+    // delete them from the inputsToSave object.
     for (let input in inputsToSave) {
       if (!inputsToSave[input]) {
         delete inputsToSave[input];
@@ -343,10 +363,14 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
-        setProjectId(postResponse.data.id);
-        setLoginId(account.id);
+        const newPath = location.pathname + "/" + postResponse.data.id;
+        // setProjectId(postResponse.data.id);
+        // setLoginId(account.id);
+        // setFormHasSaved(true);
         toast.add("Saved New Project");
-        setFormHasSaved(true);
+        // Update URL to /calculation/<currentPage>/<newProjectId>
+        // to keep working on same project.
+        history.push(newPath);
       } catch (err) {
         if (err.response) {
           if (err.response.status === 401) {
@@ -396,6 +420,9 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
           allowEmploymentPackage={allowEmploymentPackage}
           residentialPackageSelected={residentialPackageSelected}
           employmentPackageSelected={employmentPackageSelected}
+          formIsDirty={!formHasSaved}
+          projectIsValid={projectIsValid}
+          dateModified={dateModified}
         />
       ) : (
         <TdmCalculation
