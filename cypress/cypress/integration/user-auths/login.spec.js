@@ -17,7 +17,10 @@ describe("Login from /login", () => {
     cy.get("#cy-login-password").type("Dogfood1!");
     cy.get("form").get("#cy-login-submit").click();
 
-    cy.url().should("include", "/calculation/1");
+    // Dismiss Terms and Conditions dialog
+    cy.findByText("Accept").click();
+
+    cy.url().should("include", "/calculation");
     cy.findByText("Hello, LA DOT");
   });
   it("blocks login with bad password", () => {

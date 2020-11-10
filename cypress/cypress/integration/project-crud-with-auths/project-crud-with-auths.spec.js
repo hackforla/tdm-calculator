@@ -4,20 +4,27 @@ import "@testing-library/cypress/add-commands";
 /// <reference types="cypress" />
 describe("Create, Read, and Update a Project as a Regular User", () => {
   beforeEach(() => {
-    cy.loginAs("regularUser").then(cy.resetProjects);
-    cy.visit("/");
+    cy.loginAs("ladot").then(cy.resetProjects);
+    cy.visit("/calculation");
+
+    // Dismiss Terms and Conditions dialog
+    cy.findByText("Accept").click();
+
     cy.findAllByText("Create Project").click();
-    cy.findByText("Hello, Test Regular User").should("be.visible");
+    cy.findByText("Hello, LA DOT").should("be.visible");
     Cypress.Cookies.preserveOnce("jwt");
   });
   it("creates and saves a new project", () => {
     inputNewProjectData();
 
-    cy.findByText("Save As New Project").click();
-    cy.findByText("Saved New Project").should("be.visible");
+    cy.findByText("SAVE PROJECT").click();
 
-    cy.findByText("Projects").click();
-    cy.findByText("Cypress Barrington Condos");
+    // The expected behavior beyond this point
+    // is still TBD
+    // cy.findByText("Saved New Project").should("be.visible");
+
+    // cy.findByText("Projects").click();
+    // cy.findByText("Cypress Barrington Condos");
   });
 
   it("displays existing project and updates it", () => {
@@ -28,39 +35,46 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
 
     cy.findByLabelText("Project Name").type(" Updated");
     cy.findByLabelText("Version #").type("v2");
-    cy.findByTestId(">").click();
-    cy.findByTestId(">").click();
-    cy.findByTestId(">").click();
+    cy.findByTestId("rightNavArrow").click();
+    cy.findByTestId("rightNavArrow").click();
+    cy.findByTestId("rightNavArrow").click();
     cy.findByLabelText("Bike Share Station").click();
-    cy.findByTestId(">").click();
+    cy.findByTestId("rightNavArrow").click();
     cy.findByText("Save Project Changes").click();
-    cy.findByText("Saved Project Changes").should("be.visible");
 
-    cy.visit("/projects");
-    cy.findByText("Cypress Victory Hotel Updated").should("be.visible");
-    cy.findByText("v2").should("be.visible");
+    // Expected behavior beyond this point is TBD
+    // cy.findByText("Saved Project Changes").should("be.visible");
+
+    // cy.visit("/projects");
+    // cy.findByText("Cypress Victory Hotel Updated").should("be.visible");
+    // cy.findByText("v2").should("be.visible");
   });
 
   //TODO: Add delete workflow when delete ui gets developed
 
+  /// Add minimal project
   const inputNewProjectData = () => {
-    cy.findByLabelText("Project Name").type("Cypress Barrington Condos");
-    cy.findByLabelText("Address").type("825 S. Barrington Ave");
-    cy.findByTestId(">").click();
-    cy.findByLabelText("Condo - Units").type("46");
-    cy.findByLabelText("Condo - Enter Parking Space Req'd").type("92");
-    cy.findByTestId(">").click();
-    cy.findByLabelText("Parking Provided").type("88");
-    cy.findByText("92").should("exist");
-    cy.findByText("95.65").should("exist");
-    cy.findByTestId(">").click();
-    cy.findByLabelText("Bike Parking").click();
-    cy.findByLabelText("Pricing/Unbundling").click();
-    cy.findByLabelText("Reduced Parking Supply").click();
-    cy.findByLabelText("Affordable Housing Level").select(
-      "35% of State Density Bonus"
-    );
-    cy.findByTestId(">").click();
+    cy.get("#PROJECT_NAME").type("Cypress Test Project");
+    cy.findByTestId("PROJECT_ADDRESS").type("220 W. Garden Path");
+    cy.findByTestId("APN").type("9999999999");
+    cy.findByTestId("PROJECT_DESCRIPTION").type("Cypress Test Project");
+
+    // Advance to specifications page
+    cy.findByTestId("rightNavArrow").click();
+
+    cy.findByTestId("UNITS_HABIT_GT3").type("150");
+
+    // Advance to Target Points Page
+    // (Should skip Package Page, since Level 3)
+    cy.findByTestId("rightNavArrow").click();
+
+    cy.findByTestId("PARK_SPACES").type("300");
+
+    // Advance to Strategies
+    cy.findByTestId("rightNavArrow").click();
+
+    // Advance to Summary Page
+    cy.findByTestId("rightNavArrow").click();
   };
 
   const postNewProject = () => {
