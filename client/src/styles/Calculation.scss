@@ -10,9 +10,9 @@
   color: $color-background;
 }
 
-// Photo by Silvia Brazzoduro on Unsplash
 .tdm-wizard {
   min-height: calc(100vh - 103px - 48px);
+  display: flex;
 }
 
 @media print {
@@ -29,11 +29,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2em 2em;
+  padding: 4em 2em 2em 2em
 }
 
 .tdm-wizard-page-title {
-  margin-top: 1em;
   text-align: center;
 }
 
@@ -47,8 +46,8 @@
 }
 
 @media print {
-  #all-buttons-wrapper{
-    display: none
+  #all-buttons-wrapper {
+    display: none;
   }
 }
 

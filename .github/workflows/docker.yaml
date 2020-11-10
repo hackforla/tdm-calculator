@@ -2,6 +2,7 @@
 on:
   push:
     branches:
+      - experimental
       - develop
       - main
   release:

@@ -261,7 +261,7 @@ const Projects = ({ account, history }) => {
       }
     };
     getProjects();
-  }, [email, toastAdd, historyPush]);
+  }, [email, historyPush]);
 
   const toggleDuplicateModal = async project => {
     if (project) {

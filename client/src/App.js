@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
 import { UserContext } from "./components/user-context";
@@ -20,7 +20,8 @@ import FaqView from "./components/Faq/FaqView";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
 import "./styles/App.scss";
-import axios from "axios";
+import PublicComment from "./components/PublicComment/PublicCommentPage";
+import NavConfirmModal from "./components/NavConfirmModal";
 
 const useStyles = createUseStyles({
   root: {
@@ -33,14 +34,15 @@ const useStyles = createUseStyles({
 const App = () => {
   const classes = useStyles();
   const [account, setAccount] = useState({});
-  const [isCreatingNewProject, setIsCreatingNewProject] = useState(false);
+  const [confirmTransition, setConfirmTransition] = useState(null);
+  const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
+  const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
 
   useEffect(() => {
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) {
       try {
         const account = JSON.parse(currentUser);
-        // TODO: remove console.log when stable.
         setAccount(account);
       } catch (err) {
         // TODO: replace with production error logging.
@@ -57,43 +59,49 @@ const App = () => {
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
   };
 
-  //TODO: This doesn't seem like it's getting used anymore. Don't see token in local storage. Check on authorization flow to see if token is still needed.
-  const setTokenInHeaders = () => {
-    axios.interceptors.request.use(
-      config => {
-        let token = localStorage.getItem("token");
-        if (token) {
-          config.headers["Authorization"] = `Bearer ${token}`;
-        }
-        return config;
-      },
-      error => Promise.reject(error)
-    );
+  const getUserConfirmation = (message, defaultConfirmCallback) => {
+    setHasConfirmedTransition(false);
+    setConfirmTransition(() => ({
+      defaultConfirmCallback: defaultConfirmCallback,
+      setHasConfirmedTransition: setHasConfirmedTransition
+    }));
+    setIsOpenNavConfirmModal(!isOpenNavConfirmModal);
   };
-
-  setTokenInHeaders();
-
   return (
     <React.Fragment>
       <UserContext.Provider value={account}>
-        <Router>
+        <Router getUserConfirmation={getUserConfirmation}>
+          <NavConfirmModal
+            confirmTransition={confirmTransition}
+            isOpenNavConfirmModal={isOpenNavConfirmModal}
+            setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
+          />
           <Header
             account={account}
             setAccount={setAccount}
-            isCreatingNewProject={isCreatingNewProject}
+            hasConfirmedTransition={hasConfirmedTransition}
           />
           <div className={classes.root}>
             <Route
               exact
               path="/"
-              render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
+              render={() =>
+                account.email ? (
+                  <Redirect to="/create-project" />
+                ) : (
+                  <Login setLoggedInAccount={setLoggedInAccount} />
+                )
+              }
             />
+            <Route exact path="/create-project">
+              <Redirect to="/calculation" />
+            </Route>
             <Route
               path="/calculation/:page?/:projectId?"
               render={() => (
                 <TdmCalculationContainer
                   account={account}
-                  setIsCreatingNewProject={setIsCreatingNewProject}
+                  hasConfirmedNavTransition={hasConfirmedTransition}
                 />
               )}
             />
@@ -108,7 +116,33 @@ const App = () => {
             <Route path="/confirm/:token" component={ConfirmEmail} />
             <Route
               path="/login/:email?"
-              render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
+              render={() =>
+                account.email ? (
+                  <Redirect to="/create-project" />
+                ) : (
+                  <Login setLoggedInAccount={setLoggedInAccount} />
+                )
+              }
+            />
+            <Route
+              path="/logout"
+              render={routeProps => {
+                // optional chaining operator (?.) is valid operator; TODO: add to prettier/linter
+                const prevPathStartsWithCalculation = routeProps.location?.state?.prevPath?.startsWith(
+                  "/calculation"
+                );
+
+                if (
+                  !prevPathStartsWithCalculation ||
+                  (prevPathStartsWithCalculation && hasConfirmedTransition)
+                ) {
+                  localStorage.clear();
+                  // TODO:  fix console warning due to bad setState. trying to render app.
+                  // Warning: Cannot update a component (`App`) while rendering a different component (`Context.Consumer`).
+                  setAccount({});
+                }
+                return <Redirect to="/login" />;
+              }}
             />
             <Route path="/forgotpassword" component={ResetPasswordRequest} />
             <Route path="/resetPassword/:token" component={ResetPassword} />
@@ -120,6 +154,7 @@ const App = () => {
               <Route path="/roles" render={() => <Roles />} />
             ) : null}
             <Route path="/faqs" component={FaqView} />
+            <Route path="/publiccomment" component={PublicComment} />
           </div>
           <Footer />
         </Router>

@@ -12,10 +12,11 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button/Button";
 import NavButton from "../Button/NavButton";
 import SwitchViewButton from "../Button/SwitchViewButton";
-
+import TermsAndConditionsModal from "../TermsAndConditionsModal";
 import {
   ProjectDescriptions,
   ProjectSpecifications,
+  ProjectPackages,
   ProjectTargetPoints,
   ProjectMeasures
 } from "./WizardPages";
@@ -45,14 +46,14 @@ const useStyles = createUseStyles({
     display: "flex",
     position: "sticky",
     top: 0,
-    height: "calc(100vh - 103px)",
+    height: "calc(100vh - 103px - 48px)",
     flexDirection: "column",
     "@media (max-width:768px)": {
       height: "auto"
     }
   },
   contentContainer: {
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     boxSizing: "border-box",
     overflow: "auto"
   },
@@ -72,6 +73,13 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     position: "relative"
   },
+  pkgSelectContainer: {
+    display: "grid",
+    gridTemplateColumns: "[h-start] auto [h-end] 35%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    position: "relative"
+  },
   unSelectButton: {
     marginLeft: "auto",
     marginRight: "1em",
@@ -85,6 +93,12 @@ const useStyles = createUseStyles({
     gridColumn: "h-mid",
     display: "flex",
     justifyContent: "center"
+  },
+  alignLeft: {
+    gridColumn: "h-start",
+    display: "flex",
+    justifyContent: "flex-start",
+    marginLeft: "2em"
   },
   buttonContainer: {
     marginTop: "5px"
@@ -113,30 +127,14 @@ const TdmCalculationWizard = props => {
     loginId,
     onSave,
     onViewChange,
-    //pageNo,
     history,
-    match
+    match,
+    allowResidentialPackage,
+    allowEmploymentPackage,
+    residentialPackageSelected,
+    employmentPackageSelected
   } = props;
   const [dateModified, setDateModified] = useState("");
-
-  useEffect(() => {
-    const getDateModified = async () => {
-      try {
-        const result = await projectService.get();
-        const currentProject = result.data.filter(
-          project => project.id === projectId
-        );
-        let lastSaved = currentProject[0].dateModified;
-        lastSaved = moment(lastSaved).format("MM/DD/YYYY h:mm A");
-        setDateModified(lastSaved);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    if (projectId) getDateModified();
-  });
-
   const context = useContext(ToastContext);
   const classes = useStyles();
   const page = Number(match.params.page);
@@ -161,6 +159,24 @@ const TdmCalculationWizard = props => {
     }
   }, [projectId, account, loginId, history]);
 
+  useEffect(() => {
+    const getDateModified = async () => {
+      try {
+        const result = await projectService.get();
+        const currentProject = result.data.filter(
+          project => project.id === projectId
+        );
+        let lastSaved = currentProject[0].dateModified;
+        lastSaved = moment(lastSaved).format("MM/DD/YYYY h:mm A");
+        setDateModified(lastSaved);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (projectId) getDateModified();
+  }, [projectId]);
+
   const projectDescriptionRules =
     rules && rules.filter(filters.projectDescriptionRules);
   const landUseRules = rules && rules.filter(filters.landUseRules);
@@ -179,9 +195,16 @@ const TdmCalculationWizard = props => {
       projectDescriptionRules.find(rule => !!rule.validationErrors);
     const isPage2AndHasErrors =
       page === 2 && specificationRules.find(rule => !!rule.validationErrors);
-    const isPage5 = Number(page) === 5;
+    const isPage5AndHasErrors =
+      page === 5 && strategyRules.find(rule => !!rule.validationErrors);
+    const isPage6 = Number(page) === 6;
 
-    return isPage1AndHasErrors || isPage2AndHasErrors || isPage5 ? true : false;
+    return !!(
+      isPage1AndHasErrors ||
+      isPage2AndHasErrors ||
+      isPage5AndHasErrors ||
+      isPage6
+    );
   };
 
   const routes = (
@@ -210,6 +233,16 @@ const TdmCalculationWizard = props => {
         />
       </Route>
       <Route path="/calculation/4/:projectId?">
+        <ProjectPackages
+          projectLevel={projectLevel}
+          rules={strategyRules}
+          landUseRules={landUseRules}
+          classes={classes}
+          allowResidentialPackage={allowResidentialPackage}
+          allowEmploymentPackage={allowEmploymentPackage}
+        />
+      </Route>
+      <Route path="/calculation/5/:projectId?">
         <ProjectMeasures
           projectLevel={projectLevel}
           rules={strategyRules}
@@ -220,9 +253,13 @@ const TdmCalculationWizard = props => {
           classes={classes}
           onPkgSelect={onPkgSelect}
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
+          allowResidentialPackage={allowResidentialPackage}
+          allowEmploymentPackage={allowEmploymentPackage}
+          residentialPackageSelected={residentialPackageSelected}
+          employmentPackageSelected={employmentPackageSelected}
         />
       </Route>
-      <Route path="/calculation/5/:projectId?">
+      <Route path="/calculation/6/:projectId?">
         <ProjectSummary
           rules={rules}
           account={account}
@@ -259,17 +296,30 @@ const TdmCalculationWizard = props => {
     const projectIdParam = projectId ? `/${projectId}` : "";
     if (Number(pageNo) > Number(match.params.page)) {
       if (handleValidate()) {
-        // setPageNo(pageNo);
-        history.push(`/calculation/${Number(page) + 1}${projectIdParam}`);
+        // Skip page 4 unless Packages are applicable
+        const nextPage =
+          Number(page) === 3 &&
+          !allowResidentialPackage &&
+          !allowEmploymentPackage
+            ? 5
+            : Number(page) + 1;
+        history.push(`/calculation/${nextPage}${projectIdParam}`);
       }
     } else {
-      // setPageNo(pageNo);
-      history.push(`/calculation/${Number(page) - 1}${projectIdParam}`);
+      // Skip page 4 unless Packages are applicable
+      const prevPage =
+        Number(page) === 5 &&
+        !allowResidentialPackage &&
+        !allowEmploymentPackage
+          ? 3
+          : Number(page) - 1;
+      history.push(`/calculation/${prevPage}${projectIdParam}`);
     }
   };
 
   return (
     <React.Fragment>
+      <TermsAndConditionsModal />
       <div className={clsx("tdm-wizard", classes.root)}>
         <Sidebar>
           {rules && rules.length > 0 && (
@@ -309,7 +359,7 @@ const TdmCalculationWizard = props => {
                     <NavButton
                       id="rightNavArrow"
                       navDirection="next"
-                      isVisible={page !== 5}
+                      isVisible={page !== 6}
                       isDisabled={setDisabledForNextNavButton()}
                       onClick={() => {
                         onPageChange(Number(page) + 1);
@@ -318,41 +368,35 @@ const TdmCalculationWizard = props => {
                   </div>
                   <div id="save-and-startover-buttons-container">
                     <Button
-                      isDisplayed={
-                        !!(
-                          account.id &&
-                          (!projectId || account.id === loginId) &&
-                          page === 5
-                        )
-                      }
+                      // isDisplayed={
+                      //   !!(
+                      //     account.id &&
+                      //     (!projectId || account.id === loginId) &&
+                      //     page === 6
+                      //   )
+                      // }
                       onClick={onSave}
                       color="colorPrimary"
                       variant="contained"
                     >
-                      {projectId ? "Save Project" : "Save As New Project"}
-                    </Button>
-                    <Button
-                      isDisplayed={page !== 1}
-                      onClick={() => window.location.assign("/calculation")}
-                      variant="outlined"
-                    >
-                      Start Over
+                      {/* {projectId ? "Save Project" : "Save As New Project"} */}
+                      Save Project
                     </Button>
                   </div>
                 </>
               ) : null}
             </div>
           ) : null}
-          {page === 5 ? (
-            <div className={classes.lastSavedContainer}>
-              {dateModified && (
-                <span className={classes.lastSaved}>
-                  <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
-                  {dateModified}
-                </span>
-              )}
-            </div>
-          ) : null}
+          {/* {page === 6 ? ( */}
+          <div className={classes.lastSavedContainer}>
+            {dateModified && (
+              <span className={classes.lastSaved}>
+                <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
+                {dateModified}
+              </span>
+            )}
+          </div>
+          {/* ) : null} */}
         </div>
       </div>
     </React.Fragment>
@@ -398,7 +442,11 @@ TdmCalculationWizard.propTypes = {
   account: PropTypes.object.isRequired,
   loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
-  onViewChange: PropTypes.func.isRequired
+  onViewChange: PropTypes.func.isRequired,
+  allowResidentialPackage: PropTypes.bool.isRequired,
+  allowEmploymentPackage: PropTypes.bool.isRequired,
+  residentialPackageSelected: PropTypes.func,
+  employmentPackageSelected: PropTypes.func
 };
 
 export default withRouter(TdmCalculationWizard);

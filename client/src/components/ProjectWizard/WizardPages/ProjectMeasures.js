@@ -9,13 +9,16 @@ function ProjectMeasure(props) {
   const {
     projectLevel,
     rules,
-    landUseRules,
     onInputChange,
     onCommentChange,
     classes,
     onPkgSelect,
     uncheckAll,
-    initializeStrategies
+    initializeStrategies,
+    allowResidentialPackage,
+    allowEmploymentPackage,
+    residentialPackageSelected,
+    employmentPackageSelected
   } = props;
 
   useEffect(() => {
@@ -26,73 +29,19 @@ function ProjectMeasure(props) {
     "displayBox",
     true
   );
-  const showResidentialPkg = (() => {
-    // Only show button if one of the land uses is Residential
-    const triggerRule = landUseRules.filter(
-      r => r.code === "LAND_USE_RESIDENTIAL"
-    );
-    return projectLevel === 1 && triggerRule[0] && !!triggerRule[0].value;
-  })();
-
-  const showEmploymentPkg = (() => {
-    // Only show button if Parking Cash-Out strategy is available
-    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_2");
-    return projectLevel === 1 && triggerRule[0] && triggerRule[0].display;
-  })();
-
-  const disabledResidentialPkg = (() => {
-    // Only enable button if
-    // component strategies are not already selected
-    const strategyBike4 = rules.find(r => r.code === "STRATEGY_BIKE_4");
-    const strategyInfo3 = rules.find(r => r.code === "STRATEGY_INFO_3");
-    const strategyParking1 = rules.find(r => r.code === "STRATEGY_PARKING_1");
-    return (
-      strategyBike4 &&
-      !!strategyBike4.value &&
-      strategyInfo3 &&
-      !!strategyInfo3.value &&
-      strategyParking1 &&
-      strategyParking1.value === 8
-    );
-  })();
-
-  const disabledEmploymentPkg = (() => {
-    // Only enable button if
-    // component strategies are not already selected
-    const pkgRules = rules.filter(rule =>
-      ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
-        rule.code
-      )
-    );
-
-    const strategyCount = pkgRules.reduce(
-      (count, r) => count + (r.value && r.value !== "0" ? 1 : 0),
-      0
-    );
-    return strategyCount === 3;
-  })();
 
   return (
     <div>
-      <h2 className="tdm-wizard-page-title">
+      <h1 className="tdm-wizard-page-title">
         Transportation Demand Strategies
-      </h2>
+      </h1>
       <h3 className="tdm-wizard-page-subtitle">
         Select strategies to earn TDM points
-      </h3>
-      <InfoBox
-        displayStatus={displayInfoBox}
-        handleClick={() => setDisplayInfoBox(false)}
-      >
-        <ToolTipIcon /> For detailed information, hover the mouse cursor over
-        the terminology.
-      </InfoBox>
-      <div className={classes.unSelectContainer}>
         <button
           onClick={() => setDisplayInfoBox(true)}
           style={{
             visibility: displayInfoBox ? "hidden" : "visible",
-            height: 30,
+            height: 10,
             padding: 0,
             marginTop: 0,
             marginBottom: 0,
@@ -109,26 +58,70 @@ function ProjectMeasure(props) {
             }}
           />
         </button>
-        <div className={classes.alignMid}>
-          {showResidentialPkg ? (
-            <button
-              className="tdm-wizard-pkg-button"
-              onClick={() => onPkgSelect("Residential")}
-              disabled={disabledResidentialPkg}
-            >
-              Select Residential Package
-            </button>
+      </h3>
+      <InfoBox
+        displayStatus={displayInfoBox}
+        handleClick={() => setDisplayInfoBox(false)}
+      >
+        <ToolTipIcon /> For detailed information, hover the mouse cursor over
+        the terminology.
+      </InfoBox>
+      <div className={classes.pkgSelectContainer}>
+        <div className={classes.alignLeft}>
+          {allowResidentialPackage ? (
+            <div style={{ marginRight: "1em" }}>
+              <label
+                style={{
+                  fontWeight: "600",
+                  paddingRight: "1em"
+                }}
+              >
+                Residential Package
+                <input
+                  type="checkbox"
+                  style={{
+                    verticalAlign: "bottom",
+                    position: "relative",
+                    top: "0",
+                    marginLeft: "0.5em"
+                  }}
+                  value={true}
+                  checked={residentialPackageSelected()}
+                  onChange={e => onPkgSelect("Residential", e.target.checked)}
+                  name="packageResidential"
+                  id="packageResidential"
+                />
+              </label>
+            </div>
           ) : null}
-          {showEmploymentPkg ? (
-            <button
-              className="tdm-wizard-pkg-button"
-              onClick={() => onPkgSelect("Employment")}
-              disabled={disabledEmploymentPkg}
-            >
-              Select Employment Package
-            </button>
+          {allowEmploymentPackage ? (
+            <div className={classes.booleanInputContainer}>
+              <label
+                style={{
+                  fontWeight: "600",
+                  paddingRight: "1em"
+                }}
+              >
+                Employment Package
+                <input
+                  type="checkbox"
+                  value={true}
+                  style={{
+                    verticalAlign: "bottom",
+                    position: "relative",
+                    top: "0",
+                    marginLeft: "0.5em"
+                  }}
+                  checked={employmentPackageSelected()}
+                  onChange={e => onPkgSelect("Employment", e.target.checked)}
+                  name="packageEmployment"
+                  id="packageEmployment"
+                />
+              </label>
+            </div>
           ) : null}
         </div>
+
         <button className={classes.unSelectButton} onClick={uncheckAll}>
           Reset All Strategies
         </button>
@@ -157,7 +150,11 @@ ProjectMeasure.propTypes = {
   classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
-  initializeStrategies: PropTypes.func.isRequired
+  initializeStrategies: PropTypes.func.isRequired,
+  allowResidentialPackage: PropTypes.bool.isRequired,
+  allowEmploymentPackage: PropTypes.bool.isRequired,
+  residentialPackageSelected: PropTypes.func,
+  employmentPackageSelected: PropTypes.func
 };
 
 export default ProjectMeasure;
