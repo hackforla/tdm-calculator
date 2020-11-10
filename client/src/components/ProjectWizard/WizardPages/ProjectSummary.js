@@ -560,7 +560,6 @@ ProjectSummary.propTypes = {
   account: PropTypes.object.isRequired,
   projectId: PropTypes.number.isRequired,
   loginId: PropTypes.number.isRequired,
-  onSave: PropTypes.func.isRequired,
   dateModified: PropTypes.string.isRequired
 };
 

@@ -13,8 +13,8 @@ const useStyles = createUseStyles({
     marginTop: "16px",
     display: "flex",
     justifyContent: "space-between",
-    position: "relative",
-    left: "-50%",
+    position: "fixed",
+    bottom: "4em",
     cursor: "pointer"
   },
   container: {
