@@ -9,7 +9,7 @@ describe("Beatrice Building", () => {
     cy.findByText("Accept").click();
 
     // Should be on First Page
-    cy.findByTestId("PROJECT_NAME").type("Beatrice Building");
+    cy.get("#PROJECT_NAME").type("Beatrice Building");
     cy.findByTestId("PROJECT_ADDRESS").type("12575 Beatrice St.");
     cy.findByTestId("APN").type("9999999999");
     cy.findByTestId("PROJECT_DESCRIPTION").type(

@@ -8,7 +8,7 @@ describe("Clarendon Apartments", () => {
     // Dismiss Terms and Conditions dialog
     cy.findByText("Accept").click();
 
-    cy.findByTestId("PROJECT_NAME").type("Clarendon Apartments");
+    cy.get("#PROJECT_NAME").type("Clarendon Apartments");
     cy.findByTestId("PROJECT_ADDRESS").type("22055 W. Clarendon St.");
     cy.findByTestId("APN").type("9999999999");
     cy.findByTestId("PROJECT_DESCRIPTION").type(

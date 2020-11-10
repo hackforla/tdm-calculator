@@ -8,7 +8,7 @@ describe("Fountain Apartments", () => {
     // Dismiss Terms and Conditions dialog
     cy.findByText("Accept").click();
 
-    cy.findByTestId("PROJECT_NAME").type("Fountain Apartments");
+    cy.get("#PROJECT_NAME").type("Fountain Apartments");
     cy.findByTestId("PROJECT_ADDRESS").type("5460 W. Fountain Av.");
     cy.findByTestId("APN").type("9999999999");
     cy.findByTestId("PROJECT_DESCRIPTION").type(

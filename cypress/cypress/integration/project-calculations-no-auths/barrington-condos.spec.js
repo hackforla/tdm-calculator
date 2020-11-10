@@ -24,7 +24,7 @@ describe("Barrington Condos", () => {
     // Dismiss Terms and Conditions dialog
     cy.findByText("Accept").click();
 
-    cy.findByTestId("PROJECT_NAME").type(p.projectName);
+    cy.get("#PROJECT_NAME").type(p.projectName);
     cy.findByTestId("PROJECT_ADDRESS").type(p.address);
     cy.findByTestId("APN").type(p.ain);
     cy.findByTestId("rightNavArrow").click();

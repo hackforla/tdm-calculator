@@ -8,7 +8,7 @@ describe("Jewish Family Service", () => {
     // Dismiss Terms and Conditions dialog
     cy.findByText("Accept").click();
 
-    cy.findByTestId("PROJECT_NAME").type(
+    cy.get("#PROJECT_NAME").type(
       "Jewish Family Service - Social Services Center"
     );
     cy.findByTestId("PROJECT_ADDRESS").type("320 N. Fairfax Av.");
