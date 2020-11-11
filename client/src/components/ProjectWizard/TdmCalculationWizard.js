@@ -289,8 +289,8 @@ const TdmCalculationWizard = props => {
         // Skip page 4 unless Packages are applicable
         const nextPage =
           Number(page) === 3 &&
-            !allowResidentialPackage &&
-            !allowEmploymentPackage
+          !allowResidentialPackage &&
+          !allowEmploymentPackage
             ? 5
             : Number(page) + 1;
         history.push(`/calculation/${nextPage}${projectIdParam}`);
@@ -299,8 +299,8 @@ const TdmCalculationWizard = props => {
       // Skip page 4 unless Packages are applicable
       const prevPage =
         Number(page) === 5 &&
-          !allowResidentialPackage &&
-          !allowEmploymentPackage
+        !allowResidentialPackage &&
+        !allowEmploymentPackage
           ? 3
           : Number(page) - 1;
       history.push(`/calculation/${prevPage}${projectIdParam}`);
@@ -329,58 +329,58 @@ const TdmCalculationWizard = props => {
         >
           {routes}
           {!projectId ||
-            (account &&
-              account.id &&
-              (account.id === loginId || account.isAdmin)) ||
-            (account && account.isAdmin) ? (
-              <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
-                {rules && rules.length ? ( //navigation disabled until rules have loaded
-                  <>
-                    <div id="nav-container" className="space-between">
-                      <NavButton
-                        id="leftNavArrow"
-                        navDirection="previous"
-                        isVisible={page !== 1}
-                        isDisabled={Number(page) === 1}
-                        onClick={() => {
-                          onPageChange(Number(page) - 1);
-                        }}
-                      />
-                      <div className={classes.pageNumberCounter}>
-                        Page {pageNumber}/5
-                      </div>
-                      <NavButton
-                        id="rightNavArrow"
-                        navDirection="next"
-                        isVisible={page !== 6}
-                        isDisabled={setDisabledForNextNavButton()}
-                        onClick={() => {
-                          onPageChange(Number(page) + 1);
-                        }}
-                      />
+          (account &&
+            account.id &&
+            (account.id === loginId || account.isAdmin)) ||
+          (account && account.isAdmin) ? (
+            <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
+              {rules && rules.length ? ( //navigation disabled until rules have loaded
+                <>
+                  <div id="nav-container" className="space-between">
+                    <NavButton
+                      id="leftNavArrow"
+                      navDirection="previous"
+                      isVisible={page !== 1}
+                      isDisabled={Number(page) === 1}
+                      onClick={() => {
+                        onPageChange(Number(page) - 1);
+                      }}
+                    />
+                    <div className={classes.pageNumberCounter}>
+                      Page {pageNumber}/5
                     </div>
-                    <div id="save-and-startover-buttons-container">
-                      <Button
-                        type="input"
-                        color="colorPrimary"
-                        variant="contained"
-                        isDisplayed={
-                          !!(
-                            account.id &&
-                            (!projectId || account.id === loginId) &&
-                            formIsDirty &&
-                            projectIsValid()
-                          )
-                        }
-                        onClick={onSave}
-                      >
-                        Save Project
+                    <NavButton
+                      id="rightNavArrow"
+                      navDirection="next"
+                      isVisible={page !== 6}
+                      isDisabled={setDisabledForNextNavButton()}
+                      onClick={() => {
+                        onPageChange(Number(page) + 1);
+                      }}
+                    />
+                  </div>
+                  <div id="save-and-startover-buttons-container">
+                    <Button
+                      type="input"
+                      color="colorPrimary"
+                      variant="contained"
+                      isDisplayed={
+                        !!(
+                          account.id &&
+                          (!projectId || account.id === loginId) &&
+                          formIsDirty &&
+                          projectIsValid()
+                        )
+                      }
+                      onClick={onSave}
+                    >
+                      Save Project
                     </Button>
-                    </div>
-                  </>
-                ) : null}
-              </div>
-            ) : null}
+                  </div>
+                </>
+              ) : null}
+            </div>
+          ) : null}
           <div className={classes.lastSavedContainer}>
             {dateModified && (
               <span className={classes.lastSaved}>
