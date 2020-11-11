@@ -62,7 +62,7 @@ const NavBarToolTip = () => {
     <div className={classes[tooltipVisibility]}>
       <img src={WarningIcon} className={classes.warningIcon} alt="Warning" />
       <span>
-        You must login <strong>beforehand</strong> in order to save a project
+        Only projects created after logging in can be saved
       </span>
       <div className={classes.arrowUp}> </div>
       <button
