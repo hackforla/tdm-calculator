@@ -238,28 +238,29 @@ const Projects = ({ account, history }) => {
   const toastAdd = toast.add;
   const historyPush = history.push;
 
-  useEffect(() => {
-    const getProjects = async () => {
-      try {
-        const result = await projectService.get();
-        if (result.data === "" || result.data === false) {
-          setProjects([]);
-        } else {
-          setProjects(result.data);
-        }
-      } catch (err) {
-        // If user's session token has expired or they are not
-        // authorized for this web api request, let them know
-        // and redirect to login
-        if (err.response && err.response.status === 401) {
-          toastAdd(
-            "For your security, your session has expired. Please log in again."
-          );
-          historyPush(`/login/${encodeURIComponent(email)}`);
-        }
-        console.error(err);
+  const getProjects = async () => {
+    try {
+      const result = await projectService.get();
+      if (result.data === "" || result.data === false) {
+        setProjects([]);
+      } else {
+        setProjects(result.data);
       }
-    };
+    } catch (err) {
+      // If user's session token has expired or they are not
+      // authorized for this web api request, let them know
+      // and redirect to login
+      if (err.response && err.response.status === 401) {
+        toastAdd(
+          "For your security, your session has expired. Please log in again."
+        );
+        historyPush(`/login/${encodeURIComponent(email)}`);
+      }
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
     getProjects();
   }, [email, historyPush]);
 
@@ -295,6 +296,7 @@ const Projects = ({ account, history }) => {
     await projectService.del(project.id);
     toggleDeleteModal();
     setSelectedProject(null);
+    getProjects();
   };
 
   const handleDuplicateProjectNameChange = newProjectName => {
