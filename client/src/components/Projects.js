@@ -429,7 +429,7 @@ const Projects = ({ account, history }) => {
           value={filterText}
           onChange={e => handleFilterTextChange(e.target.value)}
         />
-        <img className={classes.searchIcon} src={SearchIcon} alt="" />
+        <img className={classes.searchIcon} src={SearchIcon} alt="Search Icon" />
       </div>
       <table className={classes.table}>
         <thead className={classes.thead}>
@@ -506,10 +506,10 @@ const Projects = ({ account, history }) => {
                   {project.loginId === currentUser.id && (
                     <>
                       <button onClick={() => toggleDuplicateModal(project)}>
-                        <img src={CopyIcon} alt="Duplicate Project" />
+                        <img src={CopyIcon} alt={`Duplicate Project #${project.id}`} />
                       </button>
                       <button onClick={() => toggleDeleteModal(project)}>
-                        <img src={DeleteIcon} alt="Delete Project" />
+                        <img src={DeleteIcon} alt={`Delete Project #${project.id}`} />
                       </button>
                     </>
                   )}

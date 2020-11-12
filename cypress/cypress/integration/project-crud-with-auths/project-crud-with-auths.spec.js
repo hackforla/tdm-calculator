@@ -4,7 +4,7 @@ import "@testing-library/cypress/add-commands";
 /// <reference types="cypress" />
 describe("Create, Read, and Update a Project as a Regular User", () => {
   beforeEach(() => {
-    cy.loginAs("ladot").then(cy.resetProjects);
+    cy.loginAs("ladot").then(cy.resetProjects); //TODO: switch out ladot with regular user with no admin access; maybe data/migration for regular user?
     cy.visit("/calculation");
 
     // Dismiss Terms and Conditions dialog
@@ -14,17 +14,17 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
     cy.findByText("Hello, LA DOT").should("be.visible");
     Cypress.Cookies.preserveOnce("jwt");
   });
+
   it("creates and saves a new project", () => {
     inputNewProjectData();
 
-    cy.findByText("SAVE PROJECT").click();
+    cy.findByRole("button", {name: "Save Project"}).click();
 
-    // The expected behavior beyond this point
-    // is still TBD
-    // cy.findByText("Saved New Project").should("be.visible");
+    // The expected toast behavior is still TBD
+    cy.findByText("Saved New Project").should("be.visible");
 
-    // cy.findByText("Projects").click();
-    // cy.findByText("Cypress Barrington Condos");
+    cy.findByText("My Projects").click();
+    cy.findByText("Cypress Test Project");
   });
 
   it("displays existing project and updates it", () => {
@@ -40,23 +40,40 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
     cy.findByTestId("rightNavArrow").click();
     cy.findByLabelText("Bike Share Station").click();
     cy.findByTestId("rightNavArrow").click();
-    cy.findByText("Save Project Changes").click();
+    cy.findByRole("button", {name: "Save Project"}).click(); 
 
-    // Expected behavior beyond this point is TBD
-    // cy.findByText("Saved Project Changes").should("be.visible");
+    // Expected toast behavior is TBD
+    cy.findByText("Saved Project Changes").should("be.visible");
 
-    // cy.visit("/projects");
-    // cy.findByText("Cypress Victory Hotel Updated").should("be.visible");
-    // cy.findByText("v2").should("be.visible");
+    cy.visit("/projects");
+    cy.findByText("Cypress Victory Hotel Updated").should("be.visible");
+    cy.findByText("v2").should("be.visible");
   });
 
-  //TODO: Add delete workflow when delete ui gets developed
+   it("deletes existing project", () => {
+    postNewProject().then(response => {
+
+      cy.visit("/projects");
+      cy.findAllByText("Cypress Victory Hotel").should("be.visible");
+
+      // find delete icon and click to open modal
+      cy.findByRole("button", {name:`Delete Project #${response.body.id}` }).click()
+
+      // click delete button inside modal
+      cy.findByRole("button", {name: "Delete"}).click()
+
+      // TODO: user should not have to refresh page to see change; remove next line when this is fixed
+      cy.visit("/projects")
+      
+      cy.findByText("Cypress Victory Hotel").should("not.exist");
+    })
+  });
 
   /// Add minimal project
   const inputNewProjectData = () => {
     cy.get("#PROJECT_NAME").type("Cypress Test Project");
     cy.findByTestId("PROJECT_ADDRESS").type("220 W. Garden Path");
-    cy.findByTestId("APN").type("9999999999");
+    cy.findByTestId("APN").type("999999999");
     cy.findByTestId("PROJECT_DESCRIPTION").type("Cypress Test Project");
 
     // Advance to specifications page
@@ -78,20 +95,24 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
   };
 
   const postNewProject = () => {
-    cy.request({
+    return cy.request({
       method: "POST",
       url: "http://localhost:5000/api/projects",
       body: {
         name: "Cypress Victory Hotel",
         address: "12425 Victory Bl.",
-        formInputs:
-          '{"UNITS_GUEST":"80","STRATEGY_BIKE_5":true,"STRATEGY_CAR_SHARE_1":true,"STRATEGY_HOV_1":true,"STRATEGY_HOV_3":true,"PROJECT_NAME":"Cypress Victory Hotel","PROJECT_ADDRESS":"12425 Victory Bl.","PROJECT_DESCRIPTION":"80-room four-story hotel. Spreadsheet has parkingcalc error.","LAND_USE_HOTEL":true,"PARK_SPACES":"76","STRATEGY_ACCESS_1":"25","STRATEGY_BIKE_4":true,"STRATEGY_INFO_1":true,"STRATEGY_INFO_2":true,"STRATEGY_INFO_3":true,"STRATEGY_TRANSIT_ACCESS_3":"25"}',
-        loginId: 61,
+        formInputs: "{\"UNITS_GUEST\":\"80\",\"STRATEGY_BIKE_5\":true,\"STRATEGY_CAR_SHARE_1\":true,\"STRATEGY_HOV_1\":true,\"STRATEGY_HOV_3\":true,\"PROJECT_NAME\":\"Cypress Victory Hotel\",\"PROJECT_ADDRESS\":\"12425 Victory Bl.\",\"PROJECT_DESCRIPTION\":\"80-room four-story hotel. Spreadsheet has parkingcalc error.\",\"LAND_USE_HOTEL\":true,\"PARK_SPACES\":\"76\",\"STRATEGY_ACCESS_1\":\"25\",\"STRATEGY_BIKE_4\":true,\"STRATEGY_INFO_1\":true,\"STRATEGY_INFO_2\":true,\"STRATEGY_INFO_3\":true,\"STRATEGY_TRANSIT_ACCESS_3\":\"25\",\"APN\":\"1234-567-890\"}",
         calculationId: 1,
-        description: "80-room four-story hotel.",
-        firstName: "Test Regular",
-        lastName: "User"
+        dateCreated: "2020-11-12T00:38:42.763Z",
+        dateModified: "2020-11-12T00:39:04.436Z",
+        description: "80-room four-story hotel. Spreadsheet has parkingcalc error.",
+        loginId: 37, // ladot
+        firstName: "LA",
+        lastName: "DOT"
+        // loginId: 61, // regular user
+        // firstName: "Test Regular",
+        // lastName: "User"
       }
-    });
-  };
+    })
+  }
 });
