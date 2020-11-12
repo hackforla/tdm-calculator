@@ -86,6 +86,9 @@ const useStyles = createUseStyles({
       background: "#B2C0D3"
     }
   },
+  tdNoSavedProjects: {
+    textAlign: "center"
+  },
   actionIcons: {
     display: "flex",
     justifyContent: "space-around",
@@ -463,7 +466,7 @@ const Projects = ({ account, history }) => {
           </tr>
         </thead>
         <tbody className={classes.tbody}>
-          {Boolean(projects.length) &&
+          {projects.length ?
             currentProjects.map(project => (
               <tr key={project.id}>
                 <td className={classes.td}>
@@ -510,7 +513,13 @@ const Projects = ({ account, history }) => {
                   )}
                 </td>
               </tr>
-            ))}
+            ))
+          : <tr>
+              <td colSpan={9} className={classes.tdNoSavedProjects}>
+                No Saved Projects
+              </td>
+            </tr>
+          }
         </tbody>
       </table>
 
