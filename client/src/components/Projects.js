@@ -368,12 +368,8 @@ const Projects = ({ account, history }) => {
       .BUILDING_PERMIT
       ? JSON.parse(project["formInputs"]).BUILDING_PERMIT
       : "";
-    project["dateCreated"] = moment(project["dateCreated"]).format(
-      "M/DD/YYYY h:mm A"
-    );
-    project["dateModified"] = moment(project["dateModified"]).format(
-      "M/DD/YYYY h:mm A"
-    );
+    project["dateCreated"] = moment(project["dateCreated"]).format()
+    project["dateModified"] = moment(project["dateModified"]).format()
 
     if (filterText !== "") {
       let ids = [
@@ -497,8 +493,7 @@ const Projects = ({ account, history }) => {
                   {moment(project.dateCreated).format("MM/DD/YYYY")}
                 </td>
                 <td className={classes.tdRightAlign}>
-                  {moment(project.dateModified).format("MM/DD/YYYY") ===
-                  moment().format("MM/DD/YYYY")
+                  { moment(project.dateModified).isSame(moment(), "day")
                     ? moment(project.dateModified).format("h:mm A")
                     : moment(project.dateModified).format("MM/DD/YYYY")}
                 </td>
