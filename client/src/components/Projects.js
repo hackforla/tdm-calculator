@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     alignItems: "center",
     minHeight: "calc(100vh - 103px - 48px)",
-    width: "1146px",
+    maxWidth: "1146px",
     minWidth: "80%",
     margin: "auto"
   },
@@ -179,6 +179,11 @@ const useStyles = createUseStyles({
     right: "24px",
     backgroundColor: "transparent",
     border: "none"
+  },
+  tableContainer:{
+    overflow:'auto',
+    marginLeft:'20px',
+    marginRight:'20px'
   }
 });
 
@@ -430,6 +435,7 @@ const Projects = ({ account, history }) => {
         />
         <img className={classes.searchIcon} src={SearchIcon} alt="Search Icon" />
       </div>
+      <div className={classes.tableContainer}>
       <table className={classes.table}>
         <thead className={classes.thead}>
           <tr className={classes.tr}>
@@ -522,7 +528,7 @@ const Projects = ({ account, history }) => {
           }
         </tbody>
       </table>
-
+      </div>
       <Pagination
         projectsPerPage={projectsPerPage}
         totalProjects={projects.length}
