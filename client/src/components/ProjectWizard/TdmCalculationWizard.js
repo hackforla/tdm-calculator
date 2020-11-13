@@ -430,7 +430,7 @@ TdmCalculationWizard.propTypes = {
   employmentPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
-  dateModified: PropTypes.object
+  dateModified: PropTypes.string
 };
 
 export default withRouter(TdmCalculationWizard);
