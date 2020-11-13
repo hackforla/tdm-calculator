@@ -128,10 +128,17 @@ const App = () => {
             <Route
               path="/logout"
               render={routeProps => {
-                // optional chaining operator (?.) is valid operator; TODO: add to prettier/linter
-                const prevPathStartsWithCalculation = routeProps.location?.state?.prevPath?.startsWith(
-                  "/calculation"
-                );
+                // optional chaining operator (?.) is valid operator, but experimental
+                // and not supported by create-react-app.
+                // const prevPathStartsWithCalculation = routeProps.location?.state?.prevPath?.startsWith(
+                //   "/calculation"
+                // );
+                const prevPathStartsWithCalculation =
+                  routeProps &&
+                  routeProps.location &&
+                  routeProps.location.state &&
+                  routeProps.location.state.prevPath &&
+                  routeProps.location.state.prevPath.startsWith("/calculation");
 
                 if (
                   !prevPathStartsWithCalculation ||

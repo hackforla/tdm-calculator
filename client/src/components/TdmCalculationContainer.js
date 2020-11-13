@@ -217,6 +217,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       ...modifiedInputs
     };
     recalculate(newFormInputs);
+    setFormHasSaved(false);
   };
 
   const projectLevel =
@@ -251,7 +252,6 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
   };
 
   const onInputChange = e => {
-    setFormHasSaved(false);
     const ruleCode = e.target.name;
     let value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -273,6 +273,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       [e.target.name]: value
     };
     recalculate(newFormInputs);
+    setFormHasSaved(false);
   };
 
   const onCommentChange = e => {
@@ -292,6 +293,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       [`${e.target.name}_comment`]: value
     };
     recalculate(newFormInputs);
+    setFormHasSaved(false);
   };
 
   const onUncheckAll = filterRules => {
@@ -304,6 +306,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       }
     }
     recalculate(updateInputs);
+    setFormHasSaved(false);
   };
 
   const projectIsValid = () => {
@@ -360,7 +363,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
-        const newPath = location.pathname + "/" + postResponse.data.id
+        const newPath = location.pathname + "/" + postResponse.data.id;
         // setProjectId(postResponse.data.id);
         // setLoginId(account.id);
         setFormHasSaved(true);

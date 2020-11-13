@@ -198,13 +198,15 @@ class Engine {
           validationErrors.push(`${name} must be no more than ${maxValue}.`);
         }
       }
-      if (validationFunctionBody) {
-        const validationMessage = this.calcValidation(code);
-        if (validationMessage) {
-          validationErrors.push(validationMessage);
-        }
+    }
+    // Custom validation rules apply regardless of whether value is falsey
+    if (validationFunctionBody) {
+      const validationMessage = this.calcValidation(code);
+      if (validationMessage) {
+        validationErrors.push(validationMessage);
       }
     }
+
     // validationErrors will be null if no errors, otherwise contain
     // user-friendly error message(s) in an array
     rule.validationErrors =
