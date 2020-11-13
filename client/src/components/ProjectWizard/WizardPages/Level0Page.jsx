@@ -49,10 +49,14 @@ const Level0Page = ({ isLevel0 }) => {
       {isLevel0 && (
         <div className={classes.level0NavButtons}>
           <div className={classes.level0Container}>
-            <img src={PlanningIcon} />
+            <img src={PlanningIcon} alt="planningIcon" />
             <h1>Your project level is 0!</h1>
             <div className={classes.level0Message}>
-              <img src={WarningIcon} className={classes.warningIcon} />
+              <img
+                src={WarningIcon}
+                className={classes.warningIcon}
+                alt="warningIcon"
+              />
               <p>
                 Based on the information you provided, the Transportation Demand
                 Management (TDM) Ordinance <strong>may</strong> not apply to

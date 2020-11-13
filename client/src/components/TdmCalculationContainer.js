@@ -360,7 +360,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
-        const newPath = location.pathname + "/" + postResponse.data.id
+        const newPath = history.location.pathname + "/" + postResponse.data.id;
         // setProjectId(postResponse.data.id);
         // setLoginId(account.id);
         setFormHasSaved(true);
@@ -460,10 +460,7 @@ TdmCalculationContainer.propTypes = {
       pathname: PropTypes.string
     })
   }),
-  classes: PropTypes.object.isRequired,
-  location: PropTypes.shape({
-    search: PropTypes.string
-  })
+  classes: PropTypes.object.isRequired
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

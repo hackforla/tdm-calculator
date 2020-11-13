@@ -109,10 +109,10 @@ const useStyles = createUseStyles({
     margin: "0 auto"
   },
   pageNumberCounter: {
-    fontSize: '24px',
-    margin: 'auto',
-    fontWeight: 'bold',
-    padding: '0px 12px'
+    fontSize: "24px",
+    margin: "auto",
+    fontWeight: "bold",
+    padding: "0px 12px"
   }
 });
 
@@ -195,7 +195,7 @@ const TdmCalculationWizard = props => {
     );
   };
 
-  const pageNumber = isLevel0 && page === 3 ? 5 : (page <= 3 ? page : page - 1)
+  const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
 
   const routes = (
     <Switch>
