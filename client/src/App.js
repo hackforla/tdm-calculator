@@ -59,7 +59,7 @@ const App = () => {
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
   };
 
-  const getUserConfirmation = (message, defaultConfirmCallback) => {
+  const getUserConfirmation = (_message, defaultConfirmCallback) => {
     setHasConfirmedTransition(false);
     setConfirmTransition(() => ({
       defaultConfirmCallback: defaultConfirmCallback,
@@ -77,11 +77,7 @@ const App = () => {
             isOpenNavConfirmModal={isOpenNavConfirmModal}
             setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
           />
-          <Header
-            account={account}
-            setAccount={setAccount}
-            hasConfirmedTransition={hasConfirmedTransition}
-          />
+          <Header account={account} setAccount={setAccount} />
           <div className={classes.root}>
             <Route
               exact
@@ -128,7 +124,6 @@ const App = () => {
             <Route
               path="/logout"
               render={routeProps => {
-                // optional chaining operator (?.) is valid operator; TODO: add to prettier/linter
                 const prevPathStartsWithCalculation = routeProps.location?.state?.prevPath?.startsWith(
                   "/calculation"
                 );
@@ -138,9 +133,6 @@ const App = () => {
                   (prevPathStartsWithCalculation && hasConfirmedTransition)
                 ) {
                   localStorage.clear();
-                  // TODO:  fix console warning due to bad setState. trying to render app.
-                  // Warning: Cannot update a component (`App`) while rendering a different component (`Context.Consumer`).
-                  setAccount({});
                 }
                 return <Redirect to="/login" />;
               }}

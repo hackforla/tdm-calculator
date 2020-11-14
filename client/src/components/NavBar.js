@@ -93,8 +93,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const NavBar = props => {
-  const { account, navbarOpen, setNavbarOpen } = props;
+const NavBar = ({ account, setAccount, navbarOpen, setNavbarOpen }) => {
   const classes = useStyles();
 
   const handleHamburgerMenuClick = () => {
@@ -159,6 +158,7 @@ const NavBar = props => {
       </li>
       <NavBarLogin
         account={account}
+        setAccount={setAccount}
         classes={classes}
         navbarOpen={navbarOpen}
         handleHamburgerMenuClick={handleHamburgerMenuClick}
@@ -175,8 +175,9 @@ NavBar.propTypes = {
     isAdmin: PropTypes.bool,
     isSecurityAdmin: PropTypes.bool
   }),
+  setAccount: PropTypes.func.isRequired,
   navbarOpen: PropTypes.bool,
-  setNavbarOpen: PropTypes.func
+  setNavbarOpen: PropTypes.func.isRequired
 };
 
 export default withRouter(NavBar);
