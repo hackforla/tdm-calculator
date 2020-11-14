@@ -128,8 +128,9 @@ const App = () => {
             <Route
               path="/logout"
               render={routeProps => {
-                // optional chaining operator (?.) is valid operator, but experimental
-                // and not supported by create-react-app.
+                // optional chaining operator (?.) is part of ES2012, and
+                // not reliably supported across all browsers by
+                // create-react-app or eslint.
                 // const prevPathStartsWithCalculation = routeProps.location?.state?.prevPath?.startsWith(
                 //   "/calculation"
                 // );
