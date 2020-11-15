@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
 import { UserContext } from "./components/user-context";
@@ -21,7 +21,7 @@ import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
 import "./styles/App.scss";
 import PublicComment from "./components/PublicComment/PublicCommentPage";
-import NavConfirmationModal from "./components/NavConfirmationModal";
+import NavConfirmModal from "./components/NavConfirmModal";
 
 const useStyles = createUseStyles({
   root: {
@@ -34,16 +34,15 @@ const useStyles = createUseStyles({
 const App = () => {
   const classes = useStyles();
   const [account, setAccount] = useState({});
-  const [isCreatingNewProject, setIsCreatingNewProject] = useState(false);
-  const [confirmCallback, setConfirmCallback] = useState(null);
-  const [openNavModal, setOpenNavConfirmationModal] = useState(false);
+  const [confirmTransition, setConfirmTransition] = useState(null);
+  const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
+  const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
 
   useEffect(() => {
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) {
       try {
         const account = JSON.parse(currentUser);
-        // TODO: remove console.log when stable.
         setAccount(account);
       } catch (err) {
         // TODO: replace with production error logging.
@@ -60,38 +59,46 @@ const App = () => {
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
   };
 
-  const getUserConfirmation = (message, callback) => {
-    setConfirmCallback(() => callback);
-    setOpenNavConfirmationModal(!openNavModal);
+  const getUserConfirmation = (_message, defaultConfirmCallback) => {
+    setHasConfirmedTransition(false);
+    setConfirmTransition(() => ({
+      defaultConfirmCallback: defaultConfirmCallback,
+      setHasConfirmedTransition: setHasConfirmedTransition
+    }));
+    setIsOpenNavConfirmModal(!isOpenNavConfirmModal);
   };
 
   return (
     <React.Fragment>
       <UserContext.Provider value={account}>
         <Router getUserConfirmation={getUserConfirmation}>
-          <NavConfirmationModal
-            confirmCallback={confirmCallback}
-            setOpenNavModal={setOpenNavConfirmationModal}
-            openNavModal={openNavModal}
+          <NavConfirmModal
+            confirmTransition={confirmTransition}
+            isOpenNavConfirmModal={isOpenNavConfirmModal}
+            setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
           />
-          <Header
-            account={account}
-            setAccount={setAccount}
-            isCreatingNewProject={isCreatingNewProject}
-          />
+          <Header account={account} setAccount={setAccount} />
           <div className={classes.root}>
             <Route
               exact
               path="/"
-              render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
+              render={() =>
+                account.email ? (
+                  <Redirect to="/create-project" />
+                ) : (
+                  <Login setLoggedInAccount={setLoggedInAccount} />
+                )
+              }
             />
+            <Route exact path="/create-project">
+              <Redirect to="/calculation" />
+            </Route>
             <Route
               path="/calculation/:page?/:projectId?"
               render={() => (
                 <TdmCalculationContainer
                   account={account}
-                  setIsCreatingNewProject={setIsCreatingNewProject}
-                  setOpenNavConfirmationModal={setOpenNavConfirmationModal}
+                  hasConfirmedNavTransition={hasConfirmedTransition}
                 />
               )}
             />
@@ -106,7 +113,29 @@ const App = () => {
             <Route path="/confirm/:token" component={ConfirmEmail} />
             <Route
               path="/login/:email?"
-              render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
+              render={() =>
+                account.email ? (
+                  <Redirect to="/create-project" />
+                ) : (
+                  <Login setLoggedInAccount={setLoggedInAccount} />
+                )
+              }
+            />
+            <Route
+              path="/logout"
+              render={routeProps => {
+                const prevPathStartsWithCalculation = routeProps.location?.state?.prevPath?.startsWith(
+                  "/calculation"
+                );
+
+                if (
+                  !prevPathStartsWithCalculation ||
+                  (prevPathStartsWithCalculation && hasConfirmedTransition)
+                ) {
+                  localStorage.clear();
+                }
+                return <Redirect to="/login" />;
+              }}
             />
             <Route path="/forgotpassword" component={ResetPasswordRequest} />
             <Route path="/resetPassword/:token" component={ResetPassword} />

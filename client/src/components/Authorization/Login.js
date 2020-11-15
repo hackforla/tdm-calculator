@@ -108,6 +108,7 @@ const Login = props => {
                 <Form>
                   <div className="form-group">
                     <Field
+                      id="cy-login-email"
                       type="email"
                       name="email"
                       value={values.email}
@@ -124,6 +125,7 @@ const Login = props => {
                   </div>
                   <div className="form-group">
                     <Field
+                      id="cy-login-password"
                       type="password"
                       value={values.password}
                       name="password"
@@ -139,12 +141,17 @@ const Login = props => {
                     />
                   </div>
                   <div className="form-group auth-text">
-                    <Link className="auth-link forgot" to={"/forgotpassword"}>
+                    <Link
+                      id="cy-login-nav-to-forgotpassword"
+                      className="auth-link forgot"
+                      to={"/forgotpassword"}
+                    >
                       Forgot password?
                     </Link>
                   </div>
 
                   <button
+                    id="cy-login-submit"
                     type="submit"
                     className="btn-submit"
                     disabled={isSubmitting}
@@ -172,7 +179,11 @@ const Login = props => {
           <br />
           <div className="auth-text">
             New user? &nbsp;
-            <Link className="auth-link" to={"/register"}>
+            <Link
+              id="cy-login-nav-to-register"
+              className="auth-link"
+              to={"/register"}
+            >
               Create an account
             </Link>
           </div>

@@ -9,6 +9,7 @@ import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";
 import injectSheet from "react-jss";
 import { useToast } from "../contexts/Toast";
+import moment from "moment";
 
 const styles = {
   root: {
@@ -50,6 +51,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
   const [formInputs, setFormInputs] = useState({});
   const [projectId, setProjectId] = useState(null);
   const [loginId, setLoginId] = useState(0);
+  const [dateModified, setDateModified] = useState(null);
   const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
@@ -84,7 +86,11 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         if (Number(projectId) > 0 && account.id) {
           projectResponse = await projectService.getById(projectId);
           setLoginId(projectResponse.data.loginId);
-          // console.log("inputs", projectResponse);
+          setDateModified(
+            moment(projectResponse.data.dateModified).format(
+              "MM/DD/YYYY h:mm A"
+            )
+          );
           inputs = JSON.parse(projectResponse.data.formInputs);
           setStrategiesInitialized(true);
         } else {
@@ -104,10 +110,10 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       }
     };
     initiateEngine();
-  }, [match.params.projectId, engine, account, toast.add, history.push]);
+  }, [match.params.projectId, engine, account, toast.add, history]);
 
-  const recalculate = formInputs => {
-    engine.run(formInputs, resultRuleCodes);
+  const recalculate = updatedFormInputs => {
+    engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
     const rules = engine.showRulesArray();
     //The following several lines can be uncommented for debugging
     // console.log("Updated Rules:");
@@ -115,11 +121,9 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
     // const showWork = engine.showWork("PARK_REQUIREMENT");
     // console.log("Show Work:");
     // console.log(showWork);
-
-    // update state with modified formInputs and rules
-    setFormInputs(formInputs);
+    // update state with modified updatedFormInputs and rules
+    setFormInputs(updatedFormInputs);
     setRules(rules);
-    setFormHasSaved(false); //TODO (optimize): find better location  so it's not called on every recalculate
   };
 
   const initializeStrategies = () => {
@@ -247,6 +251,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
   };
 
   const onInputChange = e => {
+    setFormHasSaved(false);
     const ruleCode = e.target.name;
     let value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -301,8 +306,18 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
     recalculate(updateInputs);
   };
 
+  const projectIsValid = () => {
+    return !rules.find(rule => !!rule.validationErrors);
+  };
+
   const onSave = async () => {
+    if (!projectIsValid()) {
+      toast.add("Some project inputs are missing or invalid. Save failed.");
+      return;
+    }
     const inputsToSave = { ...formInputs };
+    // If a saved form had inputs that are obsolete,
+    // delete them from the inputsToSave object.
     for (let input in inputsToSave) {
       if (!inputsToSave[input]) {
         delete inputsToSave[input];
@@ -325,8 +340,8 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       requestBody.id = projectId;
       try {
         await projectService.put(requestBody);
-        toast.add("Saved Project Changes");
         setFormHasSaved(true);
+        toast.add("Saved Project Changes");
       } catch (err) {
         if (err.response) {
           if (err.response.status === 401) {
@@ -345,10 +360,14 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
-        setProjectId(postResponse.data.id);
-        setLoginId(account.id);
-        toast.add("Saved New Project");
+        const newPath = history.location.pathname + "/" + postResponse.data.id;
+        // setProjectId(postResponse.data.id);
+        // setLoginId(account.id);
         setFormHasSaved(true);
+        toast.add("Saved New Project");
+        // Update URL to /calculation/<currentPage>/<newProjectId>
+        // to keep working on same project.
+        history.push(newPath);
       } catch (err) {
         if (err.response) {
           if (err.response.status === 401) {
@@ -373,8 +392,8 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         when={!formHasSaved}
         message={location => {
           return location.pathname.startsWith("/calculation")
-            ? true
-            : "This message will not actually appear anywhere because we are using a custom modal instead";
+            ? true // returning true allows user to continue without a prompt/modal
+            : "this message doesn't actaully show, but will cause modal to open";
         }}
       />
       {view === "w" ? (
@@ -398,6 +417,9 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
           allowEmploymentPackage={allowEmploymentPackage}
           residentialPackageSelected={residentialPackageSelected}
           employmentPackageSelected={employmentPackageSelected}
+          formIsDirty={!formHasSaved}
+          projectIsValid={projectIsValid}
+          dateModified={dateModified}
         />
       ) : (
         <TdmCalculation
@@ -438,10 +460,7 @@ TdmCalculationContainer.propTypes = {
       pathname: PropTypes.string
     })
   }),
-  classes: PropTypes.object.isRequired,
-  location: PropTypes.shape({
-    search: PropTypes.string
-  })
+  classes: PropTypes.object.isRequired
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

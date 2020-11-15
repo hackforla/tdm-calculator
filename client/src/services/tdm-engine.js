@@ -163,7 +163,7 @@ class Engine {
 
     if (required && !value) {
       validationErrors.push(`${name} is required`);
-    } else {
+    } else if (value) {
       if (minStringLength) {
         if (typeof value === "string" && value.length < minStringLength) {
           validationErrors.push(

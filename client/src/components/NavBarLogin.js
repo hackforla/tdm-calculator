@@ -7,9 +7,9 @@ import NavBarToolTip from "./NavBarToolTip";
 
 const NavBarLogin = ({
   account,
+  setAccount,
   classes,
-  setLoggedOutAccount,
-  handleClick
+  handleHamburgerMenuClick
 }) => {
   const [isCalculation, setIsCalculation] = useState(false);
 
@@ -24,19 +24,20 @@ const NavBarLogin = ({
     } else {
       setIsCalculation(false);
     }
-  });
 
-  const handleLogOut = () => {
-    handleClick();
-    setLoggedOutAccount();
-  };
+    const currentUser = localStorage.getItem("currentUser");
+    if (!currentUser) {
+      setAccount({});
+    }
+  }, [location.pathname, setAccount]);
 
   const loginLink = (
     <li className={clsx(classes.userLogin, classes.linkBlock)}>
       <Link
+        id="cy-login-menu-item"
         className={`${classes.link} ${classes.lastItem}`}
         to="/login"
-        onClick={handleClick}
+        onClick={handleHamburgerMenuClick}
       >
         Login
       </Link>
@@ -51,34 +52,38 @@ const NavBarLogin = ({
 
   const logoutLink = (
     <li className={classes.linkBlock}>
-      <button className={`link ${classes.lastItem}`} onClick={handleLogOut}>
+      <Link
+        className={`${classes.link} ${classes.lastItem}`}
+        to={{ pathname: "/logout", state: { prevPath: location.pathname } }}
+        onClick={handleHamburgerMenuClick}
+      >
         Logout
-      </button>
+      </Link>
     </li>
   );
 
   return !account || !account.email ? (
     !isCalculation ? (
-      <React.Fragment>{loginLink}</React.Fragment>
+      <>{loginLink}</>
     ) : (
-      <React.Fragment>
+      <>
         <NavBarToolTip />
         {loginLink}
-      </React.Fragment>
+      </>
     )
   ) : (
-    <React.Fragment>
+    <>
       {getUserGreeting(account)}
       {logoutLink}
-    </React.Fragment>
+    </>
   );
 };
 
 NavBarLogin.propTypes = {
+  setAccount: PropTypes.func.isRequired,
   account: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  setLoggedOutAccount: PropTypes.func,
-  handleClick: PropTypes.func
+  handleHamburgerMenuClick: PropTypes.func
 };
 
 export default NavBarLogin;

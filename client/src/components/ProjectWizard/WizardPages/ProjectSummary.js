@@ -475,7 +475,7 @@ const ProjectSummary = props => {
                             ? rule.choices.find(
                                 choice =>
                                   Number(choice.id) === Number(rule.value)
-                              ).name
+                              )?.name
                             : rule.value}
                         </div>
                       </div>
@@ -498,7 +498,6 @@ const ProjectSummary = props => {
               <span className={classes.categoryHeader}>
                 PROJECT SPECIFICATIONS
               </span>
-              <span className={classes.earnedPoints}>EARNED POINTS</span>
             </div>
             <div className={classes.measuresContainer}>
               {rules && rules.length > 0
@@ -561,8 +560,7 @@ ProjectSummary.propTypes = {
   account: PropTypes.object.isRequired,
   projectId: PropTypes.number.isRequired,
   loginId: PropTypes.number.isRequired,
-  onSave: PropTypes.func.isRequired,
-  dateModified: PropTypes.string.isRequired
+  dateModified: PropTypes.string || null
 };
 
 export default ProjectSummary;

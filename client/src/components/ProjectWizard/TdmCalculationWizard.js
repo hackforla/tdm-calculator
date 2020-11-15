@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { createUseStyles } from "react-jss";
@@ -20,8 +20,6 @@ import {
   ProjectTargetPoints,
   ProjectMeasures
 } from "./WizardPages";
-import * as projectService from "../../services/project.service";
-import moment from "moment";
 
 const useStyles = createUseStyles({
   root: {
@@ -109,6 +107,12 @@ const useStyles = createUseStyles({
   },
   lastSavedContainer: {
     margin: "0 auto"
+  },
+  pageNumberCounter: {
+    fontSize: "24px",
+    margin: "auto",
+    fontWeight: "bold",
+    padding: "0px 12px"
   }
 });
 
@@ -132,36 +136,19 @@ const TdmCalculationWizard = props => {
     allowResidentialPackage,
     allowEmploymentPackage,
     residentialPackageSelected,
-    employmentPackageSelected
+    employmentPackageSelected,
+    formIsDirty,
+    projectIsValid,
+    dateModified
   } = props;
-  const [dateModified, setDateModified] = useState("");
-
-  useEffect(() => {
-    const getDateModified = async () => {
-      try {
-        const result = await projectService.get();
-        const currentProject = result.data.filter(
-          project => project.id === projectId
-        );
-        let lastSaved = currentProject[0].dateModified;
-        lastSaved = moment(lastSaved).format("MM/DD/YYYY h:mm A");
-        setDateModified(lastSaved);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    if (projectId) getDateModified();
-  }, []);
-
   const context = useContext(ToastContext);
   const classes = useStyles();
-  const page = Number(match.params.page);
+  const page = Number(match.params.page || 1);
   const projectId = Number(match.params.projectId);
 
   useEffect(() => {
     if (!projectId) {
-      history.push("/calculation/1/");
+      history.push("/calculation/1");
     } else if (
       projectId &&
       account &&
@@ -170,7 +157,7 @@ const TdmCalculationWizard = props => {
       // Project Calculation is editable if it is not saved
       // or the project was created by the current logged in
       // user, or the logged in user is admin.
-      history.push(`/calculation/1/${projectId ? projectId : ""}`);
+      history.push(`/calculation/${page}/${projectId ? projectId : ""}`);
     } else {
       // read-only users can only see the summary page.
       history.push(`/calculation/6/${projectId}`);
@@ -200,13 +187,15 @@ const TdmCalculationWizard = props => {
       page === 5 && strategyRules.find(rule => !!rule.validationErrors);
     const isPage6 = Number(page) === 6;
 
-    return isPage1AndHasErrors ||
+    return !!(
+      isPage1AndHasErrors ||
       isPage2AndHasErrors ||
       isPage5AndHasErrors ||
       isPage6
-      ? true
-      : false;
+    );
   };
+
+  const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
 
   const routes = (
     <Switch>
@@ -357,6 +346,9 @@ const TdmCalculationWizard = props => {
                         onPageChange(Number(page) - 1);
                       }}
                     />
+                    <div className={classes.pageNumberCounter}>
+                      Page {pageNumber}/5
+                    </div>
                     <NavButton
                       id="rightNavArrow"
                       navDirection="next"
@@ -369,26 +361,19 @@ const TdmCalculationWizard = props => {
                   </div>
                   <div id="save-and-startover-buttons-container">
                     <Button
-                      // isDisplayed={page !== 1}
-                      onClick={() => window.location.assign("/calculation")}
-
-                      variant="outlined"
-                    >
-                      Start Over
-                    </Button>
-                    <Button
-                      // isDisplayed={
-                      //   !!(
-                      //     account.id &&
-                      //     (!projectId || account.id === loginId) &&
-                      //     page === 6
-                      //   )
-                      // }
-                      onClick={onSave}
+                      type="input"
                       color="colorPrimary"
                       variant="contained"
+                      isDisplayed={
+                        !!(
+                          account.id &&
+                          (!projectId || account.id === loginId) &&
+                          formIsDirty &&
+                          projectIsValid()
+                        )
+                      }
+                      onClick={onSave}
                     >
-                      {/* {projectId ? "Save Project" : "Save As New Project"} */}
                       Save Project
                     </Button>
                   </div>
@@ -396,7 +381,6 @@ const TdmCalculationWizard = props => {
               ) : null}
             </div>
           ) : null}
-          {/* {page === 6 ? ( */}
           <div className={classes.lastSavedContainer}>
             {dateModified && (
               <span className={classes.lastSaved}>
@@ -405,7 +389,6 @@ const TdmCalculationWizard = props => {
               </span>
             )}
           </div>
-          {/* ) : null} */}
         </div>
       </div>
     </React.Fragment>
@@ -455,7 +438,10 @@ TdmCalculationWizard.propTypes = {
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowEmploymentPackage: PropTypes.bool.isRequired,
   residentialPackageSelected: PropTypes.func,
-  employmentPackageSelected: PropTypes.func
+  employmentPackageSelected: PropTypes.func,
+  formIsDirty: PropTypes.bool,
+  projectIsValid: PropTypes.func,
+  dateModified: PropTypes.string
 };
 
 export default withRouter(TdmCalculationWizard);

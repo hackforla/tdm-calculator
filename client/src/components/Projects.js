@@ -86,6 +86,9 @@ const useStyles = createUseStyles({
       background: "#B2C0D3"
     }
   },
+  tdNoSavedProjects: {
+    textAlign: "center"
+  },
   actionIcons: {
     display: "flex",
     justifyContent: "space-around",
@@ -181,7 +184,7 @@ const useStyles = createUseStyles({
 
 const modalStyles = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
@@ -198,7 +201,8 @@ const modalStyles = {
     maxWidth: "100%",
     padding: "60px",
     backgroundColor: "#ffffff",
-    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)"
+    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)",
+    ":focus": { outline: "none" }
   }
 };
 
@@ -262,7 +266,7 @@ const Projects = ({ account, history }) => {
 
   useEffect(() => {
     getProjects();
-  }, [email, historyPush, projects]);
+  }, [email, historyPush, toastAdd, projects]);
 
   const toggleDuplicateModal = async project => {
     if (project) {
@@ -384,12 +388,8 @@ const Projects = ({ account, history }) => {
       .BUILDING_PERMIT
       ? JSON.parse(project["formInputs"]).BUILDING_PERMIT
       : "";
-    project["dateCreated"] = moment(project["dateCreated"]).format(
-      "M/DD/YYYY h:mm A"
-    );
-    project["dateModified"] = moment(project["dateModified"]).format(
-      "M/DD/YYYY h:mm A"
-    );
+    project["dateCreated"] = moment(project["dateCreated"]).format();
+    project["dateModified"] = moment(project["dateModified"]).format();
 
     if (filterText !== "") {
       let ids = [
@@ -445,7 +445,11 @@ const Projects = ({ account, history }) => {
           value={filterText}
           onChange={e => handleFilterTextChange(e.target.value)}
         />
-        <img className={classes.searchIcon} src={SearchIcon} alt="" />
+        <img
+          className={classes.searchIcon}
+          src={SearchIcon}
+          alt="Search Icon"
+        />
       </div>
       <table className={classes.table}>
         <thead className={classes.thead}>
@@ -483,7 +487,7 @@ const Projects = ({ account, history }) => {
           </tr>
         </thead>
         <tbody className={classes.tbody}>
-          {Boolean(projects.length) &&
+          {projects.length ? (
             currentProjects.map(project => (
               <tr key={project.id}>
                 <td className={classes.td}>
@@ -513,8 +517,7 @@ const Projects = ({ account, history }) => {
                   {moment(project.dateCreated).format("MM/DD/YYYY")}
                 </td>
                 <td className={classes.tdRightAlign}>
-                  {moment(project.dateModified).format("MM/DD/YYYY") ===
-                  moment().format("MM/DD/YYYY")
+                  {moment(project.dateModified).isSame(moment(), "day")
                     ? moment(project.dateModified).format("h:mm A")
                     : moment(project.dateModified).format("MM/DD/YYYY")}
                 </td>
@@ -522,16 +525,29 @@ const Projects = ({ account, history }) => {
                   {project.loginId === currentUser.id && (
                     <>
                       <button onClick={() => toggleDuplicateModal(project)}>
-                        <img src={CopyIcon} alt="Duplicate Project" />
+                        <img
+                          src={CopyIcon}
+                          alt={`Duplicate Project #${project.id}`}
+                        />
                       </button>
                       <button onClick={() => toggleDeleteModal(project)}>
-                        <img src={DeleteIcon} alt="Delete Project" />
+                        <img
+                          src={DeleteIcon}
+                          alt={`Delete Project #${project.id}`}
+                        />
                       </button>
                     </>
                   )}
                 </td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <tr>
+              <td colSpan={9} className={classes.tdNoSavedProjects}>
+                No Saved Projects
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 
@@ -552,7 +568,7 @@ const Projects = ({ account, history }) => {
           <img src={CloseIcon} alt="Close" />
         </button>
         <h2>
-          <img src={CopyIcon} alt="Copy" /> Duplicate Project
+          <img src={CopyIcon} alt="Copy" /> <strong>Duplicate Project</strong>
         </h2>
         <p>
           Type a new name to duplicate the project,&nbsp;
@@ -590,12 +606,13 @@ const Projects = ({ account, history }) => {
         contentLabel="Delete Modal"
         style={modalStyles}
         className={classes.modal}
+        shouldFocusAfterRender={false}
       >
         <button className={classes.closeBtn} onClick={toggleDeleteModal}>
           <img src={CloseIcon} alt="Close" />
         </button>
         <h2>
-          <img src={DeleteIcon} alt="Delete" /> Delete Project
+          <img src={DeleteIcon} alt="Delete" /> <strong>Delete Project</strong>
         </h2>
         <p className={classes.deleteCopy}>
           <img
