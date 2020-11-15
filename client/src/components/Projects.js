@@ -262,7 +262,7 @@ const Projects = ({ account, history }) => {
 
   useEffect(() => {
     getProjects();
-  }, [email, historyPush]);
+  }, [email, historyPush, projects]);
 
   const toggleDuplicateModal = async project => {
     if (project) {
@@ -293,10 +293,24 @@ const Projects = ({ account, history }) => {
   };
 
   const deleteProject = async project => {
-    await projectService.del(project.id);
+    try {
+      await projectService.del(project.id);
+      setProjects(projects.filter(p => p.id !== project.id));
+    } catch (err) {
+      // If user's session token has expired or they are not
+      // authorized for this web api request, let them know
+      // and redirect to login
+      if (err.response && err.response.status === 401) {
+        toastAdd(
+          "For your security, your session has expired. Please log in again."
+        );
+        historyPush(`/login/${encodeURIComponent(email)}`);
+      }
+      console.error(err);
+    }
+
     toggleDeleteModal();
     setSelectedProject(null);
-    getProjects();
   };
 
   const handleDuplicateProjectNameChange = newProjectName => {
