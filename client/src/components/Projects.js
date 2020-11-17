@@ -44,8 +44,7 @@ const useStyles = createUseStyles({
     top: "12px"
   },
   table: {
-    margin: "20px",
-    width: "100%"
+    minWidth: "850px"
   },
   tr: {
     margin: "0.5em"
@@ -182,8 +181,8 @@ const useStyles = createUseStyles({
   },
   tableContainer:{
     overflow:'auto',
-    marginLeft:'20px',
-    marginRight:'20px'
+    maxWidth:'100vw',
+    marginTop:'20px'
   }
 });
 
