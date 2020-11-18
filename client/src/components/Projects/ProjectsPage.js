@@ -143,7 +143,7 @@ const ProjectsPage = ({ account, history }) => {
         toastAdd(
           "For your security, your session has expired. Please log in again."
         );
-        historyPush(`/login/${encodeURIComponent(email)}`);
+        historyPush(`/logout/${encodeURIComponent(email)}`);
       }
       console.error(error);
     },
