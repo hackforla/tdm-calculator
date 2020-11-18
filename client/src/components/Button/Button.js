@@ -29,8 +29,9 @@ const useStyles = createUseStyles({
   },
   text: {
     backgroundColor: "transparent",
-    color: ({ theme, color = "colorText" }) => theme[color],
-    border: "none"
+    borderColor: "rgba(0, 0, 0, 0)", //transparent
+    marginLeft: 0,
+    marginRight: 0
   }
 });
 
