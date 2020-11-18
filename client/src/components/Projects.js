@@ -152,6 +152,10 @@ const useStyles = createUseStyles({
     right: "24px",
     backgroundColor: "transparent",
     border: "none"
+  },
+  labelSpan:{
+    whiteSpace: 'nowrap'
+
   }
 });
 
@@ -424,16 +428,20 @@ const Projects = ({ account, history }) => {
       <table className={classes.table}>
         <thead className={classes.thead}>
           <tr className={classes.tr}>
-            {headerData.map((header, i) => (
-              <td
+            {headerData.map((header, i) => {
+              let label = header.label.split(' ')
+              let lastOfLabel = label.splice(-1,1)
+              label = label.join('')
+              lastOfLabel = lastOfLabel.join('') 
+              return (<td
                 key={i}
                 className={`${classes.td} ${classes.theadLabel}`}
                 onClick={() => handleSort(header.id)}
               >
-                {header.label}
+                {label}{' '}
                 {orderBy === header.id ? (
-                  <span>
-                    {order === "asc" ? (
+                  <span className={classes.labelSpan}>
+                    {lastOfLabel} {order === "asc" ? (
                       <FontAwesomeIcon
                         icon={faSortDown}
                         className={classes.sortArrow}
@@ -446,13 +454,16 @@ const Projects = ({ account, history }) => {
                     )}
                   </span>
                 ) : (
+                  <span className={classes.labelSpan}>
+                    {lastOfLabel} 
                   <FontAwesomeIcon
                     icon={faSortDown}
                     className={classes.sortArrow}
                   />
+                  </span>
                 )}
-              </td>
-            ))}
+              </td>)
+            })}
             <td></td>
           </tr>
         </thead>
