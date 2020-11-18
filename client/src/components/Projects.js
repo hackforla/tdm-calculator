@@ -258,7 +258,7 @@ const Projects = ({ account, history }) => {
           toastAdd(
             "For your security, your session has expired. Please log in again."
           );
-          historyPush(`/login/${encodeURIComponent(email)}`);
+          historyPush(`/logout/${encodeURIComponent(email)}`);
         }
         console.error(err);
       }
@@ -371,8 +371,8 @@ const Projects = ({ account, history }) => {
       .BUILDING_PERMIT
       ? JSON.parse(project["formInputs"]).BUILDING_PERMIT
       : "";
-    project["dateCreated"] = moment(project["dateCreated"]).format()
-    project["dateModified"] = moment(project["dateModified"]).format()
+    project["dateCreated"] = moment(project["dateCreated"]).format();
+    project["dateModified"] = moment(project["dateModified"]).format();
 
     if (filterText !== "") {
       let ids = [
@@ -428,7 +428,11 @@ const Projects = ({ account, history }) => {
           value={filterText}
           onChange={e => handleFilterTextChange(e.target.value)}
         />
-        <img className={classes.searchIcon} src={SearchIcon} alt="Search Icon" />
+        <img
+          className={classes.searchIcon}
+          src={SearchIcon}
+          alt="Search Icon"
+        />
       </div>
       <table className={classes.table}>
         <thead className={classes.thead}>
@@ -466,7 +470,7 @@ const Projects = ({ account, history }) => {
           </tr>
         </thead>
         <tbody className={classes.tbody}>
-          {projects.length ?
+          {projects.length ? (
             currentProjects.map(project => (
               <tr key={project.id}>
                 <td className={classes.td}>
@@ -496,7 +500,7 @@ const Projects = ({ account, history }) => {
                   {moment(project.dateCreated).format("MM/DD/YYYY")}
                 </td>
                 <td className={classes.tdRightAlign}>
-                  { moment(project.dateModified).isSame(moment(), "day")
+                  {moment(project.dateModified).isSame(moment(), "day")
                     ? moment(project.dateModified).format("h:mm A")
                     : moment(project.dateModified).format("MM/DD/YYYY")}
                 </td>
@@ -504,22 +508,29 @@ const Projects = ({ account, history }) => {
                   {project.loginId === currentUser.id && (
                     <>
                       <button onClick={() => toggleDuplicateModal(project)}>
-                        <img src={CopyIcon} alt={`Duplicate Project #${project.id}`} />
+                        <img
+                          src={CopyIcon}
+                          alt={`Duplicate Project #${project.id}`}
+                        />
                       </button>
                       <button onClick={() => toggleDeleteModal(project)}>
-                        <img src={DeleteIcon} alt={`Delete Project #${project.id}`} />
+                        <img
+                          src={DeleteIcon}
+                          alt={`Delete Project #${project.id}`}
+                        />
                       </button>
                     </>
                   )}
                 </td>
               </tr>
             ))
-          : <tr>
+          ) : (
+            <tr>
               <td colSpan={9} className={classes.tdNoSavedProjects}>
                 No Saved Projects
               </td>
             </tr>
-          }
+          )}
         </tbody>
       </table>
 

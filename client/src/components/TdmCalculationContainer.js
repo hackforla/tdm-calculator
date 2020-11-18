@@ -45,7 +45,13 @@ const filters = {
     rule.category === "measure" && rule.calculationPanelId !== 10
 };
 
-export function TdmCalculationContainer({ history, match, account, classes }) {
+export function TdmCalculationContainer({
+  history,
+  match,
+  account,
+  classes,
+  setLoggedInAccount
+}) {
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
   const [formInputs, setFormInputs] = useState({});
@@ -346,11 +352,15 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
       } catch (err) {
+        console.error(err);
         if (err.response) {
           if (err.response.status === 401) {
             toast.add(
               "For your security, your session has expired. Please log in again."
             );
+            // User's session has expired, update state variable
+            // to let React know they are logged out.
+            setLoggedInAccount({});
             history.push(`/login/${encodeURIComponent(account.email)}`);
           } else {
             console.error(err.response);
@@ -358,7 +368,6 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         } else if (err.request) {
           console.error(err.request);
         }
-        console.error(err);
       }
     } else {
       try {
@@ -372,11 +381,15 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         // to keep working on same project.
         history.push(newPath);
       } catch (err) {
+        console.error(err);
         if (err.response) {
           if (err.response.status === 401) {
             toast.add(
               "For your security, your session has expired. Please log in again."
             );
+            // User's session has expired, update state variable
+            // to let React know they are logged out.
+            setLoggedInAccount({});
             history.push(`/login/${encodeURIComponent(account.email)}`);
           } else {
             console.error(err.response);
@@ -384,21 +397,22 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         } else if (err.request) {
           console.error(err.request);
         }
-        console.error(err);
       }
     }
   };
 
   return (
     <div className={classes.root}>
+      {/* {!formHasSaved && account.id ? ( */}
       <Prompt
-        when={!formHasSaved}
+        when={!formHasSaved && !!account.id}
         message={location => {
           return location.pathname.startsWith("/calculation")
             ? true // returning true allows user to continue without a prompt/modal
             : "this message doesn't actaully show, but will cause modal to open";
         }}
       />
+      {/* ) : null} */}
       {view === "w" ? (
         <TdmCalculationWizard
           projectLevel={projectLevel}
@@ -466,7 +480,8 @@ TdmCalculationContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   location: PropTypes.shape({
     search: PropTypes.string
-  })
+  }),
+  setLoggedInAccount: PropTypes.func
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

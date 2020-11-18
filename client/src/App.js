@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
@@ -103,6 +103,7 @@ const App = () => {
                 <TdmCalculationContainer
                   account={account}
                   hasConfirmedNavTransition={hasConfirmedTransition}
+                  setLoggedInAccount={setLoggedInAccount}
                 />
               )}
             />
@@ -126,31 +127,18 @@ const App = () => {
               }
             />
             <Route
-              path="/logout"
+              path="/logout/:email?"
               render={routeProps => {
-                // optional chaining operator (?.) is part of ES2012, and
-                // not reliably supported across all browsers by
-                // create-react-app or eslint.
-                // const prevPathStartsWithCalculation = routeProps.location?.state?.prevPath?.startsWith(
-                //   "/calculation"
-                // );
-                const prevPathStartsWithCalculation =
-                  routeProps &&
-                  routeProps.location &&
-                  routeProps.location.state &&
-                  routeProps.location.state.prevPath &&
-                  routeProps.location.state.prevPath.startsWith("/calculation");
-
-                if (
-                  !prevPathStartsWithCalculation ||
-                  (prevPathStartsWithCalculation && hasConfirmedTransition)
-                ) {
-                  localStorage.clear();
-                  // TODO:  fix console warning due to bad setState. trying to render app.
-                  // Warning: Cannot update a component (`App`) while rendering a different component (`Context.Consumer`).
-                  setAccount({});
-                }
-                return <Redirect to="/login" />;
+                setLoggedInAccount({});
+                return (
+                  <Redirect
+                    to={
+                      routeProps.match.params["email"]
+                        ? `/login/${routeProps.match.params["email"]}`
+                        : "/login"
+                    }
+                  />
+                );
               }}
             />
             <Route path="/forgotpassword" component={ResetPasswordRequest} />
