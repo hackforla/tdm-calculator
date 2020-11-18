@@ -59,7 +59,7 @@ const App = () => {
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
   };
 
-  const getUserConfirmation = (message, defaultConfirmCallback) => {
+  const getUserConfirmation = (_message, defaultConfirmCallback) => {
     setHasConfirmedTransition(false);
     setConfirmTransition(() => ({
       defaultConfirmCallback: defaultConfirmCallback,
@@ -77,11 +77,7 @@ const App = () => {
             isOpenNavConfirmModal={isOpenNavConfirmModal}
             setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
           />
-          <Header
-            account={account}
-            setAccount={setAccount}
-            hasConfirmedTransition={hasConfirmedTransition}
-          />
+          <Header account={account} setAccount={setAccount} />
           <div className={classes.root}>
             <Route
               exact

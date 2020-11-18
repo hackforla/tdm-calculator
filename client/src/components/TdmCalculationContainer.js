@@ -372,9 +372,7 @@ export function TdmCalculationContainer({
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
-        const newPath = location.pathname + "/" + postResponse.data.id;
-        // setProjectId(postResponse.data.id);
-        // setLoginId(account.id);
+        const newPath = history.location.pathname + "/" + postResponse.data.id;
         setFormHasSaved(true);
         toast.add("Saved New Project");
         // Update URL to /calculation/<currentPage>/<newProjectId>

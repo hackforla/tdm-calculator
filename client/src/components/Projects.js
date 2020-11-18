@@ -14,6 +14,7 @@ import CopyIcon from "../images/copy.png";
 import DeleteIcon from "../images/trash.png";
 import CloseIcon from "../images/close.png";
 import Pagination from "./Pagination.js";
+import Button from "./Button/Button";
 
 const useStyles = createUseStyles({
   main: {
@@ -142,36 +143,7 @@ const useStyles = createUseStyles({
   modalActions: {
     display: "flex",
     justifyContent: "flex-end",
-    marginTop: "42px",
-    "& button": {
-      fontFamily: "Calibri Bold",
-      letterSpacing: "2px",
-      height: "60px",
-      display: "inline",
-      margin: 0,
-      border: "none",
-      fontSize: "20px",
-      lineHeight: "24px",
-      textAlign: "center",
-      cursor: "pointer",
-      textTransform: "uppercase"
-    }
-  },
-  createBtn: {
-    width: "200px",
-    backgroundColor: "#A7C539",
-    color: "#000000",
-    boxShadow: "0px 6px 4px rgba(0, 46, 109, 0.3)"
-  },
-  cancelBtn: {
-    width: "140px",
-    backgroundColor: "transparent",
-    color: "rgba(0, 0, 0, 0.5)"
-  },
-  deleteBtn: {
-    width: "200px",
-    backgroundColor: "#E46247",
-    boxShadow: "0px 6px 4px rgba(0, 46, 109, 0.3)"
+    marginTop: "42px"
   },
   closeBtn: {
     position: "absolute",
@@ -184,7 +156,7 @@ const useStyles = createUseStyles({
 
 const modalStyles = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
@@ -201,7 +173,8 @@ const modalStyles = {
     maxWidth: "100%",
     padding: "60px",
     backgroundColor: "#ffffff",
-    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)"
+    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)",
+    ":focus": { outline: "none" }
   }
 };
 
@@ -219,6 +192,10 @@ const Projects = ({ account, history }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
+  const email = account.email;
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const toastAdd = toast.add;
+  const historyPush = history.push;
 
   const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
   for (let i = 0; i < pageLinks.length; i++) {
@@ -236,40 +213,39 @@ const Projects = ({ account, history }) => {
     }
   };
 
-  const email = account.email;
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const toastAdd = toast.add;
-  const historyPush = history.push;
-
   useEffect(() => {
-    const getProjects = async () => {
-      try {
-        const result = await projectService.get();
-        if (result.data === "" || result.data === false) {
-          setProjects([]);
-        } else {
-          setProjects(result.data);
-        }
-      } catch (err) {
-        // If user's session token has expired or they are not
-        // authorized for this web api request, let them know
-        // and redirect to login
-        if (err.response && err.response.status === 401) {
-          toastAdd(
-            "For your security, your session has expired. Please log in again."
-          );
-          historyPush(`/logout/${encodeURIComponent(email)}`);
-        }
-        console.error(err);
+    if (!selectedProject) {
+      getProjects();
+    }
+  }, [email, historyPush, toastAdd, selectedProject]);
+
+  const getProjects = async () => {
+    try {
+      const result = await projectService.get();
+      if (result.data === "" || result.data === false) {
+        setProjects([]);
+      } else {
+        setProjects(result.data);
       }
-    };
-    getProjects();
-  }, [email, historyPush]);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  const handleError = err => {
+    if (err.response && err.response.status === 401) {
+      toastAdd(
+        "For your security, your session has expired. Please log in again."
+      );
+      historyPush(`/login/${encodeURIComponent(email)}`);
+    }
+    console.error(err);
+  };
 
   const toggleDuplicateModal = async project => {
     if (project) {
       setSelectedProject(project);
-      // setDuplicateProjectName(`${project.name} (COPY)`);
+      setDuplicateProjectName(`${project.name} (COPY)`);
     } else {
       setSelectedProject(null);
     }
@@ -285,17 +261,27 @@ const Projects = ({ account, history }) => {
     const jsonProject = JSON.parse(project.formInputs);
     jsonProject.PROJECT_NAME = duplicateProjectName;
 
-    await projectService.post({
-      ...project,
-      name: duplicateProjectName,
-      formInputs: JSON.stringify(jsonProject)
-    });
+    try {
+      await projectService.post({
+        ...project,
+        name: duplicateProjectName,
+        formInputs: JSON.stringify(project)
+      });
+    } catch (err) {
+      handleError(err);
+    }
+
     toggleDuplicateModal();
     setSelectedProject(null);
   };
 
   const deleteProject = async project => {
-    await projectService.del(project.id);
+    try {
+      await projectService.del(project.id);
+    } catch (err) {
+      handleError(err);
+    }
+
     toggleDeleteModal();
     setSelectedProject(null);
   };
@@ -551,37 +537,33 @@ const Projects = ({ account, history }) => {
           <img src={CloseIcon} alt="Close" />
         </button>
         <h2>
-          <img src={CopyIcon} alt="Copy" /> Duplicate Project
+          <img src={CopyIcon} alt="Copy" /> <strong>Duplicate Project</strong>
         </h2>
         <p>
           Type a new name to duplicate the project,&nbsp;
           <br />
           <strong>{selectedProject && selectedProject.name}</strong>.
         </p>
-        <form>
-          <input
-            placeholder="Name of Duplicated Project"
-            type="text"
-            id="duplicateName"
-            name="duplicateName"
-            value={duplicateProjectName}
-            onChange={e => handleDuplicateProjectNameChange(e.target.value)}
-          />
-          <div className={classes.modalActions}>
-            <button
-              onClick={toggleDuplicateModal}
-              className={classes.cancelBtn}
-            >
-              Cancel
-            </button>
-            <button
-              className={classes.createBtn}
-              onClick={() => duplicateProject(selectedProject)}
-            >
-              Create a Copy
-            </button>
-          </div>
-        </form>
+        <input
+          placeholder="Name of Duplicated Project"
+          type="text"
+          id="duplicateName"
+          name="duplicateName"
+          value={duplicateProjectName}
+          onChange={e => handleDuplicateProjectNameChange(e.target.value)}
+        />
+        <div className={classes.modalActions}>
+          <Button onClick={toggleDuplicateModal} variant="text">
+            Cancel
+          </Button>
+          <Button
+            onClick={() => duplicateProject(selectedProject)}
+            variant="contained"
+            color="colorPrimary"
+          >
+            Create a Copy
+          </Button>
+        </div>
       </Modal>
       <Modal
         isOpen={deleteModalOpen}
@@ -589,12 +571,13 @@ const Projects = ({ account, history }) => {
         contentLabel="Delete Modal"
         style={modalStyles}
         className={classes.modal}
+        shouldFocusAfterRender={false}
       >
         <button className={classes.closeBtn} onClick={toggleDeleteModal}>
           <img src={CloseIcon} alt="Close" />
         </button>
         <h2>
-          <img src={DeleteIcon} alt="Delete" /> Delete Project
+          <img src={DeleteIcon} alt="Delete" /> <strong>Delete Project</strong>
         </h2>
         <p className={classes.deleteCopy}>
           <img
@@ -607,15 +590,16 @@ const Projects = ({ account, history }) => {
           <strong>{selectedProject && selectedProject.name}</strong>?
         </p>
         <div className={classes.modalActions}>
-          <button onClick={toggleDeleteModal} className={classes.cancelBtn}>
+          <Button onClick={toggleDeleteModal} variant="text">
             Cancel
-          </button>
-          <button
-            className={classes.deleteBtn}
+          </Button>
+          <Button
             onClick={() => deleteProject(selectedProject)}
+            variant="contained"
+            color="colorError"
           >
             Delete
-          </button>
+          </Button>
         </div>
       </Modal>
     </div>
