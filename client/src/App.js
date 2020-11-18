@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
 import { UserContext } from "./components/user-context";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
-import Projects from "./components/Projects";
+import ProjectsPage from "./components/Projects/ProjectsPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import About from "./components/About";
@@ -104,7 +104,7 @@ const App = () => {
             />
             <Route
               path="/projects"
-              render={() => <Projects account={account} />}
+              render={() => <ProjectsPage account={account} />}
             />
             <Route path="/about" component={About} />
             <Route path="/termsandconditions" component={TermsAndConditions} />
