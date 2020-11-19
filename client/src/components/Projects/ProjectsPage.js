@@ -21,8 +21,6 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     alignItems: "center",
     minHeight: "calc(100vh - 103px - 48px)",
-    maxWidth: "1146px",
-    minWidth: "80%",
     margin: "auto"
   },
   pageTitle: {
