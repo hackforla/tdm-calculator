@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-import Modal from "react-modal";
-import * as projectService from "../services/project.service";
+import * as projectService from "../../services/project.service";
 import moment from "moment";
-import { useToast } from "../contexts/Toast";
+import { useToast } from "../../contexts/Toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
-import SearchIcon from "../images/search.png";
-import WarningIcon from "../images/warning-icon.png";
-import CopyIcon from "../images/copy.png";
-import DeleteIcon from "../images/trash.png";
-import CloseIcon from "../images/close.png";
-import Pagination from "./Pagination.js";
-import Button from "./Button/Button";
-
+import SearchIcon from "../../images/search.png";
+import CopyIcon from "../../images/copy.png";
+import DeleteIcon from "../../images/trash.png";
+import Pagination from "../Pagination.js";
+import DeleteProjectModal from "./DeleteProjectModal";
+import DuplicateProjectModal from "./DuplicateProjectModal";
 
 const useStyles = createUseStyles({
   main: {
@@ -102,88 +99,10 @@ const useStyles = createUseStyles({
   },
   link: {
     textDecoration: "underline"
-  },
-  warningIcon: {
-    float: "left"
-  },
-  modal: {
-    "& h2": {
-      fontSize: "25px",
-      lineHeight: "31px",
-      fontWeight: "bold",
-      textAlign: "center",
-      marginBottom: "30px",
-      "& img": {
-        margin: "0 6px 0 0",
-        verticalAlign: "middle"
-      }
-    },
-    "& p": {
-      fontSize: "20px",
-      lineHeight: "32px",
-      textAlign: "center",
-      "& img": {
-        margin: "4px 12px 12px 0"
-      }
-    },
-    "& input": {
-      boxSizing: "border-box",
-      fontSize: "20px",
-      lineHeight: "24px",
-      padding: "16px",
-      border: "1px solid #979797",
-      marginTop: "8px"
-    }
-  },
-  deleteCopy: {
-    color: "#B64E38",
-    "& span": {
-      fontStyle: "italic"
-    }
-  },
-  modalActions: {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginTop: "42px"
-  },
-  closeBtn: {
-    position: "absolute",
-    top: "24px",
-    right: "24px",
-    backgroundColor: "transparent",
-    border: "none"
-  },
-  labelSpan:{
-    whiteSpace: 'nowrap'
-
   }
 });
 
-const modalStyles = {
-  overlay: {
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  content: {
-    position: "relative",
-    top: "auto",
-    right: "auto",
-    bottom: "auto",
-    left: "auto",
-    boxSizing: "border-box",
-    maxHeight: "480px",
-    width: "666px",
-    maxWidth: "100%",
-    padding: "60px",
-    backgroundColor: "#ffffff",
-    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)",
-    ":focus": { outline: "none" }
-  }
-};
-
-const Projects = ({ account, history }) => {
+const ProjectsPage = ({ account, history }) => {
   const [projects, setProjects] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
@@ -218,13 +137,20 @@ const Projects = ({ account, history }) => {
     }
   };
 
-  useEffect(() => {
-    if(!selectedProject){
-      getProjects();
-    }
-  }, [email, historyPush, toastAdd, selectedProject]);
+  const handleError = useCallback(
+    error => {
+      if (error.response && error.response.status === 401) {
+        toastAdd(
+          "For your security, your session has expired. Please log in again."
+        );
+        historyPush(`/logout/${encodeURIComponent(email)}`);
+      }
+      console.error(error);
+    },
+    [email, toastAdd, historyPush]
+  );
 
-  const getProjects = async () => {
+  const getProjects = useCallback(async () => {
     try {
       const result = await projectService.get();
       if (result.data === "" || result.data === false) {
@@ -235,17 +161,13 @@ const Projects = ({ account, history }) => {
     } catch (err) {
       handleError(err);
     }
-  };
+  }, [handleError]);
 
-  const handleError = (err) => {
-    if (err.response && err.response.status === 401) {
-          toastAdd(
-        "For your security, your session has expired. Please log in again."
-      );
-      historyPush(`/login/${encodeURIComponent(email)}`);
+  useEffect(() => {
+    if (!selectedProject) {
+      getProjects();
     }
-    console.error(err);
-  }
+  }, [selectedProject, getProjects]);
 
   const toggleDuplicateModal = async project => {
     if (project) {
@@ -260,39 +182,6 @@ const Projects = ({ account, history }) => {
   const toggleDeleteModal = project => {
     project ? setSelectedProject(project) : setSelectedProject(null);
     setDeleteModalOpen(!deleteModalOpen);
-  };
-
-  const duplicateProject = async project => {
-    const jsonProject = JSON.parse(project.formInputs);
-    jsonProject.PROJECT_NAME = duplicateProjectName;
-
-    try {
-      await projectService.post({
-        ...project,
-        name: duplicateProjectName,
-        formInputs: JSON.stringify(project)
-      })
-    } catch(err){
-      handleError(err);
-    }
-
-    toggleDuplicateModal();
-    setSelectedProject(null);
-  };
-
-  const deleteProject = async project => {
-    try {
-      await projectService.del(project.id);
-    } catch (err) {
-      handleError(err);
-    }
-
-    toggleDeleteModal();
-    setSelectedProject(null);
-  };
-
-  const handleDuplicateProjectNameChange = newProjectName => {
-    setDuplicateProjectName(newProjectName);
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -538,96 +427,28 @@ const Projects = ({ account, history }) => {
         paginate={paginate}
       />
 
-      <Modal
-        isOpen={duplicateModalOpen}
-        onRequestClose={toggleDuplicateModal}
-        contentLabel="Duplicate Modal"
-        style={modalStyles}
-        className={classes.modal}
-      >
-        <button className={classes.closeBtn} onClick={toggleDuplicateModal}>
-          <img src={CloseIcon} alt="Close" />
-        </button>
-        <h2>
-          <img src={CopyIcon} alt="Copy" /> <strong>Duplicate Project</strong>
-        </h2>
-        <p>
-          Type a new name to duplicate the project,&nbsp;
-          <br />
-          <strong>{selectedProject && selectedProject.name}</strong>.
-        </p>
-        <input
-          placeholder="Name of Duplicated Project"
-          type="text"
-          id="duplicateName"
-          name="duplicateName"
-          value={duplicateProjectName}
-          onChange={e => handleDuplicateProjectNameChange(e.target.value)}
-        />
-        <div className={classes.modalActions}>
-          <Button
-            onClick={toggleDuplicateModal}
-            variant="text"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => duplicateProject(selectedProject)}
-            variant="contained"
-            color="colorPrimary"
-          >
-            Create a Copy
-          </Button>
-        </div>
-      </Modal>
-      <Modal
-        isOpen={deleteModalOpen}
-        onRequestClose={toggleDeleteModal}
-        contentLabel="Delete Modal"
-        style={modalStyles}
-        className={classes.modal}
-        shouldFocusAfterRender={false}
-      >
-        <button className={classes.closeBtn} onClick={toggleDeleteModal}>
-          <img src={CloseIcon} alt="Close" />
-        </button>
-        <h2>
-          <img src={DeleteIcon} alt="Delete" /> <strong>Delete Project</strong>
-        </h2>
-        <p className={classes.deleteCopy}>
-          <img
-            src={WarningIcon}
-            className={classes.warningIcon}
-            alt="Warning"
-          />
-          Are you sure you want to <span>permanently</span> delete this project,
-          &nbsp;
-          <strong>{selectedProject && selectedProject.name}</strong>?
-        </p>
-        <div className={classes.modalActions}>
-          <Button 
-            onClick={toggleDeleteModal} 
-            variant="text"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => deleteProject(selectedProject)}
-            variant="contained"
-            color="colorError"
-          >
-            Delete
-          </Button>
-        </div>
-      </Modal>
+      <DuplicateProjectModal
+        selectedProject={selectedProject}
+        setSelectedProject={setSelectedProject}
+        handleError={handleError}
+        toggleDuplicateModal={toggleDuplicateModal}
+        duplicateModalOpen={duplicateModalOpen}
+        duplicateProjectName={duplicateProjectName}
+        setDuplicateProjectName={setDuplicateProjectName}
+      />
+
+      <DeleteProjectModal
+        selectedProject={selectedProject}
+        setSelectedProject={setSelectedProject}
+        toggleDeleteModal={toggleDeleteModal}
+        handleError={handleError}
+        deleteModalOpen={deleteModalOpen}
+      />
     </div>
   );
 };
 
-// Required to bind modal to our appElement (http://reactcommunity.org/react-modal/accessibility/)
-Modal.setAppElement("#root");
-
-Projects.propTypes = {
+ProjectsPage.propTypes = {
   account: PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
@@ -645,4 +466,4 @@ Projects.propTypes = {
   })
 };
 
-export default withRouter(Projects);
+export default withRouter(ProjectsPage);
