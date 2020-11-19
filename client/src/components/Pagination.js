@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -54,9 +55,13 @@ const Pagination = props => {
         </button>
         {pageNumbers.map(number => (
           <li className={classes.pageLinkContainer} key={number}>
-            <a className={classes.pageLink} onClick={() => paginate(number)}>
+            <Link
+              className={classes.pageLink}
+              to="#"
+              onClick={() => paginate(number)}
+            >
               {number}
-            </a>
+            </Link>
           </li>
         ))}
         <button

@@ -475,7 +475,12 @@ const ProjectSummary = props => {
                             ? rule.choices.find(
                                 choice =>
                                   Number(choice.id) === Number(rule.value)
-                              )?.name
+                              )
+                              ? rule.choices.find(
+                                  choice =>
+                                    Number(choice.id) === Number(rule.value)
+                                ).name
+                              : rule.value
                             : rule.value}
                         </div>
                       </div>
