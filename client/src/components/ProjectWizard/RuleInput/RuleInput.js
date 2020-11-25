@@ -156,6 +156,22 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1"
   },
+  // habitableRooms: {
+  //   padding: "15px",
+  //   minWidth: "200px",
+  //   maxWidth: "400px",
+  //   fontFamily: "Arial",
+  //   fontSize: 20,
+  //   lineHeight: "16px",
+  //   fontWeight: "bold",
+  //   "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
+  //   "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
+  //   boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
+  //   "-webkit-border-radius": 2,
+  //   "-moz-border-radius": 2,
+  //   borderRadius: 2,
+  //   content: "yeahyeah"
+  // },
   tooltip: {
     padding: "15px",
     minWidth: "200px",

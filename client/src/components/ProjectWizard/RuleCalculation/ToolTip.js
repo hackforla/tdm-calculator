@@ -29,7 +29,6 @@ const useStyles = createUseStyles({
     fontSize: 12,
     lineHeight: "16px",
     marginLeft: 20,
-    fontWeight: "bold",
     "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
     "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
     boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
