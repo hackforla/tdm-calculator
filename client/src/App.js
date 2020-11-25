@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
 import { UserContext } from "./components/user-context";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
-import Projects from "./components/Projects";
+import ProjectsPage from "./components/Projects/ProjectsPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import About from "./components/About";
@@ -59,7 +59,7 @@ const App = () => {
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
   };
 
-  const getUserConfirmation = (message, defaultConfirmCallback) => {
+  const getUserConfirmation = (_message, defaultConfirmCallback) => {
     setHasConfirmedTransition(false);
     setConfirmTransition(() => ({
       defaultConfirmCallback: defaultConfirmCallback,
@@ -77,11 +77,7 @@ const App = () => {
             isOpenNavConfirmModal={isOpenNavConfirmModal}
             setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
           />
-          <Header
-            account={account}
-            setAccount={setAccount}
-            hasConfirmedTransition={hasConfirmedTransition}
-          />
+          <Header account={account} setAccount={setAccount} />
           <div className={classes.root}>
             <Route
               exact
@@ -103,12 +99,13 @@ const App = () => {
                 <TdmCalculationContainer
                   account={account}
                   hasConfirmedNavTransition={hasConfirmedTransition}
+                  setLoggedInAccount={setLoggedInAccount}
                 />
               )}
             />
             <Route
               path="/projects"
-              render={() => <Projects account={account} />}
+              render={() => <ProjectsPage account={account} />}
             />
             <Route path="/about" component={About} />
             <Route path="/termsandconditions" component={TermsAndConditions} />
@@ -126,23 +123,18 @@ const App = () => {
               }
             />
             <Route
-              path="/logout"
+              path="/logout/:email?"
               render={routeProps => {
-                // optional chaining operator (?.) is valid operator; TODO: add to prettier/linter
-                const prevPathStartsWithCalculation = routeProps.location?.state?.prevPath?.startsWith(
-                  "/calculation"
+                setLoggedInAccount({});
+                return (
+                  <Redirect
+                    to={
+                      routeProps.match.params["email"]
+                        ? `/login/${routeProps.match.params["email"]}`
+                        : "/login"
+                    }
+                  />
                 );
-
-                if (
-                  !prevPathStartsWithCalculation ||
-                  (prevPathStartsWithCalculation && hasConfirmedTransition)
-                ) {
-                  localStorage.clear();
-                  // TODO:  fix console warning due to bad setState. trying to render app.
-                  // Warning: Cannot update a component (`App`) while rendering a different component (`Context.Consumer`).
-                  setAccount({});
-                }
-                return <Redirect to="/login" />;
               }}
             />
             <Route path="/forgotpassword" component={ResetPasswordRequest} />

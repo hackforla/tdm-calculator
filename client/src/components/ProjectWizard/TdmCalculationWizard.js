@@ -107,6 +107,12 @@ const useStyles = createUseStyles({
   },
   lastSavedContainer: {
     margin: "0 auto"
+  },
+  pageNumberCounter: {
+    fontSize: "24px",
+    margin: "auto",
+    fontWeight: "bold",
+    padding: "0px 12px"
   }
 });
 
@@ -188,6 +194,8 @@ const TdmCalculationWizard = props => {
       isPage6
     );
   };
+
+  const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
 
   const routes = (
     <Switch>
@@ -338,6 +346,9 @@ const TdmCalculationWizard = props => {
                         onPageChange(Number(page) - 1);
                       }}
                     />
+                    <div className={classes.pageNumberCounter}>
+                      Page {pageNumber}/5
+                    </div>
                     <NavButton
                       id="rightNavArrow"
                       navDirection="next"
@@ -430,7 +441,7 @@ TdmCalculationWizard.propTypes = {
   employmentPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
-  dateModified: PropTypes.object
+  dateModified: PropTypes.string
 };
 
 export default withRouter(TdmCalculationWizard);

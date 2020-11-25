@@ -61,9 +61,7 @@ const NavBarToolTip = () => {
   return (
     <div className={classes[tooltipVisibility]}>
       <img src={WarningIcon} className={classes.warningIcon} alt="Warning" />
-      <span>
-        Only projects created after logging in can be saved
-      </span>
+      <span>Only projects created after logging in can be saved</span>
       <div className={classes.arrowUp}> </div>
       <button
         onClick={() => {
