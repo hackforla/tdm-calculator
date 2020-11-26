@@ -112,7 +112,6 @@ ProjectActionModal.propTypes = {
   onRequestClose: PropTypes.func.isRequired,
   contentLabel: PropTypes.string.isRequired,
   toggleCloseButton: PropTypes.func.isRequired,
-  toggleCancelButton: PropTypes.func.isRequired,
   action: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,

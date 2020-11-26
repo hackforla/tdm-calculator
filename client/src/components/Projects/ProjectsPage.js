@@ -420,23 +420,29 @@ const ProjectsPage = ({ account, history }) => {
         paginate={paginate}
       />
 
-      <DuplicateProjectModal
-        selectedProject={selectedProject}
-        setSelectedProject={setSelectedProject}
-        handleError={handleError}
-        toggleDuplicateModal={toggleDuplicateModal}
-        duplicateModalOpen={duplicateModalOpen}
-        duplicateProjectName={duplicateProjectName}
-        setDuplicateProjectName={setDuplicateProjectName}
-      />
+      {
+        selectedProject && 
+        <>
+          <DuplicateProjectModal
+            selectedProject={selectedProject}
+            setSelectedProject={setSelectedProject}
+            handleError={handleError}
+            toggleDuplicateModal={toggleDuplicateModal}
+            duplicateModalOpen={duplicateModalOpen}
+            duplicateProjectName={duplicateProjectName}
+            setDuplicateProjectName={setDuplicateProjectName}
+          />
 
-      <DeleteProjectModal
-        selectedProject={selectedProject}
-        setSelectedProject={setSelectedProject}
-        toggleDeleteModal={toggleDeleteModal}
-        handleError={handleError}
-        deleteModalOpen={deleteModalOpen}
-      />
+          <DeleteProjectModal
+            selectedProject={selectedProject}
+            setSelectedProject={setSelectedProject}
+            toggleDeleteModal={toggleDeleteModal}
+            handleError={handleError}
+            deleteModalOpen={deleteModalOpen}
+          />
+        </>
+      }
+
     </div>
   );
 };
