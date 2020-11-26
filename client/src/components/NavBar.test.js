@@ -7,7 +7,12 @@ it("renders without crashing", () => {
   const div = document.createElement("div");
   ReactDOM.render(
     <Router>
-      <NavBar />
+      <NavBar 
+        navbarOpen={true}
+        setNavbarOpen={jest.fn()}
+        account={{}}
+        setAccount={jest.fn()}
+      />
     </Router>,
     div
   );
