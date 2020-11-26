@@ -66,7 +66,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Header = ({ account, setAccount }) => {
+const Header = ({ account }) => {
   const classes = useStyles();
   const [navbarOpen, setNavbarOpen] = useState(false);
 
@@ -93,15 +93,13 @@ const Header = ({ account, setAccount }) => {
         navbarOpen={navbarOpen}
         setNavbarOpen={setNavbarOpen}
         account={account}
-        setAccount={setAccount}
       />
     </div>
   );
 };
 
 Header.propTypes = {
-  account: PropTypes.object.isRequired,
-  setAccount: PropTypes.func.isRequired
+  account: PropTypes.object.isRequired
 };
 
 export default Header;
