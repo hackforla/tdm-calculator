@@ -359,24 +359,22 @@ const TdmCalculationWizard = props => {
                       }}
                     />
                   </div>
-                  <div id="save-and-startover-buttons-container">
-                    <Button
-                      type="input"
-                      color="colorPrimary"
-                      variant="contained"
-                      isDisplayed={
-                        !!(
-                          account.id &&
-                          (!projectId || account.id === loginId) &&
-                          formIsDirty &&
-                          projectIsValid()
-                        )
-                      }
-                      onClick={onSave}
-                    >
-                      Save Project
-                    </Button>
-                  </div>
+                  <Button
+                    type="input"
+                    color="colorPrimary"
+                    variant="contained"
+                    isDisplayed={
+                      !!(
+                        account.id &&
+                        (!projectId || account.id === loginId) &&
+                        formIsDirty &&
+                        projectIsValid()
+                      )
+                    }
+                    onClick={onSave}
+                  >
+                    Save Project
+                  </Button>
                 </>
               ) : null}
             </div>
