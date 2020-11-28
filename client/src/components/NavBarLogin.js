@@ -5,12 +5,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import NavBarToolTip from "./NavBarToolTip";
 
-const NavBarLogin = ({
-  account,
-  setAccount,
-  classes,
-  handleHamburgerMenuClick
-}) => {
+const NavBarLogin = ({ account, classes, handleHamburgerMenuClick }) => {
   const [isCalculation, setIsCalculation] = useState(false);
 
   const location = useLocation();
@@ -24,12 +19,7 @@ const NavBarLogin = ({
     } else {
       setIsCalculation(false);
     }
-
-    const currentUser = localStorage.getItem("currentUser");
-    if (!currentUser) {
-      setAccount({});
-    }
-  }, [location.pathname, setAccount]);
+  }, [location.pathname]);
 
   const loginLink = (
     <li className={clsx(classes.userLogin, classes.linkBlock)}>
@@ -83,7 +73,6 @@ const NavBarLogin = ({
 };
 
 NavBarLogin.propTypes = {
-  setAccount: PropTypes.func.isRequired,
   account: PropTypes.object,
   classes: PropTypes.object.isRequired,
   handleHamburgerMenuClick: PropTypes.func

@@ -38,12 +38,17 @@ const App = () => {
   const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
   const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
 
+  const setLoggedInAccount = loggedInUser => {
+    setAccount(loggedInUser);
+    localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
+  };
+
   useEffect(() => {
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) {
       try {
-        const account = JSON.parse(currentUser);
-        setAccount(account);
+        const parsedAccount = JSON.parse(currentUser);
+        setAccount(parsedAccount);
       } catch (err) {
         // TODO: replace with production error logging.
         console.error(
@@ -51,13 +56,10 @@ const App = () => {
           currentUser
         );
       }
+    } else {
+      setLoggedInAccount({});
     }
-  }, [setAccount]);
-
-  const setLoggedInAccount = loggedInUser => {
-    setAccount(loggedInUser);
-    localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
-  };
+  }, []);
 
   const getUserConfirmation = (_message, defaultConfirmCallback) => {
     setHasConfirmedTransition(false);
@@ -77,7 +79,7 @@ const App = () => {
             isOpenNavConfirmModal={isOpenNavConfirmModal}
             setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
           />
-          <Header account={account} setAccount={setAccount} />
+          <Header account={account} />
           <div className={classes.root}>
             <Route
               exact
