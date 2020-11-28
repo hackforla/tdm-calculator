@@ -130,6 +130,7 @@ export function TdmCalculationContainer({
     // update state with modified updatedFormInputs and rules
     setFormInputs(updatedFormInputs);
     setRules(rules);
+    setFormHasSaved(false);
   };
 
   const initializeStrategies = () => {
@@ -223,7 +224,6 @@ export function TdmCalculationContainer({
       ...modifiedInputs
     };
     recalculate(newFormInputs);
-    setFormHasSaved(false);
   };
 
   const projectLevel =
@@ -279,7 +279,6 @@ export function TdmCalculationContainer({
       [e.target.name]: value
     };
     recalculate(newFormInputs);
-    setFormHasSaved(false);
   };
 
   const onCommentChange = e => {
@@ -299,7 +298,6 @@ export function TdmCalculationContainer({
       [`${e.target.name}_comment`]: value
     };
     recalculate(newFormInputs);
-    setFormHasSaved(false);
   };
 
   const onUncheckAll = filterRules => {
@@ -312,7 +310,6 @@ export function TdmCalculationContainer({
       }
     }
     recalculate(updateInputs);
-    setFormHasSaved(false);
   };
 
   const projectIsValid = () => {
@@ -373,11 +370,11 @@ export function TdmCalculationContainer({
       try {
         const postResponse = await projectService.post(requestBody);
         const newPath = history.location.pathname + "/" + postResponse.data.id;
-        setFormHasSaved(true);
-        toast.add("Saved New Project");
         // Update URL to /calculation/<currentPage>/<newProjectId>
         // to keep working on same project.
         history.push(newPath);
+        setFormHasSaved(true);
+        toast.add("Saved New Project");
       } catch (err) {
         console.error(err);
         if (err.response) {
