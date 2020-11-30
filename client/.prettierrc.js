@@ -4,5 +4,5 @@
 // using default prettier settings.
 module.exports = {
   trailingComma: "none", // deafult changed in prettier 2+
-  arrowParens: "avoid" // default changed in prettier 2+
+  arrowParens: "avoid", // default changed in prettier 2+
 };
