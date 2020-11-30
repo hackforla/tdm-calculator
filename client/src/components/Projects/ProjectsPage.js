@@ -420,8 +420,7 @@ const ProjectsPage = ({ account, history }) => {
         paginate={paginate}
       />
 
-      {
-        selectedProject && 
+      {selectedProject && (
         <>
           <DuplicateProjectModal
             selectedProject={selectedProject}
@@ -441,8 +440,7 @@ const ProjectsPage = ({ account, history }) => {
             deleteModalOpen={deleteModalOpen}
           />
         </>
-      }
-
+      )}
     </div>
   );
 };

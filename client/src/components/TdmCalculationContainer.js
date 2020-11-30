@@ -10,6 +10,7 @@ import Engine from "../services/tdm-engine";
 import injectSheet from "react-jss";
 import { useToast } from "../contexts/Toast";
 import moment from "moment";
+import analytics from "../hooks/analytics";
 
 const styles = {
   root: {
@@ -107,16 +108,16 @@ export function TdmCalculationContainer({
         setRules(engine.showRulesArray());
       } catch (err) {
         console.error(JSON.stringify(err, null, 2));
-        const errMessage = account.id
-          ? "The project you are trying to view can only be viewed by the user."
-          : "You must be logged in to view project.";
+        // const errMessage = account.id
+        //   ? "The project you are trying to view can only be viewed by the user."
+        //   : "You must be logged in to view project.";
+        // toast.add(errMessage);
         const redirect = account.id ? "/projects" : "/login";
-        toast.add(errMessage);
         history.push(redirect);
       }
     };
     initiateEngine();
-  }, [match.params.projectId, engine, account, toast.add, history]);
+  }, [match.params.projectId, engine, account, history]);
 
   const recalculate = updatedFormInputs => {
     engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
@@ -346,6 +347,10 @@ export function TdmCalculationContainer({
       requestBody.id = projectId;
       try {
         await projectService.put(requestBody);
+        analytics.sendEvent({
+          category: "User",
+          action: "Save Changes to Project"
+        });
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
       } catch (err) {
@@ -370,6 +375,10 @@ export function TdmCalculationContainer({
       try {
         const postResponse = await projectService.post(requestBody);
         const newPath = history.location.pathname + "/" + postResponse.data.id;
+        analytics.sendEvent({
+          category: "User",
+          action: "Saved New Project"
+        });
         // Update URL to /calculation/<currentPage>/<newProjectId>
         // to keep working on same project.
         history.push(newPath);

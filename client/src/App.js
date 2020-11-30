@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
-import { useTracking } from "./hooks/useTracking";
+import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
@@ -33,7 +33,7 @@ const useStyles = createUseStyles({
 
 const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
   const classes = useStyles();
-  useTracking("G-MW23VES3G6");
+  useGoogleAnalytics();
 
   return (
     <React.Fragment>
@@ -44,17 +44,17 @@ const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
           path="/"
           render={() =>
             account.email ? (
-              <Redirect to="/create-project" />
+              <Redirect to="/calculation/1" />
             ) : (
               <Login setLoggedInAccount={setLoggedInAccount} />
             )
           }
         />
-        <Route exact path="/create-project">
-          <Redirect to="/calculation" />
+        <Route exact path="/calculation">
+          <Redirect to="/calculation/1" />
         </Route>
         <Route
-          path="/calculation/:page?/:projectId?"
+          path="/calculation/:page/:projectId?"
           render={() => (
             <TdmCalculationContainer
               account={account}
@@ -76,7 +76,7 @@ const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
           path="/login/:email?"
           render={() =>
             account.email ? (
-              <Redirect to="/create-project" />
+              <Redirect to="/calculation/1" />
             ) : (
               <Login setLoggedInAccount={setLoggedInAccount} />
             )
@@ -121,7 +121,7 @@ App.propTypes = {
     isSecurityAdmin: PropTypes.bool
   }),
   setLoggedInAccount: PropTypes.func,
-  hasConfirmedTransition: PropTypes.func
+  hasConfirmedTransition: PropTypes.bool
 };
 
 export default withToastProvider(App);
