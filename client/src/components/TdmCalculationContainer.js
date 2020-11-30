@@ -107,16 +107,16 @@ export function TdmCalculationContainer({
         setRules(engine.showRulesArray());
       } catch (err) {
         console.error(JSON.stringify(err, null, 2));
-        const errMessage = account.id
-          ? "The project you are trying to view can only be viewed by the user."
-          : "You must be logged in to view project.";
+        // const errMessage = account.id
+        //   ? "The project you are trying to view can only be viewed by the user."
+        //   : "You must be logged in to view project.";
+        // toast.add(errMessage);
         const redirect = account.id ? "/projects" : "/login";
-        toast.add(errMessage);
         history.push(redirect);
       }
     };
     initiateEngine();
-  }, [match.params.projectId, engine, account, toast.add, history]);
+  }, [match.params.projectId, engine, account, history]);
 
   const recalculate = updatedFormInputs => {
     engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project

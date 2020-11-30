@@ -13,22 +13,27 @@ import { useHistory } from "react-router-dom";
 //   }
 // }
 
-export const useTracking = (trackingId = "G-MW23VES3G6") => {
+export const useTracking = trackingId => {
   const { listen } = useHistory();
+  const gaTrackingId = trackingId || process.env.REACT_APP_GA_ID;
 
   useEffect(() => {
     const unlisten = listen(location => {
       if (!window.gtag) return;
-      if (!trackingId) {
+      if (!gaTrackingId) {
         console.error(
           "Tracking not enabled, as `trackingId` was not given and there is no `GA_MEASUREMENT_ID`."
         );
         return;
       }
 
-      window.gtag("config", trackingId, { page_path: location.pathname });
+      window.gtag("config", gaTrackingId, {
+        page_path: location.pathname,
+        page_query_string: location.search
+      });
+      console.log("useTracking: " + location.pathname + " id: " + gaTrackingId);
     });
 
     return unlisten;
-  }, [trackingId, listen]);
+  }, [gaTrackingId, listen]);
 };

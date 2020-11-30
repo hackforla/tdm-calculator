@@ -118,7 +118,7 @@ const NavBar = ({ account, navbarOpen, setNavbarOpen }) => {
         <NavLink
           className={classes.link}
           activeClassName={classes.currentLink}
-          to="/create-project"
+          to="/calculation/1"
           onClick={handleHamburgerMenuClick}
         >
           Create Project

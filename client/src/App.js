@@ -33,7 +33,7 @@ const useStyles = createUseStyles({
 
 const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
   const classes = useStyles();
-  useTracking("G-MW23VES3G6");
+  useTracking(process.env.REACT_APP_GA_ID);
 
   return (
     <React.Fragment>
@@ -44,17 +44,17 @@ const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
           path="/"
           render={() =>
             account.email ? (
-              <Redirect to="/create-project" />
+              <Redirect to="/calculation/1" />
             ) : (
               <Login setLoggedInAccount={setLoggedInAccount} />
             )
           }
         />
-        <Route exact path="/create-project">
-          <Redirect to="/calculation" />
+        <Route exact path="/calculation">
+          <Redirect to="/calculation/1" />
         </Route>
         <Route
-          path="/calculation/:page?/:projectId?"
+          path="/calculation/:page/:projectId?"
           render={() => (
             <TdmCalculationContainer
               account={account}
@@ -76,7 +76,7 @@ const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
           path="/login/:email?"
           render={() =>
             account.email ? (
-              <Redirect to="/create-project" />
+              <Redirect to="/calculation/1" />
             ) : (
               <Login setLoggedInAccount={setLoggedInAccount} />
             )
@@ -121,7 +121,7 @@ App.propTypes = {
     isSecurityAdmin: PropTypes.bool
   }),
   setLoggedInAccount: PropTypes.func,
-  hasConfirmedTransition: PropTypes.func
+  hasConfirmedTransition: PropTypes.bool
 };
 
 export default withToastProvider(App);

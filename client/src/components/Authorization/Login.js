@@ -55,7 +55,7 @@ const Login = props => {
 
       if (loginResponse.isSuccess) {
         setLoggedInAccount(loginResponse.user);
-        history.push("/calculation");
+        history.push("/calculation/1");
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
           await accountService.resendConfirmationEmail(email);
@@ -160,7 +160,7 @@ const Login = props => {
                   </button>
 
                   {/* <button className="btn-without-saving"> */}
-                  <Link to="/calculation">
+                  <Link to="/calculation/1">
                     <button className="btn-without-saving">
                       Continue without saving
                     </button>

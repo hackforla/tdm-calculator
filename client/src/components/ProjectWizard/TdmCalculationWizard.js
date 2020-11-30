@@ -149,19 +149,16 @@ const TdmCalculationWizard = props => {
   useEffect(() => {
     if (!projectId) {
       history.push("/calculation/1");
+    } else if (projectId && (!account || !account.id)) {
+      // user not logged in, existing project -> log in
+      history.push(`/login`);
     } else if (
+      // Redirect to Summary Page if project exists,
+      // but does not belong to logged-in user
       projectId &&
-      account &&
-      (account.isAdmin || account.id === loginId)
+      !(account.isAdmin || account.id === loginId)
     ) {
-      // Project Calculation is editable if it is not saved
-      // or the project was created by the current logged in
-      // user, or the logged in user is admin.
-      history.push(`/calculation/${page}/${projectId ? projectId : ""}`);
-    } else {
-      // read-only users can only see the summary page.
       history.push(`/calculation/6/${projectId}`);
-      // setPage(6);
     }
   }, [projectId, account, loginId, history]);
 
