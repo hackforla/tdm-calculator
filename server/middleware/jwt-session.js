@@ -6,7 +6,7 @@ const jwtOpts = { algorithm: "HS256", expiresIn: "12h" };
 
 module.exports = {
   login,
-  validateUser
+  validateUser,
 };
 
 // This module manages the user's session using a JSON Web Token in the
@@ -22,7 +22,7 @@ async function login(req, res) {
   const token = await sign({ email: req.user.email, id: req.user.id });
   res.cookie("jwt", token, {
     httpOnly: true,
-    expires: new Date(Date.now() + 43200000) // 12 hours
+    expires: new Date(Date.now() + 43200000), // 12 hours
   });
   const user = req.user;
   res.json({ isSuccess: true, token: token, user });
