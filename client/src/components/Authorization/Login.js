@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
 import SideBar from "../Sidebar";
 import clsx from "clsx";
+import analytics from "../../hooks/analytics";
 
 const useStyles = createUseStyles({
   root: {
@@ -55,9 +56,15 @@ const Login = props => {
 
       if (loginResponse.isSuccess) {
         setLoggedInAccount(loginResponse.user);
+        analytics.sendEvent({ category: "User", action: "Login" });
         history.push("/calculation/1");
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
+          analytics.sendEvent({
+            category: "User",
+            action: "Login Failed",
+            label: "Unconfirmed Email"
+          });
           await accountService.resendConfirmationEmail(email);
           setErrorMsg(`Your email has not been confirmed.
           Please look through your email for a Registration
@@ -72,11 +79,21 @@ const Login = props => {
           setSubmitting(false);
         }
       } else if (loginResponse.code === "AUTH_NO_ACCOUNT") {
+        analytics.sendEvent({
+          category: "User",
+          action: "Login Failed",
+          label: "Account not found"
+        });
         setErrorMsg(`The email ${email} does not correspond to an
         existing account. Please verify the email or register as a
         new account.`);
         setSubmitting(false);
       } else {
+        analytics.sendEvent({
+          category: "User",
+          action: "Login Failed",
+          label: "Probable Invalid Password"
+        });
         // Presumably loginResponse.code === "AUTH_INVALID_PASSWORD"
         setErrorMsg(`The password is incorrect, please check it
         and try again or use the Forgot Password feature.`);

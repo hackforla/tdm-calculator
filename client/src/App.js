@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
-import { useTracking } from "./hooks/useTracking";
+import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
@@ -33,7 +33,7 @@ const useStyles = createUseStyles({
 
 const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
   const classes = useStyles();
-  useTracking(process.env.REACT_APP_GA_ID);
+  useGoogleAnalytics();
 
   return (
     <React.Fragment>

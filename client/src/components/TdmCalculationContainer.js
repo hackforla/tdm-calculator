@@ -10,6 +10,7 @@ import Engine from "../services/tdm-engine";
 import injectSheet from "react-jss";
 import { useToast } from "../contexts/Toast";
 import moment from "moment";
+import analytics from "../hooks/analytics";
 
 const styles = {
   root: {
@@ -346,6 +347,10 @@ export function TdmCalculationContainer({
       requestBody.id = projectId;
       try {
         await projectService.put(requestBody);
+        analytics.sendEvent({
+          category: "User",
+          action: "Save Changes to Project"
+        });
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
       } catch (err) {
@@ -370,6 +375,10 @@ export function TdmCalculationContainer({
       try {
         const postResponse = await projectService.post(requestBody);
         const newPath = history.location.pathname + "/" + postResponse.data.id;
+        analytics.sendEvent({
+          category: "User",
+          action: "Saved New Project"
+        });
         // Update URL to /calculation/<currentPage>/<newProjectId>
         // to keep working on same project.
         history.push(newPath);
