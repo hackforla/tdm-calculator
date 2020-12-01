@@ -25,12 +25,27 @@
       href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap"
       rel="stylesheet"
     />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-DMKZ5YQPN7"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-DMKZ5YQPN7");
+    </script>
     <style>
       html,
       #body {
         height: 100vh;
         margin: 0;
       }
+
       /* 
         Should be a better way to calculate right of root element to 
         occupy full height of browser window and account for LA City header
