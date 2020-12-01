@@ -1,6 +1,8 @@
 import ReactGA from "react-ga";
 
-const TRACKING_ID = process.env.REACT_APP_GA_ID;
+// Get tracking id from .env for local development environment, otherwise
+// use hard-coded production tracking id.
+const TRACKING_ID = process.env.REAT_APP_GA_ID || "G-DMKZ5YQPN7";
 
 function init() {
   // Enable debug mode on the local development environment
