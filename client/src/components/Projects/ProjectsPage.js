@@ -403,10 +403,8 @@ const ProjectsPage = ({ account, history }) => {
           <thead className={classes.thead}>
             <tr className={classes.tr}>
               {headerData.map((header, i) => {
-                let label = header.label.split(" ");
-                let lastOfLabel = label.splice(-1, 1);
-                label = label.join("");
-                lastOfLabel = lastOfLabel.join("");
+                const label = header.label.split(" ");
+                const lastWordOfLabel = label.splice(-1, 1);
                 return (
                   <td
                     key={i}
@@ -416,7 +414,7 @@ const ProjectsPage = ({ account, history }) => {
                     {label}{" "}
                     {orderBy === header.id ? (
                       <span className={classes.labelSpan}>
-                        {lastOfLabel}{" "}
+                        {lastWordOfLabel}{" "}
                         {order === "asc" ? (
                           <FontAwesomeIcon
                             icon={faSortDown}
@@ -431,7 +429,7 @@ const ProjectsPage = ({ account, history }) => {
                       </span>
                     ) : (
                       <span className={classes.labelSpan}>
-                        {lastOfLabel}
+                        {lastWordOfLabel}
                         <FontAwesomeIcon
                           icon={faSortDown}
                           className={classes.sortArrow}
