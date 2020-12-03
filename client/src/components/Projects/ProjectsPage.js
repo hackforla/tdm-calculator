@@ -21,9 +21,8 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     alignItems: "center",
     minHeight: "calc(100vh - 103px - 48px)",
-    maxWidth: "1146px",
-    minWidth: "80%",
-    margin: "auto"
+    margin: "auto",
+    width: "85%"
   },
   pageTitle: {
     marginTop: "2em"
@@ -43,7 +42,7 @@ const useStyles = createUseStyles({
     top: "12px"
   },
   table: {
-    margin: "20px",
+    minWidth: "850px",
     width: "100%"
   },
   tr: {
@@ -100,89 +99,10 @@ const useStyles = createUseStyles({
   link: {
     textDecoration: "underline"
   },
-  warningIcon: {
-    float: "left"
-  },
-  modal: {
-    "& h2": {
-      fontSize: "25px",
-      lineHeight: "31px",
-      fontWeight: "bold",
-      textAlign: "center",
-      marginBottom: "30px",
-      "& img": {
-        margin: "0 6px 0 0",
-        verticalAlign: "middle"
-      }
-    },
-    "& p": {
-      fontSize: "20px",
-      lineHeight: "32px",
-      textAlign: "center",
-      "& img": {
-        margin: "4px 12px 12px 0"
-      }
-    },
-    "& input": {
-      boxSizing: "border-box",
-      fontSize: "20px",
-      lineHeight: "24px",
-      padding: "16px",
-      border: "1px solid #979797",
-      marginTop: "8px"
-    }
-  },
-  deleteCopy: {
-    color: "#B64E38",
-    "& span": {
-      fontStyle: "italic"
-    }
-  },
-  modalActions: {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginTop: "42px",
-    "& button": {
-      fontFamily: "Calibri Bold",
-      letterSpacing: "2px",
-      height: "60px",
-      display: "inline",
-      margin: 0,
-      border: "none",
-      fontSize: "20px",
-      lineHeight: "24px",
-      textAlign: "center",
-      cursor: "pointer",
-      textTransform: "uppercase"
-    }
-  },
-  createBtn: {
-    width: "200px",
-    backgroundColor: "#A7C539",
-    color: "#000000",
-    boxShadow: "0px 6px 4px rgba(0, 46, 109, 0.3)"
-  },
-  cancelBtn: {
-    width: "140px",
-    backgroundColor: "transparent",
-    color: "rgba(0, 0, 0, 0.5)"
-  },
-  deleteBtn: {
-    width: "200px",
-    backgroundColor: "#E46247",
-    boxShadow: "0px 6px 4px rgba(0, 46, 109, 0.3)"
-  },
-  closeBtn: {
-    position: "absolute",
-    top: "24px",
-    right: "24px",
-    backgroundColor: "transparent",
-    border: "none"
-  },
   tableContainer: {
     overflow: "auto",
-    marginLeft: "20px",
-    marginRight: "20px"
+    width: "100%",
+    margin: "20px 0px"
   }
 });
 
