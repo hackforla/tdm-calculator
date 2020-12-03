@@ -21,9 +21,8 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     alignItems: "center",
     minHeight: "calc(100vh - 103px - 48px)",
-    width: "1146px",
-    minWidth: "80%",
-    margin: "auto"
+    margin: "auto",
+    width: "85%"
   },
   pageTitle: {
     marginTop: "2em"
@@ -43,7 +42,7 @@ const useStyles = createUseStyles({
     top: "12px"
   },
   table: {
-    margin: "20px",
+    minWidth: "850px",
     width: "100%"
   },
   tr: {
@@ -99,6 +98,11 @@ const useStyles = createUseStyles({
   },
   link: {
     textDecoration: "underline"
+  },
+  tableContainer:{
+    overflow:'auto',
+    width:'100%',
+    margin:'20px 0px',
   }
 });
 
@@ -314,6 +318,7 @@ const ProjectsPage = ({ account, history }) => {
           alt="Search Icon"
         />
       </div>
+      <div className={classes.tableContainer}>
       <table className={classes.table}>
         <thead className={classes.thead}>
           <tr className={classes.tr}>
@@ -413,7 +418,7 @@ const ProjectsPage = ({ account, history }) => {
           )}
         </tbody>
       </table>
-
+      </div>
       <Pagination
         projectsPerPage={projectsPerPage}
         totalProjects={projects.length}
