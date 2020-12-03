@@ -21,8 +21,9 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     alignItems: "center",
     minHeight: "calc(100vh - 103px - 48px)",
-    margin: "auto",
-    width: "85%"
+    maxWidth: "1146px",
+    minWidth: "80%",
+    margin: "auto"
   },
   pageTitle: {
     marginTop: "2em"
@@ -42,7 +43,7 @@ const useStyles = createUseStyles({
     top: "12px"
   },
   table: {
-    minWidth: "850px",
+    margin: "20px",
     width: "100%"
   },
   tr: {
@@ -140,7 +141,36 @@ const useStyles = createUseStyles({
   modalActions: {
     display: "flex",
     justifyContent: "flex-end",
-    marginTop: "42px"
+    marginTop: "42px",
+    "& button": {
+      fontFamily: "Calibri Bold",
+      letterSpacing: "2px",
+      height: "60px",
+      display: "inline",
+      margin: 0,
+      border: "none",
+      fontSize: "20px",
+      lineHeight: "24px",
+      textAlign: "center",
+      cursor: "pointer",
+      textTransform: "uppercase"
+    }
+  },
+  createBtn: {
+    width: "200px",
+    backgroundColor: "#A7C539",
+    color: "#000000",
+    boxShadow: "0px 6px 4px rgba(0, 46, 109, 0.3)"
+  },
+  cancelBtn: {
+    width: "140px",
+    backgroundColor: "transparent",
+    color: "rgba(0, 0, 0, 0.5)"
+  },
+  deleteBtn: {
+    width: "200px",
+    backgroundColor: "#E46247",
+    boxShadow: "0px 6px 4px rgba(0, 46, 109, 0.3)"
   },
   closeBtn: {
     position: "absolute",
@@ -149,8 +179,10 @@ const useStyles = createUseStyles({
     backgroundColor: "transparent",
     border: "none"
   },
-  labelSpan: {
-    whiteSpace: "nowrap"
+  tableContainer: {
+    overflow: "auto",
+    marginLeft: "20px",
+    marginRight: "20px"
   }
 });
 
