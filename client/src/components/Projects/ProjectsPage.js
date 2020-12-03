@@ -21,7 +21,8 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     alignItems: "center",
     minHeight: "calc(100vh - 103px - 48px)",
-    margin: "auto"
+    margin: "auto",
+    width: "85%"
   },
   pageTitle: {
     marginTop: "2em"
@@ -41,7 +42,8 @@ const useStyles = createUseStyles({
     top: "12px"
   },
   table: {
-    minWidth: "850px"
+    minWidth: "850px",
+    width: "100%"
   },
   tr: {
     margin: "0.5em"
@@ -99,8 +101,8 @@ const useStyles = createUseStyles({
   },
   tableContainer:{
     overflow:'auto',
-    maxWidth:'100vw',
-    marginTop:'20px'
+    width:'100%',
+    margin:'20px 0px',
   }
 });
 
