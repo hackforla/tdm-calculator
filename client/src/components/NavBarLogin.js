@@ -44,7 +44,10 @@ const NavBarLogin = ({ account, classes, handleHamburgerMenuClick }) => {
     <li className={classes.linkBlock}>
       <Link
         className={`${classes.link} ${classes.lastItem}`}
-        to={{ pathname: "/logout", state: { prevPath: location.pathname } }}
+        to={{
+          pathname: `/logout/${account.email}`,
+          state: { prevPath: location.pathname }
+        }}
         onClick={handleHamburgerMenuClick}
       >
         Logout

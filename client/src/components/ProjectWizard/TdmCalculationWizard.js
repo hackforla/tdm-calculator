@@ -107,6 +107,12 @@ const useStyles = createUseStyles({
   },
   lastSavedContainer: {
     margin: "0 auto"
+  },
+  pageNumberCounter: {
+    fontSize: "24px",
+    margin: "auto",
+    fontWeight: "bold",
+    padding: "0px 12px"
   }
 });
 
@@ -143,19 +149,16 @@ const TdmCalculationWizard = props => {
   useEffect(() => {
     if (!projectId) {
       history.push("/calculation/1");
+    } else if (projectId && (!account || !account.id)) {
+      // user not logged in, existing project -> log in
+      history.push(`/login`);
     } else if (
+      // Redirect to Summary Page if project exists,
+      // but does not belong to logged-in user
       projectId &&
-      account &&
-      (account.isAdmin || account.id === loginId)
+      !(account.isAdmin || account.id === loginId)
     ) {
-      // Project Calculation is editable if it is not saved
-      // or the project was created by the current logged in
-      // user, or the logged in user is admin.
-      history.push(`/calculation/${page}/${projectId ? projectId : ""}`);
-    } else {
-      // read-only users can only see the summary page.
       history.push(`/calculation/6/${projectId}`);
-      // setPage(6);
     }
   }, [projectId, account, loginId, history]);
 
@@ -188,6 +191,8 @@ const TdmCalculationWizard = props => {
       isPage6
     );
   };
+
+  const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
 
   const routes = (
     <Switch>
@@ -338,6 +343,9 @@ const TdmCalculationWizard = props => {
                         onPageChange(Number(page) - 1);
                       }}
                     />
+                    <div className={classes.pageNumberCounter}>
+                      Page {pageNumber}/5
+                    </div>
                     <NavButton
                       id="rightNavArrow"
                       navDirection="next"
@@ -348,24 +356,22 @@ const TdmCalculationWizard = props => {
                       }}
                     />
                   </div>
-                  <div id="save-and-startover-buttons-container">
-                    <Button
-                      type="input"
-                      color="colorPrimary"
-                      variant="contained"
-                      isDisplayed={
-                        !!(
-                          account.id &&
-                          (!projectId || account.id === loginId) &&
-                          formIsDirty &&
-                          projectIsValid()
-                        )
-                      }
-                      onClick={onSave}
-                    >
-                      Save Project
-                    </Button>
-                  </div>
+                  <Button
+                    type="input"
+                    color="colorPrimary"
+                    variant="contained"
+                    isDisplayed={
+                      !!(
+                        account.id &&
+                        (!projectId || account.id === loginId) &&
+                        formIsDirty &&
+                        projectIsValid()
+                      )
+                    }
+                    onClick={onSave}
+                  >
+                    Save Project
+                  </Button>
                 </>
               ) : null}
             </div>
@@ -430,7 +436,7 @@ TdmCalculationWizard.propTypes = {
   employmentPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
-  dateModified: PropTypes.object
+  dateModified: PropTypes.string
 };
 
 export default withRouter(TdmCalculationWizard);

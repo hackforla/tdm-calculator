@@ -93,8 +93,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const NavBar = props => {
-  const { account, navbarOpen, setNavbarOpen } = props;
+const NavBar = ({ account, navbarOpen, setNavbarOpen }) => {
   const classes = useStyles();
 
   const handleHamburgerMenuClick = () => {
@@ -119,7 +118,7 @@ const NavBar = props => {
         <NavLink
           className={classes.link}
           activeClassName={classes.currentLink}
-          to="/create-project"
+          to="/calculation/1"
           onClick={handleHamburgerMenuClick}
         >
           Create Project
@@ -176,7 +175,7 @@ NavBar.propTypes = {
     isSecurityAdmin: PropTypes.bool
   }),
   navbarOpen: PropTypes.bool,
-  setNavbarOpen: PropTypes.func
+  setNavbarOpen: PropTypes.func.isRequired
 };
 
 export default withRouter(NavBar);

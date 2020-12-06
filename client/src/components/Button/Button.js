@@ -29,8 +29,9 @@ const useStyles = createUseStyles({
   },
   text: {
     backgroundColor: "transparent",
-    color: ({ theme, color = "colorText" }) => theme[color],
-    border: "none"
+    borderColor: "rgba(0, 0, 0, 0)", //transparent
+    marginLeft: 0,
+    marginRight: 0
   }
 });
 
@@ -66,7 +67,7 @@ Button.propTypes = {
   isDisplayed: PropTypes.bool,
   className: PropTypes.string,
   color: PropTypes.string,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string
 };
 
 export default Button;

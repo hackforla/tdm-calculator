@@ -1,15 +1,19 @@
 {
   "env": {
     "browser": true,
-    "node": true,
     "es6": true,
+    "node": true,
     "jest/globals": true
   },
+  "globals": {
+    "process": true
+  },
   "extends": [
-    "prettier",
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -18,8 +22,9 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "jest"],
+  "plugins": ["react", "jest", "prettier", "eslint-plugin-react"],
   "rules": {
+    "prettier/prettier": "error",
     "no-console": ["warn", { "allow": ["error"] }],
     "no-alert": "error"
   },

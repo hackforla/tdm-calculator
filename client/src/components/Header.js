@@ -66,8 +66,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Header = props => {
-  const { account } = props;
+const Header = ({ account }) => {
   const classes = useStyles();
   const [navbarOpen, setNavbarOpen] = useState(false);
 
@@ -100,7 +99,7 @@ const Header = props => {
 };
 
 Header.propTypes = {
-  account: PropTypes.object
+  account: PropTypes.object.isRequired
 };
 
 export default Header;

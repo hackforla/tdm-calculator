@@ -10,6 +10,7 @@ import Engine from "../services/tdm-engine";
 import injectSheet from "react-jss";
 import { useToast } from "../contexts/Toast";
 import moment from "moment";
+import analytics from "../hooks/analytics";
 
 const styles = {
   root: {
@@ -45,7 +46,13 @@ const filters = {
     rule.category === "measure" && rule.calculationPanelId !== 10
 };
 
-export function TdmCalculationContainer({ history, match, account, classes }) {
+export function TdmCalculationContainer({
+  history,
+  match,
+  account,
+  classes,
+  setLoggedInAccount
+}) {
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
   const [formInputs, setFormInputs] = useState({});
@@ -101,16 +108,16 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         setRules(engine.showRulesArray());
       } catch (err) {
         console.error(JSON.stringify(err, null, 2));
-        const errMessage = account.id
-          ? "The project you are trying to view can only be viewed by the user."
-          : "You must be logged in to view project.";
+        // const errMessage = account.id
+        //   ? "The project you are trying to view can only be viewed by the user."
+        //   : "You must be logged in to view project.";
+        // toast.add(errMessage);
         const redirect = account.id ? "/projects" : "/login";
-        toast.add(errMessage);
         history.push(redirect);
       }
     };
     initiateEngine();
-  }, [match.params.projectId, engine, account, toast.add, history]);
+  }, [match.params.projectId, engine, account, history]);
 
   const recalculate = updatedFormInputs => {
     engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
@@ -124,6 +131,7 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
     // update state with modified updatedFormInputs and rules
     setFormInputs(updatedFormInputs);
     setRules(rules);
+    setFormHasSaved(false);
   };
 
   const initializeStrategies = () => {
@@ -217,7 +225,6 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       ...modifiedInputs
     };
     recalculate(newFormInputs);
-    setFormHasSaved(false);
   };
 
   const projectLevel =
@@ -273,7 +280,6 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       [e.target.name]: value
     };
     recalculate(newFormInputs);
-    setFormHasSaved(false);
   };
 
   const onCommentChange = e => {
@@ -293,7 +299,6 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       [`${e.target.name}_comment`]: value
     };
     recalculate(newFormInputs);
-    setFormHasSaved(false);
   };
 
   const onUncheckAll = filterRules => {
@@ -306,7 +311,6 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       }
     }
     recalculate(updateInputs);
-    setFormHasSaved(false);
   };
 
   const projectIsValid = () => {
@@ -343,14 +347,22 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
       requestBody.id = projectId;
       try {
         await projectService.put(requestBody);
-        toast.add("Saved Project Changes");
+        analytics.sendEvent({
+          category: "User",
+          action: "Save Changes to Project"
+        });
         setFormHasSaved(true);
+        toast.add("Saved Project Changes");
       } catch (err) {
+        console.error(err);
         if (err.response) {
           if (err.response.status === 401) {
             toast.add(
               "For your security, your session has expired. Please log in again."
             );
+            // User's session has expired, update state variable
+            // to let React know they are logged out.
+            setLoggedInAccount({});
             history.push(`/login/${encodeURIComponent(account.email)}`);
           } else {
             console.error(err.response);
@@ -358,25 +370,30 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         } else if (err.request) {
           console.error(err.request);
         }
-        console.error(err);
       }
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
-        const newPath = location.pathname + "/" + postResponse.data.id;
-        // setProjectId(postResponse.data.id);
-        // setLoginId(account.id);
-        // setFormHasSaved(true);
-        toast.add("Saved New Project");
+        const newPath = history.location.pathname + "/" + postResponse.data.id;
+        analytics.sendEvent({
+          category: "User",
+          action: "Saved New Project"
+        });
         // Update URL to /calculation/<currentPage>/<newProjectId>
         // to keep working on same project.
         history.push(newPath);
+        setFormHasSaved(true);
+        toast.add("Saved New Project");
       } catch (err) {
+        console.error(err);
         if (err.response) {
           if (err.response.status === 401) {
             toast.add(
               "For your security, your session has expired. Please log in again."
             );
+            // User's session has expired, update state variable
+            // to let React know they are logged out.
+            setLoggedInAccount({});
             history.push(`/login/${encodeURIComponent(account.email)}`);
           } else {
             console.error(err.response);
@@ -384,21 +401,22 @@ export function TdmCalculationContainer({ history, match, account, classes }) {
         } else if (err.request) {
           console.error(err.request);
         }
-        console.error(err);
       }
     }
   };
 
   return (
     <div className={classes.root}>
+      {/* {!formHasSaved && account.id ? ( */}
       <Prompt
-        when={!formHasSaved}
+        when={!formHasSaved && !!account.id}
         message={location => {
           return location.pathname.startsWith("/calculation")
             ? true // returning true allows user to continue without a prompt/modal
             : "this message doesn't actaully show, but will cause modal to open";
         }}
       />
+      {/* ) : null} */}
       {view === "w" ? (
         <TdmCalculationWizard
           projectLevel={projectLevel}
@@ -466,7 +484,8 @@ TdmCalculationContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   location: PropTypes.shape({
     search: PropTypes.string
-  })
+  }),
+  setLoggedInAccount: PropTypes.func
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

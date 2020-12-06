@@ -475,7 +475,12 @@ const ProjectSummary = props => {
                             ? rule.choices.find(
                                 choice =>
                                   Number(choice.id) === Number(rule.value)
-                              ).name
+                              )
+                              ? rule.choices.find(
+                                  choice =>
+                                    Number(choice.id) === Number(rule.value)
+                                ).name
+                              : rule.value
                             : rule.value}
                         </div>
                       </div>
@@ -560,7 +565,7 @@ ProjectSummary.propTypes = {
   account: PropTypes.object.isRequired,
   projectId: PropTypes.number.isRequired,
   loginId: PropTypes.number.isRequired,
-  dateModified: PropTypes.string.isRequired
+  dateModified: PropTypes.string || null
 };
 
 export default ProjectSummary;
