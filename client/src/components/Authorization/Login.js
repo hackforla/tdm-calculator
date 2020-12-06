@@ -7,7 +7,6 @@ import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
 import SideBar from "../Sidebar";
 import clsx from "clsx";
-import analytics from "../../hooks/analytics";
 
 const useStyles = createUseStyles({
   root: {
@@ -56,14 +55,18 @@ const Login = props => {
 
       if (loginResponse.isSuccess) {
         setLoggedInAccount(loginResponse.user);
-        analytics.sendEvent({ category: "User", action: "Login" });
+        window.dataLayer.push({
+          event: "login",
+          action: "success",
+          value: loginResponse.user.id
+        });
         history.push("/calculation/1");
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
-          analytics.sendEvent({
-            category: "User",
-            action: "Login Failed",
-            label: "Unconfirmed Email"
+          window.dataLayer.push({
+            event: "customEvent",
+            action: "login failed",
+            value: "email not confirmed"
           });
           await accountService.resendConfirmationEmail(email);
           setErrorMsg(`Your email has not been confirmed.
@@ -72,6 +75,11 @@ const Login = props => {
           own this email address.`);
           setSubmitting(false);
         } catch (err) {
+          window.dataLayer.push({
+            event: "customEvent",
+            action: "login failed",
+            value: "failed to re-send confirmation email"
+          });
           setErrorMsg(
             `An internal error occurred in sending an email to ${email}. `,
             err.message
@@ -79,20 +87,20 @@ const Login = props => {
           setSubmitting(false);
         }
       } else if (loginResponse.code === "AUTH_NO_ACCOUNT") {
-        analytics.sendEvent({
-          category: "User",
-          action: "Login Failed",
-          label: "Account not found"
+        window.dataLayer.push({
+          event: "customEvent",
+          action: "login failed",
+          value: "account not found"
         });
         setErrorMsg(`The email ${email} does not correspond to an
         existing account. Please verify the email or register as a
         new account.`);
         setSubmitting(false);
       } else {
-        analytics.sendEvent({
-          category: "User",
-          action: "Login Failed",
-          label: "Probable Invalid Password"
+        window.dataLayer.push({
+          event: "customEvent",
+          action: "login failed",
+          value: "invalid password"
         });
         // Presumably loginResponse.code === "AUTH_INVALID_PASSWORD"
         setErrorMsg(`The password is incorrect, please check it
