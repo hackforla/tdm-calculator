@@ -35,6 +35,10 @@ const DuplicateProjectModal = ({
     const jsonProject = JSON.parse(project.formInputs);
     jsonProject.PROJECT_NAME = duplicateProjectName;
 
+    if (duplicateProjectName === "") {
+      duplicateProjectName = `${project.name} (COPY)`;
+    }
+
     try {
       await projectService.post({
         ...project,
