@@ -21,9 +21,8 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     alignItems: "center",
     minHeight: "calc(100vh - 103px - 48px)",
-    width: "1146px",
-    minWidth: "80%",
-    margin: "auto"
+    margin: "auto",
+    width: "85%"
   },
   pageTitle: {
     marginTop: "2em"
@@ -43,7 +42,7 @@ const useStyles = createUseStyles({
     top: "12px"
   },
   table: {
-    margin: "20px",
+    minWidth: "850px",
     width: "100%"
   },
   tr: {
@@ -99,6 +98,11 @@ const useStyles = createUseStyles({
   },
   link: {
     textDecoration: "underline"
+  },
+  tableContainer: {
+    overflow: "auto",
+    width: "100%",
+    margin: "20px 0px"
   }
 });
 
@@ -314,106 +318,115 @@ const ProjectsPage = ({ account, history }) => {
           alt="Search Icon"
         />
       </div>
-      <table className={classes.table}>
-        <thead className={classes.thead}>
-          <tr className={classes.tr}>
-            {headerData.map((header, i) => (
-              <td
-                key={i}
-                className={`${classes.td} ${classes.theadLabel}`}
-                onClick={() => handleSort(header.id)}
-              >
-                {header.label}
-                {orderBy === header.id ? (
-                  <span>
-                    {order === "asc" ? (
-                      <FontAwesomeIcon
-                        icon={faSortDown}
-                        className={classes.sortArrow}
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        icon={faSortUp}
-                        className={classes.sortArrow}
-                      />
-                    )}
-                  </span>
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faSortDown}
-                    className={classes.sortArrow}
-                  />
-                )}
-              </td>
-            ))}
-            <td></td>
-          </tr>
-        </thead>
-        <tbody className={classes.tbody}>
-          {projects.length ? (
-            currentProjects.map(project => (
-              <tr key={project.id}>
-                <td className={classes.td}>
-                  <Link
-                    to={`/calculation/1/${project.id}`}
-                    className={classes.link}
+      <div className={classes.tableContainer}>
+        <table className={classes.table}>
+          <thead className={classes.thead}>
+            <tr className={classes.tr}>
+              {headerData.map((header, i) => {
+                const label = header.label.split(" ");
+                const lastWordOfLabel = label.splice(-1, 1);
+                return (
+                  <td
+                    key={i}
+                    className={`${classes.td} ${classes.theadLabel}`}
+                    onClick={() => handleSort(header.id)}
                   >
-                    {project.name}
-                  </Link>
-                </td>
-                <td className={classes.td}>{project.address}</td>
-                <td className={classes.td}>
-                  {JSON.parse(project.formInputs).VERSION_NO !== "undefined"
-                    ? JSON.parse(project.formInputs).VERSION_NO
-                    : ""}
-                </td>
-                <td className={classes.td}>
-                  {JSON.parse(project.formInputs).BUILDING_PERMIT !==
-                  "undefined"
-                    ? JSON.parse(project.formInputs).BUILDING_PERMIT
-                    : ""}
-                </td>
-                <td
-                  className={classes.td}
-                >{`${project.firstName} ${project.lastName}`}</td>
-                <td className={classes.tdRightAlign}>
-                  {moment(project.dateCreated).format("MM/DD/YYYY")}
-                </td>
-                <td className={classes.tdRightAlign}>
-                  {moment(project.dateModified).isSame(moment(), "day")
-                    ? moment(project.dateModified).format("h:mm A")
-                    : moment(project.dateModified).format("MM/DD/YYYY")}
-                </td>
-                <td className={classes.actionIcons}>
-                  {project.loginId === currentUser.id && (
-                    <>
-                      <button onClick={() => toggleDuplicateModal(project)}>
-                        <img
-                          src={CopyIcon}
-                          alt={`Duplicate Project #${project.id}`}
+                    {label}{" "}
+                    {orderBy === header.id ? (
+                      <span className={classes.labelSpan}>
+                        {lastWordOfLabel}{" "}
+                        {order === "asc" ? (
+                          <FontAwesomeIcon
+                            icon={faSortDown}
+                            className={classes.sortArrow}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faSortUp}
+                            className={classes.sortArrow}
+                          />
+                        )}
+                      </span>
+                    ) : (
+                      <span className={classes.labelSpan}>
+                        {lastWordOfLabel}
+                        <FontAwesomeIcon
+                          icon={faSortDown}
+                          className={classes.sortArrow}
                         />
-                      </button>
-                      <button onClick={() => toggleDeleteModal(project)}>
-                        <img
-                          src={DeleteIcon}
-                          alt={`Delete Project #${project.id}`}
-                        />
-                      </button>
-                    </>
-                  )}
+                      </span>
+                    )}
+                  </td>
+                );
+              })}
+              <td></td>
+            </tr>
+          </thead>
+          <tbody className={classes.tbody}>
+            {projects.length ? (
+              currentProjects.map(project => (
+                <tr key={project.id}>
+                  <td className={classes.td}>
+                    <Link
+                      to={`/calculation/1/${project.id}`}
+                      className={classes.link}
+                    >
+                      {project.name}
+                    </Link>
+                  </td>
+                  <td className={classes.td}>{project.address}</td>
+                  <td className={classes.td}>
+                    {JSON.parse(project.formInputs).VERSION_NO !== "undefined"
+                      ? JSON.parse(project.formInputs).VERSION_NO
+                      : ""}
+                  </td>
+                  <td className={classes.td}>
+                    {JSON.parse(project.formInputs).BUILDING_PERMIT !==
+                    "undefined"
+                      ? JSON.parse(project.formInputs).BUILDING_PERMIT
+                      : ""}
+                  </td>
+                  <td
+                    className={classes.td}
+                  >{`${project.firstName} ${project.lastName}`}</td>
+                  <td className={classes.tdRightAlign}>
+                    {moment(project.dateCreated).format("MM/DD/YYYY")}
+                  </td>
+                  <td className={classes.tdRightAlign}>
+                    {moment(project.dateModified).isSame(moment(), "day")
+                      ? moment(project.dateModified).format("h:mm A")
+                      : moment(project.dateModified).format("MM/DD/YYYY")}
+                  </td>
+                  <td className={classes.actionIcons}>
+                    {project.loginId === currentUser.id && (
+                      <>
+                        <button onClick={() => toggleDuplicateModal(project)}>
+                          <img
+                            src={CopyIcon}
+                            alt={`Duplicate Project #${project.id}`}
+                          />
+                        </button>
+                        <button onClick={() => toggleDeleteModal(project)}>
+                          <img
+                            src={DeleteIcon}
+                            alt={`Delete Project #${project.id}`}
+                          />
+                        </button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={9} className={classes.tdNoSavedProjects}>
+                  No Saved Projects
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={9} className={classes.tdNoSavedProjects}>
-                No Saved Projects
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
+            )}
+          </tbody>
+        </table>
+      </div>
       <Pagination
         projectsPerPage={projectsPerPage}
         totalProjects={projects.length}
