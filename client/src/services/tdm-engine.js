@@ -151,6 +151,7 @@ class Engine {
       code,
       name,
       value,
+      dataType,
       required,
       minStringLength,
       maxStringLength,
@@ -162,7 +163,7 @@ class Engine {
 
     if (required && !value) {
       validationErrors.push(`${name} is required`);
-    } else {
+    } else if (value) {
       if (minStringLength) {
         if (typeof value === "string" && value.length < minStringLength) {
           validationErrors.push(
@@ -177,23 +178,35 @@ class Engine {
           );
         }
       }
-      if (minValue !== null && typeof value !== "string") {
-        if (value < minValue) {
+      if (
+        dataType === "number" &&
+        value !== null &&
+        value !== "" &&
+        minValue !== null
+      ) {
+        if (Number(value) < minValue) {
           validationErrors.push(`${name} must be at least ${minValue}.`);
         }
       }
-      if (maxValue !== null && typeof value !== "string") {
-        if (value > maxValue) {
+      if (
+        dataType === "number" &&
+        value !== null &&
+        value !== "" &&
+        maxValue !== null
+      ) {
+        if (Number(value) > maxValue) {
           validationErrors.push(`${name} must be no more than ${maxValue}.`);
         }
       }
-      if (validationFunctionBody) {
-        const validationMessage = this.calcValidation(code);
-        if (validationMessage) {
-          validationErrors.push(validationMessage);
-        }
+    }
+    // Custom validation rules apply regardless of whether value is falsey
+    if (validationFunctionBody) {
+      const validationMessage = this.calcValidation(code);
+      if (validationMessage) {
+        validationErrors.push(validationMessage);
       }
     }
+
     // validationErrors will be null if no errors, otherwise contain
     // user-friendly error message(s) in an array
     rule.validationErrors =

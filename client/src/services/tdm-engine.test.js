@@ -8,9 +8,9 @@ import {
 } from "../test-data/tdm-calc-examples.js";
 
 describe("class Engine", () => {
-  beforeEach(done => {
-    done();
-  });
+  // beforeEach(done => {
+  //   done();
+  // });
   it("Engine Test 1 - A + B", () => {
     return new Promise(done => {
       const engine = new Engine(engineTestRules);
@@ -43,7 +43,7 @@ describe("class Engine", () => {
     });
   });
 
-  it("Engine Test 3 - Hypotenuse AB", () => {
+  it("Engine Test 4 - Hypotenuse AB", () => {
     return new Promise(done => {
       const engine = new Engine(engineTestRules);
       const result = engine.run(engineTestInput1, ["CALC_HYPOTENUSE_AB"]);
@@ -97,7 +97,7 @@ describe("class Engine", () => {
       expect(result.PARK_REQUIREMENT).toEqual(552);
       expect(result.PROJECT_LEVEL).toEqual(3);
       expect(result.TARGET_POINTS_PARK).toEqual(25);
-      expect(result.PTS_EARNED).toEqual(25);
+      expect(result.PTS_EARNED).toEqual(24);
       done();
     });
   });

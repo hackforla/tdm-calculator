@@ -8,19 +8,23 @@ export const useStyles = createUseStyles({
     flexBasis: "387px",
     flexGrow: 0,
     flexShrink: 1,
-    backgroundImage: "url(/assets/hard-hats-silvia-brazzoduro.png)",
-    backgroundPosition: "15% center",
+    backgroundImage: "url(/assets/sidebarBackground.jpg)",
+    backgroundPosition: "0 0",
     backgroundSize: "cover",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start"
   },
+  overlay: {
+    backgroundColor: "rgba(0,69,124,0.75)",
+    // opacity: "0.8",
+    height: "100%"
+  },
   "sidebar-content": {
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    height: "100%",
-    minHeight: "calc(100vh - 103px)"
+    height: "100%"
   },
   "@media (max-width: 1024px)": {
     "sidebar-container": {
@@ -45,8 +49,9 @@ export function Sidebar(props) {
 
   return (
     <div className={classes["sidebar-container"]}>
-      <div className={classes.overlay} />
-      <div className={classes["sidebar-content"]}>{props.children}</div>
+      <div className={classes.overlay}>
+        <div className={classes["sidebar-content"]}>{props.children}</div>
+      </div>
     </div>
   );
 }

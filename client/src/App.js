@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React from "react";
+import PropTypes from "prop-types";
+import { Route, Redirect } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
-import { UserContext } from "./components/user-context";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
-import Projects from "./components/Projects";
+import ProjectsPage from "./components/Projects/ProjectsPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import About from "./components/About";
@@ -20,7 +20,7 @@ import FaqView from "./components/Faq/FaqView";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
 import "./styles/App.scss";
-import axios from "axios";
+import PublicComment from "./components/PublicComment/PublicCommentPage";
 
 const useStyles = createUseStyles({
   root: {
@@ -30,102 +30,96 @@ const useStyles = createUseStyles({
   }
 });
 
-const App = () => {
+const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
   const classes = useStyles();
-  const [account, setAccount] = useState({});
-  const [isCreatingNewProject, setIsCreatingNewProject] = useState(false);
-
-  useEffect(() => {
-    const currentUser = localStorage.getItem("currentUser");
-    if (currentUser) {
-      try {
-        const account = JSON.parse(currentUser);
-        // TODO: remove console.log when stable.
-        setAccount(account);
-      } catch (err) {
-        // TODO: replace with production error logging.
-        console.error(
-          "Unable to parse current user from local storage.",
-          currentUser
-        );
-      }
-    }
-  }, [setAccount]);
-
-  const setLoggedInAccount = loggedInUser => {
-    setAccount(loggedInUser);
-    localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
-  };
-
-  //TODO: This doesn't seem like it's getting used anymore. Don't see token in local storage. Check on authorization flow to see if token is still needed.
-  const setTokenInHeaders = () => {
-    axios.interceptors.request.use(
-      config => {
-        let token = localStorage.getItem("token");
-        if (token) {
-          config.headers["Authorization"] = `Bearer ${token}`;
-        }
-        return config;
-      },
-      error => Promise.reject(error)
-    );
-  };
-
-  setTokenInHeaders();
 
   return (
     <React.Fragment>
-      <UserContext.Provider value={account}>
-        <Router>
-          <Header
-            account={account}
-            setAccount={setAccount}
-            isCreatingNewProject={isCreatingNewProject}
-          />
-          <div className={classes.root}>
-            <Route
-              exact
-              path="/"
-              render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
+      <Header account={account} />
+      <div className={classes.root}>
+        <Route
+          exact
+          path="/"
+          render={() =>
+            account.email ? (
+              <Redirect to="/calculation/1" />
+            ) : (
+              <Login setLoggedInAccount={setLoggedInAccount} />
+            )
+          }
+        />
+        <Route exact path="/calculation">
+          <Redirect to="/calculation/1" />
+        </Route>
+        <Route
+          path="/calculation/:page/:projectId?"
+          render={() => (
+            <TdmCalculationContainer
+              account={account}
+              hasConfirmedNavTransition={hasConfirmedTransition}
+              setLoggedInAccount={setLoggedInAccount}
             />
-            <Route
-              path="/calculation/:page?/:projectId?"
-              render={() => (
-                <TdmCalculationContainer
-                  account={account}
-                  setIsCreatingNewProject={setIsCreatingNewProject}
-                />
-              )}
-            />
-            <Route
-              path="/projects"
-              render={() => <Projects account={account} />}
-            />
-            <Route path="/about" component={About} />
-            <Route path="/termsandconditions" component={TermsAndConditions} />
-            <Route path="/privacypolicy" component={PrivacyPolicy} />
-            <Route path="/register/:email?" component={Register} />
-            <Route path="/confirm/:token" component={ConfirmEmail} />
-            <Route
-              path="/login/:email?"
-              render={() => <Login setLoggedInAccount={setLoggedInAccount} />}
-            />
-            <Route path="/forgotpassword" component={ResetPasswordRequest} />
-            <Route path="/resetPassword/:token" component={ResetPassword} />
-            <Route path="/contactus" component={ContactUs} />
-            {account && account.isAdmin ? (
-              <Route path="/admin" render={() => <Admin account={account} />} />
-            ) : null}
-            {account && account.isSecurityAdmin ? (
-              <Route path="/roles" render={() => <Roles />} />
-            ) : null}
-            <Route path="/faqs" component={FaqView} />
-          </div>
-          <Footer />
-        </Router>
-      </UserContext.Provider>
+          )}
+        />
+        <Route
+          path="/projects"
+          render={() => <ProjectsPage account={account} />}
+        />
+        <Route path="/about" component={About} />
+        <Route path="/termsandconditions" component={TermsAndConditions} />
+        <Route path="/privacypolicy" component={PrivacyPolicy} />
+        <Route path="/register/:email?" component={Register} />
+        <Route path="/confirm/:token" component={ConfirmEmail} />
+        <Route
+          path="/login/:email?"
+          render={() =>
+            account.email ? (
+              <Redirect to="/calculation/1" />
+            ) : (
+              <Login setLoggedInAccount={setLoggedInAccount} />
+            )
+          }
+        />
+        <Route
+          path="/logout/:email?"
+          render={routeProps => {
+            setLoggedInAccount({});
+            return (
+              <Redirect
+                to={
+                  routeProps.match.params["email"]
+                    ? `/login/${routeProps.match.params["email"]}`
+                    : "/login"
+                }
+              />
+            );
+          }}
+        />
+        <Route path="/forgotpassword" component={ResetPasswordRequest} />
+        <Route path="/resetPassword/:token" component={ResetPassword} />
+        <Route path="/contactus" component={ContactUs} />
+        {account && account.isAdmin ? (
+          <Route path="/admin" render={() => <Admin account={account} />} />
+        ) : null}
+        {account && account.isSecurityAdmin ? (
+          <Route path="/roles" render={() => <Roles />} />
+        ) : null}
+        <Route path="/faqs" component={FaqView} />
+        <Route path="/publiccomment" component={PublicComment} />
+      </div>
+      <Footer />
     </React.Fragment>
   );
+};
+
+App.propTypes = {
+  account: PropTypes.shape({
+    email: PropTypes.string,
+    isAdmin: PropTypes.bool,
+    isSecurityAdmin: PropTypes.bool
+  }),
+  setLoggedInAccount: PropTypes.func,
+  hasConfirmedTransition: PropTypes.bool
 };
 
 export default withToastProvider(App);

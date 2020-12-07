@@ -1,25 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { matchPath, useLocation } from "react-router";
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import NavBarToolTip from "./NavBarToolTip";
 
-const NavBarLogin = ({
-  account,
-  classes,
-  setLoggedOutAccount,
-  handleClick
-}) => {
-  const handleLogOut = () => {
-    handleClick();
-    setLoggedOutAccount();
-  };
+const NavBarLogin = ({ account, classes, handleHamburgerMenuClick }) => {
+  const [isCalculation, setIsCalculation] = useState(false);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    let match = matchPath(location.pathname, {
+      path: "/calculation/:id"
+    });
+    if (match) {
+      setIsCalculation(true);
+    } else {
+      setIsCalculation(false);
+    }
+  }, [location.pathname]);
 
   const loginLink = (
     <li className={clsx(classes.userLogin, classes.linkBlock)}>
       <Link
+        id="cy-login-menu-item"
         className={`${classes.link} ${classes.lastItem}`}
         to="/login"
-        onClick={handleClick}
+        onClick={handleHamburgerMenuClick}
       >
         Login
       </Link>
@@ -34,27 +42,40 @@ const NavBarLogin = ({
 
   const logoutLink = (
     <li className={classes.linkBlock}>
-      <button className={`link ${classes.lastItem}`} onClick={handleLogOut}>
+      <Link
+        className={`${classes.link} ${classes.lastItem}`}
+        to={{
+          pathname: `/logout/${account.email}`,
+          state: { prevPath: location.pathname }
+        }}
+        onClick={handleHamburgerMenuClick}
+      >
         Logout
-      </button>
+      </Link>
     </li>
   );
 
   return !account || !account.email ? (
-    loginLink
+    !isCalculation ? (
+      <>{loginLink}</>
+    ) : (
+      <>
+        <NavBarToolTip />
+        {loginLink}
+      </>
+    )
   ) : (
-    <React.Fragment>
+    <>
       {getUserGreeting(account)}
       {logoutLink}
-    </React.Fragment>
+    </>
   );
 };
 
 NavBarLogin.propTypes = {
   account: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  setLoggedOutAccount: PropTypes.func,
-  handleClick: PropTypes.func
+  handleHamburgerMenuClick: PropTypes.func
 };
 
 export default NavBarLogin;

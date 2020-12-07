@@ -26,6 +26,12 @@ const useStyles = createUseStyles({
     backgroundColor: ({ theme }) => theme.colorWhite,
     borderColor: "rgba(0, 46, 109, .2)", //medium grey
     borderWidth: "thin"
+  },
+  text: {
+    backgroundColor: "transparent",
+    borderColor: "rgba(0, 0, 0, 0)", //transparent
+    marginLeft: 0,
+    marginRight: 0
   }
 });
 
@@ -35,7 +41,8 @@ const Button = ({
   isDisplayed = true,
   onClick,
   variant = "contained",
-  color = "colorDefault"
+  color = "colorDefault",
+  type = "button"
 }) => {
   const theme = useTheme();
   const classes = useStyles({ color, theme });
@@ -45,6 +52,7 @@ const Button = ({
     <button
       className={clsx(classes.root, classes[variant], className)}
       onClick={onClick}
+      type={type}
     >
       {children}
     </button>
@@ -58,7 +66,8 @@ Button.propTypes = {
   variant: PropTypes.string,
   isDisplayed: PropTypes.bool,
   className: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
+  type: PropTypes.string
 };
 
 export default Button;

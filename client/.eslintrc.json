@@ -2,12 +2,18 @@
   "env": {
     "browser": true,
     "es6": true,
+    "node": true,
     "jest/globals": true
+  },
+  "globals": {
+    "process": true
   },
   "extends": [
     "eslint:recommended",
+    "plugin:react/recommended",
     "plugin:jest/recommended",
-    "plugin:react/recommended"
+    "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -16,15 +22,17 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "jest"],
+  "plugins": ["react", "jest", "prettier", "eslint-plugin-react"],
   "rules": {
     "prettier/prettier": "error",
     "no-console": ["warn", { "allow": ["error"] }],
     "no-alert": "error"
   },
   "settings": {
+    // Settings for eslint-plugin-react
     "react": {
-      "createClass": "createReactClass", // Regex for Component Factory to use,
+      "createClass": "createReactClass",
+      // Regex for Component Factory to use,
       // default to "createReactClass"
       "pragma": "React", // Pragma to use, default to "React"
       "version": "detect" // React version. "detect" automatically picks the version you have installed.

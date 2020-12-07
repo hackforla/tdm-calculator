@@ -93,40 +93,22 @@ const useStyles = createUseStyles({
   }
 });
 
-const NavBar = props => {
-  const {
-    account,
-    setLoggedOutAccount,
-    // location,
-    navbarOpen,
-    setNavbarOpen
-  } = props;
+const NavBar = ({ account, navbarOpen, setNavbarOpen }) => {
   const classes = useStyles();
 
-  const handleClick = () => {
+  const handleHamburgerMenuClick = () => {
     setNavbarOpen(window.innerWidth < 768 ? !navbarOpen : false);
   };
 
   return (
     <ul className={classes.navbar}>
-      {/* <li className={classes.linkBlock}>
-        <NavLink
-          className={classes.link}
-          activeClassName={classes.currentLink}
-          exact
-          to="/"
-          onClick={handleClick}
-        >
-          Home
-        </NavLink>
-      </li> */}
       {account && account.id && (
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
             activeClassName={classes.currentLink}
             to="/projects"
-            onClick={handleClick}
+            onClick={handleHamburgerMenuClick}
           >
             My Projects
           </NavLink>
@@ -136,25 +118,19 @@ const NavBar = props => {
         <NavLink
           className={classes.link}
           activeClassName={classes.currentLink}
-          to="/calculation/1/"
+          to="/calculation/1"
+          onClick={handleHamburgerMenuClick}
         >
           Create Project
         </NavLink>
       </li>
-      {/* {account && account.isAdmin && (
-        <li>
-          <Link className={classes.link} to="/admin">
-            Admin
-          </Link>
-        </li>
-      )} */}
       {account && account.isSecurityAdmin && (
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
             activeClassName={classes.currentLink}
             to="/roles"
-            onClick={handleClick}
+            onClick={handleHamburgerMenuClick}
           >
             Security
           </NavLink>
@@ -165,21 +141,26 @@ const NavBar = props => {
           className={classes.link}
           activeClassName={classes.currentLink}
           to="/about"
-          onClick={handleClick}
+          onClick={handleHamburgerMenuClick}
         >
           About
         </NavLink>
       </li>
-      {/* 
-      <li>
-        <Link className={classes.link} to="/contactus">Contact Us</Link>
-      </li> */}
+      <li className={classes.linkBlock}>
+        <NavLink
+          className={classes.link}
+          activeClassName={classes.currentLink}
+          to="/publiccomment"
+          onClick={handleHamburgerMenuClick}
+        >
+          Public Comment
+        </NavLink>
+      </li>
       <NavBarLogin
         account={account}
         classes={classes}
-        setLoggedOutAccount={setLoggedOutAccount}
         navbarOpen={navbarOpen}
-        handleClick={handleClick}
+        handleHamburgerMenuClick={handleHamburgerMenuClick}
       />
     </ul>
   );
@@ -193,13 +174,8 @@ NavBar.propTypes = {
     isAdmin: PropTypes.bool,
     isSecurityAdmin: PropTypes.bool
   }),
-  setLoggedOutAccount: PropTypes.func,
   navbarOpen: PropTypes.bool,
-  setNavbarOpen: PropTypes.func,
-  isCreatingNewProject: PropTypes.bool,
-  location: PropTypes.shape({
-    pathname: PropTypes.string
-  })
+  setNavbarOpen: PropTypes.func.isRequired
 };
 
 export default withRouter(NavBar);

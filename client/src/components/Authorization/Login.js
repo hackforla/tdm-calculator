@@ -55,9 +55,19 @@ const Login = props => {
 
       if (loginResponse.isSuccess) {
         setLoggedInAccount(loginResponse.user);
-        history.push("/calculation");
+        window.dataLayer.push({
+          event: "login",
+          action: "success",
+          value: loginResponse.user.id
+        });
+        history.push("/calculation/1");
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
+          window.dataLayer.push({
+            event: "customEvent",
+            action: "login failed",
+            value: "email not confirmed"
+          });
           await accountService.resendConfirmationEmail(email);
           setErrorMsg(`Your email has not been confirmed.
           Please look through your email for a Registration
@@ -65,6 +75,11 @@ const Login = props => {
           own this email address.`);
           setSubmitting(false);
         } catch (err) {
+          window.dataLayer.push({
+            event: "customEvent",
+            action: "login failed",
+            value: "failed to re-send confirmation email"
+          });
           setErrorMsg(
             `An internal error occurred in sending an email to ${email}. `,
             err.message
@@ -72,11 +87,21 @@ const Login = props => {
           setSubmitting(false);
         }
       } else if (loginResponse.code === "AUTH_NO_ACCOUNT") {
+        window.dataLayer.push({
+          event: "customEvent",
+          action: "login failed",
+          value: "account not found"
+        });
         setErrorMsg(`The email ${email} does not correspond to an
         existing account. Please verify the email or register as a
         new account.`);
         setSubmitting(false);
       } else {
+        window.dataLayer.push({
+          event: "customEvent",
+          action: "login failed",
+          value: "invalid password"
+        });
         // Presumably loginResponse.code === "AUTH_INVALID_PASSWORD"
         setErrorMsg(`The password is incorrect, please check it
         and try again or use the Forgot Password feature.`);
@@ -108,6 +133,7 @@ const Login = props => {
                 <Form>
                   <div className="form-group">
                     <Field
+                      id="cy-login-email"
                       type="email"
                       name="email"
                       value={values.email}
@@ -124,6 +150,7 @@ const Login = props => {
                   </div>
                   <div className="form-group">
                     <Field
+                      id="cy-login-password"
                       type="password"
                       value={values.password}
                       name="password"
@@ -139,12 +166,17 @@ const Login = props => {
                     />
                   </div>
                   <div className="form-group auth-text">
-                    <Link className="auth-link forgot" to={"/forgotpassword"}>
+                    <Link
+                      id="cy-login-nav-to-forgotpassword"
+                      className="auth-link forgot"
+                      to={"/forgotpassword"}
+                    >
                       Forgot password?
                     </Link>
                   </div>
 
                   <button
+                    id="cy-login-submit"
                     type="submit"
                     className="btn-submit"
                     disabled={isSubmitting}
@@ -153,7 +185,7 @@ const Login = props => {
                   </button>
 
                   {/* <button className="btn-without-saving"> */}
-                  <Link to="/calculation">
+                  <Link to="/calculation/1">
                     <button className="btn-without-saving">
                       Continue without saving
                     </button>
@@ -172,7 +204,11 @@ const Login = props => {
           <br />
           <div className="auth-text">
             New user? &nbsp;
-            <Link className="auth-link" to={"/register"}>
+            <Link
+              id="cy-login-nav-to-register"
+              className="auth-link"
+              to={"/register"}
+            >
               Create an account
             </Link>
           </div>
