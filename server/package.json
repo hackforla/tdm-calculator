@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "description": "Traffic Data Management Calculator",
   "repository": {
     "type": "git",
@@ -12,9 +12,9 @@
     "test": "jest --passWithNoTests",
     "heroku-postbuild": "cd client && npm i && npm run build",
     "start": "nodemon --ignore './client/'",
-    "release-notes": "gren release",
+    "release-notes": "gren release --override",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\" ",
-    "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \" **/*.{js,jsx}\" ",
+    "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \"**/*.{js,jsx}\" ",
     "flyway:migrate": "flyway -c ./db/flyway-config.js migrate",
     "flyway:clean": "flyway -c ./db/flyway-config.js clean",
     "flyway:repair": "flyway -c ./db/flyway-config.js repair",
