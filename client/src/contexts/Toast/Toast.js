@@ -14,7 +14,7 @@ const useStyles = createUseStyles({
     display: "flex",
     justifyContent: "space-between",
     position: "fixed",
-    bottom: "4em",
+    top: "6em",
     cursor: "pointer"
   },
   container: {
@@ -38,7 +38,7 @@ const Toast = ({ children, remove }) => {
   removeRef.current = remove;
 
   useEffect(() => {
-    const duration = 5000;
+    const duration = 8000;
     const id = setTimeout(() => removeRef.current(), duration);
 
     return () => clearTimeout(id);
