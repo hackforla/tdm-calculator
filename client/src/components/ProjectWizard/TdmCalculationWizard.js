@@ -155,7 +155,13 @@ const TdmCalculationWizard = props => {
     } else if (
       // Redirect to Summary Page if project exists,
       // but does not belong to logged-in user
+      // Note: For an existing project, this effect
+      // gets called once with loginId = 0 before the
+      // component is re-created with the correct loginId,
+      // so we only want to re-direct after the loginId
+      // is properly set.
       projectId &&
+      loginId &&
       !(account.isAdmin || account.id === loginId)
     ) {
       history.push(`/calculation/6/${projectId}`);
