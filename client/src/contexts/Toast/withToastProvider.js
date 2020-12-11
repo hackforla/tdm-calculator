@@ -6,9 +6,9 @@ import Toast from "./Toast";
 
 const useStyles = createUseStyles({
   root: {
-    position: "absolute",
-    bottom: "20px",
-    left: "50%"
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center"
   }
 });
 
