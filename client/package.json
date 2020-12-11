@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "private": true,
   "proxy": "http://localhost:5000",
   "scripts": {
