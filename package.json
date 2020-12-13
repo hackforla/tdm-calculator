@@ -3,18 +3,7 @@
   "private": true,
   "devDependencies": {
     "husky": "^4.3.5",
-    "lerna": "^3.22.1",
-    "lint-staged": "^10.5.3"
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx}": [
-      "eslint . --fix",
-      "git add"
-    ],
-    "src/**/*.scss": [
-      "stylelint --syntax scss --fix",
-      "git add"
-    ]
+    "lerna": "^3.22.1"
   },
   "husky": {
     "hooks": {
