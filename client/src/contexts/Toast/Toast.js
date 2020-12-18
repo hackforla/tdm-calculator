@@ -15,7 +15,15 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     position: "fixed",
     top: "6em",
-    cursor: "pointer"
+    cursor: "pointer",
+    zIndex: "1",
+    marginLeft: document.getElementsByClassName("sidebar-container-0-2-43")[0]
+      .offsetWidth
+  },
+  "@media (max-width: 1024px)": {
+    root: {
+      marginLeft: "0"
+    }
   },
   container: {
     padding: "16px 24px",
@@ -38,7 +46,7 @@ const Toast = ({ children, remove }) => {
   removeRef.current = remove;
 
   useEffect(() => {
-    const duration = 8000;
+    const duration = 800000000;
     const id = setTimeout(() => removeRef.current(), duration);
 
     return () => clearTimeout(id);
