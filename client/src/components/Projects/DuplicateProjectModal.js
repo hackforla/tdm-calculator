@@ -50,6 +50,7 @@ const DuplicateProjectModal = ({
     }
 
     toggleDuplicateModal();
+    ``;
     setSelectedProject(null);
   };
 
