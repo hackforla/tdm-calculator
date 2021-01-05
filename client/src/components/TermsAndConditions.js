@@ -3,8 +3,6 @@ import SideBar from "./Sidebar";
 import clsx from "clsx";
 import { createUseStyles } from "react-jss";
 
-import { version } from "../../package.json";
-
 const useStyles = createUseStyles({
   root: {
     flex: "1 0 auto",
@@ -67,7 +65,9 @@ const TermsAndConditions = () => {
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
         <SideBar />
         <div className="tdm-wizard-content-container">
-          <h1 className={classes.header}>Terms and Conditions</h1>
+          <h1 className={classes.header}>
+            TDM Calculator User Terms and Conditions
+          </h1>
           <br />
           <div className={(classes.aboutText, classes.scroll)}>
             <p className={classes.greyText}>
@@ -203,8 +203,6 @@ const TermsAndConditions = () => {
               to confirm the validity of the data provided.
             </p>
           </div>
-          <br />
-          <p>{`Release #: ${version}`}</p>
         </div>
       </div>
     </div>
