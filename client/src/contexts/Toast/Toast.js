@@ -16,9 +16,9 @@ const useStyles = createUseStyles({
     position: "fixed",
     top: "6em",
     cursor: "pointer",
-    zIndex: "1",
-    marginLeft: document.getElementsByClassName("sidebar-container-0-2-43")[0]
-      .offsetWidth
+    zIndex: "1"
+    // marginLeft: document.getElementsByClassName("sidebar-container-0-2-43")[0]
+    //   .offsetWidth
   },
   "@media (max-width: 1024px)": {
     root: {
