@@ -5,6 +5,22 @@ const sendgridKey = process.env.SENDGRID_API_KEY;
 
 sgMail.setApiKey(sendgridKey);
 
+const send = async (emailTo, emailFrom, subject, textBody, htmlBody) => {
+  const msg = {
+    to: emailTo,
+    from: emailFrom,
+    subject: subject,
+    text: textBody,
+    html: htmlBody
+  };
+  return sgMail.send(msg, false, err => {
+    if (err) {
+      return Promise.reject(`Sending email failed. ${err.message}`);
+    }
+    return Promise.resolve(true);
+  });
+};
+
 const sendRegistrationConfirmation = async (email, token) => {
   const msg = {
     to: `${email}`,
@@ -51,6 +67,7 @@ const sendResetPasswordConfirmation = async (email, token) => {
 };
 
 module.exports = {
+  send,
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation
 };
