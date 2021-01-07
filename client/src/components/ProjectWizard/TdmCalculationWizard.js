@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { createUseStyles } from "react-jss";
@@ -145,7 +145,7 @@ const TdmCalculationWizard = props => {
   const classes = useStyles();
   const page = Number(match.params.page || 1);
   const projectId = Number(match.params.projectId);
-
+  const tdmCalcRef = useRef();
   useEffect(() => {
     if (!projectId) {
       history.push("/calculation/1");
@@ -329,6 +329,7 @@ const TdmCalculationWizard = props => {
             "tdm-wizard-content-container",
             classes.contentContainer
           )}
+          ref={tdmCalcRef}
         >
           {routes}
           {!projectId ||
