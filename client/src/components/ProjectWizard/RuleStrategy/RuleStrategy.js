@@ -435,8 +435,8 @@ const RuleStrategy = ({
         }}
         textColor="#32578A"
         backgroundColor="#F7F9FA"
+        borderColor="rgb(30, 36, 63)"
         border={true}
-        borderColor="#B2C0D3"
         offset={{ right: 20 }}
       />
     </React.Fragment>

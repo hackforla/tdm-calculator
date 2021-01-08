@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import ToolTip from "./ToolTip";
+import ToolTipIcon from "./ToolTipIcon";
 import clsx from "clsx";
+import ReactTooltip from "react-tooltip";
 
 const useStyles = createUseStyles({
   field: {
@@ -147,6 +148,25 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
+  },
+  tooltip: {
+    color: "rgb(30, 36, 63) !important",
+    minWidth: "200px",
+    maxWidth: "400px",
+    fontFamily: "Arial",
+    fontSize: 12,
+    lineHeight: "16px",
+    fontWeight: "bold",
+    "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    "-webkit-border-radius": 2,
+    "-moz-border-radius": 2,
+    borderRadius: 2,
+    "&.show": {
+      visibility: "visible !important",
+      opacity: "1 !important"
+    }
   }
 });
 
@@ -325,7 +345,13 @@ const RuleCalculation = ({
             data-class={classes.tooltip}
           >
             {name}
-            <ToolTip tipText={description} />
+            <ToolTipIcon
+              containerStyle={{
+                fontSize: 16,
+                verticalAlign: "top",
+                "&:hover": { cursor: "pointer" }
+              }}
+            />
           </label>
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
@@ -335,6 +361,21 @@ const RuleCalculation = ({
             </span>
             <span className={classes.calcUnits}> {calcUnits || ""}</span>
           </div>
+          <ReactTooltip
+            id={"main" + id}
+            place="right"
+            type="info"
+            effect="float"
+            multiline={true}
+            style={{
+              width: "25vw"
+            }}
+            textColor="#32578A"
+            backgroundColor="#F7F9FA"
+            borderColor="rgb(30, 36, 63)"
+            border={true}
+            offset={{ right: 20 }}
+          />
         </div>
       )}
       {validationErrors && showValidationErrors ? (
