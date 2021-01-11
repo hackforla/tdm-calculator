@@ -83,22 +83,22 @@ const TermsAndConditions = () => {
               Angeles Transportation Demand Management (TDM) Calculator (TDM
               Calculator) to provide the public with an understanding of the TDM
               Ordinance. Currently available for review: Council File
+              15-0719-S19 / the Los Angeles Department of City Planning website:
               <span> </span>
               <a
                 className={classes.link}
-                href="https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=15-0719-S19"
+                href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility"
               >
-                15-0719-S19
-              </a>{" "}
-              / the Los Angeles Department of City Planning website (CPC Case
-              No. to be provided))). The TDM Ordinance proposes to revise
-              regulations that require eligible land use development projects to
-              adopt TDM strategies with the goal to reduce the reliance on
-              drive-alone trips in the City of Los Angeles. The term “City” as
-              used below shall refer to the City of Los Angeles. The terms
-              “City” and “Hack for LA” as used below shall include their
-              respective affiliates, sub-consultants, employees, volunteers, and
-              representatives.
+                {" "}
+                planning4la.org/mobility
+              </a>
+              . The TDM Ordinance proposes to revise regulations that require
+              eligible land use development projects to adopt TDM strategies
+              with the goal to reduce the reliance on drive-alone trips in the
+              City of Los Angeles. The term “City” as used below shall refer to
+              the City of Los Angeles. The terms “City” and “Hack for LA” as
+              used below shall include their respective affiliates,
+              sub-consultants, employees, volunteers, and representatives.
             </p>
             <p>
               This digital review tool, the TDM Calculator, has been provided to
