@@ -25,9 +25,9 @@ const withToastProvider = Component => {
   const WithToastProvider = props => {
     const classes = useStyles();
     const [toasts, setToasts] = useState([]);
-    const add = content => {
+    const add = (content, parentRef) => {
       const id = generateUEID();
-      setToasts([...toasts, { id, content }]);
+      setToasts([...toasts, { id, content, parentRef }]);
     };
 
     const remove = id => setToasts(toasts.filter(t => t.id !== id));
@@ -37,11 +37,14 @@ const withToastProvider = Component => {
         <Component {...props} />
         {createPortal(
           <div className={classes.root}>
-            {toasts.map(t => (
-              <Toast key={t.id} remove={() => remove(t.id)}>
-                {t.content}
-              </Toast>
-            ))}
+            {toasts.map(t => {
+              console.log(t.parentRef);
+              return (
+                <Toast key={t.id} remove={() => remove(t.id)}>
+                  {t.content}
+                </Toast>
+              );
+            })}
           </div>,
           document.body
         )}

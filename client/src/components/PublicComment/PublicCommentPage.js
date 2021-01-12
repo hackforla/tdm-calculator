@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { postPublicComment } from "./postPublicComment";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -84,6 +84,7 @@ const PublicCommentPage = () => {
 const PublicCommentForm = () => {
   const classes = useStyles();
   const toast = useToast();
+  const refForToast = useRef();
 
   const initialValues = {
     name: "",
@@ -115,7 +116,7 @@ const PublicCommentForm = () => {
       });
 
       if (result.status === 201) {
-        toast.add("Comment delivered successfully");
+        toast.add("Comment delivered successfully", refForToast);
         resetForm({});
       }
     } catch (e) {
@@ -125,7 +126,7 @@ const PublicCommentForm = () => {
   };
 
   return (
-    <div className={classes.publicCommentContainer}>
+    <div className={classes.publicCommentContainer} ref={refForToast}>
       <h1 className={classes.pageTitle}>Public Comment Form</h1>
       <Formik
         initialValues={initialValues}

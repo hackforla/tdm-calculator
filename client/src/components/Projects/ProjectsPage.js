@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -124,6 +124,7 @@ const ProjectsPage = ({ account, history }) => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const toastAdd = toast.add;
   const historyPush = history.push;
+  const refForToast = useRef();
 
   const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
   for (let i = 0; i < pageLinks.length; i++) {
@@ -300,7 +301,7 @@ const ProjectsPage = ({ account, history }) => {
   );
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} ref={refForToast}>
       <h1 className={classes.pageTitle}>Projects</h1>
       <div className={classes.searchBarWrapper}>
         <input

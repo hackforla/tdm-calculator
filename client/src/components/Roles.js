@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import * as accountService from "../services/account.service";
@@ -66,6 +66,7 @@ const Roles = () => {
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const classes = useStyles();
   const toast = useToast();
+  const refForToast = useRef();
 
   useEffect(() => {
     const getAccounts = async () => {
@@ -119,7 +120,7 @@ const Roles = () => {
   };
 
   return (
-    <div className={classes.main}>
+    <div className={classes.main} ref={refForToast}>
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>
         Grant or Revoke Admin Permissions

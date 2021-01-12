@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Prompt, withRouter } from "react-router-dom";
 import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
@@ -62,11 +62,12 @@ export function TdmCalculationContainer({
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
   const toast = useToast();
+  const refForToast = useRef();
 
   // Get the rules for the calculation. Runs once when
   // component is loaded.
   useEffect(() => {
-    toast.add("TEST");
+    toast.add("TEST", refForToast);
     const getRules = async () => {
       const ruleResponse = await ruleService.getByCalculationId(
         TdmCalculationContainer.calculationId
@@ -443,6 +444,7 @@ export function TdmCalculationContainer({
           formIsDirty={!formHasSaved}
           projectIsValid={projectIsValid}
           dateModified={dateModified}
+          refForToast={refForToast}
         />
       ) : (
         <TdmCalculation
@@ -456,6 +458,7 @@ export function TdmCalculationContainer({
           onViewChange={() => {
             setView("w");
           }}
+          refForToast={refForToast}
         />
       )}
     </div>

@@ -51,7 +51,8 @@ const TdmCalculation = props => {
     onUncheckAll,
     filters,
     onPkgSelect,
-    resultRuleCodes
+    resultRuleCodes,
+    refForToast
   } = props;
   const specificationRules =
     rules &&
@@ -112,7 +113,7 @@ const TdmCalculation = props => {
   })();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} ref={refForToast}>
       <div className={classes.container}>
         <div className={classes.switchButtonWrapper}>
           <div className={classes.switchButton}>
@@ -179,6 +180,7 @@ const TdmCalculation = props => {
   );
 };
 TdmCalculation.propTypes = {
+  refForToast: PropTypes.object,
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onViewChange: PropTypes.func,
