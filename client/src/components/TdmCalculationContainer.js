@@ -50,7 +50,8 @@ export function TdmCalculationContainer({
   match,
   account,
   classes,
-  setLoggedInAccount
+  setLoggedInAccount,
+  sidebarRef
 }) {
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
@@ -442,6 +443,7 @@ export function TdmCalculationContainer({
           formIsDirty={!formHasSaved}
           projectIsValid={projectIsValid}
           dateModified={dateModified}
+          sidebarRef={sidebarRef}
         />
       ) : (
         <TdmCalculation
@@ -486,7 +488,8 @@ TdmCalculationContainer.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string
   }),
-  setLoggedInAccount: PropTypes.func
+  setLoggedInAccount: PropTypes.func,
+  sidebarRef: PropTypes.object
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

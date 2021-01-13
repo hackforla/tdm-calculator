@@ -17,8 +17,6 @@ const useStyles = createUseStyles({
     top: "6em",
     cursor: "pointer",
     zIndex: "1"
-    // marginLeft: document.getElementsByClassName("sidebar-container-0-2-43")[0]
-    //   .offsetWidth
   },
   "@media (max-width: 1024px)": {
     root: {
@@ -40,20 +38,19 @@ const useStyles = createUseStyles({
   }
 });
 
-const Toast = ({ children, remove }) => {
+const Toast = ({ children, remove, sidebarWidth }) => {
   const classes = useStyles();
   const removeRef = useRef();
   removeRef.current = remove;
 
   useEffect(() => {
-    const duration = 800000000;
+    const duration = 8000;
     const id = setTimeout(() => removeRef.current(), duration);
-
     return () => clearTimeout(id);
   }, []);
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ marginLeft: `${sidebarWidth}px` }}>
       <div className={classes.container}>{children}</div>
       <div>
         <button onClick={remove} className={classes.button}>
@@ -65,7 +62,8 @@ const Toast = ({ children, remove }) => {
 };
 Toast.propTypes = {
   children: PropTypes.string,
-  remove: PropTypes.func.isRequired
+  remove: PropTypes.func.isRequired,
+  sidebarWidth: PropTypes.number
 };
 
 export default Toast;
