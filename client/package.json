@@ -32,6 +32,8 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
     "@fortawesome/react-fontawesome": "^0.1.9",
+    "@microsoft/applicationinsights-react-js": "^3.0.5",
+    "@microsoft/applicationinsights-web": "^2.5.10",
     "@storybook/preset-create-react-app": "^3.1.4",
     "axios": "^0.21.1",
     "clsx": "^1.1.0",
