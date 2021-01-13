@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -32,6 +32,7 @@ const useStyles = createUseStyles({
 
 const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
   const classes = useStyles();
+  const sidebarRef = useRef();
 
   return (
     <React.Fragment>
@@ -58,6 +59,7 @@ const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
               account={account}
               hasConfirmedNavTransition={hasConfirmedTransition}
               setLoggedInAccount={setLoggedInAccount}
+              sidebarRef={sidebarRef}
             />
           )}
         />
