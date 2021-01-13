@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserContext } from "./components/user-context";
 import App from "./App";
@@ -9,6 +9,7 @@ const AppWrapper = () => {
   const [confirmTransition, setConfirmTransition] = useState(null);
   const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
   const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
+  const sideBarRef = useRef();
 
   const setLoggedInAccount = loggedInUser => {
     setAccount(loggedInUser);
@@ -55,6 +56,7 @@ const AppWrapper = () => {
             account={account}
             setLoggedInAccount={setLoggedInAccount}
             hasConfirmedTransition={hasConfirmedTransition}
+            sideBarRef={sideBarRef}
           />
         </Router>
       </UserContext.Provider>

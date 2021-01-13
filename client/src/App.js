@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -30,9 +30,13 @@ const useStyles = createUseStyles({
   }
 });
 
-const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
+const App = ({
+  account,
+  setLoggedInAccount,
+  hasConfirmedTransition,
+  sidebarRef
+}) => {
   const classes = useStyles();
-  const sidebarRef = useRef();
 
   return (
     <React.Fragment>
@@ -121,7 +125,8 @@ App.propTypes = {
     isSecurityAdmin: PropTypes.bool
   }),
   setLoggedInAccount: PropTypes.func,
-  hasConfirmedTransition: PropTypes.bool
+  hasConfirmedTransition: PropTypes.bool,
+  sidebarRef: PropTypes.object
 };
 
 export default withToastProvider(App);

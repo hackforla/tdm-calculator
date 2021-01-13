@@ -38,7 +38,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Toast = ({ children, remove, sidebarWidth }) => {
+const Toast = ({ children, remove }) => {
   const classes = useStyles();
   const removeRef = useRef();
   removeRef.current = remove;
@@ -50,7 +50,7 @@ const Toast = ({ children, remove, sidebarWidth }) => {
   }, []);
 
   return (
-    <div className={classes.root} style={{ marginLeft: `${sidebarWidth}px` }}>
+    <div className={classes.root}>
       <div className={classes.container}>{children}</div>
       <div>
         <button onClick={remove} className={classes.button}>

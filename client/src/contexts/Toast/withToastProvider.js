@@ -25,14 +25,9 @@ const withToastProvider = Component => {
   const WithToastProvider = props => {
     const classes = useStyles();
     const [toasts, setToasts] = useState([]);
-    const add = (content, reference) => {
-      let sidebarWidth = 0;
-      if (reference) {
-        sidebarWidth = reference.current.offsetWidth;
-      }
-      console.log(sidebarWidth);
+    const add = content => {
       const id = generateUEID();
-      setToasts([...toasts, { id, content, sidebarWidth }]);
+      setToasts([...toasts, { id, content }]);
     };
 
     const remove = id => setToasts(toasts.filter(t => t.id !== id));
@@ -43,16 +38,12 @@ const withToastProvider = Component => {
         {createPortal(
           <div className={classes.root}>
             {toasts.map(t => (
-              <Toast
-                key={t.id}
-                remove={() => remove(t.id)}
-                sidebarWidth={t.sidebarWidth}
-              >
+              <Toast key={t.id} remove={() => remove(t.id)}>
                 {t.content}
               </Toast>
             ))}
           </div>,
-          document.body
+          document.getElementsByClassName("tdm-wizard-content-container")[0]
         )}
       </ToastContext.Provider>
     );
