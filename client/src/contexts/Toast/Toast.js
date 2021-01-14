@@ -17,8 +17,6 @@ const useStyles = createUseStyles({
     top: "6em",
     cursor: "pointer",
     zIndex: "1"
-    // marginLeft: document.getElementsByClassName("sidebar-container-0-2-43")[0]
-    //   .offsetWidth
   },
   "@media (max-width: 1024px)": {
     root: {
@@ -48,7 +46,6 @@ const Toast = ({ children, remove }) => {
   useEffect(() => {
     const duration = 8000;
     const id = setTimeout(() => removeRef.current(), duration);
-
     return () => clearTimeout(id);
   }, []);
 
@@ -65,7 +62,8 @@ const Toast = ({ children, remove }) => {
 };
 Toast.propTypes = {
   children: PropTypes.string,
-  remove: PropTypes.func.isRequired
+  remove: PropTypes.func.isRequired,
+  sidebarWidth: PropTypes.number
 };
 
 export default Toast;

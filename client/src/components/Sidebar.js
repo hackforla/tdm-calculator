@@ -45,10 +45,11 @@ export const useStyles = createUseStyles({
 });
 
 export function Sidebar(props) {
+  const { sidebarRef } = props;
   const classes = useStyles();
 
   return (
-    <div className={classes["sidebar-container"]}>
+    <div className={classes["sidebar-container"]} ref={sidebarRef}>
       <div className={classes.overlay}>
         <div className={classes["sidebar-content"]}>{props.children}</div>
       </div>
@@ -57,7 +58,8 @@ export function Sidebar(props) {
 }
 
 Sidebar.propTypes = {
-  children: PropTypes.any
+  children: PropTypes.any,
+  sidebarRef: PropTypes.object
 };
 
 export default Sidebar;

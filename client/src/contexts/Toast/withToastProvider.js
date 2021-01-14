@@ -3,6 +3,7 @@ import { createUseStyles } from "react-jss";
 import { createPortal } from "react-dom";
 import ToastContext from "./ToastContext";
 import Toast from "./Toast";
+import PropTypes from "prop-types";
 
 const useStyles = createUseStyles({
   root: {
@@ -22,7 +23,8 @@ const generateUEID = () => {
 };
 
 const withToastProvider = Component => {
-  const WithToastProvider = props => {
+  const ToastProvider = props => {
+    const { tdmWizardContentContainerRef, mainContentContainerRef } = props;
     const classes = useStyles();
     const [toasts, setToasts] = useState([]);
     const add = content => {
@@ -31,6 +33,8 @@ const withToastProvider = Component => {
     };
 
     const remove = id => setToasts(toasts.filter(t => t.id !== id));
+    const wizardContainer = tdmWizardContentContainerRef.current;
+    const mainContentContainer = mainContentContainerRef.current;
 
     return (
       <ToastContext.Provider value={{ add, remove }}>
@@ -43,13 +47,26 @@ const withToastProvider = Component => {
               </Toast>
             ))}
           </div>,
-          document.body
+          wizardContainer
+            ? wizardContainer
+            : mainContentContainer
+            ? mainContentContainer
+            : document.body
         )}
       </ToastContext.Provider>
     );
   };
 
-  return WithToastProvider;
+  ToastProvider.propTypes = {
+    tdmWizardContentContainerRef: PropTypes.shape({
+      current: PropTypes.instanceOf("div")
+    }),
+    mainContentContainerRef: PropTypes.shape({
+      current: PropTypes.instanceOf("div")
+    })
+  };
+
+  return ToastProvider;
 };
 
 export default withToastProvider;

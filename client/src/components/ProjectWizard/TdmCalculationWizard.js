@@ -139,7 +139,8 @@ const TdmCalculationWizard = props => {
     employmentPackageSelected,
     formIsDirty,
     projectIsValid,
-    dateModified
+    dateModified,
+    tdmWizardContentContainerRef
   } = props;
   const context = useContext(ToastContext);
   const classes = useStyles();
@@ -329,6 +330,7 @@ const TdmCalculationWizard = props => {
             "tdm-wizard-content-container",
             classes.contentContainer
           )}
+          ref={tdmWizardContentContainerRef}
         >
           {routes}
           {!projectId ||
@@ -397,6 +399,7 @@ const TdmCalculationWizard = props => {
 };
 
 TdmCalculationWizard.propTypes = {
+  tdmWizardContentContainerRef: PropTypes.object,
   projectLevel: PropTypes.number,
   rules: PropTypes.arrayOf(
     PropTypes.shape({

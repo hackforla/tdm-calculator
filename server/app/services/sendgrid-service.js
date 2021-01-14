@@ -68,19 +68,21 @@ const sendResetPasswordConfirmation = async (email, token) => {
   });
 };
 
-const sendPublicComment = async (publicCommentData) => {
+const sendPublicComment = async publicCommentData => {
   try {
-    const {name, email, comment, forwardToWebTeam} = publicCommentData
+    const { name, email, comment, forwardToWebTeam } = publicCommentData;
     const msg = {
       to: laCityEmail,
       cc: forwardToWebTeam ? webTeamEmail : "",
       from: senderEmail,
       subject: `TDM_Calc Comment - ${name}`,
-      text:  `TDM_Calc Comment - ${name}`,
+      text: `TDM_Calc Comment - ${name}`,
       html: ` <p><strong>Name:</strong> ${name}</p>
               <p><strong>Email</strong>: ${email ? email : "Anonymous"}</p>
               <p><strong>Comment</strong>: ${comment}</p>
-              <p><strong>Forward To Website Team</strong>: ${forwardToWebTeam ? "Yes" : "No"} </p>`
+              <p><strong>Forward To Website Team</strong>: ${
+                forwardToWebTeam ? "Yes" : "No"
+              } </p>`
     };
     return sgMail.send(msg, false, err => {
       if (err) {
@@ -91,8 +93,8 @@ const sendPublicComment = async (publicCommentData) => {
         return Promise.resolve(true);
       }
     });
-  } catch(err) {
-    console.error(err)
+  } catch (err) {
+    console.error(err);
   }
 };
 
