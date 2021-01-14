@@ -10,6 +10,11 @@ import Engine from "../services/tdm-engine";
 import injectSheet from "react-jss";
 import { useToast } from "../contexts/Toast";
 import moment from "moment";
+import {
+  useAppInsightsContext,
+  useTrackMetric,
+  useTrackEvent
+} from "@microsoft/applicationinsights-react-js";
 
 const styles = {
   root: {
@@ -63,6 +68,12 @@ export function TdmCalculationContainer({
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
   const toast = useToast();
+  const appInsights = useAppInsightsContext();
+
+  appInsights.trackMetric("TDMCalculationContainer Component");
+  const trackNew = useTrackEvent(appInsights, "New Project");
+  const trackSave = useTrackEvent(appInsights, "Saved Project");
+  const trackComponent = useTrackMetric(appInsights, "TdmCalculationContainer");
 
   // Get the rules for the calculation. Runs once when
   // component is loaded.
@@ -347,6 +358,7 @@ export function TdmCalculationContainer({
       requestBody.id = projectId;
       try {
         await projectService.put(requestBody);
+        trackSave({ projectId });
         window.dataLayer.push({
           event: "customEvent",
           action: "save project",
@@ -375,6 +387,7 @@ export function TdmCalculationContainer({
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
+        trackNew({ projectId: postResponse.data.id });
         const newPath = history.location.pathname + "/" + postResponse.data.id;
         window.dataLayer.push({
           event: "customEvent",
@@ -408,8 +421,7 @@ export function TdmCalculationContainer({
   };
 
   return (
-    <div className={classes.root}>
-      {/* {!formHasSaved && account.id ? ( */}
+    <div className={classes.root} onClick={trackComponent}>
       <Prompt
         when={!formHasSaved && !!account.id}
         message={location => {
@@ -418,7 +430,6 @@ export function TdmCalculationContainer({
             : "this message doesn't actaully show, but will cause modal to open";
         }}
       />
-      {/* ) : null} */}
       {view === "w" ? (
         <TdmCalculationWizard
           projectLevel={projectLevel}

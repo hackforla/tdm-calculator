@@ -25,6 +25,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^6.5.4",
+    "applicationinsights": "^1.8.8",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -32,6 +33,7 @@
     "dotenv": "^8.2.0",
     "error-handler": "^1.0.0",
     "express": "^4.17.1",
+    "express-pino-logger": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "mssql": "^6.3.1",

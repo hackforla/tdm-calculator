@@ -107,19 +107,20 @@ const PublicCommentForm = () => {
     await new Promise(r => setTimeout(r, 500));
 
     try {
-      const result = await postPublicComment({
+      const response = await postPublicComment({
         name,
         email,
         comment,
         forwardToWebTeam
       });
 
-      if (result.status === 201) {
+      if (response.status === 201) {
         toast.add("Comment delivered successfully");
         resetForm({});
       }
-    } catch (e) {
-      toast.add(e);
+    } catch (err) {
+      toast.add("Something went wrong");
+      console.error(err);
     }
     setSubmitting(false);
   };

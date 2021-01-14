@@ -21,6 +21,8 @@ import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
 import "./styles/App.scss";
 import PublicComment from "./components/PublicComment/PublicCommentPage";
+import { AppInsightsContext } from "@microsoft/applicationinsights-react-js";
+import { reactPlugin } from "./AppInsights";
 
 const useStyles = createUseStyles({
   root: {
@@ -41,84 +43,87 @@ const App = ({
 
   return (
     <React.Fragment>
-      <Header account={account} />
-      <div
-        className={classes.root}
-        id="main-content-container"
-        ref={mainContentContainerRef}
-      >
-        <Route
-          exact
-          path="/"
-          render={() =>
-            account.email ? (
-              <Redirect to="/calculation/1" />
-            ) : (
-              <Login setLoggedInAccount={setLoggedInAccount} />
-            )
-          }
-        />
-        <Route exact path="/calculation">
-          <Redirect to="/calculation/1" />
-        </Route>
-        <Route
-          path="/calculation/:page/:projectId?"
-          render={() => (
-            <TdmCalculationContainer
-              account={account}
-              hasConfirmedNavTransition={hasConfirmedTransition}
-              setLoggedInAccount={setLoggedInAccount}
-              tdmWizardContentContainerRef={tdmWizardContentContainerRef}
-            />
-          )}
-        />
-        <Route
-          path="/projects"
-          render={() => <ProjectsPage account={account} />}
-        />
-        <Route path="/about" component={About} />
-        <Route path="/termsandconditions" component={TermsAndConditions} />
-        <Route path="/privacypolicy" component={PrivacyPolicy} />
-        <Route path="/register/:email?" component={Register} />
-        <Route path="/confirm/:token" component={ConfirmEmail} />
-        <Route
-          path="/login/:email?"
-          render={() =>
-            account.email ? (
-              <Redirect to="/calculation/1" />
-            ) : (
-              <Login setLoggedInAccount={setLoggedInAccount} />
-            )
-          }
-        />
-        <Route
-          path="/logout/:email?"
-          render={routeProps => {
-            setLoggedInAccount({});
-            return (
-              <Redirect
-                to={
-                  routeProps.match.params["email"]
-                    ? `/login/${routeProps.match.params["email"]}`
-                    : "/login"
-                }
+      <AppInsightsContext.Provider value={reactPlugin}>
+        <Header account={account} />
+        <div
+          className={classes.root}
+          id="main-content-container"
+          ref={mainContentContainerRef}
+        >
+          <Route
+            exact
+            path="/"
+            render={() =>
+              account.email ? (
+                <Redirect to="/calculation/1" />
+              ) : (
+                <Login setLoggedInAccount={setLoggedInAccount} />
+              )
+            }
+          />
+          <Route exact path="/calculation">
+            <Redirect to="/calculation/1" />
+          </Route>
+          <Route
+            path="/calculation/:page/:projectId?"
+            render={() => (
+              <TdmCalculationContainer
+                account={account}
+                hasConfirmedNavTransition={hasConfirmedTransition}
+                setLoggedInAccount={setLoggedInAccount}
+                tdmWizardContentContainerRef={tdmWizardContentContainerRef}
               />
-            );
-          }}
-        />
-        <Route path="/forgotpassword" component={ResetPasswordRequest} />
-        <Route path="/resetPassword/:token" component={ResetPassword} />
-        <Route path="/contactus" component={ContactUs} />
-        {account && account.isAdmin ? (
-          <Route path="/admin" render={() => <Admin account={account} />} />
-        ) : null}
-        {account && account.isSecurityAdmin ? (
-          <Route path="/roles" render={() => <Roles />} />
-        ) : null}
-        <Route path="/faqs" component={FaqView} />
-        <Route path="/publiccomment" component={PublicComment} />
-      </div>
-      <Footer />
+            )}
+          />
+          <Route
+            path="/projects"
+            render={() => <ProjectsPage account={account} />}
+          />
+          <Route path="/about" component={About} />
+          <Route path="/termsandconditions" component={TermsAndConditions} />
+          <Route path="/privacypolicy" component={PrivacyPolicy} />
+          <Route path="/register/:email?" component={Register} />
+          <Route path="/confirm/:token" component={ConfirmEmail} />
+          <Route
+            path="/login/:email?"
+            render={() =>
+              account.email ? (
+                <Redirect to="/calculation/1" />
+              ) : (
+                <Login setLoggedInAccount={setLoggedInAccount} />
+              )
+            }
+          />
+          <Route
+            path="/logout/:email?"
+            render={routeProps => {
+              setLoggedInAccount({});
+              return (
+                <Redirect
+                  to={
+                    routeProps.match.params["email"]
+                      ? `/login/${routeProps.match.params["email"]}`
+                      : "/login"
+                  }
+                />
+              );
+            }}
+          />
+
+          <Route path="/forgotpassword" component={ResetPasswordRequest} />
+          <Route path="/resetPassword/:token" component={ResetPassword} />
+          <Route path="/contactus" component={ContactUs} />
+          {account && account.isAdmin ? (
+            <Route path="/admin" render={() => <Admin account={account} />} />
+          ) : null}
+          {account && account.isSecurityAdmin ? (
+            <Route path="/roles" render={() => <Roles />} />
+          ) : null}
+          <Route path="/faqs" component={FaqView} />
+          <Route path="/publiccomment" component={PublicComment} />
+        </div>
+        <Footer />
+      </AppInsightsContext.Provider>
     </React.Fragment>
   );
 };
