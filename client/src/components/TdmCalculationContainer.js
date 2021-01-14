@@ -67,7 +67,6 @@ export function TdmCalculationContainer({
   // Get the rules for the calculation. Runs once when
   // component is loaded.
   useEffect(() => {
-    toast.add("TEST");
     const getRules = async () => {
       const ruleResponse = await ruleService.getByCalculationId(
         TdmCalculationContainer.calculationId

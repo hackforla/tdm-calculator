@@ -31,22 +31,45 @@ const withToastProvider = Component => {
     };
 
     const remove = id => setToasts(toasts.filter(t => t.id !== id));
-
-    return (
-      <ToastContext.Provider value={{ add, remove }}>
-        <Component {...props} />
-        {createPortal(
-          <div className={classes.root}>
-            {toasts.map(t => (
-              <Toast key={t.id} remove={() => remove(t.id)}>
-                {t.content}
-              </Toast>
-            ))}
-          </div>,
-          document.getElementsByClassName("tdm-wizard-content-container")[0]
-        )}
-      </ToastContext.Provider>
+    console.log(
+      document.getElementsByClassName("tdm-wizard-content-container").length
     );
+
+    if (
+      document.getElementsByClassName("tdm-wizard-content-container").length > 0
+    ) {
+      return (
+        <ToastContext.Provider value={{ add, remove }}>
+          <Component {...props} />
+          {createPortal(
+            <div className={classes.root}>
+              {toasts.map(t => (
+                <Toast key={t.id} remove={() => remove(t.id)}>
+                  {t.content}
+                </Toast>
+              ))}
+            </div>,
+            document.getElementsByClassName("tdm-wizard-content-container")[0]
+          )}
+        </ToastContext.Provider>
+      );
+    } else {
+      return (
+        <ToastContext.Provider value={{ add, remove }}>
+          <Component {...props} />
+          {createPortal(
+            <div className={classes.root}>
+              {toasts.map(t => (
+                <Toast key={t.id} remove={() => remove(t.id)}>
+                  {t.content}
+                </Toast>
+              ))}
+            </div>,
+            document.body
+          )}
+        </ToastContext.Provider>
+      );
+    }
   };
 
   return WithToastProvider;
