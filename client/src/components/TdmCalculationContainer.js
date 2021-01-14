@@ -51,7 +51,7 @@ export function TdmCalculationContainer({
   account,
   classes,
   setLoggedInAccount,
-  sidebarRef
+  tdmWizardContentContainerRef
 }) {
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
@@ -443,7 +443,7 @@ export function TdmCalculationContainer({
           formIsDirty={!formHasSaved}
           projectIsValid={projectIsValid}
           dateModified={dateModified}
-          sidebarRef={sidebarRef}
+          tdmWizardContentContainerRef={tdmWizardContentContainerRef}
         />
       ) : (
         <TdmCalculation
@@ -489,7 +489,7 @@ TdmCalculationContainer.propTypes = {
     search: PropTypes.string
   }),
   setLoggedInAccount: PropTypes.func,
-  sidebarRef: PropTypes.object
+  tdmWizardContentContainerRef: PropTypes.object
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

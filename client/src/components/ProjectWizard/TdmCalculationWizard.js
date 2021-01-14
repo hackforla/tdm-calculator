@@ -140,7 +140,7 @@ const TdmCalculationWizard = props => {
     formIsDirty,
     projectIsValid,
     dateModified,
-    sidebarRef
+    tdmWizardContentContainerRef
   } = props;
   const context = useContext(ToastContext);
   const classes = useStyles();
@@ -315,7 +315,7 @@ const TdmCalculationWizard = props => {
     <React.Fragment>
       <TermsAndConditionsModal />
       <div className={clsx("tdm-wizard", classes.root)}>
-        <Sidebar sidebarRef={sidebarRef}>
+        <Sidebar>
           {rules && rules.length > 0 && (
             <div className={classes.sidebarContent}>
               <SwitchViewButton onViewChange={onViewChange} isDisplayed={false}>
@@ -330,6 +330,7 @@ const TdmCalculationWizard = props => {
             "tdm-wizard-content-container",
             classes.contentContainer
           )}
+          ref={tdmWizardContentContainerRef}
         >
           {routes}
           {!projectId ||
@@ -398,7 +399,7 @@ const TdmCalculationWizard = props => {
 };
 
 TdmCalculationWizard.propTypes = {
-  sidebarRef: PropTypes.object,
+  tdmWizardContentContainerRef: PropTypes.object,
   projectLevel: PropTypes.number,
   rules: PropTypes.arrayOf(
     PropTypes.shape({

@@ -9,7 +9,8 @@ const AppWrapper = () => {
   const [confirmTransition, setConfirmTransition] = useState(null);
   const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
   const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
-  const sideBarRef = useRef();
+  const tdmWizardContentContainerRef = useRef();
+  const mainContentContainerRef = useRef();
 
   const setLoggedInAccount = loggedInUser => {
     setAccount(loggedInUser);
@@ -56,7 +57,8 @@ const AppWrapper = () => {
             account={account}
             setLoggedInAccount={setLoggedInAccount}
             hasConfirmedTransition={hasConfirmedTransition}
-            sideBarRef={sideBarRef}
+            tdmWizardContentContainerRef={tdmWizardContentContainerRef}
+            mainContentContainerRef={mainContentContainerRef}
           />
         </Router>
       </UserContext.Provider>

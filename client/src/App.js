@@ -34,14 +34,19 @@ const App = ({
   account,
   setLoggedInAccount,
   hasConfirmedTransition,
-  sidebarRef
+  tdmWizardContentContainerRef,
+  mainContentContainerRef
 }) => {
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <Header account={account} />
-      <div className={classes.root}>
+      <div
+        className={classes.root}
+        id="main-content-container"
+        ref={mainContentContainerRef}
+      >
         <Route
           exact
           path="/"
@@ -63,7 +68,7 @@ const App = ({
               account={account}
               hasConfirmedNavTransition={hasConfirmedTransition}
               setLoggedInAccount={setLoggedInAccount}
-              sidebarRef={sidebarRef}
+              tdmWizardContentContainerRef={tdmWizardContentContainerRef}
             />
           )}
         />
@@ -126,7 +131,8 @@ App.propTypes = {
   }),
   setLoggedInAccount: PropTypes.func,
   hasConfirmedTransition: PropTypes.bool,
-  sidebarRef: PropTypes.object
+  mainContentContainerRef: PropTypes.object,
+  tdmWizardContentContainerRef: PropTypes.object
 };
 
 export default withToastProvider(App);
