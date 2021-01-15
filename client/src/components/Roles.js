@@ -3,6 +3,10 @@ import { withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import * as accountService from "../services/account.service";
 import { useToast } from "../contexts/Toast";
+import {
+  useAppInsightsContext,
+  useTrackMetric
+} from "@microsoft/applicationinsights-react-js";
 
 const useStyles = createUseStyles({
   main: {
@@ -66,6 +70,10 @@ const Roles = () => {
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const classes = useStyles();
   const toast = useToast();
+  const appInsights = useAppInsightsContext();
+
+  appInsights.trackMetric("Roles Component");
+  const trackComponent = useTrackMetric(appInsights, "Roles");
 
   useEffect(() => {
     const getAccounts = async () => {
@@ -119,7 +127,11 @@ const Roles = () => {
   };
 
   return (
-    <div className={classes.main}>
+    <div
+      className={classes.main}
+      onLoad={trackComponent}
+      onClick={trackComponent}
+    >
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>
         Grant or Revoke Admin Permissions

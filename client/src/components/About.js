@@ -2,6 +2,10 @@ import React from "react";
 import SideBar from "./Sidebar";
 import clsx from "clsx";
 import { createUseStyles } from "react-jss";
+import {
+  useAppInsightsContext,
+  useTrackMetric
+} from "@microsoft/applicationinsights-react-js";
 
 import { version } from "../../package.json";
 
@@ -34,11 +38,24 @@ const useStyles = createUseStyles({
 
 const About = () => {
   const classes = useStyles();
+  const appInsights = useAppInsightsContext();
+
+  //appInsights.trackMetric("AboutPage Component");
+  const trackComponent = useTrackMetric(appInsights, "AboutPage");
+
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      onLoad={trackComponent}
+      onClick={trackComponent}
+    >
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
         <SideBar />
-        <div className="tdm-wizard-content-container">
+        <div
+          className="tdm-wizard-content-container"
+          onLoad={trackComponent}
+          onClick={trackComponent}
+        >
           <h1>About TDM Calculator</h1>
           <br />
           <div className={classes.aboutText}>
