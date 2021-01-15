@@ -70,7 +70,7 @@ export function TdmCalculationContainer({
   const toast = useToast();
   const appInsights = useAppInsightsContext();
 
-  appInsights.trackMetric("TDMCalculationContainer Component");
+  // appInsights.trackMetric("TDMCalculationContainer Component");
   const trackNew = useTrackEvent(appInsights, "New Project");
   const trackSave = useTrackEvent(appInsights, "Saved Project");
   const trackComponent = useTrackMetric(appInsights, "TdmCalculationContainer");

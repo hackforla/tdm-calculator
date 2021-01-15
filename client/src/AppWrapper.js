@@ -2,7 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserContext } from "./components/user-context";
 import App from "./App";
+import ErrorPage from "./components/ErrorPage";
 import NavConfirmModal from "./components/NavConfirmModal";
+import {
+  AppInsightsContext,
+  AppInsightsErrorBoundary
+} from "@microsoft/applicationinsights-react-js";
+import { reactPlugin } from "./AppInsights";
 
 const AppWrapper = () => {
   const [account, setAccount] = useState({});
@@ -46,22 +52,29 @@ const AppWrapper = () => {
 
   return (
     <React.Fragment>
-      <UserContext.Provider value={account}>
-        <Router getUserConfirmation={getUserConfirmation}>
-          <NavConfirmModal
-            confirmTransition={confirmTransition}
-            isOpenNavConfirmModal={isOpenNavConfirmModal}
-            setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
-          />
-          <App
-            account={account}
-            setLoggedInAccount={setLoggedInAccount}
-            hasConfirmedTransition={hasConfirmedTransition}
-            tdmWizardContentContainerRef={tdmWizardContentContainerRef}
-            mainContentContainerRef={mainContentContainerRef}
-          />
-        </Router>
-      </UserContext.Provider>
+      <AppInsightsContext.Provider value={reactPlugin}>
+        <UserContext.Provider value={account}>
+          <Router getUserConfirmation={getUserConfirmation}>
+            <AppInsightsErrorBoundary
+              onError={<ErrorPage />}
+              appInsights={reactPlugin}
+            >
+              <NavConfirmModal
+                confirmTransition={confirmTransition}
+                isOpenNavConfirmModal={isOpenNavConfirmModal}
+                setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
+              />
+              <App
+                account={account}
+                setLoggedInAccount={setLoggedInAccount}
+                hasConfirmedTransition={hasConfirmedTransition}
+                tdmWizardContentContainerRef={tdmWizardContentContainerRef}
+                mainContentContainerRef={mainContentContainerRef}
+              />
+            </AppInsightsErrorBoundary>
+          </Router>
+        </UserContext.Provider>
+      </AppInsightsContext.Provider>
     </React.Fragment>
   );
 };

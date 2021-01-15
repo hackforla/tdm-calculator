@@ -7,6 +7,11 @@ import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
 import SideBar from "../Sidebar";
 import clsx from "clsx";
+import {
+  useAppInsightsContext,
+  useTrackMetric,
+  useTrackEvent
+} from "@microsoft/applicationinsights-react-js";
 
 const useStyles = createUseStyles({
   root: {
@@ -45,6 +50,13 @@ const Login = props => {
       .required("Password is required")
   });
 
+  const appInsights = useAppInsightsContext();
+
+  // appInsights.trackMetric("TDMCalculationContainer Component");
+  const trackLogin = useTrackEvent(appInsights, "Login");
+  const trackLoginFail = useTrackEvent(appInsights, "Login Failed");
+  const trackComponent = useTrackMetric(appInsights, "Login");
+
   const handleSubmit = async (
     { email, password },
     { setSubmitting },
@@ -55,6 +67,7 @@ const Login = props => {
 
       if (loginResponse.isSuccess) {
         setLoggedInAccount(loginResponse.user);
+        trackLogin({ user: loginResponse.user.id });
         window.dataLayer.push({
           event: "login",
           action: "success",
@@ -63,6 +76,7 @@ const Login = props => {
         history.push("/calculation/1");
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
+          trackLoginFail({ reason: loginResponse.code });
           window.dataLayer.push({
             event: "customEvent",
             action: "login failed",
@@ -87,6 +101,7 @@ const Login = props => {
           setSubmitting(false);
         }
       } else if (loginResponse.code === "AUTH_NO_ACCOUNT") {
+        trackLoginFail({ user: email, reason: loginResponse.code });
         window.dataLayer.push({
           event: "customEvent",
           action: "login failed",
@@ -97,6 +112,7 @@ const Login = props => {
         new account.`);
         setSubmitting(false);
       } else {
+        trackLoginFail({ user: email, reason: loginResponse.code });
         window.dataLayer.push({
           event: "customEvent",
           action: "login failed",
@@ -108,6 +124,7 @@ const Login = props => {
         setSubmitting(false);
       }
     } catch (err) {
+      trackLoginFail({ user: email, reason: "unexpected error" });
       setErrorMsg(err.message);
     }
   };
@@ -117,7 +134,7 @@ const Login = props => {
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
         <div className="tdm-wizard-sidebar" />
         <SideBar />
-        <div className="tdm-wizard-content-container">
+        <div className="tdm-wizard-content-container" onClick={trackComponent}>
           <h1>Welcome to Los Angeles&rsquo; TDM Calculator</h1>
           <h3>Please sign into your account to save progress.</h3>
           <br />
