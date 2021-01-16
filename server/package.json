@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "description": "Traffic Data Management Calculator",
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^6.5.4",
+    "applicationinsights": "^1.8.8",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -32,26 +33,22 @@
     "dotenv": "^8.2.0",
     "error-handler": "^1.0.0",
     "express": "^4.17.1",
+    "express-pino-logger": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
-    "mssql": "^6.2.0",
-    "node-flywaydb": "^3.0.2",
+    "mssql": "^6.3.1",
+    "node-flywaydb": "^3.0.4",
     "path": "^0.12.7"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest": "^23.8.2",
-    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-prettier": "^3.3.1",
     "jest": "^24.9.0",
-    "lint-staged": "^10.0.8",
+    "lint-staged": "^10.5.3",
     "nodemon": "^2.0.2",
-    "prettier": "^2.0.5"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lerna run --concurrency 1 --stream precommit"
-    }
+    "prettier": "^2.2.1"
   },
   "lint-staged": {
     "*.{js,md}": "prettier --write",

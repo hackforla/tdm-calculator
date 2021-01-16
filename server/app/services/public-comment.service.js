@@ -1,5 +1,6 @@
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
+const { sendPublicComment } = require("./sendgrid-service");
 
 const postPublicComment = async publicComment => {
   try {
@@ -16,6 +17,9 @@ const postPublicComment = async publicComment => {
     request.output("id", mssql.Int, null);
 
     const response = await request.execute("PublicComment_Insert");
+
+    await sendPublicComment(publicComment);
+
     return response.returnStatus;
   } catch (err) {
     return Promise.reject(err);

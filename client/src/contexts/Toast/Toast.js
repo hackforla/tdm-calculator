@@ -15,7 +15,13 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     position: "fixed",
     top: "6em",
-    cursor: "pointer"
+    cursor: "pointer",
+    zIndex: "1"
+  },
+  "@media (max-width: 1024px)": {
+    root: {
+      marginLeft: "0"
+    }
   },
   container: {
     padding: "16px 24px",
@@ -40,7 +46,6 @@ const Toast = ({ children, remove }) => {
   useEffect(() => {
     const duration = 8000;
     const id = setTimeout(() => removeRef.current(), duration);
-
     return () => clearTimeout(id);
   }, []);
 
@@ -57,7 +62,8 @@ const Toast = ({ children, remove }) => {
 };
 Toast.propTypes = {
   children: PropTypes.string,
-  remove: PropTypes.func.isRequired
+  remove: PropTypes.func.isRequired,
+  sidebarWidth: PropTypes.number
 };
 
 export default Toast;

@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserContext } from "./components/user-context";
 import App from "./App";
+import ErrorPage from "./components/ErrorPage";
 import NavConfirmModal from "./components/NavConfirmModal";
+import {
+  AppInsightsContext,
+  AppInsightsErrorBoundary
+} from "@microsoft/applicationinsights-react-js";
+import { reactPlugin } from "./AppInsights";
 
 const AppWrapper = () => {
   const [account, setAccount] = useState({});
   const [confirmTransition, setConfirmTransition] = useState(null);
   const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
   const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
+  const tdmWizardContentContainerRef = useRef();
+  const mainContentContainerRef = useRef();
 
   const setLoggedInAccount = loggedInUser => {
     setAccount(loggedInUser);
@@ -44,20 +52,29 @@ const AppWrapper = () => {
 
   return (
     <React.Fragment>
-      <UserContext.Provider value={account}>
-        <Router getUserConfirmation={getUserConfirmation}>
-          <NavConfirmModal
-            confirmTransition={confirmTransition}
-            isOpenNavConfirmModal={isOpenNavConfirmModal}
-            setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
-          />
-          <App
-            account={account}
-            setLoggedInAccount={setLoggedInAccount}
-            hasConfirmedTransition={hasConfirmedTransition}
-          />
-        </Router>
-      </UserContext.Provider>
+      <AppInsightsContext.Provider value={reactPlugin}>
+        <UserContext.Provider value={account}>
+          <Router getUserConfirmation={getUserConfirmation}>
+            <AppInsightsErrorBoundary
+              onError={<ErrorPage />}
+              appInsights={reactPlugin}
+            >
+              <NavConfirmModal
+                confirmTransition={confirmTransition}
+                isOpenNavConfirmModal={isOpenNavConfirmModal}
+                setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
+              />
+              <App
+                account={account}
+                setLoggedInAccount={setLoggedInAccount}
+                hasConfirmedTransition={hasConfirmedTransition}
+                tdmWizardContentContainerRef={tdmWizardContentContainerRef}
+                mainContentContainerRef={mainContentContainerRef}
+              />
+            </AppInsightsErrorBoundary>
+          </Router>
+        </UserContext.Provider>
+      </AppInsightsContext.Provider>
     </React.Fragment>
   );
 };

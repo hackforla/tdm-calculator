@@ -13,6 +13,10 @@ import DeleteIcon from "../../images/trash.png";
 import Pagination from "../Pagination.js";
 import DeleteProjectModal from "./DeleteProjectModal";
 import DuplicateProjectModal from "./DuplicateProjectModal";
+import {
+  useAppInsightsContext,
+  useTrackMetric
+} from "@microsoft/applicationinsights-react-js";
 
 const useStyles = createUseStyles({
   main: {
@@ -124,6 +128,11 @@ const ProjectsPage = ({ account, history }) => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const toastAdd = toast.add;
   const historyPush = history.push;
+
+  const appInsights = useAppInsightsContext();
+
+  //appInsights.trackMetric("ProjectPage Component");
+  const trackComponent = useTrackMetric(appInsights, "ProjectsPage");
 
   const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
   for (let i = 0; i < pageLinks.length; i++) {
@@ -300,7 +309,11 @@ const ProjectsPage = ({ account, history }) => {
   );
 
   return (
-    <div className={classes.main}>
+    <div
+      className={classes.main}
+      onLoad={trackComponent}
+      onClick={trackComponent}
+    >
       <h1 className={classes.pageTitle}>Projects</h1>
       <div className={classes.searchBarWrapper}>
         <input

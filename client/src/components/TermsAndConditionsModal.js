@@ -98,6 +98,10 @@ const useStyles = createUseStyles({
     overflowY: "scroll",
     width: "auto",
     height: "300px"
+  },
+  link: {
+    textDecoration: "underline",
+    color: "blue"
   }
 });
 
@@ -155,7 +159,7 @@ const TermsAndConditionsModal = () => {
           PLEASE READ THIS AGREEMENT CAREFULLY BEFORE USING THIS WEB SITE. BY
           USING THIS WEB SITE, YOU ARE CONSENTING TO BE OBLIGATED AND BECOME A
           PARTY TO THIS AGREEMENT. IF YOU DO NOT AGREE TO THE TERMS AND
-          CONDITIONS BEFLOW YOU SHOULD NOT ACCESS OR USE THIS WEB SITE
+          CONDITIONS BELOW YOU SHOULD NOT ACCESS OR USE THIS WEB SITE
         </p>
 
         <p className="smaller">
@@ -165,14 +169,22 @@ const TermsAndConditionsModal = () => {
           Transportation Demand Management (TDM) Calculator (TDM Calculator) to
           provide the public with an understanding of the TDM Ordinance.
           Currently available for review: Council File 15-0719-S19 / the Los
-          Angeles Department of City Planning website). The TDM Ordinance
-          proposes to revise regulations that require eligible land use
-          development projects to adopt TDM strategies with the goal to reduce
-          the reliance on drive-alone trips in the City of Los Angeles. The term
-          “City” as used below shall refer to the City of Los Angeles. The terms
-          “City” and “Hack for LA” as used below shall include their respective
-          affiliates, sub-consultants, employees, volunteers, and
-          representatives.
+          Angeles Department of City Planning website:
+          <span> </span>
+          <a
+            className={classes.link}
+            href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility"
+          >
+            {" "}
+            planning4la.org/mobility
+          </a>
+          . The TDM Ordinance proposes to revise regulations that require
+          eligible land use development projects to adopt TDM strategies with
+          the goal to reduce the reliance on drive-alone trips in the City of
+          Los Angeles. The term “City” as used below shall refer to the City of
+          Los Angeles. The terms “City” and “Hack for LA” as used below shall
+          include their respective affiliates, sub-consultants, employees,
+          volunteers, and representatives.
         </p>
 
         <p className="smaller">
@@ -199,30 +211,27 @@ const TermsAndConditionsModal = () => {
         </p>
 
         <p className="smaller">
-          <strong>Warranty Disclaimer.</strong> LADOT worked with{" "}
-          <a href="https://ladot.lacity.org/" style={{ color: "blue" }}>
-            the Department of City Planning
-          </a>{" "}
-          and Hack for LA to develop the TDM Calculator’s parameters, including
-          potential TDM strategies, and program point targets that could apply
-          to land use development. However, since the TDM Ordinance is a draft
-          regulation and not current law, it could further change, or be adopted
-          in whole, or in part, denied, or abandoned, the information herein
-          should not be interpreted to be binding on land use development
-          regulation outcomes that inform investment decisions. Due to the
-          dynamic nature of the information contained within the TDM Calculator
-          and the reliance upon information from outside sources, the City does
-          not guarantee the accuracy or reliability of the information
-          transmitted from this web site. The TDM Calculator, OUTPUTS AND
-          ASSOCIATED DATA ARE PROVIDED “as is” WITHOUT WARRANTY OF ANY KIND,
-          whether expressed, implied, statutory or otherwise including but not
-          limited to, warranties of title or the implied warranties of
-          merchantability and fitness for a particular purpose. Neither the City
-          nor Hack for LA are responsible for any special, indirect, incidental,
-          or consequential damages that may arise from the use of, or the
-          inability to use, the data and/or the materials contained on the data
-          whether the materials contained on the data are provided by the City
-          or a third party.
+          <strong>Warranty Disclaimer.</strong> LADOT worked with the Department
+          of City Planning and Hack for LA to develop the TDM Calculator’s
+          parameters, including potential TDM strategies, and program point
+          targets that could apply to land use development. However, since the
+          TDM Ordinance is a draft regulation and not current law, it could
+          further change, or be adopted in whole, or in part, denied, or
+          abandoned, the information herein should not be interpreted to be
+          binding on land use development regulation outcomes that inform
+          investment decisions. Due to the dynamic nature of the information
+          contained within the TDM Calculator and the reliance upon information
+          from outside sources, the City does not guarantee the accuracy or
+          reliability of the information transmitted from this web site. The TDM
+          Calculator, OUTPUTS AND ASSOCIATED DATA ARE PROVIDED “as is” WITHOUT
+          WARRANTY OF ANY KIND, whether expressed, implied, statutory or
+          otherwise including but not limited to, warranties of title or the
+          implied warranties of merchantability and fitness for a particular
+          purpose. Neither the City nor Hack for LA are responsible for any
+          special, indirect, incidental, or consequential damages that may arise
+          from the use of, or the inability to use, the data and/or the
+          materials contained on the data whether the materials contained on the
+          data are provided by the City or a third party.
         </p>
 
         <p className="smaller">
@@ -277,7 +286,7 @@ const TermsAndConditionsModal = () => {
         <p className="smaller">
           Before making decisions using the information provided in this
           application, contact City LADOT staff at{" "}
-          <a href="mailto:ladot.tdm@lacity.org" style={{ color: "blue" }}>
+          <a className={classes.link} href="https://www.lacity.org/">
             ladot.tdm@lacity.org
           </a>{" "}
           to confirm the validity of the data provided.

@@ -7,6 +7,10 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import useToast from "../../contexts/Toast/useToast";
+import {
+  useAppInsightsContext,
+  useTrackMetric
+} from "@microsoft/applicationinsights-react-js";
 
 const useStyles = createUseStyles({
   publicCommentContainer: {
@@ -69,8 +73,17 @@ const useStyles = createUseStyles({
 //TODO: Refactor root, tdm-wizard, and tdm-wizard-content-container to its own component
 const PublicCommentPage = () => {
   const classes = useStyles();
+  const appInsights = useAppInsightsContext();
+
+  // appInsights.trackMetric("PublicCommentPage Component");
+  const trackComponent = useTrackMetric(appInsights, "PublicCommentPage");
+
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      onLoad={trackComponent}
+      onClick={trackComponent}
+    >
       <div className="tdm-wizard">
         <Sidebar />
         <div className="tdm-wizard-content-container">
@@ -107,19 +120,20 @@ const PublicCommentForm = () => {
     await new Promise(r => setTimeout(r, 500));
 
     try {
-      const result = await postPublicComment({
+      const response = await postPublicComment({
         name,
         email,
         comment,
         forwardToWebTeam
       });
 
-      if (result.status === 201) {
+      if (response.status === 201) {
         toast.add("Comment delivered successfully");
         resetForm({});
       }
-    } catch (e) {
-      toast.add(e);
+    } catch (err) {
+      toast.add("Something went wrong");
+      console.error(err);
     }
     setSubmitting(false);
   };

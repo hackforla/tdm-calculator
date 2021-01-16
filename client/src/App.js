@@ -30,13 +30,23 @@ const useStyles = createUseStyles({
   }
 });
 
-const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
+const App = ({
+  account,
+  setLoggedInAccount,
+  hasConfirmedTransition,
+  tdmWizardContentContainerRef,
+  mainContentContainerRef
+}) => {
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <Header account={account} />
-      <div className={classes.root}>
+      <div
+        className={classes.root}
+        id="main-content-container"
+        ref={mainContentContainerRef}
+      >
         <Route
           exact
           path="/"
@@ -58,6 +68,7 @@ const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
               account={account}
               hasConfirmedNavTransition={hasConfirmedTransition}
               setLoggedInAccount={setLoggedInAccount}
+              tdmWizardContentContainerRef={tdmWizardContentContainerRef}
             />
           )}
         />
@@ -95,6 +106,7 @@ const App = ({ account, setLoggedInAccount, hasConfirmedTransition }) => {
             );
           }}
         />
+
         <Route path="/forgotpassword" component={ResetPasswordRequest} />
         <Route path="/resetPassword/:token" component={ResetPassword} />
         <Route path="/contactus" component={ContactUs} />
@@ -119,7 +131,9 @@ App.propTypes = {
     isSecurityAdmin: PropTypes.bool
   }),
   setLoggedInAccount: PropTypes.func,
-  hasConfirmedTransition: PropTypes.bool
+  hasConfirmedTransition: PropTypes.bool,
+  mainContentContainerRef: PropTypes.object,
+  tdmWizardContentContainerRef: PropTypes.object
 };
 
 export default withToastProvider(App);

@@ -6,11 +6,18 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("error-handler");
 const routes = require("./app/routes");
+const pino = require("express-pino-logger")();
+const appInsights = require("applicationinsights");
 
 dotenv.config();
+
+// This configures node to send ApplicationInsights data to Azure
+appInsights.setup(process.env.AZURE_INSIGHTS_INSTRUMENTATION_KEY).start();
+
 const port = process.env.PORT || 5000;
 
 const app = express();
+app.use(pino);
 
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
