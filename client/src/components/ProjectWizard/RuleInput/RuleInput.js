@@ -157,6 +157,7 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   tooltip: {
+    color: "rgb(30, 36, 63) !important",
     padding: "15px",
     minWidth: "200px",
     maxWidth: "400px",
@@ -513,8 +514,8 @@ const RuleInput = ({
         }}
         textColor="#32578A"
         backgroundColor="#F7F9FA"
+        borderColor="rgb(30, 36, 63)"
         border={true}
-        borderColor="#B2C0D3"
         offset={{ right: 20 }}
       />
     </React.Fragment>
