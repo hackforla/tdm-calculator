@@ -270,6 +270,7 @@ function ProjectPackages(props) {
       <h3 className="tdm-wizard-page-subtitle">
         Learn more about packages
         <span className={classes.projectLevelContainer}>
+          {/* TODO: convert tooltip */}
           <Tooltip
             tipText={`There are many TDM strategies choices and most involve making long-term commitments in meeting program compliance. 
 Small development projects (defined as Program Level 1 that provide no more than the parking baseline), are provided TDM packages that allow fulfillment of the minimum 15 point target from a pre-selected menu. 

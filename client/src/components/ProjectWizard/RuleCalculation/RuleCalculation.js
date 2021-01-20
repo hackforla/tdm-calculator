@@ -157,11 +157,7 @@ const useStyles = createUseStyles({
     fontSize: 12,
     lineHeight: "16px",
     fontWeight: "bold",
-    "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
     boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-webkit-border-radius": 2,
-    "-moz-border-radius": 2,
     borderRadius: 2,
     "&.show": {
       visibility: "visible !important",
@@ -345,13 +341,8 @@ const RuleCalculation = ({
             data-class={classes.tooltip}
           >
             {name}
-            <ToolTipIcon
-              containerStyle={{
-                fontSize: 16,
-                verticalAlign: "top",
-                "&:hover": { cursor: "pointer" }
-              }}
-            />
+            {/* TODO: conditionally render icon depending on description  */}
+            <ToolTipIcon />
           </label>
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>

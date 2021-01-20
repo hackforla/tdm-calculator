@@ -33,11 +33,7 @@ const useStyles = createUseStyles({
     fontSize: 12,
     lineHeight: "16px",
     fontWeight: "bold",
-    "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
     boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-webkit-border-radius": 2,
-    "-moz-border-radius": 2,
     borderRadius: 2,
     "&.show": {
       visibility: "visible !important",
@@ -65,16 +61,9 @@ const SidebarPoints = props => {
           data-html="true"
           data-class={classes.tooltip}
         >
-          <ToolTipIcon
-            containerStyle={{
-              fontSize: 16,
-              verticalAlign: "top",
-              "&:hover": { cursor: "pointer" }
-            }}
-          />
+          <ToolTipIcon />
         </span>
       </h3>
-      {/* <div> {rule.units}</div> */}
       <ReactTooltip
         place="right"
         type="info"
