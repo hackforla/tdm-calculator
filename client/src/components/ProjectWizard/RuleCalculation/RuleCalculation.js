@@ -163,6 +163,11 @@ const useStyles = createUseStyles({
       visibility: "visible !important",
       opacity: "1 !important"
     }
+  },
+  baselineIconContainer: {
+    width: 16,
+    height: 16,
+    display: "inline-block"
   }
 });
 
@@ -341,8 +346,9 @@ const RuleCalculation = ({
             data-class={classes.tooltip}
           >
             {name}
-            {/* TODO: conditionally render icon depending on description  */}
-            <ToolTipIcon />
+            <div className={classes.baselineIconContainer}>
+              {description ? <ToolTipIcon /> : <span />}
+            </div>
           </label>
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
