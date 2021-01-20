@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import ToolTipIcon from "./ToolTipIcon";
+import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({

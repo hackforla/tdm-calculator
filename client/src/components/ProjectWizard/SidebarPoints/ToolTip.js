@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import ToolTipIcon from "./ToolTipIcon";
+import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 
 const useStyles = createUseStyles({
   tipIcon: {
@@ -65,13 +65,7 @@ const ToolTip = ({ tipText }) => {
   return (
     <React.Fragment>
       <span onMouseEnter={handleHover} onMouseLeave={handleHover}>
-        <ToolTipIcon
-          containerStyle={{
-            fontSize: 16,
-            verticalAlign: "top",
-            "&:hover": { cursor: "pointer" }
-          }}
-        />
+        <ToolTipIcon />
       </span>
       <span className={clsx(classes.tipText, showTip)}>{tipText}</span>
     </React.Fragment>
