@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import ReactTooltip from "react-tooltip";
+import ToolTip from "../../ToolTip/ToolTip";
 
 const useStyles = createUseStyles({
   strategyContainer: {
@@ -424,21 +424,8 @@ const RuleStrategy = ({
           </div>
         </div>
       ) : null}
-      <ReactTooltip
-        id={"main" + id}
-        place="right"
-        type="info"
-        effect="float"
-        multiline={true}
-        style={{
-          width: "25vw"
-        }}
-        textColor="#32578A"
-        backgroundColor="#F7F9FA"
-        borderColor="rgb(30, 36, 63)"
-        border={true}
-        offset={{ right: 20 }}
-      />
+
+      <ToolTip id={"main" + id} />
     </React.Fragment>
   );
 };

@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-import Tooltip from "../SidebarPoints/ToolTip";
+import ToolTipIcon from "../../ToolTip/ToolTipIcon";
+import ToolTip from "../../ToolTip/ToolTip";
 
 const useStyles = createUseStyles({
   box: {
@@ -58,6 +59,26 @@ const useStyles = createUseStyles({
     padding: "0.5em 0 0.2em 1em",
     fontWeight: "700",
     fontSize: "18px"
+  },
+  tooltipLabel: {
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  //TODO: refactor labels
+  tooltip: {
+    color: "rgb(30, 36, 63) !important",
+    minWidth: "200px",
+    maxWidth: "400px",
+    fontFamily: "Arial",
+    fontSize: 12,
+    lineHeight: "16px",
+    fontWeight: "bold",
+    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    borderRadius: 2,
+    "&.show": {
+      visibility: "visible !important",
+      opacity: "1 !important"
+    }
   }
 });
 
@@ -269,15 +290,21 @@ function ProjectPackages(props) {
       )}
       <h3 className="tdm-wizard-page-subtitle">
         Learn more about packages
-        <span className={classes.projectLevelContainer}>
-          {/* TODO: convert tooltip */}
-          <Tooltip
-            tipText={`There are many TDM strategies choices and most involve making long-term commitments in meeting program compliance. 
-Small development projects (defined as Program Level 1 that provide no more than the parking baseline), are provided TDM packages that allow fulfillment of the minimum 15 point target from a pre-selected menu. 
-A point incentive is provided for the packages made up of strategies that work together to reinforce their effectiveness in reducing drive-alone trips. 
-Each strategy selected on its own does not result in the required minimum point target but several selected together will. Each package can be unselected and individual strategies that will work best to both achieve the TDM program goals and your specific development objectives should be chosen. 
-`}
-          />
+        <span style={{ textAlign: "left" }}>
+          <label
+            className={classes.tooltipLabel}
+            data-for={"main-package-description"}
+            data-tip={
+              "There are many TDM strategies choices and most involve making long-term commitments in meeting program compliance.         Small development projects (defined as Program Level 1 that provide no more than the parking baseline), are provided TDM packages that allow fulfillment of the minimum 15 point target from a pre-selected menu.             A point incentive is provided for the packages made up of strategies that work together to reinforce their effectiveness in reducing drive-alone trips.             Each strategy selected on its own does not result in the required minimum point target but several selected together will. Each package can be unselected and individual strategies that will work best to both achieve the TDM program goals and your specific development objectives should be chosen. "
+            }
+            data-iscapture="true"
+            data-html="true"
+            data-class={classes.tooltip}
+          >
+            <ToolTipIcon />
+          </label>
+
+          <ToolTip id={"main-package-description"} />
         </span>
       </h3>
     </div>

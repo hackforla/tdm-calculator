@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
-import ReactTooltip from "react-tooltip";
+import ToolTip from "../../ToolTip/ToolTip";
 
 const useStyles = createUseStyles({
   ruleValue: {
@@ -64,20 +64,8 @@ const SidebarPoints = props => {
           <ToolTipIcon />
         </span>
       </h3>
-      <ReactTooltip
-        place="right"
-        type="info"
-        effect="float"
-        multiline={true}
-        style={{
-          width: "25vw"
-        }}
-        textColor="#32578A"
-        backgroundColor="#F7F9FA"
-        borderColor="rgb(30, 36, 63)"
-        border={true}
-        offset={{ right: 20 }}
-      />
+      {/* TODO: figure out how it's getting description without id*/}
+      <ToolTip />
     </div>
   );
 };

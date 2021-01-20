@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
+import ToolTip from "../../ToolTip/ToolTip";
 import clsx from "clsx";
-import ReactTooltip from "react-tooltip";
 
 const useStyles = createUseStyles({
   field: {
@@ -358,21 +358,7 @@ const RuleCalculation = ({
             </span>
             <span className={classes.calcUnits}> {calcUnits || ""}</span>
           </div>
-          <ReactTooltip
-            id={"main" + id}
-            place="right"
-            type="info"
-            effect="float"
-            multiline={true}
-            style={{
-              width: "25vw"
-            }}
-            textColor="#32578A"
-            backgroundColor="#F7F9FA"
-            borderColor="rgb(30, 36, 63)"
-            border={true}
-            offset={{ right: 20 }}
-          />
+          <ToolTip id={"main" + id} />
         </div>
       )}
       {validationErrors && showValidationErrors ? (
