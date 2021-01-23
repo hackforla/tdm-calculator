@@ -58,11 +58,6 @@ const useStyles = createUseStyles({
       backgroundColor: "#f0e300"
     }
   },
-  checkboxFieldLabel: {
-    flexBasis: "70%",
-    flexGrow: "1",
-    flexShrink: "1"
-  },
   checkbox: {
     flexGrow: "0",
     flexShrink: "1",
@@ -74,12 +69,6 @@ const useStyles = createUseStyles({
       backgroundColor: "#f0e300"
     }
   },
-  selectFieldLabel: {
-    flexBasis: "45%",
-    flexGrow: "1",
-    flexShrink: "1"
-  },
-
   select: {
     flexBasis: "45%",
     flexGrow: "1",
@@ -93,11 +82,6 @@ const useStyles = createUseStyles({
     "&:hover": {
       backgroundColor: "#f0e300"
     }
-  },
-  miscFieldLabel: {
-    flexBasis: "70%",
-    flexGrow: "1",
-    flexShrink: "1"
   },
   codeWrapper: {
     flexBasis: "10%",
@@ -135,18 +119,6 @@ const useStyles = createUseStyles({
     flexShrink: "1",
     minHeight: "5em",
     border: "1px dashed red"
-  },
-  textareaLabel: {
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1",
-    minHeight: "5em"
-  },
-  requiredInputLabel: {
-    "&:after": {
-      content: '" *"',
-      color: "red"
-    }
   },
   errorLabel: {
     color: "red",
@@ -234,11 +206,6 @@ const RuleInput = ({
           >
             {units}
           </div>
-          {/* <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div> */}
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
@@ -262,16 +229,6 @@ const RuleInput = ({
             data-testid={code}
           />
           <div className={classes.numberFieldUnits}>{units}</div>
-          {/* {calcValue ? (
-            <>
-              <div className={classes.unitsCaption}>{units}</div>
-              <div className={classes.calcUnitsCaption}>
-                {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
-                  calcUnits || ""
-                }`}
-              </div>
-            </>
-          ) : null} */}
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>
@@ -298,11 +255,6 @@ const RuleInput = ({
               </option>
             ))}
           </select>
-          {/* <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div> */}
         </div>
       ) : dataType === "string" ||
         dataType === "textarea" ||
@@ -379,11 +331,6 @@ const RuleInput = ({
           />
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
-          {/* <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div> */}
         </div>
       )}
       {validationErrors && showValidationErrors ? (
