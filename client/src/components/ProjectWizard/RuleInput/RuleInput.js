@@ -4,6 +4,7 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import InputMask from "react-input-mask";
 import ToolTip from "../../ToolTip/ToolTip";
+import RuleInputLabel from "./RuleInputLabel";
 
 const useStyles = createUseStyles({
   field: {
@@ -122,9 +123,6 @@ const useStyles = createUseStyles({
   textDisabledInputLabel: {
     opacity: "0.5"
   },
-  textInputLabelAnchor: {
-    textDecoration: "underline"
-  },
   textarea: {
     flexBasis: "50%",
     flexGrow: "1",
@@ -155,22 +153,6 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
-  },
-  tooltip: {
-    color: "rgb(30, 36, 63) !important",
-    padding: "15px",
-    minWidth: "200px",
-    maxWidth: "400px",
-    fontFamily: "Arial",
-    fontSize: 12,
-    lineHeight: "16px",
-    fontWeight: "bold",
-    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    borderRadius: 2,
-    "&.show": {
-      visibility: "visible !important",
-      opacity: "1 !important"
-    }
   }
 });
 
@@ -218,34 +200,15 @@ const RuleInput = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={clsx(classes.field, classes.numberFieldWrapper)}>
-          <label
-            htmlFor={code}
-            className={
-              !display
-                ? clsx(classes.textInputLabel, classes.textDisabledInputLabel)
-                : required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
-                : classes.textInputLabel
-            }
-            data-for={"tooltip-project-spec" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {link ? (
-              <a
-                href={link}
-                className={classes.textInputLabelAnchor}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}
-          </label>
+          <RuleInputLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            required={required}
+            link={link}
+            name={name}
+          />
           <div>
             <input
               className={
@@ -279,32 +242,15 @@ const RuleInput = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
-          <label
-            htmlFor={code}
-            className={
-              required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
-                : classes.textInputLabel
-            }
-            data-for={"tooltip-project-spec" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {link ? (
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.textInputLabelAnchor}
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}
-          </label>
+          <RuleInputLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            required={required}
+            link={link}
+            name={name}
+          />
           <input
             type="checkbox"
             className={classes.checkbox}
@@ -329,32 +275,15 @@ const RuleInput = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>
-          <label
-            htmlFor={code}
-            className={
-              required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
-                : classes.textInputLabel
-            }
-            data-for={"tooltip-project-spec" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {link ? (
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.textInputLabelAnchor}
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}
-          </label>
+          <RuleInputLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            required={required}
+            link={link}
+            name={name}
+          />
           <select
             className={classes.select}
             value={value || ""}
@@ -382,32 +311,15 @@ const RuleInput = ({
           className={clsx(classes.field, classes.textFieldWrapper)}
           onBlur={onBlur}
         >
-          <label
-            htmlFor={code}
-            className={
-              required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
-                : classes.textInputLabel
-            }
-            data-for={"tooltip-project-spec" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {link ? (
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.textInputLabelAnchor}
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}
-          </label>
+          <RuleInputLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            required={required}
+            link={link}
+            name={name}
+          />
           {dataType === "string" ? (
             <input
               type="text"
@@ -456,32 +368,15 @@ const RuleInput = ({
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <label
-            htmlFor={code}
-            className={
-              required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
-                : classes.textInputLabel
-            }
-            data-for={"tooltip-project-spec" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {link ? (
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.textInputLabelAnchor}
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}
-          </label>
+          <RuleInputLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            required={required}
+            link={link}
+            name={name}
+          />
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
           {/* <div className={classes.calcUnitsCaption}>

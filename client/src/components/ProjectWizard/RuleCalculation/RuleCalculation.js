@@ -4,6 +4,7 @@ import { createUseStyles } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import ToolTip from "../../ToolTip/ToolTip";
 import clsx from "clsx";
+import ToolTipLabel from "../../ToolTip/ToolTipLabel";
 
 const useStyles = createUseStyles({
   field: {
@@ -172,6 +173,7 @@ const useStyles = createUseStyles({
   }
 });
 
+// Page 3
 const RuleCalculation = ({
   rule: {
     id,
@@ -337,20 +339,17 @@ const RuleCalculation = ({
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <label
+          <ToolTipLabel
+            id={"tooltip-parking-baseline" + id}
+            tooltipContent={description}
             htmlFor={code}
-            className={classes.miscFieldLabel}
-            data-for={"tooltip-parking-baseline" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
           >
             {name}
             <div className={classes.baselineIconContainer}>
               {description ? <ToolTipIcon /> : <span />}
             </div>
-          </label>
+          </ToolTipLabel>
+          <ToolTip id={"tooltip-parking-baseline" + id} />
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
           <div className={classes.calcUnitsCaption}>
@@ -359,7 +358,6 @@ const RuleCalculation = ({
             </span>
             <span className={classes.calcUnits}> {calcUnits || ""}</span>
           </div>
-          <ToolTip id={"tooltip-parking-baseline" + id} />
         </div>
       )}
       {validationErrors && showValidationErrors ? (

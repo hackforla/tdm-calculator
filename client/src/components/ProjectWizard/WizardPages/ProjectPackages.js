@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import ToolTip from "../../ToolTip/ToolTip";
+import ToolTipLabel from "../../ToolTip/ToolTipLabel";
 
 const useStyles = createUseStyles({
   box: {
@@ -292,18 +293,12 @@ function ProjectPackages(props) {
       <h3 className="tdm-wizard-page-subtitle">
         Learn more about packages
         <span style={{ textAlign: "left" }}>
-          <label
-            className={classes.tooltipLabel}
-            data-for={"tooltip-package-description"}
-            data-tip={
-              "There are many TDM strategies choices and most involve making long-term commitments in meeting program compliance.         Small development projects (defined as Program Level 1 that provide no more than the parking baseline), are provided TDM packages that allow fulfillment of the minimum 15 point target from a pre-selected menu.             A point incentive is provided for the packages made up of strategies that work together to reinforce their effectiveness in reducing drive-alone trips.             Each strategy selected on its own does not result in the required minimum point target but several selected together will. Each package can be unselected and individual strategies that will work best to both achieve the TDM program goals and your specific development objectives should be chosen. "
-            }
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
+          <ToolTipLabel
+            id="tooltip-package-description"
+            tooltipContent="There are many TDM strategies choices and most involve making long-term commitments in meeting program compliance.         Small development projects (defined as Program Level 1 that provide no more than the parking baseline), are provided TDM packages that allow fulfillment of the minimum 15 point target from a pre-selected menu.             A point incentive is provided for the packages made up of strategies that work together to reinforce their effectiveness in reducing drive-alone trips.             Each strategy selected on its own does not result in the required minimum point target but several selected together will. Each package can be unselected and individual strategies that will work best to both achieve the TDM program goals and your specific development objectives should be chosen. "
           >
             <ToolTipIcon />
-          </label>
+          </ToolTipLabel>
 
           <ToolTip id={"tooltip-package-description"} />
         </span>
