@@ -83,6 +83,7 @@ const useStyles = createUseStyles({
     marginTop: "4px"
   },
   tooltip: {
+    color: "rgb(30, 36, 63) !important",
     padding: "15px",
     minWidth: "200px",
     maxWidth: "400px",
@@ -90,11 +91,7 @@ const useStyles = createUseStyles({
     fontSize: 12,
     lineHeight: "16px",
     fontWeight: "bold",
-    "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
     boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-webkit-border-radius": 2,
-    "-moz-border-radius": 2,
     borderRadius: 2,
     "&.show": {
       visibility: "visible !important",
@@ -184,7 +181,7 @@ const RuleStrategy = ({
           <label
             htmlFor={code}
             className={classes.strategyName}
-            data-for={"main" + id}
+            data-for={"tooltip-strategy" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -233,7 +230,7 @@ const RuleStrategy = ({
           <label
             htmlFor={code}
             className={classes.strategyName}
-            data-for={"main" + id}
+            data-for={"tooltip-strategy" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -277,7 +274,7 @@ const RuleStrategy = ({
           <label
             htmlFor={code}
             className={classes.strategyName}
-            data-for={"main" + id}
+            data-for={"tooltip-strategy" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -326,7 +323,7 @@ const RuleStrategy = ({
           <label
             htmlFor={code}
             className={classes.strategyName}
-            data-for={"main" + id}
+            data-for={"tooltip-strategy" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -368,7 +365,7 @@ const RuleStrategy = ({
               ? classes.strategyContainer
               : clsx(classes.strategyContainer, classes.disabled)
           }
-          data-for={"main" + id}
+          data-for={"tooltip-strategy" + id}
           data-tip={description}
           data-iscapture="true"
           data-html="true"
@@ -425,7 +422,7 @@ const RuleStrategy = ({
         </div>
       ) : null}
 
-      <ToolTip id={"main" + id} />
+      <ToolTip id={"tooltip-strategy" + id} />
     </React.Fragment>
   );
 };

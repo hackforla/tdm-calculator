@@ -27,6 +27,7 @@ const useStyles = createUseStyles({
   },
   tooltip: {
     color: "rgb(30, 36, 63) !important",
+    padding: "15px",
     minWidth: "200px",
     maxWidth: "400px",
     fontFamily: "Arial",

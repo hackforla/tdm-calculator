@@ -151,6 +151,7 @@ const useStyles = createUseStyles({
   },
   tooltip: {
     color: "rgb(30, 36, 63) !important",
+    padding: "15px",
     minWidth: "200px",
     maxWidth: "400px",
     fontFamily: "Arial",
@@ -339,7 +340,7 @@ const RuleCalculation = ({
           <label
             htmlFor={code}
             className={classes.miscFieldLabel}
-            data-for={"main" + id}
+            data-for={"tooltip-parking-baseline" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -358,7 +359,7 @@ const RuleCalculation = ({
             </span>
             <span className={classes.calcUnits}> {calcUnits || ""}</span>
           </div>
-          <ToolTip id={"main" + id} />
+          <ToolTip id={"tooltip-parking-baseline" + id} />
         </div>
       )}
       {validationErrors && showValidationErrors ? (

@@ -13,7 +13,6 @@ const useStyles = createUseStyles({
       cursor: "pointer"
     }
   },
-  // TODO: double check with design
   circle: {
     filter: "drop-shadow(0px 4px 2px rgba(0, 46, 109, 0.3))"
   }
