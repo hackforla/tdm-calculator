@@ -48,23 +48,25 @@
   }
 
   .btn-submit {
-    @extend %button-shared;
+    // @extend %button-shared;
     
     line-height: 1.5;
     width: 100%;
     padding: .75em;
     cursor: pointer;
+    margin: 0.5em 0;
   }
 
   .btn-without-saving {
-    @extend %button-shared;
-
     background-color: white;
     border-color: $color-form-lightgrey;
     line-height: 1.5;
     padding: .75em;
     width: 100%;
     cursor: pointer;
+    margin: 0.5em 0;
+    text-transform: none;
+    font-family: "Calibri";
   }
 
   .without-saving {

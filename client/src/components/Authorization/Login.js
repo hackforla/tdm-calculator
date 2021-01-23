@@ -196,14 +196,15 @@ const Login = props => {
                     type="submit"
                     className="btn-submit"
                     disabled={isSubmitting}
+                    color="colorPrimary"
                   >
                     {isSubmitting ? "Please wait..." : "Login"}
                   </Button>
                   {/* <button className="btn-without-saving"> */}
                   <Link to="/calculation/1">
-                    <button className="btn-without-saving">
+                    <Button className="btn-without-saving">
                       Continue without saving
-                    </button>
+                    </Button>
                   </Link>
                   {/* </button> */}
                   <div className="warning">
