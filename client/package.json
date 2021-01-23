@@ -10,8 +10,13 @@
     "test": "react-scripts test",
     "test:ci": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
+<<<<<<< HEAD
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\"",
     "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \"**/*.{js,jsx}\""
+=======
+    "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  '**/*.{js,jsx}'",
+    "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  '**/*.{js,jsx}'"
+>>>>>>> "Login" button uses Button component
   },
   "eslintConfig": {
     "extends": "react-app"

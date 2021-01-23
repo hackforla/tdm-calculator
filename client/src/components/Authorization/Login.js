@@ -5,6 +5,7 @@ import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
+import Button from "../Button/Button";
 import clsx from "clsx";
 import {
   useAppInsightsContext,
@@ -190,15 +191,14 @@ const Login = props => {
                     </Link>
                   </div>
 
-                  <button
+                  <Button
                     id="cy-login-submit"
                     type="submit"
                     className="btn-submit"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Please wait..." : "Login"}
-                  </button>
-
+                  </Button>
                   {/* <button className="btn-without-saving"> */}
                   <Link to="/calculation/1">
                     <button className="btn-without-saving">
