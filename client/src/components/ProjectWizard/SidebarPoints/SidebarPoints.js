@@ -7,7 +7,7 @@ import ReactTooltip from "react-tooltip";
 
 const useStyles = createUseStyles({
   ruleValue: {
-    fontSize: "40px",
+    fontSize: "100px",
     fontFamily: "Oswald, Calibri",
     fontWeight: "bold",
     marginBottom: 6
