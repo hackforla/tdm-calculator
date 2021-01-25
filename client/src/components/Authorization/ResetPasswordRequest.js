@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import Button from "../Button/Button";
 
 export const useStyles = createUseStyles({
   root: {
@@ -56,7 +57,8 @@ export const useStyles = createUseStyles({
       width: "426px",
       backgroundColor: "#D8D8D8",
       border: "none",
-      fontWeight: "bold"
+      fontWeight: "bold",
+      margin: 0
     }
   },
   fieldGroup: {
@@ -146,7 +148,7 @@ export function ResetPasswordRequest() {
                         className={classes.errorMessage}
                       />
                     </div>
-                    <button type="submit">Send Recovery Email</button>
+                    <Button type="submit">Send Recovery Email</Button>
                   </Form>
                 )}
               </Formik>
