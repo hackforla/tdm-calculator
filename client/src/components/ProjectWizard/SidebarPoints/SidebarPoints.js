@@ -7,10 +7,18 @@ import ReactTooltip from "react-tooltip";
 
 const useStyles = createUseStyles({
   ruleValue: {
-    fontSize: "40px",
+    fontSize: "100px",
     fontFamily: "Oswald, Calibri",
     fontWeight: "bold",
-    marginBottom: 6
+    marginBottom: 6,
+    color: "rgb(155, 188, 74)"
+  },
+  ruleValueEarned: {
+    fontSize: "100px",
+    fontFamily: "Oswald, Calibri",
+    fontWeight: "bold",
+    marginBottom: 6,
+    color: "rgb(255, 168, 4)"
   },
   ruleName: {
     fontFamily: "Oswald, Calibri",
@@ -48,16 +56,30 @@ const useStyles = createUseStyles({
 
 const SidebarPoints = props => {
   const classes = useStyles();
-  const { rule } = props;
+  const { rule, rulesConfig } = props;
+
   const opacityTest =
     rule.value && rule.value !== "0" ? "" : classes.lowOpacity;
   const noToolTip = rule.value === 0 ? classes.noDisplay : "";
 
+  let target = rulesConfig.target.value;
+  let earned = rulesConfig.earned.value;
+
+  let earnedPointsColor =
+    (rule.name === "Earned Points" && earned === 0) ||
+    (rule.name === "Earned Points" && earned < target)
+      ? classes.ruleValueEarned
+      : classes.ruleValue;
+
+  let targetPointsColor =
+    rule.name === "Target Points" ? classes.ruleValue : classes.ruleValueEarned;
+
   return (
     <div className={clsx("tdm-calculation-metrics-panel-item", opacityTest)}>
-      <div className={classes.ruleValue}>{rule.value}</div>
+      <div className={earnedPointsColor || targetPointsColor}>{rule.value}</div>
       <h3 className={classes.ruleName}>
         {rule.name}
+
         <span
           className={clsx(classes.projectLevelContainer, noToolTip)}
           data-tip={rule.description}
@@ -93,7 +115,8 @@ const SidebarPoints = props => {
   );
 };
 SidebarPoints.propTypes = {
-  rule: PropTypes.object.isRequired
+  rule: PropTypes.object.isRequired,
+  rulesConfig: PropTypes.object.isRequired
 };
 
 export default SidebarPoints;
