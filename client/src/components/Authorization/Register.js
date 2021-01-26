@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link, withRouter } from "react-router-dom";
 import * as Yup from "yup";
+import Button from "../Button/Button";
 
 const useStyles = createUseStyles({
   root: {
@@ -188,13 +189,13 @@ const Register = props => {
                         />
                       </div>
 
-                      <button
+                      <Button
                         type="submit"
                         className="btn-submit"
                         disabled={isSubmitting}
                       >
                         {isSubmitting ? "Please wait..." : "Create Account"}
-                      </button>
+                      </Button>
                       <div className="warning">
                         <br />
                         {errorMsg}
