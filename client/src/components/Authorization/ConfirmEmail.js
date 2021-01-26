@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Redirect, withRouter } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
+import Button from "../Button/Button";
 
 const ConfirmEmail = props => {
   const { history } = props;
@@ -63,7 +64,7 @@ const ConfirmEmail = props => {
                 }}
               />
 
-              <button type="submit">Re-send confirmation email</button>
+              <Button type="submit">Re-send confirmation email</Button>
             </form>
           </div>
         </div>
