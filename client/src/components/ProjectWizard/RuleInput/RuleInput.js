@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import ReactTooltip from "react-tooltip";
 import InputMask from "react-input-mask";
+import ToolTip from "../../ToolTip/ToolTip";
 
 const useStyles = createUseStyles({
   field: {
@@ -165,11 +165,7 @@ const useStyles = createUseStyles({
     fontSize: 12,
     lineHeight: "16px",
     fontWeight: "bold",
-    "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
     boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-webkit-border-radius": 2,
-    "-moz-border-radius": 2,
     borderRadius: 2,
     "&.show": {
       visibility: "visible !important",
@@ -231,7 +227,7 @@ const RuleInput = ({
                 ? clsx(classes.textInputLabel, classes.requiredInputLabel)
                 : classes.textInputLabel
             }
-            data-for={"main" + id}
+            data-for={"tooltip-project-spec" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -290,7 +286,7 @@ const RuleInput = ({
                 ? clsx(classes.textInputLabel, classes.requiredInputLabel)
                 : classes.textInputLabel
             }
-            data-for={"main" + id}
+            data-for={"tooltip-project-spec" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -340,7 +336,7 @@ const RuleInput = ({
                 ? clsx(classes.textInputLabel, classes.requiredInputLabel)
                 : classes.textInputLabel
             }
-            data-for={"main" + id}
+            data-for={"tooltip-project-spec" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -393,7 +389,7 @@ const RuleInput = ({
                 ? clsx(classes.textInputLabel, classes.requiredInputLabel)
                 : classes.textInputLabel
             }
-            data-for={"main" + id}
+            data-for={"tooltip-project-spec" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -467,7 +463,7 @@ const RuleInput = ({
                 ? clsx(classes.textInputLabel, classes.requiredInputLabel)
                 : classes.textInputLabel
             }
-            data-for={"main" + id}
+            data-for={"tooltip-project-spec" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
@@ -503,21 +499,7 @@ const RuleInput = ({
           </div>
         </div>
       ) : null}
-      <ReactTooltip
-        id={"main" + id}
-        place="right"
-        type="info"
-        effect="float"
-        multiline={true}
-        style={{
-          width: "25vw"
-        }}
-        textColor="#32578A"
-        backgroundColor="#F7F9FA"
-        borderColor="rgb(30, 36, 63)"
-        border={true}
-        offset={{ right: 20 }}
-      />
+      <ToolTip id={"tooltip-project-spec" + id} />
     </React.Fragment>
   );
 };

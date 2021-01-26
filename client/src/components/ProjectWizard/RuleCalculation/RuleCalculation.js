@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import ToolTipIcon from "./ToolTipIcon";
+import ToolTipIcon from "../../ToolTip/ToolTipIcon";
+import ToolTip from "../../ToolTip/ToolTip";
 import clsx from "clsx";
-import ReactTooltip from "react-tooltip";
 
 const useStyles = createUseStyles({
   field: {
@@ -151,22 +151,24 @@ const useStyles = createUseStyles({
   },
   tooltip: {
     color: "rgb(30, 36, 63) !important",
+    padding: "15px",
     minWidth: "200px",
     maxWidth: "400px",
     fontFamily: "Arial",
     fontSize: 12,
     lineHeight: "16px",
     fontWeight: "bold",
-    "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
     boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-webkit-border-radius": 2,
-    "-moz-border-radius": 2,
     borderRadius: 2,
     "&.show": {
       visibility: "visible !important",
       opacity: "1 !important"
     }
+  },
+  baselineIconContainer: {
+    width: 16,
+    height: 16,
+    display: "inline-block"
   }
 });
 
@@ -338,20 +340,16 @@ const RuleCalculation = ({
           <label
             htmlFor={code}
             className={classes.miscFieldLabel}
-            data-for={"main" + id}
+            data-for={"tooltip-parking-baseline" + id}
             data-tip={description}
             data-iscapture="true"
             data-html="true"
             data-class={classes.tooltip}
           >
             {name}
-            <ToolTipIcon
-              containerStyle={{
-                fontSize: 16,
-                verticalAlign: "top",
-                "&:hover": { cursor: "pointer" }
-              }}
-            />
+            <div className={classes.baselineIconContainer}>
+              {description ? <ToolTipIcon /> : <span />}
+            </div>
           </label>
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
@@ -361,21 +359,7 @@ const RuleCalculation = ({
             </span>
             <span className={classes.calcUnits}> {calcUnits || ""}</span>
           </div>
-          <ReactTooltip
-            id={"main" + id}
-            place="right"
-            type="info"
-            effect="float"
-            multiline={true}
-            style={{
-              width: "25vw"
-            }}
-            textColor="#32578A"
-            backgroundColor="#F7F9FA"
-            borderColor="rgb(30, 36, 63)"
-            border={true}
-            offset={{ right: 20 }}
-          />
+          <ToolTip id={"tooltip-parking-baseline" + id} />
         </div>
       )}
       {validationErrors && showValidationErrors ? (

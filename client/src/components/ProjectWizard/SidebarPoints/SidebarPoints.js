@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import ToolTipIcon from "./ToolTipIcon";
+import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
-import ReactTooltip from "react-tooltip";
+import ToolTip from "../../ToolTip/ToolTip";
 
 const useStyles = createUseStyles({
   ruleValue: {
@@ -35,17 +35,14 @@ const useStyles = createUseStyles({
   },
   tooltip: {
     color: "rgb(30, 36, 63) !important",
+    padding: "15px",
     minWidth: "200px",
     maxWidth: "400px",
     fontFamily: "Arial",
     fontSize: 12,
     lineHeight: "16px",
     fontWeight: "bold",
-    "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
     boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-webkit-border-radius": 2,
-    "-moz-border-radius": 2,
     borderRadius: 2,
     "&.show": {
       visibility: "visible !important",
@@ -87,30 +84,11 @@ const SidebarPoints = props => {
           data-html="true"
           data-class={classes.tooltip}
         >
-          <ToolTipIcon
-            containerStyle={{
-              fontSize: 16,
-              verticalAlign: "top",
-              "&:hover": { cursor: "pointer" }
-            }}
-          />
+          <ToolTipIcon />
         </span>
       </h3>
-      {/* <div> {rule.units}</div> */}
-      <ReactTooltip
-        place="right"
-        type="info"
-        effect="float"
-        multiline={true}
-        style={{
-          width: "25vw"
-        }}
-        textColor="#32578A"
-        backgroundColor="#F7F9FA"
-        borderColor="rgb(30, 36, 63)"
-        border={true}
-        offset={{ right: 20 }}
-      />
+      {/* TODO: figure out how it's getting description without id*/}
+      <ToolTip />
     </div>
   );
 };

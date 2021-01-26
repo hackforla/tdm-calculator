@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import InfoBox from "../InfoBox";
-import ToolTipIcon from "../SidebarPoints/ToolTipIcon";
+import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import useLocalStorage from "../../useLocalStorage";
 
 function ProjectMeasure(props) {
@@ -52,19 +52,15 @@ function ProjectMeasure(props) {
             cursor: "pointer"
           }}
         >
-          <ToolTipIcon
-            circleStyle={{
-              filter: "drop-shadow(0px 4px 2px rgba(0, 46, 109, 0.3))"
-            }}
-          />
+          <ToolTipIcon size="medium" />
         </button>
       </h3>
       <InfoBox
         displayStatus={displayInfoBox}
         handleClick={() => setDisplayInfoBox(false)}
       >
-        <ToolTipIcon /> For detailed information, hover the mouse cursor over
-        the terminology.
+        <ToolTipIcon size="medium" /> For detailed information, hover the mouse
+        cursor over the terminology.
       </InfoBox>
       <div className={classes.pkgSelectContainer}>
         <div className={classes.alignLeft}>
