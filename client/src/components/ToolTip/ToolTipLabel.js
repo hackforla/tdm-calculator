@@ -7,7 +7,7 @@ const useStyles = createUseStyles({
   tooltipLabel: {
     flexGrow: "1",
     flexShrink: "1",
-    flexBasis: "50%" //RuleInput
+    flexBasis: "50%"
   },
   tooltip: {
     color: "rgb(30, 36, 63) !important",

@@ -4,7 +4,6 @@ import { createUseStyles } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import ToolTip from "../../ToolTip/ToolTip";
 import clsx from "clsx";
-import ToolTipLabel from "../../ToolTip/ToolTipLabel";
 
 const useStyles = createUseStyles({
   field: {
@@ -150,22 +149,6 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1"
   },
-  tooltip: {
-    color: "rgb(30, 36, 63) !important",
-    padding: "15px",
-    minWidth: "200px",
-    maxWidth: "400px",
-    fontFamily: "Arial",
-    fontSize: 12,
-    lineHeight: "16px",
-    fontWeight: "bold",
-    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    borderRadius: 2,
-    "&.show": {
-      visibility: "visible !important",
-      opacity: "1 !important"
-    }
-  },
   baselineIconContainer: {
     width: 16,
     height: 16,
@@ -236,11 +219,6 @@ const RuleCalculation = ({
             </div>
           </label>
           <div className={classes.numberFieldUnits}>{units}</div>
-          {/*} <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div>*/}
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
@@ -339,16 +317,19 @@ const RuleCalculation = ({
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <ToolTipLabel
-            id={"tooltip-parking-baseline" + id}
-            tooltipContent={description}
-            htmlFor={code}
-          >
+          <label htmlFor={code}>
             {name}
             <div className={classes.baselineIconContainer}>
-              {description ? <ToolTipIcon /> : <span />}
+              {description ? (
+                <ToolTipIcon
+                  id={"tooltip-parking-baseline" + id}
+                  tooltipContent={description}
+                />
+              ) : (
+                <span />
+              )}
             </div>
-          </ToolTipLabel>
+          </label>
           <ToolTip id={"tooltip-parking-baseline" + id} />
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>

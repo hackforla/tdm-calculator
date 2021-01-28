@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import InputMask from "react-input-mask";
 import ToolTip from "../../ToolTip/ToolTip";
 import RuleInputLabel from "./RuleInputLabel";
 
 const useStyles = createUseStyles({
-  field: {
+  rowContainer: {
     minWidth: "60vw",
     margin: "0.2em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   numberFieldWrapper: {
     marginBottom: "0.4em",
     alignItems: "center",
     "&:hover": {
-      backgroundColor: "#f0e300"
+      backgroundColor: ({ theme }) => theme.colorHighlight
     }
   },
   numberFieldUnits: {
@@ -55,7 +56,7 @@ const useStyles = createUseStyles({
   checkboxFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300"
+      backgroundColor: ({ theme }) => theme.colorHighlight
     }
   },
   checkbox: {
@@ -66,7 +67,7 @@ const useStyles = createUseStyles({
   selectFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300"
+      backgroundColor: ({ theme }) => theme.colorHighlight
     }
   },
   select: {
@@ -80,7 +81,7 @@ const useStyles = createUseStyles({
   miscFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300"
+      backgroundColor: ({ theme }) => theme.colorHighlight
     }
   },
   codeWrapper: {
@@ -149,7 +150,8 @@ const RuleInput = ({
   },
   onPropInputChange
 }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme });
 
   // The validationErrors property of the rule indicates whether the
   // violates any of the database-driven validation rules. For now, this
@@ -171,7 +173,7 @@ const RuleInput = ({
   return (
     <React.Fragment>
       {dataType === "number" ? (
-        <div className={clsx(classes.field, classes.numberFieldWrapper)}>
+        <div className={clsx(classes.rowContainer, classes.numberFieldWrapper)}>
           <RuleInputLabel
             id={id}
             description={description}
@@ -208,7 +210,9 @@ const RuleInput = ({
           </div>
         </div>
       ) : dataType === "boolean" ? (
-        <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
+        <div
+          className={clsx(classes.rowContainer, classes.checkboxFieldWrapper)}
+        >
           <RuleInputLabel
             id={id}
             description={description}
@@ -231,7 +235,7 @@ const RuleInput = ({
           <div className={classes.numberFieldUnits}>{units}</div>
         </div>
       ) : dataType === "choice" ? (
-        <div className={clsx(classes.field, classes.selectFieldWrapper)}>
+        <div className={clsx(classes.rowContainer, classes.selectFieldWrapper)}>
           <RuleInputLabel
             id={id}
             description={description}
@@ -260,7 +264,7 @@ const RuleInput = ({
         dataType === "textarea" ||
         dataType === "mask" ? (
         <div
-          className={clsx(classes.field, classes.textFieldWrapper)}
+          className={clsx(classes.rowContainer, classes.textFieldWrapper)}
           onBlur={onBlur}
         >
           <RuleInputLabel
@@ -319,7 +323,7 @@ const RuleInput = ({
           )}
         </div>
       ) : (
-        <div className={clsx(classes.field, classes.miscFieldWrapper)}>
+        <div className={clsx(classes.rowContainer, classes.miscFieldWrapper)}>
           <RuleInputLabel
             id={id}
             description={description}
@@ -334,7 +338,7 @@ const RuleInput = ({
         </div>
       )}
       {validationErrors && showValidationErrors ? (
-        <div className={classes.field}>
+        <div className={classes.rowContainer}>
           <div className={classes.textInputLabel}></div>
           <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
             {validationErrors[0]}
