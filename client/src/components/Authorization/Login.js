@@ -66,8 +66,8 @@ const Login = props => {
       const loginResponse = await accountService.login(email, password);
 
       if (loginResponse.isSuccess) {
+        trackLogin({ user: email });
         setLoggedInAccount(loginResponse.user);
-        trackLogin({ user: loginResponse.user.id });
         window.dataLayer.push({
           event: "login",
           action: "success",
@@ -76,7 +76,7 @@ const Login = props => {
         history.push("/calculation/1");
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
-          trackLoginFail({ reason: loginResponse.code });
+          trackLoginFail({ user: email, reason: loginResponse.code });
           window.dataLayer.push({
             event: "customEvent",
             action: "login failed",
