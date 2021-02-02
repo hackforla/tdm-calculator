@@ -15,6 +15,16 @@ const SidebarPointsPanel = props => {
     earnedPointsRule = rules.filter(rule => rule.code === "PTS_EARNED")[0];
     projectLevelRule = rules.filter(rule => rule.code === "PROJECT_LEVEL")[0];
   }
+
+  const rulesConfig = {
+    target: {
+      value: rules[2].value
+    },
+    earned: {
+      value: rules[3].value
+    }
+  };
+
   const targetPointsTipText = rules[2].description;
   const earnedPointsTipText = rules[3].description;
 
@@ -33,11 +43,13 @@ const SidebarPointsPanel = props => {
         <SidebarPoints
           key={targetPointsRule.id}
           rule={targetPointsRule}
+          rulesConfig={rulesConfig}
           tipText={targetPointsTipText}
         />
         <SidebarPoints
           key={earnedPointsRule.id}
           rule={earnedPointsRule}
+          rulesConfig={rulesConfig}
           tipText={earnedPointsTipText}
         />
       </div>
