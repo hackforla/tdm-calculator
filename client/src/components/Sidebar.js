@@ -29,7 +29,7 @@ export const useStyles = createUseStyles({
   "@media (max-width: 1024px)": {
     "sidebar-container": {
       flexBasis: "200px",
-      flexShrink: 0
+      flexShrink: 1
     }
   },
   "@media (max-width:768px)": {
