@@ -10,7 +10,7 @@ import TermsAndConditionsContent from "./TermsAndConditionsContent";
 const useStyles = createUseStyles({
   modalActions: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     margin: "42px auto"
   }
 });
