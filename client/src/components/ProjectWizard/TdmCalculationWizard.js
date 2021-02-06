@@ -12,7 +12,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button/Button";
 import NavButton from "../Button/NavButton";
 import SwitchViewButton from "../Button/SwitchViewButton";
-import TermsAndConditionsModal from "../TermsAndConditionsModal";
+import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
 import {
   ProjectDescriptions,
   ProjectSpecifications,
