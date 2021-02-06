@@ -3,23 +3,15 @@ import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import ProjectSummary from "./WizardPages/ProjectSummary";
 import SidebarPointsPanel from "./SidebarPoints/SidebarPointsPanel";
 import Sidebar from "../Sidebar";
-import { Switch, Route, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Button/Button";
-import NavButton from "../Button/NavButton";
 import SwitchViewButton from "../Button/SwitchViewButton";
-import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
-import {
-  ProjectDescriptions,
-  ProjectSpecifications,
-  ProjectPackages,
-  ProjectTargetPoints,
-  ProjectMeasures
-} from "./WizardPages";
+import TermsAndConditionsModal from "../TermsAndConditionsModal";
+import CalculationWizardRoutes from "./CalculationWizardRoutes";
+import NavAndSaveButtons from "./NavAndSaveButtons";
 
 const useStyles = createUseStyles({
   root: {
@@ -201,71 +193,6 @@ const TdmCalculationWizard = props => {
 
   const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
 
-  const routes = (
-    <Switch>
-      <Route path="/calculation/1/:projectId?">
-        <ProjectDescriptions
-          rules={projectDescriptionRules}
-          onInputChange={onInputChange}
-          classes={classes}
-        />
-      </Route>
-      <Route path="/calculation/2/:projectId?">
-        <ProjectSpecifications
-          rules={specificationRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          uncheckAll={() => onUncheckAll(filters.specificationRules)}
-        />
-      </Route>
-      <Route path="/calculation/3/:projectId?">
-        <ProjectTargetPoints
-          rules={targetPointRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          isLevel0={isLevel0}
-        />
-      </Route>
-      <Route path="/calculation/4/:projectId?">
-        <ProjectPackages
-          projectLevel={projectLevel}
-          rules={strategyRules}
-          landUseRules={landUseRules}
-          classes={classes}
-          allowResidentialPackage={allowResidentialPackage}
-          allowEmploymentPackage={allowEmploymentPackage}
-        />
-      </Route>
-      <Route path="/calculation/5/:projectId?">
-        <ProjectMeasures
-          projectLevel={projectLevel}
-          rules={strategyRules}
-          landUseRules={landUseRules}
-          onInputChange={onInputChange}
-          onCommentChange={onCommentChange}
-          initializeStrategies={initializeStrategies}
-          classes={classes}
-          onPkgSelect={onPkgSelect}
-          uncheckAll={() => onUncheckAll(filters.strategyRules)}
-          allowResidentialPackage={allowResidentialPackage}
-          allowEmploymentPackage={allowEmploymentPackage}
-          residentialPackageSelected={residentialPackageSelected}
-          employmentPackageSelected={employmentPackageSelected}
-        />
-      </Route>
-      <Route path="/calculation/6/:projectId?">
-        <ProjectSummary
-          rules={rules}
-          account={account}
-          projectId={projectId}
-          loginId={loginId}
-          onSave={onSave}
-          dateModified={dateModified}
-        />
-      </Route>
-    </Switch>
-  );
-
   const handleValidate = () => {
     const { page } = match.params;
     const validations = {
@@ -332,58 +259,46 @@ const TdmCalculationWizard = props => {
           )}
           ref={tdmWizardContentContainerRef}
         >
-          {routes}
-          {!projectId ||
-          (account &&
-            account.id &&
-            (account.id === loginId || account.isAdmin)) ||
-          (account && account.isAdmin) ? (
-            <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
-              {rules && rules.length ? ( //navigation disabled until rules have loaded
-                <>
-                  <div id="nav-container" className="space-between">
-                    <NavButton
-                      id="leftNavArrow"
-                      navDirection="previous"
-                      isVisible={page !== 1}
-                      isDisabled={Number(page) === 1}
-                      onClick={() => {
-                        onPageChange(Number(page) - 1);
-                      }}
-                    />
-                    <div className={classes.pageNumberCounter}>
-                      Page {pageNumber}/5
-                    </div>
-                    <NavButton
-                      id="rightNavArrow"
-                      navDirection="next"
-                      isVisible={page !== 6}
-                      isDisabled={setDisabledForNextNavButton()}
-                      onClick={() => {
-                        onPageChange(Number(page) + 1);
-                      }}
-                    />
-                  </div>
-                  <Button
-                    type="input"
-                    color="colorPrimary"
-                    variant="contained"
-                    isDisplayed={
-                      !!(
-                        account.id &&
-                        (!projectId || account.id === loginId) &&
-                        formIsDirty &&
-                        projectIsValid()
-                      )
-                    }
-                    onClick={onSave}
-                  >
-                    Save Project
-                  </Button>
-                </>
-              ) : null}
-            </div>
-          ) : null}
+          <CalculationWizardRoutes
+            projectDescriptionRules={projectDescriptionRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            specificationRules={specificationRules}
+            onUncheckAll={onUncheckAll}
+            filters={filters}
+            targetPointRules={targetPointRules}
+            isLevel0={isLevel0}
+            projectLevel={projectLevel}
+            strategyRules={strategyRules}
+            landUseRules={landUseRules}
+            allowResidentialPackage={allowResidentialPackage}
+            allowEmploymentPackage={allowEmploymentPackage}
+            onCommentChange={onCommentChange}
+            initializeStrategies={initializeStrategies}
+            onPkgSelect={onPkgSelect}
+            residentialPackageSelected={residentialPackageSelected}
+            employmentPackageSelected={employmentPackageSelected}
+            rules={rules}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            onSave={onSave}
+            dateModified={dateModified}
+          />
+          <NavAndSaveButtons
+            classes={classes}
+            rules={rules}
+            page={page}
+            onPageChange={onPageChange}
+            pageNumber={pageNumber}
+            setDisabledForNextNavButton={setDisabledForNextNavButton}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            formIsDirty={formIsDirty}
+            projectIsValid={projectIsValid}
+            onSave={onSave}
+          />
           <div className={classes.lastSavedContainer}>
             {dateModified && (
               <span className={classes.lastSaved}>
