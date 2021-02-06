@@ -5,7 +5,6 @@ import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
-import SideBar from "../Sidebar";
 import clsx from "clsx";
 import {
   useAppInsightsContext,
@@ -133,7 +132,6 @@ const Login = props => {
     <div className={classes.root}>
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
         <div className="tdm-wizard-sidebar" />
-        <SideBar />
         <div className="tdm-wizard-content-container" onClick={trackComponent}>
           <h1>Welcome to Los Angeles&rsquo; TDM Calculator</h1>
           <h3>Please sign into your account to save progress.</h3>

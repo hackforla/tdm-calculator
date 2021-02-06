@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
@@ -21,12 +21,12 @@ import ResetPassword from "./components/Authorization/ResetPassword";
 import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
 import "./styles/App.scss";
 import PublicComment from "./components/PublicComment/PublicCommentPage";
+import Sidebar from "./components/Sidebar";
 
 const useStyles = createUseStyles({
   root: {
     flex: "1 0 auto",
-    display: "flex",
-    flexDirection: "column"
+    display: "flex"
   }
 });
 
@@ -47,77 +47,101 @@ const App = ({
         id="main-content-container"
         ref={mainContentContainerRef}
       >
-        <Route
-          exact
-          path="/"
-          render={() =>
-            account.email ? (
-              <Redirect to="/calculation/1" />
-            ) : (
-              <Login setLoggedInAccount={setLoggedInAccount} />
-            )
-          }
-        />
-        <Route exact path="/calculation">
-          <Redirect to="/calculation/1" />
-        </Route>
-        <Route
-          path="/calculation/:page/:projectId?"
-          render={() => (
-            <TdmCalculationContainer
-              account={account}
-              hasConfirmedNavTransition={hasConfirmedTransition}
-              setLoggedInAccount={setLoggedInAccount}
-              tdmWizardContentContainerRef={tdmWizardContentContainerRef}
-            />
-          )}
-        />
-        <Route
-          path="/projects"
-          render={() => <ProjectsPage account={account} />}
-        />
-        <Route path="/about" component={About} />
-        <Route path="/termsandconditions" component={TermsAndConditionsPage} />
-        <Route path="/privacypolicy" component={PrivacyPolicy} />
-        <Route path="/register/:email?" component={Register} />
-        <Route path="/confirm/:token" component={ConfirmEmail} />
-        <Route
-          path="/login/:email?"
-          render={() =>
-            account.email ? (
-              <Redirect to="/calculation/1" />
-            ) : (
-              <Login setLoggedInAccount={setLoggedInAccount} />
-            )
-          }
-        />
-        <Route
-          path="/logout/:email?"
-          render={routeProps => {
-            setLoggedInAccount({});
-            return (
-              <Redirect
-                to={
-                  routeProps.match.params["email"]
-                    ? `/login/${routeProps.match.params["email"]}`
-                    : "/login"
-                }
-              />
-            );
-          }}
-        />
+        <Switch>
+          {/* These routes either have no sidebar or use a custom sidebar */}
+          <Route
+            path="/projects"
+            render={() => <ProjectsPage account={account} />}
+          />
 
-        <Route path="/forgotpassword" component={ResetPasswordRequest} />
-        <Route path="/resetPassword/:token" component={ResetPassword} />
-        <Route path="/contactus" component={ContactUs} />
-        {account && account.isAdmin ? (
-          <Route path="/admin" render={() => <Admin account={account} />} />
-        ) : null}
-        {account && account.isSecurityAdmin ? (
-          <Route path="/roles" render={() => <Roles />} />
-        ) : null}
-        <Route path="/faqs" component={FaqView} />
-        <Route path="/publiccomment" component={PublicComment} />
+          <Route
+            path="/calculation/:page/:projectId?"
+            render={() => (
+              <TdmCalculationContainer
+                account={account}
+                hasConfirmedNavTransition={hasConfirmedTransition}
+                setLoggedInAccount={setLoggedInAccount}
+                tdmWizardContentContainerRef={tdmWizardContentContainerRef}
+              />
+            )}
+          />
+
+          <Route exact path="/calculation">
+            <Redirect to="/calculation/1" />
+          </Route>
+
+          <Route
+            exact
+            path="/"
+            render={() =>
+              account.email ? (
+                <Redirect to="/calculation/1" />
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
+
+          {/* These routes use the same sidebar component */}
+          <Route>
+            <>
+              <Sidebar />
+              <Switch>
+                <Route path="/about" component={About} />
+                <Route
+                  path="/termsandconditions"
+                  component={TermsAndConditionsPage}
+                />
+                <Route path="/privacypolicy" component={PrivacyPolicy} />
+                <Route path="/register/:email?" component={Register} />
+                <Route path="/confirm/:token" component={ConfirmEmail} />
+                <Route
+                  path="/login/:email?"
+                  render={() =>
+                    account.email ? (
+                      <Redirect to="/calculation/1" />
+                    ) : (
+                      <Login setLoggedInAccount={setLoggedInAccount} />
+                    )
+                  }
+                />
+                <Route
+                  path="/logout/:email?"
+                  render={routeProps => {
+                    setLoggedInAccount({});
+                    return (
+                      <Redirect
+                        to={
+                          routeProps.match.params["email"]
+                            ? `/login/${routeProps.match.params["email"]}`
+                            : "/login"
+                        }
+                      />
+                    );
+                  }}
+                />
+
+                <Route
+                  path="/forgotpassword"
+                  component={ResetPasswordRequest}
+                />
+                <Route path="/resetPassword/:token" component={ResetPassword} />
+                <Route path="/contactus" component={ContactUs} />
+                {account && account.isAdmin ? (
+                  <Route
+                    path="/admin"
+                    render={() => <Admin account={account} />}
+                  />
+                ) : null}
+                {account && account.isSecurityAdmin ? (
+                  <Route path="/roles" render={() => <Roles />} />
+                ) : null}
+                <Route path="/faqs" component={FaqView} />
+                <Route path="/publiccomment" component={PublicComment} />
+              </Switch>
+            </>
+          </Route>
+        </Switch>
       </div>
       <Footer />
     </React.Fragment>

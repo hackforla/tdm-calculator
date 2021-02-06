@@ -1,5 +1,4 @@
 import React from "react";
-import SideBar from "./Sidebar";
 import clsx from "clsx";
 import { createUseStyles } from "react-jss";
 import {
@@ -50,7 +49,6 @@ const About = () => {
       onClick={trackComponent}
     >
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
-        <SideBar />
         <div
           className="tdm-wizard-content-container"
           onLoad={trackComponent}
