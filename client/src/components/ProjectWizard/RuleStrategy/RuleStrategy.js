@@ -1,12 +1,13 @@
 /* eslint-disable linebreak-style */
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import ToolTip from "../../ToolTip/ToolTip";
+import RuleStrategyLabel from "./RuleStrategyLabel";
 
 const useStyles = createUseStyles({
-  strategyContainer: {
+  rowContainer: {
     minWidth: "60vw",
     margin: "0.2em",
     display: "flex",
@@ -14,11 +15,8 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     alignItems: "center",
     "&:hover": {
-      backgroundColor: "#f0e300"
+      backgroundColor: ({ theme }) => theme.colorHighlight
     }
-  },
-  textInputLabelAnchor: {
-    textDecoration: "underline"
   },
   commentContainer: {
     minWidth: "60vw",
@@ -33,23 +31,15 @@ const useStyles = createUseStyles({
     opacity: 0.5
   },
   points: {
-    flexBasis: "10%",
-    marginLeft: "1em",
+    marginLeft: "0.5em",
     marginRight: "0.5em",
     textAlign: "right",
-    flexGrow: "0",
-    flexShrink: "1"
-  },
-  numberInputContainer: {
-    flexBasis: "40%",
-    flexGrow: "1",
-    flexShrink: "1",
-    textAlign: "right"
+    minWidth: "65px"
   },
   numberInput: {
     padding: "0.1em",
-    width: "auto",
-    textAlign: "right"
+    textAlign: "right",
+    width: "195px"
   },
   numberInputInvalid: {
     padding: "0.1em",
@@ -58,10 +48,10 @@ const useStyles = createUseStyles({
     border: "1px dashed red"
   },
   choiceSelectContainer: {
-    flexBasis: "40%",
-    flexGrow: "1",
-    flexShrink: "1",
     textAlign: "right"
+  },
+  select: {
+    width: "200px"
   },
   stringInput: {
     flexBasis: "50%",
@@ -105,11 +95,6 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  textInputLabel: {
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1"
-  },
   errorLabel: {
     color: "red",
     flexBasis: "50%",
@@ -140,7 +125,10 @@ const RuleStrategy = ({
   onPropInputChange,
   onCommentChange
 }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme });
+
+  const disabledStyle = !display && classes.disabled;
 
   const onInputChange = e => {
     onPropInputChange(e);
@@ -171,37 +159,16 @@ const RuleStrategy = ({
   return (
     <React.Fragment>
       {dataType === "number" ? (
-        <div
-          className={
-            display
-              ? classes.strategyContainer
-              : clsx(classes.strategyContainer, classes.disabled)
-          }
-        >
-          <label
-            htmlFor={code}
-            className={classes.strategyName}
-            data-for={"tooltip-strategy" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {" "}
-            {link ? (
-              <a
-                href={link}
-                className={classes.textInputLabelAnchor}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}{" "}
-          </label>
-          <div className={classes.numberInputContainer}>
+        <div className={clsx(classes.rowContainer, disabledStyle)}>
+          <RuleStrategyLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            link={link}
+            name={name}
+          />
+          <div>
             <input
               className={
                 validationErrors
@@ -220,36 +187,15 @@ const RuleStrategy = ({
           {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "boolean" ? (
-        <div
-          className={
-            display
-              ? classes.strategyContainer
-              : clsx(classes.strategyContainer, classes.disabled)
-          }
-        >
-          <label
-            htmlFor={code}
-            className={classes.strategyName}
-            data-for={"tooltip-strategy" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {" "}
-            {link ? (
-              <a
-                href={link}
-                className={classes.textInputLabelAnchor}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}{" "}
-          </label>
+        <div className={clsx(classes.rowContainer, disabledStyle)}>
+          <RuleStrategyLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            link={link}
+            name={name}
+          />
           <div className={classes.booleanInputContainer}>
             <input
               type="checkbox"
@@ -264,39 +210,18 @@ const RuleStrategy = ({
           {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "choice" ? (
-        <div
-          className={
-            display
-              ? classes.strategyContainer
-              : clsx(classes.strategyContainer, classes.disabled)
-          }
-        >
-          <label
-            htmlFor={code}
-            className={classes.strategyName}
-            data-for={"tooltip-strategy" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {" "}
-            {link ? (
-              <a
-                href={link}
-                className={classes.textInputLabelAnchor}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}{" "}
-          </label>
+        <div className={clsx(classes.rowContainer, disabledStyle)}>
+          <RuleStrategyLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            link={link}
+            name={name}
+          />
           <div className={classes.choiceSelectContainer}>
             <select
-              width="100%"
+              className={classes.select}
               value={value || ""}
               onChange={onInputChange}
               name={code}
@@ -313,36 +238,15 @@ const RuleStrategy = ({
           {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "string" ? (
-        <div
-          className={
-            display
-              ? classes.strategyContainer
-              : clsx(classes.strategyContainer, classes.disabled)
-          }
-        >
-          <label
-            htmlFor={code}
-            className={classes.strategyName}
-            data-for={"tooltip-strategy" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {" "}
-            {link ? (
-              <a
-                href={link}
-                className={classes.textInputLabelAnchor}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}{" "}
-          </label>
+        <div className={clsx(classes.rowContainer, disabledStyle)}>
+          <RuleStrategyLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            link={link}
+            name={name}
+          />
           <input
             type="text"
             className={
@@ -359,45 +263,21 @@ const RuleStrategy = ({
           />
         </div>
       ) : (
-        <div
-          className={
-            display
-              ? classes.strategyContainer
-              : clsx(classes.strategyContainer, classes.disabled)
-          }
-          data-for={"tooltip-strategy" + id}
-          data-tip={description}
-          data-iscapture="true"
-          data-html="true"
-          data-class={classes.tooltip}
-        >
-          <label htmlFor={code} className={classes.strategyName}>
-            {" "}
-            {link ? (
-              <a
-                href={link}
-                className={classes.textInputLabelAnchor}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}{" "}
-          </label>
+        <div className={clsx(classes.rowContainer, disabledStyle)}>
+          <RuleStrategyLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            link={link}
+            name={name}
+          />
           <div className={classes.allElse} name={code} />
           {possibleAndEarnedPointsContainers()}
         </div>
       )}
       {displayComment ? (
-        <div
-          className={
-            display
-              ? classes.commentContainer
-              : clsx(classes.commentContainer, classes.disabled)
-          }
-        >
+        <div className={clsx(classes.commentContainer, disabledStyle)}>
           <div>{`If applicable, please input the details about ${name}.`}</div>
           <div>
             <textarea
