@@ -51,9 +51,9 @@ const useStyles = createUseStyles({
   }
 });
 
-const SidebarPoints = (props, color = "colorDefault") => {
+const SidebarPoints = props => {
   const theme = useTheme();
-  const classes = useStyles({ color, theme });
+  const classes = useStyles({ theme });
   const { rule, rulesConfig } = props;
 
   const opacityTest =
