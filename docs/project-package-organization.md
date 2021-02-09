@@ -28,6 +28,8 @@ lerna run lint
 
 from the root folder. This is what allows Husky to execute the linter on both projects in its pre-commit hook.
 
+NOTE: If you get an error `bash: lerna: command not found` on Windows 10, you may need to add `%AppData%\npm` to your PATH Environment Variable and re-start your bash shell.
+
 You can build a full-stack docker container with the command
 
 ```
