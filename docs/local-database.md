@@ -259,7 +259,7 @@ To connect with DBeaver:
 
 1. Install all the npm packages if you haven't done so already by running `npm install` in the root directory
 
-1. Create the database schema and populate it with seed data by running:
+1. Create the database schema and populate it with seed data by running the following command from the server directory:
 
    ```bash
    npm run flyway:migrate
@@ -295,7 +295,7 @@ To create a new migration file, run the following from your root directory:
 
 ```bash
 ./db/create-migration
-```  
+```
 
 This is an executable file that will generate a `.sql` file in your `/db/migration/` folder.
 
