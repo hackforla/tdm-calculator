@@ -1,24 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
 import ToolTip from "../../ToolTip/ToolTip";
 
 const useStyles = createUseStyles({
-  ruleValue: {
+  ruleTargetGreen: {
     fontSize: "100px",
     fontFamily: "Oswald, Calibri",
     fontWeight: "bold",
     marginBottom: 6,
-    color: "rgb(155, 188, 74)"
+    color: ({ theme }) => theme.colorPrimary
   },
-  ruleValueEarned: {
+  ruleEarnedOrange: {
     fontSize: "100px",
     fontFamily: "Oswald, Calibri",
     fontWeight: "bold",
     marginBottom: 6,
-    color: "rgb(255, 168, 4)"
+    color: ({ theme }) => theme.colorEarnedPoints
   },
   ruleName: {
     fontFamily: "Oswald, Calibri",
@@ -52,24 +52,27 @@ const useStyles = createUseStyles({
 });
 
 const SidebarPoints = props => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme });
   const { rule, rulesConfig } = props;
 
   const opacityTest =
     rule.value && rule.value !== "0" ? "" : classes.lowOpacity;
   const noToolTip = rule.value === 0 ? classes.noDisplay : "";
 
-  let target = rulesConfig.target.value;
-  let earned = rulesConfig.earned.value;
+  const target = rulesConfig.target.value;
+  const earned = rulesConfig.earned.value;
 
-  let earnedPointsColor =
+  const earnedPointsColor =
     (rule.name === "Earned Points" && earned === 0) ||
     (rule.name === "Earned Points" && earned < target)
-      ? classes.ruleValueEarned
-      : classes.ruleValue;
+      ? classes.ruleEarnedOrange
+      : classes.ruleTargetGreen;
 
-  let targetPointsColor =
-    rule.name === "Target Points" ? classes.ruleValue : classes.ruleValueEarned;
+  const targetPointsColor =
+    rule.name === "Target Points"
+      ? classes.ruleTargetGreen
+      : classes.ruleEarnedOrange;
 
   return (
     <div className={clsx("tdm-calculation-metrics-panel-item", opacityTest)}>
