@@ -196,7 +196,7 @@ const RuleStrategy = ({
             link={link}
             name={name}
           />
-          <div className={classes.booleanInputContainer}>
+          <div>
             <input
               type="checkbox"
               value={true}

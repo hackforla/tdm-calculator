@@ -86,6 +86,8 @@ const useStyles = createUseStyles({
 
 function ProjectPackages(props) {
   const { allowResidentialPackage, allowEmploymentPackage } = props;
+
+  //TODO: use or remove theme. it's not actually getting used by the useStyles...
   const theme = useTheme();
   const classes = useStyles({ theme });
   return (
@@ -309,7 +311,6 @@ function ProjectPackages(props) {
 ProjectPackages.propTypes = {
   projectLevel: PropTypes.number.isRequired,
   rules: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowEmploymentPackage: PropTypes.bool.isRequired
 };

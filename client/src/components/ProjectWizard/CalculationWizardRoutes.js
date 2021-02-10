@@ -14,7 +14,6 @@ import ProjectSummary from "./WizardPages/ProjectSummary";
 const CalculationWizardRoutes = ({
   projectDescriptionRules,
   onInputChange,
-  classes,
   specificationRules,
   onUncheckAll,
   filters,
@@ -43,14 +42,12 @@ const CalculationWizardRoutes = ({
         <ProjectDescriptions
           rules={projectDescriptionRules}
           onInputChange={onInputChange}
-          classes={classes}
         />
       </Route>
       <Route path="/calculation/2/:projectId?">
         <ProjectSpecifications
           rules={specificationRules}
           onInputChange={onInputChange}
-          classes={classes}
           uncheckAll={() => onUncheckAll(filters.specificationRules)}
         />
       </Route>
@@ -58,7 +55,6 @@ const CalculationWizardRoutes = ({
         <ProjectTargetPoints
           rules={targetPointRules}
           onInputChange={onInputChange}
-          classes={classes}
           isLevel0={isLevel0}
         />
       </Route>
@@ -67,7 +63,6 @@ const CalculationWizardRoutes = ({
           projectLevel={projectLevel}
           rules={strategyRules}
           landUseRules={landUseRules}
-          classes={classes}
           allowResidentialPackage={allowResidentialPackage}
           allowEmploymentPackage={allowEmploymentPackage}
         />
@@ -80,7 +75,6 @@ const CalculationWizardRoutes = ({
           onInputChange={onInputChange}
           onCommentChange={onCommentChange}
           initializeStrategies={initializeStrategies}
-          classes={classes}
           onPkgSelect={onPkgSelect}
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
           allowResidentialPackage={allowResidentialPackage}
@@ -103,10 +97,10 @@ const CalculationWizardRoutes = ({
   );
 };
 
+// TODO:
 CalculationWizardRoutes.propTypes = {
   projectDescriptionRules: PropTypes.any,
   onInputChange: PropTypes.any,
-  classes: PropTypes.any,
   specificationRules: PropTypes.any,
   onUncheckAll: PropTypes.any,
   filters: PropTypes.any,

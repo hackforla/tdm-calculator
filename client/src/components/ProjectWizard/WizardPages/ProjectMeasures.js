@@ -4,14 +4,38 @@ import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import InfoBox from "../InfoBox";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import useLocalStorage from "../../useLocalStorage";
+import { createUseStyles } from "react-jss";
 
+const useStyles = createUseStyles({
+  pkgSelectContainer: {
+    display: "grid",
+    gridTemplateColumns: "[h-start] auto [h-end] 35%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    position: "relative"
+  },
+  alignLeft: {
+    gridColumn: "h-start",
+    display: "flex",
+    justifyContent: "flex-start",
+    marginLeft: "2em"
+  },
+  unSelectButton: {
+    marginLeft: "auto",
+    marginRight: "1em",
+    gridColumn: "h-end",
+    backgroundColor: "transparent",
+    border: "0",
+    cursor: "pointer",
+    textDecoration: "underline"
+  }
+});
 function ProjectMeasure(props) {
   const {
     projectLevel,
     rules,
     onInputChange,
     onCommentChange,
-    classes,
     onPkgSelect,
     uncheckAll,
     initializeStrategies,
@@ -20,6 +44,8 @@ function ProjectMeasure(props) {
     residentialPackageSelected,
     employmentPackageSelected
   } = props;
+
+  const classes = useStyles();
 
   useEffect(() => {
     initializeStrategies();
@@ -91,7 +117,7 @@ function ProjectMeasure(props) {
             </div>
           ) : null}
           {allowEmploymentPackage ? (
-            <div className={classes.booleanInputContainer}>
+            <div>
               <label
                 style={{
                   fontWeight: "600",
@@ -143,7 +169,6 @@ ProjectMeasure.propTypes = {
   landUseRules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
   initializeStrategies: PropTypes.func.isRequired,

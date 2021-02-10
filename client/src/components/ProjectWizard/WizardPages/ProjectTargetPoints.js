@@ -97,7 +97,6 @@ function ProjectTargetPoints(props) {
 ProjectTargetPoints.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   isLevel0: PropTypes.bool.isRequired
 };
 

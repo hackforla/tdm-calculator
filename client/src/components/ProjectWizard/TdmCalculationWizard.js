@@ -3,15 +3,11 @@ import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import SidebarPointsPanel from "./SidebarPoints/SidebarPointsPanel";
-import Sidebar from "../Sidebar";
 import { withRouter } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
-import SwitchViewButton from "../Button/SwitchViewButton";
 import TermsAndConditionsModal from "../TermsAndConditionsModal";
 import CalculationWizardRoutes from "./CalculationWizardRoutes";
-import NavAndSaveButtons from "./NavAndSaveButtons";
+import WizardFooter from "./WizardFooter";
+import WizardSidebar from "./WizardSidebar/WizardSidebar";
 
 const useStyles = createUseStyles({
   root: {
@@ -24,87 +20,10 @@ const useStyles = createUseStyles({
       flexDirection: "column"
     }
   },
-  sidebarOverlay: {
-    position: "absolute",
-    background: "rgba(0, 46, 109, 0.65)",
-    height: "100%",
-    width: "100%",
-    zIndex: 0
-  },
-  sidebarContent: {
-    zIndex: 1,
-    display: "flex",
-    position: "sticky",
-    top: 0,
-    height: "calc(100vh - 103px - 48px)",
-    flexDirection: "column",
-    "@media (max-width:768px)": {
-      height: "auto"
-    }
-  },
   contentContainer: {
     justifyContent: "space-between",
     boxSizing: "border-box",
     overflow: "auto"
-  },
-  buttonWrapper: {
-    textAlign: "center"
-  },
-  allButtonsWrapper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    margin: "2em 0"
-  },
-  unSelectContainer: {
-    display: "grid",
-    gridTemplateColumns: "[h-start] 20% [h-mid] auto [h-end] 20%",
-    alignItems: "center",
-    justifyContent: "space-between",
-    position: "relative"
-  },
-  pkgSelectContainer: {
-    display: "grid",
-    gridTemplateColumns: "[h-start] auto [h-end] 35%",
-    alignItems: "center",
-    justifyContent: "space-between",
-    position: "relative"
-  },
-  unSelectButton: {
-    marginLeft: "auto",
-    marginRight: "1em",
-    gridColumn: "h-end",
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
-  },
-  alignMid: {
-    gridColumn: "h-mid",
-    display: "flex",
-    justifyContent: "center"
-  },
-  alignLeft: {
-    gridColumn: "h-start",
-    display: "flex",
-    justifyContent: "flex-start",
-    marginLeft: "2em"
-  },
-  buttonContainer: {
-    marginTop: "5px"
-  },
-  lastSaved: {
-    fontSize: "14px",
-    color: "#6F6C64"
-  },
-  lastSavedContainer: {
-    margin: "0 auto"
-  },
-  pageNumberCounter: {
-    fontSize: "24px",
-    margin: "auto",
-    fontWeight: "bold",
-    padding: "0px 12px"
   }
 });
 
@@ -242,16 +161,11 @@ const TdmCalculationWizard = props => {
     <React.Fragment>
       <TermsAndConditionsModal />
       <div className={clsx("tdm-wizard", classes.root)}>
-        <Sidebar>
-          {rules && rules.length > 0 && (
-            <div className={classes.sidebarContent}>
-              <SwitchViewButton onViewChange={onViewChange} isDisplayed={false}>
-                Switch to Single Page View
-              </SwitchViewButton>
-              <SidebarPointsPanel rules={resultRules} />
-            </div>
-          )}
-        </Sidebar>
+        <WizardSidebar
+          rules={rules}
+          onViewChange={onViewChange}
+          resultRules={resultRules}
+        />
         <div
           className={clsx(
             "tdm-wizard-content-container",
@@ -285,8 +199,7 @@ const TdmCalculationWizard = props => {
             onSave={onSave}
             dateModified={dateModified}
           />
-          <NavAndSaveButtons
-            classes={classes}
+          <WizardFooter
             rules={rules}
             page={page}
             onPageChange={onPageChange}
@@ -299,14 +212,6 @@ const TdmCalculationWizard = props => {
             projectIsValid={projectIsValid}
             onSave={onSave}
           />
-          <div className={classes.lastSavedContainer}>
-            {dateModified && (
-              <span className={classes.lastSaved}>
-                <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
-                {dateModified}
-              </span>
-            )}
-          </div>
         </div>
       </div>
     </React.Fragment>
