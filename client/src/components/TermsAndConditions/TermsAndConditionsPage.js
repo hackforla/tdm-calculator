@@ -1,5 +1,4 @@
 import React from "react";
-import SideBar from "../Sidebar";
 import clsx from "clsx";
 import { createUseStyles } from "react-jss";
 import TermsAndConditionsContent from "./TermsAndConditionsContent";
@@ -25,7 +24,6 @@ const TermsAndConditionsPage = () => {
   return (
     <div className={classes.root}>
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
-        <SideBar />
         <div className="tdm-wizard-content-container">
           <div className={classes.contentContainer}>
             <TermsAndConditionsContent />
