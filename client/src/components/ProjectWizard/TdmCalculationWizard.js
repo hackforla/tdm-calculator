@@ -4,7 +4,7 @@ import ToastContext from "../../contexts/Toast/ToastContext";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { withRouter } from "react-router-dom";
-import TermsAndConditionsModal from "../TermsAndConditionsModal";
+import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
 import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
