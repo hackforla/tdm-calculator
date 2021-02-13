@@ -1,5 +1,6 @@
 {
   "name": "root",
+  "version": "0.2.19",
   "private": true,
   "devDependencies": {
     "husky": "^4.3.5",

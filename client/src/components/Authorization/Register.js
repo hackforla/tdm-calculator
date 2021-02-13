@@ -6,7 +6,6 @@ import clsx from "clsx";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link, withRouter } from "react-router-dom";
 import * as Yup from "yup";
-import Sidebar from "../Sidebar";
 
 const useStyles = createUseStyles({
   root: {
@@ -63,13 +62,13 @@ const Register = props => {
       if (response.isSuccess) {
         setSubmitted(true);
       } else if (response.code === "REG_DUPLICATE_EMAIL") {
-        setErrorMsg(`The email ${email} is already registered. Please 
-          login or use the Forgot Password feature if you have 
+        setErrorMsg(`The email ${email} is already registered. Please
+          login or use the Forgot Password feature if you have
           forgotten your password.`);
         setSubmitting(false);
       } else {
-        setErrorMsg(`An error occurred in sending the confirmation 
-          message to ${email}. Try to log in, and follow the 
+        setErrorMsg(`An error occurred in sending the confirmation
+          message to ${email}. Try to log in, and follow the
           instructions for re-sending the confirmation email.`);
         setSubmitting(false);
       }
@@ -84,7 +83,6 @@ const Register = props => {
   return (
     <div className={classes.root}>
       <div className={clsx("tdm-wizard", classes.wizardContainer)}>
-        <Sidebar />
         <div
           className={clsx(
             "tdm-wizard-content-container",

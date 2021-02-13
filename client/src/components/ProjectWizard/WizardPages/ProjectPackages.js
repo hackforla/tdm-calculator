@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-import Tooltip from "../SidebarPoints/ToolTip";
+import ToolTipIcon from "../../ToolTip/ToolTipIcon";
+import ToolTip from "../../ToolTip/ToolTip";
+import ToolTipLabel from "../../ToolTip/ToolTipLabel";
 
 const useStyles = createUseStyles({
   box: {
@@ -58,11 +60,34 @@ const useStyles = createUseStyles({
     padding: "0.5em 0 0.2em 1em",
     fontWeight: "700",
     fontSize: "18px"
+  },
+  tooltipLabel: {
+    flexGrow: "1",
+    flexShrink: "1"
+  },
+  //TODO: refactor labels
+  tooltip: {
+    color: "rgb(30, 36, 63) !important",
+    padding: "15px",
+    minWidth: "200px",
+    maxWidth: "400px",
+    fontFamily: "Arial",
+    fontSize: 12,
+    lineHeight: "16px",
+    fontWeight: "bold",
+    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    borderRadius: 2,
+    "&.show": {
+      visibility: "visible !important",
+      opacity: "1 !important"
+    }
   }
 });
 
 function ProjectPackages(props) {
   const { allowResidentialPackage, allowEmploymentPackage } = props;
+
+  //TODO: use or remove theme. it's not actually getting used by the useStyles...
   const theme = useTheme();
   const classes = useStyles({ theme });
   return (
@@ -269,14 +294,15 @@ function ProjectPackages(props) {
       )}
       <h3 className="tdm-wizard-page-subtitle">
         Learn more about packages
-        <span className={classes.projectLevelContainer}>
-          <Tooltip
-            tipText={`There are many TDM strategies choices and most involve making long-term commitments in meeting program compliance. 
-Small development projects (defined as Program Level 1 that provide no more than the parking baseline), are provided TDM packages that allow fulfillment of the minimum 15 point target from a pre-selected menu. 
-A point incentive is provided for the packages made up of strategies that work together to reinforce their effectiveness in reducing drive-alone trips. 
-Each strategy selected on its own does not result in the required minimum point target but several selected together will. Each package can be unselected and individual strategies that will work best to both achieve the TDM program goals and your specific development objectives should be chosen. 
-`}
-          />
+        <span style={{ textAlign: "left" }}>
+          <ToolTipLabel
+            id="tooltip-package-description"
+            tooltipContent="There are many TDM strategies choices and most involve making long-term commitments in meeting program compliance.         Small development projects (defined as Program Level 1 that provide no more than the parking baseline), are provided TDM packages that allow fulfillment of the minimum 15 point target from a pre-selected menu.             A point incentive is provided for the packages made up of strategies that work together to reinforce their effectiveness in reducing drive-alone trips.             Each strategy selected on its own does not result in the required minimum point target but several selected together will. Each package can be unselected and individual strategies that will work best to both achieve the TDM program goals and your specific development objectives should be chosen. "
+          >
+            <ToolTipIcon />
+          </ToolTipLabel>
+
+          <ToolTip id={"tooltip-package-description"} />
         </span>
       </h3>
     </div>
@@ -285,7 +311,6 @@ Each strategy selected on its own does not result in the required minimum point 
 ProjectPackages.propTypes = {
   projectLevel: PropTypes.number.isRequired,
   rules: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowEmploymentPackage: PropTypes.bool.isRequired
 };

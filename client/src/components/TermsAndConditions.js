@@ -1,5 +1,4 @@
 import React from "react";
-import SideBar from "./Sidebar";
 import clsx from "clsx";
 import { createUseStyles } from "react-jss";
 
@@ -63,7 +62,6 @@ const TermsAndConditions = () => {
   return (
     <div className={classes.root}>
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
-        <SideBar />
         <div className="tdm-wizard-content-container">
           <h1 className={classes.header}>
             TDM Calculator User Terms and Conditions

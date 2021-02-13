@@ -83,12 +83,6 @@ const useStyles = createUseStyles({
   overline: {
     borderTop: "2px solid black"
   },
-  buttonContainer: {
-    display: "flex",
-    flexDirection: "row",
-    marginTop: "1em",
-    justifyContent: "space-evenly"
-  },
   bold: {
     fontFamily: "Calibri Bold"
   },

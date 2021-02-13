@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import Tooltip from "./ToolTip";
+import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
@@ -30,6 +30,22 @@ const useStyles = createUseStyles({
   },
   noDisplay: {
     display: "none !important"
+  },
+  tooltip: {
+    color: "rgb(30, 36, 63) !important",
+    padding: "15px",
+    minWidth: "200px",
+    maxWidth: "400px",
+    fontFamily: "Arial",
+    fontSize: 12,
+    lineHeight: "16px",
+    fontWeight: "bold",
+    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    borderRadius: 2,
+    "&.show": {
+      visibility: "visible !important",
+      opacity: "1 !important"
+    }
   }
 });
 
@@ -44,8 +60,14 @@ const SidebarProjectLevel = ({ level, rules }) => {
       <p className={classes.projectLevelValue}>{level}</p>
       <h3 className={classes.projectLevelHeader}>
         PROJECT LEVEL
-        <span className={clsx(classes.projectLevelContainer, noToolTip)}>
-          <Tooltip tipText={tipText} />
+        <span
+          className={clsx(classes.projectLevelContainer, noToolTip)}
+          data-tip={tipText}
+          data-iscapture="true"
+          data-html="true"
+          data-class={classes.tooltip}
+        >
+          <ToolTipIcon />
         </span>
       </h3>
     </div>

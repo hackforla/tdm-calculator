@@ -59,10 +59,10 @@ const withToastProvider = Component => {
 
   ToastProvider.propTypes = {
     tdmWizardContentContainerRef: PropTypes.shape({
-      current: PropTypes.instanceOf("div")
+      current: PropTypes.object
     }),
     mainContentContainerRef: PropTypes.shape({
-      current: PropTypes.instanceOf("div")
+      current: PropTypes.object
     })
   };
 

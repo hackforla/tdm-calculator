@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
-import ReactTooltip from "react-tooltip";
 import InputMask from "react-input-mask";
+import ToolTip from "../../ToolTip/ToolTip";
+import RuleInputLabel from "./RuleInputLabel";
 
 const useStyles = createUseStyles({
-  field: {
+  rowContainer: {
     minWidth: "60vw",
     margin: "0.2em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   numberFieldWrapper: {
     marginBottom: "0.4em",
     alignItems: "center",
     "&:hover": {
-      backgroundColor: "#f0e300"
+      backgroundColor: ({ theme }) => theme.colorHighlight
     }
   },
   numberFieldUnits: {
@@ -54,13 +56,8 @@ const useStyles = createUseStyles({
   checkboxFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300"
+      backgroundColor: ({ theme }) => theme.colorHighlight
     }
-  },
-  checkboxFieldLabel: {
-    flexBasis: "70%",
-    flexGrow: "1",
-    flexShrink: "1"
   },
   checkbox: {
     flexGrow: "0",
@@ -70,15 +67,9 @@ const useStyles = createUseStyles({
   selectFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300"
+      backgroundColor: ({ theme }) => theme.colorHighlight
     }
   },
-  selectFieldLabel: {
-    flexBasis: "45%",
-    flexGrow: "1",
-    flexShrink: "1"
-  },
-
   select: {
     flexBasis: "45%",
     flexGrow: "1",
@@ -90,13 +81,8 @@ const useStyles = createUseStyles({
   miscFieldWrapper: {
     alignItems: "baseline",
     "&:hover": {
-      backgroundColor: "#f0e300"
+      backgroundColor: ({ theme }) => theme.colorHighlight
     }
-  },
-  miscFieldLabel: {
-    flexBasis: "70%",
-    flexGrow: "1",
-    flexShrink: "1"
   },
   codeWrapper: {
     flexBasis: "10%",
@@ -122,9 +108,6 @@ const useStyles = createUseStyles({
   textDisabledInputLabel: {
     opacity: "0.5"
   },
-  textInputLabelAnchor: {
-    textDecoration: "underline"
-  },
   textarea: {
     flexBasis: "50%",
     flexGrow: "1",
@@ -138,42 +121,11 @@ const useStyles = createUseStyles({
     minHeight: "5em",
     border: "1px dashed red"
   },
-  textareaLabel: {
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1",
-    minHeight: "5em"
-  },
-  requiredInputLabel: {
-    "&:after": {
-      content: '" *"',
-      color: "red"
-    }
-  },
   errorLabel: {
     color: "red",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
-  },
-  tooltip: {
-    padding: "15px",
-    minWidth: "200px",
-    maxWidth: "400px",
-    fontFamily: "Arial",
-    fontSize: 12,
-    lineHeight: "16px",
-    fontWeight: "bold",
-    "-webkit-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-moz-box-shadow": "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    "-webkit-border-radius": 2,
-    "-moz-border-radius": 2,
-    borderRadius: 2,
-    "&.show": {
-      visibility: "visible !important",
-      opacity: "1 !important"
-    }
   }
 });
 
@@ -198,7 +150,8 @@ const RuleInput = ({
   },
   onPropInputChange
 }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme });
 
   // The validationErrors property of the rule indicates whether the
   // violates any of the database-driven validation rules. For now, this
@@ -220,35 +173,16 @@ const RuleInput = ({
   return (
     <React.Fragment>
       {dataType === "number" ? (
-        <div className={clsx(classes.field, classes.numberFieldWrapper)}>
-          <label
-            htmlFor={code}
-            className={
-              !display
-                ? clsx(classes.textInputLabel, classes.textDisabledInputLabel)
-                : required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
-                : classes.textInputLabel
-            }
-            data-for={"main" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {link ? (
-              <a
-                href={link}
-                className={classes.textInputLabelAnchor}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}
-          </label>
+        <div className={clsx(classes.rowContainer, classes.numberFieldWrapper)}>
+          <RuleInputLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            required={required}
+            link={link}
+            name={name}
+          />
           <div>
             <input
               className={
@@ -274,40 +208,20 @@ const RuleInput = ({
           >
             {units}
           </div>
-          {/* <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div> */}
         </div>
       ) : dataType === "boolean" ? (
-        <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
-          <label
-            htmlFor={code}
-            className={
-              required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
-                : classes.textInputLabel
-            }
-            data-for={"main" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {link ? (
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.textInputLabelAnchor}
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}
-          </label>
+        <div
+          className={clsx(classes.rowContainer, classes.checkboxFieldWrapper)}
+        >
+          <RuleInputLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            required={required}
+            link={link}
+            name={name}
+          />
           <input
             type="checkbox"
             className={classes.checkbox}
@@ -319,45 +233,18 @@ const RuleInput = ({
             data-testid={code}
           />
           <div className={classes.numberFieldUnits}>{units}</div>
-          {/* {calcValue ? (
-            <>
-              <div className={classes.unitsCaption}>{units}</div>
-              <div className={classes.calcUnitsCaption}>
-                {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
-                  calcUnits || ""
-                }`}
-              </div>
-            </>
-          ) : null} */}
         </div>
       ) : dataType === "choice" ? (
-        <div className={clsx(classes.field, classes.selectFieldWrapper)}>
-          <label
-            htmlFor={code}
-            className={
-              required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
-                : classes.textInputLabel
-            }
-            data-for={"main" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {link ? (
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.textInputLabelAnchor}
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}
-          </label>
+        <div className={clsx(classes.rowContainer, classes.selectFieldWrapper)}>
+          <RuleInputLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            required={required}
+            link={link}
+            name={name}
+          />
           <select
             className={classes.select}
             value={value || ""}
@@ -372,45 +259,23 @@ const RuleInput = ({
               </option>
             ))}
           </select>
-          {/* <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div> */}
         </div>
       ) : dataType === "string" ||
         dataType === "textarea" ||
         dataType === "mask" ? (
         <div
-          className={clsx(classes.field, classes.textFieldWrapper)}
+          className={clsx(classes.rowContainer, classes.textFieldWrapper)}
           onBlur={onBlur}
         >
-          <label
-            htmlFor={code}
-            className={
-              required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
-                : classes.textInputLabel
-            }
-            data-for={"main" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {link ? (
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.textInputLabelAnchor}
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}
-          </label>
+          <RuleInputLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            required={required}
+            link={link}
+            name={name}
+          />
           {dataType === "string" ? (
             <input
               type="text"
@@ -458,65 +323,29 @@ const RuleInput = ({
           )}
         </div>
       ) : (
-        <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <label
-            htmlFor={code}
-            className={
-              required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
-                : classes.textInputLabel
-            }
-            data-for={"main" + id}
-            data-tip={description}
-            data-iscapture="true"
-            data-html="true"
-            data-class={classes.tooltip}
-          >
-            {link ? (
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.textInputLabelAnchor}
-              >
-                {name}
-              </a>
-            ) : (
-              name
-            )}
-          </label>
+        <div className={clsx(classes.rowContainer, classes.miscFieldWrapper)}>
+          <RuleInputLabel
+            id={id}
+            description={description}
+            code={code}
+            display={display}
+            required={required}
+            link={link}
+            name={name}
+          />
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
-          {/* <div className={classes.calcUnitsCaption}>
-            {`${
-              calcValue ? Math.round(calcValue * 100) / 100 : ""
-            } ${calcUnits || ""}`}
-          </div> */}
         </div>
       )}
       {validationErrors && showValidationErrors ? (
-        <div className={classes.field}>
+        <div className={classes.rowContainer}>
           <div className={classes.textInputLabel}></div>
           <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
             {validationErrors[0]}
           </div>
         </div>
       ) : null}
-      <ReactTooltip
-        id={"main" + id}
-        place="right"
-        type="info"
-        effect="float"
-        multiline={true}
-        style={{
-          width: "25vw"
-        }}
-        textColor="#32578A"
-        backgroundColor="#F7F9FA"
-        border={true}
-        borderColor="#B2C0D3"
-        offset={{ right: 20 }}
-      />
+      <ToolTip id={"tooltip-project-spec" + id} />
     </React.Fragment>
   );
 };

@@ -29,7 +29,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 4em 2em 2em 2em
+  padding: 4em 2em 2em 2em;
 }
 
 .tdm-wizard-page-title {
@@ -69,7 +69,7 @@
 
 .tdm-results-panel {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   background-color: transparent;
   color: $color-background;
   flex: 1;

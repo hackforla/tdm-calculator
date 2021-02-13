@@ -2,16 +2,40 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import InfoBox from "../InfoBox";
-import ToolTipIcon from "../SidebarPoints/ToolTipIcon";
+import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import useLocalStorage from "../../useLocalStorage";
+import { createUseStyles } from "react-jss";
 
+const useStyles = createUseStyles({
+  pkgSelectContainer: {
+    display: "grid",
+    gridTemplateColumns: "[h-start] auto [h-end] 35%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    position: "relative"
+  },
+  alignLeft: {
+    gridColumn: "h-start",
+    display: "flex",
+    justifyContent: "flex-start",
+    marginLeft: "2em"
+  },
+  unSelectButton: {
+    marginLeft: "auto",
+    marginRight: "1em",
+    gridColumn: "h-end",
+    backgroundColor: "transparent",
+    border: "0",
+    cursor: "pointer",
+    textDecoration: "underline"
+  }
+});
 function ProjectMeasure(props) {
   const {
     projectLevel,
     rules,
     onInputChange,
     onCommentChange,
-    classes,
     onPkgSelect,
     uncheckAll,
     initializeStrategies,
@@ -20,6 +44,8 @@ function ProjectMeasure(props) {
     residentialPackageSelected,
     employmentPackageSelected
   } = props;
+
+  const classes = useStyles();
 
   useEffect(() => {
     initializeStrategies();
@@ -52,19 +78,15 @@ function ProjectMeasure(props) {
             cursor: "pointer"
           }}
         >
-          <ToolTipIcon
-            circleStyle={{
-              filter: "drop-shadow(0px 4px 2px rgba(0, 46, 109, 0.3))"
-            }}
-          />
+          <ToolTipIcon size="medium" />
         </button>
       </h3>
       <InfoBox
         displayStatus={displayInfoBox}
         handleClick={() => setDisplayInfoBox(false)}
       >
-        <ToolTipIcon /> For detailed information, hover the mouse cursor over
-        the terminology.
+        <ToolTipIcon size="medium" /> For detailed information, hover the mouse
+        cursor over the terminology.
       </InfoBox>
       <div className={classes.pkgSelectContainer}>
         <div className={classes.alignLeft}>
@@ -95,7 +117,7 @@ function ProjectMeasure(props) {
             </div>
           ) : null}
           {allowEmploymentPackage ? (
-            <div className={classes.booleanInputContainer}>
+            <div>
               <label
                 style={{
                   fontWeight: "600",
@@ -147,7 +169,6 @@ ProjectMeasure.propTypes = {
   landUseRules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
   initializeStrategies: PropTypes.func.isRequired,
