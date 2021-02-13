@@ -3,23 +3,11 @@ import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import ProjectSummary from "./WizardPages/ProjectSummary";
-import SidebarPointsPanel from "./SidebarPoints/SidebarPointsPanel";
-import Sidebar from "../Sidebar";
-import { Switch, Route, withRouter } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Button/Button";
-import NavButton from "../Button/NavButton";
-import SwitchViewButton from "../Button/SwitchViewButton";
+import { withRouter } from "react-router-dom";
 import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
-import {
-  ProjectDescriptions,
-  ProjectSpecifications,
-  ProjectPackages,
-  ProjectTargetPoints,
-  ProjectMeasures
-} from "./WizardPages";
+import CalculationWizardRoutes from "./CalculationWizardRoutes";
+import WizardFooter from "./WizardFooter";
+import WizardSidebar from "./WizardSidebar/WizardSidebar";
 
 const useStyles = createUseStyles({
   root: {
@@ -32,87 +20,10 @@ const useStyles = createUseStyles({
       flexDirection: "column"
     }
   },
-  sidebarOverlay: {
-    position: "absolute",
-    background: "rgba(0, 46, 109, 0.65)",
-    height: "100%",
-    width: "100%",
-    zIndex: 0
-  },
-  sidebarContent: {
-    zIndex: 1,
-    display: "flex",
-    position: "sticky",
-    top: 0,
-    height: "calc(100vh - 103px - 48px)",
-    flexDirection: "column",
-    "@media (max-width:768px)": {
-      height: "auto"
-    }
-  },
   contentContainer: {
     justifyContent: "space-between",
     boxSizing: "border-box",
     overflow: "auto"
-  },
-  buttonWrapper: {
-    textAlign: "center"
-  },
-  allButtonsWrapper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    margin: "2em 0"
-  },
-  unSelectContainer: {
-    display: "grid",
-    gridTemplateColumns: "[h-start] 20% [h-mid] auto [h-end] 20%",
-    alignItems: "center",
-    justifyContent: "space-between",
-    position: "relative"
-  },
-  pkgSelectContainer: {
-    display: "grid",
-    gridTemplateColumns: "[h-start] auto [h-end] 35%",
-    alignItems: "center",
-    justifyContent: "space-between",
-    position: "relative"
-  },
-  unSelectButton: {
-    marginLeft: "auto",
-    marginRight: "1em",
-    gridColumn: "h-end",
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
-  },
-  alignMid: {
-    gridColumn: "h-mid",
-    display: "flex",
-    justifyContent: "center"
-  },
-  alignLeft: {
-    gridColumn: "h-start",
-    display: "flex",
-    justifyContent: "flex-start",
-    marginLeft: "2em"
-  },
-  buttonContainer: {
-    marginTop: "5px"
-  },
-  lastSaved: {
-    fontSize: "14px",
-    color: "#6F6C64"
-  },
-  lastSavedContainer: {
-    margin: "0 auto"
-  },
-  pageNumberCounter: {
-    fontSize: "24px",
-    margin: "auto",
-    fontWeight: "bold",
-    padding: "0px 12px"
   }
 });
 
@@ -201,71 +112,6 @@ const TdmCalculationWizard = props => {
 
   const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
 
-  const routes = (
-    <Switch>
-      <Route path="/calculation/1/:projectId?">
-        <ProjectDescriptions
-          rules={projectDescriptionRules}
-          onInputChange={onInputChange}
-          classes={classes}
-        />
-      </Route>
-      <Route path="/calculation/2/:projectId?">
-        <ProjectSpecifications
-          rules={specificationRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          uncheckAll={() => onUncheckAll(filters.specificationRules)}
-        />
-      </Route>
-      <Route path="/calculation/3/:projectId?">
-        <ProjectTargetPoints
-          rules={targetPointRules}
-          onInputChange={onInputChange}
-          classes={classes}
-          isLevel0={isLevel0}
-        />
-      </Route>
-      <Route path="/calculation/4/:projectId?">
-        <ProjectPackages
-          projectLevel={projectLevel}
-          rules={strategyRules}
-          landUseRules={landUseRules}
-          classes={classes}
-          allowResidentialPackage={allowResidentialPackage}
-          allowEmploymentPackage={allowEmploymentPackage}
-        />
-      </Route>
-      <Route path="/calculation/5/:projectId?">
-        <ProjectMeasures
-          projectLevel={projectLevel}
-          rules={strategyRules}
-          landUseRules={landUseRules}
-          onInputChange={onInputChange}
-          onCommentChange={onCommentChange}
-          initializeStrategies={initializeStrategies}
-          classes={classes}
-          onPkgSelect={onPkgSelect}
-          uncheckAll={() => onUncheckAll(filters.strategyRules)}
-          allowResidentialPackage={allowResidentialPackage}
-          allowEmploymentPackage={allowEmploymentPackage}
-          residentialPackageSelected={residentialPackageSelected}
-          employmentPackageSelected={employmentPackageSelected}
-        />
-      </Route>
-      <Route path="/calculation/6/:projectId?">
-        <ProjectSummary
-          rules={rules}
-          account={account}
-          projectId={projectId}
-          loginId={loginId}
-          onSave={onSave}
-          dateModified={dateModified}
-        />
-      </Route>
-    </Switch>
-  );
-
   const handleValidate = () => {
     const { page } = match.params;
     const validations = {
@@ -315,16 +161,11 @@ const TdmCalculationWizard = props => {
     <React.Fragment>
       <TermsAndConditionsModal />
       <div className={clsx("tdm-wizard", classes.root)}>
-        <Sidebar>
-          {rules && rules.length > 0 && (
-            <div className={classes.sidebarContent}>
-              <SwitchViewButton onViewChange={onViewChange} isDisplayed={false}>
-                Switch to Single Page View
-              </SwitchViewButton>
-              <SidebarPointsPanel rules={resultRules} />
-            </div>
-          )}
-        </Sidebar>
+        <WizardSidebar
+          rules={rules}
+          onViewChange={onViewChange}
+          resultRules={resultRules}
+        />
         <div
           className={clsx(
             "tdm-wizard-content-container",
@@ -332,66 +173,45 @@ const TdmCalculationWizard = props => {
           )}
           ref={tdmWizardContentContainerRef}
         >
-          {routes}
-          {!projectId ||
-          (account &&
-            account.id &&
-            (account.id === loginId || account.isAdmin)) ||
-          (account && account.isAdmin) ? (
-            <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
-              {rules && rules.length ? ( //navigation disabled until rules have loaded
-                <>
-                  <div id="nav-container" className="space-between">
-                    <NavButton
-                      id="leftNavArrow"
-                      navDirection="previous"
-                      isVisible={page !== 1}
-                      isDisabled={Number(page) === 1}
-                      onClick={() => {
-                        onPageChange(Number(page) - 1);
-                      }}
-                    />
-                    <div className={classes.pageNumberCounter}>
-                      Page {pageNumber}/5
-                    </div>
-                    <NavButton
-                      id="rightNavArrow"
-                      navDirection="next"
-                      isVisible={page !== 6}
-                      isDisabled={setDisabledForNextNavButton()}
-                      onClick={() => {
-                        onPageChange(Number(page) + 1);
-                      }}
-                    />
-                  </div>
-                  <Button
-                    type="input"
-                    color="colorPrimary"
-                    variant="contained"
-                    isDisplayed={
-                      !!(
-                        account.id &&
-                        (!projectId || account.id === loginId) &&
-                        formIsDirty &&
-                        projectIsValid()
-                      )
-                    }
-                    onClick={onSave}
-                  >
-                    Save Project
-                  </Button>
-                </>
-              ) : null}
-            </div>
-          ) : null}
-          <div className={classes.lastSavedContainer}>
-            {dateModified && (
-              <span className={classes.lastSaved}>
-                <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
-                {dateModified}
-              </span>
-            )}
-          </div>
+          <CalculationWizardRoutes
+            projectDescriptionRules={projectDescriptionRules}
+            onInputChange={onInputChange}
+            classes={classes}
+            specificationRules={specificationRules}
+            onUncheckAll={onUncheckAll}
+            filters={filters}
+            targetPointRules={targetPointRules}
+            isLevel0={isLevel0}
+            projectLevel={projectLevel}
+            strategyRules={strategyRules}
+            landUseRules={landUseRules}
+            allowResidentialPackage={allowResidentialPackage}
+            allowEmploymentPackage={allowEmploymentPackage}
+            onCommentChange={onCommentChange}
+            initializeStrategies={initializeStrategies}
+            onPkgSelect={onPkgSelect}
+            residentialPackageSelected={residentialPackageSelected}
+            employmentPackageSelected={employmentPackageSelected}
+            rules={rules}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            onSave={onSave}
+            dateModified={dateModified}
+          />
+          <WizardFooter
+            rules={rules}
+            page={page}
+            onPageChange={onPageChange}
+            pageNumber={pageNumber}
+            setDisabledForNextNavButton={setDisabledForNextNavButton}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            formIsDirty={formIsDirty}
+            projectIsValid={projectIsValid}
+            onSave={onSave}
+          />
         </div>
       </div>
     </React.Fragment>
