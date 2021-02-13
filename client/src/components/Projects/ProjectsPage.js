@@ -71,6 +71,9 @@ const useStyles = createUseStyles({
   theadLabel: {
     cursor: "pointer"
   },
+  labelSpan: {
+    display: "inline-flex" // fix arrow
+  },
   sortArrow: {
     marginLeft: "8px",
     verticalAlign: "baseline"

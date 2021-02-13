@@ -6,7 +6,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { useStyles } from "./ResetPasswordRequest";
-import Sidebar from "../Sidebar";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -36,7 +35,6 @@ export function ResetPassword(props) {
 
   return (
     <div className={classes.root}>
-      <Sidebar />
       <div className={classes.formContent}>
         {!success ? (
           <>

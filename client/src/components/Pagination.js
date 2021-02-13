@@ -10,6 +10,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
+  paginationContainer: {
+    marginBottom: "20px"
+  },
   pagination: {
     display: "flex"
   },
@@ -45,7 +48,7 @@ const Pagination = props => {
   }
 
   return (
-    <div>
+    <div className={classes.paginationContainer}>
       <ul className={classes.pagination}>
         <button
           className={clsx("hoverPointer", classes.button)}

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 
 export const useStyles = createUseStyles({
-  "sidebar-container": {
+  sidebarContainer: {
     margin: "0",
     flexBasis: "387px",
     flexGrow: 0,
@@ -17,48 +17,46 @@ export const useStyles = createUseStyles({
   },
   overlay: {
     backgroundColor: "rgba(0,69,124,0.75)",
-    // opacity: "0.8",
     height: "100%"
   },
-  "sidebar-content": {
+  sidebarContent: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
     height: "100%"
   },
   "@media (max-width: 1024px)": {
-    "sidebar-container": {
+    sidebarContainer: {
       flexBasis: "200px",
       flexShrink: 1
     }
   },
   "@media (max-width:768px)": {
-    "sidebar-container": {
+    sidebarContainer: {
       flexBasis: "auto",
       backgroundPosition: "15% 44%"
     },
-    "sidebar-content": {
+    sidebarContent: {
       height: "auto",
       minHeight: 0
     }
   }
 });
 
-export function Sidebar(props) {
-  const { sidebarRef } = props;
+export function Sidebar({ sidebarRef, children }) {
   const classes = useStyles();
 
   return (
-    <div className={classes["sidebar-container"]} ref={sidebarRef}>
+    <div className={classes.sidebarContainer} ref={sidebarRef}>
       <div className={classes.overlay}>
-        <div className={classes["sidebar-content"]}>{props.children}</div>
+        <div className={classes.sidebarContent}>{children}</div>
       </div>
     </div>
   );
 }
 
 Sidebar.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.node,
   sidebarRef: PropTypes.object
 };
 

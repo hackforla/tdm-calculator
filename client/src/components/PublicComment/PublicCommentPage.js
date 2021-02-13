@@ -2,7 +2,6 @@ import React from "react";
 import { postPublicComment } from "./postPublicComment";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import Sidebar from "../Sidebar";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../Button/Button";
@@ -85,7 +84,6 @@ const PublicCommentPage = () => {
       onClick={trackComponent}
     >
       <div className="tdm-wizard">
-        <Sidebar />
         <div className="tdm-wizard-content-container">
           <PublicCommentForm />
         </div>

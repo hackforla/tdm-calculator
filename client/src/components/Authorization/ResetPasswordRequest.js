@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import Sidebar from "../Sidebar";
 
 export const useStyles = createUseStyles({
   root: {
@@ -15,11 +14,11 @@ export const useStyles = createUseStyles({
     alignItems: "center",
     position: "relative",
     width: "100%",
-    height: "calc(100vh - 103px)"
+    height: "calc(100vh - 103px - 48px)"
   },
   content: {
     position: "relative",
-    height: "calc(100vh - 103px)",
+    height: "calc(100vh - 103px - 48px)",
     width: "calc(100vw - 387px)"
   },
   backLink: {
@@ -112,7 +111,6 @@ export function ResetPasswordRequest() {
 
   return (
     <div className={classes.root}>
-      <Sidebar />
       <div className={classes.content}>
         <Link className={classes.backLink} to={"/login"}>
           {"< Return to Login"}
