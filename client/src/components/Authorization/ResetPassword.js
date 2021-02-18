@@ -6,6 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { useStyles } from "./ResetPasswordRequest";
+import Button from "../Button/Button";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -88,7 +89,7 @@ export function ResetPassword(props) {
                       className={classes.errorMessage}
                     />
                   </div>
-                  <button type="submit">Submit</button>
+                  <Button type="submit">Submit</Button>
                 </Form>
               )}
             </Formik>

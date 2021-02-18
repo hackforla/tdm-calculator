@@ -42,7 +42,9 @@ const Button = ({
   onClick,
   variant = "contained",
   color = "colorDefault",
-  type = "button"
+  type = "button",
+  disabled = false,
+  id
 }) => {
   const theme = useTheme();
   const classes = useStyles({ color, theme });
@@ -53,6 +55,8 @@ const Button = ({
       className={clsx(classes.root, classes[variant], className)}
       onClick={onClick}
       type={type}
+      disabled={disabled}
+      id={id}
     >
       {children}
     </button>
@@ -67,7 +71,9 @@ Button.propTypes = {
   isDisplayed: PropTypes.bool,
   className: PropTypes.string,
   color: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  disabled: PropTypes.bool,
+  id: PropTypes.string
 };
 
 export default Button;

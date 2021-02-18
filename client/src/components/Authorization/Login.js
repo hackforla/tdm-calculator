@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
+import Button from "../Button/Button";
 import clsx from "clsx";
 import {
   useAppInsightsContext,
@@ -13,6 +14,27 @@ import {
 } from "@microsoft/applicationinsights-react-js";
 
 const useStyles = createUseStyles({
+  buttonsContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    margin: "16px auto"
+  },
+  warning: {
+    color: "red",
+    textAlign: "center",
+    marginBottom: "2em"
+  },
+  withoutSavingWarning: {
+    visibility: ({ withoutSavingWarningIsVisible }) =>
+      withoutSavingWarningIsVisible ? "visible" : "hidden"
+  },
+  authLink: {
+    textDecoration: "underline"
+  },
+  authText: {
+    color: "#979797"
+  },
+  ////////////////////////////// TODO: refactor and move code out
   root: {
     flex: "1 0 auto",
     display: "flex",
@@ -31,10 +53,15 @@ const useStyles = createUseStyles({
 });
 
 const Login = props => {
-  const classes = useStyles();
-  const [errorMsg, setErrorMsg] = useState("");
-
   const { setLoggedInAccount, match } = props;
+  const history = useHistory();
+  const [errorMsg, setErrorMsg] = useState("");
+  const [
+    withoutSavingWarningIsVisible,
+    setWithoutSavingWarningIsVisible
+  ] = useState(false);
+  const classes = useStyles({ withoutSavingWarningIsVisible });
+
   const initialValues = {
     email: match.params.email ? decodeURIComponent(match.params.email) : "",
     password: ""
@@ -180,34 +207,40 @@ const Login = props => {
                       className="invalid-feedback"
                     />
                   </div>
-                  <div className="form-group auth-text">
-                    <Link
-                      id="cy-login-nav-to-forgotpassword"
-                      className="auth-link forgot"
-                      to={"/forgotpassword"}
-                    >
-                      Forgot password?
-                    </Link>
-                  </div>
-
-                  <button
-                    id="cy-login-submit"
-                    type="submit"
-                    className="btn-submit"
-                    disabled={isSubmitting}
+                  <Link
+                    id="cy-login-nav-to-forgotpassword"
+                    className={clsx(classes.authLink, classes.authText)}
+                    to={"/forgotpassword"}
+                    style={{ display: "flex", justifyContent: "flex-end" }}
                   >
-                    {isSubmitting ? "Please wait..." : "Login"}
-                  </button>
-
-                  {/* <button className="btn-without-saving"> */}
-                  <Link to="/calculation/1">
-                    <button className="btn-without-saving">
-                      Continue without saving
-                    </button>
+                    Forgot password?
                   </Link>
-                  {/* </button> */}
-                  <div className="warning">
-                    <p className="without-saving">
+                  <div className={classes.buttonsContainer}>
+                    <div
+                      onMouseOver={() => setWithoutSavingWarningIsVisible(true)}
+                      onMouseOut={() => setWithoutSavingWarningIsVisible(false)}
+                    >
+                      <Button
+                        color="colorDefault"
+                        variant="text"
+                        onClick={() => {
+                          history.push("/calculation/1");
+                        }}
+                      >
+                        Continue without saving
+                      </Button>
+                    </div>
+                    <Button
+                      id="cy-login-submit"
+                      type="submit"
+                      disabled={isSubmitting}
+                      color="colorPrimary"
+                    >
+                      {isSubmitting ? "Please wait..." : "Login"}
+                    </Button>
+                  </div>
+                  <div className={classes.warning}>
+                    <p className={classes.withoutSavingWarning}>
                       Your work will not be saved! We recommend logging in.
                     </p>
                     <p>{errorMsg}</p>
@@ -217,12 +250,12 @@ const Login = props => {
             </Formik>
           </div>
           <br />
-          <div className="auth-text">
+          <div className={classes.authText}>
             New user? &nbsp;
             <Link
               id="cy-login-nav-to-register"
-              className="auth-link"
               to={"/register"}
+              className={classes.authLink}
             >
               Create an account
             </Link>

@@ -6,8 +6,19 @@ import clsx from "clsx";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link, withRouter } from "react-router-dom";
 import * as Yup from "yup";
+import Button from "../Button/Button";
 
 const useStyles = createUseStyles({
+  submitButton: {
+    float: "right"
+  },
+  authLink: {
+    textDecoration: "underline"
+  },
+  authText: {
+    color: "#979797"
+  },
+  ////////////////////////////// TODO: refactor and move code out
   root: {
     flex: "1 0 auto",
     display: "flex",
@@ -188,13 +199,14 @@ const Register = props => {
                         />
                       </div>
 
-                      <button
+                      <Button
                         type="submit"
-                        className="btn-submit"
                         disabled={isSubmitting}
+                        color="colorPrimary"
+                        className={classes.submitButton}
                       >
                         {isSubmitting ? "Please wait..." : "Create Account"}
-                      </button>
+                      </Button>
                       <div className="warning">
                         <br />
                         {errorMsg}
@@ -217,10 +229,11 @@ const Register = props => {
             </>
           )}
           <br />
+          <br />
           {submitted ? null : (
-            <div className="auth-text">
+            <div className={classes.authText}>
               Already have an account? &nbsp;{" "}
-              <Link className="auth-link" to="/login">
+              <Link to="/login" className={classes.authLink}>
                 Log In
               </Link>
             </div>

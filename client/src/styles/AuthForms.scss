@@ -1,26 +1,5 @@
 @import "./_partials.scss";
 
-
-.auth-text {
-  color: $color-darkgrey;
-
-  :nth-child(1) {
-    float: right;
-  }
-
-  .auth-link{
-    color: $color-darkgrey;
-    text-decoration: underline;
-  }
-}
-
-.warning {
-  color: red;
-  text-align: center;
-  margin-bottom: 2em;
-}
-
-
 .auth-form {
   max-width: 600px;
   min-width: 500px;
@@ -29,10 +8,10 @@
   flex-direction: column;
   box-sizing: border-box;
   .was-validated .form-control:invalid,
-  .form-control .is-invalid, .invalid-feedback {
+  .form-control .is-invalid,
+  .invalid-feedback {
     border-color: #dc3545;
     padding-right: calc(1.5em + 0.75rem);
-    // background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc354…%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E);
     background-repeat: no-repeat;
     background-position: center right calc(0.375em + 0.1875rem);
     background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
@@ -40,40 +19,10 @@
   }
   .form-control {
     @extend %form-inputs;
-    
+
     height: calc(1.5em + 0.75rem + 2px);
     margin: 1rem 0;
     padding: 1.5rem 0.75rem;
     width: 100%;
-  }
-
-  .btn-submit {
-    @extend %button-shared;
-    
-    line-height: 1.5;
-    width: 100%;
-    padding: .75em;
-    cursor: pointer;
-  }
-
-  .btn-without-saving {
-    @extend %button-shared;
-
-    background-color: white;
-    border-color: $color-form-lightgrey;
-    line-height: 1.5;
-    padding: .75em;
-    width: 100%;
-    cursor: pointer;
-  }
-
-  .without-saving {
-    visibility: hidden;
-  }
-
-  .btn-without-saving:hover {
-    &+.warning>.without-saving{
-      visibility: visible;
-    }
   }
 }

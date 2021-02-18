@@ -3,6 +3,14 @@ import PropTypes from "prop-types";
 import { Redirect, withRouter } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
+import Button from "../Button/Button";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  submitButton: {
+    float: "right"
+  }
+});
 
 const ConfirmEmail = props => {
   const { history } = props;
@@ -11,6 +19,7 @@ const ConfirmEmail = props => {
   const [emailSent, setEmailSent] = useState(false);
   const token = props.match.params.token;
   const toast = useToast();
+  const classes = useStyles();
 
   const resendConfirmationEmail = async evt => {
     evt.preventDefault();
@@ -63,7 +72,13 @@ const ConfirmEmail = props => {
                 }}
               />
 
-              <button type="submit">Re-send confirmation email</button>
+              <Button
+                color="colorPrimary"
+                type="submit"
+                className={classes.submitButton}
+              >
+                Re-send confirmation email
+              </Button>
             </form>
           </div>
         </div>
