@@ -39,40 +39,9 @@
   padding: 0.7em;
 }
 
-.auth-text {
-  color: #979797;
-}
-
-.auth-text :nth-child(1) {
-  float: right;
-}
-
-.auth-text .auth-link {
-  color: #979797;
-  text-decoration: underline;
-}
-
-.warning {
-  color: red;
-  text-align: center;
-  margin-bottom: 2em;
-}
-
 .auth-form {
   max-width: 600px;
   min-width: 500px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
 }
 
 .auth-form .was-validated .form-control:invalid,
@@ -92,12 +61,3 @@
   padding: 1.5rem 0.75rem;
   width: 100%;
 }
-
-.auth-form .without-saving {
-  visibility: hidden;
-}
-
-.auth-form .btn-without-saving:hover + .warning > .without-saving {
-  visibility: visible;
-}
-/*# sourceMappingURL=AuthForms.css.map */

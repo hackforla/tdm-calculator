@@ -18,9 +18,8 @@ export const useStyles = createUseStyles({
     height: "calc(100vh - 103px - 48px)"
   },
   content: {
-    position: "relative",
     height: "calc(100vh - 103px - 48px)",
-    width: "calc(100vw - 387px)"
+    width: "100%"
   },
   backLink: {
     position: "absolute",
@@ -34,7 +33,6 @@ export const useStyles = createUseStyles({
     width: "100%",
     height: "100%",
     display: "flex",
-    position: "relative",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
@@ -50,25 +48,17 @@ export const useStyles = createUseStyles({
       lineHeight: "24px"
     }
   },
-  form: {
-    marginTop: "48px",
-    "& > button": {
-      height: "60px",
-      width: "426px",
-      backgroundColor: "#D8D8D8",
-      border: "none",
-      fontWeight: "bold",
-      margin: 0
-    }
-  },
   fieldGroup: {
     width: "100%",
-    height: "90px"
+    margin: "32px auto",
+    display: "flex",
+    flexDirection: "column"
   },
   inputField: {
     width: "403px",
     height: "30px",
-    border: "1px solid #979797"
+    border: "1px solid #979797",
+    marginBottom: "16px"
   },
   error: {
     borderColor: "#dc3545"
@@ -84,7 +74,7 @@ export const useStyles = createUseStyles({
     marginTop: "20px"
   },
   authLink: {
-    color: "#979797"
+    textDecoration: "underline"
   }
 });
 
@@ -130,7 +120,7 @@ export function ResetPasswordRequest() {
                 }}
               >
                 {({ touched, errors, values }) => (
-                  <Form className={classes.form}>
+                  <Form>
                     <div className={classes.fieldGroup}>
                       <Field
                         type="email"
@@ -147,8 +137,10 @@ export function ResetPasswordRequest() {
                         component="div"
                         className={classes.errorMessage}
                       />
+                      <Button type="submit" color="colorPrimary">
+                        Send Recovery Email
+                      </Button>
                     </div>
-                    <Button type="submit">Send Recovery Email</Button>
                   </Form>
                 )}
               </Formik>
