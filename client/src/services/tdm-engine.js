@@ -200,6 +200,7 @@ class Engine {
           validationErrors.push(`${name} must be no more than ${maxValue}.`);
         }
       }
+      // This is for Issue #607
       if (displayComment && !comment) {
         validationErrors.push(`${name} nust include details.`);
       }
