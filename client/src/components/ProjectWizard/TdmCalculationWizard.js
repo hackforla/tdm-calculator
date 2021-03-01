@@ -206,7 +206,7 @@ TdmCalculationWizard.propTypes = {
       minValue: PropTypes.number,
       maxValue: PropTypes.number,
       choices: PropTypes.array,
-      calcValue: PropTypes.number,
+      calcValue: PropTypes.number | PropTypes.string, // only price bundling/unbundling is string
       calcUnits: PropTypes.string,
       required: PropTypes.bool,
       minStringLength: PropTypes.number,
