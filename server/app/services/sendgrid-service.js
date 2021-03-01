@@ -27,7 +27,7 @@ const sendRegistrationConfirmation = async (email, token) => {
   const msg = {
     to: `${email}`,
     from: senderEmail,
-    subject: "Verify your account",
+    subject: "Verify Your Account",
     text: "Verify your account",
     html: `<p>Hello, please click the following link to verify your account.</p>
               <br>
