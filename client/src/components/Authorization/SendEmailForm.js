@@ -143,7 +143,8 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
           ) : (
             <>
               <h1>
-                {label} instructions have been sent to the email you provided.
+                Account {label.toLowerCase()} instructions have been sent to the
+                email you provided.
               </h1>
               <h2>
                 Please allow a few minutes for the email to arrive in your

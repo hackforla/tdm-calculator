@@ -104,8 +104,8 @@ const ResetPassword = props => {
           </>
         ) : (
           <>
-            <h1>Password Reset Successful!</h1>
-            <h2>Redirecting to login</h2>
+            <h1 className={classes.pageTitle}>Password Reset Successful!</h1>
+            <h3>Redirecting to login</h3>
             <div className="hide">
               {setTimeout(() => {
                 props.history.push(`/login/${success}`);

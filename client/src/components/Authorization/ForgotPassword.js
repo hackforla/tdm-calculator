@@ -3,8 +3,7 @@ import { withRouter } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import SendEmailForm from "./SendEmailForm";
 
-// TODO: rename component and file name to forgot password
-const ResetPasswordRequest = () => {
+const ForgotPassword = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async ({ email }, { setFieldError }) => {
@@ -30,4 +29,4 @@ const ResetPasswordRequest = () => {
   );
 };
 
-export default withRouter(ResetPasswordRequest);
+export default withRouter(ForgotPassword);
