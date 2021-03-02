@@ -94,7 +94,7 @@ const App = ({
                 />
                 <Route path="/privacypolicy" component={PrivacyPolicy} />
                 <Route path="/register/:email?" component={Register} />
-                <Route path="/confirm/:token" component={ConfirmEmail} />
+                <Route path="/confirm/:token?" component={ConfirmEmail} />
                 <Route
                   path="/login/:email?"
                   render={() =>

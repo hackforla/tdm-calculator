@@ -8,6 +8,9 @@ import clsx from "clsx";
 import Button from "../Button/Button";
 
 export const useStyles = createUseStyles({
+  pageTitle: {
+    marginBottom: "16px"
+  },
   root: {
     display: "flex",
     flexDirection: "row",
@@ -35,18 +38,7 @@ export const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
-    "& > h1": {
-      fontFamily: "Calibri, sans serif",
-      fontWeight: "bold",
-      fontSize: "25px",
-      lineHeight: "30px"
-    },
-    "& > h2": {
-      marginTop: "15px",
-      fontSize: "20px",
-      lineHeight: "24px"
-    }
+    justifyContent: "center"
   },
   fieldGroup: {
     width: "100%",
@@ -84,7 +76,8 @@ const validationSchema = Yup.object().shape({
     .required("Email is required")
 });
 
-export function ResetPasswordRequest() {
+// TODO: rename component and file name to forgot password
+const ResetPasswordRequest = () => {
   const classes = useStyles();
   const [submitted, setSubmitted] = useState(false);
   const handleSubmit = async ({ email }, { setFieldError }) => {
@@ -110,7 +103,8 @@ export function ResetPasswordRequest() {
         <div className={classes.formContent}>
           {!submitted ? (
             <>
-              <h1>Please enter the email registered with your account.</h1>
+              <h1>Recover Your Password</h1>
+              <h3>Please enter the email registered with your account.</h3>
               <h3>An email will be sent with further recovery instructions.</h3>
               <Formik
                 initialValues={{ email: "" }}
@@ -167,6 +161,6 @@ export function ResetPasswordRequest() {
       </div>
     </div>
   );
-}
+};
 
 export default withRouter(ResetPasswordRequest);
