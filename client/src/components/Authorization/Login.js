@@ -114,8 +114,8 @@ const Login = props => {
           );
           if (resendResponse.code === "REG_SUCCESS") {
             setErrorMsg(`A new confirmation email has been sent.
-            Please look through your email for a "Verify Your Account" subject line and
-            verify that you own this email address.`);
+            Please look through your email for a "Verify Your Account" subject line.
+            Click the provided link to verify that you own this email address.`);
           } else {
             setErrorMsg(
               `We found your email address but there was an error trying to resend your confirmation email.`

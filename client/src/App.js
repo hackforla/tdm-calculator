@@ -18,7 +18,7 @@ import Admin from "./components/Admin";
 import Roles from "./components/Roles";
 import FaqView from "./components/Faq/FaqView";
 import ResetPassword from "./components/Authorization/ResetPassword";
-import ResetPasswordRequest from "./components/Authorization/ResetPasswordRequest";
+import ForgotPassword from "./components/Authorization/ForgotPassword";
 import "./styles/App.scss";
 import PublicComment from "./components/PublicComment/PublicCommentPage";
 import Sidebar from "./components/Sidebar";
@@ -94,7 +94,7 @@ const App = ({
                 />
                 <Route path="/privacypolicy" component={PrivacyPolicy} />
                 <Route path="/register/:email?" component={Register} />
-                <Route path="/confirm/:token" component={ConfirmEmail} />
+                <Route path="/confirm/:token?" component={ConfirmEmail} />
                 <Route
                   path="/login/:email?"
                   render={() =>
@@ -121,10 +121,7 @@ const App = ({
                   }}
                 />
 
-                <Route
-                  path="/forgotpassword"
-                  component={ResetPasswordRequest}
-                />
+                <Route path="/forgotpassword" component={ForgotPassword} />
                 <Route path="/resetPassword/:token" component={ResetPassword} />
                 <Route path="/contactus" component={ContactUs} />
                 {account && account.isAdmin ? (

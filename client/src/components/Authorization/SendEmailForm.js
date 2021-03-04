@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
+// import { useToast } from "../../contexts/Toast";
+import Button from "../Button/Button";
+import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import * as accountService from "../../services/account.service";
-import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import Button from "../Button/Button";
 
 export const useStyles = createUseStyles({
+  pageTitle: {
+    marginBottom: "16px"
+  },
+  subTitle: {
+    marginBottom: "32px"
+  },
   root: {
     display: "flex",
     flexDirection: "row",
@@ -35,22 +42,11 @@ export const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
-    "& > h1": {
-      fontFamily: "Calibri, sans serif",
-      fontWeight: "bold",
-      fontSize: "25px",
-      lineHeight: "30px"
-    },
-    "& > h2": {
-      marginTop: "15px",
-      fontSize: "20px",
-      lineHeight: "24px"
-    }
+    justifyContent: "center"
   },
   fieldGroup: {
     width: "100%",
-    margin: "32px auto",
+    marginBottom: "32px",
     display: "flex",
     flexDirection: "column"
   },
@@ -84,22 +80,9 @@ const validationSchema = Yup.object().shape({
     .required("Email is required")
 });
 
-export function ResetPasswordRequest() {
+const SendEmailForm = ({ label, submitted, handleSubmit }) => {
   const classes = useStyles();
-  const [submitted, setSubmitted] = useState(false);
-  const handleSubmit = async ({ email }, { setFieldError }) => {
-    const submitResponse = await accountService.resetPasswordRequest(email);
-    if (submitResponse.data.isSuccess) {
-      setSubmitted(true);
-    } else if (
-      submitResponse.data.code === "FORGOT_PASSWORD_ACCOUNT_NOT_FOUND"
-    ) {
-      setFieldError(
-        "email",
-        "That email address is not associated with any accounts"
-      );
-    }
-  };
+  // const toast = useToast();
 
   return (
     <div className={classes.root}>
@@ -110,8 +93,11 @@ export function ResetPasswordRequest() {
         <div className={classes.formContent}>
           {!submitted ? (
             <>
-              <h1>Please enter the email registered with your account.</h1>
-              <h3>An email will be sent with further recovery instructions.</h3>
+              <h1 className={classes.pageTitle}>Send {label} Email</h1>
+              <div className={classes.subTitle}>
+                <h3>Please enter the email registered with your account.</h3>
+                <h3>An email will be sent with further instructions.</h3>
+              </div>
               <Formik
                 initialValues={{ email: "" }}
                 validationSchema={validationSchema}
@@ -119,30 +105,33 @@ export function ResetPasswordRequest() {
                   handleSubmit(values, actions);
                 }}
               >
-                {({ touched, errors, values }) => (
-                  <Form>
-                    <div className={classes.fieldGroup}>
-                      <Field
-                        type="email"
-                        value={values.email}
-                        name="email"
-                        placeholder="Registered Email Address"
-                        className={clsx(
-                          classes.inputField,
-                          touched.email && errors.email ? classes.error : null
-                        )}
-                      />
-                      <ErrorMessage
-                        name="email"
-                        component="div"
-                        className={classes.errorMessage}
-                      />
-                      <Button type="submit" color="colorPrimary">
-                        Send Recovery Email
-                      </Button>
-                    </div>
-                  </Form>
-                )}
+                {formikProps => {
+                  const { touched, errors, values } = formikProps;
+                  return (
+                    <Form>
+                      <div className={classes.fieldGroup}>
+                        <Field
+                          type="email"
+                          value={values.email}
+                          name="email"
+                          placeholder="Registered Email Address"
+                          className={clsx(
+                            classes.inputField,
+                            touched.email && errors.email ? classes.error : null
+                          )}
+                        />
+                        <ErrorMessage
+                          name="email"
+                          component="div"
+                          className={classes.errorMessage}
+                        />
+                        <Button type="submit" color="colorPrimary">
+                          Send {label} Email
+                        </Button>
+                      </div>
+                    </Form>
+                  );
+                }}
               </Formik>
               <div className={classes.authText}>
                 New user? &nbsp;
@@ -154,8 +143,8 @@ export function ResetPasswordRequest() {
           ) : (
             <>
               <h1>
-                Account recovery instructions have been sent to the email you
-                provided.
+                Account {label.toLowerCase()} instructions have been sent to the
+                email you provided.
               </h1>
               <h2>
                 Please allow a few minutes for the email to arrive in your
@@ -167,6 +156,12 @@ export function ResetPasswordRequest() {
       </div>
     </div>
   );
-}
+};
 
-export default withRouter(ResetPasswordRequest);
+SendEmailForm.propTypes = {
+  label: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  submitted: PropTypes.bool.isRequired
+};
+
+export default withRouter(SendEmailForm);

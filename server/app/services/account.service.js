@@ -127,7 +127,11 @@ const requestRegistrationConfirmation = async (email, result) => {
     await request.execute("SecurityToken_Insert");
 
     await sendRegistrationConfirmation(email, token);
-    return result;
+
+    return {
+      ...result,
+      message: result.message + " Sending confirmation email succeeded."
+    };
   } catch (err) {
     return {
       success: false,
