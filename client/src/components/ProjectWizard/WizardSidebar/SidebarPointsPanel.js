@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import SidebarPoints from "./SidebarPoints";
 import SidebarProjectLevel from "./SidebarProjectLevel";
+import EarnedPointsMetContainer from "./EarnedPointsMetContainer";
 
 const SidebarPointsPanel = props => {
   const { rules } = props;
@@ -25,8 +26,21 @@ const SidebarPointsPanel = props => {
     }
   };
 
+  const target = rulesConfig.target.value;
+  const earned = rulesConfig.earned.value;
+
   const targetPointsTipText = rules[2].description;
   const earnedPointsTipText = rules[3].description;
+
+  const [earnedPointsMet, setEarnedPointsMet] = useState(false);
+
+  useEffect(() => {
+    if (earned >= target && target > 0) {
+      setEarnedPointsMet(true);
+    } else {
+      setEarnedPointsMet(false);
+    }
+  }, [earned, target]);
 
   return (
     <React.Fragment>
@@ -53,9 +67,11 @@ const SidebarPointsPanel = props => {
           tipText={earnedPointsTipText}
         />
       </div>
+      {earnedPointsMet && <EarnedPointsMetContainer />}
     </React.Fragment>
   );
 };
+
 SidebarPointsPanel.propTypes = {
   rules: PropTypes.array
 };
