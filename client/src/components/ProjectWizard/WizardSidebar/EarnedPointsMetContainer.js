@@ -23,9 +23,7 @@ const EarnedPointsMetContainer = () => {
   const classes = useStyles({ theme });
 
   return (
-    <div className={classes.pointsNotification}>
-      You hit your target points score!
-    </div>
+    <div className={classes.pointsNotification}>Success! Target achieved!</div>
   );
 };
 
