@@ -10,6 +10,7 @@ import {
   useAppInsightsContext,
   useTrackMetric
 } from "@microsoft/applicationinsights-react-js";
+import PropTypes from "prop-types";
 
 const useStyles = createUseStyles({
   publicCommentContainer: {
@@ -70,7 +71,8 @@ const useStyles = createUseStyles({
 });
 
 //TODO: Refactor root, tdm-wizard, and tdm-wizard-content-container to its own component
-const PublicCommentPage = () => {
+const PublicCommentPage = props => {
+  const { tdmWizardRef } = props;
   const classes = useStyles();
   const appInsights = useAppInsightsContext();
 
@@ -83,7 +85,7 @@ const PublicCommentPage = () => {
       onLoad={trackComponent}
       onClick={trackComponent}
     >
-      <div className="tdm-wizard">
+      <div className="tdm-wizard" ref={tdmWizardRef}>
         <div className="tdm-wizard-content-container">
           <PublicCommentForm />
         </div>
@@ -234,4 +236,9 @@ const PublicCommentForm = () => {
   );
 };
 
+PublicCommentPage.propTypes = {
+  tdmWizardRef: PropTypes.shape({
+    current: PropTypes.object
+  })
+};
 export default PublicCommentPage;

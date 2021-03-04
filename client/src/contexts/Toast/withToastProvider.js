@@ -35,6 +35,7 @@ const withToastProvider = Component => {
     const remove = id => setToasts(toasts.filter(t => t.id !== id));
     const wizardContainer = tdmWizardContentContainerRef.current;
     const mainContentContainer = mainContentContainerRef.current;
+    // const tdmWizard = tdmWizardRef.current;
 
     return (
       <ToastContext.Provider value={{ add, remove }}>

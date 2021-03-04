@@ -35,7 +35,8 @@ const App = ({
   setLoggedInAccount,
   hasConfirmedTransition,
   tdmWizardContentContainerRef,
-  mainContentContainerRef
+  mainContentContainerRef,
+  tdmWizardRef
 }) => {
   const classes = useStyles();
 
@@ -137,7 +138,11 @@ const App = ({
                   <Route path="/roles" render={() => <Roles />} />
                 ) : null}
                 <Route path="/faqs" component={FaqView} />
-                <Route path="/publiccomment" component={PublicComment} />
+                <Route
+                  path="/publiccomment"
+                  component={PublicComment}
+                  ref={tdmWizardRef}
+                />
               </Switch>
             </>
           </Route>
@@ -157,7 +162,8 @@ App.propTypes = {
   setLoggedInAccount: PropTypes.func,
   hasConfirmedTransition: PropTypes.bool,
   mainContentContainerRef: PropTypes.object,
-  tdmWizardContentContainerRef: PropTypes.object
+  tdmWizardContentContainerRef: PropTypes.object,
+  tdmWizardRef: PropTypes.object
 };
 
 export default withToastProvider(App);
