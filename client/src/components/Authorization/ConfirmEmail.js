@@ -4,6 +4,7 @@ import { Redirect, withRouter } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
 import SendEmailForm from "./SendEmailForm";
+import ContentContainer from "../Layout/ContentContainer";
 
 const ConfirmEmail = props => {
   const { history, match } = props;
@@ -43,11 +44,13 @@ const ConfirmEmail = props => {
   return confirmResult.success ? (
     <Redirect to={`/login/${confirmResult.email}`} />
   ) : (
-    <SendEmailForm
-      label="Confirmation"
-      handleSubmit={handleSubmit}
-      submitted={submitted}
-    />
+    <ContentContainer componentToTrack="ConfirmEmail">
+      <SendEmailForm
+        label="Confirmation"
+        handleSubmit={handleSubmit}
+        submitted={submitted}
+      />
+    </ContentContainer>
   );
 };
 

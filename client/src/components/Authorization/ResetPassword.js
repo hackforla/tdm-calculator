@@ -8,6 +8,7 @@ import Button from "../Button/Button";
 import clsx from "clsx";
 import { useToast } from "../../contexts/Toast";
 import { useStyles } from "./SendEmailForm";
+import ContentContainer from "../Layout/ContentContainer";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -38,83 +39,79 @@ const ResetPassword = props => {
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.formContent}>
-        {!success ? (
-          <>
-            <h1 className={classes.pageTitle}>Reset Your Password</h1>
-            <Formik
-              initialValues={{
-                token,
-                password: "",
-                passwordConfirm: ""
-              }}
-              validationSchema={validationSchema}
-              onSubmit={(values, action) => {
-                handleSubmit(values, action);
-              }}
-            >
-              {formikProps => {
-                const { touched, errors, values } = formikProps;
-                return (
-                  <Form>
-                    <div className={classes.fieldGroup}>
-                      <Field
-                        type="password"
-                        value={values.password}
-                        name="password"
-                        placeholder="Password"
-                        className={clsx(
-                          classes.inputField,
-                          touched.password && errors.password
-                            ? classes.error
-                            : ""
-                        )}
-                      />
-                      <ErrorMessage
-                        name="password"
-                        component="div"
-                        className={classes.errorMessage}
-                      />
-                      <Field
-                        type="password"
-                        value={values.passwordConfirm}
-                        name="passwordConfirm"
-                        placeholder="Confirm Password"
-                        className={clsx(
-                          classes.inputField,
-                          touched.passwordConfirm && errors.passwordConfirm
-                            ? classes.error
-                            : ""
-                        )}
-                      />
-                      <ErrorMessage
-                        name="passwordConfirm"
-                        component="div"
-                        className={classes.errorMessage}
-                      />
-                      <Button type="submit" color="colorPrimary">
-                        Submit
-                      </Button>
-                    </div>
-                  </Form>
-                );
-              }}
-            </Formik>
-          </>
-        ) : (
-          <>
-            <h1 className={classes.pageTitle}>Password Reset Successful!</h1>
-            <h3>Redirecting to login</h3>
-            <div className="hide">
-              {setTimeout(() => {
-                props.history.push(`/login/${success}`);
-              }, 2000)}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+    <ContentContainer componentToTrack="ResetPassword">
+      {!success ? (
+        <>
+          <h1 className={classes.pageTitle}>Reset Your Password</h1>
+          <Formik
+            initialValues={{
+              token,
+              password: "",
+              passwordConfirm: ""
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(values, action) => {
+              handleSubmit(values, action);
+            }}
+          >
+            {formikProps => {
+              const { touched, errors, values } = formikProps;
+              return (
+                <Form>
+                  <div className={classes.fieldGroup}>
+                    <Field
+                      type="password"
+                      value={values.password}
+                      name="password"
+                      placeholder="Password"
+                      className={clsx(
+                        classes.inputField,
+                        touched.password && errors.password ? classes.error : ""
+                      )}
+                    />
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className={classes.errorMessage}
+                    />
+                    <Field
+                      type="password"
+                      value={values.passwordConfirm}
+                      name="passwordConfirm"
+                      placeholder="Confirm Password"
+                      className={clsx(
+                        classes.inputField,
+                        touched.passwordConfirm && errors.passwordConfirm
+                          ? classes.error
+                          : ""
+                      )}
+                    />
+                    <ErrorMessage
+                      name="passwordConfirm"
+                      component="div"
+                      className={classes.errorMessage}
+                    />
+                    <Button type="submit" color="colorPrimary">
+                      Submit
+                    </Button>
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
+        </>
+      ) : (
+        <>
+          <h1 className={classes.pageTitle}>Password Reset Successful!</h1>
+          <h3>Redirecting to login</h3>
+          <div className="hide">
+            {setTimeout(() => {
+              props.history.push(`/login/${success}`);
+            }, 2000)}
+          </div>
+        </>
+      )}
+    </ContentContainer>
   );
 };
 

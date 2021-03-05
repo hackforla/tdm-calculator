@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import * as accountService from "../../services/account.service";
+import ContentContainer from "../Layout/ContentContainer";
 import SendEmailForm from "./SendEmailForm";
 
 const ForgotPassword = () => {
@@ -21,11 +22,13 @@ const ForgotPassword = () => {
   };
 
   return (
-    <SendEmailForm
-      label="Password Recovery"
-      handleSubmit={handleSubmit}
-      submitted={submitted}
-    />
+    <ContentContainer componentToTrack="ForgotPassword">
+      <SendEmailForm
+        label="Password Recovery"
+        handleSubmit={handleSubmit}
+        submitted={submitted}
+      />
+    </ContentContainer>
   );
 };
 
