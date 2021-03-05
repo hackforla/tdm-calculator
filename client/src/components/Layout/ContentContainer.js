@@ -4,13 +4,14 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
-  root: {
+  contentContainerRoot: {
     flex: "1 1 auto",
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    minHeight: "calc(100vh - 103px - 48px)"
   },
   "@media (max-width:768px)": {
-    root: {
+    contentContainerRoot: {
       flexDirection: "column"
     }
   },
@@ -18,6 +19,16 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     boxSizing: "border-box",
     overflow: "auto"
+  },
+  wizardContentContainer: {
+    flexBasis: "auto",
+    flexGrow: "1",
+    flexShrink: "1",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "4em 2em 2em 2em"
   }
 });
 
@@ -27,15 +38,14 @@ const ContentContainer = ({
   children
 }) => {
   const classes = useStyles();
-  console.log("REF", tdmWizardContentContainerRef);
 
   return (
-    <div className={clsx("tdm-wizard", classes.root)}>
+    <div className={classes.contentContainerRoot}>
       {Sidebar && <Sidebar />}
       <div
         className={clsx(
-          "tdm-wizard-content-container",
-          classes.contentContainer
+          classes.contentContainer,
+          classes.wizardContentContainer
         )}
         ref={tdmWizardContentContainerRef}
       >
