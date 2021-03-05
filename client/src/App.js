@@ -10,7 +10,6 @@ import Footer from "./components/Footer";
 import About from "./components/About";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
 import PrivacyPolicy from "./components/PrivacyPolicy";
-import ContactUs from "./components/ContactUs";
 import Register from "./components/Authorization/Register";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
 import Login from "./components/Authorization/Login";
@@ -123,7 +122,6 @@ const App = ({
 
                 <Route path="/forgotpassword" component={ForgotPassword} />
                 <Route path="/resetPassword/:token" component={ResetPassword} />
-                <Route path="/contactus" component={ContactUs} />
                 {account && account.isAdmin ? (
                   <Route
                     path="/admin"
