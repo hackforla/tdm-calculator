@@ -2,6 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import {
+  useAppInsightsContext,
+  useTrackMetric
+} from "@microsoft/applicationinsights-react-js";
 
 const useStyles = createUseStyles({
   contentContainerRoot: {
@@ -35,12 +39,21 @@ const useStyles = createUseStyles({
 const ContentContainer = ({
   customSidebar: Sidebar,
   tdmWizardContentContainerRef,
-  children
+  children,
+  componentToTrack
 }) => {
   const classes = useStyles();
+  const appInsights = useAppInsightsContext();
+
+  // e.g. appInsights.trackMetric("PublicCommentPage Component");
+  const trackComponent = useTrackMetric(appInsights, componentToTrack);
 
   return (
-    <div className={classes.contentContainerRoot}>
+    <div
+      className={classes.contentContainerRoot}
+      onLoad={trackComponent}
+      onClick={trackComponent}
+    >
       {Sidebar && <Sidebar />}
       <div
         className={clsx(
@@ -48,6 +61,8 @@ const ContentContainer = ({
           classes.wizardContentContainer
         )}
         ref={tdmWizardContentContainerRef}
+        onLoad={trackComponent}
+        onClick={trackComponent}
       >
         {children}
       </div>
@@ -58,7 +73,8 @@ const ContentContainer = ({
 ContentContainer.propTypes = {
   customSidebar: PropTypes.elementType,
   tdmWizardContentContainerRef: PropTypes.object,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  componentToTrack: PropTypes.string.isRequired
 };
 
 export default ContentContainer;
