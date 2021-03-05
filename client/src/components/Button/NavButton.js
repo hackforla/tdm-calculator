@@ -41,7 +41,7 @@ const NavButton = ({ id, onClick, navDirection, isVisible, isDisabled }) => {
   return (
     <button
       id={id}
-      className={clsx(classes.root, maybeDisabled, maybeHiddenVisibility)}
+      className={clsx(classes.navButton, maybeDisabled, maybeHiddenVisibility)}
       data-testid={id}
       onClick={onClick}
       disabled={isDisabled}
