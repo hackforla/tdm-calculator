@@ -3,14 +3,12 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  root: {
-    title: {
-      textAlign: "center"
-    },
-    value: {
-      fontSize: "2em",
-      flexBasis: "50%"
-    }
+  title: {
+    textAlign: "center"
+  },
+  value: {
+    fontSize: "2em",
+    flexBasis: "50%"
   }
 });
 
@@ -20,7 +18,7 @@ const ResultView = props => {
 
   return (
     <React.Fragment>
-      <div className="tdm-calculation-metrics-panel">
+      <div className={"tdm-calculation-metrics-panel"}>
         <h3 className={classes.title}>{rule.name}</h3>
         <div className={classes.value}>{rule.value}</div>
         <div> {rule.units}</div>

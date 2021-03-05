@@ -7,7 +7,7 @@ import {
 } from "@microsoft/applicationinsights-react-js";
 
 const useStyles = createUseStyles({
-  contentContainerRoot: {
+  contentContainer: {
     flex: "1 1 auto",
     display: "flex",
     flexDirection: "row",
@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
     padding: "4em 2em 2em 2em"
   },
   "@media (max-width:768px)": {
-    contentContainerRoot: {
+    contentContainer: {
       flexDirection: "column"
     }
   }
@@ -45,7 +45,7 @@ const ContentContainer = ({
 
   return (
     <div
-      className={classes.contentContainerRoot}
+      className={classes.contentContainer}
       onLoad={trackComponent}
       onClick={trackComponent}
     >

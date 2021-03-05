@@ -7,7 +7,7 @@ import { faClock, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
 
 const useStyles = createUseStyles({
-  root: {
+  projectSummary: {
     display: "flex",
     flexDirection: "column",
     flex: "1 1 auto",
@@ -288,7 +288,7 @@ const ProjectSummary = props => {
     !parkingProvided;
 
   return (
-    <div className={clsx("tdm-wizard-review-page", classes.root)}>
+    <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
       <div className={classes.lastSavedContainer}>
         {props.dateModified && (

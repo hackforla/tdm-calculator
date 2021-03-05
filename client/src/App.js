@@ -23,7 +23,7 @@ import PublicComment from "./components/PublicComment/PublicCommentPage";
 import Sidebar from "./components/Sidebar";
 
 const useStyles = createUseStyles({
-  root: {
+  app: {
     flex: "1 0 auto",
     display: "flex"
   }
@@ -42,7 +42,7 @@ const App = ({
     <React.Fragment>
       <Header account={account} />
       <div
-        className={classes.root}
+        className={classes.app}
         id="main-content-container"
         ref={mainContentContainerRef}
       >

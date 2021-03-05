@@ -4,7 +4,7 @@ import TermsAndConditionsContent from "./TermsAndConditionsContent";
 import ContentContainer from "../Layout/ContentContainer";
 
 const useStyles = createUseStyles({
-  termsAndConditionsRoot: {
+  termsAndConditions: {
     maxWidth: "1000px"
   }
 });
@@ -13,7 +13,7 @@ const TermsAndConditionsPage = () => {
   const classes = useStyles();
   return (
     <ContentContainer componentToTrack="TermsAndConditionsPage">
-      <div className={classes.termsAndConditionsRoot}>
+      <div className={classes.termsAndConditions}>
         <TermsAndConditionsContent />
       </div>
     </ContentContainer>

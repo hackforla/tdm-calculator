@@ -7,7 +7,7 @@ import {
 } from "@microsoft/applicationinsights-react-js";
 
 const useStyles = createUseStyles({
-  contentContainerRoot: {
+  contentContainer: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
@@ -27,7 +27,7 @@ const ContentContainerNoSidebar = ({ children, componentToTrack }) => {
 
   return (
     <div
-      className={classes.contentContainerRoot}
+      className={classes.contentContainer}
       onLoad={trackComponent}
       onClick={trackComponent}
     >

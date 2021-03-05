@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  root: {
+  termsAndConditions: {
     flex: "1 0 auto",
     display: "flex",
     flexDirection: "column"
@@ -60,7 +60,8 @@ const useStyles = createUseStyles({
 const TermsAndConditions = () => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div className={classes.termsAndConditions}>
+      {/* TODO: remove */}
       <div className={clsx("tdm-wizard", classes.tdmWizard)}>
         <div className="tdm-wizard-content-container">
           <h1 className={classes.header}>
