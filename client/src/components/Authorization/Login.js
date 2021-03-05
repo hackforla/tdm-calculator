@@ -148,8 +148,12 @@ const Login = props => {
 
   return (
     <ContentContainer componentToTrack="Login">
-      <h1>Welcome to Los Angeles&rsquo; TDM Calculator</h1>
-      <h3>Please sign into your account to save progress.</h3>
+      <h1 className="tdm-wizard-page-title">
+        Welcome to Los Angeles&rsquo; TDM Calculator
+      </h1>
+      <h3 className="tdm-wizard-page-subtitle">
+        Please sign into your account to save progress
+      </h3>
       <br />
       <div className="auth-form">
         <Formik
