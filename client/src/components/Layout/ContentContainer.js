@@ -14,11 +14,6 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     minHeight: "calc(100vh - 103px - 48px)"
   },
-  "@media (max-width:768px)": {
-    contentContainerRoot: {
-      flexDirection: "column"
-    }
-  },
   contentContainer: {
     justifyContent: "space-between",
     boxSizing: "border-box",
@@ -33,6 +28,11 @@ const useStyles = createUseStyles({
     justifyContent: "center",
     alignItems: "center",
     padding: "4em 2em 2em 2em"
+  },
+  "@media (max-width:768px)": {
+    contentContainerRoot: {
+      flexDirection: "column"
+    }
   }
 });
 

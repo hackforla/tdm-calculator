@@ -9,9 +9,9 @@ import Button from "../Button/Button";
 import clsx from "clsx";
 import {
   useAppInsightsContext,
-  useTrackMetric,
   useTrackEvent
 } from "@microsoft/applicationinsights-react-js";
+import ContentContainer from "../Layout/ContentContainer";
 
 const useStyles = createUseStyles({
   buttonsContainer: {
@@ -33,22 +33,6 @@ const useStyles = createUseStyles({
   },
   authText: {
     color: "#979797"
-  },
-  ////////////////////////////// TODO: refactor and move code out
-  root: {
-    flex: "1 0 auto",
-    display: "flex",
-    flexDirection: "column"
-  },
-  tdmWizard: {
-    flex: "1 0 auto",
-    display: "flex",
-    flexDirection: "row"
-  },
-  "@media (max-width:768px)": {
-    tdmWizard: {
-      flexDirection: "column"
-    }
   }
 });
 
@@ -81,7 +65,6 @@ const Login = props => {
   // appInsights.trackMetric("TDMCalculationContainer Component");
   const trackLogin = useTrackEvent(appInsights, "Login");
   const trackLoginFail = useTrackEvent(appInsights, "Login Failed");
-  const trackComponent = useTrackMetric(appInsights, "Login");
 
   const handleSubmit = async (
     { email, password },
@@ -164,113 +147,106 @@ const Login = props => {
   };
 
   return (
-    <div className={classes.root}>
-      <div className={clsx("tdm-wizard", classes.tdmWizard)}>
-        <div className="tdm-wizard-sidebar" />
-        <div className="tdm-wizard-content-container" onClick={trackComponent}>
-          <h1>Welcome to Los Angeles&rsquo; TDM Calculator</h1>
-          <h3>Please sign into your account to save progress.</h3>
-          <br />
-          <div className="auth-form">
-            <Formik
-              initialValues={initialValues}
-              validationSchema={loginSchema}
-              onSubmit={(values, actions) =>
-                handleSubmit(values, actions, props)
-              }
-            >
-              {({ touched, errors, isSubmitting, values }) => (
-                <Form>
-                  <div className="form-group">
-                    <Field
-                      id="cy-login-email"
-                      type="email"
-                      name="email"
-                      value={values.email}
-                      placeholder="Email Address"
-                      className={`form-control ${
-                        touched.email && errors.email ? "is-invalid" : ""
-                      }`}
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="invalid-feedback"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <Field
-                      id="cy-login-password"
-                      type="password"
-                      value={values.password}
-                      name="password"
-                      placeholder="Password"
-                      className={`form-control ${
-                        touched.password && errors.password ? "is-invalid" : ""
-                      }`}
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="invalid-feedback"
-                    />
-                  </div>
-                  <Link
-                    id="cy-login-nav-to-forgotpassword"
-                    className={clsx(classes.authLink, classes.authText)}
-                    to={"/forgotpassword"}
-                    style={{ display: "flex", justifyContent: "flex-end" }}
+    <ContentContainer componentToTrack="Login">
+      <h1>Welcome to Los Angeles&rsquo; TDM Calculator</h1>
+      <h3>Please sign into your account to save progress.</h3>
+      <br />
+      <div className="auth-form">
+        <Formik
+          initialValues={initialValues}
+          validationSchema={loginSchema}
+          onSubmit={(values, actions) => handleSubmit(values, actions, props)}
+        >
+          {({ touched, errors, isSubmitting, values }) => (
+            <Form>
+              <div className="form-group">
+                <Field
+                  id="cy-login-email"
+                  type="email"
+                  name="email"
+                  value={values.email}
+                  placeholder="Email Address"
+                  className={`form-control ${
+                    touched.email && errors.email ? "is-invalid" : ""
+                  }`}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="invalid-feedback"
+                />
+              </div>
+              <div className="form-group">
+                <Field
+                  id="cy-login-password"
+                  type="password"
+                  value={values.password}
+                  name="password"
+                  placeholder="Password"
+                  className={`form-control ${
+                    touched.password && errors.password ? "is-invalid" : ""
+                  }`}
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="invalid-feedback"
+                />
+              </div>
+              <Link
+                id="cy-login-nav-to-forgotpassword"
+                className={clsx(classes.authLink, classes.authText)}
+                to={"/forgotpassword"}
+                style={{ display: "flex", justifyContent: "flex-end" }}
+              >
+                Forgot password?
+              </Link>
+              <div className={classes.buttonsContainer}>
+                <div
+                  onMouseOver={() => setWithoutSavingWarningIsVisible(true)}
+                  onMouseOut={() => setWithoutSavingWarningIsVisible(false)}
+                >
+                  <Button
+                    color="colorDefault"
+                    variant="text"
+                    onClick={() => {
+                      history.push("/calculation/1");
+                    }}
                   >
-                    Forgot password?
-                  </Link>
-                  <div className={classes.buttonsContainer}>
-                    <div
-                      onMouseOver={() => setWithoutSavingWarningIsVisible(true)}
-                      onMouseOut={() => setWithoutSavingWarningIsVisible(false)}
-                    >
-                      <Button
-                        color="colorDefault"
-                        variant="text"
-                        onClick={() => {
-                          history.push("/calculation/1");
-                        }}
-                      >
-                        Continue without saving
-                      </Button>
-                    </div>
-                    <Button
-                      id="cy-login-submit"
-                      type="submit"
-                      disabled={isSubmitting}
-                      color="colorPrimary"
-                    >
-                      {isSubmitting ? "Please wait..." : "Login"}
-                    </Button>
-                  </div>
-                  <div className={classes.warning}>
-                    <p className={classes.withoutSavingWarning}>
-                      Your work will not be saved! We recommend logging in.
-                    </p>
-                    <p>{errorMsg}</p>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-          <br />
-          <div className={classes.authText}>
-            New user? &nbsp;
-            <Link
-              id="cy-login-nav-to-register"
-              to={"/register"}
-              className={classes.authLink}
-            >
-              Create an account
-            </Link>
-          </div>
-        </div>
+                    Continue without saving
+                  </Button>
+                </div>
+                <Button
+                  id="cy-login-submit"
+                  type="submit"
+                  disabled={isSubmitting}
+                  color="colorPrimary"
+                >
+                  {isSubmitting ? "Please wait..." : "Login"}
+                </Button>
+              </div>
+              <div className={classes.warning}>
+                <p className={classes.withoutSavingWarning}>
+                  Your work will not be saved! We recommend logging in.
+                </p>
+                <p>{errorMsg}</p>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
-    </div>
+      <br />
+      <div className={classes.authText}>
+        New user? &nbsp;
+        <Link
+          id="cy-login-nav-to-register"
+          to={"/register"}
+          className={classes.authLink}
+        >
+          Create an account
+        </Link>
+      </div>
+    </ContentContainer>
   );
 };
 Login.propTypes = {
