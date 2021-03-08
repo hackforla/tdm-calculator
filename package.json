@@ -2,6 +2,9 @@
   "name": "root",
   "version": "0.2.19",
   "private": true,
+  "scripts": {
+    "release-notes": "gren release --override"
+  },
   "devDependencies": {
     "husky": "^4.3.5",
     "lerna": "^3.22.1"

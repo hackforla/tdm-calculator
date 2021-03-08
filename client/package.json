@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "tdm-calculator-client",
   "version": "0.2.19",
   "private": true,
   "proxy": "http://localhost:5000",

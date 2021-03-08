@@ -99,7 +99,7 @@ const resendConfirmationEmail = async email => {
     result = {
       success: true,
       code: "REG_SUCCESS",
-      newId: selectByEmailResponse.recordset.rows[0].id,
+      newId: selectByEmailResponse.recordset[0].id,
       message: "Account found."
     };
     result = await requestRegistrationConfirmation(email, result);
@@ -110,7 +110,7 @@ const resendConfirmationEmail = async email => {
     return {
       success: false,
       code: "REG_ACCOUNT_NOT_FOUND",
-      message: `Email ${email} is not registered. `
+      message: `Resending confirmation email to ${email} failed due to: ${err.message}`
     };
   }
 };
@@ -127,12 +127,16 @@ const requestRegistrationConfirmation = async (email, result) => {
     await request.execute("SecurityToken_Insert");
 
     await sendRegistrationConfirmation(email, token);
-    return result;
+
+    return {
+      ...result,
+      message: result.message + " Sending confirmation email succeeded."
+    };
   } catch (err) {
     return {
       success: false,
       code: "REG_EMAIL_FAILED",
-      message: `Sending registration confirmation email to ${email} failed.`
+      message: `Sending registration confirmation email to ${email} failed due to: ${err.message}`
     };
   }
 };
