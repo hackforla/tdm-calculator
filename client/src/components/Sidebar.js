@@ -27,7 +27,7 @@ export const useStyles = createUseStyles({
   },
   "@media (max-width: 1024px)": {
     sidebarContainer: {
-      flexBasis: "200px",
+      flexBasis: "390px",
       flexShrink: 1
     }
   },
