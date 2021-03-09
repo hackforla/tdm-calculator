@@ -25,7 +25,8 @@ const useStyles = createUseStyles({
     fontSize: "16px",
     textAlign: "center",
     fontWeight: "bold",
-    textTransform: "uppercase"
+    textTransform: "uppercase",
+    minWidth: "123px"
   },
   lowOpacity: {
     opacity: 0.4
