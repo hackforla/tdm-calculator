@@ -4,7 +4,6 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   toast: {
-    fontFamily: "Calibri, Arial, sans-serif",
     border: "2px solid transparent",
     backgroundColor: "#a7c539",
     color: "#0F2940",
@@ -12,11 +11,9 @@ const useStyles = createUseStyles({
     boxShadow: "0px 0px 5px rgba(0, 0, 0, .2)",
     marginTop: "16px",
     display: "flex",
-    justifyContent: "space-between",
     position: "fixed",
-    top: "6em",
-    cursor: "pointer",
-    zIndex: "1"
+    top: "5.6em",
+    zIndex: "100"
   },
   "@media (max-width: 1024px)": {
     toast: {

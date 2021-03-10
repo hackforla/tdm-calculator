@@ -26,6 +26,9 @@ const useStyles = createUseStyles({
   app: {
     flex: "1 0 auto",
     display: "flex"
+  },
+  containerForRef: {
+    width: "100%"
   }
 });
 
@@ -33,24 +36,25 @@ const App = ({
   account,
   setLoggedInAccount,
   hasConfirmedTransition,
-  tdmWizardContentContainerRef,
-  mainContentContainerRef
+  contentContainerRef,
+  appContainerRef
 }) => {
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <Header account={account} />
-      <div
-        className={classes.app}
-        id="main-content-container"
-        ref={mainContentContainerRef}
-      >
+      <div className={classes.app} id="app-container" ref={appContainerRef}>
         <Switch>
           {/* These routes either have no sidebar or use a custom sidebar */}
           <Route
             path="/projects"
-            render={() => <ProjectsPage account={account} />}
+            render={() => (
+              <ProjectsPage
+                account={account}
+                contentContainerRef={contentContainerRef}
+              />
+            )}
           />
 
           <Route
@@ -60,7 +64,7 @@ const App = ({
                 account={account}
                 hasConfirmedNavTransition={hasConfirmedTransition}
                 setLoggedInAccount={setLoggedInAccount}
-                tdmWizardContentContainerRef={tdmWizardContentContainerRef}
+                contentContainerRef={contentContainerRef}
               />
             )}
           />
@@ -86,53 +90,61 @@ const App = ({
             <>
               <Sidebar />
               <Switch>
-                <Route path="/about" component={About} />
-                <Route
-                  path="/termsandconditions"
-                  component={TermsAndConditionsPage}
-                />
-                <Route path="/privacypolicy" component={PrivacyPolicy} />
-                <Route path="/register/:email?" component={Register} />
-                <Route path="/confirm/:token?" component={ConfirmEmail} />
-                <Route
-                  path="/login/:email?"
-                  render={() =>
-                    account.email ? (
-                      <Redirect to="/calculation/1" />
-                    ) : (
-                      <Login setLoggedInAccount={setLoggedInAccount} />
-                    )
-                  }
-                />
-                <Route
-                  path="/logout/:email?"
-                  render={routeProps => {
-                    setLoggedInAccount({});
-                    return (
-                      <Redirect
-                        to={
-                          routeProps.match.params["email"]
-                            ? `/login/${routeProps.match.params["email"]}`
-                            : "/login"
-                        }
-                      />
-                    );
-                  }}
-                />
-
-                <Route path="/forgotpassword" component={ForgotPassword} />
-                <Route path="/resetPassword/:token" component={ResetPassword} />
-                {account && account.isAdmin ? (
+                <div
+                  className={classes.containerForRef}
+                  ref={contentContainerRef}
+                >
+                  <Route path="/about" component={About} />
                   <Route
-                    path="/admin"
-                    render={() => <Admin account={account} />}
+                    path="/termsandconditions"
+                    component={TermsAndConditionsPage}
                   />
-                ) : null}
-                {account && account.isSecurityAdmin ? (
-                  <Route path="/roles" render={() => <Roles />} />
-                ) : null}
-                <Route path="/faqs" component={FaqView} />
-                <Route path="/publiccomment" component={PublicComment} />
+                  <Route path="/privacypolicy" component={PrivacyPolicy} />
+                  <Route path="/register/:email?" component={Register} />
+                  <Route path="/confirm/:token?" component={ConfirmEmail} />
+                  <Route
+                    path="/login/:email?"
+                    render={() =>
+                      account.email ? (
+                        <Redirect to="/calculation/1" />
+                      ) : (
+                        <Login setLoggedInAccount={setLoggedInAccount} />
+                      )
+                    }
+                  />
+                  <Route
+                    path="/logout/:email?"
+                    render={routeProps => {
+                      setLoggedInAccount({});
+                      return (
+                        <Redirect
+                          to={
+                            routeProps.match.params["email"]
+                              ? `/login/${routeProps.match.params["email"]}`
+                              : "/login"
+                          }
+                        />
+                      );
+                    }}
+                  />
+
+                  <Route path="/forgotpassword" component={ForgotPassword} />
+                  <Route
+                    path="/resetPassword/:token"
+                    component={ResetPassword}
+                  />
+                  {account && account.isAdmin ? (
+                    <Route
+                      path="/admin"
+                      render={() => <Admin account={account} />}
+                    />
+                  ) : null}
+                  {account && account.isSecurityAdmin ? (
+                    <Route path="/roles" render={() => <Roles />} />
+                  ) : null}
+                  <Route path="/faqs" component={FaqView} />
+                  <Route path="/publiccomment" component={PublicComment} />
+                </div>
               </Switch>
             </>
           </Route>
@@ -151,8 +163,8 @@ App.propTypes = {
   }),
   setLoggedInAccount: PropTypes.func,
   hasConfirmedTransition: PropTypes.bool,
-  mainContentContainerRef: PropTypes.object,
-  tdmWizardContentContainerRef: PropTypes.object
+  appContainerRef: PropTypes.object,
+  contentContainerRef: PropTypes.object
 };
 
 export default withToastProvider(App);

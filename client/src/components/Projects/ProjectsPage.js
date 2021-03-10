@@ -101,7 +101,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectsPage = ({ account, history }) => {
+const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const [projects, setProjects] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
@@ -295,7 +295,10 @@ const ProjectsPage = ({ account, history }) => {
   );
 
   return (
-    <ContentContainerNoSidebar componentToTrack="ProjectsPage">
+    <ContentContainerNoSidebar
+      componentToTrack="ProjectsPage"
+      contentContainerRef={contentContainerRef}
+    >
       <h1 className={classes.pageTitle}>Projects</h1>
       <div className={classes.searchBarWrapper}>
         <input
@@ -468,7 +471,8 @@ ProjectsPage.propTypes = {
   }),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
-  })
+  }),
+  contentContainerRef: PropTypes.object
 };
 
 export default withRouter(ProjectsPage);

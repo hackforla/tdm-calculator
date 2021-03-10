@@ -19,6 +19,7 @@ const useStyles = createUseStyles({
     paddingLeft: "1em",
     paddingRight: "1em",
     background: "#002E6D",
+    zIndex: 10,
     "& h4": {
       color: "white"
     },

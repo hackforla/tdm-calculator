@@ -33,7 +33,7 @@ const useStyles = createUseStyles({
 
 const ContentContainer = ({
   customSidebar: CustomSidebar,
-  tdmWizardContentContainerRef,
+  contentContainerRef,
   children,
   componentToTrack
 }) => {
@@ -50,7 +50,7 @@ const ContentContainer = ({
       onClick={trackComponent}
     >
       {CustomSidebar && <CustomSidebar />}
-      <div className={classes.content} ref={tdmWizardContentContainerRef}>
+      <div className={classes.content} ref={contentContainerRef}>
         {children}
       </div>
     </div>
@@ -59,7 +59,7 @@ const ContentContainer = ({
 
 ContentContainer.propTypes = {
   customSidebar: PropTypes.elementType,
-  tdmWizardContentContainerRef: PropTypes.object,
+  contentContainerRef: PropTypes.object,
   children: PropTypes.node.isRequired,
   componentToTrack: PropTypes.string.isRequired
 };

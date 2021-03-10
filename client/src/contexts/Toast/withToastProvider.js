@@ -24,7 +24,7 @@ const generateUEID = () => {
 
 const withToastProvider = Component => {
   const ToastProvider = props => {
-    const { tdmWizardContentContainerRef, mainContentContainerRef } = props;
+    const { contentContainerRef, appContainerRef } = props;
     const classes = useStyles();
     const [toasts, setToasts] = useState([]);
     const add = content => {
@@ -33,8 +33,8 @@ const withToastProvider = Component => {
     };
 
     const remove = id => setToasts(toasts.filter(t => t.id !== id));
-    const wizardContainer = tdmWizardContentContainerRef.current;
-    const mainContentContainer = mainContentContainerRef.current;
+    const contentContainer = contentContainerRef.current;
+    const appContainer = appContainerRef.current;
 
     return (
       <ToastContext.Provider value={{ add, remove }}>
@@ -47,10 +47,10 @@ const withToastProvider = Component => {
               </Toast>
             ))}
           </div>,
-          wizardContainer
-            ? wizardContainer
-            : mainContentContainer
-            ? mainContentContainer
+          contentContainer
+            ? contentContainer
+            : appContainer
+            ? appContainer
             : document.body
         )}
       </ToastContext.Provider>
@@ -58,10 +58,10 @@ const withToastProvider = Component => {
   };
 
   ToastProvider.propTypes = {
-    tdmWizardContentContainerRef: PropTypes.shape({
+    contentContainerRef: PropTypes.shape({
       current: PropTypes.object
     }),
-    mainContentContainerRef: PropTypes.shape({
+    appContainerRef: PropTypes.shape({
       current: PropTypes.object
     })
   };
