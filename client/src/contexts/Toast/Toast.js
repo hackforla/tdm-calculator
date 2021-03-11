@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  root: {
+  toast: {
     fontFamily: "Calibri, Arial, sans-serif",
     border: "2px solid transparent",
     backgroundColor: "#a7c539",
@@ -19,7 +19,7 @@ const useStyles = createUseStyles({
     zIndex: "1"
   },
   "@media (max-width: 1024px)": {
-    root: {
+    toast: {
       marginLeft: "0"
     }
   },
@@ -50,7 +50,7 @@ const Toast = ({ children, remove }) => {
   }, []);
 
   return (
-    <div className={classes.root}>
+    <div className={classes.toast}>
       <div className={classes.container}>{children}</div>
       <div>
         <button onClick={remove} className={classes.button}>

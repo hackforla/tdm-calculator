@@ -4,7 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
-  root: {
+  button: {
     color: ({ theme }) => theme.colorText,
     cursor: "pointer",
     fontFamily: "Calibri Bold",
@@ -52,7 +52,7 @@ const Button = ({
   if (!isDisplayed) return null;
   return (
     <button
-      className={clsx(classes.root, classes[variant], className)}
+      className={clsx(classes.button, classes[variant], className)}
       onClick={onClick}
       type={type}
       disabled={disabled}

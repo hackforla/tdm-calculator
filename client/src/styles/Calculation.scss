@@ -10,6 +10,7 @@
   color: $color-background;
 }
 
+//TODO: Delete
 .tdm-wizard {
   min-height: calc(100vh - 103px - 48px);
   display: flex;
@@ -21,6 +22,7 @@
   }
 }
 
+//TOD: Delete after refactoring About, Privacy, Terms, Login, Register, PublicComment
 .tdm-wizard-content-container {
   flex-basis: auto;
   flex-grow: 1;

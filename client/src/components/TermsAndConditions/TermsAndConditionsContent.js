@@ -2,7 +2,7 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  aboutText: {
+  termsAndConditionsContent: {
     textAlign: "justify"
   },
   header: {
@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
     textDecoration: "underline",
     color: "blue"
   },
-  greyText: {
+  subHeading: {
     color: "grey"
   }
 });
@@ -33,8 +33,8 @@ const TermsAndConditionsContent = () => {
         TDM Calculator User Terms and Conditions
       </h1>
       <br />
-      <div className={classes.aboutText}>
-        <p className={classes.greyText}>
+      <div className={classes.termsAndConditionsContent}>
+        <p className={classes.subHeading}>
           PLEASE READ THIS AGREEMENT CAREFULLY BEFORE USING THIS WEB SITE. BY
           USING THIS WEB SITE, YOU ARE CONSENTING TO BE OBLIGATED AND BECOME A
           PARTY TO THIS AGREEMENT. IF YOU DO NOT AGREE TO THE TERMS AND

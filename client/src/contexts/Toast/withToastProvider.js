@@ -6,7 +6,7 @@ import Toast from "./Toast";
 import PropTypes from "prop-types";
 
 const useStyles = createUseStyles({
-  root: {
+  toast: {
     alignItems: "center",
     display: "flex",
     justifyContent: "center"
@@ -40,7 +40,7 @@ const withToastProvider = Component => {
       <ToastContext.Provider value={{ add, remove }}>
         <Component {...props} />
         {createPortal(
-          <div className={classes.root}>
+          <div className={classes.toast}>
             {toasts.map(t => (
               <Toast key={t.id} remove={() => remove(t.id)}>
                 {t.content}

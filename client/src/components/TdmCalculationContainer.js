@@ -17,7 +17,7 @@ import {
 } from "@microsoft/applicationinsights-react-js";
 
 const styles = {
-  root: {
+  tdmCalculationContainer: {
     flex: "1 1 auto",
     display: "flex",
     flexDirection: "column"
@@ -421,7 +421,7 @@ export function TdmCalculationContainer({
   };
 
   return (
-    <div className={classes.root} onClick={trackComponent}>
+    <div className={classes.tdmCalculationContainer} onClick={trackComponent}>
       <Prompt
         when={!formHasSaved && !!account.id}
         message={location => {

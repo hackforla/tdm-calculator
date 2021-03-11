@@ -8,7 +8,7 @@ import logo from "../images/ladot_white.png";
 import NavBar from "./NavBar";
 
 const useStyles = createUseStyles({
-  root: {
+  header: {
     flexGrow: "0",
     flexShrink: "0",
     flexBasis: "content",
@@ -73,7 +73,7 @@ const Header = ({ account }) => {
   const handleHamburgerMenuClick = () => setNavbarOpen(!navbarOpen);
 
   return (
-    <div className={clsx(classes.root, navbarOpen ? "navbarOpen" : "")}>
+    <div className={clsx(classes.header, navbarOpen ? "navbarOpen" : "")}>
       <div className={classes.logoContainer}>
         <a href="//ladot.lacity.org" target="_blank" rel="noopener noreferrer">
           <img
