@@ -15,8 +15,8 @@ const AppWrapper = () => {
   const [confirmTransition, setConfirmTransition] = useState(null);
   const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
   const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
-  const tdmWizardContentContainerRef = useRef();
-  const mainContentContainerRef = useRef();
+  const contentContainerRef = useRef();
+  const appContainerRef = useRef();
 
   const setLoggedInAccount = loggedInUser => {
     setAccount(loggedInUser);
@@ -68,8 +68,8 @@ const AppWrapper = () => {
                 account={account}
                 setLoggedInAccount={setLoggedInAccount}
                 hasConfirmedTransition={hasConfirmedTransition}
-                tdmWizardContentContainerRef={tdmWizardContentContainerRef}
-                mainContentContainerRef={mainContentContainerRef}
+                contentContainerRef={contentContainerRef}
+                appContainerRef={appContainerRef}
               />
             </AppInsightsErrorBoundary>
           </Router>

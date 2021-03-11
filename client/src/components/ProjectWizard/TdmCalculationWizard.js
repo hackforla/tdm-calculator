@@ -32,7 +32,7 @@ const TdmCalculationWizard = props => {
     formIsDirty,
     projectIsValid,
     dateModified,
-    tdmWizardContentContainerRef
+    contentContainerRef
   } = props;
   const context = useContext(ToastContext);
   const page = Number(match.params.page || 1);
@@ -148,7 +148,7 @@ const TdmCalculationWizard = props => {
             resultRules={resultRules}
           />
         )}
-        tdmWizardContentContainerRef={tdmWizardContentContainerRef}
+        contentContainerRef={contentContainerRef}
       >
         <CalculationWizardRoutes
           projectDescriptionRules={projectDescriptionRules}
@@ -194,7 +194,7 @@ const TdmCalculationWizard = props => {
 };
 
 TdmCalculationWizard.propTypes = {
-  tdmWizardContentContainerRef: PropTypes.object,
+  contentContainerRef: PropTypes.object,
   projectLevel: PropTypes.number,
   rules: PropTypes.arrayOf(
     PropTypes.shape({

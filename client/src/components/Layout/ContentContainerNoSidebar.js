@@ -18,7 +18,11 @@ const useStyles = createUseStyles({
   }
 });
 
-const ContentContainerNoSidebar = ({ children, componentToTrack }) => {
+const ContentContainerNoSidebar = ({
+  children,
+  componentToTrack,
+  contentContainerRef
+}) => {
   const classes = useStyles();
   const appInsights = useAppInsightsContext();
 
@@ -30,6 +34,7 @@ const ContentContainerNoSidebar = ({ children, componentToTrack }) => {
       className={classes.contentContainer}
       onLoad={trackComponent}
       onClick={trackComponent}
+      ref={contentContainerRef}
     >
       {children}
     </div>
@@ -37,7 +42,8 @@ const ContentContainerNoSidebar = ({ children, componentToTrack }) => {
 };
 ContentContainerNoSidebar.propTypes = {
   children: PropTypes.node.isRequired,
-  componentToTrack: PropTypes.string.isRequired
+  componentToTrack: PropTypes.string.isRequired,
+  contentContainerRef: PropTypes.object
 };
 
 export default ContentContainerNoSidebar;
