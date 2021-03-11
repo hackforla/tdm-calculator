@@ -202,7 +202,7 @@ class Engine {
       }
       // This is for Issue #607
       if (displayComment && !comment) {
-        validationErrors.push(`${name} nust include details.`);
+        validationErrors.push(`${name} must include details.`);
       }
     }
     // Custom validation rules apply regardless of whether value is falsey
