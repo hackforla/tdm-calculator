@@ -500,20 +500,27 @@ const ProjectSummary = props => {
             </div>
             <div className={classes.measuresContainer}>
               {rules && rules.length > 0
-                ? specificationRules.map(rule => (
-                    <div
-                      key={rule.id}
-                      className={clsx("space-between", classes.rule)}
-                    >
-                      <div className={classes.ruleName}>{rule.name}</div>
-                      <div className={classes.specificationDetailsContainer}>
-                        <div className={classes.measureDetails}>
-                          {rule.value}
+                ? specificationRules.map(rule => {
+                    if (typeof rule.value == "boolean") {
+                      rule.value ? (rule.value = "Yes") : "No";
+                    }
+                    return (
+                      <div
+                        key={rule.id}
+                        className={clsx("space-between", classes.rule)}
+                      >
+                        <div className={classes.ruleName}>{rule.name}</div>
+                        <div className={classes.specificationDetailsContainer}>
+                          <div className={classes.measureDetails}>
+                            {rule.value}
+                          </div>
+                          <div className={classes.measureUnits}>
+                            {rule.units}
+                          </div>
                         </div>
-                        <div className={classes.measureUnits}>{rule.units}</div>
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 : null}
               <div className={classes.measuresContainer}>
                 {parkingRequired ? (
