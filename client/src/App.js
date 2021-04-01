@@ -76,81 +76,83 @@ const App = ({
             <>
               <Sidebar />
               <Switch>
-                <div
-                  className={classes.containerForRef}
-                  ref={contentContainerRef}
-                >
-                  <Route path="/about">
-                    <About />
-                  </Route>
+                <>
+                  <div
+                    className={classes.containerForRef}
+                    ref={contentContainerRef}
+                  >
+                    <Route path="/about">
+                      <About />
+                    </Route>
 
-                  <Route path="/termsandconditions">
-                    <TermsAndConditionsPage />
-                  </Route>
+                    <Route path="/termsandconditions">
+                      <TermsAndConditionsPage />
+                    </Route>
 
-                  <Route path="/privacypolicy">
-                    <PrivacyPolicy />
-                  </Route>
+                    <Route path="/privacypolicy">
+                      <PrivacyPolicy />
+                    </Route>
 
-                  <Route path="/register/:email?">
-                    <Register />
-                  </Route>
+                    <Route path="/register/:email?">
+                      <Register />
+                    </Route>
 
-                  <Route path="/confirm/:token?">
-                    <ConfirmEmail />
-                  </Route>
+                    <Route path="/confirm/:token?">
+                      <ConfirmEmail />
+                    </Route>
 
-                  <Route path="/login/:email?">
-                    {account.email ? (
-                      <Redirect to="/calculation/1" />
-                    ) : (
-                      <Login setLoggedInAccount={setLoggedInAccount} />
-                    )}
-                  </Route>
+                    <Route path="/login/:email?">
+                      {account.email ? (
+                        <Redirect to="/calculation/1" />
+                      ) : (
+                        <Login setLoggedInAccount={setLoggedInAccount} />
+                      )}
+                    </Route>
 
-                  <Route
-                    path="/logout/:email?"
-                    render={routeProps => {
-                      setLoggedInAccount({});
-                      return (
-                        <Redirect
-                          to={
-                            routeProps.match.params["email"]
-                              ? `/login/${routeProps.match.params["email"]}`
-                              : "/login"
-                          }
-                        />
-                      );
-                    }}
-                  />
-
-                  <Route path="/forgotpassword">
-                    <ForgotPassword />
-                  </Route>
-
-                  <Route path="/resetPassword/:token">
-                    <ResetPassword />
-                  </Route>
-
-                  {account && account.isAdmin ? (
                     <Route
-                      path="/admin"
-                      render={() => <Admin account={account} />}
+                      path="/logout/:email?"
+                      render={routeProps => {
+                        setLoggedInAccount({});
+                        return (
+                          <Redirect
+                            to={
+                              routeProps.match.params["email"]
+                                ? `/login/${routeProps.match.params["email"]}`
+                                : "/login"
+                            }
+                          />
+                        );
+                      }}
                     />
-                  ) : null}
 
-                  {account && account.isSecurityAdmin ? (
-                    <Route path="/roles" render={() => <Roles />} />
-                  ) : null}
+                    <Route path="/forgotpassword">
+                      <ForgotPassword />
+                    </Route>
 
-                  <Route path="/faqs">
-                    <FaqView />
-                  </Route>
+                    <Route path="/resetPassword/:token">
+                      <ResetPassword />
+                    </Route>
 
-                  <Route path="/publiccomment">
-                    <PublicComment />
-                  </Route>
-                </div>
+                    {account && account.isAdmin ? (
+                      <Route
+                        path="/admin"
+                        render={() => <Admin account={account} />}
+                      />
+                    ) : null}
+
+                    {account && account.isSecurityAdmin ? (
+                      <Route path="/roles" render={() => <Roles />} />
+                    ) : null}
+
+                    <Route path="/faqs">
+                      <FaqView />
+                    </Route>
+
+                    <Route path="/publiccomment">
+                      <PublicComment />
+                    </Route>
+                  </div>
+                </>
               </Switch>
             </>
           </Route>
