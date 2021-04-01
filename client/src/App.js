@@ -47,43 +47,29 @@ const App = ({
       <div className={classes.app} id="app-container" ref={appContainerRef}>
         <Switch>
           {/* These routes either have no sidebar or use a custom sidebar */}
-          <Route
-            path="/projects"
-            render={() => (
-              <ProjectsPage
-                account={account}
-                contentContainerRef={contentContainerRef}
-              />
-            )}
-          />
+          <Route path="/projects">
+            <ProjectsPage
+              account={account}
+              contentContainerRef={contentContainerRef}
+            />
+          </Route>
 
-          <Route
-            path="/calculation/:page/:projectId?"
-            render={() => (
-              <TdmCalculationContainer
-                account={account}
-                hasConfirmedNavTransition={hasConfirmedTransition}
-                setLoggedInAccount={setLoggedInAccount}
-                contentContainerRef={contentContainerRef}
-              />
-            )}
-          />
+          <Route path="/calculation/:page/:projectId?">
+            <TdmCalculationContainer
+              account={account}
+              hasConfirmedNavTransition={hasConfirmedTransition}
+              setLoggedInAccount={setLoggedInAccount}
+              contentContainerRef={contentContainerRef}
+            />
+          </Route>
 
           <Route exact path="/calculation">
             <Redirect to="/calculation/1" />
           </Route>
 
-          <Route
-            exact
-            path="/"
-            render={() =>
-              account.email ? (
-                <Redirect to="/calculation/1" />
-              ) : (
-                <Redirect to="/login" />
-              )
-            }
-          />
+          <Route exact path="/">
+            <Redirect to={account.email ? "/calculation/1" : "/login"} />
+          </Route>
 
           {/* These routes use the same sidebar component */}
           <Route>
@@ -94,24 +80,34 @@ const App = ({
                   className={classes.containerForRef}
                   ref={contentContainerRef}
                 >
-                  <Route path="/about" component={About} />
-                  <Route
-                    path="/termsandconditions"
-                    component={TermsAndConditionsPage}
-                  />
-                  <Route path="/privacypolicy" component={PrivacyPolicy} />
-                  <Route path="/register/:email?" component={Register} />
-                  <Route path="/confirm/:token?" component={ConfirmEmail} />
-                  <Route
-                    path="/login/:email?"
-                    render={() =>
-                      account.email ? (
-                        <Redirect to="/calculation/1" />
-                      ) : (
-                        <Login setLoggedInAccount={setLoggedInAccount} />
-                      )
-                    }
-                  />
+                  <Route path="/about">
+                    <About />
+                  </Route>
+
+                  <Route path="/termsandconditions">
+                    <TermsAndConditionsPage />
+                  </Route>
+
+                  <Route path="/privacypolicy">
+                    <PrivacyPolicy />
+                  </Route>
+
+                  <Route path="/register/:email?">
+                    <Register />
+                  </Route>
+
+                  <Route path="/confirm/:token?">
+                    <ConfirmEmail />
+                  </Route>
+
+                  <Route path="/login/:email?">
+                    {account.email ? (
+                      <Redirect to="/calculation/1" />
+                    ) : (
+                      <Login setLoggedInAccount={setLoggedInAccount} />
+                    )}
+                  </Route>
+
                   <Route
                     path="/logout/:email?"
                     render={routeProps => {
@@ -128,22 +124,32 @@ const App = ({
                     }}
                   />
 
-                  <Route path="/forgotpassword" component={ForgotPassword} />
-                  <Route
-                    path="/resetPassword/:token"
-                    component={ResetPassword}
-                  />
+                  <Route path="/forgotpassword">
+                    <ForgotPassword />
+                  </Route>
+
+                  <Route path="/resetPassword/:token">
+                    <ResetPassword />
+                  </Route>
+
                   {account && account.isAdmin ? (
                     <Route
                       path="/admin"
                       render={() => <Admin account={account} />}
                     />
                   ) : null}
+
                   {account && account.isSecurityAdmin ? (
                     <Route path="/roles" render={() => <Roles />} />
                   ) : null}
-                  <Route path="/faqs" component={FaqView} />
-                  <Route path="/publiccomment" component={PublicComment} />
+
+                  <Route path="/faqs">
+                    <FaqView />
+                  </Route>
+
+                  <Route path="/publiccomment">
+                    <PublicComment />
+                  </Route>
                 </div>
               </Switch>
             </>
