@@ -149,6 +149,7 @@ const TdmCalculationWizard = props => {
           />
         )}
         contentContainerRef={contentContainerRef}
+        componentToTrack="TdmCalculationWizard"
       >
         <CalculationWizardRoutes
           projectDescriptionRules={projectDescriptionRules}
