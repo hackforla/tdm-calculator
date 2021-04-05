@@ -38,9 +38,6 @@ export const useStyles = createUseStyles({
   authText: {
     color: "#979797",
     marginTop: "20px"
-  },
-  authLink: {
-    textDecoration: "underline"
   }
 });
 
@@ -97,9 +94,7 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
       </Formik>
       <div className={classes.authText}>
         New user? &nbsp;
-        <Link className={classes.authLink} to={"/register"}>
-          Create an account
-        </Link>
+        <Link to={"/register"}>Create an account</Link>
       </div>
     </>
   ) : (

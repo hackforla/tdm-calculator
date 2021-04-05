@@ -14,13 +14,7 @@ const useStyles = createUseStyles({
       padding: "0"
     }
   },
-  link: {
-    textDecoration: "underline",
-    fontWeight: "bold"
-  },
   linklist: {
-    textDecoration: "underline",
-    fontWeight: "bold",
     marginBottom: "0.8em"
   }
 });
@@ -70,10 +64,7 @@ const About = () => {
           methodology and user centered design.
         </p>
         <p>
-          Learn more about{" "}
-          <a className={classes.link} href="http://www.hackforla.org">
-            Hack for LA
-          </a>
+          Learn more about <a href="http://www.hackforla.org">Hack for LA</a>
         </p>
         <h3 className="tdm-wizard-page-subtitle">
           Status of the TDM Calculator
@@ -87,10 +78,7 @@ const About = () => {
         <h3 className="tdm-wizard-page-subtitle">Additional Resources</h3>
         <ul>
           <li className={classes.linklist}>
-            <a
-              className={classes.link}
-              href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility"
-            >
+            <a href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility">
               Los Angeles City Planning, Mobility
             </a>
             , Proposed Ordinances and Initiatives{" "}
