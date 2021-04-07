@@ -22,7 +22,7 @@
   }
 }
 
-//TOD: Delete after refactoring About, Privacy, Terms, Login, Register, PublicComment
+//TODO: Delete after refactoring About, Privacy, Terms, Login, Register, PublicComment
 .tdm-wizard-content-container {
   flex-basis: auto;
   flex-grow: 1;
@@ -38,11 +38,11 @@
   text-align: center;
 }
 
+// TODO: Move into Content Container
 .tdm-wizard-page-subtitle {
   margin-top: 0.5em;
   margin-bottom: 1em;
   text-align: center;
-  font-size: 20px;
   font-weight: normal;
   font-style: normal;
 }

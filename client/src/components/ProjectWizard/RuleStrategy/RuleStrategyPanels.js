@@ -22,7 +22,8 @@ const useStyles = createUseStyles({
   },
   strategyName: {
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
+    margin: "0"
   },
   points: {
     flexBasis: "10%",
