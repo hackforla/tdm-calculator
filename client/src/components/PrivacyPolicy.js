@@ -187,24 +187,21 @@ const PrivacyPolicy = () => {
           </ul>
 
           <h3>Access to Personally Identifiable Information</h3>
-          <p>
-            <ul>
-              <li>
-                Access to personally identifiable information in public records
-                at state and local levels of government in Los Angeles is
-                controlled primarily by the California Public Records Act
-                (Government Code Section 6250, et seq.). Information that is
-                generally available under the Public Records Act may be posted
-                for electronic access through the City&#39;s website. While the
-                Public Records Act sets the general policies for access to City
-                records, other sections of California code as well as federal
-                laws also deal with confidentiality issues. This section as well
-                as the other terms of this TDM privacy policy are subject to
-                change in response to, or as a result of changes in federal,
-                state, and/or local law.
-              </li>
-            </ul>
-          </p>
+          <ul>
+            <li>
+              Access to personally identifiable information in public records at
+              state and local levels of government in Los Angeles is controlled
+              primarily by the California Public Records Act (Government Code
+              Section 6250, et seq.). Information that is generally available
+              under the Public Records Act may be posted for electronic access
+              through the City&#39;s website. While the Public Records Act sets
+              the general policies for access to City records, other sections of
+              California code as well as federal laws also deal with
+              confidentiality issues. This section as well as the other terms of
+              this TDM privacy policy are subject to change in response to, or
+              as a result of changes in federal, state, and/or local law.
+            </li>
+          </ul>
 
           <h3>E-mail Addresses</h3>
           <p>
