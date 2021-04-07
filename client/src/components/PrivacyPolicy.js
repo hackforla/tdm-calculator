@@ -38,10 +38,6 @@ const useStyles = createUseStyles({
       padding: "0"
     }
   },
-  link: {
-    textDecoration: "underline",
-    color: "blue"
-  },
   greyText: {
     color: "grey"
   },
@@ -79,13 +75,8 @@ const PrivacyPolicy = () => {
           your information responsibly.
         </p>
         <p>
-          <a
-            className={classes.link}
-            href="https://ladot.lacity.org/tdmcalculator"
-          >
-            TDM Calculator
-          </a>{" "}
-          is a City of Los Angeles Review Tool managed by Hack for LA which is a
+          <a href="https://ladot.lacity.org/tdmcalculator">TDM Calculator</a> is
+          a City of Los Angeles Review Tool managed by Hack for LA which is a
           project (of Code for America Labs, Inc. (&#34;Code for America&#34;,
           &#34;we&#34;, &#34;us&#34;, &#34;our&#34;). This Privacy Policy
           describes how we collect, use, and protect your personal information
@@ -129,10 +120,7 @@ const PrivacyPolicy = () => {
         <br />
         <p>
           Visiting{" "}
-          <a
-            className={classes.link}
-            href="https://ladot.lacity.org/tdmcalculator"
-          >
+          <a href="https://ladot.lacity.org/tdmcalculator">
             https://ladot.lacity.org/tdmcalculator
           </a>{" "}
         </p>
@@ -140,10 +128,7 @@ const PrivacyPolicy = () => {
           <li className={classes.parentBullets}>
             We may automatically collect and store data about your visit to
             <span> </span>
-            <a
-              className={classes.link}
-              href="https://ladot.lacity.org/tdmcalculator"
-            >
+            <a href="https://ladot.lacity.org/tdmcalculator">
               https://ladot.lacity.org/tdmcalculator:
             </a>{" "}
             <li className={classes.childBullets}>
@@ -168,10 +153,7 @@ const PrivacyPolicy = () => {
           <li className={classes.parentBullets}>
             None of the information we collect about you when you visit
             <span> </span>
-            <a
-              className={classes.link}
-              href="https://ladot.lacity.org/tdmcalculator "
-            >
+            <a href="https://ladot.lacity.org/tdmcalculator ">
               https://ladot.lacity.org/tdmcalculator
             </a>{" "}
             is personally identifiable unless you submit your contact
@@ -181,10 +163,7 @@ const PrivacyPolicy = () => {
             We use this non personally identifiable information to understand
             how the
             <span> </span>
-            <a
-              className={classes.link}
-              href="https://ladot.lacity.org/tdmcalculator "
-            >
+            <a href="https://ladot.lacity.org/tdmcalculator ">
               https://ladot.lacity.org/tdmcalculator
             </a>{" "}
             website is used, to improve the website, and to monitor usage for
@@ -198,10 +177,7 @@ const PrivacyPolicy = () => {
         </ul>
         <p className={classes.topMargin}>
           Creating an account at <span> </span>
-          <a
-            className={classes.link}
-            href="https://ladot.lacity.org/tdmcalculator "
-          >
+          <a href="https://ladot.lacity.org/tdmcalculator ">
             https://ladot.lacity.org/tdmcalculator
           </a>{" "}
         </p>
@@ -218,10 +194,7 @@ const PrivacyPolicy = () => {
         </ul>
         <p className={classes.topMargin}>
           Saving projects account at <span> </span>
-          <a
-            className={classes.link}
-            href="https://ladot.lacity.org/tdmcalculator "
-          >
+          <a href="https://ladot.lacity.org/tdmcalculator ">
             https://ladot.lacity.org/tdmcalculator
           </a>{" "}
         </p>
@@ -313,17 +286,11 @@ const PrivacyPolicy = () => {
             as a unique user. This cookie cannot be used by anyone but Google.
             Google&#39;s ability to use and share information collected by
             Google Analytics about your visits to this site is restricted by the{" "}
-            <a
-              className={classes.link}
-              href="https://marketingplatform.google.com/about/analytics/terms/us/"
-            >
+            <a href="https://marketingplatform.google.com/about/analytics/terms/us/">
               Google Analytics Terms of Use
             </a>{" "}
             and the{" "}
-            <a
-              className={classes.link}
-              href="https://policies.google.com/privacy"
-            >
+            <a href="https://policies.google.com/privacy">
               Google Privacy Policy
             </a>
             .{" "}
@@ -340,10 +307,7 @@ const PrivacyPolicy = () => {
         </p>
         <p>
           Visit{" "}
-          <a
-            className={classes.link}
-            href="https://tools.google.com/dlpage/gaoptout/"
-          >
+          <a href="https://tools.google.com/dlpage/gaoptout/">
             https://tools.google.com/dlpage/gaoptout/
           </a>
           <span> </span>for more info on how to opt out.
@@ -378,18 +342,9 @@ const PrivacyPolicy = () => {
         </p>
         <p>
           Third-party service providers we may use include{" "}
-          <a className={classes.link} href="https://analytics.google.com/">
-            Google Analytics
-          </a>
-          ,{" "}
-          <a className={classes.link} href="https://mixpanel.com/">
-            Mixpanel
-          </a>
-          ,{" "}
-          <a className={classes.link} href="https://www.hotjar.com/">
-            Hotjar
-          </a>
-          .
+          <a href="https://analytics.google.com/">Google Analytics</a>,{" "}
+          <a href="https://mixpanel.com/">Mixpanel</a>,{" "}
+          <a href="https://www.hotjar.com/">Hotjar</a>.
         </p>
         <p>How to opt-out of the use of cookies</p>
         <p>
@@ -397,11 +352,8 @@ const PrivacyPolicy = () => {
           to restrict or block the cookies that are set by our Site, or any
           other site, you can do so through your browser setting. The ‘Help’
           function in your browser should explain how. Alternatively, you can
-          visit{" "}
-          <a className={classes.link} href="http://www.aboutcookies.org">
-            www.aboutcookies.org
-          </a>
-          , which contains comprehensive information on how to do this on a wide
+          visit <a href="http://www.aboutcookies.org">www.aboutcookies.org</a>,
+          which contains comprehensive information on how to do this on a wide
           variety of browsers. You will find general information about cookies
           and details on how to delete cookies from your machine.
         </p>
@@ -446,10 +398,8 @@ const PrivacyPolicy = () => {
           <li className={(classes.parentBullets, classes.bottomMargin)}>
             If you learn that a child has provided us with personal information
             in violation of this Privacy Policy, then you may alert us at{" "}
-            <a className={classes.link} href="mailto:privacy@hackforla.org">
-              privacy@hackforla.org
-            </a>{" "}
-            and reference “HfLA TDM Calculator” in the subject line.
+            <a href="mailto:privacy@hackforla.org">privacy@hackforla.org</a> and
+            reference “HfLA TDM Calculator” in the subject line.
           </li>
         </ul>
         <h3 className={classes.bottomMargin}>Security</h3>
@@ -483,10 +433,8 @@ const PrivacyPolicy = () => {
             information) at any time. You may request that incomplete data be
             completed or that incorrect data be corrected. Requests can be
             submitted to{" "}
-            <a className={classes.link} href="mailto:privacy@HackforLa.org">
-              privacy@HackforLA.org
-            </a>{" "}
-            and reference “HfLA TDM Calculator” in the subject line.
+            <a href="mailto:privacy@HackforLa.org">privacy@HackforLA.org</a> and
+            reference “HfLA TDM Calculator” in the subject line.
           </li>
         </ul>
         <h3 className={(classes.topMargin, classes.bottomMargin)}>Changes</h3>

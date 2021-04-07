@@ -6,7 +6,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
 import Button from "../Button/Button";
-import clsx from "clsx";
 import {
   useAppInsightsContext,
   useTrackEvent
@@ -27,12 +26,6 @@ const useStyles = createUseStyles({
   withoutSavingWarning: {
     visibility: ({ withoutSavingWarningIsVisible }) =>
       withoutSavingWarningIsVisible ? "visible" : "hidden"
-  },
-  authLink: {
-    textDecoration: "underline"
-  },
-  authText: {
-    color: "#979797"
   }
 });
 
@@ -199,7 +192,6 @@ const Login = props => {
               </div>
               <Link
                 id="cy-login-nav-to-forgotpassword"
-                className={clsx(classes.authLink, classes.authText)}
                 to={"/forgotpassword"}
                 style={{ display: "flex", justifyContent: "flex-end" }}
               >
@@ -240,13 +232,9 @@ const Login = props => {
         </Formik>
       </div>
       <br />
-      <div className={classes.authText}>
+      <div>
         New user? &nbsp;
-        <Link
-          id="cy-login-nav-to-register"
-          to={"/register"}
-          className={classes.authLink}
-        >
+        <Link id="cy-login-nav-to-register" to={"/register"}>
           Create an account
         </Link>
       </div>
