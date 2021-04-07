@@ -365,7 +365,7 @@ RuleCalculation.propTypes = {
     maxValue: PropTypes.number,
     choices: PropTypes.string,
     calcCode: PropTypes.string,
-    calcValue: PropTypes.any,
+    calcValue: PropTypes.number,
     calcUnits: PropTypes.string,
     required: PropTypes.bool,
     minStringLength: PropTypes.number,

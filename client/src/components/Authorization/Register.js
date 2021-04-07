@@ -220,7 +220,7 @@ const Register = props => {
 Register.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      email: PropTypes.string.isRequired
+      email: PropTypes.string
     })
   })
 };
