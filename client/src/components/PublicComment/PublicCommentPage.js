@@ -15,7 +15,8 @@ const useStyles = createUseStyles({
     maxWidth: "840px"
   },
   pageTitle: {
-    marginBottom: "16px"
+    marginBottom: "16px",
+    textAlign: "center"
   },
   formContainer: {
     display: "flex",

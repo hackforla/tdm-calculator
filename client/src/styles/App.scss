@@ -8,17 +8,8 @@ body,
 div,
 object,
 iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
 p,
 blockquote,
-ol,
-ul,
-li,
 form,
 legend,
 label,
@@ -39,32 +30,11 @@ body {
   color: #474747;
 }
 
-h1,
-.alpha {
+h1 {
   font-family: "Calibri Bold";
-  font-weight: normal;
-  font-size: 25px;
-  line-height: 1.25em;
-  color: $color-primary;
-  text-align: center;
-}
-
-h2,
-.beta {
-  font-size: 1.625em;
-  line-height: 1.15384615em;
-}
-
-h3,
-.gamma {
-  font-size: 1.375em;
-  line-height: 1.13636364em;
-}
-
-h4,
-.delta {
-  font-size: 1.125em;
-  line-height: 1.111111111em;
+  font-size: 1.7em;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 p {
@@ -109,23 +79,6 @@ a {
   text-decoration: underline;
   outline: 0;
   cursor: pointer;
-}
-
-ol,
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.colorbulletlist ul li {
-  color: #014982;
-  font-size: 0.5em;
-}
-
-.text ol {
-  list-style: decimal;
-  margin: 0 0 1em 1.5em;
 }
 
 fieldset {

@@ -4,23 +4,8 @@ import { version } from "../../package.json";
 import ContentContainer from "./Layout/ContentContainer";
 
 const useStyles = createUseStyles({
-  aboutText: {
-    maxWidth: "500px",
-    minWidth: 300,
-    padding: "0 2em"
-  },
-  aboutHeader: {
-    marginTop: "0.5em",
-    marginBottom: "1em",
-    textAlign: "start",
-    fontSize: "20px",
-    fontWeight: "normal",
-    fontStyle: "normal"
-  },
-  "@media (max-width: 768px)": {
-    aboutText: {
-      padding: "0"
-    }
+  aboutContent: {
+    maxWidth: "1000px"
   },
   linklist: {
     marginBottom: "0.8em"
@@ -33,15 +18,14 @@ const About = () => {
   return (
     <ContentContainer componentToTrack="AboutPage">
       <h1>About the TDM Calculator</h1>
-      <br />
-      <div className={classes.aboutText}>
-        <h3 className={classes.aboutHeader}>What does TDM mean?</h3>
+      <div className={classes.aboutContent}>
+        <h3>What does TDM mean?</h3>
         <p>
           Transportation Demand Management (TDM) refers to the strategies a city
           uses to influence travel behavior and accommodate growing demands on
           its transportation system.
         </p>
-        <h3 className={classes.aboutHeader}>TDM Program Update</h3>
+        <h3>TDM Program Update</h3>
         <p>
           Los Angeles Department of Transportation (LADOT) and Los Angeles City
           Planning (LACP) are working together to update the City’s TDM
@@ -50,7 +34,7 @@ const About = () => {
           and reduce single-occupancy vehicle trips, which benefits the
           environment, public health, and can ease congestion.
         </p>
-        <h3 className={classes.aboutHeader}>What is the TDM Calculator?</h3>
+        <h3>What is the TDM Calculator?</h3>
         <p>
           The TDM Calculator is a tool developed to help simplify the
           development and implementation of the proposed updates to the City’s
@@ -72,14 +56,16 @@ const About = () => {
         <p>
           Learn more about <a href="http://www.hackforla.org">Hack for LA</a>
         </p>
-        <h3 className={classes.aboutHeader}>Status of the TDM Calculator</h3>
+        <h3>Status of the TDM Calculator</h3>
+
         <p>
           The TDM Calculator is in a beta phase and is still undergoing testing
           and development. A public use version of the TDM Calculator will be
           developed after the updated TDM ordinance is approved by the City
           Council and Mayor.{" "}
         </p>
-        <h3 className={classes.aboutHeader}>Additional Resources</h3>
+        <h3>Additional Resources</h3>
+
         <ul>
           <li className={classes.linklist}>
             <a href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility">
