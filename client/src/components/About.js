@@ -57,6 +57,7 @@ const About = () => {
           Learn more about <a href="http://www.hackforla.org">Hack for LA</a>
         </p>
         <h3>Status of the TDM Calculator</h3>
+
         <p>
           The TDM Calculator is in a beta phase and is still undergoing testing
           and development. A public use version of the TDM Calculator will be
@@ -64,6 +65,7 @@ const About = () => {
           Council and Mayor.{" "}
         </p>
         <h3>Additional Resources</h3>
+
         <ul>
           <li className={classes.linklist}>
             <a href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility">
