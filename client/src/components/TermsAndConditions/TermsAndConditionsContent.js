@@ -16,10 +16,6 @@ const useStyles = createUseStyles({
   bold: {
     textShadow: "1px 0 0 currentColor"
   },
-  link: {
-    textDecoration: "underline",
-    color: "blue"
-  },
   subHeading: {
     color: "grey"
   }
@@ -49,10 +45,7 @@ const TermsAndConditionsContent = () => {
           Currently available for review: Council File 15-0719-S19 / the Los
           Angeles Department of City Planning website:
           <span> </span>
-          <a
-            className={classes.link}
-            href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility"
-          >
+          <a href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility">
             {" "}
             planning4la.org/mobility
           </a>
@@ -157,10 +150,8 @@ const TermsAndConditionsContent = () => {
         <p>
           Before making decisions using the information provided in this
           application, contact City LADOT staff at{" "}
-          <a className={classes.link} href="https://www.lacity.org/">
-            ladot.tdm@lacity.org
-          </a>{" "}
-          to confirm the validity of the data provided.
+          <a href="https://www.lacity.org/">ladot.tdm@lacity.org</a> to confirm
+          the validity of the data provided.
         </p>
       </div>
     </>

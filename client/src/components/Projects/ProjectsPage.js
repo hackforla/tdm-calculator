@@ -91,9 +91,6 @@ const useStyles = createUseStyles({
       backgroundColor: "transparent"
     }
   },
-  link: {
-    textDecoration: "underline"
-  },
   tableContainer: {
     overflow: "auto",
     width: "100%",
@@ -365,10 +362,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
               currentProjects.map(project => (
                 <tr key={project.id}>
                   <td className={classes.td}>
-                    <Link
-                      to={`/calculation/1/${project.id}`}
-                      className={classes.link}
-                    >
+                    <Link to={`/calculation/1/${project.id}`}>
                       {project.name}
                     </Link>
                   </td>

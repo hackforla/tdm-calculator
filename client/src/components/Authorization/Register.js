@@ -12,9 +12,6 @@ const useStyles = createUseStyles({
   submitButton: {
     float: "right"
   },
-  authLink: {
-    textDecoration: "underline"
-  },
   authText: {
     color: "#979797"
   }
@@ -208,10 +205,7 @@ const Register = props => {
       <br />
       {submitted ? null : (
         <div className={classes.authText}>
-          Already have an account? &nbsp;{" "}
-          <Link to="/login" className={classes.authLink}>
-            Log In
-          </Link>
+          Already have an account? &nbsp; <Link to="/login">Log In</Link>
         </div>
       )}
     </ContentContainer>
@@ -220,7 +214,7 @@ const Register = props => {
 Register.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      email: PropTypes.string.isRequired
+      email: PropTypes.string
     })
   })
 };

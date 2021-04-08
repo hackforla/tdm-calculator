@@ -326,7 +326,7 @@ RuleStrategy.propTypes = {
     minValue: PropTypes.number,
     maxValue: PropTypes.number,
     choices: PropTypes.array,
-    calcValue: PropTypes.number,
+    calcValue: PropTypes.number | null, // only user-defined strategy is null
     calcUnits: PropTypes.string,
     calcMinValue: PropTypes.number,
     calcMaxValue: PropTypes.number,
