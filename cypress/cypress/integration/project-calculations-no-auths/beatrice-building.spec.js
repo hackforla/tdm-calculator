@@ -38,16 +38,16 @@ describe("Beatrice Building", () => {
     cy.get("#STRATEGY_BIKE_4").should("be.checked");
 
     // Changing / Shower / Locker Facilities
-    cy.get("#STRATEGY_BIKE_5").check();
+    cy.get("#STRATEGY_BIKE_5").select("Private");
 
     // Car Share Parking
-    cy.get("#STRATEGY_CAR_SHARE_1").check();
+    cy.get("#STRATEGY_CAR_SHARE_1").select("Private");
 
     // HOV Parking
     cy.get("#STRATEGY_HOV_3").check();
 
     // Transit Displays
-    cy.get("#STRATEGY_INFO_1").check();
+    cy.get("#STRATEGY_INFO_1").select("Internally visible");
 
     // Wayfinding
     cy.get("#STRATEGY_INFO_2").check();
