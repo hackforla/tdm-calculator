@@ -4,7 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
-  root: {
+  button: {
     color: ({ theme }) => theme.colorText,
     cursor: "pointer",
     fontFamily: "Calibri Bold",
@@ -42,7 +42,9 @@ const Button = ({
   onClick,
   variant = "contained",
   color = "colorDefault",
-  type = "button"
+  type = "button",
+  disabled = false,
+  id
 }) => {
   const theme = useTheme();
   const classes = useStyles({ color, theme });
@@ -50,9 +52,11 @@ const Button = ({
   if (!isDisplayed) return null;
   return (
     <button
-      className={clsx(classes.root, classes[variant], className)}
+      className={clsx(classes.button, classes[variant], className)}
       onClick={onClick}
       type={type}
+      disabled={disabled}
+      id={id}
     >
       {children}
     </button>
@@ -67,7 +71,9 @@ Button.propTypes = {
   isDisplayed: PropTypes.bool,
   className: PropTypes.string,
   color: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  disabled: PropTypes.bool,
+  id: PropTypes.string
 };
 
 export default Button;

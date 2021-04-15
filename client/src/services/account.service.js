@@ -33,8 +33,15 @@ export const register = async (firstName, lastName, email, password) => {
 
 export const resendConfirmationEmail = async email => {
   const body = { email };
-  const response = await axios.post(baseUrl + "/resendConfirmationEmail", body);
-  return response.data;
+  try {
+    const response = await axios.post(
+      baseUrl + "/resendConfirmationEmail",
+      body
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const login = async (email, password) => {

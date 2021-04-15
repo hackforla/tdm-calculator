@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
-  root: {
+  navButton: {
     cursor: "pointer",
     padding: "0.35em 0.7em",
     margin: "0.5em",
@@ -26,7 +26,7 @@ const useStyles = createUseStyles({
     visibility: "hidden"
   },
   "@media print": {
-    root: {
+    navButton: {
       display: "none"
     }
   }
@@ -41,7 +41,7 @@ const NavButton = ({ id, onClick, navDirection, isVisible, isDisabled }) => {
   return (
     <button
       id={id}
-      className={clsx(classes.root, maybeDisabled, maybeHiddenVisibility)}
+      className={clsx(classes.navButton, maybeDisabled, maybeHiddenVisibility)}
       data-testid={id}
       onClick={onClick}
       disabled={isDisabled}

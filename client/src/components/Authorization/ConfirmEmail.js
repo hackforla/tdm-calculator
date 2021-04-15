@@ -3,19 +3,28 @@ import PropTypes from "prop-types";
 import { Redirect, withRouter } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
+import SendEmailForm from "./SendEmailForm";
+import ContentContainer from "../Layout/ContentContainer";
 
 const ConfirmEmail = props => {
-  const { history } = props;
+  const { history, match } = props;
+  const token = match.params.token;
+  const [submitted, setSubmitted] = useState(false);
   const [confirmResult, setConfirmResult] = useState(false);
-  const [email, setEmail] = useState("");
-  const [emailSent, setEmailSent] = useState(false);
-  const token = props.match.params.token;
   const toast = useToast();
 
-  const resendConfirmationEmail = async evt => {
-    evt.preventDefault();
-    await accountService.resendConfirmationEmail(email);
-    setEmailSent(true);
+  const handleSubmit = async ({ email }, { setFieldError }) => {
+    const submitResponse = await accountService.resendConfirmationEmail(email);
+    if (submitResponse) {
+      setSubmitted(true);
+    } else if (
+      submitResponse.data.code === "RESEND_CONFIRMATION_EMAIL_ACCOUNT_NOT_FOUND"
+    ) {
+      setFieldError(
+        "email",
+        "That email address is not associated with any accounts"
+      );
+    }
   };
 
   useEffect(() => {
@@ -30,47 +39,21 @@ const ConfirmEmail = props => {
     if (token) {
       confirmEmail(token);
     }
-  }, [token, history, toast]);
+  }, [token]);
 
-  return (
-    <React.Fragment>
-      <div>Confirm Email</div>
-      {!confirmResult ? (
-        <div>Confirming Email...</div>
-      ) : confirmResult.success ? (
-        <Redirect to={`/login/${email}`} />
-      ) : emailSent ? (
-        <p>
-          {`A confirmation email has been sent to ${email}. Please find this
-            email and click on the link provided to complete your email confirmation.`}
-        </p>
-      ) : (
-        <div>
-          <div>
-            <p>
-              The confirmation request was not found, or has expired. Please
-              press the button to re-send the registration confirmation email.
-            </p>
-            <form onSubmit={resendConfirmationEmail}>
-              <input
-                required
-                name="email"
-                placeholder="Enter the email for your account"
-                type="email"
-                value={email}
-                onChange={evt => {
-                  setEmail(evt.target.value);
-                }}
-              />
-
-              <button type="submit">Re-send confirmation email</button>
-            </form>
-          </div>
-        </div>
-      )}
-    </React.Fragment>
+  return confirmResult.success ? (
+    <Redirect to={`/login/${confirmResult.email}`} />
+  ) : (
+    <ContentContainer componentToTrack="ConfirmEmail">
+      <SendEmailForm
+        label="Confirmation"
+        handleSubmit={handleSubmit}
+        submitted={submitted}
+      />
+    </ContentContainer>
   );
 };
+
 ConfirmEmail.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({

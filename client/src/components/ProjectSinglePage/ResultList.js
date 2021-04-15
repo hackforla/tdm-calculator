@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 import ResultView from "./ResultView";
 
 const useStyles = createUseStyles({
-  root: {
+  resultList: {
     flexGrow: "1",
     flexShrink: "1",
     flexBasis: "80%",
@@ -20,7 +20,7 @@ const ResultList = props => {
   const { rules } = props;
 
   return (
-    <div className={classes.root}>
+    <div className={classes.resultList}>
       {rules && rules.length > 0
         ? rules.map(rule => <ResultView key={rule.id} rule={rule} />)
         : null}

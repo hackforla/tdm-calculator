@@ -1,13 +1,6 @@
 import React from "react";
 import ToolTipLabel from "../../ToolTip/ToolTipLabel";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
-
-const useStyles = createUseStyles({
-  textInputLabelAnchor: {
-    textDecoration: "underline"
-  }
-});
 
 const RuleStrategyLabel = ({
   id,
@@ -18,8 +11,6 @@ const RuleStrategyLabel = ({
   link,
   name
 }) => {
-  const classes = useStyles();
-
   return (
     <ToolTipLabel
       id={"tooltip-strategy" + id}
@@ -29,12 +20,7 @@ const RuleStrategyLabel = ({
       requiredInput={required}
     >
       {link ? (
-        <a
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={classes.textInputLabelAnchor}
-        >
+        <a href={link} target="_blank" rel="noopener noreferrer">
           {name}
         </a>
       ) : (

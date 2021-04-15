@@ -1,0 +1,1 @@
+UPDATE CalculationRule SET name = 'Building Permit #' WHERE calculationId = 1 and code in ('BUILDING_PERMIT');

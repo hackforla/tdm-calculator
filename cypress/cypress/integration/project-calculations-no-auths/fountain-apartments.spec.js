@@ -40,7 +40,7 @@ describe("Fountain Apartments", () => {
     cy.get("#STRATEGY_BIKE_4").should("be.checked");
 
     // Car Share Parking
-    cy.get("#STRATEGY_CAR_SHARE_1").check();
+    cy.get("#STRATEGY_CAR_SHARE_1").select("Publicly Accessible");
 
     // Wayfinding
     cy.get("#STRATEGY_INFO_2").check();
@@ -79,6 +79,6 @@ describe("Fountain Apartments", () => {
     cy.findByTestId("summary-project-level-value").should("have.text", "2");
     cy.findByTestId("summary-parking-ratio-value").should("have.text", "113%");
     cy.findByTestId("summary-target-points-value").should("have.text", "22");
-    cy.findByTestId("summary-earned-points-value").should("have.text", "21");
+    cy.findByTestId("summary-earned-points-value").should("have.text", "22");
   });
 });

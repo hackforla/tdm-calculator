@@ -27,9 +27,9 @@ function ProjectSpecifications(props) {
   return (
     <div>
       <h1 className="tdm-wizard-page-title">Enter project specifications</h1>
-      <h2 className="tdm-wizard-page-subtitle">
+      <h3 className="tdm-wizard-page-subtitle">
         Fill out the use specifications that apply to your project
-      </h2>
+      </h3>
       <div className={classes.unSelectContainer}>
         <button className={classes.unSelectButton} onClick={uncheckAll}>
           Reset Page

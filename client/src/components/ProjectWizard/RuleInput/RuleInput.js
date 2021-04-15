@@ -362,7 +362,7 @@ RuleInput.propTypes = {
     maxValue: PropTypes.number,
     choices: PropTypes.string,
     description: PropTypes.string,
-    calcValue: PropTypes.any,
+    calcValue: PropTypes.number,
     calcUnits: PropTypes.string,
     display: PropTypes.bool,
     required: PropTypes.bool,

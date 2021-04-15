@@ -17,7 +17,7 @@ import {
 } from "@microsoft/applicationinsights-react-js";
 
 const styles = {
-  root: {
+  tdmCalculationContainer: {
     flex: "1 1 auto",
     display: "flex",
     flexDirection: "column"
@@ -56,7 +56,7 @@ export function TdmCalculationContainer({
   account,
   classes,
   setLoggedInAccount,
-  tdmWizardContentContainerRef
+  contentContainerRef
 }) {
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
@@ -421,7 +421,7 @@ export function TdmCalculationContainer({
   };
 
   return (
-    <div className={classes.root} onClick={trackComponent}>
+    <div className={classes.tdmCalculationContainer} onClick={trackComponent}>
       <Prompt
         when={!formHasSaved && !!account.id}
         message={location => {
@@ -454,7 +454,7 @@ export function TdmCalculationContainer({
           formIsDirty={!formHasSaved}
           projectIsValid={projectIsValid}
           dateModified={dateModified}
-          tdmWizardContentContainerRef={tdmWizardContentContainerRef}
+          contentContainerRef={contentContainerRef}
         />
       ) : (
         <TdmCalculation
@@ -500,7 +500,7 @@ TdmCalculationContainer.propTypes = {
     search: PropTypes.string
   }),
   setLoggedInAccount: PropTypes.func,
-  tdmWizardContentContainerRef: PropTypes.object
+  contentContainerRef: PropTypes.object
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));
