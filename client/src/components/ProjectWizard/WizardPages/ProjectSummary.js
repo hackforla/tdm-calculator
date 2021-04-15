@@ -532,7 +532,7 @@ const ProjectSummary = props => {
                       <div className={clsx(classes.value)}>
                         {Math.round(parkingRequired.value * 100) / 100}
                       </div>
-                      <div className={clsx(classes.calcUnits)}>spcs</div>
+                      <div className={clsx(classes.calcUnits)}>spaces</div>
                     </div>
                   </div>
                 ) : null}
@@ -546,7 +546,7 @@ const ProjectSummary = props => {
                     <div className={clsx(classes.value)}>
                       {Math.round(parkingProvided.value * 100) / 100}
                     </div>
-                    <div className={clsx(classes.calcUnits)}>spcs</div>
+                    <div className={clsx(classes.calcUnits)}>spaces</div>
                   </div>
                 </div>
               ) : null}
