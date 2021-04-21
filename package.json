@@ -3,7 +3,8 @@
   "version": "0.2.25",
   "private": true,
   "scripts": {
-    "release-notes": "gren release --override"
+    "release-notes": "gren release --override",
+    "start": "cd ./server && npm run start:all"
   },
   "devDependencies": {
     "husky": "^4.3.5",

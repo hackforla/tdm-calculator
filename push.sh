@@ -4,6 +4,7 @@ set -u
 git fetch || exit 1
 
 # Make sure you are on a branch
+# Condition to check if i'm not on origin/develop
 
 
 
