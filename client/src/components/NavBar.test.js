@@ -7,7 +7,7 @@ it("renders without crashing", () => {
   const div = document.createElement("div");
   ReactDOM.render(
     <Router>
-      <NavBar />
+      <NavBar setNavbarOpen={jest.fn} account={{ email: "some-email" }} />
     </Router>,
     div
   );

@@ -40,7 +40,7 @@ describe("Clarendon Apartments", () => {
     cy.get("#STRATEGY_BIKE_4").should("be.checked");
 
     // Car Share Parking
-    cy.get("#STRATEGY_CAR_SHARE_1").check();
+    cy.get("#STRATEGY_CAR_SHARE_1").select("Publicly Accessible");
 
     // Car Share Memberships
     cy.get("#STRATEGY_CAR_SHARE_2").check();
@@ -64,6 +64,6 @@ describe("Clarendon Apartments", () => {
     cy.findByTestId("summary-project-level-value").should("have.text", "3");
     cy.findByTestId("summary-parking-ratio-value").should("have.text", "102%");
     cy.findByTestId("summary-target-points-value").should("have.text", "25");
-    cy.findByTestId("summary-earned-points-value").should("have.text", "24");
+    cy.findByTestId("summary-earned-points-value").should("have.text", "25");
   });
 });

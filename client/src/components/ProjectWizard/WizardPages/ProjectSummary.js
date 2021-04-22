@@ -5,29 +5,20 @@ import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
+import { numberWithCommas } from "../helpers";
 
 const useStyles = createUseStyles({
   projectSummary: {
     display: "flex",
     flexDirection: "column",
-    flex: "1 1 auto",
-    minWidth: "600px"
-  },
-  subtitle: {
-    marginBottom: 0
+    flex: "1 1 auto"
   },
   alignCenter: {
     textAlign: "center"
   },
-  grid: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginBottom: "20px"
-  },
   measure: {
     height: "132px",
-    minWidth: "293px",
+    minWidth: "49%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -43,26 +34,20 @@ const useStyles = createUseStyles({
     marginLeft: "3px"
   },
   label: {
-    fontSize: "16px",
     fontWeight: 500,
     marginTop: "10px",
     textTransform: "uppercase"
   },
-  heading: {
-    marginTop: "1em"
-  },
   rule: {
     width: "100%",
     display: "flex",
-    minHeight: "30px"
+    alignItems: "center",
+    justifyContent: "space-between",
+    minHeight: "24px",
+    margin: "4px auto"
   },
   ruleName: {
-    width: "325px",
-    fontFamily: "Calibri",
-    fontSize: "16px"
-  },
-  wideRule: {
-    flex: "1 0 75%"
+    minWidth: "270px"
   },
   value: {
     fontFamily: "Oswald",
@@ -70,18 +55,11 @@ const useStyles = createUseStyles({
     fontWeight: "bold",
     textAlign: "right"
   },
-  ruleUnits: {
-    flex: "0 0 20%",
-    paddingLeft: "1em"
+  calcUnitsPts: {
+    margin: "3px 45px 0 10px"
   },
-  icon: {
-    flex: "0 0 5%"
-  },
-  calcUnits: {
-    margin: "3px 12px 0 10px"
-  },
-  overline: {
-    borderTop: "2px solid black"
+  calcUnitsSpcs: {
+    margin: "3px 38px 0 10px"
   },
   bold: {
     fontFamily: "Calibri Bold"
@@ -135,7 +113,6 @@ const useStyles = createUseStyles({
     marginRight: "17px"
   },
   projectInfoDetails: {
-    fontSize: "16px",
     fontFamily: "Calibri Bold"
   },
   categoryContainer: {
@@ -143,7 +120,6 @@ const useStyles = createUseStyles({
   },
   categoryHeader: {
     fontFamily: "Oswald",
-    fontSize: "16px",
     fontWeight: "bold"
   },
   resultsContainer: {
@@ -157,7 +133,6 @@ const useStyles = createUseStyles({
     maxWidth: "100%"
   },
   resultsSuccess: {
-    fontSize: "16px",
     width: "100%",
     textAlign: "center",
     color: "#748927"
@@ -166,10 +141,6 @@ const useStyles = createUseStyles({
     borderTop: "1px solid #E7EBF0",
     marginTop: "3px",
     paddingTop: "16px"
-  },
-  categoryText: {
-    fontFamily: "Calibri",
-    fontSize: "16px"
   },
   measuresContainer: {
     borderTop: "1px solid #E7EBF0",
@@ -181,38 +152,39 @@ const useStyles = createUseStyles({
     fontWeight: "500",
     fontSize: "12px",
     color: "rgba(15, 41, 64, 0.5)",
-    paddingTop: "5px"
+    paddingTop: "5px",
+    marginRight: "36px"
   },
   measureDetails: {
-    fontFamily: "Calibri",
     fontSize: "14px",
     textAlign: "right",
     minWidth: "40px",
     marginRight: "10px"
   },
   measureUnits: {
-    fontFamily: "Calibri",
-    fontSize: "14px"
+    fontSize: "14px",
+    width: "65px"
   },
   detailsContainer: {
-    width: "175px",
-    display: "flex"
+    display: "flex",
+    minWidth: "180px",
+    maxWidth: "35%"
   },
   specificationDetailsContainer: {
-    width: "140px",
-    display: "flex"
+    minWidth: "140px",
+    display: "flex",
+    justifyContent: "flex-end"
   },
   pointsContainer: {
-    width: "100px",
     display: "flex",
     justifyContent: "flex-end"
   },
   ruleText: {
     fontSize: "14px",
-    textAlign: "center"
+    textAlign: "center",
+    margin: "0 16px"
   },
   projectDescription: {
-    fontSize: "16px",
     display: "block",
     marginTop: "6px"
   }
@@ -439,9 +411,7 @@ const ProjectSummary = props => {
 
           <div className={classes.categoryContainer}>
             <span className={classes.categoryHeader}>LAND USES</span>
-            <div className={classes.landUsesContainer}>
-              <span className={classes.categoryText}> {`${landUses}`}</span>
-            </div>
+            <div className={classes.landUsesContainer}>{landUses}</div>
           </div>
 
           <div className={classes.categoryContainer}>
@@ -482,7 +452,7 @@ const ProjectSummary = props => {
                         <div className={classes.value}>
                           {Math.round(rule.calcValue * 100) / 100}
                         </div>
-                        <div className={classes.calcUnits}>
+                        <div className={classes.calcUnitsPts}>
                           {rule.calcUnits}
                         </div>
                       </div>
@@ -512,7 +482,7 @@ const ProjectSummary = props => {
                         <div className={classes.ruleName}>{rule.name}</div>
                         <div className={classes.specificationDetailsContainer}>
                           <div className={classes.measureDetails}>
-                            {rule.value}
+                            {numberWithCommas(rule.value)}
                           </div>
                           <div className={classes.measureUnits}>
                             {rule.units}
@@ -525,28 +495,32 @@ const ProjectSummary = props => {
               <div className={classes.measuresContainer}>
                 {parkingRequired ? (
                   <div className={classes.rule}>
-                    <div className={clsx(classes.wideRule, classes.bold)}>
+                    <div className={clsx(classes.rule, classes.bold)}>
                       {parkingRequired.name}
                     </div>
                     <div className={clsx(classes.pointsContainer)}>
                       <div className={clsx(classes.value)}>
-                        {Math.round(parkingRequired.value * 100) / 100}
+                        {numberWithCommas(
+                          Math.round(parkingRequired.value * 100) / 100
+                        )}
                       </div>
-                      <div className={clsx(classes.calcUnits)}>spaces</div>
+                      <div className={clsx(classes.calcUnitsSpcs)}>spcs</div>
                     </div>
                   </div>
                 ) : null}
               </div>
               {parkingProvided ? (
                 <div className={classes.rule}>
-                  <div className={clsx(classes.wideRule, classes.bold)}>
+                  <div className={clsx(classes.rule, classes.bold)}>
                     {parkingProvided.name}
                   </div>
                   <div className={classes.pointsContainer}>
                     <div className={clsx(classes.value)}>
-                      {Math.round(parkingProvided.value * 100) / 100}
+                      {numberWithCommas(
+                        Math.round(parkingProvided.value * 100) / 100
+                      )}
                     </div>
-                    <div className={clsx(classes.calcUnits)}>spaces</div>
+                    <div className={clsx(classes.calcUnitsSpcs)}>spcs</div>
                   </div>
                 </div>
               ) : null}
