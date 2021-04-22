@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
-import { withRouter } from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
 import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
 import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
@@ -37,6 +37,16 @@ const TdmCalculationWizard = props => {
   const context = useContext(ToastContext);
   const page = Number(match.params.page || 1);
   const projectId = Number(match.params.projectId);
+  const { pathname } = useLocation();
+
+  /*
+    When user navigates to a different page in the wizard, scroll to the top.
+    Issue #802: https://reactrouter.com/web/guides/scroll-restoration 
+    Implemented per: https://reactrouter.com/web/guides/scroll-restoration
+  */
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     if (!projectId) {
