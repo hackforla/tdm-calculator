@@ -44,7 +44,7 @@ const useStyles = createUseStyles({
   calcUnitsCaption: {
     flexBasis: "33%",
     marginRight: "0.5em",
-    textAlign: "left",
+    textAlign: "center",
     flexGrow: "0",
     flexShrink: "1"
   },
