@@ -7,7 +7,7 @@ import computer from "../../images/computer.svg";
 import handshake from "../../images/handshake.svg";
 
 const useStyles = createUseStyles({
-  root: {
+  landingPageMockUp: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -39,7 +39,7 @@ const LandingPageSectionMockUp = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.landingPageMockUp}>
       <div>
         <img src={macbook} className={classes.image} alt="mock-macbook" />
       </div>

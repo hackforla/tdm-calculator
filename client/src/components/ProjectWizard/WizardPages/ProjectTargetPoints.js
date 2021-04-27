@@ -14,6 +14,7 @@ const useStyles = createUseStyles({
       fontSize: 22,
       padding: "12px 0",
       display: "flex",
+      margin: 0,
       "&:first-of-type": {
         paddingTop: 30
       },

@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
-  root: {
+  landingPageResidental: {
     display: "flex",
     minHeight: "80px"
   },
@@ -45,7 +45,7 @@ const LandingPageSectionResidentialDev = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.landingPageResidental}>
       <div className={clsx(classes.col, classes.leftCol)}>
         <h3>Residential Real Estate Developer?</h3>
       </div>

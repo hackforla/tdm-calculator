@@ -157,7 +157,9 @@ class Engine {
       maxStringLength,
       minValue,
       maxValue,
-      validationFunctionBody
+      validationFunctionBody,
+      displayComment,
+      comment
     } = rule;
     const validationErrors = [];
 
@@ -197,6 +199,10 @@ class Engine {
         if (Number(value) > maxValue) {
           validationErrors.push(`${name} must be no more than ${maxValue}.`);
         }
+      }
+      // This is for Issue #607
+      if (displayComment && !comment) {
+        validationErrors.push(`${name} must include details.`);
       }
     }
     // Custom validation rules apply regardless of whether value is falsey

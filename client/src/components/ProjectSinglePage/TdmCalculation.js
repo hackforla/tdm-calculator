@@ -6,7 +6,7 @@ import ResultList from "./ResultList";
 import SwitchViewButton from "../Button/SwitchViewButton";
 
 const useStyles = createUseStyles({
-  root: {
+  tdmCalculation: {
     flex: "1 0 auto"
   },
   container: {
@@ -112,7 +112,7 @@ const TdmCalculation = props => {
   })();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.tdmCalculation}>
       <div className={classes.container}>
         <div className={classes.switchButtonWrapper}>
           <div className={classes.switchButton}>

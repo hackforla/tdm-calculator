@@ -33,16 +33,18 @@ describe("Victory Hotel", () => {
     cy.get("#STRATEGY_BIKE_4").should("be.checked");
 
     // Changing / Shower / Locker
-    cy.get("#STRATEGY_BIKE_5").check();
+    cy.get("#STRATEGY_BIKE_5").select(
+      "Publicly Accessible AND in a disadvantaged area"
+    );
 
     // Car Share Parking
-    cy.get("#STRATEGY_CAR_SHARE_1").check();
+    cy.get("#STRATEGY_CAR_SHARE_1").select("Publicly Accessible");
 
     // HOV Parking
     cy.get("#STRATEGY_HOV_3").check();
 
     // Transit Displays
-    cy.get("#STRATEGY_INFO_1").check();
+    cy.get("#STRATEGY_INFO_1").select("Publicly visible");
 
     // Wayfinding
     cy.get("#STRATEGY_INFO_2").check();
@@ -63,6 +65,6 @@ describe("Victory Hotel", () => {
     cy.findByTestId("summary-project-level-value").should("have.text", "2");
     cy.findByTestId("summary-parking-ratio-value").should("have.text", "149%");
     cy.findByTestId("summary-target-points-value").should("have.text", "28");
-    cy.findByTestId("summary-earned-points-value").should("have.text", "23");
+    cy.findByTestId("summary-earned-points-value").should("have.text", "28");
   });
 });

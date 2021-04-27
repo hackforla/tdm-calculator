@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
-  root: {
+  landingPageWhyTDM: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -79,7 +79,7 @@ const LandingPageSectionWhyLATDM = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.landingPageWhyTDM}>
       <div className={classes.info}>
         <h2>
           Why <strong>LA TDM?</strong>

@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 import RuleInput from "./RuleInput";
 
 const useStyles = createUseStyles({
-  root: {
+  ruleList: {
     marginRight: ".75em",
     marginLeft: "0.75em",
     minWidth: "80%"
@@ -15,7 +15,7 @@ const RuleList = props => {
   const classes = useStyles();
   const { rules } = props;
   return (
-    <div className={classes.root}>
+    <div className={classes.ruleList}>
       {rules && rules.length > 0
         ? rules.map(rule => {
             if (rule.id === 38 || rule.id === 39) return "";

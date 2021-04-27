@@ -6,10 +6,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import useToast from "../../contexts/Toast/useToast";
-import {
-  useAppInsightsContext,
-  useTrackMetric
-} from "@microsoft/applicationinsights-react-js";
+import ContentContainer from "../Layout/ContentContainer";
 
 const useStyles = createUseStyles({
   publicCommentContainer: {
@@ -18,7 +15,8 @@ const useStyles = createUseStyles({
     maxWidth: "840px"
   },
   pageTitle: {
-    marginBottom: "16px"
+    marginBottom: "16px",
+    textAlign: "center"
   },
   formContainer: {
     display: "flex",
@@ -60,39 +58,10 @@ const useStyles = createUseStyles({
     color: "#A9A9A9",
     marginTop: "40px",
     textAlign: "center"
-  },
-  //////////// TODO: Refactor root out with tdm-wizard related code///////////////
-  root: {
-    flex: "1 0 auto",
-    display: "flex",
-    flexDirection: "column"
   }
 });
 
-//TODO: Refactor root, tdm-wizard, and tdm-wizard-content-container to its own component
 const PublicCommentPage = () => {
-  const classes = useStyles();
-  const appInsights = useAppInsightsContext();
-
-  // appInsights.trackMetric("PublicCommentPage Component");
-  const trackComponent = useTrackMetric(appInsights, "PublicCommentPage");
-
-  return (
-    <div
-      className={classes.root}
-      onLoad={trackComponent}
-      onClick={trackComponent}
-    >
-      <div className="tdm-wizard">
-        <div className="tdm-wizard-content-container">
-          <PublicCommentForm />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const PublicCommentForm = () => {
   const classes = useStyles();
   const toast = useToast();
 
@@ -137,100 +106,102 @@ const PublicCommentForm = () => {
   };
 
   return (
-    <div className={classes.publicCommentContainer}>
-      <h1 className={classes.pageTitle}>Public Comment Form</h1>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ errors, touched }) => (
-          <Form className={classes.formContainer}>
-            <div className={classes.row}>
-              <label htmlFor="name" className={classes.formLabel}>
-                Name <span style={{ color: "red" }}>*</span>
-                <ErrorMessage
+    <ContentContainer componentToTrack="PublicCommentPage">
+      <div className={classes.publicCommentContainer}>
+        <h1 className={classes.pageTitle}>Public Comment Form</h1>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched }) => (
+            <Form className={classes.formContainer}>
+              <div className={classes.row}>
+                <label htmlFor="name" className={classes.formLabel}>
+                  Name <span style={{ color: "red" }}>*</span>
+                  <ErrorMessage
+                    name="name"
+                    component="span"
+                    className={classes.errorMessage}
+                  />
+                </label>
+
+                <Field
                   name="name"
-                  component="span"
-                  className={classes.errorMessage}
+                  type="text"
+                  className={clsx(
+                    classes.formInput,
+                    errors.name && touched.name && classes.formErrorBorder
+                  )}
                 />
-              </label>
+              </div>
 
-              <Field
-                name="name"
-                type="text"
-                className={clsx(
-                  classes.formInput,
-                  errors.name && touched.name && classes.formErrorBorder
-                )}
-              />
-            </div>
+              <div className={classes.row}>
+                <label htmlFor="email" className={classes.formLabel}>
+                  Email Address &nbsp;
+                  <ErrorMessage
+                    name="email"
+                    component="span"
+                    className={classes.errorMessage}
+                  />
+                </label>
 
-            <div className={classes.row}>
-              <label htmlFor="email" className={classes.formLabel}>
-                Email Address &nbsp;
-                <ErrorMessage
+                <Field
                   name="email"
-                  component="span"
-                  className={classes.errorMessage}
+                  type="email"
+                  className={clsx(
+                    classes.formInput,
+                    errors.email && touched.email && classes.formErrorBorder
+                  )}
                 />
-              </label>
+              </div>
 
-              <Field
-                name="email"
-                type="email"
-                className={clsx(
-                  classes.formInput,
-                  errors.email && touched.email && classes.formErrorBorder
-                )}
-              />
-            </div>
+              <div className={classes.row}>
+                <label htmlFor="comment" className={classes.formLabel}>
+                  Comment <span style={{ color: "red" }}>*</span>
+                  <ErrorMessage
+                    name="comment"
+                    component="span"
+                    className={classes.errorMessage}
+                  />
+                </label>
 
-            <div className={classes.row}>
-              <label htmlFor="comment" className={classes.formLabel}>
-                Comment <span style={{ color: "red" }}>*</span>
-                <ErrorMessage
+                <Field
                   name="comment"
-                  component="span"
-                  className={classes.errorMessage}
+                  as="textarea"
+                  className={clsx(
+                    classes.formTextArea,
+                    errors.comment && touched.comment && classes.formErrorBorder
+                  )}
                 />
-              </label>
+              </div>
 
-              <Field
-                name="comment"
-                as="textarea"
-                className={clsx(
-                  classes.formTextArea,
-                  errors.comment && touched.comment && classes.formErrorBorder
-                )}
-              />
-            </div>
+              <div className={clsx(classes.row)}>
+                <label
+                  htmlFor="forwardToWebTeam"
+                  className={classes.forwardToWebTeam}
+                >
+                  Would you like your comment to also be delivered to the
+                  website team?&nbsp;
+                  <Field type="checkbox" name="forwardToWebTeam" />
+                </label>
+              </div>
 
-            <div className={clsx(classes.row)}>
-              <label
-                htmlFor="forwardToWebTeam"
-                className={classes.forwardToWebTeam}
+              <Button
+                type="submit"
+                className={classes.submitButton}
+                color="colorPrimary"
               >
-                Would you like your comment to also be delivered to the website
-                team?&nbsp;
-                <Field type="checkbox" name="forwardToWebTeam" />
-              </label>
-            </div>
-
-            <Button
-              type="submit"
-              className={classes.submitButton}
-              color="colorPrimary"
-            >
-              Submit
-            </Button>
-          </Form>
-        )}
-      </Formik>
-      <p className={classes.disclaimer}>
-        Disclaimer: Comments submitted will be part of the public record
-      </p>
-    </div>
+                Submit
+              </Button>
+            </Form>
+          )}
+        </Formik>
+        <p className={classes.disclaimer}>
+          Disclaimer: Comments submitted will be part of the public record
+        </p>
+      </div>
+    </ContentContainer>
   );
 };
 

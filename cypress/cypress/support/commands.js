@@ -2,24 +2,24 @@
 import "@testing-library/cypress/add-commands";
 
 // this will skip the login UI and instead login programmatically
-Cypress.Commands.add("loginAs", userType => {
+Cypress.Commands.add("loginAs", (userType) => {
   const types = {
     regularUser: {
       email: "test_regular_user@dispostable.com",
-      password: "Dogfood1"
+      password: "Dogfood1",
     },
     admin: {
       email: "test_admin@dispostable.com",
-      password: "Dogfood1"
+      password: "Dogfood1",
     },
     securityAdmin: {
       email: "test_security_admin@dispostable.com",
-      password: "Dogfood1"
+      password: "Dogfood1",
     },
     ladot: {
       email: "ladot@dispostable.com",
-      password: "Dogfood1!"
-    }
+      password: "Dogfood1!",
+    },
   };
 
   const userCredentials = types[userType];
@@ -29,8 +29,8 @@ Cypress.Commands.add("loginAs", userType => {
   cy.request({
     method: "POST",
     url: "http://localhost:5000/api/accounts/login",
-    body: userCredentials
-  }).then(loginResponse => {
+    body: userCredentials,
+  }).then((loginResponse) => {
     //TODO: check implementation if there's a better way to set localstorage. see setLoggedInAccount
     localStorage.setItem(
       "currentUser",
@@ -44,32 +44,34 @@ Cypress.Commands.add("logout", () => {
   cy.visit("/login");
 });
 
-Cypress.Commands.add("resetProjects", loginResponse => {
+Cypress.Commands.add("resetProjects", (loginResponse) => {
   const cookie = loginResponse.body.token;
   cy.request({
     method: "GET",
     url: "http://localhost:5000/api/projects",
     auth: {
-      bearer: cookie
-    }
-  }).then(projectResponse => {
+      bearer: cookie,
+    },
+  }).then((projectResponse) => {
     const projects = projectResponse.body;
     if (projects.length > 0) {
-      projects.map(project => {
-        cy.request({
-          method: "DELETE",
-          url: `http://localhost:5000/api/projects/${project.id}`,
-          auth: {
-            bearer: cookie
-          }
+      projects
+        .filter((p) => p.loginId == loginResponse.body.user.id)
+        .map((project) => {
+          cy.request({
+            method: "DELETE",
+            url: `http://localhost:5000/api/projects/${project.id}`,
+            auth: {
+              bearer: cookie,
+            },
+          });
         });
-      });
     }
   });
 });
 
 Cypress.Screenshot.defaults({
-  screenshotOnRunFailure: false
+  screenshotOnRunFailure: false,
 });
 
 // ***********************************************

@@ -4,9 +4,11 @@ import { withRouter } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import clsx from "clsx";
-import { useStyles } from "./ResetPasswordRequest";
 import Button from "../Button/Button";
+import clsx from "clsx";
+import { useToast } from "../../contexts/Toast";
+import { useStyles } from "./SendEmailForm";
+import ContentContainer from "../Layout/ContentContainer";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -17,10 +19,11 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Password does not match")
 });
 
-export function ResetPassword(props) {
+const ResetPassword = props => {
   const [success, setSuccess] = useState(false);
   const { token } = props.match.params;
   const classes = useStyles();
+  const toast = useToast();
 
   const handleSubmit = async ({ token, password }, { setFieldError }) => {
     const submitResponse = await accountService.resetPassword({
@@ -29,30 +32,32 @@ export function ResetPassword(props) {
     });
     if (submitResponse.data.isSuccess) {
       setSuccess(submitResponse.data.email);
+      toast.add("Your password has been reset. Please log in.");
     } else {
       setFieldError("passwordConfirm", submitResponse.data.message);
     }
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.formContent}>
-        {!success ? (
-          <>
-            <h1>Reset Your Password</h1>
-            <Formik
-              initialValues={{
-                token,
-                password: "",
-                passwordConfirm: ""
-              }}
-              validationSchema={validationSchema}
-              onSubmit={(values, action) => {
-                handleSubmit(values, action);
-              }}
-            >
-              {({ touched, errors, values }) => (
-                <Form className={classes.form}>
+    <ContentContainer componentToTrack="ResetPassword">
+      {!success ? (
+        <>
+          <h1 className={classes.pageTitle}>Reset Your Password</h1>
+          <Formik
+            initialValues={{
+              token,
+              password: "",
+              passwordConfirm: ""
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(values, action) => {
+              handleSubmit(values, action);
+            }}
+          >
+            {formikProps => {
+              const { touched, errors, values } = formikProps;
+              return (
+                <Form>
                   <div className={classes.fieldGroup}>
                     <Field
                       type="password"
@@ -69,8 +74,6 @@ export function ResetPassword(props) {
                       component="div"
                       className={classes.errorMessage}
                     />
-                  </div>
-                  <div className={classes.fieldGroup}>
                     <Field
                       type="password"
                       value={values.passwordConfirm}
@@ -88,27 +91,30 @@ export function ResetPassword(props) {
                       component="div"
                       className={classes.errorMessage}
                     />
+                    <Button type="submit" color="colorPrimary">
+                      Submit
+                    </Button>
                   </div>
-                  <Button type="submit">Submit</Button>
                 </Form>
-              )}
-            </Formik>
-          </>
-        ) : (
-          <>
-            <h1>Password Reset Successful!</h1>
-            <h2>Redirecting to login</h2>
-            <div className="hide">
-              {setTimeout(() => {
-                props.history.push(`/login/${success}`);
-              }, 2000)}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+              );
+            }}
+          </Formik>
+        </>
+      ) : (
+        <>
+          <h1 className={classes.pageTitle}>Password Reset Successful!</h1>
+          <h3>Redirecting to login</h3>
+          <div className="hide">
+            {setTimeout(() => {
+              props.history.push(`/login/${success}`);
+            }, 2000)}
+          </div>
+        </>
+      )}
+    </ContentContainer>
   );
-}
+};
+
 ResetPassword.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
