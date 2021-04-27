@@ -52,7 +52,14 @@ const Register = props => {
       .email("Invalid email address format")
       .required("Email is required"),
     password: Yup.string()
-      .min(8, "Password must be 8 characters at minimum")
+      .min(
+        8,
+        "Your password must have at least 8 characters, at least one special character and one capitalization"
+      )
+      .matches(
+        /^(?=.*[A-Z])(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        "Your password must have at least 8 characters, at least one special character and one capitalization"
+      )
       .required("Password is required"),
     passwordConfirm: Yup.string()
       .required("Confirm your password")
