@@ -51,7 +51,7 @@ const Login = props => {
     password: Yup.string()
       .min(
         8,
-        "Your password must have at least 8 characters, at least one special character and one capitalization"
+        "Your password must have at least 8 characters, at least one special character, and one capitalization"
       )
       .matches(
         /^(?=.*[A-Z])(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
