@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import clsx from "clsx";
 
 const useStyles = createUseStyles({
   parkingProvidedWrapper: {
@@ -17,11 +18,15 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   input: {
-    padding: "0.1em",
+    padding: "8px 72px 8px 8px",
     textAlign: "right",
     margin: ".5em auto",
     height: 45,
     width: "50%"
+  },
+  unit: {
+    position: "relative",
+    marginLeft: "-60px"
   },
   error: {
     color: "red"
@@ -62,7 +67,7 @@ const ParkingProvidedRuleInput = ({
           max={maxValue}
           onBlur={onBlur}
         />
-        <span className={classes.label}>&nbsp;{units}</span>
+        <span className={clsx(classes.unit, classes.label)}>&nbsp;{units}</span>
       </div>
 
       {validationErrors && showValidationErrors ? (
