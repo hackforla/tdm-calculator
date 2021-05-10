@@ -88,6 +88,8 @@ const TdmCalculationWizard = props => {
       projectDescriptionRules.find(rule => !!rule.validationErrors);
     const isPage2AndHasErrors =
       page === 2 && specificationRules.find(rule => !!rule.validationErrors);
+    const isPage3AndHasErrors =
+      page === 3 && targetPointRules.find(rule => !!rule.validationErrors);
     const isPage5AndHasErrors =
       page === 5 && strategyRules.find(rule => !!rule.validationErrors);
     const isPage6 = Number(page) === 6;
@@ -95,6 +97,7 @@ const TdmCalculationWizard = props => {
     return !!(
       isPage1AndHasErrors ||
       isPage2AndHasErrors ||
+      isPage3AndHasErrors ||
       isPage5AndHasErrors ||
       isPage6
     );
