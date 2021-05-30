@@ -40,11 +40,11 @@ const Register = props => {
     password: Yup.string()
       .min(
         12,
-        "Your password must have at least 12 characters, at least one number, one special character, and one capitalization"
+        "Your password must have at least 12 characters, at least one number, one capitalization, and one special character (e.g., !@#$%&*?)"
       )
       .matches(
-        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[*.!@$%^&(){}[:;<>,.?/~_+=|-])[A-Za-z\d@$!%*#?&]{12,}$/,
-        "Your password must have at least 12 characters, at least one number, one special character, and one capitalization"
+        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&*?])[A-Za-z\d@$!%*#?&]{12,}$/,
+        "Your password must have at least 12 characters, at least one number, one capitalization, and one special character (e.g., !@#$%&*?)"
       )
       .required("Password is required"),
     passwordConfirm: Yup.string()
