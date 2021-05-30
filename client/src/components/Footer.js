@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 
 export const useStyles = createUseStyles({
-  root: {
+  footer: {
     backgroundColor: "#002E6D"
   },
   links: {
@@ -28,7 +28,7 @@ const Footer = () => {
   const classes = useStyles();
 
   return (
-    <footer className={classes.root}>
+    <footer className={classes.footer}>
       <div className={classes.links}>
         <Link className={classes.link} to="/termsandconditions">
           Terms and Conditions

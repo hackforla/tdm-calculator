@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 import RuleCalculation from "./RuleCalculation";
 
 const useStyles = createUseStyles({
-  root: {
+  RuleCalculationList: {
     minWidth: "60%"
   }
 });
@@ -13,7 +13,7 @@ const RuleCalculationList = props => {
   const classes = useStyles();
   const { rules } = props;
   return (
-    <div className={classes.root}>
+    <div className={classes.RuleCalculationList}>
       {rules && rules.length > 0
         ? rules.map(rule => {
             if (

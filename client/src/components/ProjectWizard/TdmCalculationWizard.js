@@ -1,31 +1,12 @@
 import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
-import { createUseStyles } from "react-jss";
-import clsx from "clsx";
-import { withRouter } from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
 import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
 import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
-
-const useStyles = createUseStyles({
-  root: {
-    flex: "1 1 auto",
-    display: "flex",
-    flexDirection: "row"
-  },
-  "@media (max-width:768px)": {
-    root: {
-      flexDirection: "column"
-    }
-  },
-  contentContainer: {
-    justifyContent: "space-between",
-    boxSizing: "border-box",
-    overflow: "auto"
-  }
-});
+import ContentContainer from "../Layout/ContentContainer";
 
 const TdmCalculationWizard = props => {
   const {
@@ -51,12 +32,21 @@ const TdmCalculationWizard = props => {
     formIsDirty,
     projectIsValid,
     dateModified,
-    tdmWizardContentContainerRef
+    contentContainerRef
   } = props;
   const context = useContext(ToastContext);
-  const classes = useStyles();
   const page = Number(match.params.page || 1);
   const projectId = Number(match.params.projectId);
+  const { pathname } = useLocation();
+
+  /*
+    When user navigates to a different page in the wizard, scroll to the top.
+    Issue #802: https://reactrouter.com/web/guides/scroll-restoration 
+    Implemented per: https://reactrouter.com/web/guides/scroll-restoration
+  */
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     if (!projectId) {
@@ -98,6 +88,8 @@ const TdmCalculationWizard = props => {
       projectDescriptionRules.find(rule => !!rule.validationErrors);
     const isPage2AndHasErrors =
       page === 2 && specificationRules.find(rule => !!rule.validationErrors);
+    const isPage3AndHasErrors =
+      page === 3 && targetPointRules.find(rule => !!rule.validationErrors);
     const isPage5AndHasErrors =
       page === 5 && strategyRules.find(rule => !!rule.validationErrors);
     const isPage6 = Number(page) === 6;
@@ -105,6 +97,7 @@ const TdmCalculationWizard = props => {
     return !!(
       isPage1AndHasErrors ||
       isPage2AndHasErrors ||
+      isPage3AndHasErrors ||
       isPage5AndHasErrors ||
       isPage6
     );
@@ -160,66 +153,62 @@ const TdmCalculationWizard = props => {
   return (
     <React.Fragment>
       <TermsAndConditionsModal />
-      <div className={clsx("tdm-wizard", classes.root)}>
-        <WizardSidebar
+      <ContentContainer
+        customSidebar={() => (
+          <WizardSidebar
+            rules={rules}
+            onViewChange={onViewChange}
+            resultRules={resultRules}
+          />
+        )}
+        contentContainerRef={contentContainerRef}
+        componentToTrack="TdmCalculationWizard"
+      >
+        <CalculationWizardRoutes
+          projectDescriptionRules={projectDescriptionRules}
+          onInputChange={onInputChange}
+          specificationRules={specificationRules}
+          onUncheckAll={onUncheckAll}
+          filters={filters}
+          targetPointRules={targetPointRules}
+          isLevel0={isLevel0}
+          projectLevel={projectLevel}
+          strategyRules={strategyRules}
+          landUseRules={landUseRules}
+          allowResidentialPackage={allowResidentialPackage}
+          allowEmploymentPackage={allowEmploymentPackage}
+          onCommentChange={onCommentChange}
+          initializeStrategies={initializeStrategies}
+          onPkgSelect={onPkgSelect}
+          residentialPackageSelected={residentialPackageSelected}
+          employmentPackageSelected={employmentPackageSelected}
           rules={rules}
-          onViewChange={onViewChange}
-          resultRules={resultRules}
+          account={account}
+          projectId={projectId}
+          loginId={loginId}
+          onSave={onSave}
+          dateModified={dateModified}
         />
-        <div
-          className={clsx(
-            "tdm-wizard-content-container",
-            classes.contentContainer
-          )}
-          ref={tdmWizardContentContainerRef}
-        >
-          <CalculationWizardRoutes
-            projectDescriptionRules={projectDescriptionRules}
-            onInputChange={onInputChange}
-            classes={classes}
-            specificationRules={specificationRules}
-            onUncheckAll={onUncheckAll}
-            filters={filters}
-            targetPointRules={targetPointRules}
-            isLevel0={isLevel0}
-            projectLevel={projectLevel}
-            strategyRules={strategyRules}
-            landUseRules={landUseRules}
-            allowResidentialPackage={allowResidentialPackage}
-            allowEmploymentPackage={allowEmploymentPackage}
-            onCommentChange={onCommentChange}
-            initializeStrategies={initializeStrategies}
-            onPkgSelect={onPkgSelect}
-            residentialPackageSelected={residentialPackageSelected}
-            employmentPackageSelected={employmentPackageSelected}
-            rules={rules}
-            account={account}
-            projectId={projectId}
-            loginId={loginId}
-            onSave={onSave}
-            dateModified={dateModified}
-          />
-          <WizardFooter
-            rules={rules}
-            page={page}
-            onPageChange={onPageChange}
-            pageNumber={pageNumber}
-            setDisabledForNextNavButton={setDisabledForNextNavButton}
-            account={account}
-            projectId={projectId}
-            loginId={loginId}
-            formIsDirty={formIsDirty}
-            projectIsValid={projectIsValid}
-            onSave={onSave}
-          />
-        </div>
-      </div>
+        <WizardFooter
+          rules={rules}
+          page={page}
+          onPageChange={onPageChange}
+          pageNumber={pageNumber}
+          setDisabledForNextNavButton={setDisabledForNextNavButton}
+          account={account}
+          projectId={projectId}
+          loginId={loginId}
+          formIsDirty={formIsDirty}
+          projectIsValid={projectIsValid}
+          onSave={onSave}
+        />
+      </ContentContainer>
     </React.Fragment>
   );
 };
 
 TdmCalculationWizard.propTypes = {
-  tdmWizardContentContainerRef: PropTypes.object,
+  contentContainerRef: PropTypes.object,
   projectLevel: PropTypes.number,
   rules: PropTypes.arrayOf(
     PropTypes.shape({
@@ -231,7 +220,7 @@ TdmCalculationWizard.propTypes = {
       minValue: PropTypes.number,
       maxValue: PropTypes.number,
       choices: PropTypes.array,
-      calcValue: PropTypes.number,
+      calcValue: PropTypes.number | PropTypes.string, // only price bundling/unbundling is string
       calcUnits: PropTypes.string,
       required: PropTypes.bool,
       minStringLength: PropTypes.number,

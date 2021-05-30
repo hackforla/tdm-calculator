@@ -25,7 +25,8 @@ const useStyles = createUseStyles({
   },
   strategyName: {
     flexGrow: "1",
-    flexShrink: "1"
+    flexShrink: "1",
+    margin: "0"
   },
   disabled: {
     opacity: 0.5
@@ -326,7 +327,7 @@ RuleStrategy.propTypes = {
     minValue: PropTypes.number,
     maxValue: PropTypes.number,
     choices: PropTypes.array,
-    calcValue: PropTypes.number,
+    calcValue: PropTypes.number | null, // only user-defined strategy is null
     calcUnits: PropTypes.string,
     calcMinValue: PropTypes.number,
     calcMaxValue: PropTypes.number,

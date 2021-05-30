@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 import { Link } from "react-router-dom";
 
 const useStyles = createUseStyles({
-  root: {
+  landingPageEnd: {
     paddingTop: "6em",
     paddingBottom: "6em",
     textAlign: "center",
@@ -40,7 +40,7 @@ const LandingPageSectionEnd = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.landingPageEnd}>
       <h2 className={classes.heading}>Preparing for a new project?</h2>
       <p className={classes.paragraph}>Let us help you get started right.</p>
       <Link to="/calculation/1" className={classes.startButton}>

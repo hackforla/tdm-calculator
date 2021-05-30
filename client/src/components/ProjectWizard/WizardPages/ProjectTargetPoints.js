@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
 import Level0Page from "../WizardPages/Level0Page";
+import ParkingProvidedRuleInput from "../RuleInput/ParkingProvidedRuleInput";
 
 const useStyles = createUseStyles({
   projectBox: {
@@ -14,6 +15,7 @@ const useStyles = createUseStyles({
       fontSize: 22,
       padding: "12px 0",
       display: "flex",
+      margin: 0,
       "&:first-of-type": {
         paddingTop: 30
       },
@@ -50,9 +52,8 @@ function ProjectTargetPoints(props) {
   const projectLevel = rules.find(e => e.id === 16);
   const targetValue = rules.find(e => e.id === 237);
 
-  // removing the parking input rule to display it above the box
-  const parkingInputIndex = rules.findIndex(e => e.id === 7);
-  const parkingRule = rules.splice(parkingInputIndex, 1);
+  const parkingProvidedRuleOnly = rules.filter(r => r.id === 7)[0];
+  const rulesInBox = rules.filter(r => r !== parkingProvidedRuleOnly);
 
   return (
     <>
@@ -65,10 +66,9 @@ function ProjectTargetPoints(props) {
             Enter the amount of parking spaces you will provide to determine
             your TDM target number
           </h3>
-          <RuleCalculationPanels
-            rules={parkingRule}
+          <ParkingProvidedRuleInput
+            rule={parkingProvidedRuleOnly}
             onInputChange={onInputChange}
-            suppressHeader
           />
           <div className={classes.projectBox}>
             <h4>
@@ -84,7 +84,7 @@ function ProjectTargetPoints(props) {
               </span>
             </h4>
             <RuleCalculationPanels
-              rules={rules}
+              rules={rulesInBox}
               onInputChange={onInputChange}
               suppressHeader
             />

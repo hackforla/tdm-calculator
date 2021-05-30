@@ -43,16 +43,16 @@ describe("Jewish Family Service", () => {
     cy.get("#STRATEGY_BIKE_4").should("be.checked");
 
     // Changing / Shower / Locker Facilities
-    cy.get("#STRATEGY_BIKE_5").check();
+    cy.get("#STRATEGY_BIKE_5").select("Private");
 
     // Car Share Parking
-    cy.get("#STRATEGY_CAR_SHARE_1").check();
+    cy.get("#STRATEGY_CAR_SHARE_1").select("Private");
 
     // HOV Parking
     cy.get("#STRATEGY_HOV_3").check();
 
     // Transit Displays
-    cy.get("#STRATEGY_INFO_1").check();
+    cy.get("#STRATEGY_INFO_1").select("Publicly visible");
 
     // Wayfinding
     cy.get("#STRATEGY_INFO_2").check();
@@ -72,6 +72,6 @@ describe("Jewish Family Service", () => {
     cy.findByTestId("summary-project-level-value").should("have.text", "1");
     cy.findByTestId("summary-parking-ratio-value").should("have.text", "110%");
     cy.findByTestId("summary-target-points-value").should("have.text", "17");
-    cy.findByTestId("summary-earned-points-value").should("have.text", "16");
+    cy.findByTestId("summary-earned-points-value").should("have.text", "17");
   });
 });

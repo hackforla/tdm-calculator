@@ -44,7 +44,7 @@ const useStyles = createUseStyles({
   calcUnitsCaption: {
     flexBasis: "33%",
     marginRight: "0.5em",
-    textAlign: "left",
+    textAlign: "center",
     flexGrow: "0",
     flexShrink: "1"
   },
@@ -365,7 +365,7 @@ RuleCalculation.propTypes = {
     maxValue: PropTypes.number,
     choices: PropTypes.string,
     calcCode: PropTypes.string,
-    calcValue: PropTypes.any,
+    calcValue: PropTypes.number,
     calcUnits: PropTypes.string,
     required: PropTypes.bool,
     minStringLength: PropTypes.number,

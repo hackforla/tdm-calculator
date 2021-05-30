@@ -10,7 +10,7 @@ function ProjectDescriptions(props) {
         Welcome to Los Angeles&rsquo; TDM Calculator
       </h1>
       <h3 className="tdm-wizard-page-subtitle">
-        First, let&rsquo;s name your project
+        First, let&rsquo;s get some information on your project
       </h3>
       <form noValidate>
         <RuleInputPanels

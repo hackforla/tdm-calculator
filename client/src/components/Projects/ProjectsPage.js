@@ -13,21 +13,9 @@ import DeleteIcon from "../../images/trash.png";
 import Pagination from "../Pagination.js";
 import DeleteProjectModal from "./DeleteProjectModal";
 import DuplicateProjectModal from "./DuplicateProjectModal";
-import {
-  useAppInsightsContext,
-  useTrackMetric
-} from "@microsoft/applicationinsights-react-js";
+import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 
 const useStyles = createUseStyles({
-  main: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    minHeight: "calc(100vh - 103px - 48px)",
-    margin: "auto",
-    width: "85%"
-  },
   pageTitle: {
     marginTop: "2em"
   },
@@ -103,9 +91,6 @@ const useStyles = createUseStyles({
       backgroundColor: "transparent"
     }
   },
-  link: {
-    textDecoration: "underline"
-  },
   tableContainer: {
     overflow: "auto",
     width: "100%",
@@ -113,7 +98,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectsPage = ({ account, history }) => {
+const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const [projects, setProjects] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
@@ -131,11 +116,6 @@ const ProjectsPage = ({ account, history }) => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const toastAdd = toast.add;
   const historyPush = history.push;
-
-  const appInsights = useAppInsightsContext();
-
-  //appInsights.trackMetric("ProjectPage Component");
-  const trackComponent = useTrackMetric(appInsights, "ProjectsPage");
 
   const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
   for (let i = 0; i < pageLinks.length; i++) {
@@ -312,10 +292,9 @@ const ProjectsPage = ({ account, history }) => {
   );
 
   return (
-    <div
-      className={classes.main}
-      onLoad={trackComponent}
-      onClick={trackComponent}
+    <ContentContainerNoSidebar
+      componentToTrack="ProjectsPage"
+      contentContainerRef={contentContainerRef}
     >
       <h1 className={classes.pageTitle}>Projects</h1>
       <div className={classes.searchBarWrapper}>
@@ -383,10 +362,7 @@ const ProjectsPage = ({ account, history }) => {
               currentProjects.map(project => (
                 <tr key={project.id}>
                   <td className={classes.td}>
-                    <Link
-                      to={`/calculation/1/${project.id}`}
-                      className={classes.link}
-                    >
+                    <Link to={`/calculation/1/${project.id}`}>
                       {project.name}
                     </Link>
                   </td>
@@ -470,7 +446,7 @@ const ProjectsPage = ({ account, history }) => {
           />
         </>
       )}
-    </div>
+    </ContentContainerNoSidebar>
   );
 };
 
@@ -489,7 +465,8 @@ ProjectsPage.propTypes = {
   }),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
-  })
+  }),
+  contentContainerRef: PropTypes.object
 };
 
 export default withRouter(ProjectsPage);

@@ -7,7 +7,7 @@ import handshake from "../../images/handshake.svg";
 import construction from "../../images/construction.svg";
 
 const useStyles = createUseStyles({
-  root: {
+  landingPageIntro: {
     paddingTop: "6em",
     paddingBottom: "6em"
   },
@@ -43,7 +43,7 @@ const useStyles = createUseStyles({
 const LandingPageSectionIntroducing = () => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div className={classes.landingPageIntro}>
       <div className={classes.introText}>
         <h2 className={classes.title}>
           Introducing
