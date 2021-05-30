@@ -45,6 +45,18 @@
   font-style: normal;
 }
 
+.tdm-wizard-page-disclaimer {
+  position: relative;
+  top: 20px;
+  text-align: center;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.tdm-wizard-page-disclaimer-asterisk {
+  color: red;
+}
+
 @media print {
   #all-buttons-wrapper {
     display: none;

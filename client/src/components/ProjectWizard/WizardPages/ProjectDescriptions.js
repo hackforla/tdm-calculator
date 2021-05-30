@@ -19,6 +19,10 @@ function ProjectDescriptions(props) {
           suppressHeader={true}
         />
       </form>
+      <div className="tdm-wizard-page-disclaimer">
+        <span className="tdm-wizard-page-disclaimer-asterisk">*</span>{" "}
+        designates required fields
+      </div>
     </div>
   );
 }
