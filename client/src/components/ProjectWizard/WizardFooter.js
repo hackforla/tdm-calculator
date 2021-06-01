@@ -72,6 +72,7 @@ const WizardFooter = ({
                 }}
               />
             </div>
+
             <Button
               type="input"
               color="colorPrimary"
