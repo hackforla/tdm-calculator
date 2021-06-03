@@ -22,12 +22,10 @@ const RuleInputLabel = ({
       requiredInput={required}
     >
       {link ? (
-        <>
-          <a href={link} target="_blank" rel="noopener noreferrer">
-            {name}
-            <FontAwesomeIcon icon={faLink} color="black" transform="shrink-5" />
-          </a>
-        </>
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          {name}
+          <FontAwesomeIcon icon={faLink} color="black" transform="shrink-5" />
+        </a>
       ) : (
         name
       )}
