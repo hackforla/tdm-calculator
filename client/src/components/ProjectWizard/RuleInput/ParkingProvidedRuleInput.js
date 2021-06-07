@@ -13,6 +13,12 @@ const useStyles = createUseStyles({
   label: {
     fontSize: "22px"
   },
+  requiredInputLabel: {
+    "&:after": {
+      content: '" *"',
+      color: "red"
+    }
+  },
   inputContainer: {
     width: "100%",
     textAlign: "center"
@@ -34,10 +40,20 @@ const useStyles = createUseStyles({
 });
 
 const ParkingProvidedRuleInput = ({
-  rule: { code, name, value, units, minValue, maxValue, validationErrors },
+  rule: {
+    code,
+    name,
+    value,
+    units,
+    minValue,
+    maxValue,
+    validationErrors,
+    required
+  },
   onInputChange
 }) => {
   const classes = useStyles();
+  const requiredStyle = required && classes.requiredInputLabel;
   const [showValidationErrors, setShowValidationErrors] = useState(false);
 
   const handleChange = e => {
@@ -51,7 +67,7 @@ const ParkingProvidedRuleInput = ({
 
   return (
     <div className={classes.parkingProvidedWrapper}>
-      <label htmlFor={code} className={classes.label}>
+      <label htmlFor={code} className={clsx(classes.label, requiredStyle)}>
         {name}
       </label>
       <div className={classes.inputContainer}>
@@ -85,7 +101,8 @@ ParkingProvidedRuleInput.propTypes = {
     units: PropTypes.string,
     minValue: PropTypes.number,
     maxValue: PropTypes.number,
-    validationErrors: PropTypes.array
+    validationErrors: PropTypes.array,
+    required: PropTypes.bool.isRequired
   }),
   onInputChange: PropTypes.func.isRequired
 };
