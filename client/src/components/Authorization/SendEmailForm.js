@@ -18,21 +18,21 @@ export const useStyles = createUseStyles({
     width: "100%",
     marginBottom: "32px",
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    alignItems: "center"
   },
   inputField: {
     width: "403px",
     height: "30px",
     border: "1px solid #979797",
-    marginBottom: "16px"
+    marginTop: "8px"
   },
   error: {
     borderColor: "#dc3545"
   },
   errorMessage: {
-    marginTop: "10px",
-    width: "100%",
-    height: "30px",
+    margin: "8px auto",
+    width: "403px",
     color: "red"
   },
   authText: {

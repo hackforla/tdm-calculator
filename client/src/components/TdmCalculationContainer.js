@@ -290,7 +290,22 @@ export function TdmCalculationContainer({
       ...formInputs,
       [e.target.name]: value
     };
+    applySideEffects(newFormInputs, ruleCode, value);
+
     recalculate(newFormInputs);
+  };
+
+  // If selecting a particular value for a particular rule needs to cause
+  // a change to another input...
+  const applySideEffects = (formInputs, ruleCode, value) => {
+    switch (ruleCode) {
+      case "STRATEGY_CAR_SHARE_3":
+        // When Car Share membership is set to "Blue LA", automatically select
+        // Car Sharing Electric Vehicle Bonus (issue #791)
+        if (value === "2") {
+          formInputs["STRATEGY_CAR_SHARE_ELECTRIC"] = true;
+        }
+    }
   };
 
   const onCommentChange = e => {
