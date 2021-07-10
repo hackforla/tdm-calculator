@@ -1,3 +1,4 @@
+update calculationrule set
 displayFunctionBody = 
 ' return !!<<LAND_USE_RESIDENTIAL>> ||
 !!<<LAND_USE_COMMERCIAL>> ||
