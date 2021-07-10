@@ -49,10 +49,10 @@ const ToolTipLabel = ({
   const requiredStyle = requiredInput && classes.requiredInputLabel;
   const disabledStyle = disabledInput && classes.disabledInputLabel;
 
-  if (code.includes("UNITS_HABIT")) {
+  if (code && code.startsWith("UNITS_HABIT")) {
     return (
       <label
-        htmlFor={code ? code : null}
+        htmlFor={code}
         className={clsx(classes.tooltipLabel, requiredStyle, disabledStyle)}
         data-class={classes.tooltip}
         data-for={id}
@@ -84,7 +84,7 @@ ToolTipLabel.propTypes = {
   id: PropTypes.string.isRequired,
   tooltipContent: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  code: PropTypes.string.isRequired,
+  code: PropTypes.string,
   requiredInput: PropTypes.bool,
   disabledInput: PropTypes.bool
 };
