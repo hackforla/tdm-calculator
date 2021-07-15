@@ -537,9 +537,12 @@ const ProjectSummary = props => {
       )}
       <div className={classes.categoryContainer}>
         <div className={clsx("space-between")}>
-          <span className={classes.categoryHeader}>PROJECT SPECIFICATIONS</span>
+          <span className={classes.categoryHeader}>USER DEFINED STRATEGY</span>
         </div>
-        <div className={classes.measuresContainer}></div>
+        <div className={classes.measuresContainer}>
+          {userDefinedStrategy.calcValue}
+          {userDefinedStrategy.comment}
+        </div>
       </div>
     </div>
   );
