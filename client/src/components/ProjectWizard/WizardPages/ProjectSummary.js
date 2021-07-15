@@ -193,7 +193,7 @@ const useStyles = createUseStyles({
 const ProjectSummary = props => {
   const classes = useStyles();
   const { rules } = props;
-
+  console.log("PROPS", props);
   const landUses = rules
     .filter(rule => rule.used && rule.value && rule.calculationPanelId === 5)
     .map(r => r.name)
@@ -222,6 +222,9 @@ const ProjectSummary = props => {
   const level = getRule("PROJECT_LEVEL");
   const targetPoints = getRule("TARGET_POINTS_PARK");
   const earnedPoints = getRule("PTS_EARNED");
+
+  const userDefinedStrategy = getRule("STRATEGY_APPLICANT");
+  console.log(userDefinedStrategy);
 
   // Note: a rule is not effective if the value is any falsey value or "0"
   const measureRules =
@@ -532,6 +535,12 @@ const ProjectSummary = props => {
           <Loader loaded={false} className="spinner" left="auto" />
         </div>
       )}
+      <div className={classes.categoryContainer}>
+        <div className={clsx("space-between")}>
+          <span className={classes.categoryHeader}>PROJECT SPECIFICATIONS</span>
+        </div>
+        <div className={classes.measuresContainer}></div>
+      </div>
     </div>
   );
 };
