@@ -168,7 +168,6 @@ const useStyles = createUseStyles({
     paddingTop: "16px"
   },
   measuresContainer: {
-    marginTop: "5px",
     paddingTop: "16px"
   },
   earnedPoints: {
