@@ -54,7 +54,8 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "space-between",
     minHeight: "24px",
-    margin: "4px auto"
+    margin: "4px auto",
+    padding: "0 .6em"
   },
   ruleName: {
     minWidth: "270px"
@@ -229,7 +230,7 @@ const ProjectSummary = props => {
 
   const landUses = (
     <div className={clsx(classes.rule)}>
-      <div className={classes.rule}>
+      <div className={classes.ruleName}>
         {rules
           .filter(
             rule => rule.used && rule.value && rule.calculationPanelId === 5
@@ -311,7 +312,10 @@ const ProjectSummary = props => {
 
   const renderLevel = level ? (
     <div className={clsx(classes.rule)}>
-      <div className={classes.rule} data-testid="summary-project-level-label">
+      <div
+        className={classes.ruleName}
+        data-testid="summary-project-level-label"
+      >
         {level.name}
       </div>
       <div className={classes.specificationDetailsContainer}>
@@ -328,7 +332,7 @@ const ProjectSummary = props => {
 
   const renderBaselineParking = parkingRequired ? (
     <div className={classes.rule}>
-      <div className={clsx(classes.rule)}>{parkingRequired.name}</div>
+      <div className={clsx(classes.ruleName)}>{parkingRequired.name}</div>
       <div className={clsx(classes.pointsContainer)}>
         <div className={classes.measureDetails}>
           {numberWithCommas(Math.round(parkingRequired.value * 100) / 100)}
@@ -340,7 +344,7 @@ const ProjectSummary = props => {
 
   const renderParkingProvided = parkingProvided ? (
     <div className={classes.rule}>
-      <div className={clsx(classes.rule)}>{parkingProvided.name}</div>
+      <div className={clsx(classes.ruleName)}>{parkingProvided.name}</div>
       <div className={classes.pointsContainer}>
         <div className={classes.measureDetails}>
           {numberWithCommas(Math.round(parkingProvided.value * 100) / 100)}
