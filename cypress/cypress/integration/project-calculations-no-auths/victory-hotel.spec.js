@@ -2,7 +2,7 @@
 import "@testing-library/cypress/add-commands";
 
 /// <reference types="cypress" />
-describe("Victory Hotel", () => {
+describe.skip("Victory Hotel", () => {
   it("verify calculation", () => {
     cy.visit("/calculation");
     // Dismiss Terms and Conditions dialog
