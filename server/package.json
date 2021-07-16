@@ -12,9 +12,6 @@
     "test": "jest --passWithNoTests",
     "heroku-postbuild": "cd client && npm i && npm run build",
     "start": "nodemon",
-    "start:all": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
-    "start:backend": "npm start",
-    "start:frontend": "cd ../client && npm start",
     "release-notes": "gren release --override",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\" ",
     "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \"**/*.{js,jsx}\" ",
@@ -44,7 +41,6 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "concurrently": "^6.0.2",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-jest": "^24.1.3",
