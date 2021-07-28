@@ -52,3 +52,22 @@ WHERE calculationId=1 and code='SF_HOSPITAL';
 UPDATE CalculationRule
 SET name='Convalescent'
 WHERE calculationId=1 and code='SF_CONVALESCENT';
+
+/**
+ * #876 Change "#" to "Number of" in page 2
+ */
+UPDATE CalculationRule
+SET name='Number of Habitable Rooms < 3'
+WHERE calculationId=1 and code='UNITS_HABIT_LT3';
+
+UPDATE CalculationRule
+SET name='Number of Habitable Rooms = 3'
+WHERE calculationId=1 and code='UNITS_HABIT_3';
+
+UPDATE CalculationRule
+SET name='Number of Habitable Rooms > 3'
+WHERE calculationId=1 and code='UNITS_HABIT_GT3';
+
+UPDATE CalculationRule
+SET name='Number of Guest Rooms'
+WHERE calculationId=1 and code='UNITS_GUEST';
