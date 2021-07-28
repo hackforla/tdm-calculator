@@ -71,3 +71,10 @@ WHERE calculationId=1 and code='UNITS_HABIT_GT3';
 UPDATE CalculationRule
 SET name='Number of Guest Rooms'
 WHERE calculationId=1 and code='UNITS_GUEST';
+
+/**
+ * #869 Change Version # to Alternative # and add tooltip
+ */
+UPDATE CalculationRule
+SET name='Alternative #', description='This helps distinguish different alternatives/scenarios for the same project.'
+WHERE calculationId=1 and code='VERSION_NO';
