@@ -16,6 +16,7 @@ const CalculationWizardRoutes = ({
   onInputChange,
   specificationRules,
   onUncheckAll,
+  onResetProject,
   filters,
   targetPointRules,
   isLevel0,
@@ -49,6 +50,7 @@ const CalculationWizardRoutes = ({
           rules={specificationRules}
           onInputChange={onInputChange}
           uncheckAll={() => onUncheckAll(filters.specificationRules)}
+          resetProject={() => onResetProject(filters.specificationRules)}
         />
       </Route>
       <Route path="/calculation/3/:projectId?">
@@ -74,6 +76,7 @@ const CalculationWizardRoutes = ({
           initializeStrategies={initializeStrategies}
           onPkgSelect={onPkgSelect}
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
+          resetProject={() => onResetProject()}
           allowResidentialPackage={allowResidentialPackage}
           allowEmploymentPackage={allowEmploymentPackage}
           residentialPackageSelected={residentialPackageSelected}
@@ -100,6 +103,7 @@ CalculationWizardRoutes.propTypes = {
   onInputChange: PropTypes.any,
   specificationRules: PropTypes.any,
   onUncheckAll: PropTypes.any,
+  onResetProject: PropTypes.any,
   filters: PropTypes.any,
   targetPointRules: PropTypes.any,
   isLevel0: PropTypes.any,

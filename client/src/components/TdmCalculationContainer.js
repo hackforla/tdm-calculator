@@ -339,6 +339,19 @@ export function TdmCalculationContainer({
     recalculate(updateInputs);
   };
 
+  // XXX
+  const onResetProject = filterRules => {
+    let updateInputs = { ...formInputs };
+    for (let i = 0; i < rules.length; i++) {
+      if (filterRules(rules[i]) && rules[i].code !== "STRATEGY_BIKE_4") {
+        if (updateInputs[rules[i].code]) {
+          updateInputs[rules[i].code] = null;
+        }
+      }
+    }
+    recalculate(updateInputs);
+  };
+
   const projectIsValid = () => {
     return !rules.find(rule => !!rule.validationErrors);
   };
@@ -452,6 +465,7 @@ export function TdmCalculationContainer({
           onInputChange={onInputChange}
           onCommentChange={onCommentChange}
           onUncheckAll={onUncheckAll}
+          onResetProject={onResetProject}
           initializeStrategies={initializeStrategies}
           filters={filters}
           onPkgSelect={onPkgSelect}

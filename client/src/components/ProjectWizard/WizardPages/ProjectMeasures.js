@@ -28,6 +28,15 @@ const useStyles = createUseStyles({
     border: "0",
     cursor: "pointer",
     textDecoration: "underline"
+  },
+  resetProjectButton: {
+    marginLeft: "auto",
+    marginRight: "1em",
+    gridColumn: "h-end",
+    backgroundColor: "transparent",
+    border: "0",
+    cursor: "pointer",
+    textDecoration: "underline"
   }
 });
 function ProjectMeasure(props) {
@@ -38,6 +47,7 @@ function ProjectMeasure(props) {
     onCommentChange,
     onPkgSelect,
     uncheckAll,
+    resetProject,
     initializeStrategies,
     allowResidentialPackage,
     allowEmploymentPackage,
@@ -145,6 +155,9 @@ function ProjectMeasure(props) {
           ) : null}
         </div>
 
+        <button className={classes.resetProjectButton} onClick={resetProject}>
+          Reset Project
+        </button>
         <button className={classes.unSelectButton} onClick={uncheckAll}>
           Reset All Strategies
         </button>
@@ -172,6 +185,7 @@ ProjectMeasure.propTypes = {
   onCommentChange: PropTypes.func.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
+  resetProject: PropTypes.func.isRequired,
   initializeStrategies: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowEmploymentPackage: PropTypes.bool.isRequired,
