@@ -20,19 +20,20 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     marginLeft: "2em"
   },
-  unSelectButton: {
-    marginLeft: "auto",
-    marginRight: "1em",
+  resetFlexContainer: {
     gridColumn: "h-end",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end"
+  },
+  unSelectButton: {
+    marginRight: "1em",
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
     textDecoration: "underline"
   },
   resetProjectButton: {
-    marginLeft: "auto",
-    marginRight: "1em",
-    gridColumn: "h-end",
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
@@ -155,12 +156,14 @@ function ProjectMeasure(props) {
           ) : null}
         </div>
 
-        <button className={classes.resetProjectButton} onClick={resetProject}>
-          Reset Project
-        </button>
-        <button className={classes.unSelectButton} onClick={uncheckAll}>
-          Reset All Strategies
-        </button>
+        <div className={classes.resetFlexContainer}>
+          <button className={classes.resetProjectButton} onClick={resetProject}>
+            Reset Project
+          </button>
+          <button className={classes.unSelectButton} onClick={uncheckAll}>
+            Reset All Strategies
+          </button>
+        </div>
       </div>
       <RuleStrategyPanels
         projectLevel={projectLevel}

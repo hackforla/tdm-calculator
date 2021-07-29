@@ -17,14 +17,13 @@ const useStyles = createUseStyles({
     justifyContent: "flex-end"
   },
   unSelectButton: {
-    margin: "0 1em",
+    marginRight: "1em",
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
     textDecoration: "underline"
   },
   resetProjectButton: {
-    margin: "0 1em",
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
