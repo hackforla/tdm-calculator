@@ -339,7 +339,8 @@ export function TdmCalculationContainer({
 
   const onResetProject = () => {
     initiateEngine();
-    history.push(`/calculation/1/${projectId}`);
+    const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
+    history.push(firstPage);
     setFormHasSaved(true);
   };
 
