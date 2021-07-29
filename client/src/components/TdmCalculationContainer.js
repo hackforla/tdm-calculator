@@ -443,7 +443,7 @@ export function TdmCalculationContainer({
   return (
     <div className={classes.tdmCalculationContainer} onClick={trackComponent}>
       <Prompt
-        when={!formHasSaved && !!account.id}
+        when={!formHasSaved}
         message={location => {
           return location.pathname.startsWith("/calculation")
             ? true // returning true allows user to continue without a prompt/modal
