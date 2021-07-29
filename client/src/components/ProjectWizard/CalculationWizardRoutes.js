@@ -50,7 +50,7 @@ const CalculationWizardRoutes = ({
           rules={specificationRules}
           onInputChange={onInputChange}
           uncheckAll={() => onUncheckAll(filters.specificationRules)}
-          resetProject={() => onResetProject(filters.specificationRules)}
+          resetProject={() => onResetProject()}
         />
       </Route>
       <Route path="/calculation/3/:projectId?">

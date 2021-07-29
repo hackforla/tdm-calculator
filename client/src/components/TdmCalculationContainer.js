@@ -88,45 +88,43 @@ export function TdmCalculationContainer({
     getRules();
   }, []);
 
+  const initiateEngine = async () => {
+    // Only run if engine has been instantiated
+    if (!engine) return;
+    // If projectId param is not defined, projectId
+    // will be assigned the string "undefined" - ugh!
+    const projectId = Number(match.params.projectId) || null;
+    setProjectId(projectId ? Number(projectId) : null);
+    try {
+      let projectResponse = null;
+      let inputs = {};
+      if (Number(projectId) > 0 && account.id) {
+        projectResponse = await projectService.getById(projectId);
+        setLoginId(projectResponse.data.loginId);
+        setDateModified(
+          moment(projectResponse.data.dateModified).format("MM/DD/YYYY h:mm A")
+        );
+        inputs = JSON.parse(projectResponse.data.formInputs);
+        setStrategiesInitialized(true);
+      } else {
+        setStrategiesInitialized(false);
+      }
+      engine.run(inputs, resultRuleCodes);
+      setFormInputs(inputs);
+      setRules(engine.showRulesArray());
+    } catch (err) {
+      console.error(JSON.stringify(err, null, 2));
+      // const errMessage = account.id
+      //   ? "The project you are trying to view can only be viewed by the user."
+      //   : "You must be logged in to view project.";
+      // toast.add(errMessage);
+      const redirect = account.id ? "/projects" : "/login";
+      history.push(redirect);
+    }
+  };
   // Initialize the engine with saved project data, as appropriate.
   // Should run only when projectId changes.
   useEffect(() => {
-    const initiateEngine = async () => {
-      // Only run if engine has been instantiated
-      if (!engine) return;
-      // If projectId param is not defined, projectId
-      // will be assigned the string "undefined" - ugh!
-      const projectId = Number(match.params.projectId) || null;
-      setProjectId(projectId ? Number(projectId) : null);
-      try {
-        let projectResponse = null;
-        let inputs = {};
-        if (Number(projectId) > 0 && account.id) {
-          projectResponse = await projectService.getById(projectId);
-          setLoginId(projectResponse.data.loginId);
-          setDateModified(
-            moment(projectResponse.data.dateModified).format(
-              "MM/DD/YYYY h:mm A"
-            )
-          );
-          inputs = JSON.parse(projectResponse.data.formInputs);
-          setStrategiesInitialized(true);
-        } else {
-          setStrategiesInitialized(false);
-        }
-        engine.run(inputs, resultRuleCodes);
-        setFormInputs(inputs);
-        setRules(engine.showRulesArray());
-      } catch (err) {
-        console.error(JSON.stringify(err, null, 2));
-        // const errMessage = account.id
-        //   ? "The project you are trying to view can only be viewed by the user."
-        //   : "You must be logged in to view project.";
-        // toast.add(errMessage);
-        const redirect = account.id ? "/projects" : "/login";
-        history.push(redirect);
-      }
-    };
     initiateEngine();
   }, [match.params.projectId, engine, account, history]);
 
@@ -339,17 +337,10 @@ export function TdmCalculationContainer({
     recalculate(updateInputs);
   };
 
-  // XXX
-  const onResetProject = filterRules => {
-    let updateInputs = { ...formInputs };
-    for (let i = 0; i < rules.length; i++) {
-      if (filterRules(rules[i]) && rules[i].code !== "STRATEGY_BIKE_4") {
-        if (updateInputs[rules[i].code]) {
-          updateInputs[rules[i].code] = null;
-        }
-      }
-    }
-    recalculate(updateInputs);
+  const onResetProject = () => {
+    initiateEngine();
+    history.push(`/calculation/1/${projectId}`);
+    setFormHasSaved(true);
   };
 
   const projectIsValid = () => {
