@@ -72,6 +72,11 @@ UPDATE CalculationRule
 SET name='Number of Guest Rooms'
 WHERE calculationId=1 and code='UNITS_GUEST';
 
+/* Add Number of in front of Condo - Units */
+UPDATE CalculationRule
+SET name='Number of Condo - Units'
+WHERE calculationId=1 and code='UNITS_CONDO';
+
 /**
  * #869 Change Version # to Alternative # and add tooltip
  */
