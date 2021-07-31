@@ -55,6 +55,8 @@ export function TdmCalculationContainer({
   match,
   account,
   classes,
+  hasConfirmedNavTransition,
+  isOpenNavConfirmModal,
   setLoggedInAccount,
   contentContainerRef
 }) {
@@ -67,6 +69,7 @@ export function TdmCalculationContainer({
   const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
+  const [resettingProject, setResettingProject] = useState(false);
   const toast = useToast();
   const appInsights = useAppInsightsContext();
 
@@ -337,11 +340,32 @@ export function TdmCalculationContainer({
     recalculate(updateInputs);
   };
 
-  const onResetProject = () => {
+  const onConfirmResetProject = () => {
     initiateEngine();
+    setFormHasSaved(true);
+  };
+
+  useEffect(() => {
+    if (!resettingProject) return;
+    if (isOpenNavConfirmModal) return;
+
+    if (hasConfirmedNavTransition) {
+      onConfirmResetProject();
+    }
+    setResettingProject(false);
+  }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
+
+  const onResettingProject = () => {
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
     history.push(firstPage);
-    setFormHasSaved(true);
+  };
+
+  useEffect(() => {
+    if (resettingProject) onResettingProject();
+  }, [resettingProject]);
+
+  const onResetProject = () => {
+    setResettingProject(true);
   };
 
   const projectIsValid = () => {
@@ -443,9 +467,10 @@ export function TdmCalculationContainer({
   return (
     <div className={classes.tdmCalculationContainer} onClick={trackComponent}>
       <Prompt
-        when={!formHasSaved}
+        when={!formHasSaved || resettingProject}
         message={location => {
-          return location.pathname.startsWith("/calculation")
+          return location.pathname.startsWith("/calculation") &&
+            !resettingProject
             ? true // returning true allows user to continue without a prompt/modal
             : "this message doesn't actaully show, but will cause modal to open";
         }}
@@ -520,6 +545,8 @@ TdmCalculationContainer.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string
   }),
+  hasConfirmedNavTransition: PropTypes.bool,
+  isOpenNavConfirmModal: PropTypes.bool,
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object
 };
