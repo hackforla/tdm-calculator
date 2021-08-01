@@ -340,7 +340,7 @@ export function TdmCalculationContainer({
     recalculate(updateInputs);
   };
 
-  const onConfirmResetProject = () => {
+  const clearProjectData = () => {
     initiateEngine();
     setFormHasSaved(true);
   };
@@ -350,18 +350,18 @@ export function TdmCalculationContainer({
     if (isOpenNavConfirmModal) return;
 
     if (hasConfirmedNavTransition) {
-      onConfirmResetProject();
+      clearProjectData();
     }
     setResettingProject(false);
   }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
 
-  const onResettingProject = () => {
+  const navToStart = () => {
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
     history.push(firstPage);
   };
 
   useEffect(() => {
-    if (resettingProject) onResettingProject();
+    if (resettingProject) navToStart();
   }, [resettingProject]);
 
   const onResetProject = () => {
