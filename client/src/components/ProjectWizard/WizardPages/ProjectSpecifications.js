@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RuleInputPanels from "../RuleInput/RuleInputPanels";
+import ResetButtons from "./ResetButtons";
 import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
   resetContainer: {
@@ -10,24 +11,9 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     position: "relative"
   },
-  resetFlexContainer: {
+  alignRight: {
     gridColumn: "h-end",
-    display: "flex",
-    flexDirection: "row",
     justifyContent: "flex-end"
-  },
-  unSelectButton: {
-    marginRight: "1em",
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
-  },
-  resetProjectButton: {
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
   }
 });
 
@@ -41,14 +27,11 @@ function ProjectSpecifications(props) {
         Fill out the use specifications that apply to your project
       </h3>
       <div className={classes.resetContainer}>
-        <div className={classes.resetFlexContainer}>
-          <button className={classes.resetProjectButton} onClick={resetProject}>
-            Reset Project
-          </button>
-          <button className={classes.unSelectButton} onClick={uncheckAll}>
-            Reset Page
-          </button>
-        </div>
+        <ResetButtons
+          className={classes.alignRight}
+          uncheckAll={uncheckAll}
+          resetProject={resetProject}
+        />
       </div>
       <RuleInputPanels rules={rules} onInputChange={onInputChange} />
     </div>

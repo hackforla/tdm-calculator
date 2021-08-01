@@ -5,6 +5,7 @@ import InfoBox from "../InfoBox";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import useLocalStorage from "../../useLocalStorage";
 import { createUseStyles } from "react-jss";
+import ResetButtons from "./ResetButtons";
 
 const useStyles = createUseStyles({
   pkgSelectContainer: {
@@ -20,24 +21,9 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     marginLeft: "2em"
   },
-  resetFlexContainer: {
+  alignRight: {
     gridColumn: "h-end",
-    display: "flex",
-    flexDirection: "row",
     justifyContent: "flex-end"
-  },
-  unSelectButton: {
-    marginRight: "1em",
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
-  },
-  resetProjectButton: {
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
   }
 });
 function ProjectMeasure(props) {
@@ -157,12 +143,11 @@ function ProjectMeasure(props) {
         </div>
 
         <div className={classes.resetFlexContainer}>
-          <button className={classes.resetProjectButton} onClick={resetProject}>
-            Reset Project
-          </button>
-          <button className={classes.unSelectButton} onClick={uncheckAll}>
-            Reset All Strategies
-          </button>
+          <ResetButtons
+            className={classes.alignRight}
+            uncheckAll={uncheckAll}
+            resetProject={resetProject}
+          />
         </div>
       </div>
       <RuleStrategyPanels
