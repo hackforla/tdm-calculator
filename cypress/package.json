@@ -8,12 +8,16 @@
   },
   "scripts": {
     "cypress:open": "cypress open -C cypress-config.json",
-    "cypress:run": "cypress run -C cypress-config.json"
+    "cypress:run": "cypress run -C cypress-config.json",
+    "start-all-servers": "cd .. && npm start",
+    "test": "start-server-and-test start-all-servers 3000 cypress:run",
+    "open": "start-server-and-test start-all-servers 3000 cypress:open"
   },
   "author": "Hack for LA",
   "license": "ISC",
   "devDependencies": {
     "@testing-library/cypress": "^7.0.1",
-    "cypress": "^5.5.0"
+    "cypress": "^5.6.0",
+    "start-server-and-test": "^1.12.1"
   }
 }
