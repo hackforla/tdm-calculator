@@ -393,13 +393,13 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
                         <button onClick={() => toggleDuplicateModal(project)}>
                           <img
                             src={CopyIcon}
-                            alt={`Duplicate Project #${project.id}`}
+                            alt={`Duplicate Project #${project.id} Icon`}
                           />
                         </button>
                         <button onClick={() => toggleDeleteModal(project)}>
                           <img
                             src={DeleteIcon}
-                            alt={`Delete Project #${project.id}`}
+                            alt={`Delete Project #${project.id} Icon`}
                           />
                         </button>
                       </>
