@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
 import * as projectService from "../../services/project.service";
 import { PropTypes } from "prop-types";
@@ -25,32 +25,28 @@ const DuplicateProjectModal = ({
   setSelectedProject,
   handleError,
   duplicateModalOpen,
-  toggleDuplicateModal,
-  duplicateProjectName,
-  setDuplicateProjectName
+  toggleDuplicateModal
 }) => {
   const classes = useStyles();
+  const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
+  const [duplicateProjectName, setDuplicateProjectName] = useState(
+    `${projectFormInputsAsJson.PROJECT_NAME} (COPY)`
+  );
 
-  const duplicateProject = async project => {
-    const jsonProject = JSON.parse(project.formInputs);
-    jsonProject.PROJECT_NAME = duplicateProjectName;
-
-    if (duplicateProjectName === "") {
-      duplicateProjectName = `${project.name} (COPY)`;
-    }
+  const duplicateProject = async () => {
+    projectFormInputsAsJson.PROJECT_NAME = duplicateProjectName;
 
     try {
       await projectService.post({
-        ...project,
+        ...selectedProject,
         name: duplicateProjectName,
-        formInputs: JSON.stringify(project)
+        formInputs: JSON.stringify(projectFormInputsAsJson)
       });
     } catch (err) {
       handleError(err);
     }
 
     toggleDuplicateModal();
-    ``;
     setSelectedProject(null);
   };
 
@@ -67,7 +63,7 @@ const DuplicateProjectModal = ({
       action="duplicate"
       title="Duplicate Project"
       submitButtonLabel="Create a Copy"
-      handleSubmit={() => duplicateProject(selectedProject)}
+      handleSubmit={duplicateProject}
     >
       <p className={classes.instruction}>
         Type a new name to duplicate the project,&nbsp;
@@ -91,9 +87,7 @@ DuplicateProjectModal.propTypes = {
   setSelectedProject: PropTypes.func.isRequired,
   toggleDuplicateModal: PropTypes.func.isRequired,
   handleError: PropTypes.func.isRequired,
-  duplicateModalOpen: PropTypes.bool.isRequired,
-  duplicateProjectName: PropTypes.string,
-  setDuplicateProjectName: PropTypes.func.isRequired
+  duplicateModalOpen: PropTypes.bool.isRequired
 };
 
 export default DuplicateProjectModal;
