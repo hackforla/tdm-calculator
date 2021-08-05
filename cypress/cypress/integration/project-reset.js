@@ -44,7 +44,7 @@ const summary = {
   expectedTargetPoints: calculate.expectedTargetPoints,
   expectedEarnedPoints: strategies.expectedEarnedPoints,
   expectedParkingRatioBaseline: `${Math.floor(
-    calculate.expectedParkingRatioBaseline,
+    calculate.expectedParkingRatioBaseline
   )}%`,
 };
 
@@ -131,12 +131,12 @@ const checkProjectIsEmpty = () => {
   cy.findByRole("textbox", { name: /^AIN\/APN/ }).should("have.value", "");
 };
 
-const resetProjectAndTest = () => {
+const resetProjectAndTest = (test) => {
   cy.findByRole("button", { name: "Reset Project" }).click();
   cy.findByRole("button", { name: "Proceed" })
     .click()
     .then(() => {
-      checkProjectIsEmpty();
+      test();
     });
 };
 
@@ -162,7 +162,9 @@ const loadProject = (projectInfo) => {
 };
 
 const makeChanges = () => {};
+
 const resetProject = () => {};
+
 const testChangesAreReset = () => {
   checkProjectInfo(projectInfo);
   goToNextPage(); // Go to Page 2
@@ -170,16 +172,16 @@ const testChangesAreReset = () => {
 };
 
 describe("Reset Project", () => {
-  it.skip("Reset project from spec page no auth", () => {
+  it("Reset project from spec page no auth", () => {
     goToStart();
     fillProjectInfo(projectInfo);
     goToNextPage(); // Go to Page 2
 
     fillProjectSpecifications(specs);
-    resetProjectAndTest();
+    resetProjectAndTest(checkProjectIsEmpty);
   });
 
-  it.skip("Reset project from Strategies page no auth", () => {
+  it("Reset project from Strategies page no auth", () => {
     goToStart();
     fillProjectInfo(projectInfo);
     goToNextPage(); // Go to Page 2
@@ -191,7 +193,7 @@ describe("Reset Project", () => {
     cy.get("#PARK_SPACES").type(calculate.parkingProvided);
     goToNextPage(); // Go to Page 4
 
-    resetProjectAndTest();
+    resetProjectAndTest(checkProjectIsEmpty);
   });
 
   it("Reset project from spec page with auth", () => {
@@ -226,6 +228,6 @@ describe("Reset Project", () => {
     cy.get("#PARK_SPACES").type(calculate.parkingProvided);
     goToNextPage(); // Go to Page 4
 
-    resetProjectAndTest();
+    resetProjectAndTest(checkProjectIsEmpty);
   });
 });
