@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+//import { screen } from '@testing-library/react';
 
 const projectInfo = {
   name: "Residental Flow",
@@ -43,102 +44,188 @@ const summary = {
   expectedTargetPoints: calculate.expectedTargetPoints,
   expectedEarnedPoints: strategies.expectedEarnedPoints,
   expectedParkingRatioBaseline: `${Math.floor(
-    calculate.expectedParkingRatioBaseline
+    calculate.expectedParkingRatioBaseline,
   )}%`,
 };
 
-describe("Residential User Flow", () => {
-  it("residential project info and specs", () => {
-    cy.visit("/calculation");
-    // Dismiss Terms and Conditions dialog
-    cy.findByText("Accept").click();
+const login = () => {
+  cy.loginAs("ladot");
 
-    // Project Info
-    cy.get("#PROJECT_NAME").type(projectInfo.name);
-    cy.get("#PROJECT_ADDRESS").type(projectInfo.address);
-    cy.get("#APN").type(projectInfo.ain);
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 2
+  cy.visit("/calculation");
 
-    // Specifications Page - Residental
-    cy.get("#UNITS_HABIT_LT3").type(specs.habitableLessThan3);
-    cy.get("#UNITS_HABIT_3").type(specs.habitable3);
-    cy.get("#UNITS_HABIT_GT3").type(specs.habitableGreaterThan3);
-    cy.get("#UNITS_CONDO").type(specs.condoUnits);
-    cy.get("#PARK_CONDO").type(specs.condoUnitsRequiredParking);
+  // Dismiss Terms and Conditions dialog
+  cy.findByText("Accept").click();
 
-    // Specifications Page - Check points and level at this point
-    cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelBefore);
-    cy.get("#TARGET_POINTS_PARK").should(
-      "have.text",
-      specs.expectedTargetPointsBefore
-    );
+  //Cypress.Cookies.preserveOnce('jwt');
+};
 
-    // Specifications Page - Selecton Affordable Housing
-    cy.get("#AFFORDABLE_HOUSING").check();
+const goToStart = () => {
+  cy.visit("/calculation");
 
-    // Specifications Page - Check points and level after clicking affordable housing
-    cy.get("#TARGET_POINTS_PARK").should(
-      "have.text",
-      specs.expectedTargetPointsAfterAffordableHousing
-    );
-    cy.get("#PROJECT_LEVEL").should(
-      "have.text",
-      specs.expectedLevelAfterAffordableHousing
-    );
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 3
+  // Dismiss Terms and Conditions dialog
+  cy.findByText("Accept").click();
+};
+
+const goToProjects = () => {
+  cy.findByText("My Projects")
+    .click()
+    .then(() => {
+      cy.url().should("contain", "/projects");
+    });
+};
+
+const goToNextPage = () => {
+  cy.findByTestId("rightNavArrow").click();
+};
+
+const loadFirstProject = () => {
+  //cy.contains('a', 'Cypress Vicory Hotel');
+  cy.get("table")
+    .find("tr")
+    .eq(1)
+    .find("td")
+    .eq(0)
+    .click()
+    .then(() => {
+      cy.url().should("contain", "/calculation/1");
+    });
+};
+
+const fillProjectInfo = (projectInfo) => {
+  // Project Info
+  cy.get("#PROJECT_NAME").type(projectInfo.name);
+  cy.get("#PROJECT_ADDRESS").type(projectInfo.address);
+  cy.get("#APN").type(projectInfo.ain);
+};
+
+const checkProjectInfo = (projectInfo) => {
+  cy.get("#PROJECT_NAME").should("have.value", projectInfo.name);
+  cy.get("#PROJECT_ADDRESS").should("have.value", projectInfo.address);
+  cy.get("#APN").then(($input) => {
+    const processed = $input.attr("value").split("-").join("");
+    cy.wrap(processed).should("eq", projectInfo.ain);
+  });
+};
+
+const fillProjectSpecifications = (specs) => {
+  // Specifications Page - Residental
+  cy.get("#UNITS_HABIT_LT3").type(specs.habitableLessThan3);
+  cy.get("#UNITS_HABIT_3").type(specs.habitable3);
+  cy.get("#UNITS_HABIT_GT3").type(specs.habitableGreaterThan3);
+  cy.get("#UNITS_CONDO").type(specs.condoUnits);
+  cy.get("#PARK_CONDO").type(specs.condoUnitsRequiredParking);
+};
+
+const checkProjectSpecifications = (specs) => {
+  cy.get("#UNITS_HABIT_LT3").should("have.value", specs.habitableLessThan3);
+  cy.get("#UNITS_HABIT_3").should("have.value", specs.habitable3);
+  cy.get("#UNITS_HABIT_GT3").should("have.value", specs.habitableGreaterThan3);
+  cy.get("#UNITS_CONDO").should("have.value", specs.condoUnits);
+  cy.get("#PARK_CONDO").should("have.value", specs.condoUnitsRequiredParking);
+};
+
+const checkProjectIsEmpty = () => {
+  cy.location("pathname").should("contain", "/calculation/1");
+  cy.findByRole("textbox", { name: "Project Name" }).should("have.value", "");
+  cy.findByRole("textbox", { name: "Address" }).should("have.value", "");
+  cy.findByRole("textbox", { name: /^AIN\/APN/ }).should("have.value", "");
+};
+
+const resetProjectAndTest = () => {
+  cy.findByRole("button", { name: "Reset Project" }).click();
+  cy.findByRole("button", { name: "Proceed" })
+    .click()
+    .then(() => {
+      checkProjectIsEmpty();
+    });
+};
+
+const createProject = (projectInfo, specs, calculate) => {
+  fillProjectInfo(projectInfo);
+  goToNextPage(); // Go to Page 2
+
+  fillProjectSpecifications(specs);
+  goToNextPage(); // Go to Page 3
+
+  // Calculate TDM Target Points Page
+  cy.get("#PARK_SPACES").type(calculate.parkingProvided);
+  //goToNextPage(); // Go to Page 4
+
+  cy.findByRole("button", { name: "Save Project" }).click();
+};
+
+const loadProject = (projectInfo) => {
+  const project = cy.contains("a", projectInfo.name);
+  project.click().then(() => {
+    cy.url().should("contain", "/calculation/1");
+  });
+};
+
+const makeChanges = () => {};
+const resetProject = () => {};
+const testChangesAreReset = () => {
+  checkProjectInfo(projectInfo);
+  goToNextPage(); // Go to Page 2
+  checkProjectSpecifications(specs);
+};
+
+describe("Reset Project", () => {
+  it.skip("Reset project from spec page no auth", () => {
+    goToStart();
+    fillProjectInfo(projectInfo);
+    goToNextPage(); // Go to Page 2
+
+    fillProjectSpecifications(specs);
+    resetProjectAndTest();
+  });
+
+  it.skip("Reset project from Strategies page no auth", () => {
+    goToStart();
+    fillProjectInfo(projectInfo);
+    goToNextPage(); // Go to Page 2
+
+    fillProjectSpecifications(specs);
+    goToNextPage(); // Go to Page 3
 
     // Calculate TDM Target Points Page
     cy.get("#PARK_SPACES").type(calculate.parkingProvided);
-    cy.get("#TARGET_POINTS_PARK").should(
-      "have.text",
-      calculate.expectedTargetPoints
-    );
-    cy.get("#PROJECT_LEVEL").should("have.text", calculate.expectedLevel);
-    cy.get("#PARK_REQUIREMENT").should(
-      "have.text",
-      calculate.expectedCityParkingBaseline
-    );
-    cy.get("#CALC_PARK_RATIO").should(
-      "have.text",
-      calculate.expectedParkingRatioBaseline
-    );
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 4
+    goToNextPage(); // Go to Page 4
 
-    // Bonus Package Info Page
-    cy.get("#app-container").should("contain", bonusPackage.expectedPageText);
-    cy.get("#app-container").should("contain", bonusPackage.expectedPackage);
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 5
+    resetProjectAndTest();
+  });
 
-    // Strategies Page
-    cy.get("#packageResidential").check();
-    cy.get("#STRATEGY_AFFORDABLE").select(strategies.affordableHousingLevel);
-    cy.get("#STRATEGY_PARKING_5").select(strategies.reducedParkingSupply);
-    cy.get("#PTS_EARNED").should("have.text", strategies.expectedEarnedPoints);
-    cy.findByTestId("rightNavArrow").click(); // Go to Summary Page
+  it("Reset project from spec page with auth", () => {
+    cy.loginAs("ladot").then(cy.resetProjects);
+    goToStart();
+    createProject(projectInfo, specs, calculate);
 
-    // Summary Page
-    cy.findByText(projectInfo.name).should("be.visible");
-    cy.findByText(projectInfo.address).should("be.visible");
-    cy.findByText("1234-567-890").should("be.visible");
+    goToProjects();
+    loadProject(projectInfo);
+    makeChanges();
+    resetProject();
+    testChangesAreReset();
+    return;
 
-    cy.findByTestId("summary-project-level-value").should(
-      "have.text",
-      summary.expectedLevel
-    );
+    //loadFirstProject();
+    goToNextPage(); // Go to Page 2
 
-    cy.findByTestId("summary-parking-ratio-value").should(
-      "have.text",
-      summary.expectedParkingRatioBaseline
-    );
+    resetProjectAndTest("cypress test", projectInfo, specs, calculate);
+  });
 
-    cy.findByTestId("summary-target-points-value").should(
-      "have.text",
-      summary.expectedTargetPoints
-    );
+  it.skip("Reset project from Strategies page with auth", () => {
+    login();
+    goToProjects();
 
-    cy.findByTestId("summary-earned-points-value").should(
-      "have.text",
-      summary.expectedEarnedPoints
-    );
+    loadFirstProject();
+    goToNextPage(); // Go to Page 2
+
+    fillProjectSpecifications(specs);
+    goToNextPage(); // Go to Page 3
+
+    // Calculate TDM Target Points Page
+    cy.get("#PARK_SPACES").type(calculate.parkingProvided);
+    goToNextPage(); // Go to Page 4
+
+    resetProjectAndTest();
   });
 });

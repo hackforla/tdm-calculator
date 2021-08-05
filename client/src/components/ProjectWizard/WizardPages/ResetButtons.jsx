@@ -29,7 +29,11 @@ const ResetButtons = props => {
   const { uncheckAll, resetProject } = props;
   return (
     <div className={classes.resetFlexContainer}>
-      <button className={classes.resetProjectButton} onClick={resetProject}>
+      <button
+        className={classes.resetProjectButton}
+        data-testid="resetProject"
+        onClick={resetProject}
+      >
         Reset Project
       </button>
       <button className={classes.unSelectButton} onClick={uncheckAll}>
