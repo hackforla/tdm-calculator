@@ -1,3 +1,4 @@
+const appInsights = require("applicationinsights");
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -7,12 +8,11 @@ const cookieParser = require("cookie-parser");
 const errorHandler = require("error-handler");
 const routes = require("./app/routes");
 const pino = require("express-pino-logger")();
-const appInsights = require("applicationinsights");
 
 dotenv.config();
 
 // This configures node to send ApplicationInsights data to Azure
-appInsights.setup(process.env.AZURE_INSIGHTS_INSTRUMENTATION_KEY).start();
+appInsights.start();
 
 const port = process.env.PORT || 5000;
 

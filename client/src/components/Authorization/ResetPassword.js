@@ -12,7 +12,14 @@ import ContentContainer from "../Layout/ContentContainer";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
-    .min(8, "Password must be atleast 8 characters")
+    .min(
+      12,
+      "Your password must have at least 12 characters, at least one number, one capitalization, and one special character (e.g., !@#$%&*?)"
+    )
+    .matches(
+      /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&*?])[A-Za-z\d@$!%*#?&]{12,}$/,
+      "Your password must have at least 12 characters, at least one number, one capitalization, and one special character (e.g., !@#$%&*?)"
+    )
     .required("Password is Required"),
   passwordConfirm: Yup.string()
     .required("Confirm your password")

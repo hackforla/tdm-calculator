@@ -10,12 +10,12 @@ const p = {
   expectedParkingBaselineSpaces: "92",
   expectedParkingBaselinePercentage: "95.65",
   pricingUnbundling: "Each parking space is at least $220 a month",
-  reducedParkingSupply: "Reduces 100% of spaces available",
-  affordableHousingLevel: "35% of State Density Bonus",
+  reducedParkingSupply: "Reduces 50%-74% of spaces available",
+  affordableHousingLevel: "20% of State Density Bonus",
   expectedProjectLevelValue: "1",
   expectedParkingRatioValue: "95%",
   expectedTargetPointsValue: "15",
-  expectedEarnedPointsValue: "16"
+  expectedEarnedPointsValue: "16",
 };
 
 describe("Barrington Condos", () => {

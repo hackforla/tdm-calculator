@@ -38,6 +38,7 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
       cy.findByTestId("rightNavArrow").click();
       cy.findByTestId("rightNavArrow").click();
       cy.findByTestId("rightNavArrow").click();
+      cy.findByTestId("rightNavArrow").click();
       cy.get("#STRATEGY_BIKE_2").click();
       cy.findByTestId("rightNavArrow").click();
       cy.findByRole("button", { name: "Save Project" }).click();

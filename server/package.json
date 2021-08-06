@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-api",
-  "version": "0.2.21",
+  "version": "0.2.25",
   "description": "Traffic Data Management Calculator",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
     "precommit": "lint-staged",
     "test": "jest --passWithNoTests",
     "heroku-postbuild": "cd client && npm i && npm run build",
-    "start": "nodemon --ignore './client/'",
+    "start": "nodemon",
     "release-notes": "gren release --override",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\" ",
     "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \"**/*.{js,jsx}\" ",
@@ -25,7 +25,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.4.2",
-    "applicationinsights": "^1.8.9",
+    "applicationinsights": "^1.8.10",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",

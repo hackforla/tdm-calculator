@@ -57,7 +57,9 @@ const SidebarProjectLevel = ({ level, rules }) => {
 
   return (
     <div className={clsx(classes.projectLevelContainer, opacityTest)}>
-      <p className={classes.projectLevelValue}>{level}</p>
+      <p id="PROJECT_LEVEL" className={classes.projectLevelValue}>
+        {level}
+      </p>
       <h3 className={classes.projectLevelHeader}>
         PROJECT LEVEL
         <span
