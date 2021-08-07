@@ -1,5 +1,4 @@
 /// <reference types="cypress" />
-//import { screen } from '@testing-library/react';
 
 const projectInfo = {
   name: "Residental Flow",
@@ -205,8 +204,8 @@ const testChangesAreReset = () => {
   testChangesAreUndone();
 };
 
-describe("Reset Project", () => {
-  it.skip("Reset project from spec page no auth", () => {
+describe("Reset Project No Auth", () => {
+  it("Reset project from spec page no auth", () => {
     goToStart();
     fillProjectInfo(projectInfo);
     goToNextPage(); // Go to Page 2
@@ -215,7 +214,7 @@ describe("Reset Project", () => {
     resetProjectAndTest(checkProjectIsEmpty);
   });
 
-  it.skip("Reset project from Strategies page no auth", () => {
+  it("Reset project from Strategies page no auth", () => {
     goToStart();
     fillProjectInfo(projectInfo);
     goToNextPage(); // Go to Page 2
@@ -229,8 +228,10 @@ describe("Reset Project", () => {
 
     resetProjectAndTest(checkProjectIsEmpty);
   });
+});
 
-  it.skip("Reset project with no change from spec page with auth", () => {
+describe("Reset Project with Auth", () => {
+  it("Reset project with no change from spec page with auth", () => {
     cy.loginAs("ladot").then(cy.resetProjects);
     goToStart();
     createProject(projectInfo, specs, calculate);
@@ -239,10 +240,10 @@ describe("Reset Project", () => {
     loadProject(projectInfo);
     makeChanges(projectInfoChange);
     goToNextPage(); // Go to Page 2
-    resetProjectAndTest(() => {});
+    resetProjectAndTest(testProjectIsReloaded);
   });
 
-  it("Reset project with change from spec page with auth", () => {
+  it("Reset project with change from spec page", () => {
     cy.loginAs("ladot").then(cy.resetProjects);
     goToStart();
     createProject(projectInfo, specs, calculate);
@@ -256,7 +257,7 @@ describe("Reset Project", () => {
     resetProjectAndTest(testChangesAreReset);
   });
 
-  it.skip("Reset project from Strategies page with auth", () => {
+  it.skip("Reset project with change from Strategies page", () => {
     login();
     goToProjects();
 
