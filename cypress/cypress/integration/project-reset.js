@@ -7,6 +7,16 @@ const projectInfo = {
   ain: "1234567890",
 };
 
+const projectInfoChange = {
+  address: "123 E Easy St",
+  description: "This is a sample project for testing",
+};
+
+const projectInfoOriginal = {
+  address: "123 S. Somewhere Ave",
+  description: "",
+};
+
 const specs = {
   habitableLessThan3: "10",
   habitable3: "10",
@@ -76,6 +86,10 @@ const goToProjects = () => {
 
 const goToNextPage = () => {
   cy.findByTestId("rightNavArrow").click();
+};
+
+const goToPreviousPage = () => {
+  cy.findByTestId("leftNavArrow").click();
 };
 
 const loadFirstProject = () => {
@@ -161,18 +175,38 @@ const loadProject = (projectInfo) => {
   });
 };
 
-const makeChanges = () => {};
+const makeChanges = (projectInfo) => {
+  cy.get("#PROJECT_ADDRESS").clear().type(projectInfo.address);
+  cy.get("#PROJECT_DESCRIPTION").clear().type(projectInfo.description);
+};
+
+const testProjectInfoOriginal = (projectInfo) => {
+  cy.get("#PROJECT_ADDRESS").should("have.value", projectInfo.address);
+  cy.get("#PROJECT_DESCRIPTION").should("have.value", projectInfo.description);
+};
 
 const resetProject = () => {};
 
-const testChangesAreReset = () => {
+const testProjectIsReloaded = () => {
   checkProjectInfo(projectInfo);
   goToNextPage(); // Go to Page 2
   checkProjectSpecifications(specs);
 };
 
+const testChangesAreUndone = () => {
+  // check that the inputs are reverted to their previous states
+  testProjectInfoOriginal(projectInfoOriginal);
+};
+
+const testChangesAreReset = () => {
+  testProjectIsReloaded();
+
+  goToPreviousPage(); // go back to first page before calling the next code
+  testChangesAreUndone();
+};
+
 describe("Reset Project", () => {
-  it("Reset project from spec page no auth", () => {
+  it.skip("Reset project from spec page no auth", () => {
     goToStart();
     fillProjectInfo(projectInfo);
     goToNextPage(); // Go to Page 2
@@ -181,7 +215,7 @@ describe("Reset Project", () => {
     resetProjectAndTest(checkProjectIsEmpty);
   });
 
-  it("Reset project from Strategies page no auth", () => {
+  it.skip("Reset project from Strategies page no auth", () => {
     goToStart();
     fillProjectInfo(projectInfo);
     goToNextPage(); // Go to Page 2
@@ -196,22 +230,30 @@ describe("Reset Project", () => {
     resetProjectAndTest(checkProjectIsEmpty);
   });
 
-  it("Reset project from spec page with auth", () => {
+  it.skip("Reset project with no change from spec page with auth", () => {
     cy.loginAs("ladot").then(cy.resetProjects);
     goToStart();
     createProject(projectInfo, specs, calculate);
 
     goToProjects();
     loadProject(projectInfo);
-    makeChanges();
-    resetProject();
-    testChangesAreReset();
-    return;
-
-    //loadFirstProject();
+    makeChanges(projectInfoChange);
     goToNextPage(); // Go to Page 2
+    resetProjectAndTest(() => {});
+  });
 
-    resetProjectAndTest("cypress test", projectInfo, specs, calculate);
+  it("Reset project with change from spec page with auth", () => {
+    cy.loginAs("ladot").then(cy.resetProjects);
+    goToStart();
+    createProject(projectInfo, specs, calculate);
+
+    goToProjects();
+    loadProject(projectInfo);
+
+    makeChanges(projectInfoChange);
+
+    goToNextPage(); // Go to Page 2
+    resetProjectAndTest(testChangesAreReset);
   });
 
   it.skip("Reset project from Strategies page with auth", () => {
