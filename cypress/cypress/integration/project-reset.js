@@ -153,6 +153,15 @@ const resetProjectAndTest = (test) => {
     });
 };
 
+const resetProjectCancelAndTest = (test) => {
+  cy.findByRole("button", { name: "Reset Project" }).click();
+  cy.findByRole("button", { name: "Cancel" })
+    .click()
+    .then(() => {
+      test();
+    });
+};
+
 const createProject = (projectInfo, specs, calculate) => {
   fillProjectInfo(projectInfo);
   goToNextPage(); // Go to Page 2
@@ -179,7 +188,7 @@ const makeChanges = (projectInfo) => {
   cy.get("#PROJECT_DESCRIPTION").clear().type(projectInfo.description);
 };
 
-const testProjectInfoOriginal = (projectInfo) => {
+const testProjectInfo = (projectInfo) => {
   cy.get("#PROJECT_ADDRESS").should("have.value", projectInfo.address);
   cy.get("#PROJECT_DESCRIPTION").should("have.value", projectInfo.description);
 };
@@ -194,7 +203,14 @@ const testProjectIsReloaded = () => {
 
 const testChangesAreUndone = () => {
   // check that the inputs are reverted to their previous states
-  testProjectInfoOriginal(projectInfoOriginal);
+  testProjectInfo(projectInfoOriginal);
+};
+
+const testChangesAreNotUndone = () => {
+  goToPreviousPage(); // go back to first page before calling the next code
+
+  // check that the inputs are reverted to their previous states
+  testProjectInfo(projectInfoChange);
 };
 
 const testChangesAreReset = () => {
@@ -231,46 +247,31 @@ describe("Reset Project No Auth", () => {
 });
 
 describe("Reset Project with Auth", () => {
-  it("Reset project with no change from spec page with auth", () => {
+  beforeEach(() => {
     cy.loginAs("ladot").then(cy.resetProjects);
     goToStart();
     createProject(projectInfo, specs, calculate);
 
     goToProjects();
     loadProject(projectInfo);
-    makeChanges(projectInfoChange);
+  });
+
+  it("Reset project with no change from spec page with auth", () => {
     goToNextPage(); // Go to Page 2
     resetProjectAndTest(testProjectIsReloaded);
   });
 
   it("Reset project with change from spec page", () => {
-    cy.loginAs("ladot").then(cy.resetProjects);
-    goToStart();
-    createProject(projectInfo, specs, calculate);
-
-    goToProjects();
-    loadProject(projectInfo);
-
     makeChanges(projectInfoChange);
 
     goToNextPage(); // Go to Page 2
     resetProjectAndTest(testChangesAreReset);
   });
 
-  it.skip("Reset project with change from Strategies page", () => {
-    login();
-    goToProjects();
+  it("Cancel reset project should not reset", () => {
+    makeChanges(projectInfoChange);
 
-    loadFirstProject();
     goToNextPage(); // Go to Page 2
-
-    fillProjectSpecifications(specs);
-    goToNextPage(); // Go to Page 3
-
-    // Calculate TDM Target Points Page
-    cy.get("#PARK_SPACES").type(calculate.parkingProvided);
-    goToNextPage(); // Go to Page 4
-
-    resetProjectAndTest(checkProjectIsEmpty);
+    resetProjectCancelAndTest(testChangesAreNotUndone);
   });
 });
