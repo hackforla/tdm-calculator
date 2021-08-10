@@ -221,21 +221,19 @@ const testChangesAreReset = () => {
 };
 
 describe("Reset Project No Auth", () => {
-  it("Reset project from spec page no auth", () => {
+  beforeEach(() => {
     goToStart();
     fillProjectInfo(projectInfo);
     goToNextPage(); // Go to Page 2
 
     fillProjectSpecifications(specs);
+  });
+
+  it("Reset project from spec page no auth", () => {
     resetProjectAndTest(checkProjectIsEmpty);
   });
 
   it("Reset project from Strategies page no auth", () => {
-    goToStart();
-    fillProjectInfo(projectInfo);
-    goToNextPage(); // Go to Page 2
-
-    fillProjectSpecifications(specs);
     goToNextPage(); // Go to Page 3
 
     // Calculate TDM Target Points Page
@@ -243,6 +241,14 @@ describe("Reset Project No Auth", () => {
     goToNextPage(); // Go to Page 4
 
     resetProjectAndTest(checkProjectIsEmpty);
+  });
+
+  it("Cancel reset project should not reset", () => {
+    goToPreviousPage();
+    makeChanges(projectInfoChange);
+
+    goToNextPage(); // Go to Page 2
+    resetProjectCancelAndTest(testChangesAreNotUndone);
   });
 });
 
