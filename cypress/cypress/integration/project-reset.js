@@ -6,7 +6,7 @@ const projectInfo = {
   ain: "1234567890",
 };
 
-const projectInfoChange = {
+const projectInfoChanges = {
   address: "123 E Easy St",
   description: "This is a sample project for testing",
 };
@@ -30,40 +30,11 @@ const specs = {
 
 const calculate = {
   parkingProvided: "115",
-  expectedLevel: "1",
-  expectedTargetPoints: "21",
-  expectedCityParkingBaseline: "85",
-  expectedParkingRatioBaseline: "135.29",
-};
-
-const bonusPackage = {
-  expectedPageText: "You qualify for a bonus package!",
-  expectedPackage: "Residential Package",
-};
-
-const strategies = {
-  affordableHousingLevel: "20% of State Density Bonus",
-  reducedParkingSupply: "Reduces 50%-74% of spaces available",
-  expectedEarnedPoints: "21",
-};
-
-const summary = {
-  expectedAIN: "1234-567-890",
-  expectedLevel: calculate.expectedLevel,
-  expectedTargetPoints: calculate.expectedTargetPoints,
-  expectedEarnedPoints: strategies.expectedEarnedPoints,
-  expectedParkingRatioBaseline: `${Math.floor(
-    calculate.expectedParkingRatioBaseline
-  )}%`,
 };
 
 const login = () => {
-  cy.loginAs("ladot");
-
-  cy.visit("/calculation");
-
-  // Dismiss Terms and Conditions dialog
-  cy.findByText("Accept").click();
+  cy.loginAs("ladot").then(cy.resetProjects);
+  goToStart();
 
   //Cypress.Cookies.preserveOnce('jwt');
 };
@@ -72,7 +43,11 @@ const goToStart = () => {
   cy.visit("/calculation");
 
   // Dismiss Terms and Conditions dialog
-  cy.findByText("Accept").click();
+  cy.findByText("Accept")
+    .click()
+    .then(() => {
+      cy.findByText("Accept").should("not.be.visible");
+    });
 };
 
 const goToProjects = () => {
@@ -89,19 +64,6 @@ const goToNextPage = () => {
 
 const goToPreviousPage = () => {
   cy.findByTestId("leftNavArrow").click();
-};
-
-const loadFirstProject = () => {
-  //cy.contains('a', 'Cypress Vicory Hotel');
-  cy.get("table")
-    .find("tr")
-    .eq(1)
-    .find("td")
-    .eq(0)
-    .click()
-    .then(() => {
-      cy.url().should("contain", "/calculation/1");
-    });
 };
 
 const fillProjectInfo = (projectInfo) => {
@@ -171,7 +133,6 @@ const createProject = (projectInfo, specs, calculate) => {
 
   // Calculate TDM Target Points Page
   cy.get("#PARK_SPACES").type(calculate.parkingProvided);
-  //goToNextPage(); // Go to Page 4
 
   cy.findByRole("button", { name: "Save Project" }).click();
 };
@@ -188,12 +149,10 @@ const makeChanges = (projectInfo) => {
   cy.get("#PROJECT_DESCRIPTION").clear().type(projectInfo.description);
 };
 
-const testProjectInfo = (projectInfo) => {
+const testChanges = (projectInfo) => {
   cy.get("#PROJECT_ADDRESS").should("have.value", projectInfo.address);
   cy.get("#PROJECT_DESCRIPTION").should("have.value", projectInfo.description);
 };
-
-const resetProject = () => {};
 
 const testProjectIsReloaded = () => {
   checkProjectInfo(projectInfo);
@@ -203,14 +162,14 @@ const testProjectIsReloaded = () => {
 
 const testChangesAreUndone = () => {
   // check that the inputs are reverted to their previous states
-  testProjectInfo(projectInfoOriginal);
+  testChanges(projectInfoOriginal);
 };
 
 const testChangesAreNotUndone = () => {
   goToPreviousPage(); // go back to first page before calling the next code
 
-  // check that the inputs are reverted to their previous states
-  testProjectInfo(projectInfoChange);
+  // check that the inputs are not reverted to their previous states
+  testChanges(projectInfoChanges);
 };
 
 const testChangesAreReset = () => {
@@ -229,11 +188,11 @@ describe("Reset Project No Auth", () => {
     fillProjectSpecifications(specs);
   });
 
-  it("Reset project from spec page no auth", () => {
+  it("from spec page", () => {
     resetProjectAndTest(checkProjectIsEmpty);
   });
 
-  it("Reset project from Strategies page no auth", () => {
+  it("from Strategies page", () => {
     goToNextPage(); // Go to Page 3
 
     // Calculate TDM Target Points Page
@@ -243,9 +202,9 @@ describe("Reset Project No Auth", () => {
     resetProjectAndTest(checkProjectIsEmpty);
   });
 
-  it("Cancel reset project should not reset", () => {
+  it("cancel should not reset", () => {
     goToPreviousPage();
-    makeChanges(projectInfoChange);
+    makeChanges(projectInfoChanges);
 
     goToNextPage(); // Go to Page 2
     resetProjectCancelAndTest(testChangesAreNotUndone);
@@ -254,28 +213,27 @@ describe("Reset Project No Auth", () => {
 
 describe("Reset Project with Auth", () => {
   beforeEach(() => {
-    cy.loginAs("ladot").then(cy.resetProjects);
-    goToStart();
+    login();
     createProject(projectInfo, specs, calculate);
 
     goToProjects();
     loadProject(projectInfo);
   });
 
-  it("Reset project with no change from spec page with auth", () => {
+  it("with no change from spec page", () => {
     goToNextPage(); // Go to Page 2
     resetProjectAndTest(testProjectIsReloaded);
   });
 
-  it("Reset project with change from spec page", () => {
-    makeChanges(projectInfoChange);
+  it("with change from spec page", () => {
+    makeChanges(projectInfoChanges);
 
     goToNextPage(); // Go to Page 2
     resetProjectAndTest(testChangesAreReset);
   });
 
-  it("Cancel reset project should not reset", () => {
-    makeChanges(projectInfoChange);
+  it("cancel should not reset", () => {
+    makeChanges(projectInfoChanges);
 
     goToNextPage(); // Go to Page 2
     resetProjectCancelAndTest(testChangesAreNotUndone);
