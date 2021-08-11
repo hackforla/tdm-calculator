@@ -1,5 +1,66 @@
 /// <reference types="cypress" />
 
+describe("Reset Project No Auth", () => {
+  beforeEach(() => {
+    goToStart();
+    fillProjectInfo(projectInfo);
+    goToNextPage(); // Go to Page 2
+
+    fillProjectSpecifications(specs);
+  });
+
+  it("from spec page", () => {
+    resetProjectAndTest(checkProjectIsEmpty);
+  });
+
+  it("from Strategies page", () => {
+    goToNextPage(); // Go to Page 3
+
+    // Calculate TDM Target Points Page
+    cy.get("#PARK_SPACES").type(calculate.parkingProvided);
+    goToNextPage(); // Go to Page 4
+
+    resetProjectAndTest(checkProjectIsEmpty);
+  });
+
+  it("cancel should not reset", () => {
+    goToPreviousPage();
+    makeChanges(projectInfoChanges);
+
+    goToNextPage(); // Go to Page 2
+    resetProjectCancelAndTest(testChangesAreNotUndone);
+  });
+});
+
+describe("Reset Project with Auth", () => {
+  beforeEach(() => {
+    login();
+    createProject(projectInfo, specs, calculate);
+
+    goToProjects();
+    loadProject(projectInfo);
+  });
+
+  it("with no change from spec page", () => {
+    goToNextPage(); // Go to Page 2
+    resetProjectAndTest(testProjectIsReloaded);
+  });
+
+  it("with change from spec page", () => {
+    makeChanges(projectInfoChanges);
+
+    goToNextPage(); // Go to Page 2
+    resetProjectAndTest(testChangesAreReset);
+  });
+
+  it("cancel should not reset", () => {
+    makeChanges(projectInfoChanges);
+
+    goToNextPage(); // Go to Page 2
+    resetProjectCancelAndTest(testChangesAreNotUndone);
+  });
+});
+
 const projectInfo = {
   name: "Residental Flow",
   address: "123 S. Somewhere Ave",
@@ -178,64 +239,3 @@ const testChangesAreReset = () => {
   goToPreviousPage(); // go back to first page before calling the next code
   testChangesAreUndone();
 };
-
-describe("Reset Project No Auth", () => {
-  beforeEach(() => {
-    goToStart();
-    fillProjectInfo(projectInfo);
-    goToNextPage(); // Go to Page 2
-
-    fillProjectSpecifications(specs);
-  });
-
-  it("from spec page", () => {
-    resetProjectAndTest(checkProjectIsEmpty);
-  });
-
-  it("from Strategies page", () => {
-    goToNextPage(); // Go to Page 3
-
-    // Calculate TDM Target Points Page
-    cy.get("#PARK_SPACES").type(calculate.parkingProvided);
-    goToNextPage(); // Go to Page 4
-
-    resetProjectAndTest(checkProjectIsEmpty);
-  });
-
-  it("cancel should not reset", () => {
-    goToPreviousPage();
-    makeChanges(projectInfoChanges);
-
-    goToNextPage(); // Go to Page 2
-    resetProjectCancelAndTest(testChangesAreNotUndone);
-  });
-});
-
-describe("Reset Project with Auth", () => {
-  beforeEach(() => {
-    login();
-    createProject(projectInfo, specs, calculate);
-
-    goToProjects();
-    loadProject(projectInfo);
-  });
-
-  it("with no change from spec page", () => {
-    goToNextPage(); // Go to Page 2
-    resetProjectAndTest(testProjectIsReloaded);
-  });
-
-  it("with change from spec page", () => {
-    makeChanges(projectInfoChanges);
-
-    goToNextPage(); // Go to Page 2
-    resetProjectAndTest(testChangesAreReset);
-  });
-
-  it("cancel should not reset", () => {
-    makeChanges(projectInfoChanges);
-
-    goToNextPage(); // Go to Page 2
-    resetProjectCancelAndTest(testChangesAreNotUndone);
-  });
-});
