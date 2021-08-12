@@ -8,13 +8,11 @@
     "start:backend": "cd ./server && npm start",
     "start:frontend": "wait-on http://localhost:5000/api/rules && cd ./client && npm start"
   },
-  "dependencies": {
-    "wait-on": "^6.0.0"
-  },
   "devDependencies": {
     "concurrently": "^6.2.0",
     "husky": "^4.3.5",
-    "lerna": "^3.22.1"
+    "lerna": "^3.22.1",
+    "wait-on": "^6.0.0"
   },
   "husky": {
     "hooks": {
