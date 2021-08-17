@@ -60,9 +60,6 @@ const CalculationWizardRoutes = ({
       </Route>
       <Route path="/calculation/4/:projectId?">
         <ProjectPackages
-          projectLevel={projectLevel}
-          rules={strategyRules}
-          landUseRules={landUseRules}
           allowResidentialPackage={allowResidentialPackage}
           allowEmploymentPackage={allowEmploymentPackage}
         />

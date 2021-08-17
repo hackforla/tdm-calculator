@@ -1,11 +1,18 @@
 {
   "name": "root",
-  "version": "0.2.23",
+  "version": "0.2.25",
   "private": true,
   "scripts": {
-    "release-notes": "gren release --override"
+    "release-notes": "gren release --override",
+    "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\" ",
+    "start:backend": "cd ./server && npm start",
+    "start:frontend": "wait-on http://localhost:5000/api/rules && cd ./client && npm start"
+  },
+  "dependencies": {
+    "wait-on": "^6.0.0"
   },
   "devDependencies": {
+    "concurrently": "^6.2.0",
     "husky": "^4.3.5",
     "lerna": "^3.22.1"
   },

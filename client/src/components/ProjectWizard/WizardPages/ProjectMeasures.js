@@ -97,6 +97,7 @@ function ProjectMeasure(props) {
                   fontWeight: "600",
                   paddingRight: "1em"
                 }}
+                htmlFor="packageResidential"
               >
                 Residential Package
                 <input

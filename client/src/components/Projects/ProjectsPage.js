@@ -104,7 +104,6 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
-  const [duplicateProjectName, setDuplicateProjectName] = useState("");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const classes = useStyles();
@@ -168,7 +167,6 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const toggleDuplicateModal = async project => {
     if (project) {
       setSelectedProject(project);
-      setDuplicateProjectName(`${project.name} (COPY)`);
     } else {
       setSelectedProject(null);
     }
@@ -395,13 +393,13 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
                         <button onClick={() => toggleDuplicateModal(project)}>
                           <img
                             src={CopyIcon}
-                            alt={`Duplicate Project #${project.id}`}
+                            alt={`Duplicate Project #${project.id} Icon`}
                           />
                         </button>
                         <button onClick={() => toggleDeleteModal(project)}>
                           <img
                             src={DeleteIcon}
-                            alt={`Delete Project #${project.id}`}
+                            alt={`Delete Project #${project.id} Icon`}
                           />
                         </button>
                       </>
@@ -433,8 +431,6 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
             handleError={handleError}
             toggleDuplicateModal={toggleDuplicateModal}
             duplicateModalOpen={duplicateModalOpen}
-            duplicateProjectName={duplicateProjectName}
-            setDuplicateProjectName={setDuplicateProjectName}
           />
 
           <DeleteProjectModal

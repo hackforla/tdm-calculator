@@ -17,7 +17,7 @@ const RuleInputLabel = ({
     <ToolTipLabel
       id={"tooltip-project-spec" + id}
       tooltipContent={description}
-      htmlFor={code}
+      code={code}
       disabledInput={!display}
       requiredInput={required}
     >

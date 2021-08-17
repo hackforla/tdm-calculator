@@ -77,7 +77,9 @@ const SidebarPoints = props => {
 
   return (
     <div className={clsx("tdm-calculation-metrics-panel-item", opacityTest)}>
-      <div className={earnedPointsColor || targetPointsColor}>{rule.value}</div>
+      <div id={rule.code} className={earnedPointsColor || targetPointsColor}>
+        {rule.value}
+      </div>
       <h3 className={classes.ruleName}>
         {rule.name}
 
