@@ -60,4 +60,43 @@ describe('Save Button', () => {
       cy.findByRole('button', { name: 'Save Project' }).should('be.disabled');
     });
   });
+
+  it('shows up not disabled on every page when there are changes', () => {
+    postNewProject().then((res) => {
+      cy.visit('/projects');
+      cy.findByText('Some Project Hotel').should('be.visible').click();
+
+      cy.findByRole('textbox', { name: 'Project Description' }).type(
+        'Description of project'
+      );
+      cy.findByRole('button', { name: 'Save Project' }).should(
+        'not.be.disabled'
+      );
+
+      cy.findByTestId('rightNavArrow').click();
+      cy.findByRole('button', { name: 'Save Project' }).should(
+        'not.be.disabled'
+      );
+
+      cy.findByTestId('rightNavArrow').click();
+      cy.findByRole('button', { name: 'Save Project' }).should(
+        'not.be.disabled'
+      );
+
+      cy.findByTestId('rightNavArrow').click();
+      cy.findByRole('button', { name: 'Save Project' }).should(
+        'not.be.disabled'
+      );
+
+      cy.findByTestId('rightNavArrow').click();
+      cy.findByRole('button', { name: 'Save Project' }).should(
+        'not.be.disabled'
+      );
+
+      cy.findByTestId('rightNavArrow').click();
+      cy.findByRole('button', { name: 'Save Project' }).should(
+        'not.be.disabled'
+      );
+    });
+  });
 });
