@@ -11,7 +11,7 @@ const SaveButton = ({ id, onClick, isDisabled }) => {
       onClick={onClick}
       id={id}
       data-testid={id}
-      isDisplayed={!isDisabled}
+      disabled={isDisabled}
     >
       Save Project
     </Button>
