@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Prompt, withRouter } from "react-router-dom";
 import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
@@ -355,14 +355,14 @@ export function TdmCalculationContainer({
     setResettingProject(false);
   }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
 
-  const navToStart = () => {
+  const navToStart = useCallback(() => {
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
     history.push(firstPage);
-  };
+  }, [history, projectId]);
 
   useEffect(() => {
     if (resettingProject) navToStart();
-  }, [resettingProject]);
+  }, [resettingProject, navToStart]);
 
   const onResetProject = () => {
     setResettingProject(true);
