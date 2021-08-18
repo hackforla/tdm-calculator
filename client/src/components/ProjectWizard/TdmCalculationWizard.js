@@ -103,6 +103,16 @@ const TdmCalculationWizard = props => {
     );
   };
 
+  const setDisabledSaveButton = () => {
+    const setDisabled = !(
+      account.id &&
+      (!projectId || account.id === loginId) &&
+      formIsDirty &&
+      projectIsValid()
+    );
+    return setDisabled;
+  };
+
   const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
 
   const handleValidate = () => {
@@ -195,11 +205,7 @@ const TdmCalculationWizard = props => {
           onPageChange={onPageChange}
           pageNumber={pageNumber}
           setDisabledForNextNavButton={setDisabledForNextNavButton}
-          account={account}
-          projectId={projectId}
-          loginId={loginId}
-          formIsDirty={formIsDirty}
-          projectIsValid={projectIsValid}
+          setDisabledSaveButton={setDisabledSaveButton}
           onSave={onSave}
         />
       </ContentContainer>

@@ -34,11 +34,7 @@ const WizardFooter = ({
   onPageChange,
   pageNumber,
   setDisabledForNextNavButton,
-  account,
-  projectId,
-  loginId,
-  formIsDirty,
-  projectIsValid,
+  setDisabledSaveButton,
   onSave,
   dateModified
 }) => {
@@ -75,14 +71,7 @@ const WizardFooter = ({
 
             <SaveButton
               id="saveButton"
-              isDisabled={
-                !(
-                  account.id &&
-                  (!projectId || account.id === loginId) &&
-                  formIsDirty &&
-                  projectIsValid()
-                )
-              }
+              isDisabled={setDisabledSaveButton()}
               onClick={onSave}
             />
           </>
@@ -107,11 +96,7 @@ WizardFooter.propTypes = {
   onPageChange: PropTypes.any,
   pageNumber: PropTypes.any,
   setDisabledForNextNavButton: PropTypes.any,
-  account: PropTypes.any,
-  projectId: PropTypes.any,
-  loginId: PropTypes.any,
-  formIsDirty: PropTypes.any,
-  projectIsValid: PropTypes.any,
+  setDisabledSaveButton: PropTypes.any,
   onSave: PropTypes.any,
   dateModified: PropTypes.any
 };
