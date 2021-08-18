@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "../Button/Button";
 import NavButton from "../Button/NavButton";
+import SaveButton from "../Button/SaveButton";
 import { createUseStyles } from "react-jss";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -73,12 +73,10 @@ const WizardFooter = ({
               />
             </div>
 
-            <Button
-              type="input"
-              color="colorPrimary"
-              variant="contained"
-              isDisplayed={
-                !!(
+            <SaveButton
+              id="saveButton"
+              isDisabled={
+                !(
                   account.id &&
                   (!projectId || account.id === loginId) &&
                   formIsDirty &&
@@ -86,9 +84,7 @@ const WizardFooter = ({
                 )
               }
               onClick={onSave}
-            >
-              Save Project
-            </Button>
+            />
           </>
         ) : null}
       </div>
