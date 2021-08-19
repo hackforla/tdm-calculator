@@ -172,172 +172,185 @@ const RuleInput = ({
 
   return (
     <React.Fragment>
-      {dataType === "number" ? (
-        <div className={clsx(classes.rowContainer, classes.numberFieldWrapper)}>
-          <RuleInputLabel
-            id={id}
-            description={description}
-            code={code}
-            display={display}
-            required={required}
-            link={link}
-            name={name}
-          />
-          <div>
-            <input
-              className={
-                validationErrors ? classes.inputInvalid : classes.input
-              }
-              type="text"
-              value={value || ""}
-              onChange={onInputChange}
-              name={code}
-              id={code}
-              data-testid={code}
-              max={maxValue}
-              autoComplete="off"
-              disabled={!display}
-            />
-          </div>
+      {display ? (
+        dataType === "number" ? (
           <div
-            className={
-              !display
-                ? clsx(classes.numberFieldUnits, classes.textDisabledInputLabel)
-                : classes.numberFieldUnits
-            }
+            className={clsx(classes.rowContainer, classes.numberFieldWrapper)}
           >
-            {units}
-          </div>
-        </div>
-      ) : dataType === "boolean" ? (
-        <div
-          className={clsx(classes.rowContainer, classes.checkboxFieldWrapper)}
-        >
-          <RuleInputLabel
-            id={id}
-            description={description}
-            code={code}
-            display={display}
-            required={required}
-            link={link}
-            name={name}
-          />
-          <input
-            type="checkbox"
-            className={classes.checkbox}
-            value={true}
-            checked={!!value}
-            onChange={onInputChange}
-            name={code}
-            id={code}
-            data-testid={code}
-          />
-          <div className={classes.numberFieldUnits}>{units}</div>
-        </div>
-      ) : dataType === "choice" ? (
-        <div className={clsx(classes.rowContainer, classes.selectFieldWrapper)}>
-          <RuleInputLabel
-            id={id}
-            description={description}
-            code={code}
-            display={display}
-            required={required}
-            link={link}
-            name={name}
-          />
-          <select
-            className={classes.select}
-            value={value || ""}
-            onChange={onInputChange}
-            name={code}
-            id={code}
-            data-testid={code}
-          >
-            {choices.map(choice => (
-              <option key={choice.id} value={choice.id}>
-                {choice.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      ) : dataType === "string" ||
-        dataType === "textarea" ||
-        dataType === "mask" ? (
-        <div
-          className={clsx(classes.rowContainer, classes.textFieldWrapper)}
-          onBlur={onBlur}
-        >
-          <RuleInputLabel
-            id={id}
-            description={description}
-            code={code}
-            display={display}
-            required={required}
-            link={link}
-            name={name}
-          />
-          {dataType === "string" ? (
-            <input
-              type="text"
-              className={
-                validationErrors ? classes.textInputInvalid : classes.textInput
-              }
-              value={value || ""}
-              onChange={onInputChange}
-              name={code}
-              id={code}
-              data-testid={code}
-              maxLength={maxStringLength}
-              autoComplete="off"
-            />
-          ) : dataType === "textarea" ? (
-            <textarea
-              className={
-                validationErrors ? classes.textareaInvalid : classes.textarea
-              }
-              value={value || ""}
-              onChange={onInputChange}
-              name={code}
-              id={code}
-              data-testid={code}
+            <RuleInputLabel
+              id={id}
+              description={description}
+              code={code}
+              display={display}
               required={required}
-              minLength={minStringLength}
-              maxLength={maxStringLength}
-              autoComplete="off"
+              link={link}
+              name={name}
             />
-          ) : (
-            <InputMask
-              type="text"
-              mask={mask}
+            <div>
+              <input
+                className={
+                  validationErrors ? classes.inputInvalid : classes.input
+                }
+                type="text"
+                value={value || ""}
+                onChange={onInputChange}
+                name={code}
+                id={code}
+                data-testid={code}
+                max={maxValue}
+                autoComplete="off"
+                disabled={!display}
+              />
+            </div>
+            <div
               className={
-                validationErrors ? classes.textInputInvalid : classes.textInput
+                !display
+                  ? clsx(
+                      classes.numberFieldUnits,
+                      classes.textDisabledInputLabel
+                    )
+                  : classes.numberFieldUnits
               }
+            >
+              {units}
+            </div>
+          </div>
+        ) : dataType === "boolean" ? (
+          <div
+            className={clsx(classes.rowContainer, classes.checkboxFieldWrapper)}
+          >
+            <RuleInputLabel
+              id={id}
+              description={description}
+              code={code}
+              display={display}
+              required={required}
+              link={link}
+              name={name}
+            />
+            <input
+              type="checkbox"
+              className={classes.checkbox}
+              value={true}
+              checked={!!value}
+              onChange={onInputChange}
+              name={code}
+              id={code}
+              data-testid={code}
+            />
+            <div className={classes.numberFieldUnits}>{units}</div>
+          </div>
+        ) : dataType === "choice" ? (
+          <div
+            className={clsx(classes.rowContainer, classes.selectFieldWrapper)}
+          >
+            <RuleInputLabel
+              id={id}
+              description={description}
+              code={code}
+              display={display}
+              required={required}
+              link={link}
+              name={name}
+            />
+            <select
+              className={classes.select}
               value={value || ""}
               onChange={onInputChange}
               name={code}
               id={code}
               data-testid={code}
-              maxLength={maxStringLength}
-              autoComplete="off"
+            >
+              {choices.map(choice => (
+                <option key={choice.id} value={choice.id}>
+                  {choice.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : dataType === "string" ||
+          dataType === "textarea" ||
+          dataType === "mask" ? (
+          <div
+            className={clsx(classes.rowContainer, classes.textFieldWrapper)}
+            onBlur={onBlur}
+          >
+            <RuleInputLabel
+              id={id}
+              description={description}
+              code={code}
+              display={display}
+              required={required}
+              link={link}
+              name={name}
             />
-          )}
-        </div>
-      ) : (
-        <div className={clsx(classes.rowContainer, classes.miscFieldWrapper)}>
-          <RuleInputLabel
-            id={id}
-            description={description}
-            code={code}
-            display={display}
-            required={required}
-            link={link}
-            name={name}
-          />
-          <div className={classes.codeWrapper} name={code} id={code} />
-          <div className={classes.unitsCaption}>{units}</div>
-        </div>
-      )}
-      {validationErrors && showValidationErrors ? (
+            {dataType === "string" ? (
+              <input
+                type="text"
+                className={
+                  validationErrors
+                    ? classes.textInputInvalid
+                    : classes.textInput
+                }
+                value={value || ""}
+                onChange={onInputChange}
+                name={code}
+                id={code}
+                data-testid={code}
+                maxLength={maxStringLength}
+                autoComplete="off"
+              />
+            ) : dataType === "textarea" ? (
+              <textarea
+                className={
+                  validationErrors ? classes.textareaInvalid : classes.textarea
+                }
+                value={value || ""}
+                onChange={onInputChange}
+                name={code}
+                id={code}
+                data-testid={code}
+                required={required}
+                minLength={minStringLength}
+                maxLength={maxStringLength}
+                autoComplete="off"
+              />
+            ) : (
+              <InputMask
+                type="text"
+                mask={mask}
+                className={
+                  validationErrors
+                    ? classes.textInputInvalid
+                    : classes.textInput
+                }
+                value={value || ""}
+                onChange={onInputChange}
+                name={code}
+                id={code}
+                data-testid={code}
+                maxLength={maxStringLength}
+                autoComplete="off"
+              />
+            )}
+          </div>
+        ) : (
+          <div className={clsx(classes.rowContainer, classes.miscFieldWrapper)}>
+            <RuleInputLabel
+              id={id}
+              description={description}
+              code={code}
+              display={display}
+              required={required}
+              link={link}
+              name={name}
+            />
+            <div className={classes.codeWrapper} name={code} id={code} />
+            <div className={classes.unitsCaption}>{units}</div>
+          </div>
+        )
+      ) : null}
+      {display && validationErrors && showValidationErrors ? (
         <div className={classes.rowContainer}>
           <div className={classes.textInputLabel}></div>
           <div className={clsx(classes.textInputLabel, classes.errorLabel)}>

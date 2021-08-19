@@ -2,7 +2,7 @@
 import "@testing-library/cypress/add-commands";
 
 /// <reference types="cypress" />
-describe("Marina Towers Village", () => {
+describe.skip("Marina Towers Village", () => {
   it("verify calculation", () => {
     cy.visit("/calculation");
     // Dismiss Terms and Conditions dialog
