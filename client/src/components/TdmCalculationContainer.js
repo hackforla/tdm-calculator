@@ -352,7 +352,7 @@ export function TdmCalculationContainer({
       setFormHasSaved(true);
     }
     setResettingProject(false);
-  }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
+  }, [hasConfirmedNavTransition, isOpenNavConfirmModal, resettingProject]);
 
   const navToStart = useCallback(() => {
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
