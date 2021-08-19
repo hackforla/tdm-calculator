@@ -101,14 +101,9 @@ const login = () => {
 };
 
 const goToStart = () => {
+  // skip Terms and Conditions dialog
+  window.localStorage.setItem("termsAndConditions", "Accepted");
   cy.visit("/calculation");
-
-  // Dismiss Terms and Conditions dialog
-  cy.findByText("Accept")
-    .click()
-    .then(() => {
-      cy.findByText("Accept").should("not.be.visible");
-    });
 };
 
 const goToProjects = () => {
