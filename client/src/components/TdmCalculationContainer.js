@@ -344,7 +344,6 @@ export function TdmCalculationContainer({
   };
 
   useEffect(() => {
-    if (!resettingProject) return;
     if (isOpenNavConfirmModal) return;
 
     if (hasConfirmedNavTransition) {
@@ -352,7 +351,7 @@ export function TdmCalculationContainer({
       setFormHasSaved(true);
     }
     setResettingProject(false);
-  }, [hasConfirmedNavTransition, isOpenNavConfirmModal, resettingProject]);
+  }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
 
   const navToStart = useCallback(() => {
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
