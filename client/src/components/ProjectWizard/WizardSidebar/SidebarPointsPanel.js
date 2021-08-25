@@ -5,7 +5,7 @@ import SidebarProjectLevel from "./SidebarProjectLevel";
 // import EarnedPointsMetContainer from "./EarnedPointsMetContainer";
 import EarnedPointsProgress from "./EarnedPointsProgress";
 import SidebarCart from "./SidebarCart";
-// import ToolTip from "../../ToolTip/ToolTip";
+import ToolTip from "../../ToolTip/ToolTip";
 
 const SidebarPointsPanel = props => {
   const { rules, strategyRules } = props;
@@ -72,7 +72,7 @@ const SidebarPointsPanel = props => {
       </div>
 
       {/* {earnedPointsMet && <EarnedPointsMetContainer />} */}
-      {/* <ToolTip /> */}
+      <ToolTip />
     </React.Fragment>
   );
 };
