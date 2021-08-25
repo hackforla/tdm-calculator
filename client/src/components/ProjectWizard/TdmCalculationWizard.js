@@ -159,6 +159,7 @@ const TdmCalculationWizard = props => {
             rules={rules}
             onViewChange={onViewChange}
             resultRules={resultRules}
+            strategyRules={strategyRules}
           />
         )}
         contentContainerRef={contentContainerRef}
