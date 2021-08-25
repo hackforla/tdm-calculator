@@ -19,7 +19,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const WizardSidebar = ({ rules, onViewChange, resultRules }) => {
+const WizardSidebar = ({ rules, onViewChange, resultRules, strategyRules }) => {
   const classes = useStyles();
 
   return (
@@ -29,7 +29,10 @@ const WizardSidebar = ({ rules, onViewChange, resultRules }) => {
           <SwitchViewButton onViewChange={onViewChange} isDisplayed={false}>
             Switch to Single Page View
           </SwitchViewButton>
-          <SidebarPointsPanel rules={resultRules} />
+          <SidebarPointsPanel
+            rules={resultRules}
+            strategyRules={strategyRules}
+          />
         </div>
       )}
     </Sidebar>
@@ -39,7 +42,8 @@ const WizardSidebar = ({ rules, onViewChange, resultRules }) => {
 WizardSidebar.propTypes = {
   rules: PropTypes.any,
   onViewChange: PropTypes.any,
-  resultRules: PropTypes.any
+  resultRules: PropTypes.any,
+  strategyRules: PropTypes.array
 };
 
 export default WizardSidebar;
