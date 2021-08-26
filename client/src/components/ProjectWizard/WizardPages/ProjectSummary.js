@@ -95,12 +95,10 @@ const useStyles = createUseStyles({
   },
   textProjectInfoHeader: {
     fontSize: "24px",
-    fontWeight: "900",
     fontFamily: "Calibri Bold"
   },
   textProjectInfoHeaderAddress: {
     fontSize: "24px",
-    fontWeight: "500",
     fontFamily: "Calibri"
   },
   projectInfoDetailsContainer: {
