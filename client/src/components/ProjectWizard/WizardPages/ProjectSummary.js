@@ -423,11 +423,6 @@ const ProjectSummary = props => {
           </div>
 
           <div className={classes.categoryContainer}>
-            <span className={classes.categoryHeader}>LAND USES</span>
-            <div className={classes.landUsesContainer}>{landUses}</div>
-          </div>
-
-          <div className={classes.categoryContainer}>
             <div className={clsx("space-between")}>
               <span className={classes.categoryHeader}>
                 TDM MEASURES SELECTED
@@ -497,6 +492,7 @@ const ProjectSummary = props => {
                 PROJECT SPECIFICATIONS
               </span>
             </div>
+            <div className={classes.landUsesContainer}>{landUses}</div>
             <div className={classes.measuresContainer}>
               {rules && rules.length > 0
                 ? specificationRules.map(rule => {
