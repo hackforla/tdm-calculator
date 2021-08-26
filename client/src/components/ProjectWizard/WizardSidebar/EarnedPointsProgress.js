@@ -94,7 +94,7 @@ const EarnedPointsProgress = props => {
           letter: "1%"
         }}
       >
-        <div>{earned}</div>
+        <div id={rulesConfig.earnedPointsRule.code}>{earned}</div>
         <div
           style={{
             fontSize: "16px",
@@ -122,7 +122,7 @@ const EarnedPointsProgress = props => {
           marginTop: "90px"
         }}
       >
-        <div>{target}</div>
+        <div id={rulesConfig.targetPointsRule.code}>{target}</div>
         <div
           style={{
             fontSize: "14px"
