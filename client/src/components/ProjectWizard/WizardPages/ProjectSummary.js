@@ -287,21 +287,18 @@ const ProjectSummary = props => {
     Math.round(earnedPoints.value) >= Math.round(targetPoints.value);
 
   const renderLevel = level ? (
-    <div className={clsx("space-between", classes.rule)}>
-      <div
-        className={classes.ruleValue}
-        data-testid="summary-project-level-label"
-      >
+    <div className={clsx(classes.rule)}>
+      <div className={classes.rule} data-testid="summary-project-level-label">
         {level.name}
       </div>
       <div className={classes.specificationDetailsContainer}>
         <div
-          className={classes.measureDetails}
+          className={classes.value}
           data-testid="summary-project-level-value"
         >
           {level.value}
         </div>
-        <div className={classes.measureUnits}></div>
+        <div className={classes.calcUnitsPts}></div>
       </div>
     </div>
   ) : null;
@@ -335,21 +332,21 @@ const ProjectSummary = props => {
   ) : null;
 
   const renderParkingRatio = parkingRatio ? (
-    <div className={clsx("space-between", classes.rule)}>
+    <div className={classes.rule}>
       <div
-        className={classes.ruleValue}
+        className={clsx(classes.rule, classes.bold)}
         data-testid="summary-parking-ratio-value"
       >
         {parkingRatio.name}
       </div>
-      <div className={classes.specificationDetailsContainer}>
+      <div className={classes.pointsContainer}>
         <div
-          className={classes.measureDetails}
+          className={classes.value}
           data-testid="summary-parking-ratio-label"
         >
           {`${Math.floor(parkingRatio.value).toString()}`}
         </div>
-        <div className={classes.measureUnits}>%</div>
+        <div className={classes.calcUnitsSpcs}>%</div>
       </div>
     </div>
   ) : null;
