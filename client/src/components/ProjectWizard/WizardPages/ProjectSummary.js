@@ -246,7 +246,6 @@ const ProjectSummary = props => {
 
   const projectName = getRule("PROJECT_NAME");
   const projectAddress = getRule("PROJECT_ADDRESS");
-  const projectDescription = getRule("PROJECT_DESCRIPTION");
 
   const buildingPermit = getRule("BUILDING_PERMIT");
   const caseNumber = getRule("CASE_NO_LADOT");
@@ -422,11 +421,6 @@ const ProjectSummary = props => {
           <span className={classes.textProjectInfoHeader}>
             {" "}
             {projectAddress.value}
-          </span>
-        ) : null}
-        {projectDescription && projectDescription.value ? (
-          <span className={classes.projectDescription}>
-            {projectDescription.value}{" "}
           </span>
         ) : null}
         <div className={classes.projectInfoDetailsContainer}>
