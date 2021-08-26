@@ -187,6 +187,13 @@ const useStyles = createUseStyles({
   projectDescription: {
     display: "block",
     marginTop: "6px"
+  },
+  summaryContainer: {
+    display: "flex",
+    minWidth: "180px",
+    maxWidth: "100%",
+    marginRight: "110px",
+    marginLeft: "110px"
   }
 });
 
@@ -198,6 +205,7 @@ const ProjectSummary = props => {
     .filter(rule => rule.used && rule.value && rule.calculationPanelId === 5)
     .map(r => r.name)
     .join(", ");
+  console.log("RULES", rules);
 
   const getRule = code => {
     const ruleList = rules.filter(rule => rule.code === code);
@@ -461,6 +469,19 @@ const ProjectSummary = props => {
                     </div>
                   ))
                 : null}
+              {userDefinedStrategy && userDefinedStrategy.comment.length > 0 ? (
+                <div>
+                  <div className={classes.ruleName}></div>
+                  <div
+                    className={clsx(
+                      "justify-content-center",
+                      classes.summaryContainer
+                    )}
+                  >
+                    Explanation: {userDefinedStrategy.comment}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -534,14 +555,6 @@ const ProjectSummary = props => {
           <Loader loaded={false} className="spinner" left="auto" />
         </div>
       )}
-      <div className={classes.categoryContainer}>
-        <div className={clsx("space-between")}>
-          <span className={classes.categoryHeader}>USER DEFINED STRATEGY</span>
-        </div>
-        <div className={classes.measuresContainer}>
-          {userDefinedStrategy.comment}
-        </div>
-      </div>
     </div>
   );
 };
