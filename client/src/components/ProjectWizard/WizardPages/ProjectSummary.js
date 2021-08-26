@@ -144,7 +144,7 @@ const useStyles = createUseStyles({
     borderTop: "1px solid #E7EBF0",
     marginTop: "3px",
     paddingTop: "16px",
-    height: "350px",
+    height: "170px",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
@@ -389,6 +389,23 @@ const ProjectSummary = props => {
     </div>
   ) : null;
 
+  const renderTargetPointsReached = targetPointsReached ? (
+    <span className={classes.resultsSuccess}>
+      <FontAwesomeIcon icon={faCheckCircle} className={classes.Success} />{" "}
+      &nbsp;You have successfully earned the target points. Please, print and
+      submit
+    </span>
+  ) : (
+    <span className={classes.resultsFailure}>
+      <FontAwesomeIcon
+        icon={faExclamationTriangle}
+        className={classes.Failure}
+      />{" "}
+      &nbsp;You have not reached the target points. Please, go back and review
+      your strategies
+    </span>
+  );
+
   const earnedPointsValueStyle = targetPointsReached
     ? clsx(classes.measureValue, classes.Success)
     : clsx(classes.measureValue, classes.Failure);
@@ -478,27 +495,8 @@ const ProjectSummary = props => {
             <div className={clsx("space-between", classes.resultsContainer)}>
               {renderEarnedPoints}
               {renderTargetPoints}
-
-              {targetPointsReached ? (
-                <span className={classes.resultsSuccess}>
-                  <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className={classes.Success}
-                  />{" "}
-                  &nbsp;You have successfully earned the target points. Please,
-                  print and submit
-                </span>
-              ) : (
-                <span className={classes.resultsFailure}>
-                  <FontAwesomeIcon
-                    icon={faExclamationTriangle}
-                    className={classes.Failure}
-                  />{" "}
-                  &nbsp;You have not reached the target points. Please, go back
-                  and review your strategies
-                </span>
-              )}
             </div>
+            {renderTargetPointsReached}
           </div>
 
           <div className={classes.categoryContainer}>
