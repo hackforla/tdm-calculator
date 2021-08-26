@@ -39,7 +39,7 @@ const ConfirmEmail = props => {
     if (token) {
       confirmEmail(token);
     }
-  }, [token]);
+  }, [token, toast, history]);
 
   return confirmResult.success ? (
     <Redirect to={`/login/${confirmResult.email}`} />
