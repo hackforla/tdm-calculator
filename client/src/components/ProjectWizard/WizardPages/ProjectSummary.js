@@ -440,13 +440,19 @@ const ProjectSummary = props => {
 
               {targetPointsReached ? (
                 <span className={classes.resultsSuccess}>
-                  <FontAwesomeIcon icon={faCheckCircle} color="#748927" />{" "}
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className={classes.Success}
+                  />{" "}
                   &nbsp;You have successfully earned the target points. Please,
                   print and submit
                 </span>
               ) : (
                 <span className={classes.resultsFailure}>
-                  <FontAwesomeIcon icon={faCheckCircle} color="#E46247" />{" "}
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className={classes.Failure}
+                  />{" "}
                   &nbsp;You have not reached the target points. Please, go back
                   and review your strategies
                 </span>
