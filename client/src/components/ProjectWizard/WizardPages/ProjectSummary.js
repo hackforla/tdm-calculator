@@ -29,6 +29,12 @@ const useStyles = createUseStyles({
     marginTop: "33px",
     fontWeight: "bold"
   },
+  Success: {
+    color: "#748927"
+  },
+  Failure: {
+    color: "#E46247"
+  },
   measurePercent: {
     fontSize: "24px",
     marginLeft: "3px"
@@ -277,6 +283,9 @@ const ProjectSummary = props => {
     !parkingRequired &&
     !parkingProvided;
 
+  const targetPointsReached =
+    Math.round(earnedPoints.value) >= Math.round(targetPoints.value);
+
   const renderLevel = level ? (
     <div className={clsx("space-between", classes.rule)}>
       <div
@@ -334,10 +343,14 @@ const ProjectSummary = props => {
     </div>
   ) : null;
 
+  const earnedPointsValueStyle = targetPointsReached
+    ? clsx(classes.measureValue, classes.Success)
+    : clsx(classes.measureValue, classes.Failure);
+
   const renderEarnedPoints = earnedPoints ? (
     <div className={clsx("border-gray", classes.measure)}>
       <div
-        className={classes.measureValue}
+        className={earnedPointsValueStyle}
         data-testid={"summary-earned-points-value"}
       >
         {Math.round(earnedPoints.value)}
@@ -425,8 +438,7 @@ const ProjectSummary = props => {
               {renderEarnedPoints}
               {renderTargetPoints}
 
-              {Math.round(earnedPoints.value) >=
-              Math.round(targetPoints.value) ? (
+              {targetPointsReached ? (
                 <span className={classes.resultsSuccess}>
                   <FontAwesomeIcon icon={faCheckCircle} color="#748927" />{" "}
                   &nbsp;You have successfully earned the target points. Please,
