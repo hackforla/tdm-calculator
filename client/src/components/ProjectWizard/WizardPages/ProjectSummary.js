@@ -141,7 +141,6 @@ const useStyles = createUseStyles({
     fontWeight: "bold"
   },
   resultsContainer: {
-    marginTop: "3px",
     paddingTop: "16px",
     height: "170px",
     display: "flex",
@@ -166,7 +165,7 @@ const useStyles = createUseStyles({
     paddingTop: "16px"
   },
   measuresContainer: {
-    paddingTop: "16px"
+    paddingTop: "10px"
   },
   earnedPoints: {
     fontFamily: "Oswald",
@@ -174,7 +173,7 @@ const useStyles = createUseStyles({
     fontSize: "12px",
     color: "rgba(15, 41, 64, 0.5)",
     paddingTop: "5px",
-    marginRight: "36px"
+    marginRight: "11px"
   },
   measureDetails: {
     fontSize: "14px",
@@ -490,7 +489,9 @@ const ProjectSummary = props => {
       {!loading ? (
         <>
           <div className={classes.categoryContainer}>
-            <div className={classes.categoryHeaderContainer}>
+            <div
+              className={clsx("space-between", classes.categoryHeaderContainer)}
+            >
               <span className={classes.categoryHeader}>RESULTS</span>
             </div>
             <div className={clsx("space-between", classes.resultsContainer)}>
