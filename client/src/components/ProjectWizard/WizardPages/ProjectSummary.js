@@ -143,11 +143,13 @@ const useStyles = createUseStyles({
   resultsSuccess: {
     width: "100%",
     textAlign: "center",
+    fontSize: "24px",
     color: "#748927"
   },
   resultsFailure: {
     width: "100%",
     textAlign: "center",
+    fontSize: "24px",
     color: "#E46247"
   },
   landUsesContainer: {
