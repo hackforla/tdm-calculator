@@ -103,7 +103,6 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri"
   },
   projectInfoDetailsContainer: {
-    borderTop: "1px solid #E7EBF0",
     marginTop: "13px",
     paddingTop: "13px",
     height: "55px",
@@ -134,14 +133,15 @@ const useStyles = createUseStyles({
   categoryContainer: {
     marginTop: "40px"
   },
+  categoryHeaderContainer: {
+    background: "#E2E2E2",
+    padding: ".6em"
+  },
   categoryHeader: {
     fontFamily: "Oswald",
-    fontWeight: "bold",
-    background: "#E2E2E2",
-    maxWidth: "600px"
+    fontWeight: "bold"
   },
   resultsContainer: {
-    borderTop: "1px solid #E7EBF0",
     marginTop: "3px",
     paddingTop: "16px",
     height: "170px",
@@ -163,12 +163,10 @@ const useStyles = createUseStyles({
     color: "#E46247"
   },
   landUsesContainer: {
-    borderTop: "1px solid #E7EBF0",
     marginTop: "3px",
     paddingTop: "16px"
   },
   measuresContainer: {
-    borderTop: "1px solid #E7EBF0",
     marginTop: "5px",
     paddingTop: "16px"
   },
@@ -491,7 +489,9 @@ const ProjectSummary = props => {
       {!loading ? (
         <>
           <div className={classes.categoryContainer}>
-            <span className={classes.categoryHeader}>RESULTS</span>
+            <div className={classes.categoryHeaderContainer}>
+              <span className={classes.categoryHeader}>RESULTS</span>
+            </div>
             <div className={clsx("space-between", classes.resultsContainer)}>
               {renderEarnedPoints}
               {renderTargetPoints}
@@ -500,7 +500,9 @@ const ProjectSummary = props => {
           </div>
 
           <div className={classes.categoryContainer}>
-            <div className={clsx("space-between")}>
+            <div
+              className={clsx("space-between", classes.categoryHeaderContainer)}
+            >
               <span className={classes.categoryHeader}>
                 TDM MEASURES SELECTED
               </span>
@@ -564,7 +566,9 @@ const ProjectSummary = props => {
           </div>
 
           <div className={classes.categoryContainer}>
-            <div className={clsx("space-between")}>
+            <div
+              className={clsx("space-between", classes.categoryHeaderContainer)}
+            >
               <span className={classes.categoryHeader}>PROJECT DETAILS</span>
             </div>
             <div className={classes.measuresContainer}>
