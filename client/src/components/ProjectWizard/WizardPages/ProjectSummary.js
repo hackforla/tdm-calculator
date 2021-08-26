@@ -312,6 +312,40 @@ const ProjectSummary = props => {
     </div>
   ) : null;
 
+  const renderTargetPoints = targetPoints ? (
+    <div className={clsx("border-gray", classes.measure)}>
+      <div
+        className={classes.measureValue}
+        data-testid={"summary-target-points-value"}
+      >
+        {Math.round(targetPoints.value)}
+      </div>
+      <div
+        className={clsx(classes.alignCenter, classes.label)}
+        data-testid={"summary-target-points-label"}
+      >
+        {targetPoints.name}
+      </div>
+    </div>
+  ) : null;
+
+  const renderEarnedPoints = earnedPoints ? (
+    <div className={clsx("border-gray", classes.measure)}>
+      <div
+        className={classes.measureValue}
+        data-testid={"summary-earned-points-value"}
+      >
+        {Math.round(earnedPoints.value)}
+      </div>
+      <div
+        className={clsx(classes.alignCenter, classes.label)}
+        data-testid={"summary-earned-points-label"}
+      >
+        {earnedPoints.name}
+      </div>
+    </div>
+  ) : null;
+
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
@@ -383,39 +417,8 @@ const ProjectSummary = props => {
           <div className={classes.categoryContainer}>
             <span className={classes.categoryHeader}>RESULTS</span>
             <div className={clsx("space-between", classes.resultsContainer)}>
-              {targetPoints ? (
-                <div className={clsx("border-gray", classes.measure)}>
-                  <div
-                    className={classes.measureValue}
-                    data-testid={"summary-target-points-value"}
-                  >
-                    {Math.round(targetPoints.value)}
-                  </div>
-                  <div
-                    className={clsx(classes.alignCenter, classes.label)}
-                    data-testid={"summary-target-points-label"}
-                  >
-                    {targetPoints.name}
-                  </div>
-                </div>
-              ) : null}
-
-              {earnedPoints ? (
-                <div className={clsx("border-gray", classes.measure)}>
-                  <div
-                    className={classes.measureValue}
-                    data-testid={"summary-earned-points-value"}
-                  >
-                    {Math.round(earnedPoints.value)}
-                  </div>
-                  <div
-                    className={clsx(classes.alignCenter, classes.label)}
-                    data-testid={"summary-earned-points-label"}
-                  >
-                    {earnedPoints.name}
-                  </div>
-                </div>
-              ) : null}
+              {renderEarnedPoints}
+              {renderTargetPoints}
 
               {Math.round(earnedPoints.value) >=
               Math.round(targetPoints.value) ? (
