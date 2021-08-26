@@ -126,7 +126,9 @@ const useStyles = createUseStyles({
   },
   categoryHeader: {
     fontFamily: "Oswald",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    background: "#E2E2E2",
+    maxWidth: "600px"
   },
   resultsContainer: {
     borderTop: "1px solid #E7EBF0",
