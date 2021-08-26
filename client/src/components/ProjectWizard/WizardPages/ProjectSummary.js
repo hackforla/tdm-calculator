@@ -89,9 +89,14 @@ const useStyles = createUseStyles({
     minHeight: "100px"
   },
   textProjectInfoHeader: {
-    fontSize: "18px",
+    fontSize: "24px",
     fontWeight: "900",
     fontFamily: "Calibri Bold"
+  },
+  textProjectInfoHeaderAddress: {
+    fontSize: "24px",
+    fontWeight: "500",
+    fontFamily: "Calibri"
   },
   projectInfoDetailsContainer: {
     borderTop: "1px solid #E7EBF0",
@@ -119,7 +124,8 @@ const useStyles = createUseStyles({
     marginRight: "17px"
   },
   projectInfoDetails: {
-    fontFamily: "Calibri Bold"
+    fontFamily: "Calibri Bold",
+    fontSize: "16px"
   },
   categoryContainer: {
     marginTop: "40px"
@@ -418,7 +424,7 @@ const ProjectSummary = props => {
           </span>
         ) : null}
         {projectAddress && projectAddress.value ? (
-          <span className={classes.textProjectInfoHeader}>
+          <span className={classes.textProjectInfoHeaderAddress}>
             {" "}
             {projectAddress.value}
           </span>
