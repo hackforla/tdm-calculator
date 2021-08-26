@@ -59,7 +59,7 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
 
       // find delete icon and click to open modal
       cy.findByRole("button", {
-        name: `Delete Project #${response.body.id}`,
+        name: `Delete Project #${response.body.id} Icon`,
       }).click();
 
       // click delete button inside modal
