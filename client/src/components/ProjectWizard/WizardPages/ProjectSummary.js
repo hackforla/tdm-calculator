@@ -217,11 +217,22 @@ const ProjectSummary = props => {
   const classes = useStyles();
   const { rules } = props;
 
-  const landUses = rules
-    .filter(rule => rule.used && rule.value && rule.calculationPanelId === 5)
-    .map(r => r.name)
-    .join(", ");
-  console.log("RULES", rules);
+  const landUses = (
+    <div className={clsx(classes.rule)}>
+      <div className={classes.rule}>
+        {rules
+          .filter(
+            rule => rule.used && rule.value && rule.calculationPanelId === 5
+          )
+          .map(r => r.name)
+          .join(", ")}
+      </div>
+      <div className={classes.specificationDetailsContainer}>
+        <div className={classes.measureDetails}></div>
+        <div className={classes.measureUnits}></div>
+      </div>
+    </div>
+  );
 
   const getRule = code => {
     const ruleList = rules.filter(rule => rule.code === code);
@@ -296,40 +307,36 @@ const ProjectSummary = props => {
       </div>
       <div className={classes.specificationDetailsContainer}>
         <div
-          className={classes.value}
+          className={classes.measureDetails}
           data-testid="summary-project-level-value"
         >
           {level.value}
         </div>
-        <div className={classes.calcUnitsPts}></div>
+        <div className={classes.measureUnits}></div>
       </div>
     </div>
   ) : null;
 
   const renderBaselineParking = parkingRequired ? (
     <div className={classes.rule}>
-      <div className={clsx(classes.rule, classes.bold)}>
-        {parkingRequired.name}
-      </div>
+      <div className={clsx(classes.rule)}>{parkingRequired.name}</div>
       <div className={clsx(classes.pointsContainer)}>
-        <div className={clsx(classes.value)}>
+        <div className={classes.measureDetails}>
           {numberWithCommas(Math.round(parkingRequired.value * 100) / 100)}
         </div>
-        <div className={clsx(classes.calcUnitsSpcs)}>spaces</div>
+        <div className={clsx(classes.measureUnits)}>spaces</div>
       </div>
     </div>
   ) : null;
 
   const renderParkingProvided = parkingProvided ? (
     <div className={classes.rule}>
-      <div className={clsx(classes.rule, classes.bold)}>
-        {parkingProvided.name}
-      </div>
+      <div className={clsx(classes.rule)}>{parkingProvided.name}</div>
       <div className={classes.pointsContainer}>
-        <div className={clsx(classes.value)}>
+        <div className={classes.measureDetails}>
           {numberWithCommas(Math.round(parkingProvided.value * 100) / 100)}
         </div>
-        <div className={clsx(classes.calcUnitsSpcs)}>spaces</div>
+        <div className={clsx(classes.measureUnits)}>spaces</div>
       </div>
     </div>
   ) : null;
@@ -349,7 +356,7 @@ const ProjectSummary = props => {
         >
           {`${Math.floor(parkingRatio.value).toString()}`}
         </div>
-        <div className={classes.calcUnitsSpcs}>%</div>
+        <div className={classes.measureUnits}>%</div>
       </div>
     </div>
   ) : null;
