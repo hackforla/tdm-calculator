@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faCheckCircle,
+  faExclamationTriangle
+} from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
 import { numberWithCommas } from "../helpers";
 
@@ -487,7 +491,7 @@ const ProjectSummary = props => {
               ) : (
                 <span className={classes.resultsFailure}>
                   <FontAwesomeIcon
-                    icon={faCheckCircle}
+                    icon={faExclamationTriangle}
                     className={classes.Failure}
                   />{" "}
                   &nbsp;You have not reached the target points. Please, go back
