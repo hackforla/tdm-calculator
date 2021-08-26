@@ -272,6 +272,46 @@ const ProjectSummary = props => {
     !parkingRequired &&
     !parkingProvided;
 
+  const renderLevel = level ? (
+    <div className={clsx("space-between", classes.rule)}>
+      <div
+        className={classes.ruleValue}
+        data-testid="summary-project-level-label"
+      >
+        {level.name}
+      </div>
+      <div className={classes.specificationDetailsContainer}>
+        <div
+          className={classes.measureDetails}
+          data-testid="summary-project-level-value"
+        >
+          {level.value}
+        </div>
+        <div className={classes.measureUnits}></div>
+      </div>
+    </div>
+  ) : null;
+
+  const renderParkingRatio = parkingRatio ? (
+    <div className={clsx("space-between", classes.rule)}>
+      <div
+        className={classes.ruleValue}
+        data-testid="summary-parking-ratio-value"
+      >
+        {parkingRatio.name}
+      </div>
+      <div className={classes.specificationDetailsContainer}>
+        <div
+          className={classes.measureDetails}
+          data-testid="summary-parking-ratio-label"
+        >
+          {`${Math.floor(parkingRatio.value).toString()}`}
+        </div>
+        <div className={classes.measureUnits}>%</div>
+      </div>
+    </div>
+  ) : null;
+
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
@@ -343,41 +383,6 @@ const ProjectSummary = props => {
           <div className={classes.categoryContainer}>
             <span className={classes.categoryHeader}>RESULTS</span>
             <div className={clsx("space-between", classes.resultsContainer)}>
-              {level ? (
-                <div className={clsx("background-gray", classes.measure)}>
-                  <div
-                    className={classes.measureValue}
-                    data-testid="summary-project-level-value"
-                  >
-                    {level.value}
-                  </div>
-                  <div
-                    className={clsx(classes.alignCenter, classes.label)}
-                    data-testid="summary-project-level-label"
-                  >
-                    {level.name}
-                  </div>
-                </div>
-              ) : null}
-
-              {parkingRatio ? (
-                <div className={clsx("background-gray", classes.measure)}>
-                  <div
-                    className={classes.measureValue}
-                    data-testid="summary-parking-ratio-value"
-                  >
-                    {`${Math.floor(parkingRatio.value).toString()}`}
-                    <span className={classes.measurePercent}>%</span>
-                  </div>
-                  <div
-                    className={clsx(classes.alignCenter, classes.label)}
-                    data-testid="summary-parking-ratio-label"
-                  >
-                    {parkingRatio.name}
-                  </div>
-                </div>
-              ) : null}
-
               {targetPoints ? (
                 <div className={clsx("border-gray", classes.measure)}>
                   <div
@@ -488,12 +493,11 @@ const ProjectSummary = props => {
 
           <div className={classes.categoryContainer}>
             <div className={clsx("space-between")}>
-              <span className={classes.categoryHeader}>
-                PROJECT SPECIFICATIONS
-              </span>
+              <span className={classes.categoryHeader}>PROJECT DETAILS</span>
             </div>
-            <div className={classes.landUsesContainer}>{landUses}</div>
             <div className={classes.measuresContainer}>
+              {renderLevel}
+              {landUses}
               {rules && rules.length > 0
                 ? specificationRules.map(rule => {
                     if (typeof rule.value == "boolean") {
@@ -549,6 +553,7 @@ const ProjectSummary = props => {
                   </div>
                 </div>
               ) : null}
+              {renderParkingRatio}
             </div>
           </div>
         </>
