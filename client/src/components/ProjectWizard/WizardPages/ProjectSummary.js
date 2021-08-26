@@ -137,6 +137,11 @@ const useStyles = createUseStyles({
     textAlign: "center",
     color: "#748927"
   },
+  resultsFailure: {
+    width: "100%",
+    textAlign: "center",
+    color: "#E46247"
+  },
   landUsesContainer: {
     borderTop: "1px solid #E7EBF0",
     marginTop: "3px",
@@ -424,9 +429,16 @@ const ProjectSummary = props => {
               Math.round(targetPoints.value) ? (
                 <span className={classes.resultsSuccess}>
                   <FontAwesomeIcon icon={faCheckCircle} color="#748927" />{" "}
-                  &nbsp;Your earned points successfully meet the target points
+                  &nbsp;You have successfully earned the target points. Please,
+                  print and submit
                 </span>
-              ) : null}
+              ) : (
+                <span className={classes.resultsFailure}>
+                  <FontAwesomeIcon icon={faCheckCircle} color="#E46247" />{" "}
+                  &nbsp;You have not reached the target points. Please, go back
+                  and review your strategies
+                </span>
+              )}
             </div>
           </div>
 
