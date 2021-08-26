@@ -5,6 +5,7 @@ import InfoBox from "../InfoBox";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import useLocalStorage from "../../useLocalStorage";
 import { createUseStyles } from "react-jss";
+import ResetButtons from "./ResetButtons";
 
 const useStyles = createUseStyles({
   pkgSelectContainer: {
@@ -20,14 +21,9 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     marginLeft: "2em"
   },
-  unSelectButton: {
-    marginLeft: "auto",
-    marginRight: "1em",
+  alignRight: {
     gridColumn: "h-end",
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
+    justifyContent: "flex-end"
   }
 });
 function ProjectMeasure(props) {
@@ -38,6 +34,7 @@ function ProjectMeasure(props) {
     onCommentChange,
     onPkgSelect,
     uncheckAll,
+    resetProject,
     initializeStrategies,
     allowResidentialPackage,
     allowEmploymentPackage,
@@ -145,9 +142,11 @@ function ProjectMeasure(props) {
           ) : null}
         </div>
 
-        <button className={classes.unSelectButton} onClick={uncheckAll}>
-          Reset All Strategies
-        </button>
+        <ResetButtons
+          className={classes.alignRight}
+          uncheckAll={uncheckAll}
+          resetProject={resetProject}
+        />
       </div>
       <RuleStrategyPanels
         projectLevel={projectLevel}
@@ -172,6 +171,7 @@ ProjectMeasure.propTypes = {
   onCommentChange: PropTypes.func.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
+  resetProject: PropTypes.func.isRequired,
   initializeStrategies: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowEmploymentPackage: PropTypes.bool.isRequired,
