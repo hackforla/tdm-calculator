@@ -160,10 +160,6 @@ const useStyles = createUseStyles({
     fontSize: "24px",
     color: "#E46247"
   },
-  landUsesContainer: {
-    marginTop: "3px",
-    paddingTop: "16px"
-  },
   measuresContainer: {
     paddingTop: "10px"
   },
