@@ -306,6 +306,34 @@ const ProjectSummary = props => {
     </div>
   ) : null;
 
+  const renderBaselineParking = parkingRequired ? (
+    <div className={classes.rule}>
+      <div className={clsx(classes.rule, classes.bold)}>
+        {parkingRequired.name}
+      </div>
+      <div className={clsx(classes.pointsContainer)}>
+        <div className={clsx(classes.value)}>
+          {numberWithCommas(Math.round(parkingRequired.value * 100) / 100)}
+        </div>
+        <div className={clsx(classes.calcUnitsSpcs)}>spaces</div>
+      </div>
+    </div>
+  ) : null;
+
+  const renderParkingProvided = parkingProvided ? (
+    <div className={classes.rule}>
+      <div className={clsx(classes.rule, classes.bold)}>
+        {parkingProvided.name}
+      </div>
+      <div className={classes.pointsContainer}>
+        <div className={clsx(classes.value)}>
+          {numberWithCommas(Math.round(parkingProvided.value * 100) / 100)}
+        </div>
+        <div className={clsx(classes.calcUnitsSpcs)}>spaces</div>
+      </div>
+    </div>
+  ) : null;
+
   const renderParkingRatio = parkingRatio ? (
     <div className={clsx("space-between", classes.rule)}>
       <div
@@ -554,38 +582,8 @@ const ProjectSummary = props => {
                     );
                   })
                 : null}
-              <div className={classes.measuresContainer}>
-                {parkingRequired ? (
-                  <div className={classes.rule}>
-                    <div className={clsx(classes.rule, classes.bold)}>
-                      {parkingRequired.name}
-                    </div>
-                    <div className={clsx(classes.pointsContainer)}>
-                      <div className={clsx(classes.value)}>
-                        {numberWithCommas(
-                          Math.round(parkingRequired.value * 100) / 100
-                        )}
-                      </div>
-                      <div className={clsx(classes.calcUnitsSpcs)}>spaces</div>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-              {parkingProvided ? (
-                <div className={classes.rule}>
-                  <div className={clsx(classes.rule, classes.bold)}>
-                    {parkingProvided.name}
-                  </div>
-                  <div className={classes.pointsContainer}>
-                    <div className={clsx(classes.value)}>
-                      {numberWithCommas(
-                        Math.round(parkingProvided.value * 100) / 100
-                      )}
-                    </div>
-                    <div className={clsx(classes.calcUnitsSpcs)}>spaces</div>
-                  </div>
-                </div>
-              ) : null}
+              {renderBaselineParking}
+              {renderParkingProvided}
               {renderParkingRatio}
             </div>
           </div>
