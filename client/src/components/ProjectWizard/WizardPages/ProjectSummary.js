@@ -286,6 +286,7 @@ const ProjectSummary = props => {
     !parkingProvided;
 
   const targetPointsReached =
+    earnedPoints &&
     Math.round(earnedPoints.value) >= Math.round(targetPoints.value);
 
   const renderLevel = level ? (
