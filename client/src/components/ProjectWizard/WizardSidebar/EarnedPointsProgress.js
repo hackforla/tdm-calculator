@@ -53,7 +53,7 @@ const useStyles = createUseStyles({
     fontFamily: "Oswald",
     fontSize: "22px",
     fontWeight: "700",
-    color: ({ theme }) => theme.colorDefault,
+    color: ({ theme }) => theme.colorLADOT,
     justifySelf: "center",
     display: "flex",
     flexDirection: "column",
