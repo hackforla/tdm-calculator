@@ -35,6 +35,7 @@ const WizardFooter = ({
   pageNumber,
   setDisabledForNextNavButton,
   setDisabledSaveButton,
+  setDisplaySaveButton,
   onSave,
   dateModified
 }) => {
@@ -72,6 +73,7 @@ const WizardFooter = ({
             <SaveButton
               id="saveButton"
               isDisabled={setDisabledSaveButton()}
+              isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
             />
           </>
@@ -97,6 +99,7 @@ WizardFooter.propTypes = {
   pageNumber: PropTypes.any,
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
+  setDisplaySaveButton: PropTypes.any,
   onSave: PropTypes.any,
   dateModified: PropTypes.any
 };
