@@ -1,15 +1,15 @@
-import '@testing-library/cypress/add-commands';
+import "@testing-library/cypress/add-commands";
 
 /// <reference types="cypress"/>
 
-describe('Save Button', () => {
+describe("Save Button", () => {
   const postNewProject = () => {
     return cy.request({
-      method: 'POST',
-      url: 'http://localhost:5000/api/projects',
+      method: "POST",
+      url: "http://localhost:5000/api/projects",
       body: {
-        name: 'Some Project Hotel',
-        address: '12425 Hotel Bl.',
+        name: "Some Project Hotel",
+        address: "12425 Hotel Bl.",
         formInputs:
           '{"PROJECT_NAME":"Some Project Hotel",\
           "PROJECT_ADDRESS":"12425 Victory Bl.",\
@@ -22,81 +22,146 @@ describe('Save Button', () => {
           "STRATEGY_BIKE_4":true,\
           "STRATEGY_INFO_2":true}',
         calculationId: 1,
-        dateCreated: '2020-11-12T00:38:42.763Z',
-        dateModified: '2020-11-12T00:39:04.436Z',
-        description: '80-room four-story hotel.',
+        dateCreated: "2020-11-12T00:38:42.763Z",
+        dateModified: "2020-11-12T00:39:04.436Z",
+        description: "80-room four-story hotel.",
         loginId: 37, // ladot
-        firstName: 'LA',
-        lastName: 'DOT',
+        firstName: "LA",
+        lastName: "DOT",
       },
     });
   };
 
   beforeEach(() => {
-    window.localStorage.setItem('termsAndConditions', 'Accepted');
-    cy.loginAs('ladot').then(cy.resetProjects);
+    window.localStorage.setItem("termsAndConditions", "Accepted");
   });
 
-  it('shows up disabled on every page when there are not changes', () => {
+  it("shows up disabled on every page when there are not changes", () => {
+    cy.loginAs("ladot").then(cy.resetProjects);
     postNewProject().then((res) => {
-      cy.visit('/projects');
-      cy.findByText('Some Project Hotel').should('be.visible').click();
+      cy.visit("/projects");
+      cy.findByText("Some Project Hotel").should("be.visible").click();
 
-      cy.findByRole('button', { name: 'Save Project' }).should('be.disabled');
+      cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
 
-      cy.findByTestId('rightNavArrow').click();
-      cy.findByRole('button', { name: 'Save Project' }).should('be.disabled');
+      cy.findByTestId("rightNavArrow").click();
+      cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
 
-      cy.findByTestId('rightNavArrow').click();
-      cy.findByRole('button', { name: 'Save Project' }).should('be.disabled');
+      cy.findByTestId("rightNavArrow").click();
+      cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
 
-      cy.findByTestId('rightNavArrow').click();
-      cy.findByRole('button', { name: 'Save Project' }).should('be.disabled');
+      cy.findByTestId("rightNavArrow").click();
+      cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
 
-      cy.findByTestId('rightNavArrow').click();
-      cy.findByRole('button', { name: 'Save Project' }).should('be.disabled');
+      cy.findByTestId("rightNavArrow").click();
+      cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
 
-      cy.findByTestId('rightNavArrow').click();
-      cy.findByRole('button', { name: 'Save Project' }).should('be.disabled');
+      cy.findByTestId("rightNavArrow").click();
+      cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
     });
   });
 
-  it('shows up not disabled on every page when there are changes', () => {
+  it("shows up enabled on every page when there are changes", () => {
+    cy.loginAs("ladot").then(cy.resetProjects);
     postNewProject().then((res) => {
-      cy.visit('/projects');
-      cy.findByText('Some Project Hotel').should('be.visible').click();
+      cy.visit("/projects");
+      cy.findByText("Some Project Hotel").should("be.visible").click();
 
-      cy.findByRole('textbox', { name: 'Project Description' }).type(
-        'Description of project'
+      cy.findByRole("textbox", { name: "Project Description" }).type(
+        "Description of project"
       );
-      cy.findByRole('button', { name: 'Save Project' }).should(
-        'not.be.disabled'
-      );
-
-      cy.findByTestId('rightNavArrow').click();
-      cy.findByRole('button', { name: 'Save Project' }).should(
-        'not.be.disabled'
+      cy.findByRole("button", { name: "Save Project" }).should(
+        "not.be.disabled"
       );
 
-      cy.findByTestId('rightNavArrow').click();
-      cy.findByRole('button', { name: 'Save Project' }).should(
-        'not.be.disabled'
+      cy.findByTestId("rightNavArrow").click();
+      cy.findByRole("button", { name: "Save Project" }).should(
+        "not.be.disabled"
       );
 
-      cy.findByTestId('rightNavArrow').click();
-      cy.findByRole('button', { name: 'Save Project' }).should(
-        'not.be.disabled'
+      cy.findByTestId("rightNavArrow").click();
+      cy.findByRole("button", { name: "Save Project" }).should(
+        "not.be.disabled"
       );
 
-      cy.findByTestId('rightNavArrow').click();
-      cy.findByRole('button', { name: 'Save Project' }).should(
-        'not.be.disabled'
+      cy.findByTestId("rightNavArrow").click();
+      cy.findByRole("button", { name: "Save Project" }).should(
+        "not.be.disabled"
       );
 
-      cy.findByTestId('rightNavArrow').click();
-      cy.findByRole('button', { name: 'Save Project' }).should(
-        'not.be.disabled'
+      cy.findByTestId("rightNavArrow").click();
+      cy.findByRole("button", { name: "Save Project" }).should(
+        "not.be.disabled"
+      );
+
+      cy.findByTestId("rightNavArrow").click();
+      cy.findByRole("button", { name: "Save Project" }).should(
+        "not.be.disabled"
       );
     });
+  });
+
+  it("hides save button for unauthenticated users", () => {
+    goToStart();
+    fillProjectInfo(projectInfo);
+    cy.findByRole("button", { name: "Save Project" }).should("not.exist");
+    goToNextPage(); // Go to Page 2
+    fillProjectSpecifications(specs);
+    cy.findByRole("button", { name: "Save Project" }).should("not.exist");
+    goToNextPage(); // Go to Page 3
+    cy.get("#PARK_SPACES").type(calculate.parkingProvided);
+    cy.findByRole("button", { name: "Save Project" }).should("not.exist");
+    goToNextPage(); // Go to Page 4
+    cy.findByRole("button", { name: "Save Project" }).should("not.exist");
+    goToNextPage(); // Go to Page 5
+    cy.findByRole("button", { name: "Save Project" }).should("not.exist");
   });
 });
+
+const projectInfo = {
+  name: "Residental Flow",
+  address: "123 S. Somewhere Ave",
+  ain: "1234567890",
+};
+
+const specs = {
+  habitableLessThan3: "10",
+  habitable3: "10",
+  habitableGreaterThan3: "10",
+  condoUnits: "20",
+  condoUnitsRequiredParking: "40",
+  expectedLevelBefore: "2",
+  expectedTargetPointsBefore: "20",
+  expectedLevelAfterAffordableHousing: "1",
+  expectedTargetPointsAfterAffordableHousing: "15",
+};
+
+const calculate = {
+  parkingProvided: "115",
+};
+
+const goToStart = () => {
+  // skip Terms and Conditions dialog
+  window.localStorage.setItem("termsAndConditions", "Accepted");
+  cy.visit("/calculation");
+};
+
+const goToNextPage = () => {
+  cy.findByTestId("rightNavArrow").click();
+};
+
+const fillProjectInfo = (projectInfo) => {
+  // Project Info
+  cy.get("#PROJECT_NAME").type(projectInfo.name);
+  cy.get("#PROJECT_ADDRESS").type(projectInfo.address);
+  cy.get("#APN").type(projectInfo.ain);
+};
+
+const fillProjectSpecifications = (specs) => {
+  // Specifications Page - Residental
+  cy.get("#UNITS_HABIT_LT3").type(specs.habitableLessThan3);
+  cy.get("#UNITS_HABIT_3").type(specs.habitable3);
+  cy.get("#UNITS_HABIT_GT3").type(specs.habitableGreaterThan3);
+  cy.get("#UNITS_CONDO").type(specs.condoUnits);
+  cy.get("#PARK_CONDO").type(specs.condoUnitsRequiredParking);
+};

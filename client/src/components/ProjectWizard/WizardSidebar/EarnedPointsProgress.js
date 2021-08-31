@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
@@ -14,11 +14,66 @@ const DIAL_RADIUS = 95;
 const STROKE_WIDTH = 15;
 
 const useStyles = createUseStyles({
+  container: {
+    flexBasis: "25%",
+    flexGrow: 0,
+    margin: 0,
+    padding: "0.5em",
+    backgroundColor: "transparent",
+    color: ({ theme }) => theme.color$colorBackground,
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gridTemplateRows: "1fr",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  earnedPointsValue: {
+    gridColumn: 1,
+    gridRow: 1,
+    zIndex: 4,
+    fontFamily: "Oswald",
+    fontSize: "48px",
+    fontWeight: "700",
+    color: ({ theme }) => theme.colorLADOT,
+    justifySelf: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    letter: "1%"
+  },
+  earnedPointsLabel: {
+    fontSize: "16px",
+    fontWeight: "700",
+    lineHeight: "24px"
+  },
+  targetPointsValue: {
+    gridColumn: 1,
+    gridRow: 1,
+    zIndex: 4,
+    fontFamily: "Oswald",
+    fontSize: "22px",
+    fontWeight: "700",
+    color: ({ theme }) => theme.colorDefault,
+    justifySelf: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginLeft: "99px",
+    marginTop: "90px"
+  },
+  targetPointsLabel: { fontSize: "14px" },
   rotate: {
     transform: "rotate(75deg)"
   },
   progress: {
     transition: "stroke-dashoffset 18s"
+  },
+  tooltipIcon: {
+    gridRow: 1,
+    gridColumn: 1,
+    zIndex: 10,
+    marginLeft: 170,
+    marginTop: 45
   },
   tooltip: {
     color: "rgb(30, 36, 63) !important",
@@ -36,6 +91,13 @@ const useStyles = createUseStyles({
       opacity: "1 !important"
     }
   },
+  dial: {
+    width: DIAL_RADIUS * 2,
+    height: DIAL_RADIUS * 2,
+    gridColumn: "1",
+    gridRow: "1",
+    overflow: "visible"
+  },
   lowOpacity: {
     opacity: 0.4
   },
@@ -47,7 +109,6 @@ const useStyles = createUseStyles({
 const EarnedPointsProgress = props => {
   const theme = useTheme();
   const classes = useStyles({ theme });
-  const controlRef = useRef(null);
 
   const { rulesConfig } = props;
   const radius = DIAL_RADIUS;
@@ -65,77 +126,25 @@ const EarnedPointsProgress = props => {
 
   return (
     <div
-      ref={controlRef}
       className={
         target > 0
-          ? "tdm-calculation-progress"
-          : clsx("tdm-calculation-progress", classes.lowOpacity)
+          ? classes.container
+          : clsx(classes.container, classes.lowOpacity)
       }
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr",
-        gridTemplateRows: "1fr",
-        justifyContent: "center"
-      }}
     >
-      <div
-        style={{
-          gridColumn: 1,
-          gridRow: 1,
-          zIndex: 4,
-          fontFamily: "Oswald",
-          fontSize: "48px",
-          fontWeight: "700",
-          color: "black",
-          justifySelf: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          letter: "1%"
-        }}
-      >
-        <div id={rulesConfig.earnedPointsRule.code}>{earned}</div>
-        <div
-          style={{
-            fontSize: "16px",
-            fontWeight: "700",
-            lineHeight: "24px"
-          }}
-        >
-          EARNED
-        </div>
+      <div className={classes.earnedPointsValue}>
+        <div>{earned}</div>
+        <div className={classes.earnedPointsLabel}>EARNED</div>
       </div>
-      <div
-        style={{
-          gridColumn: 1,
-          gridRow: 1,
-          zIndex: 4,
-          fontFamily: "Oswald",
-          fontSize: "22px",
-          fontWeight: "700",
-          color: theme.colorDefault,
-          justifySelf: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginLeft: "99px",
-          marginTop: "90px"
-        }}
-      >
-        <div id={rulesConfig.targetPointsRule.code}>{target}</div>
-        <div
-          style={{
-            fontSize: "14px"
-          }}
-        >
-          TARGET
-        </div>
+      <div className={classes.targetPointsValue}>
+        <div>{target}</div>
+        <div className={classes.targetPointsLabel}>TARGET</div>
       </div>
       <div
         data-tip={
-          "<p>" +
+          "<p>Earned Points: " +
           rulesConfig.earnedPointsRule.description +
-          "</p><p>" +
+          "</p><p>Target Points: " +
           rulesConfig.targetPointsRule.description +
           "</p>"
         }
@@ -146,26 +155,11 @@ const EarnedPointsProgress = props => {
             ? classes.tooltip
             : clsx(classes.tooltip, classes.noDisplay)
         }
-        style={{
-          gridRow: 1,
-          gridColumn: 1,
-          zIndex: 10,
-          marginLeft: 170,
-          marginTop: 45
-        }}
+        className={classes.tooltipIcon}
       >
         <ToolTipIcon />
       </div>
-      <svg
-        className={classes.rotate}
-        style={{
-          width: radius * 2,
-          height: radius * 2,
-          gridColumn: "1",
-          gridRow: "1",
-          overflow: "visible"
-        }}
-      >
+      <svg className={clsx(classes.rotate, classes.dial)}>
         <circle
           stroke="#CFCFCF"
           fill={theme.colorDefault}

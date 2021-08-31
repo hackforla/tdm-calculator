@@ -105,13 +105,22 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisabledSaveButton = () => {
+    const loggedIn = !!account.id;
+    const notASavedProject = !projectId;
+    const projectBelongsToUser = account.id === loginId;
     const setDisabled = !(
-      account.id &&
-      (!projectId || account.id === loginId) &&
+      loggedIn &&
+      (notASavedProject || projectBelongsToUser) &&
       formIsDirty &&
       projectIsValid()
     );
     return setDisabled;
+  };
+
+  const setDisplaySaveButton = () => {
+    const loggedIn = !!account.id;
+    const setDisplayed = loggedIn;
+    return setDisplayed;
   };
 
   const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
@@ -209,6 +218,7 @@ const TdmCalculationWizard = props => {
           pageNumber={pageNumber}
           setDisabledForNextNavButton={setDisabledForNextNavButton}
           setDisabledSaveButton={setDisabledSaveButton}
+          setDisplaySaveButton={setDisplaySaveButton}
           onSave={onSave}
         />
       </ContentContainer>
