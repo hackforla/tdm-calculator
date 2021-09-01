@@ -1,11 +1,13 @@
 import React /*, { useEffect, useState } */ from "react";
 import PropTypes from "prop-types";
-// import SidebarPoints from "./SidebarPoints";
 import SidebarProjectLevel from "./SidebarProjectLevel";
 // import EarnedPointsMetContainer from "./EarnedPointsMetContainer";
+import SidebarPoints from "./SidebarPoints";
 import EarnedPointsProgress from "./EarnedPointsProgress";
 import SidebarCart from "./SidebarCart";
 import ToolTip from "../../ToolTip/ToolTip";
+
+const USE_PROGRESS_DIAL = false;
 
 const SidebarPointsPanel = props => {
   const { rules, strategyRules } = props;
@@ -38,27 +40,32 @@ const SidebarPointsPanel = props => {
           rules={rules}
         />
       </div>
-      {/* <hr className="tdm-divider" /> */}
-      {/* <div className="tdm-results-panel">
-        <SidebarPoints
-          key={targetPointsRule.id}
-          rule={targetPointsRule}
-          rulesConfig={rulesConfig}
-          tipText={targetPointsRuleDescription}
-        />
-        <SidebarPoints
-          key={earnedPointsRule.id}
-          rule={earnedPointsRule}
-          rulesConfig={rulesConfig}
-          tipText={earnedPointsRule.desccription}
-        />
-      </div> */}
-      <div className="tdm-calculation-progress">
-        <EarnedPointsProgress
-          key={targetPointsRule.id}
-          rulesConfig={rulesConfig}
-        />
-      </div>
+      {USE_PROGRESS_DIAL ? (
+        <div className="tdm-calculation-progress">
+          <EarnedPointsProgress
+            key={targetPointsRule.id}
+            rulesConfig={rulesConfig}
+          />
+        </div>
+      ) : (
+        <>
+          <hr className="tdm-divider" />
+          <div className="tdm-results-panel">
+            <SidebarPoints
+              key={targetPointsRule.id}
+              rule={targetPointsRule}
+              rulesConfig={rulesConfig}
+              tipText={targetPointsRule.description}
+            />
+            <SidebarPoints
+              key={earnedPointsRule.id}
+              rule={earnedPointsRule}
+              rulesConfig={rulesConfig}
+              tipText={earnedPointsRule.desccription}
+            />
+          </div>
+        </>
+      )}
 
       <div
         style={

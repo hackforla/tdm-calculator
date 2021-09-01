@@ -7,17 +7,17 @@ import ToolTip from "../../ToolTip/ToolTip";
 
 const useStyles = createUseStyles({
   ruleTargetGreen: {
-    fontSize: "100px",
+    fontSize: "80px",
     fontFamily: "Oswald, Calibri",
     fontWeight: "bold",
-    marginBottom: 6,
+    marginBottom: 2,
     color: ({ theme }) => theme.colorPrimary
   },
   ruleEarnedOrange: {
-    fontSize: "100px",
+    fontSize: "80px",
     fontFamily: "Oswald, Calibri",
     fontWeight: "bold",
-    marginBottom: 6,
+    marginBottom: 2,
     color: ({ theme }) => theme.colorEarnedPoints
   },
   ruleName: {
@@ -61,8 +61,8 @@ const SidebarPoints = props => {
     rule.value && rule.value !== "0" ? "" : classes.lowOpacity;
   const noToolTip = rule.value === 0 ? classes.noDisplay : "";
 
-  const target = rulesConfig.target.value;
-  const earned = rulesConfig.earned.value;
+  const target = rulesConfig.targetPointsRule.value;
+  const earned = rulesConfig.earnedPointsRule.value;
 
   const earnedPointsColor =
     (rule.name === "Earned Points" && earned === 0) ||
@@ -93,7 +93,6 @@ const SidebarPoints = props => {
           <ToolTipIcon />
         </span>
       </h3>
-      {/* TODO: figure out how it's getting description without id*/}
       <ToolTip />
     </div>
   );
