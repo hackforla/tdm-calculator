@@ -112,7 +112,7 @@ const useStyles = createUseStyles({
   },
   projectInfoDetailsSubContainer: {
     display: "flex",
-    alignItems: "center",
+    alignItems: "baseline",
     maxHeight: "20px",
     width: "50%"
   },
