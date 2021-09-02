@@ -192,8 +192,12 @@ const useStyles = createUseStyles({
     display: "flex",
     minWidth: "180px",
     maxWidth: "100%",
-    marginRight: "110px",
-    marginLeft: "80px"
+    marginRight: "100px",
+    marginLeft: "70px",
+    border: "1px 	#BEBEBE solid",
+    borderRadius: "5px",
+    marginTop: "8px",
+    padding: "12px"
   }
 });
 
@@ -469,16 +473,19 @@ const ProjectSummary = props => {
                     </div>
                   ))
                 : null}
-              {userDefinedStrategy && userDefinedStrategy.comment.length > 0 ? (
+              {userDefinedStrategy.calcValue &&
+              userDefinedStrategy.comment.length > 0 ? (
                 <div>
-                  <div className={classes.ruleName}></div>
+                  <div className={classes.ruleName}>
+                    Details about User Defined Strategy
+                  </div>
                   <div
                     className={clsx(
                       "justify-content-center",
                       classes.summaryContainer
                     )}
                   >
-                    Explanation: {userDefinedStrategy.comment}
+                    {userDefinedStrategy.comment}
                   </div>
                 </div>
               ) : null}
