@@ -193,7 +193,7 @@ const useStyles = createUseStyles({
     minWidth: "180px",
     maxWidth: "100%",
     marginRight: "110px",
-    marginLeft: "110px"
+    marginLeft: "80px"
   }
 });
 
