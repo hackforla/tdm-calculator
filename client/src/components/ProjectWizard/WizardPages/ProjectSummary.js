@@ -34,7 +34,7 @@ const useStyles = createUseStyles({
     fontWeight: "bold"
   },
   Success: {
-    color: "#748927"
+    color: "#A7C539"
   },
   Failure: {
     color: "#E46247"
@@ -94,10 +94,12 @@ const useStyles = createUseStyles({
     minHeight: "100px"
   },
   textProjectInfoHeader: {
+    color: "#0F2940",
     fontSize: "24px",
     fontFamily: "Calibri Bold"
   },
   textProjectInfoHeaderAddress: {
+    color: "#515151",
     fontSize: "24px",
     fontFamily: "Calibri"
   },
@@ -121,11 +123,12 @@ const useStyles = createUseStyles({
     fontSize: "12px",
     textTransform: "uppercase",
     textAlign: "right",
-    color: "rgba(15, 41, 64, 0.5)",
+    color: "rgba(6, 16, 25, 0.5)",
     minWidth: "100px",
     marginRight: "17px"
   },
   projectInfoDetails: {
+    color: "#0F2940",
     fontFamily: "Calibri Bold",
     fontSize: "16px"
   },
@@ -148,17 +151,10 @@ const useStyles = createUseStyles({
     flexWrap: "wrap",
     maxWidth: "100%"
   },
-  resultsSuccess: {
+  results: {
     width: "100%",
     textAlign: "center",
-    fontSize: "24px",
-    color: "#748927"
-  },
-  resultsFailure: {
-    width: "100%",
-    textAlign: "center",
-    fontSize: "24px",
-    color: "#E46247"
+    fontSize: "24px"
   },
   measuresContainer: {
     paddingTop: "10px"
@@ -167,7 +163,7 @@ const useStyles = createUseStyles({
     fontFamily: "Oswald",
     fontWeight: "500",
     fontSize: "12px",
-    color: "rgba(15, 41, 64, 0.5)",
+    color: "rgba(6, 16, 25, 0.5)",
     paddingTop: "5px",
     marginRight: "11px"
   },
@@ -384,13 +380,13 @@ const ProjectSummary = props => {
   ) : null;
 
   const renderTargetPointsReached = targetPointsReached ? (
-    <span className={classes.resultsSuccess}>
+    <span className={clsx(classes.results, classes.Success)}>
       <FontAwesomeIcon icon={faCheckCircle} className={classes.Success} />{" "}
       &nbsp;You have successfully earned the target points. Please, print and
       submit
     </span>
   ) : (
-    <span className={classes.resultsFailure}>
+    <span className={clsx(classes.results, classes.Failure)}>
       <FontAwesomeIcon
         icon={faExclamationTriangle}
         className={classes.Failure}
