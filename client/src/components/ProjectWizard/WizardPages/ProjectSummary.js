@@ -33,10 +33,10 @@ const useStyles = createUseStyles({
     marginTop: "33px",
     fontWeight: "bold"
   },
-  Success: {
+  success: {
     color: "#A7C539"
   },
-  Failure: {
+  failure: {
     color: "#E46247"
   },
   measurePercent: {
@@ -404,8 +404,8 @@ const ProjectSummary = props => {
   );
 
   const earnedPointsValueStyle = targetPointsReached
-    ? clsx(classes.measureValue, classes.Success)
-    : clsx(classes.measureValue, classes.Failure);
+    ? clsx(classes.measureValue, classes.success)
+    : clsx(classes.measureValue, classes.failure);
 
   const renderEarnedPoints = earnedPoints ? (
     <div className={clsx("border-gray", classes.measure)}>
