@@ -151,7 +151,10 @@ const useStyles = createUseStyles({
     flexWrap: "wrap",
     maxWidth: "100%"
   },
-  results: {
+  targetPointsReachedContainer: {
+    display: "flex"
+  },
+  targetPointsReached: {
     width: "100%",
     textAlign: "center",
     fontSize: "24px"
@@ -379,21 +382,25 @@ const ProjectSummary = props => {
     </div>
   ) : null;
 
-  const renderTargetPointsReached = targetPointsReached ? (
-    <span className={clsx(classes.results, classes.Success)}>
-      <FontAwesomeIcon icon={faCheckCircle} className={classes.Success} />{" "}
-      &nbsp;You have successfully earned the target points. Please, print and
-      submit
-    </span>
-  ) : (
-    <span className={clsx(classes.results, classes.Failure)}>
-      <FontAwesomeIcon
-        icon={faExclamationTriangle}
-        className={classes.Failure}
-      />{" "}
-      &nbsp;You have not reached the target points. Please, go back and review
-      your strategies
-    </span>
+  const renderTargetPointsReached = (
+    <div className={classes.targetPointsReachedContainer}>
+      {targetPointsReached ? (
+        <span className={clsx(classes.targetPointsReached, classes.success)}>
+          <FontAwesomeIcon icon={faCheckCircle} className={classes.success} />{" "}
+          &nbsp;You have successfully earned the target points. Please, print
+          and submit
+        </span>
+      ) : (
+        <span className={clsx(classes.targetPointsReached, classes.failure)}>
+          <FontAwesomeIcon
+            icon={faExclamationTriangle}
+            className={classes.failure}
+          />{" "}
+          &nbsp;You have not reached the target points. Please, go back and
+          review your strategies
+        </span>
+      )}
+    </div>
   );
 
   const earnedPointsValueStyle = targetPointsReached
