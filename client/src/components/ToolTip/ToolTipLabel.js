@@ -76,6 +76,9 @@ const ToolTipLabel = ({
       data-html="true"
     >
       {children}
+      {tooltipContent && code && !code.startsWith("STRATEGY") ? (
+        <ToolTipIcon />
+      ) : null}
     </label>
   );
 };
