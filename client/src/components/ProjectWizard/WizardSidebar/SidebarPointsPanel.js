@@ -7,7 +7,7 @@ import EarnedPointsProgress from "./EarnedPointsProgress";
 import SidebarCart from "./SidebarCart";
 import ToolTip from "../../ToolTip/ToolTip";
 
-const USE_PROGRESS_DIAL = false;
+const USE_PROGRESS_DIAL = true;
 
 const SidebarPointsPanel = props => {
   const { rules, strategyRules } = props;
