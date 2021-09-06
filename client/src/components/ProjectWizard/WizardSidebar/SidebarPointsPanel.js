@@ -45,6 +45,7 @@ const SidebarPointsPanel = props => {
           <EarnedPointsProgress
             key={targetPointsRule.id}
             rulesConfig={rulesConfig}
+            style={{ flexBasis: "25%", flexGrow: 0 }}
           />
         </div>
       ) : (
