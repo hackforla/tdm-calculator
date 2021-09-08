@@ -281,7 +281,6 @@ const ProjectSummary = props => {
         rule.category === "input" &&
         rule.used &&
         rule.display &&
-        rule.calculationPanelId !== 5 &&
         rule.calculationPanelId !== 31 &&
         (!!(rule.value && rule.value !== "0") ||
           !!(rule.calcValue && rule.calcValue !== "0"))
