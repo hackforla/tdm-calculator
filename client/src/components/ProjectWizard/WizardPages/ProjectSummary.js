@@ -301,6 +301,15 @@ const ProjectSummary = props => {
     earnedPoints &&
     Math.round(earnedPoints.value) >= Math.round(targetPoints.value);
 
+  const renderProjectInfo = (displayName, rule) => (
+    <div className={classes.projectInfoDetailsSubContainer}>
+      <span className={classes.projectInfoCategory}>{displayName}</span>
+      {rule && rule.value ? (
+        <span className={classes.projectInfoDetails}>{rule.value}</span>
+      ) : null}
+    </div>
+  );
+
   const renderLevel = level ? (
     <div className={clsx(classes.rule)}>
       <div
@@ -399,40 +408,10 @@ const ProjectSummary = props => {
           </span>
         ) : null}
         <div className={classes.projectInfoDetailsContainer}>
-          <div className={classes.projectInfoDetailsSubContainer}>
-            <span className={classes.projectInfoCategory}>
-              BUILDING PERMIT #
-            </span>
-            {buildingPermit && buildingPermit.value ? (
-              <span className={classes.projectInfoDetails}>
-                {buildingPermit.value}
-              </span>
-            ) : null}
-          </div>
-          <div className={classes.projectInfoDetailsSubContainer}>
-            <span className={classes.projectInfoCategory}>PARCEL # (AIN)</span>
-            {parcelNumber && parcelNumber.value ? (
-              <span className={classes.projectInfoDetails}>
-                {parcelNumber.value}
-              </span>
-            ) : null}
-          </div>
-          <div className={classes.projectInfoDetailsSubContainer}>
-            <span className={classes.projectInfoCategory}>CASE #</span>
-            {caseNumber && caseNumber.value ? (
-              <span className={classes.projectInfoDetails}>
-                {caseNumber.value}
-              </span>
-            ) : null}
-          </div>
-          <div className={classes.projectInfoDetailsSubContainer}>
-            <span className={classes.projectInfoCategory}>VERSION #</span>
-            {versionNumber && versionNumber.value ? (
-              <span className={classes.projectInfoDetails}>
-                {versionNumber.value}
-              </span>
-            ) : null}
-          </div>
+          {renderProjectInfo(buildingPermit.name, buildingPermit)}
+          {renderProjectInfo("PARCEL # (AIN)", parcelNumber)}
+          {renderProjectInfo("CASE #", caseNumber)}
+          {renderProjectInfo("VERSION #", versionNumber)}
         </div>
       </div>
 
