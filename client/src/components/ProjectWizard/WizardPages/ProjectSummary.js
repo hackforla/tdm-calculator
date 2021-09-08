@@ -342,10 +342,12 @@ const ProjectSummary = props => {
     ? clsx(classes.measureValue, classes.success)
     : clsx(classes.measureValue, classes.failure);
 
-  const renderResult = (rule, textStyle) =>
+  const renderResult = (rule, textStyle, valueTestId) =>
     rule ? (
       <div className={clsx("border-gray", classes.measure)}>
-        <div className={textStyle}>{Math.round(rule.value)}</div>
+        <div className={textStyle} data-testid={valueTestId}>
+          {Math.round(rule.value)}
+        </div>
         <div className={clsx(classes.alignCenter, classes.label)}>
           {rule.name}
         </div>
@@ -443,8 +445,16 @@ const ProjectSummary = props => {
               <span className={classes.categoryHeader}>RESULTS</span>
             </div>
             <div className={clsx("space-between", classes.resultsContainer)}>
-              {renderResult(earnedPoints, earnedPointsValueStyle)}
-              {renderResult(targetPoints, classes.measureValue)}
+              {renderResult(
+                earnedPoints,
+                earnedPointsValueStyle,
+                "summary-earned-points-value"
+              )}
+              {renderResult(
+                targetPoints,
+                classes.measureValue,
+                "summary-target-points-value"
+              )}
             </div>
             {renderTargetPointsReached}
           </div>
