@@ -384,6 +384,31 @@ const ProjectSummary = props => {
     </div>
   );
 
+  const renderMeasureSelected = rule => (
+    <div key={rule.id} className={classes.rule}>
+      <div className={classes.ruleName}>{rule.name}</div>
+      <div className={clsx("justify-content-center", classes.detailsContainer)}>
+        <div className={classes.ruleText}>
+          {rule.dataType === "boolean"
+            ? null
+            : rule.dataType === "choice"
+            ? rule.choices.find(
+                choice => Number(choice.id) === Number(rule.value)
+              )
+              ? rule.choices.find(
+                  choice => Number(choice.id) === Number(rule.value)
+                ).name
+              : rule.value
+            : rule.value}
+        </div>
+      </div>
+      <div className={classes.pointsContainer}>
+        <div className={classes.value}>{roundToTwo(rule.calcValue)}</div>
+        <div className={classes.calcUnitsPts}>{rule.calcUnits}</div>
+      </div>
+    </div>
+  );
+
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
@@ -408,7 +433,8 @@ const ProjectSummary = props => {
           </span>
         ) : null}
         <div className={classes.projectInfoDetailsContainer}>
-          {renderProjectInfo(buildingPermit.name, buildingPermit)}
+          {buildingPermit &&
+            renderProjectInfo(buildingPermit.name, buildingPermit)}
           {renderProjectInfo("PARCEL # (AIN)", parcelNumber)}
           {renderProjectInfo("CASE #", caseNumber)}
           {renderProjectInfo("VERSION #", versionNumber)}
@@ -449,41 +475,7 @@ const ProjectSummary = props => {
             </div>
             <div className={classes.measuresContainer}>
               {rules && rules.length > 0
-                ? measureRules.map(rule => (
-                    <div key={rule.id} className={classes.rule}>
-                      <div className={classes.ruleName}>{rule.name}</div>
-                      <div
-                        className={clsx(
-                          "justify-content-center",
-                          classes.detailsContainer
-                        )}
-                      >
-                        <div className={classes.ruleText}>
-                          {rule.dataType === "boolean"
-                            ? null
-                            : rule.dataType === "choice"
-                            ? rule.choices.find(
-                                choice =>
-                                  Number(choice.id) === Number(rule.value)
-                              )
-                              ? rule.choices.find(
-                                  choice =>
-                                    Number(choice.id) === Number(rule.value)
-                                ).name
-                              : rule.value
-                            : rule.value}
-                        </div>
-                      </div>
-                      <div className={classes.pointsContainer}>
-                        <div className={classes.value}>
-                          {roundToTwo(rule.calcValue)}
-                        </div>
-                        <div className={classes.calcUnitsPts}>
-                          {rule.calcUnits}
-                        </div>
-                      </div>
-                    </div>
-                  ))
+                ? measureRules.map(rule => renderMeasureSelected(rule))
                 : null}
               {userDefinedStrategy.calcValue &&
               userDefinedStrategy.comment.length > 0 ? (
