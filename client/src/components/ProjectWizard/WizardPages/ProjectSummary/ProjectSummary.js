@@ -9,9 +9,10 @@ import {
   faExclamationTriangle
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
-import { numberWithCommas, getRule } from "../../helpers";
+import { numberWithCommas, getRule, roundToTwo } from "../../helpers";
 import ProjectInfoContainer from "./ProjectInfoContainer";
 import ProjectDetail from "./ProjectDetail";
+import MeasureSelected from "./MeasureSelected";
 
 const useStyles = createUseStyles({
   projectSummary: {
@@ -61,18 +62,6 @@ const useStyles = createUseStyles({
   },
   ruleName: {
     minWidth: "270px"
-  },
-  value: {
-    fontFamily: "Oswald",
-    fontSize: "18px",
-    fontWeight: "bold",
-    textAlign: "right"
-  },
-  calcUnitsPts: {
-    margin: "3px 45px 0 10px"
-  },
-  calcUnitsSpcs: {
-    margin: "3px 38px 0 10px"
   },
   bold: {
     fontFamily: "Calibri Bold"
@@ -138,17 +127,8 @@ const useStyles = createUseStyles({
     fontSize: "14px",
     width: "65px"
   },
-  detailsContainer: {
-    display: "flex",
-    minWidth: "180px",
-    maxWidth: "35%"
-  },
   specificationDetailsContainer: {
     minWidth: "140px",
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  pointsContainer: {
     display: "flex",
     justifyContent: "flex-end"
   },
@@ -264,10 +244,6 @@ const ProjectSummary = props => {
     </div>
   ) : null;
 
-  const roundToTwo = num => {
-    return Math.round(num * 100) / 100;
-  };
-
   const earnedPointsValueStyle = targetPointsReached
     ? clsx(classes.measureValue, classes.success)
     : clsx(classes.measureValue, classes.failure);
@@ -302,31 +278,6 @@ const ProjectSummary = props => {
           review your strategies
         </span>
       )}
-    </div>
-  );
-
-  const renderMeasureSelected = rule => (
-    <div key={rule.id} className={classes.rule}>
-      <div className={classes.ruleName}>{rule.name}</div>
-      <div className={clsx("justify-content-center", classes.detailsContainer)}>
-        <div className={classes.ruleText}>
-          {rule.dataType === "boolean"
-            ? null
-            : rule.dataType === "choice"
-            ? rule.choices.find(
-                choice => Number(choice.id) === Number(rule.value)
-              )
-              ? rule.choices.find(
-                  choice => Number(choice.id) === Number(rule.value)
-                ).name
-              : rule.value
-            : rule.value}
-        </div>
-      </div>
-      <div className={classes.pointsContainer}>
-        <div className={classes.value}>{roundToTwo(rule.calcValue)}</div>
-        <div className={classes.calcUnitsPts}>{rule.calcUnits}</div>
-      </div>
     </div>
   );
 
@@ -377,7 +328,9 @@ const ProjectSummary = props => {
             </div>
             <div className={classes.measuresContainer}>
               {rulesNotEmpty
-                ? measureRules.map(rule => renderMeasureSelected(rule))
+                ? measureRules.map(rule => (
+                    <MeasureSelected rule={rule} key={rule.id} />
+                  ))
                 : null}
               {userDefinedStrategy.calcValue &&
               userDefinedStrategy.comment.length > 0 ? (

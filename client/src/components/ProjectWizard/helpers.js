@@ -23,3 +23,7 @@ export const getRule = (rules, code) => {
   }
   return null;
 };
+
+export const roundToTwo = num => {
+  return Math.round(num * 100) / 100;
+};
