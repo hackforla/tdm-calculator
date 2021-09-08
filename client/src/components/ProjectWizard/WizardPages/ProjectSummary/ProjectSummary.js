@@ -11,6 +11,7 @@ import {
 import Loader from "react-loader";
 import { numberWithCommas, getRule } from "../../helpers";
 import ProjectInfoContainer from "./ProjectInfoContainer";
+import ProjectDetail from "./ProjectDetail";
 
 const useStyles = createUseStyles({
   projectSummary: {
@@ -267,19 +268,6 @@ const ProjectSummary = props => {
     return Math.round(num * 100) / 100;
   };
 
-  const renderProjectDetail = (rule, value, valueTestId) =>
-    rule ? (
-      <div className={classes.rule}>
-        <div className={clsx(classes.ruleName)}>{rule.name}</div>
-        <div className={clsx(classes.pointsContainer)}>
-          <div className={classes.measureDetails} data-testid={valueTestId}>
-            {value}
-          </div>
-          <div className={clsx(classes.measureUnits)}>{rule.units}</div>
-        </div>
-      </div>
-    ) : null;
-
   const earnedPointsValueStyle = targetPointsReached
     ? clsx(classes.measureValue, classes.success)
     : clsx(classes.measureValue, classes.failure);
@@ -442,21 +430,21 @@ const ProjectSummary = props => {
                     );
                   })
                 : null}
-              {renderProjectDetail(
-                parkingRequired,
-                numberWithCommas(roundToTwo(parkingRequired.value)),
-                null
-              )}
-              {renderProjectDetail(
-                parkingProvided,
-                numberWithCommas(roundToTwo(parkingProvided.value)),
-                null
-              )}
-              {renderProjectDetail(
-                parkingRatio,
-                Math.floor(parkingRatio.value),
-                "summary-parking-ratio-value"
-              )}
+              <ProjectDetail
+                rule={parkingRequired}
+                value={numberWithCommas(roundToTwo(parkingRequired.value))}
+                valueTestId={""}
+              />
+              <ProjectDetail
+                rule={parkingProvided}
+                value={numberWithCommas(roundToTwo(parkingProvided.value))}
+                valueTestId={""}
+              />
+              <ProjectDetail
+                rule={parkingRatio}
+                value={Math.floor(parkingRatio.value).toString()}
+                valueTestId={"summary-parking-ratio-value"}
+              />
             </div>
           </div>
         </>
