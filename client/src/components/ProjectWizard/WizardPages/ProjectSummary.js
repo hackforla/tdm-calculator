@@ -301,6 +301,8 @@ const ProjectSummary = props => {
     earnedPoints &&
     Math.round(earnedPoints.value) >= Math.round(targetPoints.value);
 
+  const rulesNotEmpty = rules && rules.length > 0;
+
   const renderProjectInfo = (displayName, rule) => (
     <div className={classes.projectInfoDetailsSubContainer}>
       <span className={classes.projectInfoCategory}>{displayName}</span>
@@ -474,7 +476,7 @@ const ProjectSummary = props => {
               <span className={classes.earnedPoints}>EARNED POINTS</span>
             </div>
             <div className={classes.measuresContainer}>
-              {rules && rules.length > 0
+              {rulesNotEmpty
                 ? measureRules.map(rule => renderMeasureSelected(rule))
                 : null}
               {userDefinedStrategy.calcValue &&
@@ -505,7 +507,7 @@ const ProjectSummary = props => {
             <div className={classes.measuresContainer}>
               {renderLevel}
               {landUses}
-              {rules && rules.length > 0
+              {rulesNotEmpty
                 ? specificationRules.map(rule => {
                     if (typeof rule.value == "boolean") {
                       rule.value ? (rule.value = "Yes") : "No";
