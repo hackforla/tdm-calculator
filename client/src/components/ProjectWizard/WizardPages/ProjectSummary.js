@@ -335,14 +335,14 @@ const ProjectSummary = props => {
     <div className={classes.rule}>
       <div
         className={clsx(classes.rule, classes.bold)}
-        data-testid="summary-parking-ratio-value"
+        data-testid="summary-parking-ratio-label"
       >
         {parkingRatio.name}
       </div>
       <div className={classes.pointsContainer}>
         <div
           className={classes.value}
-          data-testid="summary-parking-ratio-label"
+          data-testid="summary-parking-ratio-value"
         >
           {`${Math.floor(parkingRatio.value).toString()}`}
         </div>

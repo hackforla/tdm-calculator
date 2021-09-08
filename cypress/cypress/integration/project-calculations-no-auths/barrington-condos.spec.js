@@ -13,7 +13,7 @@ const p = {
   reducedParkingSupply: "Reduces 50%-74% of spaces available",
   affordableHousingLevel: "20% of State Density Bonus",
   expectedProjectLevelValue: "1",
-  expectedParkingRatioValue: "95%",
+  expectedParkingRatioValue: "95",
   expectedTargetPointsValue: "15",
   expectedEarnedPointsValue: "16",
 };
