@@ -9,7 +9,7 @@ import {
   ProjectTargetPoints,
   ProjectMeasures
 } from "./WizardPages";
-import ProjectSummary from "./WizardPages/ProjectSummary";
+import ProjectSummary from "./WizardPages/ProjectSummary/ProjectSummary";
 
 const CalculationWizardRoutes = ({
   projectDescriptionRules,

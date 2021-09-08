@@ -9,7 +9,7 @@ import {
   faExclamationTriangle
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
-import { numberWithCommas } from "../helpers";
+import { numberWithCommas } from "../../helpers";
 
 const useStyles = createUseStyles({
   projectSummary: {
