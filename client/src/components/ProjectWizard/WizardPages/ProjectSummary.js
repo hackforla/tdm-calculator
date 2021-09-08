@@ -321,12 +321,16 @@ const ProjectSummary = props => {
     </div>
   ) : null;
 
+  const roundToTwo = num => {
+    return Math.round(num * 100) / 100;
+  };
+
   const renderBaselineParking = parkingRequired ? (
     <div className={classes.rule}>
       <div className={clsx(classes.ruleName)}>{parkingRequired.name}</div>
       <div className={clsx(classes.pointsContainer)}>
         <div className={classes.measureDetails}>
-          {numberWithCommas(Math.round(parkingRequired.value * 100) / 100)}
+          {numberWithCommas(roundToTwo(parkingRequired.value))}
         </div>
         <div className={clsx(classes.measureUnits)}>spaces</div>
       </div>
@@ -338,7 +342,7 @@ const ProjectSummary = props => {
       <div className={clsx(classes.ruleName)}>{parkingProvided.name}</div>
       <div className={classes.pointsContainer}>
         <div className={classes.measureDetails}>
-          {numberWithCommas(Math.round(parkingProvided.value * 100) / 100)}
+          {numberWithCommas(roundToTwo(parkingProvided.value))}
         </div>
         <div className={clsx(classes.measureUnits)}>spaces</div>
       </div>
@@ -538,7 +542,7 @@ const ProjectSummary = props => {
                       </div>
                       <div className={classes.pointsContainer}>
                         <div className={classes.value}>
-                          {Math.round(rule.calcValue * 100) / 100}
+                          {roundToTwo(rule.calcValue)}
                         </div>
                         <div className={classes.calcUnitsPts}>
                           {rule.calcUnits}
