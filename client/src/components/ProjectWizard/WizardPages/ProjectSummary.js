@@ -338,22 +338,19 @@ const ProjectSummary = props => {
       </div>
     ) : null;
 
-  const renderTargetPoints = targetPoints ? (
-    <div className={clsx("border-gray", classes.measure)}>
-      <div
-        className={classes.measureValue}
-        data-testid={"summary-target-points-value"}
-      >
-        {Math.round(targetPoints.value)}
+  const earnedPointsValueStyle = targetPointsReached
+    ? clsx(classes.measureValue, classes.success)
+    : clsx(classes.measureValue, classes.failure);
+
+  const renderResult = (rule, textStyle) =>
+    rule ? (
+      <div className={clsx("border-gray", classes.measure)}>
+        <div className={textStyle}>{Math.round(rule.value)}</div>
+        <div className={clsx(classes.alignCenter, classes.label)}>
+          {rule.name}
+        </div>
       </div>
-      <div
-        className={clsx(classes.alignCenter, classes.label)}
-        data-testid={"summary-target-points-label"}
-      >
-        {targetPoints.name}
-      </div>
-    </div>
-  ) : null;
+    ) : null;
 
   const renderTargetPointsReached = (
     <div className={classes.targetPointsReachedContainer}>
@@ -375,27 +372,6 @@ const ProjectSummary = props => {
       )}
     </div>
   );
-
-  const earnedPointsValueStyle = targetPointsReached
-    ? clsx(classes.measureValue, classes.success)
-    : clsx(classes.measureValue, classes.failure);
-
-  const renderEarnedPoints = earnedPoints ? (
-    <div className={clsx("border-gray", classes.measure)}>
-      <div
-        className={earnedPointsValueStyle}
-        data-testid={"summary-earned-points-value"}
-      >
-        {Math.round(earnedPoints.value)}
-      </div>
-      <div
-        className={clsx(classes.alignCenter, classes.label)}
-        data-testid={"summary-earned-points-label"}
-      >
-        {earnedPoints.name}
-      </div>
-    </div>
-  ) : null;
 
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
@@ -467,8 +443,8 @@ const ProjectSummary = props => {
               <span className={classes.categoryHeader}>RESULTS</span>
             </div>
             <div className={clsx("space-between", classes.resultsContainer)}>
-              {renderEarnedPoints}
-              {renderTargetPoints}
+              {renderResult(earnedPoints, earnedPointsValueStyle)}
+              {renderResult(targetPoints, classes.measureValue)}
             </div>
             {renderTargetPointsReached}
           </div>
