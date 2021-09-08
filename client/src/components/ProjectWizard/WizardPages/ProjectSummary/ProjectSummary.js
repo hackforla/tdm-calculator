@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
 import { numberWithCommas } from "../../helpers";
+import ProjectInfo from "./ProjectInfo";
 
 const useStyles = createUseStyles({
   projectSummary: {
@@ -92,25 +93,6 @@ const useStyles = createUseStyles({
     margin: "70px auto 0",
     width: "100%",
     minHeight: "100px"
-  },
-  textProjectInfoHeader: {
-    color: "#0F2940",
-    fontSize: "24px",
-    fontFamily: "Calibri Bold"
-  },
-  textProjectInfoHeaderAddress: {
-    color: "#515151",
-    fontSize: "24px",
-    fontFamily: "Calibri"
-  },
-  projectInfoDetailsContainer: {
-    marginTop: "13px",
-    paddingTop: "13px",
-    height: "55px",
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    maxWidth: "100%"
   },
   projectInfoDetailsSubContainer: {
     display: "flex",
@@ -302,15 +284,6 @@ const ProjectSummary = props => {
 
   const rulesNotEmpty = rules && rules.length > 0;
 
-  const renderProjectInfo = (displayName, rule) => (
-    <div className={classes.projectInfoDetailsSubContainer}>
-      <span className={classes.projectInfoCategory}>{displayName}</span>
-      {rule && rule.value ? (
-        <span className={classes.projectInfoDetails}>{rule.value}</span>
-      ) : null}
-    </div>
-  );
-
   const renderLevel = level ? (
     <div className={clsx(classes.rule)}>
       <div
@@ -434,11 +407,12 @@ const ProjectSummary = props => {
           </span>
         ) : null}
         <div className={classes.projectInfoDetailsContainer}>
-          {buildingPermit &&
-            renderProjectInfo(buildingPermit.name, buildingPermit)}
-          {renderProjectInfo("PARCEL # (AIN)", parcelNumber)}
-          {renderProjectInfo("CASE #", caseNumber)}
-          {renderProjectInfo("VERSION #", versionNumber)}
+          {buildingPermit && (
+            <ProjectInfo name={buildingPermit.name} rule={buildingPermit} />
+          )}
+          <ProjectInfo name={"PARCEL # (AIN)"} rule={parcelNumber} />
+          <ProjectInfo name={"CASE #"} rule={caseNumber} />
+          <ProjectInfo name={"VERSION #"} rule={versionNumber} />
         </div>
       </div>
 
