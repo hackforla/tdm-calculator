@@ -9,8 +9,8 @@ import {
   faExclamationTriangle
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
-import { numberWithCommas } from "../../helpers";
-import ProjectInfo from "./ProjectInfo";
+import { numberWithCommas, getRule } from "../../helpers";
+import ProjectInfoContainer from "./ProjectInfoContainer";
 
 const useStyles = createUseStyles({
   projectSummary: {
@@ -88,31 +88,6 @@ const useStyles = createUseStyles({
   },
   lastSavedContainer: {
     margin: "24px auto 0"
-  },
-  projectInfoContainer: {
-    margin: "70px auto 0",
-    width: "100%",
-    minHeight: "100px"
-  },
-  projectInfoDetailsSubContainer: {
-    display: "flex",
-    alignItems: "baseline",
-    maxHeight: "20px",
-    width: "50%"
-  },
-  projectInfoCategory: {
-    fontFamily: "Oswald",
-    fontSize: "12px",
-    textTransform: "uppercase",
-    textAlign: "right",
-    color: "rgba(6, 16, 25, 0.5)",
-    minWidth: "100px",
-    marginRight: "17px"
-  },
-  projectInfoDetails: {
-    color: "#0F2940",
-    fontFamily: "Calibri Bold",
-    fontSize: "16px"
   },
   categoryContainer: {
     marginTop: "40px"
@@ -218,30 +193,14 @@ const ProjectSummary = props => {
     </div>
   );
 
-  const getRule = code => {
-    const ruleList = rules.filter(rule => rule.code === code);
-    if (ruleList && ruleList[0]) {
-      return ruleList[0];
-    }
-    return null;
-  };
+  const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
+  const parkingProvided = getRule(rules, "PARK_SPACES");
+  const parkingRatio = getRule(rules, "CALC_PARK_RATIO");
+  const level = getRule(rules, "PROJECT_LEVEL");
+  const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
+  const earnedPoints = getRule(rules, "PTS_EARNED");
 
-  const projectName = getRule("PROJECT_NAME");
-  const projectAddress = getRule("PROJECT_ADDRESS");
-
-  const buildingPermit = getRule("BUILDING_PERMIT");
-  const caseNumber = getRule("CASE_NO_LADOT");
-  const parcelNumber = getRule("APN");
-  const versionNumber = getRule("VERSION_NO");
-
-  const parkingRequired = getRule("PARK_REQUIREMENT");
-  const parkingProvided = getRule("PARK_SPACES");
-  const parkingRatio = getRule("CALC_PARK_RATIO");
-  const level = getRule("PROJECT_LEVEL");
-  const targetPoints = getRule("TARGET_POINTS_PARK");
-  const earnedPoints = getRule("PTS_EARNED");
-
-  const userDefinedStrategy = getRule("STRATEGY_APPLICANT");
+  const userDefinedStrategy = getRule(rules, "STRATEGY_APPLICANT");
 
   // Note: a rule is not effective if the value is any falsey value or "0"
   const measureRules =
@@ -394,27 +353,7 @@ const ProjectSummary = props => {
           </span>
         )}
       </div>
-      <div className={classes.projectInfoContainer}>
-        {projectName && projectName.value ? (
-          <span className={classes.textProjectInfoHeader}>
-            {projectName.value}
-          </span>
-        ) : null}
-        {projectAddress && projectAddress.value ? (
-          <span className={classes.textProjectInfoHeaderAddress}>
-            {" "}
-            {projectAddress.value}
-          </span>
-        ) : null}
-        <div className={classes.projectInfoDetailsContainer}>
-          {buildingPermit && (
-            <ProjectInfo name={buildingPermit.name} rule={buildingPermit} />
-          )}
-          <ProjectInfo name={"PARCEL # (AIN)"} rule={parcelNumber} />
-          <ProjectInfo name={"CASE #"} rule={caseNumber} />
-          <ProjectInfo name={"VERSION #"} rule={versionNumber} />
-        </div>
-      </div>
+      {rules ? <ProjectInfoContainer rules={rules} /> : null}
 
       {!loading ? (
         <>
