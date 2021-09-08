@@ -325,49 +325,18 @@ const ProjectSummary = props => {
     return Math.round(num * 100) / 100;
   };
 
-  const renderBaselineParking = parkingRequired ? (
-    <div className={classes.rule}>
-      <div className={clsx(classes.ruleName)}>{parkingRequired.name}</div>
-      <div className={clsx(classes.pointsContainer)}>
-        <div className={classes.measureDetails}>
-          {numberWithCommas(roundToTwo(parkingRequired.value))}
+  const renderProjectDetail = (rule, value, valueTestId) =>
+    rule ? (
+      <div className={classes.rule}>
+        <div className={clsx(classes.ruleName)}>{rule.name}</div>
+        <div className={clsx(classes.pointsContainer)}>
+          <div className={classes.measureDetails} data-testid={valueTestId}>
+            {value}
+          </div>
+          <div className={clsx(classes.measureUnits)}>{rule.units}</div>
         </div>
-        <div className={clsx(classes.measureUnits)}>spaces</div>
       </div>
-    </div>
-  ) : null;
-
-  const renderParkingProvided = parkingProvided ? (
-    <div className={classes.rule}>
-      <div className={clsx(classes.ruleName)}>{parkingProvided.name}</div>
-      <div className={classes.pointsContainer}>
-        <div className={classes.measureDetails}>
-          {numberWithCommas(roundToTwo(parkingProvided.value))}
-        </div>
-        <div className={clsx(classes.measureUnits)}>spaces</div>
-      </div>
-    </div>
-  ) : null;
-
-  const renderParkingRatio = parkingRatio ? (
-    <div className={classes.rule}>
-      <div
-        className={clsx(classes.rule, classes.bold)}
-        data-testid="summary-parking-ratio-label"
-      >
-        {parkingRatio.name}
-      </div>
-      <div className={classes.pointsContainer}>
-        <div
-          className={classes.value}
-          data-testid="summary-parking-ratio-value"
-        >
-          {`${Math.floor(parkingRatio.value).toString()}`}
-        </div>
-        <div className={classes.measureUnits}>%</div>
-      </div>
-    </div>
-  ) : null;
+    ) : null;
 
   const renderTargetPoints = targetPoints ? (
     <div className={clsx("border-gray", classes.measure)}>
@@ -602,9 +571,21 @@ const ProjectSummary = props => {
                     );
                   })
                 : null}
-              {renderBaselineParking}
-              {renderParkingProvided}
-              {renderParkingRatio}
+              {renderProjectDetail(
+                parkingRequired,
+                numberWithCommas(roundToTwo(parkingRequired.value)),
+                null
+              )}
+              {renderProjectDetail(
+                parkingProvided,
+                numberWithCommas(roundToTwo(parkingProvided.value)),
+                null
+              )}
+              {renderProjectDetail(
+                parkingRatio,
+                Math.floor(parkingRatio.value),
+                "summary-parking-ratio-value"
+              )}
             </div>
           </div>
         </>
