@@ -49,13 +49,13 @@ const useStyles = createUseStyles({
     textTransform: "uppercase"
   },
   rule: {
-    width: "100%",
+    width: "96%",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     minHeight: "24px",
     margin: "4px auto",
-    padding: "0 .6em"
+    padding: "0 2%"
   },
   ruleName: {
     minWidth: "270px"
@@ -137,7 +137,7 @@ const useStyles = createUseStyles({
   },
   categoryHeaderContainer: {
     background: "#E2E2E2",
-    padding: ".6em"
+    padding: "2%"
   },
   categoryHeader: {
     fontFamily: "Oswald",
@@ -168,7 +168,7 @@ const useStyles = createUseStyles({
     fontSize: "12px",
     color: "rgba(6, 16, 25, 0.5)",
     paddingTop: "5px",
-    marginRight: "11px"
+    marginRight: "31px"
   },
   measureDetails: {
     fontSize: "14px",
