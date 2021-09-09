@@ -11,23 +11,13 @@ import ProjectDetail from "./ProjectDetail";
 import MeasureSelected from "./MeasureSelected";
 import PointsEarnedMessage from "./PointsEarnedMessage";
 import LandUses from "./LandUses";
+import Result from "./Result";
 
 const useStyles = createUseStyles({
   projectSummary: {
     display: "flex",
     flexDirection: "column",
     flex: "1 1 auto"
-  },
-  alignCenter: {
-    textAlign: "center"
-  },
-  measure: {
-    height: "132px",
-    minWidth: "49%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    fontFamily: "Oswald"
   },
   measureValue: {
     fontSize: "42px",
@@ -39,11 +29,6 @@ const useStyles = createUseStyles({
   },
   failure: {
     color: "#E46247"
-  },
-  label: {
-    fontWeight: 500,
-    marginTop: "10px",
-    textTransform: "uppercase"
   },
   rule: {
     display: "flex",
@@ -170,18 +155,6 @@ const ProjectSummary = props => {
     ? clsx(classes.measureValue, classes.success)
     : clsx(classes.measureValue, classes.failure);
 
-  const renderResult = (rule, textStyle, valueTestId) =>
-    rule ? (
-      <div className={clsx("border-gray", classes.measure)}>
-        <div className={textStyle} data-testid={valueTestId}>
-          {Math.round(rule.value)}
-        </div>
-        <div className={clsx(classes.alignCenter, classes.label)}>
-          {rule.name}
-        </div>
-      </div>
-    ) : null;
-
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
@@ -204,16 +177,16 @@ const ProjectSummary = props => {
               <span className={classes.categoryHeader}>RESULTS</span>
             </div>
             <div className={clsx("space-between", classes.resultsContainer)}>
-              {renderResult(
-                earnedPoints,
-                earnedPointsValueStyle,
-                "summary-earned-points-value"
-              )}
-              {renderResult(
-                targetPoints,
-                classes.measureValue,
-                "summary-target-points-value"
-              )}
+              <Result
+                rule={earnedPoints}
+                textStyle={earnedPointsValueStyle}
+                valueTestId={"summary-earned-points-value"}
+              />
+              <Result
+                rule={targetPoints}
+                textStyle={classes.measureValue}
+                valueTestId={"summary-target-points-value"}
+              />
             </div>
             <PointsEarnedMessage targetPointsReached={targetPointsReached} />
           </div>
