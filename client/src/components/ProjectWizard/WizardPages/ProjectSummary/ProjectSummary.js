@@ -245,17 +245,19 @@ const ProjectSummary = props => {
       {targetPointsReached ? (
         <span className={clsx(classes.targetPointsReached, classes.success)}>
           <FontAwesomeIcon icon={faCheckCircle} className={classes.success} />{" "}
-          &nbsp;You have successfully earned the target points. Please, print
-          and submit
+          &nbsp;You have successfully earned the target points.
         </span>
       ) : (
         <span className={clsx(classes.targetPointsReached, classes.failure)}>
           <FontAwesomeIcon
             icon={faExclamationTriangle}
             className={classes.failure}
-          />{" "}
-          &nbsp;You have not reached the target points. Please, go back and
-          review your strategies
+          />
+          &nbsp;
+          <span>
+            You have not reached the target points. <br />
+            Please, go back and review your strategies
+          </span>
         </span>
       )}
     </div>
