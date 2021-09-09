@@ -21,8 +21,10 @@ const useStyles = createUseStyles({
     justifyContent: "flex-end"
   },
   measureDetails: {
-    fontSize: "14px",
+    fontFamily: "Oswald",
+    fontSize: "18px",
     textAlign: "right",
+    fontWeight: "bold",
     minWidth: "40px",
     marginRight: "10px"
   },
