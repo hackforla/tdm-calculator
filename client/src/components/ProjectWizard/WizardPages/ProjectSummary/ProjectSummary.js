@@ -10,6 +10,7 @@ import ProjectInfoContainer from "./ProjectInfoContainer";
 import ProjectDetail from "./ProjectDetail";
 import MeasureSelected from "./MeasureSelected";
 import PointsEarnedMessage from "./PointsEarnedMessage";
+import LandUses from "./LandUses";
 
 const useStyles = createUseStyles({
   projectSummary: {
@@ -99,20 +100,6 @@ const useStyles = createUseStyles({
     paddingTop: "5px",
     marginRight: "31px"
   },
-  measureDetails: {
-    fontSize: "14px",
-    textAlign: "right",
-    minWidth: "40px",
-    marginRight: "10px"
-  },
-  measureUnits: {
-    fontSize: "14px",
-    width: "65px"
-  },
-  pointsContainer: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
   summaryContainer: {
     display: "flex",
     minWidth: "180px",
@@ -128,23 +115,6 @@ const useStyles = createUseStyles({
 const ProjectSummary = props => {
   const classes = useStyles();
   const { rules } = props;
-
-  const landUses = (
-    <div className={clsx(classes.rule)}>
-      <div className={classes.ruleName}>
-        {rules
-          .filter(
-            rule => rule.used && rule.value && rule.calculationPanelId === 5
-          )
-          .map(r => r.name)
-          .join(", ")}
-      </div>
-      <div className={classes.pointsContainer}>
-        <div className={classes.measureDetails}></div>
-        <div className={classes.measureUnits}></div>
-      </div>
-    </div>
-  );
 
   const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
   const parkingProvided = getRule(rules, "PARK_SPACES");
@@ -294,7 +264,7 @@ const ProjectSummary = props => {
                 value={level.value}
                 valueTestId={"summary-project-level-value"}
               />
-              {landUses}
+              <LandUses rules={rules} />
               {rulesNotEmpty
                 ? specificationRules.map(rule => {
                     if (typeof rule.value == "boolean") {
