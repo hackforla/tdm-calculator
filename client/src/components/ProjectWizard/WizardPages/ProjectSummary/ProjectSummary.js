@@ -209,8 +209,10 @@ const ProjectSummary = props => {
               {userDefinedStrategy.calcValue &&
               userDefinedStrategy.comment.length > 0 ? (
                 <div>
-                  <div className={classes.ruleName}>
-                    Details about User Defined Strategy
+                  <div className={classes.rule}>
+                    <div className={classes.ruleName}>
+                      Details about User Defined Strategy
+                    </div>
                   </div>
                   <div
                     className={clsx(
