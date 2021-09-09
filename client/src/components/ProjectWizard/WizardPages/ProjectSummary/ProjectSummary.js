@@ -83,10 +83,11 @@ const useStyles = createUseStyles({
     marginTop: "40px"
   },
   categoryHeaderContainer: {
-    background: "#E2E2E2",
+    background: "#E7EBF0",
     padding: "2%"
   },
   categoryHeader: {
+    fontSize: "16px",
     fontFamily: "Oswald",
     fontWeight: "bold"
   },
@@ -113,7 +114,7 @@ const useStyles = createUseStyles({
     fontFamily: "Oswald",
     fontWeight: "500",
     fontSize: "12px",
-    color: "rgba(6, 16, 25, 0.5)",
+    color: "#0F2940",
     paddingTop: "5px",
     marginRight: "31px"
   },
