@@ -187,6 +187,16 @@ const useStyles = createUseStyles({
   projectDescription: {
     display: "block",
     marginTop: "6px"
+  },
+  summaryContainer: {
+    display: "flex",
+    minWidth: "180px",
+    maxWidth: "100%",
+    marginRight: "3em",
+    border: "1px 	#E7EBF0 solid",
+    borderRadius: "5px",
+    marginTop: "8px",
+    padding: "12px"
   }
 });
 
@@ -198,6 +208,7 @@ const ProjectSummary = props => {
     .filter(rule => rule.used && rule.value && rule.calculationPanelId === 5)
     .map(r => r.name)
     .join(", ");
+  console.log("RULES", rules);
 
   const getRule = code => {
     const ruleList = rules.filter(rule => rule.code === code);
@@ -222,6 +233,8 @@ const ProjectSummary = props => {
   const level = getRule("PROJECT_LEVEL");
   const targetPoints = getRule("TARGET_POINTS_PARK");
   const earnedPoints = getRule("PTS_EARNED");
+
+  const userDefinedStrategy = getRule("STRATEGY_APPLICANT");
 
   // Note: a rule is not effective if the value is any falsey value or "0"
   const measureRules =
@@ -459,6 +472,22 @@ const ProjectSummary = props => {
                     </div>
                   ))
                 : null}
+              {userDefinedStrategy.calcValue &&
+              userDefinedStrategy.comment.length > 0 ? (
+                <div>
+                  <div className={classes.ruleName}>
+                    Details about User Defined Strategy
+                  </div>
+                  <div
+                    className={clsx(
+                      "justify-content-center",
+                      classes.summaryContainer
+                    )}
+                  >
+                    {userDefinedStrategy.comment}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
 
