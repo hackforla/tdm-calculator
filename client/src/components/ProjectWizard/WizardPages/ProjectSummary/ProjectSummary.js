@@ -128,8 +128,7 @@ const useStyles = createUseStyles({
     fontSize: "14px",
     width: "65px"
   },
-  specificationDetailsContainer: {
-    minWidth: "140px",
+  pointsContainer: {
     display: "flex",
     justifyContent: "flex-end"
   },
@@ -168,7 +167,7 @@ const ProjectSummary = props => {
           .map(r => r.name)
           .join(", ")}
       </div>
-      <div className={classes.specificationDetailsContainer}>
+      <div className={classes.pointsContainer}>
         <div className={classes.measureDetails}></div>
         <div className={classes.measureUnits}></div>
       </div>
