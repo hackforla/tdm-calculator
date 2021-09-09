@@ -49,7 +49,7 @@ const MeasureSelected = props => {
       <div className={classes.ruleName}>{rule.name}</div>
       <div className={clsx("justify-content-center", classes.detailsContainer)}>
         <div className={classes.ruleText}>
-          {rule.dataType === "boolean"
+          {rule.dataType === "boolean" || rule.dataType === "number"
             ? null
             : rule.dataType === "choice"
             ? rule.choices.find(
