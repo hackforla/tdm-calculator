@@ -40,6 +40,7 @@ const SidebarPointsPanel = props => {
           rules={rules}
         />
       </div>
+      <hr className="tdm-divider" />
       {USE_PROGRESS_DIAL ? (
         <div className="tdm-calculation-progress">
           <EarnedPointsProgress
@@ -50,7 +51,6 @@ const SidebarPointsPanel = props => {
         </div>
       ) : (
         <>
-          <hr className="tdm-divider" />
           <div className="tdm-results-panel">
             <SidebarPoints
               key={targetPointsRule.id}
