@@ -224,26 +224,6 @@ const ProjectSummary = props => {
 
   const rulesNotEmpty = rules && rules.length > 0;
 
-  const renderLevel = level ? (
-    <div className={clsx(classes.rule)}>
-      <div
-        className={classes.ruleName}
-        data-testid="summary-project-level-label"
-      >
-        {level.name}
-      </div>
-      <div className={classes.specificationDetailsContainer}>
-        <div
-          className={classes.measureDetails}
-          data-testid="summary-project-level-value"
-        >
-          {level.value}
-        </div>
-        <div className={classes.measureUnits}></div>
-      </div>
-    </div>
-  ) : null;
-
   const earnedPointsValueStyle = targetPointsReached
     ? clsx(classes.measureValue, classes.success)
     : clsx(classes.measureValue, classes.failure);
@@ -358,7 +338,11 @@ const ProjectSummary = props => {
               <span className={classes.categoryHeader}>PROJECT DETAILS</span>
             </div>
             <div className={classes.measuresContainer}>
-              {renderLevel}
+              <ProjectDetail
+                rule={level}
+                value={level.value}
+                valueTestId={"summary-project-level-value"}
+              />
               {landUses}
               {rulesNotEmpty
                 ? specificationRules.map(rule => {
@@ -366,20 +350,12 @@ const ProjectSummary = props => {
                       rule.value ? (rule.value = "Yes") : "No";
                     }
                     return (
-                      <div
+                      <ProjectDetail
+                        rule={rule}
+                        value={numberWithCommas(rule.value)}
+                        valueTestId={""}
                         key={rule.id}
-                        className={clsx("space-between", classes.rule)}
-                      >
-                        <div className={classes.ruleName}>{rule.name}</div>
-                        <div className={classes.specificationDetailsContainer}>
-                          <div className={classes.measureDetails}>
-                            {numberWithCommas(rule.value)}
-                          </div>
-                          <div className={classes.measureUnits}>
-                            {rule.units}
-                          </div>
-                        </div>
-                      </div>
+                      />
                     );
                   })
                 : null}

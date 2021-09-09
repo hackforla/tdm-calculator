@@ -37,7 +37,7 @@ const ProjectDetail = props => {
   const { rule, value, valueTestId } = props;
 
   return rule ? (
-    <div className={classes.rule}>
+    <div className={clsx("space-between", classes.rule)}>
       <div className={clsx(classes.ruleName)}>{rule.name}</div>
       <div className={clsx(classes.pointsContainer)}>
         <div className={classes.measureDetails} data-testid={valueTestId}>
