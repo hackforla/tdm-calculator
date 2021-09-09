@@ -3,16 +3,13 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faClock,
-  faCheckCircle,
-  faExclamationTriangle
-} from "@fortawesome/free-solid-svg-icons";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
 import { numberWithCommas, getRule, roundToTwo } from "../../helpers";
 import ProjectInfoContainer from "./ProjectInfoContainer";
 import ProjectDetail from "./ProjectDetail";
 import MeasureSelected from "./MeasureSelected";
+import PointsEarnedMessage from "./PointsEarnedMessage";
 
 const useStyles = createUseStyles({
   projectSummary: {
@@ -42,10 +39,6 @@ const useStyles = createUseStyles({
   failure: {
     color: "#E46247"
   },
-  measurePercent: {
-    fontSize: "24px",
-    marginLeft: "3px"
-  },
   label: {
     fontWeight: 500,
     marginTop: "10px",
@@ -60,9 +53,6 @@ const useStyles = createUseStyles({
   },
   ruleName: {
     minWidth: "270px"
-  },
-  bold: {
-    fontFamily: "Calibri Bold"
   },
   loaderContainer: {
     width: "100%",
@@ -97,14 +87,6 @@ const useStyles = createUseStyles({
     flexWrap: "wrap",
     maxWidth: "100%"
   },
-  targetPointsReachedContainer: {
-    display: "flex"
-  },
-  targetPointsReached: {
-    width: "100%",
-    textAlign: "center",
-    fontSize: "24px"
-  },
   measuresContainer: {
     paddingTop: "10px",
     margin: "0 12px"
@@ -130,15 +112,6 @@ const useStyles = createUseStyles({
   pointsContainer: {
     display: "flex",
     justifyContent: "flex-end"
-  },
-  ruleText: {
-    fontSize: "14px",
-    textAlign: "center",
-    margin: "0 16px"
-  },
-  projectDescription: {
-    display: "block",
-    marginTop: "6px"
   },
   summaryContainer: {
     display: "flex",
@@ -239,29 +212,6 @@ const ProjectSummary = props => {
       </div>
     ) : null;
 
-  const renderTargetPointsReached = (
-    <div className={classes.targetPointsReachedContainer}>
-      {targetPointsReached ? (
-        <span className={clsx(classes.targetPointsReached, classes.success)}>
-          <FontAwesomeIcon icon={faCheckCircle} className={classes.success} />{" "}
-          &nbsp;You have successfully earned the target points.
-        </span>
-      ) : (
-        <span className={clsx(classes.targetPointsReached, classes.failure)}>
-          <FontAwesomeIcon
-            icon={faExclamationTriangle}
-            className={classes.failure}
-          />
-          &nbsp;
-          <span>
-            You have not reached the target points. <br />
-            Please, go back and review your strategies
-          </span>
-        </span>
-      )}
-    </div>
-  );
-
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
       <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
@@ -295,7 +245,7 @@ const ProjectSummary = props => {
                 "summary-target-points-value"
               )}
             </div>
-            {renderTargetPointsReached}
+            <PointsEarnedMessage targetPointsReached={targetPointsReached} />
           </div>
 
           <div className={classes.categoryContainer}>
