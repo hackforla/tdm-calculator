@@ -192,9 +192,8 @@ const useStyles = createUseStyles({
     display: "flex",
     minWidth: "180px",
     maxWidth: "100%",
-    marginRight: "100px",
-    marginLeft: "70px",
-    border: "1px 	#BEBEBE solid",
+    marginRight: "3em",
+    border: "1px 	#E7EBF0 solid",
     borderRadius: "5px",
     marginTop: "8px",
     padding: "12px"
