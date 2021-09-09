@@ -52,13 +52,11 @@ const useStyles = createUseStyles({
     textTransform: "uppercase"
   },
   rule: {
-    width: "96%",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     minHeight: "24px",
-    margin: "4px auto",
-    padding: "0 2%"
+    margin: "4px auto"
   },
   ruleName: {
     minWidth: "270px"
@@ -84,7 +82,7 @@ const useStyles = createUseStyles({
   },
   categoryHeaderContainer: {
     background: "#E7EBF0",
-    padding: "2%"
+    padding: "12px"
   },
   categoryHeader: {
     fontSize: "16px",
@@ -108,7 +106,8 @@ const useStyles = createUseStyles({
     fontSize: "24px"
   },
   measuresContainer: {
-    paddingTop: "10px"
+    paddingTop: "10px",
+    margin: "0 12px"
   },
   earnedPoints: {
     fontFamily: "Oswald",

@@ -6,13 +6,11 @@ import { roundToTwo } from "../../helpers";
 
 const useStyles = createUseStyles({
   rule: {
-    width: "96%",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     minHeight: "24px",
-    margin: "4px auto",
-    padding: "0 2%"
+    margin: "4px auto"
   },
   ruleName: {
     minWidth: "270px"
