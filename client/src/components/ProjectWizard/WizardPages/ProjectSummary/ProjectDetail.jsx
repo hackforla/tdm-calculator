@@ -29,6 +29,9 @@ const useStyles = createUseStyles({
   measureUnits: {
     fontSize: "14px",
     width: "65px"
+  },
+  leftIndent: {
+    marginLeft: "20px"
   }
 });
 
@@ -36,9 +39,15 @@ const ProjectDetail = props => {
   const classes = useStyles();
   const { rule, value, valueTestId } = props;
 
+  const isSubRule = rule.name.startsWith("..... ");
+  const renderName = isSubRule ? rule.name.substring(6) : rule.name;
+  const ruleNameStyle = isSubRule
+    ? clsx(classes.ruleName, classes.leftIndent)
+    : classes.ruleName;
+
   return rule ? (
     <div className={clsx("space-between", classes.rule)}>
-      <div className={clsx(classes.ruleName)}>{rule.name}</div>
+      <div className={ruleNameStyle}>{renderName}</div>
       <div className={clsx(classes.pointsContainer)}>
         <div className={classes.measureDetails} data-testid={valueTestId}>
           {value}

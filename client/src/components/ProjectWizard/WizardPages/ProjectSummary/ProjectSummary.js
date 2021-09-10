@@ -236,7 +236,7 @@ const ProjectSummary = props => {
             <div className={classes.measuresContainer}>
               <ProjectDetail
                 rule={level}
-                value={level.value}
+                value={level.value.toString()}
                 valueTestId={"summary-project-level-value"}
               />
               <LandUses rules={rules} />
