@@ -242,9 +242,6 @@ const ProjectSummary = props => {
               <LandUses rules={rules} />
               {rulesNotEmpty
                 ? specificationRules.map(rule => {
-                    if (typeof rule.value == "boolean") {
-                      rule.value ? (rule.value = "Yes") : "No";
-                    }
                     return (
                       <ProjectDetail
                         rule={rule}
