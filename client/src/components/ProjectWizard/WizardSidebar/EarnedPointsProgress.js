@@ -133,11 +133,11 @@ const EarnedPointsProgress = props => {
       }
     >
       <div className={classes.earnedPointsValue}>
-        <div>{earned}</div>
+        <div id={rulesConfig.earnedPointsRule.code}>{earned}</div>
         <div className={classes.earnedPointsLabel}>EARNED</div>
       </div>
       <div className={classes.targetPointsValue}>
-        <div>{target}</div>
+        <div id={rulesConfig.targetPointsRule.code}>{target}</div>
         <div className={classes.targetPointsLabel}>TARGET</div>
       </div>
       <div
