@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
   measureValue: {
     fontSize: "42px",
     marginTop: "33px",
-    fontWeight: "bold"
+    fontWeight: "700"
   },
   success: {
     color: "#A7C539"
@@ -63,7 +63,7 @@ const useStyles = createUseStyles({
   categoryHeader: {
     fontSize: "16px",
     fontFamily: "Oswald",
-    fontWeight: "bold"
+    fontWeight: "700"
   },
   resultsContainer: {
     paddingTop: "16px",

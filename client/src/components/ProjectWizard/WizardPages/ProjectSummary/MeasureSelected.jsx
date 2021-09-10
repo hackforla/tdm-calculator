@@ -32,7 +32,7 @@ const useStyles = createUseStyles({
   value: {
     fontFamily: "Oswald",
     fontSize: "18px",
-    fontWeight: "bold",
+    fontWeight: "700",
     textAlign: "right"
   },
   calcUnitsPts: {

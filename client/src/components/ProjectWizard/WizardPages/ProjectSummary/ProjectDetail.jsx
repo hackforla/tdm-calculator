@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
     fontFamily: "Oswald",
     fontSize: "18px",
     textAlign: "right",
-    fontWeight: "bold",
+    fontWeight: "700",
     minWidth: "40px",
     marginRight: "10px"
   },
