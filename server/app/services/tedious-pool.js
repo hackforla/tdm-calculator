@@ -29,7 +29,7 @@ var config = process.env.SQL_SERVER_INSTANCE
       }
     };
 
-if (process.env.SQL_TRUST_SERVER_CERTIFICATE) {
+if (process.env.SQL_TRUST_SERVER_CERTIFICATE === "true") {
   config.options.trustServerCertificate = true;
 }
 
