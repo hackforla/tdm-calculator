@@ -90,9 +90,7 @@ const useStyles = createUseStyles({
     minWidth: "180px",
     maxWidth: "100%",
     marginRight: "3em",
-    border: "1px 	#E7EBF0 solid",
-    borderRadius: "5px",
-    marginTop: "8px",
+    marginTop: "4px",
     padding: "12px"
   }
 });
@@ -211,14 +209,11 @@ const ProjectSummary = props => {
                 <div>
                   <div className={classes.rule}>
                     <div className={classes.ruleName}>
-                      Details about User Defined Strategy
+                      User-Defined Strategy Details
                     </div>
                   </div>
                   <div
-                    className={clsx(
-                      "justify-content-center",
-                      classes.summaryContainer
-                    )}
+                    className={clsx("border-gray", classes.summaryContainer)}
                   >
                     {userDefinedStrategy.comment}
                   </div>
