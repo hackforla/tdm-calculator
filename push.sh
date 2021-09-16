@@ -19,6 +19,7 @@ then
   cd client
   npm run lint:fix
   npm run test:ci || exit 1
+  cd ..
 else
   echo 'Skipping frontend tests because no relevant changes were found'
 fi
@@ -28,9 +29,10 @@ server_file_count=$(git diff --name-only origin/develop HEAD | grep -c ^server)
 if [ "$server_file_count" -gt 0 ]
 then
   echo '*************  BACKEND SERVER TESTS *************'
-  cd ../server
+  cd server
   npm run lint:fix
   npm run test || exit 1
+  cd ..
 else
   echo 'Skipping backend server tests because no relevant changes were found'
 fi
@@ -41,9 +43,10 @@ cypress_file_count=$(git diff --name-only origin/main HEAD | grep -c ^cypress)
 if [ "$server_file_count" -gt 0 ] || [ "$client_file_count" -gt 0 ] || [ "$cypress_file_count" -gt 0 ]
 then
   echo '*************  CYPRESS JOURNEY TESTS  *************'
-  cd ../cypress
+  cd cypress
   #npm run lint:fix
   npm run test || exit 1
+  cd ..
 else
   echo 'Skipping cypress journey tests because no relevant changes were found'
 fi
