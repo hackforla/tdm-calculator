@@ -15,3 +15,15 @@ export const getPanelRules = (panelIds, rules) =>
   panelIds.map(panelId => {
     return rules.filter(rule => rule.calculationPanelId === panelId);
   });
+
+export const getRule = (rules, code) => {
+  const ruleList = rules.filter(rule => rule.code === code);
+  if (ruleList && ruleList[0]) {
+    return ruleList[0];
+  }
+  return null;
+};
+
+export const roundToTwo = num => {
+  return Math.round(num * 100) / 100;
+};

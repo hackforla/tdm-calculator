@@ -2,7 +2,7 @@
 import "@testing-library/cypress/add-commands";
 
 /// <reference types="cypress" />
-describe("Jewish Family Service", () => {
+describe.skip("Jewish Family Service", () => {
   it("enters project information - minimum requirements", () => {
     cy.visit("/calculation");
     // Dismiss Terms and Conditions dialog

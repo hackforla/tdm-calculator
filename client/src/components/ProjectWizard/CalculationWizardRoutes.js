@@ -9,13 +9,14 @@ import {
   ProjectTargetPoints,
   ProjectMeasures
 } from "./WizardPages";
-import ProjectSummary from "./WizardPages/ProjectSummary";
+import { ProjectSummary } from "./WizardPages/ProjectSummary";
 
 const CalculationWizardRoutes = ({
   projectDescriptionRules,
   onInputChange,
   specificationRules,
   onUncheckAll,
+  onResetProject,
   filters,
   targetPointRules,
   isLevel0,
@@ -49,6 +50,7 @@ const CalculationWizardRoutes = ({
           rules={specificationRules}
           onInputChange={onInputChange}
           uncheckAll={() => onUncheckAll(filters.specificationRules)}
+          resetProject={() => onResetProject()}
         />
       </Route>
       <Route path="/calculation/3/:projectId?">
@@ -60,9 +62,6 @@ const CalculationWizardRoutes = ({
       </Route>
       <Route path="/calculation/4/:projectId?">
         <ProjectPackages
-          projectLevel={projectLevel}
-          rules={strategyRules}
-          landUseRules={landUseRules}
           allowResidentialPackage={allowResidentialPackage}
           allowEmploymentPackage={allowEmploymentPackage}
         />
@@ -77,6 +76,7 @@ const CalculationWizardRoutes = ({
           initializeStrategies={initializeStrategies}
           onPkgSelect={onPkgSelect}
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
+          resetProject={() => onResetProject()}
           allowResidentialPackage={allowResidentialPackage}
           allowEmploymentPackage={allowEmploymentPackage}
           residentialPackageSelected={residentialPackageSelected}
@@ -103,6 +103,7 @@ CalculationWizardRoutes.propTypes = {
   onInputChange: PropTypes.any,
   specificationRules: PropTypes.any,
   onUncheckAll: PropTypes.any,
+  onResetProject: PropTypes.any,
   filters: PropTypes.any,
   targetPointRules: PropTypes.any,
   isLevel0: PropTypes.any,

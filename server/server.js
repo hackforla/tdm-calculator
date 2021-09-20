@@ -37,6 +37,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// For use of GoDaddy SSL cert
+app.use(express.static(".well-known"));
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(express.static("public"));

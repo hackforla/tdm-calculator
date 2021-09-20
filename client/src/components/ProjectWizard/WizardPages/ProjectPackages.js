@@ -308,9 +308,8 @@ function ProjectPackages(props) {
     </div>
   );
 }
+
 ProjectPackages.propTypes = {
-  projectLevel: PropTypes.number.isRequired,
-  rules: PropTypes.array.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowEmploymentPackage: PropTypes.bool.isRequired
 };

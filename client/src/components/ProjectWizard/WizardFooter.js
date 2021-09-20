@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "../Button/Button";
 import NavButton from "../Button/NavButton";
+import SaveButton from "../Button/SaveButton";
 import { createUseStyles } from "react-jss";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -34,11 +34,8 @@ const WizardFooter = ({
   onPageChange,
   pageNumber,
   setDisabledForNextNavButton,
-  account,
-  projectId,
-  loginId,
-  formIsDirty,
-  projectIsValid,
+  setDisabledSaveButton,
+  setDisplaySaveButton,
   onSave,
   dateModified
 }) => {
@@ -73,22 +70,12 @@ const WizardFooter = ({
               />
             </div>
 
-            <Button
-              type="input"
-              color="colorPrimary"
-              variant="contained"
-              isDisplayed={
-                !!(
-                  account.id &&
-                  (!projectId || account.id === loginId) &&
-                  formIsDirty &&
-                  projectIsValid()
-                )
-              }
+            <SaveButton
+              id="saveButton"
+              isDisabled={setDisabledSaveButton()}
+              isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
-            >
-              Save Project
-            </Button>
+            />
           </>
         ) : null}
       </div>
@@ -111,11 +98,8 @@ WizardFooter.propTypes = {
   onPageChange: PropTypes.any,
   pageNumber: PropTypes.any,
   setDisabledForNextNavButton: PropTypes.any,
-  account: PropTypes.any,
-  projectId: PropTypes.any,
-  loginId: PropTypes.any,
-  formIsDirty: PropTypes.any,
-  projectIsValid: PropTypes.any,
+  setDisabledSaveButton: PropTypes.any,
+  setDisplaySaveButton: PropTypes.any,
   onSave: PropTypes.any,
   dateModified: PropTypes.any
 };
