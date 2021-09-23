@@ -37,10 +37,22 @@ For a list of _other development topics_, see [Development.md](./development.md)
    git clone https://github.com/hackforla/tdm-calculator
    ```
 
-1. Change to the tdm-calculator/server directory:
+1. Change to the tdm-calculator directory:
 
    ```bash
-   cd tdm-calculator/server
+   cd tdm-calculator
+   ```
+
+1. Install the root level npm dev depedencies:
+
+   ```bash
+   npm install
+   ```
+
+1. Change to the server directory:
+
+   ```bash
+   cd ./server
    ```
 
 1. Install the node server npm depedencies:
@@ -64,6 +76,21 @@ For a list of _other development topics_, see [Development.md](./development.md)
    ```
 
 ### To Run the React/Node Application
+
+1. In one terminal window, navigate back to the /tdm-calculator root directory and start both node and react servers concurrently:
+
+   ```bash
+   cd ../
+   npm start
+   ```
+
+This will first start up the node server; once the node server is up, then it will automatically start the frontend React server. You should see some processes running in your terminal, with either blue `[BACKEND]` or pink `[FRONTEND]` labels at the beginning of each line.
+
+You may sometimes see messages that say port 5000 is already. You may have to wait a couple of seconds for the threads to finish processing. You will know it is working correctly when you see `You can now view tdm-calculator-client in the browser` and that `http://localhost:3000` is running.
+
+#### Alternatively, you can run the servers independently
+
+If running the servers concurrently from the root directory does not work, you can run the servers independently.
 
 1. In one terminal window, navigate back to the /tdm-calculator/server directory and start the node server:
 
@@ -104,7 +131,6 @@ We use the "Git Flow" workflow to manage source code. See [Vincent Driessen's se
    ```bash
    git add -A
    git commit -m "Write your commit message here with overall description of your code changes"
-   git push origin HEAD
    ```
 
    Pay close attention to the messages you get when you try to commit. There is a git commit hook that will run eslint and prettier on your code to check for compliance with our coding conventions, and any deviation will be flagged as errors and block the commit from completing. You will need to resolve these problems and then try again.
@@ -115,7 +141,21 @@ We use the "Git Flow" workflow to manage source code. See [Vincent Driessen's se
    git pull origin develop
    ```
 
-1. Resolve any merge conflicts and _run the application_ (client and server) to be sure that the application builds correctly before proceeding. Then push your changes to your feature branch on the github repo:
+1. Resolve any merge conflicts and _run the application_ (client and server) to be sure that the application builds correctly before proceeding.
+
+1. From the root directory, run:
+
+   ```bash
+   ./push.sh
+   ```
+
+   This will compare your code with the latest code from the _origin/develop_ branch. Depending on if there are changes to the client, server, or both, this push script will run tests accordingly.
+
+   If there are failing tests, please fix your code implementation to ensure test are passing, or if necessary, update the tests.
+
+   Once tests are all passing, this script will automatically push your changes to a remote feature branch on the github repo.
+
+   However, if you need to manually push your changes to a remote branch, you can run
 
    ```bash
    git push origin HEAD
