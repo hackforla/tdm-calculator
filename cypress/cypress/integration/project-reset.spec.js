@@ -62,7 +62,7 @@ describe("Reset Project with Auth", () => {
 });
 
 const projectInfo = {
-  name: "Residental Flow",
+  name: "Project Reset Flow",
   address: "123 S. Somewhere Ave",
   ain: "1234567890",
 };
@@ -139,7 +139,7 @@ const checkProjectInfo = (projectInfo) => {
 };
 
 const fillProjectSpecifications = (specs) => {
-  // Specifications Page - Residental
+  // Specifications Page
   cy.get("#UNITS_HABIT_LT3").type(specs.habitableLessThan3);
   cy.get("#UNITS_HABIT_3").type(specs.habitable3);
   cy.get("#UNITS_HABIT_GT3").type(specs.habitableGreaterThan3);

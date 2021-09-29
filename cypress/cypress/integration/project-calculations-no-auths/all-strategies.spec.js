@@ -24,7 +24,7 @@ const projectInfo = {
   description: "description for this project",
 };
 
-const residentalSpecs = {
+const residentialSpecs = {
   habitableLessThan3: "5",
   habitable3: "10",
   habitableGreaterThan3: "15",
@@ -54,29 +54,17 @@ describe.skip("Everything", () => {
     cy.findByTestId("rightNavArrow").click();
 
     // Project Specifications
-    // Residental
-    cy.get("#UNITS_HABIT_LT3").type(residentalSpecs.habitableLessThan3);
-    cy.get("#UNITS_HABIT_3").type(residentalSpecs.habitable3);
-    cy.get("#UNITS_HABIT_GT3").type(residentalSpecs.habitableGreaterThan3);
-    cy.get("#UNITS_CONDO").type(residentalSpecs.condoUnits);
-    cy.get("#PARK_CONDO").type(residentalSpecs.condoUnitsRequiredParking);
-    cy.get("#TARGET_POINTS_PARK").should(
-      "have.text",
-      residentalSpecs.expectedPointsBefore
-    );
-    cy.get("#PROJECT_LEVEL").should(
-      "have.text",
-      residentalSpecs.expectedLevelBefore
-    );
+    // Residential
+    cy.get("#UNITS_HABIT_LT3").type(residentialSpecs.habitableLessThan3);
+    cy.get("#UNITS_HABIT_3").type(residentialSpecs.habitable3);
+    cy.get("#UNITS_HABIT_GT3").type(residentialSpecs.habitableGreaterThan3);
+    cy.get("#UNITS_CONDO").type(residentialSpecs.condoUnits);
+    cy.get("#PARK_CONDO").type(residentialSpecs.condoUnitsRequiredParking);
+    cy.get("#TARGET_POINTS_PARK").should("have.text", residentialSpecs.expectedPointsBefore);
+    cy.get("#PROJECT_LEVEL").should("have.text", residentialSpecs.expectedLevelBefore);
     cy.get("#AFFORDABLE_HOUSING").check();
-    cy.get("#TARGET_POINTS_PARK").should(
-      "have.text",
-      residentalSpecs.expectedLevelPointsAffordableHousing
-    );
-    cy.get("#PROJECT_LEVEL").should(
-      "have.text",
-      residentalSpecs.expectedLevelAfterAffordableHousing
-    );
+    cy.get("#TARGET_POINTS_PARK").should("have.text", residentialSpecs.expectedLevelPointsAffordableHousing);
+    cy.get("#PROJECT_LEVEL").should("have.text", residentialSpecs.expectedLevelAfterAffordableHousing);
     // cy.findByTestId("rightNavArrow").click();
 
     // cy.findByTestId("PARK_SPACES").type(p.parkingProvided);

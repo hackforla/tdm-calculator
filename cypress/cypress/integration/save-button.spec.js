@@ -67,37 +67,23 @@ describe("Save Button", () => {
       cy.visit("/projects");
       cy.findByText("Some Project Hotel").should("be.visible").click();
 
-      cy.findByRole("textbox", { name: "Project Description" }).type(
-        "Description of project"
-      );
-      cy.findByRole("button", { name: "Save Project" }).should(
-        "not.be.disabled"
-      );
+      cy.findByRole("textbox", { name: "Project Description" }).type("Description of project");
+      cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
 
       cy.findByTestId("rightNavArrow").click();
-      cy.findByRole("button", { name: "Save Project" }).should(
-        "not.be.disabled"
-      );
+      cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
 
       cy.findByTestId("rightNavArrow").click();
-      cy.findByRole("button", { name: "Save Project" }).should(
-        "not.be.disabled"
-      );
+      cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
 
       cy.findByTestId("rightNavArrow").click();
-      cy.findByRole("button", { name: "Save Project" }).should(
-        "not.be.disabled"
-      );
+      cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
 
       cy.findByTestId("rightNavArrow").click();
-      cy.findByRole("button", { name: "Save Project" }).should(
-        "not.be.disabled"
-      );
+      cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
 
       cy.findByTestId("rightNavArrow").click();
-      cy.findByRole("button", { name: "Save Project" }).should(
-        "not.be.disabled"
-      );
+      cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
     });
   });
 
@@ -119,7 +105,7 @@ describe("Save Button", () => {
 });
 
 const projectInfo = {
-  name: "Residental Flow",
+  name: "Save Button Flow",
   address: "123 S. Somewhere Ave",
   ain: "1234567890",
 };
@@ -158,7 +144,7 @@ const fillProjectInfo = (projectInfo) => {
 };
 
 const fillProjectSpecifications = (specs) => {
-  // Specifications Page - Residental
+  // Specifications Page
   cy.get("#UNITS_HABIT_LT3").type(specs.habitableLessThan3);
   cy.get("#UNITS_HABIT_3").type(specs.habitable3);
   cy.get("#UNITS_HABIT_GT3").type(specs.habitableGreaterThan3);
