@@ -1,24 +1,25 @@
 {
   "name": "root",
-  "version": "0.2.31",
+  "version": "0.2.32",
   "private": true,
   "scripts": {
     "release-notes": "gren release --override",
     "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\" ",
     "start:backend": "cd ./server && npm start",
-    "start:frontend": "wait-on http://localhost:5000/api/rules && cd ./client && npm start"
+    "start:frontend": "wait-on http://localhost:5000/api/rules && cd ./client && npm start",
+    "prepare": "husky install"
   },
   "dependencies": {
     "wait-on": "^6.0.0"
-  },
-  "devDependencies": {
-    "concurrently": "^6.2.0",
-    "husky": "^4.3.5",
-    "lerna": "^3.22.1"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lerna run lint"
     }
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1",
+    "husky": "^7.0.2",
+    "lerna": "^4.0.0"
   }
 }

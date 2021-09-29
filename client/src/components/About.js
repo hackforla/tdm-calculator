@@ -71,7 +71,11 @@ const About = () => {
             <a href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility">
               Los Angeles City Planning, Mobility
             </a>
-            , Proposed Ordinances and Initiatives{" "}
+          </li>
+          <li className={classes.linklist}>
+            <a href="https://planning.lacity.org/odocument/9fae920f-d618-4362-bd01-adb6abfbd80d/Draft_TDM_Program_Guidelines.pdf">
+              Proposed Ordinances and Initiatives
+            </a>
           </li>
           <li className={classes.linklist}>
             <a href="https://www.youtube.com/watch?v=mAxseCqySuM">

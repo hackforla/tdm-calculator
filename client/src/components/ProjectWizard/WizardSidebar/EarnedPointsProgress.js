@@ -10,8 +10,8 @@ See https://css-tricks.com/building-progress-ring-quickly/
 for explanation of operation
 */
 
-const DIAL_RADIUS = 95;
-const STROKE_WIDTH = 15;
+const DIAL_RADIUS = 105;
+const STROKE_WIDTH = 18;
 
 const useStyles = createUseStyles({
   container: {
@@ -32,7 +32,7 @@ const useStyles = createUseStyles({
     gridRow: 1,
     zIndex: 4,
     fontFamily: "Oswald",
-    fontSize: "48px",
+    fontSize: "76px",
     fontWeight: "700",
     color: ({ theme }) => theme.colorLADOT,
     justifySelf: "center",
@@ -58,12 +58,12 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginLeft: "99px",
-    marginTop: "90px"
+    marginLeft: "116px",
+    marginTop: "106px"
   },
   targetPointsLabel: { fontSize: "14px" },
   rotate: {
-    transform: "rotate(75deg)"
+    transform: "rotate(65deg)"
   },
   progress: {
     transition: "stroke-dashoffset 18s"
@@ -72,7 +72,7 @@ const useStyles = createUseStyles({
     gridRow: 1,
     gridColumn: 1,
     zIndex: 10,
-    marginLeft: 170,
+    marginLeft: 190,
     marginTop: 45
   },
   tooltip: {
@@ -121,7 +121,7 @@ const EarnedPointsProgress = props => {
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = Math.max(
     0,
-    circumference - (earned / target) * 0.85 * circumference
+    circumference - (earned / target) * 0.875 * circumference
   );
 
   return (
@@ -133,11 +133,11 @@ const EarnedPointsProgress = props => {
       }
     >
       <div className={classes.earnedPointsValue}>
-        <div>{earned}</div>
+        <div id={rulesConfig.earnedPointsRule.code}>{earned}</div>
         <div className={classes.earnedPointsLabel}>EARNED</div>
       </div>
       <div className={classes.targetPointsValue}>
-        <div>{target}</div>
+        <div id={rulesConfig.targetPointsRule.code}>{target}</div>
         <div className={classes.targetPointsLabel}>TARGET</div>
       </div>
       <div
@@ -191,8 +191,8 @@ const EarnedPointsProgress = props => {
           stroke={theme.colorPrimary}
           fill={theme.colorPrimary}
           r="28"
-          cx="154"
-          cy="61"
+          cx="178"
+          cy="76"
           style={{
             gridColumn: 1,
             gridRow: 1,

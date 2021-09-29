@@ -44,7 +44,7 @@ const summary = {
   expectedEarnedPoints: strategies.expectedEarnedPoints,
   expectedParkingRatioBaseline: `${Math.floor(
     calculate.expectedParkingRatioBaseline
-  )}%`,
+  )}`,
 };
 
 describe("Residential User Flow", () => {
