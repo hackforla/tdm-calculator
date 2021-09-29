@@ -47,14 +47,13 @@ const summary = {
 
 describe("Residential User Flow", () => {
   it("residential project info and specs", () => {
-    cy.visit("/calculation");
-    cy.findByText("Accept").click(); // Dismiss Terms and Conditions dialog
+    cy.goToStart();
 
     // Project Info Page
     cy.get("#PROJECT_NAME").type(projectInfo.name);
     cy.get("#PROJECT_ADDRESS").type(projectInfo.address);
     cy.get("#APN").type(projectInfo.ain);
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 2
+    cy.goToNextPage(); // Go to Page 2
 
     // Specifications Page
     cy.get("#UNITS_HABIT_LT3").type(specs.habitableLessThan3);
@@ -73,7 +72,7 @@ describe("Residential User Flow", () => {
     // Specifications Page - Check points and level after clicking affordable housing
     cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPointsAfterAffordableHousing);
     cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelAfterAffordableHousing);
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 3
+    cy.goToNextPage(); // Go to Page 3
 
     // Calculate TDM Target Points Page
     cy.get("#PARK_SPACES").type(calculate.parkingProvided);
@@ -81,19 +80,19 @@ describe("Residential User Flow", () => {
     cy.get("#PROJECT_LEVEL").should("have.text", calculate.expectedLevel);
     cy.get("#PARK_REQUIREMENT").should("have.text", calculate.expectedCityParkingBaseline);
     cy.get("#CALC_PARK_RATIO").should("have.text", calculate.expectedParkingRatioBaseline);
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 4
+    cy.goToNextPage(); // Go to Page 4
 
     // Bonus Package Info Page
     cy.get("#app-container").should("contain", bonusPackage.expectedPageText);
     cy.get("#app-container").should("contain", bonusPackage.expectedPackage);
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 5
+    cy.goToNextPage(); // Go to Page 5
 
     // Strategies Page
     cy.get("#packageResidential").check();
     cy.get("#STRATEGY_AFFORDABLE").select(strategies.affordableHousingLevel);
     cy.get("#STRATEGY_PARKING_5").select(strategies.reducedParkingSupply);
     cy.get("#PTS_EARNED").should("have.text", strategies.expectedEarnedPoints);
-    cy.findByTestId("rightNavArrow").click(); // Go to Summary Page
+    cy.goToNextPage(); // Go to Summary Page
 
     // Summary Page
     cy.findByText(projectInfo.name).should("be.visible");

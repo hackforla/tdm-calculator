@@ -41,14 +41,13 @@ const summary = {
 
 describe("Hotel/Motel Flow", () => {
   it("verifies project info and calculations", () => {
-    cy.visit("/calculation");
-    cy.findByText("Accept").click(); // Dismiss Terms and Conditions dialog
+    cy.goToStart();
 
     // Project Info Page
     cy.get("#PROJECT_NAME").type(projectInfo.name);
     cy.get("#PROJECT_ADDRESS").type(projectInfo.address);
     cy.get("#APN").type(projectInfo.ain);
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 2
+    cy.goToNextPage(); // Go to Page 2
 
     // Specifications Page
     cy.findByTestId("UNITS_GUEST").type(specs.numberOfGuestRooms);
@@ -56,7 +55,7 @@ describe("Hotel/Motel Flow", () => {
     // Specifications Page - Check points and level at this point
     cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelBefore);
     cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPointsBefore);
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 3
+    cy.goToNextPage(); // Go to Page 3
 
     // Calculate TDM Target Points Page
     cy.get("#PARK_SPACES").type(calculate.parkingProvided);
@@ -64,7 +63,7 @@ describe("Hotel/Motel Flow", () => {
     cy.get("#PROJECT_LEVEL").should("have.text", calculate.expectedLevel);
     cy.get("#PARK_REQUIREMENT").should("have.text", calculate.expectedCityParkingBaseline);
     cy.get("#CALC_PARK_RATIO").should("have.text", calculate.expectedParkingRatioBaseline);
-    cy.findByTestId("rightNavArrow").click(); // Go to Page 4
+    cy.goToNextPage(); // Go to Page 4
 
     // Strategies Page
     cy.get("#STRATEGY_BIKE_4").should("be.checked"); // Bike Parking should be pre-selected
@@ -75,7 +74,7 @@ describe("Hotel/Motel Flow", () => {
     cy.get("#STRATEGY_INFO_2").check(); // Wayfinding
     cy.get("#STRATEGY_INFO_3").select(strategies.encouragementProgram);
     cy.get("#STRATEGY_TRANSIT_ACCESS_3").select(strategies.transitPasses);
-    cy.findByTestId("rightNavArrow").click(); // Go to Summary Page
+    cy.goToNextPage(); // Go to Summary Page
 
     // Summary Page
     cy.findByText(projectInfo.name).should("be.visible");

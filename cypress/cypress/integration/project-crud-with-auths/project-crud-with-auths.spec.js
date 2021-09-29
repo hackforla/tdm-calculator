@@ -35,12 +35,12 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
 
       cy.findByTestId("PROJECT_NAME").type(" Updated");
       cy.findByTestId("VERSION_NO").type("v2");
-      cy.findByTestId("rightNavArrow").click();
-      cy.findByTestId("rightNavArrow").click();
-      cy.findByTestId("rightNavArrow").click();
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
+      cy.goToNextPage();
+      cy.goToNextPage();
+      cy.goToNextPage();
       cy.get("#STRATEGY_BIKE_2").click();
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).click();
 
       // Expected toast behavior is TBD
@@ -80,21 +80,21 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
     cy.findByTestId("PROJECT_DESCRIPTION").type("Cypress Test Project");
 
     // Advance to specifications page
-    cy.findByTestId("rightNavArrow").click();
+    cy.goToNextPage();
 
     cy.findByTestId("UNITS_HABIT_GT3").type("150");
 
     // Advance to Target Points Page
     // (Should skip Package Page, since Level 3)
-    cy.findByTestId("rightNavArrow").click();
+    cy.goToNextPage();
 
     cy.findByTestId("PARK_SPACES").type("300");
 
     // Advance to Strategies
-    cy.findByTestId("rightNavArrow").click();
+    cy.goToNextPage();
 
     // Advance to Summary Page
-    cy.findByTestId("rightNavArrow").click();
+    cy.goToNextPage();
   };
 
   const postNewProject = () => {
@@ -109,8 +109,7 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
         calculationId: 1,
         dateCreated: "2020-11-12T00:38:42.763Z",
         dateModified: "2020-11-12T00:39:04.436Z",
-        description:
-          "80-room four-story hotel. Spreadsheet has parkingcalc error.",
+        description: "80-room four-story hotel. Spreadsheet has parkingcalc error.",
         loginId: 37, // ladot
         firstName: "LA",
         lastName: "DOT",

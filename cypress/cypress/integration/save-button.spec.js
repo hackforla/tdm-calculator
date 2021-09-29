@@ -3,35 +3,6 @@ import "@testing-library/cypress/add-commands";
 /// <reference types="cypress"/>
 
 describe("Save Button", () => {
-  const postNewProject = () => {
-    return cy.request({
-      method: "POST",
-      url: "http://localhost:5000/api/projects",
-      body: {
-        name: "Some Project Hotel",
-        address: "12425 Hotel Bl.",
-        formInputs:
-          '{"PROJECT_NAME":"Some Project Hotel",\
-          "PROJECT_ADDRESS":"12425 Victory Bl.",\
-          "PROJECT_DESCRIPTION":"80-room four-story hotel.",\
-          "APN":"1234-567-890",\
-          "LAND_USE_HOTEL":true,\
-          "UNITS_GUEST":"80",\
-          "PARK_SPACES":"76",\
-          "STRATEGY_HOV_3":true,\
-          "STRATEGY_BIKE_4":true,\
-          "STRATEGY_INFO_2":true}',
-        calculationId: 1,
-        dateCreated: "2020-11-12T00:38:42.763Z",
-        dateModified: "2020-11-12T00:39:04.436Z",
-        description: "80-room four-story hotel.",
-        loginId: 37, // ladot
-        firstName: "LA",
-        lastName: "DOT",
-      },
-    });
-  };
-
   beforeEach(() => {
     window.localStorage.setItem("termsAndConditions", "Accepted");
   });
@@ -44,19 +15,19 @@ describe("Save Button", () => {
 
       cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
 
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
 
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
 
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
 
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
 
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).should("be.disabled");
     });
   });
@@ -70,39 +41,68 @@ describe("Save Button", () => {
       cy.findByRole("textbox", { name: "Project Description" }).type("Description of project");
       cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
 
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
 
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
 
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
 
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
 
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByRole("button", { name: "Save Project" }).should("not.be.disabled");
     });
   });
 
   it("hides save button for unauthenticated users", () => {
-    goToStart();
+    cy.goToStart();
     fillProjectInfo(projectInfo);
     cy.findByRole("button", { name: "Save Project" }).should("not.exist");
-    goToNextPage(); // Go to Page 2
+    cy.goToNextPage(); // Go to Page 2
     fillProjectSpecifications(specs);
     cy.findByRole("button", { name: "Save Project" }).should("not.exist");
-    goToNextPage(); // Go to Page 3
+    cy.goToNextPage(); // Go to Page 3
     cy.get("#PARK_SPACES").type(calculate.parkingProvided);
     cy.findByRole("button", { name: "Save Project" }).should("not.exist");
-    goToNextPage(); // Go to Page 4
+    cy.goToNextPage(); // Go to Page 4
     cy.findByRole("button", { name: "Save Project" }).should("not.exist");
-    goToNextPage(); // Go to Page 5
+    cy.goToNextPage(); // Go to Page 5
     cy.findByRole("button", { name: "Save Project" }).should("not.exist");
   });
 });
+
+const postNewProject = () => {
+  return cy.request({
+    method: "POST",
+    url: "http://localhost:5000/api/projects",
+    body: {
+      name: "Some Project Hotel",
+      address: "12425 Hotel Bl.",
+      formInputs:
+        '{"PROJECT_NAME":"Some Project Hotel",\
+        "PROJECT_ADDRESS":"12425 Victory Bl.",\
+        "PROJECT_DESCRIPTION":"80-room four-story hotel.",\
+        "APN":"1234-567-890",\
+        "LAND_USE_HOTEL":true,\
+        "UNITS_GUEST":"80",\
+        "PARK_SPACES":"76",\
+        "STRATEGY_HOV_3":true,\
+        "STRATEGY_BIKE_4":true,\
+        "STRATEGY_INFO_2":true}',
+      calculationId: 1,
+      dateCreated: "2020-11-12T00:38:42.763Z",
+      dateModified: "2020-11-12T00:39:04.436Z",
+      description: "80-room four-story hotel.",
+      loginId: 37, // ladot
+      firstName: "LA",
+      lastName: "DOT",
+    },
+  });
+};
 
 const projectInfo = {
   name: "Save Button Flow",
@@ -124,16 +124,6 @@ const specs = {
 
 const calculate = {
   parkingProvided: "115",
-};
-
-const goToStart = () => {
-  // skip Terms and Conditions dialog
-  window.localStorage.setItem("termsAndConditions", "Accepted");
-  cy.visit("/calculation");
-};
-
-const goToNextPage = () => {
-  cy.findByTestId("rightNavArrow").click();
 };
 
 const fillProjectInfo = (projectInfo) => {

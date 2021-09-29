@@ -2,9 +2,9 @@
 
 describe("Reset Project No Auth", () => {
   beforeEach(() => {
-    goToStart();
+    cy.goToStart();
     fillProjectInfo(projectInfo);
-    goToNextPage(); // Go to Page 2
+    cy.goToNextPage(); // Go to Page 2
 
     fillProjectSpecifications(specs);
   });
@@ -14,11 +14,11 @@ describe("Reset Project No Auth", () => {
   });
 
   it("from Strategies page", () => {
-    goToNextPage(); // Go to Page 3
+    cy.goToNextPage(); // Go to Page 3
 
     // Calculate TDM Target Points Page
     cy.get("#PARK_SPACES").type(calculate.parkingProvided);
-    goToNextPage(); // Go to Page 4
+    cy.goToNextPage(); // Go to Page 4
 
     resetProjectAndTest(checkProjectIsEmpty);
   });
@@ -27,7 +27,7 @@ describe("Reset Project No Auth", () => {
     goToPreviousPage();
     makeChanges(projectInfoChanges);
 
-    goToNextPage(); // Go to Page 2
+    cy.goToNextPage(); // Go to Page 2
     resetProjectCancelAndTest(testChangesAreNotUndone);
   });
 });
@@ -42,21 +42,21 @@ describe("Reset Project with Auth", () => {
   });
 
   it("with no change from spec page", () => {
-    goToNextPage(); // Go to Page 2
+    cy.goToNextPage(); // Go to Page 2
     resetProjectAndTest(testProjectIsReloaded);
   });
 
   it("with change from spec page", () => {
     makeChanges(projectInfoChanges);
 
-    goToNextPage(); // Go to Page 2
+    cy.goToNextPage(); // Go to Page 2
     resetProjectAndTest(testChangesAreReset);
   });
 
   it("cancel should not reset", () => {
     makeChanges(projectInfoChanges);
 
-    goToNextPage(); // Go to Page 2
+    cy.goToNextPage(); // Go to Page 2
     resetProjectCancelAndTest(testChangesAreNotUndone);
   });
 });
@@ -95,15 +95,9 @@ const calculate = {
 
 const login = () => {
   cy.loginAs("ladot").then(cy.resetProjects);
-  goToStart();
+  cy.goToStart();
 
   //Cypress.Cookies.preserveOnce('jwt');
-};
-
-const goToStart = () => {
-  // skip Terms and Conditions dialog
-  window.localStorage.setItem("termsAndConditions", "Accepted");
-  cy.visit("/calculation");
 };
 
 const goToProjects = () => {
@@ -112,10 +106,6 @@ const goToProjects = () => {
     .then(() => {
       cy.url().should("contain", "/projects");
     });
-};
-
-const goToNextPage = () => {
-  cy.findByTestId("rightNavArrow").click();
 };
 
 const goToPreviousPage = () => {
@@ -182,10 +172,10 @@ const resetProjectCancelAndTest = (test) => {
 
 const createProject = (projectInfo, specs, calculate) => {
   fillProjectInfo(projectInfo);
-  goToNextPage(); // Go to Page 2
+  cy.goToNextPage(); // Go to Page 2
 
   fillProjectSpecifications(specs);
-  goToNextPage(); // Go to Page 3
+  cy.goToNextPage(); // Go to Page 3
 
   // Calculate TDM Target Points Page
   cy.get("#PARK_SPACES").type(calculate.parkingProvided);
@@ -212,7 +202,7 @@ const testChanges = (projectInfo) => {
 
 const testProjectIsReloaded = () => {
   checkProjectInfo(projectInfo);
-  goToNextPage(); // Go to Page 2
+  cy.goToNextPage(); // Go to Page 2
   checkProjectSpecifications(specs);
 };
 

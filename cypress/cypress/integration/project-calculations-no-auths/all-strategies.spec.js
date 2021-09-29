@@ -37,10 +37,9 @@ const residentialSpecs = {
 };
 
 describe.skip("Everything", () => {
-  it("verify calculation", () => {
+  it("verify everything", () => {
     cy.visit("/calculation");
-    // Dismiss Terms and Conditions dialog
-    cy.findByText("Accept").click();
+    cy.findByText("Accept").click(); // Dismiss Terms and Conditions dialog
 
     // Project Info
     cy.get("#PROJECT_NAME").type(projectInfo.name);
@@ -51,7 +50,7 @@ describe.skip("Everything", () => {
     cy.get("#CASE_NO_LADOT").type(projectInfo.ladotCase);
     cy.get("#CASE_NO_PLANNING").type(projectInfo.laPlanningCase);
     cy.get("#PROJECT_DESCRIPTION").type(projectInfo.description);
-    cy.findByTestId("rightNavArrow").click();
+    cy.goToNextPage();
 
     // Project Specifications
     // Residential
@@ -65,7 +64,7 @@ describe.skip("Everything", () => {
     cy.get("#AFFORDABLE_HOUSING").check();
     cy.get("#TARGET_POINTS_PARK").should("have.text", residentialSpecs.expectedLevelPointsAffordableHousing);
     cy.get("#PROJECT_LEVEL").should("have.text", residentialSpecs.expectedLevelAfterAffordableHousing);
-    // cy.findByTestId("rightNavArrow").click();
+    // cy.goToNextPage();
 
     // cy.findByTestId("PARK_SPACES").type(p.parkingProvided);
     // cy.get("#PARK_REQUIREMENT").should(
@@ -77,12 +76,12 @@ describe.skip("Everything", () => {
     //   p.expectedParkingBaselinePercentage
     // );
 
-    // cy.findByTestId("rightNavArrow").click();
+    // cy.goToNextPage();
     // // Now we are on the Packge Info Page, since this is a level 1 project
     // // with residential land use
 
     // // Go to Strategies Page
-    // cy.findByTestId("rightNavArrow").click();
+    // cy.goToNextPage();
 
     // // Bike Parking should be pre-selected
     // cy.get("#STRATEGY_BIKE_4").should("be.checked");
@@ -94,7 +93,7 @@ describe.skip("Everything", () => {
     // cy.get("#STRATEGY_AFFORDABLE").select(p.affordableHousingLevel);
 
     // // Go to Summary Page
-    // cy.findByTestId("rightNavArrow").click();
+    // cy.goToNextPage();
 
     // cy.findByText(p.projectName).should("be.visible");
     // cy.findByText(p.address).should("be.visible");
