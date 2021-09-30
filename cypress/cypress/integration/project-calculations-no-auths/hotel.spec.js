@@ -1,40 +1,34 @@
+import "@testing-library/cypress/add-commands";
 /// <reference types="cypress" />
 
 const projectInfo = {
-  name: "Residential Flow",
-  address: "123 S. Somewhere Ave",
+  name: "Hotel/Motel Flow",
+  address: "12425 Victory Bl.",
   ain: "1234567890",
 };
 
 const specs = {
-  habitableLessThan3: "10",
-  habitable3: "10",
-  habitableGreaterThan3: "10",
-  condoUnits: "20",
-  condoUnitsRequiredParking: "40",
+  numberOfGuestRooms: "100",
   expectedLevelBefore: "2",
   expectedTargetPointsBefore: "20",
-  expectedLevelAfterAffordableHousing: "1",
-  expectedTargetPointsAfterAffordableHousing: "15",
 };
 
 const calculate = {
-  parkingProvided: "115",
-  expectedLevel: "1",
-  expectedTargetPoints: "21",
-  expectedCityParkingBaseline: "85",
-  expectedParkingRatioBaseline: "135.29",
-};
-
-const bonusPackage = {
-  expectedPageText: "You qualify for a bonus package!",
-  expectedPackage: "Residential Package",
+  parkingProvided: "100",
+  expectedLevel: "2",
+  expectedTargetPoints: "30",
+  expectedCityParkingBaseline: "57",
+  expectedParkingRatioBaseline: "175.44",
 };
 
 const strategies = {
-  affordableHousingLevel: "20% of State Density Bonus",
-  reducedParkingSupply: "Reduces 50%-74% of spaces available",
-  expectedEarnedPoints: "21",
+  changingShowerLocker: "Publicly Accessible AND in a disadvantaged area",
+  carShareParking: "Publicly Accessible",
+  transitDisplays: "Publicly visible",
+  encouragementProgram: "Education, Marketing & Outreach",
+  transitPasses: "50%-74% of monthly fare",
+  // HOV Parking & Wayfinding are also "checked" below
+  expectedEarnedPoints: "31",
 };
 
 const summary = {
@@ -45,8 +39,8 @@ const summary = {
   expectedParkingRatioBaseline: `${Math.floor(calculate.expectedParkingRatioBaseline)}`,
 };
 
-describe("Residential User Flow", () => {
-  it("residential project info and specs", () => {
+describe("Hotel/Motel Flow", () => {
+  it("verifies project info and calculations", () => {
     cy.goToStart();
 
     // Project Info Page
@@ -56,22 +50,11 @@ describe("Residential User Flow", () => {
     cy.goToNextPage(); // Go to Page 2
 
     // Specifications Page
-    cy.get("#UNITS_HABIT_LT3").type(specs.habitableLessThan3);
-    cy.get("#UNITS_HABIT_3").type(specs.habitable3);
-    cy.get("#UNITS_HABIT_GT3").type(specs.habitableGreaterThan3);
-    cy.get("#UNITS_CONDO").type(specs.condoUnits);
-    cy.get("#PARK_CONDO").type(specs.condoUnitsRequiredParking);
+    cy.findByTestId("UNITS_GUEST").type(specs.numberOfGuestRooms);
 
     // Specifications Page - Check points and level at this point
     cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelBefore);
     cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPointsBefore);
-
-    // Specifications Page - Select on Affordable Housing
-    cy.get("#AFFORDABLE_HOUSING").check();
-
-    // Specifications Page - Check points and level after clicking affordable housing
-    cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPointsAfterAffordableHousing);
-    cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelAfterAffordableHousing);
     cy.goToNextPage(); // Go to Page 3
 
     // Calculate TDM Target Points Page
@@ -82,16 +65,15 @@ describe("Residential User Flow", () => {
     cy.get("#CALC_PARK_RATIO").should("have.text", calculate.expectedParkingRatioBaseline);
     cy.goToNextPage(); // Go to Page 4
 
-    // Bonus Package Info Page
-    cy.get("#app-container").should("contain", bonusPackage.expectedPageText);
-    cy.get("#app-container").should("contain", bonusPackage.expectedPackage);
-    cy.goToNextPage(); // Go to Page 5
-
     // Strategies Page
-    cy.get("#packageResidential").check();
-    cy.get("#STRATEGY_AFFORDABLE").select(strategies.affordableHousingLevel);
-    cy.get("#STRATEGY_PARKING_5").select(strategies.reducedParkingSupply);
-    cy.get("#PTS_EARNED").should("have.text", strategies.expectedEarnedPoints);
+    cy.get("#STRATEGY_BIKE_4").should("be.checked"); // Bike Parking should be pre-selected
+    cy.get("#STRATEGY_BIKE_5").select(strategies.changingShowerLocker);
+    cy.get("#STRATEGY_CAR_SHARE_1").select(strategies.carShareParking);
+    cy.get("#STRATEGY_HOV_3").check(); // HOV Parking
+    cy.get("#STRATEGY_INFO_1").select(strategies.transitDisplays);
+    cy.get("#STRATEGY_INFO_2").check(); // Wayfinding
+    cy.get("#STRATEGY_INFO_3").select(strategies.encouragementProgram);
+    cy.get("#STRATEGY_TRANSIT_ACCESS_3").select(strategies.transitPasses);
     cy.goToNextPage(); // Go to Summary Page
 
     // Summary Page

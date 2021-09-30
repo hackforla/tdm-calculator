@@ -57,12 +57,12 @@ describe("Duplicate Project Flow", () => {
       // Check to see if form inputs copied over correctly
       cy.findByDisplayValue("Some Project Hotel (COPY)").should("be.visible");
       cy.findByDisplayValue("12425 Victory Bl.").should("be.visible");
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByDisplayValue("80").should("be.visible");
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByDisplayValue("76").should("be.visible");
-      cy.findByTestId("rightNavArrow").click();
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
+      cy.goToNextPage();
       cy.get("#STRATEGY_BIKE_4").should("be.checked");
       cy.get("#STRATEGY_HOV_3").should("be.checked");
       cy.get("#STRATEGY_INFO_2").should("be.checked");
@@ -77,27 +77,21 @@ describe("Duplicate Project Flow", () => {
 
       cy.findByAltText(`Duplicate Project #${res.body.id} Icon`).click();
 
-      cy.findByPlaceholderText("Name of Duplicated Project")
-        .clear()
-        .type("This is a new name for the duplicated project");
+      cy.findByPlaceholderText("Name of Duplicated Project").clear().type("This is a new name for the duplicated project");
 
       cy.findByRole("button", { name: "Create a Copy" }).click();
 
-      cy.findByText("This is a new name for the duplicated project")
-        .should("be.visible")
-        .click();
+      cy.findByText("This is a new name for the duplicated project").should("be.visible").click();
 
       // Check to see if form inputs copied over correctly
-      cy.findByDisplayValue(
-        "This is a new name for the duplicated project"
-      ).should("be.visible");
+      cy.findByDisplayValue("This is a new name for the duplicated project").should("be.visible");
       cy.findByDisplayValue("12425 Victory Bl.").should("be.visible");
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByDisplayValue("80").should("be.visible");
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
       cy.findByDisplayValue("76").should("be.visible");
-      cy.findByTestId("rightNavArrow").click();
-      cy.findByTestId("rightNavArrow").click();
+      cy.goToNextPage();
+      cy.goToNextPage();
       cy.get("#STRATEGY_BIKE_4").should("be.checked");
       cy.get("#STRATEGY_HOV_3").should("be.checked");
       cy.get("#STRATEGY_INFO_2").should("be.checked");
