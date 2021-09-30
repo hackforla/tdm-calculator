@@ -16,7 +16,7 @@
   "author": "Hack for LA",
   "license": "ISC",
   "devDependencies": {
-    "@testing-library/cypress": "^7.0.1",
+    "@testing-library/cypress": "^8.0.1",
     "cypress": "^8.4.0",
     "start-server-and-test": "^1.12.1"
   }
