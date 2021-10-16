@@ -76,7 +76,10 @@ const ToolTipLabel = ({
       data-html="true"
     >
       {children}
-      {tooltipContent && code && !code.startsWith("STRATEGY") ? (
+      {tooltipContent &&
+      code &&
+      !code.startsWith("STRATEGY") &&
+      !code.startsWith("PKG") ? (
         <ToolTipIcon />
       ) : null}
     </label>

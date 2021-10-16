@@ -24,7 +24,7 @@ const projectInfo = {
   description: "description for this project",
 };
 
-const residentalSpecs = {
+const residentialSpecs = {
   habitableLessThan3: "5",
   habitable3: "10",
   habitableGreaterThan3: "15",
@@ -37,10 +37,9 @@ const residentalSpecs = {
 };
 
 describe.skip("Everything", () => {
-  it("verify calculation", () => {
+  it("verify everything", () => {
     cy.visit("/calculation");
-    // Dismiss Terms and Conditions dialog
-    cy.findByText("Accept").click();
+    cy.findByText("Accept").click(); // Dismiss Terms and Conditions dialog
 
     // Project Info
     cy.get("#PROJECT_NAME").type(projectInfo.name);
@@ -51,33 +50,21 @@ describe.skip("Everything", () => {
     cy.get("#CASE_NO_LADOT").type(projectInfo.ladotCase);
     cy.get("#CASE_NO_PLANNING").type(projectInfo.laPlanningCase);
     cy.get("#PROJECT_DESCRIPTION").type(projectInfo.description);
-    cy.findByTestId("rightNavArrow").click();
+    cy.goToNextPage();
 
     // Project Specifications
-    // Residental
-    cy.get("#UNITS_HABIT_LT3").type(residentalSpecs.habitableLessThan3);
-    cy.get("#UNITS_HABIT_3").type(residentalSpecs.habitable3);
-    cy.get("#UNITS_HABIT_GT3").type(residentalSpecs.habitableGreaterThan3);
-    cy.get("#UNITS_CONDO").type(residentalSpecs.condoUnits);
-    cy.get("#PARK_CONDO").type(residentalSpecs.condoUnitsRequiredParking);
-    cy.get("#TARGET_POINTS_PARK").should(
-      "have.text",
-      residentalSpecs.expectedPointsBefore
-    );
-    cy.get("#PROJECT_LEVEL").should(
-      "have.text",
-      residentalSpecs.expectedLevelBefore
-    );
+    // Residential
+    cy.get("#UNITS_HABIT_LT3").type(residentialSpecs.habitableLessThan3);
+    cy.get("#UNITS_HABIT_3").type(residentialSpecs.habitable3);
+    cy.get("#UNITS_HABIT_GT3").type(residentialSpecs.habitableGreaterThan3);
+    cy.get("#UNITS_CONDO").type(residentialSpecs.condoUnits);
+    cy.get("#PARK_CONDO").type(residentialSpecs.condoUnitsRequiredParking);
+    cy.get("#TARGET_POINTS_PARK").should("have.text", residentialSpecs.expectedPointsBefore);
+    cy.get("#PROJECT_LEVEL").should("have.text", residentialSpecs.expectedLevelBefore);
     cy.get("#AFFORDABLE_HOUSING").check();
-    cy.get("#TARGET_POINTS_PARK").should(
-      "have.text",
-      residentalSpecs.expectedLevelPointsAffordableHousing
-    );
-    cy.get("#PROJECT_LEVEL").should(
-      "have.text",
-      residentalSpecs.expectedLevelAfterAffordableHousing
-    );
-    // cy.findByTestId("rightNavArrow").click();
+    cy.get("#TARGET_POINTS_PARK").should("have.text", residentialSpecs.expectedLevelPointsAffordableHousing);
+    cy.get("#PROJECT_LEVEL").should("have.text", residentialSpecs.expectedLevelAfterAffordableHousing);
+    // cy.goToNextPage();
 
     // cy.findByTestId("PARK_SPACES").type(p.parkingProvided);
     // cy.get("#PARK_REQUIREMENT").should(
@@ -89,12 +76,12 @@ describe.skip("Everything", () => {
     //   p.expectedParkingBaselinePercentage
     // );
 
-    // cy.findByTestId("rightNavArrow").click();
+    // cy.goToNextPage();
     // // Now we are on the Packge Info Page, since this is a level 1 project
     // // with residential land use
 
     // // Go to Strategies Page
-    // cy.findByTestId("rightNavArrow").click();
+    // cy.goToNextPage();
 
     // // Bike Parking should be pre-selected
     // cy.get("#STRATEGY_BIKE_4").should("be.checked");
@@ -106,7 +93,7 @@ describe.skip("Everything", () => {
     // cy.get("#STRATEGY_AFFORDABLE").select(p.affordableHousingLevel);
 
     // // Go to Summary Page
-    // cy.findByTestId("rightNavArrow").click();
+    // cy.goToNextPage();
 
     // cy.findByText(p.projectName).should("be.visible");
     // cy.findByText(p.address).should("be.visible");

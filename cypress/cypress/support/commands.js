@@ -32,10 +32,7 @@ Cypress.Commands.add("loginAs", (userType) => {
     body: userCredentials,
   }).then((loginResponse) => {
     //TODO: check implementation if there's a better way to set localstorage. see setLoggedInAccount
-    localStorage.setItem(
-      "currentUser",
-      JSON.stringify(loginResponse.body.user)
-    );
+    localStorage.setItem("currentUser", JSON.stringify(loginResponse.body.user));
   });
 });
 
@@ -68,6 +65,16 @@ Cypress.Commands.add("resetProjects", (loginResponse) => {
         });
     }
   });
+});
+
+Cypress.Commands.add("goToStart", () => {
+  // skip Terms and Conditions dialog
+  window.localStorage.setItem("termsAndConditions", "Accepted");
+  cy.visit("/calculation");
+});
+
+Cypress.Commands.add("goToNextPage", () => {
+  cy.findByTestId("rightNavArrow").click();
 });
 
 Cypress.Screenshot.defaults({
