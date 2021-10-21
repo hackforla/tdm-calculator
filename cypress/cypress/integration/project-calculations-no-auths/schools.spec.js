@@ -85,7 +85,7 @@ describe("School Flow", () => {
     cy.goToNextPage(); // Go to Page 4
   });
 
-  it("dispays bonus package (page 4)", () => {
+  it("displays bonus package (page 4)", () => {
     cy.findByText("You qualify for a bonus package!");
     cy.findByText("Employment Package");
     cy.goToNextPage(); // Go to Page 5
