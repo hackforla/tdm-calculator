@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 const projectInfo = {
-  name: "Testing Everything!",
+  name: "Testing Every Strategy!",
   address: "123 S. Somewhere Ave",
   ain: "9999999999",
   version: "1",

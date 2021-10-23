@@ -40,32 +40,38 @@ const summary = {
 };
 
 describe("Hotel/Motel Flow", () => {
-  it("verifies project info and calculations", () => {
+  beforeEach(() => {
+    window.localStorage.setItem("termsAndConditions", "Accepted");
+  });
+
+  it("fills out project info (page 1)", () => {
     cy.goToStart();
 
-    // Project Info Page
     cy.get("#PROJECT_NAME").type(projectInfo.name);
     cy.get("#PROJECT_ADDRESS").type(projectInfo.address);
     cy.get("#APN").type(projectInfo.ain);
     cy.goToNextPage(); // Go to Page 2
+  });
 
-    // Specifications Page
+  it("fills out project specifications and validates points (page 2)", () => {
     cy.findByTestId("UNITS_GUEST").type(specs.numberOfGuestRooms);
 
-    // Specifications Page - Check points and level at this point
+    // Check points and level at this point
     cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelBefore);
     cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPointsBefore);
     cy.goToNextPage(); // Go to Page 3
+  });
 
-    // Calculate TDM Target Points Page
+  it("fills out parking spaces provided and validates points (page 3)", () => {
     cy.get("#PARK_SPACES").type(calculate.parkingProvided);
     cy.get("#TARGET_POINTS_PARK").should("have.text", calculate.expectedTargetPoints);
     cy.get("#PROJECT_LEVEL").should("have.text", calculate.expectedLevel);
     cy.get("#PARK_REQUIREMENT").should("have.text", calculate.expectedCityParkingBaseline);
     cy.get("#CALC_PARK_RATIO").should("have.text", calculate.expectedParkingRatioBaseline);
-    cy.goToNextPage(); // Go to Page 4
+    cy.goToNextPage();
+  });
 
-    // Strategies Page
+  it("fills out strategies page and validates points (page 5)", () => {
     cy.get("#STRATEGY_BIKE_4").should("be.checked"); // Bike Parking should be pre-selected
     cy.get("#STRATEGY_BIKE_5").select(strategies.changingShowerLocker);
     cy.get("#STRATEGY_CAR_SHARE_1").select(strategies.carShareParking);
@@ -74,15 +80,25 @@ describe("Hotel/Motel Flow", () => {
     cy.get("#STRATEGY_INFO_2").check(); // Wayfinding
     cy.get("#STRATEGY_INFO_3").select(strategies.encouragementProgram);
     cy.get("#STRATEGY_TRANSIT_ACCESS_3").select(strategies.transitPasses);
-    cy.goToNextPage(); // Go to Summary Page
+    cy.goToNextPage();
+  });
 
-    // Summary Page
+  it("validates summary page (page 6)", () => {
     cy.findByText(projectInfo.name).should("be.visible");
     cy.findByText(projectInfo.address).should("be.visible");
     cy.findByText(summary.expectedAIN).should("be.visible");
     cy.findByTestId("summary-project-level-value").should("have.text", summary.expectedLevel);
-    cy.findByTestId("summary-parking-ratio-value").should("have.text", summary.expectedParkingRatioBaseline);
-    cy.findByTestId("summary-target-points-value").should("have.text", summary.expectedTargetPoints);
-    cy.findByTestId("summary-earned-points-value").should("have.text", summary.expectedEarnedPoints);
+    cy.findByTestId("summary-parking-ratio-value").should(
+      "have.text",
+      summary.expectedParkingRatioBaseline
+    );
+    cy.findByTestId("summary-target-points-value").should(
+      "have.text",
+      summary.expectedTargetPoints
+    );
+    cy.findByTestId("summary-earned-points-value").should(
+      "have.text",
+      summary.expectedEarnedPoints
+    );
   });
 });
