@@ -1,39 +1,39 @@
-import "@testing-library/cypress/add-commands";
 /// <reference types="cypress" />
 
 const projectInfo = {
-  name: "Hotel/Motel Flow",
-  address: "12425 Victory Bl.",
-  ain: "1234567890",
+  name: "Special Uses Flow",
+  address: "123 S. Somewhere Ave",
+  ain: "9999999999",
 };
 
 const specs = {
-  numberOfGuestRooms: "100",
-  expectedLevelBefore: "2",
-  expectedTargetPointsBefore: "20",
+  withSeatsArenaStadiumTheatherSeats: "9000111",
+  withoutSeatsArenaStadiumTheatherSqFt: "888777888",
+  expectedTargetPoints: "25",
+  expectedLevel: "3",
 };
 
 const calculate = {
-  parkingProvided: "100",
-  expectedLevel: "2",
-  expectedTargetPoints: "30",
-  expectedCityParkingBaseline: "57",
-  expectedParkingRatioBaseline: "175.44",
+  parkingProvided: "33111000",
+  expectedLevel: "3",
+  expectedTargetPoints: "29",
+  expectedCityParkingBaseline: "27193677",
+  expectedParkingRatioBaseline: "121.76",
 };
 
 const strategies = {
-  expectedEarnedPoints: "31",
+  expectedEarnedPoints: "29",
 };
 
 const summary = {
-  expectedAIN: "1234-567-890",
+  expectedAIN: "9999-999-999",
   expectedLevel: calculate.expectedLevel,
   expectedTargetPoints: calculate.expectedTargetPoints,
   expectedEarnedPoints: strategies.expectedEarnedPoints,
   expectedParkingRatioBaseline: `${Math.floor(calculate.expectedParkingRatioBaseline)}`,
 };
 
-describe("Hotel/Motel Flow", () => {
+describe("Verifies All Strategies", () => {
   beforeEach(() => {
     window.localStorage.setItem("termsAndConditions", "Accepted");
   });
@@ -48,10 +48,11 @@ describe("Hotel/Motel Flow", () => {
   });
 
   it("fills out project specifications and validates points (page 2)", () => {
-    cy.findByTestId("UNITS_GUEST").type(specs.numberOfGuestRooms);
+    cy.get("#SEAT_AUDITORIUM").type(specs.withSeatsArenaStadiumTheatherSeats);
+    cy.get("#SF_AUDITORIUM_NO_SEATS").type(specs.withoutSeatsArenaStadiumTheatherSqFt);
 
-    cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelBefore);
-    cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPointsBefore);
+    cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevel);
+    cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPoints);
     cy.goToNextPage();
   });
 
@@ -64,35 +65,26 @@ describe("Hotel/Motel Flow", () => {
     cy.goToNextPage();
   });
 
-  it("fills out strategies page and validates points (page 5)", () => {
+  it("fills out strategies page, and validates points and disabled fields (page 5)", () => {
     // Check defaults and initial state
-    cy.get("#STRATEGY_AFFORDABLE").should("be.disabled"); // Affordable Housing
+    cy.get("#STRATEGY_AFFORDABLE").should("be.disabled"); // Affordable housing
     cy.get("#STRATEGY_BIKE_4").should("be.checked"); // Bike Parking (required)
-    cy.get("#STRATEGY_HOV_4").should("be.disabled"); // HOV Program
-    cy.get("#STRATEGY_HOV_5").should("be.enabled"); // Mandatory Trip Reduction Project
+    cy.get("#STRATEGY_PARKING_1").should("be.disabled");
     cy.get("#PTS_EARNED").should("have.text", "2");
 
-    // Bicycle Facilities
-    cy.get("#STRATEGY_BIKE_5").select("Publicly Accessible AND in a disadvantaged area"); // Changing/Shower/Locker Facilities
-    cy.get("#PTS_EARNED").should("have.text", "7");
+    // Parking
+    cy.get("#STRATEGY_PARKING_5").select("Reduces 50%-74% of spaces available"); // Reduced Parking Supply
+    cy.get("#PTS_EARNED").should("have.text", "6");
 
-    // Car Share
-    cy.get("#STRATEGY_CAR_SHARE_1").select("Publicly Accessible"); // Car Share Parking
-    cy.get("#PTS_EARNED").should("have.text", "11");
-
-    // High Occupancy Vehicles
-    cy.get("#STRATEGY_HOV_3").check(); // HOV Parking
-    cy.get("#PTS_EARNED").should("have.text", "13");
-
-    // Information + High Occupancy Vehicles
-    cy.get("#STRATEGY_INFO_1").select("Publicly visible"); // Transit Display
-    cy.get("#STRATEGY_INFO_2").check(); // Wayfinding
-    cy.get("#STRATEGY_INFO_3").select("Education, Marketing & Outreach"); // Encouragement Program
-    cy.get("#STRATEGY_HOV_5").should("be.disabled"); // Mandatory Trip Reduction Project disabled if Encouragement Program is selected
-    cy.get("#PTS_EARNED").should("have.text", "21");
+    //Telecommute
+    cy.get("#STRATEGY_TELECOMMUTE_1").select("3 days"); // Telecommute
+    cy.get("#PTS_EARNED").should("have.text", "10");
 
     // Transit Access
-    cy.get("#STRATEGY_TRANSIT_ACCESS_3").select("50%-74% of monthly fare");
+    cy.get("#STRATEGY_TRANSIT_ACCESS_1").select(
+      "Does not connect to HQTA and if publicly available and in disadvantaged area"
+    ); // Neighborhood Shuttles/ Microtransit Service
+    cy.get("#STRATEGY_TRANSIT_ACCESS_3").select("75%-99% of monthly fare"); // Transit Passes
     cy.get("#PTS_EARNED").should("have.text", strategies.expectedEarnedPoints);
 
     cy.goToNextPage();

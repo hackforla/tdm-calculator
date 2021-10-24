@@ -8,7 +8,7 @@ const projectInfo = {
   buildingPermit: "54321",
   ladotCase: "67890",
   laPlanningCase: "09876",
-  description: "description for this project",
+  description: "and fill in something each development type",
 };
 
 const specs = {
@@ -21,6 +21,8 @@ const specs = {
   tradeSchoolStudents: "3000",
   tradeSchoolSqFt: "50000",
   specialUsesSqFt: "200000",
+  expectedTargetPoints: "25",
+  expectedLevel: "3",
 };
 
 const calculate = {
@@ -73,6 +75,9 @@ describe("Verifies All Strategies", () => {
     cy.findByTestId("STUDENTS_TRADE_SCHOOL").type(specs.tradeSchoolStudents);
     cy.findByTestId("SF_TRADE_SCHOOL").type(specs.tradeSchoolSqFt);
     cy.get("#SF_AUDITORIUM_NO_SEATS").type(specs.specialUsesSqFt);
+
+    cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevel);
+    cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPoints);
     cy.goToNextPage();
   });
 
@@ -99,7 +104,7 @@ describe("Verifies All Strategies", () => {
     cy.get("#PTS_EARNED").should("have.text", "19");
 
     // Car Share
-    cy.get("#STRATEGY_CAR_SHARE_1").select("Private"); // Care Share Parking
+    cy.get("#STRATEGY_CAR_SHARE_1").select("Private"); // Car Share Parking
     cy.get("#STRATEGY_CAR_SHARE_3").select("BlueLA"); // Car Share Membership
     cy.get("#STRATEGY_CAR_SHARE_4").check(); // Car Share Membership
     cy.get("#STRATEGY_CAR_SHARE_ELECTRIC").check(); // Electric Vehicle

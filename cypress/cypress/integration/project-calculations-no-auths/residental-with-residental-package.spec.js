@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 const projectInfo = {
-  name: "Residential Flow",
+  name: "Residential Flow (has Affordable Housing)",
   address: "123 S. Somewhere Ave",
   ain: "1234567890",
 };
@@ -75,10 +75,7 @@ describe("Residential User Flow", () => {
     cy.get("#AFFORDABLE_HOUSING").check();
 
     // Check points and level after clicking affordable housing
-    cy.get("#TARGET_POINTS_PARK").should(
-      "have.text",
-      specs.expectedTargetPointsAfterAffordableHousing
-    );
+    cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPointsAfterAffordableHousing);
     cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelAfterAffordableHousing);
     cy.goToNextPage();
   });
@@ -111,17 +108,8 @@ describe("Residential User Flow", () => {
     cy.findByText(projectInfo.address).should("be.visible");
     cy.findByText(summary.expectedAIN).should("be.visible");
     cy.findByTestId("summary-project-level-value").should("have.text", summary.expectedLevel);
-    cy.findByTestId("summary-parking-ratio-value").should(
-      "have.text",
-      summary.expectedParkingRatioBaseline
-    );
-    cy.findByTestId("summary-target-points-value").should(
-      "have.text",
-      summary.expectedTargetPoints
-    );
-    cy.findByTestId("summary-earned-points-value").should(
-      "have.text",
-      summary.expectedEarnedPoints
-    );
+    cy.findByTestId("summary-parking-ratio-value").should("have.text", summary.expectedParkingRatioBaseline);
+    cy.findByTestId("summary-target-points-value").should("have.text", summary.expectedTargetPoints);
+    cy.findByTestId("summary-earned-points-value").should("have.text", summary.expectedEarnedPoints);
   });
 });
