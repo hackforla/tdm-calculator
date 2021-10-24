@@ -2,7 +2,7 @@ import "@testing-library/cypress/add-commands";
 /// <reference types="cypress" />
 
 const projectInfo = {
-  name: "School Flow",
+  name: "School Flow (has Employment Package)",
   address: "12425 School Bl.",
   ain: "1234567890",
 };
@@ -64,10 +64,7 @@ describe("School Flow", () => {
     cy.findByTestId("STUDENTS_TRADE_SCHOOL").type(specs.tradeSchoolStudents);
     cy.findByTestId("SF_TRADE_SCHOOL").type(specs.tradeSchoolSqFt);
     cy.findByTestId("HS_STUDENTS").type(specs.highSchoolStudents);
-    cy.findByTestId("HS_AUDITORIUM_SEATS")
-      .should("exist")
-      .type(specs.highSchoolAuditoriumSeats)
-      .clear();
+    cy.findByTestId("HS_AUDITORIUM_SEATS").should("exist").type(specs.highSchoolAuditoriumSeats).clear();
     cy.findByTestId("HS_AUDITORIUM_SF").type(specs.highSchoolAuditoriumSqFt);
 
     // Specifications Page - Check points and level at this point
@@ -92,31 +89,30 @@ describe("School Flow", () => {
   });
   it("fills out strategies page and validates points (page 5)", () => {
     // Validates Disabled & Default Strategies
-    cy.get("#STRATEGY_CAR_SHARE_1").should(strategies.expectedBeDisabled); // Parking
-    cy.get("#STRATEGY_CAR_SHARE_3").should(strategies.expectedBeDisabled); // Membership
+    cy.get("#STRATEGY_AFFORDABLE").should(strategies.expectedBeDisabled); // Affordable Housing
+    cy.get("#STRATEGY_BIKE_4").should(strategies.expectedBeChecked); // Bike Parking (required)
+    cy.get("#STRATEGY_CAR_SHARE_1").should(strategies.expectedBeDisabled); // Car Share Parking
+    cy.get("#STRATEGY_CAR_SHARE_3").should(strategies.expectedBeDisabled); // Car Share Membership
     cy.get("#STRATEGY_CAR_SHARE_4").should(strategies.expectedBeDisabled); // Private Car Shre Fleet
-    cy.get("#STRATEGY_CAR_SHARE_ELECTRIC").should(strategies.expectedBeDisabled);
+    cy.get("#STRATEGY_CAR_SHARE_ELECTRIC").should(strategies.expectedBeDisabled); // Electric Vehicle Bonus
     cy.get("#STRATEGY_PARKING_1").should(strategies.expectedBeDisabled); // Pricing/Unbundling
     cy.get("#STRATEGY_TELECOMMUTE_1").should(strategies.expectedBeDisabled); // Telecommute
     cy.get("#STRATEGY_TELECOMMUTE_2").should(strategies.expectedBeDisabled); // Televisit
-    cy.get("#STRATEGY_BIKE_4").should(strategies.expectedBeChecked); // Bike Parking should be pre-selected
 
-    // Select Employment Package checkbox and validate strategies
+    // Select Employment Package checkbox and validate included strategies
     cy.get("#packageEmployment").check();
     cy.get("#STRATEGY_INFO_3").should("have.value", strategies.expectedEncouragementProgramValue); // Encouragement Program
-    cy.get("#STRATEGY_INFO_3 option:selected").should(
-      "have.text",
-      strategies.expectedEncouragementProgramOption
-    ); // Encouragement Program
+    cy.get("#STRATEGY_INFO_3 option:selected").should("have.text", strategies.expectedEncouragementProgramOption); // Encouragement Program
     cy.get("#STRATEGY_PARKING_2").should(strategies.expectedBeChecked); // Cash-Out
 
-    // Select additional strategies to meet target points
+    // Select additional random strategies to meet target points
     cy.get("#STRATEGY_BIKE_2").check(); // Bike Share Station
     cy.get("#STRATEGY_INFO_5").check(); // School Safety Campaign
     cy.get("#STRATEGY_CHILD_CARE").check(); // Child Care
     cy.get("#STRATEGY_TMO_1").check(); // Join TMO
     cy.get("#PTS_EARNED").should("have.text", strategies.expectedEarnedPoints);
-    cy.goToNextPage(); // Go to Summary Page
+
+    cy.goToNextPage();
   });
 
   it("validates summary page (page 6)", () => {
@@ -124,17 +120,8 @@ describe("School Flow", () => {
     cy.findByText(projectInfo.address).should("be.visible");
     cy.findByText(summary.expectedAIN).should("be.visible");
     cy.findByTestId("summary-project-level-value").should("have.text", summary.expectedLevel);
-    cy.findByTestId("summary-parking-ratio-value").should(
-      "have.text",
-      summary.expectedParkingRatioBaseline
-    );
-    cy.findByTestId("summary-target-points-value").should(
-      "have.text",
-      summary.expectedTargetPoints
-    );
-    cy.findByTestId("summary-earned-points-value").should(
-      "have.text",
-      summary.expectedEarnedPoints
-    );
+    cy.findByTestId("summary-parking-ratio-value").should("have.text", summary.expectedParkingRatioBaseline);
+    cy.findByTestId("summary-target-points-value").should("have.text", summary.expectedTargetPoints);
+    cy.findByTestId("summary-earned-points-value").should("have.text", summary.expectedEarnedPoints);
   });
 });

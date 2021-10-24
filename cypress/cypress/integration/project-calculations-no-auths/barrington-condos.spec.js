@@ -48,7 +48,7 @@ describe("Barrington Condos", () => {
   it("displays bonus package (page 4)", () => {
     cy.findByText("You qualify for a bonus package!");
     cy.findByText("Residential Package");
-    cy.goToNextPage(); // Go to Page 5
+    cy.goToNextPage();
   });
 
   it("fills out strategies page and validates points (page 5)", () => {
