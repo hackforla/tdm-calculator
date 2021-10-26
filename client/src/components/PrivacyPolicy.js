@@ -3,8 +3,8 @@ import { createUseStyles } from "react-jss";
 import ContentContainer from "./Layout/ContentContainer";
 
 const useStyles = createUseStyles({
-  privacyPolicy: {
-    maxWidth: "1000px"
+  privacyContent: {
+    padding: "0 2em 1em 2em"
   },
   privacyPolicyContent: {
     lineHeight: "1.4em"
@@ -22,17 +22,20 @@ const useStyles = createUseStyles({
     marginLeft: "1.5em"
   },
   headerIndented: {
-    marginLeft: "1.25em"
+    marginLeft: "1.25em",
+    fontWeight: "bold"
   },
   bulletIndented: {
     marginLeft: ".7em"
   },
   sectionSpacing: {
-    marginTop: "2em"
+    marginTop: "2em",
+    fontWeight: "bold"
   },
   sectionSpacingIndented: {
     marginTop: "2em",
-    marginLeft: "1.25em"
+    marginLeft: "1.25em",
+    fontWeight: "bold"
   },
   address: {
     margin: "0 auto",
@@ -47,7 +50,7 @@ const PrivacyPolicy = () => {
   const classes = useStyles();
   return (
     <ContentContainer componentToTrack="PrivacyPolicy">
-      <div className={classes.privacyPolicy}>
+      <div className={classes.privacyContent}>
         <h1 className={classes.title}>Privacy Policy</h1>
 
         <div className={classes.privacyPolicyContent}>
@@ -70,7 +73,7 @@ const PrivacyPolicy = () => {
             terms, please do not use our websites.
           </p>
 
-          <h2>Overview</h2>
+          <h2 style={{ fontWeight: "bold" }}>Overview</h2>
           <p className={classes.indented}>
             We allow for users to Create accounts and to save projects and save
             that information within our databases. We may collect information
@@ -85,7 +88,7 @@ const PrivacyPolicy = () => {
           </p>
 
           <h2 className={classes.sectionSpacing}>
-            The personal information we collect
+            The Personal Information We Collect
           </h2>
           <h3 className={classes.headerIndented}>
             Visiting{" "}
@@ -284,7 +287,7 @@ const PrivacyPolicy = () => {
             <span> </span>for more info on how to opt out.
           </p>
           <h2 className={classes.sectionSpacing}>
-            Cookies and other tracking technologies
+            Cookies and Other Tracking Technologies
           </h2>
 
           <p className={classes.indented}>
@@ -335,7 +338,7 @@ const PrivacyPolicy = () => {
           </p>
 
           <h2 className={classes.sectionSpacing}>
-            As required by law and similar disclosures
+            As Required By Law and Similar Disclosures
           </h2>
           <div className={classes.indented}>
             We may access, preserve, and disclose your information if we believe
@@ -364,7 +367,7 @@ const PrivacyPolicy = () => {
             devices with your permission.
           </p>
 
-          <h2 className={classes.sectionSpacing}>Children’s privacy</h2>
+          <h2 className={classes.sectionSpacing}>Children’s Privacy</h2>
 
           <p className={classes.indented}>
             We do not knowingly collect, maintain, or use personal information
@@ -395,7 +398,7 @@ const PrivacyPolicy = () => {
           </p>
 
           <h2 className={classes.sectionSpacing}>
-            Right to be forgotten and rectification
+            Right To Be Forgotten and Rectification
           </h2>
 
           <p className={classes.indented}>
