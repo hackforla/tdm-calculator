@@ -32,7 +32,7 @@ const summary = {
   expectedParkingRatioBaseline: `${Math.floor(calculate.expectedParkingRatioBaseline)}`,
 };
 
-describe("Verifies All Strategies", () => {
+describe("Warehouse Flow", () => {
   beforeEach(() => {
     window.localStorage.setItem("termsAndConditions", "Accepted");
   });

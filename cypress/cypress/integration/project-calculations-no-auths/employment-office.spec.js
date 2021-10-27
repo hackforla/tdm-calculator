@@ -34,7 +34,7 @@ const summary = {
   expectedParkingRatioBaseline: `${Math.floor(calculate.expectedParkingRatioBaseline)}`,
 };
 
-describe("Verifies All Strategies", () => {
+describe("Employment/Office Flow", () => {
   beforeEach(() => {
     window.localStorage.setItem("termsAndConditions", "Accepted");
   });
