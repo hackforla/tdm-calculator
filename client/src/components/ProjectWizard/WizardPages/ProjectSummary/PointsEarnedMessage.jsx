@@ -21,7 +21,22 @@ const useStyles = createUseStyles({
   targetPointsReached: {
     width: "100%",
     textAlign: "center",
-    fontSize: "24px"
+    color: "#0F2940",
+    fontFamily: "Calibri",
+    fontSize: "24px",
+    lineHeight: "29px"
+  },
+  messageBox: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: ".5em",
+    boxShadow: "2px 2px 2px 2px rgba(15, 41, 64, .5)"
+  },
+  textBox: {
+    display: "inline-block",
+    textAlign: "left",
+    paddingLeft: ".5em"
   }
 });
 
@@ -33,20 +48,25 @@ const PointsEarnedMessage = props => {
     <div className={classes.targetPointsReachedContainer}>
       {targetPointsReached ? (
         <span className={clsx(classes.targetPointsReached, classes.success)}>
-          <FontAwesomeIcon icon={faCheckCircle} className={classes.success} />{" "}
-          &nbsp;You have successfully earned the target points.
+          <div className={classes.messageBox}>
+            <FontAwesomeIcon icon={faCheckCircle} className={classes.success} />{" "}
+            <div className={classes.textBox}>
+              You have successfully earned the target points.
+            </div>
+          </div>
         </span>
       ) : (
         <span className={clsx(classes.targetPointsReached, classes.failure)}>
-          <FontAwesomeIcon
-            icon={faExclamationTriangle}
-            className={classes.failure}
-          />
-          &nbsp;
-          <span>
-            You have not reached the target points. <br />
-            Please, go back and review your strategies
-          </span>
+          <div className={classes.messageBox}>
+            <FontAwesomeIcon
+              icon={faExclamationTriangle}
+              className={classes.failure}
+            />
+            <div className={classes.textBox}>
+              You have not reached the target points. <br />
+              Please, go back and review your strategies
+            </div>
+          </div>
         </span>
       )}
     </div>
