@@ -19,16 +19,17 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     flex: "1 1 auto"
   },
-  measureValue: {
-    fontSize: "42px",
-    marginTop: "33px",
-    fontWeight: "700"
-  },
   success: {
     color: "#A7C539"
   },
   failure: {
     color: "#E46247"
+  },
+  successBorder: {
+    border: "2px solid #A7C539"
+  },
+  failureBorder: {
+    border: "2px solid #E46247"
   },
   rule: {
     display: "flex",
@@ -149,9 +150,9 @@ const ProjectSummary = props => {
 
   const rulesNotEmpty = rules && rules.length > 0;
 
-  const earnedPointsValueStyle = targetPointsReached
-    ? clsx(classes.measureValue, classes.success)
-    : clsx(classes.measureValue, classes.failure);
+  const earnedPointsBorderStyle = targetPointsReached
+    ? classes.successBorder
+    : classes.failureBorder;
 
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
@@ -177,12 +178,12 @@ const ProjectSummary = props => {
             <div className={clsx("space-between", classes.resultsContainer)}>
               <Result
                 rule={earnedPoints}
-                textStyle={earnedPointsValueStyle}
+                borderStyle={earnedPointsBorderStyle}
                 valueTestId={"summary-earned-points-value"}
               />
               <Result
                 rule={targetPoints}
-                textStyle={classes.measureValue}
+                borderStyle={"border-gray"}
                 valueTestId={"summary-target-points-value"}
               />
             </div>
