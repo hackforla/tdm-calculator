@@ -15,6 +15,7 @@ const TdmCalculationWizard = props => {
     onInputChange,
     onCommentChange,
     onUncheckAll,
+    onResetProject,
     initializeStrategies,
     filters,
     onPkgSelect,
@@ -103,6 +104,25 @@ const TdmCalculationWizard = props => {
     );
   };
 
+  const setDisabledSaveButton = () => {
+    const loggedIn = !!account.id;
+    const notASavedProject = !projectId;
+    const projectBelongsToUser = account.id === loginId;
+    const setDisabled = !(
+      loggedIn &&
+      (notASavedProject || projectBelongsToUser) &&
+      formIsDirty &&
+      projectIsValid()
+    );
+    return setDisabled;
+  };
+
+  const setDisplaySaveButton = () => {
+    const loggedIn = !!account.id;
+    const setDisplayed = loggedIn;
+    return setDisplayed;
+  };
+
   const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
 
   const handleValidate = () => {
@@ -159,6 +179,7 @@ const TdmCalculationWizard = props => {
             rules={rules}
             onViewChange={onViewChange}
             resultRules={resultRules}
+            strategyRules={strategyRules}
           />
         )}
         contentContainerRef={contentContainerRef}
@@ -169,6 +190,7 @@ const TdmCalculationWizard = props => {
           onInputChange={onInputChange}
           specificationRules={specificationRules}
           onUncheckAll={onUncheckAll}
+          onResetProject={onResetProject}
           filters={filters}
           targetPointRules={targetPointRules}
           isLevel0={isLevel0}
@@ -195,11 +217,8 @@ const TdmCalculationWizard = props => {
           onPageChange={onPageChange}
           pageNumber={pageNumber}
           setDisabledForNextNavButton={setDisabledForNextNavButton}
-          account={account}
-          projectId={projectId}
-          loginId={loginId}
-          formIsDirty={formIsDirty}
-          projectIsValid={projectIsValid}
+          setDisabledSaveButton={setDisabledSaveButton}
+          setDisplaySaveButton={setDisplaySaveButton}
           onSave={onSave}
         />
       </ContentContainer>
@@ -242,6 +261,7 @@ TdmCalculationWizard.propTypes = {
   onPkgSelect: PropTypes.func.isRequired,
   initializeStrategies: PropTypes.func.isRequired,
   onUncheckAll: PropTypes.func.isRequired,
+  onResetProject: PropTypes.func.isRequired,
   filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,
   account: PropTypes.object.isRequired,

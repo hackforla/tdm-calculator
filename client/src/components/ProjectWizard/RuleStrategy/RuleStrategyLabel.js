@@ -15,7 +15,7 @@ const RuleStrategyLabel = ({
     <ToolTipLabel
       id={"tooltip-strategy" + id}
       tooltipContent={description}
-      htmlFor={code}
+      code={code}
       disabledInput={!display}
       requiredInput={required}
     >

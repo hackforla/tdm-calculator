@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Prompt, withRouter } from "react-router-dom";
 import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
@@ -55,6 +55,8 @@ export function TdmCalculationContainer({
   match,
   account,
   classes,
+  hasConfirmedNavTransition,
+  isOpenNavConfirmModal,
   setLoggedInAccount,
   contentContainerRef
 }) {
@@ -67,6 +69,8 @@ export function TdmCalculationContainer({
   const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
+  const [resettingProject, setResettingProject] = useState(false);
+  const [triggerInitiateEngine, setTriggerInitiateEngine] = useState(false);
   const toast = useToast();
   const appInsights = useAppInsightsContext();
 
@@ -128,7 +132,7 @@ export function TdmCalculationContainer({
       }
     };
     initiateEngine();
-  }, [match.params.projectId, engine, account, history]);
+  }, [match.params.projectId, engine, account, history, triggerInitiateEngine]);
 
   const recalculate = updatedFormInputs => {
     engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
@@ -339,6 +343,29 @@ export function TdmCalculationContainer({
     recalculate(updateInputs);
   };
 
+  useEffect(() => {
+    if (isOpenNavConfirmModal) return;
+
+    if (hasConfirmedNavTransition) {
+      setTriggerInitiateEngine(state => !state);
+      setFormHasSaved(true);
+    }
+    setResettingProject(false);
+  }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
+
+  const navToStart = useCallback(() => {
+    const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
+    history.push(firstPage);
+  }, [history, projectId]);
+
+  useEffect(() => {
+    if (resettingProject) navToStart();
+  }, [resettingProject, navToStart]);
+
+  const onResetProject = () => {
+    setResettingProject(true);
+  };
+
   const projectIsValid = () => {
     return !rules.find(rule => !!rule.validationErrors);
   };
@@ -438,9 +465,10 @@ export function TdmCalculationContainer({
   return (
     <div className={classes.tdmCalculationContainer} onClick={trackComponent}>
       <Prompt
-        when={!formHasSaved && !!account.id}
+        when={!formHasSaved || resettingProject}
         message={location => {
-          return location.pathname.startsWith("/calculation")
+          return location.pathname.startsWith("/calculation") &&
+            !resettingProject
             ? true // returning true allows user to continue without a prompt/modal
             : "this message doesn't actaully show, but will cause modal to open";
         }}
@@ -452,6 +480,7 @@ export function TdmCalculationContainer({
           onInputChange={onInputChange}
           onCommentChange={onCommentChange}
           onUncheckAll={onUncheckAll}
+          onResetProject={onResetProject}
           initializeStrategies={initializeStrategies}
           filters={filters}
           onPkgSelect={onPkgSelect}
@@ -514,6 +543,8 @@ TdmCalculationContainer.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string
   }),
+  hasConfirmedNavTransition: PropTypes.bool,
+  isOpenNavConfirmModal: PropTypes.bool,
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object
 };
