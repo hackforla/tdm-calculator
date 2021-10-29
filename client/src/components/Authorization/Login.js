@@ -33,8 +33,10 @@ const Login = props => {
   const { setLoggedInAccount, match } = props;
   const history = useHistory();
   const [errorMsg, setErrorMsg] = useState("");
-  const [withoutSavingWarningIsVisible, setWithoutSavingWarningIsVisible] =
-    useState(false);
+  const [
+    withoutSavingWarningIsVisible,
+    setWithoutSavingWarningIsVisible
+  ] = useState(false);
   const classes = useStyles({ withoutSavingWarningIsVisible });
 
   const initialValues = {
