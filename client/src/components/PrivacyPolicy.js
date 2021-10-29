@@ -353,10 +353,7 @@ const PrivacyPolicy = () => {
             <li className={classes.bulletIndented}>
               Protect your, our, or others’ rights, property, or safety.
             </li>
-<<<<<<< HEAD
             <br />
-=======
->>>>>>> ad1fb7f08b06bbdc36eb2d9697f5c4c61eaf54fc
             <div>
               For the avoidance of doubt, the disclosure of your information may
               occur if you post any objectionable content on or through the
