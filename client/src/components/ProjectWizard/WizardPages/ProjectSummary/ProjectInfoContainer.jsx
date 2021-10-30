@@ -64,8 +64,15 @@ const ProjectInfoContainer = props => {
         {versionNumber && (
           <ProjectInfo name={versionNumber.name} rule={versionNumber} />
         )}
-        <ProjectInfo name={caseNumberPlanning.name} rule={caseNumberPlanning} />
-        <ProjectInfo name={caseNumberLADOT.name} rule={caseNumberLADOT} />
+        {caseNumberPlanning && (
+          <ProjectInfo
+            name={caseNumberPlanning.name}
+            rule={caseNumberPlanning}
+          />
+        )}
+        {caseNumberLADOT && (
+          <ProjectInfo name={caseNumberLADOT.name} rule={caseNumberLADOT} />
+        )}
       </div>
     </div>
   );
