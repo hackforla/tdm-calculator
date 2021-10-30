@@ -242,7 +242,6 @@ const ProjectSummary = props => {
                     return (
                       <ProjectDetail
                         rule={rule}
-                        value={numberWithCommas(rule.value)}
                         valueTestId={""}
                         key={rule.id}
                       />
