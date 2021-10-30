@@ -103,6 +103,7 @@ const ProjectSummary = props => {
   const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
   const parkingProvided = getRule(rules, "PARK_SPACES");
   const parkingRatio = getRule(rules, "CALC_PARK_RATIO");
+  const projectDescription = getRule(rules, "PROJECT_DESCRIPTION");
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
   const earnedPoints = getRule(rules, "PTS_EARNED");
@@ -210,7 +211,7 @@ const ProjectSummary = props => {
                 <div>
                   <div className={classes.rule}>
                     <div className={classes.ruleName}>
-                      User-Defined Strategy Details
+                      User-Defined Strategy Details:
                     </div>
                   </div>
                   <div
@@ -249,13 +250,13 @@ const ProjectSummary = props => {
                   })
                 : null}
               <ProjectDetail
-                rule={parkingRequired}
-                value={numberWithCommas(roundToTwo(parkingRequired.value))}
+                rule={parkingProvided}
+                value={numberWithCommas(roundToTwo(parkingProvided.value))}
                 valueTestId={""}
               />
               <ProjectDetail
-                rule={parkingProvided}
-                value={numberWithCommas(roundToTwo(parkingProvided.value))}
+                rule={parkingRequired}
+                value={numberWithCommas(roundToTwo(parkingRequired.value))}
                 valueTestId={""}
               />
               <ProjectDetail
@@ -263,6 +264,20 @@ const ProjectSummary = props => {
                 value={Math.floor(parkingRatio.value).toString()}
                 valueTestId={"summary-parking-ratio-value"}
               />
+              {projectDescription && projectDescription.value.length > 0 ? (
+                <div>
+                  <div className={classes.rule}>
+                    <div className={classes.ruleName}>
+                      {projectDescription.name}:
+                    </div>
+                  </div>
+                  <div
+                    className={clsx("border-gray", classes.summaryContainer)}
+                  >
+                    {projectDescription.value}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </>
