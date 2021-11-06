@@ -11,6 +11,7 @@ describe("postPublicComment", () => {
     email: "some email"
   };
 
+  // eslint-disable-next-line jest/expect-expect
   it("should post/save public comment", async () => {
     const expectedReqBody = publicCommentToSave;
     const publicCommentPostedScope = nock("http://localhost", {
