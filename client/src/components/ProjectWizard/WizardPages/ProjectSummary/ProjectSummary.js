@@ -263,7 +263,9 @@ const ProjectSummary = props => {
                 value={Math.floor(parkingRatio.value).toString()}
                 valueTestId={"summary-parking-ratio-value"}
               />
-              {projectDescription && projectDescription.value.length > 0 ? (
+              {projectDescription &&
+              projectDescription.value &&
+              projectDescription.value.length > 0 ? (
                 <div>
                   <div className={classes.rule}>
                     <div className={classes.ruleName}>
