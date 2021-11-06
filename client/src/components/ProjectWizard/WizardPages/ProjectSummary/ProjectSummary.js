@@ -19,16 +19,17 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     flex: "1 1 auto"
   },
-  measureValue: {
-    fontSize: "42px",
-    marginTop: "33px",
-    fontWeight: "700"
-  },
   success: {
     color: "#A7C539"
   },
   failure: {
     color: "#E46247"
+  },
+  successBorder: {
+    border: "2px solid #A7C539"
+  },
+  failureBorder: {
+    border: "2px solid #E46247"
   },
   rule: {
     display: "flex",
@@ -102,6 +103,7 @@ const ProjectSummary = props => {
   const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
   const parkingProvided = getRule(rules, "PARK_SPACES");
   const parkingRatio = getRule(rules, "CALC_PARK_RATIO");
+  const projectDescription = getRule(rules, "PROJECT_DESCRIPTION");
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
   const earnedPoints = getRule(rules, "PTS_EARNED");
@@ -149,9 +151,9 @@ const ProjectSummary = props => {
 
   const rulesNotEmpty = rules && rules.length > 0;
 
-  const earnedPointsValueStyle = targetPointsReached
-    ? clsx(classes.measureValue, classes.success)
-    : clsx(classes.measureValue, classes.failure);
+  const earnedPointsBorderStyle = targetPointsReached
+    ? classes.successBorder
+    : classes.failureBorder;
 
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
@@ -177,12 +179,12 @@ const ProjectSummary = props => {
             <div className={clsx("space-between", classes.resultsContainer)}>
               <Result
                 rule={earnedPoints}
-                textStyle={earnedPointsValueStyle}
+                borderStyle={earnedPointsBorderStyle}
                 valueTestId={"summary-earned-points-value"}
               />
               <Result
                 rule={targetPoints}
-                textStyle={classes.measureValue}
+                borderStyle={"border-gray"}
                 valueTestId={"summary-target-points-value"}
               />
             </div>
@@ -209,7 +211,7 @@ const ProjectSummary = props => {
                 <div>
                   <div className={classes.rule}>
                     <div className={classes.ruleName}>
-                      User-Defined Strategy Details
+                      User-Defined Strategy Details:
                     </div>
                   </div>
                   <div
@@ -240,7 +242,6 @@ const ProjectSummary = props => {
                     return (
                       <ProjectDetail
                         rule={rule}
-                        value={numberWithCommas(rule.value)}
                         valueTestId={""}
                         key={rule.id}
                       />
@@ -248,13 +249,13 @@ const ProjectSummary = props => {
                   })
                 : null}
               <ProjectDetail
-                rule={parkingRequired}
-                value={numberWithCommas(roundToTwo(parkingRequired.value))}
+                rule={parkingProvided}
+                value={numberWithCommas(roundToTwo(parkingProvided.value))}
                 valueTestId={""}
               />
               <ProjectDetail
-                rule={parkingProvided}
-                value={numberWithCommas(roundToTwo(parkingProvided.value))}
+                rule={parkingRequired}
+                value={numberWithCommas(roundToTwo(parkingRequired.value))}
                 valueTestId={""}
               />
               <ProjectDetail
@@ -262,6 +263,20 @@ const ProjectSummary = props => {
                 value={Math.floor(parkingRatio.value).toString()}
                 valueTestId={"summary-parking-ratio-value"}
               />
+              {projectDescription && projectDescription.value.length > 0 ? (
+                <div>
+                  <div className={classes.rule}>
+                    <div className={classes.ruleName}>
+                      {projectDescription.name}:
+                    </div>
+                  </div>
+                  <div
+                    className={clsx("border-gray", classes.summaryContainer)}
+                  >
+                    {projectDescription.value}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </>

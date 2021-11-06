@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import { numberWithCommas } from "../../helpers";
 
 const useStyles = createUseStyles({
   rule: {
@@ -37,7 +38,7 @@ const useStyles = createUseStyles({
 
 const ProjectDetail = props => {
   const classes = useStyles();
-  const { rule, value, valueTestId } = props;
+  const { rule, value: propsValue, valueTestId } = props;
 
   const isSubRule = rule.name.startsWith("..... ");
   const renderName = isSubRule ? rule.name.substring(6) : rule.name;
@@ -45,12 +46,22 @@ const ProjectDetail = props => {
     ? clsx(classes.ruleName, classes.leftIndent)
     : classes.ruleName;
 
+  const displayValue = propsValue
+    ? propsValue
+    : rule.dataType === "boolean"
+    ? rule.value
+      ? "Yes"
+      : "No"
+    : rule.dataType === "number"
+    ? numberWithCommas(rule.value)
+    : "Unknown Data Type";
+
   return rule ? (
     <div className={clsx("space-between", classes.rule)}>
       <div className={ruleNameStyle}>{renderName}</div>
       <div className={clsx(classes.pointsContainer)}>
         <div className={classes.measureDetails} data-testid={valueTestId}>
-          {value}
+          {displayValue}
         </div>
         <div className={clsx(classes.measureUnits)}>{rule.units}</div>
       </div>
@@ -59,7 +70,7 @@ const ProjectDetail = props => {
 };
 ProjectDetail.propTypes = {
   rule: PropTypes.object.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   valueTestId: PropTypes.string.isRequired
 };
 

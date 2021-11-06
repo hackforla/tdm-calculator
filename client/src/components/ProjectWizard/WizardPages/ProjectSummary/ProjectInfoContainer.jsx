@@ -13,12 +13,13 @@ const useStyles = createUseStyles({
   textProjectInfoHeader: {
     color: "#0F2940",
     fontSize: "24px",
-    fontFamily: "Calibri Bold"
+    fontFamily: "Calibri Bold",
+    paddingRight: ".8em"
   },
   textProjectInfoHeaderAddress: {
-    color: "#515151",
+    color: "rgba(15, 41, 64, .5)",
     fontSize: "24px",
-    fontFamily: "Calibri"
+    fontFamily: "Calibri Bold"
   },
   projectInfoDetailsContainer: {
     marginTop: "13px",
@@ -39,30 +40,39 @@ const ProjectInfoContainer = props => {
   const projectAddress = getRule(rules, "PROJECT_ADDRESS");
 
   const buildingPermit = getRule(rules, "BUILDING_PERMIT");
-  const caseNumber = getRule(rules, "CASE_NO_LADOT");
+  const caseNumberLADOT = getRule(rules, "CASE_NO_LADOT");
+  const caseNumberPlanning = getRule(rules, "CASE_NO_PLANNING");
   const parcelNumber = getRule(rules, "APN");
   const versionNumber = getRule(rules, "VERSION_NO");
 
   return (
     <div className={classes.projectInfoContainer}>
+      <span className={classes.textProjectInfoHeader}>PROJECT NAME:</span>
       {projectName && projectName.value ? (
-        <span className={classes.textProjectInfoHeader}>
+        <span className={classes.textProjectInfoHeaderAddress}>
           {projectName.value}
         </span>
       ) : null}
-      {projectAddress && projectAddress.value ? (
-        <span className={classes.textProjectInfoHeaderAddress}>
-          {" "}
-          {projectAddress.value}
-        </span>
-      ) : null}
       <div className={classes.projectInfoDetailsContainer}>
+        {projectAddress && (
+          <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
+        )}
+        <ProjectInfo name={"PARCEL # (AIN)"} rule={parcelNumber} />
         {buildingPermit && (
           <ProjectInfo name={buildingPermit.name} rule={buildingPermit} />
         )}
-        <ProjectInfo name={"PARCEL # (AIN)"} rule={parcelNumber} />
-        <ProjectInfo name={"CASE #"} rule={caseNumber} />
-        <ProjectInfo name={"VERSION #"} rule={versionNumber} />
+        {versionNumber && (
+          <ProjectInfo name={versionNumber.name} rule={versionNumber} />
+        )}
+        {caseNumberPlanning && (
+          <ProjectInfo
+            name={caseNumberPlanning.name}
+            rule={caseNumberPlanning}
+          />
+        )}
+        {caseNumberLADOT && (
+          <ProjectInfo name={caseNumberLADOT.name} rule={caseNumberLADOT} />
+        )}
       </div>
     </div>
   );
