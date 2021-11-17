@@ -6,6 +6,7 @@ import { getRule } from "../../helpers";
 
 const useStyles = createUseStyles({
   projectInfoContainer: {
+    paddingBottom: "25px",
     margin: "70px auto 0",
     width: "100%",
     minHeight: "100px"
