@@ -30,6 +30,11 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     flexWrap: "wrap",
     maxWidth: "100%"
+  },
+  line: {
+    margin: ".7em 0",
+    border: "0",
+    borderTop: "1px solid #E7EBF0"
   }
 });
 
@@ -48,12 +53,15 @@ const ProjectInfoContainer = props => {
 
   return (
     <div className={classes.projectInfoContainer}>
-      <span className={classes.textProjectInfoHeader}>PROJECT NAME:</span>
-      {projectName && projectName.value ? (
-        <span className={classes.textProjectInfoHeaderAddress}>
-          {projectName.value}
-        </span>
-      ) : null}
+      <div className={classes.projectInfoHeaderLine}>
+        <span className={classes.textProjectInfoHeader}>PROJECT NAME:</span>
+        {projectName && projectName.value ? (
+          <span className={classes.textProjectInfoHeaderAddress}>
+            {projectName.value}
+          </span>
+        ) : null}
+      </div>
+      <hr className={classes.line} />
       <div className={classes.projectInfoDetailsContainer}>
         {projectAddress && (
           <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
