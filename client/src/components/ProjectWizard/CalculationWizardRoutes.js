@@ -24,12 +24,12 @@ const CalculationWizardRoutes = ({
   strategyRules,
   landUseRules,
   allowResidentialPackage,
-  allowEmploymentPackage,
+  allowSchoolPackage,
   onCommentChange,
   initializeStrategies,
   onPkgSelect,
   residentialPackageSelected,
-  employmentPackageSelected,
+  schoolPackageSelected,
   rules,
   account,
   projectId,
@@ -63,7 +63,7 @@ const CalculationWizardRoutes = ({
       <Route path="/calculation/4/:projectId?">
         <ProjectPackages
           allowResidentialPackage={allowResidentialPackage}
-          allowEmploymentPackage={allowEmploymentPackage}
+          allowSchoolPackage={allowSchoolPackage}
         />
       </Route>
       <Route path="/calculation/5/:projectId?">
@@ -78,9 +78,9 @@ const CalculationWizardRoutes = ({
           uncheckAll={() => onUncheckAll(filters.strategyRules)}
           resetProject={() => onResetProject()}
           allowResidentialPackage={allowResidentialPackage}
-          allowEmploymentPackage={allowEmploymentPackage}
+          allowSchoolPackage={allowSchoolPackage}
           residentialPackageSelected={residentialPackageSelected}
-          employmentPackageSelected={employmentPackageSelected}
+          schoolPackageSelected={schoolPackageSelected}
         />
       </Route>
       <Route path="/calculation/6/:projectId?">
@@ -111,12 +111,12 @@ CalculationWizardRoutes.propTypes = {
   strategyRules: PropTypes.any,
   landUseRules: PropTypes.any,
   allowResidentialPackage: PropTypes.any,
-  allowEmploymentPackage: PropTypes.any,
+  allowSchoolPackage: PropTypes.any,
   onCommentChange: PropTypes.any,
   initializeStrategies: PropTypes.any,
   onPkgSelect: PropTypes.any,
   residentialPackageSelected: PropTypes.any,
-  employmentPackageSelected: PropTypes.any,
+  schoolPackageSelected: PropTypes.any,
   rules: PropTypes.any,
   account: PropTypes.any,
   projectId: PropTypes.any,

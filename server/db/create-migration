@@ -2,7 +2,7 @@
 
 /* 
   This file is an executable file.
-  To create a migration file, simply run this file. e.g. in the terminal from the root directory, run: 
+  To create a migration file, simply run this file. e.g. in the terminal from the server directory, run: 
   `./db/create-migration` (no file extension)
   This will create a new migration file using the current datetime as the version number.
   Edit the description of the file name. (Keep the two underscores that separate version number and description.)

@@ -27,9 +27,9 @@ const TdmCalculationWizard = props => {
     history,
     match,
     allowResidentialPackage,
-    allowEmploymentPackage,
+    allowSchoolPackage,
     residentialPackageSelected,
-    employmentPackageSelected,
+    schoolPackageSelected,
     formIsDirty,
     projectIsValid,
     dateModified,
@@ -151,9 +151,7 @@ const TdmCalculationWizard = props => {
       if (handleValidate()) {
         // Skip page 4 unless Packages are applicable
         const nextPage =
-          Number(page) === 3 &&
-          !allowResidentialPackage &&
-          !allowEmploymentPackage
+          Number(page) === 3 && !allowResidentialPackage && !allowSchoolPackage
             ? 5
             : Number(page) + 1;
         history.push(`/calculation/${nextPage}${projectIdParam}`);
@@ -161,9 +159,7 @@ const TdmCalculationWizard = props => {
     } else {
       // Skip page 4 unless Packages are applicable
       const prevPage =
-        Number(page) === 5 &&
-        !allowResidentialPackage &&
-        !allowEmploymentPackage
+        Number(page) === 5 && !allowResidentialPackage && !allowSchoolPackage
           ? 3
           : Number(page) - 1;
       history.push(`/calculation/${prevPage}${projectIdParam}`);
@@ -198,12 +194,12 @@ const TdmCalculationWizard = props => {
           strategyRules={strategyRules}
           landUseRules={landUseRules}
           allowResidentialPackage={allowResidentialPackage}
-          allowEmploymentPackage={allowEmploymentPackage}
+          allowSchoolPackage={allowSchoolPackage}
           onCommentChange={onCommentChange}
           initializeStrategies={initializeStrategies}
           onPkgSelect={onPkgSelect}
           residentialPackageSelected={residentialPackageSelected}
-          employmentPackageSelected={employmentPackageSelected}
+          schoolPackageSelected={schoolPackageSelected}
           rules={rules}
           account={account}
           projectId={projectId}
@@ -269,9 +265,9 @@ TdmCalculationWizard.propTypes = {
   onSave: PropTypes.func.isRequired,
   onViewChange: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
-  allowEmploymentPackage: PropTypes.bool.isRequired,
+  allowSchoolPackage: PropTypes.bool.isRequired,
   residentialPackageSelected: PropTypes.func,
-  employmentPackageSelected: PropTypes.func,
+  schoolPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
   dateModified: PropTypes.string
