@@ -92,7 +92,6 @@ const useStyles = createUseStyles({
     display: "flex",
     minWidth: "180px",
     maxWidth: "100%",
-    marginRight: "3em",
     marginTop: "4px",
     padding: "12px"
   }

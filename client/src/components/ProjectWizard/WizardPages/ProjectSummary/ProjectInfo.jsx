@@ -12,6 +12,7 @@ const useStyles = createUseStyles({
   },
   projectInfoCategory: {
     fontFamily: "Oswald",
+    fontWeight: "500",
     fontSize: "12px",
     textTransform: "uppercase",
     color: "rgba(15, 41, 64, .5)",

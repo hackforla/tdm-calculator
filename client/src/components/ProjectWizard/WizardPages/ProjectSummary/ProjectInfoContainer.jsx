@@ -6,7 +6,7 @@ import { getRule } from "../../helpers";
 
 const useStyles = createUseStyles({
   projectInfoContainer: {
-    paddingBottom: "25px",
+    paddingBottom: "20px",
     margin: "70px auto 0",
     width: "100%",
     minHeight: "100px"
@@ -15,6 +15,7 @@ const useStyles = createUseStyles({
     color: "#0F2940",
     fontSize: "24px",
     fontFamily: "Calibri Bold",
+    paddingLeft: "12px",
     paddingRight: ".8em"
   },
   textProjectInfoHeaderAddress: {
@@ -23,8 +24,8 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri Bold"
   },
   projectInfoDetailsContainer: {
-    marginTop: "13px",
-    paddingTop: "13px",
+    paddingTop: "6px",
+    paddingLeft: "12px",
     height: "55px",
     display: "flex",
     flexDirection: "row",
