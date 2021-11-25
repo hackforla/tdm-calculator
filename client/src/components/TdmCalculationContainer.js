@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Prompt, withRouter } from "react-router-dom";
 import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
@@ -55,6 +55,8 @@ export function TdmCalculationContainer({
   match,
   account,
   classes,
+  hasConfirmedNavTransition,
+  isOpenNavConfirmModal,
   setLoggedInAccount,
   contentContainerRef
 }) {
@@ -67,6 +69,8 @@ export function TdmCalculationContainer({
   const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
+  const [resettingProject, setResettingProject] = useState(false);
+  const [triggerInitiateEngine, setTriggerInitiateEngine] = useState(false);
   const toast = useToast();
   const appInsights = useAppInsightsContext();
 
@@ -128,7 +132,7 @@ export function TdmCalculationContainer({
       }
     };
     initiateEngine();
-  }, [match.params.projectId, engine, account, history]);
+  }, [match.params.projectId, engine, account, history, triggerInitiateEngine]);
 
   const recalculate = updatedFormInputs => {
     engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
@@ -164,27 +168,46 @@ export function TdmCalculationContainer({
       strategyBike4 &&
       !!strategyBike4.value &&
       strategyInfo3 &&
-      !!strategyInfo3.value &&
+      strategyInfo3.value >= 1 &&
       strategyParking1 &&
-      strategyParking1.value === 8
+      strategyParking1.value >= 8
     );
   };
 
-  const employmentPackageSelected = () => {
+  const schoolPackageSelected = () => {
     // Only enable button if
     // component strategies are not already selected
-    const pkgRules = rules.filter(rule =>
-      ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
-        rule.code
-      )
+    const strategyBike4 = rules.find(r => r.code === "STRATEGY_BIKE_4");
+    const strategyHov4 = rules.find(r => r.code === "STRATEGY_HOV_4");
+    const strategyInfo3 = rules.find(r => r.code === "STRATEGY_INFO_3");
+    const strategyInfo5 = rules.find(r => r.code === "STRATEGY_INFO_5");
+    return (
+      strategyBike4 &&
+      !!strategyBike4.value &&
+      strategyHov4 &&
+      !!strategyHov4.value &&
+      strategyInfo3 &&
+      strategyInfo3.value >= 2 &&
+      strategyInfo5 &&
+      !!strategyInfo5.value
     );
-
-    const strategyCount = pkgRules.reduce(
-      (count, r) => count + (r.value && r.value !== "0" ? 1 : 0),
-      0
-    );
-    return strategyCount === 3;
   };
+
+  // const employmentPackageSelected = () => {
+  //   // Only enable button if
+  //   // component strategies are not already selected
+  //   const pkgRules = rules.filter(rule =>
+  //     ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
+  //       rule.code
+  //     )
+  //   );
+
+  //   const strategyCount = pkgRules.reduce(
+  //     (count, r) => count + (r.value && r.value !== "0" ? 1 : 0),
+  //     0
+  //   );
+  //   return strategyCount === 3;
+  // };
 
   const onPkgSelect = (pkgType, selected = true) => {
     const modifiedInputs = {};
@@ -201,33 +224,36 @@ export function TdmCalculationContainer({
       } else {
         // Do not alter Bike Parking setting
         // De-select Encouragement Program, unless
-        // the employment package is selected
-        if (!employmentPackageSelected()) {
+        // the school package is selected
+        if (!schoolPackageSelected()) {
           modifiedInputs["STRATEGY_INFO_3"] = 0;
         }
         // Set Pricing/Unbundling to 0
         modifiedInputs["STRATEGY_PARKING_1"] = 0;
       }
     } else {
-      // Employment Pkg
+      // School Pkg
       if (selected) {
         modifiedInputs["STRATEGY_BIKE_4"] = true;
-        if (rules.find(r => r.code === "STRATEGY_INFO_3").value < 1) {
-          modifiedInputs["STRATEGY_INFO_3"] = 1;
+        if (rules.find(r => r.code === "STRATEGY_INFO_3").value <= 1) {
+          modifiedInputs["STRATEGY_INFO_3"] = 2;
         }
+        modifiedInputs["STRATEGY_INFO_5"] = true;
+        modifiedInputs["STRATEGY_HOV_4"] = true;
+
         // De-select Trip-Reduction Program
-        modifiedInputs["STRATEGY_HOV_5"] = false;
-        // Set parking cashout true
-        modifiedInputs["STRATEGY_PARKING_2"] = true;
+        //modifiedInputs["STRATEGY_HOV_5"] = false;
       } else {
         // Do not alter Bike Parking setting
         // De-select Encouragement Program, unless
-        // the employment package is selected
+        // the residential package is selected
         if (!residentialPackageSelected()) {
           modifiedInputs["STRATEGY_INFO_3"] = 0;
+        } else {
+          modifiedInputs["STRATEGY_INFO_3"] = 1;
         }
-        // Set Parking cashout false
-        modifiedInputs["STRATEGY_PARKING_2"] = false;
+        modifiedInputs["STRATEGY_INFO_5"] = false;
+        modifiedInputs["STRATEGY_HOV_4"] = false;
       }
     }
 
@@ -245,16 +271,17 @@ export function TdmCalculationContainer({
 
   const allowResidentialPackage = (() => {
     // Only show button if one of the land uses is Residential
-    const triggerRule = landUseRules.filter(
-      r => r.code === "LAND_USE_RESIDENTIAL"
+    const applicableLandUse = landUseRules.find(
+      r =>
+        r.code.startsWith("LAND_USE") && r.code !== "LAND_USE_SCHOOL" && r.value
     );
-    return projectLevel === 1 && triggerRule[0] && !!triggerRule[0].value;
+    return projectLevel === 1 && applicableLandUse;
   })();
 
-  const allowEmploymentPackage = (() => {
+  const allowSchoolPackage = (() => {
     // Only show button if Parking Cash-Out strategy is available
-    const triggerRule = rules.filter(r => r.code === "STRATEGY_PARKING_2");
-    return projectLevel === 1 && triggerRule[0] && triggerRule[0].display;
+    const triggerRule = landUseRules.filter(r => r.code === "LAND_USE_SCHOOL");
+    return projectLevel === 1 && triggerRule[0] && triggerRule[0].value;
   })();
 
   const getRuleByCode = ruleCode => {
@@ -337,6 +364,29 @@ export function TdmCalculationContainer({
       }
     }
     recalculate(updateInputs);
+  };
+
+  useEffect(() => {
+    if (isOpenNavConfirmModal) return;
+
+    if (hasConfirmedNavTransition) {
+      setTriggerInitiateEngine(state => !state);
+      setFormHasSaved(true);
+    }
+    setResettingProject(false);
+  }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
+
+  const navToStart = useCallback(() => {
+    const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
+    history.push(firstPage);
+  }, [history, projectId]);
+
+  useEffect(() => {
+    if (resettingProject) navToStart();
+  }, [resettingProject, navToStart]);
+
+  const onResetProject = () => {
+    setResettingProject(true);
   };
 
   const projectIsValid = () => {
@@ -438,9 +488,10 @@ export function TdmCalculationContainer({
   return (
     <div className={classes.tdmCalculationContainer} onClick={trackComponent}>
       <Prompt
-        when={!formHasSaved && !!account.id}
+        when={!formHasSaved || resettingProject}
         message={location => {
-          return location.pathname.startsWith("/calculation")
+          return location.pathname.startsWith("/calculation") &&
+            !resettingProject
             ? true // returning true allows user to continue without a prompt/modal
             : "this message doesn't actaully show, but will cause modal to open";
         }}
@@ -452,6 +503,7 @@ export function TdmCalculationContainer({
           onInputChange={onInputChange}
           onCommentChange={onCommentChange}
           onUncheckAll={onUncheckAll}
+          onResetProject={onResetProject}
           initializeStrategies={initializeStrategies}
           filters={filters}
           onPkgSelect={onPkgSelect}
@@ -463,9 +515,9 @@ export function TdmCalculationContainer({
           loginId={loginId}
           onSave={onSave}
           allowResidentialPackage={allowResidentialPackage}
-          allowEmploymentPackage={allowEmploymentPackage}
+          allowSchoolPackage={allowSchoolPackage}
           residentialPackageSelected={residentialPackageSelected}
-          employmentPackageSelected={employmentPackageSelected}
+          schoolPackageSelected={schoolPackageSelected}
           formIsDirty={!formHasSaved}
           projectIsValid={projectIsValid}
           dateModified={dateModified}
@@ -514,6 +566,8 @@ TdmCalculationContainer.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string
   }),
+  hasConfirmedNavTransition: PropTypes.bool,
+  isOpenNavConfirmModal: PropTypes.bool,
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object
 };

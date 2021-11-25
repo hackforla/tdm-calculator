@@ -10,7 +10,7 @@ export const useStyles = createUseStyles({
     flexShrink: 1,
     backgroundImage: "url(/assets/sidebarBackground.jpg)",
     backgroundPosition: "0 0",
-    backgroundSize: "cover",
+    backgroundSize: "387px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start"

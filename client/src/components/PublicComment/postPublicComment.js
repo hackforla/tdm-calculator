@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const baseUrl = "/api/public-comment";
+axios.defaults.baseUrl = baseUrl;
 
 export const postPublicComment = async formElements => {
   const response = await axios.post(baseUrl, {

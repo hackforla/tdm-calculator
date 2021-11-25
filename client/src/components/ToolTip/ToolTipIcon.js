@@ -50,7 +50,11 @@ const ToolTipIcon = ({ size = "small", id, tooltipContent }) => {
         color="#a7c539"
         className={classes.circle}
       />
-      <FontAwesomeIcon icon={faQuestion} color="white" transform="shrink-5" />
+      <FontAwesomeIcon
+        icon={faQuestion}
+        color="rgb(0, 46, 109)"
+        transform="shrink-5"
+      />
     </span>
   );
 };
