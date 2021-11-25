@@ -19,6 +19,8 @@ const useStyles = createUseStyles({
     display: "flex"
   },
   targetPointsReached: {
+    display: "flex",
+    justifyContent: "center",
     width: "100%",
     textAlign: "center",
     color: "#0F2940",
@@ -29,6 +31,7 @@ const useStyles = createUseStyles({
   },
   messageBox: {
     display: "flex",
+    width: "521px",
     justifyContent: "center",
     alignItems: "center",
     padding: ".5em",

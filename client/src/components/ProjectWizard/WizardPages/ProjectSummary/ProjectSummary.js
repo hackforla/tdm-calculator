@@ -31,6 +31,9 @@ const useStyles = createUseStyles({
   failureBorder: {
     border: "2px solid #E46247"
   },
+  normalBorder: {
+    border: "1px solid #E7EBF0"
+  },
   rule: {
     display: "flex",
     alignItems: "center",
@@ -55,7 +58,7 @@ const useStyles = createUseStyles({
     margin: "24px auto 0"
   },
   categoryContainer: {
-    marginTop: "40px"
+    marginTop: "25px"
   },
   categoryHeaderContainer: {
     background: "#E7EBF0",
@@ -67,8 +70,7 @@ const useStyles = createUseStyles({
     fontWeight: "700"
   },
   resultsContainer: {
-    paddingTop: "16px",
-    height: "170px",
+    padding: "30px 0",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
@@ -90,7 +92,6 @@ const useStyles = createUseStyles({
     display: "flex",
     minWidth: "180px",
     maxWidth: "100%",
-    marginRight: "3em",
     marginTop: "4px",
     padding: "12px"
   }
@@ -184,7 +185,7 @@ const ProjectSummary = props => {
               />
               <Result
                 rule={targetPoints}
-                borderStyle={"border-gray"}
+                borderStyle={classes.normalBorder}
                 valueTestId={"summary-target-points-value"}
               />
             </div>

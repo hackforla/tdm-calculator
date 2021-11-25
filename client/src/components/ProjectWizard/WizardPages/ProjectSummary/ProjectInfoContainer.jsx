@@ -6,6 +6,7 @@ import { getRule } from "../../helpers";
 
 const useStyles = createUseStyles({
   projectInfoContainer: {
+    paddingBottom: "20px",
     margin: "70px auto 0",
     width: "100%",
     minHeight: "100px"
@@ -14,6 +15,7 @@ const useStyles = createUseStyles({
     color: "#0F2940",
     fontSize: "24px",
     fontFamily: "Calibri Bold",
+    paddingLeft: "12px",
     paddingRight: ".8em"
   },
   textProjectInfoHeaderAddress: {
@@ -22,13 +24,18 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri Bold"
   },
   projectInfoDetailsContainer: {
-    marginTop: "13px",
-    paddingTop: "13px",
+    paddingTop: "6px",
+    paddingLeft: "12px",
     height: "55px",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
     maxWidth: "100%"
+  },
+  line: {
+    margin: ".7em 0",
+    border: "0",
+    borderTop: "1px solid #E7EBF0"
   }
 });
 
@@ -47,12 +54,15 @@ const ProjectInfoContainer = props => {
 
   return (
     <div className={classes.projectInfoContainer}>
-      <span className={classes.textProjectInfoHeader}>PROJECT NAME:</span>
-      {projectName && projectName.value ? (
-        <span className={classes.textProjectInfoHeaderAddress}>
-          {projectName.value}
-        </span>
-      ) : null}
+      <div className={classes.projectInfoHeaderLine}>
+        <span className={classes.textProjectInfoHeader}>PROJECT NAME:</span>
+        {projectName && projectName.value ? (
+          <span className={classes.textProjectInfoHeaderAddress}>
+            {projectName.value}
+          </span>
+        ) : null}
+      </div>
+      <hr className={classes.line} />
       <div className={classes.projectInfoDetailsContainer}>
         {projectAddress && (
           <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
