@@ -26,8 +26,12 @@ const DuplicateProjectModal = ({
   handleError,
   duplicateModalOpen,
   toggleDuplicateModal,
+<<<<<<< Updated upstream
   duplicateProjectName,
   setDuplicateProjectName
+=======
+  setDuplicateModalOpen
+>>>>>>> Stashed changes
 }) => {
   const classes = useStyles();
 
@@ -61,9 +65,9 @@ const DuplicateProjectModal = ({
   return (
     <ProjectActionModal
       isOpen={duplicateModalOpen}
-      onRequestClose={toggleDuplicateModal}
+      onRequestClose={() => setDuplicateModalOpen(!duplicateModalOpen)}
       contentLabel="Duplicate Modal"
-      toggleCloseButton={toggleDuplicateModal}
+      toggleCloseButton={() => setDuplicateModalOpen(!duplicateModalOpen)}
       action="duplicate"
       title="Duplicate Project"
       submitButtonLabel="Create a Copy"
@@ -92,8 +96,12 @@ DuplicateProjectModal.propTypes = {
   toggleDuplicateModal: PropTypes.func.isRequired,
   handleError: PropTypes.func.isRequired,
   duplicateModalOpen: PropTypes.bool.isRequired,
+<<<<<<< Updated upstream
   duplicateProjectName: PropTypes.string,
   setDuplicateProjectName: PropTypes.func.isRequired
+=======
+  setDuplicateModalOpen: PropTypes.func.isRequired
+>>>>>>> Stashed changes
 };
 
 export default DuplicateProjectModal;
