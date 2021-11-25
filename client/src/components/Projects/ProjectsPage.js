@@ -164,7 +164,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
     }
   }, [selectedProject, getProjects]);
 
-  const toggleDuplicateModal = async project => {
+  const toggleDuplicateModal = project => {
     if (project) {
       setSelectedProject(project);
     } else {
@@ -430,14 +430,16 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
             setSelectedProject={setSelectedProject}
             handleError={handleError}
             toggleDuplicateModal={toggleDuplicateModal}
+            setDuplicateModalOpen={setDuplicateModalOpen}
             duplicateModalOpen={duplicateModalOpen}
           />
 
           <DeleteProjectModal
             selectedProject={selectedProject}
             setSelectedProject={setSelectedProject}
-            toggleDeleteModal={toggleDeleteModal}
             handleError={handleError}
+            toggleDeleteModal={toggleDeleteModal}
+            setDeleteModalOpen={setDeleteModalOpen}
             deleteModalOpen={deleteModalOpen}
           />
         </>

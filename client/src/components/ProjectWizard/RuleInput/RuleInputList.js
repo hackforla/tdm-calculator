@@ -14,6 +14,7 @@ const useStyles = createUseStyles({
 const RuleInputList = props => {
   const classes = useStyles();
   const { rules } = props;
+
   return (
     <div className={classes.ruleInputList}>
       {rules && rules.length > 0

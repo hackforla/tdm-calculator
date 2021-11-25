@@ -25,7 +25,10 @@ const DuplicateProjectModal = ({
   setSelectedProject,
   handleError,
   duplicateModalOpen,
-  toggleDuplicateModal
+  toggleDuplicateModal,
+  duplicateProjectName,
+  setDuplicateProjectName,
+  setDuplicateModalOpen
 }) => {
   const classes = useStyles();
   const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
@@ -57,9 +60,9 @@ const DuplicateProjectModal = ({
   return (
     <ProjectActionModal
       isOpen={duplicateModalOpen}
-      onRequestClose={toggleDuplicateModal}
+      onRequestClose={() => setDuplicateModalOpen(!duplicateModalOpen)}
       contentLabel="Duplicate Modal"
-      toggleCloseButton={toggleDuplicateModal}
+      toggleCloseButton={() => setDuplicateModalOpen(!duplicateModalOpen)}
       action="duplicate"
       title="Duplicate Project"
       submitButtonLabel="Create a Copy"
@@ -87,7 +90,10 @@ DuplicateProjectModal.propTypes = {
   setSelectedProject: PropTypes.func.isRequired,
   toggleDuplicateModal: PropTypes.func.isRequired,
   handleError: PropTypes.func.isRequired,
-  duplicateModalOpen: PropTypes.bool.isRequired
+  duplicateModalOpen: PropTypes.bool.isRequired,
+  duplicateProjectName: PropTypes.string,
+  setDuplicateProjectName: PropTypes.func.isRequired,
+  setDuplicateModalOpen: PropTypes.func.isRequired
 };
 
 export default DuplicateProjectModal;
