@@ -26,8 +26,6 @@ const DuplicateProjectModal = ({
   handleError,
   duplicateModalOpen,
   toggleDuplicateModal,
-  duplicateProjectName,
-  setDuplicateProjectName,
   setDuplicateModalOpen
 }) => {
   const classes = useStyles();
@@ -91,8 +89,6 @@ DuplicateProjectModal.propTypes = {
   toggleDuplicateModal: PropTypes.func.isRequired,
   handleError: PropTypes.func.isRequired,
   duplicateModalOpen: PropTypes.bool.isRequired,
-  duplicateProjectName: PropTypes.string,
-  setDuplicateProjectName: PropTypes.func.isRequired,
   setDuplicateModalOpen: PropTypes.func.isRequired
 };
 
