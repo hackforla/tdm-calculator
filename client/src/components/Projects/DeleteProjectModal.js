@@ -26,7 +26,8 @@ const DeleteProjectModal = ({
   setSelectedProject,
   handleError,
   deleteModalOpen,
-  toggleDeleteModal
+  toggleDeleteModal,
+  setDeleteModalOpen
 }) => {
   const classes = useStyles();
 
@@ -44,9 +45,9 @@ const DeleteProjectModal = ({
   return (
     <ProjectActionModal
       isOpen={deleteModalOpen}
-      onRequestClose={toggleDeleteModal}
+      onRequestClose={() => setDeleteModalOpen(!deleteModalOpen)}
       contentLabel="Delete Modal"
-      toggleCloseButton={toggleDeleteModal}
+      toggleCloseButton={() => setDeleteModalOpen(!deleteModalOpen)}
       action="delete"
       title="Delete Project"
       submitButtonLabel="Delete"
@@ -67,7 +68,8 @@ DeleteProjectModal.propTypes = {
   setSelectedProject: PropTypes.func.isRequired,
   toggleDeleteModal: PropTypes.func.isRequired,
   handleError: PropTypes.func.isRequired,
-  deleteModalOpen: PropTypes.bool.isRequired
+  deleteModalOpen: PropTypes.bool.isRequired,
+  setDeleteModalOpen: PropTypes.func.isRequired
 };
 
 export default DeleteProjectModal;

@@ -79,10 +79,21 @@ const NavConfirmModal = ({
         </span>
       </p>
       <div className={classes.modalActions}>
-        <Button color="colorCancel" variant="text" onClick={blockTransition}>
+        <Button
+          color="colorCancel"
+          variant="text"
+          id="modalCancel"
+          data-testid="transitionCancel"
+          onClick={blockTransition}
+        >
           Cancel
         </Button>
-        <Button color="colorError" onClick={allowTransition}>
+        <Button
+          color="colorError"
+          id="modalProceed"
+          data-testid="transitionProceed"
+          onClick={allowTransition}
+        >
           Proceed
         </Button>
       </div>

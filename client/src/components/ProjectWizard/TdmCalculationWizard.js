@@ -15,6 +15,7 @@ const TdmCalculationWizard = props => {
     onInputChange,
     onCommentChange,
     onUncheckAll,
+    onResetProject,
     initializeStrategies,
     filters,
     onPkgSelect,
@@ -26,9 +27,9 @@ const TdmCalculationWizard = props => {
     history,
     match,
     allowResidentialPackage,
-    allowEmploymentPackage,
+    allowSchoolPackage,
     residentialPackageSelected,
-    employmentPackageSelected,
+    schoolPackageSelected,
     formIsDirty,
     projectIsValid,
     dateModified,
@@ -103,6 +104,25 @@ const TdmCalculationWizard = props => {
     );
   };
 
+  const setDisabledSaveButton = () => {
+    const loggedIn = !!account.id;
+    const notASavedProject = !projectId;
+    const projectBelongsToUser = account.id === loginId;
+    const setDisabled = !(
+      loggedIn &&
+      (notASavedProject || projectBelongsToUser) &&
+      formIsDirty &&
+      projectIsValid()
+    );
+    return setDisabled;
+  };
+
+  const setDisplaySaveButton = () => {
+    const loggedIn = !!account.id;
+    const setDisplayed = loggedIn;
+    return setDisplayed;
+  };
+
   const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
 
   const handleValidate = () => {
@@ -131,9 +151,7 @@ const TdmCalculationWizard = props => {
       if (handleValidate()) {
         // Skip page 4 unless Packages are applicable
         const nextPage =
-          Number(page) === 3 &&
-          !allowResidentialPackage &&
-          !allowEmploymentPackage
+          Number(page) === 3 && !allowResidentialPackage && !allowSchoolPackage
             ? 5
             : Number(page) + 1;
         history.push(`/calculation/${nextPage}${projectIdParam}`);
@@ -141,9 +159,7 @@ const TdmCalculationWizard = props => {
     } else {
       // Skip page 4 unless Packages are applicable
       const prevPage =
-        Number(page) === 5 &&
-        !allowResidentialPackage &&
-        !allowEmploymentPackage
+        Number(page) === 5 && !allowResidentialPackage && !allowSchoolPackage
           ? 3
           : Number(page) - 1;
       history.push(`/calculation/${prevPage}${projectIdParam}`);
@@ -159,6 +175,7 @@ const TdmCalculationWizard = props => {
             rules={rules}
             onViewChange={onViewChange}
             resultRules={resultRules}
+            strategyRules={strategyRules}
           />
         )}
         contentContainerRef={contentContainerRef}
@@ -169,6 +186,7 @@ const TdmCalculationWizard = props => {
           onInputChange={onInputChange}
           specificationRules={specificationRules}
           onUncheckAll={onUncheckAll}
+          onResetProject={onResetProject}
           filters={filters}
           targetPointRules={targetPointRules}
           isLevel0={isLevel0}
@@ -176,12 +194,12 @@ const TdmCalculationWizard = props => {
           strategyRules={strategyRules}
           landUseRules={landUseRules}
           allowResidentialPackage={allowResidentialPackage}
-          allowEmploymentPackage={allowEmploymentPackage}
+          allowSchoolPackage={allowSchoolPackage}
           onCommentChange={onCommentChange}
           initializeStrategies={initializeStrategies}
           onPkgSelect={onPkgSelect}
           residentialPackageSelected={residentialPackageSelected}
-          employmentPackageSelected={employmentPackageSelected}
+          schoolPackageSelected={schoolPackageSelected}
           rules={rules}
           account={account}
           projectId={projectId}
@@ -195,11 +213,8 @@ const TdmCalculationWizard = props => {
           onPageChange={onPageChange}
           pageNumber={pageNumber}
           setDisabledForNextNavButton={setDisabledForNextNavButton}
-          account={account}
-          projectId={projectId}
-          loginId={loginId}
-          formIsDirty={formIsDirty}
-          projectIsValid={projectIsValid}
+          setDisabledSaveButton={setDisabledSaveButton}
+          setDisplaySaveButton={setDisplaySaveButton}
           onSave={onSave}
         />
       </ContentContainer>
@@ -242,6 +257,7 @@ TdmCalculationWizard.propTypes = {
   onPkgSelect: PropTypes.func.isRequired,
   initializeStrategies: PropTypes.func.isRequired,
   onUncheckAll: PropTypes.func.isRequired,
+  onResetProject: PropTypes.func.isRequired,
   filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,
   account: PropTypes.object.isRequired,
@@ -249,9 +265,9 @@ TdmCalculationWizard.propTypes = {
   onSave: PropTypes.func.isRequired,
   onViewChange: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
-  allowEmploymentPackage: PropTypes.bool.isRequired,
+  allowSchoolPackage: PropTypes.bool.isRequired,
   residentialPackageSelected: PropTypes.func,
-  employmentPackageSelected: PropTypes.func,
+  schoolPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
   dateModified: PropTypes.string

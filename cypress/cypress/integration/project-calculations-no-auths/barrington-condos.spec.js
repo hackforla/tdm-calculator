@@ -10,79 +10,62 @@ const p = {
   expectedParkingBaselineSpaces: "92",
   expectedParkingBaselinePercentage: "95.65",
   pricingUnbundling: "Each parking space is at least $220 a month",
-  reducedParkingSupply: "Reduces 100% of spaces available",
-  affordableHousingLevel: "35% of State Density Bonus",
+  reducedParkingSupply: "Reduces 50%-74% of spaces available",
+  affordableHousingLevel: "20% of State Density Bonus",
   expectedProjectLevelValue: "1",
-  expectedParkingRatioValue: "95%",
+  expectedParkingRatioValue: "95",
   expectedTargetPointsValue: "15",
-  expectedEarnedPointsValue: "16"
+  expectedEarnedPointsValue: "16",
 };
 
 describe("Barrington Condos", () => {
-  it("verify calculation", () => {
-    cy.visit("/calculation");
-    // Dismiss Terms and Conditions dialog
-    cy.findByText("Accept").click();
+  beforeEach(() => {
+    window.localStorage.setItem("termsAndConditions", "Accepted");
+  });
+
+  it("fills out project info (page 1)", () => {
+    cy.goToStart();
 
     cy.get("#PROJECT_NAME").type(p.projectName);
     cy.findByTestId("PROJECT_ADDRESS").type(p.address);
     cy.findByTestId("APN").type(p.ain);
-    cy.findByTestId("rightNavArrow").click();
+    cy.goToNextPage();
+  });
 
+  it("fills out project specifications and validates points (page 2)", () => {
     cy.findByTestId("UNITS_CONDO").type(p.condoUnits);
     cy.findByTestId("PARK_CONDO").type(p.requiredParkingSpaces);
-    cy.findByTestId("rightNavArrow").click();
+    cy.goToNextPage();
+  });
 
+  it("fills out parking spaces provided and validates points (page 3)", () => {
     cy.findByTestId("PARK_SPACES").type(p.parkingProvided);
-    cy.get("#PARK_REQUIREMENT").should(
-      "have.text",
-      p.expectedParkingBaselineSpaces
-    );
-    cy.get("#CALC_PARK_RATIO").should(
-      "have.text",
-      p.expectedParkingBaselinePercentage
-    );
+    cy.get("#PARK_REQUIREMENT").should("have.text", p.expectedParkingBaselineSpaces);
+    cy.get("#CALC_PARK_RATIO").should("have.text", p.expectedParkingBaselinePercentage);
+    cy.goToNextPage();
+  });
 
-    cy.findByTestId("rightNavArrow").click();
-    // Now we are on the Packge Info Page, since this is a level 1 project
-    // with residential land use
+  it("displays bonus package (page 4)", () => {
+    cy.findByText("You qualify for a bonus package!");
+    cy.findByText("Residential Package");
+    cy.goToNextPage();
+  });
 
-    // Go to Strategies Page
-    cy.findByTestId("rightNavArrow").click();
+  it("fills out strategies page and validates points (page 5)", () => {
+    cy.get("#STRATEGY_BIKE_4").should("be.checked"); // Bike Parking should be pre-selected
+    cy.get("#STRATEGY_PARKING_1").select(p.pricingUnbundling); // Pricing/unbundling
+    cy.get("#STRATEGY_PARKING_5").select(p.reducedParkingSupply); // Reduced Parking Supply
+    cy.get("#STRATEGY_AFFORDABLE").select(p.affordableHousingLevel); // Affordable Housing
+    cy.goToNextPage();
+  });
 
-    // Bike Parking should be pre-selected
-    cy.get("#STRATEGY_BIKE_4").should("be.checked");
-    // Pricing/unbundling
-    cy.get("#STRATEGY_PARKING_1").select(p.pricingUnbundling);
-    // Reduced Parking Supply
-    cy.get("#STRATEGY_PARKING_5").select(p.reducedParkingSupply);
-    // Affordable Housing
-    cy.get("#STRATEGY_AFFORDABLE").select(p.affordableHousingLevel);
-
-    // Go to Summary Page
-    cy.findByTestId("rightNavArrow").click();
-
+  it("validates summary page (page 6)", () => {
     cy.findByText(p.projectName).should("be.visible");
     cy.findByText(p.address).should("be.visible");
 
-    cy.findByTestId("summary-project-level-value").should(
-      "have.text",
-      p.expectedProjectLevelValue
-    );
-
-    cy.findByTestId("summary-parking-ratio-value").should(
-      "have.text",
-      p.expectedParkingRatioValue
-    );
-
-    cy.findByTestId("summary-target-points-value").should(
-      "have.text",
-      p.expectedTargetPointsValue
-    );
-
-    cy.findByTestId("summary-earned-points-value").should(
-      "have.text",
-      p.expectedEarnedPointsValue
-    );
+    cy.findByTestId("summary-project-level-value").should("have.text", p.expectedProjectLevelValue);
+    cy.findByTestId("summary-parking-ratio-value").should("have.text", p.expectedParkingRatioValue);
+    cy.findByTestId("summary-target-points-value").should("have.text", p.expectedTargetPointsValue);
+    cy.findByTestId("summary-earned-points-value").should("have.text", p.expectedEarnedPointsValue);
   });
 });

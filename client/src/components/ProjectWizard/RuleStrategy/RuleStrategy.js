@@ -149,9 +149,11 @@ const RuleStrategy = ({
             : null}
         </div>
         <div className={classes.points}>
-          {`${calcValue ? Math.round(calcValue * 100) / 100 : ""} ${
-            calculationUnits || ""
-          }`}
+          {`${
+            calcValue
+              ? Math.round(calcValue * 100) / 100 + " " + calculationUnits || ""
+              : ""
+          } `}
         </div>
       </React.Fragment>
     );
@@ -286,7 +288,7 @@ const RuleStrategy = ({
               value={comment || ""}
               onChange={onCommentChange}
               name={code}
-              id={comment}
+              id={`${code}_COMMENTS`}
               className={classes.commentTextarea}
               autoComplete="off"
               disabled={!display}

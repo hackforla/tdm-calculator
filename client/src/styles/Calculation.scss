@@ -86,8 +86,9 @@
   flex-direction: row-reverse;
   background-color: transparent;
   color: $color-background;
-  flex: 1;
+  flex: 0 1 25%;
   align-items: center;
+  justify-content: center;
 }
 
 .tdm-divider {
@@ -100,11 +101,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-basis: 50%;
+  flex-basis: 25%;
+  flex-grow: 0;
+  flex-shrink: 1;
   margin: 0;
   padding: 0.5em;
   background-color: transparent;
   color: $color-background;
+}
+
+.tdm-calculation-progress {
+  flex: 0 1 25%;
+  display: flex;
+  justify-content: center;
+}
+
+.tdm-calculation-cart {
+  flex: 1 0 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  background-color: #f7f9fa;
+  font-family: Oswald;
+  padding: 10px;
+  line-height: 1.5em;
+  color: $color-primary;
+  overflow-y: scroll;
 }
 
 .tdm-wizard-review-page {
@@ -118,5 +141,10 @@
 @media (max-width: 768px) {
   .tdm-results-panel {
     top: 0;
+  }
+
+  // Hide the Shopping Cart on narrow devices
+  .tdm-calculation-cart {
+    display: none;
   }
 }

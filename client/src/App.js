@@ -36,6 +36,7 @@ const App = ({
   account,
   setLoggedInAccount,
   hasConfirmedTransition,
+  isOpenNavConfirmModal,
   contentContainerRef,
   appContainerRef
 }) => {
@@ -58,6 +59,7 @@ const App = ({
             <TdmCalculationContainer
               account={account}
               hasConfirmedNavTransition={hasConfirmedTransition}
+              isOpenNavConfirmModal={isOpenNavConfirmModal}
               setLoggedInAccount={setLoggedInAccount}
               contentContainerRef={contentContainerRef}
             />
@@ -171,6 +173,7 @@ App.propTypes = {
   }),
   setLoggedInAccount: PropTypes.func,
   hasConfirmedTransition: PropTypes.bool,
+  isOpenNavConfirmModal: PropTypes.bool,
   appContainerRef: PropTypes.object,
   contentContainerRef: PropTypes.object
 };
