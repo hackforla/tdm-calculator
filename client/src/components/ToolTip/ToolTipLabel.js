@@ -1,6 +1,7 @@
 import React from "react";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import ToolTipIcon from "./ToolTipIcon";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
@@ -48,6 +49,22 @@ const ToolTipLabel = ({
   const requiredStyle = requiredInput && classes.requiredInputLabel;
   const disabledStyle = disabledInput && classes.disabledInputLabel;
 
+  if (code && code.startsWith("UNITS_HABIT")) {
+    return (
+      <label
+        htmlFor={code}
+        className={clsx(classes.tooltipLabel, requiredStyle, disabledStyle)}
+        data-class={classes.tooltip}
+        data-for={id}
+        data-tip={tooltipContent}
+        data-iscapture="true"
+        data-html="true"
+      >
+        {children} <ToolTipIcon />
+      </label>
+    );
+  }
+
   return (
     <label
       htmlFor={code ? code : null}
@@ -59,6 +76,12 @@ const ToolTipLabel = ({
       data-html="true"
     >
       {children}
+      {tooltipContent &&
+      code &&
+      !code.startsWith("STRATEGY") &&
+      !code.startsWith("PKG") ? (
+        <ToolTipIcon />
+      ) : null}
     </label>
   );
 };

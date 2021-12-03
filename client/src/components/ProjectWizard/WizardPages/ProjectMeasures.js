@@ -5,6 +5,7 @@ import InfoBox from "../InfoBox";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import useLocalStorage from "../../useLocalStorage";
 import { createUseStyles } from "react-jss";
+import ResetButtons from "./ResetButtons";
 
 const useStyles = createUseStyles({
   pkgSelectContainer: {
@@ -20,14 +21,9 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     marginLeft: "2em"
   },
-  unSelectButton: {
-    marginLeft: "auto",
-    marginRight: "1em",
+  alignRight: {
     gridColumn: "h-end",
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
+    justifyContent: "flex-end"
   }
 });
 function ProjectMeasure(props) {
@@ -38,11 +34,12 @@ function ProjectMeasure(props) {
     onCommentChange,
     onPkgSelect,
     uncheckAll,
+    resetProject,
     initializeStrategies,
     allowResidentialPackage,
-    allowEmploymentPackage,
+    allowSchoolPackage,
     residentialPackageSelected,
-    employmentPackageSelected
+    schoolPackageSelected
   } = props;
 
   const classes = useStyles();
@@ -97,8 +94,9 @@ function ProjectMeasure(props) {
                   fontWeight: "600",
                   paddingRight: "1em"
                 }}
+                htmlFor="packageResidential"
               >
-                Residential Package
+                Residential or Employment Package
                 <input
                   type="checkbox"
                   style={{
@@ -116,7 +114,7 @@ function ProjectMeasure(props) {
               </label>
             </div>
           ) : null}
-          {allowEmploymentPackage ? (
+          {allowSchoolPackage ? (
             <div>
               <label
                 style={{
@@ -124,7 +122,7 @@ function ProjectMeasure(props) {
                   paddingRight: "1em"
                 }}
               >
-                Employment Package
+                School Package
                 <input
                   type="checkbox"
                   value={true}
@@ -134,19 +132,21 @@ function ProjectMeasure(props) {
                     top: "0",
                     marginLeft: "0.5em"
                   }}
-                  checked={employmentPackageSelected()}
-                  onChange={e => onPkgSelect("Employment", e.target.checked)}
-                  name="packageEmployment"
-                  id="packageEmployment"
+                  checked={schoolPackageSelected()}
+                  onChange={e => onPkgSelect("School", e.target.checked)}
+                  name="packageSchool"
+                  id="packageSchool"
                 />
               </label>
             </div>
           ) : null}
         </div>
 
-        <button className={classes.unSelectButton} onClick={uncheckAll}>
-          Reset All Strategies
-        </button>
+        <ResetButtons
+          className={classes.alignRight}
+          uncheckAll={uncheckAll}
+          resetProject={resetProject}
+        />
       </div>
       <RuleStrategyPanels
         projectLevel={projectLevel}
@@ -171,11 +171,12 @@ ProjectMeasure.propTypes = {
   onCommentChange: PropTypes.func.isRequired,
   onPkgSelect: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
+  resetProject: PropTypes.func.isRequired,
   initializeStrategies: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
-  allowEmploymentPackage: PropTypes.bool.isRequired,
+  allowSchoolPackage: PropTypes.bool.isRequired,
   residentialPackageSelected: PropTypes.func,
-  employmentPackageSelected: PropTypes.func
+  schoolPackageSelected: PropTypes.func
 };
 
 export default ProjectMeasure;

@@ -17,12 +17,12 @@ const RuleInputLabel = ({
     <ToolTipLabel
       id={"tooltip-project-spec" + id}
       tooltipContent={description}
-      htmlFor={code}
+      code={code}
       disabledInput={!display}
       requiredInput={required}
     >
       {link ? (
-        <a href={link} target="_blank" rel="noopener noreferrer">
+        <a href={link} target="_blank" rel="noopener noreferrer" tabIndex="-1">
           {name}
           <FontAwesomeIcon icon={faLink} color="black" transform="shrink-5" />
         </a>

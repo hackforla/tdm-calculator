@@ -7,7 +7,7 @@ import clsx from "clsx";
 const useStyles = createUseStyles({
   projectLevelHeader: {
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "Oswald, Calibri",
     fontWeight: 500,
     textAlign: "center",
@@ -15,10 +15,10 @@ const useStyles = createUseStyles({
   },
   projectLevelValue: {
     color: "white",
-    fontSize: 100,
+    fontSize: 80,
     fontFamily: "Oswald, Calibri",
     fontWeight: "bold",
-    marginBottom: 0,
+    marginBottom: "-12px",
     textAlign: "center",
     lineHeight: "1.1em"
   },
@@ -57,7 +57,9 @@ const SidebarProjectLevel = ({ level, rules }) => {
 
   return (
     <div className={clsx(classes.projectLevelContainer, opacityTest)}>
-      <p className={classes.projectLevelValue}>{level}</p>
+      <p id="PROJECT_LEVEL" className={classes.projectLevelValue}>
+        {level}
+      </p>
       <h3 className={classes.projectLevelHeader}>
         PROJECT LEVEL
         <span

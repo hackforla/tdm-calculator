@@ -68,6 +68,7 @@ const AppWrapper = () => {
                 account={account}
                 setLoggedInAccount={setLoggedInAccount}
                 hasConfirmedTransition={hasConfirmedTransition}
+                isOpenNavConfirmModal={isOpenNavConfirmModal}
                 contentContainerRef={contentContainerRef}
                 appContainerRef={appContainerRef}
               />
