@@ -56,7 +56,7 @@ function ProjectMeasure(props) {
   return (
     <div>
       <h1 className="tdm-wizard-page-title">
-        Transportation Demand Strategies
+        Transportation Demand Management Strategies
       </h1>
       <h3 className="tdm-wizard-page-subtitle">
         Select strategies to earn TDM points
