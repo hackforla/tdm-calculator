@@ -49,10 +49,10 @@ const useStyles = createUseStyles({
 function ProjectTargetPoints(props) {
   const classes = useStyles();
   const { rules, onInputChange, isLevel0 } = props;
-  const projectLevel = rules.find(e => e.id === 16);
-  const targetValue = rules.find(e => e.id === 237);
+  const projectLevel = rules.find(e => e.code === "LEVEL");
+  const targetValue = rules.find(e => e.code === "INPUT_TARGET_POINTS_PARK");
 
-  const parkingProvidedRuleOnly = rules.filter(r => r.id === 7)[0];
+  const parkingProvidedRuleOnly = rules.find(r => r.code === "PARK_SPACES");
   const rulesInBox = rules.filter(r => r !== parkingProvidedRuleOnly);
 
   return (

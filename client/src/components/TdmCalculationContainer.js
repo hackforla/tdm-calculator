@@ -309,8 +309,10 @@ export function TdmCalculationContainer({
     // Convert value to appropriate Data type
     if (rule.dataType === "number") {
       value = limitToInt(value);
-      //value = limitMinMax(value, rule.minValue, rule.maxValue);
-      value = value === "0" ? "" : value;
+      // "PARK_SPACES" is the only measure allowed to be zero (vs. "")
+      if (rule.code !== "PARK_SPACES") {
+        value = value === "0" ? "" : value;
+      }
     }
 
     const newFormInputs = {

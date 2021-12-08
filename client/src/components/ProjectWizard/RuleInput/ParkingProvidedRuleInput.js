@@ -40,16 +40,7 @@ const useStyles = createUseStyles({
 });
 
 const ParkingProvidedRuleInput = ({
-  rule: {
-    code,
-    name,
-    value,
-    units,
-    minValue,
-    maxValue,
-    validationErrors,
-    required
-  },
+  rule: { code, name, value, units, maxValue, validationErrors, required },
   onInputChange
 }) => {
   const classes = useStyles();
@@ -79,7 +70,6 @@ const ParkingProvidedRuleInput = ({
           name={code}
           id={code}
           data-testid={code}
-          min={minValue}
           max={maxValue}
           onBlur={onBlur}
         />
@@ -99,7 +89,6 @@ ParkingProvidedRuleInput.propTypes = {
     name: PropTypes.string.isRequired,
     value: PropTypes.any,
     units: PropTypes.string,
-    minValue: PropTypes.number,
     maxValue: PropTypes.number,
     validationErrors: PropTypes.array,
     required: PropTypes.bool.isRequired
