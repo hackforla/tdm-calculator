@@ -19,9 +19,6 @@ const RuleInputList = props => {
     <div className={classes.ruleInputList}>
       {rules && rules.length > 0
         ? rules.map(rule => {
-            if (rule.id === 38 || rule.id === 39) {
-              return "";
-            }
             return (
               <RuleInput
                 key={rule.id}

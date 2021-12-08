@@ -16,14 +16,9 @@ const RuleCalculationList = props => {
     <div className={classes.RuleCalculationList}>
       {rules && rules.length > 0
         ? rules.map(rule => {
-            if (
-              rule.id === 38 ||
-              rule.id === 39 ||
-              rule.id === 16 ||
-              rule.id === 237
-            ) {
-              return "";
-            }
+            // if (rule.id === 16 || rule.id === 237) {
+            //   return "";
+            // }
             return (
               <RuleCalculation
                 key={rule.id}
