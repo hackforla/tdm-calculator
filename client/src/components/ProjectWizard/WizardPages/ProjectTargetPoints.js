@@ -53,7 +53,9 @@ function ProjectTargetPoints(props) {
   const targetValue = rules.find(e => e.code === "INPUT_TARGET_POINTS_PARK");
 
   const parkingProvidedRuleOnly = rules.find(r => r.code === "PARK_SPACES");
-  const rulesInBox = rules.filter(r => r !== parkingProvidedRuleOnly);
+  const rulesInBox = rules.filter(
+    r => r.code === "INPUT_PARK_REQUIREMENT" || r.code === "PARK_RATIO"
+  );
 
   return (
     <>
