@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
   box: {
     backgroundColor: "#E7EBF0",
     padding: "0",
-    maxWidth: "30%",
+    maxWidth: "45%",
     margin: "1em"
   },
   boxHeader: {
@@ -154,17 +154,14 @@ function ProjectPackages(props) {
                       Points for Unbundling Parking
                     </td>
                   </tr>
-                  <tr>
-                    <td className={classes.col1}>+1</td>
-                    <td className={classes.col2}>Bonus Point</td>
-                  </tr>
+
                   <tr
                     style={{
                       borderTop: "2px solid #002E6D",
                       marginTop: "0.5em"
                     }}
                   >
-                    <td className={classes.subtotal1}>15</td>
+                    <td className={classes.subtotal1}>14</td>
                     <td className={classes.subtotal2}>Points</td>
                   </tr>
                 </tbody>
@@ -207,17 +204,13 @@ function ProjectPackages(props) {
                       Points for School Safety Program
                     </td>
                   </tr>
-                  <tr>
-                    <td className={classes.col1}>+1</td>
-                    <td className={classes.col2}>Bonus Point</td>
-                  </tr>
                   <tr
                     style={{
                       borderTop: "2px solid #002E6D",
                       marginTop: "0.5em"
                     }}
                   >
-                    <td className={classes.subtotal1}>15</td>
+                    <td className={classes.subtotal1}>14</td>
                     <td className={classes.subtotal2}>Points</td>
                   </tr>
                 </tbody>
@@ -231,11 +224,18 @@ function ProjectPackages(props) {
           <h3 className="tdm-wizard-page-subtitle">
             You will be able to select these packages on the next page.
           </h3>
+          <h3 className="tdm-wizard-page-subtitle">
+            Selecting a package will earn one additional bonus point.
+          </h3>
         </>
       ) : (
         <>
           <h3 className="tdm-wizard-page-subtitle">
             You will be able to select this package on the next page.
+          </h3>
+          <h3 className="tdm-wizard-page-subtitle">
+            {" "}
+            Selecting the package will earn one additional bonus point.
           </h3>
         </>
       )}
