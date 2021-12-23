@@ -19,9 +19,28 @@ const useStyles = createUseStyles({
     display: "flex"
   },
   targetPointsReached: {
+    display: "flex",
+    justifyContent: "center",
     width: "100%",
     textAlign: "center",
-    fontSize: "24px"
+    color: "#0F2940",
+    fontFamily: "Calibri",
+    fontSize: "24px",
+    lineHeight: "29px",
+    textShadow: "0px 4px 4px rgba(0,0,0,.25)"
+  },
+  messageBox: {
+    display: "flex",
+    width: "521px",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: ".5em",
+    boxShadow: "2px 2px 4px 2px rgba(0,0,0,.1)"
+  },
+  textBox: {
+    display: "inline-block",
+    textAlign: "left",
+    paddingLeft: ".5em"
   }
 });
 
@@ -33,20 +52,25 @@ const PointsEarnedMessage = props => {
     <div className={classes.targetPointsReachedContainer}>
       {targetPointsReached ? (
         <span className={clsx(classes.targetPointsReached, classes.success)}>
-          <FontAwesomeIcon icon={faCheckCircle} className={classes.success} />{" "}
-          &nbsp;You have successfully earned the target points.
+          <div className={classes.messageBox}>
+            <FontAwesomeIcon icon={faCheckCircle} className={classes.success} />{" "}
+            <div className={classes.textBox}>
+              You have successfully earned the target points.
+            </div>
+          </div>
         </span>
       ) : (
         <span className={clsx(classes.targetPointsReached, classes.failure)}>
-          <FontAwesomeIcon
-            icon={faExclamationTriangle}
-            className={classes.failure}
-          />
-          &nbsp;
-          <span>
-            You have not reached the target points. <br />
-            Please, go back and review your strategies
-          </span>
+          <div className={classes.messageBox}>
+            <FontAwesomeIcon
+              icon={faExclamationTriangle}
+              className={classes.failure}
+            />
+            <div className={classes.textBox}>
+              You have not reached the target points. <br />
+              Please, go back and review your strategies
+            </div>
+          </div>
         </span>
       )}
     </div>

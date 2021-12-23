@@ -335,7 +335,11 @@ const RuleCalculation = ({
           <div className={classes.unitsCaption}>{units}</div>
           <div className={classes.calcUnitsCaption}>
             <span id={calcCode} className={classes.calcNumber}>
-              {calcValue ? Math.round(calcValue * 100) / 100 : ""}
+              {calcCode === "CALC_PARK_RATIO"
+                ? Math.round((calcValue || 0) * 100) / 100
+                : calcValue
+                ? Math.round(calcValue * 100) / 100
+                : ""}
             </span>
             <span className={classes.calcUnits}> {calcUnits || ""}</span>
           </div>

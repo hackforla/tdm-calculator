@@ -7,15 +7,15 @@ const useStyles = createUseStyles({
     display: "flex",
     alignItems: "baseline",
     maxHeight: "20px",
-    width: "50%"
+    width: "50%",
+    paddingBottom: "1.1em"
   },
   projectInfoCategory: {
     fontFamily: "Oswald",
+    fontWeight: "500",
     fontSize: "12px",
     textTransform: "uppercase",
-    textAlign: "right",
-    color: "rgba(6, 16, 25, 0.5)",
-    minWidth: "100px",
+    color: "rgba(15, 41, 64, .5)",
     marginRight: "17px"
   },
   projectInfoDetails: {

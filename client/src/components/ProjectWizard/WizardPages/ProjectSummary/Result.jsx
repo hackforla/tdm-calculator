@@ -19,16 +19,21 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     alignItems: "center",
     fontFamily: "Oswald"
+  },
+  measureValue: {
+    fontSize: "42px",
+    marginTop: "33px",
+    fontWeight: "700"
   }
 });
 
 const Result = props => {
   const classes = useStyles();
-  const { rule, textStyle, valueTestId } = props;
+  const { rule, borderStyle, valueTestId } = props;
 
   return rule ? (
-    <div className={clsx("border-gray", classes.measure)}>
-      <div className={textStyle} data-testid={valueTestId}>
+    <div className={clsx(classes.measure, borderStyle)}>
+      <div className={classes.measureValue} data-testid={valueTestId}>
         {Math.round(rule.value)}
       </div>
       <div className={clsx(classes.alignCenter, classes.label)}>
@@ -39,7 +44,7 @@ const Result = props => {
 };
 Result.propTypes = {
   rule: PropTypes.object.isRequired,
-  textStyle: PropTypes.string.isRequired,
+  borderStyle: PropTypes.string.isRequired,
   valueTestId: PropTypes.string
 };
 

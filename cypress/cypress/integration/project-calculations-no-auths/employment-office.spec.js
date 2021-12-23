@@ -1,39 +1,40 @@
-import "@testing-library/cypress/add-commands";
 /// <reference types="cypress" />
 
 const projectInfo = {
-  name: "Hotel/Motel Flow",
-  address: "12425 Victory Bl.",
-  ain: "1234567890",
+  name: "Employment/Office Flow",
+  address: "123 S. Somewhere Ave",
+  ain: "9999999999",
 };
 
 const specs = {
-  numberOfGuestRooms: "100",
-  expectedLevelBefore: "2",
-  expectedTargetPointsBefore: "20",
+  officeBusinessManufacturingIndustrialSqFt: "10000",
+  otherInstitutionalSqFt: "20000",
+  govtInstitutionSqFt: "30000",
+  expectedTargetPoints: "20",
+  expectedLevel: "2",
 };
 
 const calculate = {
-  parkingProvided: "100",
+  parkingProvided: "150",
   expectedLevel: "2",
-  expectedTargetPoints: "30",
-  expectedCityParkingBaseline: "57",
-  expectedParkingRatioBaseline: "175.44",
+  expectedTargetPoints: "24",
+  expectedCityParkingBaseline: "120",
+  expectedParkingRatioBaseline: "125",
 };
 
 const strategies = {
-  expectedEarnedPoints: "31",
+  expectedEarnedPoints: "27",
 };
 
 const summary = {
-  expectedAIN: "1234-567-890",
+  expectedAIN: "9999-999-999",
   expectedLevel: calculate.expectedLevel,
   expectedTargetPoints: calculate.expectedTargetPoints,
   expectedEarnedPoints: strategies.expectedEarnedPoints,
   expectedParkingRatioBaseline: `${Math.floor(calculate.expectedParkingRatioBaseline)}`,
 };
 
-describe("Hotel/Motel Flow", () => {
+describe("Employment/Office Flow", () => {
   beforeEach(() => {
     window.localStorage.setItem("termsAndConditions", "Accepted");
   });
@@ -48,10 +49,12 @@ describe("Hotel/Motel Flow", () => {
   });
 
   it("fills out project specifications and validates points (page 2)", () => {
-    cy.findByTestId("UNITS_GUEST").type(specs.numberOfGuestRooms);
+    cy.get("#SF_OFFICE").type(specs.officeBusinessManufacturingIndustrialSqFt);
+    cy.get("#SF_INST_OTHER").type(specs.otherInstitutionalSqFt);
+    cy.get("#SF_INST_GOV").type(specs.govtInstitutionSqFt);
 
-    cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelBefore);
-    cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPointsBefore);
+    cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPoints);
+    cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevel);
     cy.goToNextPage();
   });
 
@@ -64,35 +67,25 @@ describe("Hotel/Motel Flow", () => {
     cy.goToNextPage();
   });
 
-  it("fills out strategies page and validates points (page 5)", () => {
+  it("fills out strategies page, and validates points and disabled fields (page 5)", () => {
     // Check defaults and initial state
     cy.get("#STRATEGY_AFFORDABLE").should("be.disabled"); // Affordable Housing
     cy.get("#STRATEGY_BIKE_4").should("be.checked"); // Bike Parking (required)
-    cy.get("#STRATEGY_HOV_4").should("be.disabled"); // HOV Program
-    cy.get("#STRATEGY_HOV_5").should("be.enabled"); // Mandatory Trip Reduction Project
+    cy.get("#STRATEGY_INFO_5").should("be.disabled"); // School Safety Campaign
     cy.get("#PTS_EARNED").should("have.text", "2");
 
     // Bicycle Facilities
+    cy.get("#STRATEGY_BIKE_3").select("Gold"); // Bike Memberships
     cy.get("#STRATEGY_BIKE_5").select("Publicly Accessible AND in a disadvantaged area"); // Changing/Shower/Locker Facilities
-    cy.get("#PTS_EARNED").should("have.text", "7");
-
-    // Car Share
-    cy.get("#STRATEGY_CAR_SHARE_1").select("Publicly Accessible"); // Car Share Parking
-    cy.get("#PTS_EARNED").should("have.text", "11");
-
-    // High Occupancy Vehicles
-    cy.get("#STRATEGY_HOV_3").check(); // HOV Parking
     cy.get("#PTS_EARNED").should("have.text", "13");
 
-    // Information + High Occupancy Vehicles
-    cy.get("#STRATEGY_INFO_1").select("Publicly visible"); // Transit Display
-    cy.get("#STRATEGY_INFO_2").check(); // Wayfinding
-    cy.get("#STRATEGY_INFO_3").select("Education, Marketing & Outreach"); // Encouragement Program
-    cy.get("#STRATEGY_HOV_5").should("be.disabled"); // Mandatory Trip Reduction Project disabled if Encouragement Program is selected
-    cy.get("#PTS_EARNED").should("have.text", "21");
+    // Mobility Investment
+    cy.get("#STRATEGY_MOBILITY_INVESTMENT_1").select("50-74% of 1/4 mi walkshed"); // Access Improvement
+    cy.get("#STRATEGY_MOBILITY_INVESTMENT_2").select("$200,000-$499,999"); // Mobility Management
+    cy.get("#PTS_EARNED").should("have.text", "23");
 
-    // Transit Access
-    cy.get("#STRATEGY_TRANSIT_ACCESS_3").select("50%-74% of monthly fare");
+    // Parking
+    cy.get("#STRATEGY_PARKING_1").select("Each parking space is at least $110 a month"); // Pricing/Unbundling
     cy.get("#PTS_EARNED").should("have.text", strategies.expectedEarnedPoints);
 
     cy.goToNextPage();

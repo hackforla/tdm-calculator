@@ -19,16 +19,20 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     flex: "1 1 auto"
   },
-  measureValue: {
-    fontSize: "42px",
-    marginTop: "33px",
-    fontWeight: "700"
-  },
   success: {
     color: "#A7C539"
   },
   failure: {
     color: "#E46247"
+  },
+  successBorder: {
+    border: "2px solid #A7C539"
+  },
+  failureBorder: {
+    border: "2px solid #E46247"
+  },
+  normalBorder: {
+    border: "1px solid #E7EBF0"
   },
   rule: {
     display: "flex",
@@ -54,7 +58,7 @@ const useStyles = createUseStyles({
     margin: "24px auto 0"
   },
   categoryContainer: {
-    marginTop: "40px"
+    marginTop: "25px"
   },
   categoryHeaderContainer: {
     background: "#E7EBF0",
@@ -66,8 +70,7 @@ const useStyles = createUseStyles({
     fontWeight: "700"
   },
   resultsContainer: {
-    paddingTop: "16px",
-    height: "170px",
+    padding: "30px 0",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
@@ -89,7 +92,6 @@ const useStyles = createUseStyles({
     display: "flex",
     minWidth: "180px",
     maxWidth: "100%",
-    marginRight: "3em",
     marginTop: "4px",
     padding: "12px"
   }
@@ -102,6 +104,7 @@ const ProjectSummary = props => {
   const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
   const parkingProvided = getRule(rules, "PARK_SPACES");
   const parkingRatio = getRule(rules, "CALC_PARK_RATIO");
+  const projectDescription = getRule(rules, "PROJECT_DESCRIPTION");
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
   const earnedPoints = getRule(rules, "PTS_EARNED");
@@ -149,9 +152,9 @@ const ProjectSummary = props => {
 
   const rulesNotEmpty = rules && rules.length > 0;
 
-  const earnedPointsValueStyle = targetPointsReached
-    ? clsx(classes.measureValue, classes.success)
-    : clsx(classes.measureValue, classes.failure);
+  const earnedPointsBorderStyle = targetPointsReached
+    ? classes.successBorder
+    : classes.failureBorder;
 
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
@@ -177,12 +180,12 @@ const ProjectSummary = props => {
             <div className={clsx("space-between", classes.resultsContainer)}>
               <Result
                 rule={earnedPoints}
-                textStyle={earnedPointsValueStyle}
+                borderStyle={earnedPointsBorderStyle}
                 valueTestId={"summary-earned-points-value"}
               />
               <Result
                 rule={targetPoints}
-                textStyle={classes.measureValue}
+                borderStyle={classes.normalBorder}
                 valueTestId={"summary-target-points-value"}
               />
             </div>
@@ -209,7 +212,7 @@ const ProjectSummary = props => {
                 <div>
                   <div className={classes.rule}>
                     <div className={classes.ruleName}>
-                      User-Defined Strategy Details
+                      User-Defined Strategy Details:
                     </div>
                   </div>
                   <div
@@ -240,7 +243,6 @@ const ProjectSummary = props => {
                     return (
                       <ProjectDetail
                         rule={rule}
-                        value={numberWithCommas(rule.value)}
                         valueTestId={""}
                         key={rule.id}
                       />
@@ -248,13 +250,13 @@ const ProjectSummary = props => {
                   })
                 : null}
               <ProjectDetail
-                rule={parkingRequired}
-                value={numberWithCommas(roundToTwo(parkingRequired.value))}
+                rule={parkingProvided}
+                value={numberWithCommas(roundToTwo(parkingProvided.value))}
                 valueTestId={""}
               />
               <ProjectDetail
-                rule={parkingProvided}
-                value={numberWithCommas(roundToTwo(parkingProvided.value))}
+                rule={parkingRequired}
+                value={numberWithCommas(roundToTwo(parkingRequired.value))}
                 valueTestId={""}
               />
               <ProjectDetail
@@ -262,6 +264,22 @@ const ProjectSummary = props => {
                 value={Math.floor(parkingRatio.value).toString()}
                 valueTestId={"summary-parking-ratio-value"}
               />
+              {projectDescription &&
+              projectDescription.value &&
+              projectDescription.value.length > 0 ? (
+                <div>
+                  <div className={classes.rule}>
+                    <div className={classes.ruleName}>
+                      {projectDescription.name}:
+                    </div>
+                  </div>
+                  <div
+                    className={clsx("border-gray", classes.summaryContainer)}
+                  >
+                    {projectDescription.value}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </>

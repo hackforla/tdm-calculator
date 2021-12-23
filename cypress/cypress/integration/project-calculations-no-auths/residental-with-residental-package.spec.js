@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 const projectInfo = {
-  name: "Residential Flow",
+  name: "Residential Flow (has Affordable Housing)",
   address: "123 S. Somewhere Ave",
   ain: "1234567890",
 };
@@ -46,55 +46,64 @@ const summary = {
 };
 
 describe("Residential User Flow", () => {
-  it("residential project info and specs", () => {
+  beforeEach(() => {
+    window.localStorage.setItem("termsAndConditions", "Accepted");
+  });
+
+  it("fills out project info (page 1)", () => {
     cy.goToStart();
 
-    // Project Info Page
     cy.get("#PROJECT_NAME").type(projectInfo.name);
     cy.get("#PROJECT_ADDRESS").type(projectInfo.address);
     cy.get("#APN").type(projectInfo.ain);
-    cy.goToNextPage(); // Go to Page 2
+    cy.goToNextPage();
+  });
 
-    // Specifications Page
+  it("fills out project specifications and validates points (page 2)", () => {
+    // Fill out all housing except affordable housing
     cy.get("#UNITS_HABIT_LT3").type(specs.habitableLessThan3);
     cy.get("#UNITS_HABIT_3").type(specs.habitable3);
     cy.get("#UNITS_HABIT_GT3").type(specs.habitableGreaterThan3);
     cy.get("#UNITS_CONDO").type(specs.condoUnits);
     cy.get("#PARK_CONDO").type(specs.condoUnitsRequiredParking);
 
-    // Specifications Page - Check points and level at this point
+    // Check points and level at this point
     cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelBefore);
     cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPointsBefore);
 
-    // Specifications Page - Select on Affordable Housing
+    // Select on Affordable Housing
     cy.get("#AFFORDABLE_HOUSING").check();
 
-    // Specifications Page - Check points and level after clicking affordable housing
+    // Check points and level after clicking affordable housing
     cy.get("#TARGET_POINTS_PARK").should("have.text", specs.expectedTargetPointsAfterAffordableHousing);
     cy.get("#PROJECT_LEVEL").should("have.text", specs.expectedLevelAfterAffordableHousing);
-    cy.goToNextPage(); // Go to Page 3
+    cy.goToNextPage();
+  });
 
-    // Calculate TDM Target Points Page
+  it("fills out parking spaces provided and validates points (page 3)", () => {
     cy.get("#PARK_SPACES").type(calculate.parkingProvided);
     cy.get("#TARGET_POINTS_PARK").should("have.text", calculate.expectedTargetPoints);
     cy.get("#PROJECT_LEVEL").should("have.text", calculate.expectedLevel);
     cy.get("#PARK_REQUIREMENT").should("have.text", calculate.expectedCityParkingBaseline);
     cy.get("#CALC_PARK_RATIO").should("have.text", calculate.expectedParkingRatioBaseline);
-    cy.goToNextPage(); // Go to Page 4
+    cy.goToNextPage();
+  });
 
-    // Bonus Package Info Page
+  it("displays bonus package (page 4)", () => {
     cy.get("#app-container").should("contain", bonusPackage.expectedPageText);
     cy.get("#app-container").should("contain", bonusPackage.expectedPackage);
-    cy.goToNextPage(); // Go to Page 5
+    cy.goToNextPage();
+  });
 
-    // Strategies Page
+  it("fills out strategies page and validates points (page 5)", () => {
     cy.get("#packageResidential").check();
     cy.get("#STRATEGY_AFFORDABLE").select(strategies.affordableHousingLevel);
     cy.get("#STRATEGY_PARKING_5").select(strategies.reducedParkingSupply);
     cy.get("#PTS_EARNED").should("have.text", strategies.expectedEarnedPoints);
-    cy.goToNextPage(); // Go to Summary Page
+    cy.goToNextPage();
+  });
 
-    // Summary Page
+  it("validates summary page (page 6)", () => {
     cy.findByText(projectInfo.name).should("be.visible");
     cy.findByText(projectInfo.address).should("be.visible");
     cy.findByText(summary.expectedAIN).should("be.visible");

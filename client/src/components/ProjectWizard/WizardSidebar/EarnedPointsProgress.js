@@ -121,7 +121,7 @@ const EarnedPointsProgress = props => {
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = Math.max(
     0,
-    circumference - (earned / target) * 0.875 * circumference
+    target ? circumference - (earned / target) * 0.875 * circumference : 0
   );
 
   return (

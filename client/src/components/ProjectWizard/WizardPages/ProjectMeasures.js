@@ -37,9 +37,9 @@ function ProjectMeasure(props) {
     resetProject,
     initializeStrategies,
     allowResidentialPackage,
-    allowEmploymentPackage,
+    allowSchoolPackage,
     residentialPackageSelected,
-    employmentPackageSelected
+    schoolPackageSelected
   } = props;
 
   const classes = useStyles();
@@ -56,7 +56,7 @@ function ProjectMeasure(props) {
   return (
     <div>
       <h1 className="tdm-wizard-page-title">
-        Transportation Demand Strategies
+        Transportation Demand Management Strategies
       </h1>
       <h3 className="tdm-wizard-page-subtitle">
         Select strategies to earn TDM points
@@ -96,7 +96,7 @@ function ProjectMeasure(props) {
                 }}
                 htmlFor="packageResidential"
               >
-                Residential Package
+                Residential or Employment Package
                 <input
                   type="checkbox"
                   style={{
@@ -114,7 +114,7 @@ function ProjectMeasure(props) {
               </label>
             </div>
           ) : null}
-          {allowEmploymentPackage ? (
+          {allowSchoolPackage ? (
             <div>
               <label
                 style={{
@@ -122,7 +122,7 @@ function ProjectMeasure(props) {
                   paddingRight: "1em"
                 }}
               >
-                Employment Package
+                School Package
                 <input
                   type="checkbox"
                   value={true}
@@ -132,10 +132,10 @@ function ProjectMeasure(props) {
                     top: "0",
                     marginLeft: "0.5em"
                   }}
-                  checked={employmentPackageSelected()}
-                  onChange={e => onPkgSelect("Employment", e.target.checked)}
-                  name="packageEmployment"
-                  id="packageEmployment"
+                  checked={schoolPackageSelected()}
+                  onChange={e => onPkgSelect("School", e.target.checked)}
+                  name="packageSchool"
+                  id="packageSchool"
                 />
               </label>
             </div>
@@ -174,9 +174,9 @@ ProjectMeasure.propTypes = {
   resetProject: PropTypes.func.isRequired,
   initializeStrategies: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
-  allowEmploymentPackage: PropTypes.bool.isRequired,
+  allowSchoolPackage: PropTypes.bool.isRequired,
   residentialPackageSelected: PropTypes.func,
-  employmentPackageSelected: PropTypes.func
+  schoolPackageSelected: PropTypes.func
 };
 
 export default ProjectMeasure;

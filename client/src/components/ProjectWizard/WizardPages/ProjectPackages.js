@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
   box: {
     backgroundColor: "#E7EBF0",
     padding: "0",
-    maxWidth: "30%",
+    maxWidth: "45%",
     margin: "1em"
   },
   boxHeader: {
@@ -85,14 +85,14 @@ const useStyles = createUseStyles({
 });
 
 function ProjectPackages(props) {
-  const { allowResidentialPackage, allowEmploymentPackage } = props;
+  const { allowResidentialPackage, allowSchoolPackage } = props;
 
   //TODO: use or remove theme. it's not actually getting used by the useStyles...
   const theme = useTheme();
   const classes = useStyles({ theme });
   return (
     <div>
-      {allowResidentialPackage && allowEmploymentPackage ? (
+      {allowResidentialPackage && allowSchoolPackage ? (
         <>
           <h1 className="tdm-wizard-page-title">
             You qualify for bonus packages!
@@ -100,8 +100,7 @@ function ProjectPackages(props) {
           <h3 className="tdm-wizard-page-subtitle">
             All LEVEL 1 projects qualify for at least one optional bonus
             package. Based on your land uses you qualify for both packages. Here
-            is a breakdown of each package, and point totals when both are
-            selected.
+            is a breakdown of each package.
           </h3>
         </>
       ) : (
@@ -110,8 +109,8 @@ function ProjectPackages(props) {
             You qualify for a bonus package!
           </h1>
           <h3 className="tdm-wizard-page-subtitle">
-            All LEVEL 1 projects qualify for at least one optional bonus
-            package. Based on your land use you qualify for the package below.
+            All LEVEL 1 projects qualify for one optional bonus package. Based
+            on your land use you qualify for the package below.
           </h3>
         </>
       )}
@@ -125,108 +124,12 @@ function ProjectPackages(props) {
         {allowResidentialPackage ? (
           <div className={classes.box}>
             <div className={classes.boxHeader}>
-              <h4 style={{ textAlign: "center" }}>Residential Package</h4>
-            </div>
-            <div className={classes.boxContent}>
-              <div className={classes.caption}>This Package includes:</div>
-              <table className={classes.table1}>
-                <tbody>
-                  <tr>
-                    <td className={classes.col1}>+2</td>
-                    <td className={classes.col2}>Points for Bike Parking</td>
-                  </tr>
-                  <tr>
-                    <td className={classes.col1}>+4</td>
-                    <td className={classes.col2}>
-                      Points for Encouragement Program
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={classes.col1}></td>
-                    <td className={classes.col2}>
-                      (Education, Marketing & Outreach)
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={classes.col1}>+8</td>
-                    <td className={classes.col2}>
-                      Points for Unbundling Parking
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={classes.col1}>+1</td>
-                    <td className={classes.col2}>Bonus Point</td>
-                  </tr>
-                  <tr
-                    style={{
-                      borderTop: "2px solid #002E6D",
-                      marginTop: "0.5em"
-                    }}
-                  >
-                    <td className={classes.subtotal1}>15</td>
-                    <td className={classes.subtotal2}>Points</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ) : null}
-        {allowEmploymentPackage ? (
-          <div className={classes.box}>
-            <div className={classes.boxHeader}>
-              <h4 style={{ textAlign: "center" }}>Employment Package</h4>
-            </div>
-            <div className={classes.boxContent}>
-              <div className={classes.caption}>This Package includes:</div>
-              <table className={classes.table1}>
-                <tbody>
-                  <tr>
-                    <td className={classes.col1}>+2</td>
-                    <td className={classes.col2}>Points for Bike Parking</td>
-                  </tr>
-                  <tr>
-                    <td className={classes.col1}>+4</td>
-                    <td className={classes.col2}>
-                      Points for Encouragement Program
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={classes.col1}></td>
-                    <td className={classes.col2}>
-                      (Education, Marketing & Outreach)
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={classes.col1}>+8</td>
-                    <td className={classes.col2}>Points for Parking Cashout</td>
-                  </tr>
-                  <tr>
-                    <td className={classes.col1}>+1</td>
-                    <td className={classes.col2}>Bonus Point</td>
-                  </tr>
-                  <tr
-                    style={{
-                      borderTop: "2px solid #002E6D",
-                      marginTop: "0.5em"
-                    }}
-                  >
-                    <td className={classes.subtotal1}>15</td>
-                    <td className={classes.subtotal2}>Points</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ) : null}
-        {allowEmploymentPackage && allowResidentialPackage ? (
-          <div className={classes.box}>
-            <div className={classes.boxHeader}>
               <h4 style={{ textAlign: "center" }}>
-                Employment & Residential Packages
+                Residential or Employment Package
               </h4>
             </div>
             <div className={classes.boxContent}>
-              <div className={classes.caption}>These Packages include:</div>
+              <div className={classes.caption}>This Package includes:</div>
               <table className={classes.table1}>
                 <tbody>
                   <tr>
@@ -251,13 +154,55 @@ function ProjectPackages(props) {
                       Points for Unbundling Parking
                     </td>
                   </tr>
+
+                  <tr
+                    style={{
+                      borderTop: "2px solid #002E6D",
+                      marginTop: "0.5em"
+                    }}
+                  >
+                    <td className={classes.subtotal1}>14</td>
+                    <td className={classes.subtotal2}>Points</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : null}
+        {allowSchoolPackage ? (
+          <div className={classes.box}>
+            <div className={classes.boxHeader}>
+              <h4 style={{ textAlign: "center" }}>School Package</h4>
+            </div>
+            <div className={classes.boxContent}>
+              <div className={classes.caption}>This Package includes:</div>
+              <table className={classes.table1}>
+                <tbody>
                   <tr>
-                    <td className={classes.col1}>+8</td>
-                    <td className={classes.col2}>Points for Parking Cashout</td>
+                    <td className={classes.col1}>+2</td>
+                    <td className={classes.col2}>Points for Bike Parking</td>
                   </tr>
                   <tr>
-                    <td className={classes.col1}>+1</td>
-                    <td className={classes.col2}>Bonus Point</td>
+                    <td className={classes.col1}>+6</td>
+                    <td className={classes.col2}>
+                      Points for Encouragement Program
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}></td>
+                    <td className={classes.col2}>
+                      (Voluntary Travel Behavior...)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+2</td>
+                    <td className={classes.col2}>Points for HOV Program</td>
+                  </tr>
+                  <tr>
+                    <td className={classes.col1}>+4</td>
+                    <td className={classes.col2}>
+                      Points for School Safety Program
+                    </td>
                   </tr>
                   <tr
                     style={{
@@ -265,12 +210,7 @@ function ProjectPackages(props) {
                       marginTop: "0.5em"
                     }}
                   >
-                    <td
-                      className={classes.subtotal1}
-                      styles={{ paddingTop: "1em", fontWeight: "bolder" }}
-                    >
-                      24
-                    </td>
+                    <td className={classes.subtotal1}>14</td>
                     <td className={classes.subtotal2}>Points</td>
                   </tr>
                 </tbody>
@@ -279,16 +219,23 @@ function ProjectPackages(props) {
           </div>
         ) : null}
       </div>
-      {allowResidentialPackage && allowEmploymentPackage ? (
+      {allowResidentialPackage && allowSchoolPackage ? (
         <>
           <h3 className="tdm-wizard-page-subtitle">
             You will be able to select these packages on the next page.
+          </h3>
+          <h3 className="tdm-wizard-page-subtitle">
+            Selecting a package will earn one additional bonus point.
           </h3>
         </>
       ) : (
         <>
           <h3 className="tdm-wizard-page-subtitle">
             You will be able to select this package on the next page.
+          </h3>
+          <h3 className="tdm-wizard-page-subtitle">
+            {" "}
+            Selecting the package will earn one additional bonus point.
           </h3>
         </>
       )}
@@ -311,7 +258,7 @@ function ProjectPackages(props) {
 
 ProjectPackages.propTypes = {
   allowResidentialPackage: PropTypes.bool.isRequired,
-  allowEmploymentPackage: PropTypes.bool.isRequired
+  allowSchoolPackage: PropTypes.bool.isRequired
 };
 
 export default ProjectPackages;
