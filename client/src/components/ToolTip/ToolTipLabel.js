@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import ToolTipIcon from "./ToolTipIcon";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
@@ -60,7 +59,7 @@ const ToolTipLabel = ({
         data-iscapture="true"
         data-html="true"
       >
-        {children} <ToolTipIcon />
+        {children}
       </label>
     );
   }
@@ -77,11 +76,10 @@ const ToolTipLabel = ({
     >
       {children}
       {tooltipContent &&
-      code &&
-      !code.startsWith("STRATEGY") &&
-      !code.startsWith("PKG") ? (
-        <ToolTipIcon />
-      ) : null}
+        code &&
+        !code.startsWith("STRATEGY") &&
+        !code.startsWith("PKG") &&
+        null}
     </label>
   );
 };

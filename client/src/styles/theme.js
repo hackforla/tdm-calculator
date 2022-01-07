@@ -10,6 +10,8 @@ module.exports = {
     colorCancel: "rgba(0, 0, 0, 0.5)", //light grey, e.g. cancel button
     colorWhite: "#fff", //white
     colorError: "#E46247", //e.g. red
-    colorHighlight: "#F0E300" //yellow
+    colorHighlight: "#F0E300", //yellow
+    boldText: "bold", //bold text on hover
+    underlineText: "underline" //underling text on hover
   }
 };

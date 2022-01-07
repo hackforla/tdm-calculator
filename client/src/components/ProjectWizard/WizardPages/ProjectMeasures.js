@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
-import InfoBox from "../InfoBox";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import useLocalStorage from "../../useLocalStorage";
 import { createUseStyles } from "react-jss";
@@ -78,13 +77,6 @@ function ProjectMeasure(props) {
           <ToolTipIcon size="medium" />
         </button>
       </h3>
-      <InfoBox
-        displayStatus={displayInfoBox}
-        handleClick={() => setDisplayInfoBox(false)}
-      >
-        <ToolTipIcon size="medium" /> For detailed information, hover the mouse
-        cursor over the terminology.
-      </InfoBox>
       <div className={classes.pkgSelectContainer}>
         <div className={classes.alignLeft}>
           {allowResidentialPackage ? (
