@@ -1,9 +1,10 @@
 /* eslint-disable linebreak-style */
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
+import { AccordionContext } from "../../AccordionContext";
 import clsx from "clsx";
-import ToolTip from "../../ToolTip/ToolTip";
+// import ToolTip from "../../ToolTip/ToolTip";
 import RuleStrategyLabel from "./RuleStrategyLabel";
 
 const useStyles = createUseStyles({
@@ -129,6 +130,8 @@ const RuleStrategy = ({
   const theme = useTheme();
   const classes = useStyles({ theme });
 
+  const { clicked } = useContext(AccordionContext);
+
   const disabledStyle = !display && classes.disabled;
 
   const onInputChange = e => {
@@ -171,6 +174,7 @@ const RuleStrategy = ({
             link={link}
             name={name}
           />
+
           <div>
             <input
               className={
@@ -304,8 +308,9 @@ const RuleStrategy = ({
           </div>
         </div>
       ) : null}
-
-      <ToolTip id={"tooltip-strategy" + id} />
+      {clicked ? <div>This is where the new tooltip goes</div> : null}
+      {/* Tooltip for caluculation 5 */}
+      {/* <ToolTip id={"tooltip-strategy" + id} /> */}
     </React.Fragment>
   );
 };

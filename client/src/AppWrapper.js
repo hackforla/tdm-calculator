@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserContext } from "./components/user-context";
+import { AccordionContext } from "./components/AccordionContext";
 import App from "./App";
 import ErrorPage from "./components/ErrorPage";
 import NavConfirmModal from "./components/NavConfirmModal";
@@ -15,6 +16,8 @@ const AppWrapper = () => {
   const [confirmTransition, setConfirmTransition] = useState(null);
   const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
   const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const [accordionId, setAccordionId] = useState([]);
   const contentContainerRef = useRef();
   const appContainerRef = useRef();
 
@@ -54,26 +57,30 @@ const AppWrapper = () => {
     <React.Fragment>
       <AppInsightsContext.Provider value={reactPlugin}>
         <UserContext.Provider value={account}>
-          <Router getUserConfirmation={getUserConfirmation}>
-            <AppInsightsErrorBoundary
-              onError={<ErrorPage />}
-              appInsights={reactPlugin}
-            >
-              <NavConfirmModal
-                confirmTransition={confirmTransition}
-                isOpenNavConfirmModal={isOpenNavConfirmModal}
-                setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
-              />
-              <App
-                account={account}
-                setLoggedInAccount={setLoggedInAccount}
-                hasConfirmedTransition={hasConfirmedTransition}
-                isOpenNavConfirmModal={isOpenNavConfirmModal}
-                contentContainerRef={contentContainerRef}
-                appContainerRef={appContainerRef}
-              />
-            </AppInsightsErrorBoundary>
-          </Router>
+          <AccordionContext.Provider
+            value={{ clicked, setClicked, accordionId, setAccordionId }}
+          >
+            <Router getUserConfirmation={getUserConfirmation}>
+              <AppInsightsErrorBoundary
+                onError={<ErrorPage />}
+                appInsights={reactPlugin}
+              >
+                <NavConfirmModal
+                  confirmTransition={confirmTransition}
+                  isOpenNavConfirmModal={isOpenNavConfirmModal}
+                  setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
+                />
+                <App
+                  account={account}
+                  setLoggedInAccount={setLoggedInAccount}
+                  hasConfirmedTransition={hasConfirmedTransition}
+                  isOpenNavConfirmModal={isOpenNavConfirmModal}
+                  contentContainerRef={contentContainerRef}
+                  appContainerRef={appContainerRef}
+                />
+              </AppInsightsErrorBoundary>
+            </Router>
+          </AccordionContext.Provider>
         </UserContext.Provider>
       </AppInsightsContext.Provider>
     </React.Fragment>
