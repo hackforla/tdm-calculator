@@ -11,19 +11,24 @@ const useStyles = createUseStyles({
   }
 });
 
-const RuleStrategyList = props => {
+const RuleStrategyList = ({
+  rules,
+  onInputChange,
+  onCommentChange,
+  autoFocus
+}) => {
   const classes = useStyles();
-  const { rules } = props;
   return (
     <div className={classes.ruleStrategyList}>
       {rules && rules.length > 0
-        ? rules.map(rule => {
+        ? rules.map((rule, index) => {
             return (
               <RuleStrategy
                 key={rule.id}
                 rule={rule}
-                onPropInputChange={props.onInputChange}
-                onCommentChange={props.onCommentChange}
+                onPropInputChange={onInputChange}
+                onCommentChange={onCommentChange}
+                autoFocus={autoFocus && !index}
               />
             );
           })
@@ -35,7 +40,8 @@ const RuleStrategyList = props => {
 RuleStrategyList.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
-  onCommentChange: PropTypes.func.isRequired
+  onCommentChange: PropTypes.func.isRequired,
+  autoFocus: PropTypes.bool
 };
 
 export default RuleStrategyList;
