@@ -11,19 +11,19 @@ const useStyles = createUseStyles({
   }
 });
 
-const RuleInputList = props => {
+const RuleInputList = ({ rules, onInputChange, autoFocus }) => {
   const classes = useStyles();
-  const { rules } = props;
 
   return (
     <div className={classes.ruleInputList}>
       {rules && rules.length > 0
-        ? rules.map(rule => {
+        ? rules.map((rule, index) => {
             return (
               <RuleInput
                 key={rule.id}
                 rule={rule}
-                onPropInputChange={props.onInputChange}
+                onPropInputChange={onInputChange}
+                autoFocus={autoFocus && !index}
               />
             );
           })
@@ -33,7 +33,8 @@ const RuleInputList = props => {
 };
 RuleInputList.propTypes = {
   rules: PropTypes.array,
-  onInputChange: PropTypes.func.isRequired
+  onInputChange: PropTypes.func.isRequired,
+  autoFocus: PropTypes.bool
 };
 
 export default RuleInputList;

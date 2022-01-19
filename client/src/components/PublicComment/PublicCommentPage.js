@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { postPublicComment } from "./postPublicComment";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -62,8 +62,13 @@ const useStyles = createUseStyles({
 });
 
 const PublicCommentPage = () => {
+  const focusRef = useRef(null);
   const classes = useStyles();
   const toast = useToast();
+
+  useEffect(() => {
+    focusRef.current.focus();
+  });
 
   const initialValues = {
     name: "",
@@ -128,6 +133,7 @@ const PublicCommentPage = () => {
 
                 <Field
                   name="name"
+                  innerRef={focusRef}
                   type="text"
                   className={clsx(
                     classes.formInput,
