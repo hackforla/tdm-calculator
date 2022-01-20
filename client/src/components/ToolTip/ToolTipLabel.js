@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { AccordionContext } from "../AccordionContext";
+import React from "react";
+// import { AccordionContext } from "../AccordionContext";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -43,18 +43,19 @@ const ToolTipLabel = ({
   children,
   code,
   requiredInput,
-  disabledInput
+  disabledInput,
+  setShowDescription
 }) => {
   const classes = useStyles();
   const requiredStyle = requiredInput && classes.requiredInputLabel;
   const disabledStyle = disabledInput && classes.disabledInputLabel;
 
-  const { clicked, setClicked } = useContext(AccordionContext);
+  // const { showDe, setClicked } = useContext(AccordionContext);
   // const { accordionId, setAccordionId } = useContext(AccordionContext);
 
-  // const accordionTooltip = id => {
-  const accordionTooltip = () => {
-    setClicked(!clicked);
+  const toggleAccordion = () => {
+    setShowDescription(prev => !prev);
+
     // setAccordionId([...accordionId, id]);
   };
 
@@ -76,7 +77,7 @@ const ToolTipLabel = ({
 
   return (
     <label
-      onClick={accordionTooltip}
+      onClick={toggleAccordion}
       htmlFor={code ? code : null}
       className={clsx(classes.tooltipLabel, requiredStyle, disabledStyle)}
       data-class={classes.tooltip}
@@ -101,7 +102,8 @@ ToolTipLabel.propTypes = {
   children: PropTypes.node.isRequired,
   code: PropTypes.string,
   requiredInput: PropTypes.bool,
-  disabledInput: PropTypes.bool
+  disabledInput: PropTypes.bool,
+  setShowDescription: PropTypes.func
 };
 
 export default ToolTipLabel;

@@ -1,8 +1,8 @@
 /* eslint-disable linebreak-style */
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-import { AccordionContext } from "../../AccordionContext";
+// import { AccordionContext } from "../../AccordionContext";
 import clsx from "clsx";
 // import ToolTip from "../../ToolTip/ToolTip";
 import RuleStrategyLabel from "./RuleStrategyLabel";
@@ -130,7 +130,8 @@ const RuleStrategy = ({
   const theme = useTheme();
   const classes = useStyles({ theme });
 
-  const { clicked } = useContext(AccordionContext);
+  // const { clicked } = useContext(AccordionContext);
+  const [showDescription, setShowDescription] = useState(false);
 
   const disabledStyle = !display && classes.disabled;
 
@@ -173,6 +174,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
 
           <div>
@@ -202,6 +204,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div>
             <input
@@ -225,6 +228,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div className={classes.choiceSelectContainer}>
             <select
@@ -253,6 +257,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <input
             type="text"
@@ -278,6 +283,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div className={classes.allElse} name={code} />
           {possibleAndEarnedPointsContainers()}
@@ -308,7 +314,13 @@ const RuleStrategy = ({
           </div>
         </div>
       ) : null}
-      {clicked ? <div>This is where the new tooltip goes</div> : null}
+      {showDescription && description ? (
+        <div
+          style={{ border: "1px solid orange", padding: "0.5em" }}
+          dangerouslySetInnerHTML={{ __html: `${description}` }}
+        ></div>
+      ) : null}
+      {/* {clicked ? <div>This is where the new tooltip goes</div> : null} */}
       {/* Tooltip for caluculation 5 */}
       {/* <ToolTip id={"tooltip-strategy" + id} /> */}
     </React.Fragment>
