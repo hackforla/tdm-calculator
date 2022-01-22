@@ -15,34 +15,13 @@ const useStyles = createUseStyles({
     minWidth: "-webkit-fill-available",
     boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)"
   },
-  tooltip: {
-    color: "rgb(30, 36, 63) !important",
-    padding: "15px",
-    minWidth: "200px",
-    maxWidth: "400px",
-    fontFamily: "Arial",
-    fontSize: 12,
-    lineHeight: "16px",
-    fontWeight: "bold",
-    borderRadius: 2,
-    "&.show": {
-      visibility: "visible !important",
-      opacity: "1 !important"
-    }
-  },
-  requiredInputLabel: {
-    "&:after": {
-      content: '" *"',
-      color: "red"
-    }
-  },
-  disabledInputLabel: {
-    opacity: "0.5"
-  },
   closeButton: {
     float: "right",
-    display: "inlineBlock",
-    padding: "2px 5px"
+    padding: "4px 7px",
+    fontSize: "20px",
+    "&:hover": {
+      cursor: "pointer"
+    }
   },
   triangle: {
     position: "relative",
@@ -66,12 +45,18 @@ const useStyles = createUseStyles({
   }
 });
 
-const AccordionToolTip = ({ description }) => {
+const AccordionToolTip = ({ description, setShowDescription }) => {
   const classes = useStyles();
   return (
     <>
       <div className={clsx(classes.triangle)}>
         <div className={clsx(classes.triangleInner)}></div>
+      </div>
+      <div
+        className={clsx(classes.closeButton)}
+        onClick={() => setShowDescription(prev => !prev)}
+      >
+        x
       </div>
       <div
         className={clsx(classes.accordionTooltipLabel)}
@@ -82,7 +67,8 @@ const AccordionToolTip = ({ description }) => {
 };
 
 AccordionToolTip.propTypes = {
-  description: PropTypes.string
+  description: PropTypes.string,
+  setShowDescription: PropTypes.func
 };
 
 export default AccordionToolTip;

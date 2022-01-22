@@ -312,7 +312,10 @@ const RuleStrategy = ({
         </div>
       ) : null}
       {showDescription && description ? (
-        <AccordionToolTip description={description} />
+        <AccordionToolTip
+          description={description}
+          setShowDescription={setShowDescription}
+        />
       ) : null}
     </React.Fragment>
   );
