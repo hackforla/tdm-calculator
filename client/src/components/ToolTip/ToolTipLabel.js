@@ -1,5 +1,4 @@
 import React from "react";
-// import { AccordionContext } from "../AccordionContext";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -50,18 +49,10 @@ const ToolTipLabel = ({
   const requiredStyle = requiredInput && classes.requiredInputLabel;
   const disabledStyle = disabledInput && classes.disabledInputLabel;
 
-  // const { showDe, setClicked } = useContext(AccordionContext);
-  // const { accordionId, setAccordionId } = useContext(AccordionContext);
-
-  const toggleAccordion = () => {
-    setShowDescription(prev => !prev);
-
-    // setAccordionId([...accordionId, id]);
-  };
-
   if (code && code.startsWith("UNITS_HABIT")) {
     return (
       <label
+        onClick={() => setShowDescription(prev => !prev)}
         htmlFor={code}
         className={clsx(classes.tooltipLabel, requiredStyle, disabledStyle)}
         data-class={classes.tooltip}
@@ -77,7 +68,7 @@ const ToolTipLabel = ({
 
   return (
     <label
-      onClick={toggleAccordion}
+      onClick={() => setShowDescription(prev => !prev)}
       htmlFor={code ? code : null}
       className={clsx(classes.tooltipLabel, requiredStyle, disabledStyle)}
       data-class={classes.tooltip}

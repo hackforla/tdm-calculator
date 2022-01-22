@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserContext } from "./components/user-context";
-
 import App from "./App";
 import ErrorPage from "./components/ErrorPage";
 import NavConfirmModal from "./components/NavConfirmModal";
@@ -16,7 +15,6 @@ const AppWrapper = () => {
   const [confirmTransition, setConfirmTransition] = useState(null);
   const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
   const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
-
   const contentContainerRef = useRef();
   const appContainerRef = useRef();
 

@@ -2,9 +2,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-// import { AccordionContext } from "../../AccordionContext";
 import clsx from "clsx";
-// import ToolTip from "../../ToolTip/ToolTip";
+import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleStrategyLabel from "./RuleStrategyLabel";
 
 const useStyles = createUseStyles({
@@ -130,7 +129,6 @@ const RuleStrategy = ({
   const theme = useTheme();
   const classes = useStyles({ theme });
 
-  // const { clicked } = useContext(AccordionContext);
   const [showDescription, setShowDescription] = useState(false);
 
   const disabledStyle = !display && classes.disabled;
@@ -176,7 +174,6 @@ const RuleStrategy = ({
             name={name}
             setShowDescription={setShowDescription}
           />
-
           <div>
             <input
               className={
@@ -315,14 +312,8 @@ const RuleStrategy = ({
         </div>
       ) : null}
       {showDescription && description ? (
-        <div
-          style={{ border: "1px solid orange", padding: "0.5em" }}
-          dangerouslySetInnerHTML={{ __html: `${description}` }}
-        ></div>
+        <AccordionToolTip description={description} />
       ) : null}
-      {/* {clicked ? <div>This is where the new tooltip goes</div> : null} */}
-      {/* Tooltip for caluculation 5 */}
-      {/* <ToolTip id={"tooltip-strategy" + id} /> */}
     </React.Fragment>
   );
 };

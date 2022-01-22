@@ -11,7 +11,8 @@ const RuleInputLabel = ({
   display,
   required,
   link,
-  name
+  name,
+  setShowDescription
 }) => {
   return (
     <ToolTipLabel
@@ -20,6 +21,7 @@ const RuleInputLabel = ({
       code={code}
       disabledInput={!display}
       requiredInput={required}
+      setShowDescription={setShowDescription}
     >
       {link ? (
         <a href={link} target="_blank" rel="noopener noreferrer" tabIndex="-1">
@@ -40,6 +42,7 @@ RuleInputLabel.propTypes = {
   description: PropTypes.string,
   display: PropTypes.bool,
   required: PropTypes.bool,
-  link: PropTypes.string
+  link: PropTypes.string,
+  setShowDescription: PropTypes.func
 };
 export default RuleInputLabel;
