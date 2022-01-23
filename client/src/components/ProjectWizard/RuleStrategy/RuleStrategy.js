@@ -13,10 +13,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    "&:hover": {
-      backgroundColor: ({ theme }) => theme.boldText
-    }
+    alignItems: "center"
   },
   commentContainer: {
     minWidth: "60vw",
