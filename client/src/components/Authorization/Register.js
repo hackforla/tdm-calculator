@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import * as accountService from "../../services/account.service";
 import { createUseStyles } from "react-jss";
@@ -18,6 +18,7 @@ const useStyles = createUseStyles({
 });
 
 const Register = props => {
+  const focusRef = useRef(null);
   const classes = useStyles();
   const { match } = props;
   const initialValues = {
@@ -30,6 +31,10 @@ const Register = props => {
 
   const [errorMsg, setErrorMsg] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    focusRef.current.focus();
+  });
 
   const registerSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -104,6 +109,7 @@ const Register = props => {
                   <div className="form-group">
                     <Field
                       type="text"
+                      innerRef={focusRef}
                       name="firstName"
                       placeholder="First Name"
                       className={`form-control ${

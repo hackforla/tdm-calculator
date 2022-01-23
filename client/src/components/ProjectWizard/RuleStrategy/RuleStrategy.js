@@ -124,7 +124,8 @@ const RuleStrategy = ({
     validationErrors
   },
   onPropInputChange,
-  onCommentChange
+  onCommentChange,
+  autoFocus
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -176,6 +177,7 @@ const RuleStrategy = ({
           />
           <div>
             <input
+              autoFocus={autoFocus}
               className={
                 validationErrors
                   ? classes.numberInputInvalid
@@ -205,6 +207,7 @@ const RuleStrategy = ({
           />
           <div>
             <input
+              autoFocus={autoFocus}
               type="checkbox"
               value={true}
               checked={!!value}
@@ -229,6 +232,7 @@ const RuleStrategy = ({
           />
           <div className={classes.choiceSelectContainer}>
             <select
+              autoFocus={autoFocus}
               className={classes.select}
               value={value || ""}
               onChange={onInputChange}
@@ -257,6 +261,7 @@ const RuleStrategy = ({
             setShowDescription={setShowDescription}
           />
           <input
+            autoFocus={autoFocus}
             type="text"
             className={
               validationErrors
@@ -352,7 +357,8 @@ RuleStrategy.propTypes = {
     validationErrors: PropTypes.array
   }),
   onPropInputChange: PropTypes.func,
-  onCommentChange: PropTypes.func
+  onCommentChange: PropTypes.func,
+  autoFocus: PropTypes.bool
 };
 
 export default RuleStrategy;

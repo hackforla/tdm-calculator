@@ -142,7 +142,8 @@ const RuleInput = ({
     mask,
     link
   },
-  onPropInputChange
+  onPropInputChange,
+  autoFocus
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -188,6 +189,7 @@ const RuleInput = ({
                   validationErrors ? classes.inputInvalid : classes.input
                 }
                 type="text"
+                autoFocus={autoFocus}
                 value={value || ""}
                 onChange={onInputChange}
                 name={code}
@@ -227,6 +229,7 @@ const RuleInput = ({
             />
             <input
               type="checkbox"
+              autoFocus={autoFocus}
               className={classes.checkbox}
               value={true}
               checked={!!value}
@@ -252,6 +255,7 @@ const RuleInput = ({
               setShowDescription={setShowDescription}
             />
             <select
+              autoFocus={autoFocus}
               className={classes.select}
               value={value || ""}
               onChange={onInputChange}
@@ -286,6 +290,7 @@ const RuleInput = ({
             {dataType === "string" ? (
               <input
                 type="text"
+                autoFocus={autoFocus}
                 className={
                   validationErrors
                     ? classes.textInputInvalid
@@ -301,6 +306,7 @@ const RuleInput = ({
               />
             ) : dataType === "textarea" ? (
               <textarea
+                autoFocus={autoFocus}
                 className={
                   validationErrors ? classes.textareaInvalid : classes.textarea
                 }
@@ -317,6 +323,7 @@ const RuleInput = ({
             ) : (
               <InputMask
                 type="text"
+                autoFocus={autoFocus}
                 mask={mask}
                 className={
                   validationErrors
@@ -390,7 +397,8 @@ RuleInput.propTypes = {
     mask: PropTypes.string,
     link: PropTypes.string
   }),
-  onPropInputChange: PropTypes.func
+  onPropInputChange: PropTypes.func,
+  autoFocus: PropTypes.bool
 };
 
 export default RuleInput;
