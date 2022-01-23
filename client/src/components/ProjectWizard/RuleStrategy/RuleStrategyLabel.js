@@ -20,6 +20,7 @@ const RuleStrategyLabel = ({
       disabledInput={!display}
       requiredInput={required}
       setShowDescription={setShowDescription}
+      description={description}
     >
       {link ? (
         <a href={link} target="_blank" rel="noopener noreferrer">

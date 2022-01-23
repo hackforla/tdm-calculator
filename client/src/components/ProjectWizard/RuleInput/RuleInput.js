@@ -17,10 +17,7 @@ const useStyles = createUseStyles({
   },
   numberFieldWrapper: {
     marginBottom: "0.4em",
-    alignItems: "center",
-    "&:hover": {
-      backgroundColor: ({ theme }) => theme.colorHighlight
-    }
+    alignItems: "center"
   },
   numberFieldUnits: {
     flexBasis: "20%",
@@ -54,10 +51,7 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   checkboxFieldWrapper: {
-    alignItems: "baseline",
-    "&:hover": {
-      backgroundColor: ({ theme }) => theme.colorHighlight
-    }
+    alignItems: "baseline"
   },
   checkbox: {
     flexGrow: "0",

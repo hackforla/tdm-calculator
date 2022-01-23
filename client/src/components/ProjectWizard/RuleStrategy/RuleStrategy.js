@@ -15,7 +15,7 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     alignItems: "center",
     "&:hover": {
-      backgroundColor: ({ theme }) => theme.colorHighlight
+      backgroundColor: ({ theme }) => theme.boldText
     }
   },
   commentContainer: {

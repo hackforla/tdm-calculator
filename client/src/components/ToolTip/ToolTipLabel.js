@@ -9,6 +9,15 @@ const useStyles = createUseStyles({
     flexShrink: "1",
     flexBasis: "50%"
   },
+  accordionLabel: {
+    flexGrow: "1",
+    flexShrink: "1",
+    flexBasis: "50%",
+    "&:hover": {
+      fontWeight: "bold",
+      textDecoration: "underline"
+    }
+  },
   tooltip: {
     color: "rgb(30, 36, 63) !important",
     padding: "15px",
@@ -43,7 +52,8 @@ const ToolTipLabel = ({
   code,
   requiredInput,
   disabledInput,
-  setShowDescription
+  setShowDescription,
+  description
 }) => {
   const classes = useStyles();
   const requiredStyle = requiredInput && classes.requiredInputLabel;
@@ -54,7 +64,11 @@ const ToolTipLabel = ({
       <label
         onClick={() => setShowDescription(prev => !prev)}
         htmlFor={code}
-        className={clsx(classes.tooltipLabel, requiredStyle, disabledStyle)}
+        className={
+          description
+            ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+            : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+        }
         data-class={classes.tooltip}
         data-for={id}
         data-tip={tooltipContent}
@@ -70,7 +84,11 @@ const ToolTipLabel = ({
     <label
       onClick={() => setShowDescription(prev => !prev)}
       htmlFor={code ? code : null}
-      className={clsx(classes.tooltipLabel, requiredStyle, disabledStyle)}
+      className={
+        description
+          ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+          : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+      }
       data-class={classes.tooltip}
       data-for={id}
       data-tip={tooltipContent}
@@ -94,7 +112,8 @@ ToolTipLabel.propTypes = {
   code: PropTypes.string,
   requiredInput: PropTypes.bool,
   disabledInput: PropTypes.bool,
-  setShowDescription: PropTypes.func
+  setShowDescription: PropTypes.func,
+  description: PropTypes.string
 };
 
 export default ToolTipLabel;

@@ -13,11 +13,12 @@ const useStyles = createUseStyles({
     borderRadius: "5px",
     maxWidth: "fit-content",
     minWidth: "-webkit-fill-available",
-    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)"
+    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    marginBottom: "10px"
   },
   closeButton: {
     float: "right",
-    padding: "4px 7px",
+    padding: "4px 10px",
     fontSize: "20px",
     "&:hover": {
       cursor: "pointer"
