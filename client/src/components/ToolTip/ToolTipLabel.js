@@ -59,10 +59,15 @@ const ToolTipLabel = ({
   const requiredStyle = requiredInput && classes.requiredInputLabel;
   const disabledStyle = disabledInput && classes.disabledInputLabel;
 
+  const descriptionHandler = e => {
+    e.preventDefault();
+    setShowDescription(prev => !prev);
+  };
+
   if (code && code.startsWith("UNITS_HABIT")) {
     return (
       <label
-        onClick={() => setShowDescription(prev => !prev)}
+        onClick={descriptionHandler}
         htmlFor={code}
         className={
           description
@@ -82,7 +87,7 @@ const ToolTipLabel = ({
 
   return (
     <label
-      onClick={() => setShowDescription(prev => !prev)}
+      onClick={descriptionHandler}
       htmlFor={code ? code : null}
       className={
         description

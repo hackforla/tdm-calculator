@@ -8,7 +8,7 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1",
     flexBasis: "50%",
-    border: "2px solid black",
+    border: "1px solid black",
     padding: "1em",
     borderRadius: "5px",
     maxWidth: "fit-content",
@@ -19,34 +19,41 @@ const useStyles = createUseStyles({
   closeButton: {
     float: "right",
     padding: "4px 10px",
-    fontSize: "20px",
+    fontSize: "16px",
     "&:hover": {
       cursor: "pointer"
     }
   },
   triangle: {
     position: "relative",
-    top: "2px",
+    top: "0px",
     left: "20px",
     width: "0",
     height: "0",
-    borderBottom: "7px solid black",
-    borderLeft: "7px solid transparent",
-    borderRight: "7px solid transparent"
+    borderBottom: "6px solid black",
+    borderLeft: "6px solid transparent",
+    borderRight: "6px solid transparent"
   },
   triangleInner: {
     position: "relative",
-    top: "2px",
-    left: "-4.85px",
+    top: "1px",
+    left: "-6px",
     width: "0",
     height: "0",
-    borderBottom: "5px solid white",
-    borderLeft: "5px solid transparent",
-    borderRight: "5px solid transparent"
+    borderBottom: "6px solid white",
+    borderLeft: "6px solid transparent",
+    borderRight: "6px solid transparent"
+  },
+  disabledDescription: {
+    color: "rgba(15, 41, 64, 0.3)"
   }
 });
 
-const AccordionToolTip = ({ description, setShowDescription }) => {
+const AccordionToolTip = ({
+  description,
+  setShowDescription,
+  disabledStyle
+}) => {
   const classes = useStyles();
   return (
     <>
@@ -59,17 +66,28 @@ const AccordionToolTip = ({ description, setShowDescription }) => {
       >
         x
       </div>
-      <div
-        className={clsx(classes.accordionTooltipLabel)}
-        dangerouslySetInnerHTML={{ __html: `${description}` }}
-      ></div>
+      {disabledStyle ? (
+        <div
+          className={clsx(
+            classes.accordionTooltipLabel,
+            classes.disabledDescription
+          )}
+          dangerouslySetInnerHTML={{ __html: `${description}` }}
+        ></div>
+      ) : (
+        <div
+          className={clsx(classes.accordionTooltipLabel)}
+          dangerouslySetInnerHTML={{ __html: `${description}` }}
+        ></div>
+      )}
     </>
   );
 };
 
 AccordionToolTip.propTypes = {
   description: PropTypes.string,
-  setShowDescription: PropTypes.func
+  setShowDescription: PropTypes.func,
+  disabledStyle: PropTypes.any
 };
 
 export default AccordionToolTip;

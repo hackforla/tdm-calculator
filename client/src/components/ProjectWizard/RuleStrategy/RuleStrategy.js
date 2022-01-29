@@ -317,6 +317,7 @@ const RuleStrategy = ({
         <AccordionToolTip
           description={description}
           setShowDescription={setShowDescription}
+          disabledStyle={disabledStyle}
         />
       ) : null}
     </React.Fragment>
