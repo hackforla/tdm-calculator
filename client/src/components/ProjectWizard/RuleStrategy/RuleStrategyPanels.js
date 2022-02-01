@@ -66,7 +66,7 @@ const RuleStrategyPanels = props => {
     <React.Fragment>
       {panelsRules && panelsRules.length > 0 ? (
         <>
-          {panelsRules.map(rules => (
+          {panelsRules.map((rules, index) => (
             <div
               key={rules[0].calculationPanelId}
               className={classes.panelContainer}
@@ -83,6 +83,7 @@ const RuleStrategyPanels = props => {
                 rules={rules}
                 onInputChange={props.onInputChange}
                 onCommentChange={props.onCommentChange}
+                autoFocus={!index}
               />
             </div>
           ))}

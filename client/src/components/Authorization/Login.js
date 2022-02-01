@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -30,12 +30,17 @@ const useStyles = createUseStyles({
 });
 
 const Login = props => {
+  const focusRef = useRef(null);
   const { setLoggedInAccount, match } = props;
   const history = useHistory();
   const [errorMsg, setErrorMsg] = useState("");
   const [withoutSavingWarningIsVisible, setWithoutSavingWarningIsVisible] =
     useState(false);
   const classes = useStyles({ withoutSavingWarningIsVisible });
+
+  useEffect(() => {
+    focusRef.current.focus();
+  });
 
   const initialValues = {
     email: match.params.email ? decodeURIComponent(match.params.email) : "",
@@ -157,6 +162,7 @@ const Login = props => {
               <div className="form-group">
                 <Field
                   id="cy-login-email"
+                  innerRef={focusRef}
                   type="email"
                   name="email"
                   value={values.email}

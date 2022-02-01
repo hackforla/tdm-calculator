@@ -64,6 +64,7 @@ const ParkingProvidedRuleInput = ({
       <div className={classes.inputContainer}>
         <input
           className={classes.input}
+          autoFocus
           type="text"
           value={value || ""}
           onChange={handleChange}
