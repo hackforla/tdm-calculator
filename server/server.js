@@ -53,20 +53,26 @@ app.use("/api", routes);
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(express.static("public"));
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
 
+// The "catchall" handler: for any request that doesn't
+// match one above, send back to React's index.html file.
 app.all("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
+// Using custom error message if the request is 
+// not passed through
 app.use((error, req, res) => {
   console.error(req.url, error);
   res.status(500).send("Something went wrong on the server.");
 });
 
+// Handling error using NPM package
+// meant only for development if stated otherwise
+// with `console.error`
 app.use(errorHandler);
 
+// Running server on the defined `port`
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
 module.exports = app;
