@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import UserContext from "../contexts/UserContext";
 import { Link } from "react-router-dom";
 import { matchPath, useLocation } from "react-router";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import NavBarToolTip from "./NavBarToolTip";
 
-const NavBarLogin = ({ account, classes, handleHamburgerMenuClick }) => {
+const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
+  const userContext = useContext(UserContext);
+  const account = userContext.account;
   const [isCalculation, setIsCalculation] = useState(false);
 
   const location = useLocation();
@@ -45,10 +48,13 @@ const NavBarLogin = ({ account, classes, handleHamburgerMenuClick }) => {
       <Link
         className={`${classes.link} ${classes.lastItem}`}
         to={{
-          pathname: `/logout/${account.email}`,
+          pathname: `/login/${(account && account.email) || ""}`,
           state: { prevPath: location.pathname }
         }}
-        onClick={handleHamburgerMenuClick}
+        onClick={() => {
+          userContext.updateAccount({});
+          handleHamburgerMenuClick;
+        }}
       >
         Logout
       </Link>

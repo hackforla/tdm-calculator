@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 import { createUseStyles } from "react-jss";
 import { NavLink, withRouter } from "react-router-dom";
 import NavBarLogin from "./NavBarLogin";
@@ -94,8 +95,10 @@ const useStyles = createUseStyles({
   }
 });
 
-const NavBar = ({ account, navbarOpen, setNavbarOpen }) => {
+const NavBar = ({ navbarOpen, setNavbarOpen }) => {
   const classes = useStyles();
+  const userContext = useContext(UserContext);
+  const account = userContext.account;
 
   const handleHamburgerMenuClick = () => {
     setNavbarOpen(window.innerWidth < 768 ? !navbarOpen : false);

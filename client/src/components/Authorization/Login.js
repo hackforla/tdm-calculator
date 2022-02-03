@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -31,7 +32,8 @@ const useStyles = createUseStyles({
 
 const Login = props => {
   const focusRef = useRef(null);
-  const { setLoggedInAccount, match } = props;
+  const userContext = useContext(UserContext);
+  const { match } = props;
   const history = useHistory();
   const [errorMsg, setErrorMsg] = useState("");
   const [withoutSavingWarningIsVisible, setWithoutSavingWarningIsVisible] =
@@ -71,7 +73,7 @@ const Login = props => {
       const loginResponse = await accountService.login(email, password);
 
       if (loginResponse.isSuccess) {
-        setLoggedInAccount(loginResponse.user);
+        userContext.updateAccount(loginResponse.user);
         trackLogin({ user: loginResponse.user.id });
         window.dataLayer.push({
           event: "login",
@@ -164,6 +166,7 @@ const Login = props => {
                   id="cy-login-email"
                   innerRef={focusRef}
                   type="email"
+                  autofill="email"
                   name="email"
                   value={values.email}
                   placeholder="Email Address"
@@ -181,6 +184,7 @@ const Login = props => {
                 <Field
                   id="cy-login-password"
                   type="password"
+                  autofill="current-password"
                   value={values.password}
                   name="password"
                   placeholder="Password"
@@ -250,8 +254,7 @@ Login.propTypes = {
     params: PropTypes.shape({
       email: PropTypes.string
     })
-  }),
-  setLoggedInAccount: PropTypes.func.isRequired
+  })
 };
 
 export default withRouter(Login);

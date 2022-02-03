@@ -51,7 +51,7 @@ const Admin = props => {
   );
 };
 Admin.propTypes = {
-  onInputChange: PropTypes.func.isRequired
+  onInputChange: PropTypes.func
 };
 
 export default Admin;
