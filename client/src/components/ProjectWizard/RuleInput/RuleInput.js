@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import InputMask from "react-input-mask";
-import ToolTip from "../../ToolTip/ToolTip";
+import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleInputLabel from "./RuleInputLabel";
 
 const useStyles = createUseStyles({
@@ -17,10 +17,7 @@ const useStyles = createUseStyles({
   },
   numberFieldWrapper: {
     marginBottom: "0.4em",
-    alignItems: "center",
-    "&:hover": {
-      backgroundColor: ({ theme }) => theme.colorHighlight
-    }
+    alignItems: "center"
   },
   numberFieldUnits: {
     flexBasis: "20%",
@@ -54,10 +51,7 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   checkboxFieldWrapper: {
-    alignItems: "baseline",
-    "&:hover": {
-      backgroundColor: ({ theme }) => theme.colorHighlight
-    }
+    alignItems: "baseline"
   },
   checkbox: {
     flexGrow: "0",
@@ -161,6 +155,7 @@ const RuleInput = ({
   // first rendered. The showValidationErrors flag will be set when the
   // user first touches the input field to display the text of the error message.
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
 
   const onInputChange = e => {
     setShowValidationErrors(true);
@@ -186,6 +181,7 @@ const RuleInput = ({
               required={required}
               link={link}
               name={name}
+              setShowDescription={setShowDescription}
             />
             <div>
               <input
@@ -229,6 +225,7 @@ const RuleInput = ({
               required={required}
               link={link}
               name={name}
+              setShowDescription={setShowDescription}
             />
             <input
               type="checkbox"
@@ -255,6 +252,7 @@ const RuleInput = ({
               required={required}
               link={link}
               name={name}
+              setShowDescription={setShowDescription}
             />
             <select
               autoFocus={autoFocus}
@@ -287,6 +285,7 @@ const RuleInput = ({
               required={required}
               link={link}
               name={name}
+              setShowDescription={setShowDescription}
             />
             {dataType === "string" ? (
               <input
@@ -351,6 +350,7 @@ const RuleInput = ({
               required={required}
               link={link}
               name={name}
+              setShowDescription={setShowDescription}
             />
             <div className={classes.codeWrapper} name={code} id={code} />
             <div className={classes.unitsCaption}>{units}</div>
@@ -365,7 +365,12 @@ const RuleInput = ({
           </div>
         </div>
       ) : null}
-      <ToolTip id={"tooltip-project-spec" + id} />
+      {showDescription && description ? (
+        <AccordionToolTip
+          description={description}
+          setShowDescription={setShowDescription}
+        />
+      ) : null}
     </React.Fragment>
   );
 };

@@ -9,7 +9,8 @@ const RuleStrategyLabel = ({
   display,
   required,
   link,
-  name
+  name,
+  setShowDescription
 }) => {
   return (
     <ToolTipLabel
@@ -18,6 +19,8 @@ const RuleStrategyLabel = ({
       code={code}
       disabledInput={!display}
       requiredInput={required}
+      setShowDescription={setShowDescription}
+      description={description}
     >
       {link ? (
         <a href={link} target="_blank" rel="noopener noreferrer">
@@ -37,6 +40,7 @@ RuleStrategyLabel.propTypes = {
   description: PropTypes.string,
   display: PropTypes.bool,
   required: PropTypes.bool,
-  link: PropTypes.string
+  link: PropTypes.string,
+  setShowDescription: PropTypes.func
 };
 export default RuleStrategyLabel;
