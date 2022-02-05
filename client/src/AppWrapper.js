@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import UserContext from "./contexts/UserContext";
 import App from "./App";
@@ -10,36 +10,37 @@ import {
 } from "@microsoft/applicationinsights-react-js";
 import { reactPlugin } from "./AppInsights";
 
+const getUserFromLocalStorage = () => {
+  const currentUser = localStorage.getItem("currentUser");
+  if (currentUser) {
+    try {
+      const parsedAccount = JSON.parse(currentUser);
+      return parsedAccount;
+    } catch (err) {
+      return {};
+    }
+  } else {
+    return {};
+  }
+};
+
 const AppWrapper = () => {
-  const [account, setAccount] = useState({});
+  const [account, setAccount] = useState(getUserFromLocalStorage());
   const [confirmTransition, setConfirmTransition] = useState(null);
   const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
   const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
   const contentContainerRef = useRef();
   const appContainerRef = useRef();
 
-  const updateAccount = loggedInUser => {
-    localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
-    setAccount(loggedInUser);
+  const updateAccount = userAccount => {
+    /* 
+      Storing user account object in Local Storage as well as state allows the
+      login session to persist across browser sessions. It also allows a deep 
+      link to a protexted client path be propery authenticated.
+     */
+    localStorage.setItem("currentUser", JSON.stringify(userAccount));
+    setAccount(userAccount);
   };
-
-  useEffect(() => {
-    const currentUser = localStorage.getItem("currentUser");
-    if (currentUser) {
-      try {
-        const parsedAccount = JSON.parse(currentUser);
-        setAccount(parsedAccount);
-      } catch (err) {
-        // TODO: replace with production error logging.
-        console.error(
-          "Unable to parse current user from local storage.",
-          currentUser
-        );
-      }
-    } else {
-      updateAccount({});
-    }
-  }, []);
 
   const getUserConfirmation = (_message, defaultConfirmCallback) => {
     setHasConfirmedTransition(false);
