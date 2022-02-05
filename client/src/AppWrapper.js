@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { UserContext } from "./components/user-context";
+import UserContext from "./contexts/UserContext";
 import App from "./App";
 import ErrorPage from "./components/ErrorPage";
 import NavConfirmModal from "./components/NavConfirmModal";
@@ -18,9 +18,9 @@ const AppWrapper = () => {
   const contentContainerRef = useRef();
   const appContainerRef = useRef();
 
-  const setLoggedInAccount = loggedInUser => {
-    setAccount(loggedInUser);
+  const updateAccount = loggedInUser => {
     localStorage.setItem("currentUser", JSON.stringify(loggedInUser));
+    setAccount(loggedInUser);
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const AppWrapper = () => {
         );
       }
     } else {
-      setLoggedInAccount({});
+      updateAccount({});
     }
   }, []);
 
@@ -53,7 +53,7 @@ const AppWrapper = () => {
   return (
     <React.Fragment>
       <AppInsightsContext.Provider value={reactPlugin}>
-        <UserContext.Provider value={account}>
+        <UserContext.Provider value={{ account, updateAccount }}>
           <Router getUserConfirmation={getUserConfirmation}>
             <AppInsightsErrorBoundary
               onError={<ErrorPage />}
@@ -66,7 +66,6 @@ const AppWrapper = () => {
               />
               <App
                 account={account}
-                setLoggedInAccount={setLoggedInAccount}
                 hasConfirmedTransition={hasConfirmedTransition}
                 isOpenNavConfirmModal={isOpenNavConfirmModal}
                 contentContainerRef={contentContainerRef}

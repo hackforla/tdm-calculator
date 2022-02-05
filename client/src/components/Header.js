@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -67,7 +66,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Header = ({ account }) => {
+const Header = () => {
   const classes = useStyles();
   const [navbarOpen, setNavbarOpen] = useState(false);
 
@@ -90,17 +89,9 @@ const Header = ({ account }) => {
       >
         <FontAwesomeIcon icon={faBars} className={classes.hamburger} />
       </button>
-      <NavBar
-        navbarOpen={navbarOpen}
-        setNavbarOpen={setNavbarOpen}
-        account={account}
-      />
+      <NavBar navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />
     </div>
   );
-};
-
-Header.propTypes = {
-  account: PropTypes.object.isRequired
 };
 
 export default Header;
