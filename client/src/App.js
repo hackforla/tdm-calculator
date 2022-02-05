@@ -14,6 +14,7 @@ import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndCond
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
+import ProtectedRoute from "./components/Authorization/ProtectedRoute";
 import Login from "./components/Authorization/Login";
 import Unauthorized from "./components/Authorization/Unauthorized";
 import Admin from "./components/Admin";
@@ -24,24 +25,6 @@ import ForgotPassword from "./components/Authorization/ForgotPassword";
 import "./styles/App.scss";
 import PublicComment from "./components/PublicComment/PublicCommentPage";
 import Sidebar from "./components/Sidebar";
-
-function PrivateRoute({ isAuthorized, children, path, ...rest }) {
-  return (
-    <Route
-      path={path}
-      {...rest}
-      render={() => {
-        return isAuthorized ? children : <Redirect to="/unauthorized" />;
-      }}
-    />
-  );
-}
-
-PrivateRoute.propTypes = {
-  isAuthorized: PropTypes.bool,
-  children: PropTypes.any.isRequired,
-  path: PropTypes.string.isRequired
-};
 
 const useStyles = createUseStyles({
   app: {
@@ -71,7 +54,7 @@ const App = ({
       <div className={classes.app} id="app-container" ref={appContainerRef}>
         <Switch>
           {/* These routes either have no sidebar or use a custom sidebar */}
-          <PrivateRoute
+          <ProtectedRoute
             isAuthorized={account && !!account.email}
             path="/projects"
           >
@@ -79,7 +62,7 @@ const App = ({
               account={account}
               contentContainerRef={contentContainerRef}
             />
-          </PrivateRoute>
+          </ProtectedRoute>
 
           <Route path="/calculation/:page/:projectId?">
             <TdmCalculationContainer
@@ -146,19 +129,19 @@ const App = ({
                       <ResetPassword />
                     </Route>
 
-                    <PrivateRoute
+                    <ProtectedRoute
                       path="/admin"
                       isAuthorized={account && account.isAdmin}
                     >
                       <Admin account={account} />
-                    </PrivateRoute>
+                    </ProtectedRoute>
 
-                    <PrivateRoute
+                    <ProtectedRoute
                       path="/roles"
                       isAuthorized={account && account.isSecurityAdmin}
                     >
                       <Roles />
-                    </PrivateRoute>
+                    </ProtectedRoute>
 
                     <Route path="/faqs">
                       <FaqView />
