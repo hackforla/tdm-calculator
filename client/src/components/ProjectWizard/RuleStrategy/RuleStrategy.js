@@ -1,9 +1,9 @@
 /* eslint-disable linebreak-style */
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
-import ToolTip from "../../ToolTip/ToolTip";
+import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleStrategyLabel from "./RuleStrategyLabel";
 
 const useStyles = createUseStyles({
@@ -13,10 +13,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    "&:hover": {
-      backgroundColor: ({ theme }) => theme.colorHighlight
-    }
+    alignItems: "center"
   },
   commentContainer: {
     minWidth: "60vw",
@@ -130,6 +127,8 @@ const RuleStrategy = ({
   const theme = useTheme();
   const classes = useStyles({ theme });
 
+  const [showDescription, setShowDescription] = useState(false);
+
   const disabledStyle = !display && classes.disabled;
 
   const onInputChange = e => {
@@ -171,6 +170,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div>
             <input
@@ -200,6 +200,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div>
             <input
@@ -224,6 +225,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div className={classes.choiceSelectContainer}>
             <select
@@ -253,6 +255,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <input
             autoFocus={autoFocus}
@@ -279,6 +282,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div className={classes.allElse} name={code} />
           {possibleAndEarnedPointsContainers()}
@@ -309,8 +313,13 @@ const RuleStrategy = ({
           </div>
         </div>
       ) : null}
-
-      <ToolTip id={"tooltip-strategy" + id} />
+      {showDescription && description ? (
+        <AccordionToolTip
+          description={description}
+          setShowDescription={setShowDescription}
+          disabledStyle={disabledStyle}
+        />
+      ) : null}
     </React.Fragment>
   );
 };
