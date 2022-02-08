@@ -5,14 +5,11 @@ import clsx from "clsx";
 
 const useStyles = createUseStyles({
   accordionTooltipLabel: {
-    flexGrow: "1",
-    flexShrink: "1",
-    flexBasis: "50%",
     border: "1px solid black",
     padding: "1em",
     borderRadius: "5px",
-    maxWidth: "fit-content",
-    minWidth: "-webkit-fill-available",
+    width: "min-content",
+    minWidth: "97%",
     boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
     marginBottom: "10px"
   },
