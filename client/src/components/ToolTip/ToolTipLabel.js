@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import ToolTipIcon from "./ToolTipIcon";
 import clsx from "clsx";
 
 const useStyles = createUseStyles({
@@ -9,6 +8,15 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1",
     flexBasis: "50%"
+  },
+  accordionLabel: {
+    flexGrow: "1",
+    flexShrink: "1",
+    flexBasis: "50%",
+    "&:hover": {
+      fontWeight: "bold",
+      textDecoration: "underline"
+    }
   },
   tooltip: {
     color: "rgb(30, 36, 63) !important",
@@ -43,32 +51,49 @@ const ToolTipLabel = ({
   children,
   code,
   requiredInput,
-  disabledInput
+  disabledInput,
+  setShowDescription,
+  description
 }) => {
   const classes = useStyles();
   const requiredStyle = requiredInput && classes.requiredInputLabel;
   const disabledStyle = disabledInput && classes.disabledInputLabel;
 
+  const descriptionHandler = e => {
+    e.preventDefault();
+    setShowDescription(prev => !prev);
+  };
+
   if (code && code.startsWith("UNITS_HABIT")) {
     return (
       <label
+        onClick={descriptionHandler}
         htmlFor={code}
-        className={clsx(classes.tooltipLabel, requiredStyle, disabledStyle)}
+        className={
+          description
+            ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+            : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+        }
         data-class={classes.tooltip}
         data-for={id}
         data-tip={tooltipContent}
         data-iscapture="true"
         data-html="true"
       >
-        {children} <ToolTipIcon />
+        {children}
       </label>
     );
   }
 
   return (
     <label
+      onClick={descriptionHandler}
       htmlFor={code ? code : null}
-      className={clsx(classes.tooltipLabel, requiredStyle, disabledStyle)}
+      className={
+        description
+          ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+          : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+      }
       data-class={classes.tooltip}
       data-for={id}
       data-tip={tooltipContent}
@@ -77,11 +102,10 @@ const ToolTipLabel = ({
     >
       {children}
       {tooltipContent &&
-      code &&
-      !code.startsWith("STRATEGY") &&
-      !code.startsWith("PKG") ? (
-        <ToolTipIcon />
-      ) : null}
+        code &&
+        !code.startsWith("STRATEGY") &&
+        !code.startsWith("PKG") &&
+        null}
     </label>
   );
 };
@@ -92,7 +116,9 @@ ToolTipLabel.propTypes = {
   children: PropTypes.node.isRequired,
   code: PropTypes.string,
   requiredInput: PropTypes.bool,
-  disabledInput: PropTypes.bool
+  disabledInput: PropTypes.bool,
+  setShowDescription: PropTypes.func,
+  description: PropTypes.string
 };
 
 export default ToolTipLabel;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import * as accountService from "../../services/account.service";
@@ -27,10 +27,15 @@ const validationSchema = Yup.object().shape({
 });
 
 const ResetPassword = props => {
+  const focusRef = useRef(null);
   const [success, setSuccess] = useState(false);
   const { token } = props.match.params;
   const classes = useStyles();
   const toast = useToast();
+
+  useEffect(() => {
+    focusRef.current.focus();
+  });
 
   const handleSubmit = async ({ token, password }, { setFieldError }) => {
     const submitResponse = await accountService.resetPassword({
@@ -68,6 +73,7 @@ const ResetPassword = props => {
                   <div className={classes.fieldGroup}>
                     <Field
                       type="password"
+                      innerRef={focusRef}
                       value={values.password}
                       name="password"
                       placeholder="Password"

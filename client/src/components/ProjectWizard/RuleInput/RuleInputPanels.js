@@ -10,7 +10,7 @@ const RuleInputPanels = ({ rules, suppressHeader, onInputChange }) => {
 
   return (
     <React.Fragment>
-      {panelsRules.map(pRules => (
+      {panelsRules.map((pRules, index) => (
         <Panels
           key={pRules[0].calculationPanelId}
           rules={pRules}
@@ -20,16 +20,19 @@ const RuleInputPanels = ({ rules, suppressHeader, onInputChange }) => {
             key={pRules[0].calculationPanelId}
             rules={pRules}
             onInputChange={onInputChange}
+            autoFocus={!index}
           />
         </Panels>
       ))}
     </React.Fragment>
   );
 };
+
 RuleInputPanels.propTypes = {
   rules: PropTypes.array.isRequired,
   suppressHeader: PropTypes.bool,
-  onInputChange: PropTypes.func.isRequired
+  onInputChange: PropTypes.func.isRequired,
+  autoFocus: PropTypes.bool
 };
 
 export default RuleInputPanels;

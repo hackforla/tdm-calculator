@@ -46,7 +46,7 @@ const SidebarCart = props => {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <div className={classes.headerName}>TDM MEASURES SELECTED</div>
+        <div className={classes.headerName}>TDM STRATEGIES SELECTED</div>
         <div className={classes.headerPoints}>EARNED POINTS</div>
       </div>
       <hr />

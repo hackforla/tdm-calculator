@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import InputMask from "react-input-mask";
-import ToolTip from "../../ToolTip/ToolTip";
+import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleInputLabel from "./RuleInputLabel";
 
 const useStyles = createUseStyles({
@@ -17,10 +17,7 @@ const useStyles = createUseStyles({
   },
   numberFieldWrapper: {
     marginBottom: "0.4em",
-    alignItems: "center",
-    "&:hover": {
-      backgroundColor: ({ theme }) => theme.colorHighlight
-    }
+    alignItems: "center"
   },
   numberFieldUnits: {
     flexBasis: "20%",
@@ -54,10 +51,7 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   checkboxFieldWrapper: {
-    alignItems: "baseline",
-    "&:hover": {
-      backgroundColor: ({ theme }) => theme.colorHighlight
-    }
+    alignItems: "baseline"
   },
   checkbox: {
     flexGrow: "0",
@@ -148,7 +142,8 @@ const RuleInput = ({
     mask,
     link
   },
-  onPropInputChange
+  onPropInputChange,
+  autoFocus
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -160,6 +155,7 @@ const RuleInput = ({
   // first rendered. The showValidationErrors flag will be set when the
   // user first touches the input field to display the text of the error message.
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
 
   const onInputChange = e => {
     setShowValidationErrors(true);
@@ -185,6 +181,7 @@ const RuleInput = ({
               required={required}
               link={link}
               name={name}
+              setShowDescription={setShowDescription}
             />
             <div>
               <input
@@ -192,6 +189,7 @@ const RuleInput = ({
                   validationErrors ? classes.inputInvalid : classes.input
                 }
                 type="text"
+                autoFocus={autoFocus}
                 value={value || ""}
                 onChange={onInputChange}
                 name={code}
@@ -227,9 +225,11 @@ const RuleInput = ({
               required={required}
               link={link}
               name={name}
+              setShowDescription={setShowDescription}
             />
             <input
               type="checkbox"
+              autoFocus={autoFocus}
               className={classes.checkbox}
               value={true}
               checked={!!value}
@@ -252,8 +252,10 @@ const RuleInput = ({
               required={required}
               link={link}
               name={name}
+              setShowDescription={setShowDescription}
             />
             <select
+              autoFocus={autoFocus}
               className={classes.select}
               value={value || ""}
               onChange={onInputChange}
@@ -283,10 +285,12 @@ const RuleInput = ({
               required={required}
               link={link}
               name={name}
+              setShowDescription={setShowDescription}
             />
             {dataType === "string" ? (
               <input
                 type="text"
+                autoFocus={autoFocus}
                 className={
                   validationErrors
                     ? classes.textInputInvalid
@@ -302,6 +306,7 @@ const RuleInput = ({
               />
             ) : dataType === "textarea" ? (
               <textarea
+                autoFocus={autoFocus}
                 className={
                   validationErrors ? classes.textareaInvalid : classes.textarea
                 }
@@ -318,6 +323,7 @@ const RuleInput = ({
             ) : (
               <InputMask
                 type="text"
+                autoFocus={autoFocus}
                 mask={mask}
                 className={
                   validationErrors
@@ -344,6 +350,7 @@ const RuleInput = ({
               required={required}
               link={link}
               name={name}
+              setShowDescription={setShowDescription}
             />
             <div className={classes.codeWrapper} name={code} id={code} />
             <div className={classes.unitsCaption}>{units}</div>
@@ -358,7 +365,12 @@ const RuleInput = ({
           </div>
         </div>
       ) : null}
-      <ToolTip id={"tooltip-project-spec" + id} />
+      {showDescription && description ? (
+        <AccordionToolTip
+          description={description}
+          setShowDescription={setShowDescription}
+        />
+      ) : null}
     </React.Fragment>
   );
 };
@@ -385,7 +397,8 @@ RuleInput.propTypes = {
     mask: PropTypes.string,
     link: PropTypes.string
   }),
-  onPropInputChange: PropTypes.func
+  onPropInputChange: PropTypes.func,
+  autoFocus: PropTypes.bool
 };
 
 export default RuleInput;

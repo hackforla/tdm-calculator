@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
+import UserContext from "./contexts/UserContext";
 import PropTypes from "prop-types";
+
 import { Route, Redirect, Switch } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
@@ -12,7 +14,9 @@ import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndCond
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
+import ProtectedRoute from "./components/Authorization/ProtectedRoute";
 import Login from "./components/Authorization/Login";
+import Unauthorized from "./components/Authorization/Unauthorized";
 import Admin from "./components/Admin";
 import Roles from "./components/Roles";
 import FaqView from "./components/Faq/FaqView";
@@ -33,34 +37,38 @@ const useStyles = createUseStyles({
 });
 
 const App = ({
-  account,
-  setLoggedInAccount,
   hasConfirmedTransition,
   isOpenNavConfirmModal,
   contentContainerRef,
   appContainerRef
 }) => {
   const classes = useStyles();
+  const userContext = useContext(UserContext);
+  const account = userContext.account;
+
+  console.error("account: " + JSON.stringify(account, null, 2));
 
   return (
     <React.Fragment>
-      <Header account={account} />
+      <Header />
       <div className={classes.app} id="app-container" ref={appContainerRef}>
         <Switch>
           {/* These routes either have no sidebar or use a custom sidebar */}
-          <Route path="/projects">
+          <ProtectedRoute
+            isAuthorized={account && !!account.email}
+            path="/projects"
+          >
             <ProjectsPage
               account={account}
               contentContainerRef={contentContainerRef}
             />
-          </Route>
+          </ProtectedRoute>
 
           <Route path="/calculation/:page/:projectId?">
             <TdmCalculationContainer
               account={account}
               hasConfirmedNavTransition={hasConfirmedTransition}
               isOpenNavConfirmModal={isOpenNavConfirmModal}
-              setLoggedInAccount={setLoggedInAccount}
               contentContainerRef={contentContainerRef}
             />
           </Route>
@@ -70,7 +78,9 @@ const App = ({
           </Route>
 
           <Route exact path="/">
-            <Redirect to={account.email ? "/calculation/1" : "/login"} />
+            <Redirect
+              to={account && account.email ? "/calculation/1" : "/login"}
+            />
           </Route>
 
           {/* These routes use the same sidebar component */}
@@ -95,6 +105,10 @@ const App = ({
                       <PrivacyPolicy />
                     </Route>
 
+                    <Route path="/unauthorized">
+                      <Unauthorized />
+                    </Route>
+
                     <Route path="/register/:email?">
                       <Register />
                     </Route>
@@ -104,28 +118,8 @@ const App = ({
                     </Route>
 
                     <Route path="/login/:email?">
-                      {account.email ? (
-                        <Redirect to="/calculation/1" />
-                      ) : (
-                        <Login setLoggedInAccount={setLoggedInAccount} />
-                      )}
+                      <Login />
                     </Route>
-
-                    <Route
-                      path="/logout/:email?"
-                      render={routeProps => {
-                        setLoggedInAccount({});
-                        return (
-                          <Redirect
-                            to={
-                              routeProps.match.params["email"]
-                                ? `/login/${routeProps.match.params["email"]}`
-                                : "/login"
-                            }
-                          />
-                        );
-                      }}
-                    />
 
                     <Route path="/forgotpassword">
                       <ForgotPassword />
@@ -135,16 +129,19 @@ const App = ({
                       <ResetPassword />
                     </Route>
 
-                    {account && account.isAdmin ? (
-                      <Route
-                        path="/admin"
-                        render={() => <Admin account={account} />}
-                      />
-                    ) : null}
+                    <ProtectedRoute
+                      path="/admin"
+                      isAuthorized={account && account.isAdmin}
+                    >
+                      <Admin account={account} />
+                    </ProtectedRoute>
 
-                    {account && account.isSecurityAdmin ? (
-                      <Route path="/roles" render={() => <Roles />} />
-                    ) : null}
+                    <ProtectedRoute
+                      path="/roles"
+                      isAuthorized={account && account.isSecurityAdmin}
+                    >
+                      <Roles />
+                    </ProtectedRoute>
 
                     <Route path="/faqs">
                       <FaqView />
@@ -166,12 +163,6 @@ const App = ({
 };
 
 App.propTypes = {
-  account: PropTypes.shape({
-    email: PropTypes.string,
-    isAdmin: PropTypes.bool,
-    isSecurityAdmin: PropTypes.bool
-  }),
-  setLoggedInAccount: PropTypes.func,
   hasConfirmedTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
   appContainerRef: PropTypes.object,

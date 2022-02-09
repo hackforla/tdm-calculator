@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import Button from "../Button/Button";
@@ -48,7 +48,12 @@ const validationSchema = Yup.object().shape({
 });
 
 const SendEmailForm = ({ label, submitted, handleSubmit }) => {
+  const focusRef = useRef(null);
   const classes = useStyles();
+
+  useEffect(() => {
+    focusRef.current.focus();
+  });
 
   return !submitted ? (
     <>
@@ -71,6 +76,7 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
               <div className={classes.fieldGroup}>
                 <Field
                   type="email"
+                  innerRef={focusRef}
                   value={values.email}
                   name="email"
                   placeholder="Registered Email Address"

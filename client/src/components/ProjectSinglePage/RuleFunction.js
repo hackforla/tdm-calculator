@@ -55,9 +55,7 @@ const RuleFunction = props => {
 };
 RuleFunction.propTypes = {
   functionBody: PropTypes.string.isRequired,
-  rules: PropTypes.shape({
-    find: PropTypes.func.isRequired
-  }),
+  rules: PropTypes.array,
   setRuleId: PropTypes.func
 };
 

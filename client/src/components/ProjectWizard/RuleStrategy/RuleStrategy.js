@@ -1,9 +1,9 @@
 /* eslint-disable linebreak-style */
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
-import ToolTip from "../../ToolTip/ToolTip";
+import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleStrategyLabel from "./RuleStrategyLabel";
 
 const useStyles = createUseStyles({
@@ -13,10 +13,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    "&:hover": {
-      backgroundColor: ({ theme }) => theme.colorHighlight
-    }
+    alignItems: "center"
   },
   commentContainer: {
     minWidth: "60vw",
@@ -124,10 +121,13 @@ const RuleStrategy = ({
     validationErrors
   },
   onPropInputChange,
-  onCommentChange
+  onCommentChange,
+  autoFocus
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
+
+  const [showDescription, setShowDescription] = useState(false);
 
   const disabledStyle = !display && classes.disabled;
 
@@ -170,9 +170,11 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div>
             <input
+              autoFocus={autoFocus}
               className={
                 validationErrors
                   ? classes.numberInputInvalid
@@ -198,9 +200,11 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div>
             <input
+              autoFocus={autoFocus}
               type="checkbox"
               value={true}
               checked={!!value}
@@ -221,9 +225,11 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div className={classes.choiceSelectContainer}>
             <select
+              autoFocus={autoFocus}
               className={classes.select}
               value={value || ""}
               onChange={onInputChange}
@@ -249,8 +255,10 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <input
+            autoFocus={autoFocus}
             type="text"
             className={
               validationErrors
@@ -274,6 +282,7 @@ const RuleStrategy = ({
             display={display}
             link={link}
             name={name}
+            setShowDescription={setShowDescription}
           />
           <div className={classes.allElse} name={code} />
           {possibleAndEarnedPointsContainers()}
@@ -304,8 +313,13 @@ const RuleStrategy = ({
           </div>
         </div>
       ) : null}
-
-      <ToolTip id={"tooltip-strategy" + id} />
+      {showDescription && description ? (
+        <AccordionToolTip
+          description={description}
+          setShowDescription={setShowDescription}
+          disabledStyle={disabledStyle}
+        />
+      ) : null}
     </React.Fragment>
   );
 };
@@ -341,7 +355,8 @@ RuleStrategy.propTypes = {
     validationErrors: PropTypes.array
   }),
   onPropInputChange: PropTypes.func,
-  onCommentChange: PropTypes.func
+  onCommentChange: PropTypes.func,
+  autoFocus: PropTypes.bool
 };
 
 export default RuleStrategy;
