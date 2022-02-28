@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
-import InputMask from "react-input-mask";
+import MultiInput from "./MultiInput";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleInputLabel from "./RuleInputLabel";
 
@@ -156,6 +156,7 @@ const RuleInput = ({
   // user first touches the input field to display the text of the error message.
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
+  const [inputError, setInputError] = useState(null);
 
   const onInputChange = e => {
     setShowValidationErrors(true);
@@ -164,6 +165,10 @@ const RuleInput = ({
 
   const onBlur = () => {
     setShowValidationErrors(true);
+  };
+
+  const onInputError = error => {
+    setInputError(error);
   };
 
   return (
@@ -321,22 +326,13 @@ const RuleInput = ({
                 autoComplete="off"
               />
             ) : (
-              <InputMask
-                type="text"
-                autoFocus={autoFocus}
+              <MultiInput
+                code={code}
+                value={value}
+                validationErrors={validationErrors}
                 mask={mask}
-                className={
-                  validationErrors
-                    ? classes.textInputInvalid
-                    : classes.textInput
-                }
-                value={value || ""}
                 onChange={onInputChange}
-                name={code}
-                id={code}
-                data-testid={code}
-                maxLength={maxStringLength}
-                autoComplete="off"
+                onError={onInputError}
               />
             )}
           </div>
@@ -362,6 +358,13 @@ const RuleInput = ({
           <div className={classes.textInputLabel}></div>
           <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
             {validationErrors[0]}
+          </div>
+        </div>
+      ) : display && inputError && showValidationErrors ? (
+        <div className={classes.rowContainer}>
+          <div className={classes.textInputLabel}></div>
+          <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
+            {inputError}
           </div>
         </div>
       ) : null}
