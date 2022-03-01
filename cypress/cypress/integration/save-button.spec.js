@@ -130,7 +130,7 @@ const fillProjectInfo = (projectInfo) => {
   // Project Info
   cy.get("#PROJECT_NAME").type(projectInfo.name);
   cy.get("#PROJECT_ADDRESS").type(projectInfo.address);
-  cy.get("#APN").type(projectInfo.ain);
+  cy.get("#APN").type(projectInfo.ain).type("/t");
 };
 
 const fillProjectSpecifications = (specs) => {

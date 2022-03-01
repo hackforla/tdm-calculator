@@ -55,7 +55,7 @@ describe("Verifies All Strategies", () => {
 
     cy.get("#PROJECT_NAME").type(projectInfo.name);
     cy.get("#PROJECT_ADDRESS").type(projectInfo.address);
-    cy.get("#APN").type(projectInfo.ain);
+    cy.get("#APN").type(projectInfo.ain).type("\t");
     cy.get("#VERSION_NO").type(projectInfo.version);
     cy.get("#BUILDING_PERMIT").type(projectInfo.buildingPermit);
     cy.get("#CASE_NO_LADOT").type(projectInfo.ladotCase);
@@ -186,17 +186,8 @@ describe("Verifies All Strategies", () => {
     cy.findByText(projectInfo.address).should("be.visible");
     cy.findByText(summary.expectedAIN).should("be.visible");
     cy.findByTestId("summary-project-level-value").should("have.text", summary.expectedLevel);
-    cy.findByTestId("summary-parking-ratio-value").should(
-      "have.text",
-      summary.expectedParkingRatioBaseline
-    );
-    cy.findByTestId("summary-target-points-value").should(
-      "have.text",
-      summary.expectedTargetPoints
-    );
-    cy.findByTestId("summary-earned-points-value").should(
-      "have.text",
-      summary.expectedEarnedPoints
-    );
+    cy.findByTestId("summary-parking-ratio-value").should("have.text", summary.expectedParkingRatioBaseline);
+    cy.findByTestId("summary-target-points-value").should("have.text", summary.expectedTargetPoints);
+    cy.findByTestId("summary-earned-points-value").should("have.text", summary.expectedEarnedPoints);
   });
 });

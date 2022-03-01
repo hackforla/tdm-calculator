@@ -76,7 +76,7 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
   const inputNewProjectData = () => {
     cy.get("#PROJECT_NAME").type("Cypress Test Project");
     cy.findByTestId("PROJECT_ADDRESS").type("220 W. Garden Path");
-    cy.findByTestId("APN").type("999999999");
+    cy.get("#APN").type("9999999999").type("\t");
     cy.findByTestId("PROJECT_DESCRIPTION").type("Cypress Test Project");
 
     // Advance to specifications page
