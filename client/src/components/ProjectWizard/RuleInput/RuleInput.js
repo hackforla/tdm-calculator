@@ -333,6 +333,7 @@ const RuleInput = ({
                 mask={mask}
                 onChange={onInputChange}
                 onError={onInputError}
+                setShowValidationErrors={setShowValidationErrors}
               />
             )}
           </div>
@@ -353,18 +354,18 @@ const RuleInput = ({
           </div>
         )
       ) : null}
-      {display && validationErrors && showValidationErrors ? (
-        <div className={classes.rowContainer}>
-          <div className={classes.textInputLabel}></div>
-          <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
-            {validationErrors[0]}
-          </div>
-        </div>
-      ) : display && inputError && showValidationErrors ? (
+      {display && inputError && showValidationErrors ? (
         <div className={classes.rowContainer}>
           <div className={classes.textInputLabel}></div>
           <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
             {inputError}
+          </div>
+        </div>
+      ) : display && validationErrors && showValidationErrors ? (
+        <div className={classes.rowContainer}>
+          <div className={classes.textInputLabel}></div>
+          <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
+            {validationErrors[0]}
           </div>
         </div>
       ) : null}

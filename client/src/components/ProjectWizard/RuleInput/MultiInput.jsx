@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 
@@ -55,13 +55,20 @@ const Input = props => {
   if (props.isHidden) {
     return <components.Input {...props} />;
   }
-  const { mask, value } = props.selectProps;
+  const { mask, value, setHasError, onError } = props.selectProps;
+
+  const handleBlur = () => {
+    setHasError(false);
+    onError(null);
+  };
+
   return (
     <InputMask
       type="text"
       mask={mask}
       value={props.value || ""}
       onChange={props.onChange}
+      onBlur={handleBlur}
       name={props.code}
       id={props.code}
       maxLength={props.maxStringLength}
@@ -192,7 +199,8 @@ const MultiInput = ({
   validationErrors,
   mask,
   onChange,
-  onError
+  onError,
+  setShowValidationErrors
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -201,33 +209,7 @@ const MultiInput = ({
   const [hasError, setHasError] = useState(false);
   const valueOptions = toOptions(value);
 
-  const validateTags = useCallback(values => {
-    setHasError(false);
-    onError(null);
-
-    values.some(value => {
-      const validLength = matchLength(value);
-      if (validLength !== 12) {
-        setHasError(true);
-        onError("Each AIN/APN number needs ten digits");
-        return true;
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (!value) return;
-    validateTags(value.split(","));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [validateTags]);
-
   const handleChange = value => {
-    validateTags(
-      value.map(tag => {
-        return tag.value;
-      })
-    );
     onChange(
       new CustomEvent("newTag", {
         detail: {
@@ -247,34 +229,37 @@ const MultiInput = ({
     // don't create tag if no input
     if (validLength === 0) return;
 
-    // don't add duplicate tag
-    const indexValue = valueOptions.findIndex(
-      option => option.value === inputValue
-    );
-    const isDuplicate = indexValue !== -1;
-    const newValue = !isDuplicate
-      ? [...valueOptions, createOption(inputValue)]
-      : valueOptions;
+    if (validLength === 12) {
+      // create tag if pressing any key after input is full (except backspace)
+      if (event.key !== "Backspace") {
+        // don't create duplicate tag
+        const indexValue = valueOptions.findIndex(
+          option => option.value === inputValue
+        );
+        const isDuplicate = indexValue !== -1;
+        const newValue = !isDuplicate
+          ? [...valueOptions, createOption(inputValue)]
+          : valueOptions;
 
-    // do create tag if pressing any key after input is full (except backspace)
-    if (validLength === 12 && event.key !== "Backspace") {
-      //console.log("call handleChange");
-      handleChange(newValue);
-
-      setInputValue("");
-      event.preventDefault();
-      return;
-    }
-
-    // do create tag if pressing one of the create tag keys
-    switch (event.key) {
-      case "Enter":
-      case "Tab":
-      case ",":
         handleChange(newValue);
-
         setInputValue("");
+
+        setHasError(false);
+        onError(null);
+
         event.preventDefault();
+      }
+    } else {
+      // display error if input is incomplete
+      switch (event.key) {
+        case "Enter":
+        case ",":
+          setShowValidationErrors(true);
+          setHasError(true);
+          onError("Each AIN/APN number needs ten digits");
+
+          event.preventDefault();
+      }
     }
   };
 
@@ -298,6 +283,8 @@ const MultiInput = ({
       styles={customStyles}
       mask={mask}
       hasError={hasError}
+      setHasError={setHasError}
+      onError={onError}
       validationErrors={validationErrors}
     />
   );
@@ -308,7 +295,8 @@ MultiInput.propTypes = {
   validationErrors: PropTypes.array,
   mask: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  onError: PropTypes.func.isRequired
+  onError: PropTypes.func.isRequired,
+  setShowValidationErrors: PropTypes.func.isRequired
 };
 
 export default MultiInput;
