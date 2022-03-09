@@ -297,9 +297,16 @@ export function TdmCalculationContainer({
   };
 
   const onInputChange = e => {
-    const ruleCode = e.target.name;
-    let value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const ruleCode = e.target?.name || e.detail.name;
+    let value = e.target
+      ? e.target.type === "checkbox"
+        ? e.target.checked
+        : e.target.value
+      : e.detail.value
+          .reduce((acc, item) => {
+            return [...acc, item.value];
+          }, [])
+          .join();
     if (!ruleCode) {
       throw new Error("Input is missing name attribute");
     }
@@ -317,7 +324,7 @@ export function TdmCalculationContainer({
 
     const newFormInputs = {
       ...formInputs,
-      [e.target.name]: value
+      [ruleCode]: value
     };
     applySideEffects(newFormInputs, ruleCode, value);
 
