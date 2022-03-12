@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
-import ToolTipIcon from "../../ToolTip/ToolTipIcon";
-import useLocalStorage from "../../useLocalStorage";
 import { createUseStyles } from "react-jss";
 import ResetButtons from "./ResetButtons";
 
@@ -47,36 +45,11 @@ function ProjectMeasure(props) {
     initializeStrategies();
   });
 
-  const [displayInfoBox, setDisplayInfoBox] = useLocalStorage(
-    "displayBox",
-    true
-  );
-
   return (
     <div>
       <h1 className="tdm-wizard-page-title">
         Transportation Demand Management Strategies
       </h1>
-      <h3 className="tdm-wizard-page-subtitle">
-        Select strategies to earn TDM points
-        <button
-          onClick={() => setDisplayInfoBox(true)}
-          style={{
-            visibility: displayInfoBox ? "hidden" : "visible",
-            height: 10,
-            padding: 0,
-            marginTop: 0,
-            marginBottom: 0,
-            marginRight: "auto",
-            marginLeft: "1em",
-            backgroundColor: "transparent",
-            borderStyle: "none",
-            cursor: "pointer"
-          }}
-        >
-          <ToolTipIcon size="medium" />
-        </button>
-      </h3>
       <div className={classes.pkgSelectContainer}>
         <div className={classes.alignLeft}>
           {allowResidentialPackage ? (
