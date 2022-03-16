@@ -270,18 +270,16 @@ export function TdmCalculationContainer({
       : 0;
 
   const allowResidentialPackage = (() => {
-    // Only show button if one of the land uses is Residential
     const applicableLandUse = landUseRules.find(
       r =>
         r.code.startsWith("LAND_USE") && r.code !== "LAND_USE_SCHOOL" && r.value
     );
-    return projectLevel === 1 && applicableLandUse;
+    return !!(projectLevel === 1 && applicableLandUse);
   })();
 
   const allowSchoolPackage = (() => {
-    // Only show button if Parking Cash-Out strategy is available
     const triggerRule = landUseRules.filter(r => r.code === "LAND_USE_SCHOOL");
-    return projectLevel === 1 && triggerRule[0] && triggerRule[0].value;
+    return !!(projectLevel === 1 && triggerRule[0] && triggerRule[0].value);
   })();
 
   const getRuleByCode = ruleCode => {

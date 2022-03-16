@@ -90,16 +90,16 @@ const TdmCalculationWizard = props => {
       page === 2 && specificationRules.find(rule => !!rule.validationErrors);
     const isPage3AndHasErrors =
       page === 3 && targetPointRules.find(rule => !!rule.validationErrors);
-    const isPage5AndHasErrors =
-      page === 5 && strategyRules.find(rule => !!rule.validationErrors);
-    const isPage6 = Number(page) === 6;
+    const isPage4AndHasErrors =
+      page === 4 && strategyRules.find(rule => !!rule.validationErrors);
+    const isPage5 = Number(page) === 5;
 
     return !!(
       isPage1AndHasErrors ||
       isPage2AndHasErrors ||
       isPage3AndHasErrors ||
-      isPage5AndHasErrors ||
-      isPage6
+      isPage4AndHasErrors ||
+      isPage5
     );
   };
 
@@ -121,8 +121,6 @@ const TdmCalculationWizard = props => {
     const setDisplayed = loggedIn;
     return setDisplayed;
   };
-
-  const pageNumber = isLevel0 && page === 3 ? 5 : page <= 3 ? page : page - 1;
 
   const handleValidate = () => {
     const { page } = match.params;
@@ -149,18 +147,11 @@ const TdmCalculationWizard = props => {
     if (Number(pageNo) > Number(match.params.page)) {
       if (handleValidate()) {
         // Skip page 4 unless Packages are applicable
-        const nextPage =
-          Number(page) === 3 && !allowResidentialPackage && !allowSchoolPackage
-            ? 5
-            : Number(page) + 1;
+        const nextPage = Number(page) + 1;
         history.push(`/calculation/${nextPage}${projectIdParam}`);
       }
     } else {
-      // Skip page 4 unless Packages are applicable
-      const prevPage =
-        Number(page) === 5 && !allowResidentialPackage && !allowSchoolPackage
-          ? 3
-          : Number(page) - 1;
+      const prevPage = Number(page) - 1;
       history.push(`/calculation/${prevPage}${projectIdParam}`);
     }
   };
@@ -209,7 +200,7 @@ const TdmCalculationWizard = props => {
           rules={rules}
           page={page}
           onPageChange={onPageChange}
-          pageNumber={pageNumber}
+          pageNumber={page}
           setDisabledForNextNavButton={setDisabledForNextNavButton}
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
