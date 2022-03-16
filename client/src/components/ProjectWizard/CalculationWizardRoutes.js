@@ -5,7 +5,6 @@ import { Switch, Route } from "react-router-dom";
 import {
   ProjectDescriptions,
   ProjectSpecifications,
-  ProjectPackages,
   ProjectTargetPoints,
   ProjectMeasures
 } from "./WizardPages";
@@ -61,12 +60,6 @@ const CalculationWizardRoutes = ({
         />
       </Route>
       <Route path="/calculation/4/:projectId?">
-        <ProjectPackages
-          allowResidentialPackage={allowResidentialPackage}
-          allowSchoolPackage={allowSchoolPackage}
-        />
-      </Route>
-      <Route path="/calculation/5/:projectId?">
         <ProjectMeasures
           projectLevel={projectLevel}
           rules={strategyRules}
@@ -83,7 +76,7 @@ const CalculationWizardRoutes = ({
           schoolPackageSelected={schoolPackageSelected}
         />
       </Route>
-      <Route path="/calculation/6/:projectId?">
+      <Route path="/calculation/5/:projectId?">
         <ProjectSummary
           rules={rules}
           account={account}
@@ -97,7 +90,6 @@ const CalculationWizardRoutes = ({
   );
 };
 
-// TODO:
 CalculationWizardRoutes.propTypes = {
   projectDescriptionRules: PropTypes.any,
   onInputChange: PropTypes.any,

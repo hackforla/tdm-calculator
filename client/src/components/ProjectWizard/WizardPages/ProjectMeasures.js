@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
+import PackagePanel from "../PackagePanel/PackagePanel";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ResetButtons from "./ResetButtons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
   pkgSelectContainer: {
@@ -21,6 +24,27 @@ const useStyles = createUseStyles({
   alignRight: {
     gridColumn: "h-end",
     justifyContent: "flex-end"
+  },
+  packageBanner: {
+    margin: "0.5em auto",
+    padding: "0.5em 0.5em",
+    width: "34em",
+    background: "#FFFFFF",
+    border: "1px solid #040404",
+    boxSizing: "border-box",
+    boxShadow: "2px 2px 4px 2px rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  packageBannerIcon: {
+    fontSize: "24px",
+    margin: "0 0.25em",
+    color: ({ theme }) => theme.colorPrimary
+  },
+  packageBannerText: {
+    fontSize: "20px",
+    margin: ".25em"
   }
 });
 function ProjectMeasure(props) {
@@ -39,7 +63,8 @@ function ProjectMeasure(props) {
     schoolPackageSelected
   } = props;
 
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme });
 
   useEffect(() => {
     initializeStrategies();
@@ -50,8 +75,21 @@ function ProjectMeasure(props) {
       <h1 className="tdm-wizard-page-title">
         Transportation Demand Management Strategies
       </h1>
+      {(allowResidentialPackage || allowSchoolPackage) && (
+        <>
+          <div className={classes.packageBanner}>
+            <FontAwesomeIcon
+              icon={faCheckCircle}
+              className={classes.packageBannerIcon}
+            />
+            <div className={classes.packageBannerText}>
+              You qualify for a bonus package to earn 1 extra point!
+            </div>
+          </div>
+        </>
+      )}
       <div className={classes.pkgSelectContainer}>
-        <div className={classes.alignLeft}>
+        {/*  <div className={classes.alignLeft}>
           {allowResidentialPackage ? (
             <div style={{ marginRight: "1em" }}>
               <label
@@ -105,7 +143,7 @@ function ProjectMeasure(props) {
               </label>
             </div>
           ) : null}
-        </div>
+        </div> */}
 
         <ResetButtons
           className={classes.alignRight}
@@ -113,9 +151,18 @@ function ProjectMeasure(props) {
           resetProject={resetProject}
         />
       </div>
+      {projectLevel == 1 && (
+        <PackagePanel
+          rules={rules.filter(r => r.calculationPanelId == 27)}
+          residentialChecked={residentialPackageSelected()}
+          schoolChecked={schoolPackageSelected()}
+          allowResidentialPackage={allowResidentialPackage}
+          allowSchoolPackage={allowSchoolPackage}
+          onPkgSelect={onPkgSelect}
+        />
+      )}
       <RuleStrategyPanels
-        projectLevel={projectLevel}
-        rules={rules}
+        rules={rules.filter(r => r.calculationPanelId != 27)}
         onInputChange={onInputChange}
         onCommentChange={onCommentChange}
       />
