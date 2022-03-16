@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { withRouter, useLocation } from "react-router-dom";
 import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
+import ChecklistModal from "../Checklist/ChecklistModal";
 import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
@@ -169,6 +170,7 @@ const TdmCalculationWizard = props => {
   return (
     <React.Fragment>
       <TermsAndConditionsModal />
+      <ChecklistModal />
       <ContentContainer
         customSidebar={() => (
           <WizardSidebar

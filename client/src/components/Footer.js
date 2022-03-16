@@ -10,12 +10,16 @@ export const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     color: "white",
-    padding: "1em 0 1em 1em"
+    padding: "1em 1em 1em 1em"
   },
   link: {
     color: "white",
     textAlign: "center",
     margin: "0 10px"
+  },
+  linkLastChild: {
+    color: "white",
+    marginLeft: "auto"
   },
   "@media (max-width:768px)": {
     links: {
@@ -36,6 +40,9 @@ const Footer = () => {
         <div>|</div>
         <Link className={classes.link} to="/privacypolicy">
           Privacy Policy
+        </Link>
+        <Link className={classes.linkLastChild} to="/checklist">
+          Checklist
         </Link>
       </div>
     </footer>
