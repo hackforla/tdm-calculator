@@ -11,6 +11,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import About from "./components/About";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
+import TermsAndConditionsModal from "./components/TermsAndConditions/TermsAndConditionsModal";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
@@ -50,6 +51,7 @@ const App = ({
 
   return (
     <React.Fragment>
+      <TermsAndConditionsModal />
       <Header />
       <div className={classes.app} id="app-container" ref={appContainerRef}>
         <Switch>
