@@ -12,6 +12,11 @@ const useStyles = createUseStyles({
     display: "flex",
     justifyContent: "flex-end",
     margin: "42px auto"
+  },
+  close: {
+    display: "flex",
+    justifyContent: "flex-end",
+    fontSize: "30px"
   }
 });
 
@@ -31,8 +36,8 @@ const modalStyleDefaultOverrides = {
     left: "200px",
     boxSizing: "border-box",
     maxHeight: "500px",
-    width: "352px",
-    padding: "30px 30px 0px 30px",
+    width: "500px",
+    padding: "30px",
     backgroundColor: "#ffffff",
     boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)"
   }
@@ -59,7 +64,9 @@ const ChecklistModal = () => {
       style={modalStyleDefaultOverrides}
       className={classes.modal}
     >
-      <div onClick={toggleChecklistModal}>x</div>
+      <span className={classes.close} onClick={toggleChecklistModal}>
+        x
+      </span>
       <ChecklistContent />
 
       <div className={classes.modalActions}>
