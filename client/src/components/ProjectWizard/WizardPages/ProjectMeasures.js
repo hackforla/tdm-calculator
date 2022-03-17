@@ -27,15 +27,15 @@ const useStyles = createUseStyles({
   },
   packageBanner: {
     margin: "0.5em auto",
-    padding: "0.5em 0.5em",
+    padding: "1em 0em",
     width: "34em",
     background: "#FFFFFF",
-    border: "1px solid #040404",
     boxSizing: "border-box",
     boxShadow: "2px 2px 4px 2px rgba(0, 0, 0, 0.1)",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    textShadow: "0px 4px 4px rgba(0,0,0,.25)"
   },
   packageBannerIcon: {
     fontSize: "24px",

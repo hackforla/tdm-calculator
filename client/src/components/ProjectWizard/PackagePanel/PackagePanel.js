@@ -58,7 +58,7 @@ const useStyles = createUseStyles({
   calculationArea: {
     position: "absolute",
     right: "0.75em",
-    top: "0.2em",
+    top: "0.4em",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
