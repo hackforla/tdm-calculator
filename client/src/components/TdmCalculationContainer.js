@@ -295,7 +295,7 @@ export function TdmCalculationContainer({
   };
 
   const onInputChange = e => {
-    const ruleCode = e.target?.name || e.detail.name;
+    const ruleCode = (e.target && e.target.name) || e.detail.name;
     let value = e.target
       ? e.target.type === "checkbox"
         ? e.target.checked
