@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { createUseStyles } from "react-jss";
 import { withRouter } from "react-router-dom";
-import { useHistory } from "react-router";
 import Modal from "react-modal";
-import Button from "../Button/Button";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
 
@@ -16,7 +14,8 @@ const useStyles = createUseStyles({
   close: {
     display: "flex",
     justifyContent: "flex-end",
-    fontSize: "30px"
+    fontSize: "30px",
+    cursor: "pointer"
   }
 });
 
@@ -35,29 +34,21 @@ const modalStyleDefaultOverrides = {
     bottom: "auto",
     left: "200px",
     boxSizing: "border-box",
-    maxHeight: "500px",
+    maxHeight: "fit-content",
     width: "500px",
     padding: "30px",
     backgroundColor: "#ffffff",
-    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)"
+    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)",
+    borderRadius: "10px"
   }
 };
 
-const ChecklistModal = () => {
+const ChecklistModal = (checklistModalOpen, toggleChecklistModal) => {
   const classes = useStyles();
-
-  const [modalOpen, setModalOpen] = useState(true);
-  const history = useHistory();
-
-  const toggleChecklistModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  if (localStorage.getItem("checklist")) return null;
 
   return (
     <Modal
-      isOpen={modalOpen}
+      isOpen={checklistModalOpen}
       onRequestClose={toggleChecklistModal}
       shouldCloseOnOverlayClick={false}
       contentLabel="Checklist Modal"
@@ -68,24 +59,13 @@ const ChecklistModal = () => {
         x
       </span>
       <ChecklistContent />
-
-      <div className={classes.modalActions}>
-        <Button
-          onClick={e => {
-            e.preventDefault();
-            window.localStorage.setItem("checklist", "Accepted");
-            history.go(0);
-          }}
-        >
-          Accept
-        </Button>
-      </div>
     </Modal>
   );
 };
 
 ChecklistModal.propTypes = {
-  checklistModalProp: PropTypes.string
+  checklistModalProp: PropTypes.string,
+  toggleChecklistModal: PropTypes.func
 };
 
 export default withRouter(ChecklistModal);

@@ -6,7 +6,22 @@ const useStyles = createUseStyles({
     color: "#0F2940"
   },
   section: {
-    textShadow: "1px 0 0 currentColor"
+    paddingLeft: "30px",
+    fontFamily: "Calibri Bold"
+  },
+  indent: {
+    paddingLeft: "25px"
+  },
+  indentSpecial: {
+    paddingLeft: "75.5px",
+    fontFamily: "Calibri Bold"
+  },
+  bulletIndent: {
+    paddingLeft: "100px",
+    marginTop: "2px"
+  },
+  undoBold: {
+    fontFamily: "Calibri"
   }
 });
 
@@ -21,34 +36,56 @@ const ChecklistContent = () => {
         Project.
       </p>
       <div>
-        <ul>
-          <span>p.1</span>General project information
+        <article className={classes.section}>
+          p.1
+          <span className={classes.indent}>General project information</span>
+        </article>
+        <ul className={classes.bulletIndent}>
           <li>Name</li>
           <li>Address</li>
           <li>AIN/APN</li>
         </ul>
       </div>
       <div>
-        <ul>
-          <span>p.2</span>Planned floor area (sqft) for specific use types
+        <article className={classes.section}>
+          p.2
+          <span className={classes.indent}>
+            Planned floor area (sqft) for specific use types
+          </span>
+        </article>
+        <ul className={classes.bulletIndent}>
           <li>Retail</li>
           <li>Employment/Office</li>
           <li>Warehouse/Industrial</li>
           <li>Medical</li>
         </ul>
-        <ul>
+        <span className={classes.indentSpecial}>
           Planned unit types/sizes for specific use types
+        </span>
+        <ul className={classes.bulletIndent}>
           <li>Residentian (Dwelling Units)</li>
           <li>Hotel/Motel (Rooms)</li>
           <li>School (Students)</li>
-          <li>Arean/Stadium/Theatre (Seats)</li>
+          <li>Arena/Stadium/Theatre (Seats)</li>
         </ul>
       </div>
       <div>
-        <span>p.3</span>Planned number of parking spaces provided
+        <article className={classes.section}>
+          p.3
+          <span className={classes.indent}>
+            Planned number of parking spaces provided
+          </span>
+        </article>
       </div>
+      <br />
       <div>
-        <span>p.4</span>Planned TDM strategies (Optional)
+        <article className={classes.section}>
+          p.4
+          <span className={classes.indent}>
+            Planned TDM strategies{" "}
+            <span className={classes.undoBold}>(Optional)</span>
+          </span>
+        </article>
       </div>
     </>
   );

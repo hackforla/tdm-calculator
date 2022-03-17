@@ -41,7 +41,9 @@ const App = ({
   hasConfirmedTransition,
   isOpenNavConfirmModal,
   contentContainerRef,
-  appContainerRef
+  appContainerRef,
+  toggleChecklistModal,
+  checklistModalOpen
 }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
@@ -72,6 +74,8 @@ const App = ({
               hasConfirmedNavTransition={hasConfirmedTransition}
               isOpenNavConfirmModal={isOpenNavConfirmModal}
               contentContainerRef={contentContainerRef}
+              checklistModalOpen={checklistModalOpen}
+              toggleChecklistModal={toggleChecklistModal}
             />
           </Route>
 
@@ -159,7 +163,7 @@ const App = ({
           </Route>
         </Switch>
       </div>
-      <Footer />
+      <Footer toggleChecklistModal={toggleChecklistModal} />
     </React.Fragment>
   );
 };
@@ -168,7 +172,9 @@ App.propTypes = {
   hasConfirmedTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
   appContainerRef: PropTypes.object,
-  contentContainerRef: PropTypes.object
+  contentContainerRef: PropTypes.object,
+  checklistModalOpen: PropTypes.bool,
+  toggleChecklistModal: PropTypes.func
 };
 
 export default withToastProvider(App);

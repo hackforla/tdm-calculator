@@ -19,7 +19,9 @@ export const useStyles = createUseStyles({
   },
   linkLastChild: {
     color: "white",
-    marginLeft: "auto"
+    marginLeft: "auto",
+    textDecoration: "underline",
+    cursor: "pointer"
   },
   "@media (max-width:768px)": {
     links: {
@@ -28,7 +30,7 @@ export const useStyles = createUseStyles({
   }
 });
 
-const Footer = () => {
+const Footer = toggleChecklistModal => {
   const classes = useStyles();
 
   return (
@@ -41,9 +43,9 @@ const Footer = () => {
         <Link className={classes.link} to="/privacypolicy">
           Privacy Policy
         </Link>
-        <Link className={classes.linkLastChild} to="/checklist">
+        <div className={classes.linkLastChild} onClick={toggleChecklistModal}>
           Checklist
-        </Link>
+        </div>
       </div>
     </footer>
   );

@@ -29,8 +29,16 @@ const AppWrapper = () => {
   const [confirmTransition, setConfirmTransition] = useState(null);
   const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
   const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
+  const [checklistModalOpen, setChecklistModalOpen] = useState(true);
   const contentContainerRef = useRef();
   const appContainerRef = useRef();
+
+  const toggleChecklistModal = () => {
+    setChecklistModalOpen(!checklistModalOpen);
+    window.localStorage.setItem("checklist", "Accepted");
+  };
+
+  if (localStorage.getItem("checklist")) return null;
 
   const updateAccount = userAccount => {
     /* 
@@ -71,6 +79,8 @@ const AppWrapper = () => {
                 isOpenNavConfirmModal={isOpenNavConfirmModal}
                 contentContainerRef={contentContainerRef}
                 appContainerRef={appContainerRef}
+                checklistModalOpen={checklistModalOpen}
+                toggleChecklistModal={toggleChecklistModal}
               />
             </AppInsightsErrorBoundary>
           </Router>
