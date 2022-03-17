@@ -28,7 +28,7 @@ const calculate = {
 
 const bonusPackage = {
   expectedPageText: "You qualify for a bonus package!",
-  expectedPackage: "Residential Package",
+  expectedPackage: "Residential or Employment Package",
 };
 
 const strategies = {
@@ -55,7 +55,7 @@ describe("Residential User Flow", () => {
 
     cy.get("#PROJECT_NAME").type(projectInfo.name);
     cy.get("#PROJECT_ADDRESS").type(projectInfo.address);
-    cy.get("#APN").type(projectInfo.ain);
+    cy.get("#APN").type(projectInfo.ain).type("/t");
     cy.goToNextPage();
   });
 
