@@ -19,11 +19,12 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri"
   },
   boxContent: {
-    margin: ".1em",
+    margin: "0 0.1em",
     fontFamily: "Calibri",
     fontWeight: "700",
     fontSize: "12px",
-    lineHeight: "17px"
+    lineHeight: "17px",
+    padding: "0.2em 0.2em 0.05em 0.2em"
   },
   caption: {
     fontSize: "16px",
@@ -33,8 +34,9 @@ const useStyles = createUseStyles({
   },
   table1: {
     width: "90%",
-    margin: "1em",
-    fontSize: "0.8em"
+    margin: "0 1em 1em 1em",
+    fontSize: "0.8em",
+    padding: "0.1em 0em 0.5em 0.1em"
   },
   col1: {
     padding: "0.2em 0 0.2em 0.2em",
