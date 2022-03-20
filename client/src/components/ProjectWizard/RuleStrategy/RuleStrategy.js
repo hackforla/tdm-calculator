@@ -214,6 +214,7 @@ const RuleStrategy = ({
               disabled={!display}
             />
           </div>
+
           {possibleAndEarnedPointsContainers()}
         </div>
       ) : dataType === "choice" ? (
