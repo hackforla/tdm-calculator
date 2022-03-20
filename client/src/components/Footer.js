@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
+import PropTypes from "prop-types";
 
 export const useStyles = createUseStyles({
   footer: {
@@ -30,7 +31,7 @@ export const useStyles = createUseStyles({
   }
 });
 
-const Footer = toggleChecklistModal => {
+const Footer = ({ toggleChecklistModal }) => {
   const classes = useStyles();
 
   return (
@@ -49,6 +50,10 @@ const Footer = toggleChecklistModal => {
       </div>
     </footer>
   );
+};
+
+Footer.propTypes = {
+  toggleChecklistModal: PropTypes.func
 };
 
 export default Footer;

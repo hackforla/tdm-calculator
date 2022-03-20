@@ -42,14 +42,14 @@ const App = ({
   isOpenNavConfirmModal,
   contentContainerRef,
   appContainerRef,
-  toggleChecklistModal,
-  checklistModalOpen
+  checklistModalOpen,
+  toggleChecklistModal
 }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const account = userContext.account;
 
-  console.error("account: " + JSON.stringify(account, null, 2));
+  // console.error("account: " + JSON.stringify(account, null, 2));
 
   return (
     <React.Fragment>

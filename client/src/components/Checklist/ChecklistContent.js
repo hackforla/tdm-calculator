@@ -9,6 +9,11 @@ const useStyles = createUseStyles({
     paddingLeft: "30px",
     fontFamily: "Calibri Bold"
   },
+  sectionLast: {
+    paddingLeft: "30px",
+    fontFamily: "Calibri Bold",
+    marginBottom: "5px"
+  },
   indent: {
     paddingLeft: "25px"
   },
@@ -79,7 +84,7 @@ const ChecklistContent = () => {
       </div>
       <br />
       <div>
-        <article className={classes.section}>
+        <article className={classes.sectionLast}>
           p.4
           <span className={classes.indent}>
             Planned TDM strategies{" "}
@@ -87,6 +92,15 @@ const ChecklistContent = () => {
           </span>
         </article>
       </div>
+      <br />
+      <p>
+        Check LAMC Section 12.26 J.3(b)(3) of the{" "}
+        <a href="https://planning.lacity.org/odocument/1dc924ce-b94a-403b-afe0-17ba33b3dbe1/Draft_TDM_Ordinance.pdf">
+          {" "}
+          Draft Revised TDM Ordinance
+        </a>{" "}
+        for exemption details.
+      </p>
     </>
   );
 };

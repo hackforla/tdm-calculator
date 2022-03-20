@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import UserContext from "./contexts/UserContext";
 import App from "./App";
@@ -33,13 +33,6 @@ const AppWrapper = () => {
   const contentContainerRef = useRef();
   const appContainerRef = useRef();
 
-  const toggleChecklistModal = () => {
-    setChecklistModalOpen(!checklistModalOpen);
-    window.localStorage.setItem("checklist", "Accepted");
-  };
-
-  if (localStorage.getItem("checklist")) return null;
-
   const updateAccount = userAccount => {
     /* 
       Storing user account object in Local Storage as well as state allows the
@@ -57,6 +50,22 @@ const AppWrapper = () => {
       setHasConfirmedTransition: setHasConfirmedTransition
     }));
     setIsOpenNavConfirmModal(!isOpenNavConfirmModal);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("checklist")) {
+      setChecklistModalOpen(false);
+    } else {
+      window.localStorage.setItem("checklist", "Accepted");
+    }
+  }, []);
+
+  const toggleChecklistModal = () => {
+    if (checklistModalOpen === false) {
+      setChecklistModalOpen(true);
+    } else {
+      setChecklistModalOpen(false);
+    }
   };
 
   return (

@@ -43,14 +43,14 @@ const modalStyleDefaultOverrides = {
   }
 };
 
-const ChecklistModal = (checklistModalOpen, toggleChecklistModal) => {
+const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
   const classes = useStyles();
 
   return (
     <Modal
       isOpen={checklistModalOpen}
       onRequestClose={toggleChecklistModal}
-      shouldCloseOnOverlayClick={false}
+      shouldCloseOnOverlayClick={true}
       contentLabel="Checklist Modal"
       style={modalStyleDefaultOverrides}
       className={classes.modal}
@@ -64,7 +64,7 @@ const ChecklistModal = (checklistModalOpen, toggleChecklistModal) => {
 };
 
 ChecklistModal.propTypes = {
-  checklistModalProp: PropTypes.string,
+  checklistModalOpen: PropTypes.bool,
   toggleChecklistModal: PropTypes.func
 };
 
