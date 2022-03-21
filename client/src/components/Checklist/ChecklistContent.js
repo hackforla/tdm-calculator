@@ -3,27 +3,45 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   title: {
-    color: "#0F2940"
+    color: "#0F2940",
+    fontFamily: "Calibri Bold",
+    fontSize: "18px",
+    margin: "2px"
+  },
+  text: {
+    color: "#0F2940",
+    fontSize: "12px"
   },
   section: {
     paddingLeft: "30px",
-    fontFamily: "Calibri Bold"
+    fontFamily: "Roboto",
+    fontWeight: "bold",
+    fontSize: "10px"
   },
   sectionLast: {
     paddingLeft: "30px",
-    fontFamily: "Calibri Bold",
+    fontFamily: "Roboto",
+    fontWeight: "bold",
+    fontSize: "10px",
     marginBottom: "5px"
   },
   indent: {
-    paddingLeft: "25px"
+    paddingLeft: "25px",
+    fontFamily: "Roboto",
+    fontWeight: "bold",
+    fontSize: "10px"
   },
   indentSpecial: {
-    paddingLeft: "75.5px",
-    fontFamily: "Calibri Bold"
+    paddingLeft: "68px",
+    fontFamily: "Roboto",
+    fontWeight: "bold",
+    fontSize: "10px"
   },
   bulletIndent: {
     paddingLeft: "100px",
-    marginTop: "2px"
+    marginTop: "2px",
+    fontFamily: "Roboto",
+    fontSize: "10px"
   },
   undoBold: {
     fontFamily: "Calibri"
@@ -34,9 +52,9 @@ const ChecklistContent = () => {
   const classes = useStyles();
   return (
     <>
-      <h1 className={classes.title}>Checklist</h1>
+      <h3 className={classes.title}>Checklist</h3>
       <br />
-      <p>
+      <p className={classes.text}>
         Listed below are the documents that you may need when using Create
         Project.
       </p>
@@ -93,7 +111,7 @@ const ChecklistContent = () => {
         </article>
       </div>
       <br />
-      <p>
+      <p className={classes.text}>
         Check LAMC Section 12.26 J.3(b)(3) of the{" "}
         <a href="https://planning.lacity.org/odocument/1dc924ce-b94a-403b-afe0-17ba33b3dbe1/Draft_TDM_Ordinance.pdf">
           {" "}

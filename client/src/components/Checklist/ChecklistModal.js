@@ -14,14 +14,14 @@ const useStyles = createUseStyles({
   close: {
     display: "flex",
     justifyContent: "flex-end",
-    fontSize: "30px",
+    fontSize: "25px",
     cursor: "pointer"
   }
 });
 
 const modalStyleDefaultOverrides = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    backgroundColor: "rgba(33, 33, 33, 0.05)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -35,8 +35,8 @@ const modalStyleDefaultOverrides = {
     left: "200px",
     boxSizing: "border-box",
     maxHeight: "fit-content",
-    width: "500px",
-    padding: "30px",
+    width: "352px",
+    padding: "25px",
     backgroundColor: "#ffffff",
     boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)",
     borderRadius: "10px"
