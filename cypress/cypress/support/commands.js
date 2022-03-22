@@ -73,6 +73,12 @@ Cypress.Commands.add("goToStart", () => {
   cy.visit("/calculation");
 });
 
+Cypress.Commands.add("goToStart", () => {
+  // skip Terms and Conditions dialog
+  window.localStorage.setItem("checklist", "Accepted");
+  cy.visit("/calculation");
+});
+
 Cypress.Commands.add("goToNextPage", () => {
   cy.findByTestId("rightNavArrow").click();
 });

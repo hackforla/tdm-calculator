@@ -58,7 +58,9 @@ export function TdmCalculationContainer({
   hasConfirmedNavTransition,
   isOpenNavConfirmModal,
   setLoggedInAccount,
-  contentContainerRef
+  contentContainerRef,
+  checklistModalOpen,
+  toggleChecklistModal
 }) {
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
@@ -529,6 +531,8 @@ export function TdmCalculationContainer({
           projectIsValid={projectIsValid}
           dateModified={dateModified}
           contentContainerRef={contentContainerRef}
+          checklistModalOpen={checklistModalOpen}
+          toggleChecklistModal={toggleChecklistModal}
         />
       ) : (
         <TdmCalculation
@@ -576,7 +580,9 @@ TdmCalculationContainer.propTypes = {
   hasConfirmedNavTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
   setLoggedInAccount: PropTypes.func,
-  contentContainerRef: PropTypes.object
+  contentContainerRef: PropTypes.object,
+  checklistModalOpen: PropTypes.bool,
+  toggleChecklistModal: PropTypes.func
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

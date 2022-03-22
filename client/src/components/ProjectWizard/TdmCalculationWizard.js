@@ -2,6 +2,8 @@ import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { withRouter, useLocation } from "react-router-dom";
+import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
+import ChecklistModal from "../Checklist/ChecklistModal";
 import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
@@ -32,7 +34,9 @@ const TdmCalculationWizard = props => {
     formIsDirty,
     projectIsValid,
     dateModified,
-    contentContainerRef
+    contentContainerRef,
+    checklistModalOpen,
+    toggleChecklistModal
   } = props;
   const context = useContext(ToastContext);
   const page = Number(match.params.page || 1);
@@ -158,6 +162,11 @@ const TdmCalculationWizard = props => {
 
   return (
     <React.Fragment>
+      <TermsAndConditionsModal />
+      <ChecklistModal
+        checklistModalOpen={checklistModalOpen}
+        toggleChecklistModal={toggleChecklistModal}
+      />
       <ContentContainer
         customSidebar={() => (
           <WizardSidebar
@@ -259,7 +268,9 @@ TdmCalculationWizard.propTypes = {
   schoolPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
-  dateModified: PropTypes.string
+  dateModified: PropTypes.string,
+  checklistModalOpen: PropTypes.bool,
+  toggleChecklistModal: PropTypes.func
 };
 
 export default withRouter(TdmCalculationWizard);
