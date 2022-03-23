@@ -8,21 +8,15 @@ import { components } from "react-select";
 
 const useStyles = createUseStyles({
   textInput: {
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1",
+    flex: "1 1 50%",
     border: "1px solid #e0e0e0"
   },
   textInputInvalid: {
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1",
+    composes: "$textInput",
     border: "1px dashed red"
   },
   textInputInvalidLocal: {
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1",
+    composes: "$textInput",
     border: "1px solid red"
   }
 });
@@ -52,6 +46,9 @@ const beforeMaskedStateChange = newState => {
 };
 
 const Input = props => {
+  const theme = useTheme();
+  const classes = useStyles({ theme });
+
   if (props.isHidden) {
     return <components.Input {...props} />;
   }
@@ -63,25 +60,48 @@ const Input = props => {
   };
 
   return (
-    <InputMask
-      type="text"
-      mask={mask}
-      value={props.value || ""}
-      onChange={props.onChange}
-      onBlur={handleBlur}
-      name={props.code}
-      id={props.code}
-      maxLength={props.maxStringLength}
-      autoComplete="off"
-      placeholder={value.length ? "Add another" : null}
-      beforeMaskedValueChange={beforeMaskedStateChange}
+    <div
+      className={
+        props.selectProps.hasError
+          ? classes.textInputInvalidLocal
+          : props.selectProps.validationErrors
+          ? classes.textInputInvalid
+          : classes.textInput
+      }
       style={{
-        border: 0,
-        width: "100%",
-        padding: "0.5em 1em",
-        margin: 0
+        // ValueContainer is grid when there's no value, and flex when there
+        // is value
+        gridArea: "2/1/2/3",
+        flex: "0 0 calc(100% - 3px)",
+        width: "calc(100% - 3px)"
       }}
-    />
+    >
+      <InputMask
+        type="text"
+        mask={mask}
+        value={props.value || ""}
+        onChange={props.onChange}
+        onBlur={handleBlur}
+        name={props.code}
+        id={props.code}
+        maxLength={props.maxStringLength}
+        autoComplete="off"
+        placeholder={value.length ? "Add another" : null}
+        beforeMaskedValueChange={beforeMaskedStateChange}
+      >
+        {inputProps => (
+          <input
+            {...inputProps}
+            className={classes.textInput}
+            style={{
+              margin: 0,
+              width: "calc(100% - 2 * 0.65rem)",
+              border: 0
+            }}
+          />
+        )}
+      </InputMask>
+    </div>
   );
 };
 Input.propTypes = {
@@ -158,24 +178,26 @@ const customStyles = {
   },
   container: base => ({
     ...base,
-    boxSizing: "inherit",
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1",
-    padding: "0 0.65em",
-    margin: "0 1px"
+    width: "300px",
+    border: 0
   }),
+
   control: base => ({
     ...base,
     minHeight: "unset",
     margin: 0,
     border: 0
   }),
+  input: base => ({
+    ...base,
+    width: "100%"
+  }),
   valueContainer: base => ({
     ...base,
     padding: 0,
     margin: 0,
-    border: 0
+    border: 0,
+    width: "100%"
   })
 };
 

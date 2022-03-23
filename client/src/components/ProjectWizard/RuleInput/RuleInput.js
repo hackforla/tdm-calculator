@@ -26,11 +26,13 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   input: {
+    boxSizing: "border-box",
     padding: "0.1em",
     width: "5.5em",
     textAlign: "right"
   },
   inputInvalid: {
+    boxSizing: "border-box",
     padding: "0.1em",
     width: "5.5em",
     textAlign: "right",
@@ -84,11 +86,13 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   textInput: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
   },
   textInputInvalid: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
@@ -103,12 +107,14 @@ const useStyles = createUseStyles({
     opacity: "0.5"
   },
   textarea: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
     minHeight: "5em"
   },
   textareaInvalid: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
