@@ -52,11 +52,24 @@ const Input = props => {
   if (props.isHidden) {
     return <components.Input {...props} />;
   }
-  const { mask, value, setHasError, onError } = props.selectProps;
+  const {
+    mask,
+    value,
+    inputValue,
+    validateInput,
+    checkAndCreateTag,
+    resetAINError
+  } = props.selectProps;
 
   const handleBlur = () => {
-    setHasError(false);
-    onError(null);
+    resetAINError();
+
+    const validLength = matchLength(inputValue);
+    if (validLength === 12) {
+      checkAndCreateTag();
+    } else {
+      validateInput();
+    }
   };
 
   return (
@@ -324,9 +337,10 @@ const MultiInput = ({
       styles={customStyles}
       mask={mask}
       hasError={hasError}
-      setHasError={setHasError}
-      onError={onError}
       validationErrors={validationErrors}
+      validateInput={validateInput}
+      checkAndCreateTag={checkAndCreateTag}
+      resetAINError={resetAINError}
     />
   );
 };
