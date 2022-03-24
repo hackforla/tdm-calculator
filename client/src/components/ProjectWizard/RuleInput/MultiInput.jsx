@@ -232,6 +232,31 @@ const MultiInput = ({
   const [hasError, setHasError] = useState(false);
   const valueOptions = toOptions(value);
 
+  const resetAINError = () => {
+    setHasError(false);
+    onError(null);
+  };
+  const checkAndCreateTag = () => {
+    // don't create duplicate tag
+    const indexValue = valueOptions.findIndex(
+      option => option.value === inputValue
+    );
+    const isDuplicate = indexValue !== -1;
+    const newValue = !isDuplicate
+      ? [...valueOptions, createOption(inputValue)]
+      : valueOptions;
+
+    handleChange(newValue);
+    setInputValue("");
+
+    resetAINError();
+  };
+  const validateInput = () => {
+    setShowValidationErrors(true);
+    setHasError(true);
+    onError("Each AIN/APN number needs ten digits");
+  };
+
   const handleChange = value => {
     onChange(
       new CustomEvent("newTag", {
@@ -254,34 +279,27 @@ const MultiInput = ({
 
     if (validLength === 12) {
       // create tag if pressing any key after input is full (except backspace)
-      if (event.key !== "Backspace") {
-        // don't create duplicate tag
-        const indexValue = valueOptions.findIndex(
-          option => option.value === inputValue
-        );
-        const isDuplicate = indexValue !== -1;
-        const newValue = !isDuplicate
-          ? [...valueOptions, createOption(inputValue)]
-          : valueOptions;
-
-        handleChange(newValue);
-        setInputValue("");
-
-        setHasError(false);
-        onError(null);
-
-        event.preventDefault();
+      switch (event.key) {
+        case "Backspace":
+          // let backspace to the default thing
+          break;
+        default:
+          checkAndCreateTag();
+          event.preventDefault();
       }
     } else {
       // display error if input is incomplete
       switch (event.key) {
         case "Enter":
         case ",":
-          setShowValidationErrors(true);
-          setHasError(true);
-          onError("Each AIN/APN number needs ten digits");
-
+          validateInput();
           event.preventDefault();
+          break;
+        case "Tab":
+          validateInput();
+          break;
+        default:
+          resetAINError();
       }
     }
   };
