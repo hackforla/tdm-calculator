@@ -158,7 +158,8 @@ const customStyles = {
     const allValid = validLength === 12;
     const style = {
       ...base,
-      marginRight: "0.5em",
+      marginLeft: "0.5em",
+      marginBottom: "0.5em",
       borderRadius: "1em",
       paddingLeft: "0.2em",
       boxShadow: "0px 1px 4px #5C5E60"
