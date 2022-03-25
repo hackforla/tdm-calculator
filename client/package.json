@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-client",
-  "version": "0.2.35",
+  "version": "0.2.36",
   "private": true,
   "proxy": "http://localhost:5000",
   "scripts": {
@@ -47,6 +47,7 @@
     "react-modal": "^3.14.3",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^4.0.3",
+    "react-select": "^5.2.2",
     "react-string-replace": "^0.4.4",
     "react-tooltip": "^4.2.21",
     "yup": "^0.32.11"

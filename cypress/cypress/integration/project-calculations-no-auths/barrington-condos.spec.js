@@ -28,7 +28,7 @@ describe("Barrington Condos", () => {
 
     cy.get("#PROJECT_NAME").type(p.projectName);
     cy.findByTestId("PROJECT_ADDRESS").type(p.address);
-    cy.findByTestId("APN").type(p.ain);
+    cy.get("#APN").type(p.ain).type("\t");
     cy.goToNextPage();
   });
 
@@ -47,7 +47,7 @@ describe("Barrington Condos", () => {
 
   it("displays bonus package (page 4)", () => {
     cy.findByText("You qualify for a bonus package!");
-    cy.findByText("Residential Package");
+    cy.findByText("Residential or Employment Package");
     cy.goToNextPage();
   });
 

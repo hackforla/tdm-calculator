@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
-import InputMask from "react-input-mask";
+import MultiInput from "./MultiInput";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleInputLabel from "./RuleInputLabel";
 
@@ -26,11 +26,13 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   input: {
+    boxSizing: "border-box",
     padding: "0.1em",
     width: "5.5em",
     textAlign: "right"
   },
   inputInvalid: {
+    boxSizing: "border-box",
     padding: "0.1em",
     width: "5.5em",
     textAlign: "right",
@@ -84,11 +86,13 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   textInput: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
   },
   textInputInvalid: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
@@ -103,12 +107,14 @@ const useStyles = createUseStyles({
     opacity: "0.5"
   },
   textarea: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
     minHeight: "5em"
   },
   textareaInvalid: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
@@ -156,6 +162,7 @@ const RuleInput = ({
   // user first touches the input field to display the text of the error message.
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
+  const [inputError, setInputError] = useState(null);
 
   const onInputChange = e => {
     setShowValidationErrors(true);
@@ -164,6 +171,10 @@ const RuleInput = ({
 
   const onBlur = () => {
     setShowValidationErrors(true);
+  };
+
+  const onInputError = error => {
+    setInputError(error);
   };
 
   return (
@@ -321,22 +332,14 @@ const RuleInput = ({
                 autoComplete="off"
               />
             ) : (
-              <InputMask
-                type="text"
-                autoFocus={autoFocus}
+              <MultiInput
+                code={code}
+                value={value}
+                validationErrors={validationErrors}
                 mask={mask}
-                className={
-                  validationErrors
-                    ? classes.textInputInvalid
-                    : classes.textInput
-                }
-                value={value || ""}
                 onChange={onInputChange}
-                name={code}
-                id={code}
-                data-testid={code}
-                maxLength={maxStringLength}
-                autoComplete="off"
+                onError={onInputError}
+                setShowValidationErrors={setShowValidationErrors}
               />
             )}
           </div>
@@ -357,7 +360,14 @@ const RuleInput = ({
           </div>
         )
       ) : null}
-      {display && validationErrors && showValidationErrors ? (
+      {display && inputError && showValidationErrors ? (
+        <div className={classes.rowContainer}>
+          <div className={classes.textInputLabel}></div>
+          <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
+            {inputError}
+          </div>
+        </div>
+      ) : display && validationErrors && showValidationErrors ? (
         <div className={classes.rowContainer}>
           <div className={classes.textInputLabel}></div>
           <div className={clsx(classes.textInputLabel, classes.errorLabel)}>

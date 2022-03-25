@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
+import PropTypes from "prop-types";
 
 export const useStyles = createUseStyles({
   footer: {
@@ -10,12 +11,18 @@ export const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     color: "white",
-    padding: "1em 0 1em 1em"
+    padding: "1em 1em 1em 1em"
   },
   link: {
     color: "white",
     textAlign: "center",
     margin: "0 10px"
+  },
+  linkLastChild: {
+    color: "white",
+    marginLeft: "auto",
+    textDecoration: "underline",
+    cursor: "pointer"
   },
   "@media (max-width:768px)": {
     links: {
@@ -24,7 +31,7 @@ export const useStyles = createUseStyles({
   }
 });
 
-const Footer = () => {
+const Footer = ({ toggleChecklistModal }) => {
   const classes = useStyles();
 
   return (
@@ -37,9 +44,16 @@ const Footer = () => {
         <Link className={classes.link} to="/privacypolicy">
           Privacy Policy
         </Link>
+        <div className={classes.linkLastChild} onClick={toggleChecklistModal}>
+          Checklist
+        </div>
       </div>
     </footer>
   );
+};
+
+Footer.propTypes = {
+  toggleChecklistModal: PropTypes.func
 };
 
 export default Footer;

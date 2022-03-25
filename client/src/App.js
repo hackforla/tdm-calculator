@@ -11,6 +11,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import About from "./components/About";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
+import TermsAndConditionsModal from "./components/TermsAndConditions/TermsAndConditionsModal";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
@@ -40,16 +41,19 @@ const App = ({
   hasConfirmedTransition,
   isOpenNavConfirmModal,
   contentContainerRef,
-  appContainerRef
+  appContainerRef,
+  checklistModalOpen,
+  toggleChecklistModal
 }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const account = userContext.account;
 
-  console.error("account: " + JSON.stringify(account, null, 2));
+  // console.error("account: " + JSON.stringify(account, null, 2));
 
   return (
     <React.Fragment>
+      <TermsAndConditionsModal />
       <Header />
       <div className={classes.app} id="app-container" ref={appContainerRef}>
         <Switch>
@@ -70,6 +74,8 @@ const App = ({
               hasConfirmedNavTransition={hasConfirmedTransition}
               isOpenNavConfirmModal={isOpenNavConfirmModal}
               contentContainerRef={contentContainerRef}
+              checklistModalOpen={checklistModalOpen}
+              toggleChecklistModal={toggleChecklistModal}
             />
           </Route>
 
@@ -157,7 +163,7 @@ const App = ({
           </Route>
         </Switch>
       </div>
-      <Footer />
+      <Footer toggleChecklistModal={toggleChecklistModal} />
     </React.Fragment>
   );
 };
@@ -166,7 +172,9 @@ App.propTypes = {
   hasConfirmedTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
   appContainerRef: PropTypes.object,
-  contentContainerRef: PropTypes.object
+  contentContainerRef: PropTypes.object,
+  checklistModalOpen: PropTypes.bool,
+  toggleChecklistModal: PropTypes.func
 };
 
 export default withToastProvider(App);
