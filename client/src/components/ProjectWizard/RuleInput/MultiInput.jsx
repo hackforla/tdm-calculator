@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 
@@ -8,21 +8,15 @@ import { components } from "react-select";
 
 const useStyles = createUseStyles({
   textInput: {
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1",
+    flex: "1 1 50%",
     border: "1px solid #e0e0e0"
   },
   textInputInvalid: {
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1",
+    composes: "$textInput",
     border: "1px dashed red"
   },
   textInputInvalidLocal: {
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1",
+    composes: "$textInput",
     border: "1px solid red"
   }
 });
@@ -52,29 +46,75 @@ const beforeMaskedStateChange = newState => {
 };
 
 const Input = props => {
+  const theme = useTheme();
+  const classes = useStyles({ theme });
+
   if (props.isHidden) {
     return <components.Input {...props} />;
   }
-  const { mask, value } = props.selectProps;
+  const {
+    mask,
+    value,
+    inputValue,
+    validateInput,
+    checkAndCreateTag,
+    resetAINError
+  } = props.selectProps;
+
+  const handleBlur = () => {
+    resetAINError();
+
+    const validLength = matchLength(inputValue);
+    if (validLength === 12) {
+      checkAndCreateTag();
+    } else {
+      validateInput();
+    }
+  };
+
   return (
-    <InputMask
-      type="text"
-      mask={mask}
-      value={props.value || ""}
-      onChange={props.onChange}
-      name={props.code}
-      id={props.code}
-      maxLength={props.maxStringLength}
-      autoComplete="off"
-      placeholder={value.length ? "Add another" : null}
-      beforeMaskedValueChange={beforeMaskedStateChange}
+    <div
+      className={
+        props.selectProps.hasError
+          ? classes.textInputInvalidLocal
+          : props.selectProps.validationErrors
+          ? classes.textInputInvalid
+          : classes.textInput
+      }
       style={{
-        border: 0,
-        width: "100%",
-        padding: "0.5em 1em",
-        margin: 0
+        // ValueContainer is grid when there's no value, and flex when there
+        // is value
+        gridArea: "2/1/2/3",
+        flex: "0 0 calc(100% - 3px)",
+        width: "calc(100% - 3px)"
       }}
-    />
+    >
+      <InputMask
+        type="text"
+        mask={mask}
+        value={props.value || ""}
+        onChange={props.onChange}
+        onBlur={handleBlur}
+        name={props.code}
+        id={props.code}
+        maxLength={props.maxStringLength}
+        autoComplete="off"
+        placeholder={value.length ? "Add another" : null}
+        beforeMaskedValueChange={beforeMaskedStateChange}
+      >
+        {inputProps => (
+          <input
+            {...inputProps}
+            className={classes.textInput}
+            style={{
+              margin: 0,
+              width: "calc(100% - 2 * 0.65rem)",
+              border: 0
+            }}
+          />
+        )}
+      </InputMask>
+    </div>
   );
 };
 Input.propTypes = {
@@ -131,7 +171,8 @@ const customStyles = {
     const allValid = validLength === 12;
     const style = {
       ...base,
-      marginRight: "0.5em",
+      marginLeft: "0.5em",
+      marginBottom: "0.5em",
       borderRadius: "1em",
       paddingLeft: "0.2em",
       boxShadow: "0px 1px 4px #5C5E60"
@@ -151,24 +192,26 @@ const customStyles = {
   },
   container: base => ({
     ...base,
-    boxSizing: "inherit",
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1",
-    padding: "0 0.65em",
-    margin: "0 1px"
+    width: "300px",
+    border: 0
   }),
+
   control: base => ({
     ...base,
     minHeight: "unset",
     margin: 0,
     border: 0
   }),
+  input: base => ({
+    ...base,
+    width: "100%"
+  }),
   valueContainer: base => ({
     ...base,
     padding: 0,
     margin: 0,
-    border: 0
+    border: 0,
+    width: "100%"
   })
 };
 
@@ -192,7 +235,8 @@ const MultiInput = ({
   validationErrors,
   mask,
   onChange,
-  onError
+  onError,
+  setShowValidationErrors
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -201,33 +245,32 @@ const MultiInput = ({
   const [hasError, setHasError] = useState(false);
   const valueOptions = toOptions(value);
 
-  const validateTags = useCallback(values => {
+  const resetAINError = () => {
     setHasError(false);
     onError(null);
+  };
+  const checkAndCreateTag = () => {
+    // don't create duplicate tag
+    const indexValue = valueOptions.findIndex(
+      option => option.value === inputValue
+    );
+    const isDuplicate = indexValue !== -1;
+    const newValue = !isDuplicate
+      ? [...valueOptions, createOption(inputValue)]
+      : valueOptions;
 
-    values.some(value => {
-      const validLength = matchLength(value);
-      if (validLength !== 12) {
-        setHasError(true);
-        onError("Each AIN/APN number needs ten digits");
-        return true;
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    handleChange(newValue);
+    setInputValue("");
 
-  useEffect(() => {
-    if (!value) return;
-    validateTags(value.split(","));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [validateTags]);
+    resetAINError();
+  };
+  const validateInput = () => {
+    setShowValidationErrors(true);
+    setHasError(true);
+    onError("Each AIN/APN number needs ten digits");
+  };
 
   const handleChange = value => {
-    validateTags(
-      value.map(tag => {
-        return tag.value;
-      })
-    );
     onChange(
       new CustomEvent("newTag", {
         detail: {
@@ -247,34 +290,30 @@ const MultiInput = ({
     // don't create tag if no input
     if (validLength === 0) return;
 
-    // don't add duplicate tag
-    const indexValue = valueOptions.findIndex(
-      option => option.value === inputValue
-    );
-    const isDuplicate = indexValue !== -1;
-    const newValue = !isDuplicate
-      ? [...valueOptions, createOption(inputValue)]
-      : valueOptions;
-
-    // do create tag if pressing any key after input is full (except backspace)
-    if (validLength === 12 && event.key !== "Backspace") {
-      //console.log("call handleChange");
-      handleChange(newValue);
-
-      setInputValue("");
-      event.preventDefault();
-      return;
-    }
-
-    // do create tag if pressing one of the create tag keys
-    switch (event.key) {
-      case "Enter":
-      case "Tab":
-      case ",":
-        handleChange(newValue);
-
-        setInputValue("");
-        event.preventDefault();
+    if (validLength === 12) {
+      // create tag if pressing any key after input is full (except backspace)
+      switch (event.key) {
+        case "Backspace":
+          // let backspace to the default thing
+          break;
+        default:
+          checkAndCreateTag();
+          event.preventDefault();
+      }
+    } else {
+      // display error if input is incomplete
+      switch (event.key) {
+        case "Enter":
+        case ",":
+          validateInput();
+          event.preventDefault();
+          break;
+        case "Tab":
+          validateInput();
+          break;
+        default:
+          resetAINError();
+      }
     }
   };
 
@@ -299,6 +338,9 @@ const MultiInput = ({
       mask={mask}
       hasError={hasError}
       validationErrors={validationErrors}
+      validateInput={validateInput}
+      checkAndCreateTag={checkAndCreateTag}
+      resetAINError={resetAINError}
     />
   );
 };
@@ -308,7 +350,8 @@ MultiInput.propTypes = {
   validationErrors: PropTypes.array,
   mask: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  onError: PropTypes.func.isRequired
+  onError: PropTypes.func.isRequired,
+  setShowValidationErrors: PropTypes.func.isRequired
 };
 
 export default MultiInput;
