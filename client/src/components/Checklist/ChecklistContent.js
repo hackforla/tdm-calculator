@@ -5,46 +5,43 @@ const useStyles = createUseStyles({
   title: {
     color: "#0F2940",
     fontFamily: "Calibri Bold",
-    fontSize: "18px",
+    fontSize: "24px",
     margin: "2px"
   },
   text: {
     color: "#0F2940",
-    fontSize: "12px"
+    fontSize: "18px"
   },
   section: {
     paddingLeft: "30px",
-    fontFamily: "Roboto",
-    fontWeight: "bold",
-    fontSize: "10px"
+    fontFamily: "calibri bold",
+    fontSize: "16px"
   },
   sectionLast: {
     paddingLeft: "30px",
-    fontFamily: "Roboto",
-    fontWeight: "bold",
-    fontSize: "10px",
+    fontFamily: "calibri bold",
+    fontSize: "16px",
     marginBottom: "5px"
   },
   indent: {
     paddingLeft: "25px",
-    fontFamily: "Roboto",
-    fontWeight: "bold",
-    fontSize: "10px"
+    fontFamily: "calibri bold",
+    fontSize: "16px"
   },
   indentSpecial: {
     paddingLeft: "68px",
-    fontFamily: "Roboto",
-    fontWeight: "bold",
-    fontSize: "10px"
+    fontFamily: "calibri bold",
+    fontSize: "16px"
   },
   bulletIndent: {
     paddingLeft: "100px",
     marginTop: "2px",
-    fontFamily: "Roboto",
-    fontSize: "10px"
+    fontFamily: "Calibri",
+    fontSize: "16px"
   },
   undoBold: {
-    fontFamily: "Calibri"
+    fontFamily: "Calibri",
+    fontWeight: "normal"
   }
 });
 

@@ -21,11 +21,11 @@ const useStyles = createUseStyles({
 
 const modalStyleDefaultOverrides = {
   overlay: {
-    backgroundColor: "rgba(33, 33, 33, 0.05)",
+    backgroundColor: "rgba(15, 41, 64, 0.4)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 100
+    zIndex: "auto"
   },
   content: {
     position: "static",
@@ -35,7 +35,7 @@ const modalStyleDefaultOverrides = {
     left: "200px",
     boxSizing: "border-box",
     maxHeight: "fit-content",
-    width: "352px",
+    width: "500px",
     padding: "25px",
     backgroundColor: "#ffffff",
     boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)",

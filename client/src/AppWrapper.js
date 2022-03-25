@@ -53,18 +53,24 @@ const AppWrapper = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("checklist")) {
-      setChecklistModalOpen(false);
-    } else {
-      window.localStorage.setItem("checklist", "Accepted");
+    if (localStorage.getItem("termsAndConditions")) {
+      if (localStorage.getItem("checklist")) {
+        setChecklistModalOpen(false);
+      }
+      if (localStorage.getItem("checklist") === false) {
+        setChecklistModalOpen(true);
+        window.localStorage.setItem("checklist", "Accepted");
+      }
     }
   }, []);
 
   const toggleChecklistModal = () => {
     if (checklistModalOpen === false) {
       setChecklistModalOpen(true);
+      window.localStorage.removeItem("checklist");
     } else {
       setChecklistModalOpen(false);
+      window.localStorage.setItem("checklist", "Accepted");
     }
   };
 
