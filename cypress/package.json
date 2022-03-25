@@ -1,7 +1,7 @@
 {
   "name": "tdm-calculator-cypress",
-  "version": "0.2.25",
-  "description": "Traffic Data Management Calculator",
+  "version": "0.2.36",
+  "description": "Traffic Data Management Calculator Tests",
   "repository": {
     "type": "git",
     "url": "https://github.com/hackforla/tdm-calculator"
