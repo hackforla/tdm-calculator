@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import ProjectInfo from "./ProjectInfo";
 import { getRule } from "../../helpers";
+import ProjectInfoList from "./ProjectInfoList";
 
 const useStyles = createUseStyles({
   projectInfoContainer: {
@@ -49,7 +50,7 @@ const ProjectInfoContainer = props => {
   const buildingPermit = getRule(rules, "BUILDING_PERMIT");
   const caseNumberLADOT = getRule(rules, "CASE_NO_LADOT");
   const caseNumberPlanning = getRule(rules, "CASE_NO_PLANNING");
-  const parcelNumber = getRule(rules, "APN");
+  const parcelNumbers = getRule(rules, "APN");
   const versionNumber = getRule(rules, "VERSION_NO");
 
   return (
@@ -67,7 +68,7 @@ const ProjectInfoContainer = props => {
         {projectAddress && (
           <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
         )}
-        <ProjectInfo name={"PARCEL # (AIN)"} rule={parcelNumber} />
+        <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
         {buildingPermit && (
           <ProjectInfo name={buildingPermit.name} rule={buildingPermit} />
         )}
