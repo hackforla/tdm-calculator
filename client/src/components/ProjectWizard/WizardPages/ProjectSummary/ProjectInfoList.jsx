@@ -22,12 +22,12 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri Bold",
     fontSize: "16px"
   },
-  dropDownContainer: {
+  AINValuesContainer: {
     display: "flex",
     flexWrap: "wrap",
     flexDirection: "row"
   },
-  dropDownValue: {
+  AINValues: {
     minWidth: "100px"
   }
 });
@@ -43,10 +43,10 @@ const ProjectInfoList = props => {
       <span className={classes.projectInfoCategory}>{name}</span>
       {rule && rule.value ? (
         <span className={classes.projectInfoDetails}>
-          <span className={classes.dropDownContainer}>
+          <span className={classes.AINValuesContainer}>
             {values.map(value => {
               return (
-                <span key={value} className={classes.dropDownValue}>
+                <span key={value} className={classes.AINValues}>
                   {value}
                 </span>
               );
