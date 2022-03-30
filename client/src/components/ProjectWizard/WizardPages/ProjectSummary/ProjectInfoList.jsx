@@ -7,7 +7,8 @@ const useStyles = createUseStyles({
     display: "flex",
     alignItems: "baseline",
     width: "50%",
-    paddingBottom: "1.1em"
+    paddingBottom: "1.1em",
+    maxHeight: "50px"
   },
   projectInfoCategory: {
     fontFamily: "Oswald",
@@ -28,7 +29,8 @@ const useStyles = createUseStyles({
     flexDirection: "row"
   },
   AINValues: {
-    minWidth: "100px"
+    minWidth: "100px",
+    marginTop: ".2rem"
   }
 });
 

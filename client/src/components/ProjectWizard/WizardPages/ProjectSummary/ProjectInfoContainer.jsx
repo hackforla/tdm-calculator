@@ -27,7 +27,7 @@ const useStyles = createUseStyles({
   projectInfoDetailsContainer: {
     paddingTop: "6px",
     paddingLeft: "12px",
-    height: "55px",
+    height: "100px",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
