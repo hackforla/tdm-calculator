@@ -65,10 +65,14 @@ const Input = props => {
     resetAINError();
 
     const validLength = matchLength(inputValue);
-    if (validLength === 12) {
-      checkAndCreateTag();
-    } else {
-      validateInput();
+    switch (validLength) {
+      case 0:
+        return;
+      case 12:
+        checkAndCreateTag();
+        break;
+      default:
+        validateInput();
     }
   };
 
