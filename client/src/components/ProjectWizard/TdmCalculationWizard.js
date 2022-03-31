@@ -277,8 +277,7 @@ TdmCalculationWizard.propTypes = {
   projectIsValid: PropTypes.func,
   dateModified: PropTypes.string,
   checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func,
-  onAINInputError: PropTypes.func.isRequired
+  toggleChecklistModal: PropTypes.func
 };
 
 export default withRouter(TdmCalculationWizard);
