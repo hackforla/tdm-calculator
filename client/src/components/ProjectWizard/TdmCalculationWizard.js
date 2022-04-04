@@ -162,7 +162,7 @@ const TdmCalculationWizard = props => {
     }
   };
 
-  const onAINInputError = error => {
+  const handleAINInputError = error => {
     setAINInputError(error);
   };
 
@@ -210,7 +210,7 @@ const TdmCalculationWizard = props => {
           loginId={loginId}
           onSave={onSave}
           dateModified={dateModified}
-          onAINInputError={onAINInputError}
+          onAINInputError={handleAINInputError}
         />
         <WizardFooter
           rules={rules}
