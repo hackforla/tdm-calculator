@@ -149,6 +149,7 @@ const RuleInput = ({
     link
   },
   onPropInputChange,
+  onAINInputError,
   autoFocus
 }) => {
   const theme = useTheme();
@@ -175,6 +176,8 @@ const RuleInput = ({
 
   const onInputError = error => {
     setInputError(error);
+    // propagate up to where the rule errors are used
+    onAINInputError(error);
   };
 
   return (
@@ -408,6 +411,7 @@ RuleInput.propTypes = {
     link: PropTypes.string
   }),
   onPropInputChange: PropTypes.func,
+  onAINInputError: PropTypes.func.isRequired,
   autoFocus: PropTypes.bool
 };
 

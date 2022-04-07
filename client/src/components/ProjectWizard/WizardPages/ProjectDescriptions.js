@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import RuleInputPanels from "../RuleInput/RuleInputPanels";
 
 function ProjectDescriptions(props) {
-  const { rules, onInputChange } = props;
+  const { rules, onInputChange, onAINInputError } = props;
   return (
     <div>
       <h1 className="tdm-wizard-page-title">
@@ -16,6 +16,7 @@ function ProjectDescriptions(props) {
         <RuleInputPanels
           rules={rules}
           onInputChange={onInputChange}
+          onAINInputError={onAINInputError}
           suppressHeader={true}
         />
       </form>
@@ -28,7 +29,8 @@ function ProjectDescriptions(props) {
 }
 ProjectDescriptions.propTypes = {
   rules: PropTypes.array.isRequired,
-  onInputChange: PropTypes.func.isRequired
+  onInputChange: PropTypes.func.isRequired,
+  onAINInputError: PropTypes.func.isRequired
 };
 
 export default ProjectDescriptions;
