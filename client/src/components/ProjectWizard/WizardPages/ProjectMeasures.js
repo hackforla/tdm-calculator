@@ -75,6 +75,9 @@ function ProjectMeasure(props) {
       <h1 className="tdm-wizard-page-title">
         Transportation Demand Management Strategies
       </h1>
+      <h3 className="tdm-wizard-page-subtitle">
+        Select strategies to earn TDM points
+      </h3>
       {(allowResidentialPackage || allowSchoolPackage) && (
         <>
           <div className={classes.packageBanner}>
