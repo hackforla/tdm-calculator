@@ -34,7 +34,8 @@ const CalculationWizardRoutes = ({
   projectId,
   loginId,
   onSave,
-  dateModified
+  dateModified,
+  onAINInputError
 }) => {
   return (
     <Switch>
@@ -42,6 +43,7 @@ const CalculationWizardRoutes = ({
         <ProjectDescriptions
           rules={projectDescriptionRules}
           onInputChange={onInputChange}
+          onAINInputError={onAINInputError}
         />
       </Route>
       <Route path="/calculation/2/:projectId?">
@@ -114,7 +116,8 @@ CalculationWizardRoutes.propTypes = {
   projectId: PropTypes.any,
   loginId: PropTypes.any,
   onSave: PropTypes.any,
-  dateModified: PropTypes.any
+  dateModified: PropTypes.any,
+  onAINInputError: PropTypes.func.isRequired
 };
 
 export default CalculationWizardRoutes;
