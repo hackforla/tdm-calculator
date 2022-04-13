@@ -7,8 +7,7 @@ const useStyles = createUseStyles({
     display: "flex",
     alignItems: "baseline",
     maxHeight: "20px",
-    width: "50%",
-    paddingBottom: "1.1em"
+    width: "50%"
   },
   projectInfoCategory: {
     fontFamily: "Oswald",

@@ -7,7 +7,6 @@ import ProjectInfoList from "./ProjectInfoList";
 
 const useStyles = createUseStyles({
   projectInfoContainer: {
-    paddingBottom: "20px",
     margin: "70px auto 0",
     width: "100%",
     minHeight: "100px"
@@ -27,11 +26,12 @@ const useStyles = createUseStyles({
   projectInfoDetailsContainer: {
     paddingTop: "6px",
     paddingLeft: "12px",
-    height: "100px",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    maxWidth: "100%"
+    maxWidth: "100%",
+    minHeight: "55px",
+    rowGap: "1.1rem"
   },
   line: {
     margin: ".7em 0",
