@@ -6,9 +6,7 @@ const useStyles = createUseStyles({
   projectInfoDetailsSubContainer: {
     display: "flex",
     alignItems: "baseline",
-    width: "50%",
-    paddingBottom: "1.1em",
-    maxHeight: "50px"
+    width: "50%"
   },
   projectInfoCategory: {
     fontFamily: "Oswald",
@@ -26,7 +24,8 @@ const useStyles = createUseStyles({
   AINValuesContainer: {
     display: "flex",
     flexWrap: "wrap",
-    flexDirection: "row"
+    flexDirection: "row",
+    gap: ".3em"
   },
   AINValues: {
     minWidth: "100px",
@@ -38,7 +37,7 @@ const ProjectInfoList = props => {
   const classes = useStyles();
   const { name, rule } = props;
 
-  const values = rule?.value.split(",");
+  const values = rule.value.split(",");
 
   return (
     <div className={classes.projectInfoDetailsSubContainer}>
