@@ -58,7 +58,9 @@ export function TdmCalculationContainer({
   hasConfirmedNavTransition,
   isOpenNavConfirmModal,
   setLoggedInAccount,
-  contentContainerRef
+  contentContainerRef,
+  checklistModalOpen,
+  toggleChecklistModal
 }) {
   const [engine, setEngine] = useState(null);
   const [rules, setRules] = useState([]);
@@ -270,18 +272,16 @@ export function TdmCalculationContainer({
       : 0;
 
   const allowResidentialPackage = (() => {
-    // Only show button if one of the land uses is Residential
     const applicableLandUse = landUseRules.find(
       r =>
         r.code.startsWith("LAND_USE") && r.code !== "LAND_USE_SCHOOL" && r.value
     );
-    return projectLevel === 1 && applicableLandUse;
+    return !!(projectLevel === 1 && applicableLandUse);
   })();
 
   const allowSchoolPackage = (() => {
-    // Only show button if Parking Cash-Out strategy is available
     const triggerRule = landUseRules.filter(r => r.code === "LAND_USE_SCHOOL");
-    return projectLevel === 1 && triggerRule[0] && triggerRule[0].value;
+    return !!(projectLevel === 1 && triggerRule[0] && triggerRule[0].value);
   })();
 
   const getRuleByCode = ruleCode => {
@@ -297,7 +297,7 @@ export function TdmCalculationContainer({
   };
 
   const onInputChange = e => {
-    const ruleCode = e.target?.name || e.detail.name;
+    const ruleCode = (e.target && e.target.name) || e.detail.name;
     let value = e.target
       ? e.target.type === "checkbox"
         ? e.target.checked
@@ -531,6 +531,8 @@ export function TdmCalculationContainer({
           projectIsValid={projectIsValid}
           dateModified={dateModified}
           contentContainerRef={contentContainerRef}
+          checklistModalOpen={checklistModalOpen}
+          toggleChecklistModal={toggleChecklistModal}
         />
       ) : (
         <TdmCalculation
@@ -578,7 +580,9 @@ TdmCalculationContainer.propTypes = {
   hasConfirmedNavTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
   setLoggedInAccount: PropTypes.func,
-  contentContainerRef: PropTypes.object
+  contentContainerRef: PropTypes.object,
+  checklistModalOpen: PropTypes.bool,
+  toggleChecklistModal: PropTypes.func
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

@@ -5,7 +5,6 @@ import { Switch, Route } from "react-router-dom";
 import {
   ProjectDescriptions,
   ProjectSpecifications,
-  ProjectPackages,
   ProjectTargetPoints,
   ProjectMeasures
 } from "./WizardPages";
@@ -35,7 +34,8 @@ const CalculationWizardRoutes = ({
   projectId,
   loginId,
   onSave,
-  dateModified
+  dateModified,
+  onAINInputError
 }) => {
   return (
     <Switch>
@@ -43,6 +43,7 @@ const CalculationWizardRoutes = ({
         <ProjectDescriptions
           rules={projectDescriptionRules}
           onInputChange={onInputChange}
+          onAINInputError={onAINInputError}
         />
       </Route>
       <Route path="/calculation/2/:projectId?">
@@ -61,12 +62,6 @@ const CalculationWizardRoutes = ({
         />
       </Route>
       <Route path="/calculation/4/:projectId?">
-        <ProjectPackages
-          allowResidentialPackage={allowResidentialPackage}
-          allowSchoolPackage={allowSchoolPackage}
-        />
-      </Route>
-      <Route path="/calculation/5/:projectId?">
         <ProjectMeasures
           projectLevel={projectLevel}
           rules={strategyRules}
@@ -83,7 +78,7 @@ const CalculationWizardRoutes = ({
           schoolPackageSelected={schoolPackageSelected}
         />
       </Route>
-      <Route path="/calculation/6/:projectId?">
+      <Route path="/calculation/5/:projectId?">
         <ProjectSummary
           rules={rules}
           account={account}
@@ -97,7 +92,6 @@ const CalculationWizardRoutes = ({
   );
 };
 
-// TODO:
 CalculationWizardRoutes.propTypes = {
   projectDescriptionRules: PropTypes.any,
   onInputChange: PropTypes.any,
@@ -122,7 +116,8 @@ CalculationWizardRoutes.propTypes = {
   projectId: PropTypes.any,
   loginId: PropTypes.any,
   onSave: PropTypes.any,
-  dateModified: PropTypes.any
+  dateModified: PropTypes.any,
+  onAINInputError: PropTypes.func.isRequired
 };
 
 export default CalculationWizardRoutes;

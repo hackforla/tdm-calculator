@@ -9,6 +9,9 @@ module.exports = function () {
   const databaseName = process.env.SQL_DATABASE_NAME;
   const username = process.env.SQL_USER_NAME;
   const password = process.env.SQL_PASSWORD;
+  // Connections to the local machine should not be encrypted, so we
+  // don't have to set up SSL certs
+  const encrypt = host === "localhost" ? "false" : "true";
   // On Windows, SQL Server might have an instance name instead of a port.
   const origin = instance
     ? `${host}\\${instance}`
@@ -18,7 +21,7 @@ module.exports = function () {
 
   return {
     flywayArgs: {
-      url: `jdbc:sqlserver://${origin};databaseName=${databaseName}`,
+      url: `jdbc:sqlserver://${origin};databaseName=${databaseName};encrypt=${encrypt}`,
       locations: `filesystem:${__dirname}/migration`,
       user: username,
       password: password,

@@ -26,11 +26,13 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   input: {
+    boxSizing: "border-box",
     padding: "0.1em",
     width: "5.5em",
     textAlign: "right"
   },
   inputInvalid: {
+    boxSizing: "border-box",
     padding: "0.1em",
     width: "5.5em",
     textAlign: "right",
@@ -84,11 +86,13 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   textInput: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
   },
   textInputInvalid: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
@@ -103,12 +107,14 @@ const useStyles = createUseStyles({
     opacity: "0.5"
   },
   textarea: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
     minHeight: "5em"
   },
   textareaInvalid: {
+    boxSizing: "border-box",
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
@@ -143,6 +149,7 @@ const RuleInput = ({
     link
   },
   onPropInputChange,
+  onAINInputError,
   autoFocus
 }) => {
   const theme = useTheme();
@@ -169,6 +176,8 @@ const RuleInput = ({
 
   const onInputError = error => {
     setInputError(error);
+    // propagate up to where the rule errors are used
+    onAINInputError(error);
   };
 
   return (
@@ -333,6 +342,7 @@ const RuleInput = ({
                 mask={mask}
                 onChange={onInputChange}
                 onError={onInputError}
+                setShowValidationErrors={setShowValidationErrors}
               />
             )}
           </div>
@@ -353,18 +363,18 @@ const RuleInput = ({
           </div>
         )
       ) : null}
-      {display && validationErrors && showValidationErrors ? (
-        <div className={classes.rowContainer}>
-          <div className={classes.textInputLabel}></div>
-          <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
-            {validationErrors[0]}
-          </div>
-        </div>
-      ) : display && inputError && showValidationErrors ? (
+      {display && inputError && showValidationErrors ? (
         <div className={classes.rowContainer}>
           <div className={classes.textInputLabel}></div>
           <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
             {inputError}
+          </div>
+        </div>
+      ) : display && validationErrors && showValidationErrors ? (
+        <div className={classes.rowContainer}>
+          <div className={classes.textInputLabel}></div>
+          <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
+            {validationErrors[0]}
           </div>
         </div>
       ) : null}
@@ -401,6 +411,7 @@ RuleInput.propTypes = {
     link: PropTypes.string
   }),
   onPropInputChange: PropTypes.func,
+  onAINInputError: PropTypes.func.isRequired,
   autoFocus: PropTypes.bool
 };
 

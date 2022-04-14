@@ -4,7 +4,12 @@ import RuleInputList from "./RuleInputList";
 import { getCalculationPanelIds, getPanelRules } from "../helpers";
 import Panels from "../Common/Panels";
 
-const RuleInputPanels = ({ rules, suppressHeader, onInputChange }) => {
+const RuleInputPanels = ({
+  rules,
+  suppressHeader,
+  onInputChange,
+  onAINInputError
+}) => {
   const panelIds = getCalculationPanelIds(rules);
   const panelsRules = getPanelRules(panelIds, rules);
 
@@ -20,6 +25,7 @@ const RuleInputPanels = ({ rules, suppressHeader, onInputChange }) => {
             key={pRules[0].calculationPanelId}
             rules={pRules}
             onInputChange={onInputChange}
+            onAINInputError={onAINInputError}
             autoFocus={!index}
           />
         </Panels>
@@ -32,6 +38,7 @@ RuleInputPanels.propTypes = {
   rules: PropTypes.array.isRequired,
   suppressHeader: PropTypes.bool,
   onInputChange: PropTypes.func.isRequired,
+  onAINInputError: PropTypes.func.isRequired,
   autoFocus: PropTypes.bool
 };
 
