@@ -18,7 +18,8 @@ const useStyles = createUseStyles({
     alignItems: "center",
     backgroundColor: "#0f2940",
     color: "white",
-    padding: ".4em"
+    padding: ".4em",
+    marginBottom: "0.3em"
   },
   strategyName: {
     flexGrow: "1",

@@ -12,8 +12,7 @@ const useStyles = createUseStyles({
     margin: "0.2em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+    justifyContent: "space-between"
   },
   commentContainer: {
     minWidth: "60vw",
@@ -46,7 +45,8 @@ const useStyles = createUseStyles({
     border: "1px dashed red"
   },
   choiceSelectContainer: {
-    textAlign: "right"
+    textAlign: "right",
+    marginBottom: "0.1em"
   },
   select: {
     width: "200px"
