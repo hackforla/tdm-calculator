@@ -1,6 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { version } from "../../package.json";
+import packageInfo from "../../package.json";
 import ContentContainer from "./Layout/ContentContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
@@ -137,7 +137,7 @@ const About = () => {
         </ul>
       </div>
 
-      <p>{`Release #: ${version}`}</p>
+      <p>{`Release #: ${packageInfo.version}`}</p>
     </ContentContainer>
   );
 };
