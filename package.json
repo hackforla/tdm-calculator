@@ -10,7 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "wait-on": "^6.0.0"
+    "wait-on": "^6.0.1"
   },
   "husky": {
     "hooks": {
@@ -18,8 +18,8 @@
     }
   },
   "devDependencies": {
-    "concurrently": "^6.2.1",
-    "husky": "^7.0.4",
+    "concurrently": "^7.1.0",
+    "husky": "^8.0.1",
     "lerna": "^4.0.0"
   }
 }
