@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDom from "react-dom";
+import { createRoot } from "react-dom/client";
 import AppWrapper from "./AppWrapper";
 import { ThemeProvider } from "react-jss";
 import { jssTheme } from "./styles/theme";
@@ -17,7 +17,9 @@ const tagManagerArgs = {
 TagManager.initialize(tagManagerArgs);
 
 try {
-  ReactDom.render(
+  const container = document.getElementById("root");
+  const root = createRoot(container);
+  root.render(
     <ThemeProvider theme={jssTheme}>
       <AppWrapper />
     </ThemeProvider>,
