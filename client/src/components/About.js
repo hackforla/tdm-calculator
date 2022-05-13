@@ -1,7 +1,9 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { version } from "../../package.json";
+import packageInfo from "../../package.json";
 import ContentContainer from "./Layout/ContentContainer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
   aboutContent: {
@@ -9,6 +11,11 @@ const useStyles = createUseStyles({
   },
   linklist: {
     marginBottom: "0.8em"
+  },
+  externalLinkIcon: {
+    fontSize: "14px",
+    padding: " 0 0.5em",
+    color: "#00F"
   }
 });
 
@@ -68,34 +75,69 @@ const About = () => {
 
         <ul>
           <li className={classes.linklist}>
-            <a href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility">
+            <a
+              href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility"
+              target="external"
+            >
               Los Angeles City Planning, Mobility
+              <FontAwesomeIcon
+                icon={faExternalLinkAlt}
+                className={classes.externalLinkIcon}
+              />
             </a>
           </li>
           <li className={classes.linklist}>
-            <a href="https://planning.lacity.org/odocument/9fae920f-d618-4362-bd01-adb6abfbd80d/Draft_TDM_Program_Guidelines.pdf">
+            <a
+              href="https://planning.lacity.org/odocument/9fae920f-d618-4362-bd01-adb6abfbd80d/Draft_TDM_Program_Guidelines.pdf"
+              target="external"
+            >
               Proposed Ordinances and Initiatives
+              <FontAwesomeIcon
+                icon={faExternalLinkAlt}
+                className={classes.externalLinkIcon}
+              />
             </a>
           </li>
           <li className={classes.linklist}>
-            <a href="https://www.youtube.com/watch?v=mAxseCqySuM">
+            <a
+              href="https://www.youtube.com/watch?v=mAxseCqySuM"
+              target="external"
+            >
               Informational Video (January 2021)
+              <FontAwesomeIcon
+                icon={faExternalLinkAlt}
+                className={classes.externalLinkIcon}
+              />
             </a>
           </li>
           <li className={classes.linklist}>
-            <a href="https://planning.lacity.org/odocument/d7e3780b-3155-44a4-98cf-0fd673a6612b/TDM-FactSheet_English.pdf">
+            <a
+              href="https://planning.lacity.org/odocument/d7e3780b-3155-44a4-98cf-0fd673a6612b/TDM-FactSheet_English.pdf"
+              target="external"
+            >
               Fact Sheet - English (January 2021)
+              <FontAwesomeIcon
+                icon={faExternalLinkAlt}
+                className={classes.externalLinkIcon}
+              />
             </a>
           </li>
           <li className={classes.linklist}>
-            <a href="https://planning.lacity.org/odocument/9dae2614-5b29-4dce-8b8d-9060f6900386/TDM-FactSheet_Spanish.pdf">
+            <a
+              href="https://planning.lacity.org/odocument/9dae2614-5b29-4dce-8b8d-9060f6900386/TDM-FactSheet_Spanish.pdf"
+              target="external"
+            >
               Hoja Informativa - Español (Enero 2021)
+              <FontAwesomeIcon
+                icon={faExternalLinkAlt}
+                className={classes.externalLinkIcon}
+              />
             </a>
           </li>
         </ul>
       </div>
 
-      <p>{`Release #: ${version}`}</p>
+      <p>{`Release #: ${packageInfo.version}`}</p>
     </ContentContainer>
   );
 };

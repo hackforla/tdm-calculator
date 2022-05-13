@@ -11,7 +11,12 @@ const useStyles = createUseStyles({
   }
 });
 
-const RuleInputList = ({ rules, onInputChange, autoFocus }) => {
+const RuleInputList = ({
+  rules,
+  onInputChange,
+  onAINInputError,
+  autoFocus
+}) => {
   const classes = useStyles();
 
   return (
@@ -23,6 +28,7 @@ const RuleInputList = ({ rules, onInputChange, autoFocus }) => {
                 key={rule.id}
                 rule={rule}
                 onPropInputChange={onInputChange}
+                onAINInputError={onAINInputError}
                 autoFocus={autoFocus && !index}
               />
             );
@@ -34,6 +40,7 @@ const RuleInputList = ({ rules, onInputChange, autoFocus }) => {
 RuleInputList.propTypes = {
   rules: PropTypes.array,
   onInputChange: PropTypes.func.isRequired,
+  onAINInputError: PropTypes.func.isRequired,
   autoFocus: PropTypes.bool
 };
 

@@ -65,10 +65,14 @@ const Input = props => {
     resetAINError();
 
     const validLength = matchLength(inputValue);
-    if (validLength === 12) {
-      checkAndCreateTag();
-    } else {
-      validateInput();
+    switch (validLength) {
+      case 0:
+        return;
+      case 12:
+        checkAndCreateTag();
+        break;
+      default:
+        validateInput();
     }
   };
 
@@ -287,33 +291,34 @@ const MultiInput = ({
   const handleKeyDown = event => {
     const validLength = matchLength(inputValue);
 
-    // don't create tag if no input
-    if (validLength === 0) return;
-
-    if (validLength === 12) {
-      // create tag if pressing any key after input is full (except backspace)
-      switch (event.key) {
-        case "Backspace":
-          // let backspace to the default thing
-          break;
-        default:
-          checkAndCreateTag();
-          event.preventDefault();
-      }
-    } else {
-      // display error if input is incomplete
-      switch (event.key) {
-        case "Enter":
-        case ",":
-          validateInput();
-          event.preventDefault();
-          break;
-        case "Tab":
-          validateInput();
-          break;
-        default:
-          resetAINError();
-      }
+    switch (validLength) {
+      case 0:
+        // don't create tag if no input
+        return;
+      case 12:
+        // create tag if pressing any key after input is full (except backspace)
+        switch (event.key) {
+          case "Backspace":
+            break;
+          default:
+            checkAndCreateTag();
+            event.preventDefault();
+        }
+        break;
+      default:
+        // display error if input is incomplete
+        switch (event.key) {
+          case "Enter":
+          case ",":
+            validateInput();
+            event.preventDefault();
+            break;
+          case "Tab":
+            validateInput();
+            break;
+          default:
+            resetAINError();
+        }
     }
   };
 

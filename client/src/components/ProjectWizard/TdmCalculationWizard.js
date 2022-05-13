@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { withRouter, useLocation } from "react-router-dom";
@@ -42,6 +42,7 @@ const TdmCalculationWizard = props => {
   const page = Number(match.params.page || 1);
   const projectId = Number(match.params.projectId);
   const { pathname } = useLocation();
+  const [ainInputError, setAINInputError] = useState("");
 
   /*
     When user navigates to a different page in the wizard, scroll to the top.
@@ -89,7 +90,8 @@ const TdmCalculationWizard = props => {
   const setDisabledForNextNavButton = () => {
     const isPage1AndHasErrors =
       page === 1 &&
-      projectDescriptionRules.find(rule => !!rule.validationErrors);
+      (projectDescriptionRules.find(rule => !!rule.validationErrors) ||
+        ainInputError);
     const isPage2AndHasErrors =
       page === 2 && specificationRules.find(rule => !!rule.validationErrors);
     const isPage3AndHasErrors =
@@ -160,6 +162,10 @@ const TdmCalculationWizard = props => {
     }
   };
 
+  const handleAINInputError = error => {
+    setAINInputError(error);
+  };
+
   return (
     <React.Fragment>
       <TermsAndConditionsModal />
@@ -204,6 +210,7 @@ const TdmCalculationWizard = props => {
           loginId={loginId}
           onSave={onSave}
           dateModified={dateModified}
+          onAINInputError={handleAINInputError}
         />
         <WizardFooter
           rules={rules}

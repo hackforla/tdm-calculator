@@ -6,7 +6,6 @@ const useStyles = createUseStyles({
   projectInfoDetailsSubContainer: {
     display: "flex",
     alignItems: "baseline",
-    maxHeight: "20px",
     width: "50%"
   },
   projectInfoCategory: {
@@ -21,25 +20,47 @@ const useStyles = createUseStyles({
     color: "#0F2940",
     fontFamily: "Calibri Bold",
     fontSize: "16px"
+  },
+  AINValuesContainer: {
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    gap: ".3em"
+  },
+  AINValues: {
+    minWidth: "100px",
+    marginTop: ".2rem"
   }
 });
 
-const ProjectInfo = props => {
+const ProjectInfoList = props => {
   const classes = useStyles();
   const { name, rule } = props;
+
+  const values = rule.value.split(",");
 
   return (
     <div className={classes.projectInfoDetailsSubContainer}>
       <span className={classes.projectInfoCategory}>{name}</span>
       {rule && rule.value ? (
-        <span className={classes.projectInfoDetails}>{rule.value}</span>
+        <span className={classes.projectInfoDetails}>
+          <span className={classes.AINValuesContainer}>
+            {values.map(value => {
+              return (
+                <span key={value} className={classes.AINValues}>
+                  {value}
+                </span>
+              );
+            })}
+          </span>
+        </span>
       ) : null}
     </div>
   );
 };
-ProjectInfo.propTypes = {
+ProjectInfoList.propTypes = {
   name: PropTypes.string.isRequired,
   rule: PropTypes.object
 };
 
-export default ProjectInfo;
+export default ProjectInfoList;
