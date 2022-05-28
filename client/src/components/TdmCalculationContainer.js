@@ -276,12 +276,23 @@ export function TdmCalculationContainer({
       r =>
         r.code.startsWith("LAND_USE") && r.code !== "LAND_USE_SCHOOL" && r.value
     );
-    return !!(projectLevel === 1 && applicableLandUse);
+    const lowParkRatio = rules.find(
+      r => r.code === "CALC_PARK_RATIO" && r.value < 110
+    );
+    return !!(projectLevel === 1 && applicableLandUse && lowParkRatio);
   })();
 
   const allowSchoolPackage = (() => {
     const triggerRule = landUseRules.filter(r => r.code === "LAND_USE_SCHOOL");
-    return !!(projectLevel === 1 && triggerRule[0] && triggerRule[0].value);
+    const lowParkRatio = rules.find(
+      r => r.code === "CALC_PARK_RATIO" && r.value < 110
+    );
+    return !!(
+      projectLevel === 1 &&
+      triggerRule[0] &&
+      triggerRule[0].value &&
+      lowParkRatio
+    );
   })();
 
   const getRuleByCode = ruleCode => {
