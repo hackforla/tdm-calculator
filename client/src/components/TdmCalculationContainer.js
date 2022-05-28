@@ -440,6 +440,11 @@ export function TdmCalculationContainer({
         });
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
+        let projectResponse = null;
+        projectResponse = await projectService.getById(projectId);
+        setDateModified(
+          moment(projectResponse.data.dateModified).format("MM/DD/YYYY h:mm A")
+        );
       } catch (err) {
         console.error(err);
         if (err.response) {
