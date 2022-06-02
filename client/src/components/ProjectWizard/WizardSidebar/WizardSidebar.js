@@ -20,7 +20,13 @@ const useStyles = createUseStyles({
   }
 });
 
-const WizardSidebar = ({ rules, onViewChange, resultRules, strategyRules }) => {
+const WizardSidebar = ({
+  rules,
+  onViewChange,
+  resultRules,
+  strategyRules,
+  page
+}) => {
   const classes = useStyles();
 
   return (
@@ -33,6 +39,7 @@ const WizardSidebar = ({ rules, onViewChange, resultRules, strategyRules }) => {
           <SidebarPointsPanel
             rules={resultRules}
             strategyRules={strategyRules}
+            page={page}
           />
         </div>
       )}
@@ -44,7 +51,8 @@ WizardSidebar.propTypes = {
   rules: PropTypes.any,
   onViewChange: PropTypes.any,
   resultRules: PropTypes.any,
-  strategyRules: PropTypes.array
+  strategyRules: PropTypes.array,
+  page: PropTypes.number
 };
 
 export default WizardSidebar;

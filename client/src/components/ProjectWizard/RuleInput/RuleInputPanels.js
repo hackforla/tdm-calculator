@@ -38,7 +38,7 @@ RuleInputPanels.propTypes = {
   rules: PropTypes.array.isRequired,
   suppressHeader: PropTypes.bool,
   onInputChange: PropTypes.func.isRequired,
-  onAINInputError: PropTypes.func.isRequired,
+  onAINInputError: PropTypes.func,
   autoFocus: PropTypes.bool
 };
 

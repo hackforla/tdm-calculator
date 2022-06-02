@@ -37,12 +37,26 @@ const useStyles = createUseStyles({
   row: { display: "flex", justifyContent: "space-between" },
   noDisplay: {
     display: "none !important"
+  },
+  reducedParkingBox: {
+    margin: "0.5em auto",
+    padding: "1em 1em",
+    fontSize: "10pt",
+    borderRadius: "8px",
+    minWidth: "16em",
+    background: "#FFFFFF",
+    boxSizing: "border-box",
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+    border: "1px solid #0F2940"
   }
 });
 
 const SidebarCart = props => {
-  const { strategyRules } = props;
+  const { strategyRules, page } = props;
   const classes = useStyles();
+  const reducedParkingRule = strategyRules.find(
+    r => r.code === "STRATEGY_PARKING_5"
+  );
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -67,12 +81,20 @@ const SidebarCart = props => {
             </div>
           </div>
         ))}
+
+      {page === 3 && reducedParkingRule && reducedParkingRule.calcValue && (
+        <div className={classes.reducedParkingBox}>
+          {`Automatically earned ${reducedParkingRule.calcValue.toString()} points
+          on the TDM Strategy Reduced Parking Supply for reduction of parking.`}
+        </div>
+      )}
     </div>
   );
 };
 
 SidebarCart.propTypes = {
-  strategyRules: PropTypes.array
+  strategyRules: PropTypes.array,
+  page: PropTypes.number
 };
 
 export default SidebarCart;
