@@ -47,7 +47,8 @@ const filters = {
     rule.display &&
     rule.calculationPanelId === 10,
   strategyRules: rule =>
-    rule.category === "measure" && rule.calculationPanelId !== 10
+    (rule.category === "measure" && rule.calculationPanelId !== 10) ||
+    rule.code === "STRATEGY_PARKING_5"
 };
 
 export function TdmCalculationContainer({
@@ -195,22 +196,6 @@ export function TdmCalculationContainer({
     );
   };
 
-  // const employmentPackageSelected = () => {
-  //   // Only enable button if
-  //   // component strategies are not already selected
-  //   const pkgRules = rules.filter(rule =>
-  //     ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
-  //       rule.code
-  //     )
-  //   );
-
-  //   const strategyCount = pkgRules.reduce(
-  //     (count, r) => count + (r.value && r.value !== "0" ? 1 : 0),
-  //     0
-  //   );
-  //   return strategyCount === 3;
-  // };
-
   const onPkgSelect = (pkgType, selected = true) => {
     const modifiedInputs = {};
     if (pkgType === "Residential") {
@@ -258,6 +243,32 @@ export function TdmCalculationContainer({
         modifiedInputs["STRATEGY_HOV_4"] = false;
       }
     }
+
+    const newFormInputs = {
+      ...formInputs,
+      ...modifiedInputs
+    };
+    recalculate(newFormInputs);
+  };
+
+  const onParkingProvidedChange = e => {
+    const parkingBaseline = rules.find(
+      r => r.code === "PARK_REQUIREMENT"
+    ).value;
+    const modifiedInputs = {};
+    modifiedInputs["PARK_SPACES"] = Number(e.target.value);
+    const newParkingRatio = Number(e.target.value) / parkingBaseline;
+    let reducedParkingIndex = 0;
+    if (newParkingRatio <= 0.1) {
+      reducedParkingIndex = 4;
+    } else if (newParkingRatio <= 0.5) {
+      reducedParkingIndex = 3;
+    } else if (newParkingRatio <= 0.75) {
+      reducedParkingIndex = 2;
+    } else if (newParkingRatio <= 0.9) {
+      reducedParkingIndex = 1;
+    }
+    modifiedInputs["STRATEGY_PARKING_5"] = reducedParkingIndex;
 
     const newFormInputs = {
       ...formInputs,
@@ -532,6 +543,7 @@ export function TdmCalculationContainer({
           initializeStrategies={initializeStrategies}
           filters={filters}
           onPkgSelect={onPkgSelect}
+          onParkingProvidedChange={onParkingProvidedChange}
           resultRuleCodes={resultRuleCodes}
           onViewChange={() => {
             setView("d");

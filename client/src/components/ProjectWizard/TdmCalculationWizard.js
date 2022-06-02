@@ -20,6 +20,7 @@ const TdmCalculationWizard = props => {
     initializeStrategies,
     filters,
     onPkgSelect,
+    onParkingProvidedChange,
     resultRuleCodes,
     account,
     loginId,
@@ -180,6 +181,7 @@ const TdmCalculationWizard = props => {
             onViewChange={onViewChange}
             resultRules={resultRules}
             strategyRules={strategyRules}
+            page={page}
           />
         )}
         contentContainerRef={contentContainerRef}
@@ -202,6 +204,7 @@ const TdmCalculationWizard = props => {
           onCommentChange={onCommentChange}
           initializeStrategies={initializeStrategies}
           onPkgSelect={onPkgSelect}
+          onParkingProvidedChange={onParkingProvidedChange}
           residentialPackageSelected={residentialPackageSelected}
           schoolPackageSelected={schoolPackageSelected}
           rules={rules}
@@ -240,7 +243,7 @@ TdmCalculationWizard.propTypes = {
       minValue: PropTypes.number,
       maxValue: PropTypes.number,
       choices: PropTypes.array,
-      calcValue: PropTypes.number | PropTypes.string, // only price bundling/unbundling is string
+      calcValue: PropTypes.any,
       calcUnits: PropTypes.string,
       required: PropTypes.bool,
       minStringLength: PropTypes.number,
@@ -260,6 +263,7 @@ TdmCalculationWizard.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func,
   onPkgSelect: PropTypes.func.isRequired,
+  onParkingProvidedChange: PropTypes.func.isRequired,
   initializeStrategies: PropTypes.func.isRequired,
   onUncheckAll: PropTypes.func.isRequired,
   onResetProject: PropTypes.func.isRequired,

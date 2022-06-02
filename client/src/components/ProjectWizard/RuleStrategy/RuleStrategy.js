@@ -118,7 +118,8 @@ const RuleStrategy = ({
     displayComment,
     comment,
     link,
-    validationErrors
+    validationErrors,
+    readOnly
   },
   onPropInputChange,
   onCommentChange,
@@ -211,7 +212,7 @@ const RuleStrategy = ({
               onChange={onInputChange}
               name={code}
               id={code}
-              disabled={!display}
+              disabled={!display || !!readOnly}
             />
           </div>
 
@@ -236,7 +237,7 @@ const RuleStrategy = ({
               onChange={onInputChange}
               name={code}
               id={code}
-              disabled={!display}
+              disabled={!display || !!readOnly}
             >
               {choices.map(choice => (
                 <option key={choice.id} value={choice.id}>
@@ -353,7 +354,8 @@ RuleStrategy.propTypes = {
     displayComment: PropTypes.bool,
     comment: PropTypes.string,
     link: PropTypes.string,
-    validationErrors: PropTypes.array
+    validationErrors: PropTypes.array,
+    readOnly: PropTypes.bool
   }),
   onPropInputChange: PropTypes.func,
   onCommentChange: PropTypes.func,

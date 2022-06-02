@@ -10,7 +10,7 @@ import ToolTip from "../../ToolTip/ToolTip";
 const USE_PROGRESS_DIAL = true;
 
 const SidebarPointsPanel = props => {
-  const { rules, strategyRules } = props;
+  const { rules, strategyRules, page } = props;
   let targetPointsRule = {};
   let earnedPointsRule = {};
   let projectLevelRule = {};
@@ -76,7 +76,7 @@ const SidebarPointsPanel = props => {
         }
         className="tdm-calculation-cart"
       >
-        <SidebarCart strategyRules={strategyRules} />
+        <SidebarCart strategyRules={strategyRules} page={page} />
       </div>
 
       {/* {earnedPointsMet && <EarnedPointsMetContainer />} */}
@@ -87,7 +87,8 @@ const SidebarPointsPanel = props => {
 
 SidebarPointsPanel.propTypes = {
   rules: PropTypes.array,
-  strategyRules: PropTypes.array
+  strategyRules: PropTypes.array,
+  page: PropTypes.number
 };
 
 export default SidebarPointsPanel;

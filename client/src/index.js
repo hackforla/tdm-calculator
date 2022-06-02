@@ -22,8 +22,7 @@ try {
   root.render(
     <ThemeProvider theme={jssTheme}>
       <AppWrapper />
-    </ThemeProvider>,
-    document.querySelector("#root")
+    </ThemeProvider>
   );
 } catch (err) {
   console.error(err);
