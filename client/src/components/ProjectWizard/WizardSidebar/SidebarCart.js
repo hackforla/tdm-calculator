@@ -57,6 +57,8 @@ const SidebarCart = props => {
   const reducedParkingRule = strategyRules.find(
     r => r.code === "STRATEGY_PARKING_5"
   );
+  const showReducedParkingNotification =
+    page === 3 && reducedParkingRule && reducedParkingRule.calcValue > 0;
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -82,7 +84,7 @@ const SidebarCart = props => {
           </div>
         ))}
 
-      {page === 3 && reducedParkingRule && reducedParkingRule.calcValue && (
+      {showReducedParkingNotification && (
         <div className={classes.reducedParkingBox}>
           {`Automatically earned ${reducedParkingRule.calcValue.toString()} points
           on the TDM Strategy Reduced Parking Supply for reduction of parking.`}
