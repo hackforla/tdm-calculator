@@ -256,10 +256,13 @@ export function TdmCalculationContainer({
       r => r.code === "PARK_REQUIREMENT"
     ).value;
     const modifiedInputs = {};
-    modifiedInputs["PARK_SPACES"] = Number(e.target.value);
-    const newParkingRatio = Number(e.target.value) / parkingBaseline;
+    modifiedInputs["PARK_SPACES"] = e.target.value;
     let reducedParkingIndex = 0;
-    if (newParkingRatio <= 0.1) {
+    const newParkingRatio = Number(e.target.value) / parkingBaseline;
+    if (e.target.value === "") {
+      // Special case where parking provided is not specified
+      reducedParkingIndex = 0;
+    } else if (newParkingRatio <= 0.1) {
       reducedParkingIndex = 4;
     } else if (newParkingRatio <= 0.5) {
       reducedParkingIndex = 3;
