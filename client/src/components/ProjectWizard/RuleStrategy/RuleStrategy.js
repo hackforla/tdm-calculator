@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
     margin: "0"
   },
   disabled: {
-    opacity: 0.5
+    opacity: "0.6"
   },
   points: {
     marginLeft: "0.5em",

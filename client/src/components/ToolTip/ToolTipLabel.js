@@ -39,9 +39,6 @@ const useStyles = createUseStyles({
       content: '" *"',
       color: "red"
     }
-  },
-  disabledInputLabel: {
-    opacity: "0.5"
   }
 });
 
@@ -57,7 +54,7 @@ const ToolTipLabel = ({
 }) => {
   const classes = useStyles();
   const requiredStyle = requiredInput && classes.requiredInputLabel;
-  const disabledStyle = disabledInput && classes.disabledInputLabel;
+  const disabledStyle = disabledInput;
 
   const descriptionHandler = e => {
     e.preventDefault();
