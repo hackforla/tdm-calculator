@@ -31,7 +31,7 @@ const useStyles = createUseStyles({
     }
   },
   PLValue: {
-    marginLeft: ".5em",
+    marginLeft: "1.5em",
     fontSize: 40,
     fontWeight: "bold",
     width: "2em",
