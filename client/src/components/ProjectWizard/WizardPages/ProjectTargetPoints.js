@@ -35,7 +35,6 @@ const useStyles = createUseStyles({
     fontSize: 40,
     fontWeight: "bold",
     width: "2em",
-    textAlign: "right",
     position: "relative",
     bottom: 6
   },
