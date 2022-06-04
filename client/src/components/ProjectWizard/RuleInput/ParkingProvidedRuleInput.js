@@ -50,7 +50,7 @@ const ParkingProvidedRuleInput = ({
   const [spacesProvided, setSpacesProvided] = useState(value || "");
 
   const onDebounceInputChange = useMemo(
-    () => debounce(e => onInputChange(e), 500),
+    () => debounce(e => onInputChange(e), 750),
     [onInputChange]
   );
 
