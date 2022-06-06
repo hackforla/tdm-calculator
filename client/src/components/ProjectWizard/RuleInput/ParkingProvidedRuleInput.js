@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   input: {
-    padding: "8px 5em 8px 4px",
+    padding: "8px 4em 8px 8px",
     textAlign: "right",
     margin: ".5em auto",
     height: 45,
@@ -33,7 +33,7 @@ const useStyles = createUseStyles({
   },
   unit: {
     position: "relative",
-    marginLeft: "-3.5em"
+    marginLeft: "-70px"
   },
   error: {
     color: "red"
