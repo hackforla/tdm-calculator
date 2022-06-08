@@ -31,13 +31,13 @@ const useStyles = createUseStyles({
     }
   },
   PLValue: {
-    marginLeft: ".5em",
+    marginLeft: "1.2em",
     fontSize: 40,
     fontWeight: "bold",
     width: "2em",
-    textAlign: "right",
     position: "relative",
-    bottom: 6
+    bottom: 6,
+    textAlign: "right"
   },
   PLLabel: {
     flex: 2,
