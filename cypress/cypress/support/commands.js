@@ -28,7 +28,7 @@ Cypress.Commands.add("loginAs", (userType) => {
 
   cy.request({
     method: "POST",
-    url: "http://localhost:5000/api/accounts/login",
+    url: "http://localhost:5001/api/accounts/login",
     body: userCredentials,
   }).then((loginResponse) => {
     //TODO: check implementation if there's a better way to set localstorage. see setLoggedInAccount
@@ -45,7 +45,7 @@ Cypress.Commands.add("resetProjects", (loginResponse) => {
   const cookie = loginResponse.body.token;
   cy.request({
     method: "GET",
-    url: "http://localhost:5000/api/projects",
+    url: "http://localhost:5001/api/projects",
     auth: {
       bearer: cookie,
     },
@@ -57,7 +57,7 @@ Cypress.Commands.add("resetProjects", (loginResponse) => {
         .map((project) => {
           cy.request({
             method: "DELETE",
-            url: `http://localhost:5000/api/projects/${project.id}`,
+            url: `http://localhost:5001/api/projects/${project.id}`,
             auth: {
               bearer: cookie,
             },

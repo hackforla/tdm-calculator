@@ -4,7 +4,7 @@ describe("Duplicate Project Flow", () => {
   const postNewProject = () => {
     return cy.request({
       method: "POST",
-      url: "http://localhost:5000/api/projects",
+      url: "http://localhost:5001/api/projects",
       body: {
         name: "Some Project Hotel",
         address: "12425 Hotel Bl.",
@@ -77,7 +77,9 @@ describe("Duplicate Project Flow", () => {
 
       cy.findByAltText(`Duplicate Project #${res.body.id} Icon`).click();
 
-      cy.findByPlaceholderText("Name of Duplicated Project").clear().type("This is a new name for the duplicated project");
+      cy.findByPlaceholderText("Name of Duplicated Project")
+        .clear()
+        .type("This is a new name for the duplicated project");
 
       cy.findByRole("button", { name: "Create a Copy" }).click();
 

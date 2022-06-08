@@ -4,7 +4,7 @@ RUN mkdir /app
 WORKDIR /app
 COPY /client/package.json .
 COPY /client/package-lock.json .
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 COPY /client .
 
 RUN npm run build
@@ -24,7 +24,7 @@ COPY ./server/app ./app
 COPY ./server/middleware ./middleware
 COPY ./server/server.js ./
 
-EXPOSE 5000
+EXPOSE 500
 ENTRYPOINT ["/usr/local/bin/node", "./server.js"]
 
 

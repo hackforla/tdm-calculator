@@ -78,7 +78,7 @@ describe("Save Button", () => {
 const postNewProject = () => {
   return cy.request({
     method: "POST",
-    url: "http://localhost:5000/api/projects",
+    url: "http://localhost:5001/api/projects",
     body: {
       name: "Some Project Hotel",
       address: "12425 Hotel Bl.",
