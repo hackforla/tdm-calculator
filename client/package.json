@@ -1,8 +1,8 @@
 {
   "name": "tdm-calculator-client",
-  "version": "0.2.37",
+  "version": "0.2.38",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:5001",
   "scripts": {
     "precommit": "lint-staged",
     "start": "react-scripts start",

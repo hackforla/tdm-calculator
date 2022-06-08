@@ -411,7 +411,7 @@ RuleInput.propTypes = {
     link: PropTypes.string
   }),
   onPropInputChange: PropTypes.func,
-  onAINInputError: PropTypes.func.isRequired,
+  onAINInputError: PropTypes.func,
   autoFocus: PropTypes.bool
 };
 

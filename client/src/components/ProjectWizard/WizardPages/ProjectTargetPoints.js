@@ -31,13 +31,13 @@ const useStyles = createUseStyles({
     }
   },
   PLValue: {
-    marginLeft: ".5em",
+    marginLeft: "1.2em",
     fontSize: 40,
     fontWeight: "bold",
     width: "2em",
-    textAlign: "right",
     position: "relative",
-    bottom: 6
+    bottom: 6,
+    textAlign: "right"
   },
   PLLabel: {
     flex: 2,
@@ -48,7 +48,7 @@ const useStyles = createUseStyles({
 
 function ProjectTargetPoints(props) {
   const classes = useStyles();
-  const { rules, onInputChange, isLevel0 } = props;
+  const { rules, onInputChange, isLevel0, onParkingProvidedChange } = props;
   const projectLevel = rules.find(e => e.code === "LEVEL");
   const targetValue = rules.find(e => e.code === "INPUT_TARGET_POINTS_PARK");
 
@@ -70,7 +70,7 @@ function ProjectTargetPoints(props) {
           </h3>
           <ParkingProvidedRuleInput
             rule={parkingProvidedRuleOnly}
-            onInputChange={onInputChange}
+            onInputChange={onParkingProvidedChange}
           />
           <div className={classes.projectBox}>
             <h4>
@@ -99,6 +99,7 @@ function ProjectTargetPoints(props) {
 ProjectTargetPoints.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
+  onParkingProvidedChange: PropTypes.func.isRequired,
   isLevel0: PropTypes.bool.isRequired
 };
 

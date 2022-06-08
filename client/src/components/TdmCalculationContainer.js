@@ -47,7 +47,8 @@ const filters = {
     rule.display &&
     rule.calculationPanelId === 10,
   strategyRules: rule =>
-    rule.category === "measure" && rule.calculationPanelId !== 10
+    (rule.category === "measure" && rule.calculationPanelId !== 10) ||
+    rule.code === "STRATEGY_PARKING_5"
 };
 
 export function TdmCalculationContainer({
@@ -195,22 +196,6 @@ export function TdmCalculationContainer({
     );
   };
 
-  // const employmentPackageSelected = () => {
-  //   // Only enable button if
-  //   // component strategies are not already selected
-  //   const pkgRules = rules.filter(rule =>
-  //     ["STRATEGY_BIKE_4", "STRATEGY_INFO_3", "STRATEGY_PARKING_2"].includes(
-  //       rule.code
-  //     )
-  //   );
-
-  //   const strategyCount = pkgRules.reduce(
-  //     (count, r) => count + (r.value && r.value !== "0" ? 1 : 0),
-  //     0
-  //   );
-  //   return strategyCount === 3;
-  // };
-
   const onPkgSelect = (pkgType, selected = true) => {
     const modifiedInputs = {};
     if (pkgType === "Residential") {
@@ -266,6 +251,35 @@ export function TdmCalculationContainer({
     recalculate(newFormInputs);
   };
 
+  const onParkingProvidedChange = e => {
+    const parkingBaseline = rules.find(
+      r => r.code === "PARK_REQUIREMENT"
+    ).value;
+    const modifiedInputs = {};
+    modifiedInputs["PARK_SPACES"] = e.target.value;
+    let reducedParkingIndex = 0;
+    const newParkingRatio = Number(e.target.value) / parkingBaseline;
+    if (e.target.value === "") {
+      // Special case where parking provided is not specified
+      reducedParkingIndex = 0;
+    } else if (newParkingRatio <= 0.1) {
+      reducedParkingIndex = 4;
+    } else if (newParkingRatio <= 0.5) {
+      reducedParkingIndex = 3;
+    } else if (newParkingRatio <= 0.75) {
+      reducedParkingIndex = 2;
+    } else if (newParkingRatio <= 0.9) {
+      reducedParkingIndex = 1;
+    }
+    modifiedInputs["STRATEGY_PARKING_5"] = reducedParkingIndex;
+
+    const newFormInputs = {
+      ...formInputs,
+      ...modifiedInputs
+    };
+    recalculate(newFormInputs);
+  };
+
   const projectLevel =
     rules && rules.find(rule => rule.code === "PROJECT_LEVEL")
       ? rules.find(rule => rule.code === "PROJECT_LEVEL").value
@@ -276,12 +290,23 @@ export function TdmCalculationContainer({
       r =>
         r.code.startsWith("LAND_USE") && r.code !== "LAND_USE_SCHOOL" && r.value
     );
-    return !!(projectLevel === 1 && applicableLandUse);
+    const lowParkRatio = rules.find(
+      r => r.code === "CALC_PARK_RATIO" && r.value < 110
+    );
+    return !!(projectLevel === 1 && applicableLandUse && lowParkRatio);
   })();
 
   const allowSchoolPackage = (() => {
     const triggerRule = landUseRules.filter(r => r.code === "LAND_USE_SCHOOL");
-    return !!(projectLevel === 1 && triggerRule[0] && triggerRule[0].value);
+    const lowParkRatio = rules.find(
+      r => r.code === "CALC_PARK_RATIO" && r.value < 110
+    );
+    return !!(
+      projectLevel === 1 &&
+      triggerRule[0] &&
+      triggerRule[0].value &&
+      lowParkRatio
+    );
   })();
 
   const getRuleByCode = ruleCode => {
@@ -440,6 +465,11 @@ export function TdmCalculationContainer({
         });
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
+        let projectResponse = null;
+        projectResponse = await projectService.getById(projectId);
+        setDateModified(
+          moment(projectResponse.data.dateModified).format("MM/DD/YYYY h:mm A")
+        );
       } catch (err) {
         console.error(err);
         if (err.response) {
@@ -516,6 +546,7 @@ export function TdmCalculationContainer({
           initializeStrategies={initializeStrategies}
           filters={filters}
           onPkgSelect={onPkgSelect}
+          onParkingProvidedChange={onParkingProvidedChange}
           resultRuleCodes={resultRuleCodes}
           onViewChange={() => {
             setView("d");

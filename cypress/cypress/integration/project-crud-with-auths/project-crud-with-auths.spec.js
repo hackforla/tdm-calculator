@@ -100,7 +100,7 @@ describe("Create, Read, and Update a Project as a Regular User", () => {
   const postNewProject = () => {
     return cy.request({
       method: "POST",
-      url: "http://localhost:5000/api/projects",
+      url: "http://localhost:5001/api/projects",
       body: {
         name: "Cypress Victory Hotel",
         address: "12425 Victory Bl.",

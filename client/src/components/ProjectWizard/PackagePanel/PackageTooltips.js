@@ -130,18 +130,13 @@ export const TooltipResidential = () => {
         </div>
       </div>
       <p>
-        There are many TDM strategies choices and most involve making long-term
-        commitments in meeting program compliance. Small development projects
-        (defined as Program Level 1 that provide no more than the parking
-        baseline), are provided one or more TDM packages that allow fulfillment
-        of the minimum 15 point target from a pre-selected menu. A point
-        incentive is provided for the packages made up of strategies that work
+        {`Small development projects (Program Level 1) that provide parking 
+        less than 110% of baseline are eligible for one or 
+        more TDM packages that allow the fulfillment of the minimum 15-point target. 
+        A bonus point is awarded for a package that is made up of strategies that work 
         together to reinforce their effectiveness in reducing drive-alone trips.
-        Each strategy selected on its own does not result in the required
-        minimum point target but several selected together will. Each package
-        can be unselected and individual strategies that will work best to both
-        achieve the TDM program goal and your specific development objectives
-        should be chosen.
+        Bonus Packages may not be ideal for all projects but are a way to provide easy 
+        compliance and implementation for small projects.`}
       </p>
     </>
   );
@@ -199,18 +194,13 @@ export const TooltipSchool = () => {
         </div>
       </div>
       <p>
-        There are many TDM strategies choices and most involve making long-term
-        commitments in meeting program compliance. Small development projects
-        (defined as Program Level 1 that provide no more than the parking
-        baseline), are provided one or more TDM packages that allow fulfillment
-        of the minimum 15 point target from a pre-selected menu. A point
-        incentive is provided for the packages made up of strategies that work
+        {`Small development projects (Program Level 1) that provide parking less than
+        110% of baseline are eligible for one or 
+        more TDM packages that allow the fulfillment of the minimum 15-point target. 
+        A bonus point is awarded for a package that is made up of strategies that work 
         together to reinforce their effectiveness in reducing drive-alone trips.
-        Each strategy selected on its own does not result in the required
-        minimum point target but several selected together will. Each package
-        can be unselected and individual strategies that will work best to both
-        achieve the TDM program goal and your specific development objectives
-        should be chosen.
+        Bonus Packages may not be ideal for all projects but are a way to provide easy 
+        compliance and implementation for small projects.`}
       </p>
     </>
   );

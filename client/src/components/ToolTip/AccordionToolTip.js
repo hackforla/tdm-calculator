@@ -42,7 +42,7 @@ const useStyles = createUseStyles({
     borderRight: "6px solid transparent"
   },
   disabledDescription: {
-    color: "rgba(15, 41, 64, 0.3)"
+    color: "rgba(15, 41, 64, 0.6)"
   }
 });
 

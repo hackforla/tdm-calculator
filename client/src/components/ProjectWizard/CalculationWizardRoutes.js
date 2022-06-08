@@ -27,6 +27,7 @@ const CalculationWizardRoutes = ({
   onCommentChange,
   initializeStrategies,
   onPkgSelect,
+  onParkingProvidedChange,
   residentialPackageSelected,
   schoolPackageSelected,
   rules,
@@ -57,6 +58,7 @@ const CalculationWizardRoutes = ({
       <Route path="/calculation/3/:projectId?">
         <ProjectTargetPoints
           rules={targetPointRules}
+          onParkingProvidedChange={onParkingProvidedChange}
           onInputChange={onInputChange}
           isLevel0={isLevel0}
         />
@@ -109,6 +111,7 @@ CalculationWizardRoutes.propTypes = {
   onCommentChange: PropTypes.any,
   initializeStrategies: PropTypes.any,
   onPkgSelect: PropTypes.any,
+  onParkingProvidedChange: PropTypes.func.isRequired,
   residentialPackageSelected: PropTypes.any,
   schoolPackageSelected: PropTypes.any,
   rules: PropTypes.any,

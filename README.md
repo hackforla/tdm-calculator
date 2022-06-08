@@ -47,7 +47,7 @@ The city will benefit by having more time to review edge cases for building deve
 
 - To help with user research, find other cities' TDM calculators. For example, check out [SF's TDM Tool](http://www.sftdmtool.org/)
 
-- To contribute to the code, see [Contributing](./docs/contributing.md)
+- To contribute to the code, see [Contributing](https://github.com/hackforla/tdm-calculator/wiki/Contributing-Code)
 
 ### Working with issues
 

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import debounce from "lodash/debounce";
 
 const useStyles = createUseStyles({
   parkingProvidedWrapper: {
@@ -24,15 +25,16 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   input: {
-    padding: "8px 5em 8px 8px",
+    padding: "8px 4em 8px 8px",
     textAlign: "right",
     margin: ".5em auto",
     height: 45,
-    width: "50%"
+    width: "50%",
+    fontSize: "large"
   },
   unit: {
     position: "relative",
-    marginLeft: "-3.5em"
+    marginLeft: "-70px"
   },
   error: {
     color: "red"
@@ -46,10 +48,17 @@ const ParkingProvidedRuleInput = ({
   const classes = useStyles();
   const requiredStyle = required && classes.requiredInputLabel;
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+  const [spacesProvided, setSpacesProvided] = useState(value || "");
+
+  const onDebounceInputChange = useMemo(
+    () => debounce(e => onInputChange(e), 750),
+    [onInputChange]
+  );
 
   const handleChange = e => {
     setShowValidationErrors(true);
-    onInputChange(e);
+    setSpacesProvided(e.target.value);
+    onDebounceInputChange(e);
   };
 
   const onBlur = () => {
@@ -66,7 +75,7 @@ const ParkingProvidedRuleInput = ({
           className={classes.input}
           autoFocus
           type="text"
-          value={value || ""}
+          value={spacesProvided}
           onChange={handleChange}
           name={code}
           id={code}

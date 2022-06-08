@@ -45,7 +45,7 @@ docker rm --force tdmtest
    is installed directly on your native (Windows) machine, use:
 
 ```
-docker run -it -p 5001:5000 --name tdmtest \
+docker run -it -p 5002:5001 --name tdmtest \
 -e SQL_SERVER_NAME=host.docker.internal \
 -e SQL_SERVER_INSTANCE=SQLEXPRESS \
 -e SQL_SERVER_PORT= \
@@ -59,7 +59,7 @@ tdmcalc/tdmapp
 If postgres is installed in a separate docker container as described in the [Local Database](local-database.md) instructions, use:
 
 ```
-docker run -d -p 5001:5000 --name tdmtest \
+docker run -d -p 5002:5001 --name tdmtest \
 -e SQL_SERVER_NAME=host.docker.internal \
 -e SQL_SERVER_INSTANCE= \
 -e SQL_SERVER_PORT=1434 \
@@ -72,8 +72,8 @@ tdmcalc/tdmapp
 In either case, note that:
 
 - The -d option allows the container to run as a daemon in the background.
-- The port mapping `-p 5001:5000` allows you to run the application from the
-  url http://localhost:5001
+- The port mapping `-p 5002:5001` allows you to run the application from the
+  url http://localhost:5002
 
 - Since our database has a servername of localhost, and we need to access the
   localhost on our native machine (Mac or Windows) from within the node container,

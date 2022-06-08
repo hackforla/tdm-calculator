@@ -40,7 +40,7 @@ const RuleInputList = ({
 RuleInputList.propTypes = {
   rules: PropTypes.array,
   onInputChange: PropTypes.func.isRequired,
-  onAINInputError: PropTypes.func.isRequired,
+  onAINInputError: PropTypes.func,
   autoFocus: PropTypes.bool
 };
 
