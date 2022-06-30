@@ -1,4 +1,16 @@
 const accountService = require("../services/account.service");
+const {
+  validate,
+  validationErrorMiddleware
+} = require("../../middleware/validate");
+const accountSchema = require("../schemas/account");
+const accountRegisterSchema = require("../schemas/account.register");
+const accountConfirmRegisterSchema = require("../schemas/account.confirmRegister");
+const accountLoginSchema = require("../schemas/account.login");
+const accountForgotSchema = require("../schemas/account.forgotPassword");
+const accountResetSchema = require("../schemas/account.reset");
+const accountRoleSchema = require("../schemas/account.role");
+const accountConfirmEmail = require("../schemas/account.confirmEmail");
 
 const getAll = async (req, res) => {
   try {
@@ -34,7 +46,7 @@ const register = async (req, res) => {
     const response = await accountService.register(req.body);
     res.send(response);
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(err.code || "500").json({ error: err.toString() });
   }
 };
 
@@ -127,13 +139,41 @@ module.exports = {
   getAll,
   getById,
   getByEmail,
-  register,
-  confirmRegister,
-  resendConfirmationEmail,
-  forgotPassword,
-  resetPassword,
-  login,
-  put,
-  putRoles,
+  register: [
+    validate({ body: accountRegisterSchema }),
+    register,
+    validationErrorMiddleware
+  ],
+  confirmRegister: [
+    validate({ body: accountConfirmRegisterSchema }),
+    confirmRegister,
+    validationErrorMiddleware
+  ],
+  resendConfirmationEmail: [
+    validate({ body: accountConfirmEmail }),
+    resendConfirmationEmail,
+    validationErrorMiddleware
+  ],
+  forgotPassword: [
+    validate({ body: accountForgotSchema }),
+    forgotPassword,
+    validationErrorMiddleware
+  ],
+  resetPassword: [
+    validate({ body: accountResetSchema }),
+    resetPassword,
+    validationErrorMiddleware
+  ],
+  login: [
+    validate({ body: accountLoginSchema }),
+    login,
+    validationErrorMiddleware
+  ],
+  put: [validate({ body: accountSchema }), put, validationErrorMiddleware],
+  putRoles: [
+    validate({ body: accountRoleSchema }),
+    putRoles,
+    validationErrorMiddleware
+  ],
   remove
 };

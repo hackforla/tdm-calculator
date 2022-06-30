@@ -5,7 +5,7 @@ const post = async (req, res) => {
     await publicCommentService.postPublicComment(req.body);
     res.sendStatus(201);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(err.code || 500).send(err);
   }
 };
 
