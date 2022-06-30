@@ -104,8 +104,11 @@ const PublicCommentPage = () => {
         resetForm({});
       }
     } catch (err) {
-      toast.add("Something went wrong");
       console.error(err);
+      toast.add(
+        "An error occurred in transmitting your comment to the server."
+      );
+      resetForm({});
     }
     setSubmitting(false);
   };

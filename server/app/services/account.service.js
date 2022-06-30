@@ -75,7 +75,7 @@ const register = async model => {
         newId: insertResult.output["id"],
         message: "Registration successful."
       };
-      await requestRegistrationConfirmation(email, result);
+      result = await requestRegistrationConfirmation(email, result);
       return result;
     }
   } catch (err) {
