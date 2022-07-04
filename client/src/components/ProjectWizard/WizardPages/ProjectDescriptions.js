@@ -7,7 +7,8 @@ function ProjectDescriptions(props) {
   return (
     <div>
       <h1 className="tdm-wizard-page-title">
-        Welcome to Los Angeles&rsquo; TDM Calculator
+        Welcome to Los Angeles&rsquo; Transportation Demand Management (TDM)
+        Calculator
       </h1>
       <h3 className="tdm-wizard-page-subtitle">
         First, let&rsquo;s get some information about your project
