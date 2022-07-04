@@ -63,10 +63,12 @@ function ProjectTargetPoints(props) {
 
       {projectLevel && projectLevel.calcValue > 0 && (
         <div>
-          <h1 className="tdm-wizard-page-title">Calculate TDM Target Points</h1>
+          <h1 className="tdm-wizard-page-title">
+            Calculate Project TDM Target Points
+          </h1>
           <h3 className="tdm-wizard-page-subtitle">
-            Enter the amount of parking spaces you will provide to determine
-            your TDM target number
+            Target Points (left panel) may be adjusted based on parking spaces
+            entered below.
           </h3>
           <ParkingProvidedRuleInput
             rule={parkingProvidedRuleOnly}
