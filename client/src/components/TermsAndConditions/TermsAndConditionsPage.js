@@ -5,8 +5,7 @@ import ContentContainer from "../Layout/ContentContainer";
 
 const useStyles = createUseStyles({
   termsAndConditions: {
-    maxWidth: "1000px",
-    zIndex: 110
+    maxWidth: "1000px"
   }
 });
 
