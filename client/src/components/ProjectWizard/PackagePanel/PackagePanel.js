@@ -61,8 +61,7 @@ const useStyles = createUseStyles({
     top: "0.4em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    zIndex: "3"
+    justifyContent: "space-between"
   },
   calculationAreaColumn: {
     flexBasis: "50%",

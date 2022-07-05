@@ -6,8 +6,7 @@ import RuleStrategyLabel from "../RuleStrategy/RuleStrategyLabel";
 
 const useStyles = createUseStyles({
   container: {
-    margin: "0.3em 0.75em 0 0.75em",
-    zIndex: "5"
+    margin: "0.3em 0.75em 0 0.75em"
   },
   rowContainer: {
     width: "100%",
