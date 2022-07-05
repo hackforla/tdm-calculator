@@ -25,7 +25,7 @@ const modalStyleDefaultOverrides = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: "auto"
+    zIndex: "20"
   },
   content: {
     position: "static",
