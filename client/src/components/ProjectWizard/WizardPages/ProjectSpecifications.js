@@ -22,9 +22,10 @@ function ProjectSpecifications(props) {
   const { rules, onInputChange, uncheckAll, resetProject } = props;
   return (
     <div>
-      <h1 className="tdm-wizard-page-title">Enter project specifications</h1>
+      <h1 className="tdm-wizard-page-title">Determine Project Level</h1>
       <h3 className="tdm-wizard-page-subtitle">
-        Fill out the use specifications that apply to your project
+        Project Level (left panel) and Citywide Parking Baseline (next page) are
+        determined by the use specifications entered below.
       </h3>
       <div className={classes.resetContainer}>
         <ResetButtons

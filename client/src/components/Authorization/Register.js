@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import * as accountService from "../../services/account.service";
 import { createUseStyles } from "react-jss";
@@ -32,9 +32,11 @@ const Register = props => {
   const [errorMsg, setErrorMsg] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    focusRef.current.focus();
-  });
+  // useEffect(() => {
+  //   if (focusRef.current) {
+  //     focusRef.current.focus();
+  //   }
+  // });
 
   const registerSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -74,12 +76,10 @@ const Register = props => {
         setErrorMsg(`The email ${email} is already registered. Please
           login or use the Forgot Password feature if you have
           forgotten your password.`);
-        setSubmitting(false);
       } else {
         setErrorMsg(`An error occurred in sending the confirmation
           message to ${email}. Try to log in, and follow the
           instructions for re-sending the confirmation email.`);
-        setSubmitting(false);
       }
     } catch (err) {
       setErrorMsg(err.message);
@@ -159,6 +159,7 @@ const Register = props => {
                       type="password"
                       name="password"
                       placeholder="Password"
+                      autocomplete="new-password"
                       className={`form-control ${
                         touched.password && errors.password ? "is-invalid" : ""
                       }`}
@@ -174,6 +175,7 @@ const Register = props => {
                       type="password"
                       name="passwordConfirm"
                       placeholder="Retype Password"
+                      autocomplete="new-password"
                       className={`form-control ${
                         touched.passwordConfirm && errors.passwordConfirm
                           ? "is-invalid"
@@ -218,7 +220,8 @@ const Register = props => {
       <br />
       {submitted ? null : (
         <div className={classes.authText}>
-          Already have an account? &nbsp; <Link to="/login">Log In</Link>
+          Already have an account? &nbsp;{" "}
+          <Link to={{ pathname: "/login" }}>Log In</Link>
         </div>
       )}
     </ContentContainer>

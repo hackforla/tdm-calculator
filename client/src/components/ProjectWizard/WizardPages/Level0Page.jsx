@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import PlanningIcon from "../../../images/planning.png";
 import WarningIcon from "../../../images/warning-icon.png";
 import { createUseStyles } from "react-jss";
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const useStyles = createUseStyles({
   level0NavButtons: {
@@ -60,12 +62,24 @@ const Level0Page = ({ isLevel0 }) => {
               <p>
                 Based on the information you provided, the Transportation Demand
                 Management (TDM) Ordinance <strong>may</strong> not apply to
-                your project.
+                your project due to its smaller size. Please check LAMC Section
+                12.26 J.3(c) of the{" "}
+                <a
+                  href="https://planning.lacity.org/odocument/1dc924ce-b94a-403b-afe0-17ba33b3dbe1/Draft_TDM_Ordinance.pdf"
+                  target="external"
+                >
+                  Draft Revised TDM Ordinance{" "}
+                  <FontAwesomeIcon
+                    icon={faExternalLinkAlt}
+                    className={classes.externalLinkIcon}
+                  />
+                </a>{" "}
+                for applicability and exemption details.
               </p>
               <p>
                 Final determination of the TDM Ordinance applicability will be
-                made by the Department of City Planning upon review of your
-                project application.
+                made by the Department of Building and Safety upon review of
+                your project application.
               </p>
             </div>
           </div>

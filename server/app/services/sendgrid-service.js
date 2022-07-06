@@ -15,12 +15,7 @@ const send = async (emailTo, emailFrom, subject, textBody, htmlBody) => {
     text: textBody,
     html: htmlBody
   };
-  return sgMail.send(msg, false, err => {
-    if (err) {
-      return Promise.reject(`Sending email failed. ${err.message}`);
-    }
-    return Promise.resolve(true);
-  });
+  return sgMail.send(msg, false);
 };
 
 const sendRegistrationConfirmation = async (email, token) => {
@@ -36,12 +31,7 @@ const sendRegistrationConfirmation = async (email, token) => {
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };
-  return sgMail.send(msg, false, err => {
-    if (err) {
-      return Promise.reject("Sending registration confirmation email failed.");
-    }
-    return Promise.resolve(true);
-  });
+  return sgMail.send(msg, false);
 };
 
 const sendResetPasswordConfirmation = async (email, token) => {
@@ -57,15 +47,7 @@ const sendResetPasswordConfirmation = async (email, token) => {
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };
-  return sgMail.send(msg, false, err => {
-    if (err) {
-      return Promise.reject(
-        "Sending password reset confirmation email failed."
-      );
-    } else {
-      return Promise.resolve(true);
-    }
-  });
+  return sgMail.send(msg, false);
 };
 
 const sendPublicComment = async publicCommentData => {
@@ -84,17 +66,10 @@ const sendPublicComment = async publicCommentData => {
                 forwardToWebTeam ? "Yes" : "No"
               } </p>`
     };
-    return sgMail.send(msg, false, err => {
-      if (err) {
-        return Promise.reject(
-          "Sending email to LA City or Website team failed."
-        );
-      } else {
-        return Promise.resolve(true);
-      }
-    });
+    return sgMail.send(msg, false);
   } catch (err) {
     console.error(err);
+    return Promise.reject("Sending email to LA City or Website team failed.");
   }
 };
 

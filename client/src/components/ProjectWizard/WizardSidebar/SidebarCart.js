@@ -59,6 +59,23 @@ const SidebarCart = props => {
   );
   const showReducedParkingNotification =
     page === 3 && reducedParkingRule && reducedParkingRule.calcValue > 0;
+  let reductionPercentageText = "";
+  if (showReducedParkingNotification) {
+    switch (reducedParkingRule.calcValue) {
+      case 12:
+        reductionPercentageText = "90-100%";
+        break;
+      case 8:
+        reductionPercentageText = "50-89%";
+        break;
+      case 4:
+        reductionPercentageText = "25-49%";
+        break;
+      default:
+        reductionPercentageText = "10-24%";
+        break;
+    }
+  }
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -87,7 +104,8 @@ const SidebarCart = props => {
       {showReducedParkingNotification && (
         <div className={classes.reducedParkingBox}>
           {`Automatically earned ${reducedParkingRule.calcValue.toString()} points
-          on the TDM Strategy Reduced Parking Supply for reduction of parking.`}
+          on the TDM Strategy Reduced Parking Supply for reducing parking 
+          by ${reductionPercentageText} below the Baseline.`}
         </div>
       )}
     </div>

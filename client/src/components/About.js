@@ -61,7 +61,14 @@ const About = () => {
           methodology and user centered design.
         </p>
         <p>
-          Learn more about <a href="http://www.hackforla.org">Hack for LA</a>
+          Learn more about{" "}
+          <a href="http://www.hackforla.org" target="external">
+            Hack for LA{" "}
+            <FontAwesomeIcon
+              icon={faExternalLinkAlt}
+              className={classes.externalLinkIcon}
+            />
+          </a>
         </p>
         <h3>Status of the TDM Calculator</h3>
 

@@ -1,5 +1,7 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
   title: {
@@ -109,12 +111,20 @@ const ChecklistContent = () => {
       </div>
       <br />
       <p className={classes.text}>
-        Check LAMC Section 12.26 J.3(b)(3) of the{" "}
-        <a href="https://planning.lacity.org/odocument/1dc924ce-b94a-403b-afe0-17ba33b3dbe1/Draft_TDM_Ordinance.pdf">
+        If your project&apos;s land use is not listed above, please check LAMC
+        Section 12.26 J.3(c) of the{" "}
+        <a
+          href="https://planning.lacity.org/odocument/1dc924ce-b94a-403b-afe0-17ba33b3dbe1/Draft_TDM_Ordinance.pdf"
+          target="external"
+        >
           {" "}
-          Draft Revised TDM Ordinance
+          Draft Revised TDM Ordinance{" "}
+          <FontAwesomeIcon
+            icon={faExternalLinkAlt}
+            className={classes.externalLinkIcon}
+          />
         </a>{" "}
-        for exemption details.
+        for applicability and exemption details.
       </p>
     </>
   );

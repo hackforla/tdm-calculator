@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import Button from "../Button/Button";
@@ -51,9 +51,9 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
   const focusRef = useRef(null);
   const classes = useStyles();
 
-  useEffect(() => {
-    focusRef.current.focus();
-  });
+  // useEffect(() => {
+  //   focusRef.current.focus();
+  // });
 
   return !submitted ? (
     <>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 import { Link, withRouter, useHistory } from "react-router-dom";
@@ -39,10 +39,6 @@ const Login = props => {
   const [withoutSavingWarningIsVisible, setWithoutSavingWarningIsVisible] =
     useState(false);
   const classes = useStyles({ withoutSavingWarningIsVisible });
-
-  useEffect(() => {
-    focusRef.current.focus();
-  });
 
   const initialValues = {
     email: match.params.email ? decodeURIComponent(match.params.email) : "",
@@ -242,9 +238,14 @@ const Login = props => {
       <br />
       <div>
         New user? &nbsp;
-        <Link id="cy-login-nav-to-register" to={"/register"}>
+        <a
+          id="cy-login-nav-to-register"
+          onClick={() => {
+            history.push("/register");
+          }}
+        >
           Create an account
-        </Link>
+        </a>
       </div>
     </ContentContainer>
   );

@@ -89,12 +89,6 @@ export const TooltipResidential = () => {
   const classes = useStyles({ theme });
   return (
     <>
-      <p>
-        All Level 1 projects (except schools) qualify for this optional bonus
-        package. You will earn &nbsp;
-        <span style={{ fontWeight: "bold" }}>1 bonus point</span> for selecting
-        this package.
-      </p>
       <div className={classes.box}>
         <div className={classes.boxHeader}>
           <h4 style={{ textAlign: "center", margin: "0.2em 0.5em" }}>
@@ -130,13 +124,17 @@ export const TooltipResidential = () => {
         </div>
       </div>
       <p>
-        {`Small development projects (Program Level 1) that provide parking 
-        less than 110% of baseline are eligible for one or 
-        more TDM packages that allow the fulfillment of the minimum 15-point target. 
-        A bonus point is awarded for a package that is made up of strategies that work 
-        together to reinforce their effectiveness in reducing drive-alone trips.
-        Bonus Packages may not be ideal for all projects but are a way to provide easy 
-        compliance and implementation for small projects.`}
+        Level 1 non-school projects that provide no more than 110% of the
+        Citywide Parking Baseline may be eligible for this optional bonus
+        package. Because the strategies in a Bonus Package work together to
+        reinforce their effectiveness in reducing drive-alone trips, projects
+        that select a Bonus Package are awarded{" "}
+        <span style={{ fontWeight: "bold" }}>
+          {" "}
+          one additional bonus point, for a total of 15 earned points.
+        </span>{" "}
+        Bonus Packages may not be ideal for all projects but are a way to
+        provide easy compliance and implementation for small projects.
       </p>
     </>
   );
@@ -146,12 +144,6 @@ export const TooltipSchool = () => {
   const classes = useStyles();
   return (
     <>
-      <p>
-        All Level 1 school projects qualify for this optional bonus package. You
-        will earn &nbsp;
-        <span style={{ fontWeight: "bold" }}>1 bonus point</span> for selecting
-        this package.
-      </p>
       <div className={classes.box}>
         <div className={classes.boxHeader}>
           <h4 style={{ textAlign: "center", margin: "0.2em 0.5em" }}>
@@ -194,13 +186,17 @@ export const TooltipSchool = () => {
         </div>
       </div>
       <p>
-        {`Small development projects (Program Level 1) that provide parking less than
-        110% of baseline are eligible for one or 
-        more TDM packages that allow the fulfillment of the minimum 15-point target. 
-        A bonus point is awarded for a package that is made up of strategies that work 
-        together to reinforce their effectiveness in reducing drive-alone trips.
-        Bonus Packages may not be ideal for all projects but are a way to provide easy 
-        compliance and implementation for small projects.`}
+        Level 1 school projects that provide no more than 110% of the Citywide
+        Parking Baseline may be eligible for this optional bonus package.
+        Because the strategies in a Bonus Package work together to reinforce
+        their effectiveness in reducing drive-alone trips, projects that select
+        a Bonus Package are awarded{" "}
+        <span style={{ fontWeight: "bold" }}>
+          {" "}
+          one additional bonus point, for a total of 15 earned points.
+        </span>{" "}
+        Bonus Packages may not be ideal for all projects but are a way to
+        provide easy compliance and implementation for small projects.
       </p>
     </>
   );
