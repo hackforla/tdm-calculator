@@ -25,7 +25,7 @@ function ProjectSpecifications(props) {
       <h1 className="tdm-wizard-page-title">Determine Project Level</h1>
       <h3 className="tdm-wizard-page-subtitle">
         Project Level (left panel) and Citywide Parking Baseline (next page) are
-        determined by the use sepcifications entered below.
+        determined by the use specifications entered below.
       </h3>
       <div className={classes.resetContainer}>
         <ResetButtons
