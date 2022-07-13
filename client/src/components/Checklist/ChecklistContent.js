@@ -114,7 +114,7 @@ const ChecklistContent = () => {
         If your project&apos;s land use is not listed above, please check LAMC
         Section 12.26 J.3(c) of the{" "}
         <a
-          href="https://planning.lacity.org/odocument/1dc924ce-b94a-403b-afe0-17ba33b3dbe1/Draft_TDM_Ordinance.pdf"
+          href="https://planning.lacity.org/odocument/bb9114b3-29e3-423f-8b91-027afb242e63/Revised_DRAFT_TDMOrdinance_June2022.pdf"
           target="external"
         >
           {" "}
