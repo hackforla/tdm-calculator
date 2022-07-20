@@ -95,7 +95,7 @@ const About = () => {
           </li>
           <li className={classes.linklist}>
             <a
-              href="https://planning.lacity.org/odocument/9fae920f-d618-4362-bd01-adb6abfbd80d/Draft_TDM_Program_Guidelines.pdf"
+              href="https://planning.lacity.org/odocument/c3c9b320-4431-49ff-99d2-15b479c06074/Revised_DRAFT_TDMProgramGuidelines_June2022.pdf"
               target="external"
             >
               Proposed Ordinances and Initiatives
