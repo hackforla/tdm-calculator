@@ -156,6 +156,7 @@ const PublicCommentPage = () => {
                 </label>
 
                 <Field
+                  id="email"
                   name="email"
                   type="email"
                   className={clsx(
@@ -176,6 +177,7 @@ const PublicCommentPage = () => {
                 </label>
 
                 <Field
+                  id="comment"
                   name="comment"
                   as="textarea"
                   className={clsx(
@@ -192,7 +194,11 @@ const PublicCommentPage = () => {
                 >
                   Would you like your comment to also be delivered to the
                   website team?&nbsp;
-                  <Field type="checkbox" name="forwardToWebTeam" />
+                  <Field
+                    id="forwardToWebTeam"
+                    type="checkbox"
+                    name="forwardToWebTeam"
+                  />
                 </label>
               </div>
 
