@@ -5,6 +5,8 @@ import Modal from "react-modal";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
 
+import "./ChecklistModal.css";
+
 const useStyles = createUseStyles({
   modalActions: {
     display: "flex",
@@ -48,6 +50,7 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
 
   return (
     <Modal
+      closeTimeoutMS={1000}
       isOpen={checklistModalOpen}
       onRequestClose={toggleChecklistModal}
       shouldCloseOnOverlayClick={true}
