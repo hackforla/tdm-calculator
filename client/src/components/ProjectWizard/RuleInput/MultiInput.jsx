@@ -109,6 +109,9 @@ const Input = props => {
         {inputProps => (
           <input
             {...inputProps}
+            // placeholder attribute is hard-coded, as I could not figure out how to pass props to the InputMask,
+            // and the only usage is for a required field on page 1 of wizard. (JCD)
+            placeholder="required"
             className={classes.textInput}
             style={{
               margin: 0,

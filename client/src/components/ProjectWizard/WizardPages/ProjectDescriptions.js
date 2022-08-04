@@ -20,6 +20,7 @@ function ProjectDescriptions(props) {
           onInputChange={onInputChange}
           onAINInputError={onAINInputError}
           suppressHeader={true}
+          showPlaceholder={true}
         />
       </form>
       <div className="tdm-wizard-page-disclaimer">
