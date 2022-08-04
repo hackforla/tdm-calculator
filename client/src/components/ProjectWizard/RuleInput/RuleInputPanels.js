@@ -22,6 +22,7 @@ const RuleInputPanels = ({
           suppressHeader={suppressHeader}
         >
           <RuleInputList
+            adfadsfdasfds
             key={pRules[0].calculationPanelId}
             rules={pRules}
             onInputChange={onInputChange}
