@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   container: {
-    width: "250px",
+    width: "calc((100% / 14.5) * 3);",
     background: "#e9e9f1",
     padding: "1em",
     paddingBottom: "0",
