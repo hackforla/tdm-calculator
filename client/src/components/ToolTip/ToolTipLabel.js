@@ -15,7 +15,8 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     "&:hover": {
       fontWeight: "bold",
-      textDecoration: "underline"
+      textDecoration: "underline",
+      cursor: "pointer"
     }
   },
   tooltip: {

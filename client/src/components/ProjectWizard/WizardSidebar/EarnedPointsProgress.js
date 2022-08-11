@@ -39,19 +39,20 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    letter: "1%"
+    letter: "1%",
+    marginBottom: "18px"
   },
   earnedPointsLabel: {
     fontSize: "16px",
     fontWeight: "700",
-    lineHeight: "24px"
+    lineHeight: "20px"
   },
   targetPointsValue: {
     gridColumn: 1,
     gridRow: 1,
     zIndex: 4,
     fontFamily: "Oswald",
-    fontSize: "22px",
+    fontSize: "38px",
     fontWeight: "700",
     color: ({ theme }) => theme.colorLADOT,
     justifySelf: "center",
@@ -190,7 +191,7 @@ const EarnedPointsProgress = props => {
         <circle
           stroke={theme.colorPrimary}
           fill={theme.colorPrimary}
-          r="28"
+          r="34"
           cx="178"
           cy="76"
           style={{
