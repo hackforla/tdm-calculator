@@ -50,7 +50,7 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
 
   return (
     <Modal
-      closeTimeoutMS={1000}
+      closeTimeoutMS={1500}
       isOpen={checklistModalOpen}
       onRequestClose={toggleChecklistModal}
       shouldCloseOnOverlayClick={true}
