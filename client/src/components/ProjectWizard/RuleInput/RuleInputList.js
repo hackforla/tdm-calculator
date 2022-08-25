@@ -15,7 +15,8 @@ const RuleInputList = ({
   rules,
   onInputChange,
   onAINInputError,
-  autoFocus
+  autoFocus,
+  showPlaceholder
 }) => {
   const classes = useStyles();
 
@@ -30,6 +31,7 @@ const RuleInputList = ({
                 onPropInputChange={onInputChange}
                 onAINInputError={onAINInputError}
                 autoFocus={autoFocus && !index}
+                showPlaceholder={showPlaceholder}
               />
             );
           })
@@ -41,7 +43,8 @@ RuleInputList.propTypes = {
   rules: PropTypes.array,
   onInputChange: PropTypes.func.isRequired,
   onAINInputError: PropTypes.func,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
+  showPlaceholder: PropTypes.bool
 };
 
 export default RuleInputList;
