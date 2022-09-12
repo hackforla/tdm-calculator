@@ -8,7 +8,8 @@ const RuleInputPanels = ({
   rules,
   suppressHeader,
   onInputChange,
-  onAINInputError
+  onAINInputError,
+  showPlaceholder
 }) => {
   const panelIds = getCalculationPanelIds(rules);
   const panelsRules = getPanelRules(panelIds, rules);
@@ -27,6 +28,7 @@ const RuleInputPanels = ({
             onInputChange={onInputChange}
             onAINInputError={onAINInputError}
             autoFocus={!index}
+            showPlaceholder={showPlaceholder}
           />
         </Panels>
       ))}
@@ -39,7 +41,8 @@ RuleInputPanels.propTypes = {
   suppressHeader: PropTypes.bool,
   onInputChange: PropTypes.func.isRequired,
   onAINInputError: PropTypes.func,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
+  showPlaceholder: PropTypes.bool
 };
 
 export default RuleInputPanels;

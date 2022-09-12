@@ -148,7 +148,8 @@ const RuleInput = ({
   },
   onPropInputChange,
   onAINInputError,
-  autoFocus
+  autoFocus,
+  showPlaceholder
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -210,6 +211,9 @@ const RuleInput = ({
                 max={maxValue}
                 autoComplete="off"
                 disabled={!display}
+                placeholder={
+                  showPlaceholder ? (required ? "required" : "optional") : ""
+                }
               />
             </div>
             <div
@@ -313,6 +317,9 @@ const RuleInput = ({
                 data-testid={code}
                 maxLength={maxStringLength}
                 autoComplete="off"
+                placeholder={
+                  showPlaceholder ? (required ? "required" : "optional") : ""
+                }
               />
             ) : dataType === "textarea" ? (
               <textarea
@@ -329,6 +336,9 @@ const RuleInput = ({
                 minLength={minStringLength}
                 maxLength={maxStringLength}
                 autoComplete="off"
+                placeholder={
+                  showPlaceholder ? (required ? "required" : "optional") : ""
+                }
               />
             ) : (
               <MultiInput
@@ -339,6 +349,10 @@ const RuleInput = ({
                 onChange={onInputChange}
                 onError={onInputError}
                 setShowValidationErrors={setShowValidationErrors}
+                required={required}
+                placeholder={
+                  showPlaceholder ? (required ? "required" : "optional") : ""
+                }
               />
             )}
           </div>
@@ -408,7 +422,8 @@ RuleInput.propTypes = {
   }),
   onPropInputChange: PropTypes.func,
   onAINInputError: PropTypes.func,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
+  showPlaceholder: PropTypes.bool
 };
 
 export default RuleInput;
