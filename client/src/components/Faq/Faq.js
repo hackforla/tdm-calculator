@@ -72,8 +72,8 @@ const Faq = ({ faq, admin }) => {
         </div>
       ) : (
         <div>
-          <p>{faq.question}</p>
-          <p>{faq.answer}</p>
+          {/* <p>{faq.question}</p>
+          <p>{faq.answer}</p> */}
         </div>
       )}
     </li>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import * as faqService from "../../services/faq.service";
+import Faq from "./Faq";
 import FaqList from "./FaqList";
-import FaqAdd from "./FaqAdd";
+// import FaqAdd from "./FaqAdd";
+import ExpandButtons from "./ExpandButtons";
 
 const FaqView = () => {
   const [faqList, setFaqList] = useState([]);
@@ -24,8 +26,10 @@ const FaqView = () => {
 
   return (
     <div>
-      <h4>Add/Update/Delete Frequently Asked Questions</h4>
-      {admin ? <FaqAdd /> : null}
+      <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
+      <ExpandButtons />
+      <Faq />
+      {/* {admin ? <FaqAdd /> : null} */}
       <FaqList faqList={faqList} admin={admin} />
     </div>
   );
