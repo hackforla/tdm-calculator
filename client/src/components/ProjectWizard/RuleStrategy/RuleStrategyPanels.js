@@ -19,7 +19,7 @@ const useStyles = createUseStyles({
     backgroundColor: "#0f2940",
     color: "white",
     padding: ".4em",
-    marginBottom: "0.3em"
+    marginBottom: "0.6em"
   },
   strategyName: {
     flexGrow: "1",
