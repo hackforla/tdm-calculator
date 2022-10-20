@@ -30,7 +30,8 @@ const useStyles = createUseStyles({
     textDecoration: "underline"
   },
   faqCarotIcon: {
-    fontSize: "14px"
+    fontSize: "14px",
+    margin: "-2px"
   }
 });
 

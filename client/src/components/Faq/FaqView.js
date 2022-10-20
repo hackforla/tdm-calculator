@@ -8,7 +8,7 @@ import ExpandButtons from "./ExpandButtons";
 const FaqView = () => {
   const [faqList, setFaqList] = useState([]);
   // currently set to true for testing
-  //const [admin, setAdmin] = useState(true);
+  // const [admin, setAdmin] = useState(true);
   const admin = true;
 
   useEffect(() => {
@@ -16,6 +16,7 @@ const FaqView = () => {
       .get()
       .then(response => {
         setFaqList(response.data);
+        console.log(response.data);
       })
       .catch(error => {
         console.error(JSON.stringify(error, null, 2));
@@ -29,7 +30,7 @@ const FaqView = () => {
       <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
       <ExpandButtons />
       <Faq />
-      {/* {admin ? <FaqAdd /> : null} */}
+      {admin ? <FaqAdd /> : null}
       <FaqList faqList={faqList} admin={admin} />
     </div>
   );

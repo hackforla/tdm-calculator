@@ -5,6 +5,7 @@ import * as faqService from "../../services/faq.service";
 // want to make this component re-useable, so will check if admin
 // if admin, add/update/delete buttons show up
 // if not, only question and answer show up
+
 const Faq = ({ faq, admin }) => {
   const [updateFaq, setUpdateFaq] = useState(faq);
   const [toggleUpdate, setToggleUpdate] = useState(false);
@@ -72,8 +73,8 @@ const Faq = ({ faq, admin }) => {
         </div>
       ) : (
         <div>
-          {/* <p>{faq.question}</p>
-          <p>{faq.answer}</p> */}
+          <p>{faq.question}</p>
+          <p>{faq.answer}</p>
         </div>
       )}
     </li>
@@ -85,7 +86,8 @@ Faq.propTypes = {
     question: PropTypes.string.isRequired,
     answer: PropTypes.string.isRequired
   }),
-  admin: PropTypes.bool.isRequired
+  // admin: PropTypes.bool.isRequired
+  admin: PropTypes.bool
 };
 
 export default Faq;
