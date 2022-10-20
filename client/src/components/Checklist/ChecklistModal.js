@@ -5,8 +5,6 @@ import Modal from "react-modal";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
 
-import "./ChecklistModal.css";
-
 const useStyles = createUseStyles({
   modalActions: {
     display: "flex",
