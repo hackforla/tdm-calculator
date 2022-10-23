@@ -4,11 +4,11 @@ import Faq from "./Faq";
 
 const FaqList = ({ faqList, admin }) => {
   return (
-    <ul>
+    <div>
       {faqList.map(faq => (
         <Faq faq={faq} key={faq.question} admin={admin} />
       ))}
-    </ul>
+    </div>
   );
 };
 FaqList.propTypes = {

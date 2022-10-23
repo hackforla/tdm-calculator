@@ -3,6 +3,7 @@ import * as faqService from "../../services/faq.service";
 import FaqList from "./FaqList";
 import FaqAdd from "./FaqAdd";
 import ExpandButtons from "./ExpandButtons";
+import ContentContainer from "../Layout/ContentContainer";
 
 const FaqView = () => {
   const [faqList, setFaqList] = useState([]);
@@ -24,12 +25,16 @@ const FaqView = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
-      <ExpandButtons />
-      {admin ? <FaqAdd /> : null}
-      <FaqList faqList={faqList} admin={admin} />
-    </div>
+    <ContentContainer componentToTrack="FaqPage">
+      <div
+        style={{ width: "1000px", paddingRight: "40px", maxWidth: "1000px" }}
+      >
+        <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
+        <ExpandButtons />
+        {admin ? <FaqAdd /> : null}
+        <FaqList faqList={faqList} admin={admin} />
+      </div>
+    </ContentContainer>
   );
 };
 
