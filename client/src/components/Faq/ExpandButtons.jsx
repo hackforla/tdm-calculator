@@ -63,8 +63,10 @@ const ExpandButtons = props => {
 };
 
 ExpandButtons.propTypes = {
-  uncheckAll: PropTypes.func.isRequired,
-  resetProject: PropTypes.func.isRequired
+  uncheckAll: PropTypes.func,
+  resetProject: PropTypes.func
+  // uncheckAll: PropTypes.func.isRequired,
+  // resetProject: PropTypes.func.isRequired
 };
 
 export default ExpandButtons;

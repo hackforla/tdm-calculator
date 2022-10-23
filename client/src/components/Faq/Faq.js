@@ -86,8 +86,7 @@ Faq.propTypes = {
     question: PropTypes.string.isRequired,
     answer: PropTypes.string.isRequired
   }),
-  // admin: PropTypes.bool.isRequired
-  admin: PropTypes.bool
+  admin: PropTypes.bool.isRequired
 };
 
 export default Faq;
