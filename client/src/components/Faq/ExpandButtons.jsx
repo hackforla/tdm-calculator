@@ -10,7 +10,8 @@ const useStyles = createUseStyles({
     gridColumn: "h-end",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    margin: "20px 0px"
   },
   faqExpandIcons: {
     display: "flex",
@@ -32,41 +33,54 @@ const useStyles = createUseStyles({
   faqCarotIcon: {
     fontSize: "14px",
     margin: "-2px"
+  },
+  expandCollapseAll: {
+    display: "flex",
+    margin: "5px"
   }
 });
 
 const ExpandButtons = props => {
   const classes = useStyles();
-  const { uncheckAll, resetProject } = props;
+  const { expandAll, collapseAll } = props;
+
   return (
     <div className={classes.expandCollapseFlexContainer}>
-      <div className={classes.faqExpandIcons}>
-        <FontAwesomeIcon icon={faAngleUp} className={classes.faqCarotIcon} />
-        <FontAwesomeIcon icon={faAngleDown} className={classes.faqCarotIcon} />
+      <div className={classes.expandCollapseAll}>
+        <div className={classes.faqExpandIcons}>
+          <FontAwesomeIcon icon={faAngleUp} className={classes.faqCarotIcon} />
+          <FontAwesomeIcon
+            icon={faAngleDown}
+            className={classes.faqCarotIcon}
+          />
+        </div>
+        <button
+          className={classes.expandAllButton}
+          // data-testid="resetProject"
+          onClick={expandAll}
+        >
+          Expand All
+        </button>
       </div>
-      <button
-        className={classes.expandAllButton}
-        // data-testid="resetProject"
-        onClick={resetProject}
-      >
-        Expand All
-      </button>
-      <div className={classes.faqExpandIcons}>
-        <FontAwesomeIcon icon={faAngleDown} className={classes.faqCarotIcon} />
-        <FontAwesomeIcon icon={faAngleUp} className={classes.faqCarotIcon} />
+      <div className={classes.expandCollapseAll}>
+        <div className={classes.faqExpandIcons}>
+          <FontAwesomeIcon
+            icon={faAngleDown}
+            className={classes.faqCarotIcon}
+          />
+          <FontAwesomeIcon icon={faAngleUp} className={classes.faqCarotIcon} />
+        </div>
+        <button className={classes.collapseAllButton} onClick={collapseAll}>
+          Collapse All
+        </button>
       </div>
-      <button className={classes.collapseAllButton} onClick={uncheckAll}>
-        Collapse All
-      </button>
     </div>
   );
 };
 
 ExpandButtons.propTypes = {
-  uncheckAll: PropTypes.func,
-  resetProject: PropTypes.func
-  // uncheckAll: PropTypes.func.isRequired,
-  // resetProject: PropTypes.func.isRequired
+  expandAll: PropTypes.func.isRequired,
+  collapseAll: PropTypes.func.isRequired
 };
 
 export default ExpandButtons;

@@ -7,6 +7,9 @@ import ContentContainer from "../Layout/ContentContainer";
 
 const FaqView = () => {
   const [faqList, setFaqList] = useState([]);
+  const [expandAllAcordions, setExpandAllAcordions] = useState(false);
+  const [collapseAllAcordions, setCollapseAllAcordions] = useState(false);
+
   // currently set to true for testing
   // const [admin, setAdmin] = useState(true);
   const admin = false;
@@ -24,15 +27,28 @@ const FaqView = () => {
     // check if admin
   }, []);
 
+  const expandAll = () => {
+    setExpandAllAcordions(true);
+    console.log("expand");
+  };
+
+  const collapseAll = () => {
+    setCollapseAllAcordions(true);
+    console.log("collapse");
+  };
+
   return (
     <ContentContainer componentToTrack="FaqPage">
-      <div
-        style={{ width: "1000px", paddingRight: "40px", maxWidth: "1000px" }}
-      >
+      <div style={{ width: "-webkit-fill-available" }}>
         <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
-        <ExpandButtons />
+        <ExpandButtons expandAll={expandAll} collapseAll={collapseAll} />
         {admin ? <FaqAdd /> : null}
-        <FaqList faqList={faqList} admin={admin} />
+        <FaqList
+          faqList={faqList}
+          admin={admin}
+          expandAllAcordions={expandAllAcordions}
+          collapseAllAcordions={collapseAllAcordions}
+        />
       </div>
     </ContentContainer>
   );

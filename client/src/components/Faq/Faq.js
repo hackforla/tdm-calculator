@@ -11,24 +11,53 @@ import { faMinus } from "@fortawesome/free-solid-svg-icons";
 // if not, only question and answer show up
 
 const useStyles = createUseStyles({
-  expandCollapseFlexContainer: {
+  collapseFlexContainer: {
     gridColumn: "h-end",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end"
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingRight: "40px",
+    height: "70px",
+    borderBottom: "2px solid #cacaca"
+  },
+  expandFlexContainer: {
+    gridColumn: "h-end",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: "10px",
+    paddingRight: "40px",
+    marginTop: "20px",
+    height: "70px",
+    border: "3px solid #a6c439"
   },
   faqPlusMinusIcons: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between"
+  },
+  faqExpandIcon: {
+    display: "flex",
+    alignItems: "center",
+    fontSize: "25px"
   }
 });
 
-const Faq = ({ faq, admin }) => {
+const Faq = ({ faq, admin, expandAllAcordions, collapseAllAcordions }) => {
   const classes = useStyles();
   const [updateFaq, setUpdateFaq] = useState(faq);
   const [toggleUpdate, setToggleUpdate] = useState(false);
   const [toggleExpand, setToggleExpand] = useState(false);
+
+  if (expandAllAcordions === true) {
+    setToggleExpand(true);
+  }
+
+  if (collapseAllAcordions === true) {
+    setToggleExpand(false);
+  }
 
   const onInputTyping = event => {
     setUpdateFaq({ ...updateFaq, [event.target.name]: event.target.value });
@@ -56,9 +85,9 @@ const Faq = ({ faq, admin }) => {
   };
 
   return (
-    <article classes={classes.faqContent}>
+    <div>
       {admin ? (
-        <div>
+        <div classes={classes.faqContent}>
           {toggleUpdate ? (
             <div>
               <input
@@ -93,26 +122,34 @@ const Faq = ({ faq, admin }) => {
         </div>
       ) : (
         <div>
-          <p>{faq.question}</p>
-          <div className={classes.expandCollapseFlexContainer}>
-            {toggleExpand ? (
-              <FontAwesomeIcon
-                className={classes.faqExpandIcon}
-                icon={faMinus}
-                onClick={() => setToggleExpand(!toggleExpand)}
-              />
-            ) : (
-              <FontAwesomeIcon
-                className={classes.faqExpandIcon}
-                icon={faPlus}
-                onClick={() => setToggleExpand(!toggleExpand)}
-              />
-            )}
+          <div
+            className={
+              toggleExpand
+                ? classes.expandFlexContainer
+                : classes.collapseFlexContainer
+            }
+          >
+            <h3>{faq.question}</h3>
+            <div className={classes.faqExpandIcon}>
+              {toggleExpand ? (
+                <FontAwesomeIcon
+                  icon={faMinus}
+                  onClick={() => setToggleExpand(!toggleExpand)}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  onClick={() => setToggleExpand(!toggleExpand)}
+                />
+              )}
+            </div>
           </div>
-          {toggleExpand && <p>{faq.answer}</p>}
+          {toggleExpand && (
+            <p style={{ marginTop: "1em", fontWeight: "bold" }}>{faq.answer}</p>
+          )}
         </div>
       )}
-    </article>
+    </div>
   );
 };
 Faq.propTypes = {
@@ -121,7 +158,9 @@ Faq.propTypes = {
     question: PropTypes.string.isRequired,
     answer: PropTypes.string.isRequired
   }),
-  admin: PropTypes.bool.isRequired
+  admin: PropTypes.bool.isRequired,
+  expandAllAcordions: PropTypes.bool.isRequired,
+  collapseAllAcordions: PropTypes.bool.isRequired
 };
 
 export default Faq;
