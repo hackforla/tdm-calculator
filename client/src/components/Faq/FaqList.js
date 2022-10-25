@@ -2,12 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Faq from "./Faq";
 
-const FaqList = ({
-  faqList,
-  admin,
-  expandAllAcordions,
-  collapseAllAcordions
-}) => {
+const FaqList = ({ faqList, admin, expandCollapseAllAcordions }) => {
   return (
     <div>
       {faqList.map(faq => (
@@ -15,8 +10,7 @@ const FaqList = ({
           faq={faq}
           key={faq.question}
           admin={admin}
-          expandAllAcordions={expandAllAcordions}
-          collapseAllAcordions={collapseAllAcordions}
+          expandCollapseAllAcordions={expandCollapseAllAcordions}
         />
       ))}
     </div>
@@ -25,8 +19,7 @@ const FaqList = ({
 FaqList.propTypes = {
   admin: PropTypes.bool.isRequired,
   faqList: PropTypes.array.isRequired,
-  expandAllAcordions: PropTypes.bool.isRequired,
-  collapseAllAcordions: PropTypes.bool.isRequired
+  expandCollapseAllAcordions: PropTypes.bool.isRequired
 };
 
 export default FaqList;

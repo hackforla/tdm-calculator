@@ -45,18 +45,17 @@ const useStyles = createUseStyles({
   }
 });
 
-const Faq = ({ faq, admin, expandAllAcordions, collapseAllAcordions }) => {
+const Faq = ({ faq, admin, expandCollapseAllAcordions }) => {
   const classes = useStyles();
   const [updateFaq, setUpdateFaq] = useState(faq);
   const [toggleUpdate, setToggleUpdate] = useState(false);
   const [toggleExpand, setToggleExpand] = useState(false);
+  let toggleExpandAll = false;
 
-  if (expandAllAcordions === true) {
-    setToggleExpand(true);
-  }
-
-  if (collapseAllAcordions === true) {
-    setToggleExpand(false);
+  if (expandCollapseAllAcordions === true) {
+    toggleExpandAll = true;
+  } else {
+    toggleExpandAll = false;
   }
 
   const onInputTyping = event => {
@@ -124,27 +123,29 @@ const Faq = ({ faq, admin, expandAllAcordions, collapseAllAcordions }) => {
         <div>
           <div
             className={
-              toggleExpand
+              toggleExpand || toggleExpandAll
                 ? classes.expandFlexContainer
                 : classes.collapseFlexContainer
             }
           >
             <h3>{faq.question}</h3>
             <div className={classes.faqExpandIcon}>
-              {toggleExpand ? (
+              {toggleExpand || toggleExpandAll ? (
                 <FontAwesomeIcon
+                  style={{ cursor: "pointer" }}
                   icon={faMinus}
                   onClick={() => setToggleExpand(!toggleExpand)}
                 />
               ) : (
                 <FontAwesomeIcon
+                  style={{ cursor: "pointer" }}
                   icon={faPlus}
                   onClick={() => setToggleExpand(!toggleExpand)}
                 />
               )}
             </div>
           </div>
-          {toggleExpand && (
+          {(toggleExpand || toggleExpandAll) && (
             <p style={{ marginTop: "1em", fontWeight: "bold" }}>{faq.answer}</p>
           )}
         </div>
@@ -159,8 +160,7 @@ Faq.propTypes = {
     answer: PropTypes.string.isRequired
   }),
   admin: PropTypes.bool.isRequired,
-  expandAllAcordions: PropTypes.bool.isRequired,
-  collapseAllAcordions: PropTypes.bool.isRequired
+  expandCollapseAllAcordions: PropTypes.bool.isRequired
 };
 
 export default Faq;

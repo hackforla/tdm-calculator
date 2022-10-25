@@ -7,8 +7,8 @@ import ContentContainer from "../Layout/ContentContainer";
 
 const FaqView = () => {
   const [faqList, setFaqList] = useState([]);
-  const [expandAllAcordions, setExpandAllAcordions] = useState(false);
-  const [collapseAllAcordions, setCollapseAllAcordions] = useState(false);
+  const [expandCollapseAllAcordions, setExpandCollapseAllAcordions] =
+    useState(false);
 
   // currently set to true for testing
   // const [admin, setAdmin] = useState(true);
@@ -19,7 +19,6 @@ const FaqView = () => {
       .get()
       .then(response => {
         setFaqList(response.data);
-        console.log(response.data);
       })
       .catch(error => {
         console.error(JSON.stringify(error, null, 2));
@@ -28,13 +27,11 @@ const FaqView = () => {
   }, []);
 
   const expandAll = () => {
-    setExpandAllAcordions(true);
-    console.log("expand");
+    setExpandCollapseAllAcordions(true);
   };
 
   const collapseAll = () => {
-    setCollapseAllAcordions(true);
-    console.log("collapse");
+    setExpandCollapseAllAcordions(false);
   };
 
   return (
@@ -46,8 +43,7 @@ const FaqView = () => {
         <FaqList
           faqList={faqList}
           admin={admin}
-          expandAllAcordions={expandAllAcordions}
-          collapseAllAcordions={collapseAllAcordions}
+          expandCollapseAllAcordions={expandCollapseAllAcordions}
         />
       </div>
     </ContentContainer>
