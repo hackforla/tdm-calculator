@@ -128,9 +128,9 @@ const Faq = ({ faq, admin, expandCollapseAllAcordions }) => {
                 : classes.collapseFlexContainer
             }
           >
-            <h3>{faq.question}</h3>
+            <h3 style={{ fontWeight: "bold" }}>{faq.question}</h3>
             <div className={classes.faqExpandIcon}>
-              {toggleExpand || toggleExpandAll ? (
+              {(toggleExpand && !toggleExpandAll) || toggleExpandAll ? (
                 <FontAwesomeIcon
                   style={{ cursor: "pointer" }}
                   icon={faMinus}
@@ -145,8 +145,10 @@ const Faq = ({ faq, admin, expandCollapseAllAcordions }) => {
               )}
             </div>
           </div>
-          {(toggleExpand || toggleExpandAll) && (
+          {(toggleExpand && !toggleExpandAll) || toggleExpandAll ? (
             <p style={{ marginTop: "1em", fontWeight: "bold" }}>{faq.answer}</p>
+          ) : (
+            ""
           )}
         </div>
       )}

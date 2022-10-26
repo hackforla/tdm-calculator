@@ -36,7 +36,7 @@ const FaqView = () => {
 
   return (
     <ContentContainer componentToTrack="FaqPage">
-      <div style={{ width: "-webkit-fill-available" }}>
+      <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
         <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
         <ExpandButtons expandAll={expandAll} collapseAll={collapseAll} />
         {admin ? <FaqAdd /> : null}
