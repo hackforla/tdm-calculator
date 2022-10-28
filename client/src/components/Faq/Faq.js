@@ -45,18 +45,11 @@ const useStyles = createUseStyles({
   }
 });
 
-const Faq = ({ faq, admin, expandCollapseAllAcordions }) => {
+const Faq = props => {
+  const { faq, admin, expandFaq, collapseFaq } = props;
   const classes = useStyles();
   const [updateFaq, setUpdateFaq] = useState(faq);
   const [toggleUpdate, setToggleUpdate] = useState(false);
-  const [toggleExpand, setToggleExpand] = useState(false);
-  let toggleExpandAll = false;
-
-  if (expandCollapseAllAcordions === true) {
-    toggleExpandAll = true;
-  } else {
-    toggleExpandAll = false;
-  }
 
   const onInputTyping = event => {
     setUpdateFaq({ ...updateFaq, [event.target.name]: event.target.value });
@@ -123,29 +116,29 @@ const Faq = ({ faq, admin, expandCollapseAllAcordions }) => {
         <div>
           <div
             className={
-              toggleExpand || toggleExpandAll
+              faq.expand
                 ? classes.expandFlexContainer
                 : classes.collapseFlexContainer
             }
           >
             <h3 style={{ fontWeight: "bold" }}>{faq.question}</h3>
             <div className={classes.faqExpandIcon}>
-              {(toggleExpand && !toggleExpandAll) || toggleExpandAll ? (
+              {faq.expand ? (
                 <FontAwesomeIcon
                   style={{ cursor: "pointer" }}
                   icon={faMinus}
-                  onClick={() => setToggleExpand(!toggleExpand)}
+                  onClick={() => collapseFaq(faq)}
                 />
               ) : (
                 <FontAwesomeIcon
                   style={{ cursor: "pointer" }}
                   icon={faPlus}
-                  onClick={() => setToggleExpand(!toggleExpand)}
+                  onClick={() => expandFaq(faq)}
                 />
               )}
             </div>
           </div>
-          {(toggleExpand && !toggleExpandAll) || toggleExpandAll ? (
+          {faq.expand ? (
             <p style={{ marginTop: "1em", fontWeight: "bold" }}>{faq.answer}</p>
           ) : (
             ""
@@ -159,10 +152,12 @@ Faq.propTypes = {
   faq: PropTypes.shape({
     faqId: PropTypes.number.isRequired,
     question: PropTypes.string.isRequired,
-    answer: PropTypes.string.isRequired
+    answer: PropTypes.string.isRequired,
+    expand: PropTypes.bool.isRequired
   }),
   admin: PropTypes.bool.isRequired,
-  expandCollapseAllAcordions: PropTypes.bool.isRequired
+  expandFaq: PropTypes.func.isRequired,
+  collapseFaq: PropTypes.func.isRequired
 };
 
 export default Faq;

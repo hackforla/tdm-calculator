@@ -7,8 +7,6 @@ import ContentContainer from "../Layout/ContentContainer";
 
 const FaqView = () => {
   const [faqList, setFaqList] = useState([]);
-  const [expandCollapseAllAcordions, setExpandCollapseAllAcordions] =
-    useState(false);
 
   // currently set to true for testing
   // const [admin, setAdmin] = useState(true);
@@ -18,7 +16,11 @@ const FaqView = () => {
     faqService
       .get()
       .then(response => {
-        setFaqList(response.data);
+        setFaqList(
+          response.data.map(faq => {
+            return { ...faq, expand: false };
+          })
+        );
       })
       .catch(error => {
         console.error(JSON.stringify(error, null, 2));
@@ -26,12 +28,46 @@ const FaqView = () => {
     // check if admin
   }, []);
 
+  const expandFaq = faq => {
+    setFaqList(
+      faqList.map(item => {
+        if (faq.question === item.question) {
+          return { ...item, expand: true };
+        } else {
+          return item;
+        }
+      })
+    );
+    console.log("1", faq);
+  };
+
+  const collapseFaq = faq => {
+    setFaqList(
+      faqList.map(item => {
+        if (faq.question === item.question) {
+          return { ...item, expand: false };
+        } else {
+          return item;
+        }
+      })
+    );
+    console.log("2", faq);
+  };
+
   const expandAll = () => {
-    setExpandCollapseAllAcordions(true);
+    setFaqList(
+      faqList.map(faq => {
+        return { ...faq, expand: true };
+      })
+    );
   };
 
   const collapseAll = () => {
-    setExpandCollapseAllAcordions(false);
+    setFaqList(
+      faqList.map(faq => {
+        return { ...faq, expand: false };
+      })
+    );
   };
 
   return (
@@ -42,8 +78,10 @@ const FaqView = () => {
         {admin ? <FaqAdd /> : null}
         <FaqList
           faqList={faqList}
+          setFaqList={setFaqList}
           admin={admin}
-          expandCollapseAllAcordions={expandCollapseAllAcordions}
+          expandFaq={expandFaq}
+          collapseFaq={collapseFaq}
         />
       </div>
     </ContentContainer>
