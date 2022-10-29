@@ -1,10 +1,6 @@
 {
   "name": "tdm-calculator-api",
-<<<<<<< HEAD
   "version": "0.2.42",
-=======
-  "version": "0.2.40",
->>>>>>> bce3ab9 (created customer facing faq)
   "description": "Traffic Data Management Calculator",
   "repository": {
     "type": "git",

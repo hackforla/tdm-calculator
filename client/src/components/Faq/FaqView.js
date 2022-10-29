@@ -38,7 +38,6 @@ const FaqView = () => {
         }
       })
     );
-    console.log("1", faq);
   };
 
   const collapseFaq = faq => {
@@ -51,7 +50,6 @@ const FaqView = () => {
         }
       })
     );
-    console.log("2", faq);
   };
 
   const expandAll = () => {
