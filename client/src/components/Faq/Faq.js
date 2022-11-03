@@ -1,11 +1,53 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { createUseStyles } from "react-jss";
 import * as faqService from "../../services/faq.service";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faMinus } from "@fortawesome/free-solid-svg-icons";
 
 // want to make this component re-useable, so will check if admin
 // if admin, add/update/delete buttons show up
 // if not, only question and answer show up
-const Faq = ({ faq, admin }) => {
+
+const useStyles = createUseStyles({
+  collapseFlexContainer: {
+    gridColumn: "h-end",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingRight: "40px",
+    height: "70px",
+    borderBottom: "2px solid #cacaca"
+  },
+  expandFlexContainer: {
+    gridColumn: "h-end",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: "10px",
+    paddingRight: "40px",
+    marginTop: "20px",
+    height: "70px",
+    border: "3px solid #a6c439"
+  },
+  faqPlusMinusIcons: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  faqExpandIcon: {
+    display: "flex",
+    alignItems: "center",
+    fontSize: "25px"
+  }
+});
+
+const Faq = props => {
+  const { faq, admin, expandFaq, collapseFaq } = props;
+  const classes = useStyles();
   const [updateFaq, setUpdateFaq] = useState(faq);
   const [toggleUpdate, setToggleUpdate] = useState(false);
 
@@ -35,9 +77,9 @@ const Faq = ({ faq, admin }) => {
   };
 
   return (
-    <li>
+    <div>
       {admin ? (
-        <div>
+        <div classes={classes.faqContent}>
           {toggleUpdate ? (
             <div>
               <input
@@ -72,20 +114,50 @@ const Faq = ({ faq, admin }) => {
         </div>
       ) : (
         <div>
-          <p>{faq.question}</p>
-          <p>{faq.answer}</p>
+          <div
+            className={
+              faq.expand
+                ? classes.expandFlexContainer
+                : classes.collapseFlexContainer
+            }
+          >
+            <h3 style={{ fontWeight: "bold" }}>{faq.question}</h3>
+            <div className={classes.faqExpandIcon}>
+              {faq.expand ? (
+                <FontAwesomeIcon
+                  style={{ cursor: "pointer" }}
+                  icon={faMinus}
+                  onClick={() => collapseFaq(faq)}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  style={{ cursor: "pointer" }}
+                  icon={faPlus}
+                  onClick={() => expandFaq(faq)}
+                />
+              )}
+            </div>
+          </div>
+          {faq.expand ? (
+            <p style={{ marginTop: "1em", fontWeight: "bold" }}>{faq.answer}</p>
+          ) : (
+            ""
+          )}
         </div>
       )}
-    </li>
+    </div>
   );
 };
 Faq.propTypes = {
   faq: PropTypes.shape({
     faqId: PropTypes.number.isRequired,
     question: PropTypes.string.isRequired,
-    answer: PropTypes.string.isRequired
+    answer: PropTypes.string.isRequired,
+    expand: PropTypes.bool.isRequired
   }),
-  admin: PropTypes.bool.isRequired
+  admin: PropTypes.bool.isRequired,
+  expandFaq: PropTypes.func.isRequired,
+  collapseFaq: PropTypes.func.isRequired
 };
 
 export default Faq;

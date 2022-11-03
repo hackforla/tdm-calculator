@@ -2,18 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import Faq from "./Faq";
 
-const FaqList = ({ faqList, admin }) => {
+const FaqList = props => {
+  const { faqList, admin, expandFaq, collapseFaq } = props;
   return (
-    <ul>
+    <div>
       {faqList.map(faq => (
-        <Faq faq={faq} key={faq.question} admin={admin} />
+        <Faq
+          faq={faq}
+          key={faq.question}
+          admin={admin}
+          expandFaq={expandFaq}
+          collapseFaq={collapseFaq}
+        />
       ))}
-    </ul>
+    </div>
   );
 };
 FaqList.propTypes = {
   admin: PropTypes.bool.isRequired,
-  faqList: PropTypes.array.isRequired
+  faqList: PropTypes.array.isRequired,
+  expandFaq: PropTypes.func.isRequired,
+  collapseFaq: PropTypes.func.isRequired
 };
 
 export default FaqList;
