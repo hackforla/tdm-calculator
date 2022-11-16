@@ -167,7 +167,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           to="/publiccomment"
           onClick={handleHamburgerMenuClick}
         >
-          Public Comment
+          Feedback
         </NavLink>
       </li>
       <NavBarLogin
