@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import logo from "../images/ladot_white.png";
 import NavBar from "./NavBar";
+import { Environment } from "../helpers/Environment";
 
 const useStyles = createUseStyles({
   header: {
@@ -63,6 +64,12 @@ const useStyles = createUseStyles({
       marginLeft: "auto",
       marginRight: "1em"
     }
+  },
+  environmentBadge: {
+    backgroundColor: "orange",
+    fontSize: "18px",
+    padding: "4px 12px",
+    borderRadius: "6px"
   }
 });
 
@@ -71,6 +78,10 @@ const Header = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   const handleHamburgerMenuClick = () => setNavbarOpen(!navbarOpen);
+
+  const environmentBadge = Environment ? (
+    <div className={classes.environmentBadge}>{Environment}</div>
+  ) : null;
 
   return (
     <div className={clsx(classes.header, navbarOpen ? "navbarOpen" : "")}>
@@ -83,6 +94,7 @@ const Header = () => {
           />
         </a>
       </div>
+      {environmentBadge}
       <button
         className={classes.hamburgerButton}
         onClick={handleHamburgerMenuClick}
