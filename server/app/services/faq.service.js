@@ -12,13 +12,27 @@ const getFaq = async () => {
   }
 };
 
+const getFaqById = async id => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssql.Int, id);
+    const response = await request.execute("Faq_SelectById");
+    request.input("faqId", mssql.Int, null);
+    return response.recordset;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 const postFaq = async faq => {
   try {
     await poolConnect;
     const request = pool.request();
-    request.input("faqId", mssql.Int, null);
-    request.input("question", mssql.VarChar, faq.question); // 250
-    request.input("answer", mssql.VarChar, faq.answer); // 500
+    request.input("question", mssql.VarChar, faq.question);
+    request.input("answer", mssql.VarChar, faq.answer);
+    request.input("displayOrder", mssql.Int, faq.displayOrder);
+    request.input("faqCategoryId", mssql.Int, faq.faqCategoryId);
     const response = await request.execute("Faq_Insert");
     return response.returnStatus;
   } catch (err) {
@@ -30,9 +44,11 @@ const putFaqById = async faq => {
   try {
     await poolConnect;
     const request = pool.request();
-    request.input("faqId", mssql.Int, faq.faqId);
-    request.input("question", mssql.VarChar, faq.question); // 250
-    request.input("answer", mssql.VarChar, faq.answer); // 500
+    request.input("idd", mssql.Int, faq.id);
+    request.input("question", mssql.VarChar, faq.question);
+    request.input("answer", mssql.VarChar, faq.answer);
+    request.input("displayOrder", mssql.Int, faq.displayOrder);
+    request.input("faqCategoryId", mssql.Int, faq.faqCategoryId);
     await request.execute("Faq_Update");
   } catch (err) {
     return Promise.reject(err);
@@ -52,6 +68,7 @@ const deleteFaq = async id => {
 
 module.exports = {
   getFaq,
+  getFaqById,
   postFaq,
   putFaqById,
   deleteFaq

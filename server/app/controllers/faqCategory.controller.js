@@ -9,6 +9,15 @@ const get = async (req, res) => {
   }
 };
 
+const getById = async (req, res) => {
+  try {
+    const response = await faqCategoryService.getFaqCategoryById(req.params.id);
+    res.json(response);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const post = async (req, res) => {
   try {
     await faqCategoryService.postFaqCategory(req.body);
@@ -38,6 +47,7 @@ const del = async (req, res) => {
 
 module.exports = {
   get,
+  getById,
   post,
   put,
   del
