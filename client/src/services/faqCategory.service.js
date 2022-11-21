@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "/api/faqCategories";
+const baseUrl = "/api/faqcategories";
 
 export function get() {
   return axios.get(baseUrl);

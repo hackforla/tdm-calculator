@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as faqService from "../../services/faq.service";
+import * as faqCategoryService from "../../services/faqCategory.service";
 import FaqList from "./FaqList";
 import FaqAdd from "./FaqAdd";
 import ExpandButtons from "./ExpandButtons";
@@ -7,6 +8,7 @@ import ContentContainer from "../Layout/ContentContainer";
 
 const FaqView = () => {
   const [faqList, setFaqList] = useState([]);
+  const [faqCategoryList, setFaqCategoryList] = useState([]);
 
   // currently set to true for testing
   // const [admin, setAdmin] = useState(true);
@@ -18,10 +20,25 @@ const FaqView = () => {
       .then(response => {
         setFaqList(
           response.data.map(faq => {
+            console.log("1", faq);
             return { ...faq, expand: false };
           })
         );
       })
+      .catch(error => {
+        console.error(JSON.stringify(error, null, 2));
+      });
+    faqCategoryService
+      .get()
+      .then(response => {
+        setFaqCategoryList(
+          response.data.map(category => {
+            console.log("2", category);
+            return { ...category };
+          })
+        );
+      })
+
       .catch(error => {
         console.error(JSON.stringify(error, null, 2));
       });
@@ -80,6 +97,8 @@ const FaqView = () => {
           admin={admin}
           expandFaq={expandFaq}
           collapseFaq={collapseFaq}
+          faqCategoryList={faqCategoryList}
+          setFaqCategoryList={setFaqCategoryList}
         />
       </div>
     </ContentContainer>
