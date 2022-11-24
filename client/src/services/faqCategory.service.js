@@ -6,12 +6,12 @@ export function get() {
   return axios.get(baseUrl);
 }
 
-export function post(FaqCategory) {
-  return axios.post(baseUrl, FaqCategory);
+export function post(faqCategory) {
+  return axios.post(baseUrl, faqCategory);
 }
 
-export function put(FaqCategory) {
-  return axios.put(baseUrl + "/" + FaqCategory.id, FaqCategory);
+export function put(faqCategory) {
+  return axios.put(baseUrl + "/" + faqCategory.id, faqCategory);
 }
 
 export function del(id) {
