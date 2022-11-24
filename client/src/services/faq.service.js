@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "/api/faq";
+const baseUrl = "/api/faqs";
 
 export function get() {
   return axios.get(baseUrl);
@@ -11,7 +11,7 @@ export function post(faq) {
 }
 
 export function put(faq) {
-  return axios.put(baseUrl + "/" + faq.faqId, faq);
+  return axios.put(baseUrl + "/" + faq.id, faq);
 }
 
 export function del(id) {
