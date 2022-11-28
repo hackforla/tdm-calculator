@@ -103,8 +103,12 @@ const Faq = props => {
             </div>
           ) : (
             <div>
-              <p>{updateFaq.question}</p>
-              <p>{updateFaq.answer}</p>
+              <div
+                dangerouslySetInnerHTML={{ __html: `${updateFaq.question}` }}
+              ></div>
+              <div
+                dangerouslySetInnerHTML={{ __html: `${updateFaq.answer}` }}
+              ></div>
               <div>
                 <button onClick={onToggle}>Update</button>
                 <button onClick={onDelete}>Delete</button>
@@ -121,7 +125,10 @@ const Faq = props => {
                 : classes.collapseFlexContainer
             }
           >
-            <h3 style={{ fontWeight: "bold" }}>{faq.question}</h3>
+            <h3
+              style={{ fontWeight: "bold" }}
+              dangerouslySetInnerHTML={{ __html: `${updateFaq.question}` }}
+            ></h3>
             <div className={classes.faqExpandIcon}>
               {faq.expand ? (
                 <FontAwesomeIcon
@@ -139,7 +146,10 @@ const Faq = props => {
             </div>
           </div>
           {faq.expand ? (
-            <p style={{ marginTop: "1em", fontWeight: "bold" }}>{faq.answer}</p>
+            <p
+              style={{ marginTop: "1em", fontWeight: "bold" }}
+              dangerouslySetInnerHTML={{ __html: `${updateFaq.answer}` }}
+            ></p>
           ) : (
             ""
           )}
