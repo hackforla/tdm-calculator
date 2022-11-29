@@ -44,7 +44,7 @@ const putFaqById = async faq => {
   try {
     await poolConnect;
     const request = pool.request();
-    request.input("idd", mssql.Int, faq.id);
+    request.input("id", mssql.Int, faq.id);
     request.input("question", mssql.VarChar, faq.question);
     request.input("answer", mssql.VarChar, faq.answer);
     request.input("displayOrder", mssql.Int, faq.displayOrder);
