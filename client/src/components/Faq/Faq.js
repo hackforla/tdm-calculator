@@ -71,7 +71,7 @@ const Faq = props => {
   };
 
   const onDelete = () => {
-    faqService.del(faq.faqId).catch(error => {
+    faqService.del(faq.id).catch(error => {
       console.error(JSON.stringify(error, null, 2));
     });
   };
@@ -160,7 +160,7 @@ const Faq = props => {
 };
 Faq.propTypes = {
   faq: PropTypes.shape({
-    faqId: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
     question: PropTypes.string.isRequired,
     answer: PropTypes.string.isRequired,
     expand: PropTypes.bool.isRequired

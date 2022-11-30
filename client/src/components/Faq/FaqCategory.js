@@ -1,74 +1,77 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
-import * as faqCategoryService from "../../services/faqCategory.service";
+// import { createUseStyles } from "react-jss";
+// import * as faqCategoryService from "../../services/faqCategory.service";
 
 // want to make this component re-useable, so will check if admin
 // if admin, add/update/delete buttons show up
 // if not, only question and answer show up
 
-const useStyles = createUseStyles({
-  // collapseFlexContainer: {
-  //   gridColumn: "h-end",
-  //   display: "flex",
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: "center",
-  //   paddingRight: "40px",
-  //   height: "70px",
-  //   borderBottom: "2px solid #cacaca"
-  // },
-  // expandFlexContainer: {
-  //   gridColumn: "h-end",
-  //   display: "flex",
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: "center",
-  //   paddingLeft: "10px",
-  //   paddingRight: "40px",
-  //   marginTop: "20px",
-  //   height: "70px",
-  //   border: "3px solid #a6c439"
-  // }
-});
+// const useStyles = createUseStyles({
+//   collapseFlexContainer: {
+//     gridColumn: "h-end",
+//     display: "flex",
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     alignItems: "center",
+//     paddingRight: "40px",
+//     height: "70px",
+//     borderBottom: "2px solid #cacaca"
+//   },
+//   expandFlexContainer: {
+//     gridColumn: "h-end",
+//     display: "flex",
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     alignItems: "center",
+//     paddingLeft: "10px",
+//     paddingRight: "40px",
+//     marginTop: "20px",
+//     height: "70px",
+//     border: "3px solid #a6c439"
+//   }
+// });
 
 const FaqCategory = props => {
-  const { category, admin } = props;
-  const classes = useStyles();
-  const [updateCategory, setUpdateCategory] = useState(category);
-  const [toggleUpdate, setToggleUpdate] = useState(false);
+  // const { category, admin } = props;
+  const { category } = props;
+  // const classes = useStyles();
+  // const [updateCategory, setUpdateCategory] = useState(category);
+  // const [toggleUpdate, setToggleUpdate] = useState(false);
 
-  const onInputTyping = event => {
-    setUpdateCategory({
-      ...updateCategory,
-      [event.target.name]: event.target.value
-    });
-  };
+  // const onInputTyping = event => {
+  //   setUpdateCategory({
+  //     ...updateCategory,
+  //     [event.target.name]: event.target.value
+  //   });
+  // };
 
-  const onToggle = () => {
-    setToggleUpdate(!toggleUpdate);
-  };
+  // const onToggle = () => {
+  //   setToggleUpdate(!toggleUpdate);
+  // };
 
-  const onUpdate = () => {
-    faqCategoryService
-      .put(updateCategory)
-      .then(() => {
-        setToggleUpdate(!toggleUpdate);
-      })
-      .catch(error => {
-        console.error(JSON.stringify(error, null, 2));
-      });
-  };
+  // const onUpdate = () => {
+  //   faqCategoryService
+  //     .put(updateCategory)
+  //     .then(() => {
+  //       setToggleUpdate(!toggleUpdate);
+  //     })
+  //     .catch(error => {
+  //       console.error(JSON.stringify(error, null, 2));
+  //     });
+  // };
 
-  const onDelete = () => {
-    faqCategoryService.del(category.id).catch(error => {
-      console.error(JSON.stringify(error, null, 2));
-    });
-  };
+  // const onDelete = () => {
+  //   faqCategoryService.del(category.id).catch(error => {
+  //     console.error(JSON.stringify(error, null, 2));
+  //   });
+  // };
 
   return (
     <div>
-      {admin ? (
+      <div>{category.name}</div>
+      {/* {admin ? (
         <div classes={classes.faqContent}>
           {toggleUpdate ? (
             <div>
@@ -104,15 +107,9 @@ const FaqCategory = props => {
         </div>
       ) : (
         <div>
-          {/* <div
-            className={
-              category.expand
-                ? classes.expandFlexContainer
-                : classes.collapseFlexContainer
-            }
-          ></div> */}
+          <div>{category}</div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -16,6 +16,6 @@ router.use("/calculations", calculationRoutes);
 router.use("/projects", projectRoutes);
 router.use("/rules", ruleRoutes);
 router.use("/faqs", faqRoutes);
-router.use("/faqCategories", faqCategoryRoutes);
+router.use("/faqcategories", faqCategoryRoutes);
 router.use("/public-comment", publicCommentRoutes);
 router.use("/emails", emailRoutes);

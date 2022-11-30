@@ -28,6 +28,10 @@ const FaqView = () => {
       .catch(error => {
         console.error(JSON.stringify(error, null, 2));
       });
+    // check if admin
+  }, []);
+
+  useEffect(() => {
     faqCategoryService
       .get()
       .then(response => {
@@ -38,7 +42,6 @@ const FaqView = () => {
           })
         );
       })
-
       .catch(error => {
         console.error(JSON.stringify(error, null, 2));
       });
