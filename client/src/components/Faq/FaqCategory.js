@@ -1,42 +1,34 @@
 // import React, { useState } from "react";
 import React from "react";
 import PropTypes from "prop-types";
-// import { createUseStyles } from "react-jss";
+import { createUseStyles } from "react-jss";
 // import * as faqCategoryService from "../../services/faqCategory.service";
 
 // want to make this component re-useable, so will check if admin
 // if admin, add/update/delete buttons show up
 // if not, only question and answer show up
 
-// const useStyles = createUseStyles({
-//   collapseFlexContainer: {
-//     gridColumn: "h-end",
-//     display: "flex",
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//     paddingRight: "40px",
-//     height: "70px",
-//     borderBottom: "2px solid #cacaca"
-//   },
-//   expandFlexContainer: {
-//     gridColumn: "h-end",
-//     display: "flex",
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//     paddingLeft: "10px",
-//     paddingRight: "40px",
-//     marginTop: "20px",
-//     height: "70px",
-//     border: "3px solid #a6c439"
-//   }
-// });
+const useStyles = createUseStyles({
+  categoryContainer: {
+    minWidth: "60vw",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#0f2940",
+    color: "white",
+    padding: ".4em",
+    marginBottom: "0.6em",
+    gridColumn: "h-end",
+    paddingRight: "40px",
+    height: "20px"
+  }
+});
 
 const FaqCategory = props => {
-  // const { category, admin } = props;
   const { category } = props;
-  // const classes = useStyles();
+  // const { category, admin } = props;
+  const classes = useStyles();
   // const [updateCategory, setUpdateCategory] = useState(category);
   // const [toggleUpdate, setToggleUpdate] = useState(false);
 
@@ -70,7 +62,7 @@ const FaqCategory = props => {
 
   return (
     <div>
-      <div>{category.name}</div>
+      <h3 className={classes.categoryContainer}>{category.name}</h3>
       {/* {admin ? (
         <div classes={classes.faqContent}>
           {toggleUpdate ? (

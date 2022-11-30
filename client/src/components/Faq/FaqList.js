@@ -5,6 +5,9 @@ import FaqCategory from "./FaqCategory";
 
 const FaqList = props => {
   const { faqList, admin, expandFaq, collapseFaq, faqCategoryList } = props;
+
+  const faqListArray = [faqCategoryList, faqList];
+  console.log(faqListArray);
   return (
     <div>
       {faqCategoryList.map(category => (

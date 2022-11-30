@@ -18,8 +18,7 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     alignItems: "center",
     paddingRight: "40px",
-    height: "70px",
-    borderBottom: "2px solid #cacaca"
+    height: "45px"
   },
   expandFlexContainer: {
     gridColumn: "h-end",
@@ -30,7 +29,7 @@ const useStyles = createUseStyles({
     paddingLeft: "10px",
     paddingRight: "40px",
     marginTop: "20px",
-    height: "70px",
+    height: "45px",
     border: "3px solid #a6c439"
   },
   faqPlusMinusIcons: {

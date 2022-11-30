@@ -20,7 +20,6 @@ const FaqView = () => {
       .then(response => {
         setFaqList(
           response.data.map(faq => {
-            console.log("1", faq);
             return { ...faq, expand: false };
           })
         );
@@ -28,16 +27,11 @@ const FaqView = () => {
       .catch(error => {
         console.error(JSON.stringify(error, null, 2));
       });
-    // check if admin
-  }, []);
-
-  useEffect(() => {
     faqCategoryService
       .get()
       .then(response => {
         setFaqCategoryList(
           response.data.map(category => {
-            console.log("2", category);
             return { ...category };
           })
         );
