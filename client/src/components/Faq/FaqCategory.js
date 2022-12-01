@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import Faq from "./Faq";
 // import * as faqCategoryService from "../../services/faqCategory.service";
 
 // want to make this component re-useable, so will check if admin
@@ -26,7 +27,7 @@ const useStyles = createUseStyles({
 });
 
 const FaqCategory = props => {
-  const { category } = props;
+  const { category, admin, expandFaq, collapseFaq } = props;
   // const { category, admin } = props;
   const classes = useStyles();
   // const [updateCategory, setUpdateCategory] = useState(category);
@@ -63,6 +64,17 @@ const FaqCategory = props => {
   return (
     <div>
       <h3 className={classes.categoryContainer}>{category.name}</h3>
+      {category.faqs.map(faq => {
+        return (
+          <Faq
+            faq={faq}
+            key={category.faqs.question}
+            admin={admin}
+            expandFaq={expandFaq}
+            collapseFaq={collapseFaq}
+          />
+        );
+      })}
       {/* {admin ? (
         <div classes={classes.faqContent}>
           {toggleUpdate ? (
@@ -109,9 +121,12 @@ FaqCategory.propTypes = {
   category: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    displayOrder: PropTypes.number.isRequired
+    displayOrder: PropTypes.number.isRequired,
+    faqs: PropTypes.array
   }),
-  admin: PropTypes.bool.isRequired
+  admin: PropTypes.bool.isRequired,
+  expandFaq: PropTypes.func.isRequired,
+  collapseFaq: PropTypes.func.isRequired
 };
 
 export default FaqCategory;

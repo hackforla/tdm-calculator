@@ -124,6 +124,7 @@ const Faq = props => {
                 : classes.collapseFlexContainer
             }
           >
+            {/* <h3>Q:</h3> */}
             <h3
               style={{ fontWeight: "bold" }}
               dangerouslySetInnerHTML={{ __html: `${updateFaq.question}` }}

@@ -14,31 +14,30 @@ const FaqView = () => {
   // const [admin, setAdmin] = useState(true);
   const admin = false;
 
-  useEffect(() => {
-    faqService
-      .get()
-      .then(response => {
-        setFaqList(
-          response.data.map(faq => {
-            return { ...faq, expand: false };
-          })
-        );
+  useEffect(async () => {
+    const faqList = await faqService.get();
+    setFaqList(
+      faqList.data.map(faq => {
+        return { ...faq, expand: false };
       })
-      .catch(error => {
-        console.error(JSON.stringify(error, null, 2));
-      });
-    faqCategoryService
-      .get()
-      .then(response => {
-        setFaqCategoryList(
-          response.data.map(category => {
-            return { ...category };
-          })
-        );
+    );
+    const faqCategoryList = await faqCategoryService.get();
+    setFaqCategoryList(
+      faqCategoryList.data.map(category => {
+        return { ...category };
       })
-      .catch(error => {
-        console.error(JSON.stringify(error, null, 2));
-      });
+    );
+    for (let i = 0; i < faqCategoryList.length; i++) {
+      for (let j = 0; j < faqList.length; j++) {
+        if (faqCategoryList[i].id === faqList[j].faqCategoryId) {
+          if (faqCategoryList[i].faqs) {
+            faqCategoryList[i].faqs.push(faqList[j]);
+          } else {
+            faqCategoryList[i].faqs = [faqList[j]];
+          }
+        }
+      }
+    }
     // check if admin
   }, []);
 
