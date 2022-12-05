@@ -14,38 +14,43 @@ const FaqView = () => {
   // const [admin, setAdmin] = useState(true);
   const admin = false;
 
-  useEffect(async () => {
-    const faqList = await faqService.get();
-    setFaqList(
-      faqList.data.map(faq => {
-        return { ...faq, expand: false };
-      })
-    );
-    const faqCategoryList = await faqCategoryService.get();
-    setFaqCategoryList(
-      faqCategoryList.data.map(category => {
-        return { ...category };
-      })
-    );
-    for (let i = 0; i < faqCategoryList.length; i++) {
-      for (let j = 0; j < faqList.length; j++) {
-        if (faqCategoryList[i].id === faqList[j].faqCategoryId) {
-          if (faqCategoryList[i].faqs) {
-            faqCategoryList[i].faqs.push(faqList[j]);
-          } else {
-            faqCategoryList[i].faqs = [faqList[j]];
-          }
-        }
-      }
+  useEffect(() => {
+    async function fetch() {
+      const faqList = await faqService.get();
+      setFaqList(
+        faqList.data.map(faq => {
+          return { ...faq, expand: false };
+        })
+      );
+      const faqCategoryList = await faqCategoryService.get();
+      setFaqCategoryList(
+        faqCategoryList.data.map(category => {
+          return { ...category };
+        })
+      );
     }
+    fetch();
     // check if admin
   }, []);
 
+  for (let i = 0; i < faqCategoryList.length; i++) {
+    for (let j = 0; j < faqList.length; j++) {
+      if (faqCategoryList[i].id === faqList[j].faqCategoryId) {
+        if (faqCategoryList[i].faqs) {
+          faqCategoryList[i].faqs.push(faqList[j]);
+        } else {
+          faqCategoryList[i].faqs = [faqList[j]];
+        }
+      }
+    }
+  }
+
   const expandFaq = faq => {
-    setFaqList(
-      faqList.map(item => {
-        if (faq.question === item.question) {
-          return { ...item, expand: true };
+    setFaqCategoryList(
+      faqCategoryList.map(item => {
+        console.log(item.faqs);
+        if (faq.question === item.faqs[faq].question) {
+          //  return { ...item, expand: true };
         } else {
           return item;
         }
@@ -54,10 +59,10 @@ const FaqView = () => {
   };
 
   const collapseFaq = faq => {
-    setFaqList(
-      faqList.map(item => {
-        if (faq.question === item.question) {
-          return { ...item, expand: false };
+    setFaqCategoryList(
+      faqCategoryList.map(item => {
+        if (faq.question === item.faqs[faq].question) {
+          // return { ...item, expand: false };
         } else {
           return item;
         }
