@@ -68,7 +68,7 @@ const FaqCategory = props => {
         return (
           <Faq
             faq={faq}
-            key={faq.id}
+            key={faq.expand ? faq.id : -1 * faq.id}
             admin={admin}
             expandFaq={expandFaq}
             collapseFaq={collapseFaq}
