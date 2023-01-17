@@ -28,7 +28,6 @@ const useStyles = createUseStyles({
 
 const FaqCategory = props => {
   const { category, admin, expandFaq, collapseFaq } = props;
-
   const classes = useStyles();
   // const [updateCategory, setUpdateCategory] = useState(category);
   // const [toggleUpdate, setToggleUpdate] = useState(false);
@@ -68,7 +67,7 @@ const FaqCategory = props => {
         return (
           <Faq
             faq={faq}
-            key={faq.expand ? faq.id : -1 * faq.id}
+            key={faq.id}
             admin={admin}
             expandFaq={expandFaq}
             collapseFaq={collapseFaq}

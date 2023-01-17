@@ -52,18 +52,20 @@ const FaqView = () => {
         }
       })
     );
+    consolidate();
   };
 
   const collapseFaq = faq => {
-    setFaqCategoryList(
-      faqCategoryList.map(item => {
-        if (faq.question === item.faqs[faq].question) {
+    setFaqList(
+      faqList.map(item => {
+        if (faq.id === item.id) {
           return { ...item, expand: false };
         } else {
           return item;
         }
       })
     );
+    consolidate();
   };
 
   const expandAll = () => {
@@ -72,6 +74,7 @@ const FaqView = () => {
         return { ...faq, expand: true };
       })
     );
+    consolidate();
   };
 
   const collapseAll = () => {
@@ -80,7 +83,27 @@ const FaqView = () => {
         return { ...faq, expand: false };
       })
     );
+    consolidate();
   };
+
+  async function consolidate() {
+    await setFaqCategoryList([]);
+    const faqCategoryList = await faqCategoryService.get();
+    const categories = faqCategoryList.data;
+
+    for (let i = 0; i < categories.length; i++) {
+      for (let j = 0; j < faqList.length; j++) {
+        if (categories[i].id === faqList[j].faqCategoryId) {
+          if (categories[i].faqs) {
+            categories[i].faqs.push(faqList[j]);
+          } else {
+            categories[i].faqs = [faqList[j]];
+          }
+        }
+      }
+    }
+    setFaqCategoryList(categories);
+  }
 
   return (
     <ContentContainer componentToTrack="FaqPage">
