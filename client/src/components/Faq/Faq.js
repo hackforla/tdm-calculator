@@ -75,16 +75,6 @@ const Faq = props => {
     });
   };
 
-  const handleExpandFaq = () => {
-    // setExpanded(true);
-    expandFaq(faq);
-  };
-
-  const handleCollapseFaq = () => {
-    // setExpanded(false);
-    collapseFaq(faq);
-  };
-
   return (
     <div>
       {admin ? (
@@ -143,13 +133,13 @@ const Faq = props => {
                 <FontAwesomeIcon
                   style={{ cursor: "pointer" }}
                   icon={faMinus}
-                  onClick={() => handleCollapseFaq(faq)}
+                  onClick={() => collapseFaq(faq)}
                 />
               ) : (
                 <FontAwesomeIcon
                   style={{ cursor: "pointer" }}
                   icon={faPlus}
-                  onClick={() => handleExpandFaq(faq)}
+                  onClick={() => expandFaq(faq)}
                 />
               )}
             </div>

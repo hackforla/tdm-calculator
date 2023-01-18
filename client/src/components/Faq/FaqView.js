@@ -125,7 +125,6 @@ const FaqView = props => {
         {admin ? <FaqAdd /> : null}
         <FaqList
           faqCategoryList={faqCategoryList}
-          key={JSON.stringify(faqCategoryList)}
           admin={admin}
           expandFaq={expandFaq}
           collapseFaq={collapseFaq}
