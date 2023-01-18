@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as faqService from "../../services/faq.service";
 import * as faqCategoryService from "../../services/faqCategory.service";
 import FaqList from "./FaqList";
@@ -42,6 +42,34 @@ const FaqView = () => {
     // check if admin
   }, []);
 
+  const isInitialFaqList = useRef(true);
+
+  useEffect(() => {
+    if (isInitialFaqList.current) {
+      isInitialFaqList.current = false;
+    } else {
+      const consolidate = async () => {
+        await setFaqCategoryList([]);
+        const faqCategoryList = await faqCategoryService.get();
+        const categories = faqCategoryList.data;
+
+        for (let i = 0; i < categories.length; i++) {
+          for (let j = 0; j < faqList.length; j++) {
+            if (categories[i].id === faqList[j].faqCategoryId) {
+              if (categories[i].faqs) {
+                categories[i].faqs.push(faqList[j]);
+              } else {
+                categories[i].faqs = [faqList[j]];
+              }
+            }
+          }
+        }
+        setFaqCategoryList(categories);
+      };
+      consolidate();
+    }
+  }, [faqList]);
+
   const expandFaq = faq => {
     setFaqList(
       faqList.map(item => {
@@ -52,7 +80,6 @@ const FaqView = () => {
         }
       })
     );
-    consolidate();
   };
 
   const collapseFaq = faq => {
@@ -65,7 +92,6 @@ const FaqView = () => {
         }
       })
     );
-    consolidate();
   };
 
   const expandAll = () => {
@@ -74,7 +100,6 @@ const FaqView = () => {
         return { ...faq, expand: true };
       })
     );
-    consolidate();
   };
 
   const collapseAll = () => {
@@ -83,27 +108,7 @@ const FaqView = () => {
         return { ...faq, expand: false };
       })
     );
-    consolidate();
   };
-
-  async function consolidate() {
-    await setFaqCategoryList([]);
-    const faqCategoryList = await faqCategoryService.get();
-    const categories = faqCategoryList.data;
-
-    for (let i = 0; i < categories.length; i++) {
-      for (let j = 0; j < faqList.length; j++) {
-        if (categories[i].id === faqList[j].faqCategoryId) {
-          if (categories[i].faqs) {
-            categories[i].faqs.push(faqList[j]);
-          } else {
-            categories[i].faqs = [faqList[j]];
-          }
-        }
-      }
-    }
-    setFaqCategoryList(categories);
-  }
 
   return (
     <ContentContainer componentToTrack="FaqPage">
