@@ -24,6 +24,8 @@ class Engine {
 
   run(formInputs, ruleCodes) {
     try {
+      let rerun = false;
+
       for (let i = 0; i < ruleCodes.length; i++) {
         if (!this.initialRules[ruleCodes[i]]) {
           throw new Error("Rule " + ruleCodes[i] + " not found!");
@@ -53,28 +55,37 @@ class Engine {
       }
 
       // set display property of each input rule based upon displayFunctionBody
-      for (const property in this.rules) {
-        const rule = this.rules[property];
+      for (const ruleCode in this.rules) {
+        const rule = this.rules[ruleCode];
         // Start the calc with all properties.display = true
         // display is re-calculated below, after the recursive calc.
         rule.display = true;
         // if an input rule is not displayed, set its value to null
         if (!rule.display && rule.category === "input") {
           rule.value = null;
-          // Also null out the formInput property
-          formInputs[property] = null;
+          // Also null out the formInput ruleCode
+          formInputs[ruleCode] = null;
         }
       }
 
       // Recursively calculate the root rule
-      const results = {};
+      let results = {};
       for (let i = 0; i < ruleCodes.length; i++) {
         results[ruleCodes[i]] = this.executeCalc(ruleCodes[i]);
       }
 
       // Now calculate the final display property value
-      for (const property in this.rules) {
-        this.calcDisplay(property);
+      for (const ruleCode in this.rules) {
+        this.calcDisplay(ruleCode);
+        const rule = this.rules[ruleCode];
+        if (!rule.display && rule.category === "measure" && rule.value) {
+          formInputs[ruleCode] = null;
+          rerun = true;
+        }
+      }
+
+      if (rerun) {
+        return this.run(formInputs, ruleCodes);
       }
 
       // Match up inputs or measures with the primary calculation

@@ -1,13 +1,33 @@
-import React, { useState, useEffect /*, useRef */ } from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import * as faqService from "../../services/faq.service";
 import * as faqCategoryService from "../../services/faqCategory.service";
 import FaqList from "./FaqCategoryList";
 import FaqAdd from "./FaqAdd";
 import ExpandButtons from "./ExpandButtons";
 import ContentContainer from "../Layout/ContentContainer";
+import { withRouter } from "react-router-dom";
 
-const FaqView = () => {
+const FaqView = props => {
   const [faqCategoryList, setFaqCategoryList] = useState([]);
+  const { match, toggleChecklistModal, checklistModalOpen } = props;
+  const [showChecklist, setShowChecklist] = useState(
+    match.params.showChecklist || false
+  );
+
+  // This effect is a roundabout way of allowing an FAQ question or answer in HTML
+  // to open the checklist dialog by navigating to the path /faqs/true.
+  useEffect(() => {
+    if (showChecklist && !checklistModalOpen) {
+      toggleChecklistModal();
+      setShowChecklist(false);
+    }
+  }, [
+    showChecklist,
+    setShowChecklist,
+    checklistModalOpen,
+    toggleChecklistModal
+  ]);
 
   // currently set to true for testing
   // const [admin, setAdmin] = useState(true);
@@ -116,4 +136,14 @@ const FaqView = () => {
   );
 };
 
-export default FaqView;
+FaqView.propTypes = {
+  toggleChecklistModal: PropTypes.func,
+  checklistModalOpen: PropTypes.bool,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      showChecklist: PropTypes.string
+    })
+  })
+};
+
+export default withRouter(FaqView);

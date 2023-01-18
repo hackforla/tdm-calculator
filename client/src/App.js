@@ -154,8 +154,11 @@ const App = ({
                       <Roles />
                     </ProtectedRoute>
 
-                    <Route path="/faqs">
-                      <FaqView />
+                    <Route path="/faqs/:showChecklist?">
+                      <FaqView
+                        toggleChecklistModal={toggleChecklistModal}
+                        checklistModalOpen={checklistModalOpen}
+                      />
                     </Route>
 
                     <Route path="/publiccomment">
