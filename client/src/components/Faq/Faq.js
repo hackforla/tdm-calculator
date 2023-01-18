@@ -30,7 +30,7 @@ const useStyles = createUseStyles({
     paddingRight: "40px",
     marginTop: "20px",
     height: "45px",
-    border: "3px solid #a6c439"
+    border: "2px solid #a6c439"
   },
   faqPlusMinusIcons: {
     display: "flex",
