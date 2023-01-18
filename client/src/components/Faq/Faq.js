@@ -18,8 +18,7 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     alignItems: "center",
     paddingRight: "40px",
-    height: "70px",
-    borderBottom: "2px solid #cacaca"
+    height: "45px"
   },
   expandFlexContainer: {
     gridColumn: "h-end",
@@ -30,8 +29,8 @@ const useStyles = createUseStyles({
     paddingLeft: "10px",
     paddingRight: "40px",
     marginTop: "20px",
-    height: "70px",
-    border: "3px solid #a6c439"
+    height: "45px",
+    border: "2px solid #a6c439"
   },
   faqPlusMinusIcons: {
     display: "flex",
@@ -71,9 +70,19 @@ const Faq = props => {
   };
 
   const onDelete = () => {
-    faqService.del(faq.faqId).catch(error => {
+    faqService.del(faq.id).catch(error => {
       console.error(JSON.stringify(error, null, 2));
     });
+  };
+
+  const handleExpandFaq = () => {
+    // setExpanded(true);
+    expandFaq(faq);
+  };
+
+  const handleCollapseFaq = () => {
+    // setExpanded(false);
+    collapseFaq(faq);
   };
 
   return (
@@ -134,13 +143,13 @@ const Faq = props => {
                 <FontAwesomeIcon
                   style={{ cursor: "pointer" }}
                   icon={faMinus}
-                  onClick={() => collapseFaq(faq)}
+                  onClick={() => handleCollapseFaq(faq)}
                 />
               ) : (
                 <FontAwesomeIcon
                   style={{ cursor: "pointer" }}
                   icon={faPlus}
-                  onClick={() => expandFaq(faq)}
+                  onClick={() => handleExpandFaq(faq)}
                 />
               )}
             </div>
@@ -160,7 +169,7 @@ const Faq = props => {
 };
 Faq.propTypes = {
   faq: PropTypes.shape({
-    faqId: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
     question: PropTypes.string.isRequired,
     answer: PropTypes.string.isRequired,
     expand: PropTypes.bool.isRequired

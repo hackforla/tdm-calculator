@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as faqService from "../../services/faq.service";
-import FaqList from "./FaqList";
+import * as faqCategoryService from "../../services/faqCategory.service";
+import FaqList from "./FaqCategoryList";
 import FaqAdd from "./FaqAdd";
 import ExpandButtons from "./ExpandButtons";
 import ContentContainer from "../Layout/ContentContainer";
 import { withRouter } from "react-router-dom";
 
 const FaqView = props => {
-  const [faqList, setFaqList] = useState([]);
+  const [faqCategoryList, setFaqCategoryList] = useState([]);
   const { match, toggleChecklistModal, checklistModalOpen } = props;
   const [showChecklist, setShowChecklist] = useState(
     match.params.showChecklist || false
@@ -33,57 +34,85 @@ const FaqView = props => {
   const admin = false;
 
   useEffect(() => {
-    faqService
-      .get()
-      .then(response => {
-        setFaqList(
-          response.data.map(faq => {
-            return { ...faq, expand: false };
-          })
-        );
-      })
-      .catch(error => {
-        console.error(JSON.stringify(error, null, 2));
+    async function fetch() {
+      const faqList = await faqService.get();
+      const faqs = faqList.data.map(faq => {
+        return { ...faq, expand: false };
       });
-    // check if admin
+
+      const faqCategoryList = await faqCategoryService.get();
+      const categories = faqCategoryList.data;
+
+      // Put each faq into the faqs array property
+      // of the correct category
+      for (let i = 0; i < categories.length; i++) {
+        for (let j = 0; j < faqs.length; j++) {
+          if (categories[i].id === faqs[j].faqCategoryId) {
+            if (categories[i].faqs) {
+              categories[i].faqs.push(faqs[j]);
+            } else {
+              categories[i].faqs = [faqs[j]];
+            }
+          }
+        }
+      }
+      setFaqCategoryList(categories);
+    }
+    fetch();
   }, []);
 
   const expandFaq = faq => {
-    setFaqList(
-      faqList.map(item => {
-        if (faq.question === item.question) {
-          return { ...item, expand: true };
-        } else {
-          return item;
-        }
+    // Create a new faqCategoryList object where only the expand
+    // property of the specified faq is changed to true
+    setFaqCategoryList(
+      faqCategoryList.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(f =>
+            f.id === faq.id ? { ...f, expand: true } : f
+          )
+        };
       })
     );
   };
 
   const collapseFaq = faq => {
-    setFaqList(
-      faqList.map(item => {
-        if (faq.question === item.question) {
-          return { ...item, expand: false };
-        } else {
-          return item;
-        }
+    // Create a new faqCategoryList object where only the expand
+    // property of the specified faq is changed to false
+    setFaqCategoryList(
+      faqCategoryList.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(f =>
+            f.id === faq.id ? { ...f, expand: false } : f
+          )
+        };
       })
     );
   };
 
   const expandAll = () => {
-    setFaqList(
-      faqList.map(faq => {
-        return { ...faq, expand: true };
+    // Create a new faqCategoryList object where the expand
+    // property of all faqs is changed to true
+    setFaqCategoryList(
+      faqCategoryList.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(faq => ({ ...faq, expand: true }))
+        };
       })
     );
   };
 
   const collapseAll = () => {
-    setFaqList(
-      faqList.map(faq => {
-        return { ...faq, expand: false };
+    // Create a new faqCategoryList object where the expand
+    // property of all faqs is changed to false
+    setFaqCategoryList(
+      faqCategoryList.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(faq => ({ ...faq, expand: false }))
+        };
       })
     );
   };
@@ -95,11 +124,12 @@ const FaqView = props => {
         <ExpandButtons expandAll={expandAll} collapseAll={collapseAll} />
         {admin ? <FaqAdd /> : null}
         <FaqList
-          faqList={faqList}
-          setFaqList={setFaqList}
+          faqCategoryList={faqCategoryList}
+          key={JSON.stringify(faqCategoryList)}
           admin={admin}
           expandFaq={expandFaq}
           collapseFaq={collapseFaq}
+          setFaqCategoryList={setFaqCategoryList}
         />
       </div>
     </ContentContainer>
