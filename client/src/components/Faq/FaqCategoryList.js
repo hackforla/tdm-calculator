@@ -11,7 +11,7 @@ const FaqList = props => {
         <>
           <FaqCategory
             category={category}
-            key={category.id}
+            key={JSON.stringify(category, null, 2)}
             admin={admin}
             expandFaq={expandFaq}
             collapseFaq={collapseFaq}

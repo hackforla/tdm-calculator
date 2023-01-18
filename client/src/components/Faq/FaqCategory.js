@@ -67,7 +67,7 @@ const FaqCategory = props => {
         return (
           <Faq
             faq={faq}
-            key={faq.id}
+            key={JSON.stringify(faq)}
             admin={admin}
             expandFaq={expandFaq}
             collapseFaq={collapseFaq}

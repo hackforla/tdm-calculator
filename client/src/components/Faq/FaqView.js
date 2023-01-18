@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect /*, useRef */ } from "react";
 import * as faqService from "../../services/faq.service";
 import * as faqCategoryService from "../../services/faqCategory.service";
-import FaqList from "./FaqList";
+import FaqList from "./FaqCategoryList";
 import FaqAdd from "./FaqAdd";
 import ExpandButtons from "./ExpandButtons";
 import ContentContainer from "../Layout/ContentContainer";
 
 const FaqView = () => {
-  const [faqList, setFaqList] = useState([]);
   const [faqCategoryList, setFaqCategoryList] = useState([]);
 
   // currently set to true for testing
@@ -24,6 +23,8 @@ const FaqView = () => {
       const faqCategoryList = await faqCategoryService.get();
       const categories = faqCategoryList.data;
 
+      // Put each faq into the faqs array property
+      // of the correct category
       for (let i = 0; i < categories.length; i++) {
         for (let j = 0; j < faqs.length; j++) {
           if (categories[i].id === faqs[j].faqCategoryId) {
@@ -35,77 +36,63 @@ const FaqView = () => {
           }
         }
       }
-      setFaqList(faqs);
       setFaqCategoryList(categories);
     }
     fetch();
-    // check if admin
   }, []);
 
-  const isInitialFaqList = useRef(true);
-
-  useEffect(() => {
-    if (isInitialFaqList.current) {
-      isInitialFaqList.current = false;
-    } else {
-      const consolidate = async () => {
-        await setFaqCategoryList([]);
-        const faqCategoryList = await faqCategoryService.get();
-        const categories = faqCategoryList.data;
-
-        for (let i = 0; i < categories.length; i++) {
-          for (let j = 0; j < faqList.length; j++) {
-            if (categories[i].id === faqList[j].faqCategoryId) {
-              if (categories[i].faqs) {
-                categories[i].faqs.push(faqList[j]);
-              } else {
-                categories[i].faqs = [faqList[j]];
-              }
-            }
-          }
-        }
-        setFaqCategoryList(categories);
-      };
-      consolidate();
-    }
-  }, [faqList]);
-
   const expandFaq = faq => {
-    setFaqList(
-      faqList.map(item => {
-        if (faq.id === item.id) {
-          return { ...item, expand: true };
-        } else {
-          return item;
-        }
+    // Create a new faqCategoryList object where only the expand
+    // property of the specified faq is changed to true
+    setFaqCategoryList(
+      faqCategoryList.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(f =>
+            f.id === faq.id ? { ...f, expand: true } : f
+          )
+        };
       })
     );
   };
 
   const collapseFaq = faq => {
-    setFaqList(
-      faqList.map(item => {
-        if (faq.id === item.id) {
-          return { ...item, expand: false };
-        } else {
-          return item;
-        }
+    // Create a new faqCategoryList object where only the expand
+    // property of the specified faq is changed to false
+    setFaqCategoryList(
+      faqCategoryList.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(f =>
+            f.id === faq.id ? { ...f, expand: false } : f
+          )
+        };
       })
     );
   };
 
   const expandAll = () => {
-    setFaqList(
-      faqList.map(faq => {
-        return { ...faq, expand: true };
+    // Create a new faqCategoryList object where the expand
+    // property of all faqs is changed to true
+    setFaqCategoryList(
+      faqCategoryList.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(faq => ({ ...faq, expand: true }))
+        };
       })
     );
   };
 
   const collapseAll = () => {
-    setFaqList(
-      faqList.map(faq => {
-        return { ...faq, expand: false };
+    // Create a new faqCategoryList object where the expand
+    // property of all faqs is changed to false
+    setFaqCategoryList(
+      faqCategoryList.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(faq => ({ ...faq, expand: false }))
+        };
       })
     );
   };
@@ -117,12 +104,11 @@ const FaqView = () => {
         <ExpandButtons expandAll={expandAll} collapseAll={collapseAll} />
         {admin ? <FaqAdd /> : null}
         <FaqList
-          faqList={faqList}
-          setFaqList={setFaqList}
+          faqCategoryList={faqCategoryList}
+          key={JSON.stringify(faqCategoryList)}
           admin={admin}
           expandFaq={expandFaq}
           collapseFaq={collapseFaq}
-          faqCategoryList={faqCategoryList}
           setFaqCategoryList={setFaqCategoryList}
         />
       </div>
