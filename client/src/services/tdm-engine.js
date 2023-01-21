@@ -85,7 +85,8 @@ class Engine {
       }
 
       if (rerun) {
-        return this.run(formInputs, ruleCodes);
+        this.run(formInputs, ruleCodes);
+        return true;
       }
 
       // Match up inputs or measures with the primary calculation
@@ -111,7 +112,7 @@ class Engine {
       }
       // For debugging
       // console.log(this.rules);
-      return results;
+      return false;
     } catch (err) {
       console.error(err);
     }

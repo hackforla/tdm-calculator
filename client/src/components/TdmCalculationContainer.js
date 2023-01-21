@@ -138,7 +138,7 @@ export function TdmCalculationContainer({
   }, [match.params.projectId, engine, account, history, triggerInitiateEngine]);
 
   const recalculate = updatedFormInputs => {
-    engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
+    const rerun = engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
     const rules = engine.showRulesArray();
     //The following several lines can be uncommented for debugging
     // console.log("Updated Rules:");
@@ -150,6 +150,13 @@ export function TdmCalculationContainer({
     setFormInputs(updatedFormInputs);
     setRules(rules);
     setFormHasSaved(false);
+    if (rerun) {
+      toast.add(
+        `Due to changes you made to the project specifications, some of 
+        the selected strategies are no longer applicable and have 
+        been automatically de-selected`
+      );
+    }
   };
 
   const initializeStrategies = () => {
