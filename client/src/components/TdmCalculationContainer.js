@@ -76,6 +76,8 @@ export function TdmCalculationContainer({
   const [triggerInitiateEngine, setTriggerInitiateEngine] = useState(false);
   const toast = useToast();
   const appInsights = useAppInsightsContext();
+  const [inapplicableStrategiesModalOpen, setInapplicableStrategiesModalOpen] =
+    useState(false);
 
   // appInsights.trackMetric("TDMCalculationContainer Component");
   const trackNew = useTrackEvent(appInsights, "New Project");
@@ -151,11 +153,8 @@ export function TdmCalculationContainer({
     setRules(rules);
     setFormHasSaved(false);
     if (strategiesDeselected) {
-      toast.add(
-        `Due to changes you made to the project specifications, some of 
-        the selected strategies are no longer applicable and have 
-        been automatically de-selected`
-      );
+      setInapplicableStrategiesModalOpen(true);
+      inapplicableStrategiesModalOpen;
     }
   };
 
@@ -410,12 +409,18 @@ export function TdmCalculationContainer({
   useEffect(() => {
     if (isOpenNavConfirmModal) return;
 
+    if (inapplicableStrategiesModalOpen) return;
+
     if (hasConfirmedNavTransition) {
       setTriggerInitiateEngine(state => !state);
       setFormHasSaved(true);
     }
     setResettingProject(false);
-  }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
+  }, [
+    hasConfirmedNavTransition,
+    isOpenNavConfirmModal,
+    inapplicableStrategiesModalOpen
+  ]);
 
   const navToStart = useCallback(() => {
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
@@ -617,6 +622,8 @@ TdmCalculationContainer.propTypes = {
   }),
   hasConfirmedNavTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
+  inapplicableStrategiesModalOpen: PropTypes.bool,
+  toggleInapplicableStrategiesModal: PropTypes.func,
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object,
   checklistModalOpen: PropTypes.bool,

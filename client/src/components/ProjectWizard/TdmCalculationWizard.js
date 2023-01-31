@@ -8,6 +8,7 @@ import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainer from "../Layout/ContentContainer";
+import InapplicableStrategiesModal from "../InapplicableStrategiesModal";
 
 const TdmCalculationWizard = props => {
   const {
@@ -170,6 +171,7 @@ const TdmCalculationWizard = props => {
   return (
     <React.Fragment>
       <TermsAndConditionsModal />
+      <InapplicableStrategiesModal />
       <ChecklistModal
         checklistModalOpen={checklistModalOpen}
         toggleChecklistModal={toggleChecklistModal}
