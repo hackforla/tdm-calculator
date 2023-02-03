@@ -74,10 +74,10 @@ export function TdmCalculationContainer({
   const [formHasSaved, setFormHasSaved] = useState(true);
   const [resettingProject, setResettingProject] = useState(false);
   const [triggerInitiateEngine, setTriggerInitiateEngine] = useState(false);
+  const [inapplicableStrategiesModalOpen, setInapplicableStrategiesModal] =
+    useState(false);
   const toast = useToast();
   const appInsights = useAppInsightsContext();
-  const [inapplicableStrategiesModalOpen, setInapplicableStrategiesModalOpen] =
-    useState(false);
 
   // appInsights.trackMetric("TDMCalculationContainer Component");
   const trackNew = useTrackEvent(appInsights, "New Project");
@@ -153,8 +153,7 @@ export function TdmCalculationContainer({
     setRules(rules);
     setFormHasSaved(false);
     if (strategiesDeselected) {
-      setInapplicableStrategiesModalOpen(true);
-      inapplicableStrategiesModalOpen;
+      setInapplicableStrategiesModal(true);
     }
   };
 
@@ -409,18 +408,12 @@ export function TdmCalculationContainer({
   useEffect(() => {
     if (isOpenNavConfirmModal) return;
 
-    if (inapplicableStrategiesModalOpen) return;
-
     if (hasConfirmedNavTransition) {
       setTriggerInitiateEngine(state => !state);
       setFormHasSaved(true);
     }
     setResettingProject(false);
-  }, [
-    hasConfirmedNavTransition,
-    isOpenNavConfirmModal,
-    inapplicableStrategiesModalOpen
-  ]);
+  }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
 
   const navToStart = useCallback(() => {
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
@@ -576,6 +569,8 @@ export function TdmCalculationContainer({
           contentContainerRef={contentContainerRef}
           checklistModalOpen={checklistModalOpen}
           toggleChecklistModal={toggleChecklistModal}
+          inapplicableStrategiesModalOpen={inapplicableStrategiesModalOpen}
+          setInapplicableStrategiesModal={setInapplicableStrategiesModal}
         />
       ) : (
         <TdmCalculation
@@ -627,7 +622,8 @@ TdmCalculationContainer.propTypes = {
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object,
   checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func
+  toggleChecklistModal: PropTypes.func,
+  activateModal: PropTypes.func
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

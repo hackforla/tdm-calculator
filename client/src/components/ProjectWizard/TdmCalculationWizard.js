@@ -38,7 +38,9 @@ const TdmCalculationWizard = props => {
     dateModified,
     contentContainerRef,
     checklistModalOpen,
-    toggleChecklistModal
+    toggleChecklistModal,
+    inapplicableStrategiesModalOpen,
+    setInapplicableStrategiesModalOpen
   } = props;
   const context = useContext(ToastContext);
   const page = Number(match.params.page || 1);
@@ -171,7 +173,10 @@ const TdmCalculationWizard = props => {
   return (
     <React.Fragment>
       <TermsAndConditionsModal />
-      <InapplicableStrategiesModal />
+      <InapplicableStrategiesModal
+        inapplicableStrategiesModalOpen={inapplicableStrategiesModalOpen}
+        setInapplicableStrategiesModalOpen={setInapplicableStrategiesModalOpen}
+      />
       <ChecklistModal
         checklistModalOpen={checklistModalOpen}
         toggleChecklistModal={toggleChecklistModal}
@@ -283,7 +288,9 @@ TdmCalculationWizard.propTypes = {
   projectIsValid: PropTypes.func,
   dateModified: PropTypes.string,
   checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func
+  toggleChecklistModal: PropTypes.func,
+  inapplicableStrategiesModalOpen: PropTypes.bool,
+  setInapplicableStrategiesModalOpen: PropTypes.func
 };
 
 export default withRouter(TdmCalculationWizard);

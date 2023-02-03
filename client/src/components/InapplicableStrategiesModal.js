@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
     padding: "50px",
     backgroundColor: "#ffffff",
     boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)",
-    width: "40%",
+    width: "47%",
     borderRadius: "5px"
   },
   title: {
@@ -41,10 +41,10 @@ const useStyles = createUseStyles({
     justifyContent: "center"
   }
 });
-const InapplicableStrategiesModal = (
-  inapplicableStrategiesModalOpen,
-  setInapplicableStrategiesModal
-) => {
+const InapplicableStrategiesModal = props => {
+  const { inapplicableStrategiesModalOpen, setInapplicableStrategiesModal } =
+    props;
+
   const classes = useStyles();
 
   return (
@@ -83,9 +83,8 @@ const InapplicableStrategiesModal = (
 };
 
 InapplicableStrategiesModal.propTypes = {
-  isOpenInapplicableStrategiesModal: PropTypes.bool.isRequired,
-  setIsOpenInapplicableStrategiesModal: PropTypes.func.isRequired,
-  confirmTransitionInapplicableStrategies: PropTypes.object
+  inapplicableStrategiesModalOpen: PropTypes.bool.isRequired,
+  setInapplicableStrategiesModal: PropTypes.func.isRequired
 };
 
 export default InapplicableStrategiesModal;
