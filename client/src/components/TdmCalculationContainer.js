@@ -574,7 +574,6 @@ export function TdmCalculationContainer({
           checklistModalOpen={checklistModalOpen}
           toggleChecklistModal={toggleChecklistModal}
           inapplicableStrategiesModal={inapplicableStrategiesModal}
-          setInapplicableStrategiesModal={setInapplicableStrategiesModal}
           closeStrategiesModal={closeStrategiesModal}
         />
       ) : (
@@ -622,14 +621,10 @@ TdmCalculationContainer.propTypes = {
   }),
   hasConfirmedNavTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
-  inapplicableStrategiesModalOpen: PropTypes.bool,
-  closeStrategiesModal: PropTypes.func,
-  toggleInapplicableStrategiesModal: PropTypes.func,
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object,
   checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func,
-  activateModal: PropTypes.func
+  toggleChecklistModal: PropTypes.func
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

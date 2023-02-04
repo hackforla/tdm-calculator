@@ -41,9 +41,6 @@ const useStyles = createUseStyles({
 const App = ({
   hasConfirmedTransition,
   isOpenNavConfirmModal,
-  inapplicableStrategiesModalOpen,
-  setinapplicableStrategiesModalOpen,
-  openInapplicableStrategiesModal,
   contentContainerRef,
   appContainerRef,
   checklistModalOpen,
@@ -81,11 +78,6 @@ const App = ({
               account={account}
               hasConfirmedNavTransition={hasConfirmedTransition}
               isOpenNavConfirmModal={isOpenNavConfirmModal}
-              inapplicableStrategiesModalOpen={inapplicableStrategiesModalOpen}
-              setinapplicableStrategiesModalOpen={
-                setinapplicableStrategiesModalOpen
-              }
-              openInapplicableStrategiesModal={openInapplicableStrategiesModal}
               contentContainerRef={contentContainerRef}
               checklistModalOpen={checklistModalOpen}
               toggleChecklistModal={toggleChecklistModal}
@@ -187,9 +179,6 @@ const App = ({
 App.propTypes = {
   hasConfirmedTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
-  inapplicableStrategiesModalOpen: PropTypes.bool,
-  setinapplicableStrategiesModalOpen: PropTypes.func,
-  openInapplicableStrategiesModal: PropTypes.func,
   appContainerRef: PropTypes.object,
   contentContainerRef: PropTypes.object,
   checklistModalOpen: PropTypes.bool,
