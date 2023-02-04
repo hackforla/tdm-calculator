@@ -4,6 +4,7 @@ import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
+import { faGripHorizontal } from "@fortawesome/free-solid-svg-icons";
 
 import Quill from "../Quill";
 
@@ -13,7 +14,6 @@ import Quill from "../Quill";
 
 const useStyles = createUseStyles({
   collapseFlexContainer: {
-    // gridColumn: "h-end",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -21,7 +21,6 @@ const useStyles = createUseStyles({
     minHeight: "2em"
   },
   expandFlexContainer: {
-    // gridColumn: "h-end",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -40,12 +39,13 @@ const useStyles = createUseStyles({
     fontSize: "25px",
     paddingTop: "0.25em",
     marginTop: 0,
+    marginRight: "0.5em",
     flex: "0 0 auto"
   }
 });
 
 const Faq = props => {
-  const { faq, /* admin, */ expandFaq, collapseFaq } = props;
+  const { faq, admin, expandFaq, collapseFaq } = props;
   const classes = useStyles();
   const [answerEditMode, setAnswerEditMode] = useState(false);
   const [questionEditMode, setQuestionEditMode] = useState(false);
@@ -82,7 +82,7 @@ const Faq = props => {
         <div
           style={{
             fontWeight: "bold",
-            marginLeft: 0,
+            marginLeft: "0.5em",
             marginRight: "0.25em",
             flex: "0 0 auto",
             paddingTop: "0.65em"
@@ -146,22 +146,60 @@ const Faq = props => {
             />
           )}
         </div>
+        {admin ? (
+          <FontAwesomeIcon
+            style={{
+              cursor: "grab",
+              fontSize: "2em",
+              paddingTop: "0.11em",
+              paddingRight: "0.25em"
+            }}
+            icon={faGripHorizontal}
+          />
+        ) : null}
       </div>
       {faq.expand ? (
         answerEditMode ? (
-          <Quill
-            value={editedFaq.answer}
-            onChange={onAnswerChange}
-            onBlur={() => {
-              setAnswerEditMode(false);
-            }}
-          />
+          <div style={{ display: "flex", width: "100%" }}>
+            <div
+              style={{
+                fontWeight: "bold",
+                marginLeft: "0.5em",
+                marginRight: "0.25em",
+                flex: "0 0 auto",
+                paddingTop: "0.65em"
+              }}
+            >
+              {`A: `}
+            </div>
+            <Quill
+              value={editedFaq.answer}
+              onChange={onAnswerChange}
+              onBlur={() => {
+                setAnswerEditMode(false);
+              }}
+              style={{ flex: "1 0 100%" }}
+            />
+          </div>
         ) : (
-          <p
-            style={{ marginTop: "1em", fontWeight: "bold" }}
-            dangerouslySetInnerHTML={{ __html: `${editedFaq.answer}` }}
-            onClick={() => setAnswerEditMode(true)}
-          ></p>
+          <div style={{ display: "flex" }}>
+            <div
+              style={{
+                fontWeight: "bold",
+                marginLeft: "0.7em",
+                marginRight: "0.25em",
+                flex: "0 0 auto",
+                paddingTop: "0.65em"
+              }}
+            >
+              {`A: `}
+            </div>
+            <p
+              style={{ marginTop: "0.5em", fontWeight: "bold" }}
+              dangerouslySetInnerHTML={{ __html: `${editedFaq.answer}` }}
+              onClick={() => setAnswerEditMode(true)}
+            ></p>
+          </div>
         )
       ) : (
         ""

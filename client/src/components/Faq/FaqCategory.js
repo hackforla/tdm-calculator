@@ -3,6 +3,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import Faq from "./Faq";
+import { faGripHorizontal } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 // import * as faqCategoryService from "../../services/faqCategory.service";
 
 // want to make this component re-useable, so will check if admin
@@ -62,7 +65,21 @@ const FaqCategory = props => {
 
   return (
     <div>
-      <h3 className={classes.categoryContainer}>{category.name}</h3>
+      <div className={classes.categoryContainer}>
+        <h3>{category.name}</h3>
+        {admin ? (
+          <FontAwesomeIcon
+            style={{
+              cursor: "grab",
+              fontSize: "2em",
+              paddingTop: "0.11em",
+              paddingRight: "0em",
+              color: "white"
+            }}
+            icon={faGripHorizontal}
+          />
+        ) : null}
+      </div>
       {category.faqs.map(faq => {
         return (
           <Faq
