@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-api",
-  "version": "0.2.42",
+  "version": "0.2.43",
   "description": "Traffic Data Management Calculator",
   "repository": {
     "type": "git",
@@ -16,6 +16,7 @@
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\" ",
     "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \"**/*.{js,jsx}\" ",
     "flyway:migrate": "flyway -c ./db/flyway-config.js migrate",
+    "flyway:undo": "flyway -c ./db/flyway-config.js undo",
     "flyway:clean": "flyway -c ./db/flyway-config.js clean",
     "flyway:repair": "flyway -c ./db/flyway-config.js repair",
     "flyway:info": "flyway -c ./db/flyway-config.js info",
