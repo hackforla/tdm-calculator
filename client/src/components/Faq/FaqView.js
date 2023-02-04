@@ -5,11 +5,14 @@ import * as faqCategoryService from "../../services/faqCategory.service";
 import FaqList from "./FaqCategoryList";
 import FaqAdd from "./FaqAdd";
 import ExpandButtons from "./ExpandButtons";
+import EditToggleButton from "../Button/EditToggleButton";
 import ContentContainer from "../Layout/ContentContainer";
 import { withRouter } from "react-router-dom";
 
 const FaqView = props => {
+  const [admin, setAdmin] = useState(false);
   const [faqCategoryList, setFaqCategoryList] = useState([]);
+  const [faqCategoryListOriginal, setFaqCategoryListOriginal] = useState([]);
   const { match, toggleChecklistModal, checklistModalOpen } = props;
   const [showChecklist, setShowChecklist] = useState(
     match.params.showChecklist || false
@@ -28,10 +31,6 @@ const FaqView = props => {
     checklistModalOpen,
     toggleChecklistModal
   ]);
-
-  // currently set to true for testing
-  // const [admin, setAdmin] = useState(true);
-  const admin = false;
 
   useEffect(() => {
     async function fetch() {
@@ -57,6 +56,9 @@ const FaqView = props => {
         }
       }
       setFaqCategoryList(categories);
+      // Make a deep copy of the original data, so we can use it to
+      // alter database data when saved.
+      setFaqCategoryListOriginal(JSON.parse(JSON.stringify(categories)));
     }
     fetch();
   }, []);
@@ -104,6 +106,20 @@ const FaqView = props => {
     );
   };
 
+  const handleAdminChange = () => {
+    if (admin) {
+      if (
+        JSON.stringify(faqCategoryList) !==
+        JSON.stringify(faqCategoryListOriginal)
+      ) {
+        // save logic goes here!
+      }
+      setAdmin(false);
+    } else {
+      setAdmin(true);
+    }
+  };
+
   const collapseAll = () => {
     // Create a new faqCategoryList object where the expand
     // property of all faqs is changed to false
@@ -120,6 +136,7 @@ const FaqView = props => {
   return (
     <ContentContainer componentToTrack="FaqPage">
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
+        <EditToggleButton editMode={admin} onClick={handleAdminChange} />
         <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
         <ExpandButtons expandAll={expandAll} collapseAll={collapseAll} />
         {admin ? <FaqAdd /> : null}

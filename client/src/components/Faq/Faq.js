@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import * as faqService from "../../services/faq.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
+
+import Quill from "../Quill";
 
 // want to make this component re-useable, so will check if admin
 // if admin, add/update/delete buttons show up
@@ -12,24 +13,20 @@ import { faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
   collapseFlexContainer: {
-    gridColumn: "h-end",
+    // gridColumn: "h-end",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    paddingRight: "40px",
-    height: "45px"
+    alignItems: "top",
+    minHeight: "2em"
   },
   expandFlexContainer: {
-    gridColumn: "h-end",
+    // gridColumn: "h-end",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    paddingLeft: "10px",
-    paddingRight: "40px",
-    marginTop: "20px",
-    height: "45px",
+    alignItems: "top",
+    minHeight: "2em",
     border: "2px solid #a6c439"
   },
   faqPlusMinusIcons: {
@@ -39,130 +36,135 @@ const useStyles = createUseStyles({
   },
   faqExpandIcon: {
     display: "flex",
-    alignItems: "center",
-    fontSize: "25px"
+    alignItems: "flex-start",
+    fontSize: "25px",
+    paddingTop: "0.25em",
+    marginTop: 0,
+    flex: "0 0 auto"
   }
 });
 
 const Faq = props => {
-  const { faq, admin, expandFaq, collapseFaq } = props;
+  const { faq, /* admin, */ expandFaq, collapseFaq } = props;
   const classes = useStyles();
-  const [updateFaq, setUpdateFaq] = useState(faq);
-  const [toggleUpdate, setToggleUpdate] = useState(false);
+  const [answerEditMode, setAnswerEditMode] = useState(false);
+  const [questionEditMode, setQuestionEditMode] = useState(false);
+  const [editedFaq, setEditedFaq] = useState(faq);
 
-  const onInputTyping = event => {
-    setUpdateFaq({ ...updateFaq, [event.target.name]: event.target.value });
+  const onAnswerChange = ans => {
+    faq.answer = ans;
+    setEditedFaq(prevState => ({ ...prevState, answer: ans }));
   };
 
-  const onToggle = () => {
-    setToggleUpdate(!toggleUpdate);
-  };
-
-  const onUpdate = () => {
-    faqService
-      .put(updateFaq)
-      .then(() => {
-        setToggleUpdate(!toggleUpdate);
-      })
-      .catch(error => {
-        console.error(JSON.stringify(error, null, 2));
-      });
-  };
-
-  const onDelete = () => {
-    faqService.del(faq.id).catch(error => {
-      console.error(JSON.stringify(error, null, 2));
-    });
+  const onQuestionChange = e => {
+    const q = e.target.value;
+    faq.question = q;
+    setEditedFaq(prevState => ({ ...prevState, question: q }));
   };
 
   const handleExpandFaq = () => {
-    // setExpanded(true);
     expandFaq(faq);
   };
 
   const handleCollapseFaq = () => {
-    // setExpanded(false);
     collapseFaq(faq);
   };
 
   return (
     <div>
-      {admin ? (
-        <div classes={classes.faqContent}>
-          {toggleUpdate ? (
+      <div
+        className={
+          faq.expand
+            ? classes.expandFlexContainer
+            : classes.collapseFlexContainer
+        }
+      >
+        <div
+          style={{
+            fontWeight: "bold",
+            marginLeft: 0,
+            marginRight: "0.25em",
+            flex: "0 0 auto",
+            paddingTop: "0.65em"
+          }}
+        >
+          {`Q: `}
+        </div>
+        <div
+          style={{
+            flex: "1 1 0",
+            marginTop: 0
+          }}
+        >
+          {questionEditMode ? (
             <div>
               <input
                 placeholder="Question..."
                 type="text"
-                value={updateFaq.question}
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1.15em",
+                  marginLeft: 0,
+                  marginTop: 0,
+                  display: "block",
+                  marginRight: "2em",
+                  padding: "0.3em 0"
+                }}
+                value={editedFaq.question}
                 name="question"
-                onChange={onInputTyping}
+                onChange={onQuestionChange}
+                onBlur={() => {
+                  setQuestionEditMode(false);
+                }}
               />
-              <input
-                placeholder="Answer..."
-                type="text"
-                value={updateFaq.answer}
-                name="answer"
-                onChange={onInputTyping}
-              />
-              <div>
-                <button onClick={onUpdate}>Update</button>
-                <button onClick={onToggle}>Cancel</button>
-              </div>
             </div>
           ) : (
-            <div>
-              <div
-                dangerouslySetInnerHTML={{ __html: `${updateFaq.question}` }}
-              ></div>
-              <div
-                dangerouslySetInnerHTML={{ __html: `${updateFaq.answer}` }}
-              ></div>
-              <div>
-                <button onClick={onToggle}>Update</button>
-                <button onClick={onDelete}>Delete</button>
-              </div>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div>
-          <div
-            className={
-              faq.expand
-                ? classes.expandFlexContainer
-                : classes.collapseFlexContainer
-            }
-          >
             <h3
-              style={{ fontWeight: "bold" }}
-              dangerouslySetInnerHTML={{ __html: `${updateFaq.question}` }}
+              dangerouslySetInnerHTML={{ __html: `${editedFaq.question}` }}
+              style={{
+                fontWeight: "bold",
+                marginTop: "0.5em"
+              }}
+              onClick={() => {
+                setQuestionEditMode(true);
+              }}
             ></h3>
-            <div className={classes.faqExpandIcon}>
-              {faq.expand ? (
-                <FontAwesomeIcon
-                  style={{ cursor: "pointer" }}
-                  icon={faMinus}
-                  onClick={() => handleCollapseFaq(faq)}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  style={{ cursor: "pointer" }}
-                  icon={faPlus}
-                  onClick={() => handleExpandFaq(faq)}
-                />
-              )}
-            </div>
-          </div>
-          {faq.expand ? (
-            <p
-              style={{ marginTop: "1em", fontWeight: "bold" }}
-              dangerouslySetInnerHTML={{ __html: `${updateFaq.answer}` }}
-            ></p>
-          ) : (
-            ""
           )}
         </div>
+        <div className={classes.faqExpandIcon}>
+          {faq.expand ? (
+            <FontAwesomeIcon
+              style={{ cursor: "pointer" }}
+              icon={faMinus}
+              onClick={() => handleCollapseFaq(faq)}
+            />
+          ) : (
+            <FontAwesomeIcon
+              style={{ cursor: "pointer" }}
+              icon={faPlus}
+              onClick={() => handleExpandFaq(faq)}
+            />
+          )}
+        </div>
+      </div>
+      {faq.expand ? (
+        answerEditMode ? (
+          <Quill
+            value={editedFaq.answer}
+            onChange={onAnswerChange}
+            onBlur={() => {
+              setAnswerEditMode(false);
+            }}
+          />
+        ) : (
+          <p
+            style={{ marginTop: "1em", fontWeight: "bold" }}
+            dangerouslySetInnerHTML={{ __html: `${editedFaq.answer}` }}
+            onClick={() => setAnswerEditMode(true)}
+          ></p>
+        )
+      ) : (
+        ""
       )}
     </div>
   );
