@@ -54,10 +54,10 @@ const useStyles = createUseStyles({
     marginTop: "1em",
     alignSelf: "flex-end"
   },
-  disclaimer: {
-    color: "#A9A9A9",
-    marginTop: "40px",
-    textAlign: "center"
+  subtitle: {
+    marginTop: "0px",
+    textAlign: "center",
+    padding: 0
   }
 });
 
@@ -116,7 +116,28 @@ const PublicCommentPage = () => {
   return (
     <ContentContainer componentToTrack="PublicCommentPage">
       <div className={classes.publicCommentContainer}>
-        <h1 className={classes.pageTitle}>Public Comment Form</h1>
+        <h1 className={classes.pageTitle}>TDM Calculator Feedback Form</h1>
+        <div className={classes.subtitle}>
+          <p>
+            This form is for comments and suggestions regarding the TDM
+            Calculator website. <br />
+            To submit a public comment on the proposed TDM Program (
+            <a
+              target="external"
+              href=" https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=15-0719-S19"
+            >
+              Council File 15-0719-S19
+            </a>
+            ), use the{" "}
+            <a
+              target="external"
+              href="https://cityclerk.lacity.org/publiccomment/?cfnumber=15-0719-S19"
+            >
+              City Clerk&apos;s comment form
+            </a>
+            .
+          </p>
+        </div>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -212,9 +233,6 @@ const PublicCommentPage = () => {
             </Form>
           )}
         </Formik>
-        <p className={classes.disclaimer}>
-          Disclaimer: Comments submitted will be part of the public record
-        </p>
       </div>
     </ContentContainer>
   );

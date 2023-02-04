@@ -1,8 +1,8 @@
-const faqService = require("../services/faq.service");
+const faqCategoryService = require("../services/faqCategory.service");
 
 const get = async (req, res) => {
   try {
-    const response = await faqService.getFaq();
+    const response = await faqCategoryService.getFaqCategory();
     res.json(response);
   } catch (err) {
     res.status(500).send(err);
@@ -11,7 +11,7 @@ const get = async (req, res) => {
 
 const getById = async (req, res) => {
   try {
-    const response = await faqService.getFaqById(req.params.id);
+    const response = await faqCategoryService.getFaqCategoryById(req.params.id);
     res.json(response);
   } catch (err) {
     res.status(500).send(err);
@@ -20,7 +20,7 @@ const getById = async (req, res) => {
 
 const post = async (req, res) => {
   try {
-    await faqService.postFaq(req.body);
+    await faqCategoryService.postFaqCategory(req.body);
     res.sendStatus(201);
   } catch (err) {
     res.status(500).send(err);
@@ -29,7 +29,7 @@ const post = async (req, res) => {
 
 const put = async (req, res) => {
   try {
-    await faqService.putFaqById(req.body);
+    await faqCategoryService.putFaqCategoryById(req.body);
     res.sendStatus(200);
   } catch (err) {
     res.status(500).send(err);
@@ -38,7 +38,7 @@ const put = async (req, res) => {
 
 const del = async (req, res) => {
   try {
-    await faqService.deleteFaq(req.params.id);
+    await faqCategoryService.deleteFaqCategory(req.params.id);
     res.sendStatus(200);
   } catch (err) {
     res.status(500).send(err);

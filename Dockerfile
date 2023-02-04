@@ -24,7 +24,7 @@ COPY ./server/app ./app
 COPY ./server/middleware ./middleware
 COPY ./server/server.js ./
 
-EXPOSE 500
+EXPOSE 5001
 ENTRYPOINT ["/usr/local/bin/node", "./server.js"]
 
 

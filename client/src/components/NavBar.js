@@ -154,10 +154,20 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         <NavLink
           className={classes.link}
           activeClassName={classes.currentLink}
+          to="/faqs"
+          onClick={handleHamburgerMenuClick}
+        >
+          FAQ
+        </NavLink>
+      </li>
+      <li className={classes.linkBlock}>
+        <NavLink
+          className={classes.link}
+          activeClassName={classes.currentLink}
           to="/publiccomment"
           onClick={handleHamburgerMenuClick}
         >
-          Public Comment
+          Feedback
         </NavLink>
       </li>
       <NavBarLogin

@@ -1,0 +1,5 @@
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+  transform: translate(48%, 48%) scale(0.1, 0) skew(35deg, 35deg);
+  transition: all 1500ms ease-out;
+}
