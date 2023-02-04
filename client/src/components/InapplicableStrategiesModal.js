@@ -42,15 +42,14 @@ const useStyles = createUseStyles({
   }
 });
 const InapplicableStrategiesModal = props => {
-  const { inapplicableStrategiesModalOpen, setInapplicableStrategiesModal } =
-    props;
+  const { inapplicableStrategiesModal, closeStrategiesModal } = props;
 
   const classes = useStyles();
 
   return (
     <Modal
-      isOpen={inapplicableStrategiesModalOpen}
-      onRequestClose={() => setInapplicableStrategiesModal(false)}
+      isOpen={inapplicableStrategiesModal}
+      onRequestClose={closeStrategiesModal}
       contentLabel="Inapplicable Strategies"
       overlayClassName={classes.overlay}
       className={classes.content}
@@ -73,7 +72,7 @@ const InapplicableStrategiesModal = props => {
           color="colorDeselect"
           id="modalProceed"
           data-testid="transitionProceed"
-          onClick={() => setInapplicableStrategiesModal(false)}
+          onClick={closeStrategiesModal}
         >
           Okay, I Understand
         </Button>
@@ -83,8 +82,8 @@ const InapplicableStrategiesModal = props => {
 };
 
 InapplicableStrategiesModal.propTypes = {
-  inapplicableStrategiesModalOpen: PropTypes.bool.isRequired,
-  setInapplicableStrategiesModal: PropTypes.func.isRequired
+  inapplicableStrategiesModal: PropTypes.bool.isRequired,
+  closeStrategiesModal: PropTypes.func
 };
 
 export default InapplicableStrategiesModal;

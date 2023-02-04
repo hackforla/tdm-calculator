@@ -74,7 +74,7 @@ export function TdmCalculationContainer({
   const [formHasSaved, setFormHasSaved] = useState(true);
   const [resettingProject, setResettingProject] = useState(false);
   const [triggerInitiateEngine, setTriggerInitiateEngine] = useState(false);
-  const [inapplicableStrategiesModalOpen, setInapplicableStrategiesModal] =
+  const [inapplicableStrategiesModal, setInapplicableStrategiesModal] =
     useState(false);
   const toast = useToast();
   const appInsights = useAppInsightsContext();
@@ -139,6 +139,10 @@ export function TdmCalculationContainer({
     initiateEngine();
   }, [match.params.projectId, engine, account, history, triggerInitiateEngine]);
 
+  const closeStrategiesModal = () => {
+    setInapplicableStrategiesModal(!inapplicableStrategiesModal);
+  };
+
   const recalculate = updatedFormInputs => {
     const strategiesDeselected = engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
     const rules = engine.showRulesArray();
@@ -153,7 +157,7 @@ export function TdmCalculationContainer({
     setRules(rules);
     setFormHasSaved(false);
     if (strategiesDeselected) {
-      setInapplicableStrategiesModal(true);
+      closeStrategiesModal();
     }
   };
 
@@ -569,8 +573,9 @@ export function TdmCalculationContainer({
           contentContainerRef={contentContainerRef}
           checklistModalOpen={checklistModalOpen}
           toggleChecklistModal={toggleChecklistModal}
-          inapplicableStrategiesModalOpen={inapplicableStrategiesModalOpen}
+          inapplicableStrategiesModal={inapplicableStrategiesModal}
           setInapplicableStrategiesModal={setInapplicableStrategiesModal}
+          closeStrategiesModal={closeStrategiesModal}
         />
       ) : (
         <TdmCalculation
@@ -618,6 +623,7 @@ TdmCalculationContainer.propTypes = {
   hasConfirmedNavTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
   inapplicableStrategiesModalOpen: PropTypes.bool,
+  closeStrategiesModal: PropTypes.func,
   toggleInapplicableStrategiesModal: PropTypes.func,
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object,
