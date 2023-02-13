@@ -74,6 +74,8 @@ export function TdmCalculationContainer({
   const [formHasSaved, setFormHasSaved] = useState(true);
   const [resettingProject, setResettingProject] = useState(false);
   const [triggerInitiateEngine, setTriggerInitiateEngine] = useState(false);
+  const [inapplicableStrategiesModal, setInapplicableStrategiesModal] =
+    useState(false);
   const toast = useToast();
   const appInsights = useAppInsightsContext();
 
@@ -137,6 +139,10 @@ export function TdmCalculationContainer({
     initiateEngine();
   }, [match.params.projectId, engine, account, history, triggerInitiateEngine]);
 
+  const closeStrategiesModal = () => {
+    setInapplicableStrategiesModal(!inapplicableStrategiesModal);
+  };
+
   const recalculate = updatedFormInputs => {
     const strategiesDeselected = engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
     const rules = engine.showRulesArray();
@@ -151,11 +157,7 @@ export function TdmCalculationContainer({
     setRules(rules);
     setFormHasSaved(false);
     if (strategiesDeselected) {
-      toast.add(
-        `Due to changes you made to the project specifications, some of 
-        the selected strategies are no longer applicable and have 
-        been automatically de-selected`
-      );
+      closeStrategiesModal();
     }
   };
 
@@ -571,6 +573,8 @@ export function TdmCalculationContainer({
           contentContainerRef={contentContainerRef}
           checklistModalOpen={checklistModalOpen}
           toggleChecklistModal={toggleChecklistModal}
+          inapplicableStrategiesModal={inapplicableStrategiesModal}
+          closeStrategiesModal={closeStrategiesModal}
         />
       ) : (
         <TdmCalculation
