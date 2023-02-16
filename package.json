@@ -20,6 +20,6 @@
   "devDependencies": {
     "concurrently": "^7.1.0",
     "husky": "^8.0.1",
-    "lerna": "^4.0.0"
+    "lerna": "^6.5.1"
   }
 }
