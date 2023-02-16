@@ -17,6 +17,7 @@ const useStyles = createUseStyles({
   },
   numberFieldWrapper: {
     marginBottom: "0.4em",
+    marginTop: "0.4em",
     alignItems: "center"
   },
   numberFieldUnits: {
@@ -51,9 +52,6 @@ const useStyles = createUseStyles({
     textAlign: "right",
     flexGrow: "0",
     flexShrink: "1"
-  },
-  checkboxFieldWrapper: {
-    alignItems: "baseline"
   },
   checkbox: {
     flexGrow: "0",
@@ -232,9 +230,7 @@ const RuleInput = ({
             </div>
           </div>
         ) : dataType === "boolean" ? (
-          <div
-            className={clsx(classes.rowContainer, classes.checkboxFieldWrapper)}
-          >
+          <div className={clsx(classes.rowContainer)}>
             <RuleInputLabel
               id={id}
               description={description}

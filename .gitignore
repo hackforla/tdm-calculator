@@ -239,8 +239,22 @@ node_modules
 # production
 /build
 
-# End of project-specific exclusions
+# End of node exclusions
+# Start of project-specific exclusions
+
+.env
+# Just in case developer forgets "." at start of .env file name
+env  
+# Just in case developer forgets to rename file to .env
+dotenv 
+
+# React .env SHOULD be in repo - it has no secrets, and is 
+# required for GitHub action to build react app.
+!/client/.env
+
 .eslintcache
+
+# End of project-specific exclusions
 
 # Yarn lockfile
 yarn.lock

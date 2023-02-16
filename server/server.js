@@ -11,7 +11,14 @@ const pino = require("express-pino-logger")();
 dotenv.config();
 
 // This configures node to send ApplicationInsights data to Azure
-appInsights.start();
+if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+  appInsights.setup(process.env.APPLICATIONINSIGHTS_CONNECTION_STRING).start();
+} else {
+  console.log(
+    `No ApplicationInsights connection string found. 
+Please add the APPLICATIONINSIGHTS_CONNECTION_STRING value to the environment variables.`
+  );
+}
 
 const port = process.env.PORT || 5000;
 
