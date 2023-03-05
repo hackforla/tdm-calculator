@@ -9,8 +9,6 @@ import EditToggleButton from "../Button/EditToggleButton";
 import ContentContainer from "../Layout/ContentContainer";
 import { withRouter } from "react-router-dom";
 
-import { arrayMove } from "@dnd-kit/sortable";
-
 const FaqView = props => {
   const [admin, setAdmin] = useState(false);
   const [faqCategoryList, setFaqCategoryList] = useState([]);
@@ -78,56 +76,6 @@ const FaqView = props => {
         };
       })
     );
-  };
-
-  const moveCategory = (categoryId, replaceCategoryId) => {
-    const cId = Number(categoryId.replace(/\D/g, ""));
-    const rId = Number(replaceCategoryId.replace(/\D/g, ""));
-    setFaqCategoryList(prevState => {
-      const oldIndex = faqCategoryList.indexOf(
-        faqCategoryList.find(c => c.id === cId)
-      );
-      const newIndex = faqCategoryList.indexOf(
-        faqCategoryList.find(c => c.id === rId)
-      );
-
-      return arrayMove(prevState, oldIndex, newIndex);
-    });
-  };
-
-  const moveFaq = (activeId, overId) => {
-    const aId = Number(activeId.replace(/\D/g, ""));
-    const activeCategory = faqCategoryList.find(cat =>
-      cat.faqs.find(f => f.id === aId)
-    );
-    const activeFaqIndex = activeCategory.faqs.findIndex(f => f.id === aId);
-    const activeFaq = activeCategory.faqs[activeFaqIndex];
-    const oId = Number(overId.replace(/\D/g, ""));
-    if (overId.startsWith("faq")) {
-      const overCategory = faqCategoryList.find(cat =>
-        cat.faqs.find(f => f.id === oId)
-      );
-      if (activeCategory.id === overCategory.id) {
-        // Remove faq from it's old location
-        const overFaqIndex = activeCategory.faqs.findIndex(f => f.id === oId);
-        activeCategory.faqs.splice(activeFaqIndex, 1);
-        // Re-insert it in its new location
-        overCategory.faqs.splice(overFaqIndex, 0, activeFaq);
-      } else {
-        // Remove faq from it's old location
-        activeCategory.faqs.splice(activeFaqIndex, 1);
-        // Re-insert it in its new location
-        const overFaqIndex = overCategory.faqs.findIndex(f => f.id === oId);
-        overCategory.faqs.splice(overFaqIndex, 0, activeFaq);
-      }
-    } else {
-      // overId refers to a category
-      const oCategory = faqCategoryList.find(c => c.id === oId);
-      // Remove faq from it's old location
-      activeCategory.faqs.splice(activeFaqIndex, 1);
-      // Insert faq at the beginning of the over category
-      oCategory.faqs.splice(0, 0, activeFaq);
-    }
   };
 
   const collapseFaq = faq => {
@@ -202,8 +150,6 @@ const FaqView = props => {
           expandFaq={expandFaq}
           collapseFaq={collapseFaq}
           setFaqCategoryList={setFaqCategoryList}
-          moveCategory={moveCategory}
-          moveFaq={moveFaq}
         />
       </div>
     </ContentContainer>

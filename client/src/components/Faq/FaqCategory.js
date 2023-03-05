@@ -1,15 +1,9 @@
-import React, { forwardRef } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-// import SortableFaq from "./SortableFaq";
 import Faq from "./Faq";
 import { faGripHorizontal } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// import {
-//   SortableContext,
-//   verticalListSortingStrategy
-// } from "@dnd-kit/sortable";
 
 const useStyles = createUseStyles({
   categoryContainer: {
@@ -28,15 +22,55 @@ const useStyles = createUseStyles({
   }
 });
 
-const FaqCategory = forwardRef((props, ref) => {
-  const { category, admin, expandFaq, collapseFaq, attributes, listeners } =
-    props;
+const FaqCategory = props => {
+  const { category, admin, expandFaq, collapseFaq } = props;
+  const [categoryEditMode, setCategoryEditMode] = useState(false);
+  const [editedCategory, setEditedCategory] = useState(category);
   const classes = useStyles();
+
+  const onCategoryChange = e => {
+    const name = e.target.value;
+    category.name = name;
+    setEditedCategory(prevState => ({ ...prevState, name }));
+  };
 
   return (
     <div>
       <div className={classes.categoryContainer}>
-        <h3>{category.name}</h3>
+        {categoryEditMode ? (
+          <div>
+            <input
+              placeholder="Category Name..."
+              type="text"
+              style={{
+                fontWeight: "bold",
+                fontSize: "1.15em",
+                marginLeft: 0,
+                marginTop: 0,
+                display: "block",
+                marginRight: "2em",
+                padding: "0.3em 0"
+              }}
+              value={editedCategory.name}
+              name="name"
+              onChange={onCategoryChange}
+              onBlur={() => {
+                setCategoryEditMode(false);
+              }}
+            />
+          </div>
+        ) : (
+          <h3
+            dangerouslySetInnerHTML={{ __html: `${category.name}` }}
+            style={{
+              fontWeight: "bold",
+              marginTop: "0.5em"
+            }}
+            onClick={() => {
+              setCategoryEditMode(true);
+            }}
+          ></h3>
+        )}
         {admin ? (
           <FontAwesomeIcon
             style={{
@@ -46,20 +80,13 @@ const FaqCategory = forwardRef((props, ref) => {
               paddingRight: "0em",
               color: "white"
             }}
-            ref={ref}
-            {...attributes}
-            {...listeners}
             icon={faGripHorizontal}
           />
         ) : null}
       </div>
-      {/* <SortableContext
-        items={category.faqs}
-        strategy={verticalListSortingStrategy}
-      > */}
+
       {category.faqs.map(faq => {
         return (
-          // <SortableFaq key={JSON.stringify(faq)} id={`faq${faq.id}`}>
           <Faq
             faq={faq}
             key={JSON.stringify(faq)}
@@ -67,13 +94,11 @@ const FaqCategory = forwardRef((props, ref) => {
             expandFaq={expandFaq}
             collapseFaq={collapseFaq}
           />
-          // </SortableFaq>
         );
       })}
-      {/* </SortableContext> */}
     </div>
   );
-});
+};
 
 FaqCategory.displayName = "FaqCategory";
 
