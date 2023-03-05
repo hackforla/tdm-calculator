@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as faqService from "../../services/faq.service";
 import * as faqCategoryService from "../../services/faqCategory.service";
-import FaqList from "./FaqCategoryList";
+import FaqCategoryList from "./FaqCategoryList";
 import FaqAdd from "./FaqAdd";
 import ExpandButtons from "./ExpandButtons";
 import EditToggleButton from "../Button/EditToggleButton";
 import ContentContainer from "../Layout/ContentContainer";
 import { withRouter } from "react-router-dom";
+
+import { arrayMove } from "@dnd-kit/sortable";
 
 const FaqView = props => {
   const [admin, setAdmin] = useState(false);
@@ -34,8 +36,8 @@ const FaqView = props => {
 
   useEffect(() => {
     async function fetch() {
-      const faqList = await faqService.get();
-      const faqs = faqList.data.map(faq => {
+      const FaqCategoryList = await faqService.get();
+      const faqs = FaqCategoryList.data.map(faq => {
         return { ...faq, expand: false };
       });
 
@@ -76,6 +78,56 @@ const FaqView = props => {
         };
       })
     );
+  };
+
+  const moveCategory = (categoryId, replaceCategoryId) => {
+    const cId = Number(categoryId.replace(/\D/g, ""));
+    const rId = Number(replaceCategoryId.replace(/\D/g, ""));
+    setFaqCategoryList(prevState => {
+      const oldIndex = faqCategoryList.indexOf(
+        faqCategoryList.find(c => c.id === cId)
+      );
+      const newIndex = faqCategoryList.indexOf(
+        faqCategoryList.find(c => c.id === rId)
+      );
+
+      return arrayMove(prevState, oldIndex, newIndex);
+    });
+  };
+
+  const moveFaq = (activeId, overId) => {
+    const aId = Number(activeId.replace(/\D/g, ""));
+    const activeCategory = faqCategoryList.find(cat =>
+      cat.faqs.find(f => f.id === aId)
+    );
+    const activeFaqIndex = activeCategory.faqs.findIndex(f => f.id === aId);
+    const activeFaq = activeCategory.faqs[activeFaqIndex];
+    const oId = Number(overId.replace(/\D/g, ""));
+    if (overId.startsWith("faq")) {
+      const overCategory = faqCategoryList.find(cat =>
+        cat.faqs.find(f => f.id === oId)
+      );
+      if (activeCategory.id === overCategory.id) {
+        // Remove faq from it's old location
+        const overFaqIndex = activeCategory.faqs.findIndex(f => f.id === oId);
+        activeCategory.faqs.splice(activeFaqIndex, 1);
+        // Re-insert it in its new location
+        overCategory.faqs.splice(overFaqIndex, 0, activeFaq);
+      } else {
+        // Remove faq from it's old location
+        activeCategory.faqs.splice(activeFaqIndex, 1);
+        // Re-insert it in its new location
+        const overFaqIndex = overCategory.faqs.findIndex(f => f.id === oId);
+        overCategory.faqs.splice(overFaqIndex, 0, activeFaq);
+      }
+    } else {
+      // overId refers to a category
+      const oCategory = faqCategoryList.find(c => c.id === oId);
+      // Remove faq from it's old location
+      activeCategory.faqs.splice(activeFaqIndex, 1);
+      // Insert faq at the beginning of the over category
+      oCategory.faqs.splice(0, 0, activeFaq);
+    }
   };
 
   const collapseFaq = faq => {
@@ -136,16 +188,22 @@ const FaqView = props => {
   return (
     <ContentContainer componentToTrack="FaqPage">
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
-        <EditToggleButton editMode={admin} onClick={handleAdminChange} />
+        <EditToggleButton
+          id="EditToggleButton"
+          editMode={admin}
+          onClick={handleAdminChange}
+        />
         <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
         <ExpandButtons expandAll={expandAll} collapseAll={collapseAll} />
         {admin ? <FaqAdd /> : null}
-        <FaqList
+        <FaqCategoryList
           faqCategoryList={faqCategoryList}
           admin={admin}
           expandFaq={expandFaq}
           collapseFaq={collapseFaq}
           setFaqCategoryList={setFaqCategoryList}
+          moveCategory={moveCategory}
+          moveFaq={moveFaq}
         />
       </div>
     </ContentContainer>

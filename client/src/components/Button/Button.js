@@ -65,7 +65,7 @@ const Button = ({
 
 Button.propTypes = {
   onClick: PropTypes.func,
-  children: PropTypes.string,
+  children: PropTypes.any,
   size: PropTypes.string,
   variant: PropTypes.string,
   isDisplayed: PropTypes.bool,

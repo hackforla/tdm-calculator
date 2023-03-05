@@ -1,16 +1,15 @@
-// import React, { useState } from "react";
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+// import SortableFaq from "./SortableFaq";
 import Faq from "./Faq";
 import { faGripHorizontal } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// import * as faqCategoryService from "../../services/faqCategory.service";
-
-// want to make this component re-useable, so will check if admin
-// if admin, add/update/delete buttons show up
-// if not, only question and answer show up
+// import {
+//   SortableContext,
+//   verticalListSortingStrategy
+// } from "@dnd-kit/sortable";
 
 const useStyles = createUseStyles({
   categoryContainer: {
@@ -24,44 +23,15 @@ const useStyles = createUseStyles({
     padding: ".4em",
     marginBottom: "0.6em",
     gridColumn: "h-end",
-    paddingRight: "40px",
+    paddingRight: "0.5em",
     height: "20px"
   }
 });
 
-const FaqCategory = props => {
-  const { category, admin, expandFaq, collapseFaq } = props;
+const FaqCategory = forwardRef((props, ref) => {
+  const { category, admin, expandFaq, collapseFaq, attributes, listeners } =
+    props;
   const classes = useStyles();
-  // const [updateCategory, setUpdateCategory] = useState(category);
-  // const [toggleUpdate, setToggleUpdate] = useState(false);
-
-  // const onInputTyping = event => {
-  //   setUpdateCategory({
-  //     ...updateCategory,
-  //     [event.target.name]: event.target.value
-  //   });
-  // };
-
-  // const onToggle = () => {
-  //   setToggleUpdate(!toggleUpdate);
-  // };
-
-  // const onUpdate = () => {
-  //   faqCategoryService
-  //     .put(updateCategory)
-  //     .then(() => {
-  //       setToggleUpdate(!toggleUpdate);
-  //     })
-  //     .catch(error => {
-  //       console.error(JSON.stringify(error, null, 2));
-  //     });
-  // };
-
-  // const onDelete = () => {
-  //   faqCategoryService.del(category.id).catch(error => {
-  //     console.error(JSON.stringify(error, null, 2));
-  //   });
-  // };
 
   return (
     <div>
@@ -71,17 +41,25 @@ const FaqCategory = props => {
           <FontAwesomeIcon
             style={{
               cursor: "grab",
-              fontSize: "2em",
+              fontSize: "1.5em",
               paddingTop: "0.11em",
               paddingRight: "0em",
               color: "white"
             }}
+            ref={ref}
+            {...attributes}
+            {...listeners}
             icon={faGripHorizontal}
           />
         ) : null}
       </div>
+      {/* <SortableContext
+        items={category.faqs}
+        strategy={verticalListSortingStrategy}
+      > */}
       {category.faqs.map(faq => {
         return (
+          // <SortableFaq key={JSON.stringify(faq)} id={`faq${faq.id}`}>
           <Faq
             faq={faq}
             key={JSON.stringify(faq)}
@@ -89,50 +67,16 @@ const FaqCategory = props => {
             expandFaq={expandFaq}
             collapseFaq={collapseFaq}
           />
+          // </SortableFaq>
         );
       })}
-      {/* {admin ? (
-        <div classes={classes.faqContent}>
-          {toggleUpdate ? (
-            <div>
-              <input
-                placeholder="Question..."
-                type="text"
-                value={updateCategory.question}
-                name="question"
-                onChange={onInputTyping}
-              />
-              <input
-                placeholder="Answer..."
-                type="text"
-                value={updateCategory.answer}
-                name="answer"
-                onChange={onInputTyping}
-              />
-              <div>
-                <button onClick={onUpdate}>Update</button>
-                <button onClick={onToggle}>Cancel</button>
-              </div>
-            </div>
-          ) : (
-            <div>
-              <p>{updateCategory.question}</p>
-              <p>{updateCategory.answer}</p>
-              <div>
-                <button onClick={onToggle}>Update</button>
-                <button onClick={onDelete}>Delete</button>
-              </div>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div>
-          <div>{category}</div>
-        </div>
-      )} */}
+      {/* </SortableContext> */}
     </div>
   );
-};
+});
+
+FaqCategory.displayName = "FaqCategory";
+
 FaqCategory.propTypes = {
   category: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -142,7 +86,10 @@ FaqCategory.propTypes = {
   }),
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,
-  collapseFaq: PropTypes.func.isRequired
+  collapseFaq: PropTypes.func.isRequired,
+  attributes: PropTypes.any,
+  listeners: PropTypes.any,
+  setActivatorNodeRef: PropTypes.any
 };
 
 export default FaqCategory;

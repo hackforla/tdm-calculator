@@ -14,7 +14,6 @@ const EditToggleButton = ({ id, onClick, editMode }) => {
       id={id}
       data-testid={id}
     >
-      {" "}
       <>
         <FontAwesomeIcon icon={faFloppyDisk} />
         {editMode ? ` Save Edits` : ` Edit Section`}
@@ -24,7 +23,7 @@ const EditToggleButton = ({ id, onClick, editMode }) => {
 };
 
 EditToggleButton.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.any,
   onClick: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   editMode: PropTypes.bool.isRequired

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -44,8 +44,8 @@ const useStyles = createUseStyles({
   }
 });
 
-const Faq = props => {
-  const { faq, admin, expandFaq, collapseFaq } = props;
+const Faq = forwardRef((props, ref) => {
+  const { faq, admin, expandFaq, collapseFaq, attributes, listeners } = props;
   const classes = useStyles();
   const [answerEditMode, setAnswerEditMode] = useState(false);
   const [questionEditMode, setQuestionEditMode] = useState(false);
@@ -71,7 +71,7 @@ const Faq = props => {
   };
 
   return (
-    <div>
+    <div ref={ref} {...attributes} {...listeners}>
       <div
         className={
           faq.expand
@@ -150,8 +150,8 @@ const Faq = props => {
           <FontAwesomeIcon
             style={{
               cursor: "grab",
-              fontSize: "2em",
-              paddingTop: "0.11em",
+              fontSize: "1.5em",
+              paddingTop: "0.25em",
               paddingRight: "0.25em"
             }}
             icon={faGripHorizontal}
@@ -206,7 +206,10 @@ const Faq = props => {
       )}
     </div>
   );
-};
+});
+
+Faq.displayName = "Faq";
+
 Faq.propTypes = {
   faq: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -216,7 +219,9 @@ Faq.propTypes = {
   }),
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,
-  collapseFaq: PropTypes.func.isRequired
+  collapseFaq: PropTypes.func.isRequired,
+  attributes: PropTypes.any,
+  listeners: PropTypes.any
 };
 
 export default Faq;
