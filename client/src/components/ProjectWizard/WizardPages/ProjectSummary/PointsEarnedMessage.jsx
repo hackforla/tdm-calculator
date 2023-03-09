@@ -31,7 +31,7 @@ const useStyles = createUseStyles({
   },
   messageBox: {
     display: "flex",
-    width: "521px",
+    width: "100vw",
     justifyContent: "center",
     alignItems: "center",
     padding: ".5em",

@@ -94,6 +94,20 @@ const useStyles = createUseStyles({
     maxWidth: "100%",
     marginTop: "4px",
     padding: "12px"
+  },
+  tempTextContainer: {
+    width: "100%",
+    height: "50px",
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "4px",
+    padding: "12px"
+  },
+  tempText: {
+    fontFamily: "Calibri",
+    fontStyle: "italic",
+    fontSize: "14px",
+    color: "#C35302"
   }
 });
 
@@ -108,6 +122,7 @@ const ProjectSummary = props => {
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
   const earnedPoints = getRule(rules, "PTS_EARNED");
+  const projectName = getRule(rules, "PROJECT_NAME");
 
   const userDefinedStrategy = getRule(rules, "STRATEGY_APPLICANT");
 
@@ -167,7 +182,6 @@ const ProjectSummary = props => {
           </span>
         )}
       </div>
-      {rules ? <ProjectInfoContainer rules={rules} /> : null}
 
       {!loading ? (
         <>
@@ -175,7 +189,9 @@ const ProjectSummary = props => {
             <div
               className={clsx("space-between", classes.categoryHeaderContainer)}
             >
-              <span className={classes.categoryHeader}>RESULTS</span>
+              <span className={classes.categoryHeader}>
+                RESULTS FOR PROJECT: {projectName.value}
+              </span>
             </div>
             <div className={clsx("space-between", classes.resultsContainer)}>
               <Result
@@ -191,6 +207,8 @@ const ProjectSummary = props => {
             </div>
             <PointsEarnedMessage targetPointsReached={targetPointsReached} />
           </div>
+
+          {rules ? <ProjectInfoContainer rules={rules} /> : null}
 
           <div className={classes.categoryContainer}>
             <div
@@ -280,6 +298,12 @@ const ProjectSummary = props => {
                   </div>
                 </div>
               ) : null}
+            </div>
+            <div className={classes.tempTextContainer}>
+              <span className={classes.tempText}>
+                The ordinances behind this TDM calculator are still in public
+                comment. No submission is possible at this time.
+              </span>
             </div>
           </div>
         </>
