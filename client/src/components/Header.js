@@ -94,7 +94,7 @@ const Header = () => {
           />
         </a>
       </div>
-      {environmentBadge}
+      {Environment !== "PROD" ? environmentBadge : null}
       <button
         className={classes.hamburgerButton}
         onClick={handleHamburgerMenuClick}
