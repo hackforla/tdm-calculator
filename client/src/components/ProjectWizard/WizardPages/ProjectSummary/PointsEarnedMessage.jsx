@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
     textAlign: "center",
     color: "#0F2940",
     fontFamily: "Calibri",
-    fontSize: "24px",
+    fontSize: "16px",
     lineHeight: "29px",
     textShadow: "0px 4px 4px rgba(0,0,0,.25)"
   },

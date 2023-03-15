@@ -65,9 +65,11 @@ const useStyles = createUseStyles({
     padding: "12px"
   },
   categoryHeader: {
-    fontSize: "16px",
-    fontFamily: "Oswald",
-    fontWeight: "700"
+    fontSize: "24px",
+    fontFamily: "Calibri",
+    fontWeight: "700",
+    fontStyle: "normal",
+    lineHeight: "32px"
   },
   resultsContainer: {
     padding: "30px 0",
