@@ -62,7 +62,7 @@ const WizardFooter = ({
               <NavButton
                 id="rightNavArrow"
                 navDirection="next"
-                isVisible={page !== 6}
+                isVisible={page !== 5}
                 isDisabled={setDisabledForNextNavButton()}
                 onClick={() => {
                   onPageChange(Number(page) + 1);
