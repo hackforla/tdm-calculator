@@ -42,6 +42,7 @@
     "formik": "^2.2.9",
     "moment": "^2.29.1",
     "react": "^18.1.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.1.0",
     "react-gtm-module": "^2.0.11",
     "react-input-mask": "^2.0.4",

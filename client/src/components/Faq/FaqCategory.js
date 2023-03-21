@@ -5,6 +5,8 @@ import Faq from "./Faq";
 import { faGripHorizontal } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { Droppable, Draggable } from "react-beautiful-dnd";
+
 const useStyles = createUseStyles({
   categoryContainer: {
     minWidth: "60vw",
@@ -19,11 +21,17 @@ const useStyles = createUseStyles({
     gridColumn: "h-end",
     paddingRight: "0.5em",
     height: "20px"
+  },
+  addQuestionButton: {
+    backgroundColor: "transparent",
+    border: "0",
+    cursor: "pointer",
+    textDecoration: "underline"
   }
 });
 
 const FaqCategory = props => {
-  const { category, admin, expandFaq, collapseFaq } = props;
+  const { category, admin, expandFaq, collapseFaq, dragHandleProps } = props;
   const [categoryEditMode, setCategoryEditMode] = useState(false);
   const [editedCategory, setEditedCategory] = useState(category);
   const classes = useStyles();
@@ -32,6 +40,21 @@ const FaqCategory = props => {
     const name = e.target.value;
     category.name = name;
     setEditedCategory(prevState => ({ ...prevState, name }));
+  };
+
+  const handleAddFaq = () => {
+    const categoryId = category.id;
+    const newFaq = {
+      id: -1000,
+      question: "Enter a question",
+      answer: "Enter an answer",
+      displayOrder: 0,
+      faqCategoryId: { categoryId }
+    };
+    setEditedCategory(prevState => ({
+      ...prevState,
+      faqs: prevState.faqs.splice(1, 0, newFaq)
+    }));
   };
 
   return (
@@ -57,6 +80,7 @@ const FaqCategory = props => {
               onBlur={() => {
                 setCategoryEditMode(false);
               }}
+              autoFocus
             />
           </div>
         ) : (
@@ -71,31 +95,62 @@ const FaqCategory = props => {
             }}
           ></h3>
         )}
-        {admin ? (
-          <FontAwesomeIcon
-            style={{
-              cursor: "grab",
-              fontSize: "1.5em",
-              paddingTop: "0.11em",
-              paddingRight: "0em",
-              color: "white"
-            }}
-            icon={faGripHorizontal}
-          />
-        ) : null}
+        <div {...dragHandleProps}>
+          {admin ? (
+            <FontAwesomeIcon
+              style={{
+                cursor: "grab",
+                fontSize: "1.5em",
+                paddingTop: "0.11em",
+                paddingRight: "0em",
+                color: "lightgray"
+              }}
+              icon={faGripHorizontal}
+            />
+          ) : null}
+        </div>
       </div>
-
-      {category.faqs.map(faq => {
-        return (
-          <Faq
-            faq={faq}
-            key={JSON.stringify(faq)}
-            admin={admin}
-            expandFaq={expandFaq}
-            collapseFaq={collapseFaq}
-          />
-        );
-      })}
+      <Droppable droppableId={"c" + category.id} type="faq">
+        {provided => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            style={{
+              minHeight: "3rem"
+            }}
+          >
+            {category.faqs.map((faq, index) => {
+              return (
+                <Draggable
+                  key={faq.id}
+                  draggableId={"f" + faq.id}
+                  index={index}
+                >
+                  {provided => (
+                    <div ref={provided.innerRef} {...provided.draggableProps}>
+                      <Faq
+                        faq={faq}
+                        admin={admin}
+                        expandFaq={expandFaq}
+                        collapseFaq={collapseFaq}
+                        dragHandleProps={provided.dragHandleProps}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              );
+            })}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+      {admin ? (
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <button className={classes.addQuestionButton} onClick={handleAddFaq}>
+            Add new question
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -112,9 +167,7 @@ FaqCategory.propTypes = {
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,
   collapseFaq: PropTypes.func.isRequired,
-  attributes: PropTypes.any,
-  listeners: PropTypes.any,
-  setActivatorNodeRef: PropTypes.any
+  dragHandleProps: PropTypes.any
 };
 
 export default FaqCategory;

@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,10 +7,6 @@ import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import { faGripHorizontal } from "@fortawesome/free-solid-svg-icons";
 
 import Quill from "../Quill";
-
-// want to make this component re-useable, so will check if admin
-// if admin, add/update/delete buttons show up
-// if not, only question and answer show up
 
 const useStyles = createUseStyles({
   collapseFlexContainer: {
@@ -44,8 +40,8 @@ const useStyles = createUseStyles({
   }
 });
 
-const Faq = forwardRef((props, ref) => {
-  const { faq, admin, expandFaq, collapseFaq, attributes, listeners } = props;
+const Faq = props => {
+  const { faq, admin, expandFaq, collapseFaq, dragHandleProps } = props;
   const classes = useStyles();
   const [answerEditMode, setAnswerEditMode] = useState(false);
   const [questionEditMode, setQuestionEditMode] = useState(false);
@@ -71,7 +67,7 @@ const Faq = forwardRef((props, ref) => {
   };
 
   return (
-    <div ref={ref} {...attributes} {...listeners}>
+    <div>
       <div
         className={
           faq.expand
@@ -100,6 +96,7 @@ const Faq = forwardRef((props, ref) => {
             <div>
               <input
                 placeholder="Question..."
+                autoFocus
                 type="text"
                 style={{
                   fontWeight: "bold",
@@ -146,17 +143,19 @@ const Faq = forwardRef((props, ref) => {
             />
           )}
         </div>
-        {admin ? (
-          <FontAwesomeIcon
-            style={{
-              cursor: "grab",
-              fontSize: "1.5em",
-              paddingTop: "0.25em",
-              paddingRight: "0.25em"
-            }}
-            icon={faGripHorizontal}
-          />
-        ) : null}
+        <div {...dragHandleProps}>
+          {admin ? (
+            <FontAwesomeIcon
+              style={{
+                cursor: "grab",
+                fontSize: "1.5em",
+                paddingTop: "0.25em",
+                paddingRight: "0.25em"
+              }}
+              icon={faGripHorizontal}
+            />
+          ) : null}
+        </div>
       </div>
       {faq.expand ? (
         answerEditMode ? (
@@ -206,7 +205,7 @@ const Faq = forwardRef((props, ref) => {
       )}
     </div>
   );
-});
+};
 
 Faq.displayName = "Faq";
 
@@ -220,8 +219,7 @@ Faq.propTypes = {
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,
   collapseFaq: PropTypes.func.isRequired,
-  attributes: PropTypes.any,
-  listeners: PropTypes.any
+  dragHandleProps: PropTypes.any
 };
 
 export default Faq;

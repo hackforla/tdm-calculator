@@ -9,6 +9,8 @@ import EditToggleButton from "../Button/EditToggleButton";
 import ContentContainer from "../Layout/ContentContainer";
 import { withRouter } from "react-router-dom";
 
+import { DragDropContext } from "react-beautiful-dnd";
+
 const FaqView = props => {
   const [admin, setAdmin] = useState(false);
   const [faqCategoryList, setFaqCategoryList] = useState([]);
@@ -133,6 +135,73 @@ const FaqView = props => {
     );
   };
 
+  const handleDragEnd = result => {
+    console.error(result);
+    const { type, destination, source } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    if (type === "faq") {
+      if (destination.droppableId === source.droppableId) {
+        setFaqCategoryList(prevState => {
+          const categoryIndex = prevState.findIndex(
+            c => "c" + c.id === result.source.droppableId
+          );
+          const faqs = Array.from(prevState[categoryIndex].faqs);
+          const sourceFaq = faqs.splice(source.index, 1);
+          faqs.splice(destination.index, 0, sourceFaq[0]);
+          const newCategory = { ...prevState[categoryIndex], faqs };
+          const newState = [...prevState];
+          newState[categoryIndex] = newCategory;
+          return newState;
+        });
+      } else {
+        setFaqCategoryList(prevState => {
+          const sourceCategoryIndex = prevState.findIndex(
+            c => "c" + c.id === result.source.droppableId
+          );
+          const destinationCategoryIndex = prevState.findIndex(
+            c => "c" + c.id === result.destination.droppableId
+          );
+          const sourceFaqs = Array.from(prevState[sourceCategoryIndex].faqs);
+          const sourceFaq = sourceFaqs.splice(source.index, 1);
+          const destinationFaqs = Array.from(
+            prevState[destinationCategoryIndex].faqs
+          );
+          destinationFaqs.splice(destination.index, 0, sourceFaq[0]);
+          const newSourceCategory = {
+            ...prevState[sourceCategoryIndex],
+            faqs: sourceFaqs
+          };
+          const newDestinationCategory = {
+            ...prevState[destinationCategoryIndex],
+            faqs: destinationFaqs
+          };
+          const newState = [...prevState];
+          newState[sourceCategoryIndex] = newSourceCategory;
+          newState[destinationCategoryIndex] = newDestinationCategory;
+          return newState;
+        });
+      }
+    } else if (type === "category") {
+      setFaqCategoryList(prevState => {
+        const newState = [...prevState];
+        const sourceCategory = newState.splice(source.index, 1);
+        newState.splice(destination.index, 0, sourceCategory[0]);
+        return newState;
+      });
+    }
+  };
+
   return (
     <ContentContainer componentToTrack="FaqPage">
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
@@ -144,13 +213,15 @@ const FaqView = props => {
         <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
         <ExpandButtons expandAll={expandAll} collapseAll={collapseAll} />
         {admin ? <FaqAdd /> : null}
-        <FaqCategoryList
-          faqCategoryList={faqCategoryList}
-          admin={admin}
-          expandFaq={expandFaq}
-          collapseFaq={collapseFaq}
-          setFaqCategoryList={setFaqCategoryList}
-        />
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <FaqCategoryList
+            faqCategoryList={faqCategoryList}
+            admin={admin}
+            expandFaq={expandFaq}
+            collapseFaq={collapseFaq}
+            setFaqCategoryList={setFaqCategoryList}
+          />
+        </DragDropContext>
       </div>
     </ContentContainer>
   );

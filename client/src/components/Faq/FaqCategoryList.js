@@ -1,32 +1,42 @@
 import React from "react";
-// import { useState } from "react";
 import PropTypes from "prop-types";
 import FaqCategory from "./FaqCategory";
 
+import { Droppable, Draggable } from "react-beautiful-dnd";
+
 const FaqCategoryList = props => {
-  const {
-    faqCategoryList,
-    admin,
-    expandFaq,
-    collapseFaq
-    // moveCategory,
-    // moveFaq
-  } = props;
+  const { faqCategoryList, admin, expandFaq, collapseFaq } = props;
 
   return (
-    <div>
-      <div>
-        {faqCategoryList.map(category => (
-          <FaqCategory
-            key={category.id}
-            category={category}
-            admin={admin}
-            expandFaq={expandFaq}
-            collapseFaq={collapseFaq}
-          />
-        ))}
-      </div>
-    </div>
+    <Droppable droppableId="a" type="category">
+      {provided => (
+        <div ref={provided.innerRef} {...provided.droppableProps}>
+          {faqCategoryList.map((category, index) => {
+            return (
+              <Draggable
+                key={category.id}
+                draggableId={"c" + category.id}
+                index={index}
+              >
+                {provided => (
+                  <div ref={provided.innerRef} {...provided.draggableProps}>
+                    <FaqCategory
+                      key={category.id}
+                      category={category}
+                      admin={admin}
+                      expandFaq={expandFaq}
+                      collapseFaq={collapseFaq}
+                      dragHandleProps={provided.dragHandleProps}
+                    />
+                  </div>
+                )}
+              </Draggable>
+            );
+          })}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
   );
 };
 
