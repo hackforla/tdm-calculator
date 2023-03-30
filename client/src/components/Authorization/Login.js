@@ -14,12 +14,8 @@ import {
 import ContentContainer from "../Layout/ContentContainer";
 
 const useStyles = createUseStyles(theme => ({
-  header: {
-    ...theme.typography.heading1
-  },
-  subHeading: {
-    ...theme.typography.subHeading
-  },
+  header: theme.typography.heading1,
+  subHeading: theme.typography.subHeading,
   warningText: {
     ...theme.typography.paragraph1,
     color: theme.colors.warning,
