@@ -13,7 +13,18 @@ import {
 } from "@microsoft/applicationinsights-react-js";
 import ContentContainer from "../Layout/ContentContainer";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
+  header: {
+    ...theme.typography.heading1
+  },
+  subHeading: {
+    ...theme.typography.subHeading
+  },
+  warningText: {
+    ...theme.typography.paragraph1,
+    color: theme.colors.warning,
+    textAlign: "left"
+  },
   buttonsContainer: {
     display: "flex",
     justifyContent: "flex-end",
@@ -23,12 +34,8 @@ const useStyles = createUseStyles({
     color: "red",
     textAlign: "center",
     marginBottom: "2em"
-  },
-  withoutSavingWarning: {
-    visibility: ({ withoutSavingWarningIsVisible }) =>
-      withoutSavingWarningIsVisible ? "visible" : "hidden"
   }
-});
+}));
 
 const Login = props => {
   const focusRef = useRef(null);
@@ -38,8 +45,7 @@ const Login = props => {
   const [errorMsg, setErrorMsg] = useState("");
   const [withoutSavingWarningIsVisible, setWithoutSavingWarningIsVisible] =
     useState(false);
-  const classes = useStyles({ withoutSavingWarningIsVisible });
-
+  const classes = useStyles();
   const initialValues = {
     email: match.params.email ? decodeURIComponent(match.params.email) : "",
     password: ""
@@ -142,12 +148,12 @@ const Login = props => {
 
   return (
     <ContentContainer componentToTrack="Login">
-      <h1 className="tdm-wizard-page-title">
-        Welcome to Los Angeles&rsquo; TDM Calculator
-      </h1>
-      <h3 className="tdm-wizard-page-subtitle">
-        Please sign into your account to save progress
-      </h3>
+      <div className={classes.header}>
+        <span>Welcome to Los Angeles&rsquo; TDM Calculator</span>
+      </div>
+      <div className={classes.subHeading}>
+        <span>Please sign into your account to save progress</span>
+      </div>
       <br />
       <div className="auth-form">
         <Formik
@@ -155,84 +161,102 @@ const Login = props => {
           validationSchema={loginSchema}
           onSubmit={(values, actions) => handleSubmit(values, actions, props)}
         >
-          {({ touched, errors, isSubmitting, values }) => (
-            <Form>
-              <div className="form-group">
-                <Field
-                  id="cy-login-email"
-                  innerRef={focusRef}
-                  type="email"
-                  autofill="email"
-                  name="email"
-                  value={values.email}
-                  placeholder="Email Address"
-                  className={`form-control ${
-                    touched.email && errors.email ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
-              <div className="form-group">
-                <Field
-                  id="cy-login-password"
-                  type="password"
-                  autofill="current-password"
-                  value={values.password}
-                  name="password"
-                  placeholder="Password"
-                  className={`form-control ${
-                    touched.password && errors.password ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
-              <Link
-                id="cy-login-nav-to-forgotpassword"
-                to={"/forgotpassword"}
-                style={{ display: "flex", justifyContent: "flex-end" }}
-              >
-                Forgot password?
-              </Link>
-              <div className={classes.buttonsContainer}>
-                <div
-                  onMouseOver={() => setWithoutSavingWarningIsVisible(true)}
-                  onMouseOut={() => setWithoutSavingWarningIsVisible(false)}
+          {({ touched, errors, isSubmitting, values }) => {
+            const isDisabled = !!(
+              isSubmitting ||
+              errors.email ||
+              errors.password ||
+              !values.email ||
+              !values.password
+            );
+
+            console.log("isDisabled:", isDisabled);
+            console.log(
+              isSubmitting,
+              errors.email,
+              errors.password,
+              !values.email,
+              !values.password
+            );
+            return (
+              <Form>
+                <div className="form-group">
+                  <Field
+                    id="cy-login-email"
+                    innerRef={focusRef}
+                    type="email"
+                    autofill="email"
+                    name="email"
+                    value={values.email}
+                    placeholder="Email Address"
+                    className={`form-control ${
+                      touched.email && errors.email ? "is-invalid" : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className={classes.warningText}
+                  />
+                </div>
+                <div className="form-group">
+                  <Field
+                    id="cy-login-password"
+                    type="password"
+                    autofill="current-password"
+                    value={values.password}
+                    name="password"
+                    placeholder="Password"
+                    className={`form-control ${
+                      touched.password && errors.password ? "is-invalid" : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className={classes.warningText}
+                  />
+                </div>
+                <Link
+                  id="cy-login-nav-to-forgotpassword"
+                  to={"/forgotpassword"}
+                  style={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  <Button
-                    color="colorDefault"
-                    variant="text"
-                    onClick={() => {
-                      history.push("/calculation/1");
-                    }}
+                  Forgot password?
+                </Link>
+                <div className={classes.buttonsContainer}>
+                  <div
+                    onMouseOver={() => setWithoutSavingWarningIsVisible(true)}
+                    onMouseOut={() => setWithoutSavingWarningIsVisible(false)}
                   >
-                    Continue without saving
+                    <Button
+                      color="colorDefault"
+                      variant="text"
+                      onClick={() => {
+                        history.push("/calculation/1");
+                      }}
+                    >
+                      Continue without saving
+                    </Button>
+                  </div>
+                  <Button
+                    id="cy-login-submit"
+                    type="submit"
+                    disabled={isDisabled}
+                    color="colorPrimary"
+                  >
+                    {isSubmitting ? "Please wait..." : "Login"}
                   </Button>
                 </div>
-                <Button
-                  id="cy-login-submit"
-                  type="submit"
-                  disabled={isSubmitting}
-                  color="colorPrimary"
-                >
-                  {isSubmitting ? "Please wait..." : "Login"}
-                </Button>
-              </div>
-              <div className={classes.warning}>
-                <p className={classes.withoutSavingWarning}>
-                  Your work will not be saved! We recommend logging in.
-                </p>
-                <p>{errorMsg}</p>
-              </div>
-            </Form>
-          )}
+                <div className={classes.warningText}>
+                  <span hidden={!withoutSavingWarningIsVisible}>
+                    Your work will not be saved! We recommend logging in.
+                  </span>
+                  <p>{errorMsg}</p>
+                </div>
+              </Form>
+            );
+          }}
         </Formik>
       </div>
       <br />
