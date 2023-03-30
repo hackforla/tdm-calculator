@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "../Button/Button";
 
-const SaveButton = ({ id, onClick, isDisabled, isDisplayed }) => {
+const SaveButton = ({ id, onClick, isDisabled, isDisplayed, color }) => {
   return (
     <Button
       type="input"
-      color={!isDisabled ? "colorPrimary" : "colorDisabled"}
+      color={color}
       variant="contained"
       onClick={onClick}
       id={id}
@@ -24,7 +24,8 @@ SaveButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-  isDisplayed: PropTypes.bool.isRequired
+  isDisplayed: PropTypes.bool.isRequired,
+  color: PropTypes.string
 };
 
 export default SaveButton;
