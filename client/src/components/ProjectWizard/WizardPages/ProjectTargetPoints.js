@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
 import Level0Page from "../WizardPages/Level0Page";
 import ParkingProvidedRuleInput from "../RuleInput/ParkingProvidedRuleInput";
@@ -48,6 +48,7 @@ const useStyles = createUseStyles({
 
 function ProjectTargetPoints(props) {
   const classes = useStyles();
+  const theme = useTheme();
   const { rules, onInputChange, isLevel0, onParkingProvidedChange } = props;
   const projectLevel = rules.find(e => e.code === "LEVEL");
   const targetValue = rules.find(e => e.code === "INPUT_TARGET_POINTS_PARK");
@@ -63,13 +64,15 @@ function ProjectTargetPoints(props) {
 
       {projectLevel && projectLevel.calcValue > 0 && (
         <div>
-          <h1 className="tdm-wizard-page-title">
-            Calculate Project TDM Target Points
-          </h1>
-          <h3 className="tdm-wizard-page-subtitle">
-            Target Points (left panel) may be adjusted based on parking spaces
-            entered below.
-          </h3>
+          <div style={theme.typography.heading1}>
+            <span>Calculate Project TDM Target Points</span>
+          </div>
+          <div style={theme.typography.subHeading}>
+            <span>
+              Target Points (left panel) may be adjusted based on parking spaces
+              entered below.
+            </span>
+          </div>
           <ParkingProvidedRuleInput
             rule={parkingProvidedRuleOnly}
             onInputChange={onParkingProvidedChange}
