@@ -374,6 +374,8 @@ export function TdmCalculationContainer({
         // Car Sharing Electric Vehicle Bonus (issue #791)
         if (value === "2") {
           formInputs["STRATEGY_CAR_SHARE_ELECTRIC"] = true;
+        } else {
+          formInputs["STRATEGY_CAR_SHARE_ELECTRIC"] = false;
         }
         break;
       case "STRATEGY_AFFORDABLE":
