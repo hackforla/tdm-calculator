@@ -62,14 +62,16 @@ const useStyles = createUseStyles({
   },
   categoryHeaderContainer: {
     background: "#E7EBF0",
-    padding: "12px"
+    paddingLeft: "12px",
+    paddingTop: "4px"
   },
   categoryHeader: {
     fontSize: "24px",
     fontFamily: "Calibri",
     fontWeight: "700",
     fontStyle: "normal",
-    lineHeight: "32px"
+    lineHeight: "32px",
+    fontSmoothing: "antialiased"
   },
   resultsContainer: {
     padding: "30px 0",
@@ -83,7 +85,7 @@ const useStyles = createUseStyles({
     margin: "0 12px"
   },
   earnedPoints: {
-    fontFamily: "Oswald",
+    fontFamily: "Calibri",
     fontWeight: "500",
     fontSize: "12px",
     color: "#0F2940",
