@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 import { Link, withRouter, useHistory } from "react-router-dom";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
@@ -14,8 +14,6 @@ import {
 import ContentContainer from "../Layout/ContentContainer";
 
 const useStyles = createUseStyles(theme => ({
-  header: theme.typography.heading1,
-  subHeading: theme.typography.subHeading,
   warningText: {
     ...theme.typography.paragraph1,
     color: theme.colors.warning,
@@ -42,6 +40,7 @@ const Login = props => {
   const [withoutSavingWarningIsVisible, setWithoutSavingWarningIsVisible] =
     useState(false);
   const classes = useStyles();
+  const theme = useTheme();
   const initialValues = {
     email: match.params.email ? decodeURIComponent(match.params.email) : "",
     password: ""
@@ -144,10 +143,10 @@ const Login = props => {
 
   return (
     <ContentContainer componentToTrack="Login">
-      <div className={classes.header}>
+      <div style={theme.typography.heading1}>
         <span>Welcome to Los Angeles&rsquo; TDM Calculator</span>
       </div>
-      <div className={classes.subHeading}>
+      <div style={theme.typography.subHeading}>
         <span>Please sign into your account to save progress</span>
       </div>
       <br />
@@ -166,14 +165,6 @@ const Login = props => {
               !values.password
             );
 
-            console.log("isDisabled:", isDisabled);
-            console.log(
-              isSubmitting,
-              errors.email,
-              errors.password,
-              !values.email,
-              !values.password
-            );
             return (
               <Form>
                 <div className="form-group">
