@@ -5,14 +5,11 @@ import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
 import Level0Page from "../WizardPages/Level0Page";
 import ParkingProvidedRuleInput from "../RuleInput/ParkingProvidedRuleInput";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   projectBox: {
     backgroundColor: "#E5EAF0",
     "& h4": {
       backgroundColor: "#002E6D",
-      color: "white",
-      fontFamily: "Oswald, Calibri",
-      fontSize: 22,
       padding: "12px 0",
       display: "flex",
       margin: 0,
@@ -31,6 +28,8 @@ const useStyles = createUseStyles({
     }
   },
   PLValue: {
+    ...theme.typography.largeText,
+    color: theme.colors.primary.white,
     marginLeft: "1.2em",
     fontSize: 40,
     fontWeight: "bold",
@@ -40,11 +39,13 @@ const useStyles = createUseStyles({
     textAlign: "right"
   },
   PLLabel: {
+    ...theme.typography.heading2,
+    color: theme.colors.primary.white,
     flex: 2,
     maxWidth: "55%",
     textAlign: "right"
   }
-});
+}));
 
 function ProjectTargetPoints(props) {
   const classes = useStyles();

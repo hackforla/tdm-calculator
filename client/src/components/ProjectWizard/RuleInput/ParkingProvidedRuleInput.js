@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import debounce from "lodash/debounce";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   parkingProvidedWrapper: {
     display: "flex",
     flexDirection: "column",
@@ -17,7 +17,7 @@ const useStyles = createUseStyles({
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: "red"
+      color: theme.colors.warning
     }
   },
   inputContainer: {
@@ -37,9 +37,9 @@ const useStyles = createUseStyles({
     marginLeft: "-70px"
   },
   error: {
-    color: "red"
+    color: theme.colors.warning
   }
-});
+}));
 
 const ParkingProvidedRuleInput = ({
   rule: { code, name, value, units, maxValue, validationErrors, required },
