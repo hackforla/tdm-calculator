@@ -38,12 +38,12 @@ const useStyles = createUseStyles(theme => ({
     height: 45
   },
   unitsCaption: {
-    ...theme.typography.header3,
+    ...theme.typography.heading3,
     flexGrow: "0",
     flexShrink: "1"
   },
   calcUnitsCaption: {
-    ...theme.typography.header3,
+    ...theme.typography.heading3,
     flexBasis: "33%",
     marginRight: "0.5em",
     textAlign: "left",
