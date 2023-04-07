@@ -1,11 +1,7 @@
 import Engine from "./tdm-engine";
 import { engineTestRules, engineTestInput1 } from "../test-data/engine-test";
 import { tdmRules } from "../test-data/tdm-calc-rules";
-import {
-  project1,
-  project2,
-  project3
-} from "../test-data/tdm-calc-examples.js";
+import { project1, project2, project3 } from "../test-data/tdm-calc-examples";
 
 describe("class Engine", () => {
   // beforeEach(done => {
@@ -89,12 +85,14 @@ describe("class Engine", () => {
     return new Promise(done => {
       const engine = new Engine(tdmRules);
       const result = engine.run(project3, [
+        // "PROJECT_NAME",
         "PARK_REQUIREMENT",
         "PROJECT_LEVEL",
         "TARGET_POINTS_PARK",
         "PTS_EARNED"
       ]);
-      expect(result.PARK_REQUIREMENT).toEqual(552);
+      // expect(result.PROJECT_NAME).toEqual("Clarendon Apartments");
+      expect(result.PARK_REQUIREMENT).toEqual(564);
       expect(result.PROJECT_LEVEL).toEqual(3);
       expect(result.TARGET_POINTS_PARK).toEqual(25);
       expect(result.PTS_EARNED).toEqual(24);

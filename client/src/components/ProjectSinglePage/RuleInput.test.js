@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import RuleInput from "./RuleInput";
 import {
   numberInputRule,
@@ -8,21 +8,19 @@ import {
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
-  ReactDOM.render(
-    <RuleInput rule={numberInputRule} onInputChange={e => e.target} />,
-    div
+  ReactDOM.createRoot(div).render(
+    <RuleInput rule={numberInputRule} onInputChange={e => e.target} />
   );
   expect(div).toBeDefined();
 });
 
 it("renders without crashing - boolean", () => {
   const div = document.createElement("div");
-  ReactDOM.render(
+  ReactDOM.createRoot(div).render(
     <RuleInput
       rule={{ ...booleanInputRule, value: true }}
       onInputChange={e => e.target}
-    />,
-    div
+    />
   );
   expect(div).toBeDefined();
 });
