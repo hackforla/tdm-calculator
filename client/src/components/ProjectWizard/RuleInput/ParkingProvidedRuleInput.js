@@ -12,7 +12,7 @@ const useStyles = createUseStyles(theme => ({
     margin: "2em"
   },
   label: {
-    fontSize: "22px"
+    ...theme.typography.heading2
   },
   requiredInputLabel: {
     "&:after": {
@@ -25,16 +25,17 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "center"
   },
   input: {
+    ...theme.typography.heading2,
     padding: "8px 4em 8px 8px",
     textAlign: "right",
     margin: ".5em auto",
     height: 45,
-    width: "50%",
-    fontSize: "large"
+    width: "50%"
   },
   unit: {
+    ...theme.typography.heading2,
     position: "relative",
-    marginLeft: "-70px"
+    marginLeft: "-80px"
   },
   error: {
     color: theme.colors.warning
@@ -83,7 +84,7 @@ const ParkingProvidedRuleInput = ({
           max={maxValue}
           onBlur={onBlur}
         />
-        <span className={clsx(classes.unit, classes.label)}>&nbsp;{units}</span>
+        <span className={classes.unit}>&nbsp;{units}</span>
       </div>
 
       {validationErrors && showValidationErrors ? (

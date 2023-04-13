@@ -42,6 +42,9 @@ const useStyles = createUseStyles(theme => ({
     flexGrow: "0",
     flexShrink: "1"
   },
+  calcUnits: {
+    ...theme.typography.heading3
+  },
   calcUnitsCaption: {
     ...theme.typography.heading3,
     flexBasis: "33%",
@@ -51,7 +54,7 @@ const useStyles = createUseStyles(theme => ({
     flexShrink: "1"
   },
   calcNumber: {
-    fontSize: 40
+    ...theme.typography.largeText
   },
   checkboxFieldWrapper: {
     alignItems: "baseline",

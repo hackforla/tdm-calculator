@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import RuleInputPanels from "../RuleInput/RuleInputPanels";
 import ResetButtons from "./ResetButtons";
 import { createUseStyles } from "react-jss";
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
+  header: {
+    ...theme.typography.heading1
+  },
   resetContainer: {
     display: "grid",
     gridTemplateColumns: "[h-start] auto [h-end] 35%",
@@ -15,14 +18,14 @@ const useStyles = createUseStyles({
     gridColumn: "h-end",
     justifyContent: "flex-end"
   }
-});
+}));
 
 function ProjectSpecifications(props) {
   const classes = useStyles();
   const { rules, onInputChange, uncheckAll, resetProject } = props;
   return (
     <div>
-      <h1 className="tdm-wizard-page-title">Determine Project Level</h1>
+      <div className={classes.header}>Determine Project Level</div>
       <h3 className="tdm-wizard-page-subtitle">
         Project Level (left panel) and Citywide Parking Baseline (next page) are
         determined by the use specifications entered below.
