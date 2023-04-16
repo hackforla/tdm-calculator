@@ -31,6 +31,16 @@ export const register = async (firstName, lastName, email, password) => {
   }
 };
 
+export const updateProfile = async (firstName, lastName, email, password) => {
+  try {
+    const body = { firstName, lastName, email, password };
+    const response = await axios.post(`${baseUrl}/register`, body);
+    return response.data;
+  } catch (err) {
+    throw Error("Update Profile failed");
+  }
+};
+
 export const resendConfirmationEmail = async email => {
   const body = { email };
   try {

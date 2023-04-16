@@ -5,6 +5,7 @@ const {
 } = require("../../middleware/validate");
 const accountSchema = require("../schemas/account");
 const accountRegisterSchema = require("../schemas/account.register");
+const accountUpdateProfileSchema = require("../schemas/account.UpdateProfile");
 const accountConfirmRegisterSchema = require("../schemas/account.confirmRegister");
 const accountLoginSchema = require("../schemas/account.login");
 const accountForgotSchema = require("../schemas/account.forgotPassword");
@@ -44,6 +45,15 @@ const getByEmail = async (req, res) => {
 const register = async (req, res) => {
   try {
     const response = await accountService.register(req.body);
+    res.send(response);
+  } catch (err) {
+    res.status(err.code || "500").json({ error: err.toString() });
+  }
+};
+
+const updateProfile = async (req, res) => {
+  try {
+    const response = await accountService.updateProfile(req.body);
     res.send(response);
   } catch (err) {
     res.status(err.code || "500").json({ error: err.toString() });
@@ -142,6 +152,11 @@ module.exports = {
   register: [
     validate({ body: accountRegisterSchema }),
     register,
+    validationErrorMiddleware
+  ],
+  updateProfile: [
+    validate({ body: accountUpdateProfileSchema }),
+    updateProfile,
     validationErrorMiddleware
   ],
   confirmRegister: [

@@ -87,6 +87,38 @@ const register = async model => {
   }
 };
 
+const updateProfile = async model => {
+  const { firstName, lastName, email } = model;
+  let result = null;
+  await hashPassword(model);
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("FirstName", mssql.NVarChar, firstName);
+    request.input("LastName", mssql.NVarChar, lastName);
+    request.input("Email", mssql.NVarChar, email);
+    request.input("PasswordHash", mssql.NVarChar, model.passwordHash);
+    request.output("id", mssql.Int, null);
+    const insertResult = await request.execute("Login_Insert");
+    if (insertResult) {
+      result = {
+        isSuccess: true,
+        code: "REG_SUCCESS",
+        newId: insertResult.output["id"],
+        message: "Registration successful."
+      };
+      result = await requestRegistrationConfirmation(email, result);
+      return result;
+    }
+  } catch (err) {
+    return {
+      isSuccess: false,
+      code: "REG_DUPLICATE_EMAIL",
+      message: `Email ${email} is already registered. `
+    };
+  }
+};
+
 // Re-transmit confirmation email
 const resendConfirmationEmail = async email => {
   let result = null;
@@ -403,6 +435,7 @@ module.exports = {
   selectAll,
   selectById,
   register,
+  updateProfile,
   confirmRegistration,
   resendConfirmationEmail,
   forgotPassword,
