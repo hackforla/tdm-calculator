@@ -1,6 +1,6 @@
 module.exports = {
   type: "object",
-  required: ["firstName", "lastName", "email", "password"],
+  required: ["firstName", "lastName", "email"],
   properties: {
     firstName: {
       type: "string",
@@ -12,12 +12,6 @@ module.exports = {
     },
     email: {
       type: "string"
-    },
-    password: {
-      type: "string",
-      minLength: 12,
-      pattern:
-        "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&*?])[A-Za-z0-9@$!%*#?&]{12,}$"
     }
   }
 };

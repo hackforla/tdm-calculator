@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 import * as accountService from "../../services/account.service";
 import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
@@ -18,15 +19,15 @@ const useStyles = createUseStyles({
 });
 
 const UpdateProfile = props => {
+  const userContext = useContext(UserContext);
+  const account = userContext.account;
   const focusRef = useRef(null);
   const classes = useStyles();
   const { match } = props;
   const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: match.params.email || "",
-    password: "",
-    passwordConfirm: ""
+    firstName: account.firstName || "",
+    lastName: account.lastName || "",
+    email: match.params.email || ""
   };
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -43,32 +44,18 @@ const UpdateProfile = props => {
     lastName: Yup.string().required("Last Name is required"),
     email: Yup.string()
       .email("Invalid email address format")
-      .required("Email is required"),
-    password: Yup.string()
-      .min(
-        12,
-        "Your password must have at least 12 characters, at least one number, one capitalization, and one special character (e.g., !@#$%&*?)"
-      )
-      .matches(
-        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&*?])[A-Za-z\d@$!%*#?&]{12,}$/,
-        "Your password must have at least 12 characters, at least one number, one capitalization, and one special character (e.g., !@#$%&*?)"
-      )
-      .required("Password is required"),
-    passwordConfirm: Yup.string()
-      .required("Confirm your password")
-      .oneOf([Yup.ref("password")], "Password does not match")
+      .required("Email is required")
   });
 
   const handleSubmit = async (
-    { firstName, lastName, email, password },
+    { firstName, lastName, email },
     { setSubmitting }
   ) => {
     try {
       const response = await accountService.updateProfile(
         firstName,
         lastName,
-        email,
-        password
+        email
       );
       if (response.isSuccess) {
         setSubmitted(true);
@@ -85,16 +72,12 @@ const UpdateProfile = props => {
       setErrorMsg(err.message);
       setSubmitting(false);
     }
-    // TODO: figure out if there is a scanrio where you actually
-    // want to reset the form, and move/copy the next line accordingly
-    //resetForm(initialValues);
   };
   return (
     <ContentContainer componentToTrack="UpdateProfile">
       {!submitted ? (
         <>
           <h1>Update Your Account</h1>
-          {/* <h3>Save your project information.</h3> */}
           <br />
           <div className="auth-form">
             <Formik
@@ -154,40 +137,6 @@ const UpdateProfile = props => {
                       className="invalid-feedback"
                     />
                   </div>
-                  <div className="form-group">
-                    <Field
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      autocomplete="new-password"
-                      className={`form-control ${
-                        touched.password && errors.password ? "is-invalid" : ""
-                      }`}
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="invalid-feedback"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <Field
-                      type="password"
-                      name="passwordConfirm"
-                      placeholder="Retype Password"
-                      autocomplete="new-password"
-                      className={`form-control ${
-                        touched.passwordConfirm && errors.passwordConfirm
-                          ? "is-invalid"
-                          : ""
-                      }`}
-                    />
-                    <ErrorMessage
-                      name="passwordConfirm"
-                      component="div"
-                      className="invalid-feedback"
-                    />
-                  </div>
 
                   <Button
                     type="submit"
@@ -195,7 +144,7 @@ const UpdateProfile = props => {
                     color="colorPrimary"
                     className={classes.submitButton}
                   >
-                    {isSubmitting ? "Please wait..." : "Create Account"}
+                    {isSubmitting ? "Please wait..." : "Update Account"}
                   </Button>
                   <div className="warning">
                     <br />
@@ -217,13 +166,6 @@ const UpdateProfile = props => {
         </>
       )}
       <br />
-      <br />
-      {submitted ? null : (
-        <div className={classes.authText}>
-          Already have an account? &nbsp;{" "}
-          <Link to={{ pathname: "/login" }}>Log In</Link>
-        </div>
-      )}
     </ContentContainer>
   );
 };
