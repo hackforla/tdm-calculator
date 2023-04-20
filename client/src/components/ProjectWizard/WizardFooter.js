@@ -50,6 +50,7 @@ const WizardFooter = ({
               <NavButton
                 id="leftNavArrow"
                 navDirection="previous"
+                color="colorPrimary"
                 isVisible={page !== 1}
                 isDisabled={Number(page) === 1}
                 onClick={() => {
@@ -62,7 +63,8 @@ const WizardFooter = ({
               <NavButton
                 id="rightNavArrow"
                 navDirection="next"
-                isVisible={page !== 6}
+                color="colorPrimary"
+                isVisible={page !== 5}
                 isDisabled={setDisabledForNextNavButton()}
                 onClick={() => {
                   onPageChange(Number(page) + 1);
@@ -72,6 +74,7 @@ const WizardFooter = ({
 
             <SaveButton
               id="saveButton"
+              color="colorPrimary"
               isDisabled={setDisabledSaveButton()}
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
