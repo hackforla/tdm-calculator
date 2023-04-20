@@ -25,6 +25,7 @@ const UpdateProfile = props => {
   const classes = useStyles();
   const { match } = props;
   const initialValues = {
+    id: account.id || "",
     firstName: account.firstName || "",
     lastName: account.lastName || "",
     email: match.params.email || ""
@@ -48,11 +49,12 @@ const UpdateProfile = props => {
   });
 
   const handleSubmit = async (
-    { firstName, lastName, email },
+    { id, firstName, lastName, email },
     { setSubmitting }
   ) => {
     try {
       const response = await accountService.updateProfile(
+        id,
         firstName,
         lastName,
         email
@@ -64,9 +66,8 @@ const UpdateProfile = props => {
           login or use the Forgot Password feature if you have
           forgotten your password.`);
       } else {
-        setErrorMsg(`An error occurred in sending the confirmation
-          message to ${email}. Try to log in, and follow the
-          instructions for re-sending the confirmation email.`);
+        setErrorMsg(`An error occurred in updating the profile
+          for ${email}.`);
       }
     } catch (err) {
       setErrorMsg(err.message);

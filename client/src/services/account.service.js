@@ -31,10 +31,10 @@ export const register = async (firstName, lastName, email, password) => {
   }
 };
 
-export const updateProfile = async (firstName, lastName, email) => {
+export const updateProfile = async (id, firstName, lastName, email) => {
   try {
-    const body = { firstName, lastName, email };
-    const response = await axios.put(`${baseUrl}/updateprofile`, body);
+    const body = { id, firstName, lastName, email };
+    const response = await axios.put(`${baseUrl}/${id}/updateprofile`, body);
     return response.data;
   } catch (err) {
     throw Error("Update Profile failed");
