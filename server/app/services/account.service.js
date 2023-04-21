@@ -87,7 +87,7 @@ const register = async model => {
   }
 };
 
-const updateProfile = async model => {
+const updateAccount = async model => {
   try {
     await poolConnect;
     const request = pool.request();
@@ -98,14 +98,14 @@ const updateProfile = async model => {
     await request.execute("Login_Update");
     return {
       isSuccess: true,
-      code: "PROFILE_UPDATE_SUCCESS",
-      message: "Profile Updates."
+      code: "ACCOUNT_UPDATE_SUCCESS",
+      message: "Account Updates."
     };
   } catch (err) {
     return {
       isSuccess: false,
-      code: "PROFILE_UPDATE_SUCCESS",
-      message: `Profile updates failed. ${err.message}`
+      code: "ACCOUNT_UPDATE_SUCCESS",
+      message: `Account updates failed. ${err.message}`
     };
   }
 };
@@ -411,7 +411,7 @@ module.exports = {
   selectAll,
   selectById,
   register,
-  updateProfile,
+  updateAccount,
   confirmRegistration,
   resendConfirmationEmail,
   forgotPassword,

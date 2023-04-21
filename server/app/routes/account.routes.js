@@ -14,7 +14,7 @@ router.post(
 );
 router.post("/confirmRegister", accountController.confirmRegister);
 
-router.put("/:id/updateprofile", accountController.updateProfile);
+router.put("/:id/updateaccount", accountController.updateAccount);
 
 router.post("/forgotPassword", accountController.forgotPassword);
 router.post("/resetPassword", accountController.resetPassword);

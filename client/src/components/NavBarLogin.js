@@ -42,7 +42,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
       <Link
         className={`${classes.link} ${classes.lastItem}`}
         to={{
-          pathname: `/updateprofile/${(account && account.email) || ""}`,
+          pathname: `/updateaccount/${(account && account.email) || ""}`,
           state: { prevPath: location.pathname }
         }}
         // onClick={() => {

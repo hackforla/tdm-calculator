@@ -8,6 +8,8 @@ import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
+import { useToast } from "../../contexts/Toast";
+import Login from "./Login";
 
 const useStyles = createUseStyles({
   submitButton: {
@@ -18,11 +20,12 @@ const useStyles = createUseStyles({
   }
 });
 
-const UpdateProfile = props => {
+const UpdateAccount = props => {
   const userContext = useContext(UserContext);
   const account = userContext.account;
   const focusRef = useRef(null);
   const classes = useStyles();
+  const toast = useToast();
   const { match } = props;
   const initialValues = {
     id: account.id || "",
@@ -34,13 +37,7 @@ const UpdateProfile = props => {
   const [errorMsg, setErrorMsg] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  // useEffect(() => {
-  //   if (focusRef.current) {
-  //     focusRef.current.focus();
-  //   }
-  // });
-
-  const updateProfileSchema = Yup.object().shape({
+  const updateAccountSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
     email: Yup.string()
@@ -53,7 +50,7 @@ const UpdateProfile = props => {
     { setSubmitting }
   ) => {
     try {
-      const response = await accountService.updateProfile(
+      const response = await accountService.updateAccount(
         id,
         firstName,
         lastName,
@@ -61,12 +58,16 @@ const UpdateProfile = props => {
       );
       if (response.isSuccess) {
         setSubmitted(true);
+        toast.add(
+          "Your account has been updated. Please sign in to confirm changes."
+        );
+        userContext.updateAccount({});
       } else if (response.code === "REG_DUPLICATE_EMAIL") {
         setErrorMsg(`The email ${email} is already registered. Please
           login or use the Forgot Password feature if you have
           forgotten your password.`);
       } else {
-        setErrorMsg(`An error occurred in updating the profile
+        setErrorMsg(`An error occurred in updating the account
           for ${email}.`);
       }
     } catch (err) {
@@ -74,8 +75,9 @@ const UpdateProfile = props => {
       setSubmitting(false);
     }
   };
+
   return (
-    <ContentContainer componentToTrack="UpdateProfile">
+    <ContentContainer componentToTrack="UpdateAccount">
       {!submitted ? (
         <>
           <h1>Update Your Account</h1>
@@ -83,7 +85,7 @@ const UpdateProfile = props => {
           <div className="auth-form">
             <Formik
               initialValues={initialValues}
-              validationSchema={updateProfileSchema}
+              validationSchema={updateAccountSchema}
               onSubmit={(values, actions) =>
                 handleSubmit(values, actions, props)
               }
@@ -157,20 +159,13 @@ const UpdateProfile = props => {
           </div>
         </>
       ) : (
-        <>
-          <h1>
-            Registration instructions have been sent to the email you provided.
-          </h1>
-          <h2>
-            Please allow a few minutes for the email to arrive in your inbox.
-          </h2>
-        </>
+        <Login />
       )}
       <br />
     </ContentContainer>
   );
 };
-UpdateProfile.propTypes = {
+UpdateAccount.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       email: PropTypes.string
@@ -178,4 +173,4 @@ UpdateProfile.propTypes = {
   })
 };
 
-export default withRouter(UpdateProfile);
+export default withRouter(UpdateAccount);
