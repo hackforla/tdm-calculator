@@ -5,7 +5,7 @@ import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import ToolTip from "../../ToolTip/ToolTip";
 import clsx from "clsx";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   field: {
     margin: "1em",
     display: "flex",
@@ -38,10 +38,15 @@ const useStyles = createUseStyles({
     height: 45
   },
   unitsCaption: {
+    ...theme.typography.heading3,
     flexGrow: "0",
     flexShrink: "1"
   },
+  calcUnits: {
+    ...theme.typography.heading3
+  },
   calcUnitsCaption: {
+    ...theme.typography.heading3,
     flexBasis: "33%",
     marginRight: "0.5em",
     textAlign: "left",
@@ -49,7 +54,7 @@ const useStyles = createUseStyles({
     flexShrink: "1"
   },
   calcNumber: {
-    fontSize: 40
+    ...theme.typography.largeText
   },
   checkboxFieldWrapper: {
     alignItems: "baseline",
@@ -108,7 +113,10 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
+  },
+  fieldLabel: {
+    ...theme.typography.heading2
   },
   textInputLabel: {
     flexBasis: "50%",
@@ -129,7 +137,7 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1",
     minHeight: "5em",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
   },
   textareaLabel: {
     flexBasis: "50%",
@@ -140,11 +148,11 @@ const useStyles = createUseStyles({
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: "red"
+      color: theme.colors.warning
     }
   },
   errorLabel: {
-    color: "red",
+    color: theme.colors.warning,
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
@@ -154,7 +162,7 @@ const useStyles = createUseStyles({
     height: 16,
     display: "inline-block"
   }
-});
+}));
 
 // Page 3
 const RuleCalculation = ({
@@ -202,7 +210,10 @@ const RuleCalculation = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={clsx(classes.field, classes.numberFieldWrapper)}>
-          <label htmlFor={code} className={classes.textInputLabel}>
+          <span
+            htmlFor={code}
+            className={clsx(classes.fieldLabel, classes.textInputLabel)}
+          >
             {name}
             <div className={classes.numberField}>
               <input
@@ -217,14 +228,17 @@ const RuleCalculation = ({
                 max={maxValue}
               />
             </div>
-          </label>
+          </span>
           <div className={classes.numberFieldUnits}>{units}</div>
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.field, classes.checkboxFieldWrapper)}>
-          <label htmlFor={code} className={classes.checkboxFieldLabel}>
+          <span
+            htmlFor={code}
+            className={clsx(classes.fieldLabel, classes.checkboxFieldLabel)}
+          >
             {name}
-          </label>
+          </span>
           <input
             type="checkbox"
             className={classes.checkbox}
@@ -248,9 +262,12 @@ const RuleCalculation = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.field, classes.selectFieldWrapper)}>
-          <label htmlFor={code} className={classes.selectFieldLabel}>
+          <span
+            htmlFor={code}
+            className={clsx(classes.fieldLabel, classes.selectFieldLabel)}
+          >
             {name}
-          </label>
+          </span>
           <select
             className={classes.select}
             value={value || ""}
@@ -276,16 +293,20 @@ const RuleCalculation = ({
           className={clsx(classes.field, classes.textFieldWrapper)}
           onBlur={onBlur}
         >
-          <label
+          <span
             htmlFor={code}
             className={
               required
-                ? clsx(classes.textInputLabel, classes.requiredInputLabel)
+                ? clsx(
+                    classes.fieldLabel,
+                    classes.textInputLabel,
+                    classes.requiredInputLabel
+                  )
                 : classes.textInputLabel
             }
           >
             {name}
-          </label>
+          </span>
           {dataType === "string" ? (
             <input
               type="text"
@@ -317,7 +338,7 @@ const RuleCalculation = ({
         </div>
       ) : (
         <div className={clsx(classes.field, classes.miscFieldWrapper)}>
-          <label htmlFor={code}>
+          <span htmlFor={code} className={classes.fieldLabel}>
             {name}
             <div className={classes.baselineIconContainer}>
               {description ? (
@@ -329,7 +350,7 @@ const RuleCalculation = ({
                 <span />
               )}
             </div>
-          </label>
+          </span>
           <ToolTip id={"tooltip-parking-baseline" + id} />
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
@@ -347,8 +368,13 @@ const RuleCalculation = ({
       )}
       {validationErrors && showValidationErrors ? (
         <div className={classes.field}>
-          <div className={classes.textInputLabel}></div>
-          <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
+          <div
+            className={clsx(
+              classes.fieldLabel,
+              classes.textInputLabel,
+              classes.errorLabel
+            )}
+          >
             {validationErrors[0]}
           </div>
         </div>

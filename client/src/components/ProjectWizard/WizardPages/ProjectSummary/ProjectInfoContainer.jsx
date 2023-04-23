@@ -44,7 +44,6 @@ const ProjectInfoContainer = props => {
   const classes = useStyles();
   const { rules } = props;
 
-  const projectName = getRule(rules, "PROJECT_NAME");
   const projectAddress = getRule(rules, "PROJECT_ADDRESS");
 
   const buildingPermit = getRule(rules, "BUILDING_PERMIT");
@@ -55,14 +54,6 @@ const ProjectInfoContainer = props => {
 
   return (
     <div className={classes.projectInfoContainer}>
-      <div className={classes.projectInfoHeaderLine}>
-        <span className={classes.textProjectInfoHeader}>PROJECT NAME:</span>
-        {projectName && projectName.value ? (
-          <span className={classes.textProjectInfoHeaderAddress}>
-            {projectName.value}
-          </span>
-        ) : null}
-      </div>
       <hr className={classes.line} />
       <div className={classes.projectInfoDetailsContainer}>
         {projectAddress && (

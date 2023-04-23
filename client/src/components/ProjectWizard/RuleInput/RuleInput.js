@@ -6,7 +6,7 @@ import MultiInput from "./MultiInput";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleInputLabel from "./RuleInputLabel";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   rowContainer: {
     minWidth: "60vw",
     margin: "0.2em",
@@ -37,7 +37,7 @@ const useStyles = createUseStyles({
     padding: "0.1em",
     width: "5.5em",
     textAlign: "right",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
   },
   unitsCaption: {
     flexBasis: "10%",
@@ -94,7 +94,7 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
   },
   textInputLabel: {
     flexBasis: "50%",
@@ -117,15 +117,15 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1",
     minHeight: "5em",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
   },
   errorLabel: {
-    color: "red",
+    color: theme.colors.warning,
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
   }
-});
+}));
 
 const RuleInput = ({
   rule: {
