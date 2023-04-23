@@ -45,10 +45,6 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           pathname: `/updateaccount/${(account && account.email) || ""}`,
           state: { prevPath: location.pathname }
         }}
-        // onClick={() => {
-        //   userContext.updateAccount({});
-        //   handleHamburgerMenuClick;
-        // }}
       >
         Hello, {`${account.firstName} ${account.lastName} `}
       </Link>

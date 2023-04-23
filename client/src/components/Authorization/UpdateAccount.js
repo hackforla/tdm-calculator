@@ -8,8 +8,6 @@ import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
-import { useToast } from "../../contexts/Toast";
-import Login from "./Login";
 
 const useStyles = createUseStyles({
   submitButton: {
@@ -25,7 +23,6 @@ const UpdateAccount = props => {
   const account = userContext.account;
   const focusRef = useRef(null);
   const classes = useStyles();
-  const toast = useToast();
   const { match } = props;
   const initialValues = {
     id: account.id || "",
@@ -58,9 +55,6 @@ const UpdateAccount = props => {
       );
       if (response.isSuccess) {
         setSubmitted(true);
-        toast.add(
-          "Your account has been updated. Please sign in to confirm changes."
-        );
         userContext.updateAccount({});
       } else if (response.code === "REG_DUPLICATE_EMAIL") {
         setErrorMsg(`The email ${email} is already registered. Please
@@ -159,7 +153,15 @@ const UpdateAccount = props => {
           </div>
         </>
       ) : (
-        <Login />
+        <>
+          <h1>
+            Instructions have been sent to the email you provided in order to
+            confirm account updates.
+          </h1>
+          <h2>
+            Please allow a few minutes for the email to arrive in your inbox.
+          </h2>
+        </>
       )}
       <br />
     </ContentContainer>

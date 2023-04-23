@@ -19,8 +19,9 @@ BEGIN
 		lastName = @lastName
 		, 
 		email = @email
+		,
+		emailConfirmed = 0
 	WHERE 
 		id = @id
-
 END
 GO

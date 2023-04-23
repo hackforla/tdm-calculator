@@ -12,7 +12,8 @@ export const useStyles = createUseStyles({
     marginBottom: "16px"
   },
   subTitle: {
-    marginBottom: "32px"
+    marginBottom: "32px",
+    textAlign: "center"
   },
   fieldGroup: {
     width: "100%",
@@ -59,8 +60,11 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
     <>
       <h1 className={classes.pageTitle}>Send {label} Email</h1>
       <div className={classes.subTitle}>
-        <h3>Please enter the email registered with your account.</h3>
-        <h3>An email will be sent with further instructions.</h3>
+        <h3>
+          Please enter the email registered with your account, or if you have
+          recently updated your email, provide the new one below.
+        </h3>
+        <h3>An email containing further instructions will be sent to you.</h3>
       </div>
       <Formik
         initialValues={{ email: "" }}
@@ -79,7 +83,7 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
                   innerRef={focusRef}
                   value={values.email}
                   name="email"
-                  placeholder="Registered Email Address"
+                  placeholder="Registered/Updated Email"
                   className={clsx(
                     classes.inputField,
                     touched.email && errors.email ? classes.error : null

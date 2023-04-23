@@ -4,6 +4,7 @@ const { promisify } = require("util");
 const moment = require("moment");
 const bcrypt = require("bcrypt");
 const {
+  sendVerifyUpdateConfirmation,
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation
 } = require("./sendgrid-service");
@@ -88,6 +89,7 @@ const register = async model => {
 };
 
 const updateAccount = async model => {
+  const token = uuid4();
   try {
     await poolConnect;
     const request = pool.request();
@@ -96,6 +98,7 @@ const updateAccount = async model => {
     request.input("LastName", mssql.NVarChar, model.lastName);
     request.input("Email", mssql.NVarChar, model.email);
     await request.execute("Login_Update");
+    await sendVerifyUpdateConfirmation(model.email, token);
     return {
       isSuccess: true,
       code: "ACCOUNT_UPDATE_SUCCESS",
