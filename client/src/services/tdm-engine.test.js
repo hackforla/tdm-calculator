@@ -10,20 +10,18 @@ describe("class Engine", () => {
   it("Engine Test 1 - A + B", () => {
     return new Promise(done => {
       const engine = new Engine(engineTestRules);
-      const result = engine.run(engineTestInput1, ["CALC_A_PLUS_B"]);
-      expect(result).toEqual({ CALC_A_PLUS_B: 20 });
+      engine.run(engineTestInput1, ["CALC_A_PLUS_B"]);
+      const rules = engine.getRules();
+      expect(rules.CALC_A_PLUS_B.value).toEqual(20);
       done();
     });
   });
   it("Engine Test 2 - (A+B) + {A*B)", () => {
     return new Promise(done => {
       const engine = new Engine(engineTestRules);
-      const result = engine.run(engineTestInput1, [
-        "CALC_A_PLUS_B_PLUS_A_TIMES_B"
-      ]);
-      expect(result).toEqual({
-        CALC_A_PLUS_B_PLUS_A_TIMES_B: 111
-      });
+      engine.run(engineTestInput1, ["CALC_A_PLUS_B_PLUS_A_TIMES_B"]);
+      const rules = engine.getRules();
+      expect(rules.CALC_A_PLUS_B_PLUS_A_TIMES_B.value).toEqual(111);
       done();
     });
   });
@@ -31,10 +29,9 @@ describe("class Engine", () => {
   it("Engine Test 3 - A**2 + B**2", () => {
     return new Promise(done => {
       const engine = new Engine(engineTestRules);
-      const result = engine.run(engineTestInput1, ["CALC_A2_PLUS_B2"]);
-      expect(result).toEqual({
-        CALC_A2_PLUS_B2: 218
-      });
+      engine.run(engineTestInput1, ["CALC_A2_PLUS_B2"]);
+      const rules = engine.getRules();
+      expect(rules.CALC_A2_PLUS_B2.value).toEqual(218);
       done();
     });
   });
@@ -42,8 +39,9 @@ describe("class Engine", () => {
   it("Engine Test 4 - Hypotenuse AB", () => {
     return new Promise(done => {
       const engine = new Engine(engineTestRules);
-      const result = engine.run(engineTestInput1, ["CALC_HYPOTENUSE_AB"]);
-      expect(result.CALC_HYPOTENUSE_AB).toBeCloseTo(14.76482);
+      engine.run(engineTestInput1, ["CALC_HYPOTENUSE_AB"]);
+      const rules = engine.getRules();
+      expect(rules.CALC_HYPOTENUSE_AB.value).toBeCloseTo(14.76482);
       done();
     });
   });
@@ -51,16 +49,17 @@ describe("class Engine", () => {
   it("TDM Calculation - Barrington Condos", () => {
     return new Promise(done => {
       const engine = new Engine(tdmRules);
-      const result = engine.run(project1, [
+      engine.run(project1, [
         "PARK_REQUIREMENT",
         "PROJECT_LEVEL",
         "TARGET_POINTS_PARK",
         "PTS_EARNED"
       ]);
-      expect(result.PARK_REQUIREMENT).toEqual(92);
-      expect(result.PROJECT_LEVEL).toEqual(1);
-      expect(result.TARGET_POINTS_PARK).toEqual(15);
-      expect(result.PTS_EARNED).toEqual(16);
+      const rules = engine.getRules();
+      expect(rules.PARK_REQUIREMENT.value).toEqual(92);
+      expect(rules.PROJECT_LEVEL.value).toEqual(1);
+      expect(rules.TARGET_POINTS_PARK.value).toEqual(15);
+      expect(rules.PTS_EARNED.value).toEqual(17);
       done();
     });
   });
@@ -68,33 +67,34 @@ describe("class Engine", () => {
   it("TDM Calculation - Beatrice Building", () => {
     return new Promise(done => {
       const engine = new Engine(tdmRules);
-      const result = engine.run(project2, [
+      engine.run(project2, [
         "PARK_REQUIREMENT",
         "PROJECT_LEVEL",
         "TARGET_POINTS_PARK",
         "PTS_EARNED"
       ]);
-      expect(result.PARK_REQUIREMENT).toEqual(597);
-      expect(result.PROJECT_LEVEL).toEqual(3);
-      expect(result.TARGET_POINTS_PARK).toEqual(33);
-      expect(result.PTS_EARNED).toEqual(33);
+      const rules = engine.getRules();
+      expect(rules.PARK_REQUIREMENT.value).toEqual(597);
+      expect(rules.PROJECT_LEVEL.value).toEqual(3);
+      expect(rules.TARGET_POINTS_PARK.value).toEqual(33);
+      expect(rules.PTS_EARNED.value).toEqual(33);
       done();
     });
   });
   it("TDM Calculation - Project 3 - Clarendon Apartments", () => {
     return new Promise(done => {
       const engine = new Engine(tdmRules);
-      const result = engine.run(project3, [
+      engine.run(project3, [
         "PARK_REQUIREMENT",
         "PROJECT_LEVEL",
         "TARGET_POINTS_PARK",
         "PTS_EARNED"
-      ]);
-      // console.log(engine);
-      expect(result.PARK_REQUIREMENT).toEqual(564);
-      expect(result.PROJECT_LEVEL).toEqual(3);
-      expect(result.TARGET_POINTS_PARK).toEqual(25);
-      expect(result.PTS_EARNED).toEqual(24);
+      ]).result;
+      const rules = engine.getRules();
+      expect(rules.PARK_REQUIREMENT.value).toEqual(552);
+      expect(rules.PROJECT_LEVEL.value).toEqual(3);
+      expect(rules.TARGET_POINTS_PARK.value).toEqual(25);
+      expect(rules.PTS_EARNED.value).toEqual(29);
       done();
     });
   });

@@ -385,6 +385,10 @@ class Engine {
     return JSON.parse(JSON.stringify(this.rules));
   }
 
+  getRules() {
+    return this.rules;
+  }
+
   // Convert rules back into a simple array for
   // React to use or for persisting calculation
   // result to database.
