@@ -47,7 +47,6 @@ const InapplicableStrategiesModal = props => {
   const [modalOpen, setModalOpen] = useState(true);
 
   useEffect(() => {
-    console.log("STATE", inapplicableStrategiesModal);
     setModalOpen(inapplicableStrategiesModal);
 
     const keyDownHandler = event => {
