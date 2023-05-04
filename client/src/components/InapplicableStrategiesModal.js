@@ -48,7 +48,7 @@ const InapplicableStrategiesModal = props => {
 
   useEffect(() => {
     console.log("STATE", inapplicableStrategiesModal);
-    setModalOpen(inapplicableStrategiesModal);
+    setModalOpen(true);
 
     const keyDownHandler = event => {
       if (event.key === "Escape") {

@@ -8,7 +8,8 @@ import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainer from "../Layout/ContentContainer";
-import InapplicableStrategiesModal from "../InapplicableStrategiesModal";
+// import InapplicableStrategiesModal from "../InapplicableStrategiesModal";
+import ApplicationModal from "../Modal/ApplicationModal";
 
 const TdmCalculationWizard = props => {
   const {
@@ -173,10 +174,15 @@ const TdmCalculationWizard = props => {
   return (
     <React.Fragment>
       <TermsAndConditionsModal />
-      <InapplicableStrategiesModal
+      {/* <InapplicableStrategiesModal
         inapplicableStrategiesModal={inapplicableStrategiesModal}
         closeStrategiesModal={closeStrategiesModal}
-      />
+      /> */}
+      <ApplicationModal
+        inapplicableStrategiesModal={inapplicableStrategiesModal}
+        closeStrategiesModal={closeStrategiesModal}
+        modalType={"Inapplicable"}
+      ></ApplicationModal>
       <ChecklistModal
         checklistModalOpen={checklistModalOpen}
         toggleChecklistModal={toggleChecklistModal}

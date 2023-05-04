@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
-import Button from "./Button/Button";
+import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import ModalData from "./ModalData.js";
 
 const useStyles = createUseStyles({
   overlay: {
@@ -41,21 +42,26 @@ const useStyles = createUseStyles({
     justifyContent: "center"
   }
 });
-const Modal = props => {
-  //New props:
-  // title: "Leave page and delete unsaved data?",
-  // text: "This will permanently delete any unsaved projects or changes to project.",
-  // icon: "test",
-  // buttonOne: "Cancel",
-  // buttonTwo: "Proceed",
-  // nestedComponent: ""
-
-  const { inapplicableStrategiesModal, closeStrategiesModal } = props;
+const ApplicationModal = props => {
+  const {
+    inapplicableStrategiesModal,
+    closeStrategiesModal,
+    modalType
+    // title,
+    // text,
+    // icon,
+    // buttonOne,
+    // buttonTwo
+  } = props;
 
   const [modalOpen, setModalOpen] = useState(true);
 
   useEffect(() => {
-    setModalOpen(inapplicableStrategiesModal);
+    // setModalOpen(inapplicableStrategiesModal);
+    console.log(inapplicableStrategiesModal);
+    console.log("ModalType", modalType);
+    console.log("Modal Data", ModalData[modalType].text);
+    setModalOpen(true);
 
     const keyDownHandler = event => {
       if (event.key === "Escape") {
@@ -87,11 +93,7 @@ const Modal = props => {
           style={{ color: "#E46247", height: "80px" }}
           alt="Warning"
         />
-        <h2 className={classes.deselectedAlign}>
-          Due to changes made to the project specifications, one or more TDM
-          strategies are no longer applicable and have been automatically
-          de-selected
-        </h2>
+        <h2 className={classes.deselectedAlign}>{ModalData[modalType].text}</h2>
       </div>
       <div className={classes.modalActions}>
         <Button
@@ -107,10 +109,11 @@ const Modal = props => {
   );
 };
 
-// Modal.propTypes = {
-//   inapplicableStrategiesModal: PropTypes.bool.isRequired,
-//   closeStrategiesModal: PropTypes.func
-// };
+ApplicationModal.propTypes = {
+  inapplicableStrategiesModal: PropTypes.bool.isRequired,
+  closeStrategiesModal: PropTypes.func,
+  modalType: PropTypes.string
+};
 
 // Modal.propTypes = {
 // title: PropTypes.string,
@@ -120,4 +123,4 @@ const Modal = props => {
 // buttonTwo: PropTypes.string,
 // nestedComponent: ""
 // };
-export default Modal;
+export default ApplicationModal;
