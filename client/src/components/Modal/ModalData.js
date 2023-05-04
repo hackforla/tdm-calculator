@@ -11,17 +11,31 @@ export default {
     buttonOne: "Cancel",
     buttonTwo: "Proceed"
   },
-  ProjectAction: {
-    title: "TESTTITLE",
-    text: "TESTTEXT"
+  //ProjectAction contains Delete and duplicate Modals
+  DeleteProjectModal: {
+    title: `Delete Project`,
+    text: "Are you sure you want to permanently delete this project,&nbsp;",
+    buttonOne: "Cancel",
+    buttonTwo: "Delete"
+  },
+  DuplicateProjectModal: {
+    title: "Type a new name to duplicate the project,&nbsp;",
+    text: "selectedProject && selectedProject.name",
+    input: "",
+    buttonOne: "Cancel",
+    buttonTwo: "Submit"
   },
   TermsAndConditions: {
-    title: "TESTTITLE",
-    text: "TESTTEXT"
+    title: "TDM Calculator User Terms and Conditions",
+    text: ``,
+    nestedComponent: "",
+    buttonOne: "Accept",
+    buttonTwo: "Decline and exit site"
   },
   ChecklistModal: {
     title: "TESTTITLE",
-    text: "TESTTEXT"
+    text: "TESTTEXT",
+    nestedComponent: ""
   }
 };
 
@@ -44,3 +58,4 @@ export default {
 //Component ChecklistModal
 // checklistModalOpen={checklistModalOpen}
 // toggleChecklistModal={toggleChecklistModal}
+//Component DeleteProjectModal

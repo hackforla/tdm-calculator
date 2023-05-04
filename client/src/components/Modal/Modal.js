@@ -41,7 +41,15 @@ const useStyles = createUseStyles({
     justifyContent: "center"
   }
 });
-const InapplicableStrategiesModal = props => {
+const Modal = props => {
+  //New props:
+  // title: "Leave page and delete unsaved data?",
+  // text: "This will permanently delete any unsaved projects or changes to project.",
+  // icon: "test",
+  // buttonOne: "Cancel",
+  // buttonTwo: "Proceed",
+  // nestedComponent: ""
+
   const { inapplicableStrategiesModal, closeStrategiesModal } = props;
 
   const [modalOpen, setModalOpen] = useState(true);
@@ -99,9 +107,17 @@ const InapplicableStrategiesModal = props => {
   );
 };
 
-InapplicableStrategiesModal.propTypes = {
-  inapplicableStrategiesModal: PropTypes.bool.isRequired,
-  closeStrategiesModal: PropTypes.func
-};
+// Modal.propTypes = {
+//   inapplicableStrategiesModal: PropTypes.bool.isRequired,
+//   closeStrategiesModal: PropTypes.func
+// };
 
-export default InapplicableStrategiesModal;
+// Modal.propTypes = {
+// title: PropTypes.string,
+// text: PropTypes.string,
+// icon: PropTypes.string,
+// buttonOne: PropTypes.string,
+// buttonTwo: PropTypes.string,
+// nestedComponent: ""
+// };
+export default Modal;
