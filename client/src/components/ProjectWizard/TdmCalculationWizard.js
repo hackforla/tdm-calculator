@@ -130,9 +130,10 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisplayDownloadButton = () => {
-    const loggedIn = !!account.id;
-    const setDisplayed = loggedIn;
-    return setDisplayed;
+    if (page === 5) {
+      return true;
+    }
+    return false;
   };
 
   const handleValidate = () => {

@@ -27,9 +27,9 @@ import ForgotPassword from "./components/Authorization/ForgotPassword";
 import "./styles/App.scss";
 import PublicComment from "./components/PublicComment/PublicCommentPage";
 import Sidebar from "./components/Sidebar";
-import PDF from "./components/PDF/PDF";
+// import PDF from "./components/PDF/PDF";
 
-import { PDFViewer } from "react-dom";
+// import { PDFViewer } from "react-dom";
 
 const useStyles = createUseStyles({
   app: {
@@ -169,7 +169,7 @@ const App = ({
                     </Route>
 
                     <Route path="/pdf">
-                      <PDFViewer>{PDF}</PDFViewer>
+                      {/* <PDFViewer>{PDF}</PDFViewer> */}
                     </Route>
                   </div>
                 </>
