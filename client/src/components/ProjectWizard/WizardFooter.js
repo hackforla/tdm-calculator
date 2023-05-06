@@ -5,13 +5,15 @@ import SaveButton from "../Button/SaveButton";
 import { createUseStyles } from "react-jss";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DownloadButton from "../Button/DownloadButton";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
     display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    margin: "2em 0"
+    margin: "3em 0",
+    width: "80%",
+    justifyContent: "center"
   },
   pageNumberCounter: {
     fontSize: "24px",
@@ -70,6 +72,12 @@ const WizardFooter = ({
               />
             </div>
 
+            <DownloadButton
+              id="downloadButton"
+              isDisabled={setDisabledSaveButton()}
+              isDisplayed={setDisplaySaveButton()}
+              onClick={onSave}
+            />
             <SaveButton
               id="saveButton"
               isDisabled={setDisabledSaveButton()}

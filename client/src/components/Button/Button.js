@@ -22,6 +22,12 @@ const useStyles = createUseStyles({
     borderColor: "rgba(0, 0, 0, .05)", //lightest grey
     boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px"
   },
+  download: {
+    backgroundColor: ({ theme, color }) => theme[color],
+    borderColor: "rgb(167, 197, 57)", //site standard green
+    boxShadow: "rgb(167, 197, 57) 1px 2px 3px",
+    marginLeft: "auto"
+  },
   outlined: {
     backgroundColor: ({ theme }) => theme.colorWhite,
     borderColor: "rgba(0, 46, 109, .2)", //medium grey
