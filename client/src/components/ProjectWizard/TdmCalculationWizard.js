@@ -129,6 +129,12 @@ const TdmCalculationWizard = props => {
     return setDisplayed;
   };
 
+  const setDisplayDownloadButton = () => {
+    const loggedIn = !!account.id;
+    const setDisplayed = loggedIn;
+    return setDisplayed;
+  };
+
   const handleValidate = () => {
     const { page } = match.params;
     const validations = {
@@ -223,6 +229,7 @@ const TdmCalculationWizard = props => {
           setDisabledForNextNavButton={setDisabledForNextNavButton}
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
+          setDisplayDownloadButton={setDisplayDownloadButton}
           onSave={onSave}
         />
       </ContentContainer>

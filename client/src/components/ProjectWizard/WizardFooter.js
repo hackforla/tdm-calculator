@@ -6,6 +6,7 @@ import { createUseStyles } from "react-jss";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DownloadButton from "../Button/DownloadButton";
+import PDF from "../PDF/PDF";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -38,6 +39,7 @@ const WizardFooter = ({
   setDisabledForNextNavButton,
   setDisabledSaveButton,
   setDisplaySaveButton,
+  setDisplayDownloadButton,
   onSave,
   dateModified
 }) => {
@@ -74,9 +76,8 @@ const WizardFooter = ({
 
             <DownloadButton
               id="downloadButton"
-              isDisabled={setDisabledSaveButton()}
-              isDisplayed={setDisplaySaveButton()}
-              onClick={onSave}
+              isDisplayed={setDisplayDownloadButton()}
+              onClick={() => <PDF />}
             />
             <SaveButton
               id="saveButton"
@@ -108,7 +109,9 @@ WizardFooter.propTypes = {
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
+  setDisplayDownloadButton: PropTypes.any,
   onSave: PropTypes.any,
+  onDownload: PropTypes.any,
   dateModified: PropTypes.any
 };
 
