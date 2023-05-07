@@ -10,6 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "react-to-print": "^2.14.12",
     "wait-on": "^6.0.1"
   },
   "husky": {

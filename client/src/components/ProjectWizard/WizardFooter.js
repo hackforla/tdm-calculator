@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import SaveButton from "../Button/SaveButton";
@@ -6,7 +6,8 @@ import { createUseStyles } from "react-jss";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DownloadButton from "../Button/DownloadButton";
-import PDF from "../PDF/PDF";
+import ReactToPrint from "react-to-print";
+import { Pdf } from "../Pdf/Pdf";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -44,6 +45,7 @@ const WizardFooter = ({
   dateModified
 }) => {
   const classes = useStyles();
+  const componentRef = useRef();
 
   return (
     <>
@@ -73,12 +75,18 @@ const WizardFooter = ({
                 }}
               />
             </div>
-
-            <DownloadButton
-              id="downloadButton"
-              isDisplayed={setDisplayDownloadButton()}
-              onClick={() => <PDF />}
+            <ReactToPrint
+              trigger={() => (
+                <DownloadButton
+                  id="downloadButton"
+                  isDisplayed={setDisplayDownloadButton()}
+                />
+              )}
+              content={() => componentRef.current}
             />
+            <div style={{ display: "none" }}>
+              <Pdf ref={componentRef} />
+            </div>
             <SaveButton
               id="saveButton"
               isDisabled={setDisabledSaveButton()}
