@@ -60,7 +60,8 @@ const ApplicationModal = props => {
     // setModalOpen(inapplicableStrategiesModal);
     console.log(inapplicableStrategiesModal);
     console.log("ModalType", modalType);
-    console.log("Modal Data", ModalData[modalType].text);
+    console.log("ModalType", ModalData[modalType]);
+
     setModalOpen(true);
 
     const keyDownHandler = event => {
@@ -93,7 +94,21 @@ const ApplicationModal = props => {
           style={{ color: "#E46247", height: "80px" }}
           alt="Warning"
         />
-        <h2 className={classes.deselectedAlign}>{ModalData[modalType].text}</h2>
+        {ModalData[modalType].text ? (
+          <h2 className={classes.deselectedAlign}>
+            {ModalData[modalType].text}
+          </h2>
+        ) : null}
+        {ModalData[modalType].nestedComponent ? (
+          <Button
+            color="colorDeselect"
+            id="modalProceed"
+            data-testid="transitionProceed"
+            onClick={closeStrategiesModal}
+          >
+            {ModalData[modalType].buttonTwo}
+          </Button>
+        ) : null}
       </div>
       <div className={classes.modalActions}>
         <Button
@@ -104,6 +119,36 @@ const ApplicationModal = props => {
         >
           Okay
         </Button>
+        {ModalData[modalType].buttonTwo ? (
+          <Button
+            color="colorDeselect"
+            id="modalProceed"
+            data-testid="transitionProceed"
+            onClick={closeStrategiesModal}
+          >
+            {ModalData[modalType].buttonTwo}
+          </Button>
+        ) : null}
+        {ModalData[modalType].icon ? (
+          <Button
+            color="colorDeselect"
+            id="modalProceed"
+            data-testid="transitionProceed"
+            onClick={closeStrategiesModal}
+          >
+            {ModalData[modalType].buttonTwo}
+          </Button>
+        ) : null}
+        {ModalData[modalType].input ? (
+          <Button
+            color="colorDeselect"
+            id="modalProceed"
+            data-testid="transitionProceed"
+            onClick={closeStrategiesModal}
+          >
+            {ModalData[modalType].buttonTwo}
+          </Button>
+        ) : null}
       </div>
     </Modal>
   );
