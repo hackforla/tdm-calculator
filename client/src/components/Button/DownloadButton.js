@@ -24,9 +24,11 @@ const DownloadButton = ({ id, onClick, isDisplayed }) => {
 DownloadButton.propTypes = {
   children: PropTypes.object,
   onClick: PropTypes.func,
-  ref: PropTypes.any,
+  ref: React.Ref<any>,
   id: PropTypes.string.isRequired,
   isDisplayed: PropTypes.bool.isRequired
 };
 
 export default DownloadButton;
+
+// React.RefAttributes<any>.ref?: React.Ref<any> | undefined

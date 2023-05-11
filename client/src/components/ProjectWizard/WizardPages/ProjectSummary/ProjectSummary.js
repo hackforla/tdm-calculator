@@ -191,7 +191,6 @@ const ProjectSummary = props => {
             </div>
             <PointsEarnedMessage targetPointsReached={targetPointsReached} />
           </div>
-
           <div className={classes.categoryContainer}>
             <div
               className={clsx("space-between", classes.categoryHeaderContainer)}
@@ -224,7 +223,6 @@ const ProjectSummary = props => {
               ) : null}
             </div>
           </div>
-
           <div className={classes.categoryContainer}>
             <div
               className={clsx("space-between", classes.categoryHeaderContainer)}

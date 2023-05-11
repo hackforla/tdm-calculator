@@ -9,6 +9,7 @@ import {
   ProjectMeasures
 } from "./WizardPages";
 import { ProjectSummary } from "./WizardPages/ProjectSummary";
+import { Pdf } from "../Pdf/Pdf";
 
 const CalculationWizardRoutes = ({
   projectDescriptionRules,
@@ -89,6 +90,16 @@ const CalculationWizardRoutes = ({
           onSave={onSave}
           dateModified={dateModified}
         />
+        <div style={{ display: "none" }}>
+          <Pdf
+            rules={rules}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            onSave={onSave}
+            dateModified={dateModified}
+          />
+        </div>
       </Route>
     </Switch>
   );
