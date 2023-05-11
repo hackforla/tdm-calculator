@@ -16,6 +16,7 @@ import clsx from "clsx";
 // import PointsEarnedMessage from "../ProjectWizard/WizardPages/ProjectSummary/PointsEarnedMessage";
 // import LandUses from "../ProjectWizard/WizardPages/ProjectSummary/LandUses";
 // import Result from "../ProjectWizard/WizardPages/ProjectSummary/Result";
+import PdfDate from "./PdfDate";
 
 const useStyles = createUseStyles({
   Pdf: {
@@ -166,12 +167,45 @@ export const Pdf = forwardRef((props, ref) => {
   return (
     <div ref={ref} className={clsx("tdm-wizard-review-page", classes.Pdf)}>
       <h1 className="tdm-wizard-page-title">TDM Calculation Project Summary</h1>
-      <div className={classes.categoryContainer}>
+      <section className={classes.categoryContainer}>
+        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
+          <span className={classes.categoryHeader}>PROJECT NAME</span>
+        </div>
+      </section>
+      <section className={classes.categoryContainer}>
         <div className={clsx("space-between", classes.categoryHeaderContainer)}>
           <span className={classes.categoryHeader}>PROJECT DETAILS</span>
         </div>
-        <div className={classes.measuresContainer}></div>
-      </div>
+      </section>
+      <section className={classes.categoryContainer}>
+        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
+          <span className={classes.categoryHeader}>
+            TDM STRATEGIES SELECTED
+          </span>
+          <span className={classes.earnedPoints}>EARNED POINTS</span>
+        </div>
+      </section>
+      <section className={classes.categoryContainer}>
+        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
+          <span className={classes.categoryHeader}>RESULTS</span>
+        </div>
+        <div className={clsx("space-between", classes.resultsContainer)}>
+          {/* <Result
+            rule={earnedPoints}
+            borderStyle={earnedPointsBorderStyle}
+            valueTestId={"summary-earned-points-value"}
+          />
+          <Result
+            rule={targetPoints}
+            borderStyle={classes.normalBorder}
+            valueTestId={"summary-target-points-value"}
+          /> */}
+        </div>
+        {/* <PointsEarnedMessage targetPointsReached={targetPointsReached} /> */}
+      </section>
+      <section>
+        <PdfDate />
+      </section>
     </div>
   );
 });
