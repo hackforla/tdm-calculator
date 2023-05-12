@@ -4,18 +4,9 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faClock } from "@fortawesome/free-solid-svg-icons";
-// import Loader from "react-loader";
-
-// numberWithCommas,
-// roundToTwo
-// import { getRule } from "../ProjectWizard/helpers";
-
-// import ProjectInfoContainer from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfoContainer";
-// import ProjectDetail from "../ProjectWizard/WizardPages/ProjectSummary/ProjectDetail";
-// import MeasureSelected from "../ProjectWizard/WizardPages/ProjectSummary/MeasureSelected";
-// import PointsEarnedMessage from "../ProjectWizard/WizardPages/ProjectSummary/PointsEarnedMessage";
-// import LandUses from "../ProjectWizard/WizardPages/ProjectSummary/LandUses";
-// import Result from "../ProjectWizard/WizardPages/ProjectSummary/Result";
+import { getRule } from "../ProjectWizard/helpers";
+import ProjectDetail from "../ProjectWizard/WizardPages/ProjectSummary/ProjectDetail";
+import Result from "../ProjectWizard/WizardPages/ProjectSummary/Result";
 import PdfDate from "./PdfDate";
 
 const useStyles = createUseStyles({
@@ -107,62 +98,10 @@ const useStyles = createUseStyles({
 // eslint-disable-next-line react/display-name
 export const Pdf = forwardRef((props, ref) => {
   const classes = useStyles();
-  // const { rules, ProjectDetail } = props;
+  const { rules } = props;
 
-  // const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
-  // const parkingProvided = getRule(rules, "PARK_SPACES");
-  // const parkingRatio = getRule(rules, "CALC_PARK_RATIO");
-  // const projectDescription = getRule(rules, "PROJECT_DESCRIPTION");
-  // const level = getRule(rules, "PROJECT_LEVEL");
-  // const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
-  // const earnedPoints = getRule(rules, "PTS_EARNED");
-
-  // const userDefinedStrategy = getRule(rules, "STRATEGY_APPLICANT");
-
-  // Note: a rule is not effective if the value is any falsey value or "0"
-  // const measureRules =
-  //   rules &&
-  //   rules.filter(
-  //     rule =>
-  //       rule.category === "measure" &&
-  //       rule.used &&
-  //       rule.display &&
-  //       rule.calculationPanelId !== 10 &&
-  //       (!!(rule.value && rule.value !== "0") ||
-  //         !!(rule.calcValue && rule.calcValue !== "0"))
-  //   );
-
-  // const specificationRules =
-  //   rules &&
-  //   rules.filter(
-  //     rule =>
-  //       rule.category === "input" &&
-  //       rule.used &&
-  //       rule.display &&
-  //       rule.calculationPanelId !== 31 &&
-  //       (!!(rule.value && rule.value !== "0") ||
-  //         !!(rule.calcValue && rule.calcValue !== "0"))
-  //   );
-
-  // const loading =
-  //   !level &&
-  //   !parkingRatio &&
-  //   !targetPoints &&
-  //   !earnedPoints &&
-  //   rules &&
-  //   !rules.length &&
-  //   !parkingRequired &&
-  //   !parkingProvided;
-
-  // const targetPointsReached =
-  //   earnedPoints &&
-  //   Math.round(earnedPoints.value) >= Math.round(targetPoints.value);
-
-  // const rulesNotEmpty = rules && rules.length > 0;
-
-  // const earnedPointsBorderStyle = targetPointsReached
-  //   ? classes.successBorder
-  //   : classes.failureBorder;
+  const earnedPoints = getRule(rules, "PTS_EARNED");
+  const level = getRule(rules, "PROJECT_LEVEL");
 
   return (
     <div ref={ref} className={clsx("tdm-wizard-review-page", classes.Pdf)}>
@@ -175,6 +114,13 @@ export const Pdf = forwardRef((props, ref) => {
       <section className={classes.categoryContainer}>
         <div className={clsx("space-between", classes.categoryHeaderContainer)}>
           <span className={classes.categoryHeader}>PROJECT DETAILS</span>
+        </div>
+        <div className={classes.measuresContainer}>
+          <ProjectDetail
+            rule={level}
+            value={level.value.toString()}
+            valueTestId={"summary-project-level-value"}
+          />
         </div>
       </section>
       <section className={classes.categoryContainer}>
@@ -190,19 +136,20 @@ export const Pdf = forwardRef((props, ref) => {
           <span className={classes.categoryHeader}>RESULTS</span>
         </div>
         <div className={clsx("space-between", classes.resultsContainer)}>
-          {/* <Result
-            rule={earnedPoints}
-            borderStyle={earnedPointsBorderStyle}
-            valueTestId={"summary-earned-points-value"}
-          />
           <Result
-            rule={targetPoints}
-            borderStyle={classes.normalBorder}
-            valueTestId={"summary-target-points-value"}
-          /> */}
+            rule={earnedPoints}
+            // borderStyle={earnedPointsBorderStyle}
+            // valueTestId={"summary-earned-points-value"}
+          />
         </div>
-        {/* <PointsEarnedMessage targetPointsReached={targetPointsReached} /> */}
       </section>
+      {/* <section className={classes.lastSavedContainer}>
+        {dateModified && (
+          <span className={classes.lastSaved}>
+            <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved: {dateModified}
+          </span>
+        )}
+      </section> */}
       <section>
         <PdfDate />
       </section>
