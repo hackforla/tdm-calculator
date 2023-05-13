@@ -232,6 +232,7 @@ const TdmCalculationWizard = props => {
           setDisplaySaveButton={setDisplaySaveButton}
           setDisplayDownloadButton={setDisplayDownloadButton}
           onSave={onSave}
+          dateModified={dateModified}
         />
       </ContentContainer>
     </React.Fragment>

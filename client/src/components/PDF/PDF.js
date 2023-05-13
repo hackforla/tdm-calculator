@@ -2,19 +2,17 @@ import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { getRule } from "../ProjectWizard/helpers";
 import ProjectDetail from "../ProjectWizard/WizardPages/ProjectSummary/ProjectDetail";
-import Result from "../ProjectWizard/WizardPages/ProjectSummary/Result";
-import PdfDate from "./PdfDate";
+import PdfResult from "./PdfResult";
+import PdfFooter from "./PdfFooter";
 
 const useStyles = createUseStyles({
   Pdf: {
     display: "flex",
     flexDirection: "column",
     flex: "1 1 auto",
-    minWidth: "80vw",
+    minWidth: "85vw",
     margin: "50px auto"
   },
   success: {
@@ -67,11 +65,9 @@ const useStyles = createUseStyles({
     fontFamily: "Oswald",
     fontWeight: "700"
   },
-  resultsContainer: {
-    padding: "30px 0",
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
+  pdfResultsContainer: {
+    display: "block",
+    padding: "10px 0",
     maxWidth: "100%"
   },
   measuresContainer: {
@@ -98,10 +94,11 @@ const useStyles = createUseStyles({
 // eslint-disable-next-line react/display-name
 export const Pdf = forwardRef((props, ref) => {
   const classes = useStyles();
-  const { rules } = props;
+  const { rules, dateModified } = props;
 
-  const earnedPoints = getRule(rules, "PTS_EARNED");
   const level = getRule(rules, "PROJECT_LEVEL");
+  const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
+  const earnedPoints = getRule(rules, "PTS_EARNED");
 
   return (
     <div ref={ref} className={clsx("tdm-wizard-review-page", classes.Pdf)}>
@@ -135,24 +132,18 @@ export const Pdf = forwardRef((props, ref) => {
         <div className={clsx("space-between", classes.categoryHeaderContainer)}>
           <span className={classes.categoryHeader}>RESULTS</span>
         </div>
-        <div className={clsx("space-between", classes.resultsContainer)}>
-          <Result
+        <div className={clsx("space-between", classes.pdfResultsContainer)}>
+          <PdfResult
+            rule={targetPoints}
+            valueTestId={"summary-pdf-target-points-value"}
+          />
+          <PdfResult
             rule={earnedPoints}
-            // borderStyle={earnedPointsBorderStyle}
-            // valueTestId={"summary-earned-points-value"}
+            valueTestId={"summary-pdf-earned-points-value"}
           />
         </div>
       </section>
-      {/* <section className={classes.lastSavedContainer}>
-        {dateModified && (
-          <span className={classes.lastSaved}>
-            <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved: {dateModified}
-          </span>
-        )}
-      </section> */}
-      <section>
-        <PdfDate />
-      </section>
+      <PdfFooter dateModified={dateModified} />
     </div>
   );
 });

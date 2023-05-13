@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { createUseStyles } from "react-jss";
 
-const PdfDate = () => {
+const useStyles = createUseStyles({
+  lastSaved: {
+    fontSize: "14px",
+    color: "#6F6C64"
+  },
+  lastSavedContainer: {
+    margin: "24px auto 0"
+  }
+});
+
+const PdfFooter = props => {
+  const classes = useStyles();
+  const { dateModified } = props;
   const [printedDate, setPrintedDate] = useState(new Date());
 
   useEffect(() => {
@@ -17,15 +31,19 @@ const PdfDate = () => {
   }, []);
 
   return (
-    <div>
+    <section className={classes.lastSavedContainer}>
+      <p>Last saved: {dateModified}</p>
       <p>
         Date Printed:{" "}
         {printedDate.toLocaleString("en-US", {
           timeZone: "America/Los_Angeles"
         })}
       </p>
-    </div>
+    </section>
   );
 };
+PdfFooter.propTypes = {
+  dateModified: PropTypes.string || null
+};
 
-export default PdfDate;
+export default PdfFooter;
