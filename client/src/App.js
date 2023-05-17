@@ -162,7 +162,7 @@ const App = ({
                     </Route>
 
                     <Route path="/publiccomment">
-                      <PublicComment />
+                      <PublicComment account={account} />
                     </Route>
                   </div>
                 </>
