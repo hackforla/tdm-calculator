@@ -5,7 +5,6 @@ import clsx from "clsx";
 
 const useStyles = createUseStyles({
   button: {
-    color: ({ theme }) => theme.colorText,
     cursor: "pointer",
     fontFamily: "Calibri Bold",
     height: "min-content",
