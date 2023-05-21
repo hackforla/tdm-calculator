@@ -31,7 +31,10 @@ const PdfFooter = props => {
   }, []);
 
   return (
-    <section className={classes.pdfFooterContainer}>
+    <section
+      className={classes.pdfFooterContainer}
+      style="display: table-header-group;"
+    >
       <div className={classes.pdfTimeText}>
         Date Last Saved: {dateModified} Pacific Time
       </div>

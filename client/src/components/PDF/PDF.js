@@ -10,7 +10,8 @@ import {
 import ProjectDetail from "../ProjectWizard/WizardPages/ProjectSummary/ProjectDetail";
 import MeasureSelected from "../ProjectWizard/WizardPages/ProjectSummary/MeasureSelected";
 import LandUses from "../ProjectWizard/WizardPages/ProjectSummary/LandUses";
-import ProjectInfoContainer from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfoContainer";
+import ProjectInfo from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfo";
+import ProjectInfoList from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfoList";
 import PdfResult from "./PdfResult";
 import PdfFooter from "./PdfFooter";
 import logo from "../../images/ladot_white.png";
@@ -103,6 +104,21 @@ const useStyles = createUseStyles({
     padding: "10",
     backgroundColor: "rgb(0,47,113)"
   },
+  projectInfoDetailsContainer: {
+    paddingTop: "20px",
+    paddingLeft: "12px",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    maxWidth: "100%",
+    minHeight: "55px",
+    rowGap: "1.1rem"
+  },
+  textProjectInfoHeaderAddress: {
+    color: "rgba(15, 41, 64, .5)",
+    fontSize: "16px",
+    fontFamily: "Calibri Bold"
+  },
   "@media (max-width: 768px)": {
     logoContainer: {
       justifySelf: "start"
@@ -123,6 +139,13 @@ export const Pdf = forwardRef((props, ref) => {
   const projectDescription = getRule(rules, "PROJECT_DESCRIPTION");
   const parkingRatio = getRule(rules, "CALC_PARK_RATIO");
   const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
+  const projectName = getRule(rules, "PROJECT_NAME");
+  const projectAddress = getRule(rules, "PROJECT_ADDRESS");
+  const buildingPermit = getRule(rules, "BUILDING_PERMIT");
+  const caseNumberLADOT = getRule(rules, "CASE_NO_LADOT");
+  const caseNumberPlanning = getRule(rules, "CASE_NO_PLANNING");
+  const parcelNumbers = getRule(rules, "APN");
+  const versionNumber = getRule(rules, "VERSION_NO");
 
   const measureRules =
     rules &&
@@ -162,11 +185,33 @@ export const Pdf = forwardRef((props, ref) => {
       </h1>
       <section className={classes.categoryContainer}>
         <div className={clsx("space-between", classes.categoryHeaderContainer)}>
-          {/* <span className={classes.categoryHeader}>PROJECT NAME</span> */}
-          <ProjectInfoContainer
-            className={classes.categoryHeader}
-            rules={rules}
-          />
+          <span className={classes.categoryHeader}>PROJECT NAME</span>
+          {projectName && projectName.value ? (
+            <span className={classes.textProjectInfoHeaderAddress}>
+              {projectName.value}
+            </span>
+          ) : null}
+        </div>
+        <div className={classes.projectInfoDetailsContainer}>
+          {projectAddress && (
+            <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
+          )}
+          <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
+          {buildingPermit && (
+            <ProjectInfo name={buildingPermit.name} rule={buildingPermit} />
+          )}
+          {versionNumber && (
+            <ProjectInfo name={versionNumber.name} rule={versionNumber} />
+          )}
+          {caseNumberPlanning && (
+            <ProjectInfo
+              name={caseNumberPlanning.name}
+              rule={caseNumberPlanning}
+            />
+          )}
+          {caseNumberLADOT && (
+            <ProjectInfo name={caseNumberLADOT.name} rule={caseNumberLADOT} />
+          )}
         </div>
       </section>
       <section className={classes.categoryContainer}>

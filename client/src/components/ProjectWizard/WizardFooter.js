@@ -47,9 +47,6 @@ const WizardFooter = ({
   const classes = useStyles();
   const componentRef = useRef();
 
-  // eslint-disable-next-line
-  console.log(dateModified);
-
   return (
     <>
       <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
@@ -87,8 +84,8 @@ const WizardFooter = ({
               )}
               content={() => componentRef.current}
             />
-            <div>
-              {/* <div style={{ display: "none" }}> */}
+            {/* <div> */}
+            <div style={{ display: "none" }}>
               <Pdf
                 ref={componentRef}
                 rules={rules}

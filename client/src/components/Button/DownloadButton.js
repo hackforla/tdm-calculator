@@ -24,9 +24,9 @@ const DownloadButton = ({ id, onClick, isDisabled, isDisplayed }) => {
 
 DownloadButton.propTypes = {
   children: PropTypes.object,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   id: PropTypes.string.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool,
   isDisplayed: PropTypes.bool.isRequired
 };
 
