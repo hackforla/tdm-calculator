@@ -6,7 +6,7 @@ import clsx from "clsx";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleStrategyLabel from "./RuleStrategyLabel";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   rowContainer: {
     minWidth: "60vw",
     margin: "0.2em",
@@ -42,7 +42,7 @@ const useStyles = createUseStyles({
     padding: "0.1em",
     width: "5.5em",
     textAlign: "right",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
   },
   choiceSelectContainer: {
     textAlign: "right",
@@ -60,7 +60,7 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
   },
   allElse: {
     flexBasis: "10%",
@@ -99,7 +99,7 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1"
   }
-});
+}));
 
 const RuleStrategy = ({
   rule: {

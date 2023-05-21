@@ -15,6 +15,7 @@ import TermsAndConditionsModal from "./components/TermsAndConditions/TermsAndCon
 import ChecklistModal from "./components/Checklist/ChecklistModal";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
+import UpdateAccount from "./components/Authorization/UpdateAccount";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
 import ProtectedRoute from "./components/Authorization/ProtectedRoute";
 import Login from "./components/Authorization/Login";
@@ -122,6 +123,10 @@ const App = ({
 
                     <Route path="/register/:email?">
                       <Register />
+                    </Route>
+
+                    <Route path="/updateaccount/:email?">
+                      <UpdateAccount />
                     </Route>
 
                     <Route path="/confirm/:token?">

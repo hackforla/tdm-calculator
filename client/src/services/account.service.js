@@ -31,6 +31,16 @@ export const register = async (firstName, lastName, email, password) => {
   }
 };
 
+export const updateAccount = async (id, firstName, lastName, email) => {
+  try {
+    const body = { id, firstName, lastName, email };
+    const response = await axios.put(`${baseUrl}/${id}/updateaccount`, body);
+    return response.data;
+  } catch (err) {
+    throw Error("Update account failed");
+  }
+};
+
 export const resendConfirmationEmail = async email => {
   const body = { email };
   try {
