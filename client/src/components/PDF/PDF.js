@@ -24,21 +24,6 @@ const useStyles = createUseStyles({
     minWidth: "85vw",
     margin: "50px auto"
   },
-  success: {
-    color: "#A7C539"
-  },
-  failure: {
-    color: "#E46247"
-  },
-  successBorder: {
-    border: "2px solid #A7C539"
-  },
-  failureBorder: {
-    border: "2px solid #E46247"
-  },
-  normalBorder: {
-    border: "1px solid #E7EBF0"
-  },
   rule: {
     display: "flex",
     alignItems: "center",
@@ -48,19 +33,6 @@ const useStyles = createUseStyles({
   },
   ruleName: {
     minWidth: "270px"
-  },
-  loaderContainer: {
-    width: "100%",
-    height: "50px",
-    display: "flex",
-    justifyContent: "center"
-  },
-  lastSaved: {
-    fontSize: "14px",
-    color: "#6F6C64"
-  },
-  lastSavedContainer: {
-    margin: "24px auto 0"
   },
   categoryContainer: {
     marginTop: "25px"

@@ -53,14 +53,6 @@ const PdfFooter = props => {
         Los Angeles Department of Transportation | tdm.ladot.lacity.org |
         LADOT.TDM@lacity.org
       </span>
-      {/* <span
-        className={classes.pdfTimeText}
-        style={{
-          float: "right"
-        }}
-      >
-        Page 1 of 1
-      </span> */}
     </section>
   );
 };

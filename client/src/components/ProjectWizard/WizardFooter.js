@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import SaveButton from "../Button/SaveButton";
 import { createUseStyles } from "react-jss";
-// import { faClock } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DownloadButton from "../Button/DownloadButton";
 import ReactToPrint from "react-to-print";
 import { Pdf } from "../Pdf/Pdf";
@@ -86,7 +84,6 @@ const WizardFooter = ({
               )}
               content={() => componentRef.current}
             />
-            {/* <div> */}
             <div style={{ display: "none" }}>
               <Pdf
                 ref={componentRef}
@@ -104,13 +101,6 @@ const WizardFooter = ({
           </>
         ) : null}
       </div>
-      {/* <div className={classes.lastSavedContainer}>
-        {dateModified && (
-          <span className={classes.lastSaved}>
-            <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved: {dateModified}
-          </span>
-        )}
-      </div> */}
     </>
   );
 };
