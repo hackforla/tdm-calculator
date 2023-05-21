@@ -31,10 +31,7 @@ const PdfFooter = props => {
   }, []);
 
   return (
-    <section
-      className={classes.pdfFooterContainer}
-      style="display: table-header-group;"
-    >
+    <section className={classes.pdfFooterContainer}>
       <div className={classes.pdfTimeText}>
         Date Last Saved: {dateModified} Pacific Time
       </div>
@@ -56,14 +53,14 @@ const PdfFooter = props => {
         Los Angeles Department of Transportation | tdm.ladot.lacity.org |
         LADOT.TDM@lacity.org
       </span>
-      <span
+      {/* <span
         className={classes.pdfTimeText}
         style={{
           float: "right"
         }}
       >
         Page 1 of 1
-      </span>
+      </span> */}
     </section>
   );
 };
