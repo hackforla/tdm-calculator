@@ -87,7 +87,8 @@ const WizardFooter = ({
               )}
               content={() => componentRef.current}
             />
-            <div style={{ display: "none" }}>
+            <div>
+              {/* <div style={{ display: "none" }}> */}
               <Pdf
                 ref={componentRef}
                 rules={rules}

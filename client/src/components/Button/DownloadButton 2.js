@@ -4,16 +4,15 @@ import Button from "../Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileDownload } from "@fortawesome/free-solid-svg-icons";
 
-const DownloadButton = ({ id, onClick, isDisabled, isDisplayed }) => {
+const DownloadButton = ({ id, onClick, isDisplayed }) => {
   return (
     <Button
       type="input"
       color={"colorDisabled"}
       variant="download"
-      onClick={onClick}
       id={id}
+      onClick={onClick}
       data-testid={id}
-      disabled={isDisabled}
       isDisplayed={isDisplayed}
     >
       <FontAwesomeIcon icon={faFileDownload} style={{ marginRight: "0.5em" }} />
@@ -24,9 +23,9 @@ const DownloadButton = ({ id, onClick, isDisabled, isDisplayed }) => {
 
 DownloadButton.propTypes = {
   children: PropTypes.object,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+  ref: PropTypes.string,
   id: PropTypes.string.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
   isDisplayed: PropTypes.bool.isRequired
 };
 

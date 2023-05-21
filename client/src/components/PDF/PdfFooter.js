@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  lastSaved: {
+  pdfTimeText: {
     fontSize: "14px",
-    color: "#6F6C64"
+    color: "rgb(53,119,163)"
   },
-  lastSavedContainer: {
-    margin: "24px auto 0"
+  pdfFooterContainer: {
+    margin: "24px 0 0"
   }
 });
 
@@ -31,14 +31,36 @@ const PdfFooter = props => {
   }, []);
 
   return (
-    <section className={classes.lastSavedContainer}>
-      <p>Last saved: {dateModified}</p>
-      <p>
+    <section className={classes.pdfFooterContainer}>
+      <div className={classes.pdfTimeText}>
+        Date Last Saved: {dateModified} Pacific Time
+      </div>
+      <div
+        className={classes.pdfTimeText}
+        style={{
+          borderBottom: "solid 3px rgb(0,69,128)",
+          paddingBottom: "5px",
+          marginBottom: "5px"
+        }}
+      >
         Date Printed:{" "}
         {printedDate.toLocaleString("en-US", {
           timeZone: "America/Los_Angeles"
-        })}
-      </p>
+        })}{" "}
+        Pacific Time
+      </div>
+      <span className={classes.pdfTimeText}>
+        Los Angeles Department of Transportation | tdm.ladot.lacity.org |
+        LADOT.TDM@lacity.org
+      </span>
+      <span
+        className={classes.pdfTimeText}
+        style={{
+          float: "right"
+        }}
+      >
+        Page 1 of 1
+      </span>
     </section>
   );
 };
