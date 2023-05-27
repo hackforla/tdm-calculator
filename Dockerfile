@@ -5,7 +5,7 @@ WORKDIR /app
 COPY /client/package.json .
 COPY /client/package-lock.json .
 #RUN npm ci --legacy-peer-deps && find node_modules ! -user root | xargs chown root:root
-RUN npm ci --legacy-peer-deps && find node_modules  | xargs chown root:root
+RUN npm ci --legacy-peer-deps 
 COPY /client .
 
 RUN npm run build
