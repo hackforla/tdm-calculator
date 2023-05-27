@@ -5,7 +5,7 @@ const {
 } = require("../../middleware/validate");
 const accountSchema = require("../schemas/account");
 const accountRegisterSchema = require("../schemas/account.register");
-const accountUpdateAccountSchema = require("../schemas/account.UpdateAccount");
+const accountUpdateAccountSchema = require("../schemas/account.updateAccount");
 const accountConfirmRegisterSchema = require("../schemas/account.confirmRegister");
 const accountLoginSchema = require("../schemas/account.login");
 const accountForgotSchema = require("../schemas/account.forgotPassword");
