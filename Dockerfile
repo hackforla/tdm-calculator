@@ -19,7 +19,8 @@ COPY --from=clientBuilder /app/build /client/build
 COPY ./server/package.json ./
 COPY ./server/package-lock.json ./
 
-RUN npm ci  && find node_modules ! -user root | xargs chown root:root
+#RUN npm ci  && find node_modules ! -user root | xargs chown root:root
+RUN npm ci
 
 COPY ./server/app ./app
 COPY ./server/middleware ./middleware
