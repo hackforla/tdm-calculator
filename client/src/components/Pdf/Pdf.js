@@ -168,7 +168,9 @@ export const Pdf = forwardRef((props, ref) => {
           {projectAddress && (
             <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
           )}
-          <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
+          {parcelNumbers.value ? (
+            <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
+          ) : null}
           {buildingPermit && (
             <ProjectInfo name={buildingPermit.name} rule={buildingPermit} />
           )}

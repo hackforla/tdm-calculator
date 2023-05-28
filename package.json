@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.2.45",
+  "version": "0.2.42",
   "private": true,
   "scripts": {
     "release-notes": "gren release --override",
@@ -10,7 +10,6 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "react-to-print": "^2.14.12",
     "wait-on": "^6.0.1"
   },
   "husky": {

@@ -6,10 +6,10 @@ module.exports = {
       type: "number"
     },
     isAdmin: {
-      type: "boolean"
+      type: "number"
     },
     isSecurityAdmin: {
-      type: "boolean"
+      type: "number"
     }
   }
 };

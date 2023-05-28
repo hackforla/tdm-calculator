@@ -18,21 +18,6 @@ const send = async (emailTo, emailFrom, subject, textBody, htmlBody) => {
   return sgMail.send(msg, false);
 };
 
-const sendVerifyUpdateConfirmation = async (email, token) => {
-  const msg = {
-    to: `${email}`,
-    from: senderEmail,
-    subject: "Verify Your Account Updates",
-    text: "Verify Your Account Updates",
-    html: `<p>Hello, your account has been updated.</p>
-              <p>If you did not update your account please notify <a href = "mailto: ladot@lacity.org">ladot@lacity.org</a>.</p>
-              <p><a href="${clientUrl}/confirm/${token}">Verify Account Updates</a></p>
-              <p>Thanks,</p>
-              <p>TDM Calculator Team</p>`
-  };
-  return sgMail.send(msg, false);
-};
-
 const sendRegistrationConfirmation = async (email, token) => {
   const msg = {
     to: `${email}`,
@@ -40,8 +25,9 @@ const sendRegistrationConfirmation = async (email, token) => {
     subject: "Verify Your Account",
     text: "Verify your account",
     html: `<p>Hello, please click the following link to verify your account.</p>
+              <br>
               <p><a href="${clientUrl}/confirm/${token}">Verify Me</a></p>
-              <p>If you did not create a new account or update your account please notify <a href = "mailto: ladot@lacity.org">ladot@lacity.org</a>.</p>
+              <br>
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };
@@ -89,7 +75,6 @@ const sendPublicComment = async publicCommentData => {
 
 module.exports = {
   send,
-  sendVerifyUpdateConfirmation,
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation,
   sendPublicComment

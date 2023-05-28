@@ -61,14 +61,16 @@ export function TdmCalculationContainer({
   setLoggedInAccount,
   contentContainerRef,
   checklistModalOpen,
-  toggleChecklistModal
+  toggleChecklistModal,
+  rules,
+  setRules,
+  dateModified,
+  setDateModified
 }) {
   const [engine, setEngine] = useState(null);
-  const [rules, setRules] = useState([]);
   const [formInputs, setFormInputs] = useState({});
   const [projectId, setProjectId] = useState(null);
   const [loginId, setLoginId] = useState(0);
-  const [dateModified, setDateModified] = useState(null);
   const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
@@ -645,7 +647,11 @@ TdmCalculationContainer.propTypes = {
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object,
   checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func
+  toggleChecklistModal: PropTypes.func,
+  rules: PropTypes.array,
+  setRules: PropTypes.func,
+  dateModified: PropTypes.string || null,
+  setDateModified: PropTypes.func
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));
