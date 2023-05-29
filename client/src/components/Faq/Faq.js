@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faMinus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faMinus, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faGripHorizontal } from "@fortawesome/free-solid-svg-icons";
 
 import Quill from "../Quill";
@@ -41,10 +40,17 @@ const useStyles = createUseStyles({
 });
 
 const Faq = props => {
-  const { faq, admin, expandFaq, collapseFaq, dragHandleProps } = props;
+  const {
+    faq,
+    admin,
+    expandFaq,
+    collapseFaq,
+    dragHandleProps,
+    handleDeleteFaq
+  } = props;
   const classes = useStyles();
-  const [answerEditMode, setAnswerEditMode] = useState(false);
-  const [questionEditMode, setQuestionEditMode] = useState(false);
+  const [answerEditMode, setAnswerEditMode] = useState(!faq.answer);
+  const [questionEditMode, setQuestionEditMode] = useState(!faq.question);
   const [editedFaq, setEditedFaq] = useState(faq);
 
   const onAnswerChange = ans => {
@@ -65,6 +71,10 @@ const Faq = props => {
   const handleCollapseFaq = () => {
     collapseFaq(faq);
   };
+
+  const onDeleteFaq = useCallback(() => {
+    handleDeleteFaq(faq);
+  }, [handleDeleteFaq, faq]);
 
   return (
     <div>
@@ -145,15 +155,27 @@ const Faq = props => {
         </div>
         <div {...dragHandleProps}>
           {admin ? (
-            <FontAwesomeIcon
-              style={{
-                cursor: "grab",
-                fontSize: "1.5em",
-                paddingTop: "0.25em",
-                paddingRight: "0.25em"
-              }}
-              icon={faGripHorizontal}
-            />
+            <>
+              <FontAwesomeIcon
+                style={{
+                  cursor: "grab",
+                  fontSize: "1.5em",
+                  paddingTop: "0.25em",
+                  paddingRight: "0.25em"
+                }}
+                icon={faGripHorizontal}
+              />
+              <FontAwesomeIcon
+                style={{
+                  cursor: "pointer",
+                  fontSize: "1.5em",
+                  paddingTop: "0.25em",
+                  paddingRight: "0.25em"
+                }}
+                icon={faTrashAlt}
+                onClick={onDeleteFaq}
+              />
+            </>
           ) : null}
         </div>
       </div>
@@ -219,6 +241,7 @@ Faq.propTypes = {
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,
   collapseFaq: PropTypes.func.isRequired,
+  handleDeleteFaq: PropTypes.func,
   dragHandleProps: PropTypes.any
 };
 

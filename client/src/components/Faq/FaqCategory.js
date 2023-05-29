@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import Faq from "./Faq";
-import { faGripHorizontal } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGripHorizontal,
+  faTrashAlt
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Droppable, Draggable } from "react-beautiful-dnd";
@@ -31,7 +34,15 @@ const useStyles = createUseStyles({
 });
 
 const FaqCategory = props => {
-  const { category, admin, expandFaq, collapseFaq, dragHandleProps } = props;
+  const {
+    category,
+    admin,
+    expandFaq,
+    collapseFaq,
+    dragHandleProps,
+    deleteCategory,
+    deleteFaq
+  } = props;
   const [categoryEditMode, setCategoryEditMode] = useState(false);
   const [editedCategory, setEditedCategory] = useState(category);
   const classes = useStyles();
@@ -46,8 +57,8 @@ const FaqCategory = props => {
     const categoryId = category.id;
     const newFaq = {
       id: -1000,
-      question: "Enter a question",
-      answer: "Enter an answer",
+      question: null,
+      answer: null,
       displayOrder: 0,
       faqCategoryId: { categoryId }
     };
@@ -55,6 +66,15 @@ const FaqCategory = props => {
       ...prevState,
       faqs: prevState.faqs.splice(1, 0, newFaq)
     }));
+  };
+
+  const handleDeleteFaq = faq => {
+    deleteFaq(faq);
+  };
+
+  const handleDeleteCategory = () => {
+    // Call the deleteCategory function passed from FaqCategoryList component
+    deleteCategory(category);
   };
 
   return (
@@ -97,16 +117,29 @@ const FaqCategory = props => {
         )}
         <div {...dragHandleProps}>
           {admin ? (
-            <FontAwesomeIcon
-              style={{
-                cursor: "grab",
-                fontSize: "1.5em",
-                paddingTop: "0.11em",
-                paddingRight: "0em",
-                color: "lightgray"
-              }}
-              icon={faGripHorizontal}
-            />
+            <>
+              <FontAwesomeIcon
+                style={{
+                  cursor: "grab",
+                  fontSize: "1.5em",
+                  paddingTop: "0.11em",
+                  paddingRight: "0em",
+                  color: "lightgray"
+                }}
+                icon={faGripHorizontal}
+              />
+              <FontAwesomeIcon
+                style={{
+                  cursor: "pointer",
+                  fontSize: "1.5em",
+                  paddingTop: "0.11em",
+                  paddingLeft: "0.25em",
+                  color: "lightgray"
+                }}
+                icon={faTrashAlt}
+                onClick={handleDeleteCategory}
+              />
+            </>
           ) : null}
         </div>
       </div>
@@ -133,6 +166,7 @@ const FaqCategory = props => {
                         admin={admin}
                         expandFaq={expandFaq}
                         collapseFaq={collapseFaq}
+                        handleDeleteFaq={handleDeleteFaq}
                         dragHandleProps={provided.dragHandleProps}
                       />
                     </div>
@@ -167,6 +201,8 @@ FaqCategory.propTypes = {
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,
   collapseFaq: PropTypes.func.isRequired,
+  deleteCategory: PropTypes.func,
+  deleteFaq: PropTypes.func,
   dragHandleProps: PropTypes.any
 };
 
