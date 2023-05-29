@@ -5,7 +5,14 @@ import FaqCategory from "./FaqCategory";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 const FaqCategoryList = props => {
-  const { faqCategoryList, admin, expandFaq, collapseFaq } = props;
+  const {
+    faqCategoryList,
+    admin,
+    expandFaq,
+    collapseFaq,
+    deleteCategory,
+    deleteFaq
+  } = props;
 
   return (
     <Droppable droppableId="a" type="category">
@@ -26,6 +33,8 @@ const FaqCategoryList = props => {
                       admin={admin}
                       expandFaq={expandFaq}
                       collapseFaq={collapseFaq}
+                      deleteFaq={deleteFaq}
+                      deleteCategory={deleteCategory}
                       dragHandleProps={provided.dragHandleProps}
                     />
                   </div>
@@ -46,7 +55,9 @@ FaqCategoryList.propTypes = {
   collapseFaq: PropTypes.func.isRequired,
   faqCategoryList: PropTypes.array.isRequired,
   moveCategory: PropTypes.func,
-  moveFaq: PropTypes.func
+  moveFaq: PropTypes.func,
+  deleteCategory: PropTypes.func,
+  deleteFaq: PropTypes.func
 };
 
 export default FaqCategoryList;
