@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import * as faqService from "../../services/faq.service";
 import * as faqCategoryService from "../../services/faqCategory.service";
@@ -136,71 +136,73 @@ const FaqView = props => {
   };
 
   const handleDragEnd = result => {
-    console.error(result);
     const { type, destination, source } = result;
 
-    if (!destination) {
-      return;
-    }
-
     if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
+      !destination ||
+      (destination.droppableId === source.droppableId &&
+        destination.index === source.index)
     ) {
       return;
     }
 
-    if (type === "faq") {
-      if (destination.droppableId === source.droppableId) {
-        setFaqCategoryList(prevState => {
-          const categoryIndex = prevState.findIndex(
-            c => "c" + c.id === result.source.droppableId
-          );
-          const faqs = Array.from(prevState[categoryIndex].faqs);
-          const sourceFaq = faqs.splice(source.index, 1);
-          faqs.splice(destination.index, 0, sourceFaq[0]);
-          const newCategory = { ...prevState[categoryIndex], faqs };
-          const newState = [...prevState];
-          newState[categoryIndex] = newCategory;
-          return newState;
-        });
-      } else {
-        setFaqCategoryList(prevState => {
-          const sourceCategoryIndex = prevState.findIndex(
-            c => "c" + c.id === result.source.droppableId
-          );
-          const destinationCategoryIndex = prevState.findIndex(
-            c => "c" + c.id === result.destination.droppableId
-          );
-          const sourceFaqs = Array.from(prevState[sourceCategoryIndex].faqs);
-          const sourceFaq = sourceFaqs.splice(source.index, 1);
-          const destinationFaqs = Array.from(
-            prevState[destinationCategoryIndex].faqs
-          );
-          destinationFaqs.splice(destination.index, 0, sourceFaq[0]);
-          const newSourceCategory = {
-            ...prevState[sourceCategoryIndex],
-            faqs: sourceFaqs
-          };
-          const newDestinationCategory = {
+    setFaqCategoryList(prevState => {
+      const newState = [...prevState];
+
+      if (type === "faq") {
+        const sourceCategoryIndex = prevState.findIndex(
+          c => "c" + c.id === result.source.droppableId
+        );
+        const destinationCategoryIndex = prevState.findIndex(
+          c => "c" + c.id === result.destination.droppableId
+        );
+
+        const sourceFaqs = [...prevState[sourceCategoryIndex].faqs];
+        const [draggedFaq] = sourceFaqs.splice(source.index, 1);
+
+        newState[sourceCategoryIndex] = {
+          ...prevState[sourceCategoryIndex],
+          faqs: sourceFaqs
+        };
+
+        if (destination.droppableId === source.droppableId) {
+          const newFaqs = [...sourceFaqs];
+          newFaqs.splice(destination.index, 0, draggedFaq);
+          newState[sourceCategoryIndex].faqs = newFaqs;
+        } else {
+          const destinationFaqs = [...prevState[destinationCategoryIndex].faqs];
+          destinationFaqs.splice(destination.index, 0, draggedFaq);
+
+          newState[destinationCategoryIndex] = {
             ...prevState[destinationCategoryIndex],
             faqs: destinationFaqs
           };
-          const newState = [...prevState];
-          newState[sourceCategoryIndex] = newSourceCategory;
-          newState[destinationCategoryIndex] = newDestinationCategory;
-          return newState;
-        });
+        }
+      } else if (type === "category") {
+        const [draggedCategory] = newState.splice(source.index, 1);
+        newState.splice(destination.index, 0, draggedCategory);
       }
-    } else if (type === "category") {
-      setFaqCategoryList(prevState => {
-        const newState = [...prevState];
-        const sourceCategory = newState.splice(source.index, 1);
-        newState.splice(destination.index, 0, sourceCategory[0]);
-        return newState;
-      });
-    }
+
+      return newState;
+    });
   };
+
+  const handleDeleteCategory = useCallback(category => {
+    setFaqCategoryList(prevState =>
+      prevState.filter(item => item.id !== category.id)
+    );
+  }, []);
+
+  const handleDeleteFaq = useCallback(faq => {
+    const updatedCategoryList = faqCategoryList.map(category => {
+      const updatedCategory = { ...category };
+      updatedCategory.faqs = updatedCategory.faqs.filter(
+        item => item.id !== faq.id
+      );
+      return updatedCategory;
+    });
+    setFaqCategoryList(updatedCategoryList);
+  }, []);
 
   return (
     <ContentContainer componentToTrack="FaqPage">
@@ -220,6 +222,8 @@ const FaqView = props => {
             expandFaq={expandFaq}
             collapseFaq={collapseFaq}
             setFaqCategoryList={setFaqCategoryList}
+            deleteCategory={handleDeleteCategory}
+            deleteFaq={handleDeleteFaq}
           />
         </DragDropContext>
       </div>
