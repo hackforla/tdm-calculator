@@ -60,6 +60,7 @@ const FaqCategory = props => {
       question: null,
       answer: null,
       displayOrder: 0,
+      expand: true,
       faqCategoryId: { categoryId }
     };
     setEditedCategory(prevState => ({
