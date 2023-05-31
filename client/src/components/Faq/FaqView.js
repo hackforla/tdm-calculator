@@ -15,18 +15,19 @@ const FaqView = props => {
     faqCategoryList,
     expandFaq,
     collapseFaq,
-    expandAll,
     handleAdminChange,
-    collapseAll,
     handleDragEnd,
     handleDeleteCategory,
     handleDeleteFaq,
-    handleSetCategories
+    handleSetCategories,
+    expanded,
+    toggleExpandCollapse
   } = useFaqViewLogic(
     props.toggleChecklistModal,
     props.checklistModalOpen,
     props.match
   );
+
   return (
     <ContentContainer componentToTrack="FaqPage">
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
@@ -36,7 +37,10 @@ const FaqView = props => {
           onClick={handleAdminChange}
         />
         <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
-        <ExpandButtons expandAll={expandAll} collapseAll={collapseAll} />
+        <ExpandButtons
+          expanded={expanded}
+          toggleExpandCollapse={toggleExpandCollapse}
+        />
         {admin ? <FaqAdd /> : null}
         <DragDropContext onDragEnd={handleDragEnd}>
           <FaqCategoryList

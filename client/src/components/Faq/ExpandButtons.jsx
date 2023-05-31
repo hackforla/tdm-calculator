@@ -17,19 +17,6 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column"
   },
-  expandAllButton: {
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
-  },
-  collapseAllButton: {
-    marginRight: "1em",
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
-  },
   faqCarotIcon: {
     fontSize: "14px",
     margin: "-2px"
@@ -37,41 +24,30 @@ const useStyles = createUseStyles({
   expandCollapseAll: {
     display: "flex",
     margin: "5px"
+  },
+  toggleButton: {
+    marginRight: "1em",
+    backgroundColor: "transparent",
+    border: "0",
+    cursor: "pointer",
+    textDecoration: "underline"
   }
 });
 
-const ExpandButtons = props => {
+const ExpandButtons = ({ expanded, toggleExpandCollapse }) => {
   const classes = useStyles();
-  const { expandAll, collapseAll } = props;
 
   return (
     <div className={classes.expandCollapseFlexContainer}>
       <div className={classes.expandCollapseAll}>
         <div className={classes.faqExpandIcons}>
-          <FontAwesomeIcon icon={faAngleUp} className={classes.faqCarotIcon} />
           <FontAwesomeIcon
-            icon={faAngleDown}
+            icon={expanded ? faAngleUp : faAngleDown}
             className={classes.faqCarotIcon}
           />
         </div>
-        <button
-          className={classes.expandAllButton}
-          // data-testid="resetProject"
-          onClick={expandAll}
-        >
-          Expand All
-        </button>
-      </div>
-      <div className={classes.expandCollapseAll}>
-        <div className={classes.faqExpandIcons}>
-          <FontAwesomeIcon
-            icon={faAngleDown}
-            className={classes.faqCarotIcon}
-          />
-          <FontAwesomeIcon icon={faAngleUp} className={classes.faqCarotIcon} />
-        </div>
-        <button className={classes.collapseAllButton} onClick={collapseAll}>
-          Collapse All
+        <button className={classes.toggleButton} onClick={toggleExpandCollapse}>
+          {expanded ? "Collapse All" : "Expand All"}
         </button>
       </div>
     </div>
@@ -79,8 +55,8 @@ const ExpandButtons = props => {
 };
 
 ExpandButtons.propTypes = {
-  expandAll: PropTypes.func.isRequired,
-  collapseAll: PropTypes.func.isRequired
+  expanded: PropTypes.bool.isRequired,
+  toggleExpandCollapse: PropTypes.func.isRequired
 };
 
 export default ExpandButtons;

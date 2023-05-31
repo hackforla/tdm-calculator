@@ -6,6 +6,7 @@ const useFaqViewLogic = (toggleChecklistModal, checklistModalOpen, match) => {
   const [admin, setAdmin] = useState(false);
   const [faqCategoryList, setFaqCategoryList] = useState([]);
   const [faqCategoryListOriginal, setFaqCategoryListOriginal] = useState([]);
+  const [expanded, setExpanded] = useState(false);
   const [showChecklist, setShowChecklist] = useState(
     match.params.showChecklist || false
   );
@@ -75,17 +76,6 @@ const useFaqViewLogic = (toggleChecklistModal, checklistModalOpen, match) => {
     });
   };
 
-  const expandAll = () => {
-    setFaqCategoryList(prevState => {
-      return prevState.map(cat => {
-        return {
-          ...cat,
-          faqs: cat.faqs.map(faq => ({ ...faq, expand: true }))
-        };
-      });
-    });
-  };
-
   const handleAdminChange = () => {
     if (admin) {
       if (
@@ -100,12 +90,13 @@ const useFaqViewLogic = (toggleChecklistModal, checklistModalOpen, match) => {
     }
   };
 
-  const collapseAll = () => {
+  const toggleExpandCollapse = () => {
+    setExpanded(prevExpanded => !prevExpanded);
     setFaqCategoryList(prevState => {
       return prevState.map(cat => {
         return {
           ...cat,
-          faqs: cat.faqs.map(faq => ({ ...faq, expand: false }))
+          faqs: cat.faqs.map(faq => ({ ...faq, expand: !expanded }))
         };
       });
     });
@@ -189,9 +180,9 @@ const useFaqViewLogic = (toggleChecklistModal, checklistModalOpen, match) => {
     faqCategoryList,
     expandFaq,
     collapseFaq,
-    expandAll,
+    expanded,
+    toggleExpandCollapse,
     handleAdminChange,
-    collapseAll,
     handleDragEnd,
     handleDeleteCategory,
     handleDeleteFaq,

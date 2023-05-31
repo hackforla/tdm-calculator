@@ -2,7 +2,11 @@ import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrashAlt,
+  faChevronDown,
+  faChevronUp
+} from "@fortawesome/free-solid-svg-icons";
 import { faGripHorizontal } from "@fortawesome/free-solid-svg-icons";
 
 import Quill from "../Quill";
@@ -142,13 +146,13 @@ const Faq = props => {
           {faq.expand ? (
             <FontAwesomeIcon
               style={{ cursor: "pointer" }}
-              icon={faMinus}
+              icon={faChevronUp}
               onClick={() => handleCollapseFaq(faq)}
             />
           ) : (
             <FontAwesomeIcon
               style={{ cursor: "pointer" }}
-              icon={faPlus}
+              icon={faChevronDown}
               onClick={() => handleExpandFaq(faq)}
             />
           )}
