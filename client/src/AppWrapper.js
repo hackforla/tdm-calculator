@@ -3,7 +3,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import UserContext from "./contexts/UserContext";
 import App from "./App";
 import ErrorPage from "./components/ErrorPage";
-import NavConfirmModal from "./components/NavConfirmModal";
+// import NavConfirmModal from "./components/NavConfirmModal";
+import ApplicationModal from "./components/Modal/ApplicationModal";
 import {
   AppInsightsContext,
   AppInsightsErrorBoundary
@@ -82,11 +83,17 @@ const AppWrapper = () => {
               onError={<ErrorPage />}
               appInsights={reactPlugin}
             >
-              <NavConfirmModal
+              {/* <NavConfirmModal
                 confirmTransition={confirmTransition}
                 isOpenNavConfirmModal={isOpenNavConfirmModal}
                 setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
-              />
+              /> */}
+              <ApplicationModal
+                modalType={"NavConfirm"}
+                ModalState={isOpenNavConfirmModal}
+                toggleModalState={setIsOpenNavConfirmModal}
+                buttonTwoFunction={confirmTransition}
+              ></ApplicationModal>
               <App
                 account={account}
                 hasConfirmedTransition={hasConfirmedTransition}

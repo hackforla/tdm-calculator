@@ -71,11 +71,10 @@ const ApplicationModal = props => {
   const classes = useStyles();
 
   console.log("APPLICATON MODAL STATE", ModalState);
-  let tempState = true;
 
   return (
     <Modal
-      isOpen={tempState}
+      isOpen={ModalState}
       onRequestClose={toggleModalState}
       contentLabel="Inapplicable Strategies"
       overlayClassName={classes.overlay}
