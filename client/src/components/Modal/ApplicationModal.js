@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import Button from "../Button/Button";
@@ -44,30 +44,21 @@ const useStyles = createUseStyles({
 });
 const ApplicationModal = props => {
   const {
-    inapplicableStrategiesModal,
-    closeStrategiesModal,
-    modalType
+    modalType,
     // title,
     // text,
     // icon,
-    // buttonOne,
-    // buttonTwo
+    buttonOneFunction,
+    buttonTwoFunction,
+    ModalState,
+    toggleModalState
   } = props;
 
-  const [modalOpen, setModalOpen] = useState(true);
-
   useEffect(() => {
-    // setModalOpen(inapplicableStrategiesModal);
-    console.log(inapplicableStrategiesModal);
-    console.log("ModalType", modalType);
-    console.log("ModalType", ModalData[modalType]);
-
-    setModalOpen(true);
-
     const keyDownHandler = event => {
       if (event.key === "Escape") {
         event.preventDefault();
-        setModalOpen(false);
+        toggleModalState(false);
       }
     };
 
@@ -79,72 +70,60 @@ const ApplicationModal = props => {
 
   const classes = useStyles();
 
+  console.log("APPLICATON MODAL STATE", ModalState);
+  let tempState = true;
+
   return (
     <Modal
-      isOpen={modalOpen}
-      onRequestClose={closeStrategiesModal}
+      isOpen={tempState}
+      onRequestClose={toggleModalState}
       contentLabel="Inapplicable Strategies"
       overlayClassName={classes.overlay}
       className={classes.content}
       shouldFocusAfterRender={false}
     >
       <div className={classes.deselectedWrapper}>
-        <FontAwesomeIcon
-          icon={faTriangleExclamation}
-          style={{ color: "#E46247", height: "80px" }}
-          alt="Warning"
-        />
+        {ModalData[modalType].icon ? (
+          <FontAwesomeIcon
+            icon={faTriangleExclamation}
+            style={{ color: "#E46247", height: "80px" }}
+            alt="Warning"
+          />
+        ) : null}
         {ModalData[modalType].text ? (
           <h2 className={classes.deselectedAlign}>
             {ModalData[modalType].text}
           </h2>
         ) : null}
-        {ModalData[modalType].nestedComponent ? (
-          <Button
-            color="colorDeselect"
-            id="modalProceed"
-            data-testid="transitionProceed"
-            onClick={closeStrategiesModal}
-          >
-            {ModalData[modalType].buttonTwo}
-          </Button>
-        ) : null}
       </div>
       <div className={classes.modalActions}>
-        <Button
-          color="colorDeselect"
-          id="modalProceed"
-          data-testid="transitionProceed"
-          onClick={closeStrategiesModal}
-        >
-          Okay
-        </Button>
+        {ModalData[modalType].buttonOne ? (
+          //First Button
+          <Button
+            color="colorDeselect"
+            id="modalProceed"
+            data-testid="transitionProceed"
+            onClick={() => {
+              if (buttonOneFunction) {
+                buttonOneFunction();
+              } else {
+                console.log("TEST");
+                toggleModalState();
+              }
+            }}
+          >
+            {ModalData[modalType].buttonOne}
+          </Button>
+        ) : null}
         {ModalData[modalType].buttonTwo ? (
+          //Second Button
           <Button
             color="colorDeselect"
             id="modalProceed"
             data-testid="transitionProceed"
-            onClick={closeStrategiesModal}
-          >
-            {ModalData[modalType].buttonTwo}
-          </Button>
-        ) : null}
-        {ModalData[modalType].icon ? (
-          <Button
-            color="colorDeselect"
-            id="modalProceed"
-            data-testid="transitionProceed"
-            onClick={closeStrategiesModal}
-          >
-            {ModalData[modalType].buttonTwo}
-          </Button>
-        ) : null}
-        {ModalData[modalType].input ? (
-          <Button
-            color="colorDeselect"
-            id="modalProceed"
-            data-testid="transitionProceed"
-            onClick={closeStrategiesModal}
+            onClick={() => {
+              buttonTwoFunction();
+            }}
           >
             {ModalData[modalType].buttonTwo}
           </Button>
@@ -155,9 +134,11 @@ const ApplicationModal = props => {
 };
 
 ApplicationModal.propTypes = {
-  inapplicableStrategiesModal: PropTypes.bool.isRequired,
-  closeStrategiesModal: PropTypes.func,
-  modalType: PropTypes.string
+  modalType: PropTypes.string,
+  buttonOneFunction: PropTypes.func,
+  buttonTwoFunction: PropTypes.func,
+  toggleModalState: PropTypes.func,
+  ModalState: PropTypes.bool
 };
 
 // Modal.propTypes = {

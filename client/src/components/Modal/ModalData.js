@@ -2,12 +2,13 @@ export default {
   Inapplicable: {
     title: "",
     text: "Due to changes made to the project specifications, one or more TDM strategies are no longer applicable and have been automatically de-selected",
+    icon: "warning",
     buttonOne: "Okay"
   },
   NavConfirm: {
     title: "Leave page and delete unsaved data?",
     text: "This will permanently delete any unsaved projects or changes to project.",
-    icon: "test",
+    icon: "warning",
     buttonOne: "Cancel",
     buttonTwo: "Proceed"
   },
@@ -17,6 +18,7 @@ export default {
     text: "Are you sure you want to permanently delete this project,&nbsp;",
     buttonOne: "Cancel",
     buttonTwo: "Delete"
+    //logic for delete is in parent. (34)
   },
   DuplicateProjectModal: {
     title: "Type a new name to duplicate the project,&nbsp;",
@@ -59,3 +61,5 @@ export default {
 // checklistModalOpen={checklistModalOpen}
 // toggleChecklistModal={toggleChecklistModal}
 //Component DeleteProjectModal
+
+//inapplicableStrategiesModal replaced

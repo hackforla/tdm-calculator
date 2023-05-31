@@ -179,9 +179,9 @@ const TdmCalculationWizard = props => {
         closeStrategiesModal={closeStrategiesModal}
       /> */}
       <ApplicationModal
-        inapplicableStrategiesModal={inapplicableStrategiesModal}
-        closeStrategiesModal={closeStrategiesModal}
         modalType={"Inapplicable"}
+        ModalState={inapplicableStrategiesModal}
+        toggleModalState={closeStrategiesModal}
       ></ApplicationModal>
       <ChecklistModal
         checklistModalOpen={checklistModalOpen}
