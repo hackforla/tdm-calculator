@@ -5,7 +5,7 @@ import SaveButton from "../Button/SaveButton";
 import { createUseStyles } from "react-jss";
 import DownloadButton from "../Button/DownloadButton";
 import ReactToPrint from "react-to-print";
-import { Pdf } from "../Pdf/Pdf";
+import { Pdf } from "../PDF/PDF";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {

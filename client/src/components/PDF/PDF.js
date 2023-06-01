@@ -14,7 +14,7 @@ import ProjectInfo from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfo
 import ProjectInfoList from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfoList";
 import PdfResult from "./PdfResult";
 import PdfFooter from "./PdfFooter";
-import logo from "../../images/ladot_white.png";
+import logo from "../../images/ladot.png";
 
 const useStyles = createUseStyles({
   Pdf: {
@@ -71,10 +71,12 @@ const useStyles = createUseStyles({
     padding: "12px"
   },
   logo: {
-    height: "2em",
-    width: "20%",
-    padding: "10",
-    backgroundColor: "rgb(0,47,113)"
+    height: "1.5em",
+    width: "15%",
+    padding: "0",
+    backgroundColor: "#FFFFFF",
+    marginBottom: "-0.25em"
+    //backgroundColor: "rgb(0,47,113)"
   },
   projectInfoDetailsContainer: {
     paddingTop: "20px",
