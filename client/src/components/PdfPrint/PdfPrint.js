@@ -14,7 +14,7 @@ import ProjectInfo from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfo
 import ProjectInfoList from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfoList";
 import PdfResult from "./PdfResult";
 import PdfFooter from "./PdfFooter";
-import logo from "../../images/ladot.png";
+import logo from "../../images/ladot_white.png";
 
 const useStyles = createUseStyles({
   Pdf: {
@@ -71,12 +71,10 @@ const useStyles = createUseStyles({
     padding: "12px"
   },
   logo: {
-    height: "1.5em",
-    width: "15%",
-    padding: "0",
-    backgroundColor: "#FFFFFF",
-    marginBottom: "-0.25em"
-    //backgroundColor: "rgb(0,47,113)"
+    height: "2em",
+    width: "20%",
+    padding: "10",
+    backgroundColor: "rgb(0,47,113)"
   },
   projectInfoDetailsContainer: {
     paddingTop: "20px",
@@ -101,7 +99,7 @@ const useStyles = createUseStyles({
 });
 
 // eslint-disable-next-line react/display-name
-export const Pdf = forwardRef((props, ref) => {
+export const PdfPrint = forwardRef((props, ref) => {
   const classes = useStyles();
   const { rules, dateModified } = props;
 
@@ -170,7 +168,9 @@ export const Pdf = forwardRef((props, ref) => {
           {projectAddress && (
             <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
           )}
-          <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
+          {parcelNumbers.value ? (
+            <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
+          ) : null}
           {buildingPermit && (
             <ProjectInfo name={buildingPermit.name} rule={buildingPermit} />
           )}
@@ -282,7 +282,7 @@ export const Pdf = forwardRef((props, ref) => {
     </div>
   );
 });
-Pdf.propTypes = {
+PdfPrint.propTypes = {
   rules: PropTypes.array,
   account: PropTypes.object,
   projectId: PropTypes.number,

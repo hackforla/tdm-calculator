@@ -19,7 +19,7 @@ import DeleteProjectModal from "./DeleteProjectModal";
 import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import ReactToPrint from "react-to-print";
-import { Pdf } from "../Pdf/Pdf";
+import { PdfPrint } from "../PdfPrint/PdfPrint";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -431,7 +431,7 @@ const ProjectsPage = ({
                           content={() => componentRef.current}
                         />
                         <div style={{ display: "none" }}>
-                          <Pdf
+                          <PdfPrint
                             ref={componentRef}
                             rules={rules}
                             dateModified={dateModified}
