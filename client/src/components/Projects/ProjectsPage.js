@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -6,7 +6,11 @@ import * as projectService from "../../services/project.service";
 import moment from "moment";
 import { useToast } from "../../contexts/Toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSortUp,
+  faSortDown,
+  faPrint
+} from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 import CopyIcon from "../../images/copy.png";
 import DeleteIcon from "../../images/trash.png";
@@ -14,6 +18,8 @@ import Pagination from "../Pagination.js";
 import DeleteProjectModal from "./DeleteProjectModal";
 import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
+import ReactToPrint from "react-to-print";
+import { PdfPrint } from "../PdfPrint/PdfPrint";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -66,6 +72,11 @@ const useStyles = createUseStyles({
     marginLeft: "8px",
     verticalAlign: "baseline"
   },
+  printIcon: {
+    verticalAlign: "baseline",
+    opacity: ".4",
+    height: "20px"
+  },
   tbody: {
     background: "#F9FAFB",
     "& tr": {
@@ -88,7 +99,10 @@ const useStyles = createUseStyles({
     width: "auto",
     "& button": {
       border: "none",
-      backgroundColor: "transparent"
+      backgroundColor: "transparent",
+      "&:hover": {
+        cursor: "pointer"
+      }
     }
   },
   tableContainer: {
@@ -98,7 +112,13 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectsPage = ({ account, history, contentContainerRef }) => {
+const ProjectsPage = ({
+  account,
+  history,
+  contentContainerRef,
+  rules,
+  dateModified
+}) => {
   const [projects, setProjects] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
@@ -289,6 +309,8 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
     indexOfLastPost
   );
 
+  const componentRef = useRef();
+
   return (
     <ContentContainerNoSidebar
       componentToTrack="ProjectsPage"
@@ -396,6 +418,25 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
                             alt={`Duplicate Project #${project.id} Icon`}
                           />
                         </button>
+                        <ReactToPrint
+                          trigger={() => (
+                            <button>
+                              <FontAwesomeIcon
+                                icon={faPrint}
+                                className={classes.printIcon}
+                                alt={`Duplicate Project #${project.id} Icon`}
+                              />
+                            </button>
+                          )}
+                          content={() => componentRef.current}
+                        />
+                        <div style={{ display: "none" }}>
+                          <PdfPrint
+                            ref={componentRef}
+                            rules={rules}
+                            dateModified={dateModified}
+                          />
+                        </div>
                         <button onClick={() => toggleDeleteModal(project)}>
                           <img
                             src={DeleteIcon}
@@ -464,7 +505,9 @@ ProjectsPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }),
-  contentContainerRef: PropTypes.object
+  contentContainerRef: PropTypes.object,
+  rules: PropTypes.array,
+  dateModified: PropTypes.string || null
 };
 
 export default withRouter(ProjectsPage);

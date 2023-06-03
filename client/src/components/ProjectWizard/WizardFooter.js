@@ -5,7 +5,7 @@ import SaveButton from "../Button/SaveButton";
 import { createUseStyles } from "react-jss";
 import DownloadButton from "../Button/DownloadButton";
 import ReactToPrint from "react-to-print";
-import { Pdf } from "../PDF/PDF";
+import { PdfPrint } from "../PdfPrint/PdfPrint";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -85,7 +85,7 @@ const WizardFooter = ({
               content={() => componentRef.current}
             />
             <div style={{ display: "none" }}>
-              <Pdf
+              <PdfPrint
                 ref={componentRef}
                 rules={rules}
                 dateModified={dateModified}
