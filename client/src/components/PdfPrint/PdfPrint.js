@@ -74,8 +74,7 @@ const useStyles = createUseStyles({
     height: "1.5em",
     marginBottom: "-.25em",
     padding: 0,
-    backgroundColor: "#FFFFFF",
-    border: "1px solid black"
+    backgroundColor: "#FFFFFF"
   },
   projectInfoDetailsContainer: {
     paddingTop: "20px",
