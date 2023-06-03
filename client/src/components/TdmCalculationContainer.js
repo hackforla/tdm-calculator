@@ -139,7 +139,15 @@ export function TdmCalculationContainer({
       }
     };
     initiateEngine();
-  }, [match.params.projectId, engine, account, history, triggerInitiateEngine]);
+  }, [
+    match.params.projectId,
+    engine,
+    account,
+    history,
+    triggerInitiateEngine,
+    setRules,
+    setDateModified
+  ]);
 
   const closeStrategiesModal = () => {
     setInapplicableStrategiesModal(!inapplicableStrategiesModal);

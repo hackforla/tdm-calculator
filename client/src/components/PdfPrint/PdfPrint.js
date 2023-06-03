@@ -14,7 +14,7 @@ import ProjectInfo from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfo
 import ProjectInfoList from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfoList";
 import PdfResult from "./PdfResult";
 import PdfFooter from "./PdfFooter";
-import logo from "../../images/ladot_white.png";
+import logo from "../../images/ladot.png";
 
 const useStyles = createUseStyles({
   Pdf: {
@@ -71,10 +71,11 @@ const useStyles = createUseStyles({
     padding: "12px"
   },
   logo: {
-    height: "2em",
-    width: "20%",
-    padding: "10",
-    backgroundColor: "rgb(0,47,113)"
+    height: "1.5em",
+    marginBottom: "-.25em",
+    padding: 0,
+    backgroundColor: "#FFFFFF",
+    border: "1px solid black"
   },
   projectInfoDetailsContainer: {
     paddingTop: "20px",
@@ -147,7 +148,7 @@ export const PdfPrint = forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className={clsx("tdm-wizard-review-page", classes.Pdf)}>
-      <h1 className="tdm-pdf-page-title">
+      <h1>
         <img
           className={classes.logo}
           src={logo}
