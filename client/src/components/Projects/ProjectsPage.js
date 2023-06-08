@@ -14,6 +14,7 @@ import Pagination from "../Pagination.js";
 import DeleteProjectModal from "./DeleteProjectModal";
 import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
+import ApplicationModal from "./../../components/Modal/ApplicationModal";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -442,6 +443,12 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
             setDeleteModalOpen={setDeleteModalOpen}
             deleteModalOpen={deleteModalOpen}
           />
+          <ApplicationModal
+            modalType={"DeleteProjectModal"}
+            // ModalState={isOpenNavConfirmModal}
+            // toggleModalState={setIsOpenNavConfirmModal}
+            // buttonTwoFunction={confirmTransition}
+          ></ApplicationModal>
         </>
       )}
     </ContentContainerNoSidebar>

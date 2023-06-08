@@ -12,7 +12,7 @@ import Footer from "./components/Footer";
 import About from "./components/About";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
 import TermsAndConditionsModal from "./components/TermsAndConditions/TermsAndConditionsModal";
-import ChecklistModal from "./components/Checklist/ChecklistModal";
+// import ChecklistModal from "./components/Checklist/ChecklistModal";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
@@ -27,6 +27,7 @@ import ForgotPassword from "./components/Authorization/ForgotPassword";
 import "./styles/App.scss";
 import PublicComment from "./components/PublicComment/PublicCommentPage";
 import Sidebar from "./components/Sidebar";
+import ApplicationModal from "./components/Modal/ApplicationModal";
 
 const useStyles = createUseStyles({
   app: {
@@ -55,10 +56,15 @@ const App = ({
   return (
     <React.Fragment>
       <TermsAndConditionsModal />
-      <ChecklistModal
+      {/* <ChecklistModal
         checklistModalOpen={checklistModalOpen}
         toggleChecklistModal={toggleChecklistModal}
-      />
+      /> */}
+      <ApplicationModal
+        modalType={"Checklist"}
+        ModalState={checklistModalOpen}
+        toggleModalState={toggleChecklistModal}
+      ></ApplicationModal>
       <Header />
       <div className={classes.app} id="app-container" ref={appContainerRef}>
         <Switch>

@@ -50,6 +50,8 @@ const ApplicationModal = props => {
     // icon,
     buttonOneFunction,
     buttonTwoFunction,
+    buttonOneParameter,
+    buttonTwoParameter,
     ModalState,
     toggleModalState
   } = props;
@@ -69,8 +71,6 @@ const ApplicationModal = props => {
   }, []);
 
   const classes = useStyles();
-
-  console.log("APPLICATON MODAL STATE", ModalState);
 
   return (
     <Modal
@@ -104,9 +104,12 @@ const ApplicationModal = props => {
             data-testid="transitionProceed"
             onClick={() => {
               if (buttonOneFunction) {
-                buttonOneFunction();
+                if (buttonOneParameter) {
+                  buttonOneFunction(buttonOneParameter);
+                } else {
+                  buttonOneFunction();
+                }
               } else {
-                console.log("TEST");
                 toggleModalState();
               }
             }}
@@ -121,7 +124,11 @@ const ApplicationModal = props => {
             id="modalProceed"
             data-testid="transitionProceed"
             onClick={() => {
-              buttonTwoFunction();
+              if (buttonTwoParameter) {
+                buttonTwoFunction(buttonTwoParameter);
+              } else {
+                buttonTwoFunction();
+              }
             }}
           >
             {ModalData[modalType].buttonTwo}
@@ -136,6 +143,8 @@ ApplicationModal.propTypes = {
   modalType: PropTypes.string,
   buttonOneFunction: PropTypes.func,
   buttonTwoFunction: PropTypes.func,
+  buttonOneParameter: PropTypes.any,
+  buttonTwoParameter: PropTypes.any,
   toggleModalState: PropTypes.func,
   ModalState: PropTypes.bool
 };

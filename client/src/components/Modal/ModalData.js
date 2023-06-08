@@ -4,6 +4,7 @@ export default {
     text: "Due to changes made to the project specifications, one or more TDM strategies are no longer applicable and have been automatically de-selected",
     icon: "warning",
     buttonOne: "Okay"
+    //IMPLEMENTED
   },
   NavConfirm: {
     title: "Leave page and delete unsaved data?",
@@ -11,6 +12,7 @@ export default {
     icon: "warning",
     buttonOne: "Cancel",
     buttonTwo: "Proceed"
+    //IMPLEMENTED
   },
   //ProjectAction contains Delete and duplicate Modals
   DeleteProjectModal: {
@@ -19,6 +21,7 @@ export default {
     buttonOne: "Cancel",
     buttonTwo: "Delete"
     //logic for delete is in parent. (34)
+    //In Progress
   },
   DuplicateProjectModal: {
     title: "Type a new name to duplicate the project,&nbsp;",
@@ -26,6 +29,7 @@ export default {
     input: "",
     buttonOne: "Cancel",
     buttonTwo: "Submit"
+    //In Progress
   },
   TermsAndConditions: {
     title: "TDM Calculator User Terms and Conditions",
@@ -34,10 +38,11 @@ export default {
     buttonOne: "Accept",
     buttonTwo: "Decline and exit site"
   },
-  ChecklistModal: {
+  Checklist: {
     title: "TESTTITLE",
     text: "TESTTEXT",
     nestedComponent: ""
+    //Replaced
   }
 };
 
