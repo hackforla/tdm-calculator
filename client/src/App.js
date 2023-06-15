@@ -28,6 +28,7 @@ import "./styles/App.scss";
 import PublicComment from "./components/PublicComment/PublicCommentPage";
 import Sidebar from "./components/Sidebar";
 import ApplicationModal from "./components/Modal/ApplicationModal";
+import ChecklistContent from "./components/Checklist/ChecklistContent";
 
 const useStyles = createUseStyles({
   app: {
@@ -64,6 +65,7 @@ const App = ({
         modalType={"Checklist"}
         ModalState={checklistModalOpen}
         toggleModalState={toggleChecklistModal}
+        extendedContent={ChecklistContent}
       ></ApplicationModal>
       <Header />
       <div className={classes.app} id="app-container" ref={appContainerRef}>

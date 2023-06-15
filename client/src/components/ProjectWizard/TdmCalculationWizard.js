@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { withRouter, useLocation } from "react-router-dom";
 import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
-import ChecklistModal from "../Checklist/ChecklistModal";
+// import ChecklistModal from "../Checklist/ChecklistModal";
 import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainer from "../Layout/ContentContainer";
 // import InapplicableStrategiesModal from "../InapplicableStrategiesModal";
 import ApplicationModal from "../Modal/ApplicationModal";
+import ChecklistContent from "../Modal/ExtendedModalText/ChecklistContent";
 
 const TdmCalculationWizard = props => {
   const {
@@ -171,6 +172,8 @@ const TdmCalculationWizard = props => {
     setAINInputError(error);
   };
 
+  console.log(checklistModalOpen);
+
   return (
     <React.Fragment>
       <TermsAndConditionsModal />
@@ -183,10 +186,16 @@ const TdmCalculationWizard = props => {
         ModalState={inapplicableStrategiesModal}
         toggleModalState={closeStrategiesModal}
       ></ApplicationModal>
-      <ChecklistModal
+      <ApplicationModal
+        modalType={"Checklist"}
+        ModalState={true}
+        toggleModalState={toggleChecklistModal}
+        extendedContent={<ChecklistContent></ChecklistContent>}
+      ></ApplicationModal>
+      {/* <ChecklistModal
         checklistModalOpen={checklistModalOpen}
         toggleChecklistModal={toggleChecklistModal}
-      />
+      /> */}
       <ContentContainer
         customSidebar={() => (
           <WizardSidebar

@@ -53,7 +53,8 @@ const ApplicationModal = props => {
     buttonOneParameter,
     buttonTwoParameter,
     ModalState,
-    toggleModalState
+    toggleModalState,
+    extendedContent
   } = props;
 
   useEffect(() => {
@@ -135,6 +136,7 @@ const ApplicationModal = props => {
           </Button>
         ) : null}
       </div>
+      {extendedContent}
     </Modal>
   );
 };
@@ -146,7 +148,8 @@ ApplicationModal.propTypes = {
   buttonOneParameter: PropTypes.any,
   buttonTwoParameter: PropTypes.any,
   toggleModalState: PropTypes.func,
-  ModalState: PropTypes.bool
+  ModalState: PropTypes.bool,
+  extendedContent: PropTypes.any
 };
 
 // Modal.propTypes = {

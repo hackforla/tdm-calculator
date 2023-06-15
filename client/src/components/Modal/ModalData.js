@@ -34,14 +34,12 @@ export default {
   TermsAndConditions: {
     title: "TDM Calculator User Terms and Conditions",
     text: ``,
-    nestedComponent: "",
     buttonOne: "Accept",
     buttonTwo: "Decline and exit site"
   },
   Checklist: {
     title: "TESTTITLE",
-    text: "TESTTEXT",
-    nestedComponent: ""
+    text: "TESTTEXT"
     //Replaced
   }
 };
