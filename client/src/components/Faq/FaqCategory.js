@@ -40,42 +40,55 @@ const FaqCategory = props => {
     expandFaq,
     collapseFaq,
     dragHandleProps,
-    deleteCategory,
-    deleteFaq
+    handleAddFAQ,
+    handleEditFAQ,
+    handleDeleteFAQ,
+    handleDeleteCategory
   } = props;
-  const [categoryEditMode, setCategoryEditMode] = useState(false);
-  const [editedCategory, setEditedCategory] = useState(category);
   const classes = useStyles();
+  const [categoryEditMode, setCategoryEditMode] = useState(!category.name);
+  const [categoryName, setCategoryName] = useState(category.name);
+  const [newQuestion, setNewQuestion] = useState("");
+  const [newAnswer, setNewAnswer] = useState("");
+  const [isNewFAQOpen, setIsNewFAQOpen] = useState(false);
 
-  const onCategoryChange = e => {
-    const name = e.target.value;
-    category.name = name;
-    setEditedCategory(prevState => ({ ...prevState, name }));
+  const handleCategoryNameChange = e => {
+    setCategoryName(e.target.value);
   };
 
-  const handleAddFaq = () => {
-    const categoryId = category.id;
-    const newFaq = {
-      id: -1000,
-      question: null,
-      answer: null,
-      displayOrder: 0,
-      expand: true,
-      faqCategoryId: { categoryId }
-    };
-    setEditedCategory(prevState => ({
-      ...prevState,
-      faqs: prevState.faqs.splice(1, 0, newFaq)
-    }));
+  const onEditFAQ = (faqId, question, answer) => {
+    handleEditFAQ(category.id, faqId, question, answer);
   };
 
-  const handleDeleteFaq = faq => {
-    deleteFaq(faq);
+  const onDeleteFAQ = faqId => {
+    handleDeleteFAQ(category.id, faqId);
   };
 
-  const handleDeleteCategory = () => {
-    // Call the deleteCategory function passed from FaqCategoryList component
-    deleteCategory(category);
+  const onDeleteCategory = () => {
+    handleDeleteCategory(category.id);
+  };
+
+  const handleNewQuestionChange = e => {
+    setNewQuestion(e.target.value);
+  };
+
+  const handleNewAnswerChange = e => {
+    setNewAnswer(e.target.value);
+  };
+
+  const handleOpenNewFAQ = () => {
+    setIsNewFAQOpen(true);
+  };
+
+  const handleCloseNewFAQ = () => {
+    setIsNewFAQOpen(false);
+    setNewQuestion("");
+    setNewAnswer("");
+  };
+
+  const handleSaveNewFAQ = () => {
+    handleAddFAQ(category.id, newQuestion, newAnswer);
+    handleCloseNewFAQ();
   };
 
   return (
@@ -95,9 +108,9 @@ const FaqCategory = props => {
                 marginRight: "2em",
                 padding: "0.3em 0"
               }}
-              value={editedCategory.name}
+              value={categoryName}
               name="name"
-              onChange={onCategoryChange}
+              onChange={handleCategoryNameChange}
               onBlur={() => {
                 setCategoryEditMode(false);
               }}
@@ -106,7 +119,7 @@ const FaqCategory = props => {
           </div>
         ) : (
           <h3
-            dangerouslySetInnerHTML={{ __html: `${category.name}` }}
+            dangerouslySetInnerHTML={{ __html: `${categoryName}` }}
             style={{
               fontWeight: "bold",
               marginTop: "0.5em"
@@ -138,7 +151,7 @@ const FaqCategory = props => {
                   color: "lightgray"
                 }}
                 icon={faTrashAlt}
-                onClick={handleDeleteCategory}
+                onClick={onDeleteCategory}
               />
             </>
           ) : null}
@@ -167,7 +180,8 @@ const FaqCategory = props => {
                         admin={admin}
                         expandFaq={expandFaq}
                         collapseFaq={collapseFaq}
-                        handleDeleteFaq={handleDeleteFaq}
+                        handleDeleteFAQ={onDeleteFAQ}
+                        handleEditFAQ={onEditFAQ}
                         dragHandleProps={provided.dragHandleProps}
                       />
                     </div>
@@ -175,13 +189,32 @@ const FaqCategory = props => {
                 </Draggable>
               );
             })}
+            {isNewFAQOpen && (
+              <div>
+                <input
+                  type="text"
+                  value={newQuestion}
+                  onChange={handleNewQuestionChange}
+                />
+                <input
+                  type="text"
+                  value={newAnswer}
+                  onChange={handleNewAnswerChange}
+                />
+                <button onClick={handleSaveNewFAQ}>Save New FAQ</button>
+                <button onClick={handleCloseNewFAQ}>Cancel</button>
+              </div>
+            )}
             {provided.placeholder}
           </div>
         )}
       </Droppable>
       {admin ? (
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button className={classes.addQuestionButton} onClick={handleAddFaq}>
+          <button
+            className={classes.addQuestionButton}
+            onClick={handleOpenNewFAQ}
+          >
             Add new question
           </button>
         </div>
@@ -204,7 +237,11 @@ FaqCategory.propTypes = {
   collapseFaq: PropTypes.func.isRequired,
   deleteCategory: PropTypes.func,
   deleteFaq: PropTypes.func,
-  dragHandleProps: PropTypes.any
+  dragHandleProps: PropTypes.any,
+  handleAddFAQ: PropTypes.any,
+  handleEditFAQ: PropTypes.any,
+  handleDeleteFAQ: PropTypes.any,
+  handleDeleteCategory: PropTypes.any
 };
 
 export default FaqCategory;

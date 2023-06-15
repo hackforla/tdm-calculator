@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -50,35 +50,29 @@ const Faq = props => {
     expandFaq,
     collapseFaq,
     dragHandleProps,
-    handleDeleteFaq
+    handleEditFAQ,
+    handleDeleteFAQ
   } = props;
   const classes = useStyles();
-  const [answerEditMode, setAnswerEditMode] = useState(!faq.answer);
-  const [questionEditMode, setQuestionEditMode] = useState(!faq.question);
-  const [editedFaq, setEditedFaq] = useState(faq);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [question, setQuestion] = useState(faq.question);
+  const [answer, setAnswer] = useState(faq.answer);
 
-  const onAnswerChange = ans => {
-    faq.answer = ans;
-    setEditedFaq(prevState => ({ ...prevState, answer: ans }));
+  const handleQuestionChange = e => {
+    setQuestion(e.target.value);
   };
 
-  const onQuestionChange = e => {
-    const q = e.target.value;
-    faq.question = q;
-    setEditedFaq(prevState => ({ ...prevState, question: q }));
+  const handleAnswerChange = e => {
+    setAnswer(e.target.value);
   };
 
-  const handleExpandFaq = () => {
-    expandFaq(faq);
+  const handleSaveFAQ = () => {
+    handleEditFAQ(faq.id, question, answer);
   };
 
-  const handleCollapseFaq = () => {
-    collapseFaq(faq);
+  const onDeleteFAQ = () => {
+    handleDeleteFAQ(faq.id);
   };
-
-  const onDeleteFaq = useCallback(() => {
-    handleDeleteFaq(faq);
-  }, [handleDeleteFaq, faq]);
 
   return (
     <div>
@@ -106,7 +100,7 @@ const Faq = props => {
             marginTop: 0
           }}
         >
-          {questionEditMode ? (
+          {isEditMode ? (
             <div>
               <input
                 placeholder="Question..."
@@ -121,23 +115,20 @@ const Faq = props => {
                   marginRight: "2em",
                   padding: "0.3em 0"
                 }}
-                value={editedFaq.question}
+                value={question}
                 name="question"
-                onChange={onQuestionChange}
-                onBlur={() => {
-                  setQuestionEditMode(false);
-                }}
+                onChange={handleQuestionChange}
               />
             </div>
           ) : (
             <h3
-              dangerouslySetInnerHTML={{ __html: `${editedFaq.question}` }}
+              dangerouslySetInnerHTML={{ __html: `${question}` }}
               style={{
                 fontWeight: "bold",
                 marginTop: "0.5em"
               }}
               onClick={() => {
-                setQuestionEditMode(true);
+                setIsEditMode(true);
               }}
             ></h3>
           )}
@@ -147,13 +138,13 @@ const Faq = props => {
             <FontAwesomeIcon
               style={{ cursor: "pointer" }}
               icon={faChevronUp}
-              onClick={() => handleCollapseFaq(faq)}
+              onClick={() => collapseFaq(faq)}
             />
           ) : (
             <FontAwesomeIcon
               style={{ cursor: "pointer" }}
               icon={faChevronDown}
-              onClick={() => handleExpandFaq(faq)}
+              onClick={() => expandFaq(faq)}
             />
           )}
         </div>
@@ -177,14 +168,14 @@ const Faq = props => {
                   paddingRight: "0.25em"
                 }}
                 icon={faTrashAlt}
-                onClick={onDeleteFaq}
+                onClick={onDeleteFAQ}
               />
             </>
           ) : null}
         </div>
       </div>
       {faq.expand ? (
-        answerEditMode ? (
+        isEditMode ? (
           <div style={{ display: "flex", width: "100%" }}>
             <div
               style={{
@@ -198,10 +189,11 @@ const Faq = props => {
               {`A: `}
             </div>
             <Quill
-              value={editedFaq.answer}
-              onChange={onAnswerChange}
+              value={answer}
+              onChange={handleAnswerChange}
               onBlur={() => {
-                setAnswerEditMode(false);
+                setIsEditMode(false);
+                handleSaveFAQ();
               }}
               style={{ flex: "1 0 100%" }}
             />
@@ -221,8 +213,8 @@ const Faq = props => {
             </div>
             <p
               style={{ marginTop: "0.5em", fontWeight: "bold" }}
-              dangerouslySetInnerHTML={{ __html: `${editedFaq.answer}` }}
-              onClick={() => setAnswerEditMode(true)}
+              dangerouslySetInnerHTML={{ __html: `${answer}` }}
+              onClick={() => setIsEditMode(true)}
             ></p>
           </div>
         )
@@ -245,7 +237,8 @@ Faq.propTypes = {
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,
   collapseFaq: PropTypes.func.isRequired,
-  handleDeleteFaq: PropTypes.func,
+  handleEditFAQ: PropTypes.func,
+  handleDeleteFAQ: PropTypes.func,
   dragHandleProps: PropTypes.any
 };
 
