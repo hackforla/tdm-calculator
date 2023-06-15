@@ -4,11 +4,6 @@ const jwtSecret = process.env.JWT_SECRET || "mark it zero";
 // JWT timeout set to 12 hours
 const jwtOpts = { algorithm: "HS256", expiresIn: "12h" };
 
-module.exports = {
-  login,
-  validateUser
-};
-
 // This module manages the user's session using a JSON Web Token in the
 // "authorization" cookie to manage the session.
 
@@ -19,7 +14,12 @@ module.exports = {
 // as as a JSON response body (for clients that may not be able to
 // work with cookies).
 async function login(req, res) {
-  const token = await sign({ email: req.user.email, id: req.user.id });
+  const token = await sign({
+    email: req.user.email,
+    id: req.user.id,
+    isAdmin: req.user.isAdmin,
+    isSecurityAdmin: req.user.isSecurityAdmin
+  });
   res.cookie("jwt", token, {
     httpOnly: true,
     expires: new Date(Date.now() + 43200000) // 12 hours
@@ -45,6 +45,31 @@ async function validateUser(req, res, next) {
   }
 }
 
+// Call this function to generate a middleware function that
+// authenticates AND authorizes requests for specific security roles
+const authorizeUser = authorizedRoles =>
+  async function validateUser(req, res, next) {
+    const jwtString = req.headers.authorization || req.cookies.jwt;
+    try {
+      const payload = await verify(jwtString);
+
+      if (payload.email) {
+        req.user = payload;
+        if (authorizedRoles.includes("isAdmin") && payload.isAdmin) {
+          return next();
+        } else if (
+          authorizedRoles.includes("isSecurityAdmin") &&
+          payload.isSecurityAdmin
+        ) {
+          return next();
+        }
+        res.status("403").send("Unauthorized request");
+      }
+    } catch (er) {
+      res.status("401").send("Login session expired");
+    }
+  };
+
 // Helper function to create JWT token
 async function sign(payload) {
   const token = await jwt.sign(payload, jwtSecret, jwtOpts);
@@ -56,3 +81,9 @@ async function verify(jwtString = "") {
   jwtString = jwtString.replace(/^Bearer /i, "");
   return jwt.verify(jwtString, jwtSecret);
 }
+
+module.exports = {
+  login,
+  validateUser,
+  authorizeUser
+};

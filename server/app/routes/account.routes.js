@@ -3,9 +3,17 @@ const accountController = require("../controllers/account.controller");
 const jwtSession = require("../../middleware/jwt-session");
 
 router.get("/:id", jwtSession.validateUser, accountController.getById);
-router.get("/", jwtSession.validateUser, accountController.getAll);
+router.get(
+  "/",
+  jwtSession.authorizeUser(["isSecurityAdmin"]),
+  accountController.getAll
+);
 
-router.put("/:id/roles", accountController.putRoles);
+router.put(
+  "/:id/roles",
+  jwtSession.authorizeUser(["isSecurityAdmin"]),
+  accountController.putRoles
+);
 
 router.post("/register", accountController.register);
 router.post(

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import * as accountService from "../services/account.service";
 import { useToast } from "../contexts/Toast";
@@ -68,6 +68,7 @@ const Roles = () => {
   const [accounts, setAccounts] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [filteredAccounts, setFilteredAccounts] = useState([]);
+  const [unauthorized, setUnauthorized] = useState(false);
   const classes = useStyles();
   const toast = useToast();
   const appInsights = useAppInsightsContext();
@@ -77,9 +78,13 @@ const Roles = () => {
 
   useEffect(() => {
     const getAccounts = async () => {
-      const result = await accountService.search();
-      setAccounts(result);
-      setFilteredAccounts(result);
+      try {
+        const result = await accountService.search();
+        setAccounts(result);
+        setFilteredAccounts(result);
+      } catch (err) {
+        setUnauthorized(true);
+      }
     };
     getAccounts();
   }, []);
@@ -132,6 +137,7 @@ const Roles = () => {
       onLoad={trackComponent}
       onClick={trackComponent}
     >
+      {unauthorized ? <Redirect to="/unauthorized" /> : null}
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>
         Grant or Revoke Admin Permissions
