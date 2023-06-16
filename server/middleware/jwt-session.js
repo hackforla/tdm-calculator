@@ -45,9 +45,17 @@ async function validateUser(req, res, next) {
   }
 }
 
-// Call this function to generate a middleware function that
-// authenticates AND authorizes requests for specific security roles
-const authorizeUser = authorizedRoles =>
+// When a request is received for a route that requires an
+// authenticated user, this middleware function validates that
+// the authorization cookie has a valid JWT and that the
+// user is grantee one of the roles listed in authorizedRoles,
+// e.g., from the account.routes router:
+// router.put(
+//   "/:id/roles",
+//   jwtSession.authorizeUser(["isSecurityAdmin"]),
+//   accountController.putRoles
+// );
+const validateRoles = authorizedRoles =>
   async function validateUser(req, res, next) {
     const jwtString = req.headers.authorization || req.cookies.jwt;
     try {
@@ -85,5 +93,5 @@ async function verify(jwtString = "") {
 module.exports = {
   login,
   validateUser,
-  authorizeUser
+  validateRoles
 };

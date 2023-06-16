@@ -14,9 +14,6 @@ const accountConfirmEmail = require("../schemas/account.confirmEmail");
 
 const getAll = async (req, res) => {
   try {
-    if (!req.user.isSecurityAdmin) {
-      res.sendStatus("403");
-    }
     const response = await accountService.selectAll();
     res.send(response);
   } catch (err) {
