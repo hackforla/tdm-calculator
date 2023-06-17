@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import UserContext from "./contexts/UserContext";
 import PropTypes from "prop-types";
 
@@ -15,6 +15,7 @@ import TermsAndConditionsModal from "./components/TermsAndConditions/TermsAndCon
 import ChecklistModal from "./components/Checklist/ChecklistModal";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
+import UpdateAccount from "./components/Authorization/UpdateAccount";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
 import ProtectedRoute from "./components/Authorization/ProtectedRoute";
 import Login from "./components/Authorization/Login";
@@ -49,6 +50,8 @@ const App = ({
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const account = userContext.account;
+  const [rules, setRules] = useState([]);
+  const [dateModified, setDateModified] = useState(null);
 
   // console.error("account: " + JSON.stringify(account, null, 2));
 
@@ -70,6 +73,10 @@ const App = ({
             <ProjectsPage
               account={account}
               contentContainerRef={contentContainerRef}
+              rules={rules}
+              setRules={setRules}
+              dateModified={dateModified}
+              setDateModified={setDateModified}
             />
           </ProtectedRoute>
 
@@ -81,6 +88,10 @@ const App = ({
               contentContainerRef={contentContainerRef}
               checklistModalOpen={checklistModalOpen}
               toggleChecklistModal={toggleChecklistModal}
+              rules={rules}
+              setRules={setRules}
+              dateModified={dateModified}
+              setDateModified={setDateModified}
             />
           </Route>
 
@@ -122,6 +133,10 @@ const App = ({
 
                     <Route path="/register/:email?">
                       <Register />
+                    </Route>
+
+                    <Route path="/updateaccount/:email?">
+                      <UpdateAccount />
                     </Route>
 
                     <Route path="/confirm/:token?">

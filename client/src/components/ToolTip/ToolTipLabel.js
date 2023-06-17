@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   tooltipLabel: {
     flexGrow: "1",
     flexShrink: "1",
@@ -38,10 +38,10 @@ const useStyles = createUseStyles({
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: "red"
+      color: theme.colors.warning
     }
   }
-});
+}));
 
 const ToolTipLabel = ({
   id,

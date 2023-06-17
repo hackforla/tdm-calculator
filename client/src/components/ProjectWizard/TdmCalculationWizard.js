@@ -132,6 +132,13 @@ const TdmCalculationWizard = props => {
     return setDisplayed;
   };
 
+  const setDisplayDownloadButton = () => {
+    if (page === 5) {
+      return true;
+    }
+    return false;
+  };
+
   const handleValidate = () => {
     const { page } = match.params;
     const validations = {
@@ -230,7 +237,9 @@ const TdmCalculationWizard = props => {
           setDisabledForNextNavButton={setDisabledForNextNavButton}
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
+          setDisplayDownloadButton={setDisplayDownloadButton}
           onSave={onSave}
+          dateModified={dateModified}
         />
       </ContentContainer>
     </React.Fragment>

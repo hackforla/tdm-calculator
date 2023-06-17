@@ -94,6 +94,10 @@ module.exports = {
         textAlign: "center",
         color: "#000000"
       }
+    },
+    border: {
+      dashedWarning: "1px dashed #B64E38",
+      solidWarning: "1px solid #B64E38"
     }
   }
 };
