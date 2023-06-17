@@ -8,8 +8,8 @@ import { useToast } from "../../contexts/Toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
-  faSortDown,
-  faPrint
+  faSortDown
+  // faPrint
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 import CopyIcon from "../../images/copy.png";
@@ -18,7 +18,7 @@ import Pagination from "../Pagination.js";
 import DeleteProjectModal from "./DeleteProjectModal";
 import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
-import ReactToPrint from "react-to-print";
+// import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 
 const useStyles = createUseStyles({
@@ -418,7 +418,7 @@ const ProjectsPage = ({
                             alt={`Duplicate Project #${project.id} Icon`}
                           />
                         </button>
-                        <ReactToPrint
+                        {/* <ReactToPrint
                           trigger={() => (
                             <button>
                               <FontAwesomeIcon
@@ -429,7 +429,7 @@ const ProjectsPage = ({
                             </button>
                           )}
                           content={() => componentRef.current}
-                        />
+                        /> */}
                         <div style={{ display: "none" }}>
                           <PdfPrint
                             ref={componentRef}

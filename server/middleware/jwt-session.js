@@ -41,7 +41,7 @@ async function validateUser(req, res, next) {
       return next();
     }
   } catch (er) {
-    res.status("401").send("Login session expired");
+    res.status("401").send("Unauthenticated User");
   }
 }
 
@@ -74,7 +74,7 @@ const validateRoles = authorizedRoles =>
         res.status("403").send("Unauthorized request");
       }
     } catch (er) {
-      res.status("401").send("Login session expired");
+      res.status("401").send("Unauthenticated User");
     }
   };
 
