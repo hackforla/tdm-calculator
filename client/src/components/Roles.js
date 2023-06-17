@@ -68,7 +68,7 @@ const Roles = () => {
   const [accounts, setAccounts] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [filteredAccounts, setFilteredAccounts] = useState([]);
-  const [unauthorized, setUnauthorized] = useState(false);
+  const [redirectPath, setRedirectPath] = useState("");
   const classes = useStyles();
   const toast = useToast();
   const appInsights = useAppInsightsContext();
@@ -79,11 +79,19 @@ const Roles = () => {
   useEffect(() => {
     const getAccounts = async () => {
       try {
-        const result = await accountService.search();
-        setAccounts(result);
-        setFilteredAccounts(result);
+        const response = await accountService.search();
+        if (response.status === 200) {
+          setAccounts(response.data);
+          setFilteredAccounts(response.data);
+        } else if (response.status === 401) {
+          setRedirectPath("/login");
+        } else if (response.status === 403) {
+          setRedirectPath("/uauthorized");
+        } else {
+          setAccounts([]);
+        }
       } catch (err) {
-        setUnauthorized(true);
+        setAccounts([]);
       }
     };
     getAccounts();
@@ -137,7 +145,7 @@ const Roles = () => {
       onLoad={trackComponent}
       onClick={trackComponent}
     >
-      {unauthorized ? <Redirect to="/unauthorized" /> : null}
+      {redirectPath ? <Redirect to="{redirectPath}" /> : null}
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>
         Grant or Revoke Admin Permissions
