@@ -6,18 +6,18 @@ module.exports = {
       type: "string",
       minLength: 1,
       pattern:
-        "/^[a-zA-Z]+([ '-][a-zA-Z]+)*$/"
+        "^[a-zA-Z '.-]+$"
     },
     lastName: {
       type: "string",
       minLength: 1,
       pattern:
-        "/^[a-zA-Z]+([ '-][a-zA-Z]+)*$/"
+        "^[a-zA-Z '.-]+$"
     },
     email: {
       type: "string",
-      pattern:
-        "/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]+$/"
+      minLength: 3,
+      pattern: "\\S+@\\S+"
     },
     password: {
       type: "string",
@@ -27,3 +27,5 @@ module.exports = {
     }
   }
 };
+
+
