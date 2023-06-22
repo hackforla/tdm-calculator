@@ -9,10 +9,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 import CopyIcon from "../../images/copy.png";
-import DeleteIcon from "../../images/trash.png";
+// import DeleteIcon from "../../images/trash.png";
 import Pagination from "../Pagination.js";
-import DeleteProjectModal from "./DeleteProjectModal";
-import DuplicateProjectModal from "./DuplicateProjectModal";
+// import DeleteProjectModal from "./DeleteProjectModal";
+// import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import ApplicationModal from "./../../components/Modal/ApplicationModal";
 
@@ -105,7 +105,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  // const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const classes = useStyles();
   const toast = useToast();
@@ -116,6 +116,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const toastAdd = toast.add;
   const historyPush = history.push;
+  const [duplicateProjectName, setDuplicateProjectName] = useState(null);
 
   const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
   for (let i = 0; i < pageLinks.length; i++) {
@@ -166,6 +167,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
   }, [selectedProject, getProjects]);
 
   const toggleDuplicateModal = project => {
+    console.log("TOGGLE DUPLICATE MODAL PROJECT", project);
     if (project) {
       setSelectedProject(project);
     } else {
@@ -174,10 +176,10 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
     setDuplicateModalOpen(!duplicateModalOpen);
   };
 
-  const toggleDeleteModal = project => {
-    project ? setSelectedProject(project) : setSelectedProject(null);
-    setDeleteModalOpen(!deleteModalOpen);
-  };
+  // const toggleDeleteModal = project => {
+  //   project ? setSelectedProject(project) : setSelectedProject(null);
+  //   setDeleteModalOpen(!deleteModalOpen);
+  // };
 
   const descCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
@@ -290,6 +292,33 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
     indexOfLastPost
   );
 
+  //DUPLICATE LOGIC
+
+  const duplicateProject = async () => {
+    const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
+    console.log("Selected", projectFormInputsAsJson);
+    projectFormInputsAsJson.PROJECT_NAME = duplicateProjectName;
+
+    try {
+      await projectService.post({
+        ...selectedProject,
+        name: "MODAL TEST DUPLICATE",
+        formInputs: JSON.stringify(projectFormInputsAsJson)
+      });
+    } catch (err) {
+      handleError(err);
+    }
+
+    toggleDuplicateModal();
+    setSelectedProject(null);
+  };
+
+  const handleDuplicateProjectNameChange = newProjectName => {
+    setDuplicateProjectName(newProjectName);
+  };
+
+  //DUPLICATE LOGIC
+
   return (
     <ContentContainerNoSidebar
       componentToTrack="ProjectsPage"
@@ -391,18 +420,22 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
                   <td className={classes.actionIcons}>
                     {project.loginId === currentUser.id && (
                       <>
-                        <button onClick={() => toggleDuplicateModal(project)}>
+                        <button
+                          onClick={() => {
+                            toggleDuplicateModal(project);
+                          }}
+                        >
                           <img
                             src={CopyIcon}
                             alt={`Duplicate Project #${project.id} Icon`}
                           />
                         </button>
-                        <button onClick={() => toggleDeleteModal(project)}>
+                        {/* <button onClick={() => toggleDeleteModal(project)}>
                           <img
                             src={DeleteIcon}
                             alt={`Delete Project #${project.id} Icon`}
                           />
-                        </button>
+                        </button> */}
                       </>
                     )}
                   </td>
@@ -426,23 +459,31 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
 
       {selectedProject && (
         <>
-          <DuplicateProjectModal
+          {/* <DuplicateProjectModal
             selectedProject={selectedProject}
             setSelectedProject={setSelectedProject}
             handleError={handleError}
             toggleDuplicateModal={toggleDuplicateModal}
             setDuplicateModalOpen={setDuplicateModalOpen}
             duplicateModalOpen={duplicateModalOpen}
+          /> */}
+          <ApplicationModal
+            modalType={"DuplicateProjectModal"}
+            ModalState={duplicateModalOpen}
+            toggleModalState={setDuplicateModalOpen}
+            // buttonOneFunction={toggleDuplicateModal}
+            buttonOneParameter={handleDuplicateProjectNameChange}
+            buttonTwoFunction={duplicateProject}
+            buttonTwoParameter={selectedProject}
           />
-
-          <DeleteProjectModal
+          {/* <DeleteProjectModal
             selectedProject={selectedProject}
             setSelectedProject={setSelectedProject}
             handleError={handleError}
             toggleDeleteModal={toggleDeleteModal}
             setDeleteModalOpen={setDeleteModalOpen}
             deleteModalOpen={deleteModalOpen}
-          />
+          /> */}
           <ApplicationModal
             modalType={"DeleteProjectModal"}
             // ModalState={isOpenNavConfirmModal}

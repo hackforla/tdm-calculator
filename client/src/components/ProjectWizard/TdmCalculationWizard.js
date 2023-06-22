@@ -188,7 +188,7 @@ const TdmCalculationWizard = props => {
       ></ApplicationModal>
       <ApplicationModal
         modalType={"Checklist"}
-        ModalState={true}
+        ModalState={checklistModalOpen}
         toggleModalState={toggleChecklistModal}
         extendedContent={<ChecklistContent></ChecklistContent>}
       ></ApplicationModal>
