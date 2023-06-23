@@ -65,7 +65,7 @@ const App = ({
         modalType={"Checklist"}
         ModalState={checklistModalOpen}
         toggleModalState={toggleChecklistModal}
-        extendedContent={ChecklistContent}
+        extendedContent={<ChecklistContent />}
       ></ApplicationModal>
       <Header />
       <div className={classes.app} id="app-container" ref={appContainerRef}>

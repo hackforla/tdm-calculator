@@ -73,8 +73,6 @@ const ApplicationModal = props => {
 
   const classes = useStyles();
 
-  // console.log("APPLICATION MODAL PROPS", props);
-
   return (
     <Modal
       isOpen={ModalState}
@@ -98,6 +96,8 @@ const ApplicationModal = props => {
           </h2>
         ) : null}
       </div>
+      {extendedContent}
+
       <div className={classes.modalActions}>
         {ModalData[modalType].buttonOne ? (
           //First Button
@@ -106,7 +106,6 @@ const ApplicationModal = props => {
             id="modalProceed"
             data-testid="transitionProceed"
             onClick={() => {
-              console.log("CLICKL");
               if (buttonOneFunction) {
                 if (buttonOneParameter) {
                   buttonOneFunction(buttonOneParameter);
@@ -139,7 +138,6 @@ const ApplicationModal = props => {
           </Button>
         ) : null}
       </div>
-      {extendedContent}
     </Modal>
   );
 };

@@ -24,9 +24,8 @@ export default {
     //In Progress
   },
   DuplicateProjectModal: {
-    title: "APPLICATION DUPICATE TEST",
-    // title: "Type a new name to duplicate the project,&nbsp;",
-    text: "selectedProject && selectedProject.name",
+    title: "",
+    text: "",
     input: "",
     buttonOne: "Cancel",
     buttonTwo: "Submit"
@@ -40,8 +39,8 @@ export default {
   },
   Checklist: {
     title: "",
-    text: "TEST"
-    //Replaced
+    text: "CHECKLIST"
+    //Replaced Or Not.
   }
 };
 

@@ -3,6 +3,11 @@ import { createUseStyles } from "react-jss";
 import { PropTypes } from "prop-types";
 
 const useStyles = createUseStyles({
+  instruction: {
+    fontSize: "20px",
+    lineHeight: "32px",
+    textAlign: "center"
+  },
   inputField: {
     boxSizing: "border-box",
     fontSize: "20px",
@@ -13,22 +18,39 @@ const useStyles = createUseStyles({
   }
 });
 
-const DuplicateModalInput = () => {
+const DuplicateModalInput = props => {
+  const { selectedProject, setDuplicateProjectName, duplicateProjectName } =
+    props;
   const classes = useStyles();
 
+  const handleDuplicateProjectNameChange = newProjectName => {
+    setDuplicateProjectName(newProjectName);
+  };
+
   return (
-    <input
-      placeholder="Name of Duplicated Project"
-      type="text"
-      id="duplicateName"
-      name="duplicateName"
-      className={classes.inputField}
-      // value={}
-      // onChange={}
-    />
+    <>
+      <p className={classes.instruction}>
+        Type a new name to duplicate the project,&nbsp;
+        <br />
+        <strong>{selectedProject && selectedProject.name}</strong>.
+      </p>
+      <input
+        placeholder="Name of Duplicated Project"
+        type="text"
+        id="duplicateName"
+        name="duplicateName"
+        className={classes.inputField}
+        value={duplicateProjectName}
+        onChange={e => handleDuplicateProjectNameChange(e.target.value)}
+      />
+    </>
   );
 };
 
-DuplicateModalInput.propTypes = {};
+DuplicateModalInput.propTypes = {
+  duplicateProjectName: PropTypes.string,
+  selectedProject: PropTypes.object,
+  setDuplicateProjectName: PropTypes.func
+};
 
 export default DuplicateModalInput;

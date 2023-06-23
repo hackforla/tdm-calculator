@@ -15,6 +15,7 @@ import Pagination from "../Pagination.js";
 // import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import ApplicationModal from "./../../components/Modal/ApplicationModal";
+import DuplicateModalInput from "./../../components/Modal/ExtendedModalText/DuplicateModalInput";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -167,7 +168,6 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
   }, [selectedProject, getProjects]);
 
   const toggleDuplicateModal = project => {
-    console.log("TOGGLE DUPLICATE MODAL PROJECT", project);
     if (project) {
       setSelectedProject(project);
     } else {
@@ -296,13 +296,12 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
 
   const duplicateProject = async () => {
     const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
-    console.log("Selected", projectFormInputsAsJson);
     projectFormInputsAsJson.PROJECT_NAME = duplicateProjectName;
 
     try {
       await projectService.post({
         ...selectedProject,
-        name: "MODAL TEST DUPLICATE",
+        name: duplicateProjectName,
         formInputs: JSON.stringify(projectFormInputsAsJson)
       });
     } catch (err) {
@@ -311,10 +310,6 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
 
     toggleDuplicateModal();
     setSelectedProject(null);
-  };
-
-  const handleDuplicateProjectNameChange = newProjectName => {
-    setDuplicateProjectName(newProjectName);
   };
 
   //DUPLICATE LOGIC
@@ -472,9 +467,15 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
             ModalState={duplicateModalOpen}
             toggleModalState={setDuplicateModalOpen}
             // buttonOneFunction={toggleDuplicateModal}
-            buttonOneParameter={handleDuplicateProjectNameChange}
             buttonTwoFunction={duplicateProject}
             buttonTwoParameter={selectedProject}
+            extendedContent={
+              <DuplicateModalInput
+                selectedProject={selectedProject}
+                duplicateProjectName={duplicateProjectName}
+                setDuplicateProjectName={setDuplicateProjectName}
+              />
+            }
           />
           {/* <DeleteProjectModal
             selectedProject={selectedProject}
