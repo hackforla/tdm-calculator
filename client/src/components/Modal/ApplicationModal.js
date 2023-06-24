@@ -59,6 +59,7 @@ const ApplicationModal = props => {
 
   useEffect(() => {
     const keyDownHandler = event => {
+      console.log("ESCAPE HIT", ModalState, modalType);
       if (event.key === "Escape") {
         event.preventDefault();
         toggleModalState(false);

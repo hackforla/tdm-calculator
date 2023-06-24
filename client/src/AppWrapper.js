@@ -83,11 +83,6 @@ const AppWrapper = () => {
               onError={<ErrorPage />}
               appInsights={reactPlugin}
             >
-              {/* <NavConfirmModal
-                confirmTransition={confirmTransition}
-                isOpenNavConfirmModal={isOpenNavConfirmModal}
-                setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
-              /> */}
               <ApplicationModal
                 modalType={"NavConfirm"}
                 ModalState={isOpenNavConfirmModal}

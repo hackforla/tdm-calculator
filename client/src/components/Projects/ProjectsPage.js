@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 import CopyIcon from "../../images/copy.png";
-// import DeleteIcon from "../../images/trash.png";
+import DeleteIcon from "../../images/trash.png";
 import Pagination from "../Pagination.js";
 // import DeleteProjectModal from "./DeleteProjectModal";
 // import DuplicateProjectModal from "./DuplicateProjectModal";
@@ -106,7 +106,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
-  // const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const classes = useStyles();
   const toast = useToast();
@@ -176,10 +176,10 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
     setDuplicateModalOpen(!duplicateModalOpen);
   };
 
-  // const toggleDeleteModal = project => {
-  //   project ? setSelectedProject(project) : setSelectedProject(null);
-  //   setDeleteModalOpen(!deleteModalOpen);
-  // };
+  const toggleDeleteModal = project => {
+    project ? setSelectedProject(project) : setSelectedProject(null);
+    setDeleteModalOpen(!deleteModalOpen);
+  };
 
   const descCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
@@ -312,6 +312,17 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
     setSelectedProject(null);
   };
 
+  const deleteProject = async project => {
+    try {
+      await projectService.del(project.id);
+    } catch (err) {
+      handleError(err);
+    }
+
+    toggleDeleteModal();
+    setSelectedProject(null);
+  };
+
   //DUPLICATE LOGIC
 
   return (
@@ -425,12 +436,12 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
                             alt={`Duplicate Project #${project.id} Icon`}
                           />
                         </button>
-                        {/* <button onClick={() => toggleDeleteModal(project)}>
+                        <button onClick={() => toggleDeleteModal(project)}>
                           <img
                             src={DeleteIcon}
                             alt={`Delete Project #${project.id} Icon`}
                           />
-                        </button> */}
+                        </button>
                       </>
                     )}
                   </td>
@@ -466,7 +477,6 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
             modalType={"DuplicateProjectModal"}
             ModalState={duplicateModalOpen}
             toggleModalState={setDuplicateModalOpen}
-            // buttonOneFunction={toggleDuplicateModal}
             buttonTwoFunction={duplicateProject}
             buttonTwoParameter={selectedProject}
             extendedContent={
@@ -477,20 +487,13 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
               />
             }
           />
-          {/* <DeleteProjectModal
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
-            handleError={handleError}
-            toggleDeleteModal={toggleDeleteModal}
-            setDeleteModalOpen={setDeleteModalOpen}
-            deleteModalOpen={deleteModalOpen}
-          /> */}
           <ApplicationModal
             modalType={"DeleteProjectModal"}
-            // ModalState={isOpenNavConfirmModal}
-            // toggleModalState={setIsOpenNavConfirmModal}
-            // buttonTwoFunction={confirmTransition}
-          ></ApplicationModal>
+            ModalState={deleteModalOpen}
+            toggleModalState={setDeleteModalOpen}
+            buttonTwoFunction={deleteProject}
+            buttonTwoParameter={selectedProject}
+          />
         </>
       )}
     </ContentContainerNoSidebar>

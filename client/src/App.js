@@ -12,7 +12,6 @@ import Footer from "./components/Footer";
 import About from "./components/About";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
 import TermsAndConditionsModal from "./components/TermsAndConditions/TermsAndConditionsModal";
-// import ChecklistModal from "./components/Checklist/ChecklistModal";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
@@ -57,10 +56,6 @@ const App = ({
   return (
     <React.Fragment>
       <TermsAndConditionsModal />
-      {/* <ChecklistModal
-        checklistModalOpen={checklistModalOpen}
-        toggleChecklistModal={toggleChecklistModal}
-      /> */}
       <ApplicationModal
         modalType={"Checklist"}
         ModalState={checklistModalOpen}

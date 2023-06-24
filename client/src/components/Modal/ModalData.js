@@ -17,7 +17,7 @@ export default {
   //ProjectAction contains Delete and duplicate Modals
   DeleteProjectModal: {
     title: `Delete Project`,
-    text: "Are you sure you want to permanently delete this project,&nbsp;",
+    text: "Are you sure you want to permanently delete this project?",
     buttonOne: "Cancel",
     buttonTwo: "Delete"
     //logic for delete is in parent. (34)
