@@ -3,9 +3,17 @@ const accountController = require("../controllers/account.controller");
 const jwtSession = require("../../middleware/jwt-session");
 
 router.get("/:id", jwtSession.validateUser, accountController.getById);
-router.get("/", jwtSession.validateUser, accountController.getAll);
+router.get(
+  "/",
+  jwtSession.validateRoles(["isSecurityAdmin"]),
+  accountController.getAll
+);
 
-router.put("/:id/roles", accountController.putRoles);
+router.put(
+  "/:id/roles",
+  jwtSession.validateRoles(["isSecurityAdmin"]),
+  accountController.putRoles
+);
 
 router.post("/register", accountController.register);
 router.post(
@@ -13,8 +21,6 @@ router.post(
   accountController.resendConfirmationEmail
 );
 router.post("/confirmRegister", accountController.confirmRegister);
-
-router.put("/:id/updateaccount", accountController.updateAccount);
 
 router.post("/forgotPassword", accountController.forgotPassword);
 router.post("/resetPassword", accountController.resetPassword);

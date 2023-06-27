@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import UserContext from "./contexts/UserContext";
 import PropTypes from "prop-types";
 
@@ -50,6 +50,8 @@ const App = ({
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const account = userContext.account;
+  const [rules, setRules] = useState([]);
+  const [dateModified, setDateModified] = useState(null);
 
   // console.error("account: " + JSON.stringify(account, null, 2));
 
@@ -71,6 +73,10 @@ const App = ({
             <ProjectsPage
               account={account}
               contentContainerRef={contentContainerRef}
+              rules={rules}
+              setRules={setRules}
+              dateModified={dateModified}
+              setDateModified={setDateModified}
             />
           </ProtectedRoute>
 
@@ -82,6 +88,10 @@ const App = ({
               contentContainerRef={contentContainerRef}
               checklistModalOpen={checklistModalOpen}
               toggleChecklistModal={toggleChecklistModal}
+              rules={rules}
+              setRules={setRules}
+              dateModified={dateModified}
+              setDateModified={setDateModified}
             />
           </Route>
 
