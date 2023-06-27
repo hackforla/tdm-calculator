@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import Quill from "../Quill";
 
 const useStyles = createUseStyles({
   categoryContainer: {
@@ -72,8 +73,8 @@ const FaqCategory = props => {
     setNewQuestion(e.target.value);
   };
 
-  const handleNewAnswerChange = e => {
-    setNewAnswer(e.target.value);
+  const handleNewAnswerChange = ans => {
+    setNewAnswer(ans);
   };
 
   const handleOpenNewFAQ = () => {
@@ -87,7 +88,7 @@ const FaqCategory = props => {
   };
 
   const handleSaveNewFAQ = () => {
-    handleAddFAQ(category.id, newQuestion, newAnswer);
+    handleAddFAQ(category, newQuestion, newAnswer);
     handleCloseNewFAQ();
   };
 
@@ -193,11 +194,13 @@ const FaqCategory = props => {
               <div>
                 <input
                   type="text"
+                  placeholder="Enter a new question..."
                   value={newQuestion}
                   onChange={handleNewQuestionChange}
                 />
-                <input
+                <Quill
                   type="text"
+                  placeholder="Enter a new answer..."
                   value={newAnswer}
                   onChange={handleNewAnswerChange}
                 />

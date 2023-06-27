@@ -62,8 +62,8 @@ const Faq = props => {
     setQuestion(e.target.value);
   };
 
-  const handleAnswerChange = e => {
-    setAnswer(e.target.value);
+  const handleAnswerChange = ans => {
+    setAnswer(ans);
   };
 
   const handleSaveFAQ = () => {
