@@ -6,7 +6,6 @@ import EditToggleButton from "../Button/EditToggleButton";
 import ContentContainer from "../Layout/ContentContainer";
 import { withRouter } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
-import * as faqService from "../../services/faq.service";
 import * as faqCategoryService from "../../services/faqCategory.service";
 
 const FaqView = () => {
@@ -73,11 +72,6 @@ const FaqView = () => {
   };
 
   const fetchFaqData = async () => {
-    const faqListResponse = await faqService.get();
-    const faqs = faqListResponse.data.map(faq => {
-      return { ...faq, expand: false };
-    });
-
     const faqCategoryListResponse = await faqCategoryService.get();
     const categories = faqCategoryListResponse.data;
 
@@ -87,17 +81,7 @@ const FaqView = () => {
     for (let i = 0; i < categories.length; i++) {
       const category = categories[i];
       highestCategoryId = Math.max(highestCategoryId, category.id);
-
-      if (!category.faqs) {
-        category.faqs = [];
-      }
-
-      for (let j = 0; j < faqs.length; j++) {
-        if (category.id === faqs[j].faqCategoryId) {
-          category.faqs.push(faqs[j]);
-          highestFaqId = Math.max(highestFaqId, faqs[j].id);
-        }
-      }
+      category.faqs = category.faqs ? JSON.parse(category.faqs) : [];
     }
 
     setHighestFaqId(highestFaqId);
@@ -130,14 +114,18 @@ const FaqView = () => {
   }, [faqCategoryList]);
 
   const handleAddCategory = () => {
-    const lastDisplayOrder =
-      faqCategoryList[faqCategoryList.length - 1].displayOrder || 0;
+    const lastDisplayOrder = faqCategoryList.length
+      ? faqCategoryList[faqCategoryList.length - 1].displayOrder || 0
+      : 0;
+    const updatedHighestCategoryId = highestCategoryId + 1;
+
     const newCategory = {
-      id: highestCategoryId + 1,
+      id: updatedHighestCategoryId,
       displayOrder: lastDisplayOrder + 10,
       name: "",
       faqs: []
     };
+    setHighestCategoryId(updatedHighestCategoryId);
     setFaqCategoryList(prevState => [...prevState, newCategory]);
   };
 
@@ -149,15 +137,20 @@ const FaqView = () => {
 
   const handleAddFAQ = (category, question, answer) => {
     const { faqs, id: categoryId } = category;
-    const lastDisplayOrder = faqs[faqs.length - 1].displayOrder || 0;
+    const lastDisplayOrder = faqs.length
+      ? [faqs.length - 1].displayOrder || 0
+      : 0;
+    const updatedHighestFaqId = highestFaqId + 1;
     const newFaq = {
-      id: highestFaqId + 1,
+      id: updatedHighestFaqId,
       question,
       answer,
       faqCategoryId: categoryId,
       expand: false,
       displayOrder: lastDisplayOrder + 10
     };
+
+    setHighestFaqId(updatedHighestFaqId);
 
     setFaqCategoryList(prevState =>
       prevState.map(category => {
@@ -193,6 +186,20 @@ const FaqView = () => {
           };
         }
         return category;
+      })
+    );
+  };
+
+  const handleEditCategory = (category, name) => {
+    setFaqCategoryList(prevState =>
+      prevState.map(cat => {
+        if (cat.id === category.id) {
+          return {
+            ...cat,
+            name // Update the category name
+          };
+        }
+        return cat;
       })
     );
   };
@@ -280,6 +287,7 @@ const FaqView = () => {
             handleDeleteCategory={handleDeleteCategory}
             handleAddFAQ={handleAddFAQ}
             handleEditFAQ={handleEditFAQ}
+            handleEditCategory={handleEditCategory}
             handleDeleteFAQ={handleDeleteFAQ}
             admin={admin}
             expandFaq={expandFaq}

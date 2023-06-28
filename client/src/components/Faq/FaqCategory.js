@@ -43,6 +43,7 @@ const FaqCategory = props => {
     dragHandleProps,
     handleAddFAQ,
     handleEditFAQ,
+    handleEditCategory,
     handleDeleteFAQ,
     handleDeleteCategory
   } = props;
@@ -55,6 +56,7 @@ const FaqCategory = props => {
 
   const handleCategoryNameChange = e => {
     setCategoryName(e.target.value);
+    handleEditCategory(category, e.target.value);
   };
 
   const onEditFAQ = (faqId, question, answer) => {
@@ -238,13 +240,14 @@ FaqCategory.propTypes = {
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,
   collapseFaq: PropTypes.func.isRequired,
+  handleEditCategory: PropTypes.func,
   deleteCategory: PropTypes.func,
   deleteFaq: PropTypes.func,
-  dragHandleProps: PropTypes.any,
-  handleAddFAQ: PropTypes.any,
-  handleEditFAQ: PropTypes.any,
-  handleDeleteFAQ: PropTypes.any,
-  handleDeleteCategory: PropTypes.any
+  dragHandleProps: PropTypes.func,
+  handleAddFAQ: PropTypes.func,
+  handleEditFAQ: PropTypes.func,
+  handleDeleteFAQ: PropTypes.func,
+  handleDeleteCategory: PropTypes.func
 };
 
 export default FaqCategory;

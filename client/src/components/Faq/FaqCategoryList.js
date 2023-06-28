@@ -13,6 +13,7 @@ const FaqCategoryList = props => {
     handleDeleteCategory,
     handleAddFAQ,
     handleEditFAQ,
+    handleEditCategory,
     handleDeleteFAQ
   } = props;
 
@@ -37,6 +38,7 @@ const FaqCategoryList = props => {
                       collapseFaq={collapseFaq}
                       handleAddFAQ={handleAddFAQ}
                       handleEditFAQ={handleEditFAQ}
+                      handleEditCategory={handleEditCategory}
                       handleDeleteFAQ={handleDeleteFAQ}
                       handleDeleteCategory={handleDeleteCategory}
                       dragHandleProps={provided.dragHandleProps}
@@ -61,7 +63,8 @@ FaqCategoryList.propTypes = {
   handleEditFAQ: PropTypes.func,
   handleAddFAQ: PropTypes.func,
   handleDeleteCategory: PropTypes.func,
-  handleDeleteFAQ: PropTypes.func
+  handleDeleteFAQ: PropTypes.func,
+  handleEditCategory: PropTypes.func
 };
 
 export default FaqCategoryList;

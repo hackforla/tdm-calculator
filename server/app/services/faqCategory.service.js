@@ -31,16 +31,15 @@ const postCategories = async faqCategories => {
     await poolConnect;
     const request = pool.request();
     const tvp = new mssql.Table();
-    request.input("id", mssql.Int, null);
     tvp.columns.add("name", mssql.VarChar, 250);
-    tvp.columns.add("faqs", mssql.NVarChar, mssql.MAX);
     tvp.columns.add("displayOrder", mssql.Int);
+    tvp.columns.add("faqs", mssql.NVarChar, mssql.MAX);
 
     faqCategories.forEach(faqCategory => {
       tvp.rows.add(
         faqCategory.name,
-        JSON.stringify(faqCategory.faqs),
-        faqCategory.displayOrder
+        faqCategory.displayOrder,
+        JSON.stringify(faqCategory.faqs)
       );
     });
 
@@ -49,6 +48,7 @@ const postCategories = async faqCategories => {
     const response = await request.execute("FaqCategory_InsertAll");
     return response.returnValue;
   } catch (err) {
+    console.log("err:", err);
     return Promise.reject(err);
   }
 };
