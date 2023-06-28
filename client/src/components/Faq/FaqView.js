@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import FaqCategoryList from "./FaqCategoryList";
 import ExpandButtons from "./ExpandButtons";
@@ -11,6 +11,8 @@ import * as faqCategoryService from "../../services/faqCategory.service";
 
 const FaqView = () => {
   const [faqCategoryList, setFaqCategoryList] = useState([]);
+  const [highestFaqId, setHighestFaqId] = useState(0);
+  const [highestCategoryId, setHighestCategoryId] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [admin, setAdmin] = useState(false);
 
@@ -79,24 +81,60 @@ const FaqView = () => {
     const faqCategoryListResponse = await faqCategoryService.get();
     const categories = faqCategoryListResponse.data;
 
+    let highestFaqId = 0;
+    let highestCategoryId = 0;
+
     for (let i = 0; i < categories.length; i++) {
+      const category = categories[i];
+      highestCategoryId = Math.max(highestCategoryId, category.id);
+
+      if (!category.faqs) {
+        category.faqs = [];
+      }
+
       for (let j = 0; j < faqs.length; j++) {
-        if (categories[i].id === faqs[j].faqCategoryId) {
-          if (categories[i].faqs) {
-            categories[i].faqs.push(faqs[j]);
-          } else {
-            categories[i].faqs = [faqs[j]];
-          }
+        if (category.id === faqs[j].faqCategoryId) {
+          category.faqs.push(faqs[j]);
+          highestFaqId = Math.max(highestFaqId, faqs[j].id);
         }
       }
     }
+
+    setHighestFaqId(highestFaqId);
+    setHighestCategoryId(highestCategoryId);
     setFaqCategoryList(categories);
   };
 
+  const submitFaqData = useCallback(async () => {
+    const categories = [...faqCategoryList];
+
+    for (let i = 0; i < categories.length; i++) {
+      if (categories[i].faqs) {
+        categories[i].faqs = categories[i].faqs.map(faq => {
+          /**
+           * Iterate over the categories and removes the expand property
+           * from each faq using object destructuring. This step ensures that
+           * only the necessary data is included in the POST request payload.
+           */
+
+          // eslint-disable-next-line no-unused-vars
+          const { expand, ...rest } = faq;
+          return rest;
+        });
+      }
+    }
+    // await faqService.post(categories.flatMap(category => category.faqs));
+    await faqCategoryService.post(categories);
+
+    // Handle the responses if needed
+  }, [faqCategoryList]);
+
   const handleAddCategory = () => {
-    const lastCategoryId = faqCategoryList[faqCategoryList.length - 1].id || 0;
+    const lastDisplayOrder =
+      faqCategoryList[faqCategoryList.length - 1].displayOrder || 0;
     const newCategory = {
-      id: lastCategoryId + 1,
+      id: highestCategoryId + 1,
+      displayOrder: lastDisplayOrder + 10,
       name: "",
       faqs: []
     };
@@ -109,13 +147,16 @@ const FaqView = () => {
     );
   };
 
-  const handleAddFAQ = (categoryId, question, answer) => {
+  const handleAddFAQ = (category, question, answer) => {
+    const { faqs, id: categoryId } = category;
+    const lastDisplayOrder = faqs[faqs.length - 1].displayOrder || 0;
     const newFaq = {
-      id: Date.now(),
+      id: highestFaqId + 1,
       question,
       answer,
       faqCategoryId: categoryId,
-      expand: false
+      expand: false,
+      displayOrder: lastDisplayOrder + 10
     };
 
     setFaqCategoryList(prevState =>
@@ -212,6 +253,7 @@ const FaqView = () => {
 
   const handleAdminChange = () => {
     if (admin) {
+      submitFaqData();
       setAdmin(false);
     } else {
       setAdmin(true);
