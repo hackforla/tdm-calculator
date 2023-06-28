@@ -5,7 +5,7 @@ const baseUrl = "/api/accounts";
 export const search = async () => {
   try {
     const response = await axios.get(`${baseUrl}`);
-    return response.data;
+    return response;
   } catch (err) {
     throw Error("Search accounts failed");
   }

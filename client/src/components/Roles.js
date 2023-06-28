@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import * as accountService from "../services/account.service";
 import { useToast } from "../contexts/Toast";
@@ -68,6 +68,7 @@ const Roles = () => {
   const [accounts, setAccounts] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [filteredAccounts, setFilteredAccounts] = useState([]);
+  const [redirectPath, setRedirectPath] = useState("");
   const classes = useStyles();
   const toast = useToast();
   const appInsights = useAppInsightsContext();
@@ -77,9 +78,21 @@ const Roles = () => {
 
   useEffect(() => {
     const getAccounts = async () => {
-      const result = await accountService.search();
-      setAccounts(result);
-      setFilteredAccounts(result);
+      try {
+        const response = await accountService.search();
+        if (response.status === 200) {
+          setAccounts(response.data);
+          setFilteredAccounts(response.data);
+        } else if (response.status === 401) {
+          setRedirectPath("/login");
+        } else if (response.status === 403) {
+          setRedirectPath("/uauthorized");
+        } else {
+          setAccounts([]);
+        }
+      } catch (err) {
+        setAccounts([]);
+      }
     };
     getAccounts();
   }, []);
@@ -132,6 +145,7 @@ const Roles = () => {
       onLoad={trackComponent}
       onClick={trackComponent}
     >
+      {redirectPath ? <Redirect to="{redirectPath}" /> : null}
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>
         Grant or Revoke Admin Permissions

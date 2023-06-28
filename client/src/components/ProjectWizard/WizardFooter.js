@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import SaveButton from "../Button/SaveButton";
 import { createUseStyles } from "react-jss";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DownloadButton from "../Button/DownloadButton";
+import ReactToPrint from "react-to-print";
+import { PdfPrint } from "../PdfPrint/PdfPrint";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
     display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    margin: "2em 0"
+    margin: "3em 0",
+    width: "80%",
+    justifyContent: "center"
   },
   pageNumberCounter: {
     fontSize: "24px",
@@ -36,10 +38,12 @@ const WizardFooter = ({
   setDisabledForNextNavButton,
   setDisabledSaveButton,
   setDisplaySaveButton,
+  setDisplayDownloadButton,
   onSave,
   dateModified
 }) => {
   const classes = useStyles();
+  const componentRef = useRef();
 
   return (
     <>
@@ -71,7 +75,22 @@ const WizardFooter = ({
                 }}
               />
             </div>
-
+            <ReactToPrint
+              trigger={() => (
+                <DownloadButton
+                  id="downloadButton"
+                  isDisplayed={setDisplayDownloadButton()}
+                />
+              )}
+              content={() => componentRef.current}
+            />
+            <div style={{ display: "none" }}>
+              <PdfPrint
+                ref={componentRef}
+                rules={rules}
+                dateModified={dateModified}
+              />
+            </div>
             <SaveButton
               id="saveButton"
               color="colorPrimary"
@@ -81,13 +100,6 @@ const WizardFooter = ({
             />
           </>
         ) : null}
-      </div>
-      <div className={classes.lastSavedContainer}>
-        {dateModified && (
-          <span className={classes.lastSaved}>
-            <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved: {dateModified}
-          </span>
-        )}
       </div>
     </>
   );
@@ -103,7 +115,9 @@ WizardFooter.propTypes = {
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
+  setDisplayDownloadButton: PropTypes.any,
   onSave: PropTypes.any,
+  onDownload: PropTypes.any,
   dateModified: PropTypes.any
 };
 
