@@ -32,4 +32,10 @@ router.get("/logout", (req, res) => {
   res.sendStatus(200);
 });
 
+router.put(
+  "/:id/updateaccount",
+  jwtSession.validateUser,
+  accountController.updateAccount
+);
+
 module.exports = router;

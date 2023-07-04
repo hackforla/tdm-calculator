@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-import * as projectService from "../../services/project.service";
 import moment from "moment";
-import { useToast } from "../../contexts/Toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
@@ -18,6 +16,8 @@ import Pagination from "../Pagination.js";
 import DeleteProjectModal from "./DeleteProjectModal";
 import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
+import useErrorHandler from "../../hooks/useErrorHandler";
+import useProjects from "../../hooks/useGetProjects";
 // import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 
@@ -119,22 +119,21 @@ const ProjectsPage = ({
   rules,
   dateModified
 }) => {
-  const [projects, setProjects] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
+  const email = account.email;
+  const historyPush = history.push;
+  const handleError = useErrorHandler(email, historyPush);
+  const projects = useProjects(handleError);
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const classes = useStyles();
-  const toast = useToast();
   const [currentPage, setCurrentPage] = useState(1);
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
-  const email = account.email;
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const toastAdd = toast.add;
-  const historyPush = history.push;
 
   const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
   for (let i = 0; i < pageLinks.length; i++) {
@@ -151,38 +150,6 @@ const ProjectsPage = ({
       setCurrentPage(currentPage + 1);
     }
   };
-
-  const handleError = useCallback(
-    error => {
-      if (error.response && error.response.status === 401) {
-        toastAdd(
-          "For your security, your session has expired. Please log in again."
-        );
-        historyPush(`/logout/${encodeURIComponent(email)}`);
-      }
-      console.error(error);
-    },
-    [email, toastAdd, historyPush]
-  );
-
-  const getProjects = useCallback(async () => {
-    try {
-      const result = await projectService.get();
-      if (result.data === "" || result.data === false) {
-        setProjects([]);
-      } else {
-        setProjects(result.data);
-      }
-    } catch (err) {
-      handleError(err);
-    }
-  }, [handleError]);
-
-  useEffect(() => {
-    if (!selectedProject) {
-      getProjects();
-    }
-  }, [selectedProject, getProjects]);
 
   const toggleDuplicateModal = project => {
     if (project) {
