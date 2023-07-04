@@ -4,4 +4,4 @@ const publicCommentController = require("../controllers/public-comment.controlle
 
 module.exports = router;
 
-router.post("/", jwtSession.validateUser, publicCommentController.post);
+router.post("/", jwtSession.optionalUser, publicCommentController.post);

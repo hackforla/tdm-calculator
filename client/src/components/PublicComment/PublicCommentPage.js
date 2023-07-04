@@ -234,12 +234,15 @@ const PublicCommentPage = ({ account, history }) => {
                   />
                 </label>
               </div>
-              <ProjectList
-                key={JSON.stringify(projects, null, 2)}
-                projects={projects}
-                selectedProjects={selectedProjects}
-                setSelectedProjects={setSelectedProjects}
-              />
+              {account && account.id ? (
+                <ProjectList
+                  key={JSON.stringify(projects, null, 2)}
+                  projects={projects}
+                  selectedProjects={selectedProjects}
+                  setSelectedProjects={setSelectedProjects}
+                />
+              ) : null}
+
               {/* <div>{JSON.stringify(projects, null, 2)}</div> */}
               <Button
                 type="submit"

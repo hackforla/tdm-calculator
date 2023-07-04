@@ -72,9 +72,11 @@ const sendPublicComment = async (loginId, publicCommentData) => {
       publicCommentData;
 
     let projects = [];
-    for (let i = 0; i < selectedProjectIds.length; i++) {
-      const p = await projectService.getById(loginId, selectedProjectIds[i]);
-      projects.push(p);
+    if (loginId) {
+      for (let i = 0; i < selectedProjectIds.length; i++) {
+        const p = await projectService.getById(loginId, selectedProjectIds[i]);
+        projects.push(p);
+      }
     }
 
     let body = ` <p><strong>Name:</strong> ${name}</p>
