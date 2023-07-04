@@ -1,0 +1,67 @@
+{
+  "individualResults": [
+    {
+      "initialSchemaVersion": "20230320.1545",
+      "targetSchemaVersion": "20230420.1255",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20230420.1255",
+          "description": "create sproc update account 780",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230420.1255__create_sproc_update_account_780.sql",
+          "executionTime": 132
+        }
+      ],
+      "migrationsExecuted": 1,
+      "success": true,
+      "flywayVersion": "9.19.4",
+      "database": "tdmprod",
+      "warnings": [],
+      "timestamp": "2023-06-16T21:17:27.676788",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20230320.1545",
+      "targetSchemaVersion": "20230420.1255",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20230420.1255",
+          "description": "create sproc update account 780",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230420.1255__create_sproc_update_account_780.sql",
+          "executionTime": 200
+        }
+      ],
+      "migrationsExecuted": 1,
+      "success": true,
+      "flywayVersion": "9.19.4",
+      "database": "tdmuat",
+      "warnings": [],
+      "timestamp": "2023-06-16T21:18:10.447726100",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20230420.1255",
+      "targetSchemaVersion": null,
+      "schemaName": "",
+      "migrations": [],
+      "migrationsExecuted": 0,
+      "success": true,
+      "flywayVersion": "9.19.4",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-06-16T21:18:42.375577200",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    }
+  ]
+}

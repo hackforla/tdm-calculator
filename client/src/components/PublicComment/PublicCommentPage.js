@@ -11,7 +11,7 @@ import ContentContainer from "../Layout/ContentContainer";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import { withRouter } from "react-router-dom";
-import ProjectsDropdown from "../Dropdown/ProjectsDropdown";
+import ProjectList from "./ProjectList";
 
 const useStyles = createUseStyles({
   publicCommentContainer: {
@@ -84,7 +84,8 @@ const PublicCommentPage = ({ account, history }) => {
     name: "",
     email: "",
     comment: "",
-    forwardToWebTeam: false
+    forwardToWebTeam: false,
+    selectedProjects: []
   };
 
   const validationSchema = Yup.object({
@@ -106,7 +107,8 @@ const PublicCommentPage = ({ account, history }) => {
         name,
         email,
         comment,
-        forwardToWebTeam
+        forwardToWebTeam,
+        selectedProjects
       });
 
       if (response.status === 201) {
@@ -232,11 +234,13 @@ const PublicCommentPage = ({ account, history }) => {
                   />
                 </label>
               </div>
-              <ProjectsDropdown
+              <ProjectList
+                key={JSON.stringify(projects, null, 2)}
                 projects={projects}
                 selectedProjects={selectedProjects}
                 setSelectedProjects={setSelectedProjects}
               />
+              {/* <div>{JSON.stringify(projects, null, 2)}</div> */}
               <Button
                 type="submit"
                 className={classes.submitButton}
