@@ -65,12 +65,14 @@ const AppWrapper = () => {
   }, []);
 
   const toggleChecklistModal = () => {
-    if (checklistModalOpen === false) {
-      setChecklistModalOpen(true);
-      window.localStorage.removeItem("checklist");
-    } else {
-      setChecklistModalOpen(false);
-      window.localStorage.setItem("checklist", "Accepted");
+    if (!localStorage.getItem("checklist")) {
+      if (checklistModalOpen === false) {
+        setChecklistModalOpen(true);
+        window.localStorage.removeItem("checklist");
+      } else {
+        setChecklistModalOpen(false);
+        window.localStorage.setItem("checklist", "Accepted");
+      }
     }
   };
 

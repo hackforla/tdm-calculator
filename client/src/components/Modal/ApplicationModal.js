@@ -40,14 +40,17 @@ const useStyles = createUseStyles({
   modalActions: {
     display: "flex",
     justifyContent: "center"
+  },
+  close: {
+    display: "flex",
+    justifyContent: "flex-end",
+    fontSize: "25px",
+    cursor: "pointer"
   }
 });
 const ApplicationModal = props => {
   const {
     modalType,
-    // title,
-    // text,
-    // icon,
     buttonOneFunction,
     buttonTwoFunction,
     buttonOneParameter,
@@ -59,10 +62,13 @@ const ApplicationModal = props => {
 
   useEffect(() => {
     const keyDownHandler = event => {
-      console.log("ESCAPE HIT", ModalState, modalType);
       if (event.key === "Escape") {
         event.preventDefault();
         toggleModalState(false);
+      }
+      if (event.key === "Enter" && ModalState) {
+        event.preventDefault();
+        buttonTwoFunction(buttonTwoParameter);
       }
     };
 
@@ -73,7 +79,6 @@ const ApplicationModal = props => {
   }, []);
 
   const classes = useStyles();
-
   return (
     <Modal
       isOpen={ModalState}
@@ -83,6 +88,14 @@ const ApplicationModal = props => {
       className={classes.content}
       shouldFocusAfterRender={false}
     >
+      <span
+        className={classes.close}
+        onClick={() => {
+          toggleModalState();
+        }}
+      >
+        x
+      </span>
       <div className={classes.deselectedWrapper}>
         {ModalData[modalType].icon ? (
           <FontAwesomeIcon
@@ -91,6 +104,7 @@ const ApplicationModal = props => {
             alt="Warning"
           />
         ) : null}
+
         {ModalData[modalType].text ? (
           <h2 className={classes.deselectedAlign}>
             {ModalData[modalType].text}
@@ -98,10 +112,8 @@ const ApplicationModal = props => {
         ) : null}
       </div>
       {extendedContent}
-
       <div className={classes.modalActions}>
         {ModalData[modalType].buttonOne ? (
-          //First Button
           <Button
             color="colorDeselect"
             id="modalProceed"
@@ -122,7 +134,6 @@ const ApplicationModal = props => {
           </Button>
         ) : null}
         {ModalData[modalType].buttonTwo ? (
-          //Second Button
           <Button
             color="colorDeselect"
             id="modalProceed"
@@ -154,12 +165,4 @@ ApplicationModal.propTypes = {
   extendedContent: PropTypes.any
 };
 
-// Modal.propTypes = {
-// title: PropTypes.string,
-// text: PropTypes.string,
-// icon: PropTypes.string,
-// buttonOne: PropTypes.string,
-// buttonTwo: PropTypes.string,
-// nestedComponent: ""
-// };
 export default ApplicationModal;

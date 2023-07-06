@@ -19,8 +19,7 @@ const useStyles = createUseStyles({
 });
 
 const DuplicateModalInput = props => {
-  const { selectedProject, setDuplicateProjectName, duplicateProjectName } =
-    props;
+  const { setDuplicateProjectName, duplicateProjectName } = props;
   const classes = useStyles();
 
   const handleDuplicateProjectNameChange = newProjectName => {
@@ -32,7 +31,7 @@ const DuplicateModalInput = props => {
       <p className={classes.instruction}>
         Type a new name to duplicate the project,&nbsp;
         <br />
-        <strong>{selectedProject && selectedProject.name}</strong>.
+        <strong>{duplicateProjectName}</strong>.
       </p>
       <input
         placeholder="Name of Duplicated Project"

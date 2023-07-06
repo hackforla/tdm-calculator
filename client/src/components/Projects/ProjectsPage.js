@@ -292,8 +292,6 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
     indexOfLastPost
   );
 
-  //DUPLICATE LOGIC
-
   const duplicateProject = async () => {
     const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
     projectFormInputsAsJson.PROJECT_NAME = duplicateProjectName;
@@ -322,8 +320,6 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
     toggleDeleteModal();
     setSelectedProject(null);
   };
-
-  //DUPLICATE LOGIC
 
   return (
     <ContentContainerNoSidebar
@@ -465,14 +461,6 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
 
       {selectedProject && (
         <>
-          {/* <DuplicateProjectModal
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
-            handleError={handleError}
-            toggleDuplicateModal={toggleDuplicateModal}
-            setDuplicateModalOpen={setDuplicateModalOpen}
-            duplicateModalOpen={duplicateModalOpen}
-          /> */}
           <ApplicationModal
             modalType={"DuplicateProjectModal"}
             ModalState={duplicateModalOpen}

@@ -4,7 +4,6 @@ export default {
     text: "Due to changes made to the project specifications, one or more TDM strategies are no longer applicable and have been automatically de-selected",
     icon: "warning",
     buttonOne: "Okay"
-    //IMPLEMENTED
   },
   NavConfirm: {
     title: "Leave page and delete unsaved data?",
@@ -12,16 +11,12 @@ export default {
     icon: "warning",
     buttonOne: "Cancel",
     buttonTwo: "Proceed"
-    //IMPLEMENTED
   },
-  //ProjectAction contains Delete and duplicate Modals
   DeleteProjectModal: {
     title: `Delete Project`,
     text: "Are you sure you want to permanently delete this project?",
     buttonOne: "Cancel",
     buttonTwo: "Delete"
-    //logic for delete is in parent. (34)
-    //In Progress
   },
   DuplicateProjectModal: {
     title: "",
@@ -29,7 +24,6 @@ export default {
     input: "",
     buttonOne: "Cancel",
     buttonTwo: "Submit"
-    //In Progress
   },
   TermsAndConditions: {
     title: "TDM Calculator User Terms and Conditions",
@@ -39,30 +33,6 @@ export default {
   },
   Checklist: {
     title: "",
-    text: "CHECKLIST"
-    //Replaced Or Not.
+    text: ""
   }
 };
-
-//behaviors:
-//  close/confirm on one button
-// proceed/cancel on two buttons
-// proceed/ exit site on two buttons
-
-//fields needed:
-
-// props:
-//Component InapplicableStrategiesModal
-//  inapplicableStrategiesModal
-//  closeStrategiesModal
-//Component NavConfirmModal
-//   confirmTransition={confirmTransition}
-//   isOpenNavConfirmModal={isOpenNavConfirmModal}
-//   setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
-//Component TermsAndConditionsModal
-//Component ChecklistModal
-// checklistModalOpen={checklistModalOpen}
-// toggleChecklistModal={toggleChecklistModal}
-//Component DeleteProjectModal
-
-//inapplicableStrategiesModal replaced
