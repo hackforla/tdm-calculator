@@ -35,8 +35,6 @@ const DuplicateProjectModal = ({
   );
 
   const duplicateProject = async () => {
-    console.log("Selected", projectFormInputsAsJson);
-
     projectFormInputsAsJson.PROJECT_NAME = duplicateProjectName;
 
     try {

@@ -41,7 +41,7 @@ const DeleteProjectModal = ({
     toggleDeleteModal();
     setSelectedProject(null);
   };
-  console.log("DELETE", deleteModalOpen);
+
   return (
     <ProjectActionModal
       isOpen={true}

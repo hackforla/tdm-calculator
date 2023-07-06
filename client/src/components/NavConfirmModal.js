@@ -58,8 +58,6 @@ const NavConfirmModal = ({
     setIsOpenNavConfirmModal(false);
   };
 
-  console.log("Is Open", isOpenNavConfirmModal);
-
   return (
     <Modal
       isOpen={isOpenNavConfirmModal}

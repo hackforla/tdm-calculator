@@ -11,8 +11,6 @@ import SearchIcon from "../../images/search.png";
 import CopyIcon from "../../images/copy.png";
 import DeleteIcon from "../../images/trash.png";
 import Pagination from "../Pagination.js";
-// import DeleteProjectModal from "./DeleteProjectModal";
-// import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import ApplicationModal from "./../../components/Modal/ApplicationModal";
 import DuplicateModalInput from "./../../components/Modal/ExtendedModalText/DuplicateModalInput";
