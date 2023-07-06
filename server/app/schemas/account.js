@@ -7,15 +7,18 @@ module.exports = {
     },
     firstName: {
       type: "string",
-      minLength: 1
+      minLength: 1,
+      pattern: "^[a-zA-Z '.-]+$"
     },
     lastName: {
       type: "string",
-      minLength: 1
+      minLength: 1,
+      pattern: "^[a-zA-Z '.-]+$"
     },
     email: {
       type: "string",
-      minLength: 1
+      minLength: 3,
+      pattern: "\\S+@\\S+"
     }
   }
 };
