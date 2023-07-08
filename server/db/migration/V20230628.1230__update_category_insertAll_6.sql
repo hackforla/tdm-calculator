@@ -1,11 +1,11 @@
-/* Drop existing table FaqCategory if it exists */
-IF OBJECT_ID('dbo.FaqCategory', 'U') IS NOT NULL
-    DROP TABLE dbo.FaqCategory;
-GO
-
 /* Drop existing table Faq if it exists */
 IF OBJECT_ID('dbo.Faq', 'U') IS NOT NULL
     DROP TABLE dbo.Faq;
+GO
+
+/* Drop existing table FaqCategory if it exists */
+IF OBJECT_ID('dbo.FaqCategory', 'U') IS NOT NULL
+    DROP TABLE dbo.FaqCategory;
 GO
 
 /* Create new table FaqCategory with updated structure */
