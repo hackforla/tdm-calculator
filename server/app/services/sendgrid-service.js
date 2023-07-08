@@ -89,8 +89,8 @@ const sendPublicComment = async (loginId, publicCommentData) => {
     if (projects && projects.length > 0) {
       body +=
         `<p><strong>Referenced Project(s)</strong></p>
-        <p>First, log in to TDM with your credentials, then copy one of the Project Links below
-        into the Address bar of TDM Browser Window to access the corresponding project information.</p>
+        <p>Clicking on a link to one of the projects will allow you to log in to TDM, then, once login is successful, it will
+        open the project.</p>
         <table style="list-style-type:none">
         <tr>
           <th style="text-align:left;">Name</th>
@@ -108,7 +108,7 @@ const sendPublicComment = async (loginId, publicCommentData) => {
             "MM/DD/YYYY h:mm A"
           )}</td><td>${moment(project.dateCreated).format(
             "MM/DD/YYYY h:mm A"
-          )}</td><td> ${clientUrl}/calculation/5/${project.id}</td></tr>`;
+          )}</td><td> ${clientUrl}/login?projectId=${project.id}</td></tr>`;
         }) +
         "</table></div>";
     }

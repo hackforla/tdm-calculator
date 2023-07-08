@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { Link, withRouter, useHistory, useLocation } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -35,6 +35,9 @@ const Login = props => {
   const focusRef = useRef(null);
   const userContext = useContext(UserContext);
   const { match } = props;
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const projectId = searchParams.get("projectId");
   const history = useHistory();
   const [errorMsg, setErrorMsg] = useState("");
   const [withoutSavingWarningIsVisible, setWithoutSavingWarningIsVisible] =
@@ -77,7 +80,11 @@ const Login = props => {
           action: "success",
           value: loginResponse.user.id
         });
-        history.push("/calculation/1");
+        if (projectId) {
+          history.push(`/calculation/5/${projectId}`);
+        } else {
+          history.push("/calculation/1");
+        }
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
           trackLoginFail({ reason: loginResponse.code });
