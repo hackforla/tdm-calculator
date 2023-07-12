@@ -2,7 +2,7 @@ const router = require("express").Router();
 const accountController = require("../controllers/account.controller");
 const jwtSession = require("../../middleware/jwt-session");
 
-router.get("/:id", jwtSession.validateUser, accountController.getById);
+// router.get("/:id", jwtSession.validateUser, accountController.getById);
 router.get(
   "/",
   jwtSession.validateRoles(["isSecurityAdmin"]),

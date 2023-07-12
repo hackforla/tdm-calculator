@@ -23,21 +23,21 @@ const selectAll = async () => {
   }
 };
 
-const selectById = async id => {
-  try {
-    await poolConnect;
-    const request = pool.request();
-    request.input("Id", mssql.Int, id);
+// const selectById = async id => {
+//   try {
+//     await poolConnect;
+//     const request = pool.request();
+//     request.input("Id", mssql.Int, id);
 
-    const response = await request.execute("Login_SelectById");
-    if (response.recordset && response.recordset.length > 0) {
-      return response.recordset[0];
-    }
-    return null;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+//     const response = await request.execute("Login_SelectById");
+//     if (response.recordset && response.recordset.length > 0) {
+//       return response.recordset[0];
+//     }
+//     return null;
+//   } catch (err) {
+//     return Promise.reject(err);
+//   }
+// };
 
 const selectByEmail = async email => {
   try {
@@ -412,7 +412,7 @@ async function hashPassword(user) {
 
 module.exports = {
   selectAll,
-  selectById,
+  // selectById,
   register,
   updateAccount,
   confirmRegistration,
