@@ -36,6 +36,7 @@
     "@microsoft/applicationinsights-web": "^2.5.11",
     "axios": "^0.27.2",
     "clsx": "^1.1.1",
+    "focus-trap-react": "^10.2.1",
     "formik": "^2.2.9",
     "moment": "^2.29.1",
     "react": "^18.1.0",

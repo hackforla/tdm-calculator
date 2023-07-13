@@ -6,6 +6,7 @@ import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import ModalData from "./ModalData.js";
+import FocusTrap from "focus-trap-react";
 
 const useStyles = createUseStyles({
   overlay: {
@@ -66,10 +67,10 @@ const ApplicationModal = props => {
         event.preventDefault();
         toggleModalState(false);
       }
-      if (event.key === "Enter" && ModalState) {
-        event.preventDefault();
-        buttonTwoFunction(buttonTwoParameter);
-      }
+      // if (event.key === "Enter" && ModalState) {
+      //   event.preventDefault();
+      //   buttonTwoFunction(buttonTwoParameter);
+      // }
     };
 
     document.addEventListener("keydown", keyDownHandler);
@@ -88,68 +89,73 @@ const ApplicationModal = props => {
       className={classes.content}
       shouldFocusAfterRender={false}
     >
-      <span
-        className={classes.close}
-        onClick={() => {
-          toggleModalState();
-        }}
-      >
-        x
-      </span>
-      <div className={classes.deselectedWrapper}>
-        {ModalData[modalType].icon ? (
-          <FontAwesomeIcon
-            icon={faTriangleExclamation}
-            style={{ color: "#E46247", height: "80px" }}
-            alt="Warning"
-          />
-        ) : null}
-
-        {ModalData[modalType].text ? (
-          <h2 className={classes.deselectedAlign}>
-            {ModalData[modalType].text}
-          </h2>
-        ) : null}
-      </div>
-      {extendedContent}
-      <div className={classes.modalActions}>
-        {ModalData[modalType].buttonOne ? (
-          <Button
-            color="colorDeselect"
-            id="modalProceed"
-            data-testid="transitionProceed"
-            onClick={() => {
-              if (buttonOneFunction) {
-                if (buttonOneParameter) {
-                  buttonOneFunction(buttonOneParameter);
-                } else {
-                  buttonOneFunction();
-                }
-              } else {
+      <FocusTrap focusTrapOptions={{ initialFocus: "#modal-body" }}>
+        <div>
+          <span className={classes.close}>
+            <div
+              onClick={() => {
                 toggleModalState();
-              }
-            }}
-          >
-            {ModalData[modalType].buttonOne}
-          </Button>
-        ) : null}
-        {ModalData[modalType].buttonTwo ? (
-          <Button
-            color="colorDeselect"
-            id="modalProceed"
-            data-testid="transitionProceed"
-            onClick={() => {
-              if (buttonTwoParameter) {
-                buttonTwoFunction(buttonTwoParameter);
-              } else {
-                buttonTwoFunction();
-              }
-            }}
-          >
-            {ModalData[modalType].buttonTwo}
-          </Button>
-        ) : null}
-      </div>
+              }}
+            >
+              x
+            </div>
+          </span>
+          <div className={classes.deselectedWrapper} href="#" id="modal-body">
+            {ModalData[modalType].icon ? (
+              <FontAwesomeIcon
+                icon={faTriangleExclamation}
+                style={{ color: "#E46247", height: "80px" }}
+                alt="Warning"
+              />
+            ) : null}
+
+            {ModalData[modalType].text ? (
+              <h2 className={classes.deselectedAlign}>
+                {ModalData[modalType].text}
+              </h2>
+            ) : null}
+          </div>
+          {extendedContent}
+          <div className={classes.modalActions}>
+            {ModalData[modalType].buttonOne ? (
+              <Button
+                color="colorDeselect"
+                id="modalProceed"
+                data-testid="transitionProceed"
+                onClick={() => {
+                  if (buttonOneFunction) {
+                    if (buttonOneParameter) {
+                      buttonOneFunction(buttonOneParameter);
+                    } else {
+                      buttonOneFunction();
+                    }
+                  } else {
+                    toggleModalState();
+                  }
+                }}
+              >
+                {ModalData[modalType].buttonOne}
+              </Button>
+            ) : null}
+            {ModalData[modalType].buttonTwo ? (
+              <Button
+                color="colorDeselect"
+                id="modalProceed"
+                data-testid="transitionProceed"
+                onClick={() => {
+                  if (buttonTwoParameter) {
+                    buttonTwoFunction(buttonTwoParameter);
+                  } else {
+                    buttonTwoFunction();
+                  }
+                }}
+              >
+                {ModalData[modalType].buttonTwo}
+              </Button>
+            ) : null}
+          </div>
+        </div>
+      </FocusTrap>
     </Modal>
   );
 };

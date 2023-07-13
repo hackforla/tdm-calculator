@@ -115,7 +115,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const toastAdd = toast.add;
   const historyPush = history.push;
-  const [duplicateProjectName, setDuplicateProjectName] = useState(null);
+  const [duplicateProjectName, setDuplicateProjectName] = useState("");
 
   const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
   for (let i = 0; i < pageLinks.length; i++) {
@@ -168,6 +168,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const toggleDuplicateModal = project => {
     if (project) {
       setSelectedProject(project);
+      setDuplicateProjectName(project.name + " (COPY)");
     } else {
       setSelectedProject(null);
     }
