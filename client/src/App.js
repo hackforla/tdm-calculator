@@ -171,6 +171,7 @@ const App = ({
 
                     <Route path="/faqs/:showChecklist?">
                       <FaqView
+                        isAdmin={account.isAdmin}
                         toggleChecklistModal={toggleChecklistModal}
                         checklistModalOpen={checklistModalOpen}
                       />

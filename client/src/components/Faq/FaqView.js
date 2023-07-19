@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import FaqCategoryList from "./FaqCategoryList";
 import ExpandButtons from "./ExpandButtons";
@@ -6,25 +6,18 @@ import EditToggleButton from "../Button/EditToggleButton";
 import ContentContainer from "../Layout/ContentContainer";
 import { withRouter } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
-import useFaqCategory from "./hooks/useFaqCategory";
+import * as faqCategoryService from "../../services/faqCategory.service";
 
-const FaqView = () => {
+const FaqView = ({ isAdmin }) => {
+  const [faqCategoryList, setFaqCategoryList] = useState([]);
+  const [highestFaqId, setHighestFaqId] = useState(0);
+  const [highestCategoryId, setHighestCategoryId] = useState(0);
+  const [expanded, setExpanded] = useState(false);
   const [admin, setAdmin] = useState(false);
-  const {
-    expanded,
-    faqCategoryList,
-    setFaqCategoryList,
-    handleAddCategory,
-    handleDeleteCategory,
-    handleAddFAQ,
-    handleEditFAQ,
-    handleEditCategory,
-    handleDeleteFAQ,
-    expandFaq,
-    collapseFaq,
-    toggleExpandCollapse,
-    submitFaqData
-  } = useFaqCategory();
+
+  useEffect(() => {
+    fetchFaqData();
+  }, []);
 
   const handleDragEnd = result => {
     const { type, destination, source } = result;
@@ -78,6 +71,203 @@ const FaqView = () => {
     });
   };
 
+  const fetchFaqData = async () => {
+    const faqCategoryListResponse = await faqCategoryService.get();
+    const categories = faqCategoryListResponse.data;
+
+    let highestFaqId = 0;
+    let highestCategoryId = 0;
+
+    for (let i = 0; i < categories.length; i++) {
+      const category = categories[i];
+      category.faqs = category.faqs ? JSON.parse(category.faqs) : [];
+      highestCategoryId = Math.max(highestCategoryId, category.id);
+
+      if (category.faqs && category.faqs.length > 0) {
+        const faqIds = category.faqs.map(faq => faq.id);
+        const maxFaqId = Math.max(...faqIds);
+        highestFaqId = Math.max(highestFaqId, maxFaqId);
+      }
+    }
+
+    setHighestFaqId(highestFaqId);
+    setHighestCategoryId(highestCategoryId);
+    setFaqCategoryList(categories);
+  };
+
+  const submitFaqData = useCallback(async () => {
+    const categories = [...faqCategoryList];
+
+    for (let i = 0; i < categories.length; i++) {
+      if (categories[i].faqs) {
+        categories[i].faqs = categories[i].faqs.map(faq => {
+          /**
+           * Iterate over the categories and removes the expand property
+           * from each faq using object destructuring. This step ensures that
+           * only the necessary data is included in the POST request payload.
+           */
+
+          // eslint-disable-next-line no-unused-vars
+          const { expand, ...rest } = faq;
+          return rest;
+        });
+      }
+    }
+    // await faqService.post(categories.flatMap(category => category.faqs));
+    await faqCategoryService.post(categories);
+
+    // Handle the responses if needed
+  }, [faqCategoryList]);
+
+  const handleAddCategory = () => {
+    const lastDisplayOrder = faqCategoryList.length
+      ? faqCategoryList[faqCategoryList.length - 1].displayOrder || 0
+      : 0;
+    const updatedHighestCategoryId = highestCategoryId + 1;
+
+    const newCategory = {
+      id: updatedHighestCategoryId,
+      displayOrder: lastDisplayOrder + 10,
+      name: "",
+      faqs: []
+    };
+    setHighestCategoryId(updatedHighestCategoryId);
+    setFaqCategoryList(prevState => [...prevState, newCategory]);
+  };
+
+  const handleDeleteCategory = categoryId => {
+    setFaqCategoryList(prevState =>
+      prevState.filter(category => category.id !== categoryId)
+    );
+  };
+
+  const handleAddFAQ = (category, question, answer) => {
+    const { faqs, id: categoryId } = category;
+    const lastFaqInCategory = faqs[faqs.length - 1];
+    const lastDisplayOrder = faqs.length
+      ? lastFaqInCategory.displayOrder || 0
+      : 0;
+    const updatedHighestFaqId = highestFaqId + 1;
+    const newFaq = {
+      id: updatedHighestFaqId,
+      question,
+      answer,
+      faqCategoryId: categoryId,
+      expand: false,
+      displayOrder: lastDisplayOrder + 10
+    };
+
+    setHighestFaqId(updatedHighestFaqId);
+
+    setFaqCategoryList(prevState =>
+      prevState.map(category => {
+        if (category.id === categoryId) {
+          return {
+            ...category,
+            faqs: [...category.faqs, newFaq]
+          };
+        }
+        return category;
+      })
+    );
+  };
+
+  const handleEditFAQ = (categoryId, faqId, question, answer) => {
+    setFaqCategoryList(prevState =>
+      prevState.map(category => {
+        if (category.id === categoryId) {
+          const updatedFaqs = category.faqs.map((faq, i) => {
+            if (i === 1) {
+              if (faq.id === faqId) {
+                return {
+                  ...faq,
+                  question,
+                  answer
+                };
+              }
+            }
+
+            return faq;
+          });
+
+          return {
+            ...category,
+            faqs: updatedFaqs
+          };
+        }
+        return category;
+      })
+    );
+  };
+
+  const handleEditCategory = (category, name) => {
+    setFaqCategoryList(prevState =>
+      prevState.map(cat => {
+        if (cat.id === category.id) {
+          return {
+            ...cat,
+            name // Update the category name
+          };
+        }
+        return cat;
+      })
+    );
+  };
+
+  const handleDeleteFAQ = (categoryId, faqId) => {
+    setFaqCategoryList(prevState =>
+      prevState.map(category => {
+        if (category.id === categoryId) {
+          const updatedFaqs = category.faqs.filter(faq => faq.id !== faqId);
+
+          return {
+            ...category,
+            faqs: updatedFaqs
+          };
+        }
+        return category;
+      })
+    );
+  };
+
+  const expandFaq = faq => {
+    setFaqCategoryList(prevState => {
+      return prevState.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(f =>
+            f.id === faq.id ? { ...f, expand: true } : f
+          )
+        };
+      });
+    });
+  };
+
+  const collapseFaq = faq => {
+    setFaqCategoryList(prevState => {
+      return prevState.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(f =>
+            f.id === faq.id ? { ...f, expand: false } : f
+          )
+        };
+      });
+    });
+  };
+
+  const toggleExpandCollapse = () => {
+    setExpanded(prevExpanded => !prevExpanded);
+    setFaqCategoryList(prevState => {
+      return prevState.map(cat => {
+        return {
+          ...cat,
+          faqs: cat.faqs.map(faq => ({ ...faq, expand: !expanded }))
+        };
+      });
+    });
+  };
+
   const handleAdminChange = () => {
     if (admin) {
       submitFaqData();
@@ -90,11 +280,13 @@ const FaqView = () => {
   return (
     <ContentContainer componentToTrack="FaqPage">
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
-        <EditToggleButton
-          id="EditToggleButton"
-          editMode={admin}
-          onClick={handleAdminChange}
-        />
+        {isAdmin && (
+          <EditToggleButton
+            id="EditToggleButton"
+            editMode={admin}
+            onClick={handleAdminChange}
+          />
+        )}
         <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
         <ExpandButtons
           expanded={expanded}
@@ -122,6 +314,7 @@ const FaqView = () => {
 FaqView.propTypes = {
   toggleChecklistModal: PropTypes.func,
   checklistModalOpen: PropTypes.bool,
+  isAdmin: PropTypes.bool,
   match: PropTypes.shape({
     params: PropTypes.shape({
       showChecklist: PropTypes.string
