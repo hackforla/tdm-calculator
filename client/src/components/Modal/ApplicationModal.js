@@ -47,7 +47,9 @@ const useStyles = createUseStyles({
     justifyContent: "flex-end",
     fontSize: "25px",
     cursor: "pointer"
-  }
+  },
+  buttonRed: { backgroundColor: "rgba(228,98,71,255)" },
+  buttonGreen: { backgroundColor: "rgba(167,197,57,255) " }
 });
 const ApplicationModal = props => {
   const {
@@ -64,13 +66,10 @@ const ApplicationModal = props => {
   useEffect(() => {
     const keyDownHandler = event => {
       if (event.key === "Escape") {
+        console.log("ESCAPE HIT");
         event.preventDefault();
-        toggleModalState(false);
+        toggleModalState();
       }
-      // if (event.key === "Enter" && ModalState) {
-      //   event.preventDefault();
-      //   buttonTwoFunction(buttonTwoParameter);
-      // }
     };
 
     document.addEventListener("keydown", keyDownHandler);
@@ -139,9 +138,10 @@ const ApplicationModal = props => {
             ) : null}
             {ModalData[modalType].buttonTwo ? (
               <Button
-                color="colorDeselect"
+                color="blue"
                 id="modalProceed"
                 data-testid="transitionProceed"
+                className={classes[ModalData[modalType].buttonColor]}
                 onClick={() => {
                   if (buttonTwoParameter) {
                     buttonTwoFunction(buttonTwoParameter);

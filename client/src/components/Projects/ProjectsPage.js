@@ -172,6 +172,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
     } else {
       setSelectedProject(null);
     }
+
     setDuplicateModalOpen(!duplicateModalOpen);
   };
 

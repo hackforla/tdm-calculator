@@ -16,20 +16,23 @@ export default {
     title: `Delete Project`,
     text: "Are you sure you want to permanently delete this project?",
     buttonOne: "Cancel",
-    buttonTwo: "Delete"
+    buttonTwo: "Delete",
+    buttonColor: "buttonRed"
   },
   DuplicateProjectModal: {
     title: "",
     text: "",
     input: "",
     buttonOne: "Cancel",
-    buttonTwo: "Submit"
+    buttonTwo: "Submit",
+    buttonColor: "buttonGreen"
   },
   TermsAndConditions: {
     title: "TDM Calculator User Terms and Conditions",
     text: ``,
     buttonOne: "Accept",
-    buttonTwo: "Decline and exit site"
+    buttonTwo: "Decline and exit site",
+    buttonColor: "buttonGreen"
   },
   Checklist: {
     title: "",
