@@ -202,15 +202,17 @@ const FaqView = ({ isAdmin }) => {
 
   const handleEditCategory = (category, name) => {
     setFaqCategoryList(prevState =>
-      prevState.map(cat => {
-        if (cat.id === category.id) {
-          return {
-            ...cat,
-            name // Update the category name
-          };
-        }
-        return cat;
-      })
+      prevState
+        .filter(cat => !!cat.name || !!name)
+        .map(cat => {
+          if (cat.id === category.id) {
+            return {
+              ...cat,
+              name // Update the category name
+            };
+          }
+          return cat;
+        })
     );
   };
 
@@ -276,7 +278,6 @@ const FaqView = ({ isAdmin }) => {
       setAdmin(true);
     }
   };
-
   return (
     <ContentContainer componentToTrack="FaqPage">
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>

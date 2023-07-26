@@ -56,7 +56,10 @@ const FaqCategory = props => {
 
   const handleCategoryNameChange = e => {
     setCategoryName(e.target.value);
-    handleEditCategory(category, e.target.value);
+  };
+  const onSetCategory = () => {
+    handleEditCategory(category, categoryName);
+    setCategoryEditMode(false);
   };
 
   const onEditFAQ = (faqId, question, answer) => {
@@ -115,9 +118,10 @@ const FaqCategory = props => {
               name="name"
               onChange={handleCategoryNameChange}
               onBlur={() => {
-                setCategoryEditMode(false);
+                onSetCategory();
               }}
               autoFocus
+              disabled={!admin}
             />
           </div>
         ) : (
@@ -128,9 +132,9 @@ const FaqCategory = props => {
               marginTop: "0.5em"
             }}
             onClick={() => {
-              setCategoryEditMode(true);
+              admin && setCategoryEditMode(true);
             }}
-          ></h3>
+          />
         )}
         <div {...dragHandleProps}>
           {admin ? (
@@ -192,7 +196,7 @@ const FaqCategory = props => {
                 </Draggable>
               );
             })}
-            {isNewFAQOpen && (
+            {admin && isNewFAQOpen && (
               <div>
                 <input
                   type="text"
@@ -206,7 +210,12 @@ const FaqCategory = props => {
                   value={newAnswer}
                   onChange={handleNewAnswerChange}
                 />
-                <button onClick={handleSaveNewFAQ}>Save New FAQ</button>
+                <button
+                  disabled={!newQuestion || !newAnswer}
+                  onClick={handleSaveNewFAQ}
+                >
+                  Save New FAQ
+                </button>
                 <button onClick={handleCloseNewFAQ}>Cancel</button>
               </div>
             )}
@@ -220,7 +229,7 @@ const FaqCategory = props => {
             className={classes.addQuestionButton}
             onClick={handleOpenNewFAQ}
           >
-            Add new question
+            ADD NEW FAQ
           </button>
         </div>
       ) : null}

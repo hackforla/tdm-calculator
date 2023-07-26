@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrashAlt,
   faChevronDown,
-  faChevronUp
+  faChevronUp,
+  faEdit
 } from "@fortawesome/free-solid-svg-icons";
 import { faGripHorizontal } from "@fortawesome/free-solid-svg-icons";
 
@@ -54,9 +55,10 @@ const Faq = props => {
     handleDeleteFAQ
   } = props;
   const classes = useStyles();
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [question, setQuestion] = useState(faq.question);
   const [answer, setAnswer] = useState(faq.answer);
+  const [question, setQuestion] = useState(faq.question);
+  const [isEditAnswer, setIsEditAnswer] = useState(false);
+  const [isEditQuestion, setIsEditQuestion] = useState(false);
 
   const handleQuestionChange = e => {
     setQuestion(e.target.value);
@@ -73,6 +75,22 @@ const Faq = props => {
   const onDeleteFAQ = () => {
     handleDeleteFAQ(faq.id);
   };
+
+  const onSetFaq = () => {
+    setIsEditQuestion(false);
+    // setIsEditAnswer(false);
+
+    if (answer) {
+      handleSaveFAQ();
+    }
+  };
+
+  useEffect(() => {
+    if (!admin) {
+      setIsEditQuestion(false);
+      setIsEditAnswer(false);
+    }
+  }, [admin]);
 
   return (
     <div>
@@ -100,7 +118,7 @@ const Faq = props => {
             marginTop: 0
           }}
         >
-          {isEditMode ? (
+          {isEditQuestion ? (
             <div>
               <input
                 placeholder="Question..."
@@ -118,6 +136,7 @@ const Faq = props => {
                 value={question}
                 name="question"
                 onChange={handleQuestionChange}
+                onBlur={onSetFaq}
               />
             </div>
           ) : (
@@ -128,7 +147,7 @@ const Faq = props => {
                 marginTop: "0.5em"
               }}
               onClick={() => {
-                setIsEditMode(true);
+                admin && setIsEditQuestion(!isEditQuestion);
               }}
             ></h3>
           )}
@@ -170,13 +189,23 @@ const Faq = props => {
                 icon={faTrashAlt}
                 onClick={onDeleteFAQ}
               />
+              <FontAwesomeIcon
+                style={{
+                  cursor: "pointer",
+                  fontSize: "1.5em",
+                  paddingTop: "0.25em",
+                  paddingRight: "0.25em"
+                }}
+                icon={faEdit}
+                onClick={() => setIsEditAnswer(!isEditAnswer)}
+              />
             </>
           ) : null}
         </div>
       </div>
       {faq.expand ? (
-        isEditMode ? (
-          <div style={{ display: "flex", width: "100%" }}>
+        isEditAnswer ? (
+          <div onBlur={onSetFaq} style={{ display: "flex", width: "100%" }}>
             <div
               style={{
                 fontWeight: "bold",
@@ -191,10 +220,6 @@ const Faq = props => {
             <Quill
               value={answer}
               onChange={handleAnswerChange}
-              onBlur={() => {
-                setIsEditMode(false);
-                handleSaveFAQ();
-              }}
               style={{ flex: "1 0 100%" }}
             />
           </div>
@@ -214,7 +239,7 @@ const Faq = props => {
             <p
               style={{ marginTop: "0.5em", fontWeight: "bold" }}
               dangerouslySetInnerHTML={{ __html: `${answer}` }}
-              onClick={() => setIsEditMode(true)}
+              onClick={() => admin && setIsEditAnswer(true)}
             ></p>
           </div>
         )

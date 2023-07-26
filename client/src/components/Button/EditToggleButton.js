@@ -16,7 +16,7 @@ const EditToggleButton = ({ id, onClick, editMode }) => {
     >
       <>
         <FontAwesomeIcon icon={faFloppyDisk} />
-        {editMode ? ` Save Edits` : ` Edit Section`}
+        {editMode ? ` SAVE FAQ PAGE` : ` EDIT FAQ PAGE`}
       </>
     </Button>
   );
