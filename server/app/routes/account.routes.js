@@ -2,7 +2,7 @@ const router = require("express").Router();
 const accountController = require("../controllers/account.controller");
 const jwtSession = require("../../middleware/jwt-session");
 
-router.get("/:id", jwtSession.validateUser, accountController.getById);
+// router.get("/:id", jwtSession.validateUser, accountController.getById);
 router.get(
   "/",
   jwtSession.validateRoles(["isSecurityAdmin"]),
@@ -31,5 +31,11 @@ router.get("/logout", (req, res) => {
   req.logout();
   res.sendStatus(200);
 });
+
+router.put(
+  "/:id/updateaccount",
+  jwtSession.validateUser,
+  accountController.updateAccount
+);
 
 module.exports = router;
