@@ -44,7 +44,6 @@ const postCategories = async faqCategories => {
     });
 
     request.input("faqCategories", tvp);
-    console.log("request:", request);
     const response = await request.execute("FaqCategory_InsertAll");
     return response.returnValue;
   } catch (err) {

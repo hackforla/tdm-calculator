@@ -57,6 +57,7 @@ const FaqCategory = props => {
   const handleCategoryNameChange = e => {
     setCategoryName(e.target.value);
   };
+
   const onSetCategory = () => {
     handleEditCategory(category, categoryName);
     setCategoryEditMode(false);
