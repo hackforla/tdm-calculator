@@ -6,8 +6,8 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
-  faSortDown
-  // faPrint
+  faSortDown,
+  faPrint
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 import CopyIcon from "../../images/copy.png";
@@ -18,7 +18,7 @@ import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
-// import ReactToPrint from "react-to-print";
+import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 
 const useStyles = createUseStyles({
@@ -277,6 +277,7 @@ const ProjectsPage = ({
   );
 
   const componentRef = useRef();
+  console.log("comp", currentProjects);
 
   return (
     <ContentContainerNoSidebar
@@ -385,7 +386,7 @@ const ProjectsPage = ({
                             alt={`Duplicate Project #${project.id} Icon`}
                           />
                         </button>
-                        {/* <ReactToPrint
+                        <ReactToPrint
                           trigger={() => (
                             <button>
                               <FontAwesomeIcon
@@ -396,7 +397,7 @@ const ProjectsPage = ({
                             </button>
                           )}
                           content={() => componentRef.current}
-                        /> */}
+                        />
                         <div style={{ display: "none" }}>
                           <PdfPrint
                             ref={componentRef}
