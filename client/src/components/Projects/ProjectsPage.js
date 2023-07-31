@@ -277,7 +277,7 @@ const ProjectsPage = ({
   );
 
   const componentRef = useRef();
-  console.log("comp", currentProjects);
+  // console.log("comp", currentProjects);
 
   return (
     <ContentContainerNoSidebar
