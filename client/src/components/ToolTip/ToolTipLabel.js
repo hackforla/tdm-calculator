@@ -2,8 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfo, faCircle } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles(theme => ({
+  labelWrapper: {
+    flexGrow: "1",
+    flexShrink: "1",
+    flexBasis: "50%",
+    "&:hover $iconContainer": {
+      visibility: "visible"
+    }
+  },
   tooltipLabel: {
     flexGrow: "1",
     flexShrink: "1",
@@ -14,8 +24,16 @@ const useStyles = createUseStyles(theme => ({
     flexShrink: "1",
     flexBasis: "50%",
     "&:hover": {
-      fontWeight: "bold",
-      textDecoration: "underline",
+      cursor: "pointer"
+    }
+  },
+  accordionLabelClicked: {
+    color: "#002E6D",
+    fontWeight: "bold",
+    flexGrow: "1",
+    flexShrink: "1",
+    flexBasis: "50%",
+    "&:hover": {
       cursor: "pointer"
     }
   },
@@ -40,6 +58,18 @@ const useStyles = createUseStyles(theme => ({
       content: '" *"',
       color: theme.colors.warning
     }
+  },
+  faInfoIcon: {
+    color: "#ffffff"
+  },
+  faCircle: {
+    color: "#002E6D"
+  },
+  iconContainer: {
+    visibility: "hidden"
+  },
+  iconContainerClicked: {
+    color: "red"
   }
 }));
 
@@ -51,7 +81,8 @@ const ToolTipLabel = ({
   requiredInput,
   disabledInput,
   setShowDescription,
-  description
+  description,
+  showDescription
 }) => {
   const classes = useStyles();
   const requiredStyle = requiredInput && classes.requiredInputLabel;
@@ -61,6 +92,7 @@ const ToolTipLabel = ({
     e.preventDefault();
     setShowDescription(prev => !prev);
   };
+  console.log("TOOLTIPLABEL", children);
 
   if (code && code.startsWith("UNITS_HABIT")) {
     return (
@@ -68,7 +100,15 @@ const ToolTipLabel = ({
         onClick={descriptionHandler}
         htmlFor={code}
         className={
-          description
+          showDescription
+            ? description
+              ? clsx(
+                  classes.accordionLabelClicked,
+                  requiredStyle,
+                  disabledStyle
+                )
+              : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+            : description
             ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
             : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
         }
@@ -84,27 +124,48 @@ const ToolTipLabel = ({
   }
 
   return (
-    <label
-      onClick={descriptionHandler}
-      htmlFor={code ? code : null}
-      className={
-        description
-          ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
-          : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
-      }
-      data-class={classes.tooltip}
-      data-for={id}
-      data-tip={tooltipContent}
-      data-iscapture="true"
-      data-html="true"
-    >
-      {children}
-      {tooltipContent &&
-        code &&
-        !code.startsWith("STRATEGY") &&
-        !code.startsWith("PKG") &&
-        null}
-    </label>
+    <div className={classes.labelWrapper}>
+      <label
+        onClick={descriptionHandler}
+        htmlFor={code ? code : null}
+        className={
+          showDescription
+            ? description
+              ? clsx(
+                  classes.accordionLabelClicked,
+                  requiredStyle,
+                  disabledStyle
+                )
+              : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+            : description
+            ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+            : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+        }
+        data-class={classes.tooltip}
+        data-for={id}
+        data-tip={tooltipContent}
+        data-iscapture="true"
+        data-html="true"
+      >
+        {children}
+        {tooltipContent &&
+          code &&
+          !code.startsWith("STRATEGY") &&
+          !code.startsWith("PKG") &&
+          null}
+      </label>
+      <span
+        className={clsx("fa-layers fa-fw", classes.iconContainer)}
+        style={showDescription ? { visibility: "visible" } : {}}
+      >
+        <FontAwesomeIcon icon={faCircle} className={classes.faCircle} />
+        <FontAwesomeIcon
+          icon={faInfo}
+          className={classes.faInfoIcon}
+          size="2xs"
+        />
+      </span>
+    </div>
   );
 };
 
@@ -116,7 +177,8 @@ ToolTipLabel.propTypes = {
   requiredInput: PropTypes.bool,
   disabledInput: PropTypes.bool,
   setShowDescription: PropTypes.func,
-  description: PropTypes.string
+  description: PropTypes.string,
+  showDescription: PropTypes.bool
 };
 
 export default ToolTipLabel;

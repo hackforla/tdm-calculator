@@ -124,6 +124,18 @@ const useStyles = createUseStyles(theme => ({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
+  },
+  faInfoIcon: {
+    color: "#ffffff"
+  },
+  faCircle: {
+    color: "#002E6D"
+  },
+  iconContainer: {
+    visibility: "hidden"
+  },
+  iconContainerClicked: {
+    color: "red"
   }
 }));
 
@@ -178,7 +190,6 @@ const RuleInput = ({
     // propagate up to where the rule errors are used
     onAINInputError(error);
   };
-
   return (
     <React.Fragment>
       {display ? (
@@ -196,6 +207,7 @@ const RuleInput = ({
               name={name}
               setShowDescription={setShowDescription}
             />
+
             <div>
               <input
                 className={
@@ -300,7 +312,20 @@ const RuleInput = ({
               link={link}
               name={name}
               setShowDescription={setShowDescription}
+              showDescription={showDescription}
             />
+            {/* <span
+              className={clsx("fa-layers fa-fw", classes.iconContainer)}
+              style={showDescription ? { visibility: "visible" } : {}}
+            >
+              <FontAwesomeIcon icon={faCircle} className={classes.faCircle} />
+              <FontAwesomeIcon
+                icon={faInfo}
+                className={classes.faInfoIcon}
+                size="2xs"
+              />
+            </span>
+            Iconlocation */}
             {dataType === "string" ? (
               <input
                 type="text"
