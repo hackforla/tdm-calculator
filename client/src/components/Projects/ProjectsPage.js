@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -6,8 +6,8 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
-  faSortDown
-  // faPrint
+  faSortDown,
+  faPrint
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 import CopyIcon from "../../images/copy.png";
@@ -18,8 +18,6 @@ import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
-// import ReactToPrint from "react-to-print";
-import { PdfPrint } from "../PdfPrint/PdfPrint";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -112,13 +110,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectsPage = ({
-  account,
-  history,
-  contentContainerRef,
-  rules,
-  dateModified
-}) => {
+const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const email = account.email;
@@ -276,8 +268,6 @@ const ProjectsPage = ({
     indexOfLastPost
   );
 
-  const componentRef = useRef();
-
   return (
     <ContentContainerNoSidebar
       componentToTrack="ProjectsPage"
@@ -385,25 +375,15 @@ const ProjectsPage = ({
                             alt={`Duplicate Project #${project.id} Icon`}
                           />
                         </button>
-                        {/* <ReactToPrint
-                          trigger={() => (
-                            <button>
-                              <FontAwesomeIcon
-                                icon={faPrint}
-                                className={classes.printIcon}
-                                alt={`Duplicate Project #${project.id} Icon`}
-                              />
-                            </button>
-                          )}
-                          content={() => componentRef.current}
-                        /> */}
-                        <div style={{ display: "none" }}>
-                          <PdfPrint
-                            ref={componentRef}
-                            rules={rules}
-                            dateModified={dateModified}
-                          />
-                        </div>
+                        <Link to={`/calculation/5/${project.id}`}>
+                          <button>
+                            <FontAwesomeIcon
+                              icon={faPrint}
+                              className={classes.printIcon}
+                              alt={`Duplicate Project #${project.id} Icon`}
+                            />
+                          </button>
+                        </Link>
                         <button onClick={() => toggleDeleteModal(project)}>
                           <img
                             src={DeleteIcon}

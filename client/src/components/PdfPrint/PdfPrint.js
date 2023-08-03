@@ -113,6 +113,7 @@ export const PdfPrint = forwardRef((props, ref) => {
   const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
   const projectName = getRule(rules, "PROJECT_NAME");
   const projectAddress = getRule(rules, "PROJECT_ADDRESS");
+
   const buildingPermit = getRule(rules, "BUILDING_PERMIT");
   const caseNumberLADOT = getRule(rules, "CASE_NO_LADOT");
   const caseNumberPlanning = getRule(rules, "CASE_NO_PLANNING");
@@ -165,7 +166,7 @@ export const PdfPrint = forwardRef((props, ref) => {
           ) : null}
         </div>
         <div className={classes.projectInfoDetailsContainer}>
-          {projectAddress && (
+          {projectAddress.value && (
             <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
           )}
           {parcelNumbers.value ? (
