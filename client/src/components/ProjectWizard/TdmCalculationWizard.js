@@ -132,7 +132,7 @@ const TdmCalculationWizard = props => {
     return setDisplayed;
   };
 
-  const setDisplayDownloadButton = () => {
+  const setDisplayPrintButton = () => {
     if (page === 5) {
       return true;
     }
@@ -237,7 +237,7 @@ const TdmCalculationWizard = props => {
           setDisabledForNextNavButton={setDisabledForNextNavButton}
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
-          setDisplayDownloadButton={setDisplayDownloadButton}
+          setDisplayPrintButton={setDisplayPrintButton}
           onSave={onSave}
           dateModified={dateModified}
         />

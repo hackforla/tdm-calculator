@@ -18,8 +18,6 @@ import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
-// import ReactToPrint from "react-to-print";
-// import { PdfPrint } from "../PdfPrint/PdfPrint";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -112,13 +110,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectsPage = ({
-  account,
-  history,
-  contentContainerRef
-  // rules,
-  // dateModified
-}) => {
+const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const email = account.email;
@@ -276,9 +268,6 @@ const ProjectsPage = ({
     indexOfLastPost
   );
 
-  // const componentRef = useRef();
-  // console.log("comp", currentProjects);
-
   return (
     <ContentContainerNoSidebar
       componentToTrack="ProjectsPage"
@@ -386,8 +375,6 @@ const ProjectsPage = ({
                             alt={`Duplicate Project #${project.id} Icon`}
                           />
                         </button>
-                        {/* <ReactToPrint
-                          trigger={() => ( */}
                         <Link to={`/calculation/5/${project.id}`}>
                           <button>
                             <FontAwesomeIcon
@@ -397,16 +384,6 @@ const ProjectsPage = ({
                             />
                           </button>
                         </Link>
-                        {/* )}
-                          content={() => componentRef.current}
-                        /> */}
-                        {/* <div style={{ display: "none" }}>
-                          <PdfPrint
-                            ref={componentRef}
-                            rules={rules}
-                            dateModified={dateModified}
-                          />
-                        </div> */}
                         <button onClick={() => toggleDeleteModal(project)}>
                           <img
                             src={DeleteIcon}

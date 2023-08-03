@@ -1,23 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "../Button/Button";
+import Button from "./Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPrint } from "@fortawesome/free-solid-svg-icons";
+import { faFileDownload } from "@fortawesome/free-solid-svg-icons";
 
-const DownloadButton = ({ id, onClick, isDisabled, isDisplayed }) => {
+const DownloadButton = ({ id, onClick, isDisplayed }) => {
   return (
     <Button
       type="input"
       color={"colorDisabled"}
       variant="download"
-      onClick={onClick}
       id={id}
+      onClick={onClick}
       data-testid={id}
-      disabled={isDisabled}
       isDisplayed={isDisplayed}
     >
-      <FontAwesomeIcon icon={faPrint} style={{ marginRight: "0.5em" }} />
-      Print Summary
+      <FontAwesomeIcon icon={faFileDownload} style={{ marginRight: "0.5em" }} />
+      Download Summary
     </Button>
   );
 };
@@ -25,8 +24,8 @@ const DownloadButton = ({ id, onClick, isDisabled, isDisplayed }) => {
 DownloadButton.propTypes = {
   children: PropTypes.object,
   onClick: PropTypes.func,
+  ref: PropTypes.string,
   id: PropTypes.string.isRequired,
-  isDisabled: PropTypes.bool,
   isDisplayed: PropTypes.bool.isRequired
 };
 
