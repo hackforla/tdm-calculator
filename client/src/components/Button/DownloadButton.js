@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "../Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileDownload } from "@fortawesome/free-solid-svg-icons";
+import { faPrint } from "@fortawesome/free-solid-svg-icons";
 
 const DownloadButton = ({ id, onClick, isDisabled, isDisplayed }) => {
   return (
@@ -16,8 +16,8 @@ const DownloadButton = ({ id, onClick, isDisabled, isDisplayed }) => {
       disabled={isDisabled}
       isDisplayed={isDisplayed}
     >
-      <FontAwesomeIcon icon={faFileDownload} style={{ marginRight: "0.5em" }} />
-      Download Summary
+      <FontAwesomeIcon icon={faPrint} style={{ marginRight: "0.5em" }} />
+      Print Summary
     </Button>
   );
 };
