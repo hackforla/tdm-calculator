@@ -92,34 +92,49 @@ const ToolTipLabel = ({
     e.preventDefault();
     setShowDescription(prev => !prev);
   };
-  console.log("TOOLTIPLABEL", children);
+  console.log("TOOLTIPLABEL", description);
 
   if (code && code.startsWith("UNITS_HABIT")) {
     return (
-      <label
-        onClick={descriptionHandler}
-        htmlFor={code}
-        className={
-          showDescription
-            ? description
-              ? clsx(
-                  classes.accordionLabelClicked,
-                  requiredStyle,
-                  disabledStyle
-                )
+      <div className={classes.labelWrapper}>
+        <label
+          onClick={descriptionHandler}
+          htmlFor={code}
+          className={
+            showDescription
+              ? description
+                ? clsx(
+                    classes.accordionLabelClicked,
+                    requiredStyle,
+                    disabledStyle
+                  )
+                : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+              : description
+              ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
               : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
-            : description
-            ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
-            : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
-        }
-        data-class={classes.tooltip}
-        data-for={id}
-        data-tip={tooltipContent}
-        data-iscapture="true"
-        data-html="true"
-      >
-        {children}
-      </label>
+          }
+          data-class={classes.tooltip}
+          data-for={id}
+          data-tip={tooltipContent}
+          data-iscapture="true"
+          data-html="true"
+        >
+          {children}
+        </label>
+        {description ? (
+          <span
+            className={clsx("fa-layers fa-fw", classes.iconContainer)}
+            style={showDescription ? { visibility: "visible" } : {}}
+          >
+            <FontAwesomeIcon icon={faCircle} className={classes.faCircle} />
+            <FontAwesomeIcon
+              icon={faInfo}
+              className={classes.faInfoIcon}
+              size="2xs"
+            />
+          </span>
+        ) : null}
+      </div>
     );
   }
 
@@ -154,17 +169,19 @@ const ToolTipLabel = ({
           !code.startsWith("PKG") &&
           null}
       </label>
-      <span
-        className={clsx("fa-layers fa-fw", classes.iconContainer)}
-        style={showDescription ? { visibility: "visible" } : {}}
-      >
-        <FontAwesomeIcon icon={faCircle} className={classes.faCircle} />
-        <FontAwesomeIcon
-          icon={faInfo}
-          className={classes.faInfoIcon}
-          size="2xs"
-        />
-      </span>
+      {description ? (
+        <span
+          className={clsx("fa-layers fa-fw", classes.iconContainer)}
+          style={showDescription ? { visibility: "visible" } : {}}
+        >
+          <FontAwesomeIcon icon={faCircle} className={classes.faCircle} />
+          <FontAwesomeIcon
+            icon={faInfo}
+            className={classes.faInfoIcon}
+            size="2xs"
+          />
+        </span>
+      ) : null}
     </div>
   );
 };
