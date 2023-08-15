@@ -1,32 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Modal from "react-modal";
-import Button from "./Button/Button";
+import ModalDialog from "../UI/ModalDialog/ModalDialog";
+import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
-  overlay: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
-
-    zIndex: "100",
-    position: "fixed",
-    top: "0px",
-    left: "0px",
-    right: "0px",
-    bottom: "0px"
-  },
-  content: {
-    padding: "50px",
-    backgroundColor: "#ffffff",
-    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)",
-    width: "47%",
-    borderRadius: "5px"
-  },
   title: {
     textAlign: "center"
   },
@@ -45,15 +25,14 @@ const InapplicableStrategiesModal = props => {
   const { inapplicableStrategiesModal, closeStrategiesModal } = props;
 
   const classes = useStyles();
+  if (!inapplicableStrategiesModal) return null;
 
   return (
-    <Modal
-      isOpen={inapplicableStrategiesModal}
-      onRequestClose={closeStrategiesModal}
-      contentLabel="Inapplicable Strategies"
-      overlayClassName={classes.overlay}
-      className={classes.content}
-      shouldFocusAfterRender={false}
+    <ModalDialog
+      onClose={closeStrategiesModal}
+      showCloseBox={false}
+      closeOnEscape={false}
+      closeOnBackdropClick={false}
     >
       <div className={classes.deselectedWrapper}>
         <FontAwesomeIcon
@@ -77,7 +56,7 @@ const InapplicableStrategiesModal = props => {
           Okay, I Understand
         </Button>
       </div>
-    </Modal>
+    </ModalDialog>
   );
 };
 
