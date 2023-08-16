@@ -34,7 +34,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const ExpandButtons = ({ expanded, toggleExpandCollapse }) => {
+const ExpandButtons = ({ toggleExpandCollapse }) => {
   const classes = useStyles();
 
   return (
@@ -42,12 +42,22 @@ const ExpandButtons = ({ expanded, toggleExpandCollapse }) => {
       <div className={classes.expandCollapseAll}>
         <div className={classes.faqExpandIcons}>
           <FontAwesomeIcon
-            icon={expanded ? faAngleUp : faAngleDown}
+            icon={faAngleDown}
             className={classes.faqCarotIcon}
           />
         </div>
-        <button className={classes.toggleButton} onClick={toggleExpandCollapse}>
-          {expanded ? "Collapse All" : "Expand All"}
+        <button
+          className={classes.toggleButton}
+          onClick={() => toggleExpandCollapse(true)}
+        >
+          Expand All
+        </button>
+        <FontAwesomeIcon icon={faAngleUp} className={classes.faqCarotIcon} />
+        <button
+          className={classes.toggleButton}
+          onClick={() => toggleExpandCollapse()}
+        >
+          Collapse All
         </button>
       </div>
     </div>

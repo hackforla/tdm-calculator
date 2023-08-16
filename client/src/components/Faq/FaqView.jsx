@@ -7,8 +7,23 @@ import ContentContainer from "../Layout/ContentContainer";
 import { withRouter } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import * as faqCategoryService from "../../services/faqCategory.service";
+import AddNewCategoryButton from "../Button/AddNewCategory";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-end"
+  },
+  editCategoryContainer: {
+    border: "2px dotted #ccc",
+    padding: 12
+  }
+});
 
 const FaqView = ({ isAdmin }) => {
+  const classes = useStyles();
   const [faqCategoryList, setFaqCategoryList] = useState([]);
   const [highestFaqId, setHighestFaqId] = useState(0);
   const [highestCategoryId, setHighestCategoryId] = useState(0);
@@ -176,15 +191,13 @@ const FaqView = ({ isAdmin }) => {
     setFaqCategoryList(prevState =>
       prevState.map(category => {
         if (category.id === categoryId) {
-          const updatedFaqs = category.faqs.map((faq, i) => {
-            if (i === 1) {
-              if (faq.id === faqId) {
-                return {
-                  ...faq,
-                  question,
-                  answer
-                };
-              }
+          const updatedFaqs = category.faqs.map(faq => {
+            if (faq.id === faqId) {
+              return {
+                ...faq,
+                question,
+                answer
+              };
             }
 
             return faq;
@@ -258,13 +271,13 @@ const FaqView = ({ isAdmin }) => {
     });
   };
 
-  const toggleExpandCollapse = () => {
-    setExpanded(prevExpanded => !prevExpanded);
+  const toggleExpandCollapse = (expand = false) => {
+    setExpanded(expand);
     setFaqCategoryList(prevState => {
       return prevState.map(cat => {
         return {
           ...cat,
-          faqs: cat.faqs.map(faq => ({ ...faq, expand: !expanded }))
+          faqs: cat.faqs.map(faq => ({ ...faq, expand }))
         };
       });
     });
@@ -278,6 +291,7 @@ const FaqView = ({ isAdmin }) => {
       setAdmin(true);
     }
   };
+
   return (
     <ContentContainer componentToTrack="FaqPage">
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
@@ -289,24 +303,35 @@ const FaqView = ({ isAdmin }) => {
           />
         )}
         <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
-        <ExpandButtons
-          expanded={expanded}
-          toggleExpandCollapse={toggleExpandCollapse}
-        />
-        {admin && <button onClick={handleAddCategory}>Add New Category</button>}
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <FaqCategoryList
-            faqCategoryList={faqCategoryList}
-            handleDeleteCategory={handleDeleteCategory}
-            handleAddFAQ={handleAddFAQ}
-            handleEditFAQ={handleEditFAQ}
-            handleEditCategory={handleEditCategory}
-            handleDeleteFAQ={handleDeleteFAQ}
-            admin={admin}
-            expandFaq={expandFaq}
-            collapseFaq={collapseFaq}
+        <div className={classes.buttonContainer}>
+          {admin ? (
+            <AddNewCategoryButton
+              id="AddNewCategoryButton"
+              onClick={handleAddCategory}
+            />
+          ) : (
+            <div></div>
+          )}
+          <ExpandButtons
+            expanded={expanded}
+            toggleExpandCollapse={toggleExpandCollapse}
           />
-        </DragDropContext>
+        </div>
+        <div className={admin && classes.editCategoryContainer}>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <FaqCategoryList
+              faqCategoryList={faqCategoryList}
+              handleDeleteCategory={handleDeleteCategory}
+              handleAddFAQ={handleAddFAQ}
+              handleEditFAQ={handleEditFAQ}
+              handleEditCategory={handleEditCategory}
+              handleDeleteFAQ={handleDeleteFAQ}
+              admin={admin}
+              expandFaq={expandFaq}
+              collapseFaq={collapseFaq}
+            />
+          </DragDropContext>
+        </div>
       </div>
     </ContentContainer>
   );

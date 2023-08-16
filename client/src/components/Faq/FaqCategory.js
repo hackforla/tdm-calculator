@@ -1,36 +1,14 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import Faq from "./Faq";
-import {
-  faGripHorizontal,
-  faTrashAlt
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { Droppable, Draggable } from "react-beautiful-dnd";
-import Quill from "../Quill";
+import { NewFaqButton } from "./NewFaqButton";
+import { FaqList } from "./FaqList";
+import { CategoryInputContainer } from "./CategoryInputContainer";
 
 const useStyles = createUseStyles({
-  categoryContainer: {
-    minWidth: "60vw",
+  categoryButtonContainer: {
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#0f2940",
-    color: "white",
-    padding: ".4em",
-    marginBottom: "0.6em",
-    gridColumn: "h-end",
-    paddingRight: "0.5em",
-    height: "20px"
-  },
-  addQuestionButton: {
-    backgroundColor: "transparent",
-    border: "0",
-    cursor: "pointer",
-    textDecoration: "underline"
+    justifyContent: "flex-end"
   }
 });
 
@@ -53,6 +31,7 @@ const FaqCategory = props => {
   const [newQuestion, setNewQuestion] = useState("");
   const [newAnswer, setNewAnswer] = useState("");
   const [isNewFAQOpen, setIsNewFAQOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleCategoryNameChange = e => {
     setCategoryName(e.target.value);
@@ -98,142 +77,43 @@ const FaqCategory = props => {
     handleCloseNewFAQ();
   };
 
+  const showDeleteOption = useCallback(() => {
+    admin && setIsHovered(!isHovered);
+  }, [isHovered, admin]);
+
   return (
-    <div>
-      <div className={classes.categoryContainer}>
-        {categoryEditMode ? (
-          <div>
-            <input
-              placeholder="Category Name..."
-              type="text"
-              style={{
-                fontWeight: "bold",
-                fontSize: "1.15em",
-                marginLeft: 0,
-                marginTop: 0,
-                display: "block",
-                marginRight: "2em",
-                padding: "0.3em 0"
-              }}
-              value={categoryName}
-              name="name"
-              onChange={handleCategoryNameChange}
-              onBlur={() => {
-                onSetCategory();
-              }}
-              autoFocus
-              disabled={!admin}
-            />
-          </div>
-        ) : (
-          <h3
-            dangerouslySetInnerHTML={{ __html: `${categoryName}` }}
-            style={{
-              fontWeight: "bold",
-              marginTop: "0.5em"
-            }}
-            onClick={() => {
-              admin && setCategoryEditMode(true);
-            }}
-          />
-        )}
-        <div {...dragHandleProps}>
-          {admin ? (
-            <>
-              <FontAwesomeIcon
-                style={{
-                  cursor: "grab",
-                  fontSize: "1.5em",
-                  paddingTop: "0.11em",
-                  paddingRight: "0em",
-                  color: "lightgray"
-                }}
-                icon={faGripHorizontal}
-              />
-              <FontAwesomeIcon
-                style={{
-                  cursor: "pointer",
-                  fontSize: "1.5em",
-                  paddingTop: "0.11em",
-                  paddingLeft: "0.25em",
-                  color: "lightgray"
-                }}
-                icon={faTrashAlt}
-                onClick={onDeleteCategory}
-              />
-            </>
-          ) : null}
+    <div onMouseEnter={showDeleteOption} onMouseLeave={showDeleteOption}>
+      <CategoryInputContainer
+        admin={admin}
+        categoryName={categoryName}
+        handleCategoryNameChange={handleCategoryNameChange}
+        categoryEditMode={categoryEditMode}
+        setCategoryEditMode={setCategoryEditMode}
+        onSetCategory={onSetCategory}
+        dragHandleProps={dragHandleProps}
+        onDeleteCategory={onDeleteCategory}
+        isHovered={isHovered}
+      />
+      <FaqList
+        category={category}
+        admin={admin}
+        expandFaq={expandFaq}
+        collapseFaq={collapseFaq}
+        onDeleteFAQ={onDeleteFAQ}
+        onEditFAQ={onEditFAQ}
+        isNewFAQOpen={isNewFAQOpen}
+        newQuestion={newQuestion}
+        newAnswer={newAnswer}
+        handleNewQuestionChange={handleNewQuestionChange}
+        handleNewAnswerChange={handleNewAnswerChange}
+        handleSaveNewFAQ={handleSaveNewFAQ}
+        handleCloseNewFAQ={handleCloseNewFAQ}
+      />
+      {admin && (
+        <div className={classes.categoryButtonContainer}>
+          <NewFaqButton admin={admin} handleOpenNewFAQ={handleOpenNewFAQ} />
         </div>
-      </div>
-      <Droppable droppableId={"c" + category.id} type="faq">
-        {provided => (
-          <div
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            style={{
-              minHeight: "3rem"
-            }}
-          >
-            {category.faqs.map((faq, index) => {
-              return (
-                <Draggable
-                  key={faq.id}
-                  draggableId={"f" + faq.id}
-                  index={index}
-                >
-                  {provided => (
-                    <div ref={provided.innerRef} {...provided.draggableProps}>
-                      <Faq
-                        faq={faq}
-                        admin={admin}
-                        expandFaq={expandFaq}
-                        collapseFaq={collapseFaq}
-                        handleDeleteFAQ={onDeleteFAQ}
-                        handleEditFAQ={onEditFAQ}
-                        dragHandleProps={provided.dragHandleProps}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              );
-            })}
-            {admin && isNewFAQOpen && (
-              <div>
-                <input
-                  type="text"
-                  placeholder="Enter a new question..."
-                  value={newQuestion}
-                  onChange={handleNewQuestionChange}
-                />
-                <Quill
-                  type="text"
-                  placeholder="Enter a new answer..."
-                  value={newAnswer}
-                  onChange={handleNewAnswerChange}
-                />
-                <button
-                  disabled={!newQuestion || !newAnswer}
-                  onClick={handleSaveNewFAQ}
-                >
-                  Save New FAQ
-                </button>
-                <button onClick={handleCloseNewFAQ}>Cancel</button>
-              </div>
-            )}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-      {admin ? (
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button
-            className={classes.addQuestionButton}
-            onClick={handleOpenNewFAQ}
-          >
-            ADD NEW FAQ
-          </button>
-        </div>
-      ) : null}
+      )}
     </div>
   );
 };
