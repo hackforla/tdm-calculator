@@ -1,8 +1,8 @@
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import Quill from "../Quill";
 import Faq from "./Faq";
 import PropTypes from "prop-types";
+import { NewFaqContainer } from "./NewFaqContainer";
 
 export const FaqList = ({
   category,
@@ -49,27 +49,14 @@ export const FaqList = ({
             );
           })}
           {admin && isNewFAQOpen && (
-            <div>
-              <input
-                type="text"
-                placeholder="Enter a new question..."
-                value={newQuestion}
-                onChange={handleNewQuestionChange}
-              />
-              <Quill
-                type="text"
-                placeholder="Enter a new answer..."
-                value={newAnswer}
-                onChange={handleNewAnswerChange}
-              />
-              <button
-                disabled={!newQuestion || !newAnswer}
-                onClick={handleSaveNewFAQ}
-              >
-                Save New FAQ
-              </button>
-              <button onClick={handleCloseNewFAQ}>Cancel</button>
-            </div>
+            <NewFaqContainer
+              newQuestion={newQuestion}
+              newAnswer={newAnswer}
+              handleNewQuestionChange={handleNewQuestionChange}
+              handleNewAnswerChange={handleNewAnswerChange}
+              handleSaveNewFAQ={handleSaveNewFAQ}
+              handleCloseNewFAQ={handleCloseNewFAQ}
+            />
           )}
           {provided.placeholder}
         </div>

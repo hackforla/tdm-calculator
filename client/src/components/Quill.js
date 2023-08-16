@@ -30,14 +30,12 @@ const Quill = props => {
   ];
 
   return (
-    <div className="text-editor">
-      <ReactQuill
-        {...props}
-        // theme="snow"
-        modules={modules}
-        formats={formats}
-      ></ReactQuill>
-    </div>
+    <ReactQuill
+      {...props}
+      // theme="snow"
+      modules={modules}
+      formats={formats}
+    />
   );
 };
 

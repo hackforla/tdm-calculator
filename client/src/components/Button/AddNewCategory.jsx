@@ -28,7 +28,6 @@ const AddNewCategoryButton = ({ id, onClick }) => {
   return (
     <Button
       type="input"
-      color="colorWhite"
       variant="text"
       onClick={onClick}
       id={id}

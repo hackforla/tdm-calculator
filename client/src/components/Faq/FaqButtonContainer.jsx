@@ -25,6 +25,9 @@ const useStyles = createUseStyles({
     fontSize: "1.5em",
     paddingTop: "0.25em",
     paddingRight: "0.25em"
+  },
+  deleteFaqIcon: {
+    paddingRight: "28px"
   }
 });
 
@@ -45,7 +48,7 @@ export const FaqButtonContainer = ({
         <div>
           <FontAwesomeIcon
             color={theme.colors.warning}
-            className={classes.faqIcon}
+            className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
             icon={faTrashAlt}
             onClick={onDeleteFAQ}
           />
@@ -67,13 +70,11 @@ export const FaqButtonContainer = ({
         )}
       </div>
       {admin && (
-        <>
-          <FontAwesomeIcon
-            className={classes.faqGripIcon}
-            color={theme.colors.secondary.gray}
-            icon={faGripHorizontal}
-          />
-        </>
+        <FontAwesomeIcon
+          className={classes.faqGripIcon}
+          color={theme.colors.secondary.gray}
+          icon={faGripHorizontal}
+        />
       )}
     </div>
   );

@@ -1,20 +1,18 @@
 import React from "react";
 import Quill from "../Quill";
-// import { createUseStyles } from "react-jss";
+import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
 
-// const useStyles = createUseStyles({
-//   answerAnchor: {
-//     fontWeight: "bold",
-//     marginLeft: "0.5em",
-//     marginRight: "0.25em",
-//     flex: "0 0 auto",
-//     paddingTop: "0.65em"
-//   },
-//   answerContainer: {},
-//   answerText: {},
-//   answerInput: {}
-// });
+const useStyles = createUseStyles({
+  answerContainer: {
+    width: "100%"
+  },
+  answerInput: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column"
+  }
+});
 
 export const Answer = ({
   admin,
@@ -24,15 +22,27 @@ export const Answer = ({
   setIsEditAnswer,
   onSetFaq
 }) => {
-  // const classes = useStyles();
+  const classes = useStyles();
+
+  const handleSetFAQ = event => {
+    // Check if the relatedTarget is within the Answer component
+    if (
+      event.relatedTarget &&
+      event.currentTarget.contains(event.relatedTarget)
+    ) {
+      return; // Skip calling onSetFaq
+    }
+
+    onSetFaq();
+  };
   return (
-    <div>
+    <div onBlur={handleSetFAQ} className={classes.answerContainer}>
       {isEditAnswer ? (
-        <div onBlur={onSetFaq} style={{ display: "flex", width: "100%" }}>
+        <div style={{ display: "flex", width: "100%" }}>
           <Quill
             value={answer}
             onChange={handleAnswerChange}
-            style={{ flex: "1 0 100%" }}
+            className={classes.answerInput}
           />
         </div>
       ) : (
@@ -43,14 +53,7 @@ export const Answer = ({
           <p
             style={{ marginTop: "0.5em", fontWeight: "bold" }}
             dangerouslySetInnerHTML={{ __html: answer }}
-          ></p>
-          {/* <Quill
-              value={answer}
-              readOnly
-              onClick={() => admin && setIsEditAnswer(true)}
-              onChange={handleAnswerChange}
-              style={{ flex: "1 0 100%" }}
-            /> */}
+          />
         </div>
       )}
     </div>

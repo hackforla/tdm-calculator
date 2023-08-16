@@ -32,6 +32,9 @@ const useStyles = createUseStyles({
     fontSize: "1.5em",
     paddingTop: "0.25em",
     paddingRight: "0.25em"
+  },
+  deleteFaqIcon: {
+    paddingRight: "28px"
   }
 });
 
@@ -63,7 +66,7 @@ export const CategoryInputContainer = ({
           <>
             {isHovered && (
               <FontAwesomeIcon
-                className={classes.faqIcon}
+                className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
                 icon={faTrashAlt}
                 onClick={onDeleteCategory}
               />
