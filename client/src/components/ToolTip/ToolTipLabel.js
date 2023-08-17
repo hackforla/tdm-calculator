@@ -35,7 +35,8 @@ const useStyles = createUseStyles(theme => ({
     flexBasis: "50%",
     "&:hover": {
       cursor: "pointer"
-    }
+    },
+    fontSmoothing: "antialiased"
   },
   tooltip: {
     color: "rgb(30, 36, 63) !important",
@@ -92,7 +93,6 @@ const ToolTipLabel = ({
     e.preventDefault();
     setShowDescription(prev => !prev);
   };
-  console.log("TOOLTIPLABEL", description);
 
   if (code && code.startsWith("UNITS_HABIT")) {
     return (
