@@ -6,7 +6,7 @@ import Button from "../Button/Button";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import ModalDialog from "../UI/ModalDialog/ModalDialog";
+import ModalDialog from "../UI/AriaModal/ModalDialog";
 
 const useStyles = createUseStyles(theme => ({
   buttonFlexBox: {
@@ -18,7 +18,11 @@ const useStyles = createUseStyles(theme => ({
   heading1: theme.typography.heading1
 }));
 
-export default function CopyProjectModal({ onClose, selectedProjectName }) {
+export default function CopyProjectModal({
+  mounted,
+  onClose,
+  selectedProjectName
+}) {
   const theme = useTheme();
   const classes = useStyles({ theme });
   const [duplicateProjectName, setDuplicateProjectName] = useState(
@@ -26,7 +30,11 @@ export default function CopyProjectModal({ onClose, selectedProjectName }) {
   );
 
   return (
-    <ModalDialog onClose={onClose}>
+    <ModalDialog
+      mounted={mounted}
+      onClose={onClose}
+      initialFocus="#duplicateName"
+    >
       <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
         <FontAwesomeIcon icon={faCopy} /> Duplicate Project
       </div>
@@ -42,8 +50,8 @@ export default function CopyProjectModal({ onClose, selectedProjectName }) {
           name="duplicateName"
           value={duplicateProjectName}
           onChange={e => setDuplicateProjectName(e.target.value)}
-          autoFocus
-          onFocus={e => e.currentTarget.select()}
+          // autoFocus
+          // onFocus={e => e.currentTarget.select()}
         />
       </div>
       <div className={classes.buttonFlexBox}>
@@ -63,6 +71,7 @@ export default function CopyProjectModal({ onClose, selectedProjectName }) {
 }
 
 CopyProjectModal.propTypes = {
+  mounted: PropTypes.bool,
   onClose: PropTypes.func,
   selectedProjectName: PropTypes.string
 };

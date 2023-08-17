@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../Button/Button";
 import WarningIcon from "../../images/warning-icon.png";
 import { createUseStyles, useTheme } from "react-jss";
-import ModalDialog from "../UI/ModalDialog/ModalDialog";
+import ModalDialog from "../UI/AriaModal/ModalDialog";
 
 const useStyles = createUseStyles(theme => ({
   buttonFlexBox: {
@@ -29,12 +29,16 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const DeleteProjectModal = ({ onClose, selectedProjectName }) => {
+const DeleteProjectModal = ({ mounted, onClose, selectedProjectName }) => {
   const theme = useTheme();
   const classes = useStyles();
 
   return (
-    <ModalDialog onClose={onClose}>
+    <ModalDialog
+      mounted={mounted}
+      onClose={onClose}
+      initialFocus="#cancelButton"
+    >
       <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
         <FontAwesomeIcon icon={faTrashCan} /> DeleteProject
       </div>
@@ -46,7 +50,7 @@ const DeleteProjectModal = ({ onClose, selectedProjectName }) => {
         {selectedProjectName}?
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button onClick={onClose} variant="text">
+        <Button onClick={onClose} variant="text" id="cancelButton">
           Cancel
         </Button>
         <Button
@@ -62,6 +66,7 @@ const DeleteProjectModal = ({ onClose, selectedProjectName }) => {
 };
 
 DeleteProjectModal.propTypes = {
+  mounted: PropTypes.bool,
   onClose: PropTypes.func,
   selectedProjectName: PropTypes.string
 };

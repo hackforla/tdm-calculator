@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ModalDialog from "../UI/ModalDialog/ModalDialog";
+import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,16 +23,15 @@ const useStyles = createUseStyles({
 });
 const InapplicableStrategiesModal = props => {
   const { inapplicableStrategiesModal, closeStrategiesModal } = props;
-
   const classes = useStyles();
-  if (!inapplicableStrategiesModal) return null;
 
   return (
     <ModalDialog
+      mounted={inapplicableStrategiesModal}
       onClose={closeStrategiesModal}
       showCloseBox={false}
-      closeOnEscape={false}
-      closeOnBackdropClick={false}
+      escapeExits={false}
+      underlayClickExits={false}
     >
       <div className={classes.deselectedWrapper}>
         <FontAwesomeIcon

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ModalDialog from "./UI/ModalDialog/ModalDialog";
+import ModalDialog from "./UI/AriaModal/ModalDialog";
 import Button from "./Button/Button";
 import { createUseStyles } from "react-jss";
 import WarningIcon from "../images/warning-icon.png";
@@ -40,10 +40,12 @@ const NavConfirmModal = ({
     setIsOpenNavConfirmModal(false);
   };
 
-  if (!isOpenNavConfirmModal) return null;
-
   return (
-    <ModalDialog onClose={blockTransition} showCloseBox={false}>
+    <ModalDialog
+      mounted={isOpenNavConfirmModal}
+      onClose={blockTransition}
+      showCloseBox={false}
+    >
       <h2 className={classes.title}>
         <strong>Leave page and delete unsaved data?</strong>
       </h2>

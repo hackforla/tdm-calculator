@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import ModalDialog from "../UI/ModalDialog/ModalDialog";
+import ModalDialog from "../UI/AriaModal/ModalDialog";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
 
@@ -8,7 +8,7 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
   if (!checklistModalOpen) return null;
 
   return (
-    <ModalDialog onClose={toggleChecklistModal}>
+    <ModalDialog mounted={checklistModalOpen} onClose={toggleChecklistModal}>
       <ChecklistContent />
     </ModalDialog>
   );

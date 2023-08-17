@@ -452,19 +452,17 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
 
       {selectedProject && (
         <>
-          {copyModalOpen && (
-            <CopyProjectModal
-              onClose={handleCopyModalClose}
-              selectedProjectName={selectedProjectName}
-            />
-          )}
+          <CopyProjectModal
+            mounted={copyModalOpen}
+            onClose={handleCopyModalClose}
+            selectedProjectName={selectedProjectName}
+          />
 
-          {deleteModalOpen && (
-            <DeleteProjectModal
-              onClose={handleDeleteModalClose}
-              selectedProjectName={selectedProjectName}
-            />
-          )}
+          <DeleteProjectModal
+            mounted={deleteModalOpen}
+            onClose={handleDeleteModalClose}
+            selectedProjectName={selectedProjectName}
+          />
         </>
       )}
     </ContentContainerNoSidebar>
