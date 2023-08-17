@@ -289,7 +289,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const headerData = [
     { id: "name", label: "Name" },
     { id: "address", label: "Address" },
-    { id: "VERSION_NO", label: "Version Number" },
+    { id: "VERSION_NO", label: "Alternative Number" },
     { id: "BUILDING_PERMIT", label: "Building Permit" },
     { id: "firstName", label: "Created By" },
     { id: "dateCreated", label: "Created On" },
