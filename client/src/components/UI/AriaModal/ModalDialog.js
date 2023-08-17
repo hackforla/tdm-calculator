@@ -30,7 +30,7 @@ const useStyles = createUseStyles(() => ({
     flexDirection: "column",
     alignItems: "stretch",
     border: "1px solid #d8dce3",
-    borderRadius: "3px",
+    borderRadius: "0",
     boxSizing: "border-box",
     boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.8)",
     backgroundColor: "rgba(255, 255, 255, 1)"

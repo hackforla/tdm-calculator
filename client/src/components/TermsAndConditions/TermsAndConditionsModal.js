@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
 import { withRouter } from "react-router-dom";
 import { useHistory } from "react-router";
-import ModalDialog from "../UI/ModalDialog/ModalDialog";
+import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import PropTypes from "prop-types";
 import TermsAndConditionsContent from "./TermsAndConditionsContent";
@@ -25,14 +25,15 @@ const TermsAndConditionsModal = () => {
     setModalOpen(false);
   };
 
-  if (localStorage.getItem("termsAndConditions") || !modalOpen) return null;
+  if (localStorage.getItem("termsAndConditions")) return null;
 
   return (
     <ModalDialog
+      mounted={modalOpen}
       onClose={closeModal}
-      showCloseBox={false}
-      closeOnEscape={false}
-      closeOnBackdropClick={false}
+      omitCloseBox={true}
+      underlayClickExits={false}
+      escapeExits={false}
     >
       <div style={{ overflowY: "auto", maxHeight: "80vh", marginTop: "3rem" }}>
         <TermsAndConditionsContent />
