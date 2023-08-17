@@ -42,7 +42,6 @@ export const Question = ({
   const classes = useStyles(admin);
   return (
     <div className={classes.questionContainer}>
-      <div className={classes.questionAnchor}>{`Q: `}</div>
       {isEditQuestion ? (
         <div className={classes.questionInput}>
           <input

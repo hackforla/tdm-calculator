@@ -77,12 +77,18 @@ const FaqCategory = props => {
     handleCloseNewFAQ();
   };
 
-  const showDeleteOption = useCallback(() => {
-    admin && setIsHovered(!isHovered);
-  }, [isHovered, admin]);
+  const showDeleteOption = useCallback(
+    (isShowDelete = false) => {
+      admin && setIsHovered(isShowDelete);
+    },
+    [admin]
+  );
 
   return (
-    <div onMouseEnter={showDeleteOption} onMouseLeave={showDeleteOption}>
+    <div
+      onMouseEnter={() => showDeleteOption(true)}
+      onMouseLeave={() => showDeleteOption()}
+    >
       <CategoryInputContainer
         admin={admin}
         categoryName={categoryName}
