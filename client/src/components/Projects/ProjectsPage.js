@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -6,20 +6,20 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
-  faSortDown
-  // faPrint
+  faSortDown,
+  faPrint
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 import CopyIcon from "../../images/copy.png";
 import DeleteIcon from "../../images/trash.png";
 import Pagination from "../Pagination.js";
-import DeleteProjectModal from "./DeleteProjectModal";
-import DuplicateProjectModal from "./DuplicateProjectModal";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
-// import ReactToPrint from "react-to-print";
-import { PdfPrint } from "../PdfPrint/PdfPrint";
+import * as projectService from "../../services/project.service";
+
+import DeleteProjectModal from "./DeleteProjectModal";
+import CopyProjectModal from "./CopyProjectModal";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -112,13 +112,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectsPage = ({
-  account,
-  history,
-  contentContainerRef,
-  rules,
-  dateModified
-}) => {
+const ProjectsPage = ({ account, history, contentContainerRef }) => {
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const email = account.email;
@@ -126,7 +120,7 @@ const ProjectsPage = ({
   const handleError = useErrorHandler(email, historyPush);
   const projects = useProjects(handleError);
   const [orderBy, setOrderBy] = useState("dateCreated");
-  const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
+  const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const classes = useStyles();
@@ -141,6 +135,14 @@ const ProjectsPage = ({
     if (i === currentPage - 1) pageLinks[i].classList.add("highlightPage");
   }
 
+  const selectedProjectName = (() => {
+    if (!selectedProject) {
+      return "";
+    }
+    const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
+    return projectFormInputsAsJson.PROJECT_NAME || "";
+  })();
+
   const paginate = pageNumber => {
     if (typeof pageNumber === "number") {
       setCurrentPage(pageNumber);
@@ -151,18 +153,47 @@ const ProjectsPage = ({
     }
   };
 
-  const toggleDuplicateModal = project => {
+  const handleCopyModalOpen = project => {
     if (project) {
       setSelectedProject(project);
-    } else {
-      setSelectedProject(null);
     }
-    setDuplicateModalOpen(!duplicateModalOpen);
+    setCopyModalOpen(true);
   };
 
-  const toggleDeleteModal = project => {
-    project ? setSelectedProject(project) : setSelectedProject(null);
-    setDeleteModalOpen(!deleteModalOpen);
+  const handleCopyModalClose = async (action, newProjectName) => {
+    if (action === "ok") {
+      const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
+      projectFormInputsAsJson.PROJECT_NAME = newProjectName;
+
+      try {
+        await projectService.post({
+          ...selectedProject,
+          name: newProjectName,
+          formInputs: JSON.stringify(projectFormInputsAsJson)
+        });
+        setSelectedProject(null);
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setCopyModalOpen(false);
+  };
+
+  const handleDeleteModalOpen = project => {
+    setSelectedProject(project);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteModalClose = async action => {
+    if (action === "ok") {
+      try {
+        await projectService.del(selectedProject.id);
+        setSelectedProject(null);
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setDeleteModalOpen(false);
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -258,9 +289,9 @@ const ProjectsPage = ({
   const headerData = [
     { id: "name", label: "Name" },
     { id: "address", label: "Address" },
-    { id: "VERSION_NO", label: "Version Number" },
+    { id: "VERSION_NO", label: "Alternative Number" },
     { id: "BUILDING_PERMIT", label: "Building Permit" },
-    { id: "firstName", label: "Entered By" },
+    { id: "firstName", label: "Created By" },
     { id: "dateCreated", label: "Created On" },
     { id: "dateModified", label: "Last Modified" }
   ];
@@ -275,8 +306,6 @@ const ProjectsPage = ({
     indexOfFirstPost,
     indexOfLastPost
   );
-
-  const componentRef = useRef();
 
   return (
     <ContentContainerNoSidebar
@@ -379,32 +408,22 @@ const ProjectsPage = ({
                   <td className={classes.actionIcons}>
                     {project.loginId === currentUser.id && (
                       <>
-                        <button onClick={() => toggleDuplicateModal(project)}>
+                        <button onClick={() => handleCopyModalOpen(project)}>
                           <img
                             src={CopyIcon}
-                            alt={`Duplicate Project #${project.id} Icon`}
+                            alt={`Copy Project #${project.id} Icon`}
                           />
                         </button>
-                        {/* <ReactToPrint
-                          trigger={() => (
-                            <button>
-                              <FontAwesomeIcon
-                                icon={faPrint}
-                                className={classes.printIcon}
-                                alt={`Duplicate Project #${project.id} Icon`}
-                              />
-                            </button>
-                          )}
-                          content={() => componentRef.current}
-                        /> */}
-                        <div style={{ display: "none" }}>
-                          <PdfPrint
-                            ref={componentRef}
-                            rules={rules}
-                            dateModified={dateModified}
-                          />
-                        </div>
-                        <button onClick={() => toggleDeleteModal(project)}>
+                        <Link to={`/calculation/5/${project.id}`}>
+                          <button>
+                            <FontAwesomeIcon
+                              icon={faPrint}
+                              className={classes.printIcon}
+                              alt={`copy Project #${project.id} Icon`}
+                            />
+                          </button>
+                        </Link>
+                        <button onClick={() => handleDeleteModalOpen(project)}>
                           <img
                             src={DeleteIcon}
                             alt={`Delete Project #${project.id} Icon`}
@@ -433,22 +452,16 @@ const ProjectsPage = ({
 
       {selectedProject && (
         <>
-          <DuplicateProjectModal
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
-            handleError={handleError}
-            toggleDuplicateModal={toggleDuplicateModal}
-            setDuplicateModalOpen={setDuplicateModalOpen}
-            duplicateModalOpen={duplicateModalOpen}
+          <CopyProjectModal
+            mounted={copyModalOpen}
+            onClose={handleCopyModalClose}
+            selectedProjectName={selectedProjectName}
           />
 
           <DeleteProjectModal
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
-            handleError={handleError}
-            toggleDeleteModal={toggleDeleteModal}
-            setDeleteModalOpen={setDeleteModalOpen}
-            deleteModalOpen={deleteModalOpen}
+            mounted={deleteModalOpen}
+            onClose={handleDeleteModalClose}
+            selectedProjectName={selectedProjectName}
           />
         </>
       )}

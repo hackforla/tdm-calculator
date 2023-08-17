@@ -2,13 +2,12 @@ import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { withRouter, useLocation } from "react-router-dom";
-import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
 import ChecklistModal from "../Checklist/ChecklistModal";
 import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainer from "../Layout/ContentContainer";
-import InapplicableStrategiesModal from "../InapplicableStrategiesModal";
+import InapplicableStrategiesModal from "./InapplicableStrategiesModal";
 
 const TdmCalculationWizard = props => {
   const {
@@ -132,7 +131,7 @@ const TdmCalculationWizard = props => {
     return setDisplayed;
   };
 
-  const setDisplayDownloadButton = () => {
+  const setDisplayPrintButton = () => {
     if (page === 5) {
       return true;
     }
@@ -179,7 +178,7 @@ const TdmCalculationWizard = props => {
 
   return (
     <React.Fragment>
-      <TermsAndConditionsModal />
+      {/* <TermsAndConditionsModal /> */}
       <InapplicableStrategiesModal
         inapplicableStrategiesModal={inapplicableStrategiesModal}
         closeStrategiesModal={closeStrategiesModal}
@@ -237,7 +236,7 @@ const TdmCalculationWizard = props => {
           setDisabledForNextNavButton={setDisabledForNextNavButton}
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
-          setDisplayDownloadButton={setDisplayDownloadButton}
+          setDisplayPrintButton={setDisplayPrintButton}
           onSave={onSave}
           dateModified={dateModified}
         />
