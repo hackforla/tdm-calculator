@@ -178,7 +178,6 @@ const RuleInput = ({
     // propagate up to where the rule errors are used
     onAINInputError(error);
   };
-
   return (
     <React.Fragment>
       {display ? (
@@ -195,7 +194,9 @@ const RuleInput = ({
               link={link}
               name={name}
               setShowDescription={setShowDescription}
+              showDescription={showDescription}
             />
+
             <div>
               <input
                 className={
@@ -300,7 +301,9 @@ const RuleInput = ({
               link={link}
               name={name}
               setShowDescription={setShowDescription}
+              showDescription={showDescription}
             />
+
             {dataType === "string" ? (
               <input
                 type="text"
