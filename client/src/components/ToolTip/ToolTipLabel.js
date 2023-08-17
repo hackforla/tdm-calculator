@@ -12,6 +12,9 @@ const useStyles = createUseStyles(theme => ({
     flexBasis: "50%",
     "&:hover $iconContainer": {
       visibility: "visible"
+    },
+    "&:hover": {
+      cursor: "pointer"
     }
   },
   tooltipLabel: {
@@ -96,7 +99,7 @@ const ToolTipLabel = ({
 
   if (code && code.startsWith("UNITS_HABIT")) {
     return (
-      <div className={classes.labelWrapper}>
+      <div className={classes.labelWrapper} onClick={descriptionHandler}>
         <label
           onClick={descriptionHandler}
           htmlFor={code}
@@ -139,9 +142,8 @@ const ToolTipLabel = ({
   }
 
   return (
-    <div className={classes.labelWrapper}>
+    <div className={classes.labelWrapper} onClick={descriptionHandler}>
       <label
-        onClick={descriptionHandler}
         htmlFor={code ? code : null}
         className={
           showDescription
