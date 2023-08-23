@@ -17,7 +17,7 @@ const useStyles = createUseStyles(() => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
     // backgroundColor: "rgba(255, 0,0, 0.8)",
     fontSize: "1rem",
     fontWeight: "normal"
@@ -33,7 +33,7 @@ const useStyles = createUseStyles(() => ({
     border: "1px solid #d8dce3",
     borderRadius: "0",
     boxSizing: "border-box",
-    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.8)",
+    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.5)",
     backgroundColor: "rgba(255, 255, 255, 1)"
   },
   buttonFlexBox: {
