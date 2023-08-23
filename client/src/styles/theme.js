@@ -86,7 +86,7 @@ module.exports = {
         color: "#000000"
       },
       button: {
-        fontFamily: "CSalibri",
+        fontFamily: "Calibri",
         fontSize: "16px",
         fontWeight: 700,
         lineHeight: "20px",
