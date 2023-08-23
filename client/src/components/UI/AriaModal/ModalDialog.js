@@ -18,6 +18,7 @@ const useStyles = createUseStyles(() => ({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.8)",
+    // backgroundColor: "rgba(255, 0,0, 0.8)",
     fontSize: "1rem",
     fontWeight: "normal"
   },
@@ -60,7 +61,7 @@ export default function ModalDialog({
   const classes = useStyles({ theme });
 
   const getApplicationNode = () => {
-    return document.getElementById("root");
+    return document.getElementById("body");
   };
 
   return (
@@ -76,6 +77,7 @@ export default function ModalDialog({
       verticallyCenter={true}
       underlayClickExits={underlayClickExits}
       escapeExits={escapeExits || false}
+      // scrollDisabled={false}
     >
       <div>
         {omitCloseBox ? null : (

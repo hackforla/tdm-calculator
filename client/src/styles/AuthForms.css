@@ -11,7 +11,8 @@
 }
 
 @font-face {
-  font-family: "Calibri Bold";
+  font-family: "Calibri";
+  font-weight: 700;
   src: url("fonts/calibriBold.eot");
   /* IE9 Compat Modes */
   src: url("fonts/calibriBold.eot?#iefix") format("embedded-opentype"),

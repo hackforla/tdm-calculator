@@ -32,7 +32,7 @@ module.exports = {
     },
     typography: {
       largeText: {
-        fontFamily: "calibri",
+        fontFamily: "Calibri",
         fontSize: "38px",
         fontWeight: 700,
         lineHeight: "40px",
@@ -41,7 +41,7 @@ module.exports = {
         color: "#000000"
       },
       heading1: {
-        fontFamily: "calibri",
+        fontFamily: "Calibri",
         fontSize: "28px",
         fontWeight: 700,
         lineHeight: "40px",
@@ -50,7 +50,7 @@ module.exports = {
         color: "#000000"
       },
       heading2: {
-        fontFamily: "calibri",
+        fontFamily: "Calibri",
         fontSize: "24px",
         fontWeight: 700,
         lineHeight: "32px",
@@ -59,7 +59,7 @@ module.exports = {
         color: "#000000"
       },
       heading3: {
-        fontFamily: "calibri",
+        fontFamily: "Calibri",
         fontSize: "20px",
         fontWeight: 700,
         lineHeight: "28px",
@@ -68,7 +68,7 @@ module.exports = {
         color: "#000000"
       },
       subHeading: {
-        fontFamily: "calibri",
+        fontFamily: "Calibri",
         fontSize: "20px",
         fontWeight: 400,
         lineHeight: "28px",
@@ -77,7 +77,7 @@ module.exports = {
         color: "#000000"
       },
       paragraph1: {
-        fontFamily: "calibri",
+        fontFamily: "Calibri",
         fontSize: "16px",
         fontWeight: 400,
         lineHeight: "20px",
@@ -86,7 +86,7 @@ module.exports = {
         color: "#000000"
       },
       button: {
-        fontFamily: "calibri",
+        fontFamily: "CSalibri",
         fontSize: "16px",
         fontWeight: 700,
         lineHeight: "20px",

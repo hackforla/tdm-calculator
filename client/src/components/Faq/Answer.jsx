@@ -51,7 +51,7 @@ export const Answer = ({
           style={{ display: "flex" }}
         >
           <p
-            style={{ marginTop: "0.5em", fontWeight: "bold" }}
+            style={{ margin: " 0.5rem 0" }}
             dangerouslySetInnerHTML={{ __html: answer }}
           />
         </div>
