@@ -32,7 +32,8 @@ const useStyles = createUseStyles({
     margin: "0 8px"
   },
   pageLink: {
-    fontFamily: "Calibri Bold",
+    fontFamily: "Calibri",
+    fontWeight: "700",
     margin: "auto 0",
     fontSize: "18px"
   }

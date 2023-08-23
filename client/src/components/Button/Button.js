@@ -6,7 +6,8 @@ import clsx from "clsx";
 const useStyles = createUseStyles({
   button: {
     cursor: "pointer",
-    fontFamily: "Calibri Bold",
+    fontFamily: "Calibri",
+    fontWeight: 700,
     height: "min-content",
     margin: "0.5em",
     padding: "0.5em 1em",
