@@ -1,0 +1,147 @@
+{
+  "individualResults": [
+    {
+      "initialSchemaVersion": "20230203.2043",
+      "targetSchemaVersion": "20230420.1255",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20230320.1545",
+          "description": "update affordable housing tooltips",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230320.1545__update_affordable_housing_tooltips.sql",
+          "executionTime": 27
+        },
+        {
+          "category": "Versioned",
+          "version": "20230420.1255",
+          "description": "create sproc update account 780",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230420.1255__create_sproc_update_account_780.sql",
+          "executionTime": 129
+        }
+      ],
+      "migrationsExecuted": 2,
+      "success": true,
+      "flywayVersion": "9.20.0",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-07-04T16:56:15.731717200",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20230420.1255",
+      "targetSchemaVersion": null,
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20230627.2115",
+          "description": "create insertAll faqs",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230627.2115__create_insertAll_faqs.sql",
+          "executionTime": 327
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.0938",
+          "description": "update insertAll",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.0938__update_insertAll.sql",
+          "executionTime": 43
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1107",
+          "description": "update insertAll 3",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1107__update_insertAll_3.sql",
+          "executionTime": 35
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1128",
+          "description": "update category selectAll",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1128__update_category_selectAll.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1205",
+          "description": "update category insertAll 4",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1205__update_category_insertAll_4.sql",
+          "executionTime": 62
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1208",
+          "description": "update category insertAll 5",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1208__update_category_insertAll_5.sql",
+          "executionTime": 44
+        }
+      ],
+      "migrationsExecuted": 6,
+      "success": false,
+      "flywayVersion": "9.20.0",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-07-04T17:07:01.477506600",
+      "operation": "migrate",
+      "exception": "Migration V20230628.1230__update_category_insertAll_6.sql failed\n----------------------------------------------------------------\nSQL State  : S0001\nError Code : 3726\nMessage    : Could not drop object \u0027dbo.FaqCategory\u0027 because it is referenced by a FOREIGN KEY constraint.\nLocation   : C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql (C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql)\nLine       : 2\nStatement  : /* Drop existing table FaqCategory if it exists */\nIF OBJECT_ID(\u0027dbo.FaqCategory\u0027, \u0027U\u0027) IS NOT NULL\n    DROP TABLE dbo.FaqCategory;\n",
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20230628.1208",
+      "targetSchemaVersion": null,
+      "schemaName": "",
+      "migrations": [],
+      "migrationsExecuted": 0,
+      "success": false,
+      "flywayVersion": "9.20.0",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-07-04T17:11:23.730204700",
+      "operation": "migrate",
+      "exception": "Migration V20230628.1230__update_category_insertAll_6.sql failed\n----------------------------------------------------------------\nSQL State  : S0001\nError Code : 3726\nMessage    : Could not drop object \u0027dbo.FaqCategory\u0027 because it is referenced by a FOREIGN KEY constraint.\nLocation   : C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql (C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql)\nLine       : 2\nStatement  : /* Drop existing table FaqCategory if it exists */\nIF OBJECT_ID(\u0027dbo.FaqCategory\u0027, \u0027U\u0027) IS NOT NULL\n    DROP TABLE dbo.FaqCategory;\n",
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20230628.1208",
+      "targetSchemaVersion": "20230628.1310",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20230628.1230",
+          "description": "update category insertAll 6",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql",
+          "executionTime": 224
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1310",
+          "description": "update category insertAll 7",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1310__update_category_insertAll_7.sql",
+          "executionTime": 23
+        }
+      ],
+      "migrationsExecuted": 2,
+      "success": true,
+      "flywayVersion": "9.20.0",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-07-04T17:21:14.739928500",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    }
+  ]
+}

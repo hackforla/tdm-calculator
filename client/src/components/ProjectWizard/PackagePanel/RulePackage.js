@@ -4,7 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import PackageToolTip from "./PackageToolTip";
 import RuleStrategyLabel from "../RuleStrategy/RuleStrategyLabel";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   container: {
     margin: "0.3em 0.75em 0 0.75em"
   },
@@ -44,7 +44,7 @@ const useStyles = createUseStyles({
     padding: "0.1em",
     width: "5.5em",
     textAlign: "right",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
   },
   choiceSelectContainer: {
     textAlign: "right"
@@ -61,7 +61,7 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
   },
   allElse: {
     flexBasis: "10%",
@@ -100,7 +100,7 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexShrink: "1"
   }
-});
+}));
 
 const RulePackage = ({ name, checked, onPkgSelect, packageTooltip }) => {
   const theme = useTheme();
