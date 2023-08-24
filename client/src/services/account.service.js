@@ -5,7 +5,7 @@ const baseUrl = "/api/accounts";
 export const search = async () => {
   try {
     const response = await axios.get(`${baseUrl}`);
-    return response.data;
+    return response;
   } catch (err) {
     throw Error("Search accounts failed");
   }
@@ -28,6 +28,16 @@ export const register = async (firstName, lastName, email, password) => {
     return response.data;
   } catch (err) {
     throw Error("Registration failed");
+  }
+};
+
+export const updateAccount = async (id, firstName, lastName, email) => {
+  try {
+    const body = { id, firstName, lastName, email };
+    const response = await axios.put(`${baseUrl}/${id}/updateaccount`, body);
+    return response.data;
+  } catch (err) {
+    throw Error("Update account failed");
   }
 };
 

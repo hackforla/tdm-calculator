@@ -6,20 +6,20 @@ import InputMask from "react-input-mask";
 import CreatableSelect from "react-select/creatable";
 import { components } from "react-select";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   textInput: {
     flex: "1 1 50%",
     border: "1px solid #e0e0e0"
   },
   textInputInvalid: {
     composes: "$textInput",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
   },
   textInputInvalidLocal: {
     composes: "$textInput",
-    border: "1px solid red"
+    border: theme.border.dashedWarning
   }
-});
+}));
 
 const matchLength = value => {
   const dashExpr = /-/g;
@@ -85,6 +85,7 @@ const Input = props => {
           ? classes.textInputInvalid
           : classes.textInput
       }
+      id={"BIG FAT ID"}
       style={{
         // ValueContainer is grid when there's no value, and flex when there
         // is value
@@ -111,7 +112,7 @@ const Input = props => {
             {...inputProps}
             // placeholder attribute is hard-coded, as I could not figure out how to pass props to the InputMask,
             // and the only usage is for a required field on page 1 of wizard. (JCD)
-            placeholder="required"
+            placeholder={props.hasValue ? "optional" : "required"}
             className={classes.textInput}
             style={{
               margin: 0,
@@ -130,7 +131,8 @@ Input.propTypes = {
   code: PropTypes.string,
   maxStringLength: PropTypes.number,
   value: PropTypes.string,
-  selectProps: PropTypes.object
+  selectProps: PropTypes.object,
+  hasValue: PropTypes.bool
 };
 
 const MultiValueContainer = props => {

@@ -2,12 +2,12 @@ import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { withRouter, useLocation } from "react-router-dom";
-import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
 import ChecklistModal from "../Checklist/ChecklistModal";
 import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainer from "../Layout/ContentContainer";
+import InapplicableStrategiesModal from "./InapplicableStrategiesModal";
 
 const TdmCalculationWizard = props => {
   const {
@@ -37,7 +37,9 @@ const TdmCalculationWizard = props => {
     dateModified,
     contentContainerRef,
     checklistModalOpen,
-    toggleChecklistModal
+    toggleChecklistModal,
+    inapplicableStrategiesModal,
+    closeStrategiesModal
   } = props;
   const context = useContext(ToastContext);
   const page = Number(match.params.page || 1);
@@ -129,6 +131,13 @@ const TdmCalculationWizard = props => {
     return setDisplayed;
   };
 
+  const setDisplayPrintButton = () => {
+    if (page === 5) {
+      return true;
+    }
+    return false;
+  };
+
   const handleValidate = () => {
     const { page } = match.params;
     const validations = {
@@ -169,7 +178,11 @@ const TdmCalculationWizard = props => {
 
   return (
     <React.Fragment>
-      <TermsAndConditionsModal />
+      {/* <TermsAndConditionsModal /> */}
+      <InapplicableStrategiesModal
+        inapplicableStrategiesModal={inapplicableStrategiesModal}
+        closeStrategiesModal={closeStrategiesModal}
+      />
       <ChecklistModal
         checklistModalOpen={checklistModalOpen}
         toggleChecklistModal={toggleChecklistModal}
@@ -223,7 +236,9 @@ const TdmCalculationWizard = props => {
           setDisabledForNextNavButton={setDisabledForNextNavButton}
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
+          setDisplayPrintButton={setDisplayPrintButton}
           onSave={onSave}
+          dateModified={dateModified}
         />
       </ContentContainer>
     </React.Fragment>
@@ -281,7 +296,9 @@ TdmCalculationWizard.propTypes = {
   projectIsValid: PropTypes.func,
   dateModified: PropTypes.string,
   checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func
+  toggleChecklistModal: PropTypes.func,
+  inapplicableStrategiesModal: PropTypes.bool,
+  closeStrategiesModal: PropTypes.func
 };
 
 export default withRouter(TdmCalculationWizard);

@@ -5,9 +5,9 @@ import clsx from "clsx";
 
 const useStyles = createUseStyles({
   button: {
-    color: ({ theme }) => theme.colorText,
     cursor: "pointer",
-    fontFamily: "Calibri Bold",
+    fontFamily: "Calibri",
+    fontWeight: 700,
     height: "min-content",
     margin: "0.5em",
     padding: "0.5em 1em",
@@ -21,6 +21,12 @@ const useStyles = createUseStyles({
     backgroundColor: ({ theme, color }) => theme[color],
     borderColor: "rgba(0, 0, 0, .05)", //lightest grey
     boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px"
+  },
+  download: {
+    backgroundColor: ({ theme, color }) => theme[color],
+    borderColor: "rgb(167, 197, 57)", //site standard green
+    boxShadow: "rgb(167, 197, 57) 1px 2px 3px",
+    marginLeft: "auto"
   },
   outlined: {
     backgroundColor: ({ theme }) => theme.colorWhite,
@@ -65,7 +71,7 @@ const Button = ({
 
 Button.propTypes = {
   onClick: PropTypes.func,
-  children: PropTypes.string,
+  children: PropTypes.any,
   size: PropTypes.string,
   variant: PropTypes.string,
   isDisplayed: PropTypes.bool,
