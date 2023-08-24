@@ -61,14 +61,16 @@ export function TdmCalculationContainer({
   setLoggedInAccount,
   contentContainerRef,
   checklistModalOpen,
-  toggleChecklistModal
+  toggleChecklistModal,
+  rules,
+  setRules,
+  dateModified,
+  setDateModified
 }) {
   const [engine, setEngine] = useState(null);
-  const [rules, setRules] = useState([]);
   const [formInputs, setFormInputs] = useState({});
   const [projectId, setProjectId] = useState(null);
   const [loginId, setLoginId] = useState(0);
-  const [dateModified, setDateModified] = useState(null);
   const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
@@ -137,7 +139,15 @@ export function TdmCalculationContainer({
       }
     };
     initiateEngine();
-  }, [match.params.projectId, engine, account, history, triggerInitiateEngine]);
+  }, [
+    match.params.projectId,
+    engine,
+    account,
+    history,
+    triggerInitiateEngine,
+    setRules,
+    setDateModified
+  ]);
 
   const closeStrategiesModal = () => {
     setInapplicableStrategiesModal(!inapplicableStrategiesModal);
@@ -374,7 +384,28 @@ export function TdmCalculationContainer({
         // Car Sharing Electric Vehicle Bonus (issue #791)
         if (value === "2") {
           formInputs["STRATEGY_CAR_SHARE_ELECTRIC"] = true;
+        } else {
+          formInputs["STRATEGY_CAR_SHARE_ELECTRIC"] = false;
         }
+        break;
+      case "STRATEGY_AFFORDABLE":
+        // When the Strategy Affordable housing is set to 100% Affordable,
+        // The 100% Affordable Housing Input should be set to true
+        if (value === "4") {
+          formInputs["AFFORDABLE_HOUSING"] = true;
+        } else {
+          formInputs["AFFORDABLE_HOUSING"] = false;
+        }
+        break;
+      case "AFFORDABLE_HOUSING":
+        if (value === true) {
+          formInputs["STRATEGY_AFFORDABLE"] = "4";
+        } else {
+          if (formInputs["STRATEGY_AFFORDABLE"] === "4") {
+            formInputs["STRATEGY_AFFORDABLE"] = "";
+          }
+        }
+        break;
     }
   };
 
@@ -624,7 +655,11 @@ TdmCalculationContainer.propTypes = {
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object,
   checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func
+  toggleChecklistModal: PropTypes.func,
+  rules: PropTypes.array,
+  setRules: PropTypes.func,
+  dateModified: PropTypes.string || null,
+  setDateModified: PropTypes.func
 };
 
 export default withRouter(injectSheet(styles)(TdmCalculationContainer));

@@ -62,15 +62,15 @@ const PrivacyPolicy = () => {
             your information responsibly.
           </h3>
           <p className={classes.indented}>
-            <a href="https://ladot.lacity.org/tdmcalculator">TDM Calculator</a>{" "}
-            is a City of Los Angeles Review Tool managed by Hack for LA which is
-            a project (of Code for America Labs, Inc. (&#34;Code for
-            America&#34;, &#34;we&#34;, &#34;us&#34;, &#34;our&#34;). This
-            Privacy Policy describes how we collect, use, and protect your
-            personal information on the TDM Calculator review tool Website. By
-            submitting your personal information on our websites, you agree to
-            the terms in this Privacy Policy. If you do not agree with these
-            terms, please do not use our websites.
+            <a href="https://tdm.ladot.lacity.org">TDM Calculator</a> is a City
+            of Los Angeles Review Tool managed by Hack for LA which is a project
+            (of Code for America Labs, Inc. (&#34;Code for America&#34;,
+            &#34;we&#34;, &#34;us&#34;, &#34;our&#34;). This Privacy Policy
+            describes how we collect, use, and protect your personal information
+            on the TDM Calculator review tool Website. By submitting your
+            personal information on our websites, you agree to the terms in this
+            Privacy Policy. If you do not agree with these terms, please do not
+            use our websites.
           </p>
 
           <h2 style={{ fontWeight: "bold" }}>Overview</h2>
@@ -92,16 +92,16 @@ const PrivacyPolicy = () => {
           </h2>
           <h3 className={classes.headerIndented}>
             Visiting{" "}
-            <a href="https://ladot.lacity.org/tdmcalculator">
-              https://ladot.lacity.org/tdmcalculator
+            <a href="https://tdm.ladot.lacity.org">
+              https://tdm.ladot.lacity.org
             </a>{" "}
           </h3>
 
           <div className={classes.indented}>
             We may automatically collect and store data about your visit to
             <span> </span>
-            <a href="https://ladot.lacity.org/tdmcalculator">
-              https://ladot.lacity.org/tdmcalculator:
+            <a href="https://tdm.ladot.lacity.org">
+              https://tdm.ladot.lacity.org:
             </a>{" "}
             <li className={classes.bulletIndented}>
               Domain from which you access the Internet
@@ -126,8 +126,8 @@ const PrivacyPolicy = () => {
           <p className={classes.indented}>
             None of the information we collect about you when you visit
             <span> </span>
-            <a href="https://ladot.lacity.org/tdmcalculator ">
-              https://ladot.lacity.org/tdmcalculator
+            <a href="https://tdm.ladot.lacity.org ">
+              https://tdm.ladot.lacity.org
             </a>{" "}
             is personally identifiable unless you submit your contact
             information in the form on the Contact Us submit page.
@@ -136,8 +136,8 @@ const PrivacyPolicy = () => {
             We use this non personally identifiable information to understand
             how the
             <span> </span>
-            <a href="https://ladot.lacity.org/tdmcalculator ">
-              https://ladot.lacity.org/tdmcalculator
+            <a href="https://tdm.ladot.lacity.org ">
+              https://tdm.ladot.lacity.org
             </a>{" "}
             website is used, to improve the website, and to monitor usage for
             security purposes.
@@ -149,8 +149,8 @@ const PrivacyPolicy = () => {
           </p>
           <h3 className={classes.sectionSpacingIndented}>
             Creating an account at{" "}
-            <a href="https://ladot.lacity.org/tdmcalculator ">
-              https://ladot.lacity.org/tdmcalculator
+            <a href="https://tdm.ladot.lacity.org ">
+              https://tdm.ladot.lacity.org
             </a>{" "}
           </h3>
 
@@ -166,8 +166,8 @@ const PrivacyPolicy = () => {
 
           <h3 className={classes.sectionSpacingIndented}>
             Saving projects account at <span> </span>
-            <a href="https://ladot.lacity.org/tdmcalculator ">
-              https://ladot.lacity.org/tdmcalculator
+            <a href="https://tdm.ladot.lacity.org ">
+              https://tdm.ladot.lacity.org
             </a>{" "}
           </h3>
 

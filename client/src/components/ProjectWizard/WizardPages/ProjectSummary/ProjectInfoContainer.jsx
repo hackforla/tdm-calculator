@@ -14,14 +14,16 @@ const useStyles = createUseStyles({
   textProjectInfoHeader: {
     color: "#0F2940",
     fontSize: "24px",
-    fontFamily: "Calibri Bold",
+    fontFamily: "Calibri",
+    fontWeight: 700,
     paddingLeft: "12px",
     paddingRight: ".8em"
   },
   textProjectInfoHeaderAddress: {
     color: "rgba(15, 41, 64, .5)",
     fontSize: "24px",
-    fontFamily: "Calibri Bold"
+    fontFamily: "Calibri",
+    fontWeight: "700"
   },
   projectInfoDetailsContainer: {
     paddingTop: "6px",
@@ -44,7 +46,6 @@ const ProjectInfoContainer = props => {
   const classes = useStyles();
   const { rules } = props;
 
-  const projectName = getRule(rules, "PROJECT_NAME");
   const projectAddress = getRule(rules, "PROJECT_ADDRESS");
 
   const buildingPermit = getRule(rules, "BUILDING_PERMIT");
@@ -55,14 +56,6 @@ const ProjectInfoContainer = props => {
 
   return (
     <div className={classes.projectInfoContainer}>
-      <div className={classes.projectInfoHeaderLine}>
-        <span className={classes.textProjectInfoHeader}>PROJECT NAME:</span>
-        {projectName && projectName.value ? (
-          <span className={classes.textProjectInfoHeaderAddress}>
-            {projectName.value}
-          </span>
-        ) : null}
-      </div>
       <hr className={classes.line} />
       <div className={classes.projectInfoDetailsContainer}>
         {projectAddress && (

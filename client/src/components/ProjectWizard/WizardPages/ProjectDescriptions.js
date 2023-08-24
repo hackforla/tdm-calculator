@@ -2,18 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import RuleInputPanels from "../RuleInput/RuleInputPanels";
 import DiscoverTooltips from "./DiscoverTooltips";
+import { useTheme } from "react-jss";
 
 function ProjectDescriptions(props) {
   const { rules, onInputChange, onAINInputError } = props;
+  const theme = useTheme();
   return (
     <div>
-      <h1 className="tdm-wizard-page-title">
-        Welcome to Los Angeles&rsquo; Transportation Demand Management (TDM)
-        Calculator
-      </h1>
-      <h3 className="tdm-wizard-page-subtitle">
+      <div style={theme.typography.heading1}>
+        <span>
+          Welcome to Los Angeles&rsquo; Transportation Demand Management (TDM)
+          Calculator
+        </span>
+      </div>
+      <div style={theme.typography.subHeading}>
         First, let&rsquo;s get some information about your project
-      </h3>
+      </div>
       <form noValidate>
         <RuleInputPanels
           rules={rules}

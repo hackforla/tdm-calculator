@@ -5,9 +5,6 @@ import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
   title: {
-    color: "#0F2940",
-    fontFamily: "Calibri Bold",
-    fontSize: "24px",
     margin: "2px"
   },
   text: {
@@ -51,7 +48,7 @@ const ChecklistContent = () => {
   const classes = useStyles();
   return (
     <>
-      <h3 className={classes.title}>Checklist</h3>
+      <h1 className={classes.title}>Checklist</h1>
       <br />
       <p className={classes.text}>
         Listed below are the documents that you may need when using Create
