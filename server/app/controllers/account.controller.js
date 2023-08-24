@@ -5,6 +5,7 @@ const {
 } = require("../../middleware/validate");
 const accountSchema = require("../schemas/account");
 const accountRegisterSchema = require("../schemas/account.register");
+const accountUpdateAccountSchema = require("../schemas/account.updateAccount");
 const accountConfirmRegisterSchema = require("../schemas/account.confirmRegister");
 const accountLoginSchema = require("../schemas/account.login");
 const accountForgotSchema = require("../schemas/account.forgotPassword");
@@ -21,15 +22,22 @@ const getAll = async (req, res) => {
   }
 };
 
-const getById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const response = await accountService.selectById(id);
-    res.send(response);
-  } catch (err) {
-    res.status("500").json({ error: err.toString() });
-  }
-};
+// const getById = async (req, res) => {
+//   try {
+//     const { id } = Number(req.params);
+//     const user = req.user;
+//     // Only allow if request is for account info of current user
+//     // or current user is Admin or SecurityAdmin
+//     if (id !== user.id && !user.isAdmin && !user.isSecurityAdmin) {
+//       res.sendStatus("401");
+//     } else {
+//       const response = await accountService.selectById(id);
+//       res.send(response);
+//     }
+//   } catch (err) {
+//     res.status("500").json({ error: err.toString() });
+//   }
+// };
 
 const getByEmail = async (req, res) => {
   try {
@@ -44,6 +52,15 @@ const getByEmail = async (req, res) => {
 const register = async (req, res) => {
   try {
     const response = await accountService.register(req.body);
+    res.send(response);
+  } catch (err) {
+    res.status(err.code || "500").json({ error: err.toString() });
+  }
+};
+
+const updateAccount = async (req, res) => {
+  try {
+    const response = await accountService.updateAccount(req.body);
     res.send(response);
   } catch (err) {
     res.status(err.code || "500").json({ error: err.toString() });
@@ -137,11 +154,16 @@ const remove = async (req, res) => {
 
 module.exports = {
   getAll,
-  getById,
+  // getById,
   getByEmail,
   register: [
     validate({ body: accountRegisterSchema }),
     register,
+    validationErrorMiddleware
+  ],
+  updateAccount: [
+    validate({ body: accountUpdateAccountSchema }),
+    updateAccount,
     validationErrorMiddleware
   ],
   confirmRegister: [

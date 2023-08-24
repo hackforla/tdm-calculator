@@ -49,7 +49,6 @@ const useStyles = createUseStyles({
 });
 function ProjectMeasure(props) {
   const {
-    projectLevel,
     rules,
     onInputChange,
     onCommentChange,
@@ -72,11 +71,13 @@ function ProjectMeasure(props) {
 
   return (
     <div>
-      <h1 className="tdm-wizard-page-title">Select TDM Strategies</h1>
-      <h3 className="tdm-wizard-page-subtitle">
+      <h1 style={theme.typography.heading1} margin="0">
+        <span>Select TDM Strategies</span>
+      </h1>
+      <div style={theme.typography.subHeading}>
         Select TDM strategies to earn earn points to reach the Target (left
         panel).
-      </h3>
+      </div>
       {(allowResidentialPackage || allowSchoolPackage) && (
         <>
           <div className={classes.packageBanner}>
@@ -91,69 +92,13 @@ function ProjectMeasure(props) {
         </>
       )}
       <div className={classes.pkgSelectContainer}>
-        {/*  <div className={classes.alignLeft}>
-          {allowResidentialPackage ? (
-            <div style={{ marginRight: "1em" }}>
-              <label
-                style={{
-                  fontWeight: "600",
-                  paddingRight: "1em"
-                }}
-                htmlFor="packageResidential"
-              >
-                Residential or Employment Package
-                <input
-                  type="checkbox"
-                  style={{
-                    verticalAlign: "bottom",
-                    position: "relative",
-                    top: "0",
-                    marginLeft: "0.5em"
-                  }}
-                  value={true}
-                  checked={residentialPackageSelected()}
-                  onChange={e => onPkgSelect("Residential", e.target.checked)}
-                  name="packageResidential"
-                  id="packageResidential"
-                />
-              </label>
-            </div>
-          ) : null}
-          {allowSchoolPackage ? (
-            <div>
-              <label
-                style={{
-                  fontWeight: "600",
-                  paddingRight: "1em"
-                }}
-              >
-                School Package
-                <input
-                  type="checkbox"
-                  value={true}
-                  style={{
-                    verticalAlign: "bottom",
-                    position: "relative",
-                    top: "0",
-                    marginLeft: "0.5em"
-                  }}
-                  checked={schoolPackageSelected()}
-                  onChange={e => onPkgSelect("School", e.target.checked)}
-                  name="packageSchool"
-                  id="packageSchool"
-                />
-              </label>
-            </div>
-          ) : null}
-        </div> */}
-
         <ResetButtons
           className={classes.alignRight}
           uncheckAll={uncheckAll}
           resetProject={resetProject}
         />
       </div>
-      {projectLevel == 1 && (
+      {(allowResidentialPackage || allowSchoolPackage) && (
         <PackagePanel
           rules={rules.filter(r => r.calculationPanelId == 27)}
           residentialChecked={residentialPackageSelected()}
@@ -172,7 +117,6 @@ function ProjectMeasure(props) {
   );
 }
 ProjectMeasure.propTypes = {
-  projectLevel: PropTypes.number,
   rules: PropTypes.arrayOf(
     PropTypes.shape({
       calculationPanelId: PropTypes.number.isRequired,

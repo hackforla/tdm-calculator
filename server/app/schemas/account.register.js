@@ -4,14 +4,18 @@ module.exports = {
   properties: {
     firstName: {
       type: "string",
-      minLength: 1
+      minLength: 1,
+      pattern: "^[a-zA-Z '.-]+$"
     },
     lastName: {
       type: "string",
-      minLength: 1
+      minLength: 1,
+      pattern: "^[a-zA-Z '.-]+$"
     },
     email: {
-      type: "string"
+      type: "string",
+      minLength: 3,
+      pattern: "\\S+@\\S+"
     },
     password: {
       type: "string",
