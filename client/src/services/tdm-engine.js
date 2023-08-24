@@ -24,7 +24,7 @@ class Engine {
 
   run(formInputs, ruleCodes) {
     try {
-      let rerun = false;
+      let strategiesDeselected = false;
 
       for (let i = 0; i < ruleCodes.length; i++) {
         if (!this.initialRules[ruleCodes[i]]) {
@@ -80,12 +80,13 @@ class Engine {
         const rule = this.rules[ruleCode];
         if (!rule.display && rule.category === "measure" && rule.value) {
           formInputs[ruleCode] = null;
-          rerun = true;
+          strategiesDeselected = true;
         }
       }
 
-      if (rerun) {
-        return this.run(formInputs, ruleCodes);
+      if (strategiesDeselected) {
+        this.run(formInputs, ruleCodes);
+        return true;
       }
 
       // Match up inputs or measures with the primary calculation
@@ -111,7 +112,7 @@ class Engine {
       }
       // For debugging
       // console.log(this.rules);
-      return results;
+      return strategiesDeselected;
     } catch (err) {
       console.error(err);
     }

@@ -83,6 +83,18 @@ const About = () => {
         <ul>
           <li className={classes.linklist}>
             <a
+              href="https://planning.lacity.org/odocument/c3c9b320-4431-49ff-99d2-15b479c06074/Revised_DRAFT_TDMProgramGuidelines_June2022.pdf/#page=48"
+              target="external"
+            >
+              Glossary
+              <FontAwesomeIcon
+                icon={faExternalLinkAlt}
+                className={classes.externalLinkIcon}
+              />
+            </a>
+          </li>
+          <li className={classes.linklist}>
+            <a
               href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility"
               target="external"
             >

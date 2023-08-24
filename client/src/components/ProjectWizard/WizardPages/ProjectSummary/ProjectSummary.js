@@ -12,6 +12,7 @@ import MeasureSelected from "./MeasureSelected";
 import PointsEarnedMessage from "./PointsEarnedMessage";
 import LandUses from "./LandUses";
 import Result from "./Result";
+import { useTheme } from "react-jss";
 
 const useStyles = createUseStyles({
   projectSummary: {
@@ -19,9 +20,9 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     flex: "1 1 auto"
   },
-  success: {
-    color: "#A7C539"
-  },
+  // success: {
+  //   color: "#A7C539"
+  // },
   failure: {
     color: "#E46247"
   },
@@ -62,12 +63,16 @@ const useStyles = createUseStyles({
   },
   categoryHeaderContainer: {
     background: "#E7EBF0",
-    padding: "12px"
+    paddingLeft: "12px",
+    paddingTop: "4px"
   },
   categoryHeader: {
-    fontSize: "16px",
-    fontFamily: "Oswald",
-    fontWeight: "700"
+    fontSize: "24px",
+    fontFamily: "Calibri",
+    fontWeight: "700",
+    fontStyle: "normal",
+    lineHeight: "32px"
+    // fontSmoothing: "antialiased"
   },
   resultsContainer: {
     padding: "30px 0",
@@ -81,7 +86,7 @@ const useStyles = createUseStyles({
     margin: "0 12px"
   },
   earnedPoints: {
-    fontFamily: "Oswald",
+    fontFamily: "Calibri",
     fontWeight: "500",
     fontSize: "12px",
     color: "#0F2940",
@@ -94,11 +99,26 @@ const useStyles = createUseStyles({
     maxWidth: "100%",
     marginTop: "4px",
     padding: "12px"
+  },
+  tempTextContainer: {
+    width: "100%",
+    height: "50px",
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "4px",
+    padding: "12px"
+  },
+  tempText: {
+    fontFamily: "Calibri",
+    fontStyle: "italic",
+    fontSize: "14px",
+    color: "#C35302"
   }
 });
 
 const ProjectSummary = props => {
   const classes = useStyles();
+  const theme = useTheme();
   const { rules } = props;
 
   const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
@@ -108,6 +128,7 @@ const ProjectSummary = props => {
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
   const earnedPoints = getRule(rules, "PTS_EARNED");
+  const projectName = getRule(rules, "PROJECT_NAME");
 
   const userDefinedStrategy = getRule(rules, "STRATEGY_APPLICANT");
 
@@ -158,8 +179,10 @@ const ProjectSummary = props => {
 
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
-      <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
-      <div className={classes.lastSavedContainer}>
+      <h1 style={{ ...theme.typography.heading1, margin: 0, padding: 0 }}>
+        TDM Calculation Summary
+      </h1>
+      <div style={{ ...theme.typography.paragraph1, margin: 0, padding: 0 }}>
         {props.dateModified && (
           <span className={classes.lastSaved}>
             <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
@@ -167,7 +190,6 @@ const ProjectSummary = props => {
           </span>
         )}
       </div>
-      {rules ? <ProjectInfoContainer rules={rules} /> : null}
 
       {!loading ? (
         <>
@@ -175,7 +197,9 @@ const ProjectSummary = props => {
             <div
               className={clsx("space-between", classes.categoryHeaderContainer)}
             >
-              <span className={classes.categoryHeader}>RESULTS</span>
+              <span className={classes.categoryHeader}>
+                RESULTS FOR PROJECT: {projectName.value}
+              </span>
             </div>
             <div className={clsx("space-between", classes.resultsContainer)}>
               <Result
@@ -191,6 +215,8 @@ const ProjectSummary = props => {
             </div>
             <PointsEarnedMessage targetPointsReached={targetPointsReached} />
           </div>
+
+          {rules ? <ProjectInfoContainer rules={rules} /> : null}
 
           <div className={classes.categoryContainer}>
             <div
@@ -224,7 +250,6 @@ const ProjectSummary = props => {
               ) : null}
             </div>
           </div>
-
           <div className={classes.categoryContainer}>
             <div
               className={clsx("space-between", classes.categoryHeaderContainer)}
@@ -280,6 +305,12 @@ const ProjectSummary = props => {
                   </div>
                 </div>
               ) : null}
+            </div>
+            <div className={classes.tempTextContainer}>
+              <span className={classes.tempText}>
+                The ordinances behind this TDM calculator are still in public
+                comment. No submission is possible at this time.
+              </span>
             </div>
           </div>
         </>
