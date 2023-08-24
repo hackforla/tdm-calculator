@@ -6,20 +6,20 @@ import InputMask from "react-input-mask";
 import CreatableSelect from "react-select/creatable";
 import { components } from "react-select";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   textInput: {
     flex: "1 1 50%",
     border: "1px solid #e0e0e0"
   },
   textInputInvalid: {
     composes: "$textInput",
-    border: "1px dashed red"
+    border: theme.border.dashedWarning
   },
   textInputInvalidLocal: {
     composes: "$textInput",
-    border: "1px solid red"
+    border: theme.border.dashedWarning
   }
-});
+}));
 
 const matchLength = value => {
   const dashExpr = /-/g;

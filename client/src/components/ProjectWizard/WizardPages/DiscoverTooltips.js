@@ -15,7 +15,8 @@ const useStyles = createUseStyles({
     flexGrow: "1",
     flexBasis: "50%",
     flexShrink: "1",
-    fontFamily: "Calibri Bold"
+    fontFamily: "Calibri",
+    fontWeight: 700
   }
 });
 

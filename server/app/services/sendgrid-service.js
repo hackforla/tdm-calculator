@@ -4,6 +4,8 @@ const sendgridKey = process.env.SENDGRID_API_KEY;
 const senderEmail = process.env.EMAIL_SENDER;
 const laCityEmail = process.env.EMAIL_PUBLIC_COMMENT_LA_CITY;
 const webTeamEmail = process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM;
+const projectService = require("../services/project.service");
+const moment = require("moment");
 
 sgMail.setApiKey(sendgridKey);
 
@@ -18,6 +20,21 @@ const send = async (emailTo, emailFrom, subject, textBody, htmlBody) => {
   return sgMail.send(msg, false);
 };
 
+const sendVerifyUpdateConfirmation = async (email, token) => {
+  const msg = {
+    to: `${email}`,
+    from: senderEmail,
+    subject: "Verify Your Account Updates",
+    text: "Verify Your Account Updates",
+    html: `<p>Hello, your account has been updated.</p>
+              <p>If you did not update your account please notify <a href = "mailto: ladot@lacity.org">ladot@lacity.org</a>.</p>
+              <p><a href="${clientUrl}/confirm/${token}">Verify Account Updates</a></p>
+              <p>Thanks,</p>
+              <p>TDM Calculator Team</p>`
+  };
+  return sgMail.send(msg, false);
+};
+
 const sendRegistrationConfirmation = async (email, token) => {
   const msg = {
     to: `${email}`,
@@ -25,9 +42,8 @@ const sendRegistrationConfirmation = async (email, token) => {
     subject: "Verify Your Account",
     text: "Verify your account",
     html: `<p>Hello, please click the following link to verify your account.</p>
-              <br>
               <p><a href="${clientUrl}/confirm/${token}">Verify Me</a></p>
-              <br>
+              <p>If you did not create a new account or update your account please notify <a href = "mailto: ladot@lacity.org">ladot@lacity.org</a>.</p>
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };
@@ -50,21 +66,59 @@ const sendResetPasswordConfirmation = async (email, token) => {
   return sgMail.send(msg, false);
 };
 
-const sendPublicComment = async publicCommentData => {
+const sendPublicComment = async (loginId, publicCommentData) => {
   try {
-    const { name, email, comment, forwardToWebTeam } = publicCommentData;
-    const msg = {
-      to: laCityEmail,
-      cc: forwardToWebTeam ? webTeamEmail : "",
-      from: senderEmail,
-      subject: `TDM_Calc Comment - ${name}`,
-      text: `TDM_Calc Comment - ${name}`,
-      html: ` <p><strong>Name:</strong> ${name}</p>
+    const { name, email, comment, forwardToWebTeam, selectedProjectIds } =
+      publicCommentData;
+
+    let projects = [];
+    if (loginId) {
+      for (let i = 0; i < selectedProjectIds.length; i++) {
+        const p = await projectService.getById(loginId, selectedProjectIds[i]);
+        projects.push(p);
+      }
+    }
+
+    let body = ` <p><strong>Name:</strong> ${name}</p>
               <p><strong>Email</strong>: ${email ? email : "Anonymous"}</p>
               <p><strong>Comment</strong>: ${comment}</p>
               <p><strong>Forward To Website Team</strong>: ${
                 forwardToWebTeam ? "Yes" : "No"
-              } </p>`
+              } </p>
+              `;
+    if (projects && projects.length > 0) {
+      body +=
+        `<p><strong>Referenced Project(s)</strong></p>
+        <p>Clicking on a link to one of the projects will allow you to log in to TDM, then, once login is successful, it will
+        open the project.</p>
+        <table style="list-style-type:none">
+        <tr>
+          <th style="text-align:left;">Name</th>
+          <th style="text-align:left;">Address</th>
+          <th style="text-align:left;">Date Modified</th>
+          <th style="text-align:left;">Date Created</th>
+          <th style="text-align:left;">Link</th>
+        </tr>` +
+        projects.map(project => {
+          console.log(project);
+          return `<tr><td>${project.name}</td>
+          <td >
+            ${JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
+          </td><td>${moment(project.dateModified).format(
+            "MM/DD/YYYY h:mm A"
+          )}</td><td>${moment(project.dateCreated).format(
+            "MM/DD/YYYY h:mm A"
+          )}</td><td> ${clientUrl}/login?projectId=${project.id}</td></tr>`;
+        }) +
+        "</table></div>";
+    }
+    const msg = {
+      to: laCityEmail,
+      cc: forwardToWebTeam ? webTeamEmail : "",
+      from: senderEmail,
+      subject: `TDM Feedback Submission - ${name}`,
+      text: `TDM Feedback Submission - ${name}`,
+      html: body
     };
     return sgMail.send(msg, false);
   } catch (err) {
@@ -75,6 +129,7 @@ const sendPublicComment = async publicCommentData => {
 
 module.exports = {
   send,
+  sendVerifyUpdateConfirmation,
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation,
   sendPublicComment

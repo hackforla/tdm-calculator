@@ -1,29 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Modal from "react-modal";
+import ModalDialog from "./UI/AriaModal/ModalDialog";
 import Button from "./Button/Button";
 import { createUseStyles } from "react-jss";
 import WarningIcon from "../images/warning-icon.png";
 
 const useStyles = createUseStyles({
-  overlay: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
-
-    zIndex: "100",
-    position: "fixed",
-    top: "0px",
-    left: "0px",
-    right: "0px",
-    bottom: "0px"
-  },
-  content: {
-    padding: "60px",
-    backgroundColor: "#ffffff",
-    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)"
-  },
   title: {
     textAlign: "center"
   },
@@ -37,7 +19,7 @@ const useStyles = createUseStyles({
   },
   modalActions: {
     display: "flex",
-    justifyContent: "flex-end"
+    justifyContent: "center"
   }
 });
 const NavConfirmModal = ({
@@ -59,13 +41,10 @@ const NavConfirmModal = ({
   };
 
   return (
-    <Modal
-      isOpen={isOpenNavConfirmModal}
-      onRequestClose={() => setIsOpenNavConfirmModal(false)}
-      contentLabel="Navigation Confirmation"
-      overlayClassName={classes.overlay}
-      className={classes.content}
-      shouldFocusAfterRender={false}
+    <ModalDialog
+      mounted={isOpenNavConfirmModal}
+      onClose={blockTransition}
+      showCloseBox={false}
     >
       <h2 className={classes.title}>
         <strong>Leave page and delete unsaved data?</strong>
@@ -97,7 +76,7 @@ const NavConfirmModal = ({
           Proceed
         </Button>
       </div>
-    </Modal>
+    </ModalDialog>
   );
 };
 

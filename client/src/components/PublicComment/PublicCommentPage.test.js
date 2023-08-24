@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import PublicCommentPage from "./PublicCommentPage";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -7,12 +8,14 @@ import { postPublicComment } from "./postPublicComment";
 
 describe("PublicCommentFormPage", () => {
   // eslint-disable-next-line jest/no-disabled-tests
-  it.skip("has fields for PublicComment form", () => {
-    render(<PublicCommentPage />);
+  it("has fields for PublicComment form", () => {
+    render(
+      <BrowserRouter>
+        <PublicCommentPage />
+      </BrowserRouter>
+    );
 
-    expect(
-      screen.getByRole("heading", { name: /public comment form/i })
-    ).toBeVisible();
+    expect(screen.getByText(/tdm calculator feedback form/i)).toBeVisible();
     expect(screen.getByPlaceholderText(/name/i)).toBeVisible();
     expect(screen.getByPlaceholderText(/email/i)).toBeVisible();
     expect(screen.getByPlaceholderText(/comment/i)).toBeVisible();
@@ -23,7 +26,11 @@ describe("PublicCommentFormPage", () => {
 
   // eslint-disable-next-line jest/no-disabled-tests
   it.skip("fills out form and saves public comment", async () => {
-    render(<PublicCommentPage />);
+    render(
+      <BrowserRouter>
+        <PublicCommentPage />
+      </BrowserRouter>
+    );
 
     await userEvent.type(screen.getByPlaceholderText(/name/i), "some name");
     await userEvent.type(screen.getByPlaceholderText(/email/i), "some email");

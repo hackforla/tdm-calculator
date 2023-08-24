@@ -3,7 +3,9 @@ module.exports = {
   required: ["email", "password"],
   properties: {
     email: {
-      type: "string"
+      type: "string",
+      minLength: 3,
+      pattern: "\\S+@\\S+"
     },
     password: {
       type: "string"
