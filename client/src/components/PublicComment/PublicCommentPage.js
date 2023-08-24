@@ -1,12 +1,17 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { postPublicComment } from "./postPublicComment";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import PropTypes from "prop-types";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import useToast from "../../contexts/Toast/useToast";
 import ContentContainer from "../Layout/ContentContainer";
+import useErrorHandler from "../../hooks/useErrorHandler";
+import useProjects from "../../hooks/useGetProjects";
+import { withRouter } from "react-router-dom";
+import ProjectList from "./ProjectList";
 
 const useStyles = createUseStyles({
   publicCommentContainer: {
@@ -61,20 +66,26 @@ const useStyles = createUseStyles({
   }
 });
 
-const PublicCommentPage = () => {
+const PublicCommentPage = ({ account, history }) => {
   const focusRef = useRef(null);
   const classes = useStyles();
   const toast = useToast();
+  const historyPush = history.push;
+  const email = account.email;
+  const handleError = useErrorHandler(email, historyPush);
+  const projects = useProjects(handleError);
+  const [selectedProjects, setSelectedProjects] = useState([]);
 
   useEffect(() => {
     focusRef.current.focus();
-  });
+  }, []);
 
   const initialValues = {
     name: "",
     email: "",
     comment: "",
-    forwardToWebTeam: false
+    forwardToWebTeam: false,
+    selectedProjects: []
   };
 
   const validationSchema = Yup.object({
@@ -96,7 +107,8 @@ const PublicCommentPage = () => {
         name,
         email,
         comment,
-        forwardToWebTeam
+        forwardToWebTeam,
+        selectedProjects
       });
 
       if (response.status === 201) {
@@ -222,7 +234,16 @@ const PublicCommentPage = () => {
                   />
                 </label>
               </div>
+              {account && account.id ? (
+                <ProjectList
+                  key={JSON.stringify(projects, null, 2)}
+                  projects={projects}
+                  selectedProjects={selectedProjects}
+                  setSelectedProjects={setSelectedProjects}
+                />
+              ) : null}
 
+              {/* <div>{JSON.stringify(projects, null, 2)}</div> */}
               <Button
                 type="submit"
                 className={classes.submitButton}
@@ -238,4 +259,16 @@ const PublicCommentPage = () => {
   );
 };
 
-export default PublicCommentPage;
+PublicCommentPage.propTypes = {
+  account: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    id: PropTypes.number,
+    email: PropTypes.string
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  })
+};
+
+export default withRouter(PublicCommentPage);

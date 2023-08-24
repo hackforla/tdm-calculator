@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import SaveButton from "../Button/SaveButton";
 import { createUseStyles } from "react-jss";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PrintButton from "../Button/PrintButton";
+import ReactToPrint from "react-to-print";
+import { PdfPrint } from "../PdfPrint/PdfPrint";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
     display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    margin: "2em 0"
+    margin: "3em 0",
+    width: "80%",
+    justifyContent: "center"
   },
   pageNumberCounter: {
     fontSize: "24px",
@@ -36,10 +38,12 @@ const WizardFooter = ({
   setDisabledForNextNavButton,
   setDisabledSaveButton,
   setDisplaySaveButton,
+  setDisplayPrintButton,
   onSave,
   dateModified
 }) => {
   const classes = useStyles();
+  const componentRef = useRef();
 
   return (
     <>
@@ -50,6 +54,7 @@ const WizardFooter = ({
               <NavButton
                 id="leftNavArrow"
                 navDirection="previous"
+                color="colorPrimary"
                 isVisible={page !== 1}
                 isDisabled={Number(page) === 1}
                 onClick={() => {
@@ -62,29 +67,39 @@ const WizardFooter = ({
               <NavButton
                 id="rightNavArrow"
                 navDirection="next"
-                isVisible={page !== 6}
+                color="colorPrimary"
+                isVisible={page !== 5}
                 isDisabled={setDisabledForNextNavButton()}
                 onClick={() => {
                   onPageChange(Number(page) + 1);
                 }}
               />
             </div>
-
+            <ReactToPrint
+              trigger={() => (
+                <PrintButton
+                  id="PrintButton"
+                  isDisplayed={setDisplayPrintButton()}
+                />
+              )}
+              content={() => componentRef.current}
+            />
+            <div style={{ display: "none" }}>
+              <PdfPrint
+                ref={componentRef}
+                rules={rules}
+                dateModified={dateModified}
+              />
+            </div>
             <SaveButton
               id="saveButton"
+              color="colorPrimary"
               isDisabled={setDisabledSaveButton()}
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
             />
           </>
         ) : null}
-      </div>
-      <div className={classes.lastSavedContainer}>
-        {dateModified && (
-          <span className={classes.lastSaved}>
-            <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved: {dateModified}
-          </span>
-        )}
       </div>
     </>
   );
@@ -100,7 +115,9 @@ WizardFooter.propTypes = {
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
+  setDisplayPrintButton: PropTypes.any,
   onSave: PropTypes.any,
+  onDownload: PropTypes.any,
   dateModified: PropTypes.any
 };
 

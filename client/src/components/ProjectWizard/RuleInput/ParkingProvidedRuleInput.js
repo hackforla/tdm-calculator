@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import debounce from "lodash/debounce";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   parkingProvidedWrapper: {
     display: "flex",
     flexDirection: "column",
@@ -12,12 +12,12 @@ const useStyles = createUseStyles({
     margin: "2em"
   },
   label: {
-    fontSize: "22px"
+    ...theme.typography.heading2
   },
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: "red"
+      color: theme.colors.warning
     }
   },
   inputContainer: {
@@ -25,21 +25,22 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   input: {
+    ...theme.typography.heading2,
     padding: "8px 4em 8px 8px",
     textAlign: "right",
     margin: ".5em auto",
     height: 45,
-    width: "50%",
-    fontSize: "large"
+    width: "50%"
   },
   unit: {
+    ...theme.typography.heading2,
     position: "relative",
-    marginLeft: "-70px"
+    marginLeft: "-80px"
   },
   error: {
-    color: "red"
+    color: theme.colors.warning
   }
-});
+}));
 
 const ParkingProvidedRuleInput = ({
   rule: { code, name, value, units, maxValue, validationErrors, required },
@@ -83,7 +84,7 @@ const ParkingProvidedRuleInput = ({
           max={maxValue}
           onBlur={onBlur}
         />
-        <span className={clsx(classes.unit, classes.label)}>&nbsp;{units}</span>
+        <span className={classes.unit}>&nbsp;{units}</span>
       </div>
 
       {validationErrors && showValidationErrors ? (

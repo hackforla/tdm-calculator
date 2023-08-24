@@ -1,11 +1,20 @@
 import React from "react";
-import WarningIcon from "../../images/warning-icon.png";
-import { createUseStyles } from "react-jss";
-import * as projectService from "../../services/project.service";
 import { PropTypes } from "prop-types";
-import ProjectActionModal from "./ProjectActionModal";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from "../Button/Button";
+import WarningIcon from "../../images/warning-icon.png";
+import { createUseStyles, useTheme } from "react-jss";
+import ModalDialog from "../UI/AriaModal/ModalDialog";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
+  buttonFlexBox: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 0
+  },
+  heading1: theme.typography.heading1,
   instruction: {
     fontSize: "20px",
     lineHeight: "32px",
@@ -16,60 +25,50 @@ const useStyles = createUseStyles({
     }
   },
   warningIcon: {
-    float: "left",
-    margin: "4px 12px 12px 0"
+    margin: "0 10px"
   }
-});
+}));
 
-const DeleteProjectModal = ({
-  selectedProject,
-  setSelectedProject,
-  handleError,
-  deleteModalOpen,
-  toggleDeleteModal,
-  setDeleteModalOpen
-}) => {
+const DeleteProjectModal = ({ mounted, onClose, selectedProjectName }) => {
+  const theme = useTheme();
   const classes = useStyles();
 
-  const deleteProject = async project => {
-    try {
-      await projectService.del(project.id);
-    } catch (err) {
-      handleError(err);
-    }
-
-    toggleDeleteModal();
-    setSelectedProject(null);
-  };
-
   return (
-    <ProjectActionModal
-      isOpen={deleteModalOpen}
-      onRequestClose={() => setDeleteModalOpen(!deleteModalOpen)}
-      contentLabel="Delete Modal"
-      toggleCloseButton={() => setDeleteModalOpen(!deleteModalOpen)}
-      action="delete"
-      title="Delete Project"
-      submitButtonLabel="Delete"
-      handleSubmit={() => deleteProject(selectedProject)}
+    <ModalDialog
+      mounted={mounted}
+      onClose={onClose}
+      initialFocus="#cancelButton"
     >
-      <p className={classes.instruction}>
+      <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
+        <FontAwesomeIcon icon={faTrashCan} /> DeleteProject
+      </div>
+      <div style={theme.typography.subHeading}>
         <img src={WarningIcon} className={classes.warningIcon} alt="Warning" />
-        Are you sure you want to <span>permanently</span> delete this project,
-        &nbsp;
-        <strong>{selectedProject && selectedProject.name}</strong>?
-      </p>
-    </ProjectActionModal>
+        Are you sure you want to <span>permanently</span> delete the project,
+      </div>
+      <div style={{ ...theme.typography.heading3, marginBottom: "1.5rem" }}>
+        {selectedProjectName}?
+      </div>
+      <div className={classes.buttonFlexBox}>
+        <Button onClick={onClose} variant="text" id="cancelButton">
+          Cancel
+        </Button>
+        <Button
+          onClick={() => onClose("ok")}
+          variant="contained"
+          color={"colorError"}
+        >
+          Delete
+        </Button>
+      </div>
+    </ModalDialog>
   );
 };
 
 DeleteProjectModal.propTypes = {
-  selectedProject: PropTypes.object.isRequired,
-  setSelectedProject: PropTypes.func.isRequired,
-  toggleDeleteModal: PropTypes.func.isRequired,
-  handleError: PropTypes.func.isRequired,
-  deleteModalOpen: PropTypes.bool.isRequired,
-  setDeleteModalOpen: PropTypes.func.isRequired
+  mounted: PropTypes.bool,
+  onClose: PropTypes.func,
+  selectedProjectName: PropTypes.string
 };
 
 export default DeleteProjectModal;

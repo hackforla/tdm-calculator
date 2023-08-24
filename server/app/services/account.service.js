@@ -4,6 +4,7 @@ const { promisify } = require("util");
 const moment = require("moment");
 const bcrypt = require("bcrypt");
 const {
+  sendVerifyUpdateConfirmation,
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation
 } = require("./sendgrid-service");
@@ -22,21 +23,21 @@ const selectAll = async () => {
   }
 };
 
-const selectById = async id => {
-  try {
-    await poolConnect;
-    const request = pool.request();
-    request.input("Id", mssql.Int, id);
+// const selectById = async id => {
+//   try {
+//     await poolConnect;
+//     const request = pool.request();
+//     request.input("Id", mssql.Int, id);
 
-    const response = await request.execute("Login_SelectById");
-    if (response.recordset && response.recordset.length > 0) {
-      return response.recordset[0];
-    }
-    return null;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+//     const response = await request.execute("Login_SelectById");
+//     if (response.recordset && response.recordset.length > 0) {
+//       return response.recordset[0];
+//     }
+//     return null;
+//   } catch (err) {
+//     return Promise.reject(err);
+//   }
+// };
 
 const selectByEmail = async email => {
   try {
@@ -83,6 +84,31 @@ const register = async model => {
       isSuccess: false,
       code: "REG_DUPLICATE_EMAIL",
       message: `Email ${email} is already registered. `
+    };
+  }
+};
+
+const updateAccount = async model => {
+  const token = uuid4();
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssql.Int, model.id);
+    request.input("FirstName", mssql.NVarChar, model.firstName);
+    request.input("LastName", mssql.NVarChar, model.lastName);
+    request.input("Email", mssql.NVarChar, model.email);
+    await request.execute("Login_Update");
+    await sendVerifyUpdateConfirmation(model.email, token);
+    return {
+      isSuccess: true,
+      code: "ACCOUNT_UPDATE_SUCCESS",
+      message: "Account Updates."
+    };
+  } catch (err) {
+    return {
+      isSuccess: false,
+      code: "ACCOUNT_UPDATE_SUCCESS",
+      message: `Account updates failed. ${err.message}`
     };
   }
 };
@@ -341,21 +367,6 @@ const authenticate = async (email, password) => {
   };
 };
 
-// Not fully implemented - needs sproc
-const update = async model => {
-  try {
-    await poolConnect;
-    const request = pool.request();
-    request.input("id", mssql.Int, model.id);
-    request.input("firstName", mssql.NVarChar, model.firstName);
-    request.input("lastName", mssql.NVarChar, model.lastName);
-    request.input("email", mssql.NVarChar, model.email);
-    await request.execute("Login_Update");
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
-
 const updateRoles = async model => {
   try {
     await poolConnect;
@@ -401,14 +412,14 @@ async function hashPassword(user) {
 
 module.exports = {
   selectAll,
-  selectById,
+  // selectById,
   register,
+  updateAccount,
   confirmRegistration,
   resendConfirmationEmail,
   forgotPassword,
   resetPassword,
   authenticate,
-  update,
   updateRoles,
   del
 };
