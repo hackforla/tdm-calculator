@@ -23,6 +23,7 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     alignItems: "top",
     minHeight: "2em",
+    padding: 4,
     border: "2px solid #a6c439"
   },
   faqPlusMinusIcons: {

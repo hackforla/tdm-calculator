@@ -6,7 +6,6 @@ import {
   faTrashAlt,
   faChevronDown,
   faChevronUp,
-  // faEdit,
   faGripHorizontal
 } from "@fortawesome/free-solid-svg-icons";
 

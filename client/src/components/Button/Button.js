@@ -19,24 +19,36 @@ const useStyles = createUseStyles({
   contained: {
     backgroundColor: ({ theme, color }) => theme[color],
     borderColor: "rgba(0, 0, 0, .05)", //lightest grey
-    boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px"
+    boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px",
+    "&:hover": {
+      boxShadow: "rgba(0, 46, 109, 0.6) 2px 4px 6px" // Heavier box shadow on hover
+    }
   },
   download: {
     backgroundColor: ({ theme, color }) => theme[color],
     borderColor: "rgb(167, 197, 57)", //site standard green
     boxShadow: "rgb(167, 197, 57) 1px 2px 3px",
-    marginLeft: "auto"
+    marginLeft: "auto",
+    "&:hover": {
+      boxShadow: "rgb(167, 197, 57) 2px 4px 6px" // Heavier box shadow on hover
+    }
   },
   outlined: {
     backgroundColor: ({ theme }) => theme.colorWhite,
     borderColor: "rgba(0, 46, 109, .2)", //medium grey
-    borderWidth: "thin"
+    borderWidth: "thin",
+    "&:hover": {
+      boxShadow: "rgba(0, 46, 109, 0.4) 2px 4px 6px" // Heavier box shadow on hover
+    }
   },
   text: {
     backgroundColor: "transparent",
     borderColor: "rgba(0, 0, 0, 0)", //transparent
     marginLeft: 0,
-    marginRight: 0
+    marginRight: 0,
+    "&:hover": {
+      boxShadow: "rgba(0, 0, 0, 0.1) 2px 4px 6px" // Heavier box shadow on hover
+    }
   }
 });
 

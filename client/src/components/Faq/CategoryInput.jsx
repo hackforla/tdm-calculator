@@ -14,7 +14,12 @@ const useStyles = createUseStyles(theme => ({
   },
   categoryName: {
     ...theme.typography.heading3,
-    color: theme.colors.primary.white
+    fontSize: 24,
+    color: theme.colors.primary.white,
+    cursor: admin => (admin ? "pointer" : "default"),
+    "&:hover": {
+      textDecoration: "underline"
+    }
   }
 }));
 
@@ -26,7 +31,7 @@ export const CategoryInput = ({
   setCategoryEditMode,
   onSetCategory
 }) => {
-  const classes = useStyles();
+  const classes = useStyles(admin);
 
   const handleCategoryEdit = useCallback(() => {
     admin && setCategoryEditMode(true);
@@ -49,11 +54,9 @@ export const CategoryInput = ({
       />
     </div>
   ) : (
-    <div
-      className={classes.categoryName}
-      dangerouslySetInnerHTML={{ __html: `${categoryName}` }}
-      onClick={handleCategoryEdit}
-    ></div>
+    <div className={classes.categoryName} onClick={handleCategoryEdit}>
+      <>{categoryName}</>
+    </div>
   );
 };
 
