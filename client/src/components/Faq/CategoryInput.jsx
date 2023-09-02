@@ -18,7 +18,7 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colors.primary.white,
     cursor: admin => (admin ? "pointer" : "default"),
     "&:hover": {
-      textDecoration: "underline"
+      textDecoration: admin => admin && "underline"
     }
   }
 }));

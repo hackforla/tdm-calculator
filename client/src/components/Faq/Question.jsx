@@ -20,7 +20,7 @@ const useStyles = createUseStyles(theme => ({
     fontSize: 22,
     cursor: admin => (admin ? "pointer" : "default"),
     "&:hover": {
-      textDecoration: "underline"
+      textDecoration: admin => admin && "underline"
     }
   },
   questionInput: {
