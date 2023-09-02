@@ -2,8 +2,9 @@ import React from "react";
 import Quill from "../Quill";
 import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
+import { Interweave } from "interweave";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   answerContainer: {
     width: "100%"
   },
@@ -11,8 +12,16 @@ const useStyles = createUseStyles({
     width: "100%",
     display: "flex",
     flexDirection: "column"
+  },
+  answerText: {
+    ...theme.typography.subHeading,
+    fontWeight: 22,
+    cursor: admin => (admin ? "pointer" : "default"),
+    "&:hover": {
+      textDecoration: admin => admin && "underline"
+    }
   }
-});
+}));
 
 export const Answer = ({
   admin,
@@ -22,7 +31,7 @@ export const Answer = ({
   setIsEditAnswer,
   onSetFaq
 }) => {
-  const classes = useStyles();
+  const classes = useStyles(admin);
 
   const handleSetFAQ = event => {
     // Check if the relatedTarget is within the Answer component
@@ -50,10 +59,9 @@ export const Answer = ({
           onClick={() => admin && setIsEditAnswer(!isEditAnswer)}
           style={{ display: "flex" }}
         >
-          <p
-            style={{ margin: " 0.5rem 0" }}
-            dangerouslySetInnerHTML={{ __html: answer }}
-          />
+          <div className={classes.answerText}>
+            <Interweave content={answer} />
+          </div>
         </div>
       )}
     </div>

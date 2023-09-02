@@ -2,7 +2,7 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles(theme => ({
   questionAnchor: {
     fontWeight: "bold",
     marginLeft: "0.5em",
@@ -12,13 +12,16 @@ const useStyles = createUseStyles(() => ({
   },
   questionContainer: {
     display: "flex",
-    marginTop: 0,
+    margin: "0.6em",
     width: "100%"
   },
   questionText: {
-    fontWeight: "bold",
-    marginTop: "0.5em",
-    cursor: admin => (admin ? "pointer" : "default")
+    ...theme.typography.heading3,
+    fontSize: 22,
+    cursor: admin => (admin ? "pointer" : "default"),
+    "&:hover": {
+      textDecoration: admin => admin && "underline"
+    }
   },
   questionInput: {
     fontWeight: "bold",
@@ -55,13 +58,14 @@ export const Question = ({
           />
         </div>
       ) : (
-        <h3
-          dangerouslySetInnerHTML={{ __html: `${question}` }}
+        <div
           className={classes.questionText}
           onClick={() => {
             admin && setIsEditQuestion(!isEditQuestion);
           }}
-        />
+        >
+          <>{question}</>
+        </div>
       )}
     </div>
   );

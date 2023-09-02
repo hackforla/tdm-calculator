@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../Button/Button";
 
 const EditToggleButton = ({ id, onClick, editMode }) => {
   return (
     <Button
-      type="input"
       color={!editMode ? "colorDisabled" : "colorPrimary"}
       variant="contained"
       onClick={onClick}
@@ -16,7 +15,7 @@ const EditToggleButton = ({ id, onClick, editMode }) => {
       style={{ margin: "0" }}
     >
       <>
-        <FontAwesomeIcon icon={faFloppyDisk} />
+        <FontAwesomeIcon icon={faEdit} />
         {editMode ? ` SAVE EDITS` : ` EDIT FAQ PAGE`}
       </>
     </Button>
