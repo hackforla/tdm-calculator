@@ -12,6 +12,7 @@ const EditToggleButton = ({ id, onClick, editMode }) => {
       onClick={onClick}
       id={id}
       data-testid={id}
+      style={{ margin: "0" }}
     >
       <>
         <FontAwesomeIcon icon={faEdit} />

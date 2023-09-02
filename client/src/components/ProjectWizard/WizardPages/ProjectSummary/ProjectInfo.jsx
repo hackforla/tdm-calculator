@@ -19,7 +19,8 @@ const useStyles = createUseStyles({
   },
   projectInfoDetails: {
     color: "#0F2940",
-    fontFamily: "Calibri Bold",
+    fontFamily: "Calibri",
+    fontWeight: 700,
     fontSize: "16px"
   }
 });
