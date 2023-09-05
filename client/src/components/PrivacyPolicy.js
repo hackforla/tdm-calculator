@@ -64,7 +64,7 @@ const PrivacyPolicy = () => {
           <p className={classes.indented}>
             <a href="https://tdm.ladot.lacity.org">TDM Calculator</a> is a City
             of Los Angeles Review Tool managed by Hack for LA which is a project
-            (of Code for America Labs, Inc. (&#34;Code for America&#34;,
+            (of Civic Tech Structure, Inc. (&#34;Civic Tech Structure&#34;,
             &#34;we&#34;, &#34;us&#34;, &#34;our&#34;). This Privacy Policy
             describes how we collect, use, and protect your personal information
             on the TDM Calculator review tool Website. By submitting your
@@ -439,12 +439,16 @@ const PrivacyPolicy = () => {
             , or by mail at:
           </p>
           <div className={classes.address}>
-            <p className={classes.addressParagraph}>Code for America</p>
+            <p className={classes.addressParagraph}>
+              Civic Tech Structure, Inc.
+            </p>
             <p className={classes.addressParagraph}>
               Ref: Hack for LA, TDM Calculator
             </p>
-            <p className={classes.addressParagraph}>155 9th Street</p>
-            <p className={classes.addressParagraph}>San Francisco, CA 94103</p>
+            <p className={classes.addressParagraph}>
+              13428 Maxella Avenue, 821
+            </p>
+            <p className={classes.addressParagraph}>Marina Del Rey, CA 90292</p>
           </div>
         </div>
       </div>
