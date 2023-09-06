@@ -72,7 +72,7 @@ FaqList.propTypes = {
   collapseFaq: PropTypes.func,
   onDeleteFAQ: PropTypes.func,
   onEditFAQ: PropTypes.func,
-  isNewFAQOpen: PropTypes.func,
+  isNewFAQOpen: PropTypes.bool,
   newQuestion: PropTypes.string,
   newAnswer: PropTypes.string,
   handleNewQuestionChange: PropTypes.func,
