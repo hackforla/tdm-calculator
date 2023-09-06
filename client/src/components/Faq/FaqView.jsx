@@ -302,7 +302,9 @@ const FaqView = ({ isAdmin }) => {
             onClick={handleAdminChange}
           />
         )}
-        <h1 className="tdm-wizard-page-title">Frequently Asked Questions</h1>
+        <h1 className="tdm-wizard-page-title" style={{ margin: "0" }}>
+          Frequently Asked Questions
+        </h1>
         <div className={classes.buttonContainer}>
           {admin ? (
             <AddNewCategoryButton

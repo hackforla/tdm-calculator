@@ -6,7 +6,6 @@ import {
   faTrashAlt,
   faChevronDown,
   faChevronUp,
-  // faEdit,
   faGripHorizontal
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -45,14 +44,12 @@ export const FaqButtonContainer = ({
   return (
     <div className={classes.buttonContainer} {...dragHandleProps}>
       {isHovered && (
-        <div>
-          <FontAwesomeIcon
-            color={theme.colors.warning}
-            className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
-            icon={faTrashAlt}
-            onClick={onDeleteFAQ}
-          />
-        </div>
+        <FontAwesomeIcon
+          color={theme.colors.warning}
+          className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
+          icon={faTrashAlt}
+          onClick={onDeleteFAQ}
+        />
       )}
       <div className={classes.faqIcon}>
         {faq.expand ? (

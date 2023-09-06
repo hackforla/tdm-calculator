@@ -13,12 +13,14 @@ const useStyles = createUseStyles(theme => ({
   },
   buttonContainer: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    "&:hover": {
+      textDecoration: "underline"
+    }
   },
   text: {
     ...theme.typography.button,
     fontSize: "18px",
-    textDecoration: "underline",
     marginLeft: "10px"
   }
 }));

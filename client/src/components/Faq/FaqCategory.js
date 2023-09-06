@@ -85,21 +85,23 @@ const FaqCategory = props => {
   );
 
   return (
-    <div
-      onMouseEnter={() => showDeleteOption(true)}
-      onMouseLeave={() => showDeleteOption()}
-    >
-      <CategoryInputContainer
-        admin={admin}
-        categoryName={categoryName}
-        handleCategoryNameChange={handleCategoryNameChange}
-        categoryEditMode={categoryEditMode}
-        setCategoryEditMode={setCategoryEditMode}
-        onSetCategory={onSetCategory}
-        dragHandleProps={dragHandleProps}
-        onDeleteCategory={onDeleteCategory}
-        isHovered={isHovered}
-      />
+    <>
+      <div
+        onMouseEnter={() => showDeleteOption(true)}
+        onMouseLeave={() => showDeleteOption()}
+      >
+        <CategoryInputContainer
+          admin={admin}
+          categoryName={categoryName}
+          handleCategoryNameChange={handleCategoryNameChange}
+          categoryEditMode={categoryEditMode}
+          setCategoryEditMode={setCategoryEditMode}
+          onSetCategory={onSetCategory}
+          dragHandleProps={dragHandleProps}
+          onDeleteCategory={onDeleteCategory}
+          isHovered={isHovered}
+        />
+      </div>
       <FaqList
         category={category}
         admin={admin}
@@ -120,7 +122,7 @@ const FaqCategory = props => {
           <NewFaqButton admin={admin} handleOpenNewFAQ={handleOpenNewFAQ} />
         </div>
       )}
-    </div>
+    </>
   );
 };
 
