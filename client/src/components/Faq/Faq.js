@@ -148,7 +148,7 @@ Faq.propTypes = {
     id: PropTypes.number.isRequired,
     question: PropTypes.string.isRequired,
     answer: PropTypes.string.isRequired,
-    expand: PropTypes.bool.isRequired
+    expand: PropTypes.bool
   }),
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,

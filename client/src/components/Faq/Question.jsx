@@ -72,7 +72,7 @@ export const Question = ({
 };
 
 Question.propTypes = {
-  admin: PropTypes.boolean,
+  admin: PropTypes.bool,
   question: PropTypes.string,
   isEditQuestion: PropTypes.bool,
   handleQuestionChange: PropTypes.func,

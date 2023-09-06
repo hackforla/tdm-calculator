@@ -9,8 +9,12 @@ import { DragDropContext } from "react-beautiful-dnd";
 import * as faqCategoryService from "../../services/faqCategory.service";
 import AddNewCategoryButton from "../Button/AddNewCategory";
 import { createUseStyles } from "react-jss";
+import DeleteFaqModal from "./DeleteFaqModal";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
+  headerContainer: {
+    ...theme.typography.heading1
+  },
   buttonContainer: {
     display: "flex",
     justifyContent: "space-between",
@@ -20,7 +24,7 @@ const useStyles = createUseStyles({
     border: "2px dotted #ccc",
     padding: 12
   }
-});
+}));
 
 const FaqView = ({ isAdmin }) => {
   const classes = useStyles();
@@ -29,6 +33,9 @@ const FaqView = ({ isAdmin }) => {
   const [highestCategoryId, setHighestCategoryId] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [admin, setAdmin] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [faqToDelete, setFaqToDelete] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchFaqData();
@@ -150,7 +157,7 @@ const FaqView = ({ isAdmin }) => {
     setFaqCategoryList(prevState => [...prevState, newCategory]);
   };
 
-  const handleDeleteCategory = categoryId => {
+  const onDeleteCategory = categoryId => {
     setFaqCategoryList(prevState =>
       prevState.filter(category => category.id !== categoryId)
     );
@@ -229,7 +236,7 @@ const FaqView = ({ isAdmin }) => {
     );
   };
 
-  const handleDeleteFAQ = (categoryId, faqId) => {
+  const onDeleteFAQ = (categoryId, faqId) => {
     setFaqCategoryList(prevState =>
       prevState.map(category => {
         if (category.id === categoryId) {
@@ -292,6 +299,39 @@ const FaqView = ({ isAdmin }) => {
     }
   };
 
+  const handleDeleteCategory = categoryId => {
+    setCategoryToDelete(categoryId);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteFAQ = (categoryId, faqId) => {
+    setCategoryToDelete(categoryId);
+    setFaqToDelete(faqId);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCategoryToDelete(null);
+    setFaqToDelete(null);
+  };
+
+  const handleDelete = () => {
+    if (categoryToDelete !== null) {
+      // Delete the category or FAQ based on your logic
+      if (faqToDelete !== null) {
+        // Delete FAQ
+        onDeleteFAQ(categoryToDelete, faqToDelete);
+        setFaqToDelete(null);
+      } else {
+        // Delete Category
+        onDeleteCategory(categoryToDelete);
+      }
+    }
+
+    // Close the modal
+    closeModal();
+  };
   return (
     <ContentContainer componentToTrack="FaqPage">
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
@@ -302,9 +342,9 @@ const FaqView = ({ isAdmin }) => {
             onClick={handleAdminChange}
           />
         )}
-        <h1 className="tdm-wizard-page-title" style={{ margin: "0" }}>
-          Frequently Asked Questions
-        </h1>
+        <div className={classes.headerContainer}>
+          <>Frequently Asked Questions</>
+        </div>
         <div className={classes.buttonContainer}>
           {admin ? (
             <AddNewCategoryButton
@@ -335,6 +375,11 @@ const FaqView = ({ isAdmin }) => {
           </DragDropContext>
         </div>
       </div>
+      <DeleteFaqModal
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
+        handleDelete={handleDelete}
+      />
     </ContentContainer>
   );
 };

@@ -141,7 +141,7 @@ FaqCategory.propTypes = {
   handleEditCategory: PropTypes.func,
   deleteCategory: PropTypes.func,
   deleteFaq: PropTypes.func,
-  dragHandleProps: PropTypes.func,
+  dragHandleProps: PropTypes.object,
   handleAddFAQ: PropTypes.func,
   handleEditFAQ: PropTypes.func,
   handleDeleteFAQ: PropTypes.func,
