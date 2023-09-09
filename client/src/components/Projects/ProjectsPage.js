@@ -7,11 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
   faSortDown,
-  faPrint
+  faCamera,
+  faTrash,
+  faEye,
+  faEyeSlash,
+  faEllipsisV
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
-import CopyIcon from "../../images/copy.png";
-import DeleteIcon from "../../images/trash.png";
+
 import Pagination from "../Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
@@ -20,6 +23,9 @@ import * as projectService from "../../services/project.service";
 
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+import ProjectContextMenu from "./ProjectContextMenu";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -213,6 +219,13 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
       projectB = JSON.parse(b.formInputs).BUILDING_PERMIT
         ? JSON.parse(b.formInputs).BUILDING_PERMIT
         : "undefined";
+    } else if (
+      orderBy === "dateHidden" ||
+      orderBy === "dateTrashed" ||
+      orderBy === "dateSnapshotted"
+    ) {
+      projectA = a.dateHidden ? 1 : 0;
+      projectB = b.dateHidden ? 1 : 0;
     } else {
       projectA = a[orderBy].toLowerCase();
       projectB = b[orderBy].toLowerCase();
@@ -265,6 +278,15 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
       : "";
     project["dateCreated"] = moment(project["dateCreated"]).format();
     project["dateModified"] = moment(project["dateModified"]).format();
+    project["dateHidden"] = project["dateTrashed"]
+      ? moment(project["dateHidden"]).format()
+      : null;
+    project["dateTrashed"] = project["dateTrashed"]
+      ? moment(project["dateTrashed"]).format()
+      : null;
+    project["dateSnapshotted"] = project["dateSnapshotted"]
+      ? moment(project["dateSnapshotted"]).format()
+      : null;
 
     if (filterText !== "") {
       let ids = [
@@ -274,7 +296,10 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
         "versionNum",
         "buildingPermit",
         "dateCreated",
-        "dateModified"
+        "dateModified",
+        "dateHidden",
+        "dateTrashed",
+        "dateSnapshotted"
       ];
 
       return ids.some(id => {
@@ -293,7 +318,19 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
     { id: "BUILDING_PERMIT", label: "Building Permit" },
     { id: "firstName", label: "Created By" },
     { id: "dateCreated", label: "Created On" },
-    { id: "dateModified", label: "Last Modified" }
+    { id: "dateModified", label: "Last Modified" },
+    {
+      id: "dateHidden",
+      label: <FontAwesomeIcon icon={faEye} alt={`Project Is In Trash`} />
+    },
+    {
+      id: "dateTrashed",
+      label: <FontAwesomeIcon icon={faTrash} alt={`Project Is In Trash`} />
+    },
+    {
+      id: "dateSnapshotted",
+      label: <FontAwesomeIcon icon={faCamera} alt={`Project Is In Trash`} />
+    }
   ];
 
   const indexOfLastPost = currentPage * projectsPerPage;
@@ -334,18 +371,16 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
           <thead className={classes.thead}>
             <tr className={classes.tr}>
               {headerData.map((header, i) => {
-                const label = header.label.split(" ");
-                const lastWordOfLabel = label.splice(-1, 1);
+                const label = header.label;
                 return (
                   <td
                     key={i}
                     className={`${classes.td} ${classes.theadLabel}`}
                     onClick={() => handleSort(header.id)}
                   >
-                    {label}{" "}
                     {orderBy === header.id ? (
                       <span className={classes.labelSpan}>
-                        {lastWordOfLabel}{" "}
+                        {label}{" "}
                         {order === "asc" ? (
                           <FontAwesomeIcon
                             icon={faSortDown}
@@ -359,13 +394,7 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
                         )}
                       </span>
                     ) : (
-                      <span className={classes.labelSpan}>
-                        {lastWordOfLabel}
-                        <FontAwesomeIcon
-                          icon={faSortDown}
-                          className={classes.sortArrow}
-                        />
-                      </span>
+                      <span className={classes.labelSpan}>{label}</span>
                     )}
                   </td>
                 );
@@ -405,32 +434,53 @@ const ProjectsPage = ({ account, history, contentContainerRef }) => {
                       ? moment(project.dateModified).format("h:mm A")
                       : moment(project.dateModified).format("MM/DD/YYYY")}
                   </td>
+                  <td className={classes.tdRightAlign}>
+                    {project.dateHidden ? (
+                      <FontAwesomeIcon
+                        icon={faEyeSlash}
+                        alt={`Project Is Hidden`}
+                      />
+                    ) : null}
+                  </td>
+                  <td className={classes.tdRightAlign}>
+                    {project.dateTrashed ? (
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        alt={`Project Is In Trash`}
+                      />
+                    ) : null}
+                  </td>
+                  <td className={classes.tdRightAlign}>
+                    {project.dateSnapshotted ? (
+                      <FontAwesomeIcon
+                        icon={faCamera}
+                        alt={`Project Is A Snapshot`}
+                      />
+                    ) : null}
+                  </td>
                   <td className={classes.actionIcons}>
-                    {project.loginId === currentUser.id && (
-                      <>
-                        <button onClick={() => handleCopyModalOpen(project)}>
-                          <img
-                            src={CopyIcon}
-                            alt={`Copy Project #${project.id} Icon`}
+                    <Popup
+                      trigger={
+                        <button>
+                          <FontAwesomeIcon
+                            icon={faEllipsisV}
+                            alt={`Project Is A Snapshot`}
                           />
                         </button>
-                        <Link to={`/calculation/5/${project.id}`}>
-                          <button>
-                            <FontAwesomeIcon
-                              icon={faPrint}
-                              className={classes.printIcon}
-                              alt={`copy Project #${project.id} Icon`}
-                            />
-                          </button>
-                        </Link>
-                        <button onClick={() => handleDeleteModalOpen(project)}>
-                          <img
-                            src={DeleteIcon}
-                            alt={`Delete Project #${project.id} Icon`}
-                          />
-                        </button>
-                      </>
-                    )}
+                      }
+                      position="bottom center"
+                      offsetX={-100}
+                      on="click"
+                      closeOnDocumentClick
+                      arrow={false}
+                    >
+                      <ProjectContextMenu
+                        project={project}
+                        handleCopyModalOpen={handleCopyModalOpen}
+                        handleDeleteModalOpen={handleDeleteModalOpen}
+                      />
+                    </Popup>
+                    {project.loginId === currentUser.id && <></>}
                   </td>
                 </tr>
               ))
