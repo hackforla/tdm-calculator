@@ -397,7 +397,7 @@ const archiveUser = async id => {
     const request = pool.request();
     request.input("id", mssql.Int, id);
     // checks if user exists
-    const response = await request.execute("Login_SelectByEmail");
+    const response = await request.execute("Login_SelectById");
     if (response.recordset && response.recordset.length > 0) {
       // checks if the user is a SecurityAdmin
       const user = response.recordset[0];
@@ -458,7 +458,7 @@ const deleteUser = async id => {
     const request = pool.request();
     request.input("id", mssql.Int, id);
     // checks if user exists
-    const response = await request.execute("Login_SelectByEmail");
+    const response = await request.execute("Login_SelectById");
     if (response.recordset && response.recordset.length > 0) {
       // checks if the user is a SecurityAdmin
       const user = response.recordset[0];

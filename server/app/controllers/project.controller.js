@@ -119,8 +119,9 @@ const snapshot = async (req, res) => {
 
 const getAllArchivedProjects = async (req, res) => {
   try {
-    const response = await projectService.selectAllArchivedProjects();
-    res.send(response)
+    const archivedProjects = await projectService.getAllArchivedProjects(req.user.id);
+    res.status(200).json(archivedProjects);
+    return;
   } catch (err) {
     res.status(500).send(err);
   }

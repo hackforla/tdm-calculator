@@ -10,34 +10,34 @@ GO
 
 -- adds sproc for archiving users and their corresponding projects
 CREATE OR ALTER PROCEDURE [dbo].[ArchiveUserAndProjects]
-    @UserId INT
+    @id INT
 AS
 BEGIN
     -- Set archivedAt for the user
     UPDATE [dbo].[Login]
     SET [archivedAt] = GETDATE()
-    WHERE [id] = @UserId;
+    WHERE [id] = @id;
 
     -- Set archivedAt for the user's projects
     UPDATE [dbo].[Project]
     SET [archivedAt] = GETDATE()
-    WHERE [loginId] = @UserId;
+    WHERE [loginId] = @id;
 END;
 GO
 
 -- HARD DELETE!!!!!!!
 -- adds sproc for hard deleting users and their corresponding projects
 CREATE OR ALTER PROCEDURE [dbo].[DeleteUserAndProjects]
-    @UserId INT
+    @id INT
 AS
 BEGIN
     -- Delete user's projects
     DELETE FROM [dbo].[Project]
-    WHERE [loginId] = @UserId;
+    WHERE [loginId] = @id;
 
     -- Delete the user
     DELETE FROM [dbo].[Login]
-    WHERE [id] = @UserId;
+    WHERE [id] = @id;
 END;
 GO
 
