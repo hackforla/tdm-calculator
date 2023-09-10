@@ -38,4 +38,23 @@ router.put(
   accountController.updateAccount
 );
 
+router.put(
+  "/:id/archiveaccount",
+  jwtSession.validateRoles(["isSecurityAdmin"]),
+  accountController.archiveById
+);
+
+router.get(
+  "/archivedaccounts",
+  jwtSession.validateRoles(["isSecurityAdmin"]),
+  accountController.getAllArchivedUsers
+
+);
+
+router.delete(
+  "/:id/deleteaccount",
+  jwtSession.validateRoles(["isSecurityAdmin"]),
+  accountController.deleteById
+);
+
 module.exports = router;

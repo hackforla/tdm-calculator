@@ -12,3 +12,5 @@ router.put("/trash", jwtSession.validateUser, projectController.trash);
 router.put("/snapshot", jwtSession.validateUser, projectController.snapshot);
 router.put("/:id", jwtSession.validateUser, projectController.put);
 router.delete("/:id", jwtSession.validateUser, projectController.del);
+router.get("/archivedprojects", jwtSession.validateRoles(["isSecurityAdmin"]), projectController.getAllArchivedProjects);
+

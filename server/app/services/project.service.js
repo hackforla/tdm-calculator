@@ -137,6 +137,17 @@ const snapshot = async (id, loginId) => {
   }
 };
 
+const selectAllArchivedProjects = async () => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    const response = await request.execute("Project_SelectAllArchived");
+    return response.recordset;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -145,5 +156,6 @@ module.exports = {
   del,
   hide,
   trash,
-  snapshot
+  snapshot,
+  selectAllArchivedProjects
 };

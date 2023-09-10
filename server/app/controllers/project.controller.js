@@ -117,6 +117,15 @@ const snapshot = async (req, res) => {
   }
 };
 
+const getAllArchivedProjects = async (req, res) => {
+  try {
+    const response = await projectService.selectAllArchivedProjects();
+    res.send(response)
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -125,5 +134,6 @@ module.exports = {
   del,
   hide,
   trash,
-  snapshot
+  snapshot,
+  getAllArchivedProjects
 };

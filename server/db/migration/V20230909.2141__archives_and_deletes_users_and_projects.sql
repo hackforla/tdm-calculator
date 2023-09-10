@@ -9,7 +9,7 @@ ADD [archivedAt] DATETIME NULL;
 GO
 
 -- adds sproc for archiving users and their corresponding projects
-CREATE OR ALTER PROCEDURE [dbo].[ArchiveUser]
+CREATE OR ALTER PROCEDURE [dbo].[ArchiveUserAndProjects]
     @UserId INT
 AS
 BEGIN

@@ -142,15 +142,43 @@ const putRoles = async (req, res) => {
   }
 };
 
-const remove = async (req, res) => {
+const archiveById = async (req, res) => {
   try {
     const { id } = req.params;
-    await accountService.remove(id);
-    res.sendStatus(200);
+    const response = await accountService.archiveUser(id);
+    if (response.isSuccess) {
+      res.sendStatus(200);
+    } else {
+      res.status(response.code).json(response);
+    }
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(500).send(err);
   }
 };
+
+const getAllArchivedUsers = async (req, res) => {
+  try {
+    const response = await accountService.selectAllArchivedUsers();
+    res.send(response);
+  } catch (err) {
+    res.send(500).send(err);
+  }
+};
+
+const deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await accountService.deleteUser(id);
+    if (response.isSuccess) {
+      res.sendStatus(200);
+    } else {
+      res.status(response.code).json(response);
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 
 module.exports = {
   getAll,
@@ -197,5 +225,7 @@ module.exports = {
     putRoles,
     validationErrorMiddleware
   ],
-  remove
+  archiveById,
+  getAllArchivedUsers,
+  deleteById,
 };
