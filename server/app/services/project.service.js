@@ -141,7 +141,6 @@ const getAllArchivedProjects = async loginId => {
   try {
     await poolConnect;
     const request = pool.request();
-    request.input("LoginId", mssql.Int, loginId);
     const response = await request.execute("Project_SelectAllArchived");
     return response.recordset;
   } catch (err) {

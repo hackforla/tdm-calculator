@@ -84,6 +84,7 @@ IF EXISTS(SELECT 1
 			, p.description
 			, author.firstName
 			, author.lastName
+			, author.email
 			, p.dateHidden
 			, p.dateTrashed
 			, p.dateSnapshotted
