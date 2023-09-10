@@ -124,7 +124,7 @@ CREATE OR ALTER PROCEDURE [dbo].[Login_SelectAllArchived]
 AS
 BEGIN
     SELECT w.id, w.firstName, w.lastName, w.email, w.dateCreated,
-		w.emailConfirmed, w.isAdmin, w.passwordHash, w.isSecurityAdmin
+		w.emailConfirmed, w.isAdmin, w.passwordHash, w.isSecurityAdmin, w.archivedAt
     FROM login w
     WHERE w.archivedAt IS NOT NULL
     ORDER BY w.lastName, w.firstName, w.dateCreated;
@@ -150,8 +150,31 @@ BEGIN
         , p.dateHidden
         , p.dateTrashed
         , p.dateSnapshotted
+		, p.archivedAt
     FROM Project p
         JOIN Login author on p.loginId = author.id
     WHERE p.archivedAt IS NOT NULL
 END;
+GO
+
+
+-- alters sproc for logging in, to return archive info, so we can use to filter out archived users
+CREATE OR ALTER PROC [dbo].[Login_SelectByEmail]
+	@email nvarchar(100)
+AS
+BEGIN
+	SELECT 
+        w.id, 
+        w.firstName, 
+        w.lastName, 
+        w.email, 
+        w.dateCreated,
+		w.emailConfirmed, 
+        w.isAdmin, 
+        w.passwordHash, 
+        w.isSecurityAdmin,
+        w.archivedAt   
+	FROM login w
+	WHERE w.email like @email
+END
 GO

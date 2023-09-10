@@ -158,7 +158,7 @@ const archiveById = async (req, res) => {
 
 const getAllArchivedUsers = async (req, res) => {
   try {
-    const response = await accountService.selectAllArchivedUsers();
+    const response = await accountService.getAllArchivedUsers();
     res.send(response);
   } catch (err) {
     res.send(500).send(err);

@@ -446,7 +446,7 @@ const archiveUser = async id => {
 };
 
 // selects all archived users
-const selectAllArchivedUsers = async () => {
+const getAllArchivedUsers = async () => {
   try {
     await poolConnect;
     const request = pool.request();
@@ -527,6 +527,6 @@ module.exports = {
   authenticate,
   updateRoles,
   archiveUser,
-  selectAllArchivedUsers,
+  getAllArchivedUsers,
   deleteUser
 };
