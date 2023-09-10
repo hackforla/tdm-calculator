@@ -337,6 +337,13 @@ const authenticate = async (email, password) => {
       reason: `No account found for email ${email}`
     };
   }
+  if (user.archivedAt !== null) {
+    return {
+      isSuccess: false,
+      code: "USER_ARCHIVED",
+      reason: `Account for email ${email} has been archived`
+    };
+  }
   if (!user.emailConfirmed) {
     return {
       isSuccess: false,
