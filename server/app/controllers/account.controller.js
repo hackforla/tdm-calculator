@@ -12,6 +12,7 @@ const accountForgotSchema = require("../schemas/account.forgotPassword");
 const accountResetSchema = require("../schemas/account.reset");
 const accountRoleSchema = require("../schemas/account.role");
 const accountConfirmEmail = require("../schemas/account.confirmEmail");
+const { json } = require("express");
 
 const getAll = async (req, res) => {
   try {
@@ -145,6 +146,15 @@ const putRoles = async (req, res) => {
 const archiveById = async (req, res) => {
   try {
     const { id } = req.params;
+    const loggedInUserId = req.user.id;
+    // check that the user is not attempting to self-archive
+    if (id == loggedInUserId) {
+      return res.status(400).json({
+        isSuccess: false,
+        code: "ARCHIVE_SELF_NOT_ALLOWED",
+        message: "Cannot archive self."
+      });
+    }
     const response = await accountService.archiveUser(id);
     if (response.isSuccess) {
       res.sendStatus(200);
@@ -156,10 +166,12 @@ const archiveById = async (req, res) => {
   }
 };
 
+
 const unarchiveById = async(req, res) => {
   try {
     const { id } = req.params;
-    const response = await accountService.unarchiveUser(id)
+    const {loggedInUserId} = req.user;
+    const response = await accountService.unarchiveUser(id, loggedInUserId)
     if (response.isSuccess) {
       res.sendStatus(200);
     } else {
@@ -182,6 +194,15 @@ const getAllArchivedUsers = async (req, res) => {
 const deleteById = async (req, res) => {
   try {
     const { id } = req.params;
+    const loggedInUserId = req.user.id;
+    // check that the user is not attempting to self-delete
+    if (id == loggedInUserId) {
+      return res.status(400).json({
+        isSuccess: false,
+        code: "DELETE_SELF_NOT_ALLOWED",
+        message: "Cannot delete self."
+      });
+    }
     const response = await accountService.deleteUser(id);
     if (response.isSuccess) {
       res.sendStatus(200);
