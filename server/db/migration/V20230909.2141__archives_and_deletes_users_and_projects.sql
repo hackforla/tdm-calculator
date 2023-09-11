@@ -179,3 +179,21 @@ BEGIN
 	WHERE w.email like @email
 END
 GO
+
+
+-- adds sproc for unarchiving user and their respective projects
+CREATE OR ALTER PROCEDURE [dbo].[UnarchiveUserAndProjects]
+    @id INT
+AS
+BEGIN
+    -- Sets archivedAt for the user to NULL; thus, unarchiving and restoring
+    UPDATE [dbo].[Login]
+    SET [archivedAt] = NULL
+    WHERE [id] = @id;
+
+    -- Set archivedAt for the user's projects to NULL; thus, unarchiving and restoring
+    UPDATE [dbo].[Project]
+    SET [archivedAt] = NULL
+    WHERE [loginId] = @id;
+END;
+GO

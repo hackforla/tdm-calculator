@@ -445,6 +445,53 @@ const archiveUser = async id => {
   }
 };
 
+// unarchive and restore user
+const unarchiveUser = async id => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssqlInt, id);
+    // checks if user exists
+    const response = await request.execute("Login_SelectById");
+    if (response.recordset && response.recordset.length > 0) {
+      const user = response.recordset[0];
+      // checks if the user is archived
+      if (user.archivedAt === null) {
+        return {
+          isSuccess: false,
+          code: "USER_NOT_ARCHIVED",
+          message: `User id ${id} is not archived; thus, cannot be unarchived.`
+        };
+      }
+      // proceed to unarchive user and projects
+      const unarchiveUser = await request.execute("UnarchiveUserAndProjects")
+      if (unarchiveUser && unarchiveUser.rowsAffected[0] > 0) {
+        // succeeds if user exists and is unarchived and restored
+        return {
+          isSuccess: true,
+          code: "UNARCHIVE_AND_RESTORE_USER_SUCCESS",
+          message: `User with id ${id} has been unarchived and restored.`
+        };
+      } else {
+        return {
+          isSuccess: false,
+          code: "UNARCHIVE_AND_RESTORE_ATTEMPT_FAILED",
+          message: `Attempt to unarchive and restore user with id ${id} failed.`
+        };
+      }
+    } else {
+      return {
+        isSuccess: false,
+        code: "UNARCHIVE_AND_RESTORE_FAILED",
+        message: `User with id ${id} does not exist.`
+      };
+    }
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+
 // selects all archived users
 const getAllArchivedUsers = async () => {
   try {
@@ -527,6 +574,7 @@ module.exports = {
   authenticate,
   updateRoles,
   archiveUser,
+  unarchiveUser,
   getAllArchivedUsers,
   deleteUser
 };
