@@ -450,7 +450,7 @@ const unarchiveUser = async id => {
   try {
     await poolConnect;
     const request = pool.request();
-    request.input("id", mssqlInt, id);
+    request.input("id", mssql.Int, id);
     // checks if user exists
     const response = await request.execute("Login_SelectById");
     if (response.recordset && response.recordset.length > 0) {
