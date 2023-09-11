@@ -158,7 +158,13 @@ const archiveById = async (req, res) => {
 
 const unarchiveById = async(req, res) => {
   try {
-
+    const { id } = req.params;
+    const response = await accountService.unarchiveUser(id)
+    if (response.isSuccess) {
+      res.sendStatus(200);
+    } else {
+      res.status(response.code).json(response);
+    }
   } catch (err){
     res.status(500).send(err)
   }
