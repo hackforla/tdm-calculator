@@ -85,6 +85,11 @@ export const archiveAccount = async id => {
   return response;
 }
 
+export const unarchiveAccount = async id => {
+  const response = await axios.put(`${baseUrl}/${id}/unarchiveaccount`);
+  return response;
+}
+
 export const getAllArchivedAccounts = async () => {
   const response = await axios.get(`${baseUrl}/archivedaccounts`);
   return response;
