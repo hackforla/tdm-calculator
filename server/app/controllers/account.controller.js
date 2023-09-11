@@ -156,6 +156,14 @@ const archiveById = async (req, res) => {
   }
 };
 
+const unarchiveById = async(req, res) => {
+  try {
+
+  } catch (err){
+    res.status(500).send(err)
+  }
+}
+
 const getAllArchivedUsers = async (req, res) => {
   try {
     const response = await accountService.getAllArchivedUsers();
@@ -226,6 +234,7 @@ module.exports = {
     validationErrorMiddleware
   ],
   archiveById,
+  unarchiveById,
   getAllArchivedUsers,
   deleteById,
 };

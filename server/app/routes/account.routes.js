@@ -44,6 +44,12 @@ router.put(
   accountController.archiveById
 );
 
+router.put(
+  "/:id/unarchiveaccount",
+  jwtSession.validateRoles(["isSecurityAdmin"]),
+  accountController.unarchiveById
+);
+
 router.get(
   "/archivedaccounts",
   jwtSession.validateRoles(["isSecurityAdmin"]),
