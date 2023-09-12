@@ -20,8 +20,8 @@ const RolesDeleteContextMenu = ({ user, handleDeleteUser }) => {
   const classes = useStyles();
 
   return (
-    <ul className={classes.list}>     
-    {/* Delete User */}
+    <ul className={classes.list}>
+      {/* Delete User */}
       <li
         onClick={() => handleDeleteUser(user)}
         className={classes.listItem}
@@ -34,7 +34,7 @@ const RolesDeleteContextMenu = ({ user, handleDeleteUser }) => {
         />
         Permanently Delete {user.firstName} {user.lastName}
       </li>
-    </ul>    
+    </ul>
   );
 };
 

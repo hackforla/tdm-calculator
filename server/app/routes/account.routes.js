@@ -54,7 +54,6 @@ router.get(
   "/archivedaccounts",
   jwtSession.validateRoles(["isSecurityAdmin"]),
   accountController.getAllArchivedUsers
-
 );
 
 router.delete(

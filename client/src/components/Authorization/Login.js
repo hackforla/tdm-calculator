@@ -86,8 +86,8 @@ const Login = props => {
           history.push("/calculation/1");
         }
       } else if (loginResponse.code === "USER_ARCHIVED") {
-          setErrorMsg(`Login Failed - This account has been archived.`);
-          setSubmitting(false);
+        setErrorMsg(`Login Failed - This account has been archived.`);
+        setSubmitting(false);
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
           trackLoginFail({ reason: loginResponse.code });

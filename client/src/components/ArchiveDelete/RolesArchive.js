@@ -74,12 +74,12 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     "&:hover": {
       backgroundColor: "#E9E9E9",
-      borderRadius: "4px",
-    },
+      borderRadius: "4px"
+    }
   },
- hoveredRow: {
-      backgroundColor: "#f0e300"
-  },
+  hoveredRow: {
+    backgroundColor: "#f0e300"
+  }
 });
 
 const RolesArchive = () => {
@@ -87,7 +87,6 @@ const RolesArchive = () => {
   const [hoveredRow, setHoveredRow] = useState(null);
   const classes = useStyles();
   const toast = useToast();
-
 
   useEffect(() => {
     const getArchivedAccounts = async () => {
@@ -103,33 +102,39 @@ const RolesArchive = () => {
       }
     };
     getArchivedAccounts();
-     }, []);
+  }, []);
 
-  const handleUnarchiveUser = async (user) => {
+  const handleUnarchiveUser = async user => {
     try {
       const response = await accountService.unarchiveAccount(user.id);
       if (response.status === 200) {
-        setArchivedAccounts(archivedAccounts.filter(account => account.id !== user.id));
+        setArchivedAccounts(
+          archivedAccounts.filter(account => account.id !== user.id)
+        );
         toast.add("Successfully unarchived and restored account.");
       } else {
         toast.add("Failed to unarchive and restore account.");
       }
     } catch (err) {
-      toast.add("An error occurred while unarchiving and restoring the account.");
+      toast.add(
+        "An error occurred while unarchiving and restoring the account."
+      );
     }
   };
 
-  const handleDeleteUser = async (user) => {
+  const handleDeleteUser = async user => {
     try {
-        const response = await accountService.deleteAccount(user.id);
-        if (response.status === 200) {
-            setArchivedAccounts(archivedAccounts.filter(account => account.id !== user.id));
-            toast.add("Successfully deleted the account.");
-        } else {
-            toast.add("Failed to delete the account.");
-        }
+      const response = await accountService.deleteAccount(user.id);
+      if (response.status === 200) {
+        setArchivedAccounts(
+          archivedAccounts.filter(account => account.id !== user.id)
+        );
+        toast.add("Successfully deleted the account.");
+      } else {
+        toast.add("Failed to delete the account.");
+      }
     } catch (err) {
-        toast.add("Error - Could not delete User.");
+      toast.add("Error - Could not delete User.");
     }
   };
 
@@ -137,10 +142,14 @@ const RolesArchive = () => {
     <div className={classes.main}>
       <h1 className={classes.pageTitle}>Archived Accounts</h1>
       <div className={classes.pageSubtitle}>
-          <Link to="/roles" className={classes.link}>Return to Active Roles</Link>
+        <Link to="/roles" className={classes.link}>
+          Return to Active Roles
+        </Link>
       </div>
       <div className={classes.pageSubtitle}>
-          <Link to="/archivedprojects" className={classes.link}>See All Archived Projects</Link>
+        <Link to="/archivedprojects" className={classes.link}>
+          See All Archived Projects
+        </Link>
       </div>
 
       <table className={classes.table}>
@@ -155,57 +164,74 @@ const RolesArchive = () => {
         </thead>
         <tbody className={classes.tbody}>
           {archivedAccounts.map(account => (
-            <tr key={account.id} className={hoveredRow === account.id ? classes.hoveredRow : ''}>
+            <tr
+              key={account.id}
+              className={hoveredRow === account.id ? classes.hoveredRow : ""}
+            >
               <td className={classes.td}>{account.email}</td>
-              <td className={classes.td}>{`${account.lastName}, ${account.firstName}`}</td>
-              <td className={classes.td}>{new Date(account.archivedAt).toLocaleDateString()}</td>
+              <td
+                className={classes.td}
+              >{`${account.lastName}, ${account.firstName}`}</td>
+              <td className={classes.td}>
+                {new Date(account.archivedAt).toLocaleDateString()}
+              </td>
               {/* Unarchive User */}
-              <td className={classes.tdCenter}>   
-                  <Popup
-                    trigger={
-                      <button 
-                        className={`${classes.optionsButton}`} 
-                      >
-                        <FontAwesomeIcon icon={faUndo} alt={`Unarchive ${account.email}`} />
-                      </button>
-                    }
-                    position="bottom center"
-                    offsetX={-100}
-                    on="click"
-                    closeOnDocumentClick
-                    arrow={false}
-                    onOpen={() => setHoveredRow(account.id)}
-                    onClose={() => setHoveredRow(null)}
-                  >
-                    <div className={classes.popupContent}>
-                      <RolesUnarchiveContextMenu user={account} handleUnarchiveUser={handleUnarchiveUser} />
-                    </div>
-                  </Popup>
-                </td> 
-                {/* Delete User */}
-                <td className={classes.tdCenter}>   
-                  <Popup
-                    trigger={
-                      <button 
-                        className={`${classes.optionsButton}`} 
-                                style={{ color: "red" }}
-                      >
-                        <FontAwesomeIcon icon={faTrash} alt={`Permanently Delete ${account.email}`} />
-                      </button>
-                    }
-                    position="bottom center"
-                    offsetX={-100}
-                    on="click"
-                    closeOnDocumentClick
-                    arrow={false}
-                    onOpen={() => setHoveredRow(account.id)}
-                    onClose={() => setHoveredRow(null)}
-                  >
-                    <div className={classes.popupContent}>
-                      <RolesDeleteContextMenu user={account} handleDeleteUser={handleDeleteUser} />
-                    </div>
-                  </Popup>
-                </td> 
+              <td className={classes.tdCenter}>
+                <Popup
+                  trigger={
+                    <button className={`${classes.optionsButton}`}>
+                      <FontAwesomeIcon
+                        icon={faUndo}
+                        alt={`Unarchive ${account.email}`}
+                      />
+                    </button>
+                  }
+                  position="bottom center"
+                  offsetX={-100}
+                  on="click"
+                  closeOnDocumentClick
+                  arrow={false}
+                  onOpen={() => setHoveredRow(account.id)}
+                  onClose={() => setHoveredRow(null)}
+                >
+                  <div className={classes.popupContent}>
+                    <RolesUnarchiveContextMenu
+                      user={account}
+                      handleUnarchiveUser={handleUnarchiveUser}
+                    />
+                  </div>
+                </Popup>
+              </td>
+              {/* Delete User */}
+              <td className={classes.tdCenter}>
+                <Popup
+                  trigger={
+                    <button
+                      className={`${classes.optionsButton}`}
+                      style={{ color: "red" }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        alt={`Permanently Delete ${account.email}`}
+                      />
+                    </button>
+                  }
+                  position="bottom center"
+                  offsetX={-100}
+                  on="click"
+                  closeOnDocumentClick
+                  arrow={false}
+                  onOpen={() => setHoveredRow(account.id)}
+                  onClose={() => setHoveredRow(null)}
+                >
+                  <div className={classes.popupContent}>
+                    <RolesDeleteContextMenu
+                      user={account}
+                      handleDeleteUser={handleDeleteUser}
+                    />
+                  </div>
+                </Popup>
+              </td>
             </tr>
           ))}
         </tbody>

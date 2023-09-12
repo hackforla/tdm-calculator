@@ -21,7 +21,7 @@ const RolesArchiveContextMenu = ({ user, handleUnarchiveUser }) => {
 
   return (
     <ul className={classes.list}>
-    {/* Unarchive User */}
+      {/* Unarchive User */}
       <li
         onClick={() => handleUnarchiveUser(user)}
         className={classes.listItem}
@@ -34,7 +34,7 @@ const RolesArchiveContextMenu = ({ user, handleUnarchiveUser }) => {
         />
         Unarchive & Restore {user.firstName} {user.lastName}
       </li>
-    </ul>    
+    </ul>
   );
 };
 

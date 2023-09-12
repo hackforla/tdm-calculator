@@ -464,7 +464,7 @@ const unarchiveUser = async id => {
         };
       }
       // proceed to unarchive user and projects
-      const unarchiveUser = await request.execute("UnarchiveUserAndProjects")
+      const unarchiveUser = await request.execute("UnarchiveUserAndProjects");
       if (unarchiveUser && unarchiveUser.rowsAffected[0] > 0) {
         // succeeds if user exists and is unarchived and restored
         return {
@@ -491,7 +491,6 @@ const unarchiveUser = async id => {
   }
 };
 
-
 // selects all archived users
 const getAllArchivedUsers = async () => {
   try {
@@ -503,7 +502,6 @@ const getAllArchivedUsers = async () => {
     return Promise.reject(err);
   }
 };
-
 
 // HARD DELETE
 const deleteUser = async id => {
@@ -552,7 +550,6 @@ const deleteUser = async id => {
     return Promise.reject(err);
   }
 };
-
 
 async function hashPassword(user) {
   if (!user.password) throw user.invalidate("password", "password is required");

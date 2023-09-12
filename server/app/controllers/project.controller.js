@@ -120,7 +120,9 @@ const snapshot = async (req, res) => {
 const getAllArchivedProjects = async (req, res) => {
   try {
     if (!req.user.isSecurityAdmin) {
-      return res.status(403).json({ error: 'Access denied. Only security admins can view archived projects.' });
+      return res.status(403).json({
+        error: "Access denied. Only security admins can view archived projects."
+      });
     }
     const archivedProjects = await projectService.getAllArchivedProjects();
     res.status(200).json(archivedProjects);
@@ -129,7 +131,6 @@ const getAllArchivedProjects = async (req, res) => {
     res.status(500).send(err);
   }
 };
-
 
 module.exports = {
   getAll,

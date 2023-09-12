@@ -166,21 +166,20 @@ const archiveById = async (req, res) => {
   }
 };
 
-
-const unarchiveById = async(req, res) => {
+const unarchiveById = async (req, res) => {
   try {
     const { id } = req.params;
-    const {loggedInUserId} = req.user;
-    const response = await accountService.unarchiveUser(id, loggedInUserId)
+    const { loggedInUserId } = req.user;
+    const response = await accountService.unarchiveUser(id, loggedInUserId);
     if (response.isSuccess) {
       res.sendStatus(200);
     } else {
       res.status(response.code).json(response);
     }
-  } catch (err){
-    res.status(500).send(err)
+  } catch (err) {
+    res.status(500).send(err);
   }
-}
+};
 
 const getAllArchivedUsers = async (req, res) => {
   try {
@@ -213,7 +212,6 @@ const deleteById = async (req, res) => {
     res.status(500).send(err);
   }
 };
-
 
 module.exports = {
   getAll,
@@ -263,5 +261,5 @@ module.exports = {
   archiveById,
   unarchiveById,
   getAllArchivedUsers,
-  deleteById,
+  deleteById
 };

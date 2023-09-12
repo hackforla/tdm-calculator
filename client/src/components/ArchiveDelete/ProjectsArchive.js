@@ -4,7 +4,6 @@ import { createUseStyles } from "react-jss";
 import * as projectService from "../../services/project.service";
 import { useToast } from "../../contexts/Toast";
 
-
 const useStyles = createUseStyles({
   main: {
     display: "flex",
@@ -52,9 +51,9 @@ const useStyles = createUseStyles({
   link: {
     textDecoration: "underline"
   },
- hoveredRow: {
-      backgroundColor: "#f0e300"
-  },
+  hoveredRow: {
+    backgroundColor: "#f0e300"
+  }
 });
 
 const ProjectsArchive = () => {
@@ -78,16 +77,20 @@ const ProjectsArchive = () => {
       }
     };
     getArchivedProjects();
-     }, []);
+  }, []);
 
   return (
     <div className={classes.main}>
       <h1 className={classes.pageTitle}>Archived Projects</h1>
       <div className={classes.pageSubtitle}>
-          <Link to="/roles" className={classes.link}>Return to Active Roles</Link>
+        <Link to="/roles" className={classes.link}>
+          Return to Active Roles
+        </Link>
       </div>
       <div className={classes.pageSubtitle}>
-          <Link to="/archivedaccounts" className={classes.link}>See Archived Users</Link>
+        <Link to="/archivedaccounts" className={classes.link}>
+          See Archived Users
+        </Link>
       </div>
 
       <table className={classes.table}>
@@ -103,13 +106,24 @@ const ProjectsArchive = () => {
         </thead>
         <tbody className={classes.tbody}>
           {archivedProjects.map(project => (
-            <tr key={project.id} className={hoveredRow === project.id ? classes.hoveredRow : ''}>
-                <td className={classes.td}>{project.name}</td>
-                <td className={classes.td}>{project.address}</td>
-                <td className={classes.td}>{`${project.lastName}, ${project.firstName}`}</td>
-                <td className={classes.td}>{new Date(project.dateCreated).toLocaleDateString()}</td>
-                <td className={classes.td}>{new Date(project.dateModified).toLocaleDateString()}</td>
-                <td className={classes.td}>{new Date(project.archivedAt).toLocaleDateString()}</td>
+            <tr
+              key={project.id}
+              className={hoveredRow === project.id ? classes.hoveredRow : ""}
+            >
+              <td className={classes.td}>{project.name}</td>
+              <td className={classes.td}>{project.address}</td>
+              <td
+                className={classes.td}
+              >{`${project.lastName}, ${project.firstName}`}</td>
+              <td className={classes.td}>
+                {new Date(project.dateCreated).toLocaleDateString()}
+              </td>
+              <td className={classes.td}>
+                {new Date(project.dateModified).toLocaleDateString()}
+              </td>
+              <td className={classes.td}>
+                {new Date(project.archivedAt).toLocaleDateString()}
+              </td>
             </tr>
           ))}
         </tbody>

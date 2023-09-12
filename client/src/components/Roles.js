@@ -14,7 +14,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faExternalLink } from "@fortawesome/free-solid-svg-icons"; // other options can be faBars
 import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
 
-
 const useStyles = createUseStyles({
   main: {
     display: "flex",
@@ -35,7 +34,7 @@ const useStyles = createUseStyles({
   archiveTitle: {
     marginTop: "0.5em",
     textAlign: "center",
-    fontSize: "16px",
+    fontSize: "16px"
   },
   table: {
     minWidth: "80%",
@@ -88,11 +87,11 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     "&:hover": {
       backgroundColor: "#E9E9E9",
-      borderRadius: "4px",
-    },
+      borderRadius: "4px"
+    }
   },
- hoveredRow: {
-      backgroundColor: "#f0e300"
+  hoveredRow: {
+    backgroundColor: "#f0e300"
   },
   disabledOptionsButton: {
     cursor: "not-allowed",
@@ -178,23 +177,22 @@ const Roles = () => {
     }
   };
 
-  const handleArchiveUser = async (user) => {
+  const handleArchiveUser = async user => {
     try {
-        const response = await accountService.archiveAccount(user.id);
-        if (response.status === 200) {
-            toast.add(`Successfully archived ${user.email}`);
-            // Filters out the archived user from the list
-            const newAccounts = accounts.filter(account => account.id !== user.id);
-            setAccounts(newAccounts);
-            filt(newAccounts, searchString);
-        } else {
-            toast.add("Failed to archive user.");
-        }
+      const response = await accountService.archiveAccount(user.id);
+      if (response.status === 200) {
+        toast.add(`Successfully archived ${user.email}`);
+        // Filters out the archived user from the list
+        const newAccounts = accounts.filter(account => account.id !== user.id);
+        setAccounts(newAccounts);
+        filt(newAccounts, searchString);
+      } else {
+        toast.add("Failed to archive user.");
+      }
     } catch (err) {
-        toast.add("An error occurred while trying to archive the user.");
+      toast.add("An error occurred while trying to archive the user.");
     }
   };
-
 
   return (
     <div
@@ -226,7 +224,9 @@ const Roles = () => {
         />
       </div>
       <div className={classes.archiveTitle}>
-          <Link to="/archivedaccounts" className={classes.link}>View Archived Accounts</Link>
+        <Link to="/archivedaccounts" className={classes.link}>
+          View Archived Accounts
+        </Link>
       </div>
 
       <table className={classes.table}>
@@ -248,7 +248,10 @@ const Roles = () => {
         <tbody className={classes.tbody}>
           {filteredAccounts &&
             filteredAccounts.map(account => (
-                <tr key={JSON.stringify(account)} className={hoveredRow === account.id ? classes.hoveredRow : ''}>
+              <tr
+                key={JSON.stringify(account)}
+                className={hoveredRow === account.id ? classes.hoveredRow : ""}
+              >
                 <td className={classes.td}>{account.email}</td>
                 <td
                   className={classes.td}
@@ -274,11 +277,22 @@ const Roles = () => {
                 <td className={classes.tdCenter}>
                   <Popup
                     trigger={
-                      <button 
-                          className={`${classes.optionsButton} ${account.isSecurityAdmin || account.id === loggedInUserId ? classes.disabledOptionsButton : ''}`} 
-                          disabled={account.isSecurityAdmin || account.id === loggedInUserId}
+                      <button
+                        className={`${classes.optionsButton} ${
+                          account.isSecurityAdmin ||
+                          account.id === loggedInUserId
+                            ? classes.disabledOptionsButton
+                            : ""
+                        }`}
+                        disabled={
+                          account.isSecurityAdmin ||
+                          account.id === loggedInUserId
+                        }
                       >
-                          <FontAwesomeIcon icon={faEllipsisV} alt={`Options for ${account.email}`} />
+                        <FontAwesomeIcon
+                          icon={faEllipsisV}
+                          alt={`Options for ${account.email}`}
+                        />
                       </button>
                     }
                     position="bottom center"
@@ -290,7 +304,10 @@ const Roles = () => {
                     onClose={() => setHoveredRow(null)}
                   >
                     <div className={classes.popupContent}>
-                      <RolesContextMenu user={account} handleArchiveUser={handleArchiveUser} />
+                      <RolesContextMenu
+                        user={account}
+                        handleArchiveUser={handleArchiveUser}
+                      />
                     </div>
                   </Popup>
                 </td>
