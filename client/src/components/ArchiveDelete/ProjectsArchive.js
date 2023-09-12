@@ -50,18 +50,15 @@ const useStyles = createUseStyles({
   },
   link: {
     textDecoration: "underline"
-  },
-  hoveredRow: {
-    backgroundColor: "#f0e300"
   }
 });
 
 const ProjectsArchive = () => {
   const [archivedProjects, setArchivedProjects] = useState([]);
-  const [hoveredRow, setHoveredRow] = useState(null);
 
   const classes = useStyles();
-  const toast = useToast();
+  // const toast = useToast();
+  const { add } = useToast();
 
   useEffect(() => {
     const getArchivedProjects = async () => {
@@ -70,14 +67,14 @@ const ProjectsArchive = () => {
         if (response.status === 200) {
           setArchivedProjects(response.data);
         } else {
-          toast.add("Failed to get archived projects.");
+          add("Failed to get archived projects.");
         }
       } catch (err) {
-        toast.add("Error - Could not display archived projects.");
+        add("Error - Could not display archived projects.");
       }
     };
     getArchivedProjects();
-  }, []);
+  }, [add]);
 
   return (
     <div className={classes.main}>
@@ -106,10 +103,7 @@ const ProjectsArchive = () => {
         </thead>
         <tbody className={classes.tbody}>
           {archivedProjects.map(project => (
-            <tr
-              key={project.id}
-              className={hoveredRow === project.id ? classes.hoveredRow : ""}
-            >
+            <tr key={project.id}>
               <td className={classes.td}>{project.name}</td>
               <td className={classes.td}>{project.address}</td>
               <td

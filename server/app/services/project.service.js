@@ -137,7 +137,7 @@ const snapshot = async (id, loginId) => {
   }
 };
 
-const getAllArchivedProjects = async loginId => {
+const getAllArchivedProjects = async () => {
   try {
     await poolConnect;
     const request = pool.request();

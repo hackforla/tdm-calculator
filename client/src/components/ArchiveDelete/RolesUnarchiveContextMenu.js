@@ -40,7 +40,7 @@ const RolesArchiveContextMenu = ({ user, handleUnarchiveUser }) => {
 
 RolesArchiveContextMenu.propTypes = {
   user: PropTypes.object,
-  handleArchiveUser: PropTypes.func
+  handleUnarchiveUser: PropTypes.func
 };
 
 export default RolesArchiveContextMenu;

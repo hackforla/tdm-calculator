@@ -11,7 +11,7 @@ import {
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faExternalLink } from "@fortawesome/free-solid-svg-icons"; // other options can be faBars
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
 
 const useStyles = createUseStyles({

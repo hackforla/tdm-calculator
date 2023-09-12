@@ -12,7 +12,6 @@ const accountForgotSchema = require("../schemas/account.forgotPassword");
 const accountResetSchema = require("../schemas/account.reset");
 const accountRoleSchema = require("../schemas/account.role");
 const accountConfirmEmail = require("../schemas/account.confirmEmail");
-const { json } = require("express");
 
 const getAll = async (req, res) => {
   try {

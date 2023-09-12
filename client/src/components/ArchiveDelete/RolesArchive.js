@@ -87,6 +87,7 @@ const RolesArchive = () => {
   const [hoveredRow, setHoveredRow] = useState(null);
   const classes = useStyles();
   const toast = useToast();
+  const { add } = useToast();
 
   useEffect(() => {
     const getArchivedAccounts = async () => {
@@ -95,14 +96,14 @@ const RolesArchive = () => {
         if (response.status === 200) {
           setArchivedAccounts(response.data);
         } else {
-          toast.add("Failed to get archived accounts.");
+          add("Failed to get archived accounts.");
         }
       } catch (err) {
-        toast.add("Error - Could not display archived accounts.");
+        add("Error - Could not display archived accounts.");
       }
     };
     getArchivedAccounts();
-  }, []);
+  }, [add]);
 
   const handleUnarchiveUser = async user => {
     try {
