@@ -17,6 +17,7 @@ const useStyles = createUseStyles(theme => ({
   },
   questionText: {
     ...theme.typography.heading3,
+    textAlign: "inherit",
     fontSize: 22,
     cursor: admin => (admin ? "pointer" : "default"),
     "&:hover": {

@@ -15,6 +15,8 @@ const useStyles = createUseStyles(theme => ({
   },
   answerText: {
     ...theme.typography.subHeading,
+    textAlign: "inherit",
+    padding: 8,
     fontWeight: 22,
     cursor: admin => (admin ? "pointer" : "default"),
     "&:hover": {
@@ -50,6 +52,7 @@ export const Answer = ({
         <div style={{ display: "flex", width: "100%" }}>
           <Quill
             value={answer}
+            placeholder="Answer..."
             onChange={handleAnswerChange}
             className={classes.answerInput}
           />

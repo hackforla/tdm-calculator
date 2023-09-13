@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { NewFaqButton } from "./NewFaqButton";
@@ -83,6 +83,12 @@ const FaqCategory = props => {
     },
     [admin]
   );
+
+  useEffect(() => {
+    if (!admin) {
+      handleCloseNewFAQ();
+    }
+  }, [admin]);
 
   return (
     <>
