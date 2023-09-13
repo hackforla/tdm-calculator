@@ -82,7 +82,7 @@ const ChecklistContent = () => {
           Planned unit types/sizes for specific use types
         </span>
         <ul className={classes.bulletIndent}>
-          <li>Residentian (Dwelling Units)</li>
+          <li>Residential (Dwelling Units)</li>
           <li>Hotel/Motel (Rooms)</li>
           <li>School (Students)</li>
           <li>Arena/Stadium/Theatre (Seats)</li>
