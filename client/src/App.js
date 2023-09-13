@@ -22,6 +22,8 @@ import Login from "./components/Authorization/Login";
 import Unauthorized from "./components/Authorization/Unauthorized";
 import Admin from "./components/Admin";
 import Roles from "./components/Roles";
+import ProjectsArchive from "./components/ArchiveDelete/ProjectsArchive";
+import RolesArchive from "./components/ArchiveDelete/RolesArchive";
 import FaqView from "./components/Faq/FaqView";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ForgotPassword from "./components/Authorization/ForgotPassword";
@@ -167,6 +169,20 @@ const App = ({
                       isAuthorized={account && account.isSecurityAdmin}
                     >
                       <Roles />
+                    </ProtectedRoute>
+
+                    <ProtectedRoute
+                      path="/archivedaccounts"
+                      isAuthorized={account && account.isSecurityAdmin}
+                    >
+                      <RolesArchive />
+                    </ProtectedRoute>
+
+                    <ProtectedRoute
+                      path="/archivedprojects"
+                      isAuthorized={account && account.isSecurityAdmin}
+                    >
+                      <ProjectsArchive />
                     </ProtectedRoute>
 
                     <Route path="/faqs/:showChecklist?">

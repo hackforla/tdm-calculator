@@ -337,6 +337,13 @@ const authenticate = async (email, password) => {
       reason: `No account found for email ${email}`
     };
   }
+  if (user.archivedAt !== null) {
+    return {
+      isSuccess: false,
+      code: "USER_ARCHIVED",
+      reason: `Account for email ${email} has been archived`
+    };
+  }
   if (!user.emailConfirmed) {
     return {
       isSuccess: false,
@@ -390,13 +397,155 @@ const updateRoles = async model => {
   }
 };
 
-// Not fully implemented - needs sproc
-const del = async id => {
+//soft delete (archive)
+const archiveUser = async id => {
   try {
     await poolConnect;
     const request = pool.request();
     request.input("id", mssql.Int, id);
-    await request.execute("Login_Delete");
+    // checks if user exists
+    const response = await request.execute("Login_SelectById");
+    if (response.recordset && response.recordset.length > 0) {
+      // checks if the user is a SecurityAdmin
+      const user = response.recordset[0];
+      if (user.isSecurityAdmin) {
+        return {
+          isSuccess: false,
+          code: "ARCHIVE_NOT_ALLOWED",
+          message: `User with id ${id} is a SecurityAdmin and cannot be archived.`
+        };
+      }
+      // archives user and respective projects
+      const archiveUser = await request.execute("ArchiveUserAndProjects");
+      if (archiveUser) {
+        // succeeds if user exists and is archived
+        return {
+          isSuccess: true,
+          code: "ARCHIVE_USER_SUCCESS",
+          message: `User with id ${id} has been archived.`
+        };
+      } else {
+        // fails if user exists but cannot be archived
+        return {
+          isSuccess: false,
+          code: "ARCHIVE_ATTEMPT_FAILED",
+          message: `Attempt to archive user with id ${id} failed.`
+        };
+      }
+    } else {
+      // fails if user does NOT exist
+      return {
+        isSuccess: false,
+        code: "ARCHIVE_USER_FAILED",
+        message: `User with id ${id} does not exist.`
+      };
+    }
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+// unarchive and restore user
+const unarchiveUser = async id => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssql.Int, id);
+    // checks if user exists
+    const response = await request.execute("Login_SelectById");
+    if (response.recordset && response.recordset.length > 0) {
+      const user = response.recordset[0];
+      // checks if the user is archived
+      if (user.archivedAt === null) {
+        return {
+          isSuccess: false,
+          code: "USER_NOT_ARCHIVED",
+          message: `User id ${id} is not archived; thus, cannot be unarchived.`
+        };
+      }
+      // proceed to unarchive user and projects
+      const unarchiveUser = await request.execute("UnarchiveUserAndProjects");
+      if (unarchiveUser && unarchiveUser.rowsAffected[0] > 0) {
+        // succeeds if user exists and is unarchived and restored
+        return {
+          isSuccess: true,
+          code: "UNARCHIVE_AND_RESTORE_USER_SUCCESS",
+          message: `User with id ${id} has been unarchived and restored.`
+        };
+      } else {
+        return {
+          isSuccess: false,
+          code: "UNARCHIVE_AND_RESTORE_ATTEMPT_FAILED",
+          message: `Attempt to unarchive and restore user with id ${id} failed.`
+        };
+      }
+    } else {
+      return {
+        isSuccess: false,
+        code: "UNARCHIVE_AND_RESTORE_FAILED",
+        message: `User with id ${id} does not exist.`
+      };
+    }
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+// selects all archived users
+const getAllArchivedUsers = async () => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    const response = await request.execute("Login_SelectAllArchived");
+    return response.recordset;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+// HARD DELETE
+const deleteUser = async id => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssql.Int, id);
+    // checks if user exists
+    const response = await request.execute("Login_SelectById");
+    if (response.recordset && response.recordset.length > 0) {
+      // checks if the user is a SecurityAdmin
+      const user = response.recordset[0];
+      if (user.isSecurityAdmin) {
+        return {
+          isSuccess: false,
+          code: "DELETE_NOT_ALLOWED",
+          message: `User with id ${id} is a SecurityAdmin and cannot be deleted.`
+        };
+      }
+      // deletes user and respective projects
+      const deleteUser = await request.execute("DeleteUserAndProjects");
+      if (deleteUser) {
+        // succeeds if user exists and is deleted
+        return {
+          isSuccess: true,
+          code: "DELETE_USER_SUCCESS",
+          message: `User with id ${id} has been deleted.`
+        };
+      } else {
+        // fails if user exists but cannot be deleted
+        return {
+          isSuccess: false,
+          code: "DELETE_ATTEMPT_FAILED",
+          message: `Attempt to delete user with id ${id} failed.`
+        };
+      }
+    } else {
+      // fails if user does NOT exist
+      return {
+        isSuccess: false,
+        code: "DELETE_USER_FAILED",
+        message: `User with id ${id} does not exist.`
+      };
+    }
   } catch (err) {
     return Promise.reject(err);
   }
@@ -421,5 +570,8 @@ module.exports = {
   resetPassword,
   authenticate,
   updateRoles,
-  del
+  archiveUser,
+  unarchiveUser,
+  getAllArchivedUsers,
+  deleteUser
 };
