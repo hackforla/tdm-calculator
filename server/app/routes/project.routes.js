@@ -4,8 +4,13 @@ const jwtSession = require("../../middleware/jwt-session");
 
 module.exports = router;
 
-router.get("/:id", jwtSession.validateUser, projectController.getById);
+router.get(
+  "/archivedprojects",
+  jwtSession.validateUser,
+  projectController.getAllArchivedProjects
+);
 router.get("/", jwtSession.validateUser, projectController.getAll);
+router.get("/:id", jwtSession.validateUser, projectController.getById);
 router.post("/", jwtSession.validateUser, projectController.post);
 router.put("/hide", jwtSession.validateUser, projectController.hide);
 router.put("/trash", jwtSession.validateUser, projectController.trash);

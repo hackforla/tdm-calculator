@@ -79,3 +79,23 @@ export const resetPassword = async values => {
   const response = await axios.post(baseUrl + "/resetPassword", values);
   return response;
 };
+
+export const archiveAccount = async id => {
+  const response = await axios.put(`${baseUrl}/${id}/archiveaccount`);
+  return response;
+};
+
+export const unarchiveAccount = async id => {
+  const response = await axios.put(`${baseUrl}/${id}/unarchiveaccount`);
+  return response;
+};
+
+export const getAllArchivedAccounts = async () => {
+  const response = await axios.get(`${baseUrl}/archivedaccounts`);
+  return response;
+};
+
+export const deleteAccount = async id => {
+  const response = await axios.delete(`${baseUrl}/${id}/deleteaccount`);
+  return response;
+};

@@ -142,6 +142,3981 @@
       "operation": "migrate",
       "exception": null,
       "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": null,
+      "targetSchemaVersion": "20230906.2053",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "0001",
+          "description": "setup db baseline",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0001__setup_db_baseline.sql",
+          "executionTime": 308
+        },
+        {
+          "category": "Versioned",
+          "version": "0002",
+          "description": "sample project and logins",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0002__sample_project_and_logins.sql",
+          "executionTime": 31
+        },
+        {
+          "category": "Versioned",
+          "version": "0003",
+          "description": "redefine maximum point value",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0003__redefine_maximum_point_value.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "0004",
+          "description": "add tooltips to sidebar",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0004__add_tooltips_to_sidebar.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "0005",
+          "description": "update descriptions and points",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0005__update_descriptions_and_points.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "0006",
+          "description": "update land uses",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0006__update_land_uses.sql",
+          "executionTime": 36
+        },
+        {
+          "category": "Versioned",
+          "version": "0007",
+          "description": "update calculation panels",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0007__update_calculation_panels.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "0008",
+          "description": "delete obsolete strategies 478",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0008__delete_obsolete_strategies_478.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "0009",
+          "description": "update descriptions and points 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0009__update_descriptions_and_points_474.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "0010",
+          "description": "update bike measures 477 450",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0010__update_bike_measures_477_450.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "0011",
+          "description": "fix residential pkg 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0011__fix_residential_pkg_474.sql",
+          "executionTime": 4
+        },
+        {
+          "category": "Versioned",
+          "version": "0012",
+          "description": "put warehouse calculation panel back 478",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0012__put_warehouse_calculation_panel_back_478.sql",
+          "executionTime": 5
+        },
+        {
+          "category": "Versioned",
+          "version": "0013",
+          "description": "modify input interactions 452",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0013__modify_input_interactions_452.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "0014",
+          "description": "add new strategies 479",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0014__add_new_strategies_479.sql",
+          "executionTime": 31
+        },
+        {
+          "category": "Versioned",
+          "version": "0016",
+          "description": "add strategies 479",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0016__add_strategies_479.sql",
+          "executionTime": 34
+        },
+        {
+          "category": "Versioned",
+          "version": "0017",
+          "description": "land-use-calculations",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0017__land-use-calculations.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "0018",
+          "description": "setup appllicable land uses for strategies",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0018__setup_appllicable_land_uses_for_strategies.sql",
+          "executionTime": 27
+        },
+        {
+          "category": "Versioned",
+          "version": "0019",
+          "description": "update inputs 451 516",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0019__update_inputs_451_516.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "0020",
+          "description": "fixes to land use exclusions",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0020__fixes_to_land_use_exclusions.sql",
+          "executionTime": 26
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.4522",
+          "description": "implement custom validation fn 518",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.4522__implement_custom_validation_fn_518.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.5445",
+          "description": "fix spelling of bike parking label",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.5445__fix_spelling_of_bike_parking_label.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.7450",
+          "description": "update options 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.7450__update_options_474.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.8170",
+          "description": "change none into NA 525",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.8170__change_none_into_NA_525.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "8262020.5171",
+          "description": "bike parking dont initialize 519",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8262020.5171__bike_parking_dont_initialize_519.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20200907.1046",
+          "description": "packages only apply to level one 550",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200907.1046__packages_only_apply_to_level_one_550.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20200909.1070",
+          "description": "Update MS to MiddleSchool 549",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200909.1070__Update_MS_to_MiddleSchool_549.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20200909.1300",
+          "description": "make bike share hyperlink",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200909.1300__make_bike_share_hyperlink.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20200910.0951",
+          "description": "update ms to middle school-part2 549",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200910.0951__update_ms_to_middle_school-part2_549.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20200927.1739",
+          "description": "fix commercial pkg fn",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200927.1739__fix_commercial_pkg_fn.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1506",
+          "description": "edit choices for strategy affordable 577",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1506__edit_choices_for_strategy_affordable_577.sql",
+          "executionTime": 41
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1554",
+          "description": "modify mandatory tripl reduction strategy 576",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1554__modify_mandatory_tripl_reduction_strategy_576.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1611",
+          "description": "adjust strategy rules 585",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1611__adjust_strategy_rules_585.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.1351",
+          "description": "revise special use program levels 582",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.1351__revise_special_use_program_levels_582.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.1449",
+          "description": "fix bug in pts transit access 1 593",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.1449__fix_bug_in_pts_transit_access_1_593.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.2251",
+          "description": "add public comment",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.2251__add_public_comment.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20201030.1748",
+          "description": "rule adjustments 601 619 616 617",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201030.1748__rule_adjustments_601_619_616_617.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20201123.0935",
+          "description": "rule adjustments 601 619 616 617",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201123.0935__rule_adjustments_601_619_616_617.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20201207.1326",
+          "description": "equity adjustments 656",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201207.1326__equity_adjustments_656.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20201208.1611",
+          "description": "equity adjustments take 2 656",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201208.1611__equity_adjustments_take_2_656.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20210208.2036",
+          "description": "updating neighborhood transit tootip 678",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210208.2036__updating_neighborhood_transit_tootip_678.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20210217.1924",
+          "description": "change encouragement program tooltip 731",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210217.1924__change_encouragement_program_tooltip_731.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20210226.1844",
+          "description": "update school level calc",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210226.1844__update_school_level_calc.sql",
+          "executionTime": 5
+        },
+        {
+          "category": "Versioned",
+          "version": "20210322.2141",
+          "description": "remove required to submit from building permit",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210322.2141__remove_required_to_submit_from_building_permit.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20210331.1719",
+          "description": "update dropdown choices to use na 779",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210331.1719__update_dropdown_choices_to_use_na_779.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20210414.1954",
+          "description": "changed spcs to spaces",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210414.1954__changed_spcs_to_spaces.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20210421.1652",
+          "description": "update bike parking spelling 803",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210421.1652__update_bike_parking_spelling_803.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20210423.2115",
+          "description": "update car share strategy 791",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210423.2115__update_car_share_strategy_791.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20210501.0939",
+          "description": "make park spaces required",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210501.0939__make_park_spaces_required.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1316",
+          "description": "adjust strategy points 826",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1316__adjust_strategy_points_826.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1439",
+          "description": "adjust tooltips 827 832",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1439__adjust_tooltips_827_832.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1442",
+          "description": "adjust applicable land uses 828 829",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1442__adjust_applicable_land_uses_828_829.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1741",
+          "description": "update range choices for dropdowns",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1741__update_range_choices_for_dropdowns.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1806",
+          "description": "rename ain apn",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1806__rename_ain_apn.sql",
+          "executionTime": 5
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1956",
+          "description": "undo issue 829",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1956__undo_issue_829.sql",
+          "executionTime": 5
+        },
+        {
+          "category": "Versioned",
+          "version": "20210608.0016",
+          "description": "fix ids and switch cases for dropdowns 839 848",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210608.0016__fix_ids_and_switch_cases_for_dropdowns_839_848.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20210709.2215",
+          "description": "update project level hotels motels 855",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210709.2215__update_project_level_hotels_motels_855.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20210722.1337",
+          "description": "update sqft number of alternative 881 876 869",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210722.1337__update_sqft_number_of_alternative_881_876_869.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20210805.2119",
+          "description": "update child care display 858",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210805.2119__update_child_care_display_858.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20210806.1746",
+          "description": "update school safety strategy 858",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210806.1746__update_school_safety_strategy_858.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20211013.2249",
+          "description": "remove affordable housing tooltip 915",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211013.2249__remove_affordable_housing_tooltip_915.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20211028.1600",
+          "description": "update parking baseline rule name 970",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211028.1600__update_parking_baseline_rule_name_970.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20211117.1246",
+          "description": "revise  packages 998",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211117.1246__revise _packages_998.sql",
+          "executionTime": 24
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.1958",
+          "description": "make-telecommute strategies independent 618",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.1958__make-telecommute_strategies_independent_618.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.2030",
+          "description": "mutually exclusive parking-strategies 999",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.2030__mutually_exclusive_parking-strategies_999.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.2100",
+          "description": "consolidate bike share strategies 1007",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.2100__consolidate_bike_share_strategies_1007.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20211207.1533",
+          "description": "page 2 language edits 1009",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211207.1533__page_2_language_edits_1009.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "20211207.1817",
+          "description": "allow 0 provided parking 964",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211207.1817__allow_0_provided_parking_964.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.1946",
+          "description": "fix televisits points 618",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.1946__fix_televisits_points_618.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.2003",
+          "description": "minor strategy name changes 1030",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.2003__minor_strategy_name_changes_1030.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.2039",
+          "description": "high school specification name change 1030",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.2039__high_school_specification_name_change_1030.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220207.1702",
+          "description": "move-help-links-inside-tooltips 1058",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220207.1702__move-help-links-inside-tooltips_1058.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20220212.0932",
+          "description": "fix spelling in toolltip 1058",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220212.0932__fix_spelling_in_toolltip_1058.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20220325.0859",
+          "description": "strategy changes 1097",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220325.0859__strategy_changes_1097.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220325.0923",
+          "description": "threshold changes 1096",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220325.0923__threshold_changes_1096.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20220402.1008",
+          "description": "modify stadium level 2 threshold",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220402.1008__modify_stadium_level_2_threshold.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20220412.0912",
+          "description": "modify access improvement strategy 1116",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220412.0912__modify_access_improvement_strategy_1116.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.1917",
+          "description": "updating neighborhood transit tootip 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.1917__updating_neighborhood_transit_tootip_1059.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2003",
+          "description": "rule adjustments 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2003__rule_adjustments_1059.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2004",
+          "description": "consolidate bike share strategies 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2004__consolidate_bike_share_strategies_1059.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2005",
+          "description": "adjust tooltips 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2005__adjust_tooltips_1059.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220513.1136",
+          "description": "update tooltips",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220513.1136__update_tooltips.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220513.1240",
+          "description": "hotel enable unbundling 856",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220513.1240__hotel_enable_unbundling_856.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20220527.2139",
+          "description": "modify wording of reduced parking tooltip 1162",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220527.2139__modify_wording_of_reduced_parking_tooltip_1162.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20220602.1517",
+          "description": "add readonly field to calculation rule 1164 1149",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220602.1517__add_readonly_field_to_calculation_rule_1164_1149.sql",
+          "executionTime": 20
+        },
+        {
+          "category": "Versioned",
+          "version": "20220604.0941",
+          "description": "update encouragement program tooltip 1124",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220604.0941__update_encouragement_program_tooltip_1124.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220605.1506",
+          "description": "change reduced parking tooltips 1186",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220605.1506__change_reduced_parking_tooltips_1186.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20220605.1624",
+          "description": "change alternate number tooltip 1185",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220605.1624__change_alternate_number_tooltip_1185.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20220704.1546",
+          "description": "modify project address tooltip 1141",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220704.1546__modify_project_address_tooltip_1141.sql",
+          "executionTime": 5
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1306",
+          "description": "fix to 1141",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1306__fix_to_1141.sql",
+          "executionTime": 4
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1325",
+          "description": "change residential specifcations ui 1209",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1325__change_residential_specifcations_ui_1209.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1351",
+          "description": "change tooltips for reduced parking 1206",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1351__change_tooltips_for_reduced_parking_1206.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220719.1939",
+          "description": "update shared parking tooltip",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220719.1939__update_shared_parking_tooltip.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220719.1956",
+          "description": "update encouragement program tooltip 3",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220719.1956__update_encouragement_program_tooltip_3.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20220803.1517",
+          "description": "modify description tooltip 1158",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220803.1517__modify_description_tooltip_1158.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20220810.1525",
+          "description": "change page-1-tooltips 1226",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220810.1525__change_page-1-tooltips_1226.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20221004.2105",
+          "description": "update electrical vehicle and transit vehicle bonus",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221004.2105__update_electrical_vehicle_and_transit_vehicle_bonus.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20221014.1955",
+          "description": "fix spelling in sidebar tooltip1245",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221014.1955__fix_spelling_in_sidebar_tooltip1245.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20221014.2002",
+          "description": "project description remove-asterisk 1246",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221014.2002__project_description_remove-asterisk_1246.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20221017.2050",
+          "description": "faq questions answers",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221017.2050__faq_questions_answers.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20221113.1303",
+          "description": "add faq category table",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221113.1303__add_faq_category_table.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "20221120.0951",
+          "description": "sprocs for faqs 1261",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221120.0951__sprocs_for_faqs_1261.sql",
+          "executionTime": 243
+        },
+        {
+          "category": "Versioned",
+          "version": "20221123.1759",
+          "description": "add applicability explanations to strtaegy-tooltips 1276",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221123.1759__add_applicability_explanations_to_strtaegy-tooltips_1276.sql",
+          "executionTime": 18
+        },
+        {
+          "category": "Versioned",
+          "version": "20221123.1926",
+          "description": "fix to issue 1276",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221123.1926__fix_to_issue_1276.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20221127.2030",
+          "description": "populate initial faqs 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221127.2030__populate_initial_faqs_1280.sql",
+          "executionTime": 22
+        },
+        {
+          "category": "Versioned",
+          "version": "20221201.1517",
+          "description": "populate initional faqs take2 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221201.1517__populate_initional_faqs_take2_1280.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20221202.1117",
+          "description": "modify hotel level thresholds 1287",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221202.1117__modify_hotel_level_thresholds_1287.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20230111.1526",
+          "description": "more mods to- greyed toolitps 1244",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230111.1526__more_mods_to-_greyed_toolitps_1244.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20230121.1505",
+          "description": "populate initional faqs take3 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230121.1505__populate_initional_faqs_take3_1280.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20230203.2005",
+          "description": "change user defined strategy tooltip 1133",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230203.2005__change_user_defined_strategy_tooltip_1133.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20230203.2043",
+          "description": "change user defined strategy tooltip 1133 take2",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230203.2043__change_user_defined_strategy_tooltip_1133_take2.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20230320.1545",
+          "description": "update affordable housing tooltips",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230320.1545__update_affordable_housing_tooltips.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20230420.1255",
+          "description": "create sproc update account 780",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230420.1255__create_sproc_update_account_780.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20230627.2115",
+          "description": "create insertAll faqs",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230627.2115__create_insertAll_faqs.sql",
+          "executionTime": 24
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.0938",
+          "description": "update insertAll",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.0938__update_insertAll.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1107",
+          "description": "update insertAll 3",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1107__update_insertAll_3.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1128",
+          "description": "update category selectAll",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1128__update_category_selectAll.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1205",
+          "description": "update category insertAll 4",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1205__update_category_insertAll_4.sql",
+          "executionTime": 18
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1208",
+          "description": "update category insertAll 5",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1208__update_category_insertAll_5.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1230",
+          "description": "update category insertAll 6",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1310",
+          "description": "update category insertAll 7",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1310__update_category_insertAll_7.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20230906.2053",
+          "description": "changes to support hide trash snapshot",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230906.2053__changes_to_support_hide_trash_snapshot.sql",
+          "executionTime": 21
+        }
+      ],
+      "migrationsExecuted": 121,
+      "success": true,
+      "flywayVersion": "9.22.0",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-09-09T20:24:12.527435500",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20230906.2053",
+      "targetSchemaVersion": null,
+      "schemaName": "",
+      "migrations": [],
+      "migrationsExecuted": 0,
+      "success": true,
+      "flywayVersion": "9.22.0",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-09-09T20:26:18.743920800",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": null,
+      "targetSchemaVersion": "20230909.2141",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "0001",
+          "description": "setup db baseline",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0001__setup_db_baseline.sql",
+          "executionTime": 470
+        },
+        {
+          "category": "Versioned",
+          "version": "0002",
+          "description": "sample project and logins",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0002__sample_project_and_logins.sql",
+          "executionTime": 56
+        },
+        {
+          "category": "Versioned",
+          "version": "0003",
+          "description": "redefine maximum point value",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0003__redefine_maximum_point_value.sql",
+          "executionTime": 21
+        },
+        {
+          "category": "Versioned",
+          "version": "0004",
+          "description": "add tooltips to sidebar",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0004__add_tooltips_to_sidebar.sql",
+          "executionTime": 22
+        },
+        {
+          "category": "Versioned",
+          "version": "0005",
+          "description": "update descriptions and points",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0005__update_descriptions_and_points.sql",
+          "executionTime": 33
+        },
+        {
+          "category": "Versioned",
+          "version": "0006",
+          "description": "update land uses",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0006__update_land_uses.sql",
+          "executionTime": 39
+        },
+        {
+          "category": "Versioned",
+          "version": "0007",
+          "description": "update calculation panels",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0007__update_calculation_panels.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "0008",
+          "description": "delete obsolete strategies 478",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0008__delete_obsolete_strategies_478.sql",
+          "executionTime": 27
+        },
+        {
+          "category": "Versioned",
+          "version": "0009",
+          "description": "update descriptions and points 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0009__update_descriptions_and_points_474.sql",
+          "executionTime": 53
+        },
+        {
+          "category": "Versioned",
+          "version": "0010",
+          "description": "update bike measures 477 450",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0010__update_bike_measures_477_450.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "0011",
+          "description": "fix residential pkg 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0011__fix_residential_pkg_474.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "0012",
+          "description": "put warehouse calculation panel back 478",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0012__put_warehouse_calculation_panel_back_478.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "0013",
+          "description": "modify input interactions 452",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0013__modify_input_interactions_452.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "0014",
+          "description": "add new strategies 479",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0014__add_new_strategies_479.sql",
+          "executionTime": 46
+        },
+        {
+          "category": "Versioned",
+          "version": "0016",
+          "description": "add strategies 479",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0016__add_strategies_479.sql",
+          "executionTime": 51
+        },
+        {
+          "category": "Versioned",
+          "version": "0017",
+          "description": "land-use-calculations",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0017__land-use-calculations.sql",
+          "executionTime": 28
+        },
+        {
+          "category": "Versioned",
+          "version": "0018",
+          "description": "setup appllicable land uses for strategies",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0018__setup_appllicable_land_uses_for_strategies.sql",
+          "executionTime": 40
+        },
+        {
+          "category": "Versioned",
+          "version": "0019",
+          "description": "update inputs 451 516",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0019__update_inputs_451_516.sql",
+          "executionTime": 29
+        },
+        {
+          "category": "Versioned",
+          "version": "0020",
+          "description": "fixes to land use exclusions",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0020__fixes_to_land_use_exclusions.sql",
+          "executionTime": 24
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.4522",
+          "description": "implement custom validation fn 518",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.4522__implement_custom_validation_fn_518.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.5445",
+          "description": "fix spelling of bike parking label",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.5445__fix_spelling_of_bike_parking_label.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.7450",
+          "description": "update options 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.7450__update_options_474.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.8170",
+          "description": "change none into NA 525",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.8170__change_none_into_NA_525.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "8262020.5171",
+          "description": "bike parking dont initialize 519",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8262020.5171__bike_parking_dont_initialize_519.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20200907.1046",
+          "description": "packages only apply to level one 550",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200907.1046__packages_only_apply_to_level_one_550.sql",
+          "executionTime": 20
+        },
+        {
+          "category": "Versioned",
+          "version": "20200909.1070",
+          "description": "Update MS to MiddleSchool 549",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200909.1070__Update_MS_to_MiddleSchool_549.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20200909.1300",
+          "description": "make bike share hyperlink",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200909.1300__make_bike_share_hyperlink.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20200910.0951",
+          "description": "update ms to middle school-part2 549",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200910.0951__update_ms_to_middle_school-part2_549.sql",
+          "executionTime": 20
+        },
+        {
+          "category": "Versioned",
+          "version": "20200927.1739",
+          "description": "fix commercial pkg fn",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200927.1739__fix_commercial_pkg_fn.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1506",
+          "description": "edit choices for strategy affordable 577",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1506__edit_choices_for_strategy_affordable_577.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1554",
+          "description": "modify mandatory tripl reduction strategy 576",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1554__modify_mandatory_tripl_reduction_strategy_576.sql",
+          "executionTime": 26
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1611",
+          "description": "adjust strategy rules 585",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1611__adjust_strategy_rules_585.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.1351",
+          "description": "revise special use program levels 582",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.1351__revise_special_use_program_levels_582.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.1449",
+          "description": "fix bug in pts transit access 1 593",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.1449__fix_bug_in_pts_transit_access_1_593.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.2251",
+          "description": "add public comment",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.2251__add_public_comment.sql",
+          "executionTime": 28
+        },
+        {
+          "category": "Versioned",
+          "version": "20201030.1748",
+          "description": "rule adjustments 601 619 616 617",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201030.1748__rule_adjustments_601_619_616_617.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "20201123.0935",
+          "description": "rule adjustments 601 619 616 617",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201123.0935__rule_adjustments_601_619_616_617.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20201207.1326",
+          "description": "equity adjustments 656",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201207.1326__equity_adjustments_656.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20201208.1611",
+          "description": "equity adjustments take 2 656",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201208.1611__equity_adjustments_take_2_656.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20210208.2036",
+          "description": "updating neighborhood transit tootip 678",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210208.2036__updating_neighborhood_transit_tootip_678.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20210217.1924",
+          "description": "change encouragement program tooltip 731",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210217.1924__change_encouragement_program_tooltip_731.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20210226.1844",
+          "description": "update school level calc",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210226.1844__update_school_level_calc.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20210322.2141",
+          "description": "remove required to submit from building permit",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210322.2141__remove_required_to_submit_from_building_permit.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20210331.1719",
+          "description": "update dropdown choices to use na 779",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210331.1719__update_dropdown_choices_to_use_na_779.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "20210414.1954",
+          "description": "changed spcs to spaces",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210414.1954__changed_spcs_to_spaces.sql",
+          "executionTime": 51
+        },
+        {
+          "category": "Versioned",
+          "version": "20210421.1652",
+          "description": "update bike parking spelling 803",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210421.1652__update_bike_parking_spelling_803.sql",
+          "executionTime": 20
+        },
+        {
+          "category": "Versioned",
+          "version": "20210423.2115",
+          "description": "update car share strategy 791",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210423.2115__update_car_share_strategy_791.sql",
+          "executionTime": 45
+        },
+        {
+          "category": "Versioned",
+          "version": "20210501.0939",
+          "description": "make park spaces required",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210501.0939__make_park_spaces_required.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1316",
+          "description": "adjust strategy points 826",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1316__adjust_strategy_points_826.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1439",
+          "description": "adjust tooltips 827 832",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1439__adjust_tooltips_827_832.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1442",
+          "description": "adjust applicable land uses 828 829",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1442__adjust_applicable_land_uses_828_829.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1741",
+          "description": "update range choices for dropdowns",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1741__update_range_choices_for_dropdowns.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1806",
+          "description": "rename ain apn",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1806__rename_ain_apn.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1956",
+          "description": "undo issue 829",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1956__undo_issue_829.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20210608.0016",
+          "description": "fix ids and switch cases for dropdowns 839 848",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210608.0016__fix_ids_and_switch_cases_for_dropdowns_839_848.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20210709.2215",
+          "description": "update project level hotels motels 855",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210709.2215__update_project_level_hotels_motels_855.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20210722.1337",
+          "description": "update sqft number of alternative 881 876 869",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210722.1337__update_sqft_number_of_alternative_881_876_869.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20210805.2119",
+          "description": "update child care display 858",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210805.2119__update_child_care_display_858.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20210806.1746",
+          "description": "update school safety strategy 858",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210806.1746__update_school_safety_strategy_858.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20211013.2249",
+          "description": "remove affordable housing tooltip 915",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211013.2249__remove_affordable_housing_tooltip_915.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20211028.1600",
+          "description": "update parking baseline rule name 970",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211028.1600__update_parking_baseline_rule_name_970.sql",
+          "executionTime": 30
+        },
+        {
+          "category": "Versioned",
+          "version": "20211117.1246",
+          "description": "revise  packages 998",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211117.1246__revise _packages_998.sql",
+          "executionTime": 34
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.1958",
+          "description": "make-telecommute strategies independent 618",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.1958__make-telecommute_strategies_independent_618.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.2030",
+          "description": "mutually exclusive parking-strategies 999",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.2030__mutually_exclusive_parking-strategies_999.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.2100",
+          "description": "consolidate bike share strategies 1007",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.2100__consolidate_bike_share_strategies_1007.sql",
+          "executionTime": 21
+        },
+        {
+          "category": "Versioned",
+          "version": "20211207.1533",
+          "description": "page 2 language edits 1009",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211207.1533__page_2_language_edits_1009.sql",
+          "executionTime": 31
+        },
+        {
+          "category": "Versioned",
+          "version": "20211207.1817",
+          "description": "allow 0 provided parking 964",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211207.1817__allow_0_provided_parking_964.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.1946",
+          "description": "fix televisits points 618",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.1946__fix_televisits_points_618.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.2003",
+          "description": "minor strategy name changes 1030",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.2003__minor_strategy_name_changes_1030.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.2039",
+          "description": "high school specification name change 1030",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.2039__high_school_specification_name_change_1030.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20220207.1702",
+          "description": "move-help-links-inside-tooltips 1058",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220207.1702__move-help-links-inside-tooltips_1058.sql",
+          "executionTime": 18
+        },
+        {
+          "category": "Versioned",
+          "version": "20220212.0932",
+          "description": "fix spelling in toolltip 1058",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220212.0932__fix_spelling_in_toolltip_1058.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20220325.0859",
+          "description": "strategy changes 1097",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220325.0859__strategy_changes_1097.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "20220325.0923",
+          "description": "threshold changes 1096",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220325.0923__threshold_changes_1096.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220402.1008",
+          "description": "modify stadium level 2 threshold",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220402.1008__modify_stadium_level_2_threshold.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20220412.0912",
+          "description": "modify access improvement strategy 1116",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220412.0912__modify_access_improvement_strategy_1116.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.1917",
+          "description": "updating neighborhood transit tootip 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.1917__updating_neighborhood_transit_tootip_1059.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2003",
+          "description": "rule adjustments 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2003__rule_adjustments_1059.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2004",
+          "description": "consolidate bike share strategies 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2004__consolidate_bike_share_strategies_1059.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2005",
+          "description": "adjust tooltips 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2005__adjust_tooltips_1059.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220513.1136",
+          "description": "update tooltips",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220513.1136__update_tooltips.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20220513.1240",
+          "description": "hotel enable unbundling 856",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220513.1240__hotel_enable_unbundling_856.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20220527.2139",
+          "description": "modify wording of reduced parking tooltip 1162",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220527.2139__modify_wording_of_reduced_parking_tooltip_1162.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220602.1517",
+          "description": "add readonly field to calculation rule 1164 1149",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220602.1517__add_readonly_field_to_calculation_rule_1164_1149.sql",
+          "executionTime": 22
+        },
+        {
+          "category": "Versioned",
+          "version": "20220604.0941",
+          "description": "update encouragement program tooltip 1124",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220604.0941__update_encouragement_program_tooltip_1124.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20220605.1506",
+          "description": "change reduced parking tooltips 1186",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220605.1506__change_reduced_parking_tooltips_1186.sql",
+          "executionTime": 18
+        },
+        {
+          "category": "Versioned",
+          "version": "20220605.1624",
+          "description": "change alternate number tooltip 1185",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220605.1624__change_alternate_number_tooltip_1185.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220704.1546",
+          "description": "modify project address tooltip 1141",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220704.1546__modify_project_address_tooltip_1141.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1306",
+          "description": "fix to 1141",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1306__fix_to_1141.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1325",
+          "description": "change residential specifcations ui 1209",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1325__change_residential_specifcations_ui_1209.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1351",
+          "description": "change tooltips for reduced parking 1206",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1351__change_tooltips_for_reduced_parking_1206.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20220719.1939",
+          "description": "update shared parking tooltip",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220719.1939__update_shared_parking_tooltip.sql",
+          "executionTime": 6
+        },
+        {
+          "category": "Versioned",
+          "version": "20220719.1956",
+          "description": "update encouragement program tooltip 3",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220719.1956__update_encouragement_program_tooltip_3.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20220803.1517",
+          "description": "modify description tooltip 1158",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220803.1517__modify_description_tooltip_1158.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20220810.1525",
+          "description": "change page-1-tooltips 1226",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220810.1525__change_page-1-tooltips_1226.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20221004.2105",
+          "description": "update electrical vehicle and transit vehicle bonus",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221004.2105__update_electrical_vehicle_and_transit_vehicle_bonus.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20221014.1955",
+          "description": "fix spelling in sidebar tooltip1245",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221014.1955__fix_spelling_in_sidebar_tooltip1245.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20221014.2002",
+          "description": "project description remove-asterisk 1246",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221014.2002__project_description_remove-asterisk_1246.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20221017.2050",
+          "description": "faq questions answers",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221017.2050__faq_questions_answers.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20221113.1303",
+          "description": "add faq category table",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221113.1303__add_faq_category_table.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "20221120.0951",
+          "description": "sprocs for faqs 1261",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221120.0951__sprocs_for_faqs_1261.sql",
+          "executionTime": 304
+        },
+        {
+          "category": "Versioned",
+          "version": "20221123.1759",
+          "description": "add applicability explanations to strtaegy-tooltips 1276",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221123.1759__add_applicability_explanations_to_strtaegy-tooltips_1276.sql",
+          "executionTime": 29
+        },
+        {
+          "category": "Versioned",
+          "version": "20221123.1926",
+          "description": "fix to issue 1276",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221123.1926__fix_to_issue_1276.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20221127.2030",
+          "description": "populate initial faqs 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221127.2030__populate_initial_faqs_1280.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "20221201.1517",
+          "description": "populate initional faqs take2 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221201.1517__populate_initional_faqs_take2_1280.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20221202.1117",
+          "description": "modify hotel level thresholds 1287",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221202.1117__modify_hotel_level_thresholds_1287.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20230111.1526",
+          "description": "more mods to- greyed toolitps 1244",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230111.1526__more_mods_to-_greyed_toolitps_1244.sql",
+          "executionTime": 20
+        },
+        {
+          "category": "Versioned",
+          "version": "20230121.1505",
+          "description": "populate initional faqs take3 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230121.1505__populate_initional_faqs_take3_1280.sql",
+          "executionTime": 18
+        },
+        {
+          "category": "Versioned",
+          "version": "20230203.2005",
+          "description": "change user defined strategy tooltip 1133",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230203.2005__change_user_defined_strategy_tooltip_1133.sql",
+          "executionTime": 18
+        },
+        {
+          "category": "Versioned",
+          "version": "20230203.2043",
+          "description": "change user defined strategy tooltip 1133 take2",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230203.2043__change_user_defined_strategy_tooltip_1133_take2.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20230320.1545",
+          "description": "update affordable housing tooltips",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230320.1545__update_affordable_housing_tooltips.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20230420.1255",
+          "description": "create sproc update account 780",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230420.1255__create_sproc_update_account_780.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20230627.2115",
+          "description": "create insertAll faqs",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230627.2115__create_insertAll_faqs.sql",
+          "executionTime": 21
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.0938",
+          "description": "update insertAll",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.0938__update_insertAll.sql",
+          "executionTime": 31
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1107",
+          "description": "update insertAll 3",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1107__update_insertAll_3.sql",
+          "executionTime": 22
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1128",
+          "description": "update category selectAll",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1128__update_category_selectAll.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1205",
+          "description": "update category insertAll 4",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1205__update_category_insertAll_4.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1208",
+          "description": "update category insertAll 5",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1208__update_category_insertAll_5.sql",
+          "executionTime": 22
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1230",
+          "description": "update category insertAll 6",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1310",
+          "description": "update category insertAll 7",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1310__update_category_insertAll_7.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20230906.2053",
+          "description": "changes to support hide trash snapshot",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230906.2053__changes_to_support_hide_trash_snapshot.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "20230909.2141",
+          "description": "archives and deletes users and projects",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230909.2141__archives_and_deletes_users_and_projects.sql",
+          "executionTime": 22
+        }
+      ],
+      "migrationsExecuted": 122,
+      "success": true,
+      "flywayVersion": "9.22.0",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-09-10T01:33:15.368605400",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": null,
+      "targetSchemaVersion": "20230909.2141",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "0001",
+          "description": "setup db baseline",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0001__setup_db_baseline.sql",
+          "executionTime": 374
+        },
+        {
+          "category": "Versioned",
+          "version": "0002",
+          "description": "sample project and logins",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0002__sample_project_and_logins.sql",
+          "executionTime": 45
+        },
+        {
+          "category": "Versioned",
+          "version": "0003",
+          "description": "redefine maximum point value",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0003__redefine_maximum_point_value.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "0004",
+          "description": "add tooltips to sidebar",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0004__add_tooltips_to_sidebar.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "0005",
+          "description": "update descriptions and points",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0005__update_descriptions_and_points.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "0006",
+          "description": "update land uses",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0006__update_land_uses.sql",
+          "executionTime": 45
+        },
+        {
+          "category": "Versioned",
+          "version": "0007",
+          "description": "update calculation panels",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0007__update_calculation_panels.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "0008",
+          "description": "delete obsolete strategies 478",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0008__delete_obsolete_strategies_478.sql",
+          "executionTime": 27
+        },
+        {
+          "category": "Versioned",
+          "version": "0009",
+          "description": "update descriptions and points 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0009__update_descriptions_and_points_474.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "0010",
+          "description": "update bike measures 477 450",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0010__update_bike_measures_477_450.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "0011",
+          "description": "fix residential pkg 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0011__fix_residential_pkg_474.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "0012",
+          "description": "put warehouse calculation panel back 478",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0012__put_warehouse_calculation_panel_back_478.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "0013",
+          "description": "modify input interactions 452",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0013__modify_input_interactions_452.sql",
+          "executionTime": 24
+        },
+        {
+          "category": "Versioned",
+          "version": "0014",
+          "description": "add new strategies 479",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0014__add_new_strategies_479.sql",
+          "executionTime": 34
+        },
+        {
+          "category": "Versioned",
+          "version": "0016",
+          "description": "add strategies 479",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0016__add_strategies_479.sql",
+          "executionTime": 46
+        },
+        {
+          "category": "Versioned",
+          "version": "0017",
+          "description": "land-use-calculations",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0017__land-use-calculations.sql",
+          "executionTime": 33
+        },
+        {
+          "category": "Versioned",
+          "version": "0018",
+          "description": "setup appllicable land uses for strategies",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0018__setup_appllicable_land_uses_for_strategies.sql",
+          "executionTime": 33
+        },
+        {
+          "category": "Versioned",
+          "version": "0019",
+          "description": "update inputs 451 516",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0019__update_inputs_451_516.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "0020",
+          "description": "fixes to land use exclusions",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0020__fixes_to_land_use_exclusions.sql",
+          "executionTime": 27
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.4522",
+          "description": "implement custom validation fn 518",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.4522__implement_custom_validation_fn_518.sql",
+          "executionTime": 46
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.5445",
+          "description": "fix spelling of bike parking label",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.5445__fix_spelling_of_bike_parking_label.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.7450",
+          "description": "update options 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.7450__update_options_474.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.8170",
+          "description": "change none into NA 525",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.8170__change_none_into_NA_525.sql",
+          "executionTime": 31
+        },
+        {
+          "category": "Versioned",
+          "version": "8262020.5171",
+          "description": "bike parking dont initialize 519",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8262020.5171__bike_parking_dont_initialize_519.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20200907.1046",
+          "description": "packages only apply to level one 550",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200907.1046__packages_only_apply_to_level_one_550.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20200909.1070",
+          "description": "Update MS to MiddleSchool 549",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200909.1070__Update_MS_to_MiddleSchool_549.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20200909.1300",
+          "description": "make bike share hyperlink",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200909.1300__make_bike_share_hyperlink.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20200910.0951",
+          "description": "update ms to middle school-part2 549",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200910.0951__update_ms_to_middle_school-part2_549.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20200927.1739",
+          "description": "fix commercial pkg fn",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200927.1739__fix_commercial_pkg_fn.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1506",
+          "description": "edit choices for strategy affordable 577",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1506__edit_choices_for_strategy_affordable_577.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1554",
+          "description": "modify mandatory tripl reduction strategy 576",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1554__modify_mandatory_tripl_reduction_strategy_576.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1611",
+          "description": "adjust strategy rules 585",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1611__adjust_strategy_rules_585.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.1351",
+          "description": "revise special use program levels 582",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.1351__revise_special_use_program_levels_582.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.1449",
+          "description": "fix bug in pts transit access 1 593",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.1449__fix_bug_in_pts_transit_access_1_593.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.2251",
+          "description": "add public comment",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.2251__add_public_comment.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20201030.1748",
+          "description": "rule adjustments 601 619 616 617",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201030.1748__rule_adjustments_601_619_616_617.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20201123.0935",
+          "description": "rule adjustments 601 619 616 617",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201123.0935__rule_adjustments_601_619_616_617.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20201207.1326",
+          "description": "equity adjustments 656",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201207.1326__equity_adjustments_656.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20201208.1611",
+          "description": "equity adjustments take 2 656",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201208.1611__equity_adjustments_take_2_656.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20210208.2036",
+          "description": "updating neighborhood transit tootip 678",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210208.2036__updating_neighborhood_transit_tootip_678.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20210217.1924",
+          "description": "change encouragement program tooltip 731",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210217.1924__change_encouragement_program_tooltip_731.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20210226.1844",
+          "description": "update school level calc",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210226.1844__update_school_level_calc.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20210322.2141",
+          "description": "remove required to submit from building permit",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210322.2141__remove_required_to_submit_from_building_permit.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20210331.1719",
+          "description": "update dropdown choices to use na 779",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210331.1719__update_dropdown_choices_to_use_na_779.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20210414.1954",
+          "description": "changed spcs to spaces",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210414.1954__changed_spcs_to_spaces.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "20210421.1652",
+          "description": "update bike parking spelling 803",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210421.1652__update_bike_parking_spelling_803.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20210423.2115",
+          "description": "update car share strategy 791",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210423.2115__update_car_share_strategy_791.sql",
+          "executionTime": 22
+        },
+        {
+          "category": "Versioned",
+          "version": "20210501.0939",
+          "description": "make park spaces required",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210501.0939__make_park_spaces_required.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1316",
+          "description": "adjust strategy points 826",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1316__adjust_strategy_points_826.sql",
+          "executionTime": 18
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1439",
+          "description": "adjust tooltips 827 832",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1439__adjust_tooltips_827_832.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1442",
+          "description": "adjust applicable land uses 828 829",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1442__adjust_applicable_land_uses_828_829.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1741",
+          "description": "update range choices for dropdowns",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1741__update_range_choices_for_dropdowns.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1806",
+          "description": "rename ain apn",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1806__rename_ain_apn.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1956",
+          "description": "undo issue 829",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1956__undo_issue_829.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20210608.0016",
+          "description": "fix ids and switch cases for dropdowns 839 848",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210608.0016__fix_ids_and_switch_cases_for_dropdowns_839_848.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20210709.2215",
+          "description": "update project level hotels motels 855",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210709.2215__update_project_level_hotels_motels_855.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20210722.1337",
+          "description": "update sqft number of alternative 881 876 869",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210722.1337__update_sqft_number_of_alternative_881_876_869.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20210805.2119",
+          "description": "update child care display 858",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210805.2119__update_child_care_display_858.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20210806.1746",
+          "description": "update school safety strategy 858",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210806.1746__update_school_safety_strategy_858.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20211013.2249",
+          "description": "remove affordable housing tooltip 915",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211013.2249__remove_affordable_housing_tooltip_915.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20211028.1600",
+          "description": "update parking baseline rule name 970",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211028.1600__update_parking_baseline_rule_name_970.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20211117.1246",
+          "description": "revise  packages 998",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211117.1246__revise _packages_998.sql",
+          "executionTime": 37
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.1958",
+          "description": "make-telecommute strategies independent 618",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.1958__make-telecommute_strategies_independent_618.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.2030",
+          "description": "mutually exclusive parking-strategies 999",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.2030__mutually_exclusive_parking-strategies_999.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.2100",
+          "description": "consolidate bike share strategies 1007",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.2100__consolidate_bike_share_strategies_1007.sql",
+          "executionTime": 26
+        },
+        {
+          "category": "Versioned",
+          "version": "20211207.1533",
+          "description": "page 2 language edits 1009",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211207.1533__page_2_language_edits_1009.sql",
+          "executionTime": 35
+        },
+        {
+          "category": "Versioned",
+          "version": "20211207.1817",
+          "description": "allow 0 provided parking 964",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211207.1817__allow_0_provided_parking_964.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.1946",
+          "description": "fix televisits points 618",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.1946__fix_televisits_points_618.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.2003",
+          "description": "minor strategy name changes 1030",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.2003__minor_strategy_name_changes_1030.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.2039",
+          "description": "high school specification name change 1030",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.2039__high_school_specification_name_change_1030.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220207.1702",
+          "description": "move-help-links-inside-tooltips 1058",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220207.1702__move-help-links-inside-tooltips_1058.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220212.0932",
+          "description": "fix spelling in toolltip 1058",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220212.0932__fix_spelling_in_toolltip_1058.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20220325.0859",
+          "description": "strategy changes 1097",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220325.0859__strategy_changes_1097.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20220325.0923",
+          "description": "threshold changes 1096",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220325.0923__threshold_changes_1096.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220402.1008",
+          "description": "modify stadium level 2 threshold",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220402.1008__modify_stadium_level_2_threshold.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220412.0912",
+          "description": "modify access improvement strategy 1116",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220412.0912__modify_access_improvement_strategy_1116.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.1917",
+          "description": "updating neighborhood transit tootip 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.1917__updating_neighborhood_transit_tootip_1059.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2003",
+          "description": "rule adjustments 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2003__rule_adjustments_1059.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2004",
+          "description": "consolidate bike share strategies 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2004__consolidate_bike_share_strategies_1059.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2005",
+          "description": "adjust tooltips 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2005__adjust_tooltips_1059.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220513.1136",
+          "description": "update tooltips",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220513.1136__update_tooltips.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220513.1240",
+          "description": "hotel enable unbundling 856",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220513.1240__hotel_enable_unbundling_856.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220527.2139",
+          "description": "modify wording of reduced parking tooltip 1162",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220527.2139__modify_wording_of_reduced_parking_tooltip_1162.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220602.1517",
+          "description": "add readonly field to calculation rule 1164 1149",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220602.1517__add_readonly_field_to_calculation_rule_1164_1149.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "20220604.0941",
+          "description": "update encouragement program tooltip 1124",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220604.0941__update_encouragement_program_tooltip_1124.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20220605.1506",
+          "description": "change reduced parking tooltips 1186",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220605.1506__change_reduced_parking_tooltips_1186.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220605.1624",
+          "description": "change alternate number tooltip 1185",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220605.1624__change_alternate_number_tooltip_1185.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20220704.1546",
+          "description": "modify project address tooltip 1141",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220704.1546__modify_project_address_tooltip_1141.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1306",
+          "description": "fix to 1141",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1306__fix_to_1141.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1325",
+          "description": "change residential specifcations ui 1209",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1325__change_residential_specifcations_ui_1209.sql",
+          "executionTime": 21
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1351",
+          "description": "change tooltips for reduced parking 1206",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1351__change_tooltips_for_reduced_parking_1206.sql",
+          "executionTime": 18
+        },
+        {
+          "category": "Versioned",
+          "version": "20220719.1939",
+          "description": "update shared parking tooltip",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220719.1939__update_shared_parking_tooltip.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220719.1956",
+          "description": "update encouragement program tooltip 3",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220719.1956__update_encouragement_program_tooltip_3.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20220803.1517",
+          "description": "modify description tooltip 1158",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220803.1517__modify_description_tooltip_1158.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20220810.1525",
+          "description": "change page-1-tooltips 1226",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220810.1525__change_page-1-tooltips_1226.sql",
+          "executionTime": 80
+        },
+        {
+          "category": "Versioned",
+          "version": "20221004.2105",
+          "description": "update electrical vehicle and transit vehicle bonus",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221004.2105__update_electrical_vehicle_and_transit_vehicle_bonus.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20221014.1955",
+          "description": "fix spelling in sidebar tooltip1245",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221014.1955__fix_spelling_in_sidebar_tooltip1245.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20221014.2002",
+          "description": "project description remove-asterisk 1246",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221014.2002__project_description_remove-asterisk_1246.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20221017.2050",
+          "description": "faq questions answers",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221017.2050__faq_questions_answers.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20221113.1303",
+          "description": "add faq category table",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221113.1303__add_faq_category_table.sql",
+          "executionTime": 27
+        },
+        {
+          "category": "Versioned",
+          "version": "20221120.0951",
+          "description": "sprocs for faqs 1261",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221120.0951__sprocs_for_faqs_1261.sql",
+          "executionTime": 324
+        },
+        {
+          "category": "Versioned",
+          "version": "20221123.1759",
+          "description": "add applicability explanations to strtaegy-tooltips 1276",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221123.1759__add_applicability_explanations_to_strtaegy-tooltips_1276.sql",
+          "executionTime": 22
+        },
+        {
+          "category": "Versioned",
+          "version": "20221123.1926",
+          "description": "fix to issue 1276",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221123.1926__fix_to_issue_1276.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20221127.2030",
+          "description": "populate initial faqs 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221127.2030__populate_initial_faqs_1280.sql",
+          "executionTime": 30
+        },
+        {
+          "category": "Versioned",
+          "version": "20221201.1517",
+          "description": "populate initional faqs take2 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221201.1517__populate_initional_faqs_take2_1280.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20221202.1117",
+          "description": "modify hotel level thresholds 1287",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221202.1117__modify_hotel_level_thresholds_1287.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20230111.1526",
+          "description": "more mods to- greyed toolitps 1244",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230111.1526__more_mods_to-_greyed_toolitps_1244.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20230121.1505",
+          "description": "populate initional faqs take3 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230121.1505__populate_initional_faqs_take3_1280.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "20230203.2005",
+          "description": "change user defined strategy tooltip 1133",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230203.2005__change_user_defined_strategy_tooltip_1133.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20230203.2043",
+          "description": "change user defined strategy tooltip 1133 take2",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230203.2043__change_user_defined_strategy_tooltip_1133_take2.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20230320.1545",
+          "description": "update affordable housing tooltips",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230320.1545__update_affordable_housing_tooltips.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20230420.1255",
+          "description": "create sproc update account 780",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230420.1255__create_sproc_update_account_780.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20230627.2115",
+          "description": "create insertAll faqs",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230627.2115__create_insertAll_faqs.sql",
+          "executionTime": 36
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.0938",
+          "description": "update insertAll",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.0938__update_insertAll.sql",
+          "executionTime": 26
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1107",
+          "description": "update insertAll 3",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1107__update_insertAll_3.sql",
+          "executionTime": 22
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1128",
+          "description": "update category selectAll",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1128__update_category_selectAll.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1205",
+          "description": "update category insertAll 4",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1205__update_category_insertAll_4.sql",
+          "executionTime": 27
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1208",
+          "description": "update category insertAll 5",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1208__update_category_insertAll_5.sql",
+          "executionTime": 29
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1230",
+          "description": "update category insertAll 6",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1310",
+          "description": "update category insertAll 7",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1310__update_category_insertAll_7.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20230906.2053",
+          "description": "changes to support hide trash snapshot",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230906.2053__changes_to_support_hide_trash_snapshot.sql",
+          "executionTime": 36
+        },
+        {
+          "category": "Versioned",
+          "version": "20230909.2141",
+          "description": "archives and deletes users and projects",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230909.2141__archives_and_deletes_users_and_projects.sql",
+          "executionTime": 29
+        }
+      ],
+      "migrationsExecuted": 122,
+      "success": true,
+      "flywayVersion": "9.22.0",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-09-10T13:47:20.996641800",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": null,
+      "targetSchemaVersion": "20230909.2141",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "0001",
+          "description": "setup db baseline",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0001__setup_db_baseline.sql",
+          "executionTime": 540
+        },
+        {
+          "category": "Versioned",
+          "version": "0002",
+          "description": "sample project and logins",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0002__sample_project_and_logins.sql",
+          "executionTime": 43
+        },
+        {
+          "category": "Versioned",
+          "version": "0003",
+          "description": "redefine maximum point value",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0003__redefine_maximum_point_value.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "0004",
+          "description": "add tooltips to sidebar",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0004__add_tooltips_to_sidebar.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "0005",
+          "description": "update descriptions and points",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0005__update_descriptions_and_points.sql",
+          "executionTime": 20
+        },
+        {
+          "category": "Versioned",
+          "version": "0006",
+          "description": "update land uses",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0006__update_land_uses.sql",
+          "executionTime": 81
+        },
+        {
+          "category": "Versioned",
+          "version": "0007",
+          "description": "update calculation panels",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0007__update_calculation_panels.sql",
+          "executionTime": 28
+        },
+        {
+          "category": "Versioned",
+          "version": "0008",
+          "description": "delete obsolete strategies 478",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0008__delete_obsolete_strategies_478.sql",
+          "executionTime": 44
+        },
+        {
+          "category": "Versioned",
+          "version": "0009",
+          "description": "update descriptions and points 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0009__update_descriptions_and_points_474.sql",
+          "executionTime": 33
+        },
+        {
+          "category": "Versioned",
+          "version": "0010",
+          "description": "update bike measures 477 450",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0010__update_bike_measures_477_450.sql",
+          "executionTime": 21
+        },
+        {
+          "category": "Versioned",
+          "version": "0011",
+          "description": "fix residential pkg 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0011__fix_residential_pkg_474.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "0012",
+          "description": "put warehouse calculation panel back 478",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0012__put_warehouse_calculation_panel_back_478.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "0013",
+          "description": "modify input interactions 452",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0013__modify_input_interactions_452.sql",
+          "executionTime": 33
+        },
+        {
+          "category": "Versioned",
+          "version": "0014",
+          "description": "add new strategies 479",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0014__add_new_strategies_479.sql",
+          "executionTime": 62
+        },
+        {
+          "category": "Versioned",
+          "version": "0016",
+          "description": "add strategies 479",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0016__add_strategies_479.sql",
+          "executionTime": 59
+        },
+        {
+          "category": "Versioned",
+          "version": "0017",
+          "description": "land-use-calculations",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0017__land-use-calculations.sql",
+          "executionTime": 36
+        },
+        {
+          "category": "Versioned",
+          "version": "0018",
+          "description": "setup appllicable land uses for strategies",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0018__setup_appllicable_land_uses_for_strategies.sql",
+          "executionTime": 52
+        },
+        {
+          "category": "Versioned",
+          "version": "0019",
+          "description": "update inputs 451 516",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0019__update_inputs_451_516.sql",
+          "executionTime": 31
+        },
+        {
+          "category": "Versioned",
+          "version": "0020",
+          "description": "fixes to land use exclusions",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V0020__fixes_to_land_use_exclusions.sql",
+          "executionTime": 37
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.4522",
+          "description": "implement custom validation fn 518",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.4522__implement_custom_validation_fn_518.sql",
+          "executionTime": 40
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.5445",
+          "description": "fix spelling of bike parking label",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.5445__fix_spelling_of_bike_parking_label.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.7450",
+          "description": "update options 474",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.7450__update_options_474.sql",
+          "executionTime": 28
+        },
+        {
+          "category": "Versioned",
+          "version": "8192020.8170",
+          "description": "change none into NA 525",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8192020.8170__change_none_into_NA_525.sql",
+          "executionTime": 31
+        },
+        {
+          "category": "Versioned",
+          "version": "8262020.5171",
+          "description": "bike parking dont initialize 519",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V8262020.5171__bike_parking_dont_initialize_519.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "20200907.1046",
+          "description": "packages only apply to level one 550",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200907.1046__packages_only_apply_to_level_one_550.sql",
+          "executionTime": 30
+        },
+        {
+          "category": "Versioned",
+          "version": "20200909.1070",
+          "description": "Update MS to MiddleSchool 549",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200909.1070__Update_MS_to_MiddleSchool_549.sql",
+          "executionTime": 21
+        },
+        {
+          "category": "Versioned",
+          "version": "20200909.1300",
+          "description": "make bike share hyperlink",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200909.1300__make_bike_share_hyperlink.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20200910.0951",
+          "description": "update ms to middle school-part2 549",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200910.0951__update_ms_to_middle_school-part2_549.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20200927.1739",
+          "description": "fix commercial pkg fn",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20200927.1739__fix_commercial_pkg_fn.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1506",
+          "description": "edit choices for strategy affordable 577",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1506__edit_choices_for_strategy_affordable_577.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1554",
+          "description": "modify mandatory tripl reduction strategy 576",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1554__modify_mandatory_tripl_reduction_strategy_576.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20201010.1611",
+          "description": "adjust strategy rules 585",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201010.1611__adjust_strategy_rules_585.sql",
+          "executionTime": 20
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.1351",
+          "description": "revise special use program levels 582",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.1351__revise_special_use_program_levels_582.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.1449",
+          "description": "fix bug in pts transit access 1 593",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.1449__fix_bug_in_pts_transit_access_1_593.sql",
+          "executionTime": 20
+        },
+        {
+          "category": "Versioned",
+          "version": "20201011.2251",
+          "description": "add public comment",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201011.2251__add_public_comment.sql",
+          "executionTime": 31
+        },
+        {
+          "category": "Versioned",
+          "version": "20201030.1748",
+          "description": "rule adjustments 601 619 616 617",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201030.1748__rule_adjustments_601_619_616_617.sql",
+          "executionTime": 28
+        },
+        {
+          "category": "Versioned",
+          "version": "20201123.0935",
+          "description": "rule adjustments 601 619 616 617",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201123.0935__rule_adjustments_601_619_616_617.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20201207.1326",
+          "description": "equity adjustments 656",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201207.1326__equity_adjustments_656.sql",
+          "executionTime": 21
+        },
+        {
+          "category": "Versioned",
+          "version": "20201208.1611",
+          "description": "equity adjustments take 2 656",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20201208.1611__equity_adjustments_take_2_656.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20210208.2036",
+          "description": "updating neighborhood transit tootip 678",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210208.2036__updating_neighborhood_transit_tootip_678.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20210217.1924",
+          "description": "change encouragement program tooltip 731",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210217.1924__change_encouragement_program_tooltip_731.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20210226.1844",
+          "description": "update school level calc",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210226.1844__update_school_level_calc.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20210322.2141",
+          "description": "remove required to submit from building permit",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210322.2141__remove_required_to_submit_from_building_permit.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20210331.1719",
+          "description": "update dropdown choices to use na 779",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210331.1719__update_dropdown_choices_to_use_na_779.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20210414.1954",
+          "description": "changed spcs to spaces",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210414.1954__changed_spcs_to_spaces.sql",
+          "executionTime": 29
+        },
+        {
+          "category": "Versioned",
+          "version": "20210421.1652",
+          "description": "update bike parking spelling 803",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210421.1652__update_bike_parking_spelling_803.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20210423.2115",
+          "description": "update car share strategy 791",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210423.2115__update_car_share_strategy_791.sql",
+          "executionTime": 126
+        },
+        {
+          "category": "Versioned",
+          "version": "20210501.0939",
+          "description": "make park spaces required",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210501.0939__make_park_spaces_required.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1316",
+          "description": "adjust strategy points 826",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1316__adjust_strategy_points_826.sql",
+          "executionTime": 22
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1439",
+          "description": "adjust tooltips 827 832",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1439__adjust_tooltips_827_832.sql",
+          "executionTime": 21
+        },
+        {
+          "category": "Versioned",
+          "version": "20210526.1442",
+          "description": "adjust applicable land uses 828 829",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210526.1442__adjust_applicable_land_uses_828_829.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1741",
+          "description": "update range choices for dropdowns",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1741__update_range_choices_for_dropdowns.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1806",
+          "description": "rename ain apn",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1806__rename_ain_apn.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20210602.1956",
+          "description": "undo issue 829",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210602.1956__undo_issue_829.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20210608.0016",
+          "description": "fix ids and switch cases for dropdowns 839 848",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210608.0016__fix_ids_and_switch_cases_for_dropdowns_839_848.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20210709.2215",
+          "description": "update project level hotels motels 855",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210709.2215__update_project_level_hotels_motels_855.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20210722.1337",
+          "description": "update sqft number of alternative 881 876 869",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210722.1337__update_sqft_number_of_alternative_881_876_869.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "20210805.2119",
+          "description": "update child care display 858",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210805.2119__update_child_care_display_858.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20210806.1746",
+          "description": "update school safety strategy 858",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20210806.1746__update_school_safety_strategy_858.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20211013.2249",
+          "description": "remove affordable housing tooltip 915",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211013.2249__remove_affordable_housing_tooltip_915.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20211028.1600",
+          "description": "update parking baseline rule name 970",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211028.1600__update_parking_baseline_rule_name_970.sql",
+          "executionTime": 22
+        },
+        {
+          "category": "Versioned",
+          "version": "20211117.1246",
+          "description": "revise  packages 998",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211117.1246__revise _packages_998.sql",
+          "executionTime": 45
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.1958",
+          "description": "make-telecommute strategies independent 618",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.1958__make-telecommute_strategies_independent_618.sql",
+          "executionTime": 10
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.2030",
+          "description": "mutually exclusive parking-strategies 999",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.2030__mutually_exclusive_parking-strategies_999.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20211203.2100",
+          "description": "consolidate bike share strategies 1007",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211203.2100__consolidate_bike_share_strategies_1007.sql",
+          "executionTime": 29
+        },
+        {
+          "category": "Versioned",
+          "version": "20211207.1533",
+          "description": "page 2 language edits 1009",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211207.1533__page_2_language_edits_1009.sql",
+          "executionTime": 44
+        },
+        {
+          "category": "Versioned",
+          "version": "20211207.1817",
+          "description": "allow 0 provided parking 964",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211207.1817__allow_0_provided_parking_964.sql",
+          "executionTime": 26
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.1946",
+          "description": "fix televisits points 618",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.1946__fix_televisits_points_618.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.2003",
+          "description": "minor strategy name changes 1030",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.2003__minor_strategy_name_changes_1030.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20211222.2039",
+          "description": "high school specification name change 1030",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20211222.2039__high_school_specification_name_change_1030.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20220207.1702",
+          "description": "move-help-links-inside-tooltips 1058",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220207.1702__move-help-links-inside-tooltips_1058.sql",
+          "executionTime": 18
+        },
+        {
+          "category": "Versioned",
+          "version": "20220212.0932",
+          "description": "fix spelling in toolltip 1058",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220212.0932__fix_spelling_in_toolltip_1058.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20220325.0859",
+          "description": "strategy changes 1097",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220325.0859__strategy_changes_1097.sql",
+          "executionTime": 33
+        },
+        {
+          "category": "Versioned",
+          "version": "20220325.0923",
+          "description": "threshold changes 1096",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220325.0923__threshold_changes_1096.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20220402.1008",
+          "description": "modify stadium level 2 threshold",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220402.1008__modify_stadium_level_2_threshold.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20220412.0912",
+          "description": "modify access improvement strategy 1116",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220412.0912__modify_access_improvement_strategy_1116.sql",
+          "executionTime": 27
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.1917",
+          "description": "updating neighborhood transit tootip 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.1917__updating_neighborhood_transit_tootip_1059.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2003",
+          "description": "rule adjustments 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2003__rule_adjustments_1059.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2004",
+          "description": "consolidate bike share strategies 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2004__consolidate_bike_share_strategies_1059.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220413.2005",
+          "description": "adjust tooltips 1059",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220413.2005__adjust_tooltips_1059.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220513.1136",
+          "description": "update tooltips",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220513.1136__update_tooltips.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220513.1240",
+          "description": "hotel enable unbundling 856",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220513.1240__hotel_enable_unbundling_856.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20220527.2139",
+          "description": "modify wording of reduced parking tooltip 1162",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220527.2139__modify_wording_of_reduced_parking_tooltip_1162.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20220602.1517",
+          "description": "add readonly field to calculation rule 1164 1149",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220602.1517__add_readonly_field_to_calculation_rule_1164_1149.sql",
+          "executionTime": 32
+        },
+        {
+          "category": "Versioned",
+          "version": "20220604.0941",
+          "description": "update encouragement program tooltip 1124",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220604.0941__update_encouragement_program_tooltip_1124.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "20220605.1506",
+          "description": "change reduced parking tooltips 1186",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220605.1506__change_reduced_parking_tooltips_1186.sql",
+          "executionTime": 26
+        },
+        {
+          "category": "Versioned",
+          "version": "20220605.1624",
+          "description": "change alternate number tooltip 1185",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220605.1624__change_alternate_number_tooltip_1185.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20220704.1546",
+          "description": "modify project address tooltip 1141",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220704.1546__modify_project_address_tooltip_1141.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1306",
+          "description": "fix to 1141",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1306__fix_to_1141.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1325",
+          "description": "change residential specifcations ui 1209",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1325__change_residential_specifcations_ui_1209.sql",
+          "executionTime": 28
+        },
+        {
+          "category": "Versioned",
+          "version": "20220706.1351",
+          "description": "change tooltips for reduced parking 1206",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220706.1351__change_tooltips_for_reduced_parking_1206.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220719.1939",
+          "description": "update shared parking tooltip",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220719.1939__update_shared_parking_tooltip.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20220719.1956",
+          "description": "update encouragement program tooltip 3",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220719.1956__update_encouragement_program_tooltip_3.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20220803.1517",
+          "description": "modify description tooltip 1158",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220803.1517__modify_description_tooltip_1158.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20220810.1525",
+          "description": "change page-1-tooltips 1226",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20220810.1525__change_page-1-tooltips_1226.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20221004.2105",
+          "description": "update electrical vehicle and transit vehicle bonus",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221004.2105__update_electrical_vehicle_and_transit_vehicle_bonus.sql",
+          "executionTime": 20
+        },
+        {
+          "category": "Versioned",
+          "version": "20221014.1955",
+          "description": "fix spelling in sidebar tooltip1245",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221014.1955__fix_spelling_in_sidebar_tooltip1245.sql",
+          "executionTime": 11
+        },
+        {
+          "category": "Versioned",
+          "version": "20221014.2002",
+          "description": "project description remove-asterisk 1246",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221014.2002__project_description_remove-asterisk_1246.sql",
+          "executionTime": 9
+        },
+        {
+          "category": "Versioned",
+          "version": "20221017.2050",
+          "description": "faq questions answers",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221017.2050__faq_questions_answers.sql",
+          "executionTime": 20
+        },
+        {
+          "category": "Versioned",
+          "version": "20221113.1303",
+          "description": "add faq category table",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221113.1303__add_faq_category_table.sql",
+          "executionTime": 45
+        },
+        {
+          "category": "Versioned",
+          "version": "20221120.0951",
+          "description": "sprocs for faqs 1261",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221120.0951__sprocs_for_faqs_1261.sql",
+          "executionTime": 425
+        },
+        {
+          "category": "Versioned",
+          "version": "20221123.1759",
+          "description": "add applicability explanations to strtaegy-tooltips 1276",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221123.1759__add_applicability_explanations_to_strtaegy-tooltips_1276.sql",
+          "executionTime": 33
+        },
+        {
+          "category": "Versioned",
+          "version": "20221123.1926",
+          "description": "fix to issue 1276",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221123.1926__fix_to_issue_1276.sql",
+          "executionTime": 7
+        },
+        {
+          "category": "Versioned",
+          "version": "20221127.2030",
+          "description": "populate initial faqs 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221127.2030__populate_initial_faqs_1280.sql",
+          "executionTime": 34
+        },
+        {
+          "category": "Versioned",
+          "version": "20221201.1517",
+          "description": "populate initional faqs take2 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221201.1517__populate_initional_faqs_take2_1280.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20221202.1117",
+          "description": "modify hotel level thresholds 1287",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20221202.1117__modify_hotel_level_thresholds_1287.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20230111.1526",
+          "description": "more mods to- greyed toolitps 1244",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230111.1526__more_mods_to-_greyed_toolitps_1244.sql",
+          "executionTime": 13
+        },
+        {
+          "category": "Versioned",
+          "version": "20230121.1505",
+          "description": "populate initional faqs take3 1280",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230121.1505__populate_initional_faqs_take3_1280.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20230203.2005",
+          "description": "change user defined strategy tooltip 1133",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230203.2005__change_user_defined_strategy_tooltip_1133.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20230203.2043",
+          "description": "change user defined strategy tooltip 1133 take2",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230203.2043__change_user_defined_strategy_tooltip_1133_take2.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20230320.1545",
+          "description": "update affordable housing tooltips",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230320.1545__update_affordable_housing_tooltips.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20230420.1255",
+          "description": "create sproc update account 780",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230420.1255__create_sproc_update_account_780.sql",
+          "executionTime": 12
+        },
+        {
+          "category": "Versioned",
+          "version": "20230627.2115",
+          "description": "create insertAll faqs",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230627.2115__create_insertAll_faqs.sql",
+          "executionTime": 30
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.0938",
+          "description": "update insertAll",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.0938__update_insertAll.sql",
+          "executionTime": 26
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1107",
+          "description": "update insertAll 3",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1107__update_insertAll_3.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1128",
+          "description": "update category selectAll",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1128__update_category_selectAll.sql",
+          "executionTime": 8
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1205",
+          "description": "update category insertAll 4",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1205__update_category_insertAll_4.sql",
+          "executionTime": 16
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1208",
+          "description": "update category insertAll 5",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1208__update_category_insertAll_5.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1230",
+          "description": "update category insertAll 6",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql",
+          "executionTime": 28
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1310",
+          "description": "update category insertAll 7",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230628.1310__update_category_insertAll_7.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20230906.2053",
+          "description": "changes to support hide trash snapshot",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230906.2053__changes_to_support_hide_trash_snapshot.sql",
+          "executionTime": 36
+        },
+        {
+          "category": "Versioned",
+          "version": "20230909.2141",
+          "description": "archives and deletes users and projects",
+          "type": "SQL",
+          "filepath": "C:\\_code\\hackforla\\tdm-calculator\\server\\db\\migration\\V20230909.2141__archives_and_deletes_users_and_projects.sql",
+          "executionTime": 40
+        }
+      ],
+      "migrationsExecuted": 122,
+      "success": true,
+      "flywayVersion": "9.22.0",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-09-11T17:59:33.159482300",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
     }
   ]
 }

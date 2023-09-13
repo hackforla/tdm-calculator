@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { withRouter, Redirect } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { withRouter, Redirect, Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import * as accountService from "../services/account.service";
 import { useToast } from "../contexts/Toast";
+import UserContext from "../contexts/UserContext";
 import {
   useAppInsightsContext,
   useTrackMetric
 } from "@microsoft/applicationinsights-react-js";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
 
 const useStyles = createUseStyles({
   main: {
@@ -24,6 +30,11 @@ const useStyles = createUseStyles({
     fontSize: "20px",
     fontWeight: "normal",
     fontStyle: "normal"
+  },
+  archiveTitle: {
+    marginTop: "0.5em",
+    textAlign: "center",
+    fontSize: "16px"
   },
   table: {
     minWidth: "80%",
@@ -61,6 +72,30 @@ const useStyles = createUseStyles({
   },
   link: {
     textDecoration: "underline"
+  },
+  optionsButton: {
+    border: "none",
+    backgroundColor: "transparent",
+    cursor: "pointer",
+    padding: "0.2em 0.5em",
+    borderRadius: "4px",
+    "&:hover": {
+      backgroundColor: "#f2f2f2"
+    }
+  },
+  popupContent: {
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: "#E9E9E9",
+      borderRadius: "4px"
+    }
+  },
+  hoveredRow: {
+    backgroundColor: "#f0e300"
+  },
+  disabledOptionsButton: {
+    cursor: "not-allowed",
+    opacity: 0.5
   }
 });
 
@@ -69,9 +104,12 @@ const Roles = () => {
   const [searchString, setSearchString] = useState("");
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [redirectPath, setRedirectPath] = useState("");
+  const [hoveredRow, setHoveredRow] = useState(null);
   const classes = useStyles();
   const toast = useToast();
   const appInsights = useAppInsightsContext();
+  const userContext = useContext(UserContext);
+  const loggedInUserId = userContext.account.id;
 
   appInsights.trackMetric("Roles Component");
   const trackComponent = useTrackMetric(appInsights, "Roles");
@@ -139,6 +177,23 @@ const Roles = () => {
     }
   };
 
+  const handleArchiveUser = async user => {
+    try {
+      const response = await accountService.archiveAccount(user.id);
+      if (response.status === 200) {
+        toast.add(`Successfully archived ${user.email}`);
+        // Filters out the archived user from the list
+        const newAccounts = accounts.filter(account => account.id !== user.id);
+        setAccounts(newAccounts);
+        filt(newAccounts, searchString);
+      } else {
+        toast.add("Failed to archive user.");
+      }
+    } catch (err) {
+      toast.add("An error occurred while trying to archive the user.");
+    }
+  };
+
   return (
     <div
       className={classes.main}
@@ -168,6 +223,11 @@ const Roles = () => {
           data-testid="searchString"
         />
       </div>
+      <div className={classes.archiveTitle}>
+        <Link to="/archivedaccounts" className={classes.link}>
+          View Archived Accounts
+        </Link>
+      </div>
 
       <table className={classes.table}>
         <thead className={classes.thead}>
@@ -180,12 +240,18 @@ const Roles = () => {
             <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
               Security Admin
             </td>
+            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+              Options
+            </td>
           </tr>
         </thead>
         <tbody className={classes.tbody}>
           {filteredAccounts &&
             filteredAccounts.map(account => (
-              <tr key={JSON.stringify(account)}>
+              <tr
+                key={JSON.stringify(account)}
+                className={hoveredRow === account.id ? classes.hoveredRow : ""}
+              >
                 <td className={classes.td}>{account.email}</td>
                 <td
                   className={classes.td}
@@ -207,6 +273,43 @@ const Roles = () => {
                     onChange={e => onInputChange(e, account)}
                     name="isSecurityAdmin"
                   />
+                </td>
+                <td className={classes.tdCenter}>
+                  <Popup
+                    trigger={
+                      <button
+                        className={`${classes.optionsButton} ${
+                          account.isSecurityAdmin ||
+                          account.id === loggedInUserId
+                            ? classes.disabledOptionsButton
+                            : ""
+                        }`}
+                        disabled={
+                          account.isSecurityAdmin ||
+                          account.id === loggedInUserId
+                        }
+                      >
+                        <FontAwesomeIcon
+                          icon={faEllipsisV}
+                          alt={`Options for ${account.email}`}
+                        />
+                      </button>
+                    }
+                    position="bottom center"
+                    offsetX={-100}
+                    on="click"
+                    closeOnDocumentClick
+                    arrow={false}
+                    onOpen={() => setHoveredRow(account.id)}
+                    onClose={() => setHoveredRow(null)}
+                  >
+                    <div className={classes.popupContent}>
+                      <RolesContextMenu
+                        user={account}
+                        handleArchiveUser={handleArchiveUser}
+                      />
+                    </div>
+                  </Popup>
                 </td>
               </tr>
             ))}

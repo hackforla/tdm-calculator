@@ -25,3 +25,11 @@ export function put(project) {
 export function del(id) {
   return axios.delete(baseUrl + "/" + id);
 }
+
+export function getAllArchivedProjects() {
+  try {
+    return axios.get(`${baseUrl}/archivedprojects`);
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}
