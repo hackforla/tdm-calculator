@@ -38,8 +38,8 @@ const useStyles = createUseStyles(theme => ({
     flexBasis: "50%",
     "&:hover": {
       cursor: "pointer"
-    }
-    // fontSmoothing: "antialiased"
+    },
+    fontSmoothing: "antialiased"
   },
   tooltip: {
     color: "rgb(30, 36, 63) !important",
