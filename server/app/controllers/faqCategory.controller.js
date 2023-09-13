@@ -27,6 +27,15 @@ const post = async (req, res) => {
   }
 };
 
+const postAll = async (req, res) => {
+  try {
+    await faqCategoryService.postCategories(req.body);
+    res.sendStatus(201);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const put = async (req, res) => {
   try {
     await faqCategoryService.putFaqCategoryById(req.body);
@@ -49,6 +58,7 @@ module.exports = {
   get,
   getById,
   post,
+  postAll,
   put,
   del
 };

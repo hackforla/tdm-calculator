@@ -12,6 +12,7 @@ import MeasureSelected from "./MeasureSelected";
 import PointsEarnedMessage from "./PointsEarnedMessage";
 import LandUses from "./LandUses";
 import Result from "./Result";
+import { useTheme } from "react-jss";
 
 const useStyles = createUseStyles({
   projectSummary: {
@@ -19,9 +20,9 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     flex: "1 1 auto"
   },
-  success: {
-    color: "#A7C539"
-  },
+  // success: {
+  //   color: "#A7C539"
+  // },
   failure: {
     color: "#E46247"
   },
@@ -70,8 +71,8 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri",
     fontWeight: "700",
     fontStyle: "normal",
-    lineHeight: "32px",
-    fontSmoothing: "antialiased"
+    lineHeight: "32px"
+    // fontSmoothing: "antialiased"
   },
   resultsContainer: {
     padding: "30px 0",
@@ -117,6 +118,7 @@ const useStyles = createUseStyles({
 
 const ProjectSummary = props => {
   const classes = useStyles();
+  const theme = useTheme();
   const { rules } = props;
 
   const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
@@ -177,8 +179,10 @@ const ProjectSummary = props => {
 
   return (
     <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
-      <h1 className="tdm-wizard-page-title">TDM Calculation Summary</h1>
-      <div className={classes.lastSavedContainer}>
+      <h1 style={{ ...theme.typography.heading1, margin: 0, padding: 0 }}>
+        TDM Calculation Summary
+      </h1>
+      <div style={{ ...theme.typography.paragraph1, margin: 0, padding: 0 }}>
         {props.dateModified && (
           <span className={classes.lastSaved}>
             <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}

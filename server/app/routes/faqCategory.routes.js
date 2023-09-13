@@ -10,7 +10,7 @@ router.get("/:id", faqCategoryController.getById);
 router.post(
   "/",
   jwtSession.validateRoles(["isAdmin"]),
-  faqCategoryController.post
+  faqCategoryController.postAll
 );
 router.put(
   "/:id",

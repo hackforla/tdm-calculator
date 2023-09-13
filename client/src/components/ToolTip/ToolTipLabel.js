@@ -11,7 +11,9 @@ const useStyles = createUseStyles(theme => ({
     flexShrink: "1",
     flexBasis: "50%",
     "&:hover $iconContainer": {
-      visibility: "visible",
+      visibility: "visible"
+    },
+    "&:hover": {
       cursor: "pointer"
     }
   },
@@ -95,10 +97,54 @@ const ToolTipLabel = ({
     setShowDescription(prev => !prev);
   };
 
+  if (code && code.startsWith("UNITS_HABIT")) {
+    return (
+      <div className={classes.labelWrapper} onClick={descriptionHandler}>
+        <label
+          onClick={descriptionHandler}
+          htmlFor={code}
+          className={
+            showDescription
+              ? description
+                ? clsx(
+                    classes.accordionLabelClicked,
+                    requiredStyle,
+                    disabledStyle
+                  )
+                : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+              : description
+              ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+              : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+          }
+          data-class={classes.tooltip}
+          data-for={id}
+          data-tip={tooltipContent}
+          data-iscapture="true"
+          data-html="true"
+        >
+          {children}
+        </label>
+        {description ? (
+          <span
+            className={clsx("fa-layers fa-fw", classes.iconContainer)}
+            style={showDescription ? { visibility: "visible" } : {}}
+          >
+            <FontAwesomeIcon icon={faCircle} className={classes.faCircle} />
+            <FontAwesomeIcon
+              icon={faInfo}
+              className={classes.faInfoIcon}
+              size="2xs"
+            />
+          </span>
+        ) : null}
+      </div>
+    );
+  }
+
   return (
     <div className={classes.labelWrapper} onClick={descriptionHandler}>
       <label
-        htmlFor={code}
+        htmlFor={code ? code : null}
         className={
           showDescription
             ? description
@@ -119,6 +165,11 @@ const ToolTipLabel = ({
         data-html="true"
       >
         {children}
+        {tooltipContent &&
+          code &&
+          !code.startsWith("STRATEGY") &&
+          !code.startsWith("PKG") &&
+          null}
       </label>
       {description ? (
         <span

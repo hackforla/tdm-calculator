@@ -28,19 +28,31 @@ body {
   font-family: $font;
   -webkit-text-size-adjust: 100%;
   color: #474747;
+  overflow-y: scroll;
 }
 
 h1 {
-  font-family: "Calibri Bold";
-  font-size: 1.7em;
-  margin-top: 0;
-  margin-bottom: 0;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 140%;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 140%;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 140%;
 }
 
 p {
-  font-size: 1em;
-  line-height: 1.4em;
-  margin-bottom: 1em;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 120%;
 }
 
 cite {
@@ -48,8 +60,7 @@ cite {
 }
 
 blockquote {
-  font-family: "Calibri Bold";
-  font-weight: normal;
+  font-weight: 700;
   background-color: #92cc4e;
   color: #474747;
   padding: 1em 2em;
@@ -59,8 +70,7 @@ blockquote {
 }
 
 strong {
-  font-family: "Calibri Bold";
-  font-weight: normal;
+  font-weight: bold;
 }
 
 code {
@@ -103,12 +113,17 @@ abbr {
   color: #cc4e10;
 }
 
-button,
+button {
+  font-family: $font;
+  font-weight: bold;
+  font-size: 16px;
+}
+
 input,
 select,
 textarea {
-  font-family: inherit;
-  font-size: 100%;
+  font-family: $font;
+  font-size: 16px;
   margin: 0 1px 0;
 }
 
@@ -122,7 +137,6 @@ input[type="radio"] {
 // default styles for  links, buttons, etc here?
 // import individual scss files below
 #root {
-  font-family: $font;
   color: $color-primary;
   background-color: $color-background;
 }

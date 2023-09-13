@@ -78,10 +78,72 @@ const del = async (loginId, id) => {
   }
 };
 
+const hide = async (ids, hide, loginId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    const tvp = new mssql.Table();
+    tvp.columns.add("id", mssql.Int);
+
+    ids.forEach(id => {
+      tvp.rows.add(id);
+    });
+
+    request.input("ids", tvp);
+    request.input("hide", hide);
+    request.input("loginId", loginId);
+    const response = await request.execute("Project_Hide");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
+const trash = async (ids, trash, loginId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    const tvp = new mssql.Table();
+    tvp.columns.add("id", mssql.Int);
+
+    ids.forEach(id => {
+      tvp.rows.add(id);
+    });
+
+    request.input("ids", tvp);
+    request.input("trash", trash);
+    request.input("loginId", loginId);
+    const response = await request.execute("Project_Trash");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
+const snapshot = async (id, loginId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("id", id);
+    request.input("loginId", loginId);
+    const response = await request.execute("Project_Snapshot");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   post,
   put,
-  del
+  del,
+  hide,
+  trash,
+  snapshot
 };

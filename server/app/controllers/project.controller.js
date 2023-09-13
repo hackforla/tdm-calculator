@@ -73,10 +73,57 @@ const getProject = async (req, res) => {
   return project;
 };
 
+const hide = async (req, res) => {
+  try {
+    const { ids, hide } = req.body;
+
+    const result = await projectService.hide(ids, hide, req.user.id);
+    if (result === 1) {
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const trash = async (req, res) => {
+  const { ids, trash } = req.body;
+  try {
+    const result = await projectService.trash(ids, trash, req.user.id);
+    if (result === 1) {
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const snapshot = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const result = await projectService.snapshot(id, req.user.id);
+    if (result === 1) {
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   post,
   put,
-  del
+  del,
+  hide,
+  trash,
+  snapshot
 };

@@ -89,7 +89,8 @@ const useStyles = createUseStyles({
   textProjectInfoHeaderAddress: {
     color: "rgba(15, 41, 64, .5)",
     fontSize: "16px",
-    fontFamily: "Calibri Bold"
+    fontFamily: "Calibri",
+    fontWeight: 700
   },
   "@media (max-width: 768px)": {
     logoContainer: {
