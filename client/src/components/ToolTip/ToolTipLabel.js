@@ -11,9 +11,7 @@ const useStyles = createUseStyles(theme => ({
     flexShrink: "1",
     flexBasis: "50%",
     "&:hover $iconContainer": {
-      visibility: "visible"
-    },
-    "&:hover": {
+      visibility: "visible",
       cursor: "pointer"
     }
   },
