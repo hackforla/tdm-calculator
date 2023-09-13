@@ -15,6 +15,7 @@ const useStyles = createUseStyles(theme => ({
   categoryName: {
     ...theme.typography.heading3,
     fontSize: 24,
+    textAlign: "inherit",
     color: theme.colors.primary.white,
     cursor: admin => (admin ? "pointer" : "default"),
     "&:hover": {
