@@ -99,7 +99,6 @@ const ToolTipLabel = ({
     return (
       <div className={classes.labelWrapper} onClick={descriptionHandler}>
         <label
-          onClick={descriptionHandler}
           htmlFor={code}
           className={
             showDescription
