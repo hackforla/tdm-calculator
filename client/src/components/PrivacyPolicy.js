@@ -434,7 +434,7 @@ const PrivacyPolicy = () => {
             If you have any questions, comments, concerns, or complaints related
             to our Review Tool websites, please contact us by email at{" "}
             <a href="mailto:privacy@HackforLa.org">
-              TDM-Calculator@hackforla.org
+              tdm@hackforla.org
             </a>
             , or by mail at:
           </p>
