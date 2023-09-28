@@ -37,6 +37,10 @@ export const Answer = ({
 
   const handleSetFAQ = event => {
     // Check if the relatedTarget is within the Answer component
+    const tooltip = document.getElementsByClassName("ql-tooltip");
+    if (tooltip[0].className.includes("editing")) {
+      return;
+    }
     if (
       event.relatedTarget &&
       event.currentTarget.contains(event.relatedTarget)
@@ -46,6 +50,7 @@ export const Answer = ({
 
     onSetFaq();
   };
+
   return (
     <div onBlur={handleSetFAQ} className={classes.answerContainer}>
       {isEditAnswer ? (
