@@ -38,7 +38,7 @@ export const Answer = ({
   const handleSetFAQ = event => {
     // Check if the relatedTarget is within the Answer component
     const tooltip = document.getElementsByClassName("ql-tooltip");
-    if (!tooltip[0].className.includes("hidden")) {
+    if (tooltip[0].className.includes("editing")) {
       return;
     }
     if (
@@ -54,7 +54,7 @@ export const Answer = ({
   return (
     <div onBlur={handleSetFAQ} className={classes.answerContainer}>
       {isEditAnswer ? (
-        <div style={{ display: "flex", width: "100%" }}>
+        <div tabIndex="0" style={{ display: "flex", width: "100%" }}>
           <Quill
             value={answer}
             placeholder="Answer..."
