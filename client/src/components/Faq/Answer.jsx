@@ -54,7 +54,7 @@ export const Answer = ({
   return (
     <div onBlur={handleSetFAQ} className={classes.answerContainer}>
       {isEditAnswer ? (
-        <div tabIndex="0" style={{ display: "flex", width: "100%" }}>
+        <div style={{ display: "flex", width: "100%" }}>
           <Quill
             value={answer}
             placeholder="Answer..."
