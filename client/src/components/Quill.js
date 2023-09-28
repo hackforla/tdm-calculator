@@ -5,15 +5,9 @@ import "react-quill/dist/quill.snow.css";
 const Quill = props => {
   const modules = {
     toolbar: [
-      ["bold", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" }
-      ],
-      ["link", "image"],
-      ["clean"]
+      ["bold", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link"]
     ]
   };
 
@@ -21,12 +15,10 @@ const Quill = props => {
     "bold",
     "underline",
     "strike",
-    "blockquote",
     "list",
     "bullet",
     "indent",
-    "link",
-    "image"
+    "link"
   ];
 
   return (
