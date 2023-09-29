@@ -44,7 +44,10 @@ const useStyles = createUseStyles(() => ({
   },
   closeButton: {
     border: "0 solid white",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    "&:hover": {
+      cursor: "pointer"
+    }
   }
 }));
 

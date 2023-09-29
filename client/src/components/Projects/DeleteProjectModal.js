@@ -40,7 +40,7 @@ const DeleteProjectModal = ({ mounted, onClose, selectedProjectName }) => {
       initialFocus="#cancelButton"
     >
       <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-        <FontAwesomeIcon icon={faTrashCan} /> DeleteProject
+        <FontAwesomeIcon icon={faTrashCan} /> Delete Project
       </div>
       <div style={theme.typography.subHeading}>
         <img src={WarningIcon} className={classes.warningIcon} alt="Warning" />
