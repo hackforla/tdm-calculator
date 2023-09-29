@@ -393,6 +393,7 @@ const FaqView = ({ isAdmin }) => {
         </div>
       </div>
       <DeleteFaqModal
+        isFaq={!!faqToDelete}
         isModalOpen={isDeleteConfirmationModalOpen}
         closeModal={closeModal}
         handleDelete={handleDelete}
