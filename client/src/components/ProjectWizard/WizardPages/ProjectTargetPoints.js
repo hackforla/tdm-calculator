@@ -74,10 +74,13 @@ function ProjectTargetPoints(props) {
               entered below.
             </span>
           </div>
-          <ParkingProvidedRuleInput
-            rule={parkingProvidedRuleOnly}
-            onInputChange={onParkingProvidedChange}
-          />
+          {parkingProvidedRuleOnly && (
+            <ParkingProvidedRuleInput
+              rule={parkingProvidedRuleOnly}
+              onInputChange={onParkingProvidedChange}
+            />
+          )}
+
           <div className={classes.projectBox}>
             <h4>
               <span className={classes.PLLabel}>Your project level </span>
