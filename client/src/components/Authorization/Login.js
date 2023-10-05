@@ -182,7 +182,7 @@ const Login = props => {
                     id="cy-login-email"
                     innerRef={focusRef}
                     type="email"
-                    autofill="email"
+                    autofill="username"
                     name="email"
                     value={values.email}
                     placeholder="Email Address"
