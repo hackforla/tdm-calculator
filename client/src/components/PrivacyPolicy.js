@@ -433,10 +433,8 @@ const PrivacyPolicy = () => {
           <p className={classes.indented}>
             If you have any questions, comments, concerns, or complaints related
             to our Review Tool websites, please contact us by email at{" "}
-            <a href="mailto:privacy@HackforLa.org">
-              tdm@hackforla.org
-            </a>
-            , or by mail at:
+            <a href="mailto:privacy@HackforLa.org">tdm@hackforla.org</a>, or by
+            mail at:
           </p>
           <div className={classes.address}>
             <p className={classes.addressParagraph}>
