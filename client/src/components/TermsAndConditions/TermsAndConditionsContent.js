@@ -30,8 +30,7 @@ const TermsAndConditionsContent = () => {
       </p>
       <p>
         The Los Angeles Department of Transportation (LADOT), in partnership
-        with the Department of City Planning and Hack for LA (a project of Code
-        for America), has developed the City of Los Angeles Transportation
+        with the Department of City Planning and Hack for LA (a project of Civic Tech Structure), has developed the City of Los Angeles Transportation
         Demand Management (TDM) Calculator (TDM Calculator) to provide the
         public with an understanding of the TDM Ordinance. Currently available
         for review: Council File 15-0719-S19 / the Los Angeles Department of
