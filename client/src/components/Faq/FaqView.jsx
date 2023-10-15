@@ -10,6 +10,7 @@ import * as faqCategoryService from "../../services/faqCategory.service";
 import AddNewCategoryButton from "../Button/AddNewCategory";
 import { createUseStyles } from "react-jss";
 import DeleteFaqModal from "./DeleteFaqModal";
+import SaveConfirmationModal from "./SaveConfirmationModal";
 
 const useStyles = createUseStyles(theme => ({
   headerContainer: {
@@ -35,7 +36,10 @@ const FaqView = ({ isAdmin }) => {
   const [admin, setAdmin] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [faqToDelete, setFaqToDelete] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] =
+    useState(false);
+  const [isSaveConfirmationModalOpen, setIsSaveConfirmationModalOpen] =
+    useState(false);
 
   useEffect(() => {
     fetchFaqData();
@@ -292,26 +296,38 @@ const FaqView = ({ isAdmin }) => {
 
   const handleAdminChange = () => {
     if (admin) {
-      submitFaqData();
-      setAdmin(false);
+      setIsSaveConfirmationModalOpen(true);
     } else {
       setAdmin(true);
     }
   };
 
+  const closeSaveConfirmationModal = () => {
+    setIsSaveConfirmationModalOpen(false);
+  };
+
+  const handleSaveConfirmationYes = () => {
+    // Submit data and set admin to false
+    submitFaqData();
+    setAdmin(false);
+
+    // Close the save confirmation modal
+    closeSaveConfirmationModal();
+  };
+
   const handleDeleteCategory = categoryId => {
     setCategoryToDelete(categoryId);
-    setIsModalOpen(true);
+    setIsDeleteConfirmationModalOpen(true);
   };
 
   const handleDeleteFAQ = (categoryId, faqId) => {
     setCategoryToDelete(categoryId);
     setFaqToDelete(faqId);
-    setIsModalOpen(true);
+    setIsDeleteConfirmationModalOpen(true);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsDeleteConfirmationModalOpen(false);
     setCategoryToDelete(null);
     setFaqToDelete(null);
   };
@@ -332,6 +348,7 @@ const FaqView = ({ isAdmin }) => {
     // Close the modal
     closeModal();
   };
+
   return (
     <ContentContainer componentToTrack="FaqPage">
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
@@ -376,9 +393,15 @@ const FaqView = ({ isAdmin }) => {
         </div>
       </div>
       <DeleteFaqModal
-        isModalOpen={isModalOpen}
+        isFaq={!!faqToDelete}
+        isModalOpen={isDeleteConfirmationModalOpen}
         closeModal={closeModal}
         handleDelete={handleDelete}
+      />
+      <SaveConfirmationModal
+        isOpen={isSaveConfirmationModalOpen}
+        onClose={closeSaveConfirmationModal}
+        onYes={handleSaveConfirmationYes}
       />
     </ContentContainer>
   );

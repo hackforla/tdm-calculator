@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
-import WarningIcon from "../../images/warning-icon.png";
 import { createUseStyles } from "react-jss";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import WarningIcon from "../../images/warning-icon.png";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const useStyles = createUseStyles(theme => ({
@@ -30,36 +30,34 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const DeleteFaqModal = ({ isModalOpen, closeModal, handleDelete, isFaq }) => {
+const SaveConfirmationModal = ({ isOpen, onClose, onYes }) => {
   const classes = useStyles();
-  const type = isFaq ? "FAQ" : "Category";
   return (
-    <ModalDialog mounted={isModalOpen} onClose={closeModal}>
+    <ModalDialog mounted={isOpen} onClose={onClose}>
       <div className={classes.modalHeader} style={{ marginBottom: "1.5rem" }}>
-        <FontAwesomeIcon icon={faTrashCan} />
-        {` Delete ${type}`}
+        <FontAwesomeIcon icon={faFloppyDisk} />
+        {" Save Edits"}
       </div>
       <div className={classes.modalSubHeader}>
         <img src={WarningIcon} className={classes.warningIcon} alt="Warning" />
-        {`Are you sure you want to permanently delete the ${type}?`}
+        {"Are you sure you want to save FAQ page edits?"}
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button onClick={closeModal} variant="text" id="cancelButton">
+        <Button onClick={onClose} variant="text" id="cancelButton">
           Cancel
         </Button>
-        <Button onClick={handleDelete} variant="contained" color={"colorError"}>
-          Delete
+        <Button onClick={onYes} variant="contained" color={"colorPrimary"}>
+          Save
         </Button>
       </div>
     </ModalDialog>
   );
 };
 
-DeleteFaqModal.propTypes = {
-  isModalOpen: PropTypes.bool,
-  closeModal: PropTypes.func,
-  handleDelete: PropTypes.func,
-  isFaq: PropTypes.bool
+SaveConfirmationModal.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  onYes: PropTypes.func
 };
 
-export default DeleteFaqModal;
+export default SaveConfirmationModal;
