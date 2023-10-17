@@ -75,11 +75,6 @@ app.use((err, req, res) => {
 
 app.use(errorHandler);
 
-// app will start up automatically unless in testing environment
-if (process.env.TEST_ENV !== "true") {
-    app.listen(port, () => {
-        console.log(`Server started on port ${port}`);
-    });
-}
+app.listen(port, () => console.log(`Server running on port ${port}`));
 
 module.exports = app;

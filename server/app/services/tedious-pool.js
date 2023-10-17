@@ -14,16 +14,12 @@ if (process.env.TEST_ENV === "true") {
         database: process.env.TEST_SQL_DATABASE_NAME,
         port: process.env.TEST_SQL_SERVER_PORT
             ? parseInt(process.env.TEST_SQL_SERVER_PORT, 10)
-            : 1435,
+            : 1433,
         options: {
-            encrypt: process.env.TEST_SQL_ENCRYPT === "false" ? false : true,
+            encrypt: false,
             enableArithAbort: true
         }
     };
-
-    if (process.env.TEST_SQL_TRUST_SERVER_CERTIFICATE === "true") {
-        config.options.trustServerCertificate = true;
-    }
 } else {
     config = process.env.SQL_SERVER_INSTANCE
   ? {
@@ -55,6 +51,8 @@ if (process.env.TEST_ENV === "true") {
       config.options.trustServerCertificate = true;
   }
 }
+
+console.log("Connecting to SQL Server with config:" + JSON.stringify(config));
 
 const pool = new sql.ConnectionPool(config);
 const poolConnect = pool.connect();

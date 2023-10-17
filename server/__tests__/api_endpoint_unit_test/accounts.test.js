@@ -1,19 +1,32 @@
 const request = require("supertest");
-const app = require("../../server");
+// const app = require("../../server");
 const { start, stop } = require("../../mssql-test-container");
 
 require("dotenv").config();
 
+const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration));
 let server;
-beforeAll(async () => {
-  await start();
+let app;
 
-  // Start the server after the database container has been started
-  const testPort = parseInt(process.env.TEST_PORT, 10) || 5002;
-  server = app.listen(testPort, () => {
-    console.log(`Test server started on port ${testPort}`);
-  });
+beforeAll(async () => {
+    try {
+        await start();
+        app = require("../../server");
+
+        // If your server doesn't start automatically upon import:
+        const testPort = parseInt(process.env.TEST_PORT, 10) || 5002;
+        server = app.listen(testPort, () => {
+            console.log(`Test server started on port ${testPort}`);
+        });
+
+        // Add a delay to ensure the server is fully operational before proceeding with tests
+        await delay(10000);  // waits for 10 seconds
+    } catch (error) {
+        console.error("Error setting up tests:", error);
+    }
 }, 120000);
+
+
 
 afterAll(async () => {
   server.close()
@@ -87,7 +100,7 @@ describe("Account Endpoints", () => {
 // require("dotenv").config();
 // const request = require("supertest");
 // const app = require("../../server");
-// const { MSSQLServerContainer } = require("../../mssqlTestContainer");
+// const { MSSQLServerContainer } = require("../../mssql-test-container");
 
 // let server;
 // let mssqlContainer;
