@@ -3,7 +3,29 @@ const sql = require("mssql");
 const dotenv = require("dotenv");
 dotenv.config();
 
-var config = process.env.SQL_SERVER_INSTANCE
+let config;
+
+// checks which db type to connect to based on environment variables
+if (process.env.TEST_ENV === "true") {
+    config = {
+        server: process.env.TEST_SQL_SERVER_NAME,
+        user: process.env.TEST_SQL_USER_NAME,
+        password: process.env.TEST_SQL_PASSWORD,
+        database: process.env.TEST_SQL_DATABASE_NAME,
+        port: process.env.TEST_SQL_SERVER_PORT
+            ? parseInt(process.env.TEST_SQL_SERVER_PORT, 10)
+            : 1435,
+        options: {
+            encrypt: process.env.TEST_SQL_ENCRYPT === "false" ? false : true,
+            enableArithAbort: true
+        }
+    };
+
+    if (process.env.TEST_SQL_TRUST_SERVER_CERTIFICATE === "true") {
+        config.options.trustServerCertificate = true;
+    }
+} else {
+    config = process.env.SQL_SERVER_INSTANCE
   ? {
       server: process.env.SQL_SERVER_NAME,
       user: process.env.SQL_USER_NAME,
@@ -29,8 +51,9 @@ var config = process.env.SQL_SERVER_INSTANCE
       }
     };
 
-if (process.env.SQL_TRUST_SERVER_CERTIFICATE === "true") {
-  config.options.trustServerCertificate = true;
+  if (process.env.SQL_TRUST_SERVER_CERTIFICATE === "true") {
+      config.options.trustServerCertificate = true;
+  }
 }
 
 const pool = new sql.ConnectionPool(config);

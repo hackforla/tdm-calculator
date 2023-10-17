@@ -49,16 +49,11 @@
     "lint-staged": "^12.4.1",
     "nodemon": "^2.0.16",
     "prettier": "^2.6.2",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "testcontainers": "^10.2.1"
   },
   "lint-staged": {
     "*.{js,md}": "prettier --write",
     "*.js": "eslint --cache --fix"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
   }
 }
