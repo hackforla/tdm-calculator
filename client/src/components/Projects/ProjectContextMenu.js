@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import {
   faPrint,
@@ -29,6 +30,14 @@ const ProjectContextMenu = ({
   handleCopyModalOpen,
   handleDeleteModalOpen
 }) => {
+  const [projectVisibility, SetProjectVisibility] = useState(
+    project.dateHidden
+  );
+
+  const toggleProjectVisibility = () => {
+    SetProjectVisibility(!projectVisibility);
+  };
+
   const classes = useStyles();
 
   return (
@@ -71,8 +80,11 @@ const ProjectContextMenu = ({
         />
         Duplicate
       </li>
-      <li className={classes.listItem}>
-        {project.dateHidden ? (
+      <li
+        onClick={() => toggleProjectVisibility(project)}
+        className={classes.listItem}
+      >
+        {projectVisibility ? (
           <>
             <FontAwesomeIcon
               icon={faEyeSlash}
