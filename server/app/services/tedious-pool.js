@@ -52,8 +52,6 @@ if (process.env.TEST_ENV === "true") {
   }
 }
 
-console.log("Connecting to SQL Server with config:" + JSON.stringify(config));
-
 const pool = new sql.ConnectionPool(config);
 const poolConnect = pool.connect();
 
