@@ -36,10 +36,6 @@ The city will benefit by having more time to review edge cases for building deve
 - JavaScript Unit Test Framework: [Jest](https://jestjs.io/)
 - Database Engine: [Microsoft SQL Server](http://www.sqlservertutorial.net/) / [Tutorial](http://www.sqlservertutorial.net/)
 
-## Feature Descriptions
-
-- [register](/docs/register.md)
-- [forgot-password](/docs/forgot-password.md)
 
 ## How to Contribute
 
