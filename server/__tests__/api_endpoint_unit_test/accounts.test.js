@@ -1,7 +1,22 @@
 const request = require("supertest");
+const sgMail = require("@sendgrid/mail");
 const app = require("../../server");
 
 require("dotenv").config();
+
+let originalSendgrid = sgMail.send;
+
+beforeEach(() => {
+  // Mock the send function
+  sgMail.send = jest.fn(async (msg) => {
+    return {statusCode: 202};
+  });
+});
+
+afterEach(() => {
+  // Restore the original function after each test
+  sgMail.send = originalSendgrid;
+});
 
 describe("Account Endpoints", () => {
   let userId; // id of the registered user - to be deleted by security admin

@@ -23,7 +23,7 @@ const setupContainer = async () => {
             .withStartupTimeout(120_000)
             .start();
         await new Promise(resolve => setTimeout(resolve, 60000));
-        console.log('container started')
+        console.log('successfully started container')
         // creates the test database in the container
         await container.exec([
             "/opt/mssql-tools/bin/sqlcmd",
@@ -32,7 +32,7 @@ const setupContainer = async () => {
             "-P", DB_PASSWORD,
             "-Q", "CREATE DATABASE tdmtestdb"
         ]);
-        console.log('database created')
+        console.log('successfully created database')
         return container;
     } catch (error) {
         console.error('Error in setupContainer:', error);
@@ -43,7 +43,7 @@ const setupContainer = async () => {
 const runMigrations = async () => {
     try {
         const { stdout } = await exec('npm run flyway:migrate');
-        console.log('migrations run');
+        console.log('successfully ran migrations');
         return stdout;
     } catch (error) {
         console.error(`Error running flyway:migrate: ${error}`);
