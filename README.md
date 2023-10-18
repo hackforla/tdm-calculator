@@ -59,13 +59,13 @@ To create a new issue, please use the blank issue template (available when you c
 
 ## Contact info
 
-Please use the tdm-calculator slack channel to communicate with the whole project team, or direct-messages through slack for communication with individuals.
+Please use the tdm-calculator slack channel to communicate with the whole project team.
 
 If you have any questions or comments, feel free to reach out to:
 Hack For LA
 Bonnie
 Co-Host/Organizer
-bonnie@hackforla.org
+tdm@hackforla.org
 
 ### Licensing
 
