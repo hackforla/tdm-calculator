@@ -73,6 +73,6 @@ bonnie@hackforla.org
 
 ### Licensing
 
-Include details about the project's open source status.
+https://github.com/hackforla/tdm-calculator/blob/develop/LICENSE
 
 _this readme file sourced from [Jessica Sand](http://jessicasand.com/other-stuff/just-enough-docs/)_
