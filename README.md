@@ -36,10 +36,6 @@ The city will benefit by having more time to review edge cases for building deve
 - JavaScript Unit Test Framework: [Jest](https://jestjs.io/)
 - Database Engine: [Microsoft SQL Server](http://www.sqlservertutorial.net/) / [Tutorial](http://www.sqlservertutorial.net/)
 
-## Feature Descriptions
-
-- [register](/docs/register.md)
-- [forgot-password](/docs/forgot-password.md)
 
 ## How to Contribute
 
@@ -51,28 +47,34 @@ The city will benefit by having more time to review edge cases for building deve
 
 ### Working with issues
 
-- To submit a bug.
 
-Go to Project Kanban board by clicking on "Projects" tab. Create a note in Ice Box by clicking on the "+" sign. Write a general bug description and add the note. During weekly meetings in Hack For LA, we'll review the Ice Box and convert cards to Prioritized Backlog.
+Access the [Issues tab](https://github.com/hackforla/tdm-calculator/issues) and click "New Issue", use the blank issue template and fill out the Issue Detail:
 
-- Explain how to submit a feature request.
+Title: Enter a concise, descriptive title for your issue.
+Comment: Provide a detailed description of the issue, including what you expected to happen and what actually happened.
 
-- Explain how to contribute to an existing issue.
+Assignees: You can assign the issue to a specific person if needed.
+Labels: You can add labels to categorize the issue (e.g., bug, enhancement, feature request).
+Milestone: Assign the issue to a milestone if it's part of a larger project or goal.
+Preview and Submit
+Confirm.
 
-To create a new issue, please use the blank issue template (available when you click New Issue). If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
+Then go to the [projects Kanabn](https://github.com/hackforla/tdm-calculator/projects/1)  you will see your new issue under 
+ 'New Issue Approval' column. After being discussed in the first upcoming team meeting, PMs can move it to the prioritized backlog or 'In Progress,' depending on its status. If it's dependent on other issues that are not resolved, it will be moved to the 'Icebox.
+
 
 ## Contact info
 
-Please use the tdm-calculator slack channel to communicate with the whole project team, or direct-messages through slack for communication with individuals.
+Please use the tdm-calculator slack channel to communicate with the whole project team.
 
 If you have any questions or comments, feel free to reach out to:
 Hack For LA
 Bonnie
 Co-Host/Organizer
-bonnie@hackforla.org
+tdm@hackforla.org
 
 ### Licensing
 
-Include details about the project's open source status.
+https://github.com/hackforla/tdm-calculator/blob/develop/LICENSE
 
 _this readme file sourced from [Jessica Sand](http://jessicasand.com/other-stuff/just-enough-docs/)_
