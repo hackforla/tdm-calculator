@@ -13,6 +13,7 @@ let container;
 const setupContainer = async () => {
     try {
         // creates container
+        console.log('Starting the MS SQL Server container over the next couple minutes...')
         container = await new GenericContainer("mcr.microsoft.com/mssql/server")
             .withEnvironment({
                 ACCEPT_EULA: 'Y',
@@ -23,7 +24,7 @@ const setupContainer = async () => {
             .withStartupTimeout(120_000)
             .start();
         await new Promise(resolve => setTimeout(resolve, 60000));
-        console.log('successfully started container')
+        console.log('Successfully started the container. Creating the database..')
         // creates the test database in the container
         await container.exec([
             "/opt/mssql-tools/bin/sqlcmd",
@@ -32,7 +33,7 @@ const setupContainer = async () => {
             "-P", DB_PASSWORD,
             "-Q", "CREATE DATABASE tdmtestdb"
         ]);
-        console.log('successfully created database')
+        console.log('Test database tdmtestdb created ')
         return container;
     } catch (error) {
         console.error('Error in setupContainer:', error);
@@ -42,8 +43,9 @@ const setupContainer = async () => {
 
 const runMigrations = async () => {
     try {
+        console.log('Running migrations...');
         const { stdout } = await exec('npm run flyway:migrate');
-        console.log('successfully ran migrations');
+        console.log('Migrations completed');
         return stdout;
     } catch (error) {
         console.error(`Error running flyway:migrate: ${error}`);
@@ -51,10 +53,45 @@ const runMigrations = async () => {
     }
 };
 
+const backupDatabase = async () => {
+    try {
+        console.log('Starting database backup...');
+        await container.exec([
+            "/opt/mssql-tools/bin/sqlcmd",
+            "-S", "localhost",
+            "-U", "sa",
+            "-P", DB_PASSWORD,
+            "-Q", `BACKUP DATABASE tdmtestdb TO DISK = '/var/opt/mssql/backup/tdmtestdb.bak'`
+        ]);
+        console.log('Database backup completed');
+    } catch (error) {
+        console.error('Error backing up database:', error);
+        throw error;
+    }
+};
+
+const restoreDatabase = async () => {
+    try {
+        await container.exec([
+            "/opt/mssql-tools/bin/sqlcmd",
+            "-S", "localhost",
+            "-U", "sa",
+            "-P", DB_PASSWORD,
+            "-Q", `RESTORE DATABASE tdmtestdb FROM DISK = '/var/opt/mssql/backup/tdmtestdb.bak' WITH REPLACE`
+        ]);
+    } catch (error) {
+        console.error('Error restoring database:', error);
+        throw error;
+    }
+};
+
+// Modify the start function to include backup
 const start = async () => {
     try {
         container = await setupContainer();
         await runMigrations();
+        await backupDatabase();
+        console.log('Starting tests now. Please wait as this can take a few minutes...');
     } catch (error) {
         console.error('Error in start:', error);
         throw error;
@@ -74,5 +111,6 @@ const stop = async () => {
 
 module.exports = {
     start,
-    stop
+    stop,
+    restoreDatabase,
 };

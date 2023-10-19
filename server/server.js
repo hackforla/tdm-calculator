@@ -75,6 +75,12 @@ app.use((err, req, res) => {
 
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
-
-module.exports = app;
+if (process.env.TEST_ENV == "true") {
+  const server = app.listen(port, () => {
+    console.log(`Test Server running on port ${port}`);
+  });
+  module.exports = { app, server };
+} else {
+  app.listen(port, () => console.log(`Server running on port ${port}`));
+  module.exports = app;
+}
