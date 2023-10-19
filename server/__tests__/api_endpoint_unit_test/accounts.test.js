@@ -1,20 +1,35 @@
 const request = require("supertest");
 const sgMail = require("@sendgrid/mail");
+const {pool, poolConnect} = require("../../../server/app/services/tedious-pool");
 const { server } = require("../../server");
-// const { restoreDatabase} = require("../../jest-mssql-container");
 
 require("dotenv").config();
 
 let originalSendgrid = sgMail.send;
 
 describe("Account Endpoints", () => {
-  // beforeAll(async () => {
-  //     await restoreDatabase();
-  // });
 
-  afterAll(() => {
-    // close the server after all tests are done
-    server.close();
+  beforeAll(async () => {
+      try {
+          await poolConnect;
+          const request = pool.request();
+          await request.query("USE master");
+          await request.query(`RESTORE DATABASE tdmtestdb FROM DISK = '/var/opt/mssql/backup/tdmtestdb.bak' WITH REPLACE`);
+          await request.query('USE tdmtestdb');
+      } catch (error) {
+          console.error('Error setting up tests:', error);
+          throw error;  // This will cause Jest to abort the suite.
+      }
+  });
+
+  afterAll(async () => {
+    try {
+        await pool.close();
+        await server.close();
+    } catch (error) {
+        console.error('Error cleaning up after tests:', error);
+        throw error;  // This will cause Jest to report an error.
+    }
   });
 
   beforeEach(() => {
