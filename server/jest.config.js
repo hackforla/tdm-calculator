@@ -59,10 +59,10 @@ module.exports = {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  globalSetup: "./_jestSetup_/jest-setup.js",
+  globalSetup: "./_jest-setup_/global-setup.js",
 
   // A path to a module which exports an async function that is triggered once after all test suites
-  globalTeardown: "./_jestSetup_/jest-teardown.js",
+  globalTeardown: "./_jest-setup_/global-teardown.js",
 
   // A set of global variables that need to be available in all test environments
   // globals: {},
