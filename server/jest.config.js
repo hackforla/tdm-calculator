@@ -14,7 +14,7 @@ module.exports = {
   // cacheDirectory: "C:\\Users\\agome\\AppData\\Local\\Temp\\jest",
 
   // Automatically clear mock calls, instances, contexts and results before every test
-  clearMocks: true,
+  // clearMocks: true,
   
   // // //uncomment for coverage
   // // Indicates whether the coverage information should be collected while executing the test
@@ -59,10 +59,10 @@ module.exports = {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  globalSetup: "./jest-setup.js",
+  globalSetup: "./_jestSetup_/jest-setup.js",
 
   // A path to a module which exports an async function that is triggered once after all test suites
-  globalTeardown: "./jest-teardown.js",
+  globalTeardown: "./_jestSetup_/jest-teardown.js",
 
   // A set of global variables that need to be available in all test environments
   // globals: {},
