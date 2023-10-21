@@ -16,6 +16,12 @@ then run from the 'server' directory `npm test`
 Test your docker daemon from linux command line:
 `sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=tdmTestingPassword1!"    -p 1435:1435 --name sql3 --hostname sql3    -d    mcr.microsoft.com/mssql/server`
 
+turn off vpn
+
+turn off any other sql servers running on your machine
+
+In the windows firewall, add the port in jest-mssql-container called ' HOST_PORT' to the inbound rules as a TCP port
+
 # Testing Notes
 These tests are manually configured to connect the docker container to port 1433 and map it to the host's port 1433.
 It will create a containerized SQL Server and then a database within it. It wil run the migrations and seed the database. We will reuse this same container for all tests.
