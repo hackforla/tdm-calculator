@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const DB_PASSWORD = process.env.SQL_PASSWORD;
 const MSSQL_PORT = 1433; // docker container port
-const HOST_PORT = 1434; // host port. This is the port that the container port is mapped to. If you change this, you must also edit it in the .env file
+const HOST_PORT = parseInt(process.env.SQL_SERVER_PORT, 10);
 
 let container;
 
