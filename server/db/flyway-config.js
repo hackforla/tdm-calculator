@@ -3,14 +3,12 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = function () {
-  const isTestEnv = process.env.TEST_ENV === "true";
-
-  const host = isTestEnv ? process.env.TEST_SQL_SERVER_NAME : process.env.SQL_SERVER_NAME;
-  const port = isTestEnv ? process.env.TEST_SQL_SERVER_PORT : process.env.SQL_SERVER_PORT;
-  const instance = isTestEnv ? process.env.TEST_SQL_SERVER_INSTANCE : process.env.SQL_SERVER_INSTANCE;
-  const databaseName = isTestEnv ? process.env.TEST_SQL_DATABASE_NAME : process.env.SQL_DATABASE_NAME;
-  const username = isTestEnv ? process.env.TEST_SQL_USER_NAME : process.env.SQL_USER_NAME;
-  const password = isTestEnv ? process.env.TEST_SQL_PASSWORD : process.env.SQL_PASSWORD;
+  const host = process.env.SQL_SERVER_NAME;
+  const port = process.env.SQL_SERVER_PORT;
+  const instance = process.env.SQL_SERVER_INSTANCE;
+  const databaseName = process.env.SQL_DATABASE_NAME;
+  const username = process.env.SQL_USER_NAME;
+  const password = process.env.SQL_PASSWORD;
   // Connections to the local machine should not be encrypted, so we
   // don't have to set up SSL certs
   const encrypt = host === "localhost" ? "false" : "true";
@@ -31,7 +29,7 @@ module.exports = function () {
       baselineOnMigrate: true,
       baselineVersion: "0002", // Do not change this baseline version number
       baselineDescription: "setup_db_baseline_data_as_of_07012020",
-      reportEnabled: isTestEnv ? false : true
+      reportEnabled: process.env.TEST_ENV ? false : true
     }
   };
 };
