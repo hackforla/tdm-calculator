@@ -1,6 +1,17 @@
 const request = require("supertest");
 const sgMail = require("@sendgrid/mail");
-const server = require("../../../server")
+const { setupServer, teardownServer } = require("../../_jest-setup_/server-setup");
+
+// instantiates an actual server instance for robust testing of endpoints
+let server;
+
+beforeAll(async () => {
+    server = await setupServer();
+});
+
+afterAll(async () => {
+    await teardownServer();
+});
 
 describe("Account Endpoints", () => {
 
