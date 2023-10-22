@@ -1,48 +1,8 @@
 const request = require("supertest");
 const sgMail = require("@sendgrid/mail");
-const {pool, poolConnect} = require("../../../server/app/services/tedious-pool");
-const { server } = require("../../server");
-
-require("dotenv").config();
-
-let originalSendgrid = sgMail.send;
+const server = require("../../../server")
 
 describe("Account Endpoints", () => {
-
-  beforeAll(async () => {
-      try {
-          await poolConnect;
-          const request = pool.request();
-          await request.query("USE master");
-          await request.query(`RESTORE DATABASE tdmtestdb FROM DISK = '/var/opt/mssql/backup/tdmtestdb.bak' WITH REPLACE`);
-          await request.query('USE tdmtestdb');
-      } catch (error) {
-          console.error('Error setting up tests:', error);
-          throw error;  // This will cause Jest to abort the suite.
-      }
-  });
-
-  afterAll(async () => {
-    try {
-        await pool.close();
-        await server.close();
-    } catch (error) {
-        console.error('Error cleaning up after tests:', error);
-        throw error;  // This will cause Jest to report an error.
-    }
-  });
-
-  beforeEach(() => {
-  // Mock the sendgrid mail api function
-  sgMail.send = jest.fn(async (msg) => {
-    return {statusCode: 202};
-  });
-  });
-
-  afterEach(() => {
-    // Restore the original function after each test
-    sgMail.send = originalSendgrid;
-  });
 
   let userId; // id of the registered user - to be deleted by security admin
   let adminToken; // jwt for security admin - for protected endpoints
