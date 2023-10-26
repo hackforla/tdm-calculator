@@ -3,6 +3,7 @@ import UserContext from "./contexts/UserContext";
 import PropTypes from "prop-types";
 
 import { Route, Redirect, Switch } from "react-router-dom";
+import RequireAuth from "./components/Authorization/RequireAuth";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
 import TdmCalculationContainer from "./components/TdmCalculationContainer";
@@ -17,7 +18,6 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
 import UpdateAccount from "./components/Authorization/UpdateAccount";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
-import ProtectedRoute from "./components/Authorization/ProtectedRoute";
 import Login from "./components/Authorization/Login";
 import Unauthorized from "./components/Authorization/Unauthorized";
 import Admin from "./components/Admin";
@@ -68,19 +68,25 @@ const App = ({
       <div className={classes.app} id="app-container" ref={appContainerRef}>
         <Switch>
           {/* These routes either have no sidebar or use a custom sidebar */}
-          <ProtectedRoute
+          <Route
             isAuthorized={account && !!account.email}
             path="/projects"
-          >
-            <ProjectsPage
-              account={account}
-              contentContainerRef={contentContainerRef}
-              rules={rules}
-              setRules={setRules}
-              dateModified={dateModified}
-              setDateModified={setDateModified}
-            />
-          </ProtectedRoute>
+            render={() => (
+              <RequireAuth
+                isAuthorized={account && !!account.email}
+                redirectTo="/unauthorized"
+              >
+                <ProjectsPage
+                  account={account}
+                  contentContainerRef={contentContainerRef}
+                  rules={rules}
+                  setRules={setRules}
+                  dateModified={dateModified}
+                  setDateModified={setDateModified}
+                />
+              </RequireAuth>
+            )}
+          ></Route>
 
           <Route path="/calculation/:page/:projectId?">
             <TdmCalculationContainer
@@ -157,33 +163,53 @@ const App = ({
                       <ResetPassword />
                     </Route>
 
-                    <ProtectedRoute
+                    <Route
                       path="/admin"
-                      isAuthorized={account && account.isAdmin}
-                    >
-                      <Admin account={account} />
-                    </ProtectedRoute>
+                      render={() => (
+                        <RequireAuth
+                          isAuthorized={account && account.isAdmin}
+                          redirectTo="/unauthorized"
+                        >
+                          <Admin account={account} />
+                        </RequireAuth>
+                      )}
+                    />
 
-                    <ProtectedRoute
+                    <Route
                       path="/roles"
-                      isAuthorized={account && account.isSecurityAdmin}
-                    >
-                      <Roles />
-                    </ProtectedRoute>
+                      render={() => (
+                        <RequireAuth
+                          isAuthorized={account && account.isSecurityAdmin}
+                          redirectTo="/unauthorized"
+                        >
+                          <Roles />
+                        </RequireAuth>
+                      )}
+                    />
 
-                    <ProtectedRoute
+                    <Route
                       path="/archivedaccounts"
-                      isAuthorized={account && account.isSecurityAdmin}
-                    >
-                      <RolesArchive />
-                    </ProtectedRoute>
+                      render={() => (
+                        <RequireAuth
+                          isAuthorized={account && account.isSecurityAdmin}
+                          redirectTo="/unauthorized"
+                        >
+                          <RolesArchive />
+                        </RequireAuth>
+                      )}
+                    />
 
-                    <ProtectedRoute
+                    <Route
                       path="/archivedprojects"
-                      isAuthorized={account && account.isSecurityAdmin}
-                    >
-                      <ProjectsArchive />
-                    </ProtectedRoute>
+                      render={() => (
+                        <RequireAuth
+                          isAuthorized={account && account.isSecurityAdmin}
+                          redirectTo="/unauthorized"
+                        >
+                          <ProjectsArchive />
+                        </RequireAuth>
+                      )}
+                    />
 
                     <Route path="/faqs/:showChecklist?">
                       <FaqView

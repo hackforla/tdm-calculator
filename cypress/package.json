@@ -17,7 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "@testing-library/cypress": "^8.0.1",
-    "cypress": "^8.7.0",
+    "cypress": "^13.3.0",
     "start-server-and-test": "^1.14.0"
   }
 }
