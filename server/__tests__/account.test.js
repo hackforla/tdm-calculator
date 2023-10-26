@@ -55,7 +55,7 @@ describe("Account API Endpoints", () => {
       .send({
         firstName: "Jose",
         lastName: "Garcia",
-        email: 'josegarcia@invalidEmail',
+        email: 'josegarcia',
         password: "Password1!!!"
       });
     expect(res.statusCode).toEqual(400);
@@ -71,7 +71,8 @@ describe("Account API Endpoints", () => {
         email: 'josegarcia@test.com',
         password: "Password1!!!"
       });
-    expect(res.statusCode).toEqual(400);
+    // expect(res.statusCode).toEqual(400);
+    expect(res.body).toHaveProperty("code", "REG_DUPLICATE_EMAIL");
   });
 
   // POST "/resendConfirmationEmail" Resend confirmation email
@@ -107,20 +108,22 @@ describe("Account API Endpoints", () => {
     .post("/api/accounts/login")
     .send({
         email: 'josegarcia@test.com',
-        password: "Password1!!"
+        password: "WrongPassword1!!!"
     });
-    expect(res.statusCode).toEqual(400);
+    // expect(res.statusCode).toEqual(400);
+    expect(res.body).toHaveProperty("code", "AUTH_INCORRECT_PASSWORD")
   });
 
-  // POST "/login" attempt to login with an incorrect email
-  it("should not login as a user with an incorrect email", async () => {
+  // POST "/login" attempt to login user without account
+  it("should not login as a user without an account", async () => {
     const res = await request(server)
     .post("/api/accounts/login")
     .send({
-        email: 'josegarcia@test.com',
-        password: "wrongPasswprd1!!!"
+        email: 'fakeUser@test.com',
+        password: "fakePasswprd1!!!"
     });
-    expect(res.statusCode).toEqual(400);
+    // expect(res.statusCode).toEqual(400);
+    expect(res.body).toHaveProperty("code", "AUTH_NO_ACCOUNT")
   });
 
   // POST "/login" Login as a user

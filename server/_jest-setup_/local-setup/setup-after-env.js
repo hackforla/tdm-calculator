@@ -1,7 +1,5 @@
 const { pool, poolConnect } = require("../../app/services/tedious-pool");
 
-require("dotenv").config();
-
 beforeAll(async () => {
     try {
         await poolConnect;
