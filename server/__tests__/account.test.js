@@ -1,8 +1,7 @@
 const request = require("supertest");
 const sgMail = require("@sendgrid/mail");
-const { setupServer, teardownServer } = require("../../_jest-setup_/server-setup");
+const { setupServer, teardownServer } = require("../_jest-setup_/server-setup");
 
-// instantiates an actual server instance for robust testing of endpoints
 let server;
 
 beforeAll(async () => {
@@ -13,7 +12,7 @@ afterAll(async () => {
     await teardownServer();
 });
 
-describe("Account Endpoints", () => {
+describe("Account API Endpoints", () => {
 
   let userId; // id of the registered user - to be deleted by security admin
   let adminToken; // jwt for security admin - for protected endpoints
@@ -36,6 +35,32 @@ describe("Account Endpoints", () => {
     userId = res.body.newId;
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("newId");
+  });
+
+  // POST "/register" attempt to register a user with invalid email format
+  it("should not register a new user with an invalid email format", async () => {
+    const res = await request(server)
+      .post("/api/accounts/register")
+      .send({
+        firstName: "Jose",
+        lastName: "Garcia",
+        email: 'josegarcia@invalidEmail',
+        password: "Password1!!!"
+      });
+    expect(res.statusCode).toEqual(400);
+  });
+
+  // POST "/register" attempt to register a user with an existing email
+  it("should not register a new user with an existing email", async () => {
+    const res = await request(server)
+      .post("/api/accounts/register")
+      .send({
+        firstName: "Jose",
+        lastName: "Garcia",
+        email: 'josegarcia@test.com',
+        password: "Password1!!!"
+      });
+    expect(res.statusCode).toEqual(400);
   });
 
   // POST "/resendConfirmationEmail" Resend confirmation email
@@ -65,6 +90,28 @@ describe("Account Endpoints", () => {
     expect(res.body).toHaveProperty("success", true);
   });
 
+  // POST "/login" attempt to login with an incorrect password
+  it("should not login as a user with an incorrect password", async () => {
+    const res = await request(server)
+    .post("/api/accounts/login")
+    .send({
+        email: 'josegarcia@test.com',
+        password: "Password1!!"
+    });
+    expect(res.statusCode).toEqual(400);
+  });
+
+  // POST "/login" attempt to login with an incorrect email
+  it("should not login as a user with an incorrect email", async () => {
+    const res = await request(server)
+    .post("/api/accounts/login")
+    .send({
+        email: 'josegarcia@test.com',
+        password: "wrongPasswprd1!!!"
+    });
+    expect(res.statusCode).toEqual(400);
+  });
+
   // POST "/login" Login as a user
   it("should login as a user", async () => {
     const res = await request(server)
@@ -76,6 +123,14 @@ describe("Account Endpoints", () => {
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("token");
     userToken = res.body.token;
+  });
+
+  // GET "/" Get all accounts attempt as a regular user(Security Admin only)
+  it("should NOT get all accounts while logged in as regular user", async () => {
+    const res = await request(server)
+      .get("/api/accounts")
+      .set("Authorization", `Bearer ${userToken}`);
+    expect(res.statusCode).toEqual(403);
   });
 
   // POST "/forgotPassword" Forgot password
@@ -163,7 +218,6 @@ describe("Account Endpoints", () => {
     expect(res.statusCode).toEqual(200)
   });
 
-
   // GET "/" Get all accounts (Security Admin only)
   it("should get all accounts while logged in as security admin", async () => {
     const res = await request(server)
@@ -202,20 +256,5 @@ describe("Account Endpoints", () => {
       .delete(`/api/accounts/${userId}/deleteaccount`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(res.statusCode).toEqual(200);
-  });
-
-  // data persistence test for database cleanup
-  it("should register a new user", async () => {
-    const res = await request(server)
-      .post("/api/accounts/register")
-      .send({
-        firstName: "Juan",
-        lastName: "Lopez",
-        email: 'thisUserShoudntPersist@test.com',
-        password: "Password1!!!"
-      });
-    userId = res.body.newId;
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("newId");
   });
 });

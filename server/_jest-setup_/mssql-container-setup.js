@@ -24,7 +24,7 @@ const setupContainer = async () => {
             .withStartupTimeout(120_000)
             .start();
         await new Promise(resolve => setTimeout(resolve, 5000)); // do not remove this 5 second delay. It takes a few seconds for the container to start. If you remove this, the next step will fail. Increase if needed
-        console.log('Successfully started the container. Creating the database..')
+        console.log('Successfully started the container. Creating the test database..')
         // creates the test database in the container
         await container.exec([
             "/opt/mssql-tools/bin/sqlcmd",
@@ -43,9 +43,9 @@ const setupContainer = async () => {
 
 const runMigrations = async () => {
     try {
-        console.log('Running migrations...');
+        console.log('Running migrations on test database...');
         const { stdout } = await exec('npm run flyway:migrate');
-        console.log('Migrations completed');
+        console.log('Migrations completed on tdmtestdb');
         return stdout;
     } catch (error) {
         console.error(`Error running flyway:migrate: ${error}`);
@@ -55,7 +55,6 @@ const runMigrations = async () => {
 
 const backupDatabase = async () => {
     try {
-        console.log('Starting database backup...');
         await container.exec([
             "/opt/mssql-tools/bin/sqlcmd",
             "-S", "localhost",
@@ -63,7 +62,7 @@ const backupDatabase = async () => {
             "-P", DB_PASSWORD,
             "-Q", `BACKUP DATABASE tdmtestdb TO DISK = '/var/opt/mssql/backup/tdmtestdb.bak'`
         ]);
-        console.log('Database backup completed');
+        console.log('test database backup completed - for use on each test suite...');
     } catch (error) {
         console.error('Error backing up database:', error);
         throw error;
@@ -76,7 +75,7 @@ const start = async () => {
         container = await setupContainer();
         await runMigrations();
         await backupDatabase();
-        console.log('Starting tests now. Please wait...');
+        console.log('Starting test suites now. Please wait...');
     } catch (error) {
         console.error('Error in start:', error);
         throw error;
