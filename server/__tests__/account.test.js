@@ -1,33 +1,36 @@
 const request = require("supertest");
 const sgMail = require("@sendgrid/mail");
-const { setupServer, teardownServer } = require("../_jest-setup_/utils/server-setup");
+const {
+  setupServer,
+  teardownServer
+} = require("../_jest-setup_/utils/server-setup");
 
 let server;
 let originalSendgrid = sgMail.send;
 
 beforeAll(async () => {
-    server = await setupServer();
+  server = await setupServer();
 });
 
 afterAll(async () => {
-    await teardownServer();
+  await teardownServer();
 });
 
 beforeEach(() => {
-    sgMail.send = jest.fn(async (msg) => {
-        return { statusCode: 202 };
-    });
+  sgMail.send = jest.fn(async () => {
+    return { statusCode: 202 };
+  });
 });
 
 afterEach(() => {
-    sgMail.send = originalSendgrid;
+  sgMail.send = originalSendgrid;
 });
 
 describe("Account API Endpoints", () => {
-
   let userId; // id of the registered user - to be deleted by security admin
   let adminToken; // jwt for security admin - for protected endpoints
   let userToken; // jwt for registered user - for protected endpoints
+  let capturedToken; // confirmation token captured from the mocked sendgrid function
 
   //////////////////////////////
   //      user endpoints      //
@@ -35,14 +38,12 @@ describe("Account API Endpoints", () => {
 
   // POST "/register" Register a new account
   it("should register a new user", async () => {
-    const res = await request(server)
-      .post("/api/accounts/register")
-      .send({
-        firstName: "Jose",
-        lastName: "Garcia",
-        email: 'josegarcia@test.com',
-        password: "Password1!!!"
-      });
+    const res = await request(server).post("/api/accounts/register").send({
+      firstName: "Jose",
+      lastName: "Garcia",
+      email: "josegarcia@test.com",
+      password: "Password1!!!"
+    });
     userId = res.body.newId;
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("newId");
@@ -50,27 +51,23 @@ describe("Account API Endpoints", () => {
 
   // POST "/register" attempt to register a user with invalid email format
   it("should not register a new user with an invalid email format", async () => {
-    const res = await request(server)
-      .post("/api/accounts/register")
-      .send({
-        firstName: "Jose",
-        lastName: "Garcia",
-        email: 'josegarcia',
-        password: "Password1!!!"
-      });
+    const res = await request(server).post("/api/accounts/register").send({
+      firstName: "Jose",
+      lastName: "Garcia",
+      email: "josegarcia",
+      password: "Password1!!!"
+    });
     expect(res.statusCode).toEqual(400);
   });
 
   // POST "/register" attempt to register a user with an existing email
   it("should not register a new user with an existing email", async () => {
-    const res = await request(server)
-      .post("/api/accounts/register")
-      .send({
-        firstName: "Jose",
-        lastName: "Garcia",
-        email: 'josegarcia@test.com',
-        password: "Password1!!!"
-      });
+    const res = await request(server).post("/api/accounts/register").send({
+      firstName: "Jose",
+      lastName: "Garcia",
+      email: "josegarcia@test.com",
+      password: "Password1!!!"
+    });
     // expect(res.statusCode).toEqual(400);
     expect(res.body).toHaveProperty("code", "REG_DUPLICATE_EMAIL");
   });
@@ -80,10 +77,10 @@ describe("Account API Endpoints", () => {
     const res = await request(server)
       .post("/api/accounts/resendConfirmationEmail")
       .send({
-          email: 'josegarcia@test.com',
+        email: "josegarcia@test.com"
       });
     // captures the token from the mocked sendgird function to be used in confirmation test below
-    const tokenPattern = /\/confirm\/([a-zA-Z0-9\-]+)/;
+    const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
     const emailContent = sgMail.send.mock.calls[0][0].html;
     const match = emailContent.match(tokenPattern);
     if (match && match[1]) {
@@ -104,35 +101,29 @@ describe("Account API Endpoints", () => {
 
   // POST "/login" attempt to login with an incorrect password
   it("should not login as a user with an incorrect password", async () => {
-    const res = await request(server)
-    .post("/api/accounts/login")
-    .send({
-        email: 'josegarcia@test.com',
-        password: "WrongPassword1!!!"
+    const res = await request(server).post("/api/accounts/login").send({
+      email: "josegarcia@test.com",
+      password: "WrongPassword1!!!"
     });
     // expect(res.statusCode).toEqual(400);
-    expect(res.body).toHaveProperty("code", "AUTH_INCORRECT_PASSWORD")
+    expect(res.body).toHaveProperty("code", "AUTH_INCORRECT_PASSWORD");
   });
 
   // POST "/login" attempt to login user without account
   it("should not login as a user without an account", async () => {
-    const res = await request(server)
-    .post("/api/accounts/login")
-    .send({
-        email: 'fakeUser@test.com',
-        password: "fakePasswprd1!!!"
+    const res = await request(server).post("/api/accounts/login").send({
+      email: "fakeUser@test.com",
+      password: "fakePasswprd1!!!"
     });
     // expect(res.statusCode).toEqual(400);
-    expect(res.body).toHaveProperty("code", "AUTH_NO_ACCOUNT")
+    expect(res.body).toHaveProperty("code", "AUTH_NO_ACCOUNT");
   });
 
   // POST "/login" Login as a user
   it("should login as a user", async () => {
-    const res = await request(server)
-    .post("/api/accounts/login")
-    .send({
-        email: 'josegarcia@test.com',
-        password: "Password1!!!"
+    const res = await request(server).post("/api/accounts/login").send({
+      email: "josegarcia@test.com",
+      password: "Password1!!!"
     });
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("token");
@@ -152,7 +143,7 @@ describe("Account API Endpoints", () => {
     const res = await request(server)
       .post("/api/accounts/forgotPassword")
       .send({
-          email: 'josegarcia@test.com',
+        email: "josegarcia@test.com"
       });
     expect(res.statusCode).toEqual(200);
   });
@@ -164,7 +155,7 @@ describe("Account API Endpoints", () => {
       .set("Authorization", `Bearer ${userToken}`)
       .send({
         password: "NewPassword1!!!",
-        token: userToken,
+        token: userToken
       });
     expect(res.statusCode).toEqual(200);
   });
@@ -177,7 +168,7 @@ describe("Account API Endpoints", () => {
       .send({
         firstName: "Jose",
         lastName: "Garcia",
-        email: 'newEmail@test.com',
+        email: "newEmail@test.com"
       });
     expect(res.statusCode).toEqual(200);
   });
@@ -195,12 +186,10 @@ describe("Account API Endpoints", () => {
 
   // POST "/login/:email?" Login as security admin
   it("should login as a security admin", async () => {
-    const res = await request(server)
-      .post("/api/accounts/login")
-      .send({
-        email: process.env.SECURITY_ADMIN_EMAIL,
-        password: process.env.SECURITY_ADMIN_PASSWORD
-      });
+    const res = await request(server).post("/api/accounts/login").send({
+      email: process.env.SECURITY_ADMIN_EMAIL,
+      password: process.env.SECURITY_ADMIN_PASSWORD
+    });
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("token");
     adminToken = res.body.token;
@@ -214,9 +203,9 @@ describe("Account API Endpoints", () => {
       .send({
         id: userId,
         isAdmin: true,
-        isSecurityAdmin: true,
+        isSecurityAdmin: true
       });
-    expect(res.statusCode).toEqual(200)
+    expect(res.statusCode).toEqual(200);
   });
 
   // PUT "/:id/roles" Update roles for an account to revoke admin priviliges (Security Admin only)
@@ -227,9 +216,9 @@ describe("Account API Endpoints", () => {
       .send({
         id: userId,
         isAdmin: false,
-        isSecurityAdmin: false,
+        isSecurityAdmin: false
       });
-    expect(res.statusCode).toEqual(200)
+    expect(res.statusCode).toEqual(200);
   });
 
   // GET "/" Get all accounts (Security Admin only)

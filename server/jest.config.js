@@ -15,7 +15,7 @@ module.exports = {
 
   // Automatically clear mock calls, instances, contexts and results before every test
   // clearMocks: true,
-  
+
   // // //uncomment for coverage
   // // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: true,
@@ -30,8 +30,6 @@ module.exports = {
   // coveragePathIgnorePatterns: [
   //   "\\\\node_modules\\\\"
   // ],
-
-
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
@@ -185,7 +183,7 @@ module.exports = {
   // unmockedModulePathPatterns: undefined,
 
   // Indicates whether each individual test should be reported during the run
-  verbose: true,
+  verbose: true
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
   // watchPathIgnorePatterns: [],
