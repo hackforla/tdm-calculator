@@ -3,6 +3,7 @@ const sgMail = require("@sendgrid/mail");
 const { setupServer, teardownServer } = require("../_jest-setup_/utils/server-setup");
 
 let server;
+let originalSendgrid = sgMail.send;
 
 beforeAll(async () => {
     server = await setupServer();
@@ -10,6 +11,16 @@ beforeAll(async () => {
 
 afterAll(async () => {
     await teardownServer();
+});
+
+beforeEach(() => {
+    sgMail.send = jest.fn(async (msg) => {
+        return { statusCode: 202 };
+    });
+});
+
+afterEach(() => {
+    sgMail.send = originalSendgrid;
 });
 
 describe("Account API Endpoints", () => {

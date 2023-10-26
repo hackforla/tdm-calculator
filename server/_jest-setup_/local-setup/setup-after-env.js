@@ -1,9 +1,6 @@
-const sgMail = require("@sendgrid/mail");
 const { pool, poolConnect } = require("../../app/services/tedious-pool");
 
 require("dotenv").config();
-
-let originalSendgrid = sgMail.send;
 
 beforeAll(async () => {
     try {
@@ -25,14 +22,4 @@ afterAll(async () => {
         console.error('Error cleaning up after tests:', error);
         throw error; 
     }
-});
-
-beforeEach(() => {
-    sgMail.send = jest.fn(async (msg) => {
-        return { statusCode: 202 };
-    });
-});
-
-afterEach(() => {
-    sgMail.send = originalSendgrid;
 });
