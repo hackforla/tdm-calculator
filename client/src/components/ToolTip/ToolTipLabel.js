@@ -17,6 +17,11 @@ const useStyles = createUseStyles(theme => ({
       cursor: "pointer"
     }
   },
+  labelWrapperWithoutDesc: {
+    flexGrow: "1",
+    flexShrink: "1",
+    flexBasis: "50%"
+  },
   tooltipLabel: {
     flexGrow: "1",
     flexShrink: "1",
@@ -71,9 +76,6 @@ const useStyles = createUseStyles(theme => ({
   },
   iconContainer: {
     visibility: "hidden"
-  },
-  iconContainerClicked: {
-    color: "red"
   }
 }));
 
@@ -99,7 +101,14 @@ const ToolTipLabel = ({
 
   if (code && code.startsWith("UNITS_HABIT")) {
     return (
-      <div className={classes.labelWrapper} onClick={descriptionHandler}>
+      <div
+        className={
+          description
+            ? clsx(classes.labelWrapper)
+            : clsx(classes.labelWrapperWithoutDesc)
+        }
+        onClick={descriptionHandler}
+      >
         <label
           onClick={descriptionHandler}
           htmlFor={code}
@@ -142,7 +151,14 @@ const ToolTipLabel = ({
   }
 
   return (
-    <div className={classes.labelWrapper} onClick={descriptionHandler}>
+    <div
+      className={
+        description
+          ? clsx(classes.labelWrapper)
+          : clsx(classes.labelWrapperWithoutDesc)
+      }
+      onClick={descriptionHandler}
+    >
       <label
         htmlFor={code ? code : null}
         className={
