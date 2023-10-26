@@ -1,6 +1,6 @@
 const request = require("supertest");
 const sgMail = require("@sendgrid/mail");
-const { setupServer, teardownServer } = require("../_jest-setup_/server-setup");
+const { setupServer, teardownServer } = require("../_jest-setup_/utils/server-setup");
 
 let server;
 

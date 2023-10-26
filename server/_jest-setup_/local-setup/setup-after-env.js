@@ -1,5 +1,5 @@
 const sgMail = require("@sendgrid/mail");
-const { pool, poolConnect } = require("../app/services/tedious-pool");
+const { pool, poolConnect } = require("../../app/services/tedious-pool");
 
 require("dotenv").config();
 
