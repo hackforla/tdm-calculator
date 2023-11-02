@@ -380,8 +380,8 @@ const PrivacyPolicy = () => {
             in violation of this Privacy Policy, then you may alert us at{" "}
             <a href="mailto:tdm@hackforla.org?subject=TDM Privacy Policy Violation Report">
               tdm@hackforla.org
-            </a>{" "}
-            and reference “HfLA TDM Calculator” in the subject line.
+            </a>
+            .
           </p>
 
           <h2 className={classes.sectionSpacing}>Security</h2>
@@ -417,8 +417,8 @@ const PrivacyPolicy = () => {
             submitted to{" "}
             <a href="mailto:tdm@hackforLa.org?subject=TDM Privacy Policy Correction Request">
               tdm@HackforLA.org
-            </a>{" "}
-            and reference “HfLA TDM Calculator” in the subject line.
+            </a>
+            .
           </p>
 
           <h2 className={classes.sectionSpacing}>Changes</h2>
