@@ -378,8 +378,10 @@ const PrivacyPolicy = () => {
           <p className={classes.indented}>
             If you learn that a child has provided us with personal information
             in violation of this Privacy Policy, then you may alert us at{" "}
-            <a href="mailto:privacy@hackforla.org">privacy@hackforla.org</a> and
-            reference “HfLA TDM Calculator” in the subject line.
+            <a href="mailto:tdm@hackforla.org?subject=TDM Privacy Policy Violation Report">
+              tdm@hackforla.org
+            </a>{" "}
+            and reference “HfLA TDM Calculator” in the subject line.
           </p>
 
           <h2 className={classes.sectionSpacing}>Security</h2>
@@ -413,8 +415,10 @@ const PrivacyPolicy = () => {
             information) at any time. You may request that incomplete data be
             completed or that incorrect data be corrected. Requests can be
             submitted to{" "}
-            <a href="mailto:privacy@HackforLa.org">privacy@HackforLA.org</a> and
-            reference “HfLA TDM Calculator” in the subject line.
+            <a href="mailto:tdm@hackforLa.org?subject=TDM Privacy Policy Correction Request">
+              tdm@HackforLA.org
+            </a>{" "}
+            and reference “HfLA TDM Calculator” in the subject line.
           </p>
 
           <h2 className={classes.sectionSpacing}>Changes</h2>
@@ -432,9 +436,11 @@ const PrivacyPolicy = () => {
           <h2 className={classes.sectionSpacing}>Questions</h2>
           <p className={classes.indented}>
             If you have any questions, comments, concerns, or complaints related
-            to our Review Tool websites, please contact us by email at{" "}
-            <a href="mailto:privacy@HackforLa.org">tdm@hackforla.org</a>, or by
-            mail at:
+            to the TDM Calculator website, please contact us by email at{" "}
+            <a href="mailto:tdm@HackforLa.org?subject=TDM Calculator Question">
+              tdm@hackforla.org
+            </a>
+            , or by mail at:
           </p>
           <div className={classes.address}>
             <p className={classes.addressParagraph}>
