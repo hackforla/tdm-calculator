@@ -32,10 +32,8 @@ The city will benefit by having more time to review edge cases for building deve
 - Web API Server Library: [Express](https://expressjs.com/)
 - Client JavaScript Library: [React](https://reactjs.org/)
 - Scaffolding for Client Application: [Create React App](https://facebook.github.io/create-react-app/docs/getting-started)
-- Visual Component Library: [Storybook](https://storybook.js.org/) / [Tutorial](https://www.learnstorybook.com/react/en/get-started) - The first three sections are enough to get you started.
 - JavaScript Unit Test Framework: [Jest](https://jestjs.io/)
 - Database Engine: [Microsoft SQL Server](http://www.sqlservertutorial.net/) / [Tutorial](http://www.sqlservertutorial.net/)
-
 
 ## How to Contribute
 
@@ -46,7 +44,6 @@ The city will benefit by having more time to review edge cases for building deve
 - To contribute to the code, see [Contributing](https://github.com/hackforla/tdm-calculator/wiki/Contributing-Code)
 
 ### Working with issues
-
 
 Access the [Issues tab](https://github.com/hackforla/tdm-calculator/issues) and click "New Issue", use the blank issue template and fill out the Issue Detail:
 
@@ -59,9 +56,8 @@ Milestone: Assign the issue to a milestone if it's part of a larger project or g
 Preview and Submit
 Confirm.
 
-Then go to the [projects Kanabn](https://github.com/hackforla/tdm-calculator/projects/1)  you will see your new issue under 
- 'New Issue Approval' column. After being discussed in the first upcoming team meeting, PMs can move it to the prioritized backlog or 'In Progress,' depending on its status. If it's dependent on other issues that are not resolved, it will be moved to the 'Icebox.
-
+Then go to the [projects Kanabn](https://github.com/hackforla/tdm-calculator/projects/1) you will see your new issue under
+'New Issue Approval' column. After being discussed in the first upcoming team meeting, PMs can move it to the prioritized backlog or 'In Progress,' depending on its status. If it's dependent on other issues that are not resolved, it will be moved to the 'Icebox.
 
 ## Contact info
 
