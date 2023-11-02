@@ -4117,6 +4117,30 @@
       "operation": "migrate",
       "exception": null,
       "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20231003.1432",
+      "targetSchemaVersion": "20231102.0946",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20231102.0946",
+          "description": "modify project snpshot sproc 1437",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20231102.0946__modify_project_snpshot_sproc_1437.sql",
+          "executionTime": 74
+        }
+      ],
+      "migrationsExecuted": 1,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-11-02T10:01:57.439316900",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
     }
   ]
 }
