@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import { createUseStyles } from "react-jss";
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import NavBarLogin from "./NavBarLogin";
 import PropTypes from "prop-types";
 
@@ -192,4 +192,4 @@ NavBar.propTypes = {
   setNavbarOpen: PropTypes.func.isRequired
 };
 
-export default withRouter(NavBar);
+export default NavBar;

@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
-import { withRouter, useLocation } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 import ChecklistModal from "../Checklist/ChecklistModal";
 import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
@@ -26,8 +26,6 @@ const TdmCalculationWizard = props => {
     loginId,
     onSave,
     onViewChange,
-    history,
-    match,
     allowResidentialPackage,
     allowSchoolPackage,
     residentialPackageSelected,
@@ -42,8 +40,10 @@ const TdmCalculationWizard = props => {
     closeStrategiesModal
   } = props;
   const context = useContext(ToastContext);
-  const page = Number(match.params.page || 1);
-  const projectId = Number(match.params.projectId);
+  const params = useParams();
+  const history = useHistory();
+  const page = Number(params.page || 1);
+  const projectId = Number(params.projectId);
   const { pathname } = useLocation();
   const [ainInputError, setAINInputError] = useState("");
 
@@ -139,7 +139,7 @@ const TdmCalculationWizard = props => {
   };
 
   const handleValidate = () => {
-    const { page } = match.params;
+    const { page } = params;
     const validations = {
       1: {
         function: () => {
@@ -158,9 +158,9 @@ const TdmCalculationWizard = props => {
   };
 
   const onPageChange = pageNo => {
-    const { page, projectId } = match.params;
+    const { page, projectId } = params;
     const projectIdParam = projectId ? `/${projectId}` : "";
-    if (Number(pageNo) > Number(match.params.page)) {
+    if (Number(pageNo) > Number(page)) {
       if (handleValidate()) {
         // Skip page 4 unless Packages are applicable
         const nextPage = Number(page) + 1;
@@ -266,15 +266,6 @@ TdmCalculationWizard.propTypes = {
       validationErrors: PropTypes.array
     })
   ).isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      page: PropTypes.string,
-      projectId: PropTypes.string
-    })
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }),
   onInputChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func,
   onPkgSelect: PropTypes.func.isRequired,
@@ -301,4 +292,4 @@ TdmCalculationWizard.propTypes = {
   closeStrategiesModal: PropTypes.func
 };
 
-export default withRouter(TdmCalculationWizard);
+export default TdmCalculationWizard;

@@ -69,7 +69,6 @@ const App = ({
         <Switch>
           {/* These routes either have no sidebar or use a custom sidebar */}
           <Route
-            isAuthorized={account && !!account.email}
             path="/projects"
             render={() => (
               <RequireAuth
@@ -103,15 +102,21 @@ const App = ({
             />
           </Route>
 
-          <Route exact path="/calculation">
-            <Redirect to="/calculation/1" />
-          </Route>
+          <Route
+            exact
+            path="/calculation"
+            render={() => <Redirect to="/calculation/1" />}
+          />
 
-          <Route exact path="/">
-            <Redirect
-              to={account && account.email ? "/calculation/1" : "/login"}
-            />
-          </Route>
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <Redirect
+                to={account && account.email ? "/calculation/1" : "/login"}
+              />
+            )}
+          />
 
           {/* These routes use the same sidebar component */}
           <Route>

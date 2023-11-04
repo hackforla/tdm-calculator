@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect, useParams, useHistory } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
 import SendEmailForm from "./SendEmailForm";
 import ContentContainer from "../Layout/ContentContainer";
 
-const ConfirmEmail = props => {
-  const { history, match } = props;
-  const token = match.params.token;
+const ConfirmEmail = () => {
+  const params = useParams();
+  const history = useHistory();
+  const token = params.token;
   const [submitted, setSubmitted] = useState(false);
   const [confirmResult, setConfirmResult] = useState(false);
   const toast = useToast();
@@ -54,15 +54,4 @@ const ConfirmEmail = props => {
   );
 };
 
-ConfirmEmail.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      token: PropTypes.string
-    })
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  })
-};
-
-export default withRouter(ConfirmEmail);
+export default ConfirmEmail;

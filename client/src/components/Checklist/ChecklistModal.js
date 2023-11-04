@@ -1,5 +1,4 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
@@ -19,4 +18,4 @@ ChecklistModal.propTypes = {
   toggleChecklistModal: PropTypes.func
 };
 
-export default withRouter(ChecklistModal);
+export default ChecklistModal;

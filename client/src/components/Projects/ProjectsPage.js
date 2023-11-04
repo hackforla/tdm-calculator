@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -118,12 +118,12 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectsPage = ({ account, history, contentContainerRef }) => {
+const ProjectsPage = ({ account, contentContainerRef }) => {
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const email = account.email;
-  const historyPush = history.push;
-  const handleError = useErrorHandler(email, historyPush);
+  const history = useHistory();
+  const handleError = useErrorHandler(email, history.push);
   const projects = useProjects(handleError);
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [copyModalOpen, setCopyModalOpen] = useState(false);
@@ -526,18 +526,9 @@ ProjectsPage.propTypes = {
     id: PropTypes.number,
     email: PropTypes.string
   }),
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      page: PropTypes.string,
-      projectId: PropTypes.string
-    })
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }),
   contentContainerRef: PropTypes.object,
   rules: PropTypes.array,
   dateModified: PropTypes.string || null
 };
 
-export default withRouter(ProjectsPage);
+export default ProjectsPage;
