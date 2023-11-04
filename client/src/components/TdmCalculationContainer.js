@@ -1,7 +1,8 @@
 /* eslint-disable linebreak-style */
 import React, { useEffect, useState, useCallback } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Prompt, withRouter } from "react-router-dom";
+import { Prompt } from "react-router-dom";
 import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
 import TdmCalculationWizard from "./ProjectWizard/TdmCalculationWizard";
 import * as ruleService from "../services/rule.service";
@@ -52,8 +53,6 @@ const filters = {
 };
 
 export function TdmCalculationContainer({
-  history,
-  match,
   account,
   classes,
   hasConfirmedNavTransition,
@@ -67,9 +66,11 @@ export function TdmCalculationContainer({
   dateModified,
   setDateModified
 }) {
+  const params = useParams();
+  const history = useHistory();
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
-  const [projectId, setProjectId] = useState(null);
+  const [projectId, setProjectId] = useState(params.projectId);
   const [loginId, setLoginId] = useState(0);
   const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
@@ -107,7 +108,7 @@ export function TdmCalculationContainer({
       if (!engine) return;
       // If projectId param is not defined, projectId
       // will be assigned the string "undefined" - ugh!
-      const projectId = Number(match.params.projectId) || null;
+      const projectId = Number(projectId) || null;
       setProjectId(projectId ? Number(projectId) : null);
       try {
         let projectResponse = null;
@@ -140,10 +141,10 @@ export function TdmCalculationContainer({
     };
     initiateEngine();
   }, [
-    match.params.projectId,
     engine,
-    account,
     history,
+    projectId,
+    account,
     triggerInitiateEngine,
     setRules,
     setDateModified
@@ -634,18 +635,6 @@ TdmCalculationContainer.propTypes = {
     id: PropTypes.number,
     email: PropTypes.string
   }),
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      page: PropTypes.string,
-      projectId: PropTypes.string
-    })
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string
-    })
-  }),
   classes: PropTypes.object.isRequired,
   location: PropTypes.shape({
     search: PropTypes.string
@@ -662,4 +651,4 @@ TdmCalculationContainer.propTypes = {
   setDateModified: PropTypes.func
 };
 
-export default withRouter(injectSheet(styles)(TdmCalculationContainer));
+export default injectSheet(styles)(TdmCalculationContainer);

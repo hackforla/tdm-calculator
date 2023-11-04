@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
-import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
@@ -20,11 +20,11 @@ const useStyles = createUseStyles({
 const Register = props => {
   const focusRef = useRef(null);
   const classes = useStyles();
-  const { match } = props;
+  const params = useParams();
   const initialValues = {
     firstName: "",
     lastName: "",
-    email: match.params.email || "",
+    email: params.email || "",
     password: "",
     passwordConfirm: ""
   };
@@ -227,12 +227,5 @@ const Register = props => {
     </ContentContainer>
   );
 };
-Register.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      email: PropTypes.string
-    })
-  })
-};
 
-export default withRouter(Register);
+export default Register;

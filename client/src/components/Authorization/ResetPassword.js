@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -26,10 +25,12 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Password does not match")
 });
 
-const ResetPassword = props => {
+const ResetPassword = () => {
+  const history = useHistory();
   const focusRef = useRef(null);
   const [success, setSuccess] = useState(false);
-  const { token } = props.match.params;
+  const params = useParams();
+  const token = params.token;
   const classes = useStyles();
   const toast = useToast();
 
@@ -119,7 +120,7 @@ const ResetPassword = props => {
           <h3>Redirecting to login</h3>
           <div className="hide">
             {setTimeout(() => {
-              props.history.push(`/login/${success}`);
+              history.push(`/login/${success}`);
             }, 2000)}
           </div>
         </>
@@ -128,15 +129,4 @@ const ResetPassword = props => {
   );
 };
 
-ResetPassword.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      token: PropTypes.string
-    })
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  })
-};
-
-export default withRouter(ResetPassword);
+export default ResetPassword;

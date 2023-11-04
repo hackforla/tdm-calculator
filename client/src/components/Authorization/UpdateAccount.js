@@ -1,10 +1,9 @@
 import React, { useState, useRef, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
-import PropTypes from "prop-types";
 import * as accountService from "../../services/account.service";
 import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { withRouter } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
@@ -23,12 +22,12 @@ const UpdateAccount = props => {
   const account = userContext.account;
   const focusRef = useRef(null);
   const classes = useStyles();
-  const { match } = props;
+  const params = useParams();
   const initialValues = {
     id: account.id || "",
     firstName: account.firstName || "",
     lastName: account.lastName || "",
-    email: match.params.email || ""
+    email: params.email || ""
   };
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -167,12 +166,5 @@ const UpdateAccount = props => {
     </ContentContainer>
   );
 };
-UpdateAccount.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      email: PropTypes.string
-    })
-  })
-};
 
-export default withRouter(UpdateAccount);
+export default UpdateAccount;

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
-import PropTypes from "prop-types";
-import { Link, withRouter, useHistory, useLocation } from "react-router-dom";
+import { Link, useParams, useHistory, useLocation } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -31,10 +30,9 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const Login = props => {
+const Login = () => {
   const focusRef = useRef(null);
   const userContext = useContext(UserContext);
-  const { match } = props;
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const projectId = searchParams.get("projectId");
@@ -44,8 +42,9 @@ const Login = props => {
     useState(false);
   const classes = useStyles();
   const theme = useTheme();
+  const params = useParams();
   const initialValues = {
-    email: match.params.email ? decodeURIComponent(match.params.email) : "",
+    email: params.email ? decodeURIComponent(params.email) : "",
     password: ""
   };
 
@@ -64,11 +63,7 @@ const Login = props => {
   const trackLogin = useTrackEvent(appInsights, "Login");
   const trackLoginFail = useTrackEvent(appInsights, "Login Failed");
 
-  const handleSubmit = async (
-    { email, password },
-    { setSubmitting },
-    { history }
-  ) => {
+  const handleSubmit = async ({ email, password }, { setSubmitting }) => {
     try {
       const loginResponse = await accountService.login(email, password);
 
@@ -164,7 +159,7 @@ const Login = props => {
         <Formik
           initialValues={initialValues}
           validationSchema={loginSchema}
-          onSubmit={(values, actions) => handleSubmit(values, actions, props)}
+          onSubmit={(values, actions) => handleSubmit(values, actions)}
         >
           {({ touched, errors, isSubmitting, values }) => {
             const isDisabled = !!(
@@ -271,12 +266,5 @@ const Login = props => {
     </ContentContainer>
   );
 };
-Login.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      email: PropTypes.string
-    })
-  })
-};
 
-export default withRouter(Login);
+export default Login;

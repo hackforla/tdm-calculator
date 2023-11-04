@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { postPublicComment } from "./postPublicComment";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -10,7 +11,6 @@ import useToast from "../../contexts/Toast/useToast";
 import ContentContainer from "../Layout/ContentContainer";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
-import { withRouter } from "react-router-dom";
 import ProjectList from "./ProjectList";
 
 const useStyles = createUseStyles({
@@ -66,13 +66,13 @@ const useStyles = createUseStyles({
   }
 });
 
-const PublicCommentPage = ({ account, history }) => {
+const PublicCommentPage = ({ account }) => {
   const focusRef = useRef(null);
   const classes = useStyles();
   const toast = useToast();
-  const historyPush = history.push;
+  const history = useHistory();
   const email = account.email;
-  const handleError = useErrorHandler(email, historyPush);
+  const handleError = useErrorHandler(email, history.push);
   const projects = useProjects(handleError);
   const [selectedProjects, setSelectedProjects] = useState([]);
 
@@ -116,7 +116,6 @@ const PublicCommentPage = ({ account, history }) => {
         resetForm({});
       }
     } catch (err) {
-      console.error(err);
       toast.add(
         "An error occurred in transmitting your comment to the server."
       );
@@ -265,10 +264,7 @@ PublicCommentPage.propTypes = {
     lastName: PropTypes.string,
     id: PropTypes.number,
     email: PropTypes.string
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
   })
 };
 
-export default withRouter(PublicCommentPage);
+export default PublicCommentPage;

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -51,10 +51,6 @@ const validationSchema = Yup.object().shape({
 const SendEmailForm = ({ label, submitted, handleSubmit }) => {
   const focusRef = useRef(null);
   const classes = useStyles();
-
-  // useEffect(() => {
-  //   focusRef.current.focus();
-  // });
 
   return !submitted ? (
     <>
@@ -124,4 +120,4 @@ SendEmailForm.propTypes = {
   submitted: PropTypes.bool.isRequired
 };
 
-export default withRouter(SendEmailForm);
+export default SendEmailForm;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { withRouter, Redirect, Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import * as accountService from "../services/account.service";
 import { useToast } from "../contexts/Toast";
@@ -319,4 +319,4 @@ const Roles = () => {
   );
 };
 
-export default withRouter(Roles);
+export default Roles;

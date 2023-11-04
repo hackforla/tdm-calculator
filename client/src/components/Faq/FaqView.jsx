@@ -4,7 +4,6 @@ import FaqCategoryList from "./FaqCategoryList";
 import ExpandButtons from "./ExpandButtons";
 import EditToggleButton from "../Button/EditToggleButton";
 import ContentContainer from "../Layout/ContentContainer";
-import { withRouter } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import * as faqCategoryService from "../../services/faqCategory.service";
 import AddNewCategoryButton from "../Button/AddNewCategory";
@@ -410,12 +409,7 @@ const FaqView = ({ isAdmin }) => {
 FaqView.propTypes = {
   toggleChecklistModal: PropTypes.func,
   checklistModalOpen: PropTypes.bool,
-  isAdmin: PropTypes.bool,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      showChecklist: PropTypes.string
-    })
-  })
+  isAdmin: PropTypes.bool
 };
 
-export default withRouter(FaqView);
+export default FaqView;

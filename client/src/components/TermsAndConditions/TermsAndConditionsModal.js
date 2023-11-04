@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
-import { withRouter } from "react-router-dom";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import PropTypes from "prop-types";
@@ -17,9 +16,8 @@ const useStyles = createUseStyles({
 
 const TermsAndConditionsModal = () => {
   const classes = useStyles();
-
-  const [modalOpen, setModalOpen] = useState(true);
   const history = useHistory();
+  const [modalOpen, setModalOpen] = useState(true);
 
   const closeModal = () => {
     setModalOpen(false);
@@ -73,4 +71,4 @@ TermsAndConditionsModal.propTypes = {
   termsAndConditionsModalProp: PropTypes.string
 };
 
-export default withRouter(TermsAndConditionsModal);
+export default TermsAndConditionsModal;
