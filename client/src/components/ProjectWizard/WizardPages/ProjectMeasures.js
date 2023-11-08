@@ -71,7 +71,7 @@ function ProjectMeasure(props) {
 
   return (
     <div>
-      <h1 style={theme.typography.heading1} margin="0">
+      <h1 style={theme.typography.heading1}>
         <span>Select TDM Strategies</span>
       </h1>
       <div style={theme.typography.subHeading}>
