@@ -1,15 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import NavBar from "./NavBar";
 import { BrowserRouter as Router } from "react-router-dom";
 
 it("renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(
+  const container = document.getElementById("root");
+  const root = createRoot(container);
+  root.render(
     <Router>
       <NavBar setNavbarOpen={jest.fn} account={{ email: "some-email" }} />
-    </Router>,
-    div
+    </Router>
   );
-  expect(div).toBeDefined();
+  expect(root).toBeDefined();
 });

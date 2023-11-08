@@ -1,6 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
+import { createRoot } from "react-dom/client";
+import AppWrapper from "./App";
 
 // This test fails since we converted App.js
 // to a functional component. We may want to
@@ -10,7 +10,8 @@ import App from "./App";
 // the file name from App.test.js to App.testy.js
 
 it("renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(<App />, div);
-  expect(div).toBeDefined();
+  const container = document.getElementById("root");
+  const root = createRoot(container);
+  root.render(<AppWrapper />);
+  expect(root).toBeDefined();
 });
