@@ -29,7 +29,7 @@ describe("postPublicComment", () => {
   it("rejects when response is not 201", async () => {
     nock("http://localhost").post("/api/public-comment").reply(500);
 
-    await expect(postPublicComment(publicCommentToSave)).rejects.toThrowError(
+    await expect(postPublicComment(publicCommentToSave)).rejects.toThrow(
       /failed/i
     );
   });
