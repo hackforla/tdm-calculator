@@ -91,7 +91,6 @@ export function TdmCalculationContainer({
     const initiateEngine = async () => {
       // Only run if engine has been instantiated
       if (!engine) return;
-
       try {
         let projectResponse = null;
         let inputs = {};
@@ -600,10 +599,6 @@ TdmCalculationContainer.propTypes = {
     id: PropTypes.number,
     email: PropTypes.string
   }),
-  // classes: PropTypes.object.isRequired,
-  // location: PropTypes.shape({
-  //   search: PropTypes.string
-  // }),
   hasConfirmedNavTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
   setLoggedInAccount: PropTypes.func,
@@ -613,3 +608,4 @@ TdmCalculationContainer.propTypes = {
 };
 
 export default TdmCalculationContainer;
+

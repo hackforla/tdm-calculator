@@ -133,7 +133,6 @@ const App = ({
               path="/termsandconditions"
               element={<TermsAndConditionsPage />}
             />
-
             <Route path="/privacypolicy" element={<PrivacyPolicy />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="/register/:email?" element={<Register />} />
