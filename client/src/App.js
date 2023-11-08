@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import UserContext from "./contexts/UserContext";
 import PropTypes from "prop-types";
-
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Navigate, Routes, Outlet } from "react-router-dom";
 import RequireAuth from "./components/Authorization/RequireAuth";
 import { createUseStyles } from "react-jss";
 import { withToastProvider } from "./contexts/Toast";
@@ -52,10 +51,6 @@ const App = ({
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const account = userContext.account;
-  const [rules, setRules] = useState([]);
-  const [dateModified, setDateModified] = useState(null);
-
-  // console.error("account: " + JSON.stringify(account, null, 2));
 
   return (
     <React.Fragment>
@@ -66,11 +61,11 @@ const App = ({
       />
       <Header />
       <div className={classes.app} id="app-container" ref={appContainerRef}>
-        <Switch>
+        <Routes>
           {/* These routes either have no sidebar or use a custom sidebar */}
           <Route
             path="/projects"
-            render={() => (
+            element={
               <RequireAuth
                 isAuthorized={account && !!account.email}
                 redirectTo="/unauthorized"
@@ -78,161 +73,125 @@ const App = ({
                 <ProjectsPage
                   account={account}
                   contentContainerRef={contentContainerRef}
-                  rules={rules}
-                  setRules={setRules}
-                  dateModified={dateModified}
-                  setDateModified={setDateModified}
                 />
               </RequireAuth>
-            )}
-          ></Route>
+            }
+          />
+          <Route
+            path="/calculation/:page/:projectId?/*"
+            element={
+              <TdmCalculationContainer
+                account={account}
+                hasConfirmedNavTransition={hasConfirmedTransition}
+                isOpenNavConfirmModal={isOpenNavConfirmModal}
+                contentContainerRef={contentContainerRef}
+                checklistModalOpen={checklistModalOpen}
+                toggleChecklistModal={toggleChecklistModal}
+              />
+            }
+          />
+          <Route
+            path="/calculation"
+            element={<Navigate to="/calculation/1/0" />}
+          />
 
-          <Route path="/calculation/:page/:projectId?">
-            <TdmCalculationContainer
-              account={account}
-              hasConfirmedNavTransition={hasConfirmedTransition}
-              isOpenNavConfirmModal={isOpenNavConfirmModal}
-              contentContainerRef={contentContainerRef}
-              checklistModalOpen={checklistModalOpen}
-              toggleChecklistModal={toggleChecklistModal}
-              rules={rules}
-              setRules={setRules}
-              dateModified={dateModified}
-              setDateModified={setDateModified}
+          <Route
+            path="/"
+            element={
+              <Navigate
+                to={account && account.email ? "/calculation/1/0" : "/login"}
+              />
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth
+                isAuthorized={account && account.isAdmin}
+                redirectTo="/unauthorized"
+              >
+                <Admin account={account} />
+              </RequireAuth>
+            }
+          />
+          {/* Layout Route adds plain Sidebar */}
+          <Route
+            element={
+              <>
+                <Sidebar />
+                <div
+                  className={classes.containerForRef}
+                  ref={contentContainerRef}
+                >
+                  <Outlet />
+                </div>
+              </>
+            }
+          >
+            <Route path="/about" element={<About />} />
+            <Route
+              path="/termsandconditions"
+              element={<TermsAndConditionsPage />}
+            />
+
+            <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="/register/:email?" element={<Register />} />
+            <Route path="/updateaccount/:email?" element={<UpdateAccount />} />
+            <Route path="/confirm/:token?" element={<ConfirmEmail />} />
+            <Route path="/login/:email?" element={<Login />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/resetPassword/:token" element={<ResetPassword />} />
+
+            <Route
+              path="/roles"
+              element={
+                <RequireAuth
+                  isAuthorized={account && account.isSecurityAdmin}
+                  redirectTo="/unauthorized"
+                >
+                  <Roles />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/archivedaccounts"
+              element={
+                <RequireAuth
+                  isAuthorized={account && account.isSecurityAdmin}
+                  redirectTo="/unauthorized"
+                >
+                  <RolesArchive />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/archivedprojects"
+              element={
+                <RequireAuth
+                  isAuthorized={account && account.isSecurityAdmin}
+                  redirectTo="/unauthorized"
+                >
+                  <ProjectsArchive />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/faqs/:showChecklist?"
+              element={
+                <FaqView
+                  isAdmin={account.isAdmin}
+                  toggleChecklistModal={toggleChecklistModal}
+                  checklistModalOpen={checklistModalOpen}
+                />
+              }
+            />
+            <Route
+              path="/publiccomment"
+              element={<PublicComment account={account} />}
             />
           </Route>
-
-          <Route
-            exact
-            path="/calculation"
-            render={() => <Redirect to="/calculation/1" />}
-          />
-
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Redirect
-                to={account && account.email ? "/calculation/1" : "/login"}
-              />
-            )}
-          />
-
-          {/* These routes use the same sidebar component */}
-          <Route>
-            <>
-              <Sidebar />
-              <Switch>
-                <>
-                  <div
-                    className={classes.containerForRef}
-                    ref={contentContainerRef}
-                  >
-                    <Route path="/about">
-                      <About />
-                    </Route>
-
-                    <Route path="/termsandconditions">
-                      <TermsAndConditionsPage />
-                    </Route>
-
-                    <Route path="/privacypolicy">
-                      <PrivacyPolicy />
-                    </Route>
-
-                    <Route path="/unauthorized">
-                      <Unauthorized />
-                    </Route>
-
-                    <Route path="/register/:email?">
-                      <Register />
-                    </Route>
-
-                    <Route path="/updateaccount/:email?">
-                      <UpdateAccount />
-                    </Route>
-
-                    <Route path="/confirm/:token?">
-                      <ConfirmEmail />
-                    </Route>
-
-                    <Route path="/login/:email?">
-                      <Login />
-                    </Route>
-
-                    <Route path="/forgotpassword">
-                      <ForgotPassword />
-                    </Route>
-
-                    <Route path="/resetPassword/:token">
-                      <ResetPassword />
-                    </Route>
-
-                    <Route
-                      path="/admin"
-                      render={() => (
-                        <RequireAuth
-                          isAuthorized={account && account.isAdmin}
-                          redirectTo="/unauthorized"
-                        >
-                          <Admin account={account} />
-                        </RequireAuth>
-                      )}
-                    />
-
-                    <Route
-                      path="/roles"
-                      render={() => (
-                        <RequireAuth
-                          isAuthorized={account && account.isSecurityAdmin}
-                          redirectTo="/unauthorized"
-                        >
-                          <Roles />
-                        </RequireAuth>
-                      )}
-                    />
-
-                    <Route
-                      path="/archivedaccounts"
-                      render={() => (
-                        <RequireAuth
-                          isAuthorized={account && account.isSecurityAdmin}
-                          redirectTo="/unauthorized"
-                        >
-                          <RolesArchive />
-                        </RequireAuth>
-                      )}
-                    />
-
-                    <Route
-                      path="/archivedprojects"
-                      render={() => (
-                        <RequireAuth
-                          isAuthorized={account && account.isSecurityAdmin}
-                          redirectTo="/unauthorized"
-                        >
-                          <ProjectsArchive />
-                        </RequireAuth>
-                      )}
-                    />
-
-                    <Route path="/faqs/:showChecklist?">
-                      <FaqView
-                        isAdmin={account.isAdmin}
-                        toggleChecklistModal={toggleChecklistModal}
-                        checklistModalOpen={checklistModalOpen}
-                      />
-                    </Route>
-
-                    <Route path="/publiccomment">
-                      <PublicComment account={account} />
-                    </Route>
-                  </div>
-                </>
-              </Switch>
-            </>
-          </Route>
-        </Switch>
+        </Routes>
       </div>
       <Footer toggleChecklistModal={toggleChecklistModal} />
     </React.Fragment>

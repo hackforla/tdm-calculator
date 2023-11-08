@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../contexts/UserContext";
 import { Link } from "react-router-dom";
-import { matchPath, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import NavBarToolTip from "./NavBarToolTip";
@@ -12,17 +12,15 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
   const [isCalculation, setIsCalculation] = useState(false);
 
   const location = useLocation();
+  const pathname = location.pathname;
 
   useEffect(() => {
-    let match = matchPath(location.pathname, {
-      path: "/calculation/:id"
-    });
-    if (match) {
+    if (pathname.startsWith("/calculation/")) {
       setIsCalculation(true);
     } else {
       setIsCalculation(false);
     }
-  }, [location.pathname]);
+  }, [pathname]);
 
   const loginLink = (
     <li className={clsx(classes.userLogin, classes.linkBlock)}>

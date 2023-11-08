@@ -49,7 +49,7 @@ const useStyles = createUseStyles({
 const PrivacyPolicy = () => {
   const classes = useStyles();
   return (
-    <ContentContainer componentToTrack="PrivacyPolicy">
+    <ContentContainer>
       <div className={classes.privacyContent}>
         <h1 className={classes.title}>Privacy Policy</h1>
 

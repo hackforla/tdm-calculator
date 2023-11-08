@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { postPublicComment } from "./postPublicComment";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -70,9 +70,9 @@ const PublicCommentPage = ({ account }) => {
   const focusRef = useRef(null);
   const classes = useStyles();
   const toast = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
   const email = account.email;
-  const handleError = useErrorHandler(email, history.push);
+  const handleError = useErrorHandler(email, navigate);
   const projects = useProjects(handleError);
   const [selectedProjects, setSelectedProjects] = useState([]);
 
@@ -125,7 +125,7 @@ const PublicCommentPage = ({ account }) => {
   };
 
   return (
-    <ContentContainer componentToTrack="PublicCommentPage">
+    <ContentContainer>
       <div className={classes.publicCommentContainer}>
         <h1 className={classes.pageTitle}>TDM Calculator Feedback Form</h1>
         <div className={classes.subtitle}>

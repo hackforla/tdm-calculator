@@ -21,7 +21,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <ContentContainer componentToTrack="ForgotPassword">
+    <ContentContainer>
       <SendEmailForm
         label="Password Recovery"
         handleSubmit={handleSubmit}

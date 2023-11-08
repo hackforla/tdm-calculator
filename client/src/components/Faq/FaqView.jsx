@@ -349,7 +349,7 @@ const FaqView = ({ isAdmin }) => {
   };
 
   return (
-    <ContentContainer componentToTrack="FaqPage">
+    <ContentContainer>
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
         {isAdmin && (
           <EditToggleButton

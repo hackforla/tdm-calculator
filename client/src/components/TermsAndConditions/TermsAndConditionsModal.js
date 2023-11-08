@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import PropTypes from "prop-types";
@@ -16,7 +16,7 @@ const useStyles = createUseStyles({
 
 const TermsAndConditionsModal = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(true);
 
   const closeModal = () => {
@@ -56,7 +56,7 @@ const TermsAndConditionsModal = () => {
           onClick={e => {
             e.preventDefault();
             window.localStorage.setItem("termsAndConditions", "Accepted");
-            history.go(0);
+            navigate(0);
             closeModal();
           }}
         >

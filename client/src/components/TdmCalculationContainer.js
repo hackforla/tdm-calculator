@@ -1,29 +1,22 @@
-/* eslint-disable linebreak-style */
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Prompt } from "react-router-dom";
-import TdmCalculation from "./ProjectSinglePage/TdmCalculation";
 import TdmCalculationWizard from "./ProjectWizard/TdmCalculationWizard";
 import * as ruleService from "../services/rule.service";
 import * as projectService from "../services/project.service";
 import Engine from "../services/tdm-engine";
-import injectSheet from "react-jss";
 import { useToast } from "../contexts/Toast";
 import moment from "moment";
-import {
-  useAppInsightsContext,
-  useTrackMetric,
-  useTrackEvent
-} from "@microsoft/applicationinsights-react-js";
+import { createUseStyles } from "react-jss";
 
-const styles = {
+const useStyles = createUseStyles({
   tdmCalculationContainer: {
     flex: "1 1 auto",
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    border: "2px solid blue"
   }
-};
+});
 
 // These are the calculation results we want to calculate
 // and display on the main page.
@@ -54,38 +47,30 @@ const filters = {
 
 export function TdmCalculationContainer({
   account,
-  classes,
   hasConfirmedNavTransition,
   isOpenNavConfirmModal,
   setLoggedInAccount,
   contentContainerRef,
   checklistModalOpen,
-  toggleChecklistModal,
-  rules,
-  setRules,
-  dateModified,
-  setDateModified
+  toggleChecklistModal
 }) {
   const params = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
+  const classes = useStyles();
+  const location = useLocation();
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
-  const [projectId, setProjectId] = useState(params.projectId);
+  const projectId = params.projectId ? Number(params.projectId) : 0;
   const [loginId, setLoginId] = useState(0);
-  const [view, setView] = useState("w");
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
   const [resettingProject, setResettingProject] = useState(false);
   const [triggerInitiateEngine, setTriggerInitiateEngine] = useState(false);
   const [inapplicableStrategiesModal, setInapplicableStrategiesModal] =
     useState(false);
+  const [rules, setRules] = useState([]);
+  const [dateModified, setDateModified] = useState();
   const toast = useToast();
-  const appInsights = useAppInsightsContext();
-
-  // appInsights.trackMetric("TDMCalculationContainer Component");
-  const trackNew = useTrackEvent(appInsights, "New Project");
-  const trackSave = useTrackEvent(appInsights, "Saved Project");
-  const trackComponent = useTrackMetric(appInsights, "TdmCalculationContainer");
 
   // Get the rules for the calculation. Runs once when
   // component is loaded.
@@ -106,10 +91,7 @@ export function TdmCalculationContainer({
     const initiateEngine = async () => {
       // Only run if engine has been instantiated
       if (!engine) return;
-      // If projectId param is not defined, projectId
-      // will be assigned the string "undefined" - ugh!
-      const projectId = Number(projectId) || null;
-      setProjectId(projectId ? Number(projectId) : null);
+
       try {
         let projectResponse = null;
         let inputs = {};
@@ -131,18 +113,18 @@ export function TdmCalculationContainer({
         setRules(engine.showRulesArray());
       } catch (err) {
         console.error(JSON.stringify(err, null, 2));
+        throw new Error(JSON.stringify(err, null, 2));
         // const errMessage = account.id
         //   ? "The project you are trying to view can only be viewed by the user."
         //   : "You must be logged in to view project.";
         // toast.add(errMessage);
-        const redirect = account.id ? "/projects" : "/login";
-        history.push(redirect);
+        // const redirect = account.id ? "/projects" : "/login";
+        // navigate(redirect);
       }
     };
     initiateEngine();
   }, [
     engine,
-    history,
     projectId,
     account,
     triggerInitiateEngine,
@@ -165,6 +147,8 @@ export function TdmCalculationContainer({
     // console.log(showWork);
     // update state with modified updatedFormInputs and rules
     setFormInputs(updatedFormInputs);
+    // eslint-disable-next-line no-console
+    console.log("recalculate rules");
     setRules(rules);
     setFormHasSaved(false);
     if (strategiesDeselected) {
@@ -452,9 +436,9 @@ export function TdmCalculationContainer({
   }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
 
   const navToStart = useCallback(() => {
-    const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "");
-    history.push(firstPage);
-  }, [history, projectId]);
+    const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "/0");
+    navigate(firstPage);
+  }, [navigate, projectId]);
 
   useEffect(() => {
     if (resettingProject) navToStart();
@@ -498,7 +482,6 @@ export function TdmCalculationContainer({
       requestBody.id = projectId;
       try {
         await projectService.put(requestBody);
-        trackSave({ projectId });
         window.dataLayer.push({
           event: "customEvent",
           action: "save project",
@@ -521,7 +504,7 @@ export function TdmCalculationContainer({
             // User's session has expired, update state variable
             // to let React know they are logged out.
             setLoggedInAccount({});
-            history.push(`/login/${encodeURIComponent(account.email)}`);
+            navigate(`/login/${encodeURIComponent(account.email)}`);
           } else {
             console.error(err.response);
           }
@@ -532,8 +515,7 @@ export function TdmCalculationContainer({
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
-        trackNew({ projectId: postResponse.data.id });
-        const newPath = history.location.pathname + "/" + postResponse.data.id;
+        const newPath = location.pathname + "/" + postResponse.data.id;
         window.dataLayer.push({
           event: "customEvent",
           action: "save project",
@@ -541,7 +523,7 @@ export function TdmCalculationContainer({
         });
         // Update URL to /calculation/<currentPage>/<newProjectId>
         // to keep working on same project.
-        history.push(newPath);
+        navigate(newPath);
         setFormHasSaved(true);
         toast.add("Saved New Project");
       } catch (err) {
@@ -554,7 +536,7 @@ export function TdmCalculationContainer({
             // User's session has expired, update state variable
             // to let React know they are logged out.
             setLoggedInAccount({});
-            history.push(`/login/${encodeURIComponent(account.email)}`);
+            navigate(`/login/${encodeURIComponent(account.email)}`);
           } else {
             console.error(err.response);
           }
@@ -566,8 +548,8 @@ export function TdmCalculationContainer({
   };
 
   return (
-    <div className={classes.tdmCalculationContainer} onClick={trackComponent}>
-      <Prompt
+    <div className={classes.tdmCalculationContainer}>
+      {/* <Prompt
         when={!formHasSaved || resettingProject}
         message={location => {
           return location.pathname.startsWith("/calculation") &&
@@ -575,53 +557,36 @@ export function TdmCalculationContainer({
             ? true // returning true allows user to continue without a prompt/modal
             : "this message doesn't actaully show, but will cause modal to open";
         }}
+      /> */}
+
+      <TdmCalculationWizard
+        projectLevel={projectLevel}
+        rules={rules}
+        onInputChange={onInputChange}
+        onCommentChange={onCommentChange}
+        onUncheckAll={onUncheckAll}
+        onResetProject={onResetProject}
+        initializeStrategies={initializeStrategies}
+        filters={filters}
+        onPkgSelect={onPkgSelect}
+        onParkingProvidedChange={onParkingProvidedChange}
+        resultRuleCodes={resultRuleCodes}
+        account={account}
+        loginId={loginId}
+        onSave={onSave}
+        allowResidentialPackage={allowResidentialPackage}
+        allowSchoolPackage={allowSchoolPackage}
+        residentialPackageSelected={residentialPackageSelected}
+        schoolPackageSelected={schoolPackageSelected}
+        formIsDirty={!formHasSaved}
+        projectIsValid={projectIsValid}
+        dateModified={dateModified}
+        contentContainerRef={contentContainerRef}
+        checklistModalOpen={checklistModalOpen}
+        toggleChecklistModal={toggleChecklistModal}
+        inapplicableStrategiesModal={inapplicableStrategiesModal}
+        closeStrategiesModal={closeStrategiesModal}
       />
-      {view === "w" ? (
-        <TdmCalculationWizard
-          projectLevel={projectLevel}
-          rules={rules}
-          onInputChange={onInputChange}
-          onCommentChange={onCommentChange}
-          onUncheckAll={onUncheckAll}
-          onResetProject={onResetProject}
-          initializeStrategies={initializeStrategies}
-          filters={filters}
-          onPkgSelect={onPkgSelect}
-          onParkingProvidedChange={onParkingProvidedChange}
-          resultRuleCodes={resultRuleCodes}
-          onViewChange={() => {
-            setView("d");
-          }}
-          account={account}
-          loginId={loginId}
-          onSave={onSave}
-          allowResidentialPackage={allowResidentialPackage}
-          allowSchoolPackage={allowSchoolPackage}
-          residentialPackageSelected={residentialPackageSelected}
-          schoolPackageSelected={schoolPackageSelected}
-          formIsDirty={!formHasSaved}
-          projectIsValid={projectIsValid}
-          dateModified={dateModified}
-          contentContainerRef={contentContainerRef}
-          checklistModalOpen={checklistModalOpen}
-          toggleChecklistModal={toggleChecklistModal}
-          inapplicableStrategiesModal={inapplicableStrategiesModal}
-          closeStrategiesModal={closeStrategiesModal}
-        />
-      ) : (
-        <TdmCalculation
-          rules={rules}
-          onInputChange={onInputChange}
-          onCommentChange={onCommentChange}
-          onUncheckAll={onUncheckAll}
-          filters={filters}
-          onPkgSelect={onPkgSelect}
-          resultRuleCodes={resultRuleCodes}
-          onViewChange={() => {
-            setView("w");
-          }}
-        />
-      )}
     </div>
   );
 }
@@ -635,20 +600,16 @@ TdmCalculationContainer.propTypes = {
     id: PropTypes.number,
     email: PropTypes.string
   }),
-  classes: PropTypes.object.isRequired,
-  location: PropTypes.shape({
-    search: PropTypes.string
-  }),
+  // classes: PropTypes.object.isRequired,
+  // location: PropTypes.shape({
+  //   search: PropTypes.string
+  // }),
   hasConfirmedNavTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object,
   checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func,
-  rules: PropTypes.array,
-  setRules: PropTypes.func,
-  dateModified: PropTypes.string || null,
-  setDateModified: PropTypes.func
+  toggleChecklistModal: PropTypes.func
 };
 
-export default injectSheet(styles)(TdmCalculationContainer);
+export default TdmCalculationContainer;

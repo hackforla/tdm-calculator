@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -122,8 +122,8 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const email = account.email;
-  const history = useHistory();
-  const handleError = useErrorHandler(email, history.push);
+  const navigate = useNavigate();
+  const handleError = useErrorHandler(email, navigate);
   const projects = useProjects(handleError);
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [copyModalOpen, setCopyModalOpen] = useState(false);
@@ -345,10 +345,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   );
 
   return (
-    <ContentContainerNoSidebar
-      componentToTrack="ProjectsPage"
-      contentContainerRef={contentContainerRef}
-    >
+    <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <h1 className={classes.pageTitle}>Projects</h1>
       <div className={classes.searchBarWrapper}>
         <input
@@ -526,9 +523,7 @@ ProjectsPage.propTypes = {
     id: PropTypes.number,
     email: PropTypes.string
   }),
-  contentContainerRef: PropTypes.object,
-  rules: PropTypes.array,
-  dateModified: PropTypes.string || null
+  contentContainerRef: PropTypes.object
 };
 
 export default ProjectsPage;

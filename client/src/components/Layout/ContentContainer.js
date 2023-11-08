@@ -1,10 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import {
-  useAppInsightsContext,
-  useTrackMetric
-} from "@microsoft/applicationinsights-react-js";
 
 const useStyles = createUseStyles({
   contentContainer: {
@@ -34,21 +30,12 @@ const useStyles = createUseStyles({
 const ContentContainer = ({
   customSidebar: CustomSidebar,
   contentContainerRef,
-  children,
-  componentToTrack
+  children
 }) => {
   const classes = useStyles();
-  const appInsights = useAppInsightsContext();
-
-  // e.g. appInsights.trackMetric("PublicCommentPage Component");
-  const trackComponent = useTrackMetric(appInsights, componentToTrack);
 
   return (
-    <div
-      className={classes.contentContainer}
-      onLoad={trackComponent}
-      onClick={trackComponent}
-    >
+    <div className={classes.contentContainer}>
       {CustomSidebar && <CustomSidebar />}
       <div className={classes.content} ref={contentContainerRef}>
         {children}
@@ -60,8 +47,7 @@ const ContentContainer = ({
 ContentContainer.propTypes = {
   customSidebar: PropTypes.elementType,
   contentContainerRef: PropTypes.object,
-  children: PropTypes.node.isRequired,
-  componentToTrack: PropTypes.string.isRequired
+  children: PropTypes.node.isRequired
 };
 
 export default ContentContainer;

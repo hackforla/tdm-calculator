@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -26,7 +26,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const ResetPassword = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const focusRef = useRef(null);
   const [success, setSuccess] = useState(false);
   const params = useParams();
@@ -52,7 +52,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <ContentContainer componentToTrack="ResetPassword">
+    <ContentContainer>
       {!success ? (
         <>
           <h1 className={classes.pageTitle}>Reset Your Password</h1>
@@ -120,7 +120,7 @@ const ResetPassword = () => {
           <h3>Redirecting to login</h3>
           <div className="hide">
             {setTimeout(() => {
-              history.push(`/login/${success}`);
+              navigate(`/login/${success}`);
             }, 2000)}
           </div>
         </>

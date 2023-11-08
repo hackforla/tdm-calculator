@@ -8,14 +8,14 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "97%",
-    margin: "0.5em",
+    width: "100vw",
+    margin: "0.5em 0",
     padding: "0.5em",
     backgroundColor: "lightGray",
     borderRadius: "0.5em"
   },
   ruleFunction: {
-    width: "70%",
+    width: "90%",
     minHeight: "5em",
     maxHeight: "none",
     backgroundColor: "white",

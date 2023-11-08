@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as ruleService from "../services/rule.service";
 import RuleViewContainer from "./ProjectSinglePage/RuleViewContainer";
-import FaqView from "./Faq/FaqView";
 
 const calculationId = 1;
 
@@ -29,14 +28,11 @@ const Admin = props => {
   const calculationRules =
     rules && rules.filter(rule => rule.category === "calculation");
 
-  //console.log(rules);
-  //console.log(calculationRules);
-
   return (
-    <div className="tdm-wizard">
+    <div style={{ width: "90vw", padding: "1rem" }}>
       <h3>Admin</h3>
       <div>
-        <h4>Calculation Rules</h4>
+        <h4>Calculation Rule</h4>
         {calculationRules && calculationRules.length > 0 ? (
           <RuleViewContainer
             rules={calculationRules}
@@ -46,7 +42,6 @@ const Admin = props => {
           <div>No Rules Loaded</div>
         )}
       </div>
-      <FaqView />
     </div>
   );
 };
