@@ -86,7 +86,6 @@ const RolesArchive = () => {
   const [archivedAccounts, setArchivedAccounts] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
   const classes = useStyles();
-  const toast = useToast();
   const { add } = useToast();
 
   useEffect(() => {
@@ -112,14 +111,12 @@ const RolesArchive = () => {
         setArchivedAccounts(
           archivedAccounts.filter(account => account.id !== user.id)
         );
-        toast.add("Successfully unarchived and restored account.");
+        add("Successfully unarchived and restored account.");
       } else {
-        toast.add("Failed to unarchive and restore account.");
+        add("Failed to unarchive and restore account.");
       }
     } catch (err) {
-      toast.add(
-        "An error occurred while unarchiving and restoring the account."
-      );
+      add("An error occurred while unarchiving and restoring the account.");
     }
   };
 
@@ -130,12 +127,12 @@ const RolesArchive = () => {
         setArchivedAccounts(
           archivedAccounts.filter(account => account.id !== user.id)
         );
-        toast.add("Successfully deleted the account.");
+        add("Successfully deleted the account.");
       } else {
-        toast.add("Failed to delete the account.");
+        add("Failed to delete the account.");
       }
     } catch (err) {
-      toast.add("Error - Could not delete User.");
+      add("Error - Could not delete User.");
     }
   };
 

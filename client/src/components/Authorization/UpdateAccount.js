@@ -70,7 +70,7 @@ const UpdateAccount = props => {
   };
 
   return (
-    <ContentContainer componentToTrack="UpdateAccount">
+    <ContentContainer>
       {!submitted ? (
         <>
           <h1>Update Your Account</h1>

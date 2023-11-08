@@ -1,4 +1,3 @@
-const appInsights = require("applicationinsights");
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -6,24 +5,13 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("error-handler");
 const routes = require("./app/routes");
-const pino = require("express-pino-logger")();
+// const pino = require("express-pino-logger")();
 
 dotenv.config();
-
-// This configures node to send ApplicationInsights data to Azure
-if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-  appInsights.setup(process.env.APPLICATIONINSIGHTS_CONNECTION_STRING).start();
-} else {
-  console.log(
-    `No ApplicationInsights connection string found. 
-Please add the APPLICATIONINSIGHTS_CONNECTION_STRING value to the environment variables.`
-  );
-}
-
 const port = process.env.PORT || 5000;
 
 const app = express();
-app.use(pino);
+// app.use(pino);
 
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {

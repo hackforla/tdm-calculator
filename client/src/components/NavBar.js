@@ -110,7 +110,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
-            activeClassName={classes.currentLink}
+            // activeClassName={classes.currentLink}
             to="/projects"
             onClick={handleHamburgerMenuClick}
           >
@@ -121,7 +121,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
-          activeClassName={classes.currentLink}
+          // activeClassName={classes.currentLink}
           to="/calculation/1"
           onClick={handleHamburgerMenuClick}
         >
@@ -132,7 +132,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
-            activeClassName={classes.currentLink}
+            // activeClassName={classes.currentLink}
             to="/roles"
             onClick={handleHamburgerMenuClick}
           >
@@ -143,7 +143,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
-          activeClassName={classes.currentLink}
+          // activeClassName={classes.currentLink}
           to="/about"
           onClick={handleHamburgerMenuClick}
         >
@@ -153,7 +153,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
-          activeClassName={classes.currentLink}
+          // activeClassName={classes.currentLink}
           to="/faqs"
           onClick={handleHamburgerMenuClick}
         >
@@ -163,7 +163,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
-          activeClassName={classes.currentLink}
+          // activeClassName={classes.currentLink}
           to="/publiccomment"
           onClick={handleHamburgerMenuClick}
         >

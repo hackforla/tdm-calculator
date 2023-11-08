@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Redirect, Link } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import * as accountService from "../services/account.service";
 import { useToast } from "../contexts/Toast";
 import UserContext from "../contexts/UserContext";
-import {
-  useAppInsightsContext,
-  useTrackMetric
-} from "@microsoft/applicationinsights-react-js";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -107,12 +103,8 @@ const Roles = () => {
   const [hoveredRow, setHoveredRow] = useState(null);
   const classes = useStyles();
   const toast = useToast();
-  const appInsights = useAppInsightsContext();
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account.id;
-
-  appInsights.trackMetric("Roles Component");
-  const trackComponent = useTrackMetric(appInsights, "Roles");
 
   useEffect(() => {
     const getAccounts = async () => {
@@ -195,12 +187,8 @@ const Roles = () => {
   };
 
   return (
-    <div
-      className={classes.main}
-      onLoad={trackComponent}
-      onClick={trackComponent}
-    >
-      {redirectPath ? <Redirect to="{redirectPath}" /> : null}
+    <div className={classes.main}>
+      {redirectPath ? <Navigate to="{redirectPath}" /> : null}
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>
         Grant or Revoke Admin Permissions

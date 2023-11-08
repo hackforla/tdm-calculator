@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Switch, Route } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import {
   ProjectDescriptions,
@@ -38,60 +38,73 @@ const CalculationWizardRoutes = ({
   dateModified,
   onAINInputError
 }) => {
-  return (
-    <Switch>
-      <Route path="/calculation/1/:projectId?">
-        <ProjectDescriptions
-          rules={projectDescriptionRules}
-          onInputChange={onInputChange}
-          onAINInputError={onAINInputError}
-        />
-      </Route>
-      <Route path="/calculation/2/:projectId?">
-        <ProjectSpecifications
-          rules={specificationRules}
-          onInputChange={onInputChange}
-          uncheckAll={() => onUncheckAll(filters.specificationRules)}
-          resetProject={() => onResetProject()}
-        />
-      </Route>
-      <Route path="/calculation/3/:projectId?">
-        <ProjectTargetPoints
-          rules={targetPointRules}
-          onParkingProvidedChange={onParkingProvidedChange}
-          onInputChange={onInputChange}
-          isLevel0={isLevel0}
-        />
-      </Route>
-      <Route path="/calculation/4/:projectId?">
-        <ProjectMeasures
-          projectLevel={projectLevel}
-          rules={strategyRules}
-          landUseRules={landUseRules}
-          onInputChange={onInputChange}
-          onCommentChange={onCommentChange}
-          initializeStrategies={initializeStrategies}
-          onPkgSelect={onPkgSelect}
-          uncheckAll={() => onUncheckAll(filters.strategyRules)}
-          resetProject={() => onResetProject()}
-          allowResidentialPackage={allowResidentialPackage}
-          allowSchoolPackage={allowSchoolPackage}
-          residentialPackageSelected={residentialPackageSelected}
-          schoolPackageSelected={schoolPackageSelected}
-        />
-      </Route>
-      <Route path="/calculation/5/:projectId?">
-        <ProjectSummary
-          rules={rules}
-          account={account}
-          projectId={projectId}
-          loginId={loginId}
-          onSave={onSave}
-          dateModified={dateModified}
-        />
-      </Route>
-    </Switch>
-  );
+  const params = useParams();
+  const page = params.page;
+
+  const pageContents = page => {
+    switch (Number(page)) {
+      case 1:
+        return (
+          <ProjectDescriptions
+            rules={projectDescriptionRules}
+            onInputChange={onInputChange}
+            onAINInputError={onAINInputError}
+          />
+        );
+      case 2:
+        return (
+          <ProjectSpecifications
+            rules={specificationRules}
+            onInputChange={onInputChange}
+            uncheckAll={() => onUncheckAll(filters.specificationRules)}
+            resetProject={() => onResetProject()}
+          />
+        );
+      case 3:
+        return (
+          <ProjectTargetPoints
+            rules={targetPointRules}
+            onParkingProvidedChange={onParkingProvidedChange}
+            onInputChange={onInputChange}
+            isLevel0={isLevel0}
+          />
+        );
+
+      case 4:
+        return (
+          <ProjectMeasures
+            projectLevel={projectLevel}
+            rules={strategyRules}
+            landUseRules={landUseRules}
+            onInputChange={onInputChange}
+            onCommentChange={onCommentChange}
+            initializeStrategies={initializeStrategies}
+            onPkgSelect={onPkgSelect}
+            uncheckAll={() => onUncheckAll(filters.strategyRules)}
+            resetProject={() => onResetProject()}
+            allowResidentialPackage={allowResidentialPackage}
+            allowSchoolPackage={allowSchoolPackage}
+            residentialPackageSelected={residentialPackageSelected}
+            schoolPackageSelected={schoolPackageSelected}
+          />
+        );
+      case 5:
+        return (
+          <ProjectSummary
+            rules={rules}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            onSave={onSave}
+            dateModified={dateModified}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return <>{pageContents(page)}</>;
 };
 
 CalculationWizardRoutes.propTypes = {

@@ -1,9 +1,9 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 function RequireAuth({ children, isAuthorized, redirectTo }) {
-  return isAuthorized ? children : <Redirect to={redirectTo} />;
+  return isAuthorized ? children : <Navigate to={redirectTo} />;
 }
 
 RequireAuth.propTypes = {

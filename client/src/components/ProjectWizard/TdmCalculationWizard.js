@@ -1,13 +1,20 @@
 import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
-import { useParams, useHistory, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ChecklistModal from "../Checklist/ChecklistModal";
-import CalculationWizardRoutes from "./CalculationWizardRoutes";
+// import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainer from "../Layout/ContentContainer";
 import InapplicableStrategiesModal from "./InapplicableStrategiesModal";
+import {
+  ProjectDescriptions,
+  ProjectSpecifications,
+  ProjectTargetPoints,
+  ProjectMeasures
+} from "./WizardPages";
+import { ProjectSummary } from "./WizardPages/ProjectSummary";
 
 const TdmCalculationWizard = props => {
   const {
@@ -25,7 +32,6 @@ const TdmCalculationWizard = props => {
     account,
     loginId,
     onSave,
-    onViewChange,
     allowResidentialPackage,
     allowSchoolPackage,
     residentialPackageSelected,
@@ -41,7 +47,7 @@ const TdmCalculationWizard = props => {
   } = props;
   const context = useContext(ToastContext);
   const params = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const page = Number(params.page || 1);
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
@@ -57,11 +63,9 @@ const TdmCalculationWizard = props => {
   }, [pathname]);
 
   useEffect(() => {
-    if (!projectId) {
-      history.push("/calculation/1");
-    } else if (projectId && (!account || !account.id)) {
+    if (projectId && (!account || !account.id)) {
       // user not logged in, existing project -> log in
-      history.push(`/login`);
+      navigate(`/login`);
     } else if (
       // Redirect to Summary Page if project exists,
       // but does not belong to logged-in user
@@ -74,9 +78,9 @@ const TdmCalculationWizard = props => {
       loginId &&
       !(account.isAdmin || account.id === loginId)
     ) {
-      history.push(`/calculation/6/${projectId}`);
+      navigate(`/calculation/6/${projectId}`);
     }
-  }, [projectId, account, loginId, history]);
+  }, [projectId, account, loginId, navigate]);
 
   const projectDescriptionRules =
     rules && rules.filter(filters.projectDescriptionRules);
@@ -159,16 +163,16 @@ const TdmCalculationWizard = props => {
 
   const onPageChange = pageNo => {
     const { page, projectId } = params;
-    const projectIdParam = projectId ? `/${projectId}` : "";
+    const projectIdParam = projectId ? `/${projectId}` : "/0";
     if (Number(pageNo) > Number(page)) {
       if (handleValidate()) {
         // Skip page 4 unless Packages are applicable
         const nextPage = Number(page) + 1;
-        history.push(`/calculation/${nextPage}${projectIdParam}`);
+        navigate(`/calculation/${nextPage}${projectIdParam}`);
       }
     } else {
       const prevPage = Number(page) - 1;
-      history.push(`/calculation/${prevPage}${projectIdParam}`);
+      navigate(`/calculation/${prevPage}${projectIdParam}`);
     }
   };
 
@@ -176,9 +180,71 @@ const TdmCalculationWizard = props => {
     setAINInputError(error);
   };
 
+  const pageContents = page => {
+    switch (Number(page)) {
+      case 1:
+        return (
+          <ProjectDescriptions
+            rules={projectDescriptionRules}
+            onInputChange={onInputChange}
+            onAINInputError={handleAINInputError}
+          />
+        );
+      case 2:
+        return (
+          <ProjectSpecifications
+            rules={specificationRules}
+            onInputChange={onInputChange}
+            uncheckAll={() => onUncheckAll(filters.specificationRules)}
+            resetProject={() => onResetProject()}
+          />
+        );
+      case 3:
+        return (
+          <ProjectTargetPoints
+            rules={targetPointRules}
+            onParkingProvidedChange={onParkingProvidedChange}
+            onInputChange={onInputChange}
+            isLevel0={isLevel0}
+          />
+        );
+
+      case 4:
+        return (
+          <ProjectMeasures
+            projectLevel={projectLevel}
+            rules={strategyRules}
+            landUseRules={landUseRules}
+            onInputChange={onInputChange}
+            onCommentChange={onCommentChange}
+            initializeStrategies={initializeStrategies}
+            onPkgSelect={onPkgSelect}
+            uncheckAll={() => onUncheckAll(filters.strategyRules)}
+            resetProject={() => onResetProject()}
+            allowResidentialPackage={allowResidentialPackage}
+            allowSchoolPackage={allowSchoolPackage}
+            residentialPackageSelected={residentialPackageSelected}
+            schoolPackageSelected={schoolPackageSelected}
+          />
+        );
+      case 5:
+        return (
+          <ProjectSummary
+            rules={rules}
+            account={account}
+            projectId={projectId}
+            loginId={loginId}
+            onSave={onSave}
+            dateModified={dateModified}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <React.Fragment>
-      {/* <TermsAndConditionsModal /> */}
       <InapplicableStrategiesModal
         inapplicableStrategiesModal={inapplicableStrategiesModal}
         closeStrategiesModal={closeStrategiesModal}
@@ -191,43 +257,14 @@ const TdmCalculationWizard = props => {
         customSidebar={() => (
           <WizardSidebar
             rules={rules}
-            onViewChange={onViewChange}
             resultRules={resultRules}
             strategyRules={strategyRules}
             page={page}
           />
         )}
         contentContainerRef={contentContainerRef}
-        componentToTrack="TdmCalculationWizard"
       >
-        <CalculationWizardRoutes
-          projectDescriptionRules={projectDescriptionRules}
-          onInputChange={onInputChange}
-          specificationRules={specificationRules}
-          onUncheckAll={onUncheckAll}
-          onResetProject={onResetProject}
-          filters={filters}
-          targetPointRules={targetPointRules}
-          isLevel0={isLevel0}
-          projectLevel={projectLevel}
-          strategyRules={strategyRules}
-          landUseRules={landUseRules}
-          allowResidentialPackage={allowResidentialPackage}
-          allowSchoolPackage={allowSchoolPackage}
-          onCommentChange={onCommentChange}
-          initializeStrategies={initializeStrategies}
-          onPkgSelect={onPkgSelect}
-          onParkingProvidedChange={onParkingProvidedChange}
-          residentialPackageSelected={residentialPackageSelected}
-          schoolPackageSelected={schoolPackageSelected}
-          rules={rules}
-          account={account}
-          projectId={projectId}
-          loginId={loginId}
-          onSave={onSave}
-          dateModified={dateModified}
-          onAINInputError={handleAINInputError}
-        />
+        {pageContents(page)}
         <WizardFooter
           rules={rules}
           page={page}
@@ -278,7 +315,6 @@ TdmCalculationWizard.propTypes = {
   account: PropTypes.object.isRequired,
   loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
-  onViewChange: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowSchoolPackage: PropTypes.bool.isRequired,
   residentialPackageSelected: PropTypes.func,

@@ -1,15 +1,11 @@
 import React, { useState, useRef, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
-import { Link, useParams, useHistory, useLocation } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import * as accountService from "../../services/account.service";
 import Button from "../Button/Button";
-import {
-  useAppInsightsContext,
-  useTrackEvent
-} from "@microsoft/applicationinsights-react-js";
 import ContentContainer from "../Layout/ContentContainer";
 
 const useStyles = createUseStyles(theme => ({
@@ -36,7 +32,7 @@ const Login = () => {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const projectId = searchParams.get("projectId");
-  const history = useHistory();
+  const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
   const [withoutSavingWarningIsVisible, setWithoutSavingWarningIsVisible] =
     useState(false);
@@ -57,41 +53,22 @@ const Login = () => {
       .required("Password is required")
   });
 
-  const appInsights = useAppInsightsContext();
-
-  // appInsights.trackMetric("TDMCalculationContainer Component");
-  const trackLogin = useTrackEvent(appInsights, "Login");
-  const trackLoginFail = useTrackEvent(appInsights, "Login Failed");
-
   const handleSubmit = async ({ email, password }, { setSubmitting }) => {
     try {
       const loginResponse = await accountService.login(email, password);
 
       if (loginResponse.isSuccess) {
         userContext.updateAccount(loginResponse.user);
-        trackLogin({ user: loginResponse.user.id });
-        window.dataLayer.push({
-          event: "login",
-          action: "success",
-          value: loginResponse.user.id
-        });
         if (projectId) {
-          history.push(`/calculation/5/${projectId}`);
+          navigate(`/calculation/5/${projectId}`);
         } else {
-          history.push("/calculation/1");
+          navigate("/calculation/1");
         }
       } else if (loginResponse.code === "USER_ARCHIVED") {
         setErrorMsg(`Login Failed - This account has been archived.`);
         setSubmitting(false);
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
-          trackLoginFail({ reason: loginResponse.code });
-          window.dataLayer.push({
-            event: "customEvent",
-            action: "login failed",
-            value: "email not confirmed"
-          });
-
           const resendResponse = await accountService.resendConfirmationEmail(
             email
           );
@@ -106,11 +83,6 @@ const Login = () => {
           }
           setSubmitting(false);
         } catch (err) {
-          window.dataLayer.push({
-            event: "customEvent",
-            action: "login failed",
-            value: "failed to re-send confirmation email"
-          });
           setErrorMsg(
             `An internal error occurred in sending an email to ${email}. `,
             err.message
@@ -118,36 +90,23 @@ const Login = () => {
           setSubmitting(false);
         }
       } else if (loginResponse.code === "AUTH_NO_ACCOUNT") {
-        trackLoginFail({ user: email, reason: loginResponse.code });
-        window.dataLayer.push({
-          event: "customEvent",
-          action: "login failed",
-          value: "account not found"
-        });
         setErrorMsg(`The email ${email} does not correspond to an
         existing account. Please verify the email or register as a
         new account.`);
         setSubmitting(false);
       } else {
-        trackLoginFail({ user: email, reason: loginResponse.code });
-        window.dataLayer.push({
-          event: "customEvent",
-          action: "login failed",
-          value: "invalid password"
-        });
         // Presumably loginResponse.code === "AUTH_INVALID_PASSWORD"
         setErrorMsg(`The password is incorrect, please check it
         and try again or use the Forgot Password feature.`);
         setSubmitting(false);
       }
     } catch (err) {
-      trackLoginFail({ user: email, reason: "unexpected error" });
       setErrorMsg(err.message);
     }
   };
 
   return (
-    <ContentContainer componentToTrack="Login">
+    <ContentContainer>
       <div style={theme.typography.heading1}>
         <span>Welcome to Los Angeles&rsquo; TDM Calculator</span>
       </div>
@@ -225,7 +184,7 @@ const Login = () => {
                       color="colorDefault"
                       variant="text"
                       onClick={() => {
-                        history.push("/calculation/1");
+                        navigate("/calculation/1");
                       }}
                     >
                       Continue without saving
@@ -257,7 +216,7 @@ const Login = () => {
         <a
           id="cy-login-nav-to-register"
           onClick={() => {
-            history.push("/register");
+            navigate("/register");
           }}
         >
           Create an account

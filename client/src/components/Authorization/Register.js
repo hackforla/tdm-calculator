@@ -90,7 +90,7 @@ const Register = props => {
     //resetForm(initialValues);
   };
   return (
-    <ContentContainer componentToTrack="Register">
+    <ContentContainer>
       {!submitted ? (
         <>
           <h1>Create a New Account</h1>

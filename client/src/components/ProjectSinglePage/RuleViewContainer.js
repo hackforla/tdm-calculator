@@ -26,10 +26,13 @@ const RuleViewContainer = props => {
   );
 };
 RuleViewContainer.propTypes = {
-  rules: PropTypes.arrayOf({
-    filter: PropTypes.string.isRequired,
-    length: PropTypes.number.isRequired
-  })
+  rules: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      filter: PropTypes.string.isRequired,
+      length: PropTypes.number.isRequired
+    })
+  )
 };
 
 export default RuleViewContainer;

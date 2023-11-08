@@ -65,7 +65,7 @@ const Footer = ({ toggleChecklistModal }) => {
           Privacy Policy
         </Link>
         <div className={classes.spacer}></div>
-        <div className={classes.glossaryDiv} onClick={toggleChecklistModal}>
+        <div className={classes.glossaryDiv}>
           <a
             href="https://planning.lacity.org/odocument/c3c9b320-4431-49ff-99d2-15b479c06074/Revised_DRAFT_TDMProgramGuidelines_June2022.pdf/#page=48"
             target="external"

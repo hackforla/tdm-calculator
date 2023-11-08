@@ -23,7 +23,7 @@ const About = () => {
   const classes = useStyles();
 
   return (
-    <ContentContainer componentToTrack="AboutPage">
+    <ContentContainer>
       <h1>About the TDM Calculator</h1>
       <div className={classes.aboutContent}>
         <h3>What does TDM mean?</h3>
