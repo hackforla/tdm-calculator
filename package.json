@@ -10,6 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "eslint": "^8.53.0",
     "wait-on": "^7.1.0"
   },
   "husky": {
