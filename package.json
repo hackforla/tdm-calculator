@@ -6,7 +6,7 @@
     "release-notes": "gren release --override",
     "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\" ",
     "start:backend": "cd ./server && npm start",
-    "start:frontend": "wait-on http://localhost:5000/api/rules && cd ./client && npm start",
+    "start:frontend": "wait-on http://localhost:5001/api/rules && cd ./client && npm start",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -21,5 +21,8 @@
     "concurrently": "^7.1.0",
     "husky": "^8.0.1",
     "lerna": "^6.5.1"
+  },
+  "volta": {
+    "node": "16.20.2"
   }
 }

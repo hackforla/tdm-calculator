@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -26,6 +26,7 @@ import CopyProjectModal from "./CopyProjectModal";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import ProjectContextMenu from "./ProjectContextMenu";
+import { CSVLink } from "react-csv";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -200,6 +201,58 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       }
     }
     setDeleteModalOpen(false);
+  };
+
+  const [csvData, setCsvData] = useState([]);
+  const csvLink = useRef(); // setup the ref that we'll use for the hidden CsvLink click once we've updated the data
+
+  // const headerMeta = [
+  //   { id: "name", label: "Name" },
+  //   { id: "address", label: "Address" },
+  //   { id: "VERSION_NO", label: "Alternative Number" },
+  //   { id: "BUILDING_PERMIT", label: "Building Permit" },
+  //   { id: "firstName", label: "Created By" },
+  //   { id: "dateCreated", label: "Created On" },
+  //   { id: "dateModified", label: "Last Modified" }
+  // ];
+  // const allowed = headerMeta.map(meta => meta.id);
+
+  //  NOTE: technique for async CSVLink was copied from stackoverflow
+  //  https://stackoverflow.com/questions/53504924/reactjs-download-csv-file-on-button-click
+  //  react-csv documentation is incorrect about async usage, and this is the workaround.
+  //  including using setTimeout() and a hidden CSVLink.
+  const handleDownloadCsv = async project => {
+    // TODO:  selectedProject be used instead?
+    //    right now it looks like a work around instead of the source of truth.
+    //
+    // TODO: consider merging project keys with project.formInputs keys
+    // TODO: filter to only public keys
+    // TODO: get the full rules based data model
+    const inputs = project.formInputs;
+    const data = JSON.parse(inputs);
+    const filtered = Object.keys(data)
+      // .filter(key => allowed.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = data[key];
+        return obj;
+      }, {});
+
+    // TODO: map internal key names to public header names
+    const header = Object.keys(filtered);
+    const row = header.map(key => filtered[key]);
+
+    // console.log("data is flat");
+    const flat = [
+      ["TDM Calculation Project Summary"],
+      ["Date Printed: " + Date().toString()], // TODO: prefer ISO string?
+      [],
+      header,
+      row
+    ];
+    setCsvData(flat);
+    setTimeout(() => {
+      csvLink.current.link.click();
+    });
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -475,6 +528,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                         project={project}
                         handleCopyModalOpen={handleCopyModalOpen}
                         handleDeleteModalOpen={handleDeleteModalOpen}
+                        handleDownloadCsv={handleDownloadCsv}
                       />
                     </Popup>
                     {project.loginId === currentUser.id && <></>}
@@ -512,6 +566,13 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           />
         </>
       )}
+      <CSVLink
+        data={csvData}
+        filename={"TDM-data.csv"}
+        className="hidden"
+        ref={csvLink}
+        target="_blank"
+      />
     </ContentContainerNoSidebar>
   );
 };

@@ -21,19 +21,24 @@ const useStyles = createUseStyles({
     margin: 0,
     padding: 0
   },
-  listItem: { display: "flex", flexDirection: "row", padding: "0.5rem" },
+  listItem: {
+    display: "flex",
+    flexDirection: "row",
+    padding: "0.5rem",
+    cursor: "pointer"
+  },
   listItemIcon: { marginRight: "0.3rem" }
 });
 
 const ProjectContextMenu = ({
   project,
   handleCopyModalOpen,
-  handleDeleteModalOpen
+  handleDeleteModalOpen,
+  handleDownloadCsv
 }) => {
   const [projectVisibility, SetProjectVisibility] = useState(
     project.dateHidden
   );
-
   const toggleProjectVisibility = () => {
     SetProjectVisibility(!projectVisibility);
   };
@@ -61,7 +66,10 @@ const ProjectContextMenu = ({
         />
         Print
       </li>
-      <li className={classes.listItem}>
+      <li
+        className={classes.listItem}
+        onClick={() => handleDownloadCsv(project)}
+      >
         <FontAwesomeIcon
           icon={faFileCsv}
           className={classes.listItemIcon}
@@ -136,7 +144,8 @@ const ProjectContextMenu = ({
 ProjectContextMenu.propTypes = {
   project: PropTypes.object,
   handleCopyModalOpen: PropTypes.func,
-  handleDeleteModalOpen: PropTypes.func
+  handleDeleteModalOpen: PropTypes.func,
+  handleDownloadCsv: PropTypes.func
 };
 
 export default ProjectContextMenu;
