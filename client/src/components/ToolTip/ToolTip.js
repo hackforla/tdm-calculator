@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 
 const ToolTip = ({ id }) => {
   return (
-    <ReactTooltip
+    <Tooltip
       id={id}
       place="right"
       type="info"
