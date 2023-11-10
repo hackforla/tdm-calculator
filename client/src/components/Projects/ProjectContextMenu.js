@@ -28,7 +28,8 @@ const useStyles = createUseStyles({
 const ProjectContextMenu = ({
   project,
   handleCopyModalOpen,
-  handleDeleteModalOpen
+  handleDeleteModalOpen,
+  handleDownloadCSV
 }) => {
   const [projectVisibility, SetProjectVisibility] = useState(
     project.dateHidden
@@ -61,7 +62,10 @@ const ProjectContextMenu = ({
         />
         Print
       </li>
-      <li className={classes.listItem}>
+      <li
+        onClick={() => handleDownloadCSV(project)}
+        className={classes.listItem}
+      >
         <FontAwesomeIcon
           icon={faFileCsv}
           className={classes.listItemIcon}
@@ -136,7 +140,8 @@ const ProjectContextMenu = ({
 ProjectContextMenu.propTypes = {
   project: PropTypes.object,
   handleCopyModalOpen: PropTypes.func,
-  handleDeleteModalOpen: PropTypes.func
+  handleDeleteModalOpen: PropTypes.func,
+  handleDownloadCSV: PropTypes.func
 };
 
 export default ProjectContextMenu;

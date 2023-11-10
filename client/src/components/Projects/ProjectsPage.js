@@ -23,6 +23,7 @@ import * as projectService from "../../services/project.service";
 
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
+import DownloadProjectModal from "./DownloadProjectModal.js";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import ProjectContextMenu from "./ProjectContextMenu";
@@ -128,6 +129,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const classes = useStyles();
   const [currentPage, setCurrentPage] = useState(1);
@@ -200,6 +202,15 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       }
     }
     setDeleteModalOpen(false);
+  };
+
+  const handleDownloadModalOpen = project => {
+    setSelectedProject(project);
+    setDownloadModalOpen(true);
+  };
+
+  const handleDownloadModalClose = async () => {
+    setDownloadModalOpen(false);
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -475,6 +486,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                         project={project}
                         handleCopyModalOpen={handleCopyModalOpen}
                         handleDeleteModalOpen={handleDeleteModalOpen}
+                        handleDownloadCSV={handleDownloadModalOpen}
                       />
                     </Popup>
                     {project.loginId === currentUser.id && <></>}
@@ -509,6 +521,12 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
             mounted={deleteModalOpen}
             onClose={handleDeleteModalClose}
             selectedProjectName={selectedProjectName}
+          />
+
+          <DownloadProjectModal
+            mounted={downloadModalOpen}
+            onClose={handleDownloadModalClose}
+            selectedProject={selectedProject}
           />
         </>
       )}
