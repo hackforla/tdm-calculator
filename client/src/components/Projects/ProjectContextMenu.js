@@ -1,17 +1,18 @@
 import React from "react";
 import { useState } from "react";
 import PropTypes from "prop-types";
+
+import { createUseStyles } from "react-jss";
 import {
   faPrint,
   faEye,
   faEyeSlash,
   faCamera,
+  faTrash,
+  faClone,
   faFileCsv
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CopyIcon from "../../images/copy.png";
-import DeleteIcon from "../../images/trash.png";
-import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   list: {
@@ -34,7 +35,8 @@ const ProjectContextMenu = ({
   project,
   handleCopyModalOpen,
   handleDeleteModalOpen,
-  handleDownloadCsv
+  handleDownloadCsv,
+  handlePrintPdf
 }) => {
   const [projectVisibility, SetProjectVisibility] = useState(
     project.dateHidden
@@ -58,7 +60,7 @@ const ProjectContextMenu = ({
         </li>
       )}
 
-      <li className={classes.listItem}>
+      <li onClick={() => handlePrintPdf(project)} className={classes.listItem}>
         <FontAwesomeIcon
           icon={faPrint}
           className={classes.listItemIcon}
@@ -81,10 +83,10 @@ const ProjectContextMenu = ({
         onClick={() => handleCopyModalOpen(project)}
         className={classes.listItem}
       >
-        <img
-          src={CopyIcon}
-          alt={`Duplicate Project #${project.id} Icon`}
+        <FontAwesomeIcon
+          icon={faClone}
           className={classes.listItemIcon}
+          alt={`Duplicate Project #${project.id} Icon`}
         />
         Duplicate
       </li>
@@ -119,19 +121,19 @@ const ProjectContextMenu = ({
       >
         {project.dateTrashed ? (
           <>
-            <img
-              src={DeleteIcon}
-              alt={`Remove Project #${project.id} from Trash Icon`}
+            <FontAwesomeIcon
+              icon={faTrash}
               className={classes.listItemIcon}
+              alt={`Remove Project #${project.id} from Trash Icon`}
             />
             Remove from Trash
           </>
         ) : (
           <>
-            <img
-              src={DeleteIcon}
-              alt={`Move  Project #${project.id} to Trash Icon`}
+            <FontAwesomeIcon
+              icon={faTrash}
               className={classes.listItemIcon}
+              alt={`Move  Project #${project.id} to Trash Icon`}
             />
             Move to Trash
           </>
@@ -145,7 +147,8 @@ ProjectContextMenu.propTypes = {
   project: PropTypes.object,
   handleCopyModalOpen: PropTypes.func,
   handleDeleteModalOpen: PropTypes.func,
-  handleDownloadCsv: PropTypes.func
+  handleDownloadCsv: PropTypes.func,
+  handlePrintPdf: PropTypes.func
 };
 
 export default ProjectContextMenu;

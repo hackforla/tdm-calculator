@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,9 +9,7 @@ import {
   faSortDown,
   faCamera,
   faTrash,
-  faEye,
-  faEyeSlash,
-  faEllipsisV
+  faEye
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 
@@ -23,10 +21,7 @@ import * as projectService from "../../services/project.service";
 
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
-import ProjectContextMenu from "./ProjectContextMenu";
-import { CSVLink } from "react-csv";
+import ProjectTableRow from "./ProjectTableRow";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -57,10 +52,6 @@ const useStyles = createUseStyles({
     padding: "0.2em",
     textAlign: "left"
   },
-  tdRightAlign: {
-    padding: "0.2em",
-    textAlign: "right"
-  },
   thead: {
     fontWeight: "bold",
     backgroundColor: "#002E6D",
@@ -79,11 +70,6 @@ const useStyles = createUseStyles({
     marginLeft: "8px",
     verticalAlign: "baseline"
   },
-  printIcon: {
-    verticalAlign: "baseline",
-    opacity: ".4",
-    height: "20px"
-  },
   tbody: {
     background: "#F9FAFB",
     "& tr": {
@@ -99,18 +85,6 @@ const useStyles = createUseStyles({
   },
   tdNoSavedProjects: {
     textAlign: "center"
-  },
-  actionIcons: {
-    display: "flex",
-    justifyContent: "space-around",
-    width: "auto",
-    "& button": {
-      border: "none",
-      backgroundColor: "transparent",
-      "&:hover": {
-        cursor: "pointer"
-      }
-    }
   },
   tableContainer: {
     overflow: "auto",
@@ -134,7 +108,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
   for (let i = 0; i < pageLinks.length; i++) {
@@ -201,58 +174,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       }
     }
     setDeleteModalOpen(false);
-  };
-
-  const [csvData, setCsvData] = useState([]);
-  const csvLink = useRef(); // setup the ref that we'll use for the hidden CsvLink click once we've updated the data
-
-  // const headerMeta = [
-  //   { id: "name", label: "Name" },
-  //   { id: "address", label: "Address" },
-  //   { id: "VERSION_NO", label: "Alternative Number" },
-  //   { id: "BUILDING_PERMIT", label: "Building Permit" },
-  //   { id: "firstName", label: "Created By" },
-  //   { id: "dateCreated", label: "Created On" },
-  //   { id: "dateModified", label: "Last Modified" }
-  // ];
-  // const allowed = headerMeta.map(meta => meta.id);
-
-  //  NOTE: technique for async CSVLink was copied from stackoverflow
-  //  https://stackoverflow.com/questions/53504924/reactjs-download-csv-file-on-button-click
-  //  react-csv documentation is incorrect about async usage, and this is the workaround.
-  //  including using setTimeout() and a hidden CSVLink.
-  const handleDownloadCsv = async project => {
-    // TODO:  selectedProject be used instead?
-    //    right now it looks like a work around instead of the source of truth.
-    //
-    // TODO: consider merging project keys with project.formInputs keys
-    // TODO: filter to only public keys
-    // TODO: get the full rules based data model
-    const inputs = project.formInputs;
-    const data = JSON.parse(inputs);
-    const filtered = Object.keys(data)
-      // .filter(key => allowed.includes(key))
-      .reduce((obj, key) => {
-        obj[key] = data[key];
-        return obj;
-      }, {});
-
-    // TODO: map internal key names to public header names
-    const header = Object.keys(filtered);
-    const row = header.map(key => filtered[key]);
-
-    // console.log("data is flat");
-    const flat = [
-      ["TDM Calculation Project Summary"],
-      ["Date Printed: " + Date().toString()], // TODO: prefer ISO string?
-      [],
-      header,
-      row
-    ];
-    setCsvData(flat);
-    setTimeout(() => {
-      csvLink.current.link.click();
-    });
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -455,85 +376,12 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           <tbody className={classes.tbody}>
             {projects.length ? (
               currentProjects.map(project => (
-                <tr key={project.id}>
-                  <td className={classes.td}>
-                    <Link to={`/calculation/1/${project.id}`}>
-                      {project.name}
-                    </Link>
-                  </td>
-                  <td className={classes.td}>{project.address}</td>
-                  <td className={classes.td}>
-                    {JSON.parse(project.formInputs).VERSION_NO !== "undefined"
-                      ? JSON.parse(project.formInputs).VERSION_NO
-                      : ""}
-                  </td>
-                  <td className={classes.td}>
-                    {JSON.parse(project.formInputs).BUILDING_PERMIT !==
-                    "undefined"
-                      ? JSON.parse(project.formInputs).BUILDING_PERMIT
-                      : ""}
-                  </td>
-                  <td
-                    className={classes.td}
-                  >{`${project.firstName} ${project.lastName}`}</td>
-                  <td className={classes.tdRightAlign}>
-                    {moment(project.dateCreated).format("MM/DD/YYYY")}
-                  </td>
-                  <td className={classes.tdRightAlign}>
-                    {moment(project.dateModified).isSame(moment(), "day")
-                      ? moment(project.dateModified).format("h:mm A")
-                      : moment(project.dateModified).format("MM/DD/YYYY")}
-                  </td>
-                  <td className={classes.tdRightAlign}>
-                    {project.dateHidden ? (
-                      <FontAwesomeIcon
-                        icon={faEyeSlash}
-                        alt={`Project Is Hidden`}
-                      />
-                    ) : null}
-                  </td>
-                  <td className={classes.tdRightAlign}>
-                    {project.dateTrashed ? (
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        alt={`Project Is In Trash`}
-                      />
-                    ) : null}
-                  </td>
-                  <td className={classes.tdRightAlign}>
-                    {project.dateSnapshotted ? (
-                      <FontAwesomeIcon
-                        icon={faCamera}
-                        alt={`Project Is A Snapshot`}
-                      />
-                    ) : null}
-                  </td>
-                  <td className={classes.actionIcons}>
-                    <Popup
-                      trigger={
-                        <button>
-                          <FontAwesomeIcon
-                            icon={faEllipsisV}
-                            alt={`Project Is A Snapshot`}
-                          />
-                        </button>
-                      }
-                      position="bottom center"
-                      offsetX={-100}
-                      on="click"
-                      closeOnDocumentClick
-                      arrow={false}
-                    >
-                      <ProjectContextMenu
-                        project={project}
-                        handleCopyModalOpen={handleCopyModalOpen}
-                        handleDeleteModalOpen={handleDeleteModalOpen}
-                        handleDownloadCsv={handleDownloadCsv}
-                      />
-                    </Popup>
-                    {project.loginId === currentUser.id && <></>}
-                  </td>
-                </tr>
+                <ProjectTableRow
+                  key={project.id}
+                  project={project}
+                  handleCopyModalOpen={handleCopyModalOpen}
+                  handleDeleteModalOpen={handleDeleteModalOpen}
+                />
               ))
             ) : (
               <tr>
@@ -566,13 +414,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           />
         </>
       )}
-      <CSVLink
-        data={csvData}
-        filename={"TDM-data.csv"}
-        className="hidden"
-        ref={csvLink}
-        target="_blank"
-      />
     </ContentContainerNoSidebar>
   );
 };
