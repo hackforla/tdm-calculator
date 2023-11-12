@@ -18,8 +18,7 @@ import { useReactToPrint } from "react-to-print";
 
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
-import * as ruleService from "../../services/rule.service";
-import Engine from "../../services/tdm-engine";
+import fetchEngineRules from "./fetchEngineRules";
 
 const useStyles = createUseStyles({
   td: {
@@ -44,100 +43,82 @@ const useStyles = createUseStyles({
   }
 });
 
+const mapCsvRules = rules => {
+  //  TODO: consider merging project meta data with rules values
+  const usedRules = rules.filter(rule => rule.used && rule.value);
+
+  // TODO: decide about using code or name for the header (or keep both)
+  const ruleCodes = usedRules.flatMap(rule => {
+    if (rule.dataType === "choice") {
+      return rule.choices.map(choice => rule.code + "_" + choice.id);
+    } else {
+      return rule.code;
+    }
+  });
+  const ruleNames = usedRules.flatMap(rule => {
+    if (rule.dataType === "choice") {
+      return rule.choices.map(choice => rule.name + " - " + choice.name);
+    } else {
+      return rule.name;
+    }
+  });
+  const ruleValues = usedRules.flatMap(rule => {
+    if (rule.dataType === "choice") {
+      return rule.choices.map(choice => (choice.id == rule.value ? "Y" : "N"));
+    } else {
+      return rule.value.toString();
+    }
+  });
+
+  const flat = [
+    ["TDM Calculation Project Summary"],
+    ["Date Printed: " + Date().toString()], // TODO: prefer ISO string?
+    [],
+    ruleNames,
+    ruleCodes,
+    ruleValues
+  ];
+  return flat;
+};
+
 const ProjectTableRow = ({
   project,
   handleCopyModalOpen,
   handleDeleteModalOpen
 }) => {
   const classes = useStyles();
+  const momentModified = moment(project.dateModified);
+  const formInputs = JSON.parse(project.formInputs);
 
-  const [csvData, setCsvData] = useState([]);
   const csvRef = useRef(); // setup the ref that we'll use for the hidden CsvLink click once we've updated the data
   const printRef = useRef();
-  const handlePrintPdf = useReactToPrint({
-    content: () => printRef.current
-    // , onBeforeGetContent:
-  });
-  const [projectRules, setProjectRules] = useState();
+
+  //   const [csvData, setCsvData] = useState([]);
+  //   const [projectRules, setProjectRules] = useState();
+  const [projectData, setProjectData] = useState();
 
   // Download and process rules once for both CSV and PDF rendering
   useEffect(() => {
     const fetchRules = async () => {
-      const ruleResponse = await ruleService.getByCalculationId(calculationId);
-      const engine = new Engine(ruleResponse.data);
+      const rules = await fetchEngineRules(project);
+      const csvData = mapCsvRules(rules || []);
 
-      const inputs = project.formInputs;
-      const data = JSON.parse(inputs);
-
-      engine.run(data, resultRuleCodes);
-      const rules = engine.showRulesArray();
-      setProjectRules(rules);
+      setProjectData({ pdf: rules, csv: csvData });
     };
 
     fetchRules()
-      // make sure to catch any error
+      // TODO: do we have better reporting than this?
       .catch(console.error);
-  });
+  }, [project]);
 
-  // These are the calculation results we want to calculate
-  // and display on the main page.
-  // TODO: share these constants  with the real thing in TdmCalculationContainer
-  const calculationId = 1; // TdmCalculationContainer.calculationId = 1;
-  const resultRuleCodes = [
-    "PROJECT_LEVEL",
-    "CALC_PARK_RATIO",
-    "TARGET_POINTS_PARK",
-    "PTS_EARNED"
-  ];
-
-  //  NOTE: technique for async CSVLink was copied from stackoverflow
-  //  https://stackoverflow.com/questions/53504924/reactjs-download-csv-file-on-button-click
-  //  react-csv documentation is incorrect about async usage, and this is the workaround.
-  //  including using setTimeout() and a hidden CSVLink.
   const handleDownloadCsv = () => {
-    const rules = projectRules;
-
-    //  TODO: consider merging project meta data with rules values
-
-    //  TODO: understand whether enum-value rules need splitting across columns
-    const usedRules = rules.filter(rule => rule.used && rule.value);
-    const choiceRules = rules.filter(rule => rule.dataType === "choice");
-    const choiceNames = choiceRules.flatMap(rule => {
-      return rule.choices.map(choice => rule.name + " - " + choice.name);
-    });
-    const choiceValues = choiceRules.flatMap(rule => {
-      return rule.choices.map(choice => (choice.id == rule.value ? "Y" : "N"));
-    });
-    const choiceKeys = choiceRules.flatMap(rule => {
-      return rule.choices.map(choice => rule.code + "_" + choice.id);
-    });
-    console.log(
-      "choices:" + choiceNames.length ||
-        choiceValues.length ||
-        choiceKeys.length
-    );
-
-    // TODO: decide about using code or name for the header (or keep both)
-    const ruleKeys = usedRules.map(rule => rule.code);
-    const ruleNames = usedRules.map(rule => rule.name);
-    const ruleValues = usedRules.map(rule => rule.value.toString());
-
-    const flat = [
-      ["TDM Calculation Project Summary"],
-      ["Date Printed: " + Date().toString()], // TODO: prefer ISO string?
-      [],
-      ruleKeys,
-      ruleNames,
-      ruleValues
-    ];
-    setCsvData(flat);
-    setTimeout(() => {
-      csvRef.current.link.click();
-    });
+    csvRef.current.link.click();
   };
 
-  const momentModified = moment(project.dateModified);
-  const formInputs = JSON.parse(project.formInputs);
+  const handlePrintPdf = useReactToPrint({
+    content: () => printRef.current
+  });
+
   const fallbackToBlank = value => {
     return value !== "undefined" ? value : "";
   };
@@ -165,28 +146,40 @@ const ProjectTableRow = ({
       </td>
       <td className={classes.tdRightAlign}>
         {project.dateHidden && (
-          <FontAwesomeIcon icon={faEyeSlash} alt={`Project Is Hidden`} />
+          <FontAwesomeIcon
+            icon={faEyeSlash}
+            alt={`Project Is Hidden`}
+            title={`Project is hidden`}
+          />
         )}
       </td>
       <td className={classes.tdRightAlign}>
         {project.dateTrashed && (
-          <FontAwesomeIcon icon={faTrash} alt={`Project Is In Trash`} />
+          <FontAwesomeIcon
+            icon={faTrash}
+            alt={`Project Is In Trash`}
+            title={`Project is in trash`}
+          />
         )}
       </td>
       <td className={classes.tdRightAlign}>
         {project.dateSnapshotted && (
-          <FontAwesomeIcon icon={faCamera} alt={`Project Is A Snapshot`} />
+          <FontAwesomeIcon
+            icon={faCamera}
+            alt={`Project Is A Snapshot`}
+            title={`Project is a snapshot`}
+          />
         )}
       </td>
       <td className={classes.actionIcons}>
-        {projectRules && (
+        {projectData && (
           <div>
             <Popup
               trigger={
                 <button>
                   <FontAwesomeIcon
                     icon={faEllipsisV}
-                    alt={`Project Is A Snapshot`}
+                    alt={`Show project context menu`}
                   />
                 </button>
               }
@@ -206,14 +199,14 @@ const ProjectTableRow = ({
             </Popup>
             <div style={{ display: "none" }}>
               <CSVLink
-                data={csvData}
+                data={projectData.csv}
                 filename={"TDM-data.csv"}
                 ref={csvRef}
                 target="_blank"
               />
               <PdfPrint
                 ref={printRef}
-                rules={projectRules}
+                rules={projectData.pdf}
                 dateModified={momentModified.format("MM/DD/YYYY")}
               />
             </div>

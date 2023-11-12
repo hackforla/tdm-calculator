@@ -7,7 +7,7 @@
     "precommit": "lint-staged",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "test:ci": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\"",
@@ -81,5 +81,8 @@
       "lint",
       "test"
     ]
+  },
+  "volta": {
+    "node": "16.20.2"
   }
 }
