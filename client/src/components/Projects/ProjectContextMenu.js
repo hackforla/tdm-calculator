@@ -69,8 +69,8 @@ const ProjectContextMenu = ({
         Print
       </li>
       <li
-        className={classes.listItem}
         onClick={() => handleDownloadCsv(project)}
+        className={classes.listItem}
       >
         <FontAwesomeIcon
           icon={faFileCsv}

@@ -109,12 +109,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
 
-  const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
-  for (let i = 0; i < pageLinks.length; i++) {
-    pageLinks[i].classList.remove("highlightPage");
-    if (i === currentPage - 1) pageLinks[i].classList.add("highlightPage");
-  }
-
   const selectedProjectName = (() => {
     if (!selectedProject) {
       return "";

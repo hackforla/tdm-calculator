@@ -3,8 +3,7 @@ import Engine from "../../services/tdm-engine";
 
 // These are the calculation results we want to calculate
 // and display on the main page.
-// TODO: share these constants  with the real thing in TdmCalculationContainer
-//   const calculationId = 1; // TdmCalculationContainer.calculationId = 1;
+// TODO: share these constants with the real thing in TdmCalculationContainer?
 const resultRuleCodes = [
   "PROJECT_LEVEL",
   "CALC_PARK_RATIO",
