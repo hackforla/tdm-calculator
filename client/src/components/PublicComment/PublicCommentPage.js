@@ -116,6 +116,7 @@ const PublicCommentPage = ({ account }) => {
         resetForm({});
       }
     } catch (err) {
+      console.log(err);
       toast.add(
         "An error occurred in transmitting your comment to the server."
       );

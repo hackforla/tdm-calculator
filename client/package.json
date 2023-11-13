@@ -81,6 +81,11 @@
       "test"
     ]
   },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
+  },
   "volta": {
     "node": "18.18.2"
   }
