@@ -10,7 +10,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "wait-on": "^6.0.1"
+    "eslint": "^8.53.0",
+    "wait-on": "^7.1.0"
   },
   "husky": {
     "hooks": {
@@ -18,11 +19,11 @@
     }
   },
   "devDependencies": {
-    "concurrently": "^7.1.0",
+    "concurrently": "^8.2.2",
     "husky": "^8.0.1",
-    "lerna": "^6.5.1"
+    "lerna": "^7.4.2"
   },
   "volta": {
-    "node": "16.20.2"
+    "node": "18.18.2"
   }
 }

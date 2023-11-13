@@ -29,6 +29,9 @@
     "no-alert": "error"
   },
   "settings": {
+    "jest": {
+      "version": "27.5.1"
+    },
     // Settings for eslint-plugin-react
     "react": {
       "createClass": "createReactClass",

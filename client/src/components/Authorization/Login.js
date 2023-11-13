@@ -69,9 +69,8 @@ const Login = () => {
         setSubmitting(false);
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
-          const resendResponse = await accountService.resendConfirmationEmail(
-            email
-          );
+          const resendResponse =
+            await accountService.resendConfirmationEmail(email);
           if (resendResponse.code === "REG_SUCCESS") {
             setErrorMsg(`A new confirmation email has been sent.
             Please look through your email for a "Verify Your Account" subject line.
