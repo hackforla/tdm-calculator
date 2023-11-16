@@ -41,9 +41,24 @@ export const Question = ({
   isEditQuestion,
   handleQuestionChange,
   onSetFaq,
-  setIsEditQuestion
+  setIsEditQuestion,
+  expandFaq,
+  collapseFaq,
+  faq
 }) => {
   const classes = useStyles(admin);
+  const handleClick = () => {
+    // when in edit mode, start editing the question
+    if (admin) {
+      setIsEditQuestion(!isEditQuestion);
+    } else {
+      if (faq.expand) {
+        collapseFaq(faq);
+      } else {
+        expandFaq(faq);
+      }
+    }
+  };
   return (
     <div className={classes.questionContainer}>
       {isEditQuestion ? (
@@ -59,12 +74,7 @@ export const Question = ({
           />
         </div>
       ) : (
-        <div
-          className={classes.questionText}
-          onClick={() => {
-            admin && setIsEditQuestion(!isEditQuestion);
-          }}
-        >
+        <div className={classes.questionText} onClick={handleClick}>
           <>{question}</>
         </div>
       )}
@@ -78,5 +88,8 @@ Question.propTypes = {
   isEditQuestion: PropTypes.bool,
   handleQuestionChange: PropTypes.func,
   onSetFaq: PropTypes.func,
-  setIsEditQuestion: PropTypes.func
+  setIsEditQuestion: PropTypes.func,
+  expandFaq: PropTypes.func,
+  collapseFaq: PropTypes.func,
+  faq: PropTypes.object
 };
