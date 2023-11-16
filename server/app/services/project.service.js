@@ -123,7 +123,6 @@ const trash = async (ids, trash, loginId) => {
 };
 
 const snapshot = async (id, loginId, name) => {
-  console.log("SNAPSHOT", id, loginId, name);
   try {
     await poolConnect;
     const request = pool.request();

@@ -210,11 +210,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     setSnapshotModalOpen(true);
   };
 
-  const handleSnapshotModalClose = async action => {
-    console.log("SELECTED PROJECT", selectedProject);
-    let newProjectName;
-    const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
-    projectFormInputsAsJson.PROJECT_NAME = newProjectName;
+  const handleSnapshotModalClose = async (action, newProjectName) => {
     if (action === "ok") {
       try {
         await projectService.snapshot({
