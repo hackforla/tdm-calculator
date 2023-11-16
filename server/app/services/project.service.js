@@ -90,7 +90,7 @@ const hide = async (ids, hide, loginId) => {
     });
 
     request.input("ids", tvp);
-    request.input("hide", hide);
+    request.input("hide", hide ? 1 : 0);
     request.input("loginId", loginId);
     const response = await request.execute("Project_Hide");
     return response.returnValue;

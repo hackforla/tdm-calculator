@@ -167,10 +167,10 @@ export const PdfPrint = forwardRef((props, ref) => {
           ) : null}
         </div>
         <div className={classes.projectInfoDetailsContainer}>
-          {projectAddress.value && (
+          {projectAddress && projectAddress.value && (
             <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
           )}
-          {parcelNumbers.value ? (
+          {parcelNumbers && parcelNumbers.value ? (
             <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
           ) : null}
           {buildingPermit && (

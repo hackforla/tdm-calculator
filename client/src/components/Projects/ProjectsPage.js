@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -27,6 +27,10 @@ import DownloadProjectModal from "./DownloadProjectModal.js";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import ProjectContextMenu from "./ProjectContextMenu";
+
+import { useReactToPrint } from "react-to-print";
+import { PdfPrint } from "../PdfPrint/PdfPrint.js";
+import * as projectResultService from ".././../services/projectResult.service";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -120,6 +124,8 @@ const useStyles = createUseStyles({
 });
 
 const ProjectsPage = ({ account, contentContainerRef }) => {
+  const classes = useStyles();
+  const componentRef = useRef();
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const email = account.email;
@@ -131,8 +137,15 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const classes = useStyles();
+  const [rules, setRules] = useState();
+  const [dateModified] = useState(new Date().toDateString());
+
   const [currentPage, setCurrentPage] = useState(1);
+  const handleReactToPrint = useReactToPrint({
+    content: () => componentRef.current,
+    onAfterPrint: () => setSelectedProject(null)
+  });
+
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -179,7 +192,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           name: newProjectName,
           formInputs: JSON.stringify(projectFormInputsAsJson)
         });
-        setSelectedProject(null);
       } catch (err) {
         handleError(err);
       }
@@ -195,8 +207,10 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const handleDeleteModalClose = async action => {
     if (action === "ok") {
       try {
-        await projectService.del(selectedProject.id);
-        setSelectedProject(null);
+        await projectService.trash(
+          [selectedProject.id],
+          !selectedProject.dateTrashed
+        );
       } catch (err) {
         handleError(err);
       }
@@ -211,6 +225,12 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
 
   const handleDownloadModalClose = async () => {
     setDownloadModalOpen(false);
+  };
+
+  const handleHide = project => {
+    setSelectedProject(project);
+    projectService.hide([project.id], !project.dateHidden);
+    console.error(project.dateHidden);
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -277,6 +297,17 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     setFilterText(text);
   };
 
+  const handlePrint = async project => {
+    setSelectedProject(project);
+    const rules = await projectResultService.getProjectResult(project.id);
+    setRules(rules);
+    // Using SetTimeout is a hack to make sure the PdfPrint is
+    // passed the rules set on the previous line, by making sure
+    // handleReactToPrint is called after this React component is
+    // re-rendered and the componentRef updated.
+    setTimeout(handleReactToPrint, 10);
+  };
+
   const filterProjects = project => {
     // fullName attr allows searching by full name, not just by first or last name
     project["fullName"] = `${project["firstName"]} ${project["lastName"]}`;
@@ -289,7 +320,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       : "";
     project["dateCreated"] = moment(project["dateCreated"]).format();
     project["dateModified"] = moment(project["dateModified"]).format();
-    project["dateHidden"] = project["dateTrashed"]
+    project["dateHidden"] = project["dateHidden"]
       ? moment(project["dateHidden"]).format()
       : null;
     project["dateTrashed"] = project["dateTrashed"]
@@ -332,7 +363,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     { id: "dateModified", label: "Last Modified" },
     {
       id: "dateHidden",
-      label: <FontAwesomeIcon icon={faEye} alt={`Project Is In Trash`} />
+      label: <FontAwesomeIcon icon={faEye} alt={`Project Is Hidden`} />
     },
     {
       id: "dateTrashed",
@@ -340,7 +371,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     },
     {
       id: "dateSnapshotted",
-      label: <FontAwesomeIcon icon={faCamera} alt={`Project Is In Trash`} />
+      label: <FontAwesomeIcon icon={faCamera} alt={`Project Is a Snapshot`} />
     }
   ];
 
@@ -448,7 +479,12 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                         icon={faEyeSlash}
                         alt={`Project Is Hidden`}
                       />
-                    ) : null}
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        alt={`Project Is Visible`}
+                      />
+                    )}
                   </td>
                   <td className={classes.tdRightAlign}>
                     {project.dateTrashed ? (
@@ -478,7 +514,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                       }
                       position="bottom center"
                       offsetX={-100}
-                      on="click"
+                      on={["click"]}
                       closeOnDocumentClick
                       arrow={false}
                     >
@@ -487,6 +523,8 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                         handleCopyModalOpen={handleCopyModalOpen}
                         handleDeleteModalOpen={handleDeleteModalOpen}
                         handleDownloadCSV={handleDownloadModalOpen}
+                        handleHide={handleHide}
+                        handlePrint={handlePrint}
                       />
                     </Popup>
                     {project.loginId === currentUser.id && <></>}
@@ -520,7 +558,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           <DeleteProjectModal
             mounted={deleteModalOpen}
             onClose={handleDeleteModalClose}
-            selectedProjectName={selectedProjectName}
+            project={selectedProject}
           />
 
           <DownloadProjectModal
@@ -530,6 +568,17 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           />
         </>
       )}
+      <div style={{ display: "none" }}>
+        {rules ? (
+          <PdfPrint
+            ref={componentRef}
+            rules={rules}
+            dateModified={dateModified || new Date(2023, 11, 18).toDateString()}
+          />
+        ) : (
+          <div ref={componentRef}>duh</div>
+        )}
+      </div>
     </ContentContainerNoSidebar>
   );
 };

@@ -33,3 +33,19 @@ export function getAllArchivedProjects() {
     return new Promise.reject(error);
   }
 }
+
+export function hide(projectIds, hide) {
+  try {
+    return axios.put(`${baseUrl}/hide`, { ids: projectIds, hide });
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}
+
+export function trash(projectIds, trash) {
+  try {
+    return axios.put(`${baseUrl}/trash`, { ids: projectIds, trash });
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}

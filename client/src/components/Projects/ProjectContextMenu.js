@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import PropTypes from "prop-types";
 import {
   faPrint,
@@ -29,119 +28,114 @@ const ProjectContextMenu = ({
   project,
   handleCopyModalOpen,
   handleDeleteModalOpen,
-  handleDownloadCSV
+  handleDownloadCSV,
+  handleHide,
+  handlePrint
 }) => {
-  const [projectVisibility, SetProjectVisibility] = useState(
-    project.dateHidden
-  );
-
-  const toggleProjectVisibility = () => {
-    SetProjectVisibility(!projectVisibility);
-  };
-
   const classes = useStyles();
 
   return (
-    <ul className={classes.list}>
-      {project.dateSnapshotted ? null : (
-        <li className={classes.listItem}>
-          <FontAwesomeIcon
-            icon={faCamera}
-            className={classes.listItemIcon}
-            alt={`Snapshot Project #${project.id} Icon`}
-          />
-          Convert to Snapshot
-        </li>
-      )}
+    <>
+      <ul className={classes.list}>
+        {project.dateSnapshotted ? null : (
+          <li className={classes.listItem}>
+            <FontAwesomeIcon
+              icon={faCamera}
+              className={classes.listItemIcon}
+              alt={`Snapshot Project #${project.id} Icon`}
+            />
+            Convert to Snapshot
+          </li>
+        )}
 
-      <li className={classes.listItem}>
-        <FontAwesomeIcon
-          icon={faPrint}
-          className={classes.listItemIcon}
-          alt={`Print Project #${project.id} Icon`}
-        />
-        Print
-      </li>
-      <li
-        onClick={() => handleDownloadCSV(project)}
-        className={classes.listItem}
-      >
-        <FontAwesomeIcon
-          icon={faFileCsv}
-          className={classes.listItemIcon}
-          alt={`Export Project #${project.id} as CSV Icon`}
-        />
-        Export as CSV
-      </li>
-      <li
-        onClick={() => handleCopyModalOpen(project)}
-        className={classes.listItem}
-      >
-        <img
-          src={CopyIcon}
-          alt={`Duplicate Project #${project.id} Icon`}
-          className={classes.listItemIcon}
-        />
-        Duplicate
-      </li>
-      <li
-        onClick={() => toggleProjectVisibility(project)}
-        className={classes.listItem}
-      >
-        {projectVisibility ? (
-          <>
-            <FontAwesomeIcon
-              icon={faEyeSlash}
-              className={classes.listItemIcon}
-              alt={`Unhide Project #${project.id} as CSV Icon`}
-            />
-            Unhide
-          </>
-        ) : (
-          <>
-            <FontAwesomeIcon
-              icon={faEye}
-              className={classes.listItemIcon}
-              alt={`Hide Project #${project.id} as CSV Icon`}
-            />
-            Hide from View
-          </>
-        )}
-      </li>
-      <li
-        onClick={() => handleDeleteModalOpen(project)}
-        className={classes.listItem}
-        style={{ borderTop: "1px solid black", color: "red" }}
-      >
-        {project.dateTrashed ? (
-          <>
-            <img
-              src={DeleteIcon}
-              alt={`Remove Project #${project.id} from Trash Icon`}
-              className={classes.listItemIcon}
-            />
-            Remove from Trash
-          </>
-        ) : (
-          <>
-            <img
-              src={DeleteIcon}
-              alt={`Move  Project #${project.id} to Trash Icon`}
-              className={classes.listItemIcon}
-            />
-            Move to Trash
-          </>
-        )}
-      </li>
-    </ul>
+        <li className={classes.listItem} onClick={() => handlePrint(project)}>
+          <FontAwesomeIcon
+            icon={faPrint}
+            className={classes.listItemIcon}
+            alt={`Print Project #${project.id} Icon`}
+          />
+          Print
+        </li>
+        <li
+          onClick={() => handleDownloadCSV(project)}
+          className={classes.listItem}
+        >
+          <FontAwesomeIcon
+            icon={faFileCsv}
+            className={classes.listItemIcon}
+            alt={`Export Project #${project.id} as CSV Icon`}
+          />
+          Export as CSV
+        </li>
+        <li
+          onClick={() => handleCopyModalOpen(project)}
+          className={classes.listItem}
+        >
+          <img
+            src={CopyIcon}
+            alt={`Duplicate Project #${project.id} Icon`}
+            className={classes.listItemIcon}
+          />
+          Duplicate
+        </li>
+        <li onClick={() => handleHide(project)} className={classes.listItem}>
+          {project.dateHidden ? (
+            <>
+              <FontAwesomeIcon
+                icon={faEyeSlash}
+                className={classes.listItemIcon}
+                alt={`Unhide Project #${project.id} as Unhide Icon`}
+              />
+              Unhide
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon
+                icon={faEye}
+                className={classes.listItemIcon}
+                alt={`Hide Project #${project.id} as Hide Icon`}
+              />
+              Hide from View
+            </>
+          )}
+        </li>
+        <li
+          onClick={() => handleDeleteModalOpen(project)}
+          className={classes.listItem}
+          style={{ borderTop: "1px solid black", color: "red" }}
+        >
+          {project.dateTrashed ? (
+            <>
+              <img
+                src={DeleteIcon}
+                alt={`Restore Project #${project.id} from Trash Icon`}
+                className={classes.listItemIcon}
+              />
+              Restore from Trash
+            </>
+          ) : (
+            <>
+              <img
+                src={DeleteIcon}
+                alt={`Move  Project #${project.id} to Trash Icon`}
+                className={classes.listItemIcon}
+              />
+              Delete
+            </>
+          )}
+        </li>
+      </ul>
+    </>
   );
 };
 
 ProjectContextMenu.propTypes = {
-  project: PropTypes.object,
-  handleCopyModalOpen: PropTypes.func,
-  handleDeleteModalOpen: PropTypes.func,
-  handleDownloadCSV: PropTypes.func
+  project: PropTypes.object.isRequired,
+  handleCopyModalOpen: PropTypes.func.isRequired,
+  handleDeleteModalOpen: PropTypes.func.isRequired,
+  handleDownloadCSV: PropTypes.func.isRequired,
+  handleHide: PropTypes.func.isRequired,
+  handlePrint: PropTypes.func.isRequired
 };
 
 export default ProjectContextMenu;
