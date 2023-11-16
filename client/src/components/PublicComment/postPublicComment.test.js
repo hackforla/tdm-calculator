@@ -23,6 +23,7 @@ describe("postPublicComment", () => {
       .reply(201);
 
     await postPublicComment(publicCommentToSave);
+    expect(publicCommentPostedScope.isDone()).toBe(true);
     publicCommentPostedScope.done();
   });
 
