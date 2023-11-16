@@ -84,7 +84,8 @@ const mapCsvRules = rules => {
 const ProjectTableRow = ({
   project,
   handleCopyModalOpen,
-  handleDeleteModalOpen
+  handleDeleteModalOpen,
+  handleSnapshotModalOpen
 }) => {
   const classes = useStyles();
   const momentModified = moment(project.dateModified);
@@ -195,6 +196,7 @@ const ProjectTableRow = ({
                 handleDeleteModalOpen={handleDeleteModalOpen}
                 handleDownloadCsv={handleDownloadCsv}
                 handlePrintPdf={handlePrintPdf}
+                handleSnapshotModalOpen={handleSnapshotModalOpen}
               />
             </Popup>
             <div style={{ display: "none" }}>
@@ -220,7 +222,8 @@ const ProjectTableRow = ({
 ProjectTableRow.propTypes = {
   project: PropTypes.object.isRequired,
   handleCopyModalOpen: PropTypes.func.isRequired,
-  handleDeleteModalOpen: PropTypes.func.isRequired
+  handleDeleteModalOpen: PropTypes.func.isRequired,
+  handleSnapshotModalOpen: PropTypes.func.isRequired
 };
 
 export default ProjectTableRow;

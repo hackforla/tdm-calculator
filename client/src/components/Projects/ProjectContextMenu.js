@@ -35,6 +35,7 @@ const ProjectContextMenu = ({
   project,
   handleCopyModalOpen,
   handleDeleteModalOpen,
+  handleSnapshotModalOpen,
   handleDownloadCsv,
   handlePrintPdf
 }) => {
@@ -50,7 +51,10 @@ const ProjectContextMenu = ({
   return (
     <ul className={classes.list}>
       {project.dateSnapshotted ? null : (
-        <li className={classes.listItem}>
+        <li
+          className={classes.listItem}
+          onClick={() => handleSnapshotModalOpen(project)}
+        >
           <FontAwesomeIcon
             icon={faCamera}
             className={classes.listItemIcon}
@@ -147,6 +151,7 @@ ProjectContextMenu.propTypes = {
   project: PropTypes.object,
   handleCopyModalOpen: PropTypes.func,
   handleDeleteModalOpen: PropTypes.func,
+  handleSnapshotModalOpen: PropTypes.func,
   handleDownloadCsv: PropTypes.func,
   handlePrintPdf: PropTypes.func
 };
