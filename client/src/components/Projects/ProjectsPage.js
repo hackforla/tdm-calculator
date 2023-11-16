@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,9 +9,7 @@ import {
   faSortDown,
   faCamera,
   faTrash,
-  faEye,
-  faEyeSlash,
-  faEllipsisV
+  faEye
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 
@@ -20,17 +18,10 @@ import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import * as projectService from "../../services/project.service";
-
+import SnapshotProjectModal from "./SnapshotProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
-import DownloadProjectModal from "./DownloadProjectModal.js";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
-import ProjectContextMenu from "./ProjectContextMenu";
-
-import { useReactToPrint } from "react-to-print";
-import { PdfPrint } from "../PdfPrint/PdfPrint.js";
-import * as projectResultService from ".././../services/projectResult.service";
+import ProjectTableRow from "./ProjectTableRow";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -61,10 +52,6 @@ const useStyles = createUseStyles({
     padding: "0.2em",
     textAlign: "left"
   },
-  tdRightAlign: {
-    padding: "0.2em",
-    textAlign: "right"
-  },
   thead: {
     fontWeight: "bold",
     backgroundColor: "#002E6D",
@@ -83,11 +70,6 @@ const useStyles = createUseStyles({
     marginLeft: "8px",
     verticalAlign: "baseline"
   },
-  printIcon: {
-    verticalAlign: "baseline",
-    opacity: ".4",
-    height: "20px"
-  },
   tbody: {
     background: "#F9FAFB",
     "& tr": {
@@ -104,18 +86,6 @@ const useStyles = createUseStyles({
   tdNoSavedProjects: {
     textAlign: "center"
   },
-  actionIcons: {
-    display: "flex",
-    justifyContent: "space-around",
-    width: "auto",
-    "& button": {
-      border: "none",
-      backgroundColor: "transparent",
-      "&:hover": {
-        cursor: "pointer"
-      }
-    }
-  },
   tableContainer: {
     overflow: "auto",
     width: "100%",
@@ -125,7 +95,7 @@ const useStyles = createUseStyles({
 
 const ProjectsPage = ({ account, contentContainerRef }) => {
   const classes = useStyles();
-  const componentRef = useRef();
+  // const componentRef = useRef();
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const email = account.email;
@@ -134,27 +104,14 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const projects = useProjects(handleError);
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [copyModalOpen, setCopyModalOpen] = useState(false);
+  const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [rules, setRules] = useState();
-  const [dateModified] = useState(new Date().toDateString());
 
   const [currentPage, setCurrentPage] = useState(1);
-  const handleReactToPrint = useReactToPrint({
-    content: () => componentRef.current,
-    onAfterPrint: () => setSelectedProject(null)
-  });
 
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-  const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
-  for (let i = 0; i < pageLinks.length; i++) {
-    pageLinks[i].classList.remove("highlightPage");
-    if (i === currentPage - 1) pageLinks[i].classList.add("highlightPage");
-  }
 
   const selectedProjectName = (() => {
     if (!selectedProject) {
@@ -218,13 +175,24 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     setDeleteModalOpen(false);
   };
 
-  const handleDownloadModalOpen = project => {
+  const handleSnapshotModalOpen = project => {
     setSelectedProject(project);
-    setDownloadModalOpen(true);
+    setSnapshotModalOpen(true);
   };
 
-  const handleDownloadModalClose = async () => {
-    setDownloadModalOpen(false);
+  const handleSnapshotModalClose = async (action, newProjectName) => {
+    if (action === "ok") {
+      try {
+        await projectService.snapshot({
+          id: selectedProject.id,
+          name: newProjectName
+        });
+        setSelectedProject(null);
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setSnapshotModalOpen(false);
   };
 
   const handleHide = project => {
@@ -295,17 +263,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
 
   const handleFilterTextChange = text => {
     setFilterText(text);
-  };
-
-  const handlePrint = async project => {
-    setSelectedProject(project);
-    const rules = await projectResultService.getProjectResult(project.id);
-    setRules(rules);
-    // Using SetTimeout is a hack to make sure the PdfPrint is
-    // passed the rules set on the previous line, by making sure
-    // handleReactToPrint is called after this React component is
-    // re-rendered and the componentRef updated.
-    setTimeout(handleReactToPrint, 10);
   };
 
   const filterProjects = project => {
@@ -444,92 +401,14 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           <tbody className={classes.tbody}>
             {projects.length ? (
               currentProjects.map(project => (
-                <tr key={project.id}>
-                  <td className={classes.td}>
-                    <Link to={`/calculation/1/${project.id}`}>
-                      {project.name}
-                    </Link>
-                  </td>
-                  <td className={classes.td}>{project.address}</td>
-                  <td className={classes.td}>
-                    {JSON.parse(project.formInputs).VERSION_NO !== "undefined"
-                      ? JSON.parse(project.formInputs).VERSION_NO
-                      : ""}
-                  </td>
-                  <td className={classes.td}>
-                    {JSON.parse(project.formInputs).BUILDING_PERMIT !==
-                    "undefined"
-                      ? JSON.parse(project.formInputs).BUILDING_PERMIT
-                      : ""}
-                  </td>
-                  <td
-                    className={classes.td}
-                  >{`${project.firstName} ${project.lastName}`}</td>
-                  <td className={classes.tdRightAlign}>
-                    {moment(project.dateCreated).format("MM/DD/YYYY")}
-                  </td>
-                  <td className={classes.tdRightAlign}>
-                    {moment(project.dateModified).isSame(moment(), "day")
-                      ? moment(project.dateModified).format("h:mm A")
-                      : moment(project.dateModified).format("MM/DD/YYYY")}
-                  </td>
-                  <td className={classes.tdRightAlign}>
-                    {project.dateHidden ? (
-                      <FontAwesomeIcon
-                        icon={faEyeSlash}
-                        alt={`Project Is Hidden`}
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        icon={faEye}
-                        alt={`Project Is Visible`}
-                      />
-                    )}
-                  </td>
-                  <td className={classes.tdRightAlign}>
-                    {project.dateTrashed ? (
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        alt={`Project Is In Trash`}
-                      />
-                    ) : null}
-                  </td>
-                  <td className={classes.tdRightAlign}>
-                    {project.dateSnapshotted ? (
-                      <FontAwesomeIcon
-                        icon={faCamera}
-                        alt={`Project Is A Snapshot`}
-                      />
-                    ) : null}
-                  </td>
-                  <td className={classes.actionIcons}>
-                    <Popup
-                      trigger={
-                        <button>
-                          <FontAwesomeIcon
-                            icon={faEllipsisV}
-                            alt={`Project Is A Snapshot`}
-                          />
-                        </button>
-                      }
-                      position="bottom center"
-                      offsetX={-100}
-                      on={["click"]}
-                      closeOnDocumentClick
-                      arrow={false}
-                    >
-                      <ProjectContextMenu
-                        project={project}
-                        handleCopyModalOpen={handleCopyModalOpen}
-                        handleDeleteModalOpen={handleDeleteModalOpen}
-                        handleDownloadCSV={handleDownloadModalOpen}
-                        handleHide={handleHide}
-                        handlePrint={handlePrint}
-                      />
-                    </Popup>
-                    {project.loginId === currentUser.id && <></>}
-                  </td>
-                </tr>
+                <ProjectTableRow
+                  key={project.id}
+                  project={project}
+                  handleCopyModalOpen={handleCopyModalOpen}
+                  handleDeleteModalOpen={handleDeleteModalOpen}
+                  handleSnapshotModalOpen={handleSnapshotModalOpen}
+                  handleHide={handleHide}
+                />
               ))
             ) : (
               <tr>
@@ -561,14 +440,14 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
             project={selectedProject}
           />
 
-          <DownloadProjectModal
-            mounted={downloadModalOpen}
-            onClose={handleDownloadModalClose}
-            selectedProject={selectedProject}
+          <SnapshotProjectModal
+            mounted={snapshotModalOpen}
+            onClose={handleSnapshotModalClose}
+            selectedProjectName={selectedProjectName}
           />
         </>
       )}
-      <div style={{ display: "none" }}>
+      {/* <div style={{ display: "none" }}>
         {rules ? (
           <PdfPrint
             ref={componentRef}
@@ -578,7 +457,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
         ) : (
           <div ref={componentRef}>duh</div>
         )}
-      </div>
+      </div> */}
     </ContentContainerNoSidebar>
   );
 };

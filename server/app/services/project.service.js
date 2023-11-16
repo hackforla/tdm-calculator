@@ -122,13 +122,15 @@ const trash = async (ids, trash, loginId) => {
   }
 };
 
-const snapshot = async (id, loginId) => {
+const snapshot = async (id, loginId, name) => {
   try {
     await poolConnect;
     const request = pool.request();
 
     request.input("id", id);
     request.input("loginId", loginId);
+    request.input("name", name);
+
     const response = await request.execute("Project_Snapshot");
     return response.returnValue;
   } catch (err) {
