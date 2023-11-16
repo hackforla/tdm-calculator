@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import PropTypes from "prop-types";
 
 import { createUseStyles } from "react-jss";
@@ -37,15 +36,9 @@ const ProjectContextMenu = ({
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
   handleDownloadCsv,
-  handlePrintPdf
+  handlePrintPdf,
+  handleHide
 }) => {
-  const [projectVisibility, SetProjectVisibility] = useState(
-    project.dateHidden
-  );
-  const toggleProjectVisibility = () => {
-    SetProjectVisibility(!projectVisibility);
-  };
-
   const classes = useStyles();
 
   return (
@@ -94,11 +87,8 @@ const ProjectContextMenu = ({
         />
         Duplicate
       </li>
-      <li
-        onClick={() => toggleProjectVisibility(project)}
-        className={classes.listItem}
-      >
-        {projectVisibility ? (
+      <li onClick={() => handleHide(project)} className={classes.listItem}>
+        {project.dateHidden ? (
           <>
             <FontAwesomeIcon
               icon={faEyeSlash}
@@ -153,7 +143,8 @@ ProjectContextMenu.propTypes = {
   handleDeleteModalOpen: PropTypes.func,
   handleSnapshotModalOpen: PropTypes.func,
   handleDownloadCsv: PropTypes.func,
-  handlePrintPdf: PropTypes.func
+  handlePrintPdf: PropTypes.func,
+  handleHide: PropTypes.func
 };
 
 export default ProjectContextMenu;

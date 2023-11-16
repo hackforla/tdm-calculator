@@ -94,6 +94,8 @@ const useStyles = createUseStyles({
 });
 
 const ProjectsPage = ({ account, contentContainerRef }) => {
+  const classes = useStyles();
+  // const componentRef = useRef();
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const email = account.email;
@@ -105,8 +107,9 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const classes = useStyles();
+
   const [currentPage, setCurrentPage] = useState(1);
+
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
 
@@ -146,7 +149,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           name: newProjectName,
           formInputs: JSON.stringify(projectFormInputsAsJson)
         });
-        setSelectedProject(null);
       } catch (err) {
         handleError(err);
       }
@@ -162,8 +164,10 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const handleDeleteModalClose = async action => {
     if (action === "ok") {
       try {
-        await projectService.del(selectedProject.id);
-        setSelectedProject(null);
+        await projectService.trash(
+          [selectedProject.id],
+          !selectedProject.dateTrashed
+        );
       } catch (err) {
         handleError(err);
       }
@@ -189,6 +193,12 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       }
     }
     setSnapshotModalOpen(false);
+  };
+
+  const handleHide = project => {
+    setSelectedProject(project);
+    projectService.hide([project.id], !project.dateHidden);
+    console.error(project.dateHidden);
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -267,7 +277,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       : "";
     project["dateCreated"] = moment(project["dateCreated"]).format();
     project["dateModified"] = moment(project["dateModified"]).format();
-    project["dateHidden"] = project["dateTrashed"]
+    project["dateHidden"] = project["dateHidden"]
       ? moment(project["dateHidden"]).format()
       : null;
     project["dateTrashed"] = project["dateTrashed"]
@@ -310,7 +320,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     { id: "dateModified", label: "Last Modified" },
     {
       id: "dateHidden",
-      label: <FontAwesomeIcon icon={faEye} alt={`Project Is In Trash`} />
+      label: <FontAwesomeIcon icon={faEye} alt={`Project Is Hidden`} />
     },
     {
       id: "dateTrashed",
@@ -318,7 +328,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     },
     {
       id: "dateSnapshotted",
-      label: <FontAwesomeIcon icon={faCamera} alt={`Project Is In Trash`} />
+      label: <FontAwesomeIcon icon={faCamera} alt={`Project Is a Snapshot`} />
     }
   ];
 
@@ -397,6 +407,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                   handleCopyModalOpen={handleCopyModalOpen}
                   handleDeleteModalOpen={handleDeleteModalOpen}
                   handleSnapshotModalOpen={handleSnapshotModalOpen}
+                  handleHide={handleHide}
                 />
               ))
             ) : (
@@ -426,7 +437,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           <DeleteProjectModal
             mounted={deleteModalOpen}
             onClose={handleDeleteModalClose}
-            selectedProjectName={selectedProjectName}
+            project={selectedProject}
           />
 
           <SnapshotProjectModal
@@ -436,6 +447,17 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           />
         </>
       )}
+      {/* <div style={{ display: "none" }}>
+        {rules ? (
+          <PdfPrint
+            ref={componentRef}
+            rules={rules}
+            dateModified={dateModified || new Date(2023, 11, 18).toDateString()}
+          />
+        ) : (
+          <div ref={componentRef}>duh</div>
+        )}
+      </div> */}
     </ContentContainerNoSidebar>
   );
 };

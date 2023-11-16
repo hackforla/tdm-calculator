@@ -85,7 +85,8 @@ const ProjectTableRow = ({
   project,
   handleCopyModalOpen,
   handleDeleteModalOpen,
-  handleSnapshotModalOpen
+  handleSnapshotModalOpen,
+  handleHide
 }) => {
   const classes = useStyles();
   const momentModified = moment(project.dateModified);
@@ -197,6 +198,7 @@ const ProjectTableRow = ({
                 handleDownloadCsv={handleDownloadCsv}
                 handlePrintPdf={handlePrintPdf}
                 handleSnapshotModalOpen={handleSnapshotModalOpen}
+                handleHide={handleHide}
               />
             </Popup>
             <div style={{ display: "none" }}>
@@ -223,7 +225,8 @@ ProjectTableRow.propTypes = {
   project: PropTypes.object.isRequired,
   handleCopyModalOpen: PropTypes.func.isRequired,
   handleDeleteModalOpen: PropTypes.func.isRequired,
-  handleSnapshotModalOpen: PropTypes.func.isRequired
+  handleSnapshotModalOpen: PropTypes.func.isRequired,
+  handleHide: PropTypes.func.isRequired
 };
 
 export default ProjectTableRow;
