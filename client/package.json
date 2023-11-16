@@ -7,7 +7,7 @@
     "precommit": "lint-staged",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "test:ci": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\"",
@@ -42,6 +42,7 @@
     "react": "^18.1.0",
     "react-aria-modal": "^5.0.0",
     "react-beautiful-dnd": "^13.1.1",
+    "react-csv": "^2.2.2",
     "react-dom": "^18.1.0",
     "react-gtm-module": "^2.0.11",
     "react-input-mask": "^2.0.4",
@@ -79,5 +80,13 @@
       "lint",
       "test"
     ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
+  },
+  "volta": {
+    "node": "18.18.2"
   }
 }

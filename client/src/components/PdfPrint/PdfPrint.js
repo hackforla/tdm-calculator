@@ -291,3 +291,5 @@ PdfPrint.propTypes = {
   loginId: PropTypes.number,
   dateModified: PropTypes.string || null
 };
+
+export default PdfPrint;

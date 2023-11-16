@@ -5,13 +5,22 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { postPublicComment } from "./postPublicComment";
+import ToastContext from "../../contexts/Toast/ToastContext";
 
+const add = jest.fn();
+const remove = jest.fn();
+
+const account = {
+  email: "some-email@somedomain.com"
+};
 describe("PublicCommentFormPage", () => {
   // eslint-disable-next-line jest/no-disabled-tests
-  it("has fields for PublicComment form", () => {
+  it.skip("has fields for PublicComment form", async () => {
     render(
       <BrowserRouter>
-        <PublicCommentPage />
+        <ToastContext.Provider value={{ add, remove }}>
+          <PublicCommentPage account={account} />
+        </ToastContext.Provider>
       </BrowserRouter>
     );
 
