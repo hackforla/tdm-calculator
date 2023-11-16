@@ -47,25 +47,24 @@ const AppWrapper = () => {
     setIsOpenNavConfirmModal(!isOpenNavConfirmModal);
   };
 
+  const [hasAcceptedTerms, setAcceptedTerms] = useState(() => {
+    const accepted = localStorage.getItem("termsAndConditions");
+    return accepted === "Accepted";
+  });
+
   useEffect(() => {
-    if (localStorage.getItem("termsAndConditions")) {
-      if (localStorage.getItem("checklist")) {
-        setChecklistModalOpen(false);
-      } else {
-        setChecklistModalOpen(true);
-        window.localStorage.setItem("checklist", "Accepted");
-      }
+    if (hasAcceptedTerms) {
+      localStorage.setItem("termsAndConditions", "Accepted");
     }
-  }, []);
+  }, [hasAcceptedTerms]);
+
+  const onAcceptTerms = () => {
+    setAcceptedTerms(true);
+    setChecklistModalOpen(true);
+  };
 
   const toggleChecklistModal = () => {
-    if (checklistModalOpen === false) {
-      setChecklistModalOpen(true);
-      window.localStorage.removeItem("checklist");
-    } else {
-      setChecklistModalOpen(false);
-      window.localStorage.setItem("checklist", "Accepted");
-    }
+    setChecklistModalOpen(!checklistModalOpen);
   };
 
   return (
@@ -85,6 +84,8 @@ const AppWrapper = () => {
             appContainerRef={appContainerRef}
             checklistModalOpen={checklistModalOpen}
             toggleChecklistModal={toggleChecklistModal}
+            hasAcceptedTerms={hasAcceptedTerms}
+            onAcceptTerms={onAcceptTerms}
           />
         </Router>
       </UserContext.Provider>

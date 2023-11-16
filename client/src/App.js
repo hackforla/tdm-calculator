@@ -12,7 +12,6 @@ import Footer from "./components/Footer";
 import About from "./components/About";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
 import TermsAndConditionsModal from "./components/TermsAndConditions/TermsAndConditionsModal";
-import ChecklistModal from "./components/Checklist/ChecklistModal";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
 import UpdateAccount from "./components/Authorization/UpdateAccount";
@@ -29,6 +28,7 @@ import ForgotPassword from "./components/Authorization/ForgotPassword";
 import "./styles/App.scss";
 import Feedback from "./components/Feedback/FeedbackPage";
 import Sidebar from "./components/Sidebar";
+import ChecklistPage from "./components/Checklist/ChecklistPage";
 
 const useStyles = createUseStyles({
   app: {
@@ -45,8 +45,8 @@ const App = ({
   isOpenNavConfirmModal,
   contentContainerRef,
   appContainerRef,
-  checklistModalOpen,
-  toggleChecklistModal
+  hasAcceptedTerms,
+  onAcceptTerms
 }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
@@ -54,10 +54,9 @@ const App = ({
 
   return (
     <React.Fragment>
-      <TermsAndConditionsModal />
-      <ChecklistModal
-        checklistModalOpen={checklistModalOpen}
-        toggleChecklistModal={toggleChecklistModal}
+      <TermsAndConditionsModal
+        hasAcceptedTerms={hasAcceptedTerms}
+        onAcceptTerms={onAcceptTerms}
       />
       <Header />
       <div className={classes.app} id="app-container" ref={appContainerRef}>
@@ -85,8 +84,6 @@ const App = ({
                 hasConfirmedNavTransition={hasConfirmedTransition}
                 isOpenNavConfirmModal={isOpenNavConfirmModal}
                 contentContainerRef={contentContainerRef}
-                checklistModalOpen={checklistModalOpen}
-                toggleChecklistModal={toggleChecklistModal}
               />
             }
           />
@@ -129,6 +126,10 @@ const App = ({
             }
           >
             <Route path="/about" element={<About />} />
+
+            {/* TODO:  update FAQ to use checklist link, redirect for now. */}
+            <Route path="/faqs/true" element={<Navigate to="/checklist" />} />
+            <Route path="/checklist" element={<ChecklistPage />} />
             <Route
               path="/termsandconditions"
               element={<TermsAndConditionsPage />}
@@ -141,7 +142,6 @@ const App = ({
             <Route path="/login/:email?" element={<Login />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/resetPassword/:token" element={<ResetPassword />} />
-
             <Route
               path="/roles"
               element={
@@ -176,20 +176,14 @@ const App = ({
               }
             />
             <Route
-              path="/faqs/:showChecklist?"
-              element={
-                <FaqView
-                  isAdmin={account.isAdmin}
-                  toggleChecklistModal={toggleChecklistModal}
-                  checklistModalOpen={checklistModalOpen}
-                />
-              }
+              path="/faqs"
+              element={<FaqView isAdmin={account.isAdmin} />}
             />
             <Route path="/feedback" element={<Feedback account={account} />} />
           </Route>
         </Routes>
       </div>
-      <Footer toggleChecklistModal={toggleChecklistModal} />
+      <Footer />
     </React.Fragment>
   );
 };
@@ -199,8 +193,8 @@ App.propTypes = {
   isOpenNavConfirmModal: PropTypes.bool,
   appContainerRef: PropTypes.object,
   contentContainerRef: PropTypes.object,
-  checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func
+  hasAcceptedTerms: PropTypes.bool,
+  onAcceptTerms: PropTypes.func
 };
 
 export default withToastProvider(App);

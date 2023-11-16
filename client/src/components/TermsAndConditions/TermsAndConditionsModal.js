@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { createUseStyles } from "react-jss";
-import { useNavigate } from "react-router-dom";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import PropTypes from "prop-types";
@@ -14,21 +13,14 @@ const useStyles = createUseStyles({
   }
 });
 
-const TermsAndConditionsModal = () => {
+const TermsAndConditionsModal = ({ hasAcceptedTerms, onAcceptTerms }) => {
   const classes = useStyles();
-  const navigate = useNavigate();
-  const [modalOpen, setModalOpen] = useState(true);
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
 
   if (localStorage.getItem("termsAndConditions")) return null;
 
   return (
     <ModalDialog
-      mounted={modalOpen}
-      onClose={closeModal}
+      mounted={!hasAcceptedTerms}
       omitCloseBox={true}
       underlayClickExits={false}
       escapeExits={false}
@@ -43,7 +35,7 @@ const TermsAndConditionsModal = () => {
           onClick={e => {
             e.preventDefault();
             window.location.href = "https://ladot.lacity.org/";
-            closeModal();
+            // THIS WILL CLOSE THE MODAL IMPLICITLY
           }}
           variant="outlined"
         >
@@ -55,9 +47,7 @@ const TermsAndConditionsModal = () => {
           color="colorPrimary"
           onClick={e => {
             e.preventDefault();
-            window.localStorage.setItem("termsAndConditions", "Accepted");
-            navigate(0);
-            closeModal();
+            onAcceptTerms();
           }}
         >
           Accept
@@ -68,7 +58,8 @@ const TermsAndConditionsModal = () => {
 };
 
 TermsAndConditionsModal.propTypes = {
-  termsAndConditionsModalProp: PropTypes.string
+  hasAcceptedTerms: PropTypes.bool,
+  onAcceptTerms: PropTypes.func
 };
 
 export default TermsAndConditionsModal;

@@ -407,8 +407,6 @@ const FaqView = ({ isAdmin }) => {
 };
 
 FaqView.propTypes = {
-  toggleChecklistModal: PropTypes.func,
-  checklistModalOpen: PropTypes.bool,
   isAdmin: PropTypes.bool
 };
 

@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 
@@ -51,7 +50,7 @@ export const useStyles = createUseStyles({
   }
 });
 
-const Footer = ({ toggleChecklistModal }) => {
+const Footer = () => {
   const classes = useStyles();
 
   return (
@@ -79,16 +78,12 @@ const Footer = ({ toggleChecklistModal }) => {
           </a>
         </div>
         <div>|</div>
-        <div className={classes.linkLastChild} onClick={toggleChecklistModal}>
+        <Link className={classes.linkLastChild} to="/checklist">
           Checklist
-        </div>
+        </Link>
       </div>
     </footer>
   );
-};
-
-Footer.propTypes = {
-  toggleChecklistModal: PropTypes.func
 };
 
 export default Footer;
