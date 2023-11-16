@@ -104,9 +104,9 @@ const trash = async (req, res) => {
 
 const snapshot = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id, name } = req.body;
 
-    const result = await projectService.snapshot(id, req.user.id);
+    const result = await projectService.snapshot(id, req.user.id, name);
     if (result === 1) {
       res.sendStatus(403);
     } else {

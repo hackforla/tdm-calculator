@@ -20,7 +20,7 @@ import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import * as projectService from "../../services/project.service";
-
+import SnapshotProjectModal from "./SnapshotProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import DownloadProjectModal from "./DownloadProjectModal.js";
@@ -128,6 +128,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const projects = useProjects(handleError);
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [copyModalOpen, setCopyModalOpen] = useState(false);
+  const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -202,6 +203,30 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       }
     }
     setDeleteModalOpen(false);
+  };
+
+  const handleSnapshotModalOpen = project => {
+    setSelectedProject(project);
+    setSnapshotModalOpen(true);
+  };
+
+  const handleSnapshotModalClose = async action => {
+    console.log("SELECTED PROJECT", selectedProject);
+    let newProjectName;
+    const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
+    projectFormInputsAsJson.PROJECT_NAME = newProjectName;
+    if (action === "ok") {
+      try {
+        await projectService.snapshot({
+          id: selectedProject.id,
+          name: newProjectName
+        });
+        setSelectedProject(null);
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setSnapshotModalOpen(false);
   };
 
   const handleDownloadModalOpen = project => {
@@ -486,6 +511,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                         project={project}
                         handleCopyModalOpen={handleCopyModalOpen}
                         handleDeleteModalOpen={handleDeleteModalOpen}
+                        handleSnapshotModalOpen={handleSnapshotModalOpen}
                         handleDownloadCSV={handleDownloadModalOpen}
                       />
                     </Popup>
@@ -527,6 +553,12 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
             mounted={downloadModalOpen}
             onClose={handleDownloadModalClose}
             selectedProject={selectedProject}
+          />
+
+          <SnapshotProjectModal
+            mounted={snapshotModalOpen}
+            onClose={handleSnapshotModalClose}
+            selectedProjectName={selectedProjectName}
           />
         </>
       )}

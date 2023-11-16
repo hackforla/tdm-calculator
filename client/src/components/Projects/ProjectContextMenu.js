@@ -21,7 +21,14 @@ const useStyles = createUseStyles({
     margin: 0,
     padding: 0
   },
-  listItem: { display: "flex", flexDirection: "row", padding: "0.5rem" },
+  listItem: {
+    display: "flex",
+    flexDirection: "row",
+    padding: "0.5rem",
+    "&:hover": {
+      cursor: "pointer"
+    }
+  },
   listItemIcon: { marginRight: "0.3rem" }
 });
 
@@ -29,6 +36,7 @@ const ProjectContextMenu = ({
   project,
   handleCopyModalOpen,
   handleDeleteModalOpen,
+  handleSnapshotModalOpen,
   handleDownloadCSV
 }) => {
   const [projectVisibility, SetProjectVisibility] = useState(
@@ -44,7 +52,10 @@ const ProjectContextMenu = ({
   return (
     <ul className={classes.list}>
       {project.dateSnapshotted ? null : (
-        <li className={classes.listItem}>
+        <li
+          className={classes.listItem}
+          onClick={() => handleSnapshotModalOpen(project)}
+        >
           <FontAwesomeIcon
             icon={faCamera}
             className={classes.listItemIcon}
@@ -141,7 +152,8 @@ ProjectContextMenu.propTypes = {
   project: PropTypes.object,
   handleCopyModalOpen: PropTypes.func,
   handleDeleteModalOpen: PropTypes.func,
-  handleDownloadCSV: PropTypes.func
+  handleDownloadCSV: PropTypes.func,
+  handleSnapshotModalOpen: PropTypes.func
 };
 
 export default ProjectContextMenu;
