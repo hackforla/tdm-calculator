@@ -1,4 +1,10 @@
 const calculationService = require("../services/calculation.service");
+const {
+  validate,
+  validationErrorMiddleware
+} = require("../../middleware/validate");
+const calculationPost = require("../schemas/calculation.post");
+const calculationPut = require("../schemas/calculation.put");
 
 const getAll = async (req, res) => {
   try {
@@ -52,7 +58,7 @@ const del = async (req, res) => {
 module.exports = {
   getAll,
   getById,
-  post,
-  put,
+  post: [validate({ body: calculationPost }), post, validationErrorMiddleware],
+  put: [validate({ body: calculationPut }), put, validationErrorMiddleware],
   del
 };
