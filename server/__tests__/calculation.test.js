@@ -92,6 +92,20 @@ describe("Calculation API Endpoints", () => {
     newCalcId = res.body.id;
   });
 
+  // POST "/" Create a calculation with invalid body (Admin only)
+  it("should create a calculation", async () => {
+    const res = await request(server)
+      .post("/api/calculations")
+      .set("Authorization", `Bearer ${adminToken}`)
+      .send({
+        name: true,
+        description: 1,
+        deprecated: true,
+        id: "string"
+      });
+    expect(res.statusCode).toEqual(400);
+  });
+
   // PUT "/:id" Update calculation (Admin only)
   it("should update a calculation", async () => {
     const res = await request(server)
@@ -104,6 +118,20 @@ describe("Calculation API Endpoints", () => {
         id: newCalcId
       });
     expect(res.statusCode).toEqual(200);
+  });
+
+  // PUT "/:id" Update calculation with invalid body(Admin only)
+  it("should update a calculation", async () => {
+    const res = await request(server)
+      .put(`/api/calculations/${newCalcId}`)
+      .set("Authorization", `Bearer ${adminToken}`)
+      .send({
+        name: true,
+        description: 1,
+        deprecated: true,
+        id: "string"
+      });
+    expect(res.statusCode).toEqual(400);
   });
 
   // PUT "/:id" Update calculation using inexistent id (Admin only)
