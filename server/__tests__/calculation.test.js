@@ -15,7 +15,6 @@ afterAll(async () => {
 });
 
 describe("Calculation API Endpoints", () => {
-   
   //////////////////////////////
   //          general          //
   //////////////////////////////
@@ -23,8 +22,7 @@ describe("Calculation API Endpoints", () => {
 
   // GET "/" all calculations
   it("should get all calculations", async () => {
-    const res = await request(server)
-    .get("/api/calculations");
+    const res = await request(server).get("/api/calculations");
     expect(Array.isArray(res.body)).toBeTruthy();
     res.body.forEach(calc => {
       expect(calc).toHaveProperty("id");
@@ -39,23 +37,20 @@ describe("Calculation API Endpoints", () => {
 
   // GET "/:calcId" calculation by id
   it("should get calculation by id", async () => {
-    const res = await request(server)
-    .get(`/api/calculations/${calcId}`);
+    const res = await request(server).get(`/api/calculations/${calcId}`);
     expect(res.statusCode).toEqual(200);
     expect(res.body.id).toEqual(calcId);
   });
 
   // GET "/:calcId" calculation by inexistent id
   it("should get calculation by id", async () => {
-    const res = await request(server)
-    .get(`/api/calculations/9999999`);
+    const res = await request(server).get(`/api/calculations/9999999`);
     expect(res.statusCode).toEqual(404);
   });
 
   // GET "/:calcId/rules" all rules for a calculation
   it("should get all rules for a calculation", async () => {
-    const res = await request(server)
-    .get(`/api/calculations/${calcId}/rules`);
+    const res = await request(server).get(`/api/calculations/${calcId}/rules`);
     expect(res.statusCode).toEqual(200);
     expect(Array.isArray(res.body)).toBeTruthy();
     res.body.forEach(calc => {
@@ -64,18 +59,16 @@ describe("Calculation API Endpoints", () => {
       expect(calc.calculationId).toEqual(calcId);
     });
   });
- 
+
   //////////////////////////////
   //      admin endpoints      //
   //////////////////////////////
   let adminToken; // token of the admin
   let newCalcId; // id of the new calculation
-  
 
   // POST "accounts/login/:email?" Login as admin to get token
   it("should login as a security admin", async () => {
-    const res = await request(server)
-    .post("/api/accounts/login").send({
+    const res = await request(server).post("/api/accounts/login").send({
       email: process.env.ADMIN_EMAIL,
       password: process.env.ADMIN_PASSWORD
     });
@@ -87,13 +80,13 @@ describe("Calculation API Endpoints", () => {
   // POST "/" Create a calculation (Admin only)
   it("should create a calculation", async () => {
     const res = await request(server)
-    .post("/api/calculations")
-    .set('Authorization', `Bearer ${adminToken}`)
-    .send({
-    name: "Test Name",
-    description: "Test Description",
-    deprecated: false
-    });
+      .post("/api/calculations")
+      .set("Authorization", `Bearer ${adminToken}`)
+      .send({
+        name: "Test Name",
+        description: "Test Description",
+        deprecated: false
+      });
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty("id");
     newCalcId = res.body.id;
@@ -102,14 +95,14 @@ describe("Calculation API Endpoints", () => {
   // PUT "/:id" Update calculation (Admin only)
   it("should update a calculation", async () => {
     const res = await request(server)
-    .put(`/api/calculations/${newCalcId}`)
-    .set('Authorization', `Bearer ${adminToken}`)
-    .send({
-    name: "New Test Name",
-    description: "New Test Description",
-    deprecated: true,
-    id: newCalcId
-    });
+      .put(`/api/calculations/${newCalcId}`)
+      .set("Authorization", `Bearer ${adminToken}`)
+      .send({
+        name: "New Test Name",
+        description: "New Test Description",
+        deprecated: true,
+        id: newCalcId
+      });
     expect(res.statusCode).toEqual(200);
   });
 
@@ -119,13 +112,11 @@ describe("Calculation API Endpoints", () => {
   // DELETE "/:id" Delete a calculation (Admin only)
   it("should delete a calculation", async () => {
     const res = await request(server)
-    .delete(`/api/calculations/${newCalcId}`)
-    .set('Authorization', `Bearer ${adminToken}`);
+      .delete(`/api/calculations/${newCalcId}`)
+      .set("Authorization", `Bearer ${adminToken}`);
     expect(res.statusCode).toEqual(200);
   });
 
   // DELETE "/:id" Delete a calculation using inexistent id (Admin only)
   //TODO: this endpoint needs error handling for inexistent ids
-
 });
-
