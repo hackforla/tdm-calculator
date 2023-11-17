@@ -38,7 +38,7 @@ const post = async item => {
     request.output("id", mssql.Int, null);
     const response = await request.execute("Calculation_Insert");
 
-    return response.outputParameters;
+    return response.output;
   } catch (err) {
     return Promise.reject(err);
   }
