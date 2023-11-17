@@ -93,7 +93,7 @@ describe("Calculation API Endpoints", () => {
   });
 
   // POST "/" Create a calculation with invalid body (Admin only)
-  it("should create a calculation", async () => {
+  it("should not create a calculation", async () => {
     const res = await request(server)
       .post("/api/calculations")
       .set("Authorization", `Bearer ${adminToken}`)
@@ -121,7 +121,7 @@ describe("Calculation API Endpoints", () => {
   });
 
   // PUT "/:id" Update calculation with invalid body(Admin only)
-  it("should update a calculation", async () => {
+  it("should not update a calculation", async () => {
     const res = await request(server)
       .put(`/api/calculations/${newCalcId}`)
       .set("Authorization", `Bearer ${adminToken}`)
