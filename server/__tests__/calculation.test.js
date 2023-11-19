@@ -14,11 +14,22 @@ afterAll(async () => {
   await teardownServer();
 });
 
-describe("Calculation API Endpoints", () => {
+describe("tests that require a calculation id", () => {
   //////////////////////////////
-  //          general          //
+  //          general         //
   //////////////////////////////
   let calcId; // id of the calculation
+
+  beforeEach(async () => {
+    // get a calculation id for the tests
+    const res = await request(server).get("/api/calculations");
+    calcId = res.body[0].id;
+  });
+
+  afterEach(async () => {
+    // cleanup state
+    calcId = undefined;
+  });
 
   // GET "/" all calculations
   it("should get all calculations", async () => {
@@ -32,7 +43,6 @@ describe("Calculation API Endpoints", () => {
       expect(calc).toHaveProperty("dateCreated");
       expect(calc).toHaveProperty("dateModified");
     });
-    calcId = res.body[0].id;
   });
 
   // GET "/:calcId" calculation by id
@@ -43,7 +53,7 @@ describe("Calculation API Endpoints", () => {
   });
 
   // GET "/:calcId" calculation by inexistent id
-  it("should get calculation by id", async () => {
+  it("should NOT get calculation by id", async () => {
     const res = await request(server).get(`/api/calculations/9999999`);
     expect(res.statusCode).toEqual(404);
   });
@@ -59,22 +69,38 @@ describe("Calculation API Endpoints", () => {
       expect(calc.calculationId).toEqual(calcId);
     });
   });
+});
 
+describe("tests that require an admin", () => {
   //////////////////////////////
   //      admin endpoints      //
   //////////////////////////////
   let adminToken; // token of the admin
   let newCalcId; // id of the new calculation
 
-  // POST "accounts/login/:email?" Login as admin to get token
-  it("should login as a security admin", async () => {
-    const res = await request(server).post("/api/accounts/login").send({
+  beforeEach(async () => {
+    // login as admin
+    const admin_res = await request(server).post("/api/accounts/login").send({
       email: process.env.ADMIN_EMAIL,
       password: process.env.ADMIN_PASSWORD
     });
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("token");
-    adminToken = res.body.token;
+    adminToken = admin_res.body.token;
+
+    const calc_res = await request(server)
+      .post("/api/calculations")
+      .set("Authorization", `Bearer ${adminToken}`)
+      .send({
+        name: "Test Name",
+        description: "Test Description",
+        deprecated: false
+      });
+    newCalcId = calc_res.body.id;
+  });
+
+  afterEach(async () => {
+    // cleanup state
+    adminToken = undefined;
+    newCalcId = undefined;
   });
 
   // POST "/" Create a calculation (Admin only)
@@ -89,11 +115,10 @@ describe("Calculation API Endpoints", () => {
       });
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty("id");
-    newCalcId = res.body.id;
   });
 
   // POST "/" Create a calculation with invalid body (Admin only)
-  it("should not create a calculation", async () => {
+  it("should NOT create a calculation", async () => {
     const res = await request(server)
       .post("/api/calculations")
       .set("Authorization", `Bearer ${adminToken}`)
@@ -121,7 +146,7 @@ describe("Calculation API Endpoints", () => {
   });
 
   // PUT "/:id" Update calculation with invalid body(Admin only)
-  it("should not update a calculation", async () => {
+  it("should NOT update a calculation", async () => {
     const res = await request(server)
       .put(`/api/calculations/${newCalcId}`)
       .set("Authorization", `Bearer ${adminToken}`)
