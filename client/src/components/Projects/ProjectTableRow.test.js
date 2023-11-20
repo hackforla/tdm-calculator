@@ -83,6 +83,7 @@ describe("ProjectTableRow", () => {
   const handleCopyModalOpen = jest.fn();
   const handleDeleteModalOpen = jest.fn();
   const handleSnapshotModalOpen = jest.fn();
+  const handleHide = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -102,6 +103,7 @@ describe("ProjectTableRow", () => {
               handleCopyModalOpen={handleCopyModalOpen}
               handleDeleteModalOpen={handleDeleteModalOpen}
               handleSnapshotModalOpen={handleSnapshotModalOpen}
+              handleHide={handleHide}
             />
           </tbody>
         </table>
@@ -137,6 +139,7 @@ describe("ProjectTableRow", () => {
               handleCopyModalOpen={handleCopyModalOpen}
               handleDeleteModalOpen={handleDeleteModalOpen}
               handleSnapshotModalOpen={handleSnapshotModalOpen}
+              handleHide={handleHide}
             />
           </tbody>
         </table>
@@ -162,6 +165,7 @@ describe("ProjectTableRow", () => {
               handleCopyModalOpen={handleCopyModalOpen}
               handleDeleteModalOpen={handleDeleteModalOpen}
               handleSnapshotModalOpen={handleSnapshotModalOpen}
+              handleHide={handleHide}
             />
           </tbody>
         </table>
@@ -189,6 +193,7 @@ describe("ProjectTableRow", () => {
               handleCopyModalOpen={handleCopyModalOpen}
               handleDeleteModalOpen={handleDeleteModalOpen}
               handleSnapshotModalOpen={handleSnapshotModalOpen}
+              handleHide={handleHide}
             />
           </tbody>
         </table>
@@ -216,6 +221,7 @@ describe("ProjectTableRow", () => {
               handleCopyModalOpen={handleCopyModalOpen}
               handleDeleteModalOpen={handleDeleteModalOpen}
               handleSnapshotModalOpen={handleSnapshotModalOpen}
+              handleHide={handleHide}
             />
           </tbody>
         </table>

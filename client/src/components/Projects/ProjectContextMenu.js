@@ -47,6 +47,7 @@ const ProjectContextMenu = ({
     project.dateHidden
   );
   const toggleProjectVisibility = () => {
+    handleHide(project);
     SetProjectVisibility(!projectVisibility);
   };
 
