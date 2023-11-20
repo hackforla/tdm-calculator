@@ -4141,6 +4141,30 @@
       "operation": "migrate",
       "exception": null,
       "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20231102.0946",
+      "targetSchemaVersion": "20231120.0924",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20231120.0924",
+          "description": "rename publiccomment to feedback 670",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20231120.0924__rename_publiccomment_to_feedback_670.sql",
+          "executionTime": 3224
+        }
+      ],
+      "migrationsExecuted": 1,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2023-11-20T09:57:38.087263600",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
     }
   ]
 }

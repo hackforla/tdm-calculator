@@ -41,7 +41,7 @@ async function validateUser(req, res, next) {
       return next();
     }
   } catch (er) {
-    res.status("401").send("Unauthenticated User");
+    res.status(401).send("Unauthenticated User");
   }
 }
 
