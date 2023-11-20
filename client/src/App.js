@@ -27,7 +27,7 @@ import FaqView from "./components/Faq/FaqView";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ForgotPassword from "./components/Authorization/ForgotPassword";
 import "./styles/App.scss";
-import PublicComment from "./components/PublicComment/PublicCommentPage";
+import Feedback from "./components/Feedback/FeedbackPage";
 import Sidebar from "./components/Sidebar";
 
 const useStyles = createUseStyles({
@@ -185,10 +185,7 @@ const App = ({
                 />
               }
             />
-            <Route
-              path="/publiccomment"
-              element={<PublicComment account={account} />}
-            />
+            <Route path="/feedback" element={<Feedback account={account} />} />
           </Route>
         </Routes>
       </div>

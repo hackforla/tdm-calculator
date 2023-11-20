@@ -29,7 +29,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const DeleteProjectModal = ({ mounted, onClose, selectedProjectName }) => {
+const DeleteProjectModal = ({ mounted, onClose, project }) => {
   const theme = useTheme();
   const classes = useStyles();
 
@@ -39,27 +39,63 @@ const DeleteProjectModal = ({ mounted, onClose, selectedProjectName }) => {
       onClose={onClose}
       initialFocus="#cancelButton"
     >
-      <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-        <FontAwesomeIcon icon={faTrashCan} /> Delete Project
-      </div>
-      <div style={theme.typography.subHeading}>
-        <img src={WarningIcon} className={classes.warningIcon} alt="Warning" />
-        Are you sure you want to <span>permanently</span> delete the project,
-      </div>
+      {project.dateTrashed ? (
+        <>
+          <div
+            className={classes.heading1}
+            style={{ marginBottom: "1.5rem", color: "red" }}
+          >
+            <FontAwesomeIcon icon={faTrashCan} /> Restore Project from Trash
+          </div>
+          <div style={theme.typography.subHeading}>
+            <img
+              src={WarningIcon}
+              className={classes.warningIcon}
+              alt="Warning"
+            />
+            Are you sure you want to restore the project from the trash,
+          </div>
+        </>
+      ) : (
+        <>
+          <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
+            <FontAwesomeIcon icon={faTrashCan} /> Delete Project
+          </div>
+          <div style={theme.typography.subHeading}>
+            <img
+              src={WarningIcon}
+              className={classes.warningIcon}
+              alt="Warning"
+            />
+            Are you sure you want to delete the project,
+          </div>
+        </>
+      )}
+
       <div style={{ ...theme.typography.heading3, marginBottom: "1.5rem" }}>
-        {selectedProjectName}?
+        {project.name}?
       </div>
       <div className={classes.buttonFlexBox}>
         <Button onClick={onClose} variant="text" id="cancelButton">
           Cancel
         </Button>
-        <Button
-          onClick={() => onClose("ok")}
-          variant="contained"
-          color={"colorError"}
-        >
-          Delete
-        </Button>
+        {project.dateTrashed ? (
+          <Button
+            onClick={() => onClose("ok")}
+            variant="contained"
+            color={"colorError"}
+          >
+            Restore
+          </Button>
+        ) : (
+          <Button
+            onClick={() => onClose("ok")}
+            variant="contained"
+            color={"colorError"}
+          >
+            Delete
+          </Button>
+        )}
       </div>
     </ModalDialog>
   );
@@ -68,7 +104,7 @@ const DeleteProjectModal = ({ mounted, onClose, selectedProjectName }) => {
 DeleteProjectModal.propTypes = {
   mounted: PropTypes.bool,
   onClose: PropTypes.func,
-  selectedProjectName: PropTypes.string
+  project: PropTypes.any
 };
 
 export default DeleteProjectModal;

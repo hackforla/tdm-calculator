@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postPublicComment } from "./postPublicComment";
+import * as feedbackService from "../../services/feedback.service";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import PropTypes from "prop-types";
@@ -14,7 +14,7 @@ import useProjects from "../../hooks/useGetProjects";
 import ProjectList from "./ProjectList";
 
 const useStyles = createUseStyles({
-  publicCommentContainer: {
+  feedbackContainer: {
     height: "max-content",
     width: "80%",
     maxWidth: "840px"
@@ -66,7 +66,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const PublicCommentPage = ({ account }) => {
+const FeedbackPage = ({ account }) => {
   const focusRef = useRef(null);
   const classes = useStyles();
   const toast = useToast();
@@ -100,10 +100,9 @@ const PublicCommentPage = ({ account }) => {
     { name, email, comment, forwardToWebTeam },
     { setSubmitting, resetForm }
   ) => {
-    await new Promise(r => setTimeout(r, 500));
-
+    // await new Promise(r => setTimeout(r, 500));
     try {
-      const response = await postPublicComment({
+      const response = await feedbackService.post({
         name,
         email,
         comment,
@@ -126,7 +125,7 @@ const PublicCommentPage = ({ account }) => {
 
   return (
     <ContentContainer>
-      <div className={classes.publicCommentContainer}>
+      <div className={classes.feedbackContainer}>
         <h1 className={classes.pageTitle}>TDM Calculator Feedback Form</h1>
         <div className={classes.subtitle}>
           <p>
@@ -142,7 +141,7 @@ const PublicCommentPage = ({ account }) => {
             ), use the{" "}
             <a
               target="external"
-              href="https://cityclerk.lacity.org/publiccomment/?cfnumber=15-0719-S19"
+              href="https://cityclerk.lacity.org/Feedback/?cfnumber=15-0719-S19"
             >
               City Clerk&apos;s comment form
             </a>
@@ -154,19 +153,20 @@ const PublicCommentPage = ({ account }) => {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ errors, touched }) => (
+          {({ errors, touched, isSubmitting }) => (
             <Form className={classes.formContainer}>
               <div className={classes.row}>
                 <label htmlFor="name" className={classes.formLabel}>
                   Name <span style={{ color: "red" }}>*</span>
                   <ErrorMessage
-                    name="name"
+                    name="nameErrorMessage"
                     component="span"
                     className={classes.errorMessage}
                   />
                 </label>
 
                 <Field
+                  id="name"
                   name="name"
                   innerRef={focusRef}
                   type="text"
@@ -247,6 +247,7 @@ const PublicCommentPage = ({ account }) => {
                 type="submit"
                 className={classes.submitButton}
                 color="colorPrimary"
+                disabled={isSubmitting}
               >
                 Submit
               </Button>
@@ -258,7 +259,7 @@ const PublicCommentPage = ({ account }) => {
   );
 };
 
-PublicCommentPage.propTypes = {
+FeedbackPage.propTypes = {
   account: PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
@@ -267,4 +268,4 @@ PublicCommentPage.propTypes = {
   })
 };
 
-export default PublicCommentPage;
+export default FeedbackPage;

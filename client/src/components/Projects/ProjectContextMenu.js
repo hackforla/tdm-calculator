@@ -38,7 +38,8 @@ const ProjectContextMenu = ({
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
   handleDownloadCsv,
-  handlePrintPdf
+  handlePrintPdf,
+  handleHide
 }) => {
   const userContext = useContext(UserContext);
   const account = userContext.account;
@@ -160,7 +161,8 @@ ProjectContextMenu.propTypes = {
   handleDeleteModalOpen: PropTypes.func,
   handleSnapshotModalOpen: PropTypes.func,
   handleDownloadCsv: PropTypes.func,
-  handlePrintPdf: PropTypes.func
+  handlePrintPdf: PropTypes.func,
+  handleHide: PropTypes.func
 };
 
 export default ProjectContextMenu;
