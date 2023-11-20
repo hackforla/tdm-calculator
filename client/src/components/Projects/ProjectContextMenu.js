@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
@@ -39,6 +40,8 @@ const ProjectContextMenu = ({
   handleDownloadCsv,
   handlePrintPdf
 }) => {
+  const userContext = useContext(UserContext);
+  const account = userContext.account;
   const [projectVisibility, SetProjectVisibility] = useState(
     project.dateHidden
   );
@@ -50,7 +53,7 @@ const ProjectContextMenu = ({
 
   return (
     <ul className={classes.list}>
-      {project.dateSnapshotted ? null : (
+      {project.dateSnapshotted || project.loginId !== account.id ? null : (
         <li
           className={classes.listItem}
           onClick={() => handleSnapshotModalOpen(project)}
@@ -94,55 +97,59 @@ const ProjectContextMenu = ({
         />
         Duplicate
       </li>
-      <li
-        onClick={() => toggleProjectVisibility(project)}
-        className={classes.listItem}
-      >
-        {projectVisibility ? (
-          <>
-            <FontAwesomeIcon
-              icon={faEyeSlash}
-              className={classes.listItemIcon}
-              alt={`Unhide Project #${project.id} as CSV Icon`}
-            />
-            Unhide
-          </>
-        ) : (
-          <>
-            <FontAwesomeIcon
-              icon={faEye}
-              className={classes.listItemIcon}
-              alt={`Hide Project #${project.id} as CSV Icon`}
-            />
-            Hide from View
-          </>
-        )}
-      </li>
-      <li
-        onClick={() => handleDeleteModalOpen(project)}
-        className={classes.listItem}
-        style={{ borderTop: "1px solid black", color: "red" }}
-      >
-        {project.dateTrashed ? (
-          <>
-            <FontAwesomeIcon
-              icon={faTrash}
-              className={classes.listItemIcon}
-              alt={`Remove Project #${project.id} from Trash Icon`}
-            />
-            Remove from Trash
-          </>
-        ) : (
-          <>
-            <FontAwesomeIcon
-              icon={faTrash}
-              className={classes.listItemIcon}
-              alt={`Move  Project #${project.id} to Trash Icon`}
-            />
-            Move to Trash
-          </>
-        )}
-      </li>
+      {project.loginId !== account.id ? null : (
+        <li
+          onClick={() => toggleProjectVisibility(project)}
+          className={classes.listItem}
+        >
+          {projectVisibility ? (
+            <>
+              <FontAwesomeIcon
+                icon={faEyeSlash}
+                className={classes.listItemIcon}
+                alt={`Unhide Project #${project.id} as CSV Icon`}
+              />
+              Unhide
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon
+                icon={faEye}
+                className={classes.listItemIcon}
+                alt={`Hide Project #${project.id} as CSV Icon`}
+              />
+              Hide from View
+            </>
+          )}
+        </li>
+      )}
+      {project.loginId !== account.id ? null : (
+        <li
+          onClick={() => handleDeleteModalOpen(project)}
+          className={classes.listItem}
+          style={{ borderTop: "1px solid black", color: "red" }}
+        >
+          {project.dateTrashed ? (
+            <>
+              <FontAwesomeIcon
+                icon={faTrash}
+                className={classes.listItemIcon}
+                alt={`Remove Project #${project.id} from Trash Icon`}
+              />
+              Remove from Trash
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon
+                icon={faTrash}
+                className={classes.listItemIcon}
+                alt={`Move  Project #${project.id} to Trash Icon`}
+              />
+              Move to Trash
+            </>
+          )}
+        </li>
+      )}
     </ul>
   );
 };
