@@ -191,15 +191,18 @@ const ProjectTableRow = ({
               closeOnDocumentClick
               arrow={false}
             >
-              <ProjectContextMenu
-                project={project}
-                handleCopyModalOpen={handleCopyModalOpen}
-                handleDeleteModalOpen={handleDeleteModalOpen}
-                handleDownloadCsv={handleDownloadCsv}
-                handlePrintPdf={handlePrintPdf}
-                handleSnapshotModalOpen={handleSnapshotModalOpen}
-                handleHide={handleHide}
-              />
+              {close => (
+                <ProjectContextMenu
+                  project={project}
+                  closeMenu={close}
+                  handleCopyModalOpen={handleCopyModalOpen}
+                  handleDeleteModalOpen={handleDeleteModalOpen}
+                  handleDownloadCsv={handleDownloadCsv}
+                  handlePrintPdf={handlePrintPdf}
+                  handleSnapshotModalOpen={handleSnapshotModalOpen}
+                  handleHide={handleHide}
+                />
+              )}
             </Popup>
             <div style={{ display: "none" }}>
               <CSVLink
