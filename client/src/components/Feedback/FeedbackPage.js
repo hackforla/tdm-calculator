@@ -73,7 +73,7 @@ const FeedbackPage = ({ account }) => {
   const navigate = useNavigate();
   const email = account.email;
   const handleError = useErrorHandler(email, navigate);
-  const projects = useProjects(handleError);
+  const [projects] = useProjects(handleError);
   const [selectedProjects, setSelectedProjects] = useState([]);
 
   useEffect(() => {
