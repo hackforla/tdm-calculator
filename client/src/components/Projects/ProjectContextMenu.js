@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
-import { useState } from "react";
 import PropTypes from "prop-types";
 
 import { createUseStyles } from "react-jss";
@@ -43,14 +42,6 @@ const ProjectContextMenu = ({
 }) => {
   const userContext = useContext(UserContext);
   const account = userContext.account;
-  const [projectVisibility, SetProjectVisibility] = useState(
-    project.dateHidden
-  );
-  const toggleProjectVisibility = () => {
-    handleHide(project);
-    SetProjectVisibility(!projectVisibility);
-  };
-
   const classes = useStyles();
 
   return (
@@ -100,27 +91,24 @@ const ProjectContextMenu = ({
         Duplicate
       </li>
       {project.loginId !== account.id ? null : (
-        <li
-          onClick={() => toggleProjectVisibility(project)}
-          className={classes.listItem}
-        >
-          {projectVisibility ? (
-            <>
-              <FontAwesomeIcon
-                icon={faEyeSlash}
-                className={classes.listItemIcon}
-                alt={`Unhide Project #${project.id} as CSV Icon`}
-              />
-              Unhide
-            </>
-          ) : (
+        <li onClick={() => handleHide(project)} className={classes.listItem}>
+          {project.dateHidden ? (
             <>
               <FontAwesomeIcon
                 icon={faEye}
                 className={classes.listItemIcon}
                 alt={`Hide Project #${project.id} as CSV Icon`}
               />
-              Hide from View
+              Unhide
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon
+                icon={faEyeSlash}
+                className={classes.listItemIcon}
+                alt={`Hide Project #${project.id} as CSV Icon`}
+              />
+              Hide
             </>
           )}
         </li>
