@@ -12,6 +12,8 @@ import Footer from "./components/Footer";
 import About from "./components/About";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
 import TermsAndConditionsModal from "./components/TermsAndConditions/TermsAndConditionsModal";
+import ChecklistModal from "./components/Checklist/ChecklistModal";
+import ChecklistPage from "./components/Checklist/ChecklistPage";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
 import UpdateAccount from "./components/Authorization/UpdateAccount";
@@ -28,7 +30,6 @@ import ForgotPassword from "./components/Authorization/ForgotPassword";
 import "./styles/App.scss";
 import Feedback from "./components/Feedback/FeedbackPage";
 import Sidebar from "./components/Sidebar";
-import ChecklistPage from "./components/Checklist/ChecklistPage";
 
 const useStyles = createUseStyles({
   app: {
@@ -45,18 +46,23 @@ const App = ({
   isOpenNavConfirmModal,
   contentContainerRef,
   appContainerRef,
+  checklistModalOpen,
+  toggleChecklistModal,
   hasAcceptedTerms,
   onAcceptTerms
 }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const account = userContext.account;
-
   return (
     <React.Fragment>
       <TermsAndConditionsModal
         hasAcceptedTerms={hasAcceptedTerms}
         onAcceptTerms={onAcceptTerms}
+      />
+      <ChecklistModal
+        checklistModalOpen={checklistModalOpen}
+        toggleChecklistModal={toggleChecklistModal}
       />
       <Header />
       <div className={classes.app} id="app-container" ref={appContainerRef}>
@@ -183,7 +189,7 @@ const App = ({
           </Route>
         </Routes>
       </div>
-      <Footer />
+      <Footer toggleChecklistModal={toggleChecklistModal} />
     </React.Fragment>
   );
 };
@@ -194,7 +200,9 @@ App.propTypes = {
   appContainerRef: PropTypes.object,
   contentContainerRef: PropTypes.object,
   hasAcceptedTerms: PropTypes.bool,
-  onAcceptTerms: PropTypes.func
+  onAcceptTerms: PropTypes.func,
+  checklistModalOpen: PropTypes.bool,
+  toggleChecklistModal: PropTypes.func
 };
 
 export default withToastProvider(App);
