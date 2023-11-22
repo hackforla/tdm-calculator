@@ -101,7 +101,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const email = account.email;
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
-  const projects = useProjects(handleError);
+  const [projects, setProjects] = useProjects(handleError);
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
@@ -138,6 +138,10 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     setCopyModalOpen(true);
   };
 
+  const updateProjects = async () => {
+    const updated = await projectService.get();
+    setProjects(updated.data);
+  };
   const handleCopyModalClose = async (action, newProjectName) => {
     if (action === "ok") {
       const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
@@ -149,6 +153,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           name: newProjectName,
           formInputs: JSON.stringify(projectFormInputsAsJson)
         });
+        await updateProjects();
       } catch (err) {
         handleError(err);
       }
@@ -168,6 +173,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           [selectedProject.id],
           !selectedProject.dateTrashed
         );
+        await updateProjects();
       } catch (err) {
         handleError(err);
       }
@@ -187,6 +193,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
           id: selectedProject.id,
           name: newProjectName
         });
+        await updateProjects();
         setSelectedProject(null);
       } catch (err) {
         handleError(err);
@@ -195,9 +202,10 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     setSnapshotModalOpen(false);
   };
 
-  const handleHide = project => {
+  const handleHide = async project => {
     setSelectedProject(project);
-    projectService.hide([project.id], !project.dateHidden);
+    await projectService.hide([project.id], !project.dateHidden);
+    await updateProjects();
     console.error(project.dateHidden);
   };
 

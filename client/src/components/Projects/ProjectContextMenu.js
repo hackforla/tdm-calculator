@@ -33,6 +33,7 @@ const useStyles = createUseStyles({
 
 const ProjectContextMenu = ({
   project,
+  closeMenu,
   handleCopyModalOpen,
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
@@ -44,12 +45,17 @@ const ProjectContextMenu = ({
   const account = userContext.account;
   const classes = useStyles();
 
+  const handleClick = callback => {
+    callback(project);
+    closeMenu();
+  };
+
   return (
     <ul className={classes.list}>
       {project.dateSnapshotted || project.loginId !== account.id ? null : (
         <li
           className={classes.listItem}
-          onClick={() => handleSnapshotModalOpen(project)}
+          onClick={() => handleClick(handleSnapshotModalOpen)}
         >
           <FontAwesomeIcon
             icon={faCamera}
@@ -60,7 +66,10 @@ const ProjectContextMenu = ({
         </li>
       )}
 
-      <li onClick={() => handlePrintPdf(project)} className={classes.listItem}>
+      <li
+        onClick={() => handleClick(handlePrintPdf)}
+        className={classes.listItem}
+      >
         <FontAwesomeIcon
           icon={faPrint}
           className={classes.listItemIcon}
@@ -69,7 +78,7 @@ const ProjectContextMenu = ({
         Print
       </li>
       <li
-        onClick={() => handleDownloadCsv(project)}
+        onClick={() => handleClick(handleDownloadCsv)}
         className={classes.listItem}
       >
         <FontAwesomeIcon
@@ -80,7 +89,7 @@ const ProjectContextMenu = ({
         Export as CSV
       </li>
       <li
-        onClick={() => handleCopyModalOpen(project)}
+        onClick={() => handleClick(handleCopyModalOpen)}
         className={classes.listItem}
       >
         <FontAwesomeIcon
@@ -91,7 +100,10 @@ const ProjectContextMenu = ({
         Duplicate
       </li>
       {project.loginId !== account.id ? null : (
-        <li onClick={() => handleHide(project)} className={classes.listItem}>
+        <li
+          onClick={() => handleClick(handleHide)}
+          className={classes.listItem}
+        >
           {project.dateHidden ? (
             <>
               <FontAwesomeIcon
@@ -115,7 +127,7 @@ const ProjectContextMenu = ({
       )}
       {project.loginId !== account.id ? null : (
         <li
-          onClick={() => handleDeleteModalOpen(project)}
+          onClick={() => handleClick(handleDeleteModalOpen)}
           className={classes.listItem}
           style={{ borderTop: "1px solid black", color: "red" }}
         >
@@ -146,6 +158,7 @@ const ProjectContextMenu = ({
 
 ProjectContextMenu.propTypes = {
   project: PropTypes.object,
+  closeMenu: PropTypes.func,
   handleCopyModalOpen: PropTypes.func,
   handleDeleteModalOpen: PropTypes.func,
   handleSnapshotModalOpen: PropTypes.func,
