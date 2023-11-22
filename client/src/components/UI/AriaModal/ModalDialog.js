@@ -58,7 +58,8 @@ export default function ModalDialog({
   initialFocus,
   omitCloseBox = false,
   underlayClickExits = true,
-  escapeExits = true
+  escapeExits = true,
+  title = "Title Text"
 }) {
   const classes = useStyles();
 
@@ -69,7 +70,7 @@ export default function ModalDialog({
   return (
     <AriaModal
       mounted={mounted}
-      titleText="Title Text"
+      titleText={title}
       onExit={() => onClose()}
       initialFocus={initialFocus || null}
       getApplicationNode={getApplicationNode}
@@ -84,7 +85,11 @@ export default function ModalDialog({
       <div>
         {omitCloseBox ? null : (
           <div className={classes.buttonFlexBox}>
-            <button onClick={onClose} className={classes.closeButton}>
+            <button
+              onClick={onClose}
+              className={classes.closeButton}
+              aria-label={`Close ${title} modal`}
+            >
               <FontAwesomeIcon icon={faX} />
             </button>
           </div>
@@ -102,5 +107,6 @@ ModalDialog.propTypes = {
   initialFocus: PropTypes.string,
   omitCloseBox: PropTypes.bool,
   underlayClickExits: PropTypes.bool,
-  escapeExits: PropTypes.bool
+  escapeExits: PropTypes.bool,
+  title: PropTypes.string
 };

@@ -50,9 +50,7 @@ export function TdmCalculationContainer({
   hasConfirmedNavTransition,
   isOpenNavConfirmModal,
   setLoggedInAccount,
-  contentContainerRef,
-  checklistModalOpen,
-  toggleChecklistModal
+  contentContainerRef
 }) {
   const params = useParams();
   const navigate = useNavigate();
@@ -581,8 +579,6 @@ export function TdmCalculationContainer({
         projectIsValid={projectIsValid}
         dateModified={dateModified}
         contentContainerRef={contentContainerRef}
-        checklistModalOpen={checklistModalOpen}
-        toggleChecklistModal={toggleChecklistModal}
         inapplicableStrategiesModal={inapplicableStrategiesModal}
         closeStrategiesModal={closeStrategiesModal}
       />
@@ -602,9 +598,7 @@ TdmCalculationContainer.propTypes = {
   hasConfirmedNavTransition: PropTypes.bool,
   isOpenNavConfirmModal: PropTypes.bool,
   setLoggedInAccount: PropTypes.func,
-  contentContainerRef: PropTypes.object,
-  checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func
+  contentContainerRef: PropTypes.object
 };
 
 export default TdmCalculationContainer;

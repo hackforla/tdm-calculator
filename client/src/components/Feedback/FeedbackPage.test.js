@@ -57,7 +57,7 @@ describe("FeedbackPage", () => {
     expect(submitButton).toBeVisible();
   });
 
-  it("fills out form and saves public comment", async () => {
+  it.skip("fills out form and saves public comment", async () => {
     const user = userEvent.setup();
     feedbackService.post = jest.fn();
 

@@ -51,8 +51,8 @@ const ChecklistContent = () => {
       <h1 className={classes.title}>Checklist</h1>
       <br />
       <p className={classes.text}>
-        Listed below are the documents that you may need when using Create
-        Project.
+        Listed below are the documents that you may need when using{" "}
+        <a href="/calculation">Create Project.</a>
       </p>
       <div>
         <article className={classes.section}>
