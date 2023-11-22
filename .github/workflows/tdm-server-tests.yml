@@ -5,7 +5,7 @@ on:
     branches:
       - develop
 jobs:
-  build:
+  server-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,6 +39,8 @@ jobs:
         echo "APPLICATIONINSIGHTS_CONNECTION_STRING=InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/" >> .env
         echo "SECURITY_ADMIN_EMAIL=securityadmin@dispostable.com" >> .env
         echo "SECURITY_ADMIN_PASSWORD=Dogfood1!" >> .env
+        echo "ADMIN_EMAIL=ladot@dispostable.com" >> .env
+        echo "ADMIN_PASSWORD=Dogfood1!" >> .env
         echo "SQL_SERVER_NAME=localhost" >> .env
         echo "SQL_SERVER_PORT=1434" >> .env
         echo "SQL_DATABASE_NAME=tdmtestdb" >> .env

@@ -9,15 +9,3 @@ export function get() {
 export function getById(id) {
   return axios.get(`${baseUrl}/${id}`);
 }
-
-export function post(calculation) {
-  return axios.post(baseUrl, calculation);
-}
-
-export function put(calculation) {
-  return axios.put(baseUrl + "/" + calculation.id, calculation);
-}
-
-export function del(id) {
-  return axios.delete(baseUrl + "/" + id);
-}
