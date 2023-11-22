@@ -26,13 +26,17 @@ else
 fi
 
 # Run backend tests if the server directory has changes on the current branch and is different from origin/develop
+if ! docker info > /dev/null 2>&1; then
+  echo "The server tests use docker, and it isn't running - please start docker and try again."
+  exit 1
+fi
 SERVER_FILE_COUNT=$(git diff --name-only origin/develop HEAD | grep -c ^server)
 if [ "$SERVER_FILE_COUNT" -gt 0 ]
 then
   echo '*************  BACKEND SERVER TESTS *************'
   cd $PROJECT_ROOT_DIRECTORY/server
   npm run lint:fix
-  npm run test || exit 1
+  npm test || exit 1
 else
   echo 'Skipping backend server tests because no relevant changes were found'
 fi
