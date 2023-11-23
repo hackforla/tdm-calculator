@@ -21,7 +21,14 @@ const useStyles = createUseStyles({
     margin: 0,
     padding: 0
   },
-  listItem: { display: "flex", flexDirection: "row", padding: "0.5rem" },
+  listItem: {
+    display: "flex",
+    flexDirection: "row",
+    padding: "0.5rem",
+    "&:hover": {
+      background: "#B2C0D3"
+    }
+  },
   listItemIcon: { marginRight: "0.3rem" }
 });
 
