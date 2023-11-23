@@ -36,9 +36,19 @@ export const Answer = ({
   const classes = useStyles(admin);
 
   const handleSetFAQ = event => {
+    // TODO: the early returns look like hackery.
+    // not sure what it's trying to do, but handleSetFAQ is called on blur,
+    // which means it's called when opening links in a new tab.
+    // this is a problem because,
+    // we really don't need to call it all the time (thus the hackery).
+
     // Check if the relatedTarget is within the Answer component
     const tooltip = document.getElementsByClassName("ql-tooltip");
-    if (!tooltip[0].className.includes("hidden")) {
+    if (
+      tooltip &&
+      tooltip.length > 1 &&
+      !tooltip[0].className.includes("hidden")
+    ) {
       return;
     }
     if (

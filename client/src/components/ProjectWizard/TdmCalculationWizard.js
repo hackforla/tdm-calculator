@@ -2,7 +2,6 @@ import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import ChecklistModal from "../Checklist/ChecklistModal";
 // import CalculationWizardRoutes from "./CalculationWizardRoutes";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
@@ -40,8 +39,6 @@ const TdmCalculationWizard = props => {
     projectIsValid,
     dateModified,
     contentContainerRef,
-    checklistModalOpen,
-    toggleChecklistModal,
     inapplicableStrategiesModal,
     closeStrategiesModal
   } = props;
@@ -249,10 +246,6 @@ const TdmCalculationWizard = props => {
         inapplicableStrategiesModal={inapplicableStrategiesModal}
         closeStrategiesModal={closeStrategiesModal}
       />
-      <ChecklistModal
-        checklistModalOpen={checklistModalOpen}
-        toggleChecklistModal={toggleChecklistModal}
-      />
       <ContentContainer
         customSidebar={() => (
           <WizardSidebar
@@ -322,8 +315,6 @@ TdmCalculationWizard.propTypes = {
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
   dateModified: PropTypes.string,
-  checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func
 };

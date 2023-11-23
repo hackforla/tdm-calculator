@@ -1,11 +1,12 @@
 name: tdm-server-test
 run-name: ${{ github.actor }} is running tests for the server
 on:
+  push:
   pull_request:
     branches:
       - develop
 jobs:
-  build:
+  server-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,29 +23,6 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      working-directory: server
-
-    - name: Set up environment variables
-      run: |
-        echo "TEST_ENV=true" >> .env
-        echo "PORT=5002" >> .env
-        echo "NODE_OPTIONS=--trace-deprecation" >> .env
-        echo "JWT_SECRET_KEY=testingSecretKey" >> .env
-        echo "CLIENT_URL=http://localhost:3001" >> .env
-        echo "SERVER_URL=http://localhost:5002" >> .env
-        echo "SENDGRID_API_KEY=SG.testAPIkey" >> .env
-        echo "EMAIL_SENDER=tdm+sendgrid@test.org" >> .env
-        echo "EMAIL_PUBLIC_COMMENT_LA_CITY=tdm+devpubliccommentplanning@test.org" >> .env
-        echo "EMAIL_PUBLIC_COMMENT_WEB_TEAM=tdm+devpubliccomment@test.org" >> .env
-        echo "APPLICATIONINSIGHTS_CONNECTION_STRING=InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/" >> .env
-        echo "SECURITY_ADMIN_EMAIL=securityadmin@dispostable.com" >> .env
-        echo "SECURITY_ADMIN_PASSWORD=Dogfood1!" >> .env
-        echo "SQL_SERVER_NAME=localhost" >> .env
-        echo "SQL_SERVER_PORT=1434" >> .env
-        echo "SQL_DATABASE_NAME=tdmtestdb" >> .env
-        echo "SQL_USER_NAME=sa" >> .env
-        echo "SQL_PASSWORD=TestPassw0rd" >> .env
-        echo "SQL_ENCRYPT=false" >> .env
       working-directory: server
 
     - name: Run tests

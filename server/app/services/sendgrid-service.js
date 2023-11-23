@@ -66,13 +66,13 @@ const sendResetPasswordConfirmation = async (email, token) => {
   return sgMail.send(msg, false);
 };
 
-const sendPublicComment = async (loginId, publicCommentData) => {
+const sendFeedback = async (loginId, feedback) => {
   try {
     const { name, email, comment, forwardToWebTeam, selectedProjectIds } =
-      publicCommentData;
+      feedback;
 
     let projects = [];
-    if (loginId) {
+    if (loginId && selectedProjectIds) {
       for (let i = 0; i < selectedProjectIds.length; i++) {
         const p = await projectService.getById(loginId, selectedProjectIds[i]);
         projects.push(p);
@@ -132,5 +132,5 @@ module.exports = {
   sendVerifyUpdateConfirmation,
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation,
-  sendPublicComment
+  sendFeedback
 };

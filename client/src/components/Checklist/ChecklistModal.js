@@ -7,7 +7,11 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
   if (!checklistModalOpen) return null;
 
   return (
-    <ModalDialog mounted={checklistModalOpen} onClose={toggleChecklistModal}>
+    <ModalDialog
+      title="Checklist"
+      mounted={checklistModalOpen}
+      onClose={toggleChecklistModal}
+    >
       <ChecklistContent />
     </ModalDialog>
   );

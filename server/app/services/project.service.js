@@ -90,7 +90,7 @@ const hide = async (ids, hide, loginId) => {
     });
 
     request.input("ids", tvp);
-    request.input("hide", hide);
+    request.input("hide", hide ? 1 : 0);
     request.input("loginId", loginId);
     const response = await request.execute("Project_Hide");
     return response.returnValue;
@@ -122,13 +122,15 @@ const trash = async (ids, trash, loginId) => {
   }
 };
 
-const snapshot = async (id, loginId) => {
+const snapshot = async (id, loginId, name) => {
   try {
     await poolConnect;
     const request = pool.request();
 
     request.input("id", id);
     request.input("loginId", loginId);
+    request.input("name", name);
+
     const response = await request.execute("Project_Snapshot");
     return response.returnValue;
   } catch (err) {

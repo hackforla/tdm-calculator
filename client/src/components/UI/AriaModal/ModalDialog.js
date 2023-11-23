@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles, useTheme } from "react-jss";
+import { createUseStyles } from "react-jss";
 import AriaModal from "react-aria-modal";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles({
   modalContainer: {
     zIndex: "999",
     position: "fixed",
@@ -49,7 +49,7 @@ const useStyles = createUseStyles(() => ({
       cursor: "pointer"
     }
   }
-}));
+});
 
 export default function ModalDialog({
   mounted,
@@ -58,10 +58,10 @@ export default function ModalDialog({
   initialFocus,
   omitCloseBox = false,
   underlayClickExits = true,
-  escapeExits = true
+  escapeExits = true,
+  title = "Title Text"
 }) {
-  const theme = useTheme();
-  const classes = useStyles({ theme });
+  const classes = useStyles();
 
   const getApplicationNode = () => {
     return document.getElementById("body");
@@ -70,7 +70,7 @@ export default function ModalDialog({
   return (
     <AriaModal
       mounted={mounted}
-      titleText="Title Text"
+      titleText={title}
       onExit={() => onClose()}
       initialFocus={initialFocus || null}
       getApplicationNode={getApplicationNode}
@@ -85,7 +85,11 @@ export default function ModalDialog({
       <div>
         {omitCloseBox ? null : (
           <div className={classes.buttonFlexBox}>
-            <button onClick={onClose} className={classes.closeButton}>
+            <button
+              onClick={onClose}
+              className={classes.closeButton}
+              aria-label={`Close ${title} modal`}
+            >
               <FontAwesomeIcon icon={faX} />
             </button>
           </div>
@@ -103,5 +107,6 @@ ModalDialog.propTypes = {
   initialFocus: PropTypes.string,
   omitCloseBox: PropTypes.bool,
   underlayClickExits: PropTypes.bool,
-  escapeExits: PropTypes.bool
+  escapeExits: PropTypes.bool,
+  title: PropTypes.string
 };

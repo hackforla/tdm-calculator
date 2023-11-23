@@ -21,7 +21,7 @@ const useProjects = handleError => {
     getProjects();
   }, [getProjects]);
 
-  return projects;
+  return [projects, setProjects];
 };
 
 export default useProjects;

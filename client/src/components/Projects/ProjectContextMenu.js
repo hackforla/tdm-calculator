@@ -1,17 +1,18 @@
-import React from "react";
-import { useState } from "react";
+import React, { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
+
+import { createUseStyles } from "react-jss";
 import {
   faPrint,
   faEye,
   faEyeSlash,
   faCamera,
+  faTrash,
+  faClone,
   faFileCsv
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CopyIcon from "../../images/copy.png";
-import DeleteIcon from "../../images/trash.png";
-import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   list: {
@@ -34,24 +35,30 @@ const useStyles = createUseStyles({
 
 const ProjectContextMenu = ({
   project,
+  closeMenu,
   handleCopyModalOpen,
   handleDeleteModalOpen,
-  handleDownloadCSV
+  handleSnapshotModalOpen,
+  handleDownloadCsv,
+  handlePrintPdf,
+  handleHide
 }) => {
-  const [projectVisibility, SetProjectVisibility] = useState(
-    project.dateHidden
-  );
-
-  const toggleProjectVisibility = () => {
-    SetProjectVisibility(!projectVisibility);
-  };
-
+  const userContext = useContext(UserContext);
+  const account = userContext.account;
   const classes = useStyles();
+
+  const handleClick = callback => {
+    callback(project);
+    closeMenu();
+  };
 
   return (
     <ul className={classes.list}>
-      {project.dateSnapshotted ? null : (
-        <li className={classes.listItem}>
+      {project.dateSnapshotted || project.loginId !== account.id ? null : (
+        <li
+          className={classes.listItem}
+          onClick={() => handleClick(handleSnapshotModalOpen)}
+        >
           <FontAwesomeIcon
             icon={faCamera}
             className={classes.listItemIcon}
@@ -61,7 +68,10 @@ const ProjectContextMenu = ({
         </li>
       )}
 
-      <li className={classes.listItem}>
+      <li
+        onClick={() => handleClick(handlePrintPdf)}
+        className={classes.listItem}
+      >
         <FontAwesomeIcon
           icon={faPrint}
           className={classes.listItemIcon}
@@ -70,7 +80,7 @@ const ProjectContextMenu = ({
         Print
       </li>
       <li
-        onClick={() => handleDownloadCSV(project)}
+        onClick={() => handleClick(handleDownloadCsv)}
         className={classes.listItem}
       >
         <FontAwesomeIcon
@@ -81,74 +91,82 @@ const ProjectContextMenu = ({
         Export as CSV
       </li>
       <li
-        onClick={() => handleCopyModalOpen(project)}
+        onClick={() => handleClick(handleCopyModalOpen)}
         className={classes.listItem}
       >
-        <img
-          src={CopyIcon}
-          alt={`Duplicate Project #${project.id} Icon`}
+        <FontAwesomeIcon
+          icon={faClone}
           className={classes.listItemIcon}
+          alt={`Duplicate Project #${project.id} Icon`}
         />
         Duplicate
       </li>
-      <li
-        onClick={() => toggleProjectVisibility(project)}
-        className={classes.listItem}
-      >
-        {projectVisibility ? (
-          <>
-            <FontAwesomeIcon
-              icon={faEyeSlash}
-              className={classes.listItemIcon}
-              alt={`Unhide Project #${project.id} as CSV Icon`}
-            />
-            Unhide
-          </>
-        ) : (
-          <>
-            <FontAwesomeIcon
-              icon={faEye}
-              className={classes.listItemIcon}
-              alt={`Hide Project #${project.id} as CSV Icon`}
-            />
-            Hide from View
-          </>
-        )}
-      </li>
-      <li
-        onClick={() => handleDeleteModalOpen(project)}
-        className={classes.listItem}
-        style={{ borderTop: "1px solid black", color: "red" }}
-      >
-        {project.dateTrashed ? (
-          <>
-            <img
-              src={DeleteIcon}
-              alt={`Remove Project #${project.id} from Trash Icon`}
-              className={classes.listItemIcon}
-            />
-            Remove from Trash
-          </>
-        ) : (
-          <>
-            <img
-              src={DeleteIcon}
-              alt={`Move  Project #${project.id} to Trash Icon`}
-              className={classes.listItemIcon}
-            />
-            Move to Trash
-          </>
-        )}
-      </li>
+      {project.loginId !== account.id ? null : (
+        <li
+          onClick={() => handleClick(handleHide)}
+          className={classes.listItem}
+        >
+          {project.dateHidden ? (
+            <>
+              <FontAwesomeIcon
+                icon={faEye}
+                className={classes.listItemIcon}
+                alt={`Hide Project #${project.id} as CSV Icon`}
+              />
+              Unhide
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon
+                icon={faEyeSlash}
+                className={classes.listItemIcon}
+                alt={`Hide Project #${project.id} as CSV Icon`}
+              />
+              Hide
+            </>
+          )}
+        </li>
+      )}
+      {project.loginId !== account.id ? null : (
+        <li
+          onClick={() => handleClick(handleDeleteModalOpen)}
+          className={classes.listItem}
+          style={{ borderTop: "1px solid black", color: "red" }}
+        >
+          {project.dateTrashed ? (
+            <>
+              <FontAwesomeIcon
+                icon={faTrash}
+                className={classes.listItemIcon}
+                alt={`Remove Project #${project.id} from Trash Icon`}
+              />
+              Remove from Trash
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon
+                icon={faTrash}
+                className={classes.listItemIcon}
+                alt={`Move  Project #${project.id} to Trash Icon`}
+              />
+              Move to Trash
+            </>
+          )}
+        </li>
+      )}
     </ul>
   );
 };
 
 ProjectContextMenu.propTypes = {
   project: PropTypes.object,
+  closeMenu: PropTypes.func,
   handleCopyModalOpen: PropTypes.func,
   handleDeleteModalOpen: PropTypes.func,
-  handleDownloadCSV: PropTypes.func
+  handleSnapshotModalOpen: PropTypes.func,
+  handleDownloadCsv: PropTypes.func,
+  handlePrintPdf: PropTypes.func,
+  handleHide: PropTypes.func
 };
 
 export default ProjectContextMenu;

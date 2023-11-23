@@ -113,6 +113,9 @@ const Faq = props => {
           isEditQuestion={isEditQuestion}
           handleQuestionChange={handleQuestionChange}
           setIsEditQuestion={setIsEditQuestion}
+          expandFaq={expandFaq}
+          collapseFaq={collapseFaq}
+          faq={faq}
         />
         <FaqButtonContainer
           isHovered={isHovered}
