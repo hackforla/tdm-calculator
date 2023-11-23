@@ -26,7 +26,9 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     padding: "0.5rem",
-    cursor: "pointer"
+    "&:hover": {
+      background: "#B2C0D3"
+    }
   },
   listItemIcon: { marginRight: "0.3rem" }
 });
