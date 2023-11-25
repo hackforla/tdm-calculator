@@ -196,6 +196,7 @@ describe("Account API endpoints for end user accounts", () => {
 describe("Account API endpoints for security admin", () => {
   let originalSendgrid = sgMail.send;
   let newUserId; // id of the registered user - to be deleted by security admin
+  let archUserId; // id of the archived user - to be unarchived by security admin
   let adminToken; // jwt for security admin - for protected endpoints
   let capturedToken; // confirmation token captured from the mocked sendgrid function
 
@@ -237,6 +238,20 @@ describe("Account API endpoints for security admin", () => {
     await request(server)
       .post("/api/accounts/confirmRegister")
       .send({ token: capturedToken });
+
+    const archiveUserResponse = await request(server)
+      .post("/api/accounts/register")
+      .send({
+        firstName: "Bo",
+        lastName: "Haase",
+        email: "BoHaase@test.com",
+        password: "Password1!!!"
+      });
+    archUserId = archiveUserResponse.body.newId;
+
+    await request(server)
+      .put(`/api/accounts/${archUserId}/archiveaccount`)
+      .set("Authorization", `Bearer ${adminToken}`);
   });
 
   afterAll(async () => {
@@ -245,6 +260,7 @@ describe("Account API endpoints for security admin", () => {
     newUserId = undefined;
     adminToken = undefined;
     capturedToken = undefined;
+    archUserId = undefined;
   });
 
   // POST "/login/:email?" Login as security admin
@@ -302,7 +318,7 @@ describe("Account API endpoints for security admin", () => {
   // PUT "/:id/unarchiveaccount" Unarchive account (Security Admin only)
   it("should unarchive a user", async () => {
     const res = await request(server)
-      .put(`/api/accounts/${newUserId}/unarchiveaccount`)
+      .put(`/api/accounts/${archUserId}/unarchiveaccount`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(res.statusCode).toEqual(200);
   });
