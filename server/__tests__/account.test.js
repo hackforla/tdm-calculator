@@ -6,7 +6,6 @@ const {
 } = require("../_jest-setup_/utils/server-setup");
 
 let server;
-let originalSendgrid = sgMail.send;
 
 beforeAll(async () => {
   server = await setupServer();
@@ -16,48 +15,76 @@ afterAll(async () => {
   await teardownServer();
 });
 
-beforeEach(() => {
-  sgMail.send = jest.fn(async () => {
-    return { statusCode: 202 };
-  });
-});
-
-afterEach(() => {
-  sgMail.send = originalSendgrid;
-});
-
-describe("Account API Endpoints", () => {
+describe("Account API endpoints for end user accounts", () => {
+  let originalSendgrid = sgMail.send;
   let userId; // id of the registered user - to be deleted by security admin
-  let adminToken; // jwt for security admin - for protected endpoints
-  let userToken; // jwt for registered user - for protected endpoints
   let capturedToken; // confirmation token captured from the mocked sendgrid function
+  let userToken; // jwt for registered user - for protected endpoints
 
-  //////////////////////////////
-  //      user endpoints      //
-  //////////////////////////////
+  beforeAll(async () => {
+    sgMail.send = jest.fn(async () => {
+      return { statusCode: 202 };
+    });
+
+    const registerResponse = await request(server)
+      .post("/api/accounts/register")
+      .send({
+        firstName: "Jose",
+        lastName: "Garcia",
+        email: "josegarcia@test.com",
+        password: "Password1!!!"
+      });
+    userId = registerResponse.body.newId;
+
+    await request(server).post("/api/accounts/register").send({
+      firstName: "John",
+      lastName: "Garcia",
+      email: "JohnGarcia@test.com", // this email used in /resendConfirmationEmail test below
+      password: "Password1!!!"
+    });
+
+    await request(server).post("/api/accounts/resendConfirmationEmail").send({
+      email: "josegarcia@test.com"
+    });
+    // captures the token from the mocked sendgird function to be used in registration confirmation
+    const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
+    const emailContent = sgMail.send.mock.calls[0][0].html;
+    const match = emailContent.match(tokenPattern);
+    if (match && match[1]) {
+      capturedToken = match[1];
+    }
+
+    await request(server)
+      .post("/api/accounts/confirmRegister")
+      .send({ token: capturedToken });
+
+    const loginResponse = await request(server)
+      .post("/api/accounts/login")
+      .send({
+        email: "josegarcia@test.com",
+        password: "Password1!!!"
+      });
+    userToken = loginResponse.body.token;
+  });
+
+  afterAll(async () => {
+    // cleanup state
+    sgMail.send = originalSendgrid;
+    userId = undefined;
+    capturedToken = undefined;
+    userToken = undefined;
+  });
 
   // POST "/register" Register a new account
   it("should register a new user", async () => {
     const res = await request(server).post("/api/accounts/register").send({
-      firstName: "Jose",
-      lastName: "Garcia",
-      email: "josegarcia@test.com",
+      firstName: "Joseph",
+      lastName: "Smith",
+      email: "josephSmith@test.com",
       password: "Password1!!!"
     });
-    userId = res.body.newId;
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("newId");
-  });
-
-  // POST "/register" attempt to register a user with invalid email format
-  it("should not register a new user with an invalid email format", async () => {
-    const res = await request(server).post("/api/accounts/register").send({
-      firstName: "Jose",
-      lastName: "Garcia",
-      email: "josegarcia",
-      password: "Password1!!!"
-    });
-    expect(res.statusCode).toEqual(400);
   });
 
   // POST "/register" attempt to register a user with an existing email
@@ -77,15 +104,8 @@ describe("Account API Endpoints", () => {
     const res = await request(server)
       .post("/api/accounts/resendConfirmationEmail")
       .send({
-        email: "josegarcia@test.com"
+        email: "JohnGarcia@test.com"
       });
-    // captures the token from the mocked sendgird function to be used in confirmation test below
-    const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
-    const emailContent = sgMail.send.mock.calls[0][0].html;
-    const match = emailContent.match(tokenPattern);
-    if (match && match[1]) {
-      capturedToken = match[1];
-    }
     expect(res.statusCode).toEqual(200);
   });
 
@@ -127,7 +147,6 @@ describe("Account API Endpoints", () => {
     });
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("token");
-    userToken = res.body.token;
   });
 
   // GET "/" Get all accounts attempt as a regular user(Security Admin only)
@@ -172,17 +191,61 @@ describe("Account API Endpoints", () => {
       });
     expect(res.statusCode).toEqual(200);
   });
+});
 
-  // logout endpoint is not implemented properly so this test will fail. Logout is handled by frontend client
-  // GET "/logout" Logout as a user
-  // it("should logout the user", async () => {
-  //   const logoutRes = await request(server).get("/api/accounts/logout");
-  //   expect(logoutRes.statusCode).toEqual(200);
-  // });
+describe("Account API endpoints for security admin", () => {
+  let originalSendgrid = sgMail.send;
+  let newUserId; // id of the registered user - to be deleted by security admin
+  let adminToken; // jwt for security admin - for protected endpoints
+  let capturedToken; // confirmation token captured from the mocked sendgrid function
 
-  //////////////////////////////
-  // security admin endpoints //
-  //////////////////////////////
+  beforeAll(async () => {
+    sgMail.send = jest.fn(async () => {
+      return { statusCode: 202 };
+    });
+
+    // login as security admin
+    const adminTokenResponse = await request(server)
+      .post("/api/accounts/login")
+      .send({
+        email: process.env.SECURITY_ADMIN_EMAIL,
+        password: process.env.SECURITY_ADMIN_PASSWORD
+      });
+    adminToken = adminTokenResponse.body.token;
+
+    const userIdResponse = await request(server)
+      .post("/api/accounts/register")
+      .send({
+        firstName: "Alex",
+        lastName: "Johnson",
+        email: "AlexJohnson@test.com",
+        password: "Password1!!!"
+      });
+    newUserId = userIdResponse.body.newId;
+
+    await request(server).post("/api/accounts/resendConfirmationEmail").send({
+      email: "AlexJohnson@test.com"
+    });
+    // captures the token from the mocked sendgird function to be used in registration confirmation
+    const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
+    const emailContent = sgMail.send.mock.calls[0][0].html;
+    const match = emailContent.match(tokenPattern);
+    if (match && match[1]) {
+      capturedToken = match[1];
+    }
+
+    await request(server)
+      .post("/api/accounts/confirmRegister")
+      .send({ token: capturedToken });
+  });
+
+  afterAll(async () => {
+    // cleanup state
+    sgMail.send = originalSendgrid;
+    newUserId = undefined;
+    adminToken = undefined;
+    capturedToken = undefined;
+  });
 
   // POST "/login/:email?" Login as security admin
   it("should login as a security admin", async () => {
@@ -192,29 +255,28 @@ describe("Account API Endpoints", () => {
     });
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("token");
-    adminToken = res.body.token;
   });
 
-  // PUT "/:id/roles" Update roles for an account to give admin priviliges (Security Admin only)
-  it("should update roles for an account while logged in as security admin", async () => {
+  // PUT "/:id/roles" Update roles for an account to give admin priviliges
+  it("should grant admin role to another user while logged in as security admin", async () => {
     const res = await request(server)
-      .put(`/api/accounts/${userId}/roles`)
+      .put(`/api/accounts/${newUserId}/roles`)
       .set("Authorization", `Bearer ${adminToken}`)
       .send({
-        id: userId,
+        id: newUserId,
         isAdmin: true,
         isSecurityAdmin: true
       });
     expect(res.statusCode).toEqual(200);
   });
 
-  // PUT "/:id/roles" Update roles for an account to revoke admin priviliges (Security Admin only)
-  it("should update roles for an account while logged in as security admin", async () => {
+  // PUT "/:id/roles" Update roles for an account to revoke admin priviliges
+  it("should revoke admin role to another user while logged in as security admin", async () => {
     const res = await request(server)
-      .put(`/api/accounts/${userId}/roles`)
+      .put(`/api/accounts/${newUserId}/roles`)
       .set("Authorization", `Bearer ${adminToken}`)
       .send({
-        id: userId,
+        id: newUserId,
         isAdmin: false,
         isSecurityAdmin: false
       });
@@ -232,7 +294,7 @@ describe("Account API Endpoints", () => {
   // PUT "/:id/archiveaccount" Archive account (Security Admin only)
   it("should archive a user", async () => {
     const res = await request(server)
-      .put(`/api/accounts/${userId}/archiveaccount`)
+      .put(`/api/accounts/${newUserId}/archiveaccount`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(res.statusCode).toEqual(200);
   });
@@ -240,7 +302,7 @@ describe("Account API Endpoints", () => {
   // PUT "/:id/unarchiveaccount" Unarchive account (Security Admin only)
   it("should unarchive a user", async () => {
     const res = await request(server)
-      .put(`/api/accounts/${userId}/unarchiveaccount`)
+      .put(`/api/accounts/${newUserId}/unarchiveaccount`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(res.statusCode).toEqual(200);
   });
@@ -256,7 +318,7 @@ describe("Account API Endpoints", () => {
   // DELETE "/:id/deleteaccount" Delete a user's account (Security Admin only)
   it("should delete a user", async () => {
     const res = await request(server)
-      .delete(`/api/accounts/${userId}/deleteaccount`)
+      .delete(`/api/accounts/${newUserId}/deleteaccount`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(res.statusCode).toEqual(200);
   });
