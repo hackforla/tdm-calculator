@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-disabled-tests */
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import FeedbackPage from "./FeedbackPage";
