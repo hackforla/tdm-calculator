@@ -141,7 +141,7 @@ const RolesArchive = () => {
       <h1 className={classes.pageTitle}>Archived Accounts</h1>
       <div className={classes.pageSubtitle}>
         <Link to="/roles" className={classes.link}>
-          Return to Active Roles
+          Return to Active Accounts
         </Link>
       </div>
       <div className={classes.pageSubtitle}>
