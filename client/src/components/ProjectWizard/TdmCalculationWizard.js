@@ -1,12 +1,17 @@
 import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ToastContext from "../../contexts/Toast/ToastContext";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-// import CalculationWizardRoutes from "./CalculationWizardRoutes";
+import {
+  useParams,
+  useNavigate,
+  useLocation,
+  unstable_useBlocker as useBlocker
+} from "react-router-dom";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainer from "../Layout/ContentContainer";
 import InapplicableStrategiesModal from "./InapplicableStrategiesModal";
+import NavConfirmDialog from "./NavConfirmDialog";
 import {
   ProjectDescriptions,
   ProjectSpecifications,
@@ -14,6 +19,16 @@ import {
   ProjectMeasures
 } from "./WizardPages";
 import { ProjectSummary } from "./WizardPages/ProjectSummary";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  wizard: {
+    flex: "1 1 auto",
+    display: "flex",
+    flexDirection: "column",
+    border: "2px solid blue"
+  }
+});
 
 const TdmCalculationWizard = props => {
   const {
@@ -42,6 +57,7 @@ const TdmCalculationWizard = props => {
     inapplicableStrategiesModal,
     closeStrategiesModal
   } = props;
+  const classes = useStyles();
   const context = useContext(ToastContext);
   const params = useParams();
   const navigate = useNavigate();
@@ -49,6 +65,20 @@ const TdmCalculationWizard = props => {
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
   const [ainInputError, setAINInputError] = useState("");
+  /*
+    shouldBlock determines if user should be blocked from navigating away
+    from wizard.  Note that navigation from /calculation/a/x to 
+    /calculation/b/x is just going to a different step of the wizard, and is allowed. 
+  */
+  let shouldBlock = React.useCallback(
+    ({ currentLocation, nextLocation }) =>
+      formIsDirty &&
+      !nextLocation.pathname.toLowerCase().startsWith("/calculation") &&
+      nextLocation.pathname.split("/")[2] !==
+        currentLocation.pathname.split("/")[2],
+    [formIsDirty]
+  );
+  let blocker = useBlocker(shouldBlock);
 
   /*
     When user navigates to a different page in the wizard, scroll to the top.
@@ -241,11 +271,12 @@ const TdmCalculationWizard = props => {
   };
 
   return (
-    <React.Fragment>
+    <div className={classes.wizard}>
       <InapplicableStrategiesModal
         inapplicableStrategiesModal={inapplicableStrategiesModal}
         closeStrategiesModal={closeStrategiesModal}
       />
+      {blocker ? <NavConfirmDialog blocker={blocker} /> : null}
       <ContentContainer
         customSidebar={() => (
           <WizardSidebar
@@ -271,7 +302,7 @@ const TdmCalculationWizard = props => {
           dateModified={dateModified}
         />
       </ContentContainer>
-    </React.Fragment>
+    </div>
   );
 };
 

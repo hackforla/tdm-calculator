@@ -3,9 +3,9 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import logo from "../images/ladot_white.png";
+import logo from "../../images/ladot_white.png";
 import NavBar from "./NavBar";
-import { Environment } from "../helpers/Environment";
+import { Environment } from "../../helpers/Environment";
 
 const useStyles = createUseStyles({
   header: {

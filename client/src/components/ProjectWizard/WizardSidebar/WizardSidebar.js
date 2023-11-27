@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import SidebarPointsPanel from "./SidebarPointsPanel";
-import Sidebar from "../../Sidebar";
+import Sidebar from "../../Layout/Sidebar";
 
 const useStyles = createUseStyles({
   sidebarContent: {

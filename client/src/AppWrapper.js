@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 import UserContext from "./contexts/UserContext";
 import App from "./App";
-// import ErrorPage from "./components/ErrorPage";
-import NavConfirmModal from "./components/NavConfirmModal";
 
 const getUserFromLocalStorage = () => {
   const currentUser = localStorage.getItem("currentUser");
@@ -21,9 +18,6 @@ const getUserFromLocalStorage = () => {
 
 const AppWrapper = () => {
   const [account, setAccount] = useState(getUserFromLocalStorage());
-  const [confirmTransition, setConfirmTransition] = useState(null);
-  const [hasConfirmedTransition, setHasConfirmedTransition] = useState(true);
-  const [isOpenNavConfirmModal, setIsOpenNavConfirmModal] = useState(false);
   const [checklistModalOpen, setChecklistModalOpen] = useState(false);
   const contentContainerRef = useRef();
   const appContainerRef = useRef();
@@ -36,15 +30,6 @@ const AppWrapper = () => {
      */
     localStorage.setItem("currentUser", JSON.stringify(userAccount));
     setAccount(userAccount);
-  };
-
-  const getUserConfirmation = (_message, defaultConfirmCallback) => {
-    setHasConfirmedTransition(false);
-    setConfirmTransition(() => ({
-      defaultConfirmCallback: defaultConfirmCallback,
-      setHasConfirmedTransition: setHasConfirmedTransition
-    }));
-    setIsOpenNavConfirmModal(!isOpenNavConfirmModal);
   };
 
   const [hasAcceptedTerms, setAcceptedTerms] = useState(() => {
@@ -70,24 +55,15 @@ const AppWrapper = () => {
   return (
     <React.Fragment>
       <UserContext.Provider value={{ account, updateAccount }}>
-        <Router getUserConfirmation={getUserConfirmation}>
-          <NavConfirmModal
-            confirmTransition={confirmTransition}
-            isOpenNavConfirmModal={isOpenNavConfirmModal}
-            setIsOpenNavConfirmModal={setIsOpenNavConfirmModal}
-          />
-          <App
-            account={account}
-            hasConfirmedTransition={hasConfirmedTransition}
-            isOpenNavConfirmModal={isOpenNavConfirmModal}
-            contentContainerRef={contentContainerRef}
-            appContainerRef={appContainerRef}
-            checklistModalOpen={checklistModalOpen}
-            toggleChecklistModal={toggleChecklistModal}
-            hasAcceptedTerms={hasAcceptedTerms}
-            onAcceptTerms={onAcceptTerms}
-          />
-        </Router>
+        <App
+          account={account}
+          contentContainerRef={contentContainerRef}
+          appContainerRef={appContainerRef}
+          checklistModalOpen={checklistModalOpen}
+          toggleChecklistModal={toggleChecklistModal}
+          hasAcceptedTerms={hasAcceptedTerms}
+          onAcceptTerms={onAcceptTerms}
+        />
       </UserContext.Provider>
     </React.Fragment>
   );

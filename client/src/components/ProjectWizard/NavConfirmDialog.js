@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ModalDialog from "./UI/AriaModal/ModalDialog";
-import Button from "./Button/Button";
+import ModalDialog from "../UI/AriaModal/ModalDialog";
+import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
-import WarningIcon from "../images/warning-icon.png";
+import WarningIcon from "../../images/warning-icon.png";
 
 const useStyles = createUseStyles({
   title: {
@@ -22,28 +22,14 @@ const useStyles = createUseStyles({
     justifyContent: "center"
   }
 });
-const NavConfirmModal = ({
-  isOpenNavConfirmModal,
-  setIsOpenNavConfirmModal,
-  confirmTransition
-}) => {
-  const classes = useStyles();
-  const allowTransition = () => {
-    confirmTransition.setHasConfirmedTransition(true);
-    confirmTransition.defaultConfirmCallback(true);
-    setIsOpenNavConfirmModal(false);
-  };
 
-  const blockTransition = () => {
-    confirmTransition.setHasConfirmedTransition(false);
-    confirmTransition.defaultConfirmCallback(false);
-    setIsOpenNavConfirmModal(false);
-  };
+const NavConfirmDialog = ({ blocker }) => {
+  const classes = useStyles();
 
   return (
     <ModalDialog
-      mounted={isOpenNavConfirmModal}
-      onClose={blockTransition}
+      mounted={blocker.state === "blocked"}
+      onClose={blocker.reset}
       showCloseBox={false}
     >
       <h2 className={classes.title}>
@@ -63,7 +49,7 @@ const NavConfirmModal = ({
           variant="text"
           id="modalCancel"
           data-testid="transitionCancel"
-          onClick={blockTransition}
+          onClick={() => blocker.reset()}
         >
           Cancel
         </Button>
@@ -71,7 +57,7 @@ const NavConfirmModal = ({
           color="colorError"
           id="modalProceed"
           data-testid="transitionProceed"
-          onClick={allowTransition}
+          onClick={() => blocker.proceed()}
         >
           Proceed
         </Button>
@@ -80,10 +66,8 @@ const NavConfirmModal = ({
   );
 };
 
-NavConfirmModal.propTypes = {
-  isOpenNavConfirmModal: PropTypes.bool.isRequired,
-  setIsOpenNavConfirmModal: PropTypes.func.isRequired,
-  confirmTransition: PropTypes.object
+NavConfirmDialog.propTypes = {
+  blocker: PropTypes.shape
 };
 
-export default NavConfirmModal;
+export default NavConfirmDialog;

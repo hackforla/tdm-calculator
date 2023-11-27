@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import UserContext from "../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router";
 import PropTypes from "prop-types";
