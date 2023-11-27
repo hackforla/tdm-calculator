@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import UserContext from "../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 import { createUseStyles } from "react-jss";
 import { NavLink } from "react-router-dom";
 import NavBarLogin from "./NavBarLogin";
@@ -122,7 +122,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         <NavLink
           className={classes.link}
           // activeClassName={classes.currentLink}
-          to="/calculation/1"
+          to="/calculation/1/0"
           onClick={handleHamburgerMenuClick}
         >
           Create Project

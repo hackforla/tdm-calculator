@@ -1,5 +1,5 @@
 import React from "react";
-import Quill from "../Quill";
+import Quill from "../UI/Quill";
 import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
 import { Interweave } from "interweave";

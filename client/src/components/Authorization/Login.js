@@ -62,7 +62,7 @@ const Login = () => {
         if (projectId) {
           navigate(`/calculation/5/${projectId}`);
         } else {
-          navigate("/calculation/1");
+          navigate("/calculation/1/0");
         }
       } else if (loginResponse.code === "USER_ARCHIVED") {
         setErrorMsg(`Login Failed - This account has been archived.`);
@@ -183,7 +183,7 @@ const Login = () => {
                       color="colorDefault"
                       variant="text"
                       onClick={() => {
-                        navigate("/calculation/1");
+                        navigate("/calculation/1/0");
                       }}
                     >
                       Continue without saving

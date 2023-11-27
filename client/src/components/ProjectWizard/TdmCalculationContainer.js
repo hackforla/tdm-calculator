@@ -1,22 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import TdmCalculationWizard from "./ProjectWizard/TdmCalculationWizard";
-import * as ruleService from "../services/rule.service";
-import * as projectService from "../services/project.service";
-import Engine from "../services/tdm-engine";
-import { useToast } from "../contexts/Toast";
+import TdmCalculationWizard from "./TdmCalculationWizard";
+import * as ruleService from "../../services/rule.service";
+import * as projectService from "../../services/project.service";
+import Engine from "../../services/tdm-engine";
+import { useToast } from "../../contexts/Toast";
 import moment from "moment";
-import { createUseStyles } from "react-jss";
-
-const useStyles = createUseStyles({
-  tdmCalculationContainer: {
-    flex: "1 1 auto",
-    display: "flex",
-    flexDirection: "column",
-    border: "2px solid blue"
-  }
-});
 
 // These are the calculation results we want to calculate
 // and display on the main page.
@@ -47,14 +37,12 @@ const filters = {
 
 export function TdmCalculationContainer({
   account,
-  hasConfirmedNavTransition,
-  isOpenNavConfirmModal,
   setLoggedInAccount,
   contentContainerRef
 }) {
   const params = useParams();
   const navigate = useNavigate();
-  const classes = useStyles();
+
   const location = useLocation();
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
@@ -62,72 +50,63 @@ export function TdmCalculationContainer({
   const [loginId, setLoginId] = useState(0);
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
-  const [resettingProject, setResettingProject] = useState(false);
-  const [triggerInitiateEngine, setTriggerInitiateEngine] = useState(false);
   const [inapplicableStrategiesModal, setInapplicableStrategiesModal] =
     useState(false);
   const [rules, setRules] = useState([]);
   const [dateModified, setDateModified] = useState();
   const toast = useToast();
 
-  // Get the rules for the calculation. Runs once when
-  // component is loaded.
-  useEffect(() => {
-    const getRules = async () => {
-      const ruleResponse = await ruleService.getByCalculationId(
-        TdmCalculationContainer.calculationId
-      );
-      // console.log(ruleResponse.data);
-      setEngine(new Engine(ruleResponse.data));
-    };
-    getRules();
+  const fetchRules = useCallback(async () => {
+    const ruleResponse = await ruleService.getByCalculationId(
+      TdmCalculationContainer.calculationId
+    );
+    // console.log(ruleResponse.data);
+    setEngine(new Engine(ruleResponse.data));
   }, []);
+
+  // Get the rules for the calculation once when component is loaded.
+  useEffect(() => {
+    fetchRules();
+  }, [fetchRules]);
+
+  // Initialize Engine and (if existing project), perform initial calculation.
+  const initializeEngine = useCallback(async () => {
+    // Only run if engine has been instantiated
+    if (!engine) return;
+    try {
+      let projectResponse = null;
+      let inputs = {};
+      if (Number(projectId) > 0 && account.id) {
+        projectResponse = await projectService.getById(projectId);
+        setLoginId(projectResponse.data.loginId);
+        setDateModified(
+          moment(projectResponse.data.dateModified).format("MM/DD/YYYY h:mm A")
+        );
+        inputs = JSON.parse(projectResponse.data.formInputs);
+        setStrategiesInitialized(true);
+      } else {
+        setStrategiesInitialized(false);
+      }
+      engine.run(inputs, resultRuleCodes);
+      setFormInputs(inputs);
+      setRules(engine.showRulesArray());
+    } catch (err) {
+      console.error(JSON.stringify(err, null, 2));
+      throw new Error(JSON.stringify(err, null, 2));
+      // const errMessage = account.id
+      //   ? "The project you are trying to view can only be viewed by the user."
+      //   : "You must be logged in to view project.";
+      // toast.add(errMessage);
+      // const redirect = account.id ? "/projects" : "/login";
+      // navigate(redirect);
+    }
+  }, [engine, projectId, account, setRules, setDateModified]);
 
   // Initialize the engine with saved project data, as appropriate.
   // Should run only when projectId changes.
   useEffect(() => {
-    const initiateEngine = async () => {
-      // Only run if engine has been instantiated
-      if (!engine) return;
-      try {
-        let projectResponse = null;
-        let inputs = {};
-        if (Number(projectId) > 0 && account.id) {
-          projectResponse = await projectService.getById(projectId);
-          setLoginId(projectResponse.data.loginId);
-          setDateModified(
-            moment(projectResponse.data.dateModified).format(
-              "MM/DD/YYYY h:mm A"
-            )
-          );
-          inputs = JSON.parse(projectResponse.data.formInputs);
-          setStrategiesInitialized(true);
-        } else {
-          setStrategiesInitialized(false);
-        }
-        engine.run(inputs, resultRuleCodes);
-        setFormInputs(inputs);
-        setRules(engine.showRulesArray());
-      } catch (err) {
-        console.error(JSON.stringify(err, null, 2));
-        throw new Error(JSON.stringify(err, null, 2));
-        // const errMessage = account.id
-        //   ? "The project you are trying to view can only be viewed by the user."
-        //   : "You must be logged in to view project.";
-        // toast.add(errMessage);
-        // const redirect = account.id ? "/projects" : "/login";
-        // navigate(redirect);
-      }
-    };
-    initiateEngine();
-  }, [
-    engine,
-    projectId,
-    account,
-    triggerInitiateEngine,
-    setRules,
-    setDateModified
-  ]);
+    initializeEngine();
+  }, [projectId, initializeEngine]);
 
   const closeStrategiesModal = () => {
     setInapplicableStrategiesModal(!inapplicableStrategiesModal);
@@ -422,27 +401,13 @@ export function TdmCalculationContainer({
     recalculate(updateInputs);
   };
 
-  useEffect(() => {
-    if (isOpenNavConfirmModal) return;
-
-    if (hasConfirmedNavTransition) {
-      setTriggerInitiateEngine(state => !state);
-      setFormHasSaved(true);
-    }
-    setResettingProject(false);
-  }, [hasConfirmedNavTransition, isOpenNavConfirmModal]);
-
-  const navToStart = useCallback(() => {
+  // resets wizard to empty for new project, or saved state for existing project.
+  // In either case, navigate to first page
+  const onResetProject = async () => {
+    await fetchRules();
+    await initializeEngine();
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "/0");
     navigate(firstPage);
-  }, [navigate, projectId]);
-
-  useEffect(() => {
-    if (resettingProject) navToStart();
-  }, [resettingProject, navToStart]);
-
-  const onResetProject = () => {
-    setResettingProject(true);
   };
 
   const projectIsValid = () => {
@@ -479,11 +444,6 @@ export function TdmCalculationContainer({
       requestBody.id = projectId;
       try {
         await projectService.put(requestBody);
-        window.dataLayer.push({
-          event: "customEvent",
-          action: "save project",
-          value: projectId
-        });
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
         let projectResponse = null;
@@ -512,15 +472,12 @@ export function TdmCalculationContainer({
     } else {
       try {
         const postResponse = await projectService.post(requestBody);
-        const newPath = location.pathname + "/" + postResponse.data.id;
-        window.dataLayer.push({
-          event: "customEvent",
-          action: "save project",
-          value: null
-        });
         // Update URL to /calculation/<currentPage>/<newProjectId>
         // to keep working on same project.
-        navigate(newPath);
+        const newPath = `/calculation/${location.pathname.split("/")[1]}/${
+          postResponse.data.id
+        }`;
+        navigate(newPath, { replace: true });
         setFormHasSaved(true);
         toast.add("Saved New Project");
       } catch (err) {
@@ -545,44 +502,32 @@ export function TdmCalculationContainer({
   };
 
   return (
-    <div className={classes.tdmCalculationContainer}>
-      {/* <Prompt
-        when={!formHasSaved || resettingProject}
-        message={location => {
-          return location.pathname.startsWith("/calculation") &&
-            !resettingProject
-            ? true // returning true allows user to continue without a prompt/modal
-            : "this message doesn't actaully show, but will cause modal to open";
-        }}
-      /> */}
-
-      <TdmCalculationWizard
-        projectLevel={projectLevel}
-        rules={rules}
-        onInputChange={onInputChange}
-        onCommentChange={onCommentChange}
-        onUncheckAll={onUncheckAll}
-        onResetProject={onResetProject}
-        initializeStrategies={initializeStrategies}
-        filters={filters}
-        onPkgSelect={onPkgSelect}
-        onParkingProvidedChange={onParkingProvidedChange}
-        resultRuleCodes={resultRuleCodes}
-        account={account}
-        loginId={loginId}
-        onSave={onSave}
-        allowResidentialPackage={allowResidentialPackage}
-        allowSchoolPackage={allowSchoolPackage}
-        residentialPackageSelected={residentialPackageSelected}
-        schoolPackageSelected={schoolPackageSelected}
-        formIsDirty={!formHasSaved}
-        projectIsValid={projectIsValid}
-        dateModified={dateModified}
-        contentContainerRef={contentContainerRef}
-        inapplicableStrategiesModal={inapplicableStrategiesModal}
-        closeStrategiesModal={closeStrategiesModal}
-      />
-    </div>
+    <TdmCalculationWizard
+      projectLevel={projectLevel}
+      rules={rules}
+      onInputChange={onInputChange}
+      onCommentChange={onCommentChange}
+      onUncheckAll={onUncheckAll}
+      onResetProject={onResetProject}
+      initializeStrategies={initializeStrategies}
+      filters={filters}
+      onPkgSelect={onPkgSelect}
+      onParkingProvidedChange={onParkingProvidedChange}
+      resultRuleCodes={resultRuleCodes}
+      account={account}
+      loginId={loginId}
+      onSave={onSave}
+      allowResidentialPackage={allowResidentialPackage}
+      allowSchoolPackage={allowSchoolPackage}
+      residentialPackageSelected={residentialPackageSelected}
+      schoolPackageSelected={schoolPackageSelected}
+      formIsDirty={!formHasSaved}
+      projectIsValid={projectIsValid}
+      dateModified={dateModified}
+      contentContainerRef={contentContainerRef}
+      inapplicableStrategiesModal={inapplicableStrategiesModal}
+      closeStrategiesModal={closeStrategiesModal}
+    />
   );
 }
 
@@ -595,8 +540,6 @@ TdmCalculationContainer.propTypes = {
     id: PropTypes.number,
     email: PropTypes.string
   }),
-  hasConfirmedNavTransition: PropTypes.bool,
-  isOpenNavConfirmModal: PropTypes.bool,
   setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object
 };

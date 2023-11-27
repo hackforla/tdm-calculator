@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import WarningIcon from "../images/warning-icon.png";
+import WarningIcon from "../../images/warning-icon.png";
 
 const useStyles = createUseStyles({
   container: {
