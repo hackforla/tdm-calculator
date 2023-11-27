@@ -7,7 +7,7 @@ import UserContext from "../contexts/UserContext";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
 
 const useStyles = createUseStyles({
@@ -229,6 +229,12 @@ const Roles = () => {
               Security Admin
             </td>
             <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+              Email Confirmed
+            </td>
+            <td className={`${classes.td} ${classes.tdheadLabel}`}>
+              Registration Date
+            </td>
+            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
               Options
             </td>
           </tr>
@@ -241,9 +247,9 @@ const Roles = () => {
                 className={hoveredRow === account.id ? classes.hoveredRow : ""}
               >
                 <td className={classes.td}>{account.email}</td>
-                <td
-                  className={classes.td}
-                >{`${account.lastName}, ${account.firstName}`}</td>
+                <td className={classes.td}>
+                  {`${account.lastName}, ${account.firstName}`}
+                </td>
                 <td className={classes.tdCenter}>
                   <input
                     type="checkbox"
@@ -261,6 +267,20 @@ const Roles = () => {
                     onChange={e => onInputChange(e, account)}
                     name="isSecurityAdmin"
                   />
+                </td>
+                <td className={classes.tdCenter}>
+                  {account.emailConfirmed ? (
+                    <FontAwesomeIcon icon={faCheck} alt="Email confirmed" />
+                  ) : (
+                    ""
+                  )}
+                </td>
+                <td className={classes.td}>
+                  {new Date(account.dateCreated).toLocaleDateString("en-US", {
+                    month: "numeric",
+                    day: "numeric",
+                    year: "numeric"
+                  })}
                 </td>
                 <td className={classes.tdCenter}>
                   <Popup
