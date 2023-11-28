@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
+  container: {
+    maxWidth: "30rem"
+  },
   title: {
     margin: "2px"
   },
@@ -13,33 +16,27 @@ const useStyles = createUseStyles({
   },
   section: {
     paddingLeft: "30px",
-    fontFamily: "calibri bold",
     fontSize: "16px"
   },
   sectionLast: {
     paddingLeft: "30px",
-    fontFamily: "calibri bold",
     fontSize: "16px",
     marginBottom: "5px"
   },
   indent: {
     paddingLeft: "25px",
-    fontFamily: "calibri bold",
     fontSize: "16px"
   },
   indentSpecial: {
     paddingLeft: "68px",
-    fontFamily: "calibri bold",
     fontSize: "16px"
   },
   bulletIndent: {
     paddingLeft: "100px",
     marginTop: "2px",
-    fontFamily: "Calibri",
     fontSize: "16px"
   },
   undoBold: {
-    fontFamily: "Calibri",
     fontWeight: "normal"
   }
 });
@@ -47,7 +44,7 @@ const useStyles = createUseStyles({
 const ChecklistContent = () => {
   const classes = useStyles();
   return (
-    <>
+    <div className={classes.container}>
       <h1 className={classes.title}>Checklist</h1>
       <br />
       <p className={classes.text}>
@@ -123,7 +120,7 @@ const ChecklistContent = () => {
         </a>{" "}
         for applicability and exemption details.
       </p>
-    </>
+    </div>
   );
 };
 
