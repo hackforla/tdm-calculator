@@ -73,14 +73,20 @@ const TdmCalculationWizard = props => {
   */
   const calculationPath = "/calculation/:page/:projectId?/*";
   const isSameProject = (currentLocation, nextLocation) => {
-    const currentMatch = matchPath(currentLocation.pathname, {
-      path: calculationPath,
-      exact: true
-    });
-    const nextMatch = matchPath(nextLocation.pathname, {
-      path: calculationPath,
-      exact: true
-    });
+    const currentMatch = matchPath(
+      {
+        path: calculationPath,
+        exact: true
+      },
+      currentLocation.pathname
+    );
+    const nextMatch = matchPath(
+      {
+        path: calculationPath,
+        exact: true
+      },
+      nextLocation.pathname
+    );
     return (
       currentMatch &&
       nextMatch &&
