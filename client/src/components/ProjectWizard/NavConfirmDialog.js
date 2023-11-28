@@ -67,7 +67,7 @@ const NavConfirmDialog = ({ blocker }) => {
 };
 
 NavConfirmDialog.propTypes = {
-  blocker: PropTypes.shape
+  blocker: PropTypes.object.isRequired
 };
 
 export default NavConfirmDialog;

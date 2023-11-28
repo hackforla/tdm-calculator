@@ -38,6 +38,8 @@ import ForgotPassword from "./components/Authorization/ForgotPassword";
 import Feedback from "./components/Feedback/FeedbackPage";
 import ErrorPage from "./components/ErrorPage";
 
+const calculationPath = "/calculation/:page/:projectId?/*";
+
 const App = ({
   contentContainerRef,
   appContainerRef,
@@ -56,7 +58,7 @@ const App = ({
         element={
           <div>
             <ClientAreaLayout
-              ref={appContainerRef}
+              appContainerRef={appContainerRef}
               hasAcceptedTerms={hasAcceptedTerms}
               onAcceptTerms={onAcceptTerms}
               checklistModalOpen={checklistModalOpen}
@@ -81,7 +83,7 @@ const App = ({
           }
         />
         <Route
-          path="/calculation/:page/:projectId?/*"
+          path={calculationPath}
           element={
             <TdmCalculationContainer
               account={account}
@@ -117,7 +119,7 @@ const App = ({
         <Route
           element={
             <div>
-              <PlainSidebarLayout ref={contentContainerRef} />
+              <PlainSidebarLayout contentContainerRef={contentContainerRef} />
             </div>
           }
         >

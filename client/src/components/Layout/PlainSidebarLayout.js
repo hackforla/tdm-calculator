@@ -11,11 +11,11 @@ const useStyles = createUseStyles({
   }
 });
 
-const PlainSidebarLayout = ({ ref }) => {
+const PlainSidebarLayout = ({ contentContainerRef }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.sidebarLayoutContainer} ref={ref}>
+    <div className={classes.sidebarLayoutContainer} ref={contentContainerRef}>
       <Sidebar />
       <Outlet />
     </div>
@@ -23,7 +23,7 @@ const PlainSidebarLayout = ({ ref }) => {
 };
 
 PlainSidebarLayout.propTypes = {
-  ref: PropTypes.any
+  contentContainerRef: PropTypes.any
 };
 
 export default PlainSidebarLayout;

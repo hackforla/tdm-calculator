@@ -20,6 +20,7 @@ import {
 } from "./WizardPages";
 import { ProjectSummary } from "./WizardPages/ProjectSummary";
 import { createUseStyles } from "react-jss";
+import { matchPath } from "react-router-dom";
 
 const useStyles = createUseStyles({
   wizard: {
@@ -70,15 +71,30 @@ const TdmCalculationWizard = props => {
     from wizard.  Note that navigation from /calculation/a/x to 
     /calculation/b/x is just going to a different step of the wizard, and is allowed. 
   */
-  let shouldBlock = React.useCallback(
-    ({ currentLocation, nextLocation }) =>
-      formIsDirty &&
-      !nextLocation.pathname.toLowerCase().startsWith("/calculation") &&
-      nextLocation.pathname.split("/")[2] !==
-        currentLocation.pathname.split("/")[2],
+  const calculationPath = "/calculation/:page/:projectId?/*";
+  const isSameProject = (currentLocation, nextLocation) => {
+    const currentMatch = matchPath(currentLocation.pathname, {
+      path: calculationPath,
+      exact: true
+    });
+    const nextMatch = matchPath(nextLocation.pathname, {
+      path: calculationPath,
+      exact: true
+    });
+    return (
+      currentMatch &&
+      nextMatch &&
+      currentMatch.params.projectId === nextMatch.params.projectId
+    );
+  };
+
+  const shouldBlock = React.useCallback(
+    ({ currentLocation, nextLocation }) => {
+      return formIsDirty && !isSameProject(currentLocation, nextLocation);
+    },
     [formIsDirty]
   );
-  let blocker = useBlocker(shouldBlock);
+  const blocker = useBlocker(shouldBlock);
 
   /*
     When user navigates to a different page in the wizard, scroll to the top.

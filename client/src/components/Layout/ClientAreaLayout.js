@@ -16,7 +16,7 @@ const useStyles = createUseStyles({
 });
 
 const ClientAreaLayout = ({
-  ref,
+  appContainerRef,
   hasAcceptedTerms,
   onAcceptTerms,
   checklistModalOpen,
@@ -25,7 +25,7 @@ const ClientAreaLayout = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.app} id="app-container" ref={ref}>
+    <div className={classes.app} id="app-container" ref={appContainerRef}>
       <TermsAndConditionsModal
         hasAcceptedTerms={hasAcceptedTerms}
         onAcceptTerms={onAcceptTerms}
@@ -42,7 +42,7 @@ const ClientAreaLayout = ({
 };
 
 ClientAreaLayout.propTypes = {
-  ref: PropTypes.any,
+  appContainerRef: PropTypes.any,
   hasAcceptedTerms: PropTypes.bool,
   onAcceptTerms: PropTypes.func,
   checklistModalOpen: PropTypes.bool,
