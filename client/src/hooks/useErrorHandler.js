@@ -12,7 +12,7 @@ const useErrorHandler = (email, historyPush) => {
         toastAdd(
           "For your security, your session has expired. Please log in again."
         );
-        historyPush(`/logout/${encodeURIComponent(email)}`);
+        historyPush(`/login/${encodeURIComponent(email)}`);
       }
       console.error(error);
     },
