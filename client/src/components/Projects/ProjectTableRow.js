@@ -7,8 +7,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCamera,
-  faTrash,
+  faEye,
   faEyeSlash,
   faEllipsisV
 } from "@fortawesome/free-solid-svg-icons";
@@ -28,6 +27,10 @@ const useStyles = createUseStyles({
   tdRightAlign: {
     padding: "0.2em",
     textAlign: "right"
+  },
+  tdCenterAlign: {
+    padding: "0.2em",
+    textAlign: "center"
   },
   actionIcons: {
     display: "flex",
@@ -118,61 +121,65 @@ const ProjectTableRow = ({
   };
 
   const handlePrintPdf = useReactToPrint({
-    content: () => printRef.current
+    content: () => printRef.current,
+    bodyClass: "printContainer",
+    pageStyle: ".printContainer {overflow: hidden;}"
   });
 
   const fallbackToBlank = value => {
     return value !== "undefined" ? value : "";
   };
 
+  // Last Modified Date column should display the Last Modified date, unless the project is
+  // deleted, in which case it will show the deleted date followed by "-Deleted" in red.
+  const dateModifiedDisplay = () => {
+    if (project.dateTrashed) {
+      return (
+        <span>
+          {moment(project.dateTrashed).format("YYYY-MM-DD")}
+          <span style={{ color: "red" }}>-Deleted</span>
+        </span>
+      );
+    }
+    return <span>{moment(project.dateModified).format("YYYY-MM-DD")}</span>;
+  };
+
   return (
     <tr key={project.id}>
+      <td className={classes.tdCenterAlign}>
+        {project.dateHidden ? (
+          <FontAwesomeIcon
+            icon={faEyeSlash}
+            alt={`Project Is Hidden`}
+            title={`Project is hidden`}
+            style={{ width: "2em" }}
+          />
+        ) : (
+          <FontAwesomeIcon
+            icon={faEye}
+            alt={`Project Is Visible`}
+            title={`Project is visible`}
+            style={{ width: "2em" }}
+          />
+        )}
+      </td>
+      <td className={classes.td}>
+        {project.dateSnapshotted ? "Snapshot" : "Draft"}
+      </td>
       <td className={classes.td}>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
       </td>
       <td className={classes.td}>{project.address}</td>
       <td className={classes.td}>{fallbackToBlank(formInputs.VERSION_NO)}</td>
-      <td className={classes.td}>
-        {fallbackToBlank(formInputs.BUILDING_PERMIT)}
-      </td>
       <td
         className={classes.td}
       >{`${project.firstName} ${project.lastName}`}</td>
       <td className={classes.tdRightAlign}>
-        {moment(project.dateCreated).format("MM/DD/YYYY")}
+        {moment(project.dateCreated).format("YYYY-MM-DD")}
       </td>
-      <td className={classes.tdRightAlign}>
-        {momentModified.isSame(moment(), "day")
-          ? momentModified.format("h:mm A")
-          : momentModified.format("MM/DD/YYYY")}
-      </td>
-      <td className={classes.tdRightAlign}>
-        {project.dateHidden && (
-          <FontAwesomeIcon
-            icon={faEyeSlash}
-            alt={`Project Is Hidden`}
-            title={`Project is hidden`}
-          />
-        )}
-      </td>
-      <td className={classes.tdRightAlign}>
-        {project.dateTrashed && (
-          <FontAwesomeIcon
-            icon={faTrash}
-            alt={`Project Is In Trash`}
-            title={`Project is in trash`}
-          />
-        )}
-      </td>
-      <td className={classes.tdRightAlign}>
-        {project.dateSnapshotted && (
-          <FontAwesomeIcon
-            icon={faCamera}
-            alt={`Project Is A Snapshot`}
-            title={`Project is a snapshot`}
-          />
-        )}
-      </td>
+
+      <td className={classes.td}>{dateModifiedDisplay()}</td>
+
       <td className={classes.actionIcons}>
         {projectData && (
           <div>

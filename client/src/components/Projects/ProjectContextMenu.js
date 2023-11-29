@@ -77,7 +77,7 @@ const ProjectContextMenu = ({
           className={classes.listItemIcon}
           alt={`Print Project #${project.id} Icon`}
         />
-        Print
+        Print Summary
       </li>
       <li
         onClick={() => handleClick(handleDownloadCsv)}
@@ -138,18 +138,18 @@ const ProjectContextMenu = ({
               <FontAwesomeIcon
                 icon={faTrash}
                 className={classes.listItemIcon}
-                alt={`Remove Project #${project.id} from Trash Icon`}
+                alt={`Restore Project from Trash Icon`}
               />
-              Remove from Trash
+              Restore from Trash
             </>
           ) : (
             <>
               <FontAwesomeIcon
                 icon={faTrash}
                 className={classes.listItemIcon}
-                alt={`Move  Project #${project.id} to Trash Icon`}
+                alt={`Delete Project Icon`}
               />
-              Move to Trash
+              Delete
             </>
           )}
         </li>
