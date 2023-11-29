@@ -44,6 +44,9 @@ const WizardFooter = ({
 }) => {
   const classes = useStyles();
   const componentRef = useRef();
+  const projectName = rules
+    ? rules.find(r => r.code === "PROJECT_NAME").value
+    : "TDM Calculation Summary";
 
   return (
     <>
@@ -83,6 +86,9 @@ const WizardFooter = ({
                 />
               )}
               content={() => componentRef.current}
+              documentTitle={projectName}
+              bodyClass="printContainer"
+              pageStyle=".printContainer {overflow: hidden;}"
             />
             <div style={{ display: "none" }}>
               <PdfPrint

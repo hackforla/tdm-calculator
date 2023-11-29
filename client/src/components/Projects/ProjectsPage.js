@@ -4,13 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSortUp,
-  faSortDown,
-  faCamera,
-  faTrash,
-  faEye
-} from "@fortawesome/free-solid-svg-icons";
+import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 
 import Pagination from "../ProjectWizard/Pagination.js";
@@ -76,7 +70,7 @@ const useStyles = createUseStyles({
       borderBottom: "1px solid #E7EBF0"
     },
     "& tr td": {
-      padding: "12px 18px",
+      padding: "12px",
       verticalAlign: "middle"
     },
     "& tr:hover": {
@@ -319,6 +313,14 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   };
 
   const headerData = [
+    {
+      id: "dateHidden",
+      label: "Visibility"
+    },
+    {
+      id: "dateSnapshotted",
+      label: "Status"
+    },
     { id: "name", label: "Name" },
     { id: "address", label: "Address" },
     { id: "VERSION_NO", label: "Alternative Number" },
@@ -327,16 +329,8 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     { id: "dateCreated", label: "Created On" },
     { id: "dateModified", label: "Last Modified" },
     {
-      id: "dateHidden",
-      label: <FontAwesomeIcon icon={faEye} alt={`Project Is Hidden`} />
-    },
-    {
-      id: "dateTrashed",
-      label: <FontAwesomeIcon icon={faTrash} alt={`Project Is In Trash`} />
-    },
-    {
-      id: "dateSnapshotted",
-      label: <FontAwesomeIcon icon={faCamera} alt={`Project Is a Snapshot`} />
+      id: "contextMenu",
+      label: ""
     }
   ];
 

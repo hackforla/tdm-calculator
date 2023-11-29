@@ -18,11 +18,9 @@ import logo from "../../images/ladot.png";
 
 const useStyles = createUseStyles({
   Pdf: {
-    display: "flex",
-    flexDirection: "column",
-    flex: "1 1 auto",
-    minWidth: "85vw",
-    margin: "50px auto"
+    margin: "1em !important",
+    padding: "0 !important",
+    overflow: "hidden"
   },
   rule: {
     display: "flex",
@@ -148,7 +146,7 @@ export const PdfPrint = forwardRef((props, ref) => {
     );
 
   return (
-    <div ref={ref} className={clsx("tdm-wizard-review-page", classes.Pdf)}>
+    <div ref={ref} className={classes.Pdf}>
       <h1>
         <img
           className={classes.logo}
