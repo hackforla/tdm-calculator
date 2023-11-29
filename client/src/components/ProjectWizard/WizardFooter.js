@@ -44,8 +44,9 @@ const WizardFooter = ({
 }) => {
   const classes = useStyles();
   const componentRef = useRef();
-  const projectName = rules
-    ? rules.find(r => r.code === "PROJECT_NAME").value
+  const projectNameRule = rules && rules.find(r => r.code === "PROJECT_NAME");
+  const projectName = projectNameRule
+    ? projectNameRule.value
     : "TDM Calculation Summary";
 
   return (

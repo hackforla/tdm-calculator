@@ -324,7 +324,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     { id: "name", label: "Name" },
     { id: "address", label: "Address" },
     { id: "VERSION_NO", label: "Alternative Number" },
-    { id: "BUILDING_PERMIT", label: "Building Permit" },
     { id: "firstName", label: "Created By" },
     { id: "dateCreated", label: "Created On" },
     { id: "dateModified", label: "Last Modified" },

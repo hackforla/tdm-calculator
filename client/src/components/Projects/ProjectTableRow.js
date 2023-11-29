@@ -171,9 +171,6 @@ const ProjectTableRow = ({
       </td>
       <td className={classes.td}>{project.address}</td>
       <td className={classes.td}>{fallbackToBlank(formInputs.VERSION_NO)}</td>
-      <td className={classes.td}>
-        {fallbackToBlank(formInputs.BUILDING_PERMIT)}
-      </td>
       <td
         className={classes.td}
       >{`${project.firstName} ${project.lastName}`}</td>
