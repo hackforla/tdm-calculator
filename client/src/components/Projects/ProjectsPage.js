@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-import moment from "moment";
+// import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
   faSortDown,
   faCamera,
   faTrash,
-  faEye
+  faEye,
+  faFilter
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
 
@@ -22,6 +23,8 @@ import SnapshotProjectModal from "./SnapshotProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import ProjectTableRow from "./ProjectTableRow";
+// import FilterButton from "../Button/FilterButton";
+import FilterDrawer from "./FilterDrawer.js";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -29,17 +32,18 @@ const useStyles = createUseStyles({
   },
   searchBarWrapper: {
     position: "relative",
-    alignSelf: "flex-end"
+    alignSelf: "center"
   },
   searchBar: {
     maxWidth: "100%",
-    width: "382px",
-    padding: "12px 12px 12px 48px"
+    width: "20em",
+    padding: "12px 12px 12px 48px",
+    marginRight: "0.5rem"
   },
   searchIcon: {
     position: "absolute",
     left: "16px",
-    top: "12px"
+    top: "14px"
   },
   table: {
     minWidth: "850px",
@@ -95,7 +99,7 @@ const useStyles = createUseStyles({
 
 const ProjectsPage = ({ account, contentContainerRef }) => {
   const classes = useStyles();
-  // const componentRef = useRef();
+
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
   const email = account.email;
@@ -107,11 +111,17 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-
   const [currentPage, setCurrentPage] = useState(1);
 
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
+
+  const [criteria, setCriteria] = useState({
+    type: "all",
+    status: "active",
+    visibility: "visible"
+  });
+  const [filterCollapsed, setFilterCollapsed] = useState(false);
 
   const selectedProjectName = (() => {
     if (!selectedProject) {
@@ -142,6 +152,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     const updated = await projectService.get();
     setProjects(updated.data);
   };
+
   const handleCopyModalClose = async (action, newProjectName) => {
     if (action === "ok") {
       const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
@@ -273,50 +284,79 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     setFilterText(text);
   };
 
-  const filterProjects = project => {
+  const filterProjects = p => {
+    if (criteria.type === "draft" && p.dateSnapshotted) return false;
+    if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
+    if (criteria.status === "active" && p.dateTrashed) return false;
+    if (criteria.status === "deleted" && !p.dateTrashed) return false;
+    if (criteria.visibility === "visible" && p.dateHidden) return false;
+    if (criteria.visibility === "hidden" && !p.dateHidden) return false;
+
     // fullName attr allows searching by full name, not just by first or last name
-    project["fullName"] = `${project["firstName"]} ${project["lastName"]}`;
-    project["versionNum"] = JSON.parse(project["formInputs"]).VERSION_NO
-      ? JSON.parse(project["formInputs"]).VERSION_NO
+    p["fullName"] = `${p["firstName"]} ${p["lastName"]}`;
+    p["versionNum"] = JSON.parse(p["formInputs"]).VERSION_NO
+      ? JSON.parse(p["formInputs"]).VERSION_NO
       : "";
-    project["buildingPermit"] = JSON.parse(project["formInputs"])
-      .BUILDING_PERMIT
-      ? JSON.parse(project["formInputs"]).BUILDING_PERMIT
+    p["buildingPermit"] = JSON.parse(p["formInputs"]).BUILDING_PERMIT
+      ? JSON.parse(p["formInputs"]).BUILDING_PERMIT
       : "";
-    project["dateCreated"] = moment(project["dateCreated"]).format();
-    project["dateModified"] = moment(project["dateModified"]).format();
-    project["dateHidden"] = project["dateHidden"]
-      ? moment(project["dateHidden"]).format()
-      : null;
-    project["dateTrashed"] = project["dateTrashed"]
-      ? moment(project["dateTrashed"]).format()
-      : null;
-    project["dateSnapshotted"] = project["dateSnapshotted"]
-      ? moment(project["dateSnapshotted"]).format()
-      : null;
 
     if (filterText !== "") {
-      let ids = [
-        "name",
-        "address",
-        "fullName",
-        "versionNum",
-        "buildingPermit",
-        "dateCreated",
-        "dateModified",
-        "dateHidden",
-        "dateTrashed",
-        "dateSnapshotted"
-      ];
+      let ids = ["name", "address", "fullName", "versionNum", "buildingPermit"];
 
       return ids.some(id => {
-        let colValue = String(project[id]).toLowerCase();
+        let colValue = String(p[id]).toLowerCase();
         return colValue.includes(filterText.toLowerCase());
       });
     }
 
     return true;
   };
+
+  // const filterProjects = project => {
+  //   // fullName attr allows searching by full name, not just by first or last name
+  //   project["fullName"] = `${project["firstName"]} ${project["lastName"]}`;
+  //   project["versionNum"] = JSON.parse(project["formInputs"]).VERSION_NO
+  //     ? JSON.parse(project["formInputs"]).VERSION_NO
+  //     : "";
+  //   project["buildingPermit"] = JSON.parse(project["formInputs"])
+  //     .BUILDING_PERMIT
+  //     ? JSON.parse(project["formInputs"]).BUILDING_PERMIT
+  //     : "";
+  //   project["dateCreated"] = moment(project["dateCreated"]).format();
+  //   project["dateModified"] = moment(project["dateModified"]).format();
+  //   project["dateHidden"] = project["dateHidden"]
+  //     ? moment(project["dateHidden"]).format()
+  //     : null;
+  //   project["dateTrashed"] = project["dateTrashed"]
+  //     ? moment(project["dateTrashed"]).format()
+  //     : null;
+  //   project["dateSnapshotted"] = project["dateSnapshotted"]
+  //     ? moment(project["dateSnapshotted"]).format()
+  //     : null;
+
+  //   if (filterText !== "") {
+  //     let ids = [
+  //       "name",
+  //       "address",
+  //       "fullName",
+  //       "versionNum",
+  //       "buildingPermit",
+  //       "dateCreated",
+  //       "dateModified",
+  //       "dateHidden",
+  //       "dateTrashed",
+  //       "dateSnapshotted"
+  //     ];
+
+  //     return ids.some(id => {
+  //       let colValue = String(project[id]).toLowerCase();
+  //       return colValue.includes(filterText.toLowerCase());
+  //     });
+  //   }
+
+  //   return true;
+  // };
 
   const headerData = [
     { id: "name", label: "Name" },
@@ -354,118 +394,165 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <h1 className={classes.pageTitle}>Projects</h1>
-      <div className={classes.searchBarWrapper}>
-        <input
-          className={classes.searchBar}
-          type="search"
-          id="filterText"
-          name="filterText"
-          placeholder="Search"
-          value={filterText}
-          onChange={e => handleFilterTextChange(e.target.value)}
-        />
-        <img
-          className={classes.searchIcon}
-          src={SearchIcon}
-          alt="Search Icon"
-        />
-      </div>
-      <div className={classes.tableContainer}>
-        <table className={classes.table}>
-          <thead className={classes.thead}>
-            <tr className={classes.tr}>
-              {headerData.map((header, i) => {
-                const label = header.label;
-                return (
-                  <td
-                    key={i}
-                    className={`${classes.td} ${classes.theadLabel}`}
-                    onClick={() => handleSort(header.id)}
-                  >
-                    {orderBy === header.id ? (
-                      <span className={classes.labelSpan}>
-                        {label}{" "}
-                        {order === "asc" ? (
-                          <FontAwesomeIcon
-                            icon={faSortDown}
-                            className={classes.sortArrow}
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faSortUp}
-                            className={classes.sortArrow}
-                          />
-                        )}
-                      </span>
-                    ) : (
-                      <span className={classes.labelSpan}>{label}</span>
-                    )}
-                  </td>
-                );
-              })}
-              <td></td>
-            </tr>
-          </thead>
-          <tbody className={classes.tbody}>
-            {projects.length ? (
-              currentProjects.map(project => (
-                <ProjectTableRow
-                  key={project.id}
-                  project={project}
-                  handleCopyModalOpen={handleCopyModalOpen}
-                  handleDeleteModalOpen={handleDeleteModalOpen}
-                  handleSnapshotModalOpen={handleSnapshotModalOpen}
-                  handleHide={handleHide}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row"
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start"
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignSelf: "flex-end"
+            }}
+          >
+            <div className={classes.searchBarWrapper}>
+              <input
+                className={classes.searchBar}
+                type="search"
+                id="filterText"
+                name="filterText"
+                placeholder="Search"
+                value={filterText}
+                onChange={e => handleFilterTextChange(e.target.value)}
+              />
+              <img
+                className={classes.searchIcon}
+                src={SearchIcon}
+                alt="Search Icon"
+              />
+            </div>
+            {filterCollapsed ? (
+              <button
+                alt="Show Filter Criteria"
+                style={{ backgroundColor: "#0F2940", color: "white" }}
+                onClick={() => setFilterCollapsed(false)}
+              >
+                <FontAwesomeIcon
+                  icon={faFilter}
+                  style={{ marginRight: "0.5em" }}
                 />
-              ))
+                Filter By
+              </button>
+            ) : null}
+          </div>
+          <div className={classes.tableContainer}>
+            <table className={classes.table}>
+              <thead className={classes.thead}>
+                <tr className={classes.tr}>
+                  {headerData.map((header, i) => {
+                    const label = header.label;
+                    return (
+                      <td
+                        key={i}
+                        className={`${classes.td} ${classes.theadLabel}`}
+                        onClick={() => handleSort(header.id)}
+                      >
+                        {orderBy === header.id ? (
+                          <span className={classes.labelSpan}>
+                            {label}{" "}
+                            {order === "asc" ? (
+                              <FontAwesomeIcon
+                                icon={faSortDown}
+                                className={classes.sortArrow}
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={faSortUp}
+                                className={classes.sortArrow}
+                              />
+                            )}
+                          </span>
+                        ) : (
+                          <span className={classes.labelSpan}>{label}</span>
+                        )}
+                      </td>
+                    );
+                  })}
+                  <td></td>
+                </tr>
+              </thead>
+              <tbody className={classes.tbody}>
+                {projects.length ? (
+                  currentProjects.map(project => (
+                    <ProjectTableRow
+                      key={project.id}
+                      project={project}
+                      handleCopyModalOpen={handleCopyModalOpen}
+                      handleDeleteModalOpen={handleDeleteModalOpen}
+                      handleSnapshotModalOpen={handleSnapshotModalOpen}
+                      handleHide={handleHide}
+                    />
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={9} className={classes.tdNoSavedProjects}>
+                      No Saved Projects
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <Pagination
+            projectsPerPage={projectsPerPage}
+            totalProjects={projects.length}
+            paginate={paginate}
+          />
+
+          {selectedProject && (
+            <>
+              <CopyProjectModal
+                mounted={copyModalOpen}
+                onClose={handleCopyModalClose}
+                selectedProjectName={selectedProjectName}
+              />
+
+              <DeleteProjectModal
+                mounted={deleteModalOpen}
+                onClose={handleDeleteModalClose}
+                project={selectedProject}
+              />
+
+              <SnapshotProjectModal
+                mounted={snapshotModalOpen}
+                onClose={handleSnapshotModalClose}
+                selectedProjectName={selectedProjectName}
+              />
+            </>
+          )}
+          {/* <div style={{ display: "none" }}>
+            {rules ? (
+              <PdfPrint
+                ref={componentRef}
+                rules={rules}
+                dateModified={
+                  dateModified || new Date(2023, 11, 18).toDateString()
+                }
+              />
             ) : (
-              <tr>
-                <td colSpan={9} className={classes.tdNoSavedProjects}>
-                  No Saved Projects
-                </td>
-              </tr>
+              <div ref={componentRef}>duh</div>
             )}
-          </tbody>
-        </table>
+          </div> */}
+        </div>
+        <div>
+          <FilterDrawer
+            criteria={criteria}
+            setCriteria={setCriteria}
+            collapsed={filterCollapsed}
+            setCollapsed={setFilterCollapsed}
+          />
+        </div>
       </div>
-      <Pagination
-        projectsPerPage={projectsPerPage}
-        totalProjects={projects.length}
-        paginate={paginate}
-      />
-
-      {selectedProject && (
-        <>
-          <CopyProjectModal
-            mounted={copyModalOpen}
-            onClose={handleCopyModalClose}
-            selectedProjectName={selectedProjectName}
-          />
-
-          <DeleteProjectModal
-            mounted={deleteModalOpen}
-            onClose={handleDeleteModalClose}
-            project={selectedProject}
-          />
-
-          <SnapshotProjectModal
-            mounted={snapshotModalOpen}
-            onClose={handleSnapshotModalClose}
-            selectedProjectName={selectedProjectName}
-          />
-        </>
-      )}
-      {/* <div style={{ display: "none" }}>
-        {rules ? (
-          <PdfPrint
-            ref={componentRef}
-            rules={rules}
-            dateModified={dateModified || new Date(2023, 11, 18).toDateString()}
-          />
-        ) : (
-          <div ref={componentRef}>duh</div>
-        )}
-      </div> */}
     </ContentContainerNoSidebar>
   );
 };

@@ -181,7 +181,11 @@ const App = ({
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <div>
+      <RouterProvider router={router} />
+    </div>
+  );
 };
 
 App.propTypes = {

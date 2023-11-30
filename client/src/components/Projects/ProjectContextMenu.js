@@ -27,7 +27,8 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     padding: "0.5rem",
     "&:hover": {
-      background: "#B2C0D3"
+      background: "#B2C0D3",
+      cursor: "pointer"
     }
   },
   listItemIcon: { marginRight: "0.3rem" }

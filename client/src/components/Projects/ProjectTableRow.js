@@ -185,11 +185,10 @@ const ProjectTableRow = ({
                   />
                 </button>
               }
-              position="bottom center"
-              offsetX={-100}
-              on="click"
-              closeOnDocumentClick
-              arrow={false}
+              position="left center"
+              offsetX={-10}
+              on="hover"
+              arrow={true}
             >
               {close => (
                 <ProjectContextMenu
