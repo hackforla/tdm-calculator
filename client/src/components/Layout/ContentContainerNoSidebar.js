@@ -10,7 +10,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
     minHeight: "calc(100vh - 103px - 48px)",
     margin: "auto",
-    width: "85%"
+    width: "100%"
   }
 });
 

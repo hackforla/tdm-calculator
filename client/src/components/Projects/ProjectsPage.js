@@ -2,18 +2,13 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-// import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
   faSortDown,
-  faCamera,
-  faTrash,
-  faEye,
   faFilter
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
-
 import Pagination from "../ProjectWizard/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
@@ -23,10 +18,36 @@ import SnapshotProjectModal from "./SnapshotProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import ProjectTableRow from "./ProjectTableRow";
-// import FilterButton from "../Button/FilterButton";
 import FilterDrawer from "./FilterDrawer.js";
 
 const useStyles = createUseStyles({
+  outerDiv: {
+    display: "flex",
+    flexDirection: "row",
+    justifyItems: "flex-start"
+  },
+  contentDiv: {
+    flexBasis: "75%",
+    flexShrink: 1,
+    flexGrow: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  filter: {
+    overflow: "hidden",
+    flexBasis: "18rem",
+    flexShrink: 0,
+    flexGrow: 0,
+    transition: "flex-basis 1s ease-in-out"
+  },
+  filterCollapsed: {
+    overflow: "hidden",
+    flexBasis: "1%",
+    flexShrink: 0,
+    flexGrow: 0,
+    transition: "flex-basis 1s ease-in-out"
+  },
   pageTitle: {
     marginTop: "2em"
   },
@@ -80,7 +101,7 @@ const useStyles = createUseStyles({
       borderBottom: "1px solid #E7EBF0"
     },
     "& tr td": {
-      padding: "12px 18px",
+      padding: "12px",
       verticalAlign: "middle"
     },
     "& tr:hover": {
@@ -119,9 +140,17 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const [criteria, setCriteria] = useState({
     type: "all",
     status: "active",
-    visibility: "visible"
+    visibility: "visible",
+    name: "",
+    address: "",
+    author: "",
+    alternative: "",
+    startDateCreated: null,
+    endDateCreated: null,
+    startDateModified: null,
+    endDateModified: null
   });
-  const [filterCollapsed, setFilterCollapsed] = useState(false);
+  const [filterCollapsed, setFilterCollapsed] = useState(true);
 
   const selectedProjectName = (() => {
     if (!selectedProject) {
@@ -242,8 +271,8 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       orderBy === "dateTrashed" ||
       orderBy === "dateSnapshotted"
     ) {
-      projectA = a.dateHidden ? 1 : 0;
-      projectB = b.dateHidden ? 1 : 0;
+      projectA = a[orderBy] ? 1 : 0;
+      projectB = b[orderBy] ? 1 : 0;
     } else {
       projectA = a[orderBy].toLowerCase();
       projectB = b[orderBy].toLowerCase();
@@ -291,18 +320,39 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     if (criteria.status === "deleted" && !p.dateTrashed) return false;
     if (criteria.visibility === "visible" && p.dateHidden) return false;
     if (criteria.visibility === "hidden" && !p.dateHidden) return false;
+    if (
+      criteria.name &&
+      !p.name.toLowerCase().includes(criteria.name.toLowerCase())
+    )
+      return false;
+    if (
+      criteria.address &&
+      !p.address.toLowerCase().includes(criteria.address.toLowerCase())
+    )
+      return false;
 
     // fullName attr allows searching by full name, not just by first or last name
-    p["fullName"] = `${p["firstName"]} ${p["lastName"]}`;
-    p["versionNum"] = JSON.parse(p["formInputs"]).VERSION_NO
+    p["fullname"] = `${p["firstName"]} ${p["lastName"]}`;
+    if (
+      criteria.author &&
+      !p.fullname.toLowerCase().includes(criteria.author.toLowerCase())
+    )
+      return false;
+    p.alternative = JSON.parse(p["formInputs"]).VERSION_NO
       ? JSON.parse(p["formInputs"]).VERSION_NO
       : "";
-    p["buildingPermit"] = JSON.parse(p["formInputs"]).BUILDING_PERMIT
-      ? JSON.parse(p["formInputs"]).BUILDING_PERMIT
-      : "";
+    if (
+      criteria.alternative &&
+      !p.alternative.toLowerCase().includes(criteria.alternative.toLowerCase())
+    ) {
+      return false;
+    }
 
+    // Search criteria for filterText - redundant with individual search
+    // criteria in FilterDrawer, and we could get rid of the search box
+    // above the grid.
     if (filterText !== "") {
-      let ids = ["name", "address", "fullName", "versionNum", "buildingPermit"];
+      let ids = ["name", "address", "fullName", "alternative"];
 
       return ids.some(id => {
         let colValue = String(p[id]).toLowerCase();
@@ -313,70 +363,24 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     return true;
   };
 
-  // const filterProjects = project => {
-  //   // fullName attr allows searching by full name, not just by first or last name
-  //   project["fullName"] = `${project["firstName"]} ${project["lastName"]}`;
-  //   project["versionNum"] = JSON.parse(project["formInputs"]).VERSION_NO
-  //     ? JSON.parse(project["formInputs"]).VERSION_NO
-  //     : "";
-  //   project["buildingPermit"] = JSON.parse(project["formInputs"])
-  //     .BUILDING_PERMIT
-  //     ? JSON.parse(project["formInputs"]).BUILDING_PERMIT
-  //     : "";
-  //   project["dateCreated"] = moment(project["dateCreated"]).format();
-  //   project["dateModified"] = moment(project["dateModified"]).format();
-  //   project["dateHidden"] = project["dateHidden"]
-  //     ? moment(project["dateHidden"]).format()
-  //     : null;
-  //   project["dateTrashed"] = project["dateTrashed"]
-  //     ? moment(project["dateTrashed"]).format()
-  //     : null;
-  //   project["dateSnapshotted"] = project["dateSnapshotted"]
-  //     ? moment(project["dateSnapshotted"]).format()
-  //     : null;
-
-  //   if (filterText !== "") {
-  //     let ids = [
-  //       "name",
-  //       "address",
-  //       "fullName",
-  //       "versionNum",
-  //       "buildingPermit",
-  //       "dateCreated",
-  //       "dateModified",
-  //       "dateHidden",
-  //       "dateTrashed",
-  //       "dateSnapshotted"
-  //     ];
-
-  //     return ids.some(id => {
-  //       let colValue = String(project[id]).toLowerCase();
-  //       return colValue.includes(filterText.toLowerCase());
-  //     });
-  //   }
-
-  //   return true;
-  // };
-
   const headerData = [
+    {
+      id: "dateHidden",
+      label: "Visibility"
+    },
+    {
+      id: "dateSnapshotted",
+      label: "Status"
+    },
     { id: "name", label: "Name" },
     { id: "address", label: "Address" },
     { id: "VERSION_NO", label: "Alternative Number" },
-    { id: "BUILDING_PERMIT", label: "Building Permit" },
     { id: "firstName", label: "Created By" },
     { id: "dateCreated", label: "Created On" },
     { id: "dateModified", label: "Last Modified" },
     {
-      id: "dateHidden",
-      label: <FontAwesomeIcon icon={faEye} alt={`Project Is Hidden`} />
-    },
-    {
-      id: "dateTrashed",
-      label: <FontAwesomeIcon icon={faTrash} alt={`Project Is In Trash`} />
-    },
-    {
-      id: "dateSnapshotted",
-      label: <FontAwesomeIcon icon={faCamera} alt={`Project Is a Snapshot`} />
+      id: "contextMenu",
+      label: ""
     }
   ];
 
@@ -393,144 +397,157 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
-      <h1 className={classes.pageTitle}>Projects</h1>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row"
-        }}
-      >
+      <div className={classes.outerDiv}>
         <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start"
-          }}
+          className={filterCollapsed ? classes.filterCollapsed : classes.filter}
         >
+          <FilterDrawer
+            criteria={criteria}
+            setCriteria={setCriteria}
+            collapsed={filterCollapsed}
+            setCollapsed={setFilterCollapsed}
+          />
+        </div>
+
+        <div className={classes.contentDiv}>
+          <h1 className={classes.pageTitle}>Projects</h1>
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignSelf: "flex-end"
+              flexDirection: "row"
             }}
           >
-            <div className={classes.searchBarWrapper}>
-              <input
-                className={classes.searchBar}
-                type="search"
-                id="filterText"
-                name="filterText"
-                placeholder="Search"
-                value={filterText}
-                onChange={e => handleFilterTextChange(e.target.value)}
-              />
-              <img
-                className={classes.searchIcon}
-                src={SearchIcon}
-                alt="Search Icon"
-              />
-            </div>
-            {filterCollapsed ? (
-              <button
-                alt="Show Filter Criteria"
-                style={{ backgroundColor: "#0F2940", color: "white" }}
-                onClick={() => setFilterCollapsed(false)}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start"
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignSelf: "flex-end"
+                }}
               >
-                <FontAwesomeIcon
-                  icon={faFilter}
-                  style={{ marginRight: "0.5em" }}
-                />
-                Filter By
-              </button>
-            ) : null}
-          </div>
-          <div className={classes.tableContainer}>
-            <table className={classes.table}>
-              <thead className={classes.thead}>
-                <tr className={classes.tr}>
-                  {headerData.map((header, i) => {
-                    const label = header.label;
-                    return (
-                      <td
-                        key={i}
-                        className={`${classes.td} ${classes.theadLabel}`}
-                        onClick={() => handleSort(header.id)}
-                      >
-                        {orderBy === header.id ? (
-                          <span className={classes.labelSpan}>
-                            {label}{" "}
-                            {order === "asc" ? (
-                              <FontAwesomeIcon
-                                icon={faSortDown}
-                                className={classes.sortArrow}
-                              />
-                            ) : (
-                              <FontAwesomeIcon
-                                icon={faSortUp}
-                                className={classes.sortArrow}
-                              />
-                            )}
-                          </span>
-                        ) : (
-                          <span className={classes.labelSpan}>{label}</span>
-                        )}
-                      </td>
-                    );
-                  })}
-                  <td></td>
-                </tr>
-              </thead>
-              <tbody className={classes.tbody}>
-                {projects.length ? (
-                  currentProjects.map(project => (
-                    <ProjectTableRow
-                      key={project.id}
-                      project={project}
-                      handleCopyModalOpen={handleCopyModalOpen}
-                      handleDeleteModalOpen={handleDeleteModalOpen}
-                      handleSnapshotModalOpen={handleSnapshotModalOpen}
-                      handleHide={handleHide}
+                <div className={classes.searchBarWrapper}>
+                  <input
+                    className={classes.searchBar}
+                    type="search"
+                    id="filterText"
+                    name="filterText"
+                    placeholder="Search"
+                    value={filterText}
+                    onChange={e => handleFilterTextChange(e.target.value)}
+                  />
+                  <img
+                    className={classes.searchIcon}
+                    src={SearchIcon}
+                    alt="Search Icon"
+                  />
+                </div>
+                {filterCollapsed ? (
+                  <button
+                    alt="Show Filter Criteria"
+                    style={{ backgroundColor: "#0F2940", color: "white" }}
+                    onClick={() => setFilterCollapsed(false)}
+                  >
+                    <FontAwesomeIcon
+                      icon={faFilter}
+                      style={{ marginRight: "0.5em" }}
                     />
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={9} className={classes.tdNoSavedProjects}>
-                      No Saved Projects
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-          <Pagination
-            projectsPerPage={projectsPerPage}
-            totalProjects={projects.length}
-            paginate={paginate}
-          />
-
-          {selectedProject && (
-            <>
-              <CopyProjectModal
-                mounted={copyModalOpen}
-                onClose={handleCopyModalClose}
-                selectedProjectName={selectedProjectName}
+                    Filter By
+                  </button>
+                ) : null}
+              </div>
+              <div className={classes.tableContainer}>
+                <table className={classes.table}>
+                  <thead className={classes.thead}>
+                    <tr className={classes.tr}>
+                      {headerData.map((header, i) => {
+                        const label = header.label;
+                        return (
+                          <td
+                            key={i}
+                            className={`${classes.td} ${classes.theadLabel}`}
+                            onClick={() => handleSort(header.id)}
+                          >
+                            {orderBy === header.id ? (
+                              <span className={classes.labelSpan}>
+                                {label}{" "}
+                                {order === "asc" ? (
+                                  <FontAwesomeIcon
+                                    icon={faSortDown}
+                                    className={classes.sortArrow}
+                                  />
+                                ) : (
+                                  <FontAwesomeIcon
+                                    icon={faSortUp}
+                                    className={classes.sortArrow}
+                                  />
+                                )}
+                              </span>
+                            ) : (
+                              <span className={classes.labelSpan}>{label}</span>
+                            )}
+                          </td>
+                        );
+                      })}
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody className={classes.tbody}>
+                    {projects.length ? (
+                      currentProjects.map(project => (
+                        <ProjectTableRow
+                          key={project.id}
+                          project={project}
+                          handleCopyModalOpen={handleCopyModalOpen}
+                          handleDeleteModalOpen={handleDeleteModalOpen}
+                          handleSnapshotModalOpen={handleSnapshotModalOpen}
+                          handleHide={handleHide}
+                        />
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={9} className={classes.tdNoSavedProjects}>
+                          No Saved Projects
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <Pagination
+                projectsPerPage={projectsPerPage}
+                totalProjects={projects.length}
+                paginate={paginate}
               />
 
-              <DeleteProjectModal
-                mounted={deleteModalOpen}
-                onClose={handleDeleteModalClose}
-                project={selectedProject}
-              />
+              {selectedProject && (
+                <>
+                  <CopyProjectModal
+                    mounted={copyModalOpen}
+                    onClose={handleCopyModalClose}
+                    selectedProjectName={selectedProjectName}
+                  />
 
-              <SnapshotProjectModal
-                mounted={snapshotModalOpen}
-                onClose={handleSnapshotModalClose}
-                selectedProjectName={selectedProjectName}
-              />
-            </>
-          )}
-          {/* <div style={{ display: "none" }}>
+                  <DeleteProjectModal
+                    mounted={deleteModalOpen}
+                    onClose={handleDeleteModalClose}
+                    project={selectedProject}
+                  />
+
+                  <SnapshotProjectModal
+                    mounted={snapshotModalOpen}
+                    onClose={handleSnapshotModalClose}
+                    selectedProjectName={selectedProjectName}
+                  />
+                </>
+              )}
+              {/* <div style={{ display: "none" }}>
             {rules ? (
               <PdfPrint
                 ref={componentRef}
@@ -543,14 +560,8 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
               <div ref={componentRef}>duh</div>
             )}
           </div> */}
-        </div>
-        <div>
-          <FilterDrawer
-            criteria={criteria}
-            setCriteria={setCriteria}
-            collapsed={filterCollapsed}
-            setCollapsed={setFilterCollapsed}
-          />
+            </div>
+          </div>
         </div>
       </div>
     </ContentContainerNoSidebar>
