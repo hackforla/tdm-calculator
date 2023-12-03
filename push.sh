@@ -22,7 +22,6 @@ echo '*************  FRONTEND CLIENT TESTS  *************'
 CLIENT_FILE_COUNT=$(git diff --name-only origin/develop HEAD | grep -c ^client)
 if [ "$CLIENT_FILE_COUNT" -gt 0 ]
 then
-  echo '*************  FRONTEND CLIENT TESTS  *************'
   cd $PROJECT_ROOT_DIRECTORY/client
   npm run lint:fix
   npm run test:ci || exit 1
