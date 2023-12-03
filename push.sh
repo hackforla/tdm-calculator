@@ -47,4 +47,4 @@ else
 fi
 
 # Push current local branch to a remote branch on github
-echo TODO: git push origin HEAD
+git push origin HEAD
