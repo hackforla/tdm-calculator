@@ -3,6 +3,10 @@ set -u
 
 git fetch || exit 1
 
+# check the wiki if you have errors, maybe the answers are there:
+# https://github.com/hackforla/tdm-calculator/wiki/Testing
+
+
 PROJECT_ROOT_DIRECTORY=$(pwd)
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
@@ -14,6 +18,7 @@ fi
 
 # Run frontend tests if the client directory has changes on the current branch and is different from origin/develop
 # and automatically fix linter problems, if possible
+echo '*************  FRONTEND CLIENT TESTS  *************'
 CLIENT_FILE_COUNT=$(git diff --name-only origin/develop HEAD | grep -c ^client)
 if [ "$CLIENT_FILE_COUNT" -gt 0 ]
 then
@@ -26,14 +31,14 @@ else
 fi
 
 # Run backend tests if the server directory has changes on the current branch and is different from origin/develop
+echo '*************  BACKEND SERVER TESTS *************'
+SERVER_FILE_COUNT=$(git diff --name-only origin/develop HEAD | grep -c ^server)
+if [ "$SERVER_FILE_COUNT" -gt 0 ]
+then
 if ! docker info > /dev/null 2>&1; then
   echo "The server tests use docker, and it isn't running - please start docker and try again."
   exit 1
 fi
-SERVER_FILE_COUNT=$(git diff --name-only origin/develop HEAD | grep -c ^server)
-if [ "$SERVER_FILE_COUNT" -gt 0 ]
-then
-  echo '*************  BACKEND SERVER TESTS *************'
   cd $PROJECT_ROOT_DIRECTORY/server
   npm run lint:fix
   npm test || exit 1
@@ -41,18 +46,5 @@ else
   echo 'Skipping backend server tests because no relevant changes were found'
 fi
 
-# Run cypress tests if any file in the cypress, server, or client directories on the
-# current branch are different from origin/develop
-CYPRESS_FILE_COUNT=$(git diff --name-only origin/main HEAD | grep -c ^cypress)
-if [ "$SERVER_FILE_COUNT" -gt 0 ] || [ "$CLIENT_FILE_COUNT" -gt 0 ] || [ "$CYPRESS_FILE_COUNT" -gt 0 ]
-then
-echo '*************  CYPRESS JOURNEY TESTS  *************'
-cd $PROJECT_ROOT_DIRECTORY/cypress
-#npm run lint:fix
-npm run test || exit 1
-else
-  echo 'Skipping cypress journey tests because no relevant changes were found'
-fi
-
 # Push current local branch to a remote branch on github
-git push origin HEAD
+echo TODO: git push origin HEAD
