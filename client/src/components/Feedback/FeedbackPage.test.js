@@ -3,9 +3,7 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import FeedbackPage from "./FeedbackPage";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import feedbackService from "../../services/feedback.service";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { ThemeProvider } from "react-jss";
 import { jssTheme } from "../../styles/theme";
@@ -56,25 +54,5 @@ describe("FeedbackPage", () => {
     expect(commentTextBox).toBeVisible();
     expect(forwardToWebTeamCheckBox).toBeVisible();
     expect(submitButton).toBeVisible();
-  });
-
-  it.skip("fills out form and saves public comment", async () => {
-    const user = userEvent.setup();
-    feedbackService.post = jest.fn();
-
-    await user.type(nameTextBox, "some name");
-    await user.type(emailTextBox, "some email");
-    await user.type(commentTextBox, "some comment");
-    await user.click(forwardToWebTeamCheckBox);
-    await user.click(submitButton);
-
-    // TODO: Intent here is to verify that the form calls
-    // feedbackService.post with a correct feedback object
-    expect(feedbackService.post).toHaveBeenCalledTimes(1);
-    // expect(feedbackService.post).toHaveBeenCalledWith({
-    //   name: "some name",
-    //   email: "some email",
-    //   comment: "some comment"
-    // });
   });
 });

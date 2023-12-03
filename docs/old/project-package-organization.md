@@ -1,6 +1,6 @@
 # Project Package Organization
 
-The TDM project consists of three packages: server, client and cypress, each with
+The TDM project consists of two packages: server and client each with
 their own folder under the root folder. Each of these folders has its own `package.json`
 file, so each package is configured independently as far as its npm dependencies
 and version number. This eliminates unintended interaction among the packages. Note
@@ -15,10 +15,9 @@ the root directory only has:
 
 The `lerna.json` file contains a `packages` property that determines which folders are to be treated as packages.
 
-The driving motivation for this folder organization is to separate package-specific operations for each package, and extricate devops and git-realted operations to the root folder, and
-cypress-related operations to the cypress folder.
+The driving motivation for this folder organization is to separate package-specific operations for each package, and extricate devops and git-realted operations to the root folder.
 
-The root directory also contains a few dev dependencies for developers who'd like to run both the backend node server and the React client server concurrently from the root directory. Also, these dependencies are useful when running [cypress integration tests](./testing.md#cypress-integration-tests) as part of the [push script](../../tdm-calculator/push.sh).
+The root directory also contains a few dev dependencies for developers who'd like to run both the backend node server and the React client server concurrently from the root directory.
 
 ### Installing New NPM Packages
 

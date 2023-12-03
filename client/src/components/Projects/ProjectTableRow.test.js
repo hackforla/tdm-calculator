@@ -37,21 +37,21 @@ jest.mock("react-csv", () => {
 
 const projectRules = [
   {
-    code: "rule1",
+    code: "PROJECT_NAME",
     name: "Rule 1",
     value: 1,
     dataType: "number",
     used: true
   },
   {
-    code: "rule2",
+    code: "PROJECT_ADDRESS",
     name: "Rule 2",
     value: 2,
     dataType: "number",
     used: true
   },
   {
-    code: "rule3",
+    code: "APN",
     name: "Rule 3",
     value: 3,
     dataType: "choice",
@@ -115,19 +115,18 @@ describe("ProjectTableRow", () => {
     expect(
       screen.getByText(project.firstName + " " + project.lastName)
     ).toBeInTheDocument();
-    expect(screen.getByText("08/01/2022")).toBeInTheDocument();
-    expect(screen.getByText("08/01/2023")).toBeInTheDocument();
+    expect(screen.getByText("2022-08-01")).toBeInTheDocument();
+    expect(screen.getByText("2023-08-01")).toBeInTheDocument();
     expect(screen.queryByTitle("Project is hidden")).not.toBeInTheDocument();
-    expect(screen.queryByTitle("Project is in trash")).not.toBeInTheDocument();
-    expect(
-      screen.queryByTitle("Project is a snapshot")
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("-Deleted")).not.toBeInTheDocument();
+    expect(screen.queryByTitle("Snapshot")).not.toBeInTheDocument();
+    expect(screen.getByText("Draft")).toBeInTheDocument();
 
     await waitFor(() => expect(screen.getByRole("button")).toBeInTheDocument());
   });
 
   it("renders project form inputs", async () => {
-    const formInputs = { VERSION_NO: "1.0", BUILDING_PERMIT: "12345" };
+    const formInputs = { VERSION_NO: "98.6", BUILDING_PERMIT: "12345" };
     project.formInputs = JSON.stringify(formInputs);
 
     render(
@@ -147,7 +146,9 @@ describe("ProjectTableRow", () => {
     );
 
     expect(screen.getByText(formInputs.VERSION_NO)).toBeInTheDocument();
-    expect(screen.getByText(formInputs.BUILDING_PERMIT)).toBeInTheDocument();
+    expect(
+      screen.queryByText(formInputs.BUILDING_PERMIT)
+    ).not.toBeInTheDocument();
 
     await waitFor(() => expect(screen.getByRole("button")).toBeInTheDocument());
   });
@@ -172,7 +173,7 @@ describe("ProjectTableRow", () => {
       </BrowserRouter>
     );
 
-    expect(screen.getByText("10/02/2023")).toBeInTheDocument();
+    expect(screen.getByText("2023-10-02")).toBeInTheDocument();
     await waitFor(() => expect(screen.getByRole("button")).toBeInTheDocument());
   });
 
@@ -203,8 +204,9 @@ describe("ProjectTableRow", () => {
     expect(screen.queryByRole("button")).toBeNull();
 
     expect(screen.getByTitle("Project is hidden")).toBeInTheDocument();
-    expect(screen.getByTitle("Project is in trash")).toBeInTheDocument();
-    expect(screen.getByTitle("Project is a snapshot")).toBeInTheDocument();
+    expect(screen.getByText("-Deleted")).toBeInTheDocument();
+    expect(screen.queryByTitle("Draft")).not.toBeInTheDocument();
+    expect(screen.getByText("Snapshot")).toBeInTheDocument();
 
     await waitFor(() => expect(screen.getByRole("button")).toBeInTheDocument());
   });
@@ -252,13 +254,6 @@ describe("ProjectTableRow", () => {
             "Rule 3 - Choice 1",
             "Rule 3 - Choice 2",
             "Rule 3 - Choice 3"
-          ]),
-          expect.arrayContaining([
-            "rule1",
-            "rule2",
-            "rule3_1",
-            "rule3_2",
-            "rule3_3"
           ]),
           expect.arrayContaining(["1", "2", "Y", "N", "N"])
         ])

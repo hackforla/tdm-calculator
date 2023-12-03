@@ -133,8 +133,10 @@ const mapCsvRules = (project, rules) => {
   ];
 
   // Get the needed data from the rule calculation
+  // flatMap/filter improves testability by allowing missing rules.
   const orderedRules = includeRuleCodes
-    .map(rc => rules.find(r => r.code === rc))
+    .flatMap(rc => rules.find(r => r.code === rc))
+    .filter(r => !!r)
     .map(r => ({
       code: r.code,
       name: r.name,
@@ -204,7 +206,7 @@ const mapCsvRules = (project, rules) => {
     }
   ];
 
-  let columnData = orderedRules.concat(projectProperties);
+  let columnData = projectProperties.concat(orderedRules);
 
   const ruleNames = columnData.flatMap(rule => {
     if (rule.dataType === "choice") {
@@ -248,16 +250,13 @@ const ProjectTableRow = ({
   const csvRef = useRef(); // setup the ref that we'll use for the hidden CsvLink click once we've updated the data
   const printRef = useRef();
 
-  //   const [csvData, setCsvData] = useState([]);
-  //   const [projectRules, setProjectRules] = useState();
   const [projectData, setProjectData] = useState();
 
   // Download and process rules once for both CSV and PDF rendering
   useEffect(() => {
     const fetchRules = async () => {
       const rules = await fetchEngineRules(project);
-      const csvData = project && mapCsvRules(project, rules);
-      console.error(rules);
+      const csvData = project && mapCsvRules(project, rules || []);
 
       setProjectData({ pdf: rules, csv: csvData });
     };
