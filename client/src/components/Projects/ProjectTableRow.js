@@ -216,7 +216,9 @@ const mapCsvRules = (project, rules) => {
 
   const ruleValues = columnData.flatMap(rule => {
     if (rule.dataType === "choice") {
-      return rule.choices.map(choice => (choice.id == rule.value ? "Y" : "N"));
+      return rule.choices.map(choice =>
+        choice.id == rule.value || (choice.id == 0 && !rule.value) ? "Y" : "N"
+      );
     } else {
       return rule.value ? rule.value.toString() : "";
     }
