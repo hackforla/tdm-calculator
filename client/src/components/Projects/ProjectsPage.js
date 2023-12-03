@@ -495,7 +495,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                           </td>
                         );
                       })}
-                      <td></td>
                     </tr>
                   </thead>
                   <tbody className={classes.tbody}>
