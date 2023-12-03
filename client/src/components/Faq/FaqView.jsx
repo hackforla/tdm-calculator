@@ -375,7 +375,7 @@ const FaqView = ({ isAdmin }) => {
             toggleExpandCollapse={toggleExpandCollapse}
           />
         </div>
-        <div className={admin && classes.editCategoryContainer}>
+        <div className={admin ? classes.editCategoryContainer : ""}>
           <DragDropContext onDragEnd={handleDragEnd}>
             <FaqCategoryList
               faqCategoryList={faqCategoryList}
