@@ -471,8 +471,14 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                         return (
                           <td
                             key={i}
-                            className={`${classes.td} ${classes.theadLabel}`}
-                            onClick={() => handleSort(header.id)}
+                            className={
+                              i == 8
+                                ? `${classes.td}`
+                                : `${classes.td} ${classes.theadLabel}`
+                            }
+                            onClick={
+                              i == 8 ? null : () => handleSort(header.id)
+                            }
                           >
                             {orderBy === header.id ? (
                               <span className={classes.labelSpan}>
