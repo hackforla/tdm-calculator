@@ -1,19 +1,66 @@
 import React from "react";
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import { createUseStyles } from "react-jss";
+import Modal from "react-modal";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
 
+import "./ChecklistModal.css";
+
+const useStyles = createUseStyles({
+  modalActions: {
+    display: "flex",
+    justifyContent: "flex-end",
+    margin: "42px auto"
+  },
+  close: {
+    display: "flex",
+    justifyContent: "flex-end",
+    fontSize: "25px",
+    cursor: "pointer"
+  }
+});
+
+const modalStyleDefaultOverrides = {
+  overlay: {
+    backgroundColor: "rgba(15, 41, 64, 0.4)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: "20"
+  },
+  content: {
+    position: "static",
+    top: "50px",
+    right: "auto",
+    bottom: "auto",
+    left: "200px",
+    boxSizing: "border-box",
+    maxHeight: "fit-content",
+    width: "500px",
+    padding: "25px",
+    backgroundColor: "#ffffff",
+    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.2)"
+  }
+};
+
 const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
-  if (!checklistModalOpen) return null;
+  const classes = useStyles();
 
   return (
-    <ModalDialog
-      title="Checklist"
-      mounted={checklistModalOpen}
-      onClose={toggleChecklistModal}
+    <Modal
+      closeTimeoutMS={1500}
+      isOpen={checklistModalOpen}
+      onRequestClose={toggleChecklistModal}
+      shouldCloseOnOverlayClick={true}
+      contentLabel="Checklist Modal"
+      style={modalStyleDefaultOverrides}
+      className={classes.modal}
     >
+      <span className={classes.close} onClick={toggleChecklistModal}>
+        x
+      </span>
       <ChecklistContent />
-    </ModalDialog>
+    </Modal>
   );
 };
 

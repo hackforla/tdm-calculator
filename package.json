@@ -12,6 +12,7 @@
   "dependencies": {
     "eslint": "^8.53.0",
     "react-csv": "^2.2.2",
+    "react-modal": "^3.16.1",
     "wait-on": "^7.1.0"
   },
   "husky": {
