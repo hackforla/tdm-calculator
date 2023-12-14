@@ -51,6 +51,7 @@ const ChecklistContent = () => {
         Listed below are the documents that you may need when using{" "}
         <a href="/calculation">Create Project.</a>
       </p>
+      <br />
       <div>
         <article className={classes.section}>
           p.1
