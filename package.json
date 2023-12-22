@@ -10,8 +10,12 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "eslint": "^8.53.0",
     "react-csv": "^2.2.2",
+    "react-modal": "^3.16.1",
     "wait-on": "^7.1.0"
   },
   "husky": {
