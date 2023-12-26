@@ -22,6 +22,7 @@ import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import ProjectTableRow from "./ProjectTableRow";
 import FilterDrawer from "./FilterDrawer.js";
+import ProjectCheckBoxMenu from "./ProjectCheckBoxMenu.js";
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -422,6 +423,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const headerData = [
     {
+      id: "checkAllProjects",
+      label: "X"
+    },
+    {
       id: "dateHidden",
       label: "Visibility"
     },
@@ -478,46 +483,55 @@ const ProjectsPage = ({ contentContainerRef }) => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "flex-start"
+                justifyContent: "flex-start",
+                border: "1px solid blue"
               }}
             >
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-around",
-                  alignSelf: "flex-end"
+                  justifyContent: "space-between"
                 }}
               >
-                <div className={classes.searchBarWrapper}>
-                  <input
-                    className={classes.searchBar}
-                    type="search"
-                    id="filterText"
-                    name="filterText"
-                    placeholder="Search"
-                    value={filterText}
-                    onChange={e => handleFilterTextChange(e.target.value)}
-                  />
-                  <img
-                    className={classes.searchIcon}
-                    src={SearchIcon}
-                    alt="Search Icon"
-                  />
-                </div>
-                {filterCollapsed ? (
-                  <button
-                    alt="Show Filter Criteria"
-                    style={{ backgroundColor: "#0F2940", color: "white" }}
-                    onClick={() => setFilterCollapsed(false)}
-                  >
-                    <FontAwesomeIcon
-                      icon={faFilter}
-                      style={{ marginRight: "0.5em" }}
+                <ProjectCheckBoxMenu />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignSelf: "flex-end"
+                  }}
+                >
+                  <div className={classes.searchBarWrapper}>
+                    <input
+                      className={classes.searchBar}
+                      type="search"
+                      id="filterText"
+                      name="filterText"
+                      placeholder="Search"
+                      value={filterText}
+                      onChange={e => handleFilterTextChange(e.target.value)}
                     />
-                    Filter By
-                  </button>
-                ) : null}
+                    <img
+                      className={classes.searchIcon}
+                      src={SearchIcon}
+                      alt="Search Icon"
+                    />
+                  </div>
+                  {filterCollapsed ? (
+                    <button
+                      alt="Show Filter Criteria"
+                      style={{ backgroundColor: "#0F2940", color: "white" }}
+                      onClick={() => setFilterCollapsed(false)}
+                    >
+                      <FontAwesomeIcon
+                        icon={faFilter}
+                        style={{ marginRight: "0.5em" }}
+                      />
+                      Filter By
+                    </button>
+                  ) : null}
+                </div>
               </div>
               <div className={classes.tableContainer}>
                 <table className={classes.table}>
