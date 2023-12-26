@@ -296,6 +296,7 @@ const ProjectTableRow = ({
 
   return (
     <tr key={project.id}>
+      <td className={classes.tdCenterAlign}>X</td>
       <td className={classes.tdCenterAlign}>
         {project.dateHidden ? (
           <FontAwesomeIcon
