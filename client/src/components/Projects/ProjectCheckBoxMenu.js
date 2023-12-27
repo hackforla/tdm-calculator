@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import {
   faEyeSlash,
@@ -25,14 +26,17 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectCheckBoxMenu = () => {
+const ProjectCheckBoxMenu = ({ handleHideBoxes }) => {
   const classes = useStyles();
+
   return (
     <div className={classes.container}>
       <div># Projects Selected</div>
       <ul className={classes.list}>
         <li>
-          <FontAwesomeIcon icon={faEyeSlash} />
+          <button onClick={handleHideBoxes}>
+            <FontAwesomeIcon icon={faEyeSlash} />
+          </button>
         </li>
         <li>
           <FontAwesomeIcon icon={faFileCsv} />
@@ -43,6 +47,10 @@ const ProjectCheckBoxMenu = () => {
       </ul>
     </div>
   );
+};
+
+ProjectCheckBoxMenu.propTypes = {
+  handleHideBoxes: PropTypes.func.isRequired
 };
 
 export default ProjectCheckBoxMenu;

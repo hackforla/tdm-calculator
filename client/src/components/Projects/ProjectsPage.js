@@ -138,6 +138,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [checkedProjects, setCheckedProjects] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   const projectsPerPage = 10;
@@ -270,10 +271,32 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleHide = async project => {
-    setSelectedProject(project);
-    await projectService.hide([project.id], !project.dateHidden);
+    if (checkedProjects.length === 0) {
+      setSelectedProject(project);
+      await projectService.hide([project.id], !project.dateHidden);
+      console.error(project.dateHidden);
+    } else {
+      for (let projectId of checkedProjects) {
+        const checkedProj = (await projectService.getById(projectId)).data;
+
+        setSelectedProject(checkedProj);
+        await projectService.hide([checkedProj.id], !checkedProj.dateHidden);
+      }
+
+      setCheckedProjects([]);
+    }
+
     await updateProjects();
-    console.error(project.dateHidden);
+  };
+
+  const handleCheckboxChange = projectId => {
+    setCheckedProjects(prevCheckedProjs => {
+      if (prevCheckedProjs.includes(projectId)) {
+        return prevCheckedProjs.filter(id => id !== projectId);
+      } else {
+        return [...prevCheckedProjs, projectId];
+      }
+    });
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -494,7 +517,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   justifyContent: "space-between"
                 }}
               >
-                <ProjectCheckBoxMenu />
+                <ProjectCheckBoxMenu handleHideBoxes={handleHide} />
                 <div
                   style={{
                     display: "flex",
@@ -589,6 +612,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             handleRenameSnapshotModalOpen
                           }
                           handleHide={handleHide}
+                          handleCheckboxChange={handleCheckboxChange}
+                          isChecked={checkedProjects.includes(project.id)}
                         />
                       ))
                     ) : (
