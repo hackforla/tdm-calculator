@@ -35,7 +35,7 @@
     "express-pino-logger": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.3",
-    "mssql": "^8.1.0",
+    "mssql": "^10.0.1",
     "node-flywaydb": "^3.0.7",
     "path": "^0.12.7"
   },
@@ -56,6 +56,6 @@
     "*.js": "eslint --cache --fix"
   },
   "volta": {
-    "node": "18.18.2"
+    "node": "20.10.0"
   }
 }
