@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import {
   faEyeSlash,
+  faEye,
   faTrash,
   faFileCsv
 } from "@fortawesome/free-solid-svg-icons";
@@ -26,16 +27,24 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectCheckBoxMenu = ({ handleHideBoxes }) => {
+const ProjectCheckBoxMenu = ({
+  handleHideBoxes,
+  checkedProjects,
+  hiddenStatus
+}) => {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
-      <div># Projects Selected</div>
+      <div>{checkedProjects.length} Projects Selected</div>
       <ul className={classes.list}>
         <li>
           <button onClick={handleHideBoxes}>
-            <FontAwesomeIcon icon={faEyeSlash} />
+            {!hiddenStatus ? (
+              <FontAwesomeIcon icon={faEyeSlash} />
+            ) : (
+              <FontAwesomeIcon icon={faEye} />
+            )}
           </button>
         </li>
         <li>
@@ -50,7 +59,9 @@ const ProjectCheckBoxMenu = ({ handleHideBoxes }) => {
 };
 
 ProjectCheckBoxMenu.propTypes = {
-  handleHideBoxes: PropTypes.func.isRequired
+  handleHideBoxes: PropTypes.func.isRequired,
+  checkedProjects: PropTypes.array.isRequired,
+  hiddenStatus: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf([null])])
 };
 
 export default ProjectCheckBoxMenu;
