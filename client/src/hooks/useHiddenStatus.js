@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useHiddenStatus = (checkedProjects, projects) => {
+const useHiddenStatus = (checkedProjects, projects, criteria) => {
   const [hiddenStatus, setHiddenStatus] = useState(null);
 
   useEffect(() => {
@@ -29,8 +29,14 @@ const useHiddenStatus = (checkedProjects, projects) => {
       );
     });
 
-    setHiddenStatus(allSameStatus && firstProject.dateHidden !== null);
-  }, [checkedProjects, projects]);
+    // if "Visible & Hidden" filter is applied and a combo of projects are checked,
+    //   disable "hide" button in ProjectCheckBoxMenu
+    if (criteria.visibility === "all" && !allSameStatus) {
+      setHiddenStatus(null);
+    } else {
+      setHiddenStatus(allSameStatus && firstProject.dateHidden !== null);
+    }
+  }, [checkedProjects, projects, criteria]);
 
   return hiddenStatus;
 };

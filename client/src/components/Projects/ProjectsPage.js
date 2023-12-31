@@ -135,7 +135,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjects, setCheckedProjects] = useState([]);
-  const hiddenStatus = useHiddenStatus(checkedProjects, projects);
   // const [headerChecked, setHeaderChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -156,6 +155,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     endDateModified: null
   });
   const [filterCollapsed, setFilterCollapsed] = useState(true);
+  const hiddenStatus = useHiddenStatus(checkedProjects, projects, criteria);
 
   const selectedProjectName = (() => {
     if (!selectedProject) {
@@ -467,7 +467,9 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between"
+                  justifyContent: checkedProjects.length
+                    ? "space-between"
+                    : "flex-end"
                 }}
               >
                 {checkedProjects.length ? (
@@ -475,6 +477,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                     handleHideBoxes={handleHide}
                     checkedProjects={checkedProjects}
                     hiddenStatus={hiddenStatus}
+                    criteria={criteria}
                   />
                 ) : (
                   ""
