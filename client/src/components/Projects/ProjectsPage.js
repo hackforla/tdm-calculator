@@ -14,6 +14,7 @@ import Pagination from "../ProjectWizard/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
+import useHiddenStatus from "../../hooks/useHiddenStatus.js";
 import * as projectService from "../../services/project.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
@@ -139,6 +140,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjects, setCheckedProjects] = useState([]);
+  const hiddenStatus = useHiddenStatus(checkedProjects, projects);
+  // const [headerChecked, setHeaderChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   const projectsPerPage = 10;
@@ -271,11 +274,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleHide = async project => {
-    if (checkedProjects.length === 0) {
+    if (!checkedProjects.length) {
+      // hide or unhide with context menu
       setSelectedProject(project);
       await projectService.hide([project.id], !project.dateHidden);
       console.error(project.dateHidden);
     } else {
+      // hide or unhide with checkbox
       for (let projectId of checkedProjects) {
         const checkedProj = (await projectService.getById(projectId)).data;
 
@@ -298,6 +303,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     });
   };
+
+  // const handleHeaderCheckbox = event => {
+  //   const checked = event.target.checked;
+
+  //   console.log("checked: ", checked); // eslint-disable-line no-console
+  // };
 
   const descCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
@@ -447,7 +458,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const headerData = [
     {
       id: "checkAllProjects",
-      label: "X"
+      label: <input type="checkbox" />
     },
     {
       id: "dateHidden",
@@ -506,8 +517,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "flex-start",
-                border: "1px solid blue"
+                justifyContent: "flex-start"
               }}
             >
               <div
@@ -517,7 +527,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   justifyContent: "space-between"
                 }}
               >
-                <ProjectCheckBoxMenu handleHideBoxes={handleHide} />
+                {checkedProjects.length ? (
+                  <ProjectCheckBoxMenu
+                    handleHideBoxes={handleHide}
+                    checkedProjects={checkedProjects}
+                    hiddenStatus={hiddenStatus}
+                  />
+                ) : (
+                  ""
+                )}
                 <div
                   style={{
                     display: "flex",
