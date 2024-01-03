@@ -16,7 +16,6 @@ import { CSVLink } from "react-csv";
 import { useReactToPrint } from "react-to-print";
 
 import ProjectContextMenu from "./ProjectContextMenu";
-import ProjectCheckBoxes from "./ProjectCheckBoxes";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import fetchEngineRules from "./fetchEngineRules";
 
@@ -244,7 +243,7 @@ const ProjectTableRow = ({
   handleSnapshotModalOpen,
   handleHide,
   handleCheckboxChange,
-  isChecked
+  checkedProjects
 }) => {
   const classes = useStyles();
   const momentModified = moment(project.dateModified);
@@ -300,10 +299,11 @@ const ProjectTableRow = ({
   return (
     <tr key={project.id}>
       <td className={classes.tdCenterAlign}>
-        <ProjectCheckBoxes
-          project={project}
-          handleCheckboxChange={handleCheckboxChange}
-          isChecked={isChecked}
+        <input
+          style={{ height: "15px" }}
+          type="checkbox"
+          checked={checkedProjects.includes(project.id)}
+          onChange={() => handleCheckboxChange(project.id)}
         />
       </td>
       <td className={classes.tdCenterAlign}>
@@ -397,7 +397,7 @@ ProjectTableRow.propTypes = {
   handleSnapshotModalOpen: PropTypes.func.isRequired,
   handleHide: PropTypes.func.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
-  isChecked: PropTypes.bool.isRequired
+  checkedProjects: PropTypes.array.isRequired
 };
 
 export default ProjectTableRow;
