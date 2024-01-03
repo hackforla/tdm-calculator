@@ -15,6 +15,8 @@ import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import * as projectService from "../../services/project.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
+import RenameSnapshotModal from "./RenameSnapshotModal";
+
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import ProjectTableRow from "./ProjectTableRow";
@@ -130,6 +132,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const [orderBy, setOrderBy] = useState("dateCreated");
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
+  const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -240,6 +243,27 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       }
     }
     setSnapshotModalOpen(false);
+  };
+
+  const handleRenameSnapshotModalOpen = project => {
+    setSelectedProject(project);
+    setRenameSnapshotModalOpen(true);
+  };
+
+  const handleRenameSnapshotModalClose = async (action, newProjectName) => {
+    if (action === "ok") {
+      try {
+        await projectService.renameSnapshot({
+          id: selectedProject.id,
+          name: newProjectName
+        });
+        await updateProjects();
+        setSelectedProject(null);
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setRenameSnapshotModalOpen(false);
   };
 
   const handleHide = async project => {
@@ -506,6 +530,9 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                           handleCopyModalOpen={handleCopyModalOpen}
                           handleDeleteModalOpen={handleDeleteModalOpen}
                           handleSnapshotModalOpen={handleSnapshotModalOpen}
+                          handleRenameSnapshotModalOpen={
+                            handleRenameSnapshotModalOpen
+                          }
                           handleHide={handleHide}
                         />
                       ))
@@ -532,16 +559,19 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                     onClose={handleCopyModalClose}
                     selectedProjectName={selectedProjectName}
                   />
-
                   <DeleteProjectModal
                     mounted={deleteModalOpen}
                     onClose={handleDeleteModalClose}
                     project={selectedProject}
                   />
-
                   <SnapshotProjectModal
                     mounted={snapshotModalOpen}
                     onClose={handleSnapshotModalClose}
+                    selectedProjectName={selectedProjectName}
+                  />
+                  <RenameSnapshotModal
+                    mounted={renameSnapshotModalOpen}
+                    onClose={handleRenameSnapshotModalClose}
                     selectedProjectName={selectedProjectName}
                   />
                 </>

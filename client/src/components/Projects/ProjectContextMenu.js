@@ -10,7 +10,8 @@ import {
   faCamera,
   faTrash,
   faClone,
-  faFileCsv
+  faFileCsv,
+  faPencil
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -31,6 +32,12 @@ const useStyles = createUseStyles({
       cursor: "pointer"
     }
   },
+  listItemDisabled: {
+    display: "flex",
+    flexDirection: "row",
+    padding: "0.5rem",
+    color: "gray"
+  },
   listItemIcon: { marginRight: "0.3rem" }
 });
 
@@ -40,6 +47,7 @@ const ProjectContextMenu = ({
   handleCopyModalOpen,
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
+  handleRenameSnapshotModalOpen,
   handleDownloadCsv,
   handlePrintPdf,
   handleHide
@@ -55,7 +63,32 @@ const ProjectContextMenu = ({
 
   return (
     <ul className={classes.list}>
-      {project.dateSnapshotted || project.loginId !== account.id ? null : (
+      {project.dateSnapshotted && project.loginId == account.id ? (
+        <li
+          className={classes.listItem}
+          onClick={() => handleClick(handleRenameSnapshotModalOpen)}
+        >
+          <FontAwesomeIcon
+            icon={faPencil}
+            className={classes.listItemIcon}
+            alt={`Snapshot Project #${project.id} Icon`}
+          />
+          Rename Snapshot
+        </li>
+      ) : null}
+
+      {project.dateSnapshotted && project.loginId !== account.id ? (
+        <li className={classes.listItemDisabled}>
+          <FontAwesomeIcon
+            icon={faPencil}
+            className={classes.listItemIcon}
+            alt={`Snapshot Project #${project.id} Icon`}
+          />
+          Rename Snapshot
+        </li>
+      ) : null}
+
+      {!project.dateSnapshotted ? (
         <li
           className={classes.listItem}
           onClick={() => handleClick(handleSnapshotModalOpen)}
@@ -67,7 +100,7 @@ const ProjectContextMenu = ({
           />
           Convert to Snapshot
         </li>
-      )}
+      ) : null}
 
       <li
         onClick={() => handleClick(handlePrintPdf)}
@@ -165,6 +198,7 @@ ProjectContextMenu.propTypes = {
   handleCopyModalOpen: PropTypes.func,
   handleDeleteModalOpen: PropTypes.func,
   handleSnapshotModalOpen: PropTypes.func,
+  handleRenameSnapshotModalOpen: PropTypes.func,
   handleDownloadCsv: PropTypes.func,
   handlePrintPdf: PropTypes.func,
   handleHide: PropTypes.func
