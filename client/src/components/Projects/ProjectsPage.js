@@ -140,7 +140,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjects, setCheckedProjects] = useState([]);
-  // const [headerChecked, setHeaderChecked] = useState(false);
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   const projectsPerPage = 10;
@@ -289,6 +289,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
 
       setCheckedProjects([]);
+      setSelectAllChecked(false); // reset header checkbox if checked
     }
 
     await updateProjects();
@@ -302,13 +303,20 @@ const ProjectsPage = ({ contentContainerRef }) => {
         return [...prevCheckedProjs, projectId];
       }
     });
+
+    // if header checkbox is checked, set to true
+    setSelectAllChecked(checkedProjects.length === projects.length);
   };
 
-  // const handleHeaderCheckbox = event => {
-  //   const checked = event.target.checked;
+  const handleHeaderCheckbox = () => {
+    if (!selectAllChecked) {
+      setCheckedProjects(projects.map(p => p.id));
+    } else {
+      setCheckedProjects([]);
+    }
 
-  //   console.log("checked: ", checked); // eslint-disable-line no-console
-  // };
+    setSelectAllChecked(!selectAllChecked);
+  };
 
   const descCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
@@ -365,6 +373,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleSort = property => {
+    // disable sorting for header checkbox
+    if (property === "checkAllProjects") return;
+
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -458,7 +469,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const headerData = [
     {
       id: "checkAllProjects",
-      label: <input type="checkbox" />
+      label: (
+        <input
+          style={{
+            height: "15px"
+          }}
+          type="checkbox"
+          checked={selectAllChecked}
+          onChange={handleHeaderCheckbox}
+        />
+      )
     },
     {
       id: "dateHidden",
@@ -634,7 +654,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           }
                           handleHide={handleHide}
                           handleCheckboxChange={handleCheckboxChange}
-                          isChecked={checkedProjects.includes(project.id)}
+                          checkedProjects={checkedProjects}
                         />
                       ))
                     ) : (

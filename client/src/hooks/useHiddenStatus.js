@@ -10,11 +10,10 @@ const useHiddenStatus = (checkedProjects, projects, criteria) => {
       return;
     }
 
-    // get first checked project
-    const firstProject = projects.find(p => p.id === checkedProjects[0]);
+    const firstCheckedProject = projects.find(p => p.id === checkedProjects[0]);
 
     // if project not found
-    if (!firstProject) {
+    if (!firstCheckedProject) {
       setHiddenStatus(null);
       return;
     }
@@ -24,8 +23,9 @@ const useHiddenStatus = (checkedProjects, projects, criteria) => {
       const project = projects.find(p => p.id === projectId);
 
       return (
-        (project.dateHidden === null && firstProject.dateHidden === null) ||
-        typeof project.dateHidden === typeof firstProject.dateHidden
+        (project.dateHidden === null &&
+          firstCheckedProject.dateHidden === null) ||
+        typeof project.dateHidden === typeof firstCheckedProject.dateHidden
       );
     });
 
@@ -34,7 +34,7 @@ const useHiddenStatus = (checkedProjects, projects, criteria) => {
     if (criteria.visibility === "all" && !allSameStatus) {
       setHiddenStatus(null);
     } else {
-      setHiddenStatus(allSameStatus && firstProject.dateHidden !== null);
+      setHiddenStatus(allSameStatus && firstCheckedProject.dateHidden !== null);
     }
   }, [checkedProjects, projects, criteria]);
 
