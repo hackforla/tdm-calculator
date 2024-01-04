@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-
 import Button from "../Button/Button";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 
 const useStyles = createUseStyles(theme => ({
@@ -39,7 +35,7 @@ export default function RenameSnapshotModal({
       initialFocus="#duplicateName"
     >
       <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-        <FontAwesomeIcon icon={faCopy} /> Rename Snapshot?
+        Rename Snapshot?
       </div>
       <div style={theme.typography.subHeading}>
         What would you like to rename your snapshot to?
