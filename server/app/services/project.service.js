@@ -139,6 +139,23 @@ const snapshot = async (id, loginId, name) => {
   }
 };
 
+const renameSnapshot = async (id, loginId, name) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("id", id);
+    request.input("loginId", loginId);
+    request.input("name", name);
+
+    const response = await request.execute("Project_Rename");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
 const getAllArchivedProjects = async () => {
   try {
     await poolConnect;
@@ -159,5 +176,6 @@ module.exports = {
   hide,
   trash,
   snapshot,
+  renameSnapshot,
   getAllArchivedProjects
 };

@@ -88,7 +88,7 @@ const ProjectContextMenu = ({
         </li>
       ) : null}
 
-      {!project.dateSnapshotted ? (
+      {!project.dateSnapshotted && project.loginId == account.id ? (
         <li
           className={classes.listItem}
           onClick={() => handleClick(handleSnapshotModalOpen)}
