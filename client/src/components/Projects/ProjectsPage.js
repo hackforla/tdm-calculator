@@ -284,7 +284,22 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
 
   const handleHeaderCheckbox = () => {
     if (!selectAllChecked) {
-      setCheckedProjects(projects.map(p => p.id));
+      setCheckedProjects(
+        projects
+          .filter(
+            p =>
+              (criteria.visibility === "visible" && !p.dateHidden) ||
+              (criteria.visibility === "hidden" && p.dateHidden) ||
+              criteria.visibility === "all"
+          )
+          .filter(
+            p =>
+              (criteria.status === "active" && !p.dateTrashed) ||
+              (criteria.status === "deleted" && p.dateTrashed) ||
+              criteria.status === "all"
+          )
+          .map(p => p.id)
+      );
     } else {
       setCheckedProjects([]);
     }
@@ -465,6 +480,8 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
             setCriteria={setCriteria}
             collapsed={filterCollapsed}
             setCollapsed={setFilterCollapsed}
+            setCheckedProjects={setCheckedProjects}
+            setSelectAllChecked={setSelectAllChecked}
           />
         </div>
 

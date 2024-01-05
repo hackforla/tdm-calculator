@@ -43,7 +43,13 @@ const useStyles = createUseStyles({
   }
 });
 
-const FilterPopup = ({ criteria, setCriteria, setCollapsed }) => {
+const FilterPopup = ({
+  criteria,
+  setCriteria,
+  setCollapsed,
+  setCheckedProjects,
+  setSelectAllChecked
+}) => {
   const userContext = useContext(UserContext);
   const account = userContext.account;
   const classes = useStyles();
@@ -66,6 +72,10 @@ const FilterPopup = ({ criteria, setCriteria, setCollapsed }) => {
 
   const handleChange = (e, propertyName) => {
     setCriteria({ ...criteria, [propertyName]: e.target.value });
+
+    // reset any checked project rows when filter is applied
+    setCheckedProjects([]);
+    setSelectAllChecked(false);
   };
 
   const handleChangeDate = (property, date) => {
@@ -182,7 +192,9 @@ FilterPopup.propTypes = {
   criteria: PropTypes.any,
   setCriteria: PropTypes.func,
   collapsed: PropTypes.bool,
-  setCollapsed: PropTypes.func
+  setCollapsed: PropTypes.func,
+  setCheckedProjects: PropTypes.func,
+  setSelectAllChecked: PropTypes.func
 };
 
 export default FilterPopup;
