@@ -4237,6 +4237,30 @@
       "operation": "migrate",
       "exception": null,
       "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20231121.1647",
+      "targetSchemaVersion": "20240104.1705",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20240104.1705",
+          "description": "add-project-rename-sproc",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20240104.1705__add-project-rename-sproc.sql",
+          "executionTime": 88
+        }
+      ],
+      "migrationsExecuted": 1,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2024-01-04T17:08:36.474312200",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
     }
   ]
 }
