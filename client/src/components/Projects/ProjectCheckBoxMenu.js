@@ -30,7 +30,7 @@ const useStyles = createUseStyles({
 const ProjectCheckBoxMenu = ({
   handleHideBoxes,
   checkedProjects,
-  hiddenStatus,
+  isHidden,
   criteria
 }) => {
   const classes = useStyles();
@@ -42,9 +42,12 @@ const ProjectCheckBoxMenu = ({
         <li>
           <button
             onClick={handleHideBoxes}
-            disabled={criteria.visibility === "all" && hiddenStatus === null}
+            disabled={
+              (criteria.visibility === "all" && isHidden === null) ||
+              isHidden === null
+            }
           >
-            {!hiddenStatus ? (
+            {!isHidden ? (
               <FontAwesomeIcon icon={faEyeSlash} />
             ) : (
               <FontAwesomeIcon icon={faEye} />
@@ -65,7 +68,7 @@ const ProjectCheckBoxMenu = ({
 ProjectCheckBoxMenu.propTypes = {
   handleHideBoxes: PropTypes.func.isRequired,
   checkedProjects: PropTypes.array.isRequired,
-  hiddenStatus: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf([null])]),
+  isHidden: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf([null])]),
   criteria: PropTypes.object.isRequired
 };
 
