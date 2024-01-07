@@ -1,6 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 const useHiddenStatus = (checkedProjects, projects, criteria) => {
+  const userContext = useContext(UserContext);
+  const account = userContext.account;
+
   const [hiddenStatus, setHiddenStatus] = useState(null);
 
   useEffect(() => {
@@ -29,14 +33,21 @@ const useHiddenStatus = (checkedProjects, projects, criteria) => {
       );
     });
 
-    // if "Visible & Hidden" filter is applied and a combo of projects are checked,
-    //   disable "hide" button in ProjectCheckBoxMenu
-    if (criteria.visibility === "all" && !allSameStatus) {
+    // verify if checked project is owned by current user
+    const isProjectOwner = checkedProjects.every(projectId => {
+      const project = projects.find(p => p.id === projectId);
+
+      return project.loginId === account.id;
+    });
+
+    // if "Visible & Hidden" filter is applied and a combo of projects are checked or
+    //  current user is not project owner, disable "hide" button in ProjectCheckBoxMenu
+    if ((criteria.visibility === "all" && !allSameStatus) || !isProjectOwner) {
       setHiddenStatus(null);
     } else {
       setHiddenStatus(allSameStatus && firstCheckedProject.dateHidden !== null);
     }
-  }, [checkedProjects, projects, criteria]);
+  }, [checkedProjects, projects, criteria, account.id]);
 
   return hiddenStatus;
 };

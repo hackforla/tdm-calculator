@@ -570,7 +570,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <ProjectCheckBoxMenu
                     handleHideBoxes={handleHide}
                     checkedProjects={checkedProjects}
-                    hiddenStatus={hiddenStatus}
+                    isHidden={hiddenStatus}
                     criteria={criteria}
                   />
                 ) : (
