@@ -490,13 +490,21 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                 <table className={classes.table}>
                   <thead className={classes.thead}>
                     <tr className={classes.tr}>
-                      {headerData.map((header, i) => {
+                      {headerData.map(header => {
                         const label = header.label;
                         return (
                           <td
-                            key={i}
-                            className={`${classes.td} ${classes.theadLabel}`}
-                            onClick={() => handleSort(header.id)}
+                            key={header.id}
+                            className={
+                              header.id === "contextMenu"
+                                ? `${classes.td}`
+                                : `${classes.td} ${classes.theadLabel}`
+                            }
+                            onClick={
+                              header.id == "contextMenu"
+                                ? null
+                                : () => handleSort(header.id)
+                            }
                           >
                             {orderBy === header.id ? (
                               <span className={classes.labelSpan}>
