@@ -30,6 +30,10 @@ export function snapshot(id) {
   return axios.put(baseUrl + "/snapshot", id);
 }
 
+export function renameSnapshot(id) {
+  return axios.put(baseUrl + "/renameSnapshot", id);
+}
+
 export function getAllArchivedProjects() {
   try {
     return axios.get(`${baseUrl}/archivedprojects`);

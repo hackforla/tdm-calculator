@@ -117,6 +117,21 @@ const snapshot = async (req, res) => {
   }
 };
 
+const renameSnapshot = async (req, res) => {
+  try {
+    const { id, name } = req.body;
+
+    const result = await projectService.renameSnapshot(id, req.user.id, name);
+    if (result === 1) {
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const getAllArchivedProjects = async (req, res) => {
   try {
     if (!req.user.isSecurityAdmin) {
@@ -141,5 +156,6 @@ module.exports = {
   hide,
   trash,
   snapshot,
+  renameSnapshot,
   getAllArchivedProjects
 };

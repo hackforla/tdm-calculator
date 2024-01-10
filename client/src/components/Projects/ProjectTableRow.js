@@ -243,7 +243,8 @@ const ProjectTableRow = ({
   handleSnapshotModalOpen,
   handleHide,
   handleCheckboxChange,
-  checkedProjects
+  checkedProjects,
+  handleRenameSnapshotModalOpen
 }) => {
   const classes = useStyles();
   const momentModified = moment(project.dateModified);
@@ -366,6 +367,7 @@ const ProjectTableRow = ({
                   handleDownloadCsv={handleDownloadCsv}
                   handlePrintPdf={handlePrintPdf}
                   handleSnapshotModalOpen={handleSnapshotModalOpen}
+                  handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
                   handleHide={handleHide}
                 />
               )}
@@ -397,7 +399,8 @@ ProjectTableRow.propTypes = {
   handleSnapshotModalOpen: PropTypes.func.isRequired,
   handleHide: PropTypes.func.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
-  checkedProjects: PropTypes.array.isRequired
+  checkedProjects: PropTypes.array.isRequired,
+  handleRenameSnapshotModalOpen: PropTypes.func.isRequired
 };
 
 export default ProjectTableRow;
