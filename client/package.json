@@ -50,6 +50,7 @@
     "react-input-mask": "^2.0.4",
     "react-jss": "^10.8.2",
     "react-loader": "^2.4.7",
+    "react-modal": "^3.16.1",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.18.0",
     "react-select": "^5.2.2",

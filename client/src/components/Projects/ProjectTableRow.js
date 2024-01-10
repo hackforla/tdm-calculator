@@ -241,6 +241,7 @@ const ProjectTableRow = ({
   handleCopyModalOpen,
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
+  handleRenameSnapshotModalOpen,
   handleHide
 }) => {
   const classes = useStyles();
@@ -356,6 +357,7 @@ const ProjectTableRow = ({
                   handleDownloadCsv={handleDownloadCsv}
                   handlePrintPdf={handlePrintPdf}
                   handleSnapshotModalOpen={handleSnapshotModalOpen}
+                  handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
                   handleHide={handleHide}
                 />
               )}
@@ -385,6 +387,7 @@ ProjectTableRow.propTypes = {
   handleCopyModalOpen: PropTypes.func.isRequired,
   handleDeleteModalOpen: PropTypes.func.isRequired,
   handleSnapshotModalOpen: PropTypes.func.isRequired,
+  handleRenameSnapshotModalOpen: PropTypes.func.isRequired,
   handleHide: PropTypes.func.isRequired
 };
 
