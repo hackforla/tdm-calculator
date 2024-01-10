@@ -278,14 +278,14 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       }
     });
 
-    // if header checkbox is checked, set to true
-    setSelectAllChecked(checkedProjects.length === projects.length);
+    // header checkbox status
+    setSelectAllChecked(checkedProjects.length === currentProjects.length);
   };
 
   const handleHeaderCheckbox = () => {
     if (!selectAllChecked) {
       setCheckedProjects(
-        projects
+        currentProjects
           .filter(
             p =>
               (criteria.visibility === "visible" && !p.dateHidden) ||
