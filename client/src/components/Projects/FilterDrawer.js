@@ -77,7 +77,7 @@ const FilterPopup = ({ criteria, setCriteria, setCollapsed }) => {
       <button
         style={{
           border: "none",
-          textAlign: "right",
+          textAlign: "left",
           backgroundColor: "white",
           margin: 0,
           padding: 0

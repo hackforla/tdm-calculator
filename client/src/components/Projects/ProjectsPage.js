@@ -25,7 +25,7 @@ import FilterDrawer from "./FilterDrawer.js";
 const useStyles = createUseStyles({
   outerDiv: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     justifyItems: "flex-start"
   },
   contentDiv: {
