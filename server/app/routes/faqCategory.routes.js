@@ -11,4 +11,3 @@ router.post(
   jwtSession.validateRoles(["isAdmin"]),
   faqCategoryController.post
 );
-
