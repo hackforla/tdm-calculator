@@ -337,6 +337,10 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     setFilterText(text);
   };
 
+  const getTimeInMs = date => {
+    return new Date(date).getTime();
+  };
+
   const filterProjects = p => {
     if (criteria.type === "draft" && p.dateSnapshotted) return false;
     if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
@@ -354,6 +358,27 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       !p.address.toLowerCase().includes(criteria.address.toLowerCase())
     )
       return false;
+
+    if (
+      criteria.startDateCreated &&
+      getTimeInMs(p.dateCreated) < getTimeInMs(criteria.startDateCreated)
+    )
+      return false;
+    if (
+      criteria.endDateCreated &&
+      getTimeInMs(p.dateCreated) <= getTimeInMs(criteria.endDateCreated)
+    )
+      return true;
+    if (
+      criteria.startDateModified &&
+      getTimeInMs(p.dateModified) < getTimeInMs(criteria.startDateModified)
+    )
+      return false;
+    if (
+      criteria.endDateModified &&
+      getTimeInMs(p.dateModified) <= getTimeInMs(criteria.endDateModified)
+    )
+      return true;
 
     // fullName attr allows searching by full name, not just by first or last name
     p["fullname"] = `${p["firstName"]} ${p["lastName"]}`;
