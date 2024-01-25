@@ -37,6 +37,7 @@ import ResetPassword from "./components/Authorization/ResetPassword";
 import ForgotPassword from "./components/Authorization/ForgotPassword";
 import Feedback from "./components/Feedback/FeedbackPage";
 import ErrorPage from "./components/ErrorPage";
+import Logout from "./components/Authorization/Logout";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
 
@@ -138,6 +139,7 @@ const App = ({
           <Route path="/updateaccount/:email?" element={<UpdateAccount />} />
           <Route path="/confirm/:token?" element={<ConfirmEmail />} />
           <Route path="/login/:email?" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetPassword/:token" element={<ResetPassword />} />
           <Route
