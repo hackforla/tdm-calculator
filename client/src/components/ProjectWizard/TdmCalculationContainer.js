@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+import UserContext from "../../contexts/UserContext";
 import TdmCalculationWizard from "./TdmCalculationWizard";
 import * as ruleService from "../../services/rule.service";
 import * as projectService from "../../services/project.service";
@@ -35,15 +36,12 @@ const filters = {
     rule.code === "STRATEGY_PARKING_5"
 };
 
-export function TdmCalculationContainer({
-  account,
-  setLoggedInAccount,
-  contentContainerRef
-}) {
+export function TdmCalculationContainer({ contentContainerRef }) {
   const params = useParams();
   const navigate = useNavigate();
-
   const location = useLocation();
+  const userContext = useContext(UserContext);
+  const account = userContext ? userContext.account : null;
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
   const projectId = params.projectId ? Number(params.projectId) : 0;
@@ -460,7 +458,7 @@ export function TdmCalculationContainer({
             );
             // User's session has expired, update state variable
             // to let React know they are logged out.
-            setLoggedInAccount({});
+            userContext.updateAccount({});
             navigate(`/login/${encodeURIComponent(account.email)}`);
           } else {
             console.error(err.response);
@@ -489,7 +487,7 @@ export function TdmCalculationContainer({
             );
             // User's session has expired, update state variable
             // to let React know they are logged out.
-            setLoggedInAccount({});
+            userContext.updateAccount({});
             navigate(`/login/${encodeURIComponent(account.email)}`);
           } else {
             console.error(err.response);
@@ -514,7 +512,6 @@ export function TdmCalculationContainer({
       onPkgSelect={onPkgSelect}
       onParkingProvidedChange={onParkingProvidedChange}
       resultRuleCodes={resultRuleCodes}
-      account={account}
       loginId={loginId}
       onSave={onSave}
       allowResidentialPackage={allowResidentialPackage}
@@ -534,13 +531,6 @@ export function TdmCalculationContainer({
 TdmCalculationContainer.calculationId = 1;
 
 TdmCalculationContainer.propTypes = {
-  account: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    id: PropTypes.number,
-    email: PropTypes.string
-  }),
-  setLoggedInAccount: PropTypes.func,
   contentContainerRef: PropTypes.object
 };
 
