@@ -12,7 +12,8 @@ const useStyles = createUseStyles({
     marginTop: "16px",
     display: "flex",
     position: "fixed",
-    top: "5.6em",
+    top: "5%",
+    right: "5%",
     zIndex: "100"
   },
   "@media (max-width: 1024px)": {

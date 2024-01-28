@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import AppWrapper from "./AppWrapper";
+import App from "./App";
 import { ThemeProvider } from "react-jss";
 import { jssTheme } from "./styles/theme";
 
@@ -21,7 +21,7 @@ try {
   const root = createRoot(container);
   root.render(
     <ThemeProvider theme={jssTheme}>
-      <AppWrapper />
+      <App />
     </ThemeProvider>
   );
 } catch (err) {

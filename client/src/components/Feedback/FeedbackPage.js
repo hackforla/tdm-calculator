@@ -1,9 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
 import * as feedbackService from "../../services/feedback.service";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../Button/Button";
@@ -66,12 +67,14 @@ const useStyles = createUseStyles({
   }
 });
 
-const FeedbackPage = ({ account }) => {
+const FeedbackPage = ({ contentContainerRef }) => {
+  const userContext = useContext(UserContext);
   const focusRef = useRef(null);
   const classes = useStyles();
   const toast = useToast();
   const navigate = useNavigate();
-  const email = account.email;
+  const account = userContext.account;
+  const email = account ? account.email : "";
   const handleError = useErrorHandler(email, navigate);
   const [projects] = useProjects(handleError);
   const [selectedProjects, setSelectedProjects] = useState([]);
@@ -124,7 +127,7 @@ const FeedbackPage = ({ account }) => {
   };
 
   return (
-    <ContentContainer>
+    <ContentContainer contentContainerRef={contentContainerRef}>
       <div className={classes.feedbackContainer}>
         <h1 className={classes.pageTitle}>TDM Calculator Feedback Form</h1>
         <div className={classes.subtitle}>
@@ -260,12 +263,7 @@ const FeedbackPage = ({ account }) => {
 };
 
 FeedbackPage.propTypes = {
-  account: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    id: PropTypes.number,
-    email: PropTypes.string
-  })
+  contentContainerRef: PropTypes.object
 };
 
 export default FeedbackPage;
