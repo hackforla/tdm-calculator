@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useCallback, useEffect, useState, useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 import FaqCategoryList from "./FaqCategoryList";
 import ExpandButtons from "./ExpandButtons";
 import EditToggleButton from "../Button/EditToggleButton";
@@ -26,8 +26,11 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const FaqView = ({ isAdmin }) => {
+const FaqView = () => {
   const classes = useStyles();
+  const userContext = useContext(UserContext);
+  const isAdmin =
+    userContext && userContext.account && userContext.account.isAdmin;
   const [faqCategoryList, setFaqCategoryList] = useState([]);
   const [highestFaqId, setHighestFaqId] = useState(0);
   const [highestCategoryId, setHighestCategoryId] = useState(0);
@@ -404,10 +407,6 @@ const FaqView = ({ isAdmin }) => {
       />
     </ContentContainer>
   );
-};
-
-FaqView.propTypes = {
-  isAdmin: PropTypes.bool
 };
 
 export default FaqView;
