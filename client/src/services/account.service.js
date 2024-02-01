@@ -64,6 +64,11 @@ export const login = async (email, password) => {
   }
 };
 
+export const logout = async () => {
+  const response = await axios.get(`${baseUrl}/logout`);
+  return response;
+};
+
 export const confirmRegister = async token => {
   const body = { token };
   const response = await axios.post(baseUrl + "/confirmRegister", body);

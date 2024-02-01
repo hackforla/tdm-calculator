@@ -43,6 +43,13 @@ const useStyles = createUseStyles({
   },
   addressParagraph: {
     marginBottom: "0px"
+  },
+  tdmWizardPageSubtitle: {
+    marginTop: "o.5em",
+    marginBottom: "1em",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontStyle: "normal"
   }
 });
 
@@ -54,10 +61,7 @@ const PrivacyPolicy = () => {
         <h1 className={classes.title}>Privacy Policy</h1>
 
         <div className={classes.privacyPolicyContent}>
-          <h3
-            className="tdm-wizard-page-subtitle"
-            style={{ fontWeight: "bold" }}
-          >
+          <h3 className={classes.tdmWizardPageSubtitle}>
             We respect your privacy and recognize that we must maintain and use
             your information responsibly.
           </h3>

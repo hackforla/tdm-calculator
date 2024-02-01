@@ -1,6 +1,4 @@
-import React, { useContext } from "react";
-import UserContext from "./contexts/UserContext";
-import PropTypes from "prop-types";
+import React, { useRef } from "react";
 import "./styles/App.scss";
 import {
   createBrowserRouter,
@@ -9,7 +7,6 @@ import {
   Route,
   Navigate
 } from "react-router-dom";
-import { withToastProvider } from "./contexts/Toast";
 import RequireAuth from "./components/Authorization/RequireAuth";
 
 // Layout Routes
@@ -37,19 +34,13 @@ import ResetPassword from "./components/Authorization/ResetPassword";
 import ForgotPassword from "./components/Authorization/ForgotPassword";
 import Feedback from "./components/Feedback/FeedbackPage";
 import ErrorPage from "./components/ErrorPage";
+import Logout from "./components/Authorization/Logout";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
 
-const App = ({
-  contentContainerRef,
-  appContainerRef,
-  checklistModalOpen,
-  toggleChecklistModal,
-  hasAcceptedTerms,
-  onAcceptTerms
-}) => {
-  const userContext = useContext(UserContext);
-  const account = userContext.account;
+const App = () => {
+  const contentContainerRef = useRef();
+  const appContainerRef = useRef();
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -57,13 +48,7 @@ const App = ({
         path="/"
         element={
           <div>
-            <ClientAreaLayout
-              appContainerRef={appContainerRef}
-              hasAcceptedTerms={hasAcceptedTerms}
-              onAcceptTerms={onAcceptTerms}
-              checklistModalOpen={checklistModalOpen}
-              toggleChecklistModal={toggleChecklistModal}
-            />
+            <ClientAreaLayout appContainerRef={appContainerRef} />
           </div>
         }
       >
@@ -71,14 +56,8 @@ const App = ({
         <Route
           path="/projects"
           element={
-            <RequireAuth
-              isAuthorized={account && !!account.email}
-              redirectTo="/unauthorized"
-            >
-              <ProjectsPage
-                account={account}
-                contentContainerRef={contentContainerRef}
-              />
+            <RequireAuth>
+              <ProjectsPage contentContainerRef={contentContainerRef} />
             </RequireAuth>
           }
         />
@@ -86,7 +65,6 @@ const App = ({
           path={calculationPath}
           element={
             <TdmCalculationContainer
-              account={account}
               contentContainerRef={contentContainerRef}
             />
           }
@@ -96,22 +74,12 @@ const App = ({
           element={<Navigate to="/calculation/1/0" />}
         />
 
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to={account && account.email ? "/calculation/1/0" : "/login"}
-            />
-          }
-        />
+        <Route path="/" element={<Navigate to={"/calculation/1/0"} />} />
         <Route
           path="/admin"
           element={
-            <RequireAuth
-              isAuthorized={account && account.isAdmin}
-              redirectTo="/unauthorized"
-            >
-              <Admin account={account} />
+            <RequireAuth roles={["isAdmin"]}>
+              <Admin />
             </RequireAuth>
           }
         />
@@ -119,7 +87,7 @@ const App = ({
         <Route
           element={
             <div>
-              <PlainSidebarLayout contentContainerRef={contentContainerRef} />
+              <PlainSidebarLayout />
             </div>
           }
         >
@@ -138,26 +106,21 @@ const App = ({
           <Route path="/updateaccount/:email?" element={<UpdateAccount />} />
           <Route path="/confirm/:token?" element={<ConfirmEmail />} />
           <Route path="/login/:email?" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetPassword/:token" element={<ResetPassword />} />
           <Route
             path="/roles"
             element={
-              <RequireAuth
-                isAuthorized={account && account.isSecurityAdmin}
-                redirectTo="/unauthorized"
-              >
-                <Roles />
+              <RequireAuth roles={["isSecurityAdmin"]}>
+                <Roles contentContainerRef={contentContainerRef} />
               </RequireAuth>
             }
           />
           <Route
             path="/archivedaccounts"
             element={
-              <RequireAuth
-                isAuthorized={account && account.isSecurityAdmin}
-                redirectTo="/unauthorized"
-              >
+              <RequireAuth roles={["isSecurityAdmin"]}>
                 <RolesArchive />
               </RequireAuth>
             }
@@ -165,16 +128,16 @@ const App = ({
           <Route
             path="/archivedprojects"
             element={
-              <RequireAuth
-                isAuthorized={account && account.isSecurityAdmin}
-                redirectTo="/unauthorized"
-              >
+              <RequireAuth roles={["isSecurityAdmin"]}>
                 <ProjectsArchive />
               </RequireAuth>
             }
           />
-          <Route path="/faqs" element={<FaqView isAdmin={account.isAdmin} />} />
-          <Route path="/feedback" element={<Feedback account={account} />} />
+          <Route path="/faqs" element={<FaqView />} />
+          <Route
+            path="/feedback"
+            element={<Feedback contentContainerRef={contentContainerRef} />}
+          />
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Route>
@@ -188,13 +151,4 @@ const App = ({
   );
 };
 
-App.propTypes = {
-  appContainerRef: PropTypes.object,
-  contentContainerRef: PropTypes.object,
-  hasAcceptedTerms: PropTypes.bool,
-  onAcceptTerms: PropTypes.func,
-  checklistModalOpen: PropTypes.bool,
-  toggleChecklistModal: PropTypes.func
-};
-
-export default withToastProvider(App);
+export default App;

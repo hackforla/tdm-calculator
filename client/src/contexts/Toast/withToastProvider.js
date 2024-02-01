@@ -33,8 +33,10 @@ const withToastProvider = Component => {
     };
 
     const remove = id => setToasts(toasts.filter(t => t.id !== id));
-    const contentContainer = contentContainerRef.current;
-    const appContainer = appContainerRef.current;
+    const contentContainer = contentContainerRef
+      ? contentContainerRef.current
+      : null;
+    const appContainer = appContainerRef ? appContainerRef.current : null;
 
     return (
       <ToastContext.Provider value={{ add, remove }}>

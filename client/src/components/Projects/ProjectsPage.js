@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
+import UserContext from "../../contexts/UserContext.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
@@ -25,7 +26,7 @@ import FilterDrawer from "./FilterDrawer.js";
 const useStyles = createUseStyles({
   outerDiv: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     justifyItems: "flex-start"
   },
   contentDiv: {
@@ -120,12 +121,13 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectsPage = ({ account, contentContainerRef }) => {
+const ProjectsPage = ({ contentContainerRef }) => {
   const classes = useStyles();
+  const userContext = useContext(UserContext);
 
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
-  const email = account.email;
+  const email = userContext.account.email;
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useProjects(handleError);
@@ -606,12 +608,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
 };
 
 ProjectsPage.propTypes = {
-  account: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    id: PropTypes.number,
-    email: PropTypes.string
-  }),
   contentContainerRef: PropTypes.object
 };
 
