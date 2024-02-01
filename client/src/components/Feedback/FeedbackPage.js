@@ -240,7 +240,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
                   />
                 </label>
               </div>
-              {account && account.id ? (
+              {account && account.id && projects.length !== 0 ? (
                 <ProjectList
                   key={JSON.stringify(projects, null, 2)}
                   projects={projects}
