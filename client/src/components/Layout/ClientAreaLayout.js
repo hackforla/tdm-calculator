@@ -7,6 +7,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
 import ChecklistModal from "../Checklist/ChecklistModal";
+import OktaAuthProvider from "../Okta/OktaAuthProvider";
+import OktaTdmAuthProvider from "../Okta/OktaTdmAuthProvider";
 import TdmAuthProvider from "./TdmAuthProvider";
 
 const useStyles = createUseStyles({
@@ -42,19 +44,37 @@ const ClientAreaLayout = ({ appContainerRef }) => {
 
   return (
     <div className={classes.app} id="app-container" ref={appContainerRef}>
-      <TdmAuthProvider>
-        <TermsAndConditionsModal
-          hasAcceptedTerms={hasAcceptedTerms}
-          onAcceptTerms={onAcceptTerms}
-        />
-        <ChecklistModal
-          checklistModalOpen={checklistModalOpen}
-          toggleChecklistModal={toggleChecklistModal}
-        />
-        <Header />
-        <Outlet />
-        <Footer toggleChecklistModal={toggleChecklistModal} />
-      </TdmAuthProvider>
+      {process.env.REACT_APP_OKTA === "T" ? (
+        <OktaAuthProvider>
+          <OktaTdmAuthProvider>
+            <TermsAndConditionsModal
+              hasAcceptedTerms={hasAcceptedTerms}
+              onAcceptTerms={onAcceptTerms}
+            />
+            <ChecklistModal
+              checklistModalOpen={checklistModalOpen}
+              toggleChecklistModal={toggleChecklistModal}
+            />
+            <Header />
+            <Outlet />
+            <Footer toggleChecklistModal={toggleChecklistModal} />
+          </OktaTdmAuthProvider>
+        </OktaAuthProvider>
+      ) : (
+        <TdmAuthProvider>
+          <TermsAndConditionsModal
+            hasAcceptedTerms={hasAcceptedTerms}
+            onAcceptTerms={onAcceptTerms}
+          />
+          <ChecklistModal
+            checklistModalOpen={checklistModalOpen}
+            toggleChecklistModal={toggleChecklistModal}
+          />
+          <Header />
+          <Outlet />
+          <Footer toggleChecklistModal={toggleChecklistModal} />
+        </TdmAuthProvider>
+      )}
     </div>
   );
 };

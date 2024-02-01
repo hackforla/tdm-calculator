@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../images/ladot_white.png";
 import NavBar from "./NavBar";
+import OktaNavBar from "../Okta/OktaNavBar";
 import { Environment } from "../../helpers/Environment";
 
 const useStyles = createUseStyles({
@@ -101,7 +102,11 @@ const Header = () => {
       >
         <FontAwesomeIcon icon={faBars} className={classes.hamburger} />
       </button>
-      <NavBar navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />
+      {process.env.REACT_APP_OKTA === "T" ? (
+        <OktaNavBar navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />
+      ) : (
+        <NavBar navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />
+      )}
     </div>
   );
 };

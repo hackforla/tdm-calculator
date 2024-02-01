@@ -104,3 +104,27 @@ export const deleteAccount = async id => {
   const response = await axios.delete(`${baseUrl}/${id}/deleteaccount`);
   return response;
 };
+
+export const getAuthorization = async ({
+  email,
+  firstName,
+  lastName,
+  oktaAccessToken
+}) => {
+  const body = { email, firstName, lastName };
+  const config = {
+    headers: {
+      Authorization: `Bearer ${oktaAccessToken}`
+    }
+  };
+  try {
+    const response = await axios.post(
+      baseUrl + "/getauthorization",
+      body,
+      config
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};

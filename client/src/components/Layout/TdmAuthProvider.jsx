@@ -16,7 +16,7 @@ const getUserFromLocalStorage = () => {
   }
 };
 
-const TdmSecurity = ({ children }) => {
+const TdmAuthProvider = ({ children }) => {
   const [account, setAccount] = useState(getUserFromLocalStorage());
 
   const updateAccount = userAccount => {
@@ -36,8 +36,8 @@ const TdmSecurity = ({ children }) => {
   );
 };
 
-TdmSecurity.propTypes = {
+TdmAuthProvider.propTypes = {
   children: PropTypes.any
 };
 
-export default TdmSecurity;
+export default TdmAuthProvider;
