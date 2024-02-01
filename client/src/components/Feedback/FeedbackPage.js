@@ -67,16 +67,20 @@ const useStyles = createUseStyles({
   }
 });
 
+const GetUserProjects = email => {
+  const navigate = useNavigate();
+  const handleError = useErrorHandler(email, navigate);
+  const [projects] = useProjects(handleError);
+  return projects;
+};
+
 const FeedbackPage = ({ contentContainerRef }) => {
   const userContext = useContext(UserContext);
   const focusRef = useRef(null);
   const classes = useStyles();
   const toast = useToast();
-  const navigate = useNavigate();
   const account = userContext.account;
-  const email = account ? account.email : "";
-  const handleError = useErrorHandler(email, navigate);
-  const [projects] = useProjects(handleError);
+  const projects = account.email ? GetUserProjects(account.email) : [];
   const [selectedProjects, setSelectedProjects] = useState([]);
 
   useEffect(() => {
