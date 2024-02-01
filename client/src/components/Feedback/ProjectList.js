@@ -4,6 +4,11 @@ import moment from "moment";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
+  heading3: {
+    fontWeight: "bold",
+    fontSize: "20px",
+    lineHeight: "140%"
+  },
   tableHead: {
     textAlign: "left"
   },
@@ -48,7 +53,7 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
 
   return (
     <div>
-      <h3>Select Relevant Projects:</h3>
+      <h3 className={classes.heading3}>Select Relevant Projects:</h3>
       <table>
         <thead>
           <tr>
