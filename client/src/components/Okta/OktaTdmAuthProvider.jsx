@@ -18,15 +18,19 @@ const OktaTdmAuthProvider = ({ children }) => {
       } else {
         // get user information from `/userinfo` endpoint
         const info = await oktaAuth.getUser();
-        const response = await accountService.getAuthorization({
-          email: info.email,
-          firstName: info.given_name,
-          lastName: info.family_name,
-          oktaAccessToken: authState.accessToken.accessToken
-        });
-        if (response.isSuccess) {
-          setAccount(response.user);
-        } else {
+        try {
+          const response = await accountService.getAuthorization({
+            email: info.email,
+            firstName: info.given_name,
+            lastName: info.family_name,
+            oktaAccessToken: authState.accessToken.accessToken
+          });
+          if (response.isSuccess) {
+            setAccount(response.user);
+          } else {
+            setAccount(null);
+          }
+        } catch (err) {
           setAccount(null);
         }
       }
@@ -35,7 +39,7 @@ const OktaTdmAuthProvider = ({ children }) => {
   }, [authState, oktaAuth, userContext]); // Update if authState changes
 
   return (
-    <UserContext.Provider value={{ account, setAccount }}>
+    <UserContext.Provider value={{ account, updateAccount: setAccount }}>
       {children}
     </UserContext.Provider>
   );

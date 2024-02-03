@@ -168,7 +168,7 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisabledSaveButton = () => {
-    const loggedIn = account && !!account.id;
+    const loggedIn = !!account && !!account.id;
     const notASavedProject = !projectId;
     const projectBelongsToUser = account && account.id === loginId;
     const setDisabled = !(
@@ -181,7 +181,7 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisplaySaveButton = () => {
-    const loggedIn = account && !!account.id;
+    const loggedIn = !!account && !!account.id;
     const setDisplayed = loggedIn;
     return setDisplayed;
   };

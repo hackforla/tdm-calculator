@@ -13,13 +13,6 @@ const LoginButton = () => {
     } else {
       oktaAuth.getUser().then(info => {
         setOktaUserInfo(info);
-        // const token = oktaAuth.getAccessToken();
-        // accountService.getAuthorization({
-        //   email: info.email,
-        //   firstName: info.givenName,
-        //   lastName: info.FamilyName,
-        //   oktaAccessToken: token
-        // });
       });
     }
   }, [authState, oktaAuth]); // Update if authState changes
@@ -52,14 +45,15 @@ const LoginButton = () => {
       <button
         onClick={handleLogout}
         style={{
-          color: "green",
-          backgroundColor: "white",
-          fontSize: "1.5em",
-          padding: "0.25em",
-          borderRadius: ".25em"
+          backgroundColor: "transparent",
+          border: "none",
+          padding: "0!important",
+          color: "white",
+          textDecoration: "underline",
+          cursor: "pointer"
         }}
       >
-        LA Sign out with Angeleno
+        Sign Out
       </button>
     </div>
   );

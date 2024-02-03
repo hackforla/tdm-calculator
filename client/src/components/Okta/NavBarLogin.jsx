@@ -8,9 +8,9 @@ import NavBarToolTip from "../Layout/NavBarToolTip";
 import LoginButton from "./LoginButton";
 
 const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
-  const navigate = useNavigate();
   const userContext = useContext(UserContext);
   let account = userContext.account;
+  let navigate = useNavigate();
   const [isCalculation, setIsCalculation] = useState(false);
 
   const location = useLocation();
@@ -23,19 +23,6 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
       setIsCalculation(false);
     }
   }, [pathname]);
-
-  // const loginLink = (
-  //   <li className={clsx(classes.userLogin, classes.linkBlock)}>
-  //     <Link
-  //       id="cy-login-menu-item"
-  //       className={`${classes.link} ${classes.lastItem}`}
-  //       to="/login"
-  //       onClick={handleHamburgerMenuClick}
-  //     >
-  //       Login
-  //     </Link>
-  //   </li>
-  // );
 
   const getUserGreeting = account => (
     <li className={classes.userLogin}>
@@ -51,24 +38,6 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
     </li>
   );
 
-  // const logoutLink = (
-  //   <li className={classes.linkBlock}>
-  //     <Link
-  //       className={`${classes.link} ${classes.lastItem}`}
-  //       to={{
-  //         pathname: `/login/${(account && account.email) || ""}`,
-  //         state: { prevPath: location.pathname }
-  //       }}
-  //       onClick={() => {
-  //         userContext.updateAccount({});
-  //         handleHamburgerMenuClick;
-  //       }}
-  //     >
-  //       Logout
-  //     </Link>
-  //   </li>
-  // );
-
   const loginButton = (
     <li className={clsx(classes.userLogin, classes.linkBlock)}>
       <LoginButton onClick={() => handleHamburgerMenuClick} />
@@ -79,7 +48,6 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
     <li className={classes.linkBlock}>
       <LoginButton
         onClick={() => {
-          userContext.updateAccount({});
           handleHamburgerMenuClick();
           navigate("/logout", { state: { prevPath: location.pathname } });
         }}
