@@ -92,9 +92,11 @@ GO
 Populate initially with Okta Development Settings. For other environments, the 
 Config values will need to be set manually or with another script.
 */
-IF NOT EXISTS (SELECT * FROM Config){
+IF NOT EXISTS (SELECT * FROM Config)
+BEGIN
   EXEC Config_Insert 'OKTA_ENABLE', 'T'
   EXEC Config_Insert 'OKTA_CLIENT_ID', '0oaeecq7dzuXwy5go5d7'
   EXEC Config_Insert 'OKTA_ISSUER', 'https://dev-50564150.okta.com/oauth2/default'
-}
+END
+GO
 
