@@ -4341,6 +4341,174 @@
       "operation": "migrate",
       "exception": null,
       "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20230420.1255",
+      "targetSchemaVersion": "20240104.1714",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20230627.2115",
+          "description": "create insertAll faqs",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230627.2115__create_insertAll_faqs.sql",
+          "executionTime": 298
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.0938",
+          "description": "update insertAll",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.0938__update_insertAll.sql",
+          "executionTime": 169
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1107",
+          "description": "update insertAll 3",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1107__update_insertAll_3.sql",
+          "executionTime": 181
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1128",
+          "description": "update category selectAll",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1128__update_category_selectAll.sql",
+          "executionTime": 70
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1205",
+          "description": "update category insertAll 4",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1205__update_category_insertAll_4.sql",
+          "executionTime": 186
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1208",
+          "description": "update category insertAll 5",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1208__update_category_insertAll_5.sql",
+          "executionTime": 199
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1230",
+          "description": "update category insertAll 6",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql",
+          "executionTime": 207
+        },
+        {
+          "category": "Versioned",
+          "version": "20230628.1310",
+          "description": "update category insertAll 7",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1310__update_category_insertAll_7.sql",
+          "executionTime": 112
+        },
+        {
+          "category": "Versioned",
+          "version": "20230906.2053",
+          "description": "changes to support hide trash snapshot",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230906.2053__changes_to_support_hide_trash_snapshot.sql",
+          "executionTime": 287
+        },
+        {
+          "category": "Versioned",
+          "version": "20230909.2141",
+          "description": "archives and deletes users and projects",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230909.2141__archives_and_deletes_users_and_projects.sql",
+          "executionTime": 370
+        },
+        {
+          "category": "Versioned",
+          "version": "20231003.1432",
+          "description": "disable strategies when no parking provided 1434",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20231003.1432__disable_strategies_when_no_parking_provided_1434.sql",
+          "executionTime": 149
+        },
+        {
+          "category": "Versioned",
+          "version": "20231102.0946",
+          "description": "modify project snpshot sproc 1437",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20231102.0946__modify_project_snpshot_sproc_1437.sql",
+          "executionTime": 75
+        },
+        {
+          "category": "Versioned",
+          "version": "20231120.0924",
+          "description": "rename publiccomment to feedback 670",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20231120.0924__rename_publiccomment_to_feedback_670.sql",
+          "executionTime": 3417
+        },
+        {
+          "category": "Versioned",
+          "version": "20231121.1647",
+          "description": "disable car share parking when no parking provided 1434",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20231121.1647__disable_car_share_parking_when_no_parking_provided_1434.sql",
+          "executionTime": 86
+        },
+        {
+          "category": "Versioned",
+          "version": "20240104.1705",
+          "description": "add-project-rename-sproc",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20240104.1705__add-project-rename-sproc.sql",
+          "executionTime": 78
+        },
+        {
+          "category": "Versioned",
+          "version": "20240104.1714",
+          "description": "add about table to db 1531",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20240104.1714__add_about_table_to_db_1531.sql",
+          "executionTime": 77
+        }
+      ],
+      "migrationsExecuted": 16,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmprod",
+      "warnings": [],
+      "timestamp": "2024-02-04T21:56:23.415569700",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20240104.1714",
+      "targetSchemaVersion": "20240204.2230",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20240204.2230",
+          "description": "repopulate faqcategory table 1280",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20240204.2230__repopulate_faqcategory_table_1280.sql",
+          "executionTime": 316
+        }
+      ],
+      "migrationsExecuted": 1,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmprod",
+      "warnings": [],
+      "timestamp": "2024-02-04T22:33:09.802877700",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
     }
   ]
 }
