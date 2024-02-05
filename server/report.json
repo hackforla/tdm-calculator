@@ -4343,8 +4343,52 @@
       "licenseFailed": false
     },
     {
+<<<<<<< HEAD
+      "initialSchemaVersion": "20240104.1714",
+      "targetSchemaVersion": null,
+      "schemaName": "",
+      "migrations": [],
+      "migrationsExecuted": 0,
+      "success": false,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2024-02-03T09:27:54.207397700",
+      "operation": "migrate",
+      "exception": "Migration V20240203.0923__add_config_table_and_sprocs_1502.sql failed\n---------------------------------------------------------------------\nSQL State  : S0001\nError Code : 102\nMessage    : Incorrect syntax near \u0027{\u0027.\nLocation   : C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20240203.0923__add_config_table_and_sprocs_1502.sql (C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20240203.0923__add_config_table_and_sprocs_1502.sql)\nLine       : 95\nStatement  : /* \nPopulate initially with Okta Development Settings. For other environments, the \nConfig values will need to be set manually or with another script.\n*/\nIF NOT EXISTS (SELECT * FROM Config){\n  EXEC Config_Insert \u0027OKTA_ENABLE\u0027, \u0027T\u0027\n  EXEC Config_Insert \u0027OKTA_CLIENT_ID\u0027, \u00270oaeecq7dzuXwy5go5d7\u0027\n  EXEC Config_Insert \u0027OKTA_ISSUER\u0027, \u0027https://dev-50564150.okta.com/oauth2/default\u0027\n}\n",
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20240104.1714",
+      "targetSchemaVersion": "20240203.0923",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20240203.0923",
+          "description": "add config table and sprocs 1502",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20240203.0923__add_config_table_and_sprocs_1502.sql",
+          "executionTime": 205
+        }
+      ],
+      "migrationsExecuted": 1,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2024-02-03T09:28:55.903701",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20230420.1255",
+      "targetSchemaVersion": "20240203.0923",
+=======
       "initialSchemaVersion": "20230420.1255",
       "targetSchemaVersion": "20240104.1714",
+>>>>>>> develop
       "schemaName": "",
       "migrations": [
         {
@@ -4353,7 +4397,11 @@
           "description": "create insertAll faqs",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230627.2115__create_insertAll_faqs.sql",
+<<<<<<< HEAD
+          "executionTime": 419
+=======
           "executionTime": 298
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4361,7 +4409,11 @@
           "description": "update insertAll",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.0938__update_insertAll.sql",
+<<<<<<< HEAD
+          "executionTime": 165
+=======
           "executionTime": 169
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4369,7 +4421,11 @@
           "description": "update insertAll 3",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1107__update_insertAll_3.sql",
+<<<<<<< HEAD
+          "executionTime": 160
+=======
           "executionTime": 181
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4377,7 +4433,11 @@
           "description": "update category selectAll",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1128__update_category_selectAll.sql",
+<<<<<<< HEAD
+          "executionTime": 80
+=======
           "executionTime": 70
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4385,7 +4445,11 @@
           "description": "update category insertAll 4",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1205__update_category_insertAll_4.sql",
+<<<<<<< HEAD
+          "executionTime": 173
+=======
           "executionTime": 186
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4393,7 +4457,11 @@
           "description": "update category insertAll 5",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1208__update_category_insertAll_5.sql",
+<<<<<<< HEAD
+          "executionTime": 164
+=======
           "executionTime": 199
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4401,7 +4469,11 @@
           "description": "update category insertAll 6",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1230__update_category_insertAll_6.sql",
+<<<<<<< HEAD
+          "executionTime": 167
+=======
           "executionTime": 207
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4409,7 +4481,11 @@
           "description": "update category insertAll 7",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230628.1310__update_category_insertAll_7.sql",
+<<<<<<< HEAD
+          "executionTime": 99
+=======
           "executionTime": 112
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4417,7 +4493,11 @@
           "description": "changes to support hide trash snapshot",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230906.2053__changes_to_support_hide_trash_snapshot.sql",
+<<<<<<< HEAD
+          "executionTime": 236
+=======
           "executionTime": 287
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4425,7 +4505,11 @@
           "description": "archives and deletes users and projects",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20230909.2141__archives_and_deletes_users_and_projects.sql",
+<<<<<<< HEAD
+          "executionTime": 278
+=======
           "executionTime": 370
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4433,7 +4517,11 @@
           "description": "disable strategies when no parking provided 1434",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20231003.1432__disable_strategies_when_no_parking_provided_1434.sql",
+<<<<<<< HEAD
+          "executionTime": 162
+=======
           "executionTime": 149
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4441,7 +4529,11 @@
           "description": "modify project snpshot sproc 1437",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20231102.0946__modify_project_snpshot_sproc_1437.sql",
+<<<<<<< HEAD
+          "executionTime": 71
+=======
           "executionTime": 75
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4449,7 +4541,11 @@
           "description": "rename publiccomment to feedback 670",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20231120.0924__rename_publiccomment_to_feedback_670.sql",
+<<<<<<< HEAD
+          "executionTime": 3168
+=======
           "executionTime": 3417
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4457,7 +4553,11 @@
           "description": "disable car share parking when no parking provided 1434",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20231121.1647__disable_car_share_parking_when_no_parking_provided_1434.sql",
+<<<<<<< HEAD
+          "executionTime": 88
+=======
           "executionTime": 86
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4465,7 +4565,11 @@
           "description": "add-project-rename-sproc",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20240104.1705__add-project-rename-sproc.sql",
+<<<<<<< HEAD
+          "executionTime": 70
+=======
           "executionTime": 78
+>>>>>>> develop
         },
         {
           "category": "Versioned",
@@ -4473,6 +4577,25 @@
           "description": "add about table to db 1531",
           "type": "SQL",
           "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20240104.1714__add_about_table_to_db_1531.sql",
+<<<<<<< HEAD
+          "executionTime": 74
+        },
+        {
+          "category": "Versioned",
+          "version": "20240203.0923",
+          "description": "add config table and sprocs 1502",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm\\tdm-calculator\\server\\db\\migration\\V20240203.0923__add_config_table_and_sprocs_1502.sql",
+          "executionTime": 206
+        }
+      ],
+      "migrationsExecuted": 17,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmuat",
+      "warnings": [],
+      "timestamp": "2024-02-03T09:36:12.679362400",
+=======
           "executionTime": 77
         }
       ],
@@ -4506,6 +4629,7 @@
       "database": "tdmprod",
       "warnings": [],
       "timestamp": "2024-02-04T22:33:09.802877700",
+>>>>>>> develop
       "operation": "migrate",
       "exception": null,
       "licenseFailed": false
