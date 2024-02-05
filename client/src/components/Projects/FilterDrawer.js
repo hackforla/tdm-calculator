@@ -4,18 +4,14 @@ import PropTypes from "prop-types";
 import Button from "../Button/Button";
 import "react-datepicker/dist/react-datepicker.css";
 import DateRangePicker from "../UI/DateRangePicker";
-
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  // "@keyframes expandWidth": {
-  //   from: { width: 0 },
-  //   to: { width: "100%" }
-  // },
   container: {
     margin: "0 0.5em 0 0",
     height: "100vh",
-    // width: "25rem",
     padding: "1rem",
     display: "flex",
     flexDirection: "column",
@@ -84,7 +80,7 @@ const FilterPopup = ({ criteria, setCriteria, setCollapsed }) => {
         }}
         onClick={() => setCollapsed(true)}
       >
-        &lt;&lt;
+        <FontAwesomeIcon icon={faArrowRight} />
       </button>
       <h1 className={classes.majorHeading}>Filters</h1>
 

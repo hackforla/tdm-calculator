@@ -49,7 +49,7 @@ const useStyles = createUseStyles({
     flexBasis: "1%",
     flexShrink: 0,
     flexGrow: 0,
-    transition: "flex-basis 1s ease-in-out"
+    transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
     marginTop: "2em"
@@ -339,6 +339,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setFilterText(text);
   };
 
+  const getDateOnly = date => {
+    const dateOnly = new Date(date).toDateString();
+    return new Date(dateOnly);
+  };
+
   const filterProjects = p => {
     if (criteria.type === "draft" && p.dateSnapshotted) return false;
     if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
@@ -354,6 +359,27 @@ const ProjectsPage = ({ contentContainerRef }) => {
     if (
       criteria.address &&
       !p.address.toLowerCase().includes(criteria.address.toLowerCase())
+    )
+      return false;
+
+    if (
+      criteria.startDateCreated &&
+      getDateOnly(p.dateCreated) < getDateOnly(criteria.startDateCreated)
+    )
+      return false;
+    if (
+      criteria.endDateCreated &&
+      getDateOnly(p.dateCreated) > getDateOnly(criteria.endDateCreated)
+    )
+      return false;
+    if (
+      criteria.startDateModified &&
+      getDateOnly(p.dateModified) < getDateOnly(criteria.startDateModified)
+    )
+      return false;
+    if (
+      criteria.endDateModified &&
+      getDateOnly(p.dateModified) > getDateOnly(criteria.endDateModified)
     )
       return false;
 
