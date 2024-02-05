@@ -1,8 +1,5 @@
 import React from "react";
 
-const UserContext = React.createContext({
-  account: null,
-  updateAccount: () => {}
-});
+const UserContext = React.createContext(null);
 
 export default UserContext;

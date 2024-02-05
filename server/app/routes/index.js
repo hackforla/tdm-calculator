@@ -6,7 +6,7 @@ const accountRoutes = require("./account.routes");
 const faqRoutes = require("./faq.routes");
 const faqCategoryRoutes = require("./faqCategory.routes");
 const projectRoutes = require("./project.routes");
-const publicCommentRoutes = require("./public-comment.routes");
+const feedbackRoutes = require("./feedback.routes");
 const emailRoutes = require("./email.routes");
 
 module.exports = router;
@@ -17,5 +17,5 @@ router.use("/projects", projectRoutes);
 router.use("/rules", ruleRoutes);
 router.use("/faqs", faqRoutes);
 router.use("/faqcategories", faqCategoryRoutes);
-router.use("/public-comment", publicCommentRoutes);
+router.use("/feedbacks", feedbackRoutes);
 router.use("/emails", emailRoutes);

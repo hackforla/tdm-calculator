@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import SwitchViewButton from "../../Button/SwitchViewButton";
 import SidebarPointsPanel from "./SidebarPointsPanel";
-import Sidebar from "../../Sidebar";
+import Sidebar from "../../Layout/Sidebar";
 
 const useStyles = createUseStyles({
   sidebarContent: {
@@ -20,22 +19,13 @@ const useStyles = createUseStyles({
   }
 });
 
-const WizardSidebar = ({
-  rules,
-  onViewChange,
-  resultRules,
-  strategyRules,
-  page
-}) => {
+const WizardSidebar = ({ rules, resultRules, strategyRules, page }) => {
   const classes = useStyles();
 
   return (
     <Sidebar>
       {rules && rules.length > 0 && (
         <div className={classes.sidebarContent}>
-          <SwitchViewButton onViewChange={onViewChange} isDisplayed={false}>
-            Switch to Single Page View
-          </SwitchViewButton>
           <SidebarPointsPanel
             rules={resultRules}
             strategyRules={strategyRules}
@@ -49,7 +39,6 @@ const WizardSidebar = ({
 
 WizardSidebar.propTypes = {
   rules: PropTypes.any,
-  onViewChange: PropTypes.any,
   resultRules: PropTypes.any,
   strategyRules: PropTypes.array,
   page: PropTypes.number

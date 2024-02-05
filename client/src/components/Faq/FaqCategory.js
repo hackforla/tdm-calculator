@@ -1,121 +1,139 @@
-// import React, { useState } from "react";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import Faq from "./Faq";
-// import * as faqCategoryService from "../../services/faqCategory.service";
-
-// want to make this component re-useable, so will check if admin
-// if admin, add/update/delete buttons show up
-// if not, only question and answer show up
+import { NewFaqButton } from "./NewFaqButton";
+import { FaqList } from "./FaqList";
+import { CategoryInputContainer } from "./CategoryInputContainer";
 
 const useStyles = createUseStyles({
-  categoryContainer: {
-    minWidth: "60vw",
+  categoryButtonContainer: {
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#0f2940",
-    color: "white",
-    padding: ".4em",
-    marginBottom: "0.6em",
-    gridColumn: "h-end",
-    paddingRight: "40px",
-    height: "20px"
+    justifyContent: "flex-end"
   }
 });
 
 const FaqCategory = props => {
-  const { category, admin, expandFaq, collapseFaq } = props;
+  const {
+    category,
+    admin,
+    expandFaq,
+    collapseFaq,
+    dragHandleProps,
+    handleAddFAQ,
+    handleEditFAQ,
+    handleEditCategory,
+    handleDeleteFAQ,
+    handleDeleteCategory
+  } = props;
   const classes = useStyles();
-  // const [updateCategory, setUpdateCategory] = useState(category);
-  // const [toggleUpdate, setToggleUpdate] = useState(false);
+  const [categoryEditMode, setCategoryEditMode] = useState(!category.name);
+  const [categoryName, setCategoryName] = useState(category.name);
+  const [newQuestion, setNewQuestion] = useState("");
+  const [newAnswer, setNewAnswer] = useState("");
+  const [isNewFAQOpen, setIsNewFAQOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // const onInputTyping = event => {
-  //   setUpdateCategory({
-  //     ...updateCategory,
-  //     [event.target.name]: event.target.value
-  //   });
-  // };
+  const handleCategoryNameChange = e => {
+    setCategoryName(e.target.value);
+  };
 
-  // const onToggle = () => {
-  //   setToggleUpdate(!toggleUpdate);
-  // };
+  const onSetCategory = () => {
+    handleEditCategory(category, categoryName);
+    setCategoryEditMode(false);
+  };
 
-  // const onUpdate = () => {
-  //   faqCategoryService
-  //     .put(updateCategory)
-  //     .then(() => {
-  //       setToggleUpdate(!toggleUpdate);
-  //     })
-  //     .catch(error => {
-  //       console.error(JSON.stringify(error, null, 2));
-  //     });
-  // };
+  const onEditFAQ = (faqId, question, answer) => {
+    handleEditFAQ(category.id, faqId, question, answer);
+  };
 
-  // const onDelete = () => {
-  //   faqCategoryService.del(category.id).catch(error => {
-  //     console.error(JSON.stringify(error, null, 2));
-  //   });
-  // };
+  const onDeleteFAQ = faqId => {
+    handleDeleteFAQ(category.id, faqId);
+  };
+
+  const onDeleteCategory = () => {
+    handleDeleteCategory(category.id);
+  };
+
+  const handleNewQuestionChange = e => {
+    setNewQuestion(e.target.value);
+  };
+
+  const handleNewAnswerChange = ans => {
+    setNewAnswer(ans);
+  };
+
+  const handleOpenNewFAQ = () => {
+    setIsNewFAQOpen(true);
+  };
+
+  const handleCloseNewFAQ = () => {
+    setIsNewFAQOpen(false);
+    setNewQuestion("");
+    setNewAnswer("");
+  };
+
+  const handleSaveNewFAQ = () => {
+    handleAddFAQ(category, newQuestion, newAnswer);
+    handleCloseNewFAQ();
+  };
+
+  const showDeleteOption = useCallback(
+    (isShowDelete = false) => {
+      admin && setIsHovered(isShowDelete);
+    },
+    [admin]
+  );
+
+  useEffect(() => {
+    if (!admin) {
+      handleCloseNewFAQ();
+    }
+  }, [admin]);
 
   return (
-    <div>
-      <h3 className={classes.categoryContainer}>{category.name}</h3>
-      {category.faqs.map(faq => {
-        return (
-          <Faq
-            faq={faq}
-            key={JSON.stringify(faq)}
-            admin={admin}
-            expandFaq={expandFaq}
-            collapseFaq={collapseFaq}
-          />
-        );
-      })}
-      {/* {admin ? (
-        <div classes={classes.faqContent}>
-          {toggleUpdate ? (
-            <div>
-              <input
-                placeholder="Question..."
-                type="text"
-                value={updateCategory.question}
-                name="question"
-                onChange={onInputTyping}
-              />
-              <input
-                placeholder="Answer..."
-                type="text"
-                value={updateCategory.answer}
-                name="answer"
-                onChange={onInputTyping}
-              />
-              <div>
-                <button onClick={onUpdate}>Update</button>
-                <button onClick={onToggle}>Cancel</button>
-              </div>
-            </div>
-          ) : (
-            <div>
-              <p>{updateCategory.question}</p>
-              <p>{updateCategory.answer}</p>
-              <div>
-                <button onClick={onToggle}>Update</button>
-                <button onClick={onDelete}>Delete</button>
-              </div>
-            </div>
-          )}
+    <>
+      <div
+        onMouseEnter={() => showDeleteOption(true)}
+        onMouseLeave={() => showDeleteOption()}
+      >
+        <CategoryInputContainer
+          admin={admin}
+          categoryName={categoryName}
+          handleCategoryNameChange={handleCategoryNameChange}
+          categoryEditMode={categoryEditMode}
+          setCategoryEditMode={setCategoryEditMode}
+          onSetCategory={onSetCategory}
+          dragHandleProps={dragHandleProps}
+          onDeleteCategory={onDeleteCategory}
+          isHovered={isHovered}
+        />
+      </div>
+      <FaqList
+        category={category}
+        admin={admin}
+        expandFaq={expandFaq}
+        collapseFaq={collapseFaq}
+        onDeleteFAQ={onDeleteFAQ}
+        onEditFAQ={onEditFAQ}
+        isNewFAQOpen={isNewFAQOpen}
+        newQuestion={newQuestion}
+        newAnswer={newAnswer}
+        handleNewQuestionChange={handleNewQuestionChange}
+        handleNewAnswerChange={handleNewAnswerChange}
+        handleSaveNewFAQ={handleSaveNewFAQ}
+        handleCloseNewFAQ={handleCloseNewFAQ}
+      />
+      {admin && (
+        <div className={classes.categoryButtonContainer}>
+          <NewFaqButton admin={admin} handleOpenNewFAQ={handleOpenNewFAQ} />
         </div>
-      ) : (
-        <div>
-          <div>{category}</div>
-        </div>
-      )} */}
-    </div>
+      )}
+    </>
   );
 };
+
+FaqCategory.displayName = "FaqCategory";
+
 FaqCategory.propTypes = {
   category: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -125,7 +143,15 @@ FaqCategory.propTypes = {
   }),
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,
-  collapseFaq: PropTypes.func.isRequired
+  collapseFaq: PropTypes.func.isRequired,
+  handleEditCategory: PropTypes.func,
+  deleteCategory: PropTypes.func,
+  deleteFaq: PropTypes.func,
+  dragHandleProps: PropTypes.object,
+  handleAddFAQ: PropTypes.func,
+  handleEditFAQ: PropTypes.func,
+  handleDeleteFAQ: PropTypes.func,
+  handleDeleteCategory: PropTypes.func
 };
 
 export default FaqCategory;

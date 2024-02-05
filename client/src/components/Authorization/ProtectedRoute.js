@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 function ProtectedRoute({ isAuthorized, children, path, ...rest }) {
@@ -8,7 +8,7 @@ function ProtectedRoute({ isAuthorized, children, path, ...rest }) {
       path={path}
       {...rest}
       render={() => {
-        return isAuthorized ? children : <Redirect to="/unauthorized" />;
+        return isAuthorized ? children : <Navigate to="/unauthorized" />;
       }}
     />
   );

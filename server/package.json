@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-api",
-  "version": "0.2.48",
+  "version": "0.2.49",
   "description": "Traffic Data Management Calculator",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   "main": "server.js",
   "scripts": {
     "precommit": "lint-staged",
-    "test": "jest --passWithNoTests",
+    "test": "jest --runInBand --passWithNoTests --forceExit",
     "heroku-postbuild": "cd client && npm i && npm run build",
     "start": "nodemon",
     "release-notes": "gren release --override",
@@ -24,34 +24,38 @@
   "author": "Hack for LA",
   "license": "ISC",
   "dependencies": {
-    "@sendgrid/mail": "^7.6.2",
-    "applicationinsights": "^2.3.3",
-    "bcrypt": "^5.0.1",
+    "@sendgrid/mail": "^8.1.0",
+    "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.3.1",
     "error-handler": "^1.0.0",
     "express": "^4.18.1",
     "express-json-validator-middleware": "^3.0.1",
     "express-pino-logger": "^7.0.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.3",
-    "mssql": "^8.1.0",
+    "mssql": "^10.0.1",
     "node-flywaydb": "^3.0.7",
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "eslint": "^8.15.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^26.1.5",
-    "eslint-plugin-prettier": "^4.0.0",
-    "jest": "^28.1.0",
-    "lint-staged": "^12.4.1",
-    "nodemon": "^2.0.16",
-    "prettier": "^2.6.2"
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-jest": "^27.6.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.0.2",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
+    "supertest": "^6.3.3",
+    "testcontainers": "^10.2.1"
   },
   "lint-staged": {
     "*.{js,md}": "prettier --write",
     "*.js": "eslint --cache --fix"
+  },
+  "volta": {
+    "node": "20.10.0"
   }
 }

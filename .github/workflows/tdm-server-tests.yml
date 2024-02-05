@@ -1,0 +1,30 @@
+name: tdm-server-test
+run-name: ${{ github.actor }} is running tests for the server
+on:
+  push:
+  pull_request:
+    branches:
+      - develop
+jobs:
+  server-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 'lts/*'
+
+    - name: Change directory
+      run: cd server
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: server
+
+    - name: Run tests
+      run: npm test
+      working-directory: server

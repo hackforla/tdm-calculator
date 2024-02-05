@@ -91,7 +91,7 @@ const SidebarCart = props => {
             key={rule.code}
             className={strategyRules ? classes.row : classes.noDisplay}
           >
-            <div classes={classes.dataName}>{rule.name}</div>
+            <div className={classes.dataName}>{rule.name}</div>
             <div className={classes.dataPointsCell}>
               <span className={classes.dataPoints}>
                 {Math.round(rule.calcValue * 100) / 100}

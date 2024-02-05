@@ -18,11 +18,9 @@ import logo from "../../images/ladot.png";
 
 const useStyles = createUseStyles({
   Pdf: {
-    display: "flex",
-    flexDirection: "column",
-    flex: "1 1 auto",
-    minWidth: "85vw",
-    margin: "50px auto"
+    margin: "1em !important",
+    padding: "0 !important",
+    overflow: "hidden"
   },
   rule: {
     display: "flex",
@@ -89,7 +87,8 @@ const useStyles = createUseStyles({
   textProjectInfoHeaderAddress: {
     color: "rgba(15, 41, 64, .5)",
     fontSize: "16px",
-    fontFamily: "Calibri Bold"
+    fontFamily: "Calibri",
+    fontWeight: 700
   },
   "@media (max-width: 768px)": {
     logoContainer: {
@@ -113,6 +112,7 @@ export const PdfPrint = forwardRef((props, ref) => {
   const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
   const projectName = getRule(rules, "PROJECT_NAME");
   const projectAddress = getRule(rules, "PROJECT_ADDRESS");
+
   const buildingPermit = getRule(rules, "BUILDING_PERMIT");
   const caseNumberLADOT = getRule(rules, "CASE_NO_LADOT");
   const caseNumberPlanning = getRule(rules, "CASE_NO_PLANNING");
@@ -146,7 +146,7 @@ export const PdfPrint = forwardRef((props, ref) => {
     );
 
   return (
-    <div ref={ref} className={clsx("tdm-wizard-review-page", classes.Pdf)}>
+    <div ref={ref} className={classes.Pdf}>
       <h1>
         <img
           className={classes.logo}
@@ -165,10 +165,10 @@ export const PdfPrint = forwardRef((props, ref) => {
           ) : null}
         </div>
         <div className={classes.projectInfoDetailsContainer}>
-          {projectAddress && (
+          {projectAddress && projectAddress.value && (
             <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
           )}
-          {parcelNumbers.value ? (
+          {parcelNumbers && parcelNumbers.value ? (
             <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
           ) : null}
           {buildingPermit && (
@@ -289,3 +289,5 @@ PdfPrint.propTypes = {
   loginId: PropTypes.number,
   dateModified: PropTypes.string || null
 };
+
+export default PdfPrint;

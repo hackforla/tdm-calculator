@@ -28,7 +28,8 @@ module.exports = function () {
       sqlMigrationSuffixes: ".sql",
       baselineOnMigrate: true,
       baselineVersion: "0002", // Do not change this baseline version number
-      baselineDescription: "setup_db_baseline_data_as_of_07012020"
+      baselineDescription: "setup_db_baseline_data_as_of_07012020",
+      reportEnabled: process.env.TEST_ENV ? false : true
     }
   };
 };

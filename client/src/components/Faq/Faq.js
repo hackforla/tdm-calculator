@@ -1,35 +1,29 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import * as faqService from "../../services/faq.service";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faMinus } from "@fortawesome/free-solid-svg-icons";
 
-// want to make this component re-useable, so will check if admin
-// if admin, add/update/delete buttons show up
-// if not, only question and answer show up
+import { Question } from "./Question";
+import { FaqButtonContainer } from "./FaqButtonContainer";
+import { Answer } from "./Answer";
 
 const useStyles = createUseStyles({
+  faqContainer: {
+    display: "flex",
+    flexDirection: "column"
+  },
   collapseFlexContainer: {
-    gridColumn: "h-end",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    paddingRight: "40px",
-    height: "45px"
+    minHeight: "2em"
   },
   expandFlexContainer: {
-    gridColumn: "h-end",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    paddingLeft: "10px",
-    paddingRight: "40px",
-    marginTop: "20px",
-    height: "45px",
+    alignItems: "top",
+    minHeight: "2em",
+    padding: 4,
     border: "2px solid #a6c439"
   },
   faqPlusMinusIcons: {
@@ -39,144 +33,132 @@ const useStyles = createUseStyles({
   },
   faqExpandIcon: {
     display: "flex",
-    alignItems: "center",
-    fontSize: "25px"
+    alignItems: "flex-start",
+    fontSize: "25px",
+    paddingTop: "0.25em",
+    marginTop: 0,
+    marginRight: "0.5em",
+    flex: "0 0 auto"
   }
 });
 
 const Faq = props => {
-  const { faq, admin, expandFaq, collapseFaq } = props;
+  const {
+    faq,
+    admin,
+    expandFaq,
+    collapseFaq,
+    dragHandleProps,
+    handleEditFAQ,
+    handleDeleteFAQ
+  } = props;
   const classes = useStyles();
-  const [updateFaq, setUpdateFaq] = useState(faq);
-  const [toggleUpdate, setToggleUpdate] = useState(false);
+  const [answer, setAnswer] = useState(faq.answer);
+  const [question, setQuestion] = useState(faq.question);
+  const [isEditAnswer, setIsEditAnswer] = useState(false);
+  const [isEditQuestion, setIsEditQuestion] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const onInputTyping = event => {
-    setUpdateFaq({ ...updateFaq, [event.target.name]: event.target.value });
+  const handleQuestionChange = e => {
+    setQuestion(e.target.value);
   };
 
-  const onToggle = () => {
-    setToggleUpdate(!toggleUpdate);
+  const handleAnswerChange = ans => {
+    setAnswer(ans);
   };
 
-  const onUpdate = () => {
-    faqService
-      .put(updateFaq)
-      .then(() => {
-        setToggleUpdate(!toggleUpdate);
-      })
-      .catch(error => {
-        console.error(JSON.stringify(error, null, 2));
-      });
+  const handleSaveFAQ = useCallback(() => {
+    handleEditFAQ(faq.id, question, answer);
+  }, [question, answer, faq.id, handleEditFAQ]);
+
+  const onDeleteFAQ = () => {
+    handleDeleteFAQ(faq.id);
   };
 
-  const onDelete = () => {
-    faqService.del(faq.id).catch(error => {
-      console.error(JSON.stringify(error, null, 2));
-    });
-  };
+  const onSetFaq = useCallback(() => {
+    setIsEditQuestion(false);
+    setIsEditAnswer(false);
+    handleSaveFAQ();
+  }, [handleSaveFAQ]);
 
-  const handleExpandFaq = () => {
-    // setExpanded(true);
-    expandFaq(faq);
-  };
+  useEffect(() => {
+    if (!admin) {
+      setIsEditQuestion(false);
+      setIsEditAnswer(false);
+    }
+  }, [admin]);
 
-  const handleCollapseFaq = () => {
-    // setExpanded(false);
-    collapseFaq(faq);
-  };
+  const showFullOptions = useCallback(
+    (isHover = false) => {
+      admin && setIsHovered(isHover);
+    },
+    [admin]
+  );
 
   return (
-    <div>
-      {admin ? (
-        <div classes={classes.faqContent}>
-          {toggleUpdate ? (
-            <div>
-              <input
-                placeholder="Question..."
-                type="text"
-                value={updateFaq.question}
-                name="question"
-                onChange={onInputTyping}
-              />
-              <input
-                placeholder="Answer..."
-                type="text"
-                value={updateFaq.answer}
-                name="answer"
-                onChange={onInputTyping}
-              />
-              <div>
-                <button onClick={onUpdate}>Update</button>
-                <button onClick={onToggle}>Cancel</button>
-              </div>
-            </div>
-          ) : (
-            <div>
-              <div
-                dangerouslySetInnerHTML={{ __html: `${updateFaq.question}` }}
-              ></div>
-              <div
-                dangerouslySetInnerHTML={{ __html: `${updateFaq.answer}` }}
-              ></div>
-              <div>
-                <button onClick={onToggle}>Update</button>
-                <button onClick={onDelete}>Delete</button>
-              </div>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div>
-          <div
-            className={
-              faq.expand
-                ? classes.expandFlexContainer
-                : classes.collapseFlexContainer
-            }
-          >
-            <h3
-              style={{ fontWeight: "bold" }}
-              dangerouslySetInnerHTML={{ __html: `${updateFaq.question}` }}
-            ></h3>
-            <div className={classes.faqExpandIcon}>
-              {faq.expand ? (
-                <FontAwesomeIcon
-                  style={{ cursor: "pointer" }}
-                  icon={faMinus}
-                  onClick={() => handleCollapseFaq(faq)}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  style={{ cursor: "pointer" }}
-                  icon={faPlus}
-                  onClick={() => handleExpandFaq(faq)}
-                />
-              )}
-            </div>
-          </div>
-          {faq.expand ? (
-            <p
-              style={{ marginTop: "1em", fontWeight: "bold" }}
-              dangerouslySetInnerHTML={{ __html: `${updateFaq.answer}` }}
-            ></p>
-          ) : (
-            ""
-          )}
-        </div>
+    <div className={classes.faqContainer}>
+      <div
+        className={
+          faq.expand
+            ? classes.expandFlexContainer
+            : classes.collapseFlexContainer
+        }
+        onMouseEnter={() => showFullOptions(true)}
+        onMouseLeave={() => showFullOptions()}
+      >
+        <Question
+          admin={admin}
+          onSetFaq={onSetFaq}
+          question={question}
+          isEditQuestion={isEditQuestion}
+          handleQuestionChange={handleQuestionChange}
+          setIsEditQuestion={setIsEditQuestion}
+          expandFaq={expandFaq}
+          collapseFaq={collapseFaq}
+          faq={faq}
+        />
+        <FaqButtonContainer
+          isHovered={isHovered}
+          admin={admin}
+          dragHandleProps={dragHandleProps}
+          onDeleteFAQ={onDeleteFAQ}
+          setIsEditAnswer={setIsEditAnswer}
+          isEditAnswer={isEditAnswer}
+          onSetFaq={onSetFaq}
+          expandFaq={expandFaq}
+          collapseFaq={collapseFaq}
+          faq={faq}
+        />
+      </div>
+      {faq.expand && (
+        <Answer
+          admin={admin}
+          answer={answer}
+          onSetFaq={onSetFaq}
+          isEditAnswer={isEditAnswer}
+          setIsEditAnswer={setIsEditAnswer}
+          handleAnswerChange={handleAnswerChange}
+        />
       )}
     </div>
   );
 };
+
+Faq.displayName = "Faq";
+
 Faq.propTypes = {
   faq: PropTypes.shape({
     id: PropTypes.number.isRequired,
     question: PropTypes.string.isRequired,
     answer: PropTypes.string.isRequired,
-    expand: PropTypes.bool.isRequired
+    expand: PropTypes.bool
   }),
   admin: PropTypes.bool.isRequired,
   expandFaq: PropTypes.func.isRequired,
-  collapseFaq: PropTypes.func.isRequired
+  collapseFaq: PropTypes.func.isRequired,
+  handleEditFAQ: PropTypes.func,
+  handleDeleteFAQ: PropTypes.func,
+  dragHandleProps: PropTypes.any
 };
 
 export default Faq;

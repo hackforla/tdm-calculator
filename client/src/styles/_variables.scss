@@ -1,30 +1,33 @@
 @import "./_variables_ladot.scss";
 @font-face {
-    font-family: "Calibri";
-    src: url("fonts/calibri.eot"); /* IE9 Compat Modes */
-    src: url("fonts/calibri.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-        url("fonts/calibri.woff2") format("woff2"), /* Super Modern Browsers */
-        url("fonts/calibri.woff") format("woff"), /* Pretty Modern Browsers */
-        url("fonts/calibri.ttf")  format("truetype"), /* Safari, Android, iOS */
-        url("fonts/calibri.svg#svgFontName") format("svg"); /* Legacy iOS */
+  font-family: "Calibri";
+  src: url("fonts/calibri.eot"); /* IE9 Compat Modes */
+  src: url("fonts/calibri.eot?#iefix") format("embedded-opentype"),
+    /* IE6-IE8 */ url("fonts/calibri.woff2") format("woff2"),
+    /* Super Modern Browsers */ url("fonts/calibri.woff") format("woff"),
+    /* Pretty Modern Browsers */ url("fonts/calibri.ttf") format("truetype"),
+    /* Safari, Android, iOS */ url("fonts/calibri.svg#svgFontName")
+      format("svg"); /* Legacy iOS */
 }
 @font-face {
-    font-family: "Calibri Bold";
-    src: url("fonts/calibriBold.eot"); /* IE9 Compat Modes */
-    src: url("fonts/calibriBold.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-        url("fonts/calibriBold.woff2") format("woff2"), /* Super Modern Browsers */
-        url("fonts/calibriBold.woff") format("woff"), /* Pretty Modern Browsers */
-        url("fonts/calibriBold.ttf")  format("truetype"), /* Safari, Android, iOS */
-        url("fonts/calibriBold.svg#svgFontName") format("svg"); /* Legacy iOS */
+  font-family: "Calibri";
+  font-weight: 700;
+  src: url("fonts/calibriBold.eot"); /* IE9 Compat Modes */
+  src: url("fonts/calibriBold.eot?#iefix") format("embedded-opentype"),
+    /* IE6-IE8 */ url("fonts/calibriBold.woff2") format("woff2"),
+    /* Super Modern Browsers */ url("fonts/calibriBold.woff") format("woff"),
+    /* Pretty Modern Browsers */ url("fonts/calibriBold.ttf") format("truetype"),
+    /* Safari, Android, iOS */ url("fonts/calibriBold.svg#svgFontName")
+      format("svg"); /* Legacy iOS */
 }
-  
+
 // font family is dictated by the LADOT style guide
 $font: "Calibri", Arial, sans-serif;
 
-$color-primary: #0F2940; // LADOT Blue
+$color-primary: #0f2940; // LADOT Blue
 $color-secondary: black;
 $color-background: white;
-$color-lightgrey: #D8D8D8;
+$color-lightgrey: #d8d8d8;
 $color-darkgrey: #979797;
 $color-form-lightgrey: $color-lightgrey;
 
@@ -35,6 +38,5 @@ $color-form-lightgrey: $color-lightgrey;
 // using temp color variables until we get feedback/wireframes from ui/ux designers:
 // $color-link: $color-express-park-1 ;
 $color-button: $color-express-park-9;
-
 
 $color-highlight: #a7c539; // Color for Prev/Next  buttons

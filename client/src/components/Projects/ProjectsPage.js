@@ -1,43 +1,73 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-import * as projectService from "../../services/project.service";
-import moment from "moment";
-import { useToast } from "../../contexts/Toast";
+import UserContext from "../../contexts/UserContext.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
-  faSortDown
-  // faPrint
+  faSortDown,
+  faFilter
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
-import CopyIcon from "../../images/copy.png";
-import DeleteIcon from "../../images/trash.png";
-import Pagination from "../Pagination.js";
-import DeleteProjectModal from "./DeleteProjectModal";
-import DuplicateProjectModal from "./DuplicateProjectModal";
+import Pagination from "../ProjectWizard/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
-// import ReactToPrint from "react-to-print";
-import { PdfPrint } from "../PdfPrint/PdfPrint";
+import useErrorHandler from "../../hooks/useErrorHandler";
+import useProjects from "../../hooks/useGetProjects";
+import * as projectService from "../../services/project.service";
+import SnapshotProjectModal from "./SnapshotProjectModal";
+import RenameSnapshotModal from "./RenameSnapshotModal";
+
+import DeleteProjectModal from "./DeleteProjectModal";
+import CopyProjectModal from "./CopyProjectModal";
+import ProjectTableRow from "./ProjectTableRow";
+import FilterDrawer from "./FilterDrawer.js";
 
 const useStyles = createUseStyles({
+  outerDiv: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    justifyItems: "flex-start"
+  },
+  contentDiv: {
+    flexBasis: "75%",
+    flexShrink: 1,
+    flexGrow: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  filter: {
+    overflow: "hidden",
+    flexBasis: "18rem",
+    flexShrink: 0,
+    flexGrow: 0,
+    transition: "flex-basis 1s ease-in-out"
+  },
+  filterCollapsed: {
+    overflow: "hidden",
+    flexBasis: "1%",
+    flexShrink: 0,
+    flexGrow: 0,
+    transition: "flex-basis 1s ease-in-out"
+  },
   pageTitle: {
     marginTop: "2em"
   },
   searchBarWrapper: {
     position: "relative",
-    alignSelf: "flex-end"
+    alignSelf: "center"
   },
   searchBar: {
     maxWidth: "100%",
-    width: "382px",
-    padding: "12px 12px 12px 48px"
+    width: "20em",
+    padding: "12px 12px 12px 48px",
+    marginRight: "0.5rem"
   },
   searchIcon: {
     position: "absolute",
     left: "16px",
-    top: "12px"
+    top: "14px"
   },
   table: {
     minWidth: "850px",
@@ -49,10 +79,6 @@ const useStyles = createUseStyles({
   td: {
     padding: "0.2em",
     textAlign: "left"
-  },
-  tdRightAlign: {
-    padding: "0.2em",
-    textAlign: "right"
   },
   thead: {
     fontWeight: "bold",
@@ -72,18 +98,13 @@ const useStyles = createUseStyles({
     marginLeft: "8px",
     verticalAlign: "baseline"
   },
-  printIcon: {
-    verticalAlign: "baseline",
-    opacity: ".4",
-    height: "20px"
-  },
   tbody: {
     background: "#F9FAFB",
     "& tr": {
       borderBottom: "1px solid #E7EBF0"
     },
     "& tr td": {
-      padding: "12px 18px",
+      padding: "12px",
       verticalAlign: "middle"
     },
     "& tr:hover": {
@@ -93,18 +114,6 @@ const useStyles = createUseStyles({
   tdNoSavedProjects: {
     textAlign: "center"
   },
-  actionIcons: {
-    display: "flex",
-    justifyContent: "space-around",
-    width: "auto",
-    "& button": {
-      border: "none",
-      backgroundColor: "transparent",
-      "&:hover": {
-        cursor: "pointer"
-      }
-    }
-  },
   tableContainer: {
     overflow: "auto",
     width: "100%",
@@ -112,35 +121,49 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectsPage = ({
-  account,
-  history,
-  contentContainerRef,
-  rules,
-  dateModified
-}) => {
-  const [projects, setProjects] = useState([]);
+const ProjectsPage = ({ contentContainerRef }) => {
+  const classes = useStyles();
+  const userContext = useContext(UserContext);
+
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
+  const email = userContext.account.email;
+  const navigate = useNavigate();
+  const handleError = useErrorHandler(email, navigate);
+  const [projects, setProjects] = useProjects(handleError);
   const [orderBy, setOrderBy] = useState("dateCreated");
-  const [duplicateModalOpen, setDuplicateModalOpen] = useState(false);
+  const [copyModalOpen, setCopyModalOpen] = useState(false);
+  const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
+  const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const classes = useStyles();
-  const toast = useToast();
   const [currentPage, setCurrentPage] = useState(1);
+
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
-  const email = account.email;
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const toastAdd = toast.add;
-  const historyPush = history.push;
 
-  const pageLinks = document.getElementsByClassName("pageLinkContainer-0-2-40");
-  for (let i = 0; i < pageLinks.length; i++) {
-    pageLinks[i].classList.remove("highlightPage");
-    if (i === currentPage - 1) pageLinks[i].classList.add("highlightPage");
-  }
+  const [criteria, setCriteria] = useState({
+    type: "all",
+    status: "active",
+    visibility: "visible",
+    name: "",
+    address: "",
+    author: "",
+    alternative: "",
+    startDateCreated: null,
+    endDateCreated: null,
+    startDateModified: null,
+    endDateModified: null
+  });
+  const [filterCollapsed, setFilterCollapsed] = useState(true);
+
+  const selectedProjectName = (() => {
+    if (!selectedProject) {
+      return "";
+    }
+    const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
+    return projectFormInputsAsJson.PROJECT_NAME || "";
+  })();
 
   const paginate = pageNumber => {
     if (typeof pageNumber === "number") {
@@ -152,50 +175,104 @@ const ProjectsPage = ({
     }
   };
 
-  const handleError = useCallback(
-    error => {
-      if (error.response && error.response.status === 401) {
-        toastAdd(
-          "For your security, your session has expired. Please log in again."
-        );
-        historyPush(`/logout/${encodeURIComponent(email)}`);
-      }
-      console.error(error);
-    },
-    [email, toastAdd, historyPush]
-  );
-
-  const getProjects = useCallback(async () => {
-    try {
-      const result = await projectService.get();
-      if (result.data === "" || result.data === false) {
-        setProjects([]);
-      } else {
-        setProjects(result.data);
-      }
-    } catch (err) {
-      handleError(err);
-    }
-  }, [handleError]);
-
-  useEffect(() => {
-    if (!selectedProject) {
-      getProjects();
-    }
-  }, [selectedProject, getProjects]);
-
-  const toggleDuplicateModal = project => {
+  const handleCopyModalOpen = project => {
     if (project) {
       setSelectedProject(project);
-    } else {
-      setSelectedProject(null);
     }
-    setDuplicateModalOpen(!duplicateModalOpen);
+    setCopyModalOpen(true);
   };
 
-  const toggleDeleteModal = project => {
-    project ? setSelectedProject(project) : setSelectedProject(null);
-    setDeleteModalOpen(!deleteModalOpen);
+  const updateProjects = async () => {
+    const updated = await projectService.get();
+    setProjects(updated.data);
+  };
+
+  const handleCopyModalClose = async (action, newProjectName) => {
+    if (action === "ok") {
+      const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
+      projectFormInputsAsJson.PROJECT_NAME = newProjectName;
+
+      try {
+        await projectService.post({
+          ...selectedProject,
+          name: newProjectName,
+          formInputs: JSON.stringify(projectFormInputsAsJson)
+        });
+        await updateProjects();
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setCopyModalOpen(false);
+  };
+
+  const handleDeleteModalOpen = project => {
+    setSelectedProject(project);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteModalClose = async action => {
+    if (action === "ok") {
+      try {
+        await projectService.trash(
+          [selectedProject.id],
+          !selectedProject.dateTrashed
+        );
+        await updateProjects();
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setDeleteModalOpen(false);
+  };
+
+  const handleSnapshotModalOpen = project => {
+    setSelectedProject(project);
+    setSnapshotModalOpen(true);
+  };
+
+  const handleSnapshotModalClose = async (action, newProjectName) => {
+    if (action === "ok") {
+      try {
+        await projectService.snapshot({
+          id: selectedProject.id,
+          name: newProjectName
+        });
+        await updateProjects();
+        setSelectedProject(null);
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setSnapshotModalOpen(false);
+  };
+
+  const handleRenameSnapshotModalOpen = project => {
+    setSelectedProject(project);
+    setRenameSnapshotModalOpen(true);
+  };
+
+  const handleRenameSnapshotModalClose = async (action, newProjectName) => {
+    if (action === "ok") {
+      try {
+        await projectService.renameSnapshot({
+          id: selectedProject.id,
+          name: newProjectName
+        });
+        await updateProjects();
+        setSelectedProject(null);
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setRenameSnapshotModalOpen(false);
+  };
+
+  const handleHide = async project => {
+    setSelectedProject(project);
+    await projectService.hide([project.id], !project.dateHidden);
+    await updateProjects();
+    console.error(project.dateHidden);
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -215,6 +292,13 @@ const ProjectsPage = ({
       projectB = JSON.parse(b.formInputs).BUILDING_PERMIT
         ? JSON.parse(b.formInputs).BUILDING_PERMIT
         : "undefined";
+    } else if (
+      orderBy === "dateHidden" ||
+      orderBy === "dateTrashed" ||
+      orderBy === "dateSnapshotted"
+    ) {
+      projectA = a[orderBy] ? 1 : 0;
+      projectB = b[orderBy] ? 1 : 0;
     } else {
       projectA = a[orderBy].toLowerCase();
       projectB = b[orderBy].toLowerCase();
@@ -255,32 +339,75 @@ const ProjectsPage = ({
     setFilterText(text);
   };
 
-  const filterProjects = project => {
-    // fullName attr allows searching by full name, not just by first or last name
-    project["fullName"] = `${project["firstName"]} ${project["lastName"]}`;
-    project["versionNum"] = JSON.parse(project["formInputs"]).VERSION_NO
-      ? JSON.parse(project["formInputs"]).VERSION_NO
-      : "";
-    project["buildingPermit"] = JSON.parse(project["formInputs"])
-      .BUILDING_PERMIT
-      ? JSON.parse(project["formInputs"]).BUILDING_PERMIT
-      : "";
-    project["dateCreated"] = moment(project["dateCreated"]).format();
-    project["dateModified"] = moment(project["dateModified"]).format();
+  const getDateOnly = date => {
+    const dateOnly = new Date(date).toDateString();
+    return new Date(dateOnly);
+  };
 
+  const filterProjects = p => {
+    if (criteria.type === "draft" && p.dateSnapshotted) return false;
+    if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
+    if (criteria.status === "active" && p.dateTrashed) return false;
+    if (criteria.status === "deleted" && !p.dateTrashed) return false;
+    if (criteria.visibility === "visible" && p.dateHidden) return false;
+    if (criteria.visibility === "hidden" && !p.dateHidden) return false;
+    if (
+      criteria.name &&
+      !p.name.toLowerCase().includes(criteria.name.toLowerCase())
+    )
+      return false;
+    if (
+      criteria.address &&
+      !p.address.toLowerCase().includes(criteria.address.toLowerCase())
+    )
+      return false;
+
+    if (
+      criteria.startDateCreated &&
+      getDateOnly(p.dateCreated) < getDateOnly(criteria.startDateCreated)
+    )
+      return false;
+    if (
+      criteria.endDateCreated &&
+      getDateOnly(p.dateCreated) > getDateOnly(criteria.endDateCreated)
+    )
+      return false;
+    if (
+      criteria.startDateModified &&
+      getDateOnly(p.dateModified) < getDateOnly(criteria.startDateModified)
+    )
+      return false;
+    if (
+      criteria.endDateModified &&
+      getDateOnly(p.dateModified) > getDateOnly(criteria.endDateModified)
+    )
+      return false;
+
+    // fullName attr allows searching by full name, not just by first or last name
+    p["fullname"] = `${p["firstName"]} ${p["lastName"]}`;
+    if (
+      criteria.author &&
+      !p.fullname.toLowerCase().includes(criteria.author.toLowerCase())
+    )
+      return false;
+    p.alternative = JSON.parse(p["formInputs"]).VERSION_NO
+      ? JSON.parse(p["formInputs"]).VERSION_NO
+      : "";
+    if (
+      criteria.alternative &&
+      !p.alternative.toLowerCase().includes(criteria.alternative.toLowerCase())
+    ) {
+      return false;
+    }
+
+    // Search criteria for filterText - redundant with individual search
+    // criteria in FilterDrawer, and we could get rid of the search box
+    // above the grid.
     if (filterText !== "") {
-      let ids = [
-        "name",
-        "address",
-        "fullName",
-        "versionNum",
-        "buildingPermit",
-        "dateCreated",
-        "dateModified"
-      ];
+      let ids = ["name", "address", "fullName", "alternative"];
 
       return ids.some(id => {
-        let colValue = String(project[id]).toLowerCase();
+        let colValue = String(p[id]).toLowerCase();
         return colValue.includes(filterText.toLowerCase());
       });
     }
@@ -289,13 +416,24 @@ const ProjectsPage = ({
   };
 
   const headerData = [
+    {
+      id: "dateHidden",
+      label: "Visibility"
+    },
+    {
+      id: "dateSnapshotted",
+      label: "Status"
+    },
     { id: "name", label: "Name" },
     { id: "address", label: "Address" },
-    { id: "VERSION_NO", label: "Version Number" },
-    { id: "BUILDING_PERMIT", label: "Building Permit" },
-    { id: "firstName", label: "Entered By" },
+    { id: "VERSION_NO", label: "Alternative Number" },
+    { id: "firstName", label: "Created By" },
     { id: "dateCreated", label: "Created On" },
-    { id: "dateModified", label: "Last Modified" }
+    { id: "dateModified", label: "Last Modified" },
+    {
+      id: "contextMenu",
+      label: ""
+    }
   ];
 
   const indexOfLastPost = currentPage * projectsPerPage;
@@ -309,205 +447,194 @@ const ProjectsPage = ({
     indexOfLastPost
   );
 
-  const componentRef = useRef();
-
   return (
-    <ContentContainerNoSidebar
-      componentToTrack="ProjectsPage"
-      contentContainerRef={contentContainerRef}
-    >
-      <h1 className={classes.pageTitle}>Projects</h1>
-      <div className={classes.searchBarWrapper}>
-        <input
-          className={classes.searchBar}
-          type="search"
-          id="filterText"
-          name="filterText"
-          placeholder="Search"
-          value={filterText}
-          onChange={e => handleFilterTextChange(e.target.value)}
-        />
-        <img
-          className={classes.searchIcon}
-          src={SearchIcon}
-          alt="Search Icon"
-        />
-      </div>
-      <div className={classes.tableContainer}>
-        <table className={classes.table}>
-          <thead className={classes.thead}>
-            <tr className={classes.tr}>
-              {headerData.map((header, i) => {
-                const label = header.label.split(" ");
-                const lastWordOfLabel = label.splice(-1, 1);
-                return (
-                  <td
-                    key={i}
-                    className={`${classes.td} ${classes.theadLabel}`}
-                    onClick={() => handleSort(header.id)}
+    <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
+      <div className={classes.outerDiv}>
+        <div
+          className={filterCollapsed ? classes.filterCollapsed : classes.filter}
+        >
+          <FilterDrawer
+            criteria={criteria}
+            setCriteria={setCriteria}
+            collapsed={filterCollapsed}
+            setCollapsed={setFilterCollapsed}
+          />
+        </div>
+
+        <div className={classes.contentDiv}>
+          <h1 className={classes.pageTitle}>Projects</h1>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row"
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start"
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignSelf: "flex-end"
+                }}
+              >
+                <div className={classes.searchBarWrapper}>
+                  <input
+                    className={classes.searchBar}
+                    type="search"
+                    id="filterText"
+                    name="filterText"
+                    placeholder="Search"
+                    value={filterText}
+                    onChange={e => handleFilterTextChange(e.target.value)}
+                  />
+                  <img
+                    className={classes.searchIcon}
+                    src={SearchIcon}
+                    alt="Search Icon"
+                  />
+                </div>
+                {filterCollapsed ? (
+                  <button
+                    alt="Show Filter Criteria"
+                    style={{ backgroundColor: "#0F2940", color: "white" }}
+                    onClick={() => setFilterCollapsed(false)}
                   >
-                    {label}{" "}
-                    {orderBy === header.id ? (
-                      <span className={classes.labelSpan}>
-                        {lastWordOfLabel}{" "}
-                        {order === "asc" ? (
-                          <FontAwesomeIcon
-                            icon={faSortDown}
-                            className={classes.sortArrow}
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faSortUp}
-                            className={classes.sortArrow}
-                          />
-                        )}
-                      </span>
-                    ) : (
-                      <span className={classes.labelSpan}>
-                        {lastWordOfLabel}
-                        <FontAwesomeIcon
-                          icon={faSortDown}
-                          className={classes.sortArrow}
+                    <FontAwesomeIcon
+                      icon={faFilter}
+                      style={{ marginRight: "0.5em" }}
+                    />
+                    Filter By
+                  </button>
+                ) : null}
+              </div>
+              <div className={classes.tableContainer}>
+                <table className={classes.table}>
+                  <thead className={classes.thead}>
+                    <tr className={classes.tr}>
+                      {headerData.map(header => {
+                        const label = header.label;
+                        return (
+                          <td
+                            key={header.id}
+                            className={
+                              header.id === "contextMenu"
+                                ? `${classes.td}`
+                                : `${classes.td} ${classes.theadLabel}`
+                            }
+                            onClick={
+                              header.id == "contextMenu"
+                                ? null
+                                : () => handleSort(header.id)
+                            }
+                          >
+                            {orderBy === header.id ? (
+                              <span className={classes.labelSpan}>
+                                {label}{" "}
+                                {order === "asc" ? (
+                                  <FontAwesomeIcon
+                                    icon={faSortDown}
+                                    className={classes.sortArrow}
+                                  />
+                                ) : (
+                                  <FontAwesomeIcon
+                                    icon={faSortUp}
+                                    className={classes.sortArrow}
+                                  />
+                                )}
+                              </span>
+                            ) : (
+                              <span className={classes.labelSpan}>{label}</span>
+                            )}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody className={classes.tbody}>
+                    {projects.length ? (
+                      currentProjects.map(project => (
+                        <ProjectTableRow
+                          key={project.id}
+                          project={project}
+                          handleCopyModalOpen={handleCopyModalOpen}
+                          handleDeleteModalOpen={handleDeleteModalOpen}
+                          handleSnapshotModalOpen={handleSnapshotModalOpen}
+                          handleRenameSnapshotModalOpen={
+                            handleRenameSnapshotModalOpen
+                          }
+                          handleHide={handleHide}
                         />
-                      </span>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={9} className={classes.tdNoSavedProjects}>
+                          No Saved Projects
+                        </td>
+                      </tr>
                     )}
-                  </td>
-                );
-              })}
-              <td></td>
-            </tr>
-          </thead>
-          <tbody className={classes.tbody}>
-            {projects.length ? (
-              currentProjects.map(project => (
-                <tr key={project.id}>
-                  <td className={classes.td}>
-                    <Link to={`/calculation/1/${project.id}`}>
-                      {project.name}
-                    </Link>
-                  </td>
-                  <td className={classes.td}>{project.address}</td>
-                  <td className={classes.td}>
-                    {JSON.parse(project.formInputs).VERSION_NO !== "undefined"
-                      ? JSON.parse(project.formInputs).VERSION_NO
-                      : ""}
-                  </td>
-                  <td className={classes.td}>
-                    {JSON.parse(project.formInputs).BUILDING_PERMIT !==
-                    "undefined"
-                      ? JSON.parse(project.formInputs).BUILDING_PERMIT
-                      : ""}
-                  </td>
-                  <td
-                    className={classes.td}
-                  >{`${project.firstName} ${project.lastName}`}</td>
-                  <td className={classes.tdRightAlign}>
-                    {moment(project.dateCreated).format("MM/DD/YYYY")}
-                  </td>
-                  <td className={classes.tdRightAlign}>
-                    {moment(project.dateModified).isSame(moment(), "day")
-                      ? moment(project.dateModified).format("h:mm A")
-                      : moment(project.dateModified).format("MM/DD/YYYY")}
-                  </td>
-                  <td className={classes.actionIcons}>
-                    {project.loginId === currentUser.id && (
-                      <>
-                        <button onClick={() => toggleDuplicateModal(project)}>
-                          <img
-                            src={CopyIcon}
-                            alt={`Duplicate Project #${project.id} Icon`}
-                          />
-                        </button>
-                        {/* <ReactToPrint
-                          trigger={() => (
-                            <button>
-                              <FontAwesomeIcon
-                                icon={faPrint}
-                                className={classes.printIcon}
-                                alt={`Duplicate Project #${project.id} Icon`}
-                              />
-                            </button>
-                          )}
-                          content={() => componentRef.current}
-                        /> */}
-                        <div style={{ display: "none" }}>
-                          <PdfPrint
-                            ref={componentRef}
-                            rules={rules}
-                            dateModified={dateModified}
-                          />
-                        </div>
-                        <button onClick={() => toggleDeleteModal(project)}>
-                          <img
-                            src={DeleteIcon}
-                            alt={`Delete Project #${project.id} Icon`}
-                          />
-                        </button>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              ))
+                  </tbody>
+                </table>
+              </div>
+              <Pagination
+                projectsPerPage={projectsPerPage}
+                totalProjects={projects.length}
+                paginate={paginate}
+              />
+
+              {selectedProject && (
+                <>
+                  <CopyProjectModal
+                    mounted={copyModalOpen}
+                    onClose={handleCopyModalClose}
+                    selectedProjectName={selectedProjectName}
+                  />
+                  <DeleteProjectModal
+                    mounted={deleteModalOpen}
+                    onClose={handleDeleteModalClose}
+                    project={selectedProject}
+                  />
+                  <SnapshotProjectModal
+                    mounted={snapshotModalOpen}
+                    onClose={handleSnapshotModalClose}
+                    selectedProjectName={selectedProjectName}
+                  />
+                  <RenameSnapshotModal
+                    mounted={renameSnapshotModalOpen}
+                    onClose={handleRenameSnapshotModalClose}
+                    selectedProjectName={selectedProjectName}
+                  />
+                </>
+              )}
+              {/* <div style={{ display: "none" }}>
+            {rules ? (
+              <PdfPrint
+                ref={componentRef}
+                rules={rules}
+                dateModified={
+                  dateModified || new Date(2023, 11, 18).toDateString()
+                }
+              />
             ) : (
-              <tr>
-                <td colSpan={9} className={classes.tdNoSavedProjects}>
-                  No Saved Projects
-                </td>
-              </tr>
+              <div ref={componentRef}>duh</div>
             )}
-          </tbody>
-        </table>
+          </div> */}
+            </div>
+          </div>
+        </div>
       </div>
-      <Pagination
-        projectsPerPage={projectsPerPage}
-        totalProjects={projects.length}
-        paginate={paginate}
-      />
-
-      {selectedProject && (
-        <>
-          <DuplicateProjectModal
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
-            handleError={handleError}
-            toggleDuplicateModal={toggleDuplicateModal}
-            setDuplicateModalOpen={setDuplicateModalOpen}
-            duplicateModalOpen={duplicateModalOpen}
-          />
-
-          <DeleteProjectModal
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
-            handleError={handleError}
-            toggleDeleteModal={toggleDeleteModal}
-            setDeleteModalOpen={setDeleteModalOpen}
-            deleteModalOpen={deleteModalOpen}
-          />
-        </>
-      )}
     </ContentContainerNoSidebar>
   );
 };
 
 ProjectsPage.propTypes = {
-  account: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    id: PropTypes.number,
-    email: PropTypes.string
-  }),
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      page: PropTypes.string,
-      projectId: PropTypes.string
-    })
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }),
-  contentContainerRef: PropTypes.object,
-  rules: PropTypes.array,
-  dateModified: PropTypes.string || null
+  contentContainerRef: PropTypes.object
 };
 
-export default withRouter(ProjectsPage);
+export default ProjectsPage;

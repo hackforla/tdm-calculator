@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
+  container: {
+    maxWidth: "30rem"
+  },
   title: {
-    color: "#0F2940",
-    fontFamily: "Calibri Bold",
-    fontSize: "24px",
     margin: "2px"
   },
   text: {
@@ -16,33 +16,27 @@ const useStyles = createUseStyles({
   },
   section: {
     paddingLeft: "30px",
-    fontFamily: "calibri bold",
     fontSize: "16px"
   },
   sectionLast: {
     paddingLeft: "30px",
-    fontFamily: "calibri bold",
     fontSize: "16px",
     marginBottom: "5px"
   },
   indent: {
     paddingLeft: "25px",
-    fontFamily: "calibri bold",
     fontSize: "16px"
   },
   indentSpecial: {
     paddingLeft: "68px",
-    fontFamily: "calibri bold",
     fontSize: "16px"
   },
   bulletIndent: {
     paddingLeft: "100px",
     marginTop: "2px",
-    fontFamily: "Calibri",
     fontSize: "16px"
   },
   undoBold: {
-    fontFamily: "Calibri",
     fontWeight: "normal"
   }
 });
@@ -50,13 +44,14 @@ const useStyles = createUseStyles({
 const ChecklistContent = () => {
   const classes = useStyles();
   return (
-    <>
-      <h3 className={classes.title}>Checklist</h3>
+    <div className={classes.container}>
+      <h1 className={classes.title}>Checklist</h1>
       <br />
       <p className={classes.text}>
-        Listed below are the documents that you may need when using Create
-        Project.
+        Listed below are the documents that you may need when using{" "}
+        <a href="/calculation">Create Project.</a>
       </p>
+      <br />
       <div>
         <article className={classes.section}>
           p.1
@@ -85,7 +80,7 @@ const ChecklistContent = () => {
           Planned unit types/sizes for specific use types
         </span>
         <ul className={classes.bulletIndent}>
-          <li>Residentian (Dwelling Units)</li>
+          <li>Residential (Dwelling Units)</li>
           <li>Hotel/Motel (Rooms)</li>
           <li>School (Students)</li>
           <li>Arena/Stadium/Theatre (Seats)</li>
@@ -126,7 +121,7 @@ const ChecklistContent = () => {
         </a>{" "}
         for applicability and exemption details.
       </p>
-    </>
+    </div>
   );
 };
 

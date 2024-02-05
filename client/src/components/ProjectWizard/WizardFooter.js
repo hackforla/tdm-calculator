@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import SaveButton from "../Button/SaveButton";
 import { createUseStyles } from "react-jss";
-import DownloadButton from "../Button/DownloadButton";
+import PrintButton from "../Button/PrintButton";
 import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 
@@ -38,12 +38,16 @@ const WizardFooter = ({
   setDisabledForNextNavButton,
   setDisabledSaveButton,
   setDisplaySaveButton,
-  setDisplayDownloadButton,
+  setDisplayPrintButton,
   onSave,
   dateModified
 }) => {
   const classes = useStyles();
   const componentRef = useRef();
+  const projectNameRule = rules && rules.find(r => r.code === "PROJECT_NAME");
+  const projectName = projectNameRule
+    ? projectNameRule.value
+    : "TDM Calculation Summary";
 
   return (
     <>
@@ -77,12 +81,15 @@ const WizardFooter = ({
             </div>
             <ReactToPrint
               trigger={() => (
-                <DownloadButton
-                  id="downloadButton"
-                  isDisplayed={setDisplayDownloadButton()}
+                <PrintButton
+                  id="PrintButton"
+                  isDisplayed={setDisplayPrintButton()}
                 />
               )}
               content={() => componentRef.current}
+              documentTitle={projectName}
+              bodyClass="printContainer"
+              pageStyle=".printContainer {overflow: hidden;}"
             />
             <div style={{ display: "none" }}>
               <PdfPrint
@@ -115,7 +122,7 @@ WizardFooter.propTypes = {
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
-  setDisplayDownloadButton: PropTypes.any,
+  setDisplayPrintButton: PropTypes.any,
   onSave: PropTypes.any,
   onDownload: PropTypes.any,
   dateModified: PropTypes.any

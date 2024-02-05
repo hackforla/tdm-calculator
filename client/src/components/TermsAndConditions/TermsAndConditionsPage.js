@@ -12,7 +12,7 @@ const useStyles = createUseStyles({
 const TermsAndConditionsPage = () => {
   const classes = useStyles();
   return (
-    <ContentContainer componentToTrack="TermsAndConditionsPage">
+    <ContentContainer>
       <div className={classes.termsAndConditions}>
         <TermsAndConditionsContent />
       </div>

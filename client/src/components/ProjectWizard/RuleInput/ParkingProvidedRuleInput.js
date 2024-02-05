@@ -42,10 +42,9 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const ParkingProvidedRuleInput = ({
-  rule: { code, name, value, units, maxValue, validationErrors, required },
-  onInputChange
-}) => {
+const ParkingProvidedRuleInput = ({ rule, onInputChange }) => {
+  const { code, name, value, units, maxValue, validationErrors, required } =
+    rule;
   const classes = useStyles();
   const requiredStyle = required && classes.requiredInputLabel;
   const [showValidationErrors, setShowValidationErrors] = useState(false);
@@ -103,7 +102,7 @@ ParkingProvidedRuleInput.propTypes = {
     maxValue: PropTypes.number,
     validationErrors: PropTypes.array,
     required: PropTypes.bool.isRequired
-  }),
+  }).isRequired,
   onInputChange: PropTypes.func.isRequired
 };
 

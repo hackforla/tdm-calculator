@@ -17,6 +17,15 @@ const useStyles = createUseStyles(theme => ({
   alignRight: {
     gridColumn: "h-end",
     justifyContent: "flex-end"
+  },
+  subtitle: {
+    marginTop: "0.5em",
+    marginBottom: "1em",
+    textAlign: "center",
+    fontWeight: "normal",
+    fontStyle: "normal",
+    fontSize: "20px",
+    lineHeight: "140%"
   }
 }));
 
@@ -26,7 +35,7 @@ function ProjectSpecifications(props) {
   return (
     <div>
       <div className={classes.header}>Determine Project Level</div>
-      <h3 className="tdm-wizard-page-subtitle">
+      <h3 className={classes.subtitle}>
         Project Level (left panel) and Citywide Parking Baseline (next page) are
         determined by the use specifications entered below.
       </h3>

@@ -41,7 +41,24 @@ async function validateUser(req, res, next) {
       return next();
     }
   } catch (er) {
-    res.status("401").send("Unauthenticated User");
+    res.status(401).send("Unauthenticated User");
+  }
+}
+
+// When a request is received for a route that has an optional
+// user, this middleware function validates that
+// the authorization cookie has a valid JWT.
+async function optionalUser(req, res, next) {
+  const jwtString = req.headers.authorization || req.cookies.jwt;
+  try {
+    const payload = await verify(jwtString);
+
+    if (payload.email) {
+      req.user = payload;
+      return next();
+    }
+  } catch (er) {
+    return next();
   }
 }
 
@@ -93,5 +110,6 @@ async function verify(jwtString = "") {
 module.exports = {
   login,
   validateUser,
+  optionalUser,
   validateRoles
 };

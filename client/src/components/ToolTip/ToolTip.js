@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 
 const ToolTip = ({ id }) => {
   return (
-    <ReactTooltip
+    <Tooltip
       id={id}
       place="right"
       type="info"
@@ -18,7 +18,6 @@ const ToolTip = ({ id }) => {
       textColor="#32578A"
       backgroundColor="#F7F9FA"
       borderColor="rgb(30, 36, 63)"
-      border={true}
       offset={{ right: 20 }}
       clickable
     />

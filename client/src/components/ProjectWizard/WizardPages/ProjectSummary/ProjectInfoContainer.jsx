@@ -14,14 +14,16 @@ const useStyles = createUseStyles({
   textProjectInfoHeader: {
     color: "#0F2940",
     fontSize: "24px",
-    fontFamily: "Calibri Bold",
+    fontFamily: "Calibri",
+    fontWeight: 700,
     paddingLeft: "12px",
     paddingRight: ".8em"
   },
   textProjectInfoHeaderAddress: {
     color: "rgba(15, 41, 64, .5)",
     fontSize: "24px",
-    fontFamily: "Calibri Bold"
+    fontFamily: "Calibri",
+    fontWeight: "700"
   },
   projectInfoDetailsContainer: {
     paddingTop: "6px",
