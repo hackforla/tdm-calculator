@@ -18,6 +18,7 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
         startDate={startDate}
         endDate={endDate}
         customInput={<DatePickerCustomInput />}
+        dateFormat="yyyy-MM-dd"
       />
       <div style={{ margin: "auto 0" }}>&nbsp;to&nbsp;</div>
       <DatePicker
@@ -27,6 +28,7 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
         startDate={startDate}
         endDate={endDate}
         customInput={<DatePickerCustomInput />}
+        dateFormat="yyyy-MM-dd"
       />
     </div>
   );
