@@ -49,7 +49,7 @@ const useStyles = createUseStyles({
     flexBasis: "1%",
     flexShrink: 0,
     flexGrow: 0,
-    transition: "flex-basis 1s ease-in-out"
+    transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
     marginTop: "2em"
