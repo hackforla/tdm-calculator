@@ -37,6 +37,8 @@ import ErrorPage from "./components/ErrorPage";
 import Logout from "./components/Authorization/Logout";
 import ProfilePage from "./components/Okta/ProfilePage";
 import { LoginCallback } from "@okta/okta-react";
+import { getOidc, getConfigs } from "./helpers/Config";
+import { OktaAuth } from "@okta/okta-auth-js";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
 
@@ -53,6 +55,11 @@ const App = () => {
             <ClientAreaLayout appContainerRef={appContainerRef} />
           </div>
         }
+        loader={async () => {
+          const configs = await getConfigs();
+          const oidc = await getOidc();
+          return { oktaAuth: new OktaAuth(oidc), configs };
+        }}
       >
         {/* These routes either have no sidebar or use a custom sidebar */}
         <Route

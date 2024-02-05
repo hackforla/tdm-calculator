@@ -14,6 +14,7 @@ const OktaTdmAuthProvider = ({ children }) => {
     const authenticate = async () => {
       if (!authState || !authState.isAuthenticated) {
         // When user isn't authenticated, forget any user info
+        accountService.logout();
         return;
       } else {
         // get user information from `/userinfo` endpoint
