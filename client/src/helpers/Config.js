@@ -1,7 +1,5 @@
 import * as configService from "../services/config.service.js";
 
-const redirectUri = `${window.location.origin}/login/callback`;
-
 export const getConfigs = async () => {
   try {
     const response = await configService.getAll();
@@ -18,18 +16,19 @@ export const getConfigs = async () => {
   }
 };
 
-export const getOidc = async () => {
-  const configs = await getConfigs();
-  const clientId = configs.OKTA_CLIENT_ID;
-  const issuer = configs.OKTA_ISSUER;
-  const disableHttpsCheck = configs.OKTA_TESTING_DISABLE_HTTPS_CHECK || "T";
+// export const getOidc = async () => {
+//   const configs = await getConfigs();
+//   const clientId = configs.OKTA_CLIENT_ID;
+//   const issuer = configs.OKTA_ISSUER;
+//   const disableHttpsCheck = configs.OKTA_TESTING_DISABLE_HTTPS_CHECK || "T";
+//   const oidc = {
+//     clientId,
+//     issuer,
+//     redirectUri,
+//     scopes: ["openid", "profile", "email"],
+//     pkce: true,
+//     disableHttpsCheck
+//   };
 
-  return {
-    clientId,
-    issuer,
-    redirectUri,
-    scopes: ["openid", "profile", "email"],
-    pkce: true,
-    disableHttpsCheck
-  };
-};
+//   return { configs, oidc };
+// };

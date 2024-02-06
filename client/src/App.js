@@ -37,7 +37,7 @@ import ErrorPage from "./components/ErrorPage";
 import Logout from "./components/Authorization/Logout";
 import ProfilePage from "./components/Okta/ProfilePage";
 import { LoginCallback } from "@okta/okta-react";
-import { getOidc, getConfigs } from "./helpers/Config";
+import { getConfigs } from "./helpers/Config";
 import { OktaAuth } from "@okta/okta-auth-js";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
@@ -57,7 +57,20 @@ const App = () => {
         }
         loader={async () => {
           const configs = await getConfigs();
-          const oidc = await getOidc();
+          const clientId = configs.OKTA_CLIENT_ID;
+          const issuer = configs.OKTA_ISSUER;
+          const disableHttpsCheck =
+            configs.OKTA_TESTING_DISABLE_HTTPS_CHECK || "T";
+          const redirectUri = `${window.location.origin}/login/callback`;
+          const oidc = {
+            clientId,
+            issuer,
+            redirectUri,
+            scopes: ["openid", "profile", "email"],
+            pkce: true,
+            disableHttpsCheck
+          };
+
           return { oktaAuth: new OktaAuth(oidc), configs };
         }}
       >
