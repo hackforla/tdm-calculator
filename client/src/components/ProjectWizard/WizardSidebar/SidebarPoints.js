@@ -49,6 +49,18 @@ const useStyles = createUseStyles({
       visibility: "visible !important",
       opacity: "1 !important"
     }
+  },
+  metricsPanelItem: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    flexBasis: "25%",
+    flexGrow: 0,
+    flexShrink: 1,
+    margin: 0,
+    padding: "0.5em",
+    backgroundColor: "transparent",
+    color: "white"
   }
 });
 
@@ -76,7 +88,7 @@ const SidebarPoints = props => {
       : classes.ruleEarnedOrange;
 
   return (
-    <div className={clsx("tdm-calculation-metrics-panel-item", opacityTest)}>
+    <div className={clsx(classes.metricsPanelItem, opacityTest)}>
       <div id={rule.code} className={earnedPointsColor || targetPointsColor}>
         {rule.value}
       </div>
