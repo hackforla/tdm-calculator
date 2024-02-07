@@ -284,26 +284,25 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleHide = async project => {
-    if (!checkedProjects.length) {
-      // hide or unhide with context menu
-      setSelectedProject(project);
-      await projectService.hide([project.id], !project.dateHidden);
-      console.error(project.dateHidden);
-    } else {
-      console.log("checkedData: ", multiProjectsData); // eslint-disable-line no-console
-      // hide or unhide with checkbox
-      for (let projectId of checkedProjects) {
-        const checkedProj = (await projectService.getById(projectId)).data;
+    try {
+      if (!checkedProjects.length) setSelectedProject(project);
 
-        setSelectedProject(checkedProj);
-        await projectService.hide([checkedProj.id], !checkedProj.dateHidden);
-      }
+      const projectIDs = selectedProject
+        ? [selectedProject.id]
+        : checkedProjects;
+      const dateHidden = selectedProject
+        ? !selectedProject.dateHidden
+        : !multiProjectsData.dateHidden;
 
-      setCheckedProjects([]);
-      setSelectAllChecked(false); // reset header checkbox if checked
+      await projectService.hide(projectIDs, dateHidden);
+      await updateProjects();
+    } catch (err) {
+      console.error(err);
     }
 
-    await updateProjects();
+    setSelectedProject(null);
+    setCheckedProjects([]);
+    setSelectAllChecked(false);
   };
 
   const handleCheckboxChange = projectId => {
