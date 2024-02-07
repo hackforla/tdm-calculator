@@ -15,6 +15,7 @@ import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import useHiddenStatus from "../../hooks/useHiddenStatus.js";
+import useMultiProjectsData from "../../hooks/useMultiProjectsData.js";
 import * as projectService from "../../services/project.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
@@ -161,6 +162,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   });
   const [filterCollapsed, setFilterCollapsed] = useState(true);
   const hiddenStatus = useHiddenStatus(checkedProjects, projects, criteria);
+  const multiProjectsData = useMultiProjectsData(checkedProjects, projects);
 
   const selectedProjectName = (() => {
     if (!selectedProject) {
@@ -212,23 +214,31 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleDeleteModalOpen = project => {
-    setSelectedProject(project);
+    if (!checkedProjects.length) setSelectedProject(project);
     setDeleteModalOpen(true);
   };
 
   const handleDeleteModalClose = async action => {
     if (action === "ok") {
+      // variables depend on single project or multi-selected projects
+      const projectIDs = selectedProject
+        ? [selectedProject.id]
+        : checkedProjects;
+      const dateTrashed = selectedProject
+        ? !selectedProject.dateTrashed
+        : !multiProjectsData.dateTrashed;
+
       try {
-        await projectService.trash(
-          [selectedProject.id],
-          !selectedProject.dateTrashed
-        );
+        await projectService.trash(projectIDs, dateTrashed);
         await updateProjects();
       } catch (err) {
         handleError(err);
       }
     }
     setDeleteModalOpen(false);
+    setSelectedProject(null);
+    setCheckedProjects([]);
+    setSelectAllChecked(false);
   };
 
   const handleSnapshotModalOpen = project => {
@@ -280,6 +290,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       await projectService.hide([project.id], !project.dateHidden);
       console.error(project.dateHidden);
     } else {
+      console.log("checkedData: ", multiProjectsData); // eslint-disable-line no-console
       // hide or unhide with checkbox
       for (let projectId of checkedProjects) {
         const checkedProj = (await projectService.getById(projectId)).data;
@@ -569,9 +580,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 {checkedProjects.length ? (
                   <ProjectCheckBoxMenu
                     handleHideBoxes={handleHide}
+                    handleDeleteModalOpen={handleDeleteModalOpen}
                     checkedProjects={checkedProjects}
                     isHidden={hiddenStatus}
                     criteria={criteria}
+                    projects={multiProjectsData}
                   />
                 ) : (
                   ""
@@ -690,7 +703,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 paginate={paginate}
               />
 
-              {selectedProject && (
+              {(selectedProject || multiProjectsData) && (
                 <>
                   <CopyProjectModal
                     mounted={copyModalOpen}
@@ -700,7 +713,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <DeleteProjectModal
                     mounted={deleteModalOpen}
                     onClose={handleDeleteModalClose}
-                    project={selectedProject}
+                    project={selectedProject || multiProjectsData}
                   />
                   <SnapshotProjectModal
                     mounted={snapshotModalOpen}
