@@ -12,6 +12,8 @@ const accountForgotSchema = require("../schemas/account.forgotPassword");
 const accountResetSchema = require("../schemas/account.reset");
 const accountRoleSchema = require("../schemas/account.role");
 const accountConfirmEmail = require("../schemas/account.confirmEmail");
+const accountAuthorizationSchema = require("../schemas/account.authorization");
+const oktaAuthentication = require("../../middleware/okta.authentication");
 
 const getAll = async (req, res) => {
   try {
@@ -212,6 +214,25 @@ const deleteById = async (req, res) => {
   }
 };
 
+const getAuthorization = async (req, res, next) => {
+  const { email, firstName, lastName } = req.body;
+  try {
+    const resp = await accountService.getAuthorization(
+      email,
+      firstName,
+      lastName
+    );
+    if (resp.isSuccess) {
+      req.user = resp.user;
+      next();
+    } else {
+      res.json(resp);
+    }
+  } catch (err) {
+    res.status("500").json({ error: err.toString() });
+  }
+};
+
 module.exports = {
   getAll,
   // getById,
@@ -260,5 +281,11 @@ module.exports = {
   archiveById,
   unarchiveById,
   getAllArchivedUsers,
-  deleteById
+  deleteById,
+  getAuthorization: [
+    validate({ body: accountAuthorizationSchema }),
+    oktaAuthentication.authenticate,
+    getAuthorization,
+    validationErrorMiddleware
+  ]
 };

@@ -24,6 +24,8 @@
   "author": "Hack for LA",
   "license": "ISC",
   "dependencies": {
+    "@okta/jwt-verifier": "^3.0.1",
+    "@okta/oidc-middleware": "^5.2.1",
     "@sendgrid/mail": "^8.1.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",

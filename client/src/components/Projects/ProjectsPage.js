@@ -127,7 +127,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
-  const email = userContext.account.email;
+  const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useProjects(handleError);
@@ -390,9 +390,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
       !p.fullname.toLowerCase().includes(criteria.author.toLowerCase())
     )
       return false;
-    p.alternative = JSON.parse(p["formInputs"]).VERSION_NO
-      ? JSON.parse(p["formInputs"]).VERSION_NO
-      : "";
+    try {
+      p.alternative = JSON.parse(p["formInputs"]).VERSION_NO
+        ? JSON.parse(p["formInputs"]).VERSION_NO
+        : "";
+    } catch (err) {
+      p.alternative = JSON.stringify(err, null, 2);
+    }
+
     if (
       criteria.alternative &&
       !p.alternative.toLowerCase().includes(criteria.alternative.toLowerCase())

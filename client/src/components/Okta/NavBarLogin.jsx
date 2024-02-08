@@ -1,14 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../../contexts/UserContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import NavBarToolTip from "./NavBarToolTip";
+import NavBarToolTip from "../Layout/NavBarToolTip";
+import LoginButton from "./LoginButton";
 
 const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
   const userContext = useContext(UserContext);
-  const account = userContext.account;
+  let account = userContext.account;
+  let navigate = useNavigate();
   const [isCalculation, setIsCalculation] = useState(false);
 
   const location = useLocation();
@@ -22,22 +24,9 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
     }
   }, [pathname]);
 
-  const loginLink = (
-    <li className={clsx(classes.userLogin, classes.linkBlock)}>
-      <Link
-        id="cy-login-menu-item"
-        className={`${classes.link} ${classes.lastItem}`}
-        to="/login"
-        onClick={handleHamburgerMenuClick}
-      >
-        Login
-      </Link>
-    </li>
-  );
-
   const getUserGreeting = account => (
     <li className={classes.userLogin}>
-      <Link
+      <div
         className={`${classes.link} ${classes.lastItem}`}
         to={{
           pathname: `/updateaccount/${(account && account.email) || ""}`,
@@ -45,41 +34,40 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
         }}
       >
         Hello, {`${account.firstName} ${account.lastName} `}
-      </Link>
+      </div>
     </li>
   );
 
-  const logoutLink = (
+  const loginButton = (
+    <li className={clsx(classes.userLogin, classes.linkBlock)}>
+      <LoginButton onClick={() => handleHamburgerMenuClick} />
+    </li>
+  );
+
+  const logoutButton = (
     <li className={classes.linkBlock}>
-      <Link
-        className={`${classes.link} ${classes.lastItem}`}
-        to={{
-          pathname: `/logout`,
-          state: { prevPath: location.pathname }
-        }}
+      <LoginButton
         onClick={() => {
-          userContext.updateAccount(null);
-          handleHamburgerMenuClick;
+          handleHamburgerMenuClick();
+          navigate("/logout", { state: { prevPath: location.pathname } });
         }}
-      >
-        Logout
-      </Link>
+      />
     </li>
   );
 
   return !account || !account.email ? (
     !isCalculation ? (
-      <>{loginLink}</>
+      <>{loginButton}</>
     ) : (
       <>
         <NavBarToolTip />
-        {loginLink}
+        {loginButton}
       </>
     )
   ) : (
     <>
       {getUserGreeting(account)}
-      {logoutLink}
+      {logoutButton}
     </>
   );
 };

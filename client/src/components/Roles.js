@@ -189,154 +189,150 @@ const Roles = ({ contentContainerRef }) => {
   };
 
   return (
-    <div>
-      <ContentContainer
-        contentContainerRef={contentContainerRef}
-        // className={classes.main}
+    <ContentContainer
+      contentContainerRef={contentContainerRef}
+      // className={classes.main}
+    >
+      {redirectPath ? <Navigate to="{redirectPath}" /> : null}
+      <h1 className={classes.pageTitle}>Security Roles</h1>
+      <div className={classes.pageSubtitle}>
+        Grant or Revoke Admin Permissions
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center"
+        }}
       >
-        {redirectPath ? <Navigate to="{redirectPath}" /> : null}
-        <h1 className={classes.pageTitle}>Security Roles</h1>
-        <div className={classes.pageSubtitle}>
-          Grant or Revoke Admin Permissions
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center"
+        <label htmlFor="searchString" className={classes.textInputLabel}>
+          Find:
+        </label>
+        <input
+          className={classes.input}
+          name="searchString"
+          type="text"
+          value={searchString || ""}
+          onChange={e => {
+            setSearchString(e.target.value);
+            filt(accounts, e.target.value);
           }}
-        >
-          <label htmlFor="searchString" className={classes.textInputLabel}>
-            Find:
-          </label>
-          <input
-            className={classes.input}
-            name="searchString"
-            type="text"
-            value={searchString || ""}
-            onChange={e => {
-              setSearchString(e.target.value);
-              filt(accounts, e.target.value);
-            }}
-            data-testid="searchString"
-          />
-        </div>
-        <div className={classes.archiveTitle}>
-          <Link to="/archivedaccounts" className={classes.link}>
-            View Archived Accounts
-          </Link>
-        </div>
+          data-testid="searchString"
+        />
+      </div>
+      <div className={classes.archiveTitle}>
+        <Link to="/archivedaccounts" className={classes.link}>
+          View Archived Accounts
+        </Link>
+      </div>
 
-        <table className={classes.table}>
-          <thead className={classes.thead}>
-            <tr className={classes.tr}>
-              <td className={`${classes.td} ${classes.tdheadLabel}`}>Email</td>
-              <td className={`${classes.td} ${classes.tdheadLabel}`}>Name</td>
-              <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
-                Admin
-              </td>
-              <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
-                Security Admin
-              </td>
-              <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
-                Email Confirmed
-              </td>
-              <td className={`${classes.td} ${classes.tdheadLabel}`}>
-                Registration Date
-              </td>
-              <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
-                Options
-              </td>
-            </tr>
-          </thead>
-          <tbody className={classes.tbody}>
-            {filteredAccounts &&
-              filteredAccounts.map(account => (
-                <tr
-                  key={JSON.stringify(account)}
-                  className={
-                    hoveredRow === account.id ? classes.hoveredRow : ""
-                  }
-                >
-                  <td className={classes.td}>{account.email}</td>
-                  <td className={classes.td}>
-                    {`${account.lastName}, ${account.firstName}`}
-                  </td>
-                  <td className={classes.tdCenter}>
-                    <input
-                      type="checkbox"
-                      value={true}
-                      checked={account.isAdmin}
-                      onChange={e => onInputChange(e, account)}
-                      name="isAdmin"
-                    />
-                  </td>
-                  <td className={classes.tdCenter}>
-                    <input
-                      type="checkbox"
-                      value={true}
-                      checked={account.isSecurityAdmin}
-                      onChange={e => onInputChange(e, account)}
-                      name="isSecurityAdmin"
-                    />
-                  </td>
-                  <td className={classes.tdCenter}>
-                    {account.emailConfirmed ? (
-                      <FontAwesomeIcon icon={faCheck} alt="Email confirmed" />
-                    ) : (
-                      ""
-                    )}
-                  </td>
-                  <td className={classes.td}>
-                    {new Date(account.dateCreated).toLocaleDateString("en-US", {
-                      month: "numeric",
-                      day: "numeric",
-                      year: "numeric"
-                    })}
-                  </td>
-                  <td className={classes.tdCenter}>
-                    <Popup
-                      trigger={
-                        <button
-                          className={`${classes.optionsButton} ${
-                            account.isSecurityAdmin ||
-                            account.id === loggedInUserId
-                              ? classes.disabledOptionsButton
-                              : ""
-                          }`}
-                          disabled={
-                            account.isSecurityAdmin ||
-                            account.id === loggedInUserId
-                          }
-                        >
-                          <FontAwesomeIcon
-                            icon={faEllipsisV}
-                            alt={`Options for ${account.email}`}
-                          />
-                        </button>
-                      }
-                      position="bottom center"
-                      offsetX={-100}
-                      on="click"
-                      closeOnDocumentClick
-                      arrow={false}
-                      onOpen={() => setHoveredRow(account.id)}
-                      onClose={() => setHoveredRow(null)}
-                    >
-                      <div className={classes.popupContent}>
-                        <RolesContextMenu
-                          user={account}
-                          handleArchiveUser={handleArchiveUser}
+      <table className={classes.table}>
+        <thead className={classes.thead}>
+          <tr className={classes.tr}>
+            <td className={`${classes.td} ${classes.tdheadLabel}`}>Email</td>
+            <td className={`${classes.td} ${classes.tdheadLabel}`}>Name</td>
+            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+              Admin
+            </td>
+            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+              Security Admin
+            </td>
+            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+              Email Confirmed
+            </td>
+            <td className={`${classes.td} ${classes.tdheadLabel}`}>
+              Registration Date
+            </td>
+            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+              Options
+            </td>
+          </tr>
+        </thead>
+        <tbody className={classes.tbody}>
+          {filteredAccounts &&
+            filteredAccounts.map(account => (
+              <tr
+                key={JSON.stringify(account)}
+                className={hoveredRow === account.id ? classes.hoveredRow : ""}
+              >
+                <td className={classes.td}>{account.email}</td>
+                <td className={classes.td}>
+                  {`${account.lastName}, ${account.firstName}`}
+                </td>
+                <td className={classes.tdCenter}>
+                  <input
+                    type="checkbox"
+                    value={true}
+                    checked={account.isAdmin}
+                    onChange={e => onInputChange(e, account)}
+                    name="isAdmin"
+                  />
+                </td>
+                <td className={classes.tdCenter}>
+                  <input
+                    type="checkbox"
+                    value={true}
+                    checked={account.isSecurityAdmin}
+                    onChange={e => onInputChange(e, account)}
+                    name="isSecurityAdmin"
+                  />
+                </td>
+                <td className={classes.tdCenter}>
+                  {account.emailConfirmed ? (
+                    <FontAwesomeIcon icon={faCheck} alt="Email confirmed" />
+                  ) : (
+                    ""
+                  )}
+                </td>
+                <td className={classes.td}>
+                  {new Date(account.dateCreated).toLocaleDateString("en-US", {
+                    month: "numeric",
+                    day: "numeric",
+                    year: "numeric"
+                  })}
+                </td>
+                <td className={classes.tdCenter}>
+                  <Popup
+                    trigger={
+                      <button
+                        className={`${classes.optionsButton} ${
+                          account.isSecurityAdmin ||
+                          account.id === loggedInUserId
+                            ? classes.disabledOptionsButton
+                            : ""
+                        }`}
+                        disabled={
+                          account.isSecurityAdmin ||
+                          account.id === loggedInUserId
+                        }
+                      >
+                        <FontAwesomeIcon
+                          icon={faEllipsisV}
+                          alt={`Options for ${account.email}`}
                         />
-                      </div>
-                    </Popup>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </ContentContainer>
-    </div>
+                      </button>
+                    }
+                    position="bottom center"
+                    offsetX={-100}
+                    on="click"
+                    closeOnDocumentClick
+                    arrow={false}
+                    onOpen={() => setHoveredRow(account.id)}
+                    onClose={() => setHoveredRow(null)}
+                  >
+                    <div className={classes.popupContent}>
+                      <RolesContextMenu
+                        user={account}
+                        handleArchiveUser={handleArchiveUser}
+                      />
+                    </div>
+                  </Popup>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </ContentContainer>
   );
 };
 
