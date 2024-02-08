@@ -37,6 +37,7 @@ import ResetPassword from "./components/Authorization/ResetPassword";
 import ForgotPassword from "./components/Authorization/ForgotPassword";
 import Feedback from "./components/Feedback/FeedbackPage";
 import ErrorPage from "./components/ErrorPage";
+import Offline from "./components/Offline";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
 
@@ -124,7 +125,6 @@ const App = ({
           }
         >
           <Route path="/about" element={<About />} />
-
           {/* TODO:  update FAQ to use checklist link, redirect for now. */}
           <Route path="/faqs/true" element={<Navigate to="/checklist" />} />
           <Route path="/checklist" element={<ChecklistPage />} />
@@ -175,6 +175,7 @@ const App = ({
           />
           <Route path="/faqs" element={<FaqView isAdmin={account.isAdmin} />} />
           <Route path="/feedback" element={<Feedback account={account} />} />
+          <Route path="/offline" element={<Offline />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Route>
