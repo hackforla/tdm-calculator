@@ -2,7 +2,7 @@
 name: 'Lighthouse: How To'
 about: Provides overview of how to use Lighthouse and links to additional resources
 title: 'Lighthouse: How To'
-labels: Performance, Security, Site Audits, Tutorial
+labels: ''
 assignees: ''
 
 ---

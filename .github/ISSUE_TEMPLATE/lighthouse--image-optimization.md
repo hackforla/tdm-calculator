@@ -2,7 +2,7 @@
 name: 'Lighthouse: Image Optimization'
 about: Instructions for optimizing images
 title: 'Lighthouse: Image Optimization'
-labels: Performance, Site Audits, Tutorial
+labels: ''
 assignees: ''
 
 ---

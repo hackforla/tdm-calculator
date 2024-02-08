@@ -3,7 +3,7 @@ name: 'Lighthouse: Accessibility - Forms'
 about: Instructions for creating or improving forms to make them accessible when visitors
   use screen readers   AKA Form <input> elements must have labels
 title: 'Lighthouse: Accessibility - Forms'
-labels: Accessibility, Site Audits, Tutorial
+labels: ''
 assignees: ''
 
 ---
