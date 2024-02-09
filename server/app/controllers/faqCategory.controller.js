@@ -1,4 +1,9 @@
 const faqCategoryService = require("../services/faqCategory.service");
+const {
+  validate,
+  validationErrorMiddleware
+} = require("../../middleware/validate");
+const faqCategorySchema = require("../schemas/faqCategory");
 
 const get = async (req, res) => {
   try {
@@ -20,5 +25,9 @@ const post = async (req, res) => {
 
 module.exports = {
   get,
-  post
+  post: [
+    validate({ body: faqCategorySchema }),
+    post,
+    validationErrorMiddleware
+  ]
 };
