@@ -14,7 +14,7 @@ afterAll(async () => {
   await teardownServer();
 });
 
-describe("tests that require a faqsulation id", () => {
+describe("tests for faqcategories api", () => {
     let userToken;
     let adminToken;
 
