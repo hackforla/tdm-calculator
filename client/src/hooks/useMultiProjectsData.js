@@ -17,10 +17,15 @@ const useMultiProjectsData = (checkedProjects, projects) => {
     const isSameVal = property => {
       const firstVal = getProjects[0][property];
 
+      if (getProjects.length === 1) return firstVal;
+
       if (property === "dateTrashed" || property === "dateHidden") {
-        return getProjects.every(p => typeof p[property] === "string")
-          ? firstVal
-          : null;
+        const allNull = getProjects.every(p => p[property] === null);
+        const allString = getProjects.every(
+          p => typeof p[property] === "string"
+        );
+
+        return allNull || allString ? firstVal : false;
       } else {
         return getProjects.every(p => p[property] === firstVal) ? firstVal : "";
       }

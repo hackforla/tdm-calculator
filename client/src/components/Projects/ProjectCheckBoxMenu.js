@@ -32,14 +32,22 @@ const ProjectCheckBoxMenu = ({
   handleHideBoxes,
   handleDeleteModalOpen,
   checkedProjects,
-  isHidden,
   criteria,
   projects
 }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const account = userContext.account;
-  const isProjectOwner = account.id !== projects.loginId;
+  const isProjectOwner = account.id === projects.loginId;
+
+  const isBtnDisabled = (projProp, criteriaProp) => {
+    const sameDateVals = projects[projProp] !== false;
+    const criteriaFilter = criteria[criteriaProp] === "all";
+
+    // disable button if current user is not the owner
+    // or if criteria is "all" and the date values are different
+    return !isProjectOwner || (criteriaFilter && !sameDateVals);
+  };
 
   return (
     <div className={classes.container}>
@@ -49,12 +57,9 @@ const ProjectCheckBoxMenu = ({
           <button
             className={classes.button}
             onClick={handleHideBoxes}
-            disabled={
-              (criteria.visibility === "all" && isHidden === null) ||
-              isHidden === null
-            }
+            disabled={isBtnDisabled("dateHidden", "visibility")}
           >
-            {!isHidden ? (
+            {!projects.dateHidden ? (
               <FontAwesomeIcon icon={faEyeSlash} />
             ) : (
               <FontAwesomeIcon icon={faEye} />
@@ -64,12 +69,14 @@ const ProjectCheckBoxMenu = ({
         <li>
           <button
             className={classes.button}
-            disabled={isProjectOwner}
+            disabled={isBtnDisabled("dateTrashed", "status")}
             onClick={handleDeleteModalOpen}
           >
             <FontAwesomeIcon
               icon={faTrash}
-              color={isProjectOwner ? "#1010104d" : "red"}
+              color={
+                isBtnDisabled("dateTrashed", "status") ? "#1010104d" : "red"
+              }
             />
           </button>
         </li>
@@ -82,7 +89,6 @@ ProjectCheckBoxMenu.propTypes = {
   handleHideBoxes: PropTypes.func.isRequired,
   handleDeleteModalOpen: PropTypes.func.isRequired,
   checkedProjects: PropTypes.array.isRequired,
-  isHidden: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf([null])]),
   criteria: PropTypes.object.isRequired,
   projects: PropTypes.object.isRequired
 };

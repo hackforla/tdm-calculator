@@ -14,7 +14,6 @@ import Pagination from "../ProjectWizard/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
-import useHiddenStatus from "../../hooks/useHiddenStatus.js";
 import useMultiProjectsData from "../../hooks/useMultiProjectsData.js";
 import * as projectService from "../../services/project.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
@@ -161,7 +160,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     endDateModified: null
   });
   const [filterCollapsed, setFilterCollapsed] = useState(true);
-  const hiddenStatus = useHiddenStatus(checkedProjects, projects, criteria);
   const multiProjectsData = useMultiProjectsData(checkedProjects, projects);
 
   const selectedProjectName = (() => {
@@ -220,7 +218,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleDeleteModalClose = async action => {
     if (action === "ok") {
-      // variables depend on single project or multi-selected projects
       const projectIDs = selectedProject
         ? [selectedProject.id]
         : checkedProjects;
@@ -581,7 +578,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     handleHideBoxes={handleHide}
                     handleDeleteModalOpen={handleDeleteModalOpen}
                     checkedProjects={checkedProjects}
-                    isHidden={hiddenStatus}
                     criteria={criteria}
                     projects={multiProjectsData}
                   />
