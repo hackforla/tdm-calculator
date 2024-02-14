@@ -59,6 +59,7 @@ const ProjectCheckBoxMenu = ({
       <ul className={classes.list}>
         <li>
           <button
+            id="hide-btn"
             className={classes.button}
             onClick={handleHideBoxes}
             disabled={isHideBtnDisabled}
@@ -68,6 +69,12 @@ const ProjectCheckBoxMenu = ({
             ) : (
               <FontAwesomeIcon icon={faEye} />
             )}
+
+            <Tooltip
+              anchorSelect="#hide-btn"
+              content="Your selection includes both hidden and visible items"
+              isOpen={isHideBtnDisabled ? 1 : 0}
+            />
           </button>
         </li>
         <li>
@@ -83,7 +90,7 @@ const ProjectCheckBoxMenu = ({
             />
             <Tooltip
               anchorSelect="#delete-btn"
-              content="Your selection includes both hidden and visible items"
+              content="Your selection includes both deleted and active items"
               isOpen={isDelBtnDisabled ? 1 : 0}
             />
           </button>
