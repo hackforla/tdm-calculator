@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { faEyeSlash, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Tooltip } from "react-tooltip";
 
 const useStyles = createUseStyles({
   container: {
@@ -49,6 +50,9 @@ const ProjectCheckBoxMenu = ({
     return !isProjectOwner || (criteriaFilter && !sameDateVals);
   };
 
+  const isHideBtnDisabled = isBtnDisabled("dateHidden", "visibility");
+  const isDelBtnDisabled = isBtnDisabled("dateTrashed", "status");
+
   return (
     <div className={classes.container}>
       <div>{checkedProjects.length} Projects Selected</div>
@@ -57,7 +61,7 @@ const ProjectCheckBoxMenu = ({
           <button
             className={classes.button}
             onClick={handleHideBoxes}
-            disabled={isBtnDisabled("dateHidden", "visibility")}
+            disabled={isHideBtnDisabled}
           >
             {!projects.dateHidden ? (
               <FontAwesomeIcon icon={faEyeSlash} />
@@ -68,15 +72,19 @@ const ProjectCheckBoxMenu = ({
         </li>
         <li>
           <button
+            id="delete-btn"
             className={classes.button}
-            disabled={isBtnDisabled("dateTrashed", "status")}
+            disabled={isDelBtnDisabled}
             onClick={handleDeleteModalOpen}
           >
             <FontAwesomeIcon
               icon={faTrash}
-              color={
-                isBtnDisabled("dateTrashed", "status") ? "#1010104d" : "red"
-              }
+              color={isDelBtnDisabled ? "#1010104d" : "red"}
+            />
+            <Tooltip
+              anchorSelect="#delete-btn"
+              content="Your selection includes both hidden and visible items"
+              isOpen={isDelBtnDisabled ? 1 : 0}
             />
           </button>
         </li>
