@@ -62,9 +62,25 @@ describe("tests for faqcategories api", () => {
         .set("Authorization", `Bearer ${adminToken}`)
         .send(
         [{
+            id: 90,
             name: "test for faq",
             displayOrder: 90,
-            faqs: "sample faqs, test for faqs"
+            faqs: [
+                {
+                    id: 50,
+                    question: "question 1!",
+                    answer: "answer 1",
+                    faqCategoryId: 90,
+                    displayOrder: 2
+                },
+                {
+                    id: 51,
+                    question: "question 1!",
+                    answer: "answer 1",
+                    faqCategoryId: 92,
+                    displayOrder: 3
+                }
+            ]
         }]
         );
         expect(res.statusCode).toEqual(201);
@@ -77,9 +93,25 @@ describe("tests for faqcategories api", () => {
         .set("Authorization", `Bearer ${userToken}`)
         .send(
         [{
+            id: 90,
             name: "test for faq",
             displayOrder: 90,
-            faqs: "sample faqs, test for faqs"
+            faqs: [
+                {
+                    id: 50,
+                    question: "question 1!",
+                    answer: "answer 1",
+                    faqCategoryId: 90,
+                    displayOrder: 2
+                },
+                {
+                    id: 51,
+                    question: "question 1!",
+                    answer: "answer 1",
+                    faqCategoryId: 92,
+                    displayOrder: 3
+                }
+            ]
         }]
         );
         expect(res.statusCode).toEqual(401);

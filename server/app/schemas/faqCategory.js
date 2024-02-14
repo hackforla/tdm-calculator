@@ -2,8 +2,11 @@ module.exports = {
   type: "array",
   items: {
     type: "object",
-    required: ["name", "displayOrder", "faqs"],
+    required: ["id","name", "displayOrder", "faqs"],
     properties: {
+      id: {
+        type: "number",
+      },
       name: {
         type: "string",
       },
@@ -11,7 +14,28 @@ module.exports = {
         type: "number",
       },
       faqs: {
-        type: "string",
+        type: "array",
+        items: {
+          type: "object",
+          required: ["id", "question", "answer", "faqCategoryId", "displayOrder"],
+          properties: {
+            id: {
+              type: "number",
+            },
+            question: {
+              type: "string",
+            },
+            answer: {
+              type: "string",
+            },
+            faqCategoryId: {
+              type: "number",
+            },
+            displayOrder: {
+              type: "number"
+            }
+          }
+        }
       }
     }
   }
