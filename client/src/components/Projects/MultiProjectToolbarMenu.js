@@ -80,9 +80,13 @@ const ProjectCheckBoxMenu = ({
             )}
 
             <Tooltip
-              style={{ backgroundColor: "#f0eded", color: "#000" }}
+              style={{
+                backgroundColor: "#e6e3e3",
+                color: "#000",
+                width: "10%",
+                borderRadius: "10px"
+              }}
               anchorSelect="#hide-btn"
-              className={classes.tooltip}
               content={tooltipMsg(
                 "visibility",
                 "Your selection includes both hidden and visible items",
@@ -103,7 +107,12 @@ const ProjectCheckBoxMenu = ({
               color={isDelBtnDisabled ? "#1010104d" : "red"}
             />
             <Tooltip
-              style={{ backgroundColor: "#f0eded", color: "#000" }}
+              style={{
+                backgroundColor: "#e6e3e3",
+                color: "#000",
+                width: "10%",
+                borderRadius: "10px"
+              }}
               anchorSelect="#delete-btn"
               content={tooltipMsg(
                 "status",

@@ -12,7 +12,6 @@ const useMultiProjectsData = (checkedProjects, projects) => {
     const getProjects = checkedProjects.map(id =>
       projects.find(p => p.id === id)
     );
-    console.log("getProjs: ", getProjects); // eslint-disable-line no-console
 
     const isSameVal = property => {
       const firstVal = getProjects[0][property];
@@ -38,7 +37,6 @@ const useMultiProjectsData = (checkedProjects, projects) => {
       loginId: isSameVal("loginId")
     };
 
-    console.log("DATA: ", data); // eslint-disable-line no-console
     setProjectsData(data);
   }, [checkedProjects, projects]);
 

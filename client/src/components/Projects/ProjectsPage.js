@@ -178,6 +178,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (pageNumber === "right" && currentPage !== highestPage) {
       setCurrentPage(currentPage + 1);
     }
+
+    // uncheck Projects on page change
+    setCheckedProjects([]);
+    setSelectAllChecked(false);
   };
 
   const handleCopyModalOpen = project => {
