@@ -26,10 +26,6 @@ const useStyles = createUseStyles({
     border: "none",
     padding: 0,
     background: "none"
-  },
-  tooltip: {
-    backgroundColor: "#fff",
-    color: "#000"
   }
 });
 
@@ -84,6 +80,7 @@ const ProjectCheckBoxMenu = ({
             )}
 
             <Tooltip
+              style={{ backgroundColor: "#f0eded", color: "#000" }}
               anchorSelect="#hide-btn"
               className={classes.tooltip}
               content={tooltipMsg(
@@ -106,7 +103,7 @@ const ProjectCheckBoxMenu = ({
               color={isDelBtnDisabled ? "#1010104d" : "red"}
             />
             <Tooltip
-              className=".warning"
+              style={{ backgroundColor: "#f0eded", color: "#000" }}
               anchorSelect="#delete-btn"
               content={tooltipMsg(
                 "status",

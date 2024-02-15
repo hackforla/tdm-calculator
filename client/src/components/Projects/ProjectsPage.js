@@ -23,7 +23,7 @@ import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import ProjectTableRow from "./ProjectTableRow";
 import FilterDrawer from "./FilterDrawer.js";
-import ProjectCheckBoxMenu from "./ProjectCheckBoxMenu.js";
+import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu.js";
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -574,7 +574,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 }}
               >
                 {checkedProjects.length ? (
-                  <ProjectCheckBoxMenu
+                  <MultiProjectToolbarMenu
                     handleHideBoxes={handleHide}
                     handleDeleteModalOpen={handleDeleteModalOpen}
                     checkedProjects={checkedProjects}
