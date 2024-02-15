@@ -26,6 +26,10 @@ const useStyles = createUseStyles({
     border: "none",
     padding: 0,
     background: "none"
+  },
+  tooltip: {
+    backgroundColor: "#fff",
+    color: "#000"
   }
 });
 
@@ -53,6 +57,15 @@ const ProjectCheckBoxMenu = ({
   const isHideBtnDisabled = isBtnDisabled("dateHidden", "visibility");
   const isDelBtnDisabled = isBtnDisabled("dateTrashed", "status");
 
+  const tooltipMsg = (criteriaProp, msg, dateProp) => {
+    if (!isProjectOwner)
+      return "You have selected a project that does not belong to you";
+
+    if (checkedProjects.length > 1 && projects[dateProp] === false) {
+      return criteria[criteriaProp] === "all" ? msg : "";
+    }
+  };
+
   return (
     <div className={classes.container}>
       <div>{checkedProjects.length} Projects Selected</div>
@@ -61,8 +74,8 @@ const ProjectCheckBoxMenu = ({
           <button
             id="hide-btn"
             className={classes.button}
-            onClick={handleHideBoxes}
             disabled={isHideBtnDisabled}
+            onClick={handleHideBoxes}
           >
             {!projects.dateHidden ? (
               <FontAwesomeIcon icon={faEyeSlash} />
@@ -72,8 +85,12 @@ const ProjectCheckBoxMenu = ({
 
             <Tooltip
               anchorSelect="#hide-btn"
-              content="Your selection includes both hidden and visible items"
-              isOpen={isHideBtnDisabled ? 1 : 0}
+              className={classes.tooltip}
+              content={tooltipMsg(
+                "visibility",
+                "Your selection includes both hidden and visible items",
+                "dateHidden"
+              )}
             />
           </button>
         </li>
@@ -89,9 +106,13 @@ const ProjectCheckBoxMenu = ({
               color={isDelBtnDisabled ? "#1010104d" : "red"}
             />
             <Tooltip
+              className=".warning"
               anchorSelect="#delete-btn"
-              content="Your selection includes both deleted and active items"
-              isOpen={isDelBtnDisabled ? 1 : 0}
+              content={tooltipMsg(
+                "status",
+                "Your selection includes both deleted and active items",
+                "dateTrashed"
+              )}
             />
           </button>
         </li>
