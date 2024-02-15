@@ -23,7 +23,8 @@ const useStyles = createUseStyles(() => ({
     flexDirection: "column",
     minHeight: "calc(100vh - 103px - 48px)",
     backgroundRepeat: "no-repeat",
-    backgroundSize: "100vw"
+    backgroundSize: "100vw",
+    backgroundPosition: "bottom"
   },
   offlineText: {
     paddingTop: "2em",

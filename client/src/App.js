@@ -116,6 +116,7 @@ const App = ({
             </RequireAuth>
           }
         />
+        <Route path="/offline" element={<Offline />} />
         {/* Layout Route adds plain Sidebar */}
         <Route
           element={
@@ -175,7 +176,6 @@ const App = ({
           />
           <Route path="/faqs" element={<FaqView isAdmin={account.isAdmin} />} />
           <Route path="/feedback" element={<Feedback account={account} />} />
-          <Route path="/offline" element={<Offline />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Route>
