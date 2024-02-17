@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+// for use with multi-selected projects
+
 const useMultiProjectsData = (checkedProjects, projects) => {
   const [projectsData, setProjectsData] = useState({});
 
@@ -13,6 +15,9 @@ const useMultiProjectsData = (checkedProjects, projects) => {
       projects.find(p => p.id === id)
     );
 
+    // Evaluates if all projects have the same property value (null or string date)
+    // Returns false for dateTrashed or dateHidden if not the same, else returns first value
+    // Other properties return first value if all values are the same, else returns empty string
     const isSameVal = property => {
       const firstVal = getProjects[0][property];
 

@@ -57,6 +57,10 @@ const ProjectCheckBoxMenu = ({
     if (!isProjectOwner)
       return "You have selected a project that does not belong to you";
 
+    // show restore from trash message
+    if (projects.dateTrashed) return "Restore from Trash";
+
+    // show message when selecting mixed types (e.g. hide & unhide)
     if (checkedProjects.length > 1 && projects[dateProp] === false) {
       return criteria[criteriaProp] === "all" ? msg : "";
     }
