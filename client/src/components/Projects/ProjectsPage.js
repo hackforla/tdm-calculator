@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -22,6 +22,8 @@ import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import ProjectTableRow from "./ProjectTableRow";
 import FilterDrawer from "./FilterDrawer.js";
+import { CSVLink } from "react-csv";
+import { allProjectRulesCsv } from "./pdfCsvData.js";
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -138,8 +140,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [allProjectData, setAllProjectData] = useState();
 
   const projectsPerPage = 10;
+  const csvRef = useRef();
   const highestPage = Math.ceil(projects.length / projectsPerPage);
 
   const [criteria, setCriteria] = useState({
@@ -185,6 +189,21 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const updateProjects = async () => {
     const updated = await projectService.get();
     setProjects(updated.data);
+  };
+
+  useEffect(() => {
+    const fetchRules = async () => {
+      const allRules = await allProjectRulesCsv(projects);
+      if (allRules) setAllProjectData({ csv: allRules });
+    };
+
+    fetchRules()
+      // TODO: do we have better reporting than this?
+      .catch(console.error);
+  }, [projects]);
+
+  const handleDownloadCsv = () => {
+    csvRef.current.link.click();
   };
 
   const handleCopyModalClose = async (action, newProjectName) => {
@@ -489,6 +508,27 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   alignSelf: "flex-end"
                 }}
               >
+                {allProjectData && (
+                  <div>
+                    <button
+                      alt="Show Filter Criteria"
+                      style={{ backgroundColor: "#0F2940", color: "white" }}
+                      onClick={() => handleDownloadCsv()}
+                    >
+                      <CSVLink
+                        data={allProjectData.csv}
+                        filename={"TDM-data.csv"}
+                        ref={csvRef}
+                        target="_blank"
+                      />
+                      <FontAwesomeIcon
+                        icon={faFilter}
+                        style={{ marginRight: "0.5em" }}
+                      />
+                      Download All Data
+                    </button>
+                  </div>
+                )}
                 <div className={classes.searchBarWrapper}>
                   <input
                     className={classes.searchBar}
