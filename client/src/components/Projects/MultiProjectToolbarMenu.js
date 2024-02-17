@@ -29,7 +29,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectCheckBoxMenu = ({
+const MultiProjectToolbarMenu = ({
   handleHideBoxes,
   handleDeleteModalOpen,
   checkedProjects,
@@ -133,7 +133,7 @@ const ProjectCheckBoxMenu = ({
   );
 };
 
-ProjectCheckBoxMenu.propTypes = {
+MultiProjectToolbarMenu.propTypes = {
   handleHideBoxes: PropTypes.func.isRequired,
   handleDeleteModalOpen: PropTypes.func.isRequired,
   checkedProjects: PropTypes.array.isRequired,
@@ -141,4 +141,4 @@ ProjectCheckBoxMenu.propTypes = {
   projects: PropTypes.object.isRequired
 };
 
-export default ProjectCheckBoxMenu;
+export default MultiProjectToolbarMenu;
