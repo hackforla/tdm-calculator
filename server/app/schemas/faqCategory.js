@@ -2,34 +2,40 @@ module.exports = {
   type: "array",
   items: {
     type: "object",
-    required: ["id","name", "displayOrder", "faqs"],
+    required: ["id", "name", "displayOrder", "faqs"],
     properties: {
       id: {
-        type: "number",
+        type: "number"
       },
       name: {
-        type: "string",
+        type: "string"
       },
       displayOrder: {
-        type: "number",
+        type: "number"
       },
       faqs: {
         type: "array",
         items: {
           type: "object",
-          required: ["id", "question", "answer", "faqCategoryId", "displayOrder"],
+          required: [
+            "id",
+            "question",
+            "answer",
+            "faqCategoryId",
+            "displayOrder"
+          ],
           properties: {
             id: {
-              type: "number",
+              type: "number"
             },
             question: {
-              type: "string",
+              type: "string"
             },
             answer: {
-              type: "string",
+              type: "string"
             },
             faqCategoryId: {
-              type: "number",
+              type: "number"
             },
             displayOrder: {
               type: "number"

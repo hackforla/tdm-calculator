@@ -13,22 +13,22 @@ const useStyles = createUseStyles({
     margin: "4px auto"
   },
   ruleName: {
-    minWidth: "270px"
+    minWidth: "270px",
+    fontSize: "14px"
   },
   pointsContainer: {
     display: "flex",
     justifyContent: "flex-end"
   },
   measureDetails: {
-    fontFamily: "Oswald",
-    fontSize: "18px",
+    fontSize: "14px",
     textAlign: "right",
-    fontWeight: "700",
+    fontWeight: "600",
     minWidth: "40px",
     marginRight: "10px"
   },
   measureUnits: {
-    fontSize: "14px",
+    fontSize: "12px",
     width: "65px"
   },
   leftIndent: {

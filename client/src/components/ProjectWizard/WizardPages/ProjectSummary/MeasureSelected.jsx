@@ -13,7 +13,8 @@ const useStyles = createUseStyles({
     margin: "4px auto"
   },
   ruleName: {
-    minWidth: "270px"
+    minWidth: "270px",
+    fontSize: "14px"
   },
   ruleText: {
     fontSize: "14px",
@@ -30,13 +31,12 @@ const useStyles = createUseStyles({
     justifyContent: "flex-end"
   },
   value: {
-    fontFamily: "Oswald",
-    fontSize: "18px",
-    fontWeight: "700",
+    fontSize: "14px",
+    fontWeight: "600",
     textAlign: "right"
   },
   calcUnitsPts: {
-    margin: "3px 45px 0 10px"
+    margin: "2px 45px 0 5px"
   }
 });
 

@@ -95,7 +95,7 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri",
     fontWeight: "500",
     fontSize: "12px",
-    color: "#0F2940",
+    color: "#00000",
     paddingTop: "5px",
     marginRight: "31px"
   },

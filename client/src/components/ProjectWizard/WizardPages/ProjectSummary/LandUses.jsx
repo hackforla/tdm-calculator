@@ -8,10 +8,12 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "space-between",
     minHeight: "24px",
-    margin: "4px auto"
+    margin: "4px auto",
+    backgroundColor: "#edf1f4"
   },
   ruleName: {
-    minWidth: "270px"
+    minWidth: "270px",
+    fontSize: "14px"
   },
   pointsContainer: {
     display: "flex",
