@@ -286,14 +286,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleHide = async project => {
     try {
-      if (!checkedProjects.length) setSelectedProject(project);
+      if (!checkedProjects.length) {
+        setSelectedProject(project);
+      }
 
-      const projectIDs = selectedProject
-        ? [selectedProject.id]
-        : checkedProjects;
-      const dateHidden = selectedProject
-        ? !selectedProject.dateHidden
-        : !multiProjectsData.dateHidden;
+      const projectIDs =
+        checkedProjects.length > 0 ? checkedProjects : [project.id];
+      const dateHidden =
+        checkedProjects.length > 0
+          ? !multiProjectsData.dateHidden
+          : !project.dateHidden;
 
       await projectService.hide(projectIDs, dateHidden);
       await updateProjects();
