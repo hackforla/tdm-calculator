@@ -2,7 +2,12 @@ import React, { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { faEyeSlash, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEyeSlash,
+  faEye,
+  faTrashCan,
+  faPrint
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tooltip } from "react-tooltip";
 
@@ -18,14 +23,17 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     listStyleType: "none",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
-    width: "4.5em"
+    width: "6.5em"
   },
   button: {
     border: "none",
     padding: 0,
     background: "none"
+  },
+  multiStatus: {
+    color: "#002E6D"
   }
 });
 
@@ -70,8 +78,15 @@ const MultiProjectToolbarMenu = ({
 
   return (
     <div className={classes.container}>
-      <div>{checkedProjects.length} Projects Selected</div>
+      <div className={classes.multiStatus}>
+        {checkedProjects.length} Projects Selected
+      </div>
       <ul className={classes.list}>
+        <li>
+          <button id="print-btn" className={classes.button}>
+            <FontAwesomeIcon icon={faPrint} />
+          </button>
+        </li>
         <li>
           <button
             id="hide-btn"
@@ -109,7 +124,7 @@ const MultiProjectToolbarMenu = ({
             onClick={handleDeleteModalOpen}
           >
             <FontAwesomeIcon
-              icon={faTrash}
+              icon={faTrashCan}
               color={isDelBtnDisabled ? "#1010104d" : "red"}
             />
             <Tooltip
@@ -129,6 +144,7 @@ const MultiProjectToolbarMenu = ({
           </button>
         </li>
       </ul>
+      <div style={{ display: "none" }}>...</div>
     </div>
   );
 };
