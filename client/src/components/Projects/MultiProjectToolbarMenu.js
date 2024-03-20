@@ -49,7 +49,6 @@ const MultiProjectToolbarMenu = ({
   pdfProjectData
 }) => {
   const momentModified = moment(projects.dateModified);
-  // console.log("projects data: ", projects); // eslint-disable-line no-console
   const printRef = useRef(null);
   const classes = useStyles();
   const userContext = useContext(UserContext);
@@ -69,8 +68,11 @@ const MultiProjectToolbarMenu = ({
   const isDelBtnDisabled = isBtnDisabled("dateTrashed", "status");
 
   const tooltipMsg = (criteriaProp, msg, dateProp) => {
-    if (!isProjectOwner)
+    if (checkedProjects.length === 0) return;
+
+    if (!isProjectOwner) {
       return "You have selected a project that does not belong to you";
+    }
 
     // show recover message if project is deleted
     if (projects.dateTrashed && criteriaProp === "status") {
@@ -99,34 +101,32 @@ const MultiProjectToolbarMenu = ({
         {checkedProjects.length} Projects Selected
       </div>
       <ul className={classes.list}>
-        {hasPdfData() && (
-          <li>
-            <button
-              id="print-btn"
-              className={classes.button}
-              onClick={handlePrintPdf}
-              disabled={checkedProjects.length !== 1}
-            >
-              <FontAwesomeIcon icon={faPrint} />
-            </button>
-
-            {checkedProjects.length !== 1 ? (
-              <Tooltip
-                style={{
-                  backgroundColor: "#e6e3e3",
-                  color: "#000",
-                  width: "11%",
-                  borderRadius: "10px",
-                  fontWeight: "bold",
-                  textAlign: "center"
-                }}
-                anchorSelect="#print-btn"
-                content="Please select one project"
-              />
-            ) : (
-              ""
-            )}
-
+        <li>
+          <button
+            id="print-btn"
+            className={classes.button}
+            onClick={handlePrintPdf}
+            disabled={checkedProjects.length !== 1}
+          >
+            <FontAwesomeIcon icon={faPrint} />
+          </button>
+          {checkedProjects.length !== 1 ? (
+            <Tooltip
+              style={{
+                backgroundColor: "#e6e3e3",
+                color: "#000",
+                width: "11%",
+                borderRadius: "10px",
+                fontWeight: "bold",
+                textAlign: "center"
+              }}
+              anchorSelect="#print-btn"
+              content="Please select one project"
+            />
+          ) : (
+            ""
+          )}
+          {hasPdfData() && (
             <div style={{ display: "none" }}>
               <PdfPrint
                 ref={printRef}
@@ -134,8 +134,8 @@ const MultiProjectToolbarMenu = ({
                 dateModified={momentModified.format("MM/DD/YYYY")}
               />
             </div>
-          </li>
-        )}
+          )}
+        </li>
         <li>
           <button
             id="hide-btn"

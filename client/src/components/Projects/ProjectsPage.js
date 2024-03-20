@@ -164,6 +164,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [filterCollapsed, setFilterCollapsed] = useState(true);
   const multiProjectsData = useMultiProjectsData(checkedProjects, projects);
 
+  // fetching rules for PDF
   useEffect(() => {
     const fetchRules = async () => {
       let project;
@@ -598,23 +599,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: checkedProjects.length
-                    ? "space-between"
-                    : "flex-end"
+                  justifyContent: "space-between"
                 }}
               >
-                {checkedProjects.length ? (
-                  <MemoizedMultiProjectToolbar
-                    handleHideBoxes={handleHide}
-                    handleDeleteModalOpen={handleDeleteModalOpen}
-                    checkedProjects={checkedProjects}
-                    criteria={criteria}
-                    projects={multiProjectsData}
-                    pdfProjectData={projectData}
-                  />
-                ) : (
-                  ""
-                )}
+                <MemoizedMultiProjectToolbar
+                  handleHideBoxes={handleHide}
+                  handleDeleteModalOpen={handleDeleteModalOpen}
+                  checkedProjects={checkedProjects}
+                  criteria={criteria}
+                  projects={multiProjectsData}
+                  pdfProjectData={projectData}
+                />
                 <div
                   style={{
                     display: "flex",
