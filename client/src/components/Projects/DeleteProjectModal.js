@@ -67,13 +67,12 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
               className={classes.warningIcon}
               alt="Warning"
             />
-            Are you sure you want to delete the project,
+            Are you sure you want to delete the following?
           </div>
         </>
       )}
-
       <div style={{ ...theme.typography.heading3, marginBottom: "1.5rem" }}>
-        {project.name}?
+        {Array.isArray(project.name) ? project.name.join(", ") : project.name}
       </div>
       <div className={classes.buttonFlexBox}>
         <Button onClick={onClose} variant="text" id="cancelButton">
