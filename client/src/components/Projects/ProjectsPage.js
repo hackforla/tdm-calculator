@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, memo } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -24,6 +24,7 @@ import CopyProjectModal from "./CopyProjectModal";
 import ProjectTableRow from "./ProjectTableRow";
 import FilterDrawer from "./FilterDrawer.js";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu.js";
+import fetchEngineRules from "./fetchEngineRules.js";
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -142,6 +143,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [checkedProjects, setCheckedProjects] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [projectData, setProjectData] = useState();
 
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
@@ -161,6 +163,28 @@ const ProjectsPage = ({ contentContainerRef }) => {
   });
   const [filterCollapsed, setFilterCollapsed] = useState(true);
   const multiProjectsData = useMultiProjectsData(checkedProjects, projects);
+
+  useEffect(() => {
+    const fetchRules = async () => {
+      let project;
+
+      if (
+        checkedProjects.length === 1 &&
+        Object.keys(multiProjectsData).length > 0
+      ) {
+        project = multiProjectsData;
+      }
+
+      if (project && project.calculationId) {
+        const rules = await fetchEngineRules(project);
+        setProjectData({ pdf: rules });
+      }
+    };
+
+    fetchRules().catch(console.error);
+  }, [checkedProjects, multiProjectsData]);
+
+  const MemoizedMultiProjectToolbar = memo(MultiProjectToolbarMenu);
 
   const selectedProjectName = (() => {
     if (!selectedProject) {
@@ -580,12 +604,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 }}
               >
                 {checkedProjects.length ? (
-                  <MultiProjectToolbarMenu
+                  <MemoizedMultiProjectToolbar
                     handleHideBoxes={handleHide}
                     handleDeleteModalOpen={handleDeleteModalOpen}
                     checkedProjects={checkedProjects}
                     criteria={criteria}
                     projects={multiProjectsData}
+                    pdfProjectData={projectData}
                   />
                 ) : (
                   ""

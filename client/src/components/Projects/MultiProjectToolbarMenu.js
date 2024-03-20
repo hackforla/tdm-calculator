@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
@@ -10,6 +10,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tooltip } from "react-tooltip";
+import PdfPrint from "../PdfPrint/PdfPrint";
+import moment from "moment";
+import { useReactToPrint } from "react-to-print";
 
 const useStyles = createUseStyles({
   container: {
@@ -42,8 +45,12 @@ const MultiProjectToolbarMenu = ({
   handleDeleteModalOpen,
   checkedProjects,
   criteria,
-  projects
+  projects,
+  pdfProjectData
 }) => {
+  const momentModified = moment(projects.dateModified);
+  // console.log("projects data: ", projects); // eslint-disable-line no-console
+  const printRef = useRef(null);
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const account = userContext.account;
@@ -76,17 +83,59 @@ const MultiProjectToolbarMenu = ({
     }
   };
 
+  const hasPdfData = () => {
+    return pdfProjectData && pdfProjectData.pdf !== null;
+  };
+
+  const handlePrintPdf = useReactToPrint({
+    content: () => printRef.current,
+    bodyClass: "printContainer",
+    pageStyle: ".printContainer {overflow: hidden;}"
+  });
+
   return (
     <div className={classes.container}>
       <div className={classes.multiStatus}>
         {checkedProjects.length} Projects Selected
       </div>
       <ul className={classes.list}>
-        <li>
-          <button id="print-btn" className={classes.button}>
-            <FontAwesomeIcon icon={faPrint} />
-          </button>
-        </li>
+        {hasPdfData() && (
+          <li>
+            <button
+              id="print-btn"
+              className={classes.button}
+              onClick={handlePrintPdf}
+              disabled={checkedProjects.length !== 1}
+            >
+              <FontAwesomeIcon icon={faPrint} />
+            </button>
+
+            {checkedProjects.length !== 1 ? (
+              <Tooltip
+                style={{
+                  backgroundColor: "#e6e3e3",
+                  color: "#000",
+                  width: "11%",
+                  borderRadius: "10px",
+                  fontWeight: "bold",
+                  textAlign: "center"
+                }}
+                anchorSelect="#print-btn"
+                content="Please select one project"
+              />
+            ) : (
+              ""
+            )}
+
+            <div style={{ display: "none" }}>
+              <PdfPrint
+                ref={printRef}
+                rules={pdfProjectData.pdf}
+                dateModified={momentModified.format("MM/DD/YYYY")}
+              />
+            </div>
+          </li>
+        )}
         <li>
           <button
             id="hide-btn"
@@ -144,7 +193,6 @@ const MultiProjectToolbarMenu = ({
           </button>
         </li>
       </ul>
-      <div style={{ display: "none" }}>...</div>
     </div>
   );
 };
@@ -154,7 +202,8 @@ MultiProjectToolbarMenu.propTypes = {
   handleDeleteModalOpen: PropTypes.func.isRequired,
   checkedProjects: PropTypes.array.isRequired,
   criteria: PropTypes.object.isRequired,
-  projects: PropTypes.object.isRequired
+  projects: PropTypes.object.isRequired,
+  pdfProjectData: PropTypes.object
 };
 
 export default MultiProjectToolbarMenu;
