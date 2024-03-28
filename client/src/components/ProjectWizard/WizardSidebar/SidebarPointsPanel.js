@@ -6,10 +6,47 @@ import SidebarPoints from "./SidebarPoints";
 import EarnedPointsProgress from "./EarnedPointsProgress";
 import SidebarCart from "./SidebarCart";
 import ToolTip from "../../ToolTip/ToolTip";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  resultsPanel: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    backgroundColor: "transparent",
+    color: "white",
+    flex: "0 1 25%",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  divider: {
+    border: "none",
+    borderTop: "3px dotted #e7ebf0",
+    width: "100%"
+  },
+  calculationProgress: {
+    flex: "0 1 25%",
+    display: "flex",
+    justifyContent: "center"
+  },
+  calculationCart: {
+    flex: "1 0 50%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "flex-start",
+    backgroundColor: "#f7f9fa",
+    fontFamily: "Oswald",
+    padding: "10px",
+    lineHeight: "1.5em",
+    color: "#0f2940",
+    overflowY: "scroll"
+  }
+});
 
 const USE_PROGRESS_DIAL = true;
 
 const SidebarPointsPanel = props => {
+  const classes = useStyles();
   const { rules, strategyRules, page } = props;
   let targetPointsRule = {};
   let earnedPointsRule = {};
@@ -32,7 +69,7 @@ const SidebarPointsPanel = props => {
 
   return (
     <React.Fragment>
-      <div className="tdm-results-panel">
+      <div className={classes.resultsPanel}>
         <SidebarProjectLevel
           key={projectLevelRule.key}
           rule={projectLevelRule}
@@ -40,9 +77,9 @@ const SidebarPointsPanel = props => {
           rules={rules}
         />
       </div>
-      <hr className="tdm-divider" />
+      <hr className={classes.divider} />
       {USE_PROGRESS_DIAL ? (
-        <div className="tdm-calculation-progress">
+        <div className={classes.calculationProgress}>
           <EarnedPointsProgress
             key={targetPointsRule.id}
             rulesConfig={rulesConfig}
@@ -51,7 +88,7 @@ const SidebarPointsPanel = props => {
         </div>
       ) : (
         <>
-          <div className="tdm-results-panel">
+          <div className={classes.resultsPanel}>
             <SidebarPoints
               key={targetPointsRule.id}
               rule={targetPointsRule}
@@ -74,7 +111,7 @@ const SidebarPointsPanel = props => {
             ? {}
             : { visibility: "hidden" }
         }
-        className="tdm-calculation-cart"
+        className={classes.calculationCart}
       >
         <SidebarCart strategyRules={strategyRules} page={page} />
       </div>

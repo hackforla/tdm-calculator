@@ -3,26 +3,6 @@
 @import "_variables.scss";
 // import scss files below
 
-html,
-body,
-div,
-object,
-iframe,
-p,
-blockquote,
-form,
-legend,
-label,
-table,
-header,
-footer,
-nav,
-section,
-figure {
-  margin: 0;
-  padding: 0;
-}
-
 body {
   background: $color-background;
   font-family: $font;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
 import { Navigate, Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import * as accountService from "../services/account.service";
@@ -9,6 +10,7 @@ import "reactjs-popup/dist/index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
+import ContentContainer from "./Layout/ContentContainer";
 
 const useStyles = createUseStyles({
   main: {
@@ -95,7 +97,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Roles = () => {
+const Roles = ({ contentContainerRef }) => {
   const [accounts, setAccounts] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [filteredAccounts, setFilteredAccounts] = useState([]);
@@ -187,14 +189,21 @@ const Roles = () => {
   };
 
   return (
-    <div className={classes.main}>
+    <ContentContainer
+      contentContainerRef={contentContainerRef}
+      // className={classes.main}
+    >
       {redirectPath ? <Navigate to="{redirectPath}" /> : null}
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>
         Grant or Revoke Admin Permissions
       </div>
       <div
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center"
+        }}
       >
         <label htmlFor="searchString" className={classes.textInputLabel}>
           Find:
@@ -323,8 +332,12 @@ const Roles = () => {
             ))}
         </tbody>
       </table>
-    </div>
+    </ContentContainer>
   );
+};
+
+Roles.propTypes = {
+  contentContainerRef: PropTypes.object
 };
 
 export default Roles;

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect, memo } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
+import UserContext from "../../contexts/UserContext.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSortUp,
@@ -13,6 +14,7 @@ import Pagination from "../ProjectWizard/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
+import useMultiProjectsData from "../../hooks/useMultiProjectsData.js";
 import * as projectService from "../../services/project.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
@@ -21,6 +23,8 @@ import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import ProjectTableRow from "./ProjectTableRow";
 import FilterDrawer from "./FilterDrawer.js";
+import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu.js";
+import fetchEngineRules from "./fetchEngineRules.js";
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -48,7 +52,7 @@ const useStyles = createUseStyles({
     flexBasis: "1%",
     flexShrink: 0,
     flexGrow: 0,
-    transition: "flex-basis 1s ease-in-out"
+    transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
     marginTop: "2em"
@@ -120,12 +124,13 @@ const useStyles = createUseStyles({
   }
 });
 
-const ProjectsPage = ({ account, contentContainerRef }) => {
+const ProjectsPage = ({ contentContainerRef }) => {
   const classes = useStyles();
+  const userContext = useContext(UserContext);
 
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
-  const email = account.email;
+  const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useProjects(handleError);
@@ -135,7 +140,10 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [checkedProjects, setCheckedProjects] = useState([]);
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [projectData, setProjectData] = useState();
 
   const projectsPerPage = 10;
   const highestPage = Math.ceil(projects.length / projectsPerPage);
@@ -154,6 +162,30 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     endDateModified: null
   });
   const [filterCollapsed, setFilterCollapsed] = useState(true);
+  const multiProjectsData = useMultiProjectsData(checkedProjects, projects);
+
+  // fetching rules for PDF
+  useEffect(() => {
+    const fetchRules = async () => {
+      let project;
+
+      if (
+        checkedProjects.length === 1 &&
+        Object.keys(multiProjectsData).length > 0
+      ) {
+        project = multiProjectsData;
+      }
+
+      if (project && project.calculationId) {
+        const rules = await fetchEngineRules(project);
+        setProjectData({ pdf: rules });
+      }
+    };
+
+    fetchRules().catch(console.error);
+  }, [checkedProjects, multiProjectsData]);
+
+  const MemoizedMultiProjectToolbar = memo(MultiProjectToolbarMenu);
 
   const selectedProjectName = (() => {
     if (!selectedProject) {
@@ -171,6 +203,10 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     } else if (pageNumber === "right" && currentPage !== highestPage) {
       setCurrentPage(currentPage + 1);
     }
+
+    // uncheck Projects on page change
+    setCheckedProjects([]);
+    setSelectAllChecked(false);
   };
 
   const handleCopyModalOpen = project => {
@@ -205,23 +241,30 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   };
 
   const handleDeleteModalOpen = project => {
-    setSelectedProject(project);
+    if (!checkedProjects.length) setSelectedProject(project);
     setDeleteModalOpen(true);
   };
 
   const handleDeleteModalClose = async action => {
     if (action === "ok") {
+      const projectIDs = selectedProject
+        ? [selectedProject.id]
+        : checkedProjects;
+      const dateTrashed = selectedProject
+        ? !selectedProject.dateTrashed
+        : !multiProjectsData.dateTrashed;
+
       try {
-        await projectService.trash(
-          [selectedProject.id],
-          !selectedProject.dateTrashed
-        );
+        await projectService.trash(projectIDs, dateTrashed);
         await updateProjects();
       } catch (err) {
         handleError(err);
       }
     }
     setDeleteModalOpen(false);
+    setSelectedProject(null);
+    setCheckedProjects([]);
+    setSelectAllChecked(false);
   };
 
   const handleSnapshotModalOpen = project => {
@@ -267,10 +310,65 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   };
 
   const handleHide = async project => {
-    setSelectedProject(project);
-    await projectService.hide([project.id], !project.dateHidden);
-    await updateProjects();
-    console.error(project.dateHidden);
+    try {
+      if (!checkedProjects.length) {
+        setSelectedProject(project);
+      }
+
+      const projectIDs =
+        checkedProjects.length > 0 ? checkedProjects : [project.id];
+      const dateHidden =
+        checkedProjects.length > 0
+          ? !multiProjectsData.dateHidden
+          : !project.dateHidden;
+
+      await projectService.hide(projectIDs, dateHidden);
+      await updateProjects();
+    } catch (err) {
+      console.error(err);
+    }
+
+    setSelectedProject(null);
+    setCheckedProjects([]);
+    setSelectAllChecked(false);
+  };
+
+  const handleCheckboxChange = projectId => {
+    setCheckedProjects(prevCheckedProjs => {
+      if (prevCheckedProjs.includes(projectId)) {
+        return prevCheckedProjs.filter(id => id !== projectId);
+      } else {
+        return [...prevCheckedProjs, projectId];
+      }
+    });
+
+    // header checkbox status
+    setSelectAllChecked(checkedProjects.length === currentProjects.length);
+  };
+
+  const handleHeaderCheckbox = () => {
+    if (!selectAllChecked) {
+      setCheckedProjects(
+        currentProjects
+          .filter(
+            p =>
+              (criteria.visibility === "visible" && !p.dateHidden) ||
+              (criteria.visibility === "hidden" && p.dateHidden) ||
+              criteria.visibility === "all"
+          )
+          .filter(
+            p =>
+              (criteria.status === "active" && !p.dateTrashed) ||
+              (criteria.status === "deleted" && p.dateTrashed) ||
+              criteria.status === "all"
+          )
+          .map(p => p.id)
+      );
+    } else {
+      setCheckedProjects([]);
+    }
+
+    setSelectAllChecked(!selectAllChecked);
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -328,6 +426,9 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   };
 
   const handleSort = property => {
+    // disable sorting for header checkbox
+    if (property === "checkAllProjects") return;
+
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -335,6 +436,11 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
 
   const handleFilterTextChange = text => {
     setFilterText(text);
+  };
+
+  const getDateOnly = date => {
+    const dateOnly = new Date(date).toDateString();
+    return new Date(dateOnly);
   };
 
   const filterProjects = p => {
@@ -355,6 +461,27 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
     )
       return false;
 
+    if (
+      criteria.startDateCreated &&
+      getDateOnly(p.dateCreated) < getDateOnly(criteria.startDateCreated)
+    )
+      return false;
+    if (
+      criteria.endDateCreated &&
+      getDateOnly(p.dateCreated) > getDateOnly(criteria.endDateCreated)
+    )
+      return false;
+    if (
+      criteria.startDateModified &&
+      getDateOnly(p.dateModified) < getDateOnly(criteria.startDateModified)
+    )
+      return false;
+    if (
+      criteria.endDateModified &&
+      getDateOnly(p.dateModified) > getDateOnly(criteria.endDateModified)
+    )
+      return false;
+
     // fullName attr allows searching by full name, not just by first or last name
     p["fullname"] = `${p["firstName"]} ${p["lastName"]}`;
     if (
@@ -362,9 +489,14 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
       !p.fullname.toLowerCase().includes(criteria.author.toLowerCase())
     )
       return false;
-    p.alternative = JSON.parse(p["formInputs"]).VERSION_NO
-      ? JSON.parse(p["formInputs"]).VERSION_NO
-      : "";
+    try {
+      p.alternative = JSON.parse(p["formInputs"]).VERSION_NO
+        ? JSON.parse(p["formInputs"]).VERSION_NO
+        : "";
+    } catch (err) {
+      p.alternative = JSON.stringify(err, null, 2);
+    }
+
     if (
       criteria.alternative &&
       !p.alternative.toLowerCase().includes(criteria.alternative.toLowerCase())
@@ -388,6 +520,19 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
   };
 
   const headerData = [
+    {
+      id: "checkAllProjects",
+      label: (
+        <input
+          style={{
+            height: "15px"
+          }}
+          type="checkbox"
+          checked={selectAllChecked}
+          onChange={handleHeaderCheckbox}
+        />
+      )
+    },
     {
       id: "dateHidden",
       label: "Visibility"
@@ -430,6 +575,8 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
             setCriteria={setCriteria}
             collapsed={filterCollapsed}
             setCollapsed={setFilterCollapsed}
+            setCheckedProjects={setCheckedProjects}
+            setSelectAllChecked={setSelectAllChecked}
           />
         </div>
 
@@ -452,39 +599,54 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-around",
-                  alignSelf: "flex-end"
+                  justifyContent: "space-between"
                 }}
               >
-                <div className={classes.searchBarWrapper}>
-                  <input
-                    className={classes.searchBar}
-                    type="search"
-                    id="filterText"
-                    name="filterText"
-                    placeholder="Search"
-                    value={filterText}
-                    onChange={e => handleFilterTextChange(e.target.value)}
-                  />
-                  <img
-                    className={classes.searchIcon}
-                    src={SearchIcon}
-                    alt="Search Icon"
-                  />
-                </div>
-                {filterCollapsed ? (
-                  <button
-                    alt="Show Filter Criteria"
-                    style={{ backgroundColor: "#0F2940", color: "white" }}
-                    onClick={() => setFilterCollapsed(false)}
-                  >
-                    <FontAwesomeIcon
-                      icon={faFilter}
-                      style={{ marginRight: "0.5em" }}
+                <MemoizedMultiProjectToolbar
+                  handleHideBoxes={handleHide}
+                  handleDeleteModalOpen={handleDeleteModalOpen}
+                  checkedProjects={checkedProjects}
+                  criteria={criteria}
+                  projects={multiProjectsData}
+                  pdfProjectData={projectData}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignSelf: "flex-end"
+                  }}
+                >
+                  <div className={classes.searchBarWrapper}>
+                    <input
+                      className={classes.searchBar}
+                      type="search"
+                      id="filterText"
+                      name="filterText"
+                      placeholder="Search"
+                      value={filterText}
+                      onChange={e => handleFilterTextChange(e.target.value)}
                     />
-                    Filter By
-                  </button>
-                ) : null}
+                    <img
+                      className={classes.searchIcon}
+                      src={SearchIcon}
+                      alt="Search Icon"
+                    />
+                  </div>
+                  {filterCollapsed ? (
+                    <button
+                      alt="Show Filter Criteria"
+                      style={{ backgroundColor: "#0F2940", color: "white" }}
+                      onClick={() => setFilterCollapsed(false)}
+                    >
+                      <FontAwesomeIcon
+                        icon={faFilter}
+                        style={{ marginRight: "0.5em" }}
+                      />
+                      Filter By
+                    </button>
+                  ) : null}
+                </div>
               </div>
               <div className={classes.tableContainer}>
                 <table className={classes.table}>
@@ -542,6 +704,8 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                             handleRenameSnapshotModalOpen
                           }
                           handleHide={handleHide}
+                          handleCheckboxChange={handleCheckboxChange}
+                          checkedProjects={checkedProjects}
                         />
                       ))
                     ) : (
@@ -560,7 +724,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                 paginate={paginate}
               />
 
-              {selectedProject && (
+              {(selectedProject || multiProjectsData) && (
                 <>
                   <CopyProjectModal
                     mounted={copyModalOpen}
@@ -570,7 +734,7 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
                   <DeleteProjectModal
                     mounted={deleteModalOpen}
                     onClose={handleDeleteModalClose}
-                    project={selectedProject}
+                    project={selectedProject || multiProjectsData}
                   />
                   <SnapshotProjectModal
                     mounted={snapshotModalOpen}
@@ -606,12 +770,6 @@ const ProjectsPage = ({ account, contentContainerRef }) => {
 };
 
 ProjectsPage.propTypes = {
-  account: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    id: PropTypes.number,
-    email: PropTypes.string
-  }),
   contentContainerRef: PropTypes.object
 };
 

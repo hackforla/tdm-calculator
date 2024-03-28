@@ -27,9 +27,14 @@ router.post("/resetPassword", accountController.resetPassword);
 
 router.post("/login/:email?", accountController.login, jwtSession.login);
 router.get("/logout", (req, res) => {
-  console.log("logging out");
-  req.logout();
-  res.sendStatus(200);
+  // Clear the "jwt" cookie
+  res.clearCookie("jwt", { httpOnly: true });
+  // res.redirect("/login");
+  // Additional logic, such as redirecting to the login page
+  setTimeout(() => {
+    // Respond after the delay
+    res.send("Logout successful");
+  }, 10);
 });
 
 router.put(
@@ -60,6 +65,12 @@ router.delete(
   "/:id/deleteaccount",
   jwtSession.validateRoles(["isSecurityAdmin"]),
   accountController.deleteById
+);
+
+router.post(
+  "/getauthorization",
+  accountController.getAuthorization,
+  jwtSession.login
 );
 
 module.exports = router;

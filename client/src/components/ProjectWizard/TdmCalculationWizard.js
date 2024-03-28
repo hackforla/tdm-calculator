@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
+import UserContext from "../../contexts/UserContext";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import {
   useParams,
@@ -44,7 +45,6 @@ const TdmCalculationWizard = props => {
     onPkgSelect,
     onParkingProvidedChange,
     resultRuleCodes,
-    account,
     loginId,
     onSave,
     allowResidentialPackage,
@@ -60,6 +60,8 @@ const TdmCalculationWizard = props => {
   } = props;
   const classes = useStyles();
   const context = useContext(ToastContext);
+  const userContext = useContext(UserContext);
+  const account = userContext ? userContext.account : null;
   const params = useParams();
   const navigate = useNavigate();
   const page = Number(params.page || 1);
@@ -166,9 +168,9 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisabledSaveButton = () => {
-    const loggedIn = !!account.id;
+    const loggedIn = !!account && !!account.id;
     const notASavedProject = !projectId;
-    const projectBelongsToUser = account.id === loginId;
+    const projectBelongsToUser = account && account.id === loginId;
     const setDisabled = !(
       loggedIn &&
       (notASavedProject || projectBelongsToUser) &&
@@ -179,7 +181,7 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisplaySaveButton = () => {
-    const loggedIn = !!account.id;
+    const loggedIn = !!account && !!account.id;
     const setDisplayed = loggedIn;
     return setDisplayed;
   };
@@ -358,7 +360,6 @@ TdmCalculationWizard.propTypes = {
   onResetProject: PropTypes.func.isRequired,
   filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,
-  account: PropTypes.object.isRequired,
   loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,

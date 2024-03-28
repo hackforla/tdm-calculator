@@ -8,7 +8,10 @@ const useStyles = createUseStyles({
     color: "rgb(53,119,163)"
   },
   pdfFooterContainer: {
-    margin: "24px 0 0"
+    margin: "24px 0 0",
+    position: "absolute",
+    bottom: "0",
+    width: "100%"
   }
 });
 

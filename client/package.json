@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-client",
-  "version": "0.2.48",
+  "version": "0.2.49",
   "private": true,
   "proxy": "http://localhost:5001",
   "scripts": {
@@ -33,6 +33,8 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@okta/okta-auth-js": "^7.5.1",
+    "@okta/okta-react": "^6.7.0",
     "@react-pdf/renderer": "^3.1.9",
     "axios": "^1.6.1",
     "clsx": "^2.0.0",

@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
@@ -12,13 +11,20 @@ import MeasureSelected from "./MeasureSelected";
 import PointsEarnedMessage from "./PointsEarnedMessage";
 import LandUses from "./LandUses";
 import Result from "./Result";
-import { useTheme } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles({
   projectSummary: {
     display: "flex",
     flexDirection: "column",
     flex: "1 1 auto"
+  },
+  reviewPage: {
+    display: "flex",
+    flex: "1 1 auto",
+    flexDirection: "column",
+    maxWidth: "600px",
+    minWidth: "60vw"
   },
   // success: {
   //   color: "#A7C539"
@@ -89,7 +95,7 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri",
     fontWeight: "500",
     fontSize: "12px",
-    color: "#0F2940",
+    color: "#00000",
     paddingTop: "5px",
     marginRight: "31px"
   },
@@ -178,7 +184,7 @@ const ProjectSummary = props => {
     : classes.failureBorder;
 
   return (
-    <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
+    <div className={clsx(classes.reviewPage, classes.projectSummary)}>
       <h1 style={{ ...theme.typography.heading1, margin: 0, padding: 0 }}>
         TDM Calculation Summary
       </h1>

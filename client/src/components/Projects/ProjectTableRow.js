@@ -52,17 +52,47 @@ const mapCsvRules = (project, rules) => {
     "PROJECT_NAME",
     "PROJECT_ADDRESS",
     "APN",
-    "VERSION_NO",
     "BUILDING_PERMIT",
     "CASE_NO_LADOT",
     "CASE_NO_PLANNING",
     "PROJECT_DESCRIPTION",
+    "VERSION_NO"
+  ];
+
+  const includeRuleCodes2 = [
     "PROJECT_LEVEL",
+    "TARGET_POINTS_PARK",
+    "PTS_EARNED",
+    "UNITS_CONDO",
+    "PARK_CONDO",
+    "UNITS_HABIT_LT3",
+    "UNITS_HABIT_3",
+    "UNITS_HABIT_GT3",
+    "AFFORDABLE_HOUSING",
+    "UNITS_GUEST",
+    "SF_RETAIL",
+    "SF_FURNITURE",
+    "SF_RESTAURANT",
+    "SF_HEALTH_CLUB",
+    "SF_RESTAURANT_TAKEOUT",
+    "SF_OFFICE",
+    "SF_INST_GOV",
+    "SF_INST_OTHER",
+    "SF_INDUSTRIAL",
+    "SF_WAREHOUSE",
+    "SF_INST_MEDICAL_SVC",
+    "SF_HOSPITAL",
+    "STUDENTS_ELEMENTARY",
+    "CLASSROOM_SCHOOL",
+    "STUDENTS_TRADE_SCHOOL",
+    "HS_STUDENTS",
+    "HS_AUDITORIUM_SEATS",
+    "HS_AUDITORIUM_SF",
+    "SEAT_AUDITORIUM",
+    "SF_AUDITORIUM_NO_SEATS",
     "PARK_REQUIREMENT",
     "PARK_SPACES",
     "CALC_PARK_RATIO",
-    "TARGET_POINTS_PARK",
-    "PTS_EARNED",
     "PTS_PKG_RESIDENTIAL_COMMERCIAL",
     "PTS_PKG_SCHOOL",
     "STRATEGY_AFFORDABLE",
@@ -102,34 +132,7 @@ const mapCsvRules = (project, rules) => {
     "STRATEGY_TRANSIT_ACCESS_5",
     "STRATEGY_TMO_1",
     "STRATEGY_TMO_2",
-    "STRATEGY_APPLICANT",
-    "UNITS_CONDO",
-    "PARK_CONDO",
-    "UNITS_HABIT_LT3",
-    "UNITS_HABIT_3",
-    "UNITS_HABIT_GT3",
-    "AFFORDABLE_HOUSING",
-    "UNITS_GUEST",
-    "SF_RETAIL",
-    "SF_FURNITURE",
-    "SF_RESTAURANT",
-    "SF_HEALTH_CLUB",
-    "SF_RESTAURANT_TAKEOUT",
-    "SF_OFFICE",
-    "SF_INST_GOV",
-    "SF_INST_OTHER",
-    "SF_INDUSTRIAL",
-    "SF_WAREHOUSE",
-    "SF_INST_MEDICAL_SVC",
-    "SF_HOSPITAL",
-    "STUDENTS_ELEMENTARY",
-    "CLASSROOM_SCHOOL",
-    "STUDENTS_TRADE_SCHOOL",
-    "HS_STUDENTS",
-    "HS_AUDITORIUM_SEATS",
-    "HS_AUDITORIUM_SF",
-    "SEAT_AUDITORIUM",
-    "SF_AUDITORIUM_NO_SEATS"
+    "STRATEGY_APPLICANT"
   ];
 
   // Get the needed data from the rule calculation
@@ -146,29 +149,20 @@ const mapCsvRules = (project, rules) => {
       units: r.units
     }));
 
+  const orderedRules2 = includeRuleCodes2
+    .flatMap(rc => rules.find(r => r.code === rc))
+    .filter(r => !!r)
+    .map(r => ({
+      code: r.code,
+      name: r.name,
+      dataType: r.dataType,
+      choices: r.choices,
+      value: r.value,
+      units: r.units
+    }));
+
   // Augment with meta-data from project table that is not included in rules.
   const projectProperties = [
-    {
-      code: "Id",
-      name: "Project Id",
-      dataType: "project",
-      choices: null,
-      value: project.id
-    },
-    {
-      code: "Author FN",
-      name: "Author First Name",
-      dataType: "project",
-      choices: null,
-      value: project.firstName
-    },
-    {
-      code: "Author LN",
-      name: "Author Last Name",
-      dataType: "project",
-      choices: null,
-      value: project.lastName
-    },
     {
       code: "Date Created",
       name: "Date Created",
@@ -182,6 +176,13 @@ const mapCsvRules = (project, rules) => {
       dataType: "project",
       choices: null,
       value: project.dateModified
+    },
+    {
+      code: "Date Snapshotted",
+      name: "Date Snapshotted",
+      dataType: "project",
+      choices: null,
+      value: project.dateSnapshotted
     },
     {
       code: "Date Hidden",
@@ -198,15 +199,29 @@ const mapCsvRules = (project, rules) => {
       value: project.dateTrashed
     },
     {
-      code: "Date Snapshotted",
-      name: "Date Snapshotted",
+      code: "Author FN",
+      name: "Author First Name",
       dataType: "project",
       choices: null,
-      value: project.dateSnapshotted
+      value: project.firstName
+    },
+    {
+      code: "Author LN",
+      name: "Author Last Name",
+      dataType: "project",
+      choices: null,
+      value: project.lastName
+    },
+    {
+      code: "Id",
+      name: "Project Id",
+      dataType: "project",
+      choices: null,
+      value: project.id
     }
   ];
 
-  let columnData = projectProperties.concat(orderedRules);
+  let columnData = orderedRules.concat(projectProperties, orderedRules2);
 
   const ruleNames = columnData.flatMap(rule => {
     if (rule.dataType === "choice") {
@@ -242,7 +257,9 @@ const ProjectTableRow = ({
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
-  handleHide
+  handleHide,
+  handleCheckboxChange,
+  checkedProjects
 }) => {
   const classes = useStyles();
   const momentModified = moment(project.dateModified);
@@ -297,6 +314,14 @@ const ProjectTableRow = ({
 
   return (
     <tr key={project.id}>
+      <td className={classes.tdCenterAlign}>
+        <input
+          style={{ height: "15px" }}
+          type="checkbox"
+          checked={checkedProjects.includes(project.id)}
+          onChange={() => handleCheckboxChange(project.id)}
+        />
+      </td>
       <td className={classes.tdCenterAlign}>
         {project.dateHidden ? (
           <FontAwesomeIcon
@@ -388,7 +413,9 @@ ProjectTableRow.propTypes = {
   handleDeleteModalOpen: PropTypes.func.isRequired,
   handleSnapshotModalOpen: PropTypes.func.isRequired,
   handleRenameSnapshotModalOpen: PropTypes.func.isRequired,
-  handleHide: PropTypes.func.isRequired
+  handleHide: PropTypes.func.isRequired,
+  handleCheckboxChange: PropTypes.func.isRequired,
+  checkedProjects: PropTypes.array.isRequired
 };
 
 export default ProjectTableRow;

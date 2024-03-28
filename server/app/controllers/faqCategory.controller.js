@@ -1,17 +1,13 @@
 const faqCategoryService = require("../services/faqCategory.service");
+const {
+  validate,
+  validationErrorMiddleware
+} = require("../../middleware/validate");
+const faqCategorySchema = require("../schemas/faqCategory");
 
 const get = async (req, res) => {
   try {
-    const response = await faqCategoryService.getFaqCategory();
-    res.json(response);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-};
-
-const getById = async (req, res) => {
-  try {
-    const response = await faqCategoryService.getFaqCategoryById(req.params.id);
+    const response = await faqCategoryService.getFaqCategories();
     res.json(response);
   } catch (err) {
     res.status(500).send(err);
@@ -20,15 +16,6 @@ const getById = async (req, res) => {
 
 const post = async (req, res) => {
   try {
-    await faqCategoryService.postFaqCategory(req.body);
-    res.sendStatus(201);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-};
-
-const postAll = async (req, res) => {
-  try {
     await faqCategoryService.postCategories(req.body);
     res.sendStatus(201);
   } catch (err) {
@@ -36,29 +23,7 @@ const postAll = async (req, res) => {
   }
 };
 
-const put = async (req, res) => {
-  try {
-    await faqCategoryService.putFaqCategoryById(req.body);
-    res.sendStatus(200);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-};
-
-const del = async (req, res) => {
-  try {
-    await faqCategoryService.deleteFaqCategory(req.params.id);
-    res.sendStatus(200);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-};
-
 module.exports = {
   get,
-  getById,
-  post,
-  postAll,
-  put,
-  del
+  post: [validate({ body: faqCategorySchema }), post, validationErrorMiddleware]
 };

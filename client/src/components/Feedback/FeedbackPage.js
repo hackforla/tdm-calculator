@@ -1,9 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
 import * as feedbackService from "../../services/feedback.service";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../Button/Button";
@@ -66,14 +67,20 @@ const useStyles = createUseStyles({
   }
 });
 
-const FeedbackPage = ({ account }) => {
+const GetUserProjects = email => {
+  const navigate = useNavigate();
+  const handleError = useErrorHandler(email, navigate);
+  const [projects] = useProjects(handleError);
+  return projects;
+};
+
+const FeedbackPage = ({ contentContainerRef }) => {
+  const userContext = useContext(UserContext);
   const focusRef = useRef(null);
   const classes = useStyles();
   const toast = useToast();
-  const navigate = useNavigate();
-  const email = account.email;
-  const handleError = useErrorHandler(email, navigate);
-  const [projects] = useProjects(handleError);
+  const account = userContext.account;
+  const projects = account.email ? GetUserProjects(account.email) : [];
   const [selectedProjects, setSelectedProjects] = useState([]);
 
   useEffect(() => {
@@ -124,7 +131,7 @@ const FeedbackPage = ({ account }) => {
   };
 
   return (
-    <ContentContainer>
+    <ContentContainer contentContainerRef={contentContainerRef}>
       <div className={classes.feedbackContainer}>
         <h1 className={classes.pageTitle}>TDM Calculator Feedback Form</h1>
         <div className={classes.subtitle}>
@@ -233,7 +240,7 @@ const FeedbackPage = ({ account }) => {
                   />
                 </label>
               </div>
-              {account && account.id ? (
+              {account && account.id && projects.length !== 0 ? (
                 <ProjectList
                   key={JSON.stringify(projects, null, 2)}
                   projects={projects}
@@ -260,12 +267,7 @@ const FeedbackPage = ({ account }) => {
 };
 
 FeedbackPage.propTypes = {
-  account: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    id: PropTypes.number,
-    email: PropTypes.string
-  })
+  contentContainerRef: PropTypes.object
 };
 
 export default FeedbackPage;

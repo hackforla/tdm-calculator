@@ -64,6 +64,11 @@ export const login = async (email, password) => {
   }
 };
 
+export const logout = async () => {
+  const response = await axios.get(`${baseUrl}/logout`);
+  return response;
+};
+
 export const confirmRegister = async token => {
   const body = { token };
   const response = await axios.post(baseUrl + "/confirmRegister", body);
@@ -98,4 +103,28 @@ export const getAllArchivedAccounts = async () => {
 export const deleteAccount = async id => {
   const response = await axios.delete(`${baseUrl}/${id}/deleteaccount`);
   return response;
+};
+
+export const getAuthorization = async ({
+  email,
+  firstName,
+  lastName,
+  oktaAccessToken
+}) => {
+  const body = { email, firstName, lastName };
+  const config = {
+    headers: {
+      Authorization: `Bearer ${oktaAccessToken}`
+    }
+  };
+  try {
+    const response = await axios.post(
+      baseUrl + "/getauthorization",
+      body,
+      config
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
 };

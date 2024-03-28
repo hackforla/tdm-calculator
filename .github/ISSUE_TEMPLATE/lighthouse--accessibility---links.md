@@ -2,7 +2,7 @@
 name: 'Lighthouse: Accessibility - Links'
 about: AKA Links must have discernible text
 title: 'Lighthouse: Accessibility - Links'
-labels: Accessibility, Site Audits, Tutorial
+labels: ''
 assignees: ''
 
 ---

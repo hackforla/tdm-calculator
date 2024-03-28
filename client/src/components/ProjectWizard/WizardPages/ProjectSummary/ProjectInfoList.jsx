@@ -6,21 +6,20 @@ const useStyles = createUseStyles({
   projectInfoDetailsSubContainer: {
     display: "flex",
     alignItems: "baseline",
-    width: "50%"
+    maxHeight: "20px"
   },
   projectInfoCategory: {
-    fontFamily: "Oswald",
-    fontWeight: "500",
-    fontSize: "12px",
+    fontWeight: "600",
+    fontSize: "14px",
     textTransform: "uppercase",
-    color: "rgba(15, 41, 64, .5)",
-    marginRight: "17px"
+    color: "rgba(0, 0, 0, 1)",
+    marginRight: "2px"
   },
   projectInfoDetails: {
-    color: "#0F2940",
+    color: "#00051e",
     fontFamily: "Calibri",
-    fontWeight: 700,
-    fontSize: "16px"
+    fontWeight: 600,
+    fontSize: "14px"
   },
   AINValuesContainer: {
     display: "flex",
@@ -42,7 +41,7 @@ const ProjectInfoList = props => {
 
   return (
     <div className={classes.projectInfoDetailsSubContainer}>
-      <span className={classes.projectInfoCategory}>{name}</span>
+      <span className={classes.projectInfoCategory}>{name + ":"}</span>
       {rule && rule.value ? (
         <span className={classes.projectInfoDetails}>
           <span className={classes.AINValuesContainer}>

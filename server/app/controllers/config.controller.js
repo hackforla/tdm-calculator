@@ -1,17 +1,17 @@
-const faqService = require("../services/faq.service");
+const configService = require("../services/config.service");
 
-const get = async (req, res) => {
+const getAll = async (req, res) => {
   try {
-    const response = await faqService.getFaq();
+    const response = await configService.getAll();
     res.json(response);
   } catch (err) {
     res.status(500).send(err);
   }
 };
 
-const getById = async (req, res) => {
+const getByCode = async (req, res) => {
   try {
-    const response = await faqService.getFaqById(req.params.id);
+    const response = await configService.getByCode(req.params.code);
     res.json(response);
   } catch (err) {
     res.status(500).send(err);
@@ -20,7 +20,7 @@ const getById = async (req, res) => {
 
 const post = async (req, res) => {
   try {
-    await faqService.postFaq(req.body);
+    await configService.post(req.body);
     res.sendStatus(201);
   } catch (err) {
     res.status(500).send(err);
@@ -29,7 +29,7 @@ const post = async (req, res) => {
 
 const put = async (req, res) => {
   try {
-    await faqService.putFaqById(req.body);
+    await configService.put(req.body);
     res.sendStatus(200);
   } catch (err) {
     res.status(500).send(err);
@@ -38,7 +38,7 @@ const put = async (req, res) => {
 
 const del = async (req, res) => {
   try {
-    await faqService.deleteFaq(req.params.id);
+    await configService.del(req.params.code);
     res.sendStatus(200);
   } catch (err) {
     res.status(500).send(err);
@@ -46,8 +46,8 @@ const del = async (req, res) => {
 };
 
 module.exports = {
-  get,
-  getById,
+  getAll,
+  getByCode,
   post,
   put,
   del

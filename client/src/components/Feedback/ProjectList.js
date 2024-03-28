@@ -1,8 +1,24 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  heading3: {
+    fontWeight: "bold",
+    fontSize: "20px",
+    lineHeight: "140%"
+  },
+  tableHead: {
+    textAlign: "left"
+  },
+  tableCell: {
+    padding: "0em 1em 0em 0em"
+  }
+});
 
 const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
+  const classes = useStyles();
   const [augmentedProjects, setAugmentedProjects] = useState(
     projects.map(project => ({
       ...project,
@@ -37,25 +53,21 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
 
   return (
     <div>
-      <h3>Select Relevant Projects:</h3>
+      <h3 className={classes.heading3}>Select Relevant Projects:</h3>
       <table>
         <thead>
           <tr>
             <th></th>
-            <th style={{ textAlign: "left" }}>Name</th>
-            <th style={{ textAlign: "left" }}>Address</th>
-            <th style={{ textAlign: "left" }}>Date Entered</th>
-            <th style={{ textAlign: "left" }}>Date Modified</th>
+            <th className={classes.tableHead}>Name</th>
+            <th className={classes.tableHead}>Address</th>
+            <th className={classes.tableHead}>Date Entered</th>
+            <th className={classes.tableHead}>Date Modified</th>
           </tr>
         </thead>
         <tbody>
           {augmentedProjects.map(project => (
             <tr key={project.id}>
-              <td
-                style={{
-                  padding: "0em 1em 0em 0em"
-                }}
-              >
+              <td className={classes.tableCell}>
                 <input
                   type="checkbox"
                   value={false}
@@ -65,20 +77,14 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
                   id={project.id}
                 />
               </td>
-              <td
-                style={{
-                  padding: "0em 1em 0em 0em"
-                }}
-              >
-                {project.name}
-              </td>
-              <td style={{ padding: "0em 1em 0em 0em" }}>
+              <td className={classes.tableCell}>{project.name}</td>
+              <td className={classes.tableCell}>
                 {JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
               </td>
-              <td style={{ padding: "0em 1em 0em 0em" }}>
+              <td className={classes.tableCell}>
                 {moment(project.dateCreated).format("MM/DD/YYYY h:mm A")}
               </td>
-              <td style={{ padding: "0em 1em 0em 0em" }}>
+              <td className={classes.tableCell}>
                 {moment(project.dateModified).format("MM/DD/YYYY h:mm A")}
               </td>
               {/* <td>{JSON.stringify(project, null, 2)}</td> */}
