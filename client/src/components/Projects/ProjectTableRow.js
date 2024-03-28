@@ -257,7 +257,9 @@ const ProjectTableRow = ({
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
-  handleHide
+  handleHide,
+  handleCheckboxChange,
+  checkedProjects
 }) => {
   const classes = useStyles();
   const momentModified = moment(project.dateModified);
@@ -312,6 +314,14 @@ const ProjectTableRow = ({
 
   return (
     <tr key={project.id}>
+      <td className={classes.tdCenterAlign}>
+        <input
+          style={{ height: "15px" }}
+          type="checkbox"
+          checked={checkedProjects.includes(project.id)}
+          onChange={() => handleCheckboxChange(project.id)}
+        />
+      </td>
       <td className={classes.tdCenterAlign}>
         {project.dateHidden ? (
           <FontAwesomeIcon
@@ -403,7 +413,9 @@ ProjectTableRow.propTypes = {
   handleDeleteModalOpen: PropTypes.func.isRequired,
   handleSnapshotModalOpen: PropTypes.func.isRequired,
   handleRenameSnapshotModalOpen: PropTypes.func.isRequired,
-  handleHide: PropTypes.func.isRequired
+  handleHide: PropTypes.func.isRequired,
+  handleCheckboxChange: PropTypes.func.isRequired,
+  checkedProjects: PropTypes.array.isRequired
 };
 
 export default ProjectTableRow;
