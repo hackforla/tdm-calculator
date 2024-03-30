@@ -34,6 +34,7 @@ import ResetPassword from "./components/Authorization/ResetPassword";
 import ForgotPassword from "./components/Authorization/ForgotPassword";
 import Feedback from "./components/Feedback/FeedbackPage";
 import ErrorPage from "./components/ErrorPage";
+import Offline from "./components/Offline";
 import Logout from "./components/Authorization/Logout";
 import ProfilePage from "./components/Okta/ProfilePage";
 import { LoginCallback } from "@okta/okta-react";
@@ -105,6 +106,7 @@ const App = () => {
             </RequireAuth>
           }
         />
+        <Route path="/offline" element={<Offline />} />
         {/* Layout Route adds plain Sidebar */}
         <Route
           element={
@@ -114,7 +116,6 @@ const App = () => {
           }
         >
           <Route path="/about" element={<About />} />
-
           {/* TODO:  update FAQ to use checklist link, redirect for now. */}
           <Route path="/faqs/true" element={<Navigate to="/checklist" />} />
           <Route path="/checklist" element={<ChecklistPage />} />
