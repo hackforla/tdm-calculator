@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from "react";
+import React, { useState, useContext, useRef, useEffect, memo } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -14,6 +14,7 @@ import Pagination from "../ProjectWizard/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
+import useMultiProjectsData from "../../hooks/useMultiProjectsData.js";
 import * as projectService from "../../services/project.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
@@ -24,6 +25,8 @@ import ProjectTableRow from "./ProjectTableRow";
 import FilterDrawer from "./FilterDrawer.js";
 import { CSVLink } from "react-csv";
 import { allProjectRulesCsv } from "./pdfCsvData.js";
+import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu.js";
+import fetchEngineRules from "./fetchEngineRules.js";
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -139,8 +142,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [checkedProjects, setCheckedProjects] = useState([]);
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [allProjectData, setAllProjectData] = useState();
+  const [projectData, setProjectData] = useState();
 
   const projectsPerPage = 10;
   const csvRef = useRef();
@@ -160,6 +166,30 @@ const ProjectsPage = ({ contentContainerRef }) => {
     endDateModified: null
   });
   const [filterCollapsed, setFilterCollapsed] = useState(true);
+  const multiProjectsData = useMultiProjectsData(checkedProjects, projects);
+
+  // fetching rules for PDF
+  useEffect(() => {
+    const fetchRules = async () => {
+      let project;
+
+      if (
+        checkedProjects.length === 1 &&
+        Object.keys(multiProjectsData).length > 0
+      ) {
+        project = multiProjectsData;
+      }
+
+      if (project && project.calculationId) {
+        const rules = await fetchEngineRules(project);
+        setProjectData({ pdf: rules });
+      }
+    };
+
+    fetchRules().catch(console.error);
+  }, [checkedProjects, multiProjectsData]);
+
+  const MemoizedMultiProjectToolbar = memo(MultiProjectToolbarMenu);
 
   const selectedProjectName = (() => {
     if (!selectedProject) {
@@ -177,6 +207,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (pageNumber === "right" && currentPage !== highestPage) {
       setCurrentPage(currentPage + 1);
     }
+
+    // uncheck Projects on page change
+    setCheckedProjects([]);
+    setSelectAllChecked(false);
   };
 
   const handleCopyModalOpen = project => {
@@ -226,23 +260,30 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleDeleteModalOpen = project => {
-    setSelectedProject(project);
+    if (!checkedProjects.length) setSelectedProject(project);
     setDeleteModalOpen(true);
   };
 
   const handleDeleteModalClose = async action => {
     if (action === "ok") {
+      const projectIDs = selectedProject
+        ? [selectedProject.id]
+        : checkedProjects;
+      const dateTrashed = selectedProject
+        ? !selectedProject.dateTrashed
+        : !multiProjectsData.dateTrashed;
+
       try {
-        await projectService.trash(
-          [selectedProject.id],
-          !selectedProject.dateTrashed
-        );
+        await projectService.trash(projectIDs, dateTrashed);
         await updateProjects();
       } catch (err) {
         handleError(err);
       }
     }
     setDeleteModalOpen(false);
+    setSelectedProject(null);
+    setCheckedProjects([]);
+    setSelectAllChecked(false);
   };
 
   const handleSnapshotModalOpen = project => {
@@ -288,10 +329,65 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleHide = async project => {
-    setSelectedProject(project);
-    await projectService.hide([project.id], !project.dateHidden);
-    await updateProjects();
-    console.error(project.dateHidden);
+    try {
+      if (!checkedProjects.length) {
+        setSelectedProject(project);
+      }
+
+      const projectIDs =
+        checkedProjects.length > 0 ? checkedProjects : [project.id];
+      const dateHidden =
+        checkedProjects.length > 0
+          ? !multiProjectsData.dateHidden
+          : !project.dateHidden;
+
+      await projectService.hide(projectIDs, dateHidden);
+      await updateProjects();
+    } catch (err) {
+      console.error(err);
+    }
+
+    setSelectedProject(null);
+    setCheckedProjects([]);
+    setSelectAllChecked(false);
+  };
+
+  const handleCheckboxChange = projectId => {
+    setCheckedProjects(prevCheckedProjs => {
+      if (prevCheckedProjs.includes(projectId)) {
+        return prevCheckedProjs.filter(id => id !== projectId);
+      } else {
+        return [...prevCheckedProjs, projectId];
+      }
+    });
+
+    // header checkbox status
+    setSelectAllChecked(checkedProjects.length === currentProjects.length);
+  };
+
+  const handleHeaderCheckbox = () => {
+    if (!selectAllChecked) {
+      setCheckedProjects(
+        currentProjects
+          .filter(
+            p =>
+              (criteria.visibility === "visible" && !p.dateHidden) ||
+              (criteria.visibility === "hidden" && p.dateHidden) ||
+              criteria.visibility === "all"
+          )
+          .filter(
+            p =>
+              (criteria.status === "active" && !p.dateTrashed) ||
+              (criteria.status === "deleted" && p.dateTrashed) ||
+              criteria.status === "all"
+          )
+          .map(p => p.id)
+      );
+    } else {
+      setCheckedProjects([]);
+    }
+
+    setSelectAllChecked(!selectAllChecked);
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -349,6 +445,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleSort = property => {
+    // disable sorting for header checkbox
+    if (property === "checkAllProjects") return;
+
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -441,6 +540,19 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const headerData = [
     {
+      id: "checkAllProjects",
+      label: (
+        <input
+          style={{
+            height: "15px"
+          }}
+          type="checkbox"
+          checked={selectAllChecked}
+          onChange={handleHeaderCheckbox}
+        />
+      )
+    },
+    {
       id: "dateHidden",
       label: "Visibility"
     },
@@ -482,6 +594,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
             setCriteria={setCriteria}
             collapsed={filterCollapsed}
             setCollapsed={setFilterCollapsed}
+            setCheckedProjects={setCheckedProjects}
+            setSelectAllChecked={setSelectAllChecked}
           />
         </div>
 
@@ -504,60 +618,54 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-around",
-                  alignSelf: "flex-end"
+                  justifyContent: "space-between"
                 }}
               >
-                {allProjectData && (
-                  <div>
+                <MemoizedMultiProjectToolbar
+                  handleHideBoxes={handleHide}
+                  handleDeleteModalOpen={handleDeleteModalOpen}
+                  checkedProjects={checkedProjects}
+                  criteria={criteria}
+                  projects={multiProjectsData}
+                  pdfProjectData={projectData}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignSelf: "flex-end"
+                  }}
+                >
+                  <div className={classes.searchBarWrapper}>
+                    <input
+                      className={classes.searchBar}
+                      type="search"
+                      id="filterText"
+                      name="filterText"
+                      placeholder="Search"
+                      value={filterText}
+                      onChange={e => handleFilterTextChange(e.target.value)}
+                    />
+                    <img
+                      className={classes.searchIcon}
+                      src={SearchIcon}
+                      alt="Search Icon"
+                    />
+                  </div>
+                  {filterCollapsed ? (
                     <button
                       alt="Show Filter Criteria"
                       style={{ backgroundColor: "#0F2940", color: "white" }}
-                      onClick={() => handleDownloadCsv()}
+                      onClick={() => setFilterCollapsed(false)}
                     >
-                      <CSVLink
-                        data={allProjectData.csv}
-                        filename={"TDM-data.csv"}
-                        ref={csvRef}
-                        target="_blank"
-                      />
                       <FontAwesomeIcon
                         icon={faFilter}
                         style={{ marginRight: "0.5em" }}
                       />
-                      Download All Data
+                      Filter By
                     </button>
-                  </div>
-                )}
-                <div className={classes.searchBarWrapper}>
-                  <input
-                    className={classes.searchBar}
-                    type="search"
-                    id="filterText"
-                    name="filterText"
-                    placeholder="Search"
-                    value={filterText}
-                    onChange={e => handleFilterTextChange(e.target.value)}
-                  />
-                  <img
-                    className={classes.searchIcon}
-                    src={SearchIcon}
-                    alt="Search Icon"
-                  />
+                  ) : null}
                 </div>
-                {filterCollapsed ? (
-                  <button
-                    alt="Show Filter Criteria"
-                    style={{ backgroundColor: "#0F2940", color: "white" }}
-                    onClick={() => setFilterCollapsed(false)}
-                  >
-                    <FontAwesomeIcon
-                      icon={faFilter}
-                      style={{ marginRight: "0.5em" }}
-                    />
-                    Filter By
-                  </button>
-                ) : null}
               </div>
               <div className={classes.tableContainer}>
                 <table className={classes.table}>
@@ -615,6 +723,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             handleRenameSnapshotModalOpen
                           }
                           handleHide={handleHide}
+                          handleCheckboxChange={handleCheckboxChange}
+                          checkedProjects={checkedProjects}
                         />
                       ))
                     ) : (
@@ -632,8 +742,29 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 totalProjects={projects.length}
                 paginate={paginate}
               />
+              {allProjectData && (
+                <div>
+                  <button
+                    alt="Show Filter Criteria"
+                    style={{ backgroundColor: "#0F2940", color: "white" }}
+                    onClick={() => handleDownloadCsv()}
+                  >
+                    <CSVLink
+                      data={allProjectData.csv}
+                      filename={"TDM-data.csv"}
+                      ref={csvRef}
+                      target="_blank"
+                    />
+                    <FontAwesomeIcon
+                      icon={faFilter}
+                      style={{ marginRight: "0.5em" }}
+                    />
+                    Download All Data
+                  </button>
+                </div>
+              )}
 
-              {selectedProject && (
+              {(selectedProject || multiProjectsData) && (
                 <>
                   <CopyProjectModal
                     mounted={copyModalOpen}
@@ -643,7 +774,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <DeleteProjectModal
                     mounted={deleteModalOpen}
                     onClose={handleDeleteModalClose}
-                    project={selectedProject}
+                    project={selectedProject || multiProjectsData}
                   />
                   <SnapshotProjectModal
                     mounted={snapshotModalOpen}

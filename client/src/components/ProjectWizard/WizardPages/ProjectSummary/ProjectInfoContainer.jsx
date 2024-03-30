@@ -12,7 +12,7 @@ const useStyles = createUseStyles({
     minHeight: "100px"
   },
   textProjectInfoHeader: {
-    color: "#0F2940",
+    color: "#000000",
     fontSize: "24px",
     fontFamily: "Calibri",
     fontWeight: 700,
@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
     paddingRight: ".8em"
   },
   textProjectInfoHeaderAddress: {
-    color: "rgba(15, 41, 64, .5)",
+    color: "rgba(0, 0, 0, 1)",
     fontSize: "24px",
     fontFamily: "Calibri",
     fontWeight: "700"

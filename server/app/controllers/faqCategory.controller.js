@@ -25,9 +25,5 @@ const post = async (req, res) => {
 
 module.exports = {
   get,
-  post: [
-    validate({ body: faqCategorySchema }),
-    post,
-    validationErrorMiddleware
-  ]
+  post: [validate({ body: faqCategorySchema }), post, validationErrorMiddleware]
 };
