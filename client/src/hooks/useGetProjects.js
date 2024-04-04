@@ -5,22 +5,23 @@ const useProjects = handleError => {
   const [projects, setProjects] = useState([]);
 
   const getProjects = useCallback(async () => {
+    let fetchedProjects = [];
     try {
       const result = await projectService.get();
       if (result.data === "" || result.data === false) {
-        setProjects([]);
+        setProjects(fetchedProjects);
       } else {
-        console.log(result.data);
-        console.log(
-          "CURRENT",
-          (new Date() - new Date(result.data[0].dateCreated)) /
-            1000 /
-            60 /
-            60 /
-            24
-        );
-
-        setProjects(result.data);
+        result.data.forEach(cur => {
+          let numberOfDaysSinceCreation =
+            Math.abs(new Date() - new Date(cur.dateCreated)) /
+            (1000 * 60 * 60 * 24);
+          if (numberOfDaysSinceCreation >= 30) {
+            projectService.del(cur.id);
+          } else {
+            fetchedProjects.push(cur);
+          }
+        });
+        setProjects(fetchedProjects);
       }
     } catch (err) {
       handleError(err);
