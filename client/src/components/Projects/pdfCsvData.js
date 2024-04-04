@@ -372,7 +372,9 @@ const mapCsvRules = (project, rules) => {
 
   const ruleNames = columnData.flatMap(rule => {
     if (rule.dataType === "choice") {
-      return rule.choices.map(choice => rule.name + " - " + choice.name);
+      return rule.choices
+        .slice(1)
+        .map(choice => rule.name + " - " + choice.name);
     } else {
       return `${rule.name}${rule.units ? " (" + rule.units + ")" : ""}`;
     }
@@ -380,9 +382,11 @@ const mapCsvRules = (project, rules) => {
 
   const ruleValues = columnData.flatMap(rule => {
     if (rule.dataType === "choice") {
-      return rule.choices.map(choice =>
-        choice.id == rule.value || (choice.id == 0 && !rule.value) ? "Y" : "N"
-      );
+      return rule.choices
+        .slice(1)
+        .map(choice =>
+          choice.id == rule.value || (choice.id == 0 && !rule.value) ? "Y" : "N"
+        );
     } else {
       return rule.value ? rule.value.toString() : "";
     }
