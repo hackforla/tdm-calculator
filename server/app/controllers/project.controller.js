@@ -81,8 +81,8 @@ const getProject = async (req, res) => {
 const hide = async (req, res) => {
   try {
     const { ids, hide } = req.body;
-
     const result = await projectService.hide(ids, hide, req.user.id);
+
     if (result === 1) {
       res.sendStatus(403);
     } else {
