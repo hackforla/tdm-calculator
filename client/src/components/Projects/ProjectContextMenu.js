@@ -9,6 +9,7 @@ import {
   faEyeSlash,
   faCamera,
   faTrash,
+  faTrashArrowUp,
   faClone,
   faFileCsv,
   faPencil
@@ -165,26 +166,26 @@ const ProjectContextMenu = ({
         <li
           onClick={() => handleClick(handleDeleteModalOpen)}
           className={classes.listItem}
-          style={{ borderTop: "1px solid black", color: "red" }}
+          style={{ borderTop: "1px solid black" }}
         >
           {project.dateTrashed ? (
-            <>
+            <span style={{ color: "#a7c539" }}>
               <FontAwesomeIcon
-                icon={faTrash}
+                icon={faTrashArrowUp}
                 className={classes.listItemIcon}
                 alt={`Restore Project from Trash Icon`}
               />
               Restore from Trash
-            </>
+            </span>
           ) : (
-            <>
+            <span style={{ color: "red" }}>
               <FontAwesomeIcon
                 icon={faTrash}
                 className={classes.listItemIcon}
                 alt={`Delete Project Icon`}
               />
               Delete
-            </>
+            </span>
           )}
         </li>
       )}

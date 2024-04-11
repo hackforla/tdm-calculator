@@ -5,7 +5,8 @@ import { createUseStyles } from "react-jss";
 import {
   faEyeSlash,
   faEye,
-  faTrashCan,
+  faTrash,
+  faTrashArrowUp,
   faPrint
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -172,10 +173,17 @@ const MultiProjectToolbarMenu = ({
             disabled={isDelBtnDisabled}
             onClick={handleDeleteModalOpen}
           >
-            <FontAwesomeIcon
-              icon={faTrashCan}
-              color={isDelBtnDisabled ? "#1010104d" : "red"}
-            />
+            {!projects.dateTrashed ? (
+              <FontAwesomeIcon
+                icon={faTrash}
+                color={isDelBtnDisabled ? "#1010104d" : "red"}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faTrashArrowUp}
+                color={isDelBtnDisabled ? "#1010104d" : "#a7c539"}
+              />
+            )}
             <Tooltip
               style={{
                 backgroundColor: "#e6e3e3",
