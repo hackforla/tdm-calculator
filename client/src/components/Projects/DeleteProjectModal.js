@@ -43,7 +43,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
         <>
           <div
             className={classes.heading1}
-            style={{ marginBottom: "1.5rem", color: "#a7c539" }}
+            style={{ marginBottom: "1.5rem", color: "" }}
           >
             <FontAwesomeIcon icon={faTrashArrowUp} /> Restore Project from Trash
           </div>
@@ -82,7 +82,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
           <Button
             onClick={() => onClose("ok")}
             variant="contained"
-            color={"colorPrimary"}
+            color={"colorError"}
           >
             Restore
           </Button>

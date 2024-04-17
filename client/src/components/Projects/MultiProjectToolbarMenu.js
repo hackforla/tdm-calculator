@@ -181,7 +181,7 @@ const MultiProjectToolbarMenu = ({
             ) : (
               <FontAwesomeIcon
                 icon={faTrashArrowUp}
-                color={isDelBtnDisabled ? "#1010104d" : "#a7c539"}
+                color={isDelBtnDisabled ? "#1010104d" : ""}
               />
             )}
             <Tooltip
