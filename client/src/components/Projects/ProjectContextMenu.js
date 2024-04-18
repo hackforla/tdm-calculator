@@ -169,7 +169,7 @@ const ProjectContextMenu = ({
           style={{ borderTop: "1px solid black" }}
         >
           {project.dateTrashed ? (
-            <span style={{ color: "#a7c539" }}>
+            <span style={{ color: "" }}>
               <FontAwesomeIcon
                 icon={faTrashArrowUp}
                 className={classes.listItemIcon}
