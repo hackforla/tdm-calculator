@@ -6,7 +6,9 @@ import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
-  faChevronRight
+  faChevronRight,
+  faBackwardStep,
+  faForwardStep
 } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
@@ -43,6 +45,12 @@ const Pagination = props => {
   const { projectsPerPage, totalProjects, paginate } = props;
   const classes = useStyles();
   const pageNumbers = [];
+  const firstPage = () => {
+    return paginate(1);
+  };
+  const lastPage = () => {
+    return paginate(Math.ceil(totalProjects / projectsPerPage));
+  };
 
   for (let i = 1; i <= Math.ceil(totalProjects / projectsPerPage); i++) {
     pageNumbers.push(i);
@@ -51,6 +59,12 @@ const Pagination = props => {
   return (
     <div className={classes.paginationContainer}>
       <ul className={classes.pagination}>
+        <button
+          className={clsx("hoverPointer", classes.button)}
+          onClick={firstPage}
+        >
+          <FontAwesomeIcon icon={faBackwardStep} />
+        </button>
         <button
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("left")}
@@ -73,6 +87,12 @@ const Pagination = props => {
           onClick={() => paginate("right")}
         >
           <FontAwesomeIcon icon={faChevronRight} />{" "}
+        </button>
+        <button
+          className={clsx("hoverPointer", classes.button)}
+          onClick={lastPage}
+        >
+          <FontAwesomeIcon icon={faForwardStep} />
         </button>
       </ul>
     </div>
