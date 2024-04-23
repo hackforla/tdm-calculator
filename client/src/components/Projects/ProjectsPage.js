@@ -147,8 +147,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [allProjectData, setAllProjectData] = useState();
   const [projectData, setProjectData] = useState();
+  const [perPage, setPerPage] = useState(10);
 
-  const projectsPerPage = 10;
+  const projectsPerPage = perPage;
   const csvRef = useRef();
   const highestPage = Math.ceil(projects.length / projectsPerPage);
 
@@ -737,11 +738,23 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   </tbody>
                 </table>
               </div>
-              <Pagination
-                projectsPerPage={projectsPerPage}
-                totalProjects={projects.length}
-                paginate={paginate}
-              />
+              <div>
+                <Pagination
+                  projectsPerPage={projectsPerPage}
+                  totalProjects={projects.length}
+                  paginate={paginate}
+                />
+
+                <div>
+                  <button onClick={() => setPerPage(projects.length)}>
+                    All
+                  </button>
+                  <button onClick={() => setPerPage(100)}>100</button>
+                  <button onClick={() => setPerPage(50)}>50</button>
+                  <button onClick={() => setPerPage(25)}>25</button>
+                  <button onClick={() => setPerPage(10)}>10</button>
+                </div>
+              </div>
               {allProjectData && (
                 <div>
                   <button

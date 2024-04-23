@@ -8,7 +8,7 @@ import {
   faChevronLeft,
   faChevronRight,
   faBackwardStep,
-  faForwardStep
+  faAnglesRight
 } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
@@ -92,7 +92,7 @@ const Pagination = props => {
           className={clsx("hoverPointer", classes.button)}
           onClick={lastPage}
         >
-          <FontAwesomeIcon icon={faForwardStep} />
+          <FontAwesomeIcon icon={faAnglesRight} />
         </button>
       </ul>
     </div>
