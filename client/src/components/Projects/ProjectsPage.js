@@ -123,6 +123,10 @@ const useStyles = createUseStyles({
     overflow: "auto",
     width: "100%",
     margin: "20px 0px"
+  },
+  pageContainer: {
+    display: "flex",
+    flexDirection: "row"
   }
 });
 
@@ -738,22 +742,26 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   </tbody>
                 </table>
               </div>
-              <div>
+              <div className={classes.pageContainer}>
                 <Pagination
                   projectsPerPage={projectsPerPage}
                   totalProjects={projects.length}
                   paginate={paginate}
                 />
-
-                <div>
-                  <button onClick={() => setPerPage(projects.length)}>
-                    All
-                  </button>
-                  <button onClick={() => setPerPage(100)}>100</button>
-                  <button onClick={() => setPerPage(50)}>50</button>
-                  <button onClick={() => setPerPage(25)}>25</button>
-                  <button onClick={() => setPerPage(10)}>10</button>
-                </div>
+                <label>
+                  <select
+                    defaultValue={10}
+                    value={perPage}
+                    onChange={e => setPerPage(e.target.value)}
+                  >
+                    <option value={projects.length}>All</option>
+                    <option value={100}>100</option>
+                    <option value={50}>50</option>
+                    <option value={25}>25</option>
+                    <option value={10}>10</option>
+                  </select>
+                  Items per page
+                </label>
               </div>
               {allProjectData && (
                 <div>
