@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 
-// for use with multi-selected projects
+// Given a collection of project objects and a list of
+// checked project Ids, return:
+// If the checkedProjectIds array is empty, return an empty object,
+// If the checkedProjectIds array has a single project, return the project
+// If the checkedProjectIds array has multiple projects, return a special
+// status object, with properties indicating which MultiProjectMenu items
+// should be enabled/disabled, etc.
 
-const useMultiProjectsData = (checkedProjects, projects) => {
+const useCheckedProjectsStatusData = (checkedProjects, projects) => {
   const [projectsData, setProjectsData] = useState({});
 
   useEffect(() => {
@@ -15,6 +21,15 @@ const useMultiProjectsData = (checkedProjects, projects) => {
     if (checkedProjects.length === 1) {
       const project = projects.find(p => p.id === checkedProjects[0]);
 
+      // setProjectsData({
+      //   id: project.id,
+      //   calculationId: project.calculationId,
+      //   name: project.name,
+      //   dateTrashed: project.dateTrashed,
+      //   dateHidden: project.dateHidden,
+      //   dateModified: project.dateModified,
+      //   loginId: project.loginId
+      // });
       setProjectsData(project);
       return;
     }
@@ -55,4 +70,4 @@ const useMultiProjectsData = (checkedProjects, projects) => {
   return projectsData;
 };
 
-export default useMultiProjectsData;
+export default useCheckedProjectsStatusData;
