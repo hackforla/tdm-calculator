@@ -43,7 +43,7 @@ const FilterPopup = ({
   criteria,
   setCriteria,
   setCollapsed,
-  setCheckedProjects,
+  setCheckedProjectIds,
   setSelectAllChecked
 }) => {
   const userContext = useContext(UserContext);
@@ -70,7 +70,7 @@ const FilterPopup = ({
     setCriteria({ ...criteria, [propertyName]: e.target.value });
 
     // reset any checked project rows when filter is applied
-    setCheckedProjects([]);
+    setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
 
@@ -189,7 +189,7 @@ FilterPopup.propTypes = {
   setCriteria: PropTypes.func,
   collapsed: PropTypes.bool,
   setCollapsed: PropTypes.func,
-  setCheckedProjects: PropTypes.func,
+  setCheckedProjectIds: PropTypes.func,
   setSelectAllChecked: PropTypes.func
 };
 

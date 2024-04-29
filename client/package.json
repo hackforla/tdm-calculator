@@ -46,6 +46,7 @@
     "react-aria-modal": "^5.0.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-csv": "^2.2.2",
+    "react-csv-downloader": "^3.1.0",
     "react-datepicker": "^4.24.0",
     "react-dom": "^18.1.0",
     "react-gtm-module": "^2.0.11",

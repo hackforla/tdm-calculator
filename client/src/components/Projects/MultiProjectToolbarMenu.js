@@ -7,7 +7,8 @@ import {
   faEye,
   faTrash,
   faTrashArrowUp,
-  faPrint
+  faPrint,
+  faFileCsv
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tooltip } from "react-tooltip";
@@ -43,21 +44,22 @@ const useStyles = createUseStyles({
 
 const MultiProjectToolbarMenu = ({
   handleHideBoxes,
+  handleCsvModalOpen,
   handleDeleteModalOpen,
-  checkedProjects,
+  checkedProjectIds,
   criteria,
-  projects,
+  checkedProjectsStatusData,
   pdfProjectData
 }) => {
-  const momentModified = moment(projects.dateModified);
+  const momentModified = moment(checkedProjectsStatusData.dateModified);
   const printRef = useRef(null);
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const account = userContext.account;
-  const isProjectOwner = account.id === projects.loginId;
+  const isProjectOwner = account.id === checkedProjectsStatusData.loginId;
 
   const isBtnDisabled = (projProp, criteriaProp) => {
-    const sameDateVals = projects[projProp] !== false;
+    const sameDateVals = checkedProjectsStatusData[projProp] !== false;
     const criteriaFilter = criteria[criteriaProp] === "all";
 
     // disable button if current user is not the owner
@@ -69,25 +71,28 @@ const MultiProjectToolbarMenu = ({
   const isDelBtnDisabled = isBtnDisabled("dateTrashed", "status");
 
   const tooltipMsg = (criteriaProp, msg, dateProp) => {
-    if (checkedProjects.length === 0) return;
+    if (checkedProjectIds.length === 0) return;
 
     if (!isProjectOwner) {
       return "You have selected a project that does not belong to you";
     }
 
     // show recover message if project is deleted
-    if (projects.dateTrashed && criteriaProp === "status") {
+    if (checkedProjectsStatusData.dateTrashed && criteriaProp === "status") {
       return "Restore from Trash";
     }
 
     // show message when selecting mixed types (e.g. hide & unhide)
-    if (checkedProjects.length > 1 && projects[dateProp] === false) {
+    if (
+      checkedProjectIds.length > 1 &&
+      checkedProjectsStatusData[dateProp] === false
+    ) {
       return criteria[criteriaProp] === "all" ? msg : "";
     }
   };
 
   const hasPdfData = () => {
-    return pdfProjectData && pdfProjectData.pdf !== null;
+    return pdfProjectData && !!pdfProjectData.pdf;
   };
 
   const handlePrintPdf = useReactToPrint({
@@ -99,19 +104,28 @@ const MultiProjectToolbarMenu = ({
   return (
     <div className={classes.container}>
       <div className={classes.multiStatus}>
-        {checkedProjects.length} Projects Selected
+        {checkedProjectIds.length} Projects Selected
       </div>
       <ul className={classes.list}>
+        <li>
+          <button
+            id="csv-btn"
+            className={classes.button}
+            onClick={handleCsvModalOpen}
+          >
+            <FontAwesomeIcon icon={faFileCsv} />
+          </button>
+        </li>
         <li>
           <button
             id="print-btn"
             className={classes.button}
             onClick={handlePrintPdf}
-            disabled={checkedProjects.length !== 1}
+            disabled={checkedProjectIds.length !== 1}
           >
             <FontAwesomeIcon icon={faPrint} />
           </button>
-          {checkedProjects.length !== 1 ? (
+          {checkedProjectIds.length !== 1 ? (
             <Tooltip
               style={{
                 backgroundColor: "#e6e3e3",
@@ -144,7 +158,7 @@ const MultiProjectToolbarMenu = ({
             disabled={isHideBtnDisabled}
             onClick={handleHideBoxes}
           >
-            {!projects.dateHidden ? (
+            {!checkedProjectsStatusData.dateHidden ? (
               <FontAwesomeIcon icon={faEyeSlash} />
             ) : (
               <FontAwesomeIcon icon={faEye} />
@@ -173,7 +187,7 @@ const MultiProjectToolbarMenu = ({
             disabled={isDelBtnDisabled}
             onClick={handleDeleteModalOpen}
           >
-            {!projects.dateTrashed ? (
+            {!checkedProjectsStatusData.dateTrashed ? (
               <FontAwesomeIcon
                 icon={faTrash}
                 color={isDelBtnDisabled ? "#1010104d" : "red"}
@@ -207,10 +221,11 @@ const MultiProjectToolbarMenu = ({
 
 MultiProjectToolbarMenu.propTypes = {
   handleHideBoxes: PropTypes.func.isRequired,
+  handleCsvModalOpen: PropTypes.func.isRequired,
   handleDeleteModalOpen: PropTypes.func.isRequired,
-  checkedProjects: PropTypes.array.isRequired,
+  checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   criteria: PropTypes.object.isRequired,
-  projects: PropTypes.object.isRequired,
+  checkedProjectsStatusData: PropTypes.object.isRequired,
   pdfProjectData: PropTypes.object
 };
 
