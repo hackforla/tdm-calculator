@@ -125,11 +125,12 @@ const orderedCodes = [
   "STRATEGY_BIKE_3",
   "STRATEGY_BIKE_4",
   "STRATEGY_BIKE_5",
+  "PTS_BIKE_BONUS",
   "STRATEGY_CAR_SHARE_1",
   "STRATEGY_CAR_SHARE_3",
   "STRATEGY_CAR_SHARE_4",
   "STRATEGY_CAR_SHARE_ELECTRIC",
-  "STRATEGY_CAR_SHARE_BONUS",
+  "PTS_CAR_SHARE_BONUS",
   "STRATEGY_CHILD_CARE",
   "STRATEGY_HOV_2",
   "STRATEGY_HOV_3",
@@ -157,15 +158,29 @@ const orderedCodes = [
   "STRATEGY_TRANSIT_ACCESS_5",
   "STRATEGY_TMO_1",
   "STRATEGY_TMO_2",
-  "STRATEGY_APPLICANT"
+  "STRATEGY_APPLICANT",
+  "STRATEGY_APPLICANT_COMMENT"
 ];
 
-const getColumnNames = (project, rules) => {
+const getOrderedColumnData = (project, rules) => {
   // Augment with meta-data from project table that is not included in rules.
   const projectProperties = getProjectProperties(project);
 
   // Append data from project table to data from rules computation
   const combinedRules = rules.concat(projectProperties);
+
+  // Append a made-up "rule" to get user-defined strategy description
+  const udsRule = rules.find(f => f.code === "STRATEGY_APPLICANT");
+  if (udsRule) {
+    combinedRules.push({
+      code: "STRATEGY_APPLICANT_COMMENT",
+      name: "User-Defined Strategy Description",
+      dataType: "string",
+      choices: null,
+      value: udsRule.comment,
+      units: ""
+    });
+  }
 
   // Get the needed data from the rule calculation
   // flatMap/filter improves testability by allowing missing rules.
@@ -180,6 +195,11 @@ const getColumnNames = (project, rules) => {
       value: r.value,
       units: r.units
     }));
+  return columnData;
+};
+
+const getColumnNames = (project, rules) => {
+  const columnData = getOrderedColumnData(project, rules);
 
   const columnNames = columnData.flatMap(rule => {
     if (rule.dataType === "choice") {
@@ -193,26 +213,8 @@ const getColumnNames = (project, rules) => {
   return columnNames;
 };
 
-const getColumnData = (project, rules) => {
-  // Augment with meta-data from project table that is not included in rules.
-  const projectProperties = getProjectProperties(project);
-
-  // Append data from project table to data from rules computation
-  const combinedRules = rules.concat(projectProperties);
-
-  // Get the needed data from the rule calculation
-  // flatMap/filter improves testability by allowing missing rules.
-  const columnData = orderedCodes
-    .flatMap(rc => combinedRules.find(r => r.code === rc))
-    .filter(r => !!r)
-    .map(r => ({
-      code: r.code,
-      name: r.name,
-      dataType: r.dataType,
-      choices: r.choices,
-      value: r.value,
-      units: r.units
-    }));
+const getColumnValues = (project, rules) => {
+  const columnData = getOrderedColumnData(project, rules);
 
   const cellValues = columnData.flatMap(rule => {
     if (rule.dataType === "choice") {
@@ -222,6 +224,11 @@ const getColumnData = (project, rules) => {
           choice.id == rule.value || (choice.id == 0 && !rule.value) ? "Y" : "N"
         );
     } else {
+      if (rule.dataType === "boolean") {
+        return rule.value ? "Y" : "N";
+      } else if (rule.dataType === "number") {
+        return rule.value ? rule.value.toString() : "0";
+      }
       return rule.value ? rule.value.toString() : "";
     }
   });
@@ -244,7 +251,7 @@ const getCsvForProjects = async (projects, progressCallback) => {
       if (i == 0) {
         data.push(getColumnNames(projects[i], rules));
       }
-      data.push(getColumnData(projects[i], rules));
+      data.push(getColumnValues(projects[i], rules));
       if (progressCallback) progressCallback((i + 1) / projects.length);
     }
   }
