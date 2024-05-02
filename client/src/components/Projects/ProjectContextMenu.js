@@ -9,6 +9,7 @@ import {
   faEyeSlash,
   faCamera,
   faTrash,
+  faTrashArrowUp,
   faClone,
   faFileCsv,
   faPencil
@@ -44,11 +45,11 @@ const useStyles = createUseStyles({
 const ProjectContextMenu = ({
   project,
   closeMenu,
+  handleCsvModalOpen,
   handleCopyModalOpen,
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
-  handleDownloadCsv,
   handlePrintPdf,
   handleHide
 }) => {
@@ -114,7 +115,7 @@ const ProjectContextMenu = ({
         Print Summary
       </li>
       <li
-        onClick={() => handleClick(handleDownloadCsv)}
+        onClick={() => handleClick(() => handleCsvModalOpen(project))}
         className={classes.listItem}
       >
         <FontAwesomeIcon
@@ -165,26 +166,26 @@ const ProjectContextMenu = ({
         <li
           onClick={() => handleClick(handleDeleteModalOpen)}
           className={classes.listItem}
-          style={{ borderTop: "1px solid black", color: "red" }}
+          style={{ borderTop: "1px solid black" }}
         >
           {project.dateTrashed ? (
-            <>
+            <span style={{ color: "" }}>
               <FontAwesomeIcon
-                icon={faTrash}
+                icon={faTrashArrowUp}
                 className={classes.listItemIcon}
                 alt={`Restore Project from Trash Icon`}
               />
               Restore from Trash
-            </>
+            </span>
           ) : (
-            <>
+            <span style={{ color: "red" }}>
               <FontAwesomeIcon
                 icon={faTrash}
                 className={classes.listItemIcon}
                 alt={`Delete Project Icon`}
               />
               Delete
-            </>
+            </span>
           )}
         </li>
       )}
@@ -195,11 +196,11 @@ const ProjectContextMenu = ({
 ProjectContextMenu.propTypes = {
   project: PropTypes.object,
   closeMenu: PropTypes.func,
+  handleCsvModalOpen: PropTypes.func,
   handleCopyModalOpen: PropTypes.func,
   handleDeleteModalOpen: PropTypes.func,
   handleSnapshotModalOpen: PropTypes.func,
   handleRenameSnapshotModalOpen: PropTypes.func,
-  handleDownloadCsv: PropTypes.func,
   handlePrintPdf: PropTypes.func,
   handleHide: PropTypes.func
 };

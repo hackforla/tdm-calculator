@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faTrashArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../Button/Button";
 import WarningIcon from "../../images/warning-icon.png";
@@ -43,9 +43,9 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
         <>
           <div
             className={classes.heading1}
-            style={{ marginBottom: "1.5rem", color: "red" }}
+            style={{ marginBottom: "1.5rem", color: "" }}
           >
-            <FontAwesomeIcon icon={faTrashCan} /> Restore Project from Trash
+            <FontAwesomeIcon icon={faTrashArrowUp} /> Restore Project from Trash
           </div>
           <div style={theme.typography.subHeading}>
             <img
@@ -59,7 +59,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
       ) : (
         <>
           <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-            <FontAwesomeIcon icon={faTrashCan} /> Delete Project
+            <FontAwesomeIcon icon={faTrash} /> Delete Project
           </div>
           <div style={theme.typography.subHeading}>
             <img
@@ -67,7 +67,9 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
               className={classes.warningIcon}
               alt="Warning"
             />
-            Are you sure you want to delete the following?
+            Are you sure you want to delete the following? <br></br>(It will
+            remain in the recycling bin for ninety days <br></br>before being
+            permanently deleted)
           </div>
         </>
       )}

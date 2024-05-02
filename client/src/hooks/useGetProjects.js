@@ -12,11 +12,13 @@ const useProjects = handleError => {
         setProjects(fetchedProjects);
       } else {
         result.data.forEach(cur => {
-          let numberOfDaysSinceCreation =
-            Math.abs(new Date() - new Date(cur.dateCreated)) /
-            (1000 * 60 * 60 * 24);
-          if (numberOfDaysSinceCreation >= 30) {
-            projectService.del(cur.id);
+          if (cur.dateTrashed) {
+            let numberOfDaysSinceTrashed =
+              Math.abs(new Date(cur.dateTrashed) - new Date()) /
+              (1000 * 60 * 60 * 24);
+            if (numberOfDaysSinceTrashed && numberOfDaysSinceTrashed >= 90) {
+              deleteOverNinety(cur.id, handleError);
+            }
           } else {
             fetchedProjects.push(cur);
           }
@@ -35,4 +37,12 @@ const useProjects = handleError => {
   return [projects, setProjects];
 };
 
+//temporary function for removing deleted projects over ninety days old
+const deleteOverNinety = async (req, handleError) => {
+  try {
+    projectService.del(req);
+  } catch (err) {
+    handleError(err);
+  }
+};
 export default useProjects;
