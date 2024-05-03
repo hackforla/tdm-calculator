@@ -34,7 +34,10 @@ const useStyles = createUseStyles({
   dataPointsCell: { textAlign: "right" },
   dataPoints: { fontSize: "18px", fontFamily: "Oswald" },
   dataUnits: { fontSize: "14px", fontFamily: "Calibri", marginBottom: "10px" },
-  row: { display: "flex", justifyContent: "space-between" },
+  row: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
   noDisplay: {
     display: "none !important"
   },
