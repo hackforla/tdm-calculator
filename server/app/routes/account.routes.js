@@ -38,7 +38,7 @@ router.get("/logout", (req, res) => {
 });
 
 router.put(
-  "/:id/updateaccount",
+  "/updateaccount",
   jwtSession.validateUser,
   accountController.updateAccount
 );
