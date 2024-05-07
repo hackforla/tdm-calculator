@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-client",
-  "version": "0.2.49",
+  "version": "0.2.50",
   "private": true,
   "proxy": "http://localhost:5001",
   "scripts": {

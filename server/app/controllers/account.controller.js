@@ -60,7 +60,9 @@ const register = async (req, res) => {
 
 const updateAccount = async (req, res) => {
   try {
-    const response = await accountService.updateAccount(req.body);
+    const loggedInUser = req.user.id;
+    const updatedFields = { ...req.body, id: loggedInUser };
+    const response = await accountService.updateAccount(updatedFields);
     res.send(response);
   } catch (err) {
     res.status(err.code || "500").json({ error: err.toString() });
