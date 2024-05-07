@@ -63,10 +63,7 @@ const register = async (req, res) => {
 const updateAccount = async (req, res) => {
   try {
     const loggedInUser = req.user.id;
-    if (!loggedInUser) {
-      res.sendStatus("401");
-    }
-    const updatedFields = { ...req.body, id: req.user.id };
+    const updatedFields = { ...req.body, id: loggedInUser };
     const response = await accountService.updateAccount(updatedFields);
     res.send(response);
   } catch (err) {
