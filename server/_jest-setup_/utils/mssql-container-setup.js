@@ -1,4 +1,4 @@
-const { GenericContainer } = require("testcontainers");
+const { GenericContainer, Wait } = require("testcontainers");
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
@@ -21,15 +21,19 @@ const setupContainer = async () => {
         MSSQL_TCP_PORT: String(MSSQL_PORT)
       })
       .withExposedPorts({ container: MSSQL_PORT, host: HOST_PORT })
+      // .withExposedPorts(1450)
+      // .withWaitStrategy(Wait.forListeningPorts())
       .withStartupTimeout(120000)
+      .withWaitStrategy(Wait.forLogMessage("The tempdb database has"))
       .start();
+    console.log("Awaiting...");
     await new Promise(resolve => setTimeout(resolve, 5000)); // do not remove this 5 second delay. It takes a few seconds for the container to start. If you remove this, the next step will fail. Increase if needed
     console.log(
       "Successfully started the container. Creating the test database.."
     );
     // creates the test database in the container
-    await container.exec([
-      "/opt/mssql-tools/bin/sqlcmd",
+    container.exec([
+      "//opt/mssql-tools//bin//sqlcmd",
       "-S",
       "localhost",
       "-U",
@@ -39,6 +43,7 @@ const setupContainer = async () => {
       "-Q",
       "CREATE DATABASE tdmtestdb"
     ]);
+    await new Promise(resolve => setTimeout(resolve, 5000));
     console.log("Test database tdmtestdb created ");
     return container;
   } catch (error) {
