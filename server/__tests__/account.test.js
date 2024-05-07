@@ -17,6 +17,7 @@ afterAll(async () => {
 
 describe("Account API endpoints for end user accounts", () => {
   let originalSendgrid = sgMail.send;
+  // eslint-disable-next-line no-unused-vars
   let userId; // id of the registered user - to be deleted by security admin
   let capturedToken; // confirmation token captured from the mocked sendgrid function
   let userToken; // jwt for registered user - for protected endpoints
@@ -179,10 +180,10 @@ describe("Account API endpoints for end user accounts", () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  // PUT "/:id/updateaccount" Update account
+  // PUT "/updateaccount" Update account
   it("should update a user", async () => {
     const res = await request(server)
-      .put(`/api/accounts/${userId}/updateaccount`)
+      .put(`/api/accounts/updateaccount`)
       .set("Authorization", `Bearer ${userToken}`)
       .send({
         firstName: "Jose",
