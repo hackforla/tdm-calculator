@@ -67,7 +67,9 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
               className={classes.warningIcon}
               alt="Warning"
             />
-            Are you sure you want to delete the following?
+            Are you sure you want to delete the following? <br></br>(It will
+            remain in the recycling bin for ninety days <br></br>before being
+            permanently deleted)
           </div>
         </>
       )}
