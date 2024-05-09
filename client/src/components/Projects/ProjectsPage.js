@@ -126,7 +126,23 @@ const useStyles = createUseStyles({
   },
   pageContainer: {
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  dropContent: {
+    padding: "5px",
+    borderColor: "silver",
+    borderRadius: "4px"
+  },
+  optionItems: {
+    backgroundColor: "white",
+    "&:hover": {
+      backgroundColor: "silver"
+    }
+  },
+  itemsPerPage: {
+    marginLeft: "5px"
   }
 });
 
@@ -745,22 +761,36 @@ const ProjectsPage = ({ contentContainerRef }) => {
               <div className={classes.pageContainer}>
                 <Pagination
                   projectsPerPage={projectsPerPage}
-                  totalProjects={projects.length}
+                  totalProjects={sortedProjects.length}
                   paginate={paginate}
                 />
                 <label>
                   <select
+                    className={classes.dropContent}
                     defaultValue={10}
                     value={perPage}
                     onChange={e => setPerPage(e.target.value)}
                   >
-                    <option value={projects.length}>All</option>
-                    <option value={100}>100</option>
-                    <option value={50}>50</option>
-                    <option value={25}>25</option>
-                    <option value={10}>10</option>
+                    <option
+                      className={classes.optionItems}
+                      value={projects.length}
+                    >
+                      All
+                    </option>
+                    <option className={classes.optionItems} value={100}>
+                      100
+                    </option>
+                    <option className={classes.optionItems} value={50}>
+                      50
+                    </option>
+                    <option className={classes.optionItems} value={25}>
+                      25
+                    </option>
+                    <option className={classes.optionItems} value={10}>
+                      10
+                    </option>
                   </select>
-                  Items per page
+                  <span className={classes.itemsPerPage}>Items per page</span>
                 </label>
               </div>
               {allProjectData && (

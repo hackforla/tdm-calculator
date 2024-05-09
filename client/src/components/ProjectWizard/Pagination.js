@@ -5,15 +5,15 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChevronLeft,
-  faChevronRight,
-  faBackwardStep,
+  faAngleLeft,
+  faAngleRight,
+  faAnglesLeft,
   faAnglesRight
 } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles({
   paginationContainer: {
-    marginBottom: "20px"
+    marginRight: "10px"
   },
   pagination: {
     display: "flex"
@@ -37,7 +37,11 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri",
     fontWeight: "700",
     margin: "auto 0",
-    fontSize: "18px"
+    fontSize: "18px",
+    textDecoration: "none",
+    "&:hover": {
+      background: "silver"
+    }
   }
 });
 
@@ -63,13 +67,13 @@ const Pagination = props => {
           className={clsx("hoverPointer", classes.button)}
           onClick={firstPage}
         >
-          <FontAwesomeIcon icon={faBackwardStep} />
+          <FontAwesomeIcon icon={faAnglesLeft} />
         </button>
         <button
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("left")}
         >
-          <FontAwesomeIcon icon={faChevronLeft} />{" "}
+          <FontAwesomeIcon icon={faAngleLeft} />{" "}
         </button>
         {pageNumbers.map(number => (
           <li className={classes.pageLinkContainer} key={number}>
@@ -86,7 +90,7 @@ const Pagination = props => {
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("right")}
         >
-          <FontAwesomeIcon icon={faChevronRight} />{" "}
+          <FontAwesomeIcon icon={faAngleRight} />{" "}
         </button>
         <button
           className={clsx("hoverPointer", classes.button)}
