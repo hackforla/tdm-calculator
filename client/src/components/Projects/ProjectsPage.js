@@ -10,7 +10,7 @@ import {
   faFilter
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
-import Pagination from "../ProjectWizard/Pagination.js";
+import Pagination from "../UI/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
@@ -122,6 +122,26 @@ const useStyles = createUseStyles({
     overflow: "auto",
     width: "100%",
     margin: "20px 0px"
+  },
+  pageContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  dropContent: {
+    padding: "5px",
+    borderColor: "silver",
+    borderRadius: "4px"
+  },
+  optionItems: {
+    backgroundColor: "white",
+    "&:hover": {
+      backgroundColor: "silver"
+    }
+  },
+  itemsPerPage: {
+    marginLeft: "5px"
   }
 });
 
@@ -144,15 +164,24 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const [projectData, setProjectData] = useState();
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [projectData, setProjectData] = useState({});
+  const [perPage, setPerPage] = useState(10);
+  const projectsPerPage = perPage;
+  const highestPage = Math.ceil(projects.length / projectsPerPage);
+
+  const handlePerPageChange = newPerPage => {
+    setPerPage(newPerPage);
+    const newHighestPage = Math.ceil(projects.length / newPerPage);
+    if (currentPage > newHighestPage) {
+      setCurrentPage(1);
+    }
+  };
 
   const getCheckedProjects = checkedProjectIds.map(id =>
     projects.find(p => p.id === id)
   );
-
-  const projectsPerPage = 10;
-  const highestPage = Math.ceil(projects.length / projectsPerPage);
 
   const [criteria, setCriteria] = useState({
     type: "all",
@@ -740,11 +769,42 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   </tbody>
                 </table>
               </div>
-              <Pagination
-                projectsPerPage={projectsPerPage}
-                totalProjects={projects.length}
-                paginate={paginate}
-              />
+              <div className={classes.pageContainer}>
+                <Pagination
+                  projectsPerPage={projectsPerPage}
+                  totalProjects={sortedProjects.length}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                />
+                <label>
+                  <select
+                    className={classes.dropContent}
+                    // defaultValue={10}
+                    value={perPage}
+                    onChange={e => handlePerPageChange(e.target.value)}
+                  >
+                    <option
+                      className={classes.optionItems}
+                      value={projects.length}
+                    >
+                      All
+                    </option>
+                    <option className={classes.optionItems} value={100}>
+                      100
+                    </option>
+                    <option className={classes.optionItems} value={50}>
+                      50
+                    </option>
+                    <option className={classes.optionItems} value={25}>
+                      25
+                    </option>
+                    <option className={classes.optionItems} value={10}>
+                      10
+                    </option>
+                  </select>
+                  <span className={classes.itemsPerPage}>Items per page</span>
+                </label>
+              </div>
 
               {(selectedProject || checkedProjectsStatusData) && (
                 <>
