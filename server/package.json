@@ -1,7 +1,7 @@
 {
   "name": "tdm-calculator-api",
   "version": "0.2.49",
-  "description": "Traffic Data Management Calculator",
+  "description": "Transportation Demand Management Calculator",
   "repository": {
     "type": "git",
     "url": "https://github.com/hackforla/tdm-calculator"
@@ -9,7 +9,7 @@
   "main": "server.js",
   "scripts": {
     "precommit": "lint-staged",
-    "test": "jest --runInBand --passWithNoTests --forceExit",
+    "test": "jest --runInBand --passWithNoTests --forceExit --detectOpenHandles",
     "heroku-postbuild": "cd client && npm i && npm run build",
     "start": "nodemon",
     "release-notes": "gren release --override",
@@ -42,6 +42,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "@testcontainers/mssqlserver": "^10.9.0",
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-jest": "^27.6.0",

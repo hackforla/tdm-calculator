@@ -88,10 +88,10 @@ const validateRoles = authorizedRoles =>
         ) {
           return next();
         }
-        res.status("403").send("Unauthorized request");
+        res.status(403).send("Unauthorized request");
       }
     } catch (er) {
-      res.status("401").send("Unauthenticated User");
+      res.status(401).send("Unauthenticated User");
     }
   };
 
