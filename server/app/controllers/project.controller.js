@@ -1,4 +1,9 @@
 const projectService = require("../services/project.service");
+const {
+  validate,
+  validationErrorMiddleware
+} = require("../../middleware/validate");
+const projectSchema = require("../schemas/project");
 
 const getAll = async (req, res) => {
   try {
@@ -150,7 +155,7 @@ const getAllArchivedProjects = async (req, res) => {
 module.exports = {
   getAll,
   getById,
-  post,
+  post: [validate({ body: projectSchema }), post, validationErrorMiddleware],
   put,
   del,
   hide,

@@ -11,7 +11,7 @@ import {
   faAnglesRight
 } from "@fortawesome/free-solid-svg-icons";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   paginationContainer: {
     marginRight: "10px"
   },
@@ -36,17 +36,23 @@ const useStyles = createUseStyles({
   pageLink: {
     fontFamily: "Calibri",
     fontWeight: "700",
-    margin: "auto 0",
+    margin: "auto  0",
     fontSize: "18px",
     textDecoration: "none",
+    padding: "0 0.5rem",
+    border: "none",
     "&:hover": {
-      background: "silver"
+      background: theme.colorDeselect
     }
+  },
+  currentPageLink: {
+    color: "white",
+    backgroundColor: "blue"
   }
-});
+}));
 
 const Pagination = props => {
-  const { projectsPerPage, totalProjects, paginate } = props;
+  const { projectsPerPage, totalProjects, paginate, currentPage } = props;
   const classes = useStyles();
   const pageNumbers = [];
   const firstPage = () => {
@@ -78,7 +84,11 @@ const Pagination = props => {
         {pageNumbers.map(number => (
           <li className={classes.pageLinkContainer} key={number}>
             <Link
-              className={classes.pageLink}
+              className={
+                number === currentPage
+                  ? clsx(classes.pageLink, classes.currentPageLink)
+                  : classes.pageLink
+              }
               to="#"
               onClick={() => paginate(number)}
             >
@@ -108,5 +118,6 @@ export default Pagination;
 Pagination.propTypes = {
   projectsPerPage: PropTypes.number.isRequired,
   totalProjects: PropTypes.number.isRequired,
-  paginate: PropTypes.func.isRequired
+  paginate: PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired
 };

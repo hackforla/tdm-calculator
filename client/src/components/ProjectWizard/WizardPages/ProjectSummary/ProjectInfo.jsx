@@ -6,7 +6,8 @@ const useStyles = createUseStyles({
   projectInfoDetailsSubContainer: {
     display: "flex",
     alignItems: "baseline",
-    maxHeight: "20px"
+    maxHeight: "20px",
+    width: "50%"
   },
   projectInfoCategory: {
     fontWeight: "600",

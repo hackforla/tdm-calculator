@@ -45,11 +45,11 @@ const useStyles = createUseStyles({
 const ProjectContextMenu = ({
   project,
   closeMenu,
+  handleCsvModalOpen,
   handleCopyModalOpen,
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
-  handleDownloadCsv,
   handlePrintPdf,
   handleHide
 }) => {
@@ -115,7 +115,7 @@ const ProjectContextMenu = ({
         Print Summary
       </li>
       <li
-        onClick={() => handleClick(handleDownloadCsv)}
+        onClick={() => handleClick(() => handleCsvModalOpen(project))}
         className={classes.listItem}
       >
         <FontAwesomeIcon
@@ -169,7 +169,7 @@ const ProjectContextMenu = ({
           style={{ borderTop: "1px solid black" }}
         >
           {project.dateTrashed ? (
-            <span style={{ color: "#a7c539" }}>
+            <span style={{ color: "" }}>
               <FontAwesomeIcon
                 icon={faTrashArrowUp}
                 className={classes.listItemIcon}
@@ -196,11 +196,11 @@ const ProjectContextMenu = ({
 ProjectContextMenu.propTypes = {
   project: PropTypes.object,
   closeMenu: PropTypes.func,
+  handleCsvModalOpen: PropTypes.func,
   handleCopyModalOpen: PropTypes.func,
   handleDeleteModalOpen: PropTypes.func,
   handleSnapshotModalOpen: PropTypes.func,
   handleRenameSnapshotModalOpen: PropTypes.func,
-  handleDownloadCsv: PropTypes.func,
   handlePrintPdf: PropTypes.func,
   handleHide: PropTypes.func
 };

@@ -20,7 +20,7 @@ const getAll = async (req, res) => {
     const response = await accountService.selectAll();
     res.send(response);
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(500).json({ error: err.toString() });
   }
 };
 
@@ -37,7 +37,7 @@ const getAll = async (req, res) => {
 //       res.send(response);
 //     }
 //   } catch (err) {
-//     res.status("500").json({ error: err.toString() });
+//     res.status(500).json({ error: err.toString() });
 //   }
 // };
 
@@ -47,7 +47,7 @@ const getByEmail = async (req, res) => {
     const response = await accountService.selectByEmail(id);
     res.send(response);
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(500).json({ error: err.toString() });
   }
 };
 
@@ -56,16 +56,18 @@ const register = async (req, res) => {
     const response = await accountService.register(req.body);
     res.send(response);
   } catch (err) {
-    res.status(err.code || "500").json({ error: err.toString() });
+    res.status(err.code || 500).json({ error: err.toString() });
   }
 };
 
 const updateAccount = async (req, res) => {
   try {
-    const response = await accountService.updateAccount(req.body);
+    const loggedInUser = req.user.id;
+    const updatedFields = { ...req.body, id: loggedInUser };
+    const response = await accountService.updateAccount(updatedFields);
     res.send(response);
   } catch (err) {
-    res.status(err.code || "500").json({ error: err.toString() });
+    res.status(err.code || 500).json({ error: err.toString() });
   }
 };
 
@@ -76,7 +78,7 @@ const resendConfirmationEmail = async (req, res) => {
     );
     res.send(response);
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(500).json({ error: err.toString() });
   }
 };
 
@@ -85,7 +87,7 @@ const forgotPassword = async (req, res) => {
     const response = await accountService.forgotPassword(req.body);
     res.send(response);
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(500).json({ error: err.toString() });
   }
 };
 
@@ -94,7 +96,7 @@ const resetPassword = async (req, res) => {
     const response = await accountService.resetPassword(req.body);
     res.send(response);
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(500).json({ error: err.toString() });
   }
 };
 
@@ -102,12 +104,12 @@ const confirmRegister = async (req, res) => {
   try {
     const { id } = req.params;
     if (id !== req.body.id) {
-      res.status("400");
+      res.status(401);
     }
     const response = await accountService.confirmRegistration(req.body.token);
     res.send(response);
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(500).json({ error: err.toString() });
   }
 };
 
@@ -122,7 +124,7 @@ const login = async (req, res, next) => {
       res.json(resp);
     }
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(500).json({ error: err.toString() });
   }
 };
 
@@ -131,7 +133,7 @@ const put = async (req, res) => {
     await accountService.update(req.body);
     res.sendStatus(200);
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(500).json({ error: err.toString() });
   }
 };
 
@@ -229,7 +231,7 @@ const getAuthorization = async (req, res, next) => {
       res.json(resp);
     }
   } catch (err) {
-    res.status("500").json({ error: err.toString() });
+    res.status(500).json({ error: err.toString() });
   }
 };
 
