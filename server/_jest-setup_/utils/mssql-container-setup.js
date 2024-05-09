@@ -1,4 +1,3 @@
-// const { GenericContainer, Wait } = require("testcontainers");
 const { MSSQLServerContainer } = require("@testcontainers/mssqlserver");
 const sql = require("mssql");
 const util = require("util");
