@@ -5,13 +5,15 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChevronLeft,
-  faChevronRight
+  faAngleLeft,
+  faAngleRight,
+  faAnglesLeft,
+  faAnglesRight
 } from "@fortawesome/free-solid-svg-icons";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   paginationContainer: {
-    marginBottom: "20px"
+    marginRight: "10px"
   },
   pagination: {
     display: "flex"
@@ -34,15 +36,31 @@ const useStyles = createUseStyles({
   pageLink: {
     fontFamily: "Calibri",
     fontWeight: "700",
-    margin: "auto 0",
-    fontSize: "18px"
+    margin: "auto  0",
+    fontSize: "18px",
+    textDecoration: "none",
+    padding: "0 0.5rem",
+    border: "none",
+    "&:hover": {
+      background: theme.colorDeselect
+    }
+  },
+  currentPageLink: {
+    color: "white",
+    backgroundColor: "blue"
   }
-});
+}));
 
 const Pagination = props => {
-  const { projectsPerPage, totalProjects, paginate } = props;
+  const { projectsPerPage, totalProjects, paginate, currentPage } = props;
   const classes = useStyles();
   const pageNumbers = [];
+  const firstPage = () => {
+    return paginate(1);
+  };
+  const lastPage = () => {
+    return paginate(Math.ceil(totalProjects / projectsPerPage));
+  };
 
   for (let i = 1; i <= Math.ceil(totalProjects / projectsPerPage); i++) {
     pageNumbers.push(i);
@@ -53,14 +71,24 @@ const Pagination = props => {
       <ul className={classes.pagination}>
         <button
           className={clsx("hoverPointer", classes.button)}
+          onClick={firstPage}
+        >
+          <FontAwesomeIcon icon={faAnglesLeft} />
+        </button>
+        <button
+          className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("left")}
         >
-          <FontAwesomeIcon icon={faChevronLeft} />{" "}
+          <FontAwesomeIcon icon={faAngleLeft} />{" "}
         </button>
         {pageNumbers.map(number => (
           <li className={classes.pageLinkContainer} key={number}>
             <Link
-              className={classes.pageLink}
+              className={
+                number === currentPage
+                  ? clsx(classes.pageLink, classes.currentPageLink)
+                  : classes.pageLink
+              }
               to="#"
               onClick={() => paginate(number)}
             >
@@ -72,7 +100,13 @@ const Pagination = props => {
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("right")}
         >
-          <FontAwesomeIcon icon={faChevronRight} />{" "}
+          <FontAwesomeIcon icon={faAngleRight} />{" "}
+        </button>
+        <button
+          className={clsx("hoverPointer", classes.button)}
+          onClick={lastPage}
+        >
+          <FontAwesomeIcon icon={faAnglesRight} />
         </button>
       </ul>
     </div>
@@ -84,5 +118,6 @@ export default Pagination;
 Pagination.propTypes = {
   projectsPerPage: PropTypes.number.isRequired,
   totalProjects: PropTypes.number.isRequired,
-  paginate: PropTypes.func.isRequired
+  paginate: PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired
 };
