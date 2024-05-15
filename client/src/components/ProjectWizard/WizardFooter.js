@@ -6,6 +6,7 @@ import { createUseStyles } from "react-jss";
 import PrintButton from "../Button/PrintButton";
 import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
+import moment from "moment";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -27,6 +28,13 @@ const useStyles = createUseStyles({
   },
   lastSavedContainer: {
     margin: "0 auto"
+  },
+  datesStatus: {
+    width: "90%",
+    display: "flex",
+    alignItems: "flex-start",
+    flexDirection: "column",
+    gap: "7px"
   }
 });
 
@@ -40,7 +48,8 @@ const WizardFooter = ({
   setDisplaySaveButton,
   setDisplayPrintButton,
   onSave,
-  dateModified
+  dateModified,
+  dateSnapshotted
 }) => {
   const classes = useStyles();
   const componentRef = useRef();
@@ -48,6 +57,9 @@ const WizardFooter = ({
   const projectName = projectNameRule
     ? projectNameRule.value
     : "TDM Calculation Summary";
+  const parseDateModified = moment(dateModified, "MM/DD/YYYY h:mm A");
+  const formattedDateModified =
+    parseDateModified.format("YYYY-MM-DD, HH:mm:ss") + " Pacific Time";
 
   return (
     <>
@@ -108,6 +120,21 @@ const WizardFooter = ({
           </>
         ) : null}
       </div>
+
+      {page === 5 && !formattedDateModified.includes("Invalid date") ? (
+        <div className={classes.datesStatus}>
+          {dateSnapshotted !== "Invalid date" ? (
+            <div>
+              <strong>Snapshot Created: </strong>
+              {dateSnapshotted}
+            </div>
+          ) : null}
+          <div>
+            <strong>Date Last Saved: </strong>
+            {formattedDateModified}
+          </div>
+        </div>
+      ) : null}
     </>
   );
 };
@@ -125,7 +152,8 @@ WizardFooter.propTypes = {
   setDisplayPrintButton: PropTypes.any,
   onSave: PropTypes.any,
   onDownload: PropTypes.any,
-  dateModified: PropTypes.any
+  dateModified: PropTypes.any,
+  dateSnapshotted: PropTypes.string
 };
 
 export default WizardFooter;
