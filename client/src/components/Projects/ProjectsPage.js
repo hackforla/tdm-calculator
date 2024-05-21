@@ -774,8 +774,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   projectsPerPage={projectsPerPage}
                   //TODO: Revert totalProjects value by uncommenting it
                   //! Hardcoded totalProjects prop so simulate more pages
-                  // totalProjects={sortedProjects.length}
-                  totalProjects={150}
+                  totalProjects={sortedProjects.length}
+                  // totalProjects={150}
                   paginate={paginate}
                   currentPage={currentPage}
                 />

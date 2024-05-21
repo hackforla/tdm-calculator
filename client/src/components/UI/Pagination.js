@@ -55,7 +55,7 @@ const Pagination = props => {
   const { projectsPerPage, totalProjects, paginate, currentPage } = props;
   const classes = useStyles();
   const pageNumbers = [];
-  const visiblePageLinks = [];
+  let visiblePageLinks = [];
 
   const firstPage = () => {
     return paginate(1);
@@ -79,6 +79,7 @@ const Pagination = props => {
   ) => {
     console.clear();
 
+    visiblePageLinks = [];
     const maxNumOfVisiblePages = 5;
     const firstVisiblePage = 1;
     const lastVisiblePage = pageNumbers[pageNumbers.length - 1];
@@ -92,13 +93,14 @@ const Pagination = props => {
       currentPage: ${currentPage}`
     );
 
-    //TODO: fix bug that causes items per page to break some page number logic
-    //TODO: try implementing a sliding window
+    //TODO: try implementing sliding window logic
 
     //^ edge case for first 2 pages
     if (currentPage === firstVisiblePage || currentPage === 2) {
-      for (let i = firstVisiblePage; i <= maxNumOfVisiblePages; i++) {
-        visiblePageLinks.push(i);
+      for (let i = firstVisiblePage; i <= totalNumOfPages; i++) {
+        if (visiblePageLinks.length !== maxNumOfVisiblePages) {
+          visiblePageLinks.push(i);
+        }
       }
       console.log("edge case: FIRST 2 PAGES");
     } //^ edge case for last 2 pages
@@ -107,9 +109,12 @@ const Pagination = props => {
       currentPage === lastVisiblePage - 1
     ) {
       for (let i = lastVisiblePage - 4; i <= lastVisiblePage; i++) {
-        visiblePageLinks.push(i);
+        if (i >= firstVisiblePage) {
+          visiblePageLinks.push(i);
+        }
       }
       console.log("edge case: LAST 2 PAGES");
+      //^ case for all other pages pages
     } else if (currentPage >= 3 && currentPage <= pageNumbers.length - 2) {
       for (let i = currentPage - 2; i <= currentPage + 2; i++) {
         if (visiblePageLinks.length <= maxNumOfVisiblePages) {
@@ -118,6 +123,7 @@ const Pagination = props => {
       }
       console.log("visiblePageLinks MIDDLE PAGES check ", visiblePageLinks);
     }
+    console.log("visiblePageLinks: ", visiblePageLinks);
   };
   {
     displayProjectPageLinks(pageNumbers, currentPage, projectsPerPage);
