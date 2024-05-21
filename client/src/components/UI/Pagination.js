@@ -159,7 +159,11 @@ const Pagination = props => {
 
         <button
           className={clsx("hoverPointer", classes.button)}
-          onClick={() => paginate("right")}
+          onClick={() =>
+            currentPage === pageNumbers[pageNumbers.length - 1]
+              ? null
+              : paginate("right")
+          }
         >
           <FontAwesomeIcon icon={faAngleRight} />{" "}
         </button>
