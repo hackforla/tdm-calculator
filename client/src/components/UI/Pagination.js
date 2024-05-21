@@ -68,65 +68,51 @@ const Pagination = props => {
     pageNumbers.push(i);
   }
 
-  //TODO: Make this function accept props for maximum number of pages etc
-  //TODO - refactor to make more efficient / easier to read. Possibly turn loop logic into one separate function that can be called
+  //TODO: Make displayProjectPageLinks function accept props for maximum number of pages, sibling count etc
 
-  const displayProjectPageLinks = (
-    pageNumbers,
-    currentPage,
-    projectsPerPage
-    // totalProjects,
-  ) => {
+  const displayProjectPageLinks = currentPage => {
     console.clear();
 
     visiblePageLinks = [];
+    let startPage, endPage;
     const maxNumOfVisiblePages = 5;
-    const firstVisiblePage = 1;
-    const lastVisiblePage = pageNumbers[pageNumbers.length - 1];
     const totalNumOfPages = Math.ceil(totalProjects / projectsPerPage);
 
+    if (totalNumOfPages <= maxNumOfVisiblePages) {
+      // If total # of pages is less than max visible pages, display all pages
+      startPage = 1;
+      endPage = totalNumOfPages;
+    } else if (currentPage <= 3) {
+      // Case for first 2 pages
+      startPage = 1;
+      endPage = maxNumOfVisiblePages;
+    } else if (currentPage + 2 >= totalNumOfPages) {
+      // Case for last 2 pages
+      startPage = totalNumOfPages - maxNumOfVisiblePages + 1;
+      endPage = totalNumOfPages;
+    } else {
+      // Case for all other pages pages
+      startPage = currentPage - 2;
+      endPage = currentPage + 2;
+    }
+
+    //finally, push all necessary page numbers into visiblePageLinks array
+    for (let i = startPage; i <= endPage; i++) {
+      visiblePageLinks.push(i);
+    }
+
+    //! for debugging
     console.log("projects per page: ", projectsPerPage);
     console.log("totalNumOfPages: ", totalNumOfPages);
     console.log(
-      `pageNumbers: ${pageNumbers} 
-      maxNumOfVisiblePages: ${maxNumOfVisiblePages}
-      currentPage: ${currentPage}`
+      `maxNumOfVisiblePages: ${maxNumOfVisiblePages}
+        currentPage: ${currentPage}`
     );
-
-    //TODO: try implementing sliding window logic
-
-    //^ edge case for first 2 pages
-    if (currentPage === firstVisiblePage || currentPage === 2) {
-      for (let i = firstVisiblePage; i <= totalNumOfPages; i++) {
-        if (visiblePageLinks.length !== maxNumOfVisiblePages) {
-          visiblePageLinks.push(i);
-        }
-      }
-      console.log("edge case: FIRST 2 PAGES");
-    } //^ edge case for last 2 pages
-    else if (
-      currentPage === lastVisiblePage ||
-      currentPage === lastVisiblePage - 1
-    ) {
-      for (let i = lastVisiblePage - 4; i <= lastVisiblePage; i++) {
-        if (i >= firstVisiblePage) {
-          visiblePageLinks.push(i);
-        }
-      }
-      console.log("edge case: LAST 2 PAGES");
-      //^ case for all other pages pages
-    } else if (currentPage >= 3 && currentPage <= pageNumbers.length - 2) {
-      for (let i = currentPage - 2; i <= currentPage + 2; i++) {
-        if (visiblePageLinks.length <= maxNumOfVisiblePages) {
-          visiblePageLinks.push(i);
-        }
-      }
-      console.log("visiblePageLinks MIDDLE PAGES check ", visiblePageLinks);
-    }
     console.log("visiblePageLinks: ", visiblePageLinks);
   };
+
   {
-    displayProjectPageLinks(pageNumbers, currentPage, projectsPerPage);
+    displayProjectPageLinks(currentPage);
   }
 
   return (
