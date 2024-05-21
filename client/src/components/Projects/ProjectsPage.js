@@ -772,7 +772,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
               <div className={classes.pageContainer}>
                 <Pagination
                   projectsPerPage={projectsPerPage}
-                  totalProjects={sortedProjects.length}
+                  //TODO: Revert totalProjects value by uncommenting it
+                  //! Hardcoded totalProjects prop so simulate more pages
+                  // totalProjects={sortedProjects.length}
+                  totalProjects={150}
                   paginate={paginate}
                   currentPage={currentPage}
                 />

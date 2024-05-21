@@ -55,6 +55,8 @@ const Pagination = props => {
   const { projectsPerPage, totalProjects, paginate, currentPage } = props;
   const classes = useStyles();
   const pageNumbers = [];
+  const visiblePageLinks = [];
+
   const firstPage = () => {
     return paginate(1);
   };
@@ -66,9 +68,65 @@ const Pagination = props => {
     pageNumbers.push(i);
   }
 
+  //TODO: Make this function accept props for maximum number of pages etc
+  //TODO - refactor to make more efficient / easier to read. Possibly turn loop logic into one separate function that can be called
+
+  const displayProjectPageLinks = (
+    pageNumbers,
+    currentPage,
+    projectsPerPage
+    // totalProjects,
+  ) => {
+    console.clear();
+
+    const maxNumOfVisiblePages = 5;
+    const firstVisiblePage = 1;
+    const lastVisiblePage = pageNumbers[pageNumbers.length - 1];
+    const totalNumOfPages = Math.ceil(totalProjects / projectsPerPage);
+
+    console.log("projects per page: ", projectsPerPage);
+    console.log("totalNumOfPages: ", totalNumOfPages);
+    console.log(
+      `pageNumbers: ${pageNumbers} 
+      maxNumOfVisiblePages: ${maxNumOfVisiblePages}
+      currentPage: ${currentPage}`
+    );
+
+    //TODO: fix bug that causes items per page to break some page number logic
+    //TODO: try implementing a sliding window
+
+    //^ edge case for first 2 pages
+    if (currentPage === firstVisiblePage || currentPage === 2) {
+      for (let i = firstVisiblePage; i <= maxNumOfVisiblePages; i++) {
+        visiblePageLinks.push(i);
+      }
+      console.log("edge case: FIRST 2 PAGES");
+    } //^ edge case for last 2 pages
+    else if (
+      currentPage === lastVisiblePage ||
+      currentPage === lastVisiblePage - 1
+    ) {
+      for (let i = lastVisiblePage - 4; i <= lastVisiblePage; i++) {
+        visiblePageLinks.push(i);
+      }
+      console.log("edge case: LAST 2 PAGES");
+    } else if (currentPage >= 3 && currentPage <= pageNumbers.length - 2) {
+      for (let i = currentPage - 2; i <= currentPage + 2; i++) {
+        if (visiblePageLinks.length <= maxNumOfVisiblePages) {
+          visiblePageLinks.push(i);
+        }
+      }
+      console.log("visiblePageLinks MIDDLE PAGES check ", visiblePageLinks);
+    }
+  };
+  {
+    displayProjectPageLinks(pageNumbers, currentPage, projectsPerPage);
+  }
+
   return (
     <div className={classes.paginationContainer}>
       <ul className={classes.pagination}>
+        {/* TODO: ensure these buttons are deactivated if on the FIRST page */}
         <button
           className={clsx("hoverPointer", classes.button)}
           onClick={firstPage}
@@ -81,7 +139,8 @@ const Pagination = props => {
         >
           <FontAwesomeIcon icon={faAngleLeft} />{" "}
         </button>
-        {pageNumbers.map(number => (
+
+        {visiblePageLinks.map(number => (
           <li className={classes.pageLinkContainer} key={number}>
             <Link
               className={
@@ -96,6 +155,8 @@ const Pagination = props => {
             </Link>
           </li>
         ))}
+        {/* TODO: ensure these buttons are deactivated if on the LAST page */}
+
         <button
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("right")}
