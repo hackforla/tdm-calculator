@@ -62,6 +62,7 @@ const Pagination = props => {
   const classes = useStyles();
   const pageNumbers = [];
   let visiblePageLinks = [];
+  const totalNumOfPages = Math.ceil(totalProjects / projectsPerPage);
 
   const firstPage = () => {
     return paginate(1);
@@ -76,14 +77,11 @@ const Pagination = props => {
 
   //TODO: Implement sibling count logic. This component should  accept a prop for sibling count
 
-  //FIXME: User can advance to one page higher than the last page. This is temporarily fixed using logic in the onClick event for advance right btn.  Current suspect is the paginate function in ProjectPage.js
-
   const displayProjectPageLinks = currentPage => {
     console.clear();
 
     visiblePageLinks = [];
     let startPage, endPage;
-    const totalNumOfPages = Math.ceil(totalProjects / projectsPerPage);
 
     if (totalNumOfPages <= maxNumOfVisiblePages) {
       // If total # of pages is less than max visible pages, display all pages
@@ -110,6 +108,7 @@ const Pagination = props => {
 
     //! for debugging
     console.log(`
+    totalProjects: ${totalProjects}
     projectsPerPage: ${projectsPerPage} ${typeof projectsPerPage}
     totalNumOfPages: ${totalNumOfPages} ${typeof totalNumOfPages}
     currentPage: ${currentPage} ${typeof currentPage}
@@ -155,11 +154,7 @@ const Pagination = props => {
 
         <button
           className={clsx("hoverPointer", classes.button)}
-          onClick={() =>
-            currentPage === pageNumbers[pageNumbers.length - 1]
-              ? null
-              : paginate("right")
-          }
+          onClick={() => paginate("right")}
         >
           <FontAwesomeIcon icon={faAngleRight} />{" "}
         </button>

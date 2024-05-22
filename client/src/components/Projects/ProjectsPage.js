@@ -165,11 +165,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [projectData, setProjectData] = useState();
-
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const projectsPerPage = perPage;
-  const highestPage = Math.ceil(projects.length / projectsPerPage);
 
   const handlePerPageChange = newPerPage => {
     setPerPage(newPerPage);
@@ -235,11 +233,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
   })();
 
   const paginate = pageNumber => {
+    const newHighestPage = Math.ceil(sortedProjects.length / perPage);
     if (typeof pageNumber === "number") {
       setCurrentPage(pageNumber);
     } else if (pageNumber === "left" && currentPage !== 1) {
       setCurrentPage(currentPage - 1);
-    } else if (pageNumber === "right" && currentPage !== highestPage) {
+    } else if (pageNumber === "right" && currentPage < newHighestPage) {
       setCurrentPage(currentPage + 1);
     }
     // uncheck Projects on page change
@@ -772,9 +771,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
               <div className={classes.pageContainer}>
                 <Pagination
                   projectsPerPage={projectsPerPage}
-                  //!Revert totalProjects value by uncommenting it
                   totalProjects={sortedProjects.length}
-                  // totalProjects={150}
                   paginate={paginate}
                   currentPage={currentPage}
                   maxNumOfVisiblePages={5}
