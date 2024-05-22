@@ -62,7 +62,7 @@ const ProjectTableRow = ({
     .toFormat("yyyy-MM-dd, HH:mm:ss 'Pacific Time'");
   const dateSnapshotted = DateTime.fromISO(project.dateSnapshotted ?? "")
     .setZone("America/Los_Angeles")
-    .toFormat("yyyy-MM-dd hh:mm a 'Pacific Time'");
+    .toFormat("yyyy-MM-dd, hh:mm a 'Pacific Time'");
   const formInputs = JSON.parse(project.formInputs);
   const printRef = useRef();
 

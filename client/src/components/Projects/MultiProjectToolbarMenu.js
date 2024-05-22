@@ -58,7 +58,7 @@ const MultiProjectToolbarMenu = ({
     checkedProjectsStatusData.dateSnapshotted ?? ""
   )
     .setZone("America/Los_Angeles")
-    .toFormat("yyyy-MM-dd hh:mm a 'Pacific Time'");
+    .toFormat("yyyy-MM-dd, hh:mm a 'Pacific Time'");
 
   const printRef = useRef(null);
   const classes = useStyles();
