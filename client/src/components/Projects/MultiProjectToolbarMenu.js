@@ -13,7 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tooltip } from "react-tooltip";
 import PdfPrint from "../PdfPrint/PdfPrint";
-import moment from "moment";
+import { DateTime } from "luxon";
 import { useReactToPrint } from "react-to-print";
 
 const useStyles = createUseStyles({
@@ -51,7 +51,15 @@ const MultiProjectToolbarMenu = ({
   checkedProjectsStatusData,
   pdfProjectData
 }) => {
-  const momentModified = moment(checkedProjectsStatusData.dateModified);
+  const modifiedDate = DateTime.fromISO(checkedProjectsStatusData.dateModified)
+    .setZone("America/Los_Angeles")
+    .toFormat("yyyy-MM-dd, HH:mm:ss 'Pacific Time'");
+  const dateSnapshotted = DateTime.fromISO(
+    checkedProjectsStatusData.dateSnapshotted ?? ""
+  )
+    .setZone("America/Los_Angeles")
+    .toFormat("yyyy-MM-dd hh:mm a 'Pacific Time'");
+
   const printRef = useRef(null);
   const classes = useStyles();
   const userContext = useContext(UserContext);
@@ -146,7 +154,8 @@ const MultiProjectToolbarMenu = ({
               <PdfPrint
                 ref={printRef}
                 rules={pdfProjectData.pdf}
-                dateModified={momentModified.format("MM/DD/YYYY")}
+                dateModified={modifiedDate}
+                dateSnapshotted={dateSnapshotted}
               />
             </div>
           )}

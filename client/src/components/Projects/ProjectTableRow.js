@@ -12,6 +12,7 @@ import {
   faEllipsisV
 } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import { DateTime } from "luxon";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
@@ -56,7 +57,12 @@ const ProjectTableRow = ({
   checkedProjectIds
 }) => {
   const classes = useStyles();
-  const momentModified = moment(project.dateModified);
+  const modifiedDate = DateTime.fromISO(project.dateModified)
+    .setZone("America/Los_Angeles")
+    .toFormat("yyyy-MM-dd, HH:mm:ss 'Pacific Time'");
+  const dateSnapshotted = DateTime.fromISO(project.dateSnapshotted ?? "")
+    .setZone("America/Los_Angeles")
+    .toFormat("yyyy-MM-dd hh:mm a 'Pacific Time'");
   const formInputs = JSON.parse(project.formInputs);
   const printRef = useRef();
 
@@ -177,7 +183,8 @@ const ProjectTableRow = ({
               <PdfPrint
                 ref={printRef}
                 rules={projectRules}
-                dateModified={momentModified.format("MM/DD/YYYY")}
+                dateModified={modifiedDate}
+                dateSnapshotted={dateSnapshotted}
               />
             </div>
           </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import { DateTime } from "luxon";
 
 const useStyles = createUseStyles({
   pdfTimeText: {
@@ -15,19 +16,20 @@ const useStyles = createUseStyles({
   }
 });
 
-const PdfFooter = props => {
+const PdfFooter = ({ dateModified, dateSnapshotted }) => {
   const classes = useStyles();
-  const { dateModified } = props;
-  const [printedDate, setPrintedDate] = useState(new Date());
+
+  const [printedDate, setPrintedDate] = useState(DateTime.now());
 
   useEffect(() => {
     // You would update these dates based on your application logic
     // For instance, you might fetch them from an API when the component mounts
     const updateDates = () => {
-      setPrintedDate(new Date()); // replace with actual date
+      setPrintedDate(DateTime.now()); // replace with actual date
     };
 
     updateDates();
+
     const intervalId = setInterval(updateDates, 60 * 1000); // updates every minute
 
     return () => clearInterval(intervalId); // cleanup on unmount
@@ -35,9 +37,14 @@ const PdfFooter = props => {
 
   return (
     <section className={classes.pdfFooterContainer}>
-      <div className={classes.pdfTimeText}>
-        Date Last Saved: {dateModified} Pacific Time
-      </div>
+      {dateSnapshotted !== "Invalid DateTime" ? (
+        <div className={classes.pdfTimeText}>
+          Snapshot Submitted: {dateSnapshotted}
+        </div>
+      ) : (
+        ""
+      )}
+      <div className={classes.pdfTimeText}>Date Last Saved: {dateModified}</div>
       <div
         className={classes.pdfTimeText}
         style={{
@@ -47,10 +54,9 @@ const PdfFooter = props => {
         }}
       >
         Date Printed:{" "}
-        {printedDate.toLocaleString("en-US", {
-          timeZone: "America/Los_Angeles"
-        })}{" "}
-        Pacific Time
+        {printedDate
+          .setZone("America/Los_Angeles")
+          .toFormat("yyyy-MM-dd, HH:mm:ss 'Pacific Time'")}
       </div>
       <span className={classes.pdfTimeText}>
         Los Angeles Department of Transportation | tdm.ladot.lacity.org |
@@ -59,8 +65,10 @@ const PdfFooter = props => {
     </section>
   );
 };
+
 PdfFooter.propTypes = {
-  dateModified: PropTypes.string || null
+  dateModified: PropTypes.string || null,
+  dateSnapshotted: PropTypes.string || null
 };
 
 export default PdfFooter;
