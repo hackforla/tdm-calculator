@@ -173,7 +173,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handlePerPageChange = newPerPage => {
     setPerPage(newPerPage);
-    const newHighestPage = Math.ceil(projects.length / newPerPage);
+    const newHighestPage = Math.ceil(sortedProjects.length / newPerPage);
+
     if (currentPage > newHighestPage) {
       setCurrentPage(1);
     }
@@ -771,8 +772,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
               <div className={classes.pageContainer}>
                 <Pagination
                   projectsPerPage={projectsPerPage}
-                  //TODO: Revert totalProjects value by uncommenting it
-                  //! Hardcoded totalProjects prop so simulate more pages
+                  //!Revert totalProjects value by uncommenting it
                   totalProjects={sortedProjects.length}
                   // totalProjects={150}
                   paginate={paginate}

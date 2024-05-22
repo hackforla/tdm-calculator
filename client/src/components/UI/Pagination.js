@@ -76,9 +76,7 @@ const Pagination = props => {
 
   //TODO: Implement sibling count logic. This component should  accept a prop for sibling count
 
-  //FIXME: in some cases when user selects the last page, then selects a higher "items per page" value the UI displays no data, and no page is selected.
-
-  //FIXME: User can advance to one page higher than the last page. This is temporarily fixed using logic in the onClick event for the advance right btn.  Current suspect is the paginate function in ProjectPage.js
+  //FIXME: User can advance to one page higher than the last page. This is temporarily fixed using logic in the onClick event for advance right btn.  Current suspect is the paginate function in ProjectPage.js
 
   const displayProjectPageLinks = currentPage => {
     console.clear();
@@ -111,13 +109,12 @@ const Pagination = props => {
     }
 
     //! for debugging
-    console.log("projects per page: ", projectsPerPage);
-    console.log("totalNumOfPages: ", totalNumOfPages);
-    console.log(
-      `maxNumOfVisiblePages: ${maxNumOfVisiblePages}
-        currentPage: ${currentPage}`
-    );
-    console.log("visiblePageLinks: ", visiblePageLinks);
+    console.log(`
+    projectsPerPage: ${projectsPerPage} ${typeof projectsPerPage}
+    totalNumOfPages: ${totalNumOfPages} ${typeof totalNumOfPages}
+    currentPage: ${currentPage} ${typeof currentPage}
+    visiblePageLinks: ${visiblePageLinks}
+    `);
   };
 
   {
