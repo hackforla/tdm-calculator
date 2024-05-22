@@ -52,7 +52,13 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Pagination = props => {
-  const { projectsPerPage, totalProjects, paginate, currentPage } = props;
+  const {
+    projectsPerPage,
+    totalProjects,
+    paginate,
+    currentPage,
+    maxNumOfVisiblePages
+  } = props;
   const classes = useStyles();
   const pageNumbers = [];
   let visiblePageLinks = [];
@@ -68,14 +74,17 @@ const Pagination = props => {
     pageNumbers.push(i);
   }
 
-  //TODO: Make displayProjectPageLinks function accept props for maximum number of pages, sibling count etc
+  //TODO: Implement sibling count logic. This component should  accept a prop for sibling count
+
+  //FIXME: in some cases when user selects the last page, then selects a higher "items per page" value the UI displays no data, and no page is selected.
+
+  //FIXME: User can advance to one page higher than the last page. This is temporarily fixed using logic in the onClick event for the advance right btn.  Current suspect is the paginate function in ProjectPage.js
 
   const displayProjectPageLinks = currentPage => {
     console.clear();
 
     visiblePageLinks = [];
     let startPage, endPage;
-    const maxNumOfVisiblePages = 5;
     const totalNumOfPages = Math.ceil(totalProjects / projectsPerPage);
 
     if (totalNumOfPages <= maxNumOfVisiblePages) {
@@ -96,7 +105,7 @@ const Pagination = props => {
       endPage = currentPage + 2;
     }
 
-    //finally, push all necessary page numbers into visiblePageLinks array
+    // lastly, push all necessary page numbers into visiblePageLinks array
     for (let i = startPage; i <= endPage; i++) {
       visiblePageLinks.push(i);
     }
@@ -118,7 +127,6 @@ const Pagination = props => {
   return (
     <div className={classes.paginationContainer}>
       <ul className={classes.pagination}>
-        {/* TODO: ensure these buttons are deactivated if on the FIRST page */}
         <button
           className={clsx("hoverPointer", classes.button)}
           onClick={firstPage}
@@ -147,7 +155,6 @@ const Pagination = props => {
             </Link>
           </li>
         ))}
-        {/* TODO: ensure these buttons are deactivated if on the LAST page */}
 
         <button
           className={clsx("hoverPointer", classes.button)}
@@ -176,5 +183,6 @@ Pagination.propTypes = {
   projectsPerPage: PropTypes.number.isRequired,
   totalProjects: PropTypes.number.isRequired,
   paginate: PropTypes.func.isRequired,
-  currentPage: PropTypes.number.isRequired
+  currentPage: PropTypes.number.isRequired,
+  maxNumOfVisiblePages: PropTypes.number.isRequired
 };

@@ -241,7 +241,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (pageNumber === "right" && currentPage !== highestPage) {
       setCurrentPage(currentPage + 1);
     }
-
     // uncheck Projects on page change
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
@@ -778,6 +777,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   // totalProjects={150}
                   paginate={paginate}
                   currentPage={currentPage}
+                  maxNumOfVisiblePages={5}
                 />
                 <label>
                   <select
