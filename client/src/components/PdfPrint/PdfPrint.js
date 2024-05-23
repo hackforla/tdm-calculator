@@ -132,7 +132,8 @@ const useStyles = createUseStyles({
 // eslint-disable-next-line react/display-name
 export const PdfPrint = forwardRef((props, ref) => {
   const classes = useStyles();
-  const { rules, dateModified } = props;
+
+  const { rules, dateModified, dateSnapshotted } = props;
 
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
@@ -324,16 +325,21 @@ export const PdfPrint = forwardRef((props, ref) => {
           />
         </div>
       </section>
-      <PdfFooter dateModified={dateModified} />
+      <PdfFooter
+        dateModified={dateModified}
+        dateSnapshotted={dateSnapshotted}
+      />
     </div>
   );
 });
+
 PdfPrint.propTypes = {
   rules: PropTypes.array,
   account: PropTypes.object,
   projectId: PropTypes.number,
   loginId: PropTypes.number,
-  dateModified: PropTypes.string || null
+  dateModified: PropTypes.string || null,
+  dateSnapshotted: PropTypes.string || null
 };
 
 export default PdfPrint;
