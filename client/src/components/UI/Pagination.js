@@ -75,9 +75,21 @@ const Pagination = props => {
     pageNumbers.push(i);
   }
 
-  //TODO: Implement sibling count logic. This component should  accept a prop for sibling count
+  // TODO: Add state variable to add/remove DOTS from the visible page list
+  /*
+  FOUR Possible states
+    Total page count is less than the page pills we want to show. In such a case we just return the range from 1 to totalPageCount.
 
-  const displayProjectPageLinks = currentPage => {
+    Total page count is greater than the page pills but only the right DOTS are visible.
+
+    Total page count is greater than the page pills but only the left DOTS are visible.
+
+    Total page count is greater than the page pills and both the left and the right DOTS are visible.
+*/
+
+  // FIXME: Known issue: when setting maxNumVisiblePages to 2 or lower pagination bugs are introduced. Fix the if else checks
+
+  const calculateVisiblePageLinks = currentPage => {
     console.clear();
 
     visiblePageLinks = [];
@@ -117,7 +129,7 @@ const Pagination = props => {
   };
 
   {
-    displayProjectPageLinks(currentPage);
+    calculateVisiblePageLinks(currentPage);
   }
 
   return (
