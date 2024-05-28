@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -25,6 +24,19 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
       isSelected: selectedProjects.includes(project.id)
     }))
   );
+
+  const formatDates = date => {
+    return new Date(date)
+      .toLocaleDateString("en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true
+      })
+      .replace(",", "");
+  };
 
   const onSelect = event => {
     const value = event.target.checked;
@@ -82,18 +94,15 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
                 {JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
               </td>
               <td className={classes.tableCell}>
-                {moment(project.dateCreated).format("MM/DD/YYYY h:mm A")}
+                {formatDates(project.dateCreated)}
               </td>
               <td className={classes.tableCell}>
-                {moment(project.dateModified).format("MM/DD/YYYY h:mm A")}
+                {formatDates(project.dateModified)}
               </td>
-              {/* <td>{JSON.stringify(project, null, 2)}</td> */}
             </tr>
           ))}
         </tbody>
       </table>
-
-      {/* <p>Selected Projects: {selectedProjects.join(", ")}</p> */}
     </div>
   );
 };
