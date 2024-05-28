@@ -771,8 +771,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
               <div className={classes.pageContainer}>
                 <Pagination
                   projectsPerPage={projectsPerPage}
-                  totalProjects={sortedProjects.length}
-                  // totalProjects={150}
+                  // totalProjects={sortedProjects.length}
+                  totalProjects={150}
                   paginate={paginate}
                   currentPage={currentPage}
                   maxNumOfVisiblePages={5}

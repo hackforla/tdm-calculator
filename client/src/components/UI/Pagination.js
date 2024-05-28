@@ -60,6 +60,8 @@ const Pagination = props => {
     maxNumOfVisiblePages
   } = props;
   const classes = useStyles();
+  // const [leftDotVisible, setLeftDotVisible] = useState(false);
+  // const [rightDotVisible, setRightDotVisible] = useState(false);
   const pageNumbers = [];
   let visiblePageLinks = [];
   const totalNumOfPages = Math.ceil(totalProjects / projectsPerPage);
@@ -76,16 +78,6 @@ const Pagination = props => {
   }
 
   // TODO: Add state variable to add/remove DOTS from the visible page list
-  /*
-  FOUR Possible states
-    Total page count is less than the page pills we want to show. In such a case we just return the range from 1 to totalPageCount.
-
-    Total page count is greater than the page pills but only the right DOTS are visible.
-
-    Total page count is greater than the page pills but only the left DOTS are visible.
-
-    Total page count is greater than the page pills and both the left and the right DOTS are visible.
-*/
 
   // FIXME: Known issue: when setting maxNumVisiblePages to 2 or lower pagination bugs are introduced. Fix the if else checks
 
@@ -93,6 +85,7 @@ const Pagination = props => {
     console.clear();
 
     visiblePageLinks = [];
+
     let startPage, endPage;
 
     if (totalNumOfPages <= maxNumOfVisiblePages) {
@@ -113,7 +106,7 @@ const Pagination = props => {
       endPage = currentPage + 2;
     }
 
-    // lastly, push all necessary page numbers into visiblePageLinks array
+    // push all necessary page numbers into visiblePageLinks array
     for (let i = startPage; i <= endPage; i++) {
       visiblePageLinks.push(i);
     }
@@ -124,13 +117,37 @@ const Pagination = props => {
     projectsPerPage: ${projectsPerPage} ${typeof projectsPerPage}
     totalNumOfPages: ${totalNumOfPages} ${typeof totalNumOfPages}
     currentPage: ${currentPage} ${typeof currentPage}
-    visiblePageLinks: ${visiblePageLinks}
+    visiblePageLinks: ${visiblePageLinks} 
+
     `);
   };
 
   {
     calculateVisiblePageLinks(currentPage);
   }
+
+  //FIXME: before dots on left side  the UI should show page 1, same for right side but last page
+  // Example: 1 ... 5 6 7 8 ... 10
+
+  const pagesHidden = position => {
+    let firstVisiblePage = visiblePageLinks[0];
+    let lastVisiblePage = visiblePageLinks[visiblePageLinks.length - 1];
+
+    // LEFT side logic
+    if (position === "left") {
+      if (firstVisiblePage !== 1) {
+        return true;
+      }
+    }
+
+    // RIGHT side logic
+    else if (position === "right") {
+      if (lastVisiblePage !== totalNumOfPages) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   return (
     <div className={classes.paginationContainer}>
@@ -147,6 +164,7 @@ const Pagination = props => {
         >
           <FontAwesomeIcon icon={faAngleLeft} />{" "}
         </button>
+        <span>{`${pagesHidden("left") ? "..." : ""}`}</span>
 
         {visiblePageLinks.map(number => (
           <li className={classes.pageLinkContainer} key={number}>
@@ -163,6 +181,7 @@ const Pagination = props => {
             </Link>
           </li>
         ))}
+        <span>{`${pagesHidden("right") ? "..." : ""}`}</span>
 
         <button
           className={clsx("hoverPointer", classes.button)}
