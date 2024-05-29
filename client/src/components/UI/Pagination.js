@@ -48,6 +48,12 @@ const useStyles = createUseStyles(theme => ({
   currentPageLink: {
     color: "white",
     backgroundColor: "blue"
+  },
+  dots: {
+    fontWeight: "400",
+    "&:hover": {
+      background: "none"
+    }
   }
 }));
 
@@ -76,9 +82,11 @@ const Pagination = props => {
     pageNumbers.push(i);
   }
 
-  // FIXME: Known issue: when setting maxNumVisiblePages to 2 or lower pagination bugs are introduced. Suspect is the if else block for the first two pages
+  // FIXME: Known bug: when setting maxNumVisiblePages to 2 or less pagination bugs are introduced. Suspect is the else-if block for the first two pages in calculateVisiblePageLinks
 
-  //FIXME: maxNumOfVisiblePages prop changes when selecting "Visibility - visible + hidden" in the filter section of the UI
+  //FIXME: Known bug: maxNumOfVisiblePages prop changes when selecting "Visibility - visible + hidden" in the filter section of the UI
+
+  //* Should maxNumOfVisiblePages include perimeter pages?
 
   const calculateVisiblePageLinks = currentPage => {
     console.clear();
@@ -124,22 +132,29 @@ const Pagination = props => {
     calculateVisiblePageLinks(currentPage);
   }
 
-  //^ Should maxNumOfVisiblePages include perimeter pages?
-
   const displayPerimeterPages = (position, page) => {
     let firstVisiblePage = visiblePageLinks[0];
     let lastVisiblePage = visiblePageLinks[visiblePageLinks.length - 1];
 
-    //TODO: style the li, Link, and span
-    const DOTS = <span className="">...</span>;
+    const dots = (
+      <span className={clsx(classes.pageLink, classes.dots)}>...</span>
+    );
 
     const pageLinkItem = (
       <li className={classes.pageLinkContainer}>
-        {position === "right" ? DOTS : null}
-        <Link className="" to="#" onClick={() => paginate(page)}>
+        {position === "right" ? dots : null}
+        <Link
+          className={
+            page === currentPage
+              ? clsx(classes.pageLink, classes.currentPageLink)
+              : classes.pageLink
+          }
+          to="#"
+          onClick={() => paginate(page)}
+        >
           {page}
         </Link>
-        {position === "left" ? DOTS : null}
+        {position === "left" ? dots : null}
       </li>
     );
 
