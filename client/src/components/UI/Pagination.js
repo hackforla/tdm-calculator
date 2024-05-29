@@ -82,16 +82,11 @@ const Pagination = props => {
     pageNumbers.push(i);
   }
 
-  // FIXME: Known bug: when setting maxNumVisiblePages to 2 or less pagination bugs are introduced. Suspect is the else-if block for the first two pages in calculateVisiblePageLinks
-
-  //FIXME: Known bug: maxNumOfVisiblePages prop changes when selecting "Visibility - visible + hidden" in the filter section of the UI
-
-  //* Should maxNumOfVisiblePages include perimeter pages?
+  // FIXME: Known bug: when setting maxNumOfVisiblePages to 2 or less pagination bugs are introduced. Suspect is the else-if block for the first two pages in calculateVisiblePageLinks
 
   const calculateVisiblePageLinks = currentPage => {
     console.clear();
 
-    visiblePageLinks = [];
     let startPage, endPage;
 
     if (totalNumOfPages <= maxNumOfVisiblePages) {
@@ -112,7 +107,7 @@ const Pagination = props => {
       endPage = currentPage + 2;
     }
 
-    // push all necessary page numbers into visiblePageLinks array
+    // push all gathered page numbers into array
     for (let i = startPage; i <= endPage; i++) {
       visiblePageLinks.push(i);
     }
@@ -135,7 +130,7 @@ const Pagination = props => {
   const displayPerimeterPages = (position, page) => {
     let firstVisiblePage = visiblePageLinks[0];
     let lastVisiblePage = visiblePageLinks[visiblePageLinks.length - 1];
-
+    const maxPagesReached = visiblePageLinks.length === maxNumOfVisiblePages;
     const dots = (
       <span className={clsx(classes.pageLink, classes.dots)}>...</span>
     );
@@ -159,13 +154,23 @@ const Pagination = props => {
     );
 
     if (position === "left" && firstVisiblePage !== 1) {
+      if (maxPagesReached) {
+        // ensure maxNumOfVisiblePages consistency
+        visiblePageLinks.shift();
+      }
       return pageLinkItem;
     } else if (position === "right" && lastVisiblePage !== totalNumOfPages) {
+      if (maxPagesReached) {
+        // ensure maxNumOfVisiblePages consistency
+        visiblePageLinks.pop();
+      }
       return pageLinkItem;
     }
-
     return false;
   };
+
+  const leftPerimeterLink = displayPerimeterPages("left", 1);
+  const rightPerimeterLink = displayPerimeterPages("right", totalNumOfPages);
 
   return (
     <div className={classes.paginationContainer}>
@@ -183,7 +188,7 @@ const Pagination = props => {
           <FontAwesomeIcon icon={faAngleLeft} />
         </button>
 
-        <span>{displayPerimeterPages("left", 1)}</span>
+        {leftPerimeterLink}
 
         {visiblePageLinks.map(number => (
           <li className={classes.pageLinkContainer} key={number}>
@@ -201,7 +206,7 @@ const Pagination = props => {
           </li>
         ))}
 
-        <span>{displayPerimeterPages("right", totalNumOfPages)}</span>
+        {rightPerimeterLink}
 
         <button
           className={clsx("hoverPointer", classes.button)}
