@@ -59,9 +59,8 @@ const Pagination = props => {
     currentPage,
     maxNumOfVisiblePages
   } = props;
+
   const classes = useStyles();
-  // const [leftDotVisible, setLeftDotVisible] = useState(false);
-  // const [rightDotVisible, setRightDotVisible] = useState(false);
   const pageNumbers = [];
   let visiblePageLinks = [];
   const totalNumOfPages = Math.ceil(totalProjects / projectsPerPage);
@@ -77,15 +76,14 @@ const Pagination = props => {
     pageNumbers.push(i);
   }
 
-  // TODO: Add state variable to add/remove DOTS from the visible page list
+  // FIXME: Known issue: when setting maxNumVisiblePages to 2 or lower pagination bugs are introduced. Suspect is the if else block for the first two pages
 
-  // FIXME: Known issue: when setting maxNumVisiblePages to 2 or lower pagination bugs are introduced. Fix the if else checks
+  //FIXME: maxNumOfVisiblePages prop changes when selecting "Visibility - visible + hidden" in the filter section of the UI
 
   const calculateVisiblePageLinks = currentPage => {
     console.clear();
 
     visiblePageLinks = [];
-
     let startPage, endPage;
 
     if (totalNumOfPages <= maxNumOfVisiblePages) {
@@ -126,26 +124,31 @@ const Pagination = props => {
     calculateVisiblePageLinks(currentPage);
   }
 
-  //FIXME: before dots on left side  the UI should show page 1, same for right side but last page
-  // Example: 1 ... 5 6 7 8 ... 10
+  //^ Should maxNumOfVisiblePages include perimeter pages?
 
-  const pagesHidden = position => {
+  const displayPerimeterPages = (position, page) => {
     let firstVisiblePage = visiblePageLinks[0];
     let lastVisiblePage = visiblePageLinks[visiblePageLinks.length - 1];
 
-    // LEFT side logic
-    if (position === "left") {
-      if (firstVisiblePage !== 1) {
-        return true;
-      }
+    //TODO: style the li, Link, and span
+    const DOTS = <span className="">...</span>;
+
+    const pageLinkItem = (
+      <li className={classes.pageLinkContainer}>
+        {position === "right" ? DOTS : null}
+        <Link className="" to="#" onClick={() => paginate(page)}>
+          {page}
+        </Link>
+        {position === "left" ? DOTS : null}
+      </li>
+    );
+
+    if (position === "left" && firstVisiblePage !== 1) {
+      return pageLinkItem;
+    } else if (position === "right" && lastVisiblePage !== totalNumOfPages) {
+      return pageLinkItem;
     }
 
-    // RIGHT side logic
-    else if (position === "right") {
-      if (lastVisiblePage !== totalNumOfPages) {
-        return true;
-      }
-    }
     return false;
   };
 
@@ -162,9 +165,10 @@ const Pagination = props => {
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("left")}
         >
-          <FontAwesomeIcon icon={faAngleLeft} />{" "}
+          <FontAwesomeIcon icon={faAngleLeft} />
         </button>
-        <span>{`${pagesHidden("left") ? "..." : ""}`}</span>
+
+        <span>{displayPerimeterPages("left", 1)}</span>
 
         {visiblePageLinks.map(number => (
           <li className={classes.pageLinkContainer} key={number}>
@@ -181,7 +185,8 @@ const Pagination = props => {
             </Link>
           </li>
         ))}
-        <span>{`${pagesHidden("right") ? "..." : ""}`}</span>
+
+        <span>{displayPerimeterPages("right", totalNumOfPages)}</span>
 
         <button
           className={clsx("hoverPointer", classes.button)}
