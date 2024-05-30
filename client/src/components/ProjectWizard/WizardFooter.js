@@ -6,7 +6,7 @@ import { createUseStyles } from "react-jss";
 import PrintButton from "../Button/PrintButton";
 import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
-import moment from "moment";
+import { DateTime } from "luxon";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -57,9 +57,16 @@ const WizardFooter = ({
   const projectName = projectNameRule
     ? projectNameRule.value
     : "TDM Calculation Summary";
-  const parseDateModified = moment(dateModified, "MM/DD/YYYY h:mm A");
-  const formattedDateModified =
-    parseDateModified.format("YYYY-MM-DD, HH:mm:ss") + " Pacific Time";
+  const formattedDateSnapshot = dateSnapshotted
+    ? DateTime.fromFormat(dateSnapshotted, "MM/dd/yyyy h:mm a").toFormat(
+        "yyyy-MM-dd, h:mm a"
+      )
+    : "";
+  const formattedDateModified = dateModified
+    ? DateTime.fromFormat(dateModified, "MM/dd/yyyy h:mm a").toFormat(
+        "yyyy-MM-dd, HH:mm:ss"
+      )
+    : "";
 
   return (
     <>
@@ -121,20 +128,24 @@ const WizardFooter = ({
         ) : null}
       </div>
 
-      {page === 5 && !formattedDateModified.includes("Invalid date") ? (
+      {page === 5 && formattedDateModified !== "Invalid DateTime" ? (
         <div className={classes.datesStatus}>
-          {dateSnapshotted !== "Invalid date" ? (
+          {formattedDateSnapshot !== "Invalid DateTime" ? (
             <div>
               <strong>Snapshot Created: </strong>
-              {dateSnapshotted}
+              {formattedDateSnapshot} Pacific Time
             </div>
-          ) : null}
+          ) : (
+            ""
+          )}
           <div>
             <strong>Date Last Saved: </strong>
-            {formattedDateModified}
+            {formattedDateModified} Pacific Time
           </div>
         </div>
-      ) : null}
+      ) : (
+        ""
+      )}
     </>
   );
 };

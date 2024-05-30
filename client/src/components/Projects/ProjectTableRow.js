@@ -11,7 +11,6 @@ import {
   faEyeSlash,
   faEllipsisV
 } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment";
 import { DateTime } from "luxon";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
@@ -90,18 +89,23 @@ const ProjectTableRow = ({
     return value !== "undefined" ? value : "";
   };
 
+  const formatDate = date => {
+    return new Date(date).toISOString().split("T")[0];
+  };
+
   // Last Modified Date column should display the Last Modified date, unless the project is
   // deleted, in which case it will show the deleted date followed by "-Deleted" in red.
   const dateModifiedDisplay = () => {
     if (project.dateTrashed) {
       return (
         <span>
-          {moment(project.dateTrashed).format("YYYY-MM-DD")}
+          {formatDate(project.dateTrashed)}
           <span style={{ color: "red" }}>-Deleted</span>
         </span>
       );
     }
-    return <span>{moment(project.dateModified).format("YYYY-MM-DD")}</span>;
+
+    return <span>{formatDate(project.dateModified)}</span>;
   };
 
   return (
@@ -139,11 +143,11 @@ const ProjectTableRow = ({
       </td>
       <td className={classes.td}>{project.address}</td>
       <td className={classes.td}>{fallbackToBlank(formInputs.VERSION_NO)}</td>
-      <td
-        className={classes.td}
-      >{`${project.firstName} ${project.lastName}`}</td>
+      <td className={classes.td}>
+        {`${project.firstName} ${project.lastName}`}
+      </td>
       <td className={classes.tdRightAlign}>
-        {moment(project.dateCreated).format("YYYY-MM-DD")}
+        {formatDate(project.dateCreated)}
       </td>
 
       <td className={classes.td}>{dateModifiedDisplay()}</td>
