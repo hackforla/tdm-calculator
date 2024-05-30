@@ -4,12 +4,7 @@ import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleLeft,
-  faAngleRight,
-  faAnglesLeft,
-  faAnglesRight
-} from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createUseStyles(theme => ({
   paginationContainer: {
@@ -71,18 +66,11 @@ const Pagination = props => {
   let visiblePageLinks = [];
   const totalNumOfPages = Math.ceil(totalProjects / projectsPerPage);
 
-  const firstPage = () => {
-    return paginate(1);
-  };
-  const lastPage = () => {
-    return paginate(Math.ceil(totalProjects / projectsPerPage));
-  };
-
   for (let i = 1; i <= Math.ceil(totalProjects / projectsPerPage); i++) {
     pageNumbers.push(i);
   }
 
-  // FIXME: Known bug: when setting maxNumOfVisiblePages to 2 or less pagination bugs are introduced. Suspect is the else-if block for the first two pages in calculateVisiblePageLinks
+  // FIXME: Known bug: when setting maxNumOfVisiblePages to 3 or less pagination bugs are introduced. Problem is the else-if block for the first two pages in calculateVisiblePageLinks
 
   const calculateVisiblePageLinks = currentPage => {
     console.clear();
@@ -130,7 +118,6 @@ const Pagination = props => {
   const displayPerimeterPages = (position, page) => {
     let firstVisiblePage = visiblePageLinks[0];
     let lastVisiblePage = visiblePageLinks[visiblePageLinks.length - 1];
-    const maxPagesReached = visiblePageLinks.length === maxNumOfVisiblePages;
     const dots = (
       <span className={clsx(classes.pageLink, classes.dots)}>...</span>
     );
@@ -154,16 +141,8 @@ const Pagination = props => {
     );
 
     if (position === "left" && firstVisiblePage !== 1) {
-      if (maxPagesReached) {
-        // ensure maxNumOfVisiblePages consistency
-        visiblePageLinks.shift();
-      }
       return pageLinkItem;
     } else if (position === "right" && lastVisiblePage !== totalNumOfPages) {
-      if (maxPagesReached) {
-        // ensure maxNumOfVisiblePages consistency
-        visiblePageLinks.pop();
-      }
       return pageLinkItem;
     }
     return false;
@@ -175,12 +154,6 @@ const Pagination = props => {
   return (
     <div className={classes.paginationContainer}>
       <ul className={classes.pagination}>
-        <button
-          className={clsx("hoverPointer", classes.button)}
-          onClick={firstPage}
-        >
-          <FontAwesomeIcon icon={faAnglesLeft} />
-        </button>
         <button
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("left")}
@@ -213,12 +186,6 @@ const Pagination = props => {
           onClick={() => paginate("right")}
         >
           <FontAwesomeIcon icon={faAngleRight} />{" "}
-        </button>
-        <button
-          className={clsx("hoverPointer", classes.button)}
-          onClick={lastPage}
-        >
-          <FontAwesomeIcon icon={faAnglesRight} />
         </button>
       </ul>
     </div>
