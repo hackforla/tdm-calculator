@@ -775,7 +775,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   // totalProjects={150}
                   paginate={paginate}
                   currentPage={currentPage}
-                  maxNumOfVisiblePages={5}
+                  maxNumOfVisiblePages={2}
                 />
                 <label>
                   <select

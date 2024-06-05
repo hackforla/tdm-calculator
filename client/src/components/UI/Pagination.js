@@ -70,7 +70,14 @@ const Pagination = props => {
     pageNumbers.push(i);
   }
 
-  // FIXME: Known bug: when setting maxNumOfVisiblePages to 3 or less pagination bugs are introduced. Problem is the else-if block for the first two pages in calculateVisiblePageLinks
+  const formatVisiblePages = pages => {
+    if (pages.length > maxNumOfVisiblePages) {
+      pages.shift();
+    }
+    return pages;
+  };
+
+  // FIXME: Known bug: when setting maxNumOfVisiblePages to 2 or less pagination bugs are introduced. Problem is the else-if block for the first two pages in calculateVisiblePageLinks
 
   const calculateVisiblePageLinks = currentPage => {
     console.clear();
@@ -81,24 +88,31 @@ const Pagination = props => {
       // If total # of pages is less than max visible pages, display all pages
       startPage = 1;
       endPage = totalNumOfPages;
-    } else if (currentPage <= 3) {
+    } else if (currentPage < 3) {
       // Case for first 2 pages
-      startPage = 1;
-      endPage = maxNumOfVisiblePages;
+      if (currentPage === 2) {
+        startPage = 1;
+        endPage = maxNumOfVisiblePages;
+      } else {
+        startPage = currentPage;
+        endPage = currentPage + (maxNumOfVisiblePages - 1);
+      }
     } else if (currentPage + 2 >= totalNumOfPages) {
       // Case for last 2 pages
       startPage = totalNumOfPages - maxNumOfVisiblePages + 1;
       endPage = totalNumOfPages;
     } else {
       // Case for all other pages pages
-      startPage = currentPage - 2;
-      endPage = currentPage + 2;
+      startPage = currentPage - Math.floor(maxNumOfVisiblePages / 2);
+      endPage = currentPage + Math.floor(maxNumOfVisiblePages / 2);
     }
 
     // push all gathered page numbers into array
     for (let i = startPage; i <= endPage; i++) {
       visiblePageLinks.push(i);
     }
+
+    formatVisiblePages(visiblePageLinks);
 
     //! for debugging
     console.log(`
@@ -107,8 +121,12 @@ const Pagination = props => {
     totalNumOfPages: ${totalNumOfPages} ${typeof totalNumOfPages}
     currentPage: ${currentPage} ${typeof currentPage}
     visiblePageLinks: ${visiblePageLinks} 
+    startPage: ${startPage} 
+    endPage: ${endPage} 
 
     `);
+
+    return visiblePageLinks;
   };
 
   {
@@ -140,6 +158,7 @@ const Pagination = props => {
       </li>
     );
 
+    //TODO: check if right perimeter page is needed
     if (position === "left" && firstVisiblePage !== 1) {
       return pageLinkItem;
     } else if (position === "right" && lastVisiblePage !== totalNumOfPages) {
