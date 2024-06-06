@@ -57,7 +57,8 @@ const TdmCalculationWizard = props => {
     dateSnapshotted,
     contentContainerRef,
     inapplicableStrategiesModal,
-    closeStrategiesModal
+    closeStrategiesModal,
+    savingNewProject
   } = props;
   const classes = useStyles();
   const context = useContext(ToastContext);
@@ -90,15 +91,26 @@ const TdmCalculationWizard = props => {
       },
       nextLocation.pathname
     );
-    return (
-      currentMatch &&
-      nextMatch &&
-      currentMatch.params.projectId === nextMatch.params.projectId
-    );
+    console.log("CURRENTMATCH", currentMatch);
+    console.log("NEXTMATCH", nextMatch);
+    console.log("savingNewProject", savingNewProject);
+    if (!savingNewProject) {
+      return (
+        currentMatch &&
+        nextMatch &&
+        currentMatch.params.projectId === nextMatch.params.projectId
+      );
+    } else {
+      return currentMatch && nextMatch;
+    }
   };
 
   const shouldBlock = React.useCallback(
     ({ currentLocation, nextLocation }) => {
+      console.log("CONDITON 1", currentLocation.pathname.split("/")[3]);
+      console.log("CONDITON 2", nextLocation.pathname.split("/")[3]);
+      console.log("CONDITON 3", !isSameProject(currentLocation, nextLocation));
+
       return formIsDirty && !isSameProject(currentLocation, nextLocation);
     },
     [formIsDirty]
@@ -294,7 +306,6 @@ const TdmCalculationWizard = props => {
         return null;
     }
   };
-
   return (
     <div className={classes.wizard}>
       <InapplicableStrategiesModal
@@ -373,7 +384,8 @@ TdmCalculationWizard.propTypes = {
   dateModified: PropTypes.string,
   dateSnapshotted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
-  closeStrategiesModal: PropTypes.func
+  closeStrategiesModal: PropTypes.func,
+  savingNewProject: PropTypes.bool
 };
 
 export default TdmCalculationWizard;

@@ -53,6 +53,8 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const [rules, setRules] = useState([]);
   const [dateModified, setDateModified] = useState();
   const [dateSnapshotted, setDateSnapshotted] = useState();
+  const [savingNewProject, setSavingNewProject] = useState(false);
+
   const toast = useToast();
 
   const fetchRules = useCallback(async () => {
@@ -476,11 +478,13 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         }
       }
     } else {
+      setSavingNewProject(true);
       try {
         const postResponse = await projectService.post(requestBody);
         // Update URL to /calculation/<currentPage>/<newProjectId>
         // to keep working on same project.
-        const newPath = `/calculation/${location.pathname.split("/")[1]}/${
+
+        const newPath = `/calculation/${location.pathname.split("/")[2]}/${
           postResponse.data.id
         }`;
         navigate(newPath, { replace: true });
@@ -533,6 +537,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       contentContainerRef={contentContainerRef}
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}
+      savingNewProject={savingNewProject}
     />
   );
 }
