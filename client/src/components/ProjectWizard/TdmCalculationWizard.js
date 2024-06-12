@@ -54,6 +54,7 @@ const TdmCalculationWizard = props => {
     formIsDirty,
     projectIsValid,
     dateModified,
+    dateSnapshotted,
     contentContainerRef,
     inapplicableStrategiesModal,
     closeStrategiesModal
@@ -324,6 +325,7 @@ const TdmCalculationWizard = props => {
           setDisplayPrintButton={setDisplayPrintButton}
           onSave={onSave}
           dateModified={dateModified}
+          dateSnapshotted={dateSnapshotted}
         />
       </ContentContainer>
     </div>
@@ -369,6 +371,7 @@ TdmCalculationWizard.propTypes = {
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
   dateModified: PropTypes.string,
+  dateSnapshotted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func
 };

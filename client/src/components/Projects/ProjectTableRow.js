@@ -11,7 +11,7 @@ import {
   faEyeSlash,
   faEllipsisV
 } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment";
+import { DateTime } from "luxon";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
@@ -56,7 +56,12 @@ const ProjectTableRow = ({
   checkedProjectIds
 }) => {
   const classes = useStyles();
-  const momentModified = moment(project.dateModified);
+  const modifiedDate = DateTime.fromISO(project.dateModified)
+    .setZone("America/Los_Angeles")
+    .toFormat("yyyy-MM-dd, HH:mm:ss 'Pacific Time'");
+  const dateSnapshotted = DateTime.fromISO(project.dateSnapshotted ?? "")
+    .setZone("America/Los_Angeles")
+    .toFormat("yyyy-MM-dd, hh:mm a 'Pacific Time'");
   const formInputs = JSON.parse(project.formInputs);
   const printRef = useRef();
 
@@ -84,18 +89,23 @@ const ProjectTableRow = ({
     return value !== "undefined" ? value : "";
   };
 
+  const formatDate = date => {
+    return new Date(date).toISOString().split("T")[0];
+  };
+
   // Last Modified Date column should display the Last Modified date, unless the project is
   // deleted, in which case it will show the deleted date followed by "-Deleted" in red.
   const dateModifiedDisplay = () => {
     if (project.dateTrashed) {
       return (
         <span>
-          {moment(project.dateTrashed).format("YYYY-MM-DD")}
+          {formatDate(project.dateTrashed)}
           <span style={{ color: "red" }}>-Deleted</span>
         </span>
       );
     }
-    return <span>{moment(project.dateModified).format("YYYY-MM-DD")}</span>;
+
+    return <span>{formatDate(project.dateModified)}</span>;
   };
 
   return (
@@ -133,11 +143,11 @@ const ProjectTableRow = ({
       </td>
       <td className={classes.td}>{project.address}</td>
       <td className={classes.td}>{fallbackToBlank(formInputs.VERSION_NO)}</td>
-      <td
-        className={classes.td}
-      >{`${project.firstName} ${project.lastName}`}</td>
+      <td className={classes.td}>
+        {`${project.firstName} ${project.lastName}`}
+      </td>
       <td className={classes.tdRightAlign}>
-        {moment(project.dateCreated).format("YYYY-MM-DD")}
+        {formatDate(project.dateCreated)}
       </td>
 
       <td className={classes.td}>{dateModifiedDisplay()}</td>
@@ -177,7 +187,8 @@ const ProjectTableRow = ({
               <PdfPrint
                 ref={printRef}
                 rules={projectRules}
-                dateModified={momentModified.format("MM/DD/YYYY")}
+                dateModified={modifiedDate}
+                dateSnapshotted={dateSnapshotted}
               />
             </div>
           </div>
