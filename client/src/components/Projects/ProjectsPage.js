@@ -772,10 +772,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 <Pagination
                   projectsPerPage={projectsPerPage}
                   totalProjects={sortedProjects.length}
-                  // totalProjects={150}
                   paginate={paginate}
                   currentPage={currentPage}
-                  maxNumOfVisiblePages={2}
+                  maxNumOfVisiblePages={5}
                 />
                 <label>
                   <select
