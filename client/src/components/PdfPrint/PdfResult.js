@@ -7,7 +7,8 @@ const useStyles = createUseStyles({
     marginTop: "10px",
     marginBottom: "-10px",
     padding: "0px",
-    fontSize: "17px"
+    fontSize: "17px",
+    textIndent: "10px"
   }
 });
 

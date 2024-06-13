@@ -45,17 +45,17 @@ const useStyles = createUseStyles({
     alignItems: "center",
     gap: "2px",
     backgroundColor: "#edf1f4",
-    backgroundImage: "linear-gradient(90deg, #edf1f4 0%, #ffffff 100%)"
+    backgroundImage: "linear-gradient(90deg, #edf1f4 0%, #000 100%)"
   },
   categoryHeader: {
-    fontSize: "16px",
+    fontSize: "18px",
     fontWeight: "600",
     width: "100%",
     backgroundColor: "#edf1f4"
   },
   pdfResultsContainer: {
     flexDirection: "column",
-    padding: "10px 0.8em",
+    padding: "10px 0.2em",
     maxWidth: "100%"
   },
   measuresContainer: {

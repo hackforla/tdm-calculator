@@ -77,7 +77,8 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri",
     fontWeight: "700",
     fontStyle: "normal",
-    lineHeight: "32px"
+    lineHeight: "32px",
+    background: "#E7EBF0"
     // fontSmoothing: "antialiased"
   },
   resultsContainer: {
