@@ -5,9 +5,21 @@ const senderEmail = process.env.EMAIL_SENDER;
 const laCityEmail = process.env.EMAIL_PUBLIC_COMMENT_LA_CITY;
 const webTeamEmail = process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM;
 const projectService = require("../services/project.service");
-const moment = require("moment");
 
 sgMail.setApiKey(sendgridKey);
+
+const formatDates = date => {
+  return new Date(date)
+    .toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    })
+    .replace(",", "");
+};
 
 const send = async (emailTo, emailFrom, subject, textBody, htmlBody) => {
   const msg = {
@@ -100,18 +112,20 @@ const sendFeedback = async (loginId, feedback) => {
           <th style="text-align:left;">Link</th>
         </tr>` +
         projects.map(project => {
-          console.log(project);
-          return `<tr><td>${project.name}</td>
-          <td >
-            ${JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
-          </td><td>${moment(project.dateModified).format(
-            "MM/DD/YYYY h:mm A"
-          )}</td><td>${moment(project.dateCreated).format(
-            "MM/DD/YYYY h:mm A"
-          )}</td><td> ${clientUrl}/login?projectId=${project.id}</td></tr>`;
+          // console.log(project);
+          return `<tr>
+            <td>${project.name}</td>
+            <td >
+              ${JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
+            </td>
+            <td>${formatDates(project.dateModified)}</td>
+            <td>${formatDates(project.dateCreated)}</td>
+            <td> ${clientUrl}/login?projectId=${project.id}</td>
+          </tr>`;
         }) +
         "</table></div>";
     }
+
     const msg = {
       to: laCityEmail,
       cc: forwardToWebTeam ? webTeamEmail : "",
@@ -120,6 +134,7 @@ const sendFeedback = async (loginId, feedback) => {
       text: `TDM Feedback Submission - ${name}`,
       html: body
     };
+
     return sgMail.send(msg, false);
   } catch (err) {
     console.error(err);
