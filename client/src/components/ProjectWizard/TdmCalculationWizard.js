@@ -90,10 +90,12 @@ const TdmCalculationWizard = props => {
       },
       nextLocation.pathname
     );
+
     return (
       currentMatch &&
       nextMatch &&
-      currentMatch.params.projectId === nextMatch.params.projectId
+      (currentMatch.params.projectId === nextMatch.params.projectId ||
+        !projectId)
     );
   };
 
@@ -294,7 +296,6 @@ const TdmCalculationWizard = props => {
         return null;
     }
   };
-
   return (
     <div className={classes.wizard}>
       <InapplicableStrategiesModal

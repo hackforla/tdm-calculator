@@ -480,7 +480,8 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         const postResponse = await projectService.post(requestBody);
         // Update URL to /calculation/<currentPage>/<newProjectId>
         // to keep working on same project.
-        const newPath = `/calculation/${location.pathname.split("/")[1]}/${
+
+        const newPath = `/calculation/${location.pathname.split("/")[2]}/${
           postResponse.data.id
         }`;
         navigate(newPath, { replace: true });
