@@ -54,6 +54,7 @@ const TdmCalculationWizard = props => {
     formIsDirty,
     projectIsValid,
     dateModified,
+    dateSnapshotted,
     contentContainerRef,
     inapplicableStrategiesModal,
     closeStrategiesModal
@@ -89,10 +90,12 @@ const TdmCalculationWizard = props => {
       },
       nextLocation.pathname
     );
+
     return (
       currentMatch &&
       nextMatch &&
-      currentMatch.params.projectId === nextMatch.params.projectId
+      (currentMatch.params.projectId === nextMatch.params.projectId ||
+        !projectId)
     );
   };
 
@@ -293,7 +296,6 @@ const TdmCalculationWizard = props => {
         return null;
     }
   };
-
   return (
     <div className={classes.wizard}>
       <InapplicableStrategiesModal
@@ -324,6 +326,7 @@ const TdmCalculationWizard = props => {
           setDisplayPrintButton={setDisplayPrintButton}
           onSave={onSave}
           dateModified={dateModified}
+          dateSnapshotted={dateSnapshotted}
         />
       </ContentContainer>
     </div>
@@ -369,6 +372,7 @@ TdmCalculationWizard.propTypes = {
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
   dateModified: PropTypes.string,
+  dateSnapshotted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func
 };

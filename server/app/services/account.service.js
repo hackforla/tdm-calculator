@@ -1,7 +1,6 @@
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
 const { promisify } = require("util");
-const moment = require("moment");
 const bcrypt = require("bcrypt");
 const {
   sendVerifyUpdateConfirmation,
@@ -171,21 +170,24 @@ const confirmRegistration = async token => {
   try {
     await poolConnect;
     const request = pool.request();
+
     request.input("token", mssql.NVarChar, token);
+
     const sqlResult = await request.execute("SecurityToken_SelectByToken");
-
     const resultSet = sqlResult.recordset;
+    const now = new Date();
 
-    const now = moment();
-
-    if (resultSet.length != 1) {
+    if (resultSet.length !== 1) {
       return {
         success: false,
         code: "REG_CONFIRM_TOKEN_INVALID",
         message:
           "Email confirmation failed. Invalid security token. Re-send confirmation email."
       };
-    } else if (moment(now).diff(resultSet[0].dateCreated, "hours") >= 24) {
+    } else if (
+      (now.getTime() - resultSet[0].dateCreated.getTime()) / (60 * 60 * 1000) >=
+      24
+    ) {
       return {
         success: false,
         code: "REG_CONFIRM_TOKEN_EXPIRED",
@@ -277,14 +279,16 @@ const requestResetPasswordConfirmation = async (email, result) => {
 
 // Verify password reset token and change password
 const resetPassword = async ({ token, password }) => {
-  const now = moment();
+  const now = new Date();
   let email = "";
+
   try {
     await poolConnect;
     const request = pool.request();
-    request.input("token", mssql.NVarChar, token);
-    const tokenResult = await request.execute("SecurityToken_SelectByToken");
 
+    request.input("token", mssql.NVarChar, token);
+
+    const tokenResult = await request.execute("SecurityToken_SelectByToken");
     const resultSet = tokenResult.recordset[0];
 
     if (resultSet.length < 1) {
@@ -294,7 +298,11 @@ const resetPassword = async ({ token, password }) => {
         message:
           "Password reset failed. Invalid security token. Re-send confirmation email."
       };
-    } else if (moment(now).diff(resultSet.date_created, "hours") >= 1) {
+    } else if (
+      (now.getTime() - new Date(resultSet.date_created).getTime()) /
+        (60 * 60 * 1000) >=
+      1
+    ) {
       return {
         isSuccess: false,
         code: "RESET_PASSWORD_TOKEN_EXPIRED",

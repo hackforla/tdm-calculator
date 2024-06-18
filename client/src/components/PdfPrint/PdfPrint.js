@@ -45,17 +45,17 @@ const useStyles = createUseStyles({
     alignItems: "center",
     gap: "2px",
     backgroundColor: "#edf1f4",
-    backgroundImage: "linear-gradient(90deg, #edf1f4 0%, #ffffff 100%)"
+    backgroundImage: "linear-gradient(90deg, #edf1f4 0%, #000 100%)"
   },
   categoryHeader: {
-    fontSize: "16px",
+    fontSize: "18px",
     fontWeight: "600",
     width: "100%",
     backgroundColor: "#edf1f4"
   },
   pdfResultsContainer: {
     flexDirection: "column",
-    padding: "10px 0.8em",
+    padding: "10px 0.2em",
     maxWidth: "100%"
   },
   measuresContainer: {
@@ -132,7 +132,8 @@ const useStyles = createUseStyles({
 // eslint-disable-next-line react/display-name
 export const PdfPrint = forwardRef((props, ref) => {
   const classes = useStyles();
-  const { rules, dateModified } = props;
+
+  const { rules, dateModified, dateSnapshotted } = props;
 
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
@@ -324,16 +325,21 @@ export const PdfPrint = forwardRef((props, ref) => {
           />
         </div>
       </section>
-      <PdfFooter dateModified={dateModified} />
+      <PdfFooter
+        dateModified={dateModified}
+        dateSnapshotted={dateSnapshotted}
+      />
     </div>
   );
 });
+
 PdfPrint.propTypes = {
   rules: PropTypes.array,
   account: PropTypes.object,
   projectId: PropTypes.number,
   loginId: PropTypes.number,
-  dateModified: PropTypes.string || null
+  dateModified: PropTypes.string || null,
+  dateSnapshotted: PropTypes.string || null
 };
 
 export default PdfPrint;

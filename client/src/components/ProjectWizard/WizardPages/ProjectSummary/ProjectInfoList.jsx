@@ -37,7 +37,7 @@ const ProjectInfoList = props => {
   const classes = useStyles();
   const { name, rule } = props;
 
-  const values = rule.value.split(",");
+  const values = rule.value ? rule.value.split(",") : [];
 
   return (
     <div className={classes.projectInfoDetailsSubContainer}>

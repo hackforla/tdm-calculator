@@ -7,7 +7,7 @@ import * as ruleService from "../../services/rule.service";
 import * as projectService from "../../services/project.service";
 import Engine from "../../services/tdm-engine";
 import { useToast } from "../../contexts/Toast";
-import moment from "moment";
+import { DateTime } from "luxon";
 
 // These are the calculation results we want to calculate
 // and display on the main page.
@@ -52,6 +52,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     useState(false);
   const [rules, setRules] = useState([]);
   const [dateModified, setDateModified] = useState();
+  const [dateSnapshotted, setDateSnapshotted] = useState();
   const toast = useToast();
 
   const fetchRules = useCallback(async () => {
@@ -67,6 +68,12 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     fetchRules();
   }, [fetchRules]);
 
+  const formatDate = date => {
+    return DateTime.fromISO(date)
+      .setZone("America/Los_Angeles")
+      .toFormat("MM/dd/yyyy h:mm a");
+  };
+
   // Initialize Engine and (if existing project), perform initial calculation.
   const initializeEngine = useCallback(async () => {
     // Only run if engine has been instantiated
@@ -76,10 +83,11 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       let inputs = {};
       if (Number(projectId) > 0 && account.id) {
         projectResponse = await projectService.getById(projectId);
+
         setLoginId(projectResponse.data.loginId);
-        setDateModified(
-          moment(projectResponse.data.dateModified).format("MM/DD/YYYY h:mm A")
-        );
+        setDateModified(formatDate(projectResponse.data.dateModified));
+        setDateSnapshotted(formatDate(projectResponse.data?.dateSnapshotted));
+
         inputs = JSON.parse(projectResponse.data.formInputs);
         setStrategiesInitialized(true);
       } else {
@@ -445,10 +453,10 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
         let projectResponse = null;
+
         projectResponse = await projectService.getById(projectId);
-        setDateModified(
-          moment(projectResponse.data.dateModified).format("MM/DD/YYYY h:mm A")
-        );
+
+        setDateModified(formatDate(projectResponse.data?.dateModified));
       } catch (err) {
         console.error(err);
         if (err.response) {
@@ -472,7 +480,8 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         const postResponse = await projectService.post(requestBody);
         // Update URL to /calculation/<currentPage>/<newProjectId>
         // to keep working on same project.
-        const newPath = `/calculation/${location.pathname.split("/")[1]}/${
+
+        const newPath = `/calculation/${location.pathname.split("/")[2]}/${
           postResponse.data.id
         }`;
         navigate(newPath, { replace: true });
@@ -521,6 +530,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       formIsDirty={!formHasSaved}
       projectIsValid={projectIsValid}
       dateModified={dateModified}
+      dateSnapshotted={dateSnapshotted}
       contentContainerRef={contentContainerRef}
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}
