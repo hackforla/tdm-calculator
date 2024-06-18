@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
 import { numberWithCommas, getRule, roundToTwo } from "../../helpers";
 import ProjectInfoContainer from "./ProjectInfoContainer";
@@ -49,6 +47,7 @@ const useStyles = createUseStyles({
     margin: "4px auto"
   },
   ruleName: {
+    fontSize: "14px",
     minWidth: "270px"
   },
   loaderContainer: {
@@ -70,6 +69,7 @@ const useStyles = createUseStyles({
   categoryHeaderContainer: {
     background: "#E7EBF0",
     paddingLeft: "12px",
+    paddingRight: "3rem",
     paddingTop: "4px"
   },
   categoryHeader: {
@@ -95,12 +95,15 @@ const useStyles = createUseStyles({
   earnedPoints: {
     fontFamily: "Calibri",
     fontWeight: "500",
-    fontSize: "12px",
+    fontSize: "14px",
+    marginTop: "auto",
+    marginBottom: "auto",
     color: "#00000",
-    paddingTop: "5px",
-    marginRight: "31px"
+    verticalAlign: "center",
+    minWidth: "6rem"
   },
   summaryContainer: {
+    fontSize: "14px",
     display: "flex",
     minWidth: "180px",
     maxWidth: "100%",
@@ -189,14 +192,6 @@ const ProjectSummary = props => {
       <h1 style={{ ...theme.typography.heading1, margin: 0, padding: 0 }}>
         TDM Calculation Summary
       </h1>
-      <div style={{ ...theme.typography.paragraph1, margin: 0, padding: 0 }}>
-        {props.dateModified && (
-          <span className={classes.lastSaved}>
-            <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
-            {props.dateModified}
-          </span>
-        )}
-      </div>
 
       {!loading ? (
         <>

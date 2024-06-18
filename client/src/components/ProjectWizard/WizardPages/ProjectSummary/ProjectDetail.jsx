@@ -10,26 +10,24 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "space-between",
     minHeight: "24px",
-    margin: "4px auto"
+    margin: "4px auto",
+    fontSize: "0.875rem"
   },
   ruleName: {
-    minWidth: "270px",
-    fontSize: "14px"
+    minWidth: "270px"
   },
   pointsContainer: {
     display: "flex",
     justifyContent: "flex-end"
   },
   measureDetails: {
-    fontSize: "14px",
     textAlign: "right",
     fontWeight: "600",
     minWidth: "40px",
     marginRight: "10px"
   },
   measureUnits: {
-    fontSize: "12px",
-    width: "65px"
+    minWidth: "6rem"
   },
   leftIndent: {
     marginLeft: "20px"

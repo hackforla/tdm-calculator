@@ -59,7 +59,7 @@ const ProjectInfoContainer = props => {
       <hr className={classes.line} />
       <div className={classes.projectInfoDetailsContainer}>
         {projectAddress && (
-          <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
+          <ProjectInfo name={projectAddress.name} rule={projectAddress} />
         )}
         <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
         {buildingPermit && (
