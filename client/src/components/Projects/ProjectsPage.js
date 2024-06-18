@@ -165,15 +165,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [projectData, setProjectData] = useState();
-
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const projectsPerPage = perPage;
-  const highestPage = Math.ceil(projects.length / projectsPerPage);
 
   const handlePerPageChange = newPerPage => {
     setPerPage(newPerPage);
-    const newHighestPage = Math.ceil(projects.length / newPerPage);
+    const newHighestPage = Math.ceil(sortedProjects.length / newPerPage);
+
     if (currentPage > newHighestPage) {
       setCurrentPage(1);
     }
@@ -234,14 +233,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
   })();
 
   const paginate = pageNumber => {
+    const newHighestPage = Math.ceil(sortedProjects.length / perPage);
     if (typeof pageNumber === "number") {
       setCurrentPage(pageNumber);
     } else if (pageNumber === "left" && currentPage !== 1) {
       setCurrentPage(currentPage - 1);
-    } else if (pageNumber === "right" && currentPage !== highestPage) {
+    } else if (pageNumber === "right" && currentPage < newHighestPage) {
       setCurrentPage(currentPage + 1);
     }
-
     // uncheck Projects on page change
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
@@ -775,6 +774,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   totalProjects={sortedProjects.length}
                   paginate={paginate}
                   currentPage={currentPage}
+                  maxNumOfVisiblePages={5}
                 />
                 <label>
                   <select
