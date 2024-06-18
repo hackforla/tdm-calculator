@@ -33,8 +33,7 @@ const useStyles = createUseStyles({
     minWidth: "270px"
   },
   categoryContainer: {
-    marginTop: "25px",
-    backgroundColor: "#edf1f4"
+    marginTop: "25px"
   },
   categoryHeaderContainer: {
     paddingInline: "12px",
@@ -43,15 +42,13 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     justifyContent: "left",
     alignItems: "center",
-    gap: "2px",
-    backgroundColor: "#edf1f4",
-    backgroundImage: "linear-gradient(90deg, #edf1f4 0%, #000 100%)"
+    gap: "2px"
   },
   categoryHeader: {
     fontSize: "18px",
-    fontWeight: "600",
     width: "100%",
-    backgroundColor: "#edf1f4"
+    color: "rgb(53,119,163)",
+    fontWeight: "900"
   },
   pdfResultsContainer: {
     flexDirection: "column",
@@ -211,7 +208,7 @@ export const PdfPrint = forwardRef((props, ref) => {
         </div>
         <div className={classes.projectInfoDetailsContainer}>
           {projectAddress && projectAddress.value && (
-            <ProjectInfo name={"ADDRESS"} rule={projectAddress} />
+            <ProjectInfo name={projectAddress.name} rule={projectAddress} />
           )}
           {parcelNumbers && parcelNumbers.value ? (
             <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />

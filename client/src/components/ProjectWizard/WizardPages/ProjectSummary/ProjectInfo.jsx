@@ -7,11 +7,11 @@ const useStyles = createUseStyles({
     display: "flex",
     alignItems: "baseline",
     maxHeight: "20px",
-    width: "50%"
+    width: "50%",
+    fontSize: "0.875rem"
   },
   projectInfoCategory: {
     fontWeight: "600",
-    fontSize: "14px",
     textTransform: "uppercase",
     color: "rgba(0, 0, 0, 1)",
     marginRight: "2px"
@@ -19,8 +19,7 @@ const useStyles = createUseStyles({
   projectInfoDetails: {
     color: "rgba(0, 5, 30, 1)",
     fontFamily: "Calibri",
-    fontWeight: 400,
-    fontSize: "14px"
+    fontWeight: 400
   }
 });
 

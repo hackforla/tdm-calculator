@@ -75,35 +75,36 @@ const TdmCalculationWizard = props => {
     /calculation/b/x is just going to a different step of the wizard, and is allowed. 
   */
   const calculationPath = "/calculation/:page/:projectId?/*";
-  const isSameProject = (currentLocation, nextLocation) => {
-    const currentMatch = matchPath(
-      {
-        path: calculationPath,
-        exact: true
-      },
-      currentLocation.pathname
-    );
-    const nextMatch = matchPath(
-      {
-        path: calculationPath,
-        exact: true
-      },
-      nextLocation.pathname
-    );
-
-    return (
-      currentMatch &&
-      nextMatch &&
-      (currentMatch.params.projectId === nextMatch.params.projectId ||
-        !projectId)
-    );
-  };
 
   const shouldBlock = React.useCallback(
     ({ currentLocation, nextLocation }) => {
+      const isSameProject = (currentLocation, nextLocation) => {
+        const currentMatch = matchPath(
+          {
+            path: calculationPath,
+            exact: true
+          },
+          currentLocation.pathname
+        );
+        const nextMatch = matchPath(
+          {
+            path: calculationPath,
+            exact: true
+          },
+          nextLocation.pathname
+        );
+
+        return (
+          currentMatch &&
+          nextMatch &&
+          (currentMatch.params.projectId === nextMatch.params.projectId ||
+            !projectId)
+        );
+      };
+
       return formIsDirty && !isSameProject(currentLocation, nextLocation);
     },
-    [formIsDirty]
+    [formIsDirty, projectId]
   );
   const blocker = useBlocker(shouldBlock);
 

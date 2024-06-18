@@ -8,26 +8,16 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "space-between",
     minHeight: "24px",
-    margin: "4px auto",
-    backgroundColor: "#edf1f4"
+    margin: "4px auto"
   },
   ruleName: {
     minWidth: "270px",
     fontSize: "14px"
   },
-  pointsContainer: {
+  value: {
     display: "flex",
+    fontSize: "14px",
     justifyContent: "flex-end"
-  },
-  measureDetails: {
-    fontSize: "14px",
-    textAlign: "right",
-    minWidth: "40px",
-    marginRight: "10px"
-  },
-  measureUnits: {
-    fontSize: "14px",
-    width: "65px"
   }
 });
 
@@ -37,17 +27,14 @@ const LandUses = props => {
 
   return (
     <div className={classes.rule}>
-      <div className={classes.ruleName}>
+      <div className={classes.ruleName}>Land Uses</div>
+      <div className={classes.value}>
         {rules
           .filter(
             rule => rule.used && rule.value && rule.calculationPanelId === 5
           )
           .map(r => r.name)
           .join(", ")}
-      </div>
-      <div className={classes.pointsContainer}>
-        <div className={classes.measureDetails}></div>
-        <div className={classes.measureUnits}></div>
       </div>
     </div>
   );
