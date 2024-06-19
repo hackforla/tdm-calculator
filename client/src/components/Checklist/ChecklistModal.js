@@ -3,8 +3,7 @@ import { createUseStyles } from "react-jss";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
+import { FaX } from "react-icons/fa6";
 
 import "./ChecklistModal.css";
 
@@ -69,7 +68,8 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
       className={classes.modal}
     >
       <span className={classes.close} onClick={toggleChecklistModal}>
-        <FontAwesomeIcon icon={faX} />
+        {/* <FontAwesomeIcon icon={faX} /> */}
+        <FaX />
       </span>
       <ChecklistContent />
     </Modal>

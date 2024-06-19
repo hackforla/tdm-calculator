@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import AriaModal from "react-aria-modal";
-import { faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaX } from "react-icons/fa6";
 
 const useStyles = createUseStyles({
   modalContainer: {
@@ -90,7 +89,7 @@ export default function ModalDialog({
               className={classes.closeButton}
               aria-label={`Close ${title} modal`}
             >
-              <FontAwesomeIcon icon={faX} />
+              <FaX />
             </button>
           </div>
         )}
