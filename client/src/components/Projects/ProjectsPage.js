@@ -262,13 +262,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
     if (action === "ok") {
       const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
       projectFormInputsAsJson.PROJECT_NAME = newProjectName;
-
+      let newProject = {
+        ...selectedProject,
+        name: newProjectName,
+        formInputs: JSON.stringify(projectFormInputsAsJson)
+      };
+      if (!newProject.description) {
+        newProject.description = "";
+      }
       try {
-        await projectService.post({
-          ...selectedProject,
-          name: newProjectName,
-          formInputs: JSON.stringify(projectFormInputsAsJson)
-        });
+        await projectService.post(newProject);
         await updateProjects();
       } catch (err) {
         handleError(err);
