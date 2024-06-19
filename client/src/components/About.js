@@ -2,8 +2,7 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import packageInfo from "../../package.json";
 import ContentContainer from "./Layout/ContentContainer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 const useStyles = createUseStyles({
   aboutContent: {
@@ -64,10 +63,7 @@ const About = () => {
           Learn more about{" "}
           <a href="http://www.hackforla.org" target="external">
             Hack for LA{" "}
-            <FontAwesomeIcon
-              icon={faExternalLinkAlt}
-              className={classes.externalLinkIcon}
-            />
+            <FaExternalLinkAlt className={classes.externalLinkIcon} />
           </a>
         </p>
         <h3>Status of the TDM Calculator</h3>
@@ -87,10 +83,7 @@ const About = () => {
               target="external"
             >
               Glossary
-              <FontAwesomeIcon
-                icon={faExternalLinkAlt}
-                className={classes.externalLinkIcon}
-              />
+              <FaExternalLinkAlt className={classes.externalLinkIcon} />
             </a>
           </li>
           <li className={classes.linklist}>
@@ -99,10 +92,7 @@ const About = () => {
               target="external"
             >
               Los Angeles City Planning, Mobility
-              <FontAwesomeIcon
-                icon={faExternalLinkAlt}
-                className={classes.externalLinkIcon}
-              />
+              <FaExternalLinkAlt className={classes.externalLinkIcon} />
             </a>
           </li>
           <li className={classes.linklist}>
@@ -111,10 +101,7 @@ const About = () => {
               target="external"
             >
               Proposed Ordinances and Initiatives
-              <FontAwesomeIcon
-                icon={faExternalLinkAlt}
-                className={classes.externalLinkIcon}
-              />
+              <FaExternalLinkAlt className={classes.externalLinkIcon} />
             </a>
           </li>
           <li className={classes.linklist}>
@@ -123,10 +110,7 @@ const About = () => {
               target="external"
             >
               Informational Video (January 2021)
-              <FontAwesomeIcon
-                icon={faExternalLinkAlt}
-                className={classes.externalLinkIcon}
-              />
+              <FaExternalLinkAlt className={classes.externalLinkIcon} />
             </a>
           </li>
           <li className={classes.linklist}>
@@ -135,10 +119,7 @@ const About = () => {
               target="external"
             >
               Fact Sheet - English (January 2021)
-              <FontAwesomeIcon
-                icon={faExternalLinkAlt}
-                className={classes.externalLinkIcon}
-              />
+              <FaExternalLinkAlt className={classes.externalLinkIcon} />
             </a>
           </li>
           <li className={classes.linklist}>
@@ -147,10 +128,7 @@ const About = () => {
               target="external"
             >
               Hoja Informativa - Español (Enero 2021)
-              <FontAwesomeIcon
-                icon={faExternalLinkAlt}
-                className={classes.externalLinkIcon}
-              />
+              <FaExternalLinkAlt className={classes.externalLinkIcon} />
             </a>
           </li>
         </ul>
