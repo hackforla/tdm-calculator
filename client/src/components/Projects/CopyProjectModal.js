@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 
@@ -28,6 +28,10 @@ export default function CopyProjectModal({
   const [duplicateProjectName, setDuplicateProjectName] = useState(
     `${selectedProjectName} (COPY)`
   );
+
+  useEffect(() => {
+    setDuplicateProjectName(`${selectedProjectName} (COPY)`);
+  }, [selectedProjectName]);
 
   return (
     <ModalDialog
