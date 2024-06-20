@@ -26,6 +26,10 @@ export function del(id) {
   return axios.delete(baseUrl + "/" + id);
 }
 
+export function submit(id) {
+  return axios.put(baseUrl + "/submit", id);
+}
+
 export function snapshot(id) {
   return axios.put(baseUrl + "/snapshot", id);
 }
