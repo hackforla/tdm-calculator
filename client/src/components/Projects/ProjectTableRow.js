@@ -98,6 +98,13 @@ const ProjectTableRow = ({
     return <span>{formatDate(project.dateModified)}</span>;
   };
 
+  const dateSubmittedDisplay = () => {
+    if (project.dateSubmitted) {
+      return <span>{moment(project.dateSubmitted).format("YYYY-MM-DD")}</span>;
+    }
+    return <span>{moment(project.dateSubmitted).format("YYYY-MM-DD")}</span>;
+  };
+
   return (
     <tr key={project.id}>
       <td className={classes.tdCenterAlign}>
@@ -141,6 +148,7 @@ const ProjectTableRow = ({
       </td>
 
       <td className={classes.td}>{dateModifiedDisplay()}</td>
+      <td className={classes.td}>{dateSubmittedDisplay()}</td>
 
       <td className={classes.actionIcons}>
         {projectRules && (
