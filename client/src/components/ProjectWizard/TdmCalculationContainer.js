@@ -169,7 +169,9 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     const strategyBike4 = rules.find(r => r.code === "STRATEGY_BIKE_4");
     const strategyHov4 = rules.find(r => r.code === "STRATEGY_HOV_4");
     const strategyInfo3 = rules.find(r => r.code === "STRATEGY_INFO_3");
-    const strategyInfo5 = rules.find(r => r.code === "STRATEGY_INFO_5");
+    const strategyMobilityInvestment2 = rules.find(
+      r => r.code === "STRATEGY_MOBILITY_INVESTMENT_2"
+    );
     return (
       strategyBike4 &&
       !!strategyBike4.value &&
@@ -177,8 +179,8 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       !!strategyHov4.value &&
       strategyInfo3 &&
       strategyInfo3.value >= 2 &&
-      strategyInfo5 &&
-      !!strategyInfo5.value
+      strategyMobilityInvestment2 &&
+      strategyMobilityInvestment2.value >= 2
     );
   };
 
@@ -211,7 +213,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         if (rules.find(r => r.code === "STRATEGY_INFO_3").value <= 1) {
           modifiedInputs["STRATEGY_INFO_3"] = 2;
         }
-        modifiedInputs["STRATEGY_INFO_5"] = true;
+        modifiedInputs["STRATEGY_MOBILITY_INVESTMENT_2"] = 2;
         modifiedInputs["STRATEGY_HOV_4"] = true;
 
         // De-select Trip-Reduction Program
@@ -225,7 +227,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         } else {
           modifiedInputs["STRATEGY_INFO_3"] = 1;
         }
-        modifiedInputs["STRATEGY_INFO_5"] = false;
+        modifiedInputs["STRATEGY_MOBILITY_INVESTMENT_2"] = 0;
         modifiedInputs["STRATEGY_HOV_4"] = false;
       }
     }
