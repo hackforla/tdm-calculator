@@ -14,11 +14,12 @@ const useStyles = createUseStyles({
     fontSize: "0.875rem"
   },
   ruleName: {
-    minWidth: "270px"
+    flexBasis: "80%"
   },
   pointsContainer: {
     display: "flex",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    flaxBasis: "20%"
   },
   measureDetails: {
     textAlign: "right",

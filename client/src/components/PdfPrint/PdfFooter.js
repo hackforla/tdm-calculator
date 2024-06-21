@@ -10,8 +10,6 @@ const useStyles = createUseStyles({
   },
   pdfFooterContainer: {
     margin: "24px 0 0",
-    position: "absolute",
-    bottom: "0",
     width: "100%"
   }
 });

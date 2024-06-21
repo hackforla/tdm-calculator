@@ -58,7 +58,7 @@ const useStyles = createUseStyles({
   measuresContainer: {
     paddingTop: "10px",
     margin: "0 12px",
-    width: "80%"
+    width: "90%"
   },
   earnedPoints: {
     fontWeight: "600",
