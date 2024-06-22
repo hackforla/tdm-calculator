@@ -107,6 +107,21 @@ const trash = async (req, res) => {
   }
 };
 
+const submit = async (req, res) => {
+  try {
+    const { id, name } = req.body;
+
+    const result = await projectService.submit(id, req.user.id, name);
+    if (result === 1) {
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const snapshot = async (req, res) => {
   try {
     const { id, name } = req.body;
@@ -160,6 +175,7 @@ module.exports = {
   del,
   hide,
   trash,
+  submit,
   snapshot,
   renameSnapshot,
   getAllArchivedProjects

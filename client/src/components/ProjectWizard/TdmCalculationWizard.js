@@ -55,6 +55,7 @@ const TdmCalculationWizard = props => {
     projectIsValid,
     dateModified,
     dateSnapshotted,
+    dateSubmitted,
     contentContainerRef,
     inapplicableStrategiesModal,
     closeStrategiesModal
@@ -197,6 +198,13 @@ const TdmCalculationWizard = props => {
     return false;
   };
 
+  const setDisplaySubmitButton = () => {
+    if (page === 5) {
+      return true;
+    }
+    return false;
+  };
+
   const handleValidate = () => {
     const { page } = params;
     const validations = {
@@ -325,9 +333,11 @@ const TdmCalculationWizard = props => {
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
           setDisplayPrintButton={setDisplayPrintButton}
+          setDisplaySubmitButton={setDisplaySubmitButton}
           onSave={onSave}
           dateModified={dateModified}
           dateSnapshotted={dateSnapshotted}
+          dateSubmitted={dateSubmitted}
         />
       </ContentContainer>
     </div>
@@ -374,6 +384,7 @@ TdmCalculationWizard.propTypes = {
   projectIsValid: PropTypes.func,
   dateModified: PropTypes.string,
   dateSnapshotted: PropTypes.string,
+  dateSubmitted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func
 };

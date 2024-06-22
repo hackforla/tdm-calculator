@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import SaveButton from "../Button/SaveButton";
+import SubmitButton from "../Button/SubmitButton";
 import { createUseStyles } from "react-jss";
 import PrintButton from "../Button/PrintButton";
 import ReactToPrint from "react-to-print";
@@ -47,6 +48,7 @@ const WizardFooter = ({
   setDisabledSaveButton,
   setDisplaySaveButton,
   setDisplayPrintButton,
+  setDisplaySubmitButton,
   onSave,
   dateModified,
   dateSnapshotted
@@ -124,6 +126,11 @@ const WizardFooter = ({
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
             />
+            <SubmitButton
+              id="submitButton"
+              color="colorPrimary"
+              isDisplayed={setDisplaySubmitButton()}
+            />
           </>
         ) : null}
       </div>
@@ -161,6 +168,7 @@ WizardFooter.propTypes = {
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
   setDisplayPrintButton: PropTypes.any,
+  setDisplaySubmitButton: PropTypes.any,
   onSave: PropTypes.any,
   onDownload: PropTypes.any,
   dateModified: PropTypes.any,
