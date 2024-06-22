@@ -34,7 +34,11 @@ const PdfFooter = ({ dateModified, dateSnapshotted }) => {
   }, []);
 
   return (
-    <section className={classes.pdfFooterContainer}>
+    <section className={classes.pdfFooterContainer}
+      style={{
+          position: fixed,
+          bottom: 0,
+      }}>
       {dateSnapshotted !== "Invalid DateTime" ? (
         <div className={classes.pdfTimeText}>
           Snapshot Submitted: {dateSnapshotted}
