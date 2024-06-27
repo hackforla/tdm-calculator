@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import SaveButton from "../Button/SaveButton";
@@ -7,6 +7,7 @@ import PrintButton from "../Button/PrintButton";
 import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { DateTime } from "luxon";
+import UserContext from "../../contexts/UserContext";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -49,7 +50,9 @@ const WizardFooter = ({
   setDisplayPrintButton,
   onSave,
   dateModified,
-  dateSnapshotted
+  dateSnapshotted,
+  dateSubmitted,
+  loginId
 }) => {
   const classes = useStyles();
   const componentRef = useRef();
@@ -57,8 +60,13 @@ const WizardFooter = ({
   const projectName = projectNameRule
     ? projectNameRule.value
     : "TDM Calculation Summary";
-  const formattedDateSnapshot = dateSnapshotted
+  const formattedDateSnapshotted = dateSnapshotted
     ? DateTime.fromFormat(dateSnapshotted, "MM/dd/yyyy h:mm a").toFormat(
+        "yyyy-MM-dd, h:mm a"
+      )
+    : "";
+  const formattedDateSubmitted = dateSubmitted
+    ? DateTime.fromFormat(dateSubmitted, "MM/dd/yyyy h:mm a").toFormat(
         "yyyy-MM-dd, h:mm a"
       )
     : "";
@@ -67,6 +75,8 @@ const WizardFooter = ({
         "yyyy-MM-dd, HH:mm:ss"
       )
     : "";
+  const userContext = useContext(UserContext);
+  const loggedInUserId = userContext.account.id;
 
   return (
     <>
@@ -114,7 +124,10 @@ const WizardFooter = ({
               <PdfPrint
                 ref={componentRef}
                 rules={rules}
-                dateModified={dateModified}
+                dateModified={formattedDateModified}
+                dateSnapshotted={formattedDateSnapshotted}
+                dateSubmitted={formattedDateSubmitted}
+                loginId={loginId}
               />
             </div>
             <SaveButton
@@ -130,10 +143,26 @@ const WizardFooter = ({
 
       {page === 5 && formattedDateModified !== "Invalid DateTime" ? (
         <div className={classes.datesStatus}>
-          {formattedDateSnapshot !== "Invalid DateTime" ? (
+          <div className={classes.pdfTimeText}>
+            <strong>Status: </strong>
+            {dateSnapshotted == "Invalid DateTime"
+              ? "Draft"
+              : loginId === loggedInUserId
+              ? "Snapshot"
+              : "Shared Snapshot"}
+          </div>
+          {formattedDateSubmitted !== "Invalid DateTime" ? (
+            <div>
+              <strong>Snapshot Submitted: </strong>
+              {formattedDateSubmitted} Pacific Time
+            </div>
+          ) : (
+            ""
+          )}
+          {formattedDateSnapshotted !== "Invalid DateTime" ? (
             <div>
               <strong>Snapshot Created: </strong>
-              {formattedDateSnapshot} Pacific Time
+              {formattedDateSnapshotted} Pacific Time
             </div>
           ) : (
             ""
@@ -164,7 +193,9 @@ WizardFooter.propTypes = {
   onSave: PropTypes.any,
   onDownload: PropTypes.any,
   dateModified: PropTypes.any,
-  dateSnapshotted: PropTypes.string
+  dateSnapshotted: PropTypes.string,
+  dateSubmitted: PropTypes.string,
+  loginId: PropTypes.number
 };
 
 export default WizardFooter;

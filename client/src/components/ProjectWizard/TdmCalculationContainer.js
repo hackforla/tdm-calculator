@@ -53,6 +53,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const [rules, setRules] = useState([]);
   const [dateModified, setDateModified] = useState();
   const [dateSnapshotted, setDateSnapshotted] = useState();
+  const [dateSubmitted, setDateSubmitted] = useState();
   const toast = useToast();
 
   const fetchRules = useCallback(async () => {
@@ -87,6 +88,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         setLoginId(projectResponse.data.loginId);
         setDateModified(formatDate(projectResponse.data.dateModified));
         setDateSnapshotted(formatDate(projectResponse.data?.dateSnapshotted));
+        setDateSubmitted(formatDate(projectResponse.data?.dateSubmitted));
 
         inputs = JSON.parse(projectResponse.data.formInputs);
         setStrategiesInitialized(true);
@@ -533,6 +535,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       projectIsValid={projectIsValid}
       dateModified={dateModified}
       dateSnapshotted={dateSnapshotted}
+      dateSubmitted={dateSubmitted}
       contentContainerRef={contentContainerRef}
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}

@@ -130,7 +130,8 @@ const useStyles = createUseStyles({
 export const PdfPrint = forwardRef((props, ref) => {
   const classes = useStyles();
 
-  const { rules, dateModified, dateSnapshotted } = props;
+  const { rules, dateModified, dateSubmitted, dateSnapshotted, loginId } =
+    props;
 
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
@@ -232,6 +233,21 @@ export const PdfPrint = forwardRef((props, ref) => {
       </section>
       <section className={classes.categoryContainer}>
         <div className={clsx("space-between", classes.categoryHeaderContainer)}>
+          <span className={classes.categoryHeader}>RESULTS</span>
+        </div>
+        <div className={classes.pdfResultsContainer}>
+          <PdfResult
+            rule={targetPoints}
+            valueTestId={"summary-pdf-target-points-value"}
+          />
+          <PdfResult
+            rule={earnedPoints}
+            valueTestId={"summary-pdf-earned-points-value"}
+          />
+        </div>
+      </section>
+      <section className={classes.categoryContainer}>
+        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
           <span className={classes.categoryHeader}>PROJECT DETAILS</span>
         </div>
         <div className={classes.measuresContainer}>
@@ -307,24 +323,12 @@ export const PdfPrint = forwardRef((props, ref) => {
           ) : null}
         </div>
       </section>
-      <section className={classes.categoryContainer}>
-        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
-          <span className={classes.categoryHeader}>RESULTS</span>
-        </div>
-        <div className={classes.pdfResultsContainer}>
-          <PdfResult
-            rule={targetPoints}
-            valueTestId={"summary-pdf-target-points-value"}
-          />
-          <PdfResult
-            rule={earnedPoints}
-            valueTestId={"summary-pdf-earned-points-value"}
-          />
-        </div>
-      </section>
+
       <PdfFooter
         dateModified={dateModified}
+        dateSubmitted={dateSubmitted}
         dateSnapshotted={dateSnapshotted}
+        loginId={loginId}
       />
     </div>
   );
@@ -336,7 +340,8 @@ PdfPrint.propTypes = {
   projectId: PropTypes.number,
   loginId: PropTypes.number,
   dateModified: PropTypes.string || null,
-  dateSnapshotted: PropTypes.string || null
+  dateSubmitted: PropTypes.string || null,
+  dateSnapshotted: PropTypes.string | null
 };
 
 export default PdfPrint;

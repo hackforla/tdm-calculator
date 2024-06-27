@@ -59,7 +59,7 @@ const ProjectTableRow = ({
   const modifiedDate = DateTime.fromISO(project.dateModified)
     .setZone("America/Los_Angeles")
     .toFormat("yyyy-MM-dd, HH:mm:ss 'Pacific Time'");
-  const dateSnapshotted = DateTime.fromISO(project.dateSnapshotted ?? "")
+  const dateSubmitted = DateTime.fromISO(project.dateSubmitted ?? "")
     .setZone("America/Los_Angeles")
     .toFormat("yyyy-MM-dd, hh:mm a 'Pacific Time'");
   const formInputs = JSON.parse(project.formInputs);
@@ -188,7 +188,8 @@ const ProjectTableRow = ({
                 ref={printRef}
                 rules={projectRules}
                 dateModified={modifiedDate}
-                dateSnapshotted={dateSnapshotted}
+                dateSubmitted={dateSubmitted}
+                loginId={project.loginId}
               />
             </div>
           </div>

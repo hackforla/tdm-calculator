@@ -55,6 +55,7 @@ const TdmCalculationWizard = props => {
     projectIsValid,
     dateModified,
     dateSnapshotted,
+    dateSubmitted,
     contentContainerRef,
     inapplicableStrategiesModal,
     closeStrategiesModal
@@ -328,6 +329,8 @@ const TdmCalculationWizard = props => {
           onSave={onSave}
           dateModified={dateModified}
           dateSnapshotted={dateSnapshotted}
+          dateSubmitted={dateSubmitted}
+          loginId={loginId}
         />
       </ContentContainer>
     </div>
@@ -374,6 +377,7 @@ TdmCalculationWizard.propTypes = {
   projectIsValid: PropTypes.func,
   dateModified: PropTypes.string,
   dateSnapshotted: PropTypes.string,
+  dateSubmitted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func
 };
