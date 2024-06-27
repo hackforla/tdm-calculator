@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { DateTime } from "luxon";
+import UserContext from "../../contexts/UserContext";
 
 const useStyles = createUseStyles({
   pdfTimeText: {
@@ -14,8 +15,15 @@ const useStyles = createUseStyles({
   }
 });
 
-const PdfFooter = ({ dateModified, dateSnapshotted }) => {
+const PdfFooter = ({
+  dateModified,
+  dateSubmitted,
+  dateSnapshotted,
+  loginId
+}) => {
   const classes = useStyles();
+  const userContext = useContext(UserContext);
+  const loggedInUserId = userContext.account.id;
 
   const [printedDate, setPrintedDate] = useState(DateTime.now());
 
@@ -35,14 +43,31 @@ const PdfFooter = ({ dateModified, dateSnapshotted }) => {
 
   return (
     <section className={classes.pdfFooterContainer}>
-      {dateSnapshotted !== "Invalid DateTime" ? (
+      <div className={classes.pdfTimeText}>
+        Status:{" "}
+        {dateSnapshotted === "Invalid DateTime"
+          ? "Draft"
+          : loginId === loggedInUserId
+          ? "Snapshot"
+          : "Shared Snapshot"}
+      </div>
+      {dateSubmitted !== "Invalid DateTime" ? (
         <div className={classes.pdfTimeText}>
-          Snapshot Submitted: {dateSnapshotted}
+          Snapshot Submitted: {dateSubmitted} Pacific Time
         </div>
       ) : (
         ""
       )}
-      <div className={classes.pdfTimeText}>Date Last Saved: {dateModified}</div>
+      {dateSnapshotted !== "Invalid DateTime" ? (
+        <div className={classes.pdfTimeText}>
+          Snapshot Created: {dateSnapshotted} Pacific Time
+        </div>
+      ) : (
+        ""
+      )}
+      <div className={classes.pdfTimeText}>
+        Date Last Saved: {dateModified} Pacific Time
+      </div>
       <div
         className={classes.pdfTimeText}
         style={{
@@ -66,7 +91,9 @@ const PdfFooter = ({ dateModified, dateSnapshotted }) => {
 
 PdfFooter.propTypes = {
   dateModified: PropTypes.string || null,
-  dateSnapshotted: PropTypes.string || null
+  dateSubmitted: PropTypes.string || null,
+  dateSnapshotted: PropTypes.string || null,
+  loginId: PropTypes.number
 };
 
 export default PdfFooter;
