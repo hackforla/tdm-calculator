@@ -23,7 +23,7 @@ const PdfFooter = ({
 }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
-  const loggedInUserId = userContext.account.id;
+  const loggedInUserId = userContext?.account?.id;
 
   const [printedDate, setPrintedDate] = useState(DateTime.now());
 
