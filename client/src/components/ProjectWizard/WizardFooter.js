@@ -64,17 +64,17 @@ const WizardFooter = ({
     ? DateTime.fromFormat(dateSnapshotted, "MM/dd/yyyy h:mm a").toFormat(
         "yyyy-MM-dd, h:mm a"
       )
-    : "";
+    : null;
   const formattedDateSubmitted = dateSubmitted
     ? DateTime.fromFormat(dateSubmitted, "MM/dd/yyyy h:mm a").toFormat(
         "yyyy-MM-dd, h:mm a"
       )
-    : "";
+    : null;
   const formattedDateModified = dateModified
     ? DateTime.fromFormat(dateModified, "MM/dd/yyyy h:mm a").toFormat(
-        "yyyy-MM-dd, HH:mm:ss"
+        "yyyy-MM-dd, h:mm a"
       )
-    : "";
+    : null;
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
 
@@ -141,32 +141,28 @@ const WizardFooter = ({
         ) : null}
       </div>
 
-      {page === 5 && formattedDateModified !== "Invalid DateTime" ? (
+      {page === 5 && formattedDateModified && loggedInUserId ? (
         <div className={classes.datesStatus}>
           <div className={classes.pdfTimeText}>
             <strong>Status: </strong>
-            {dateSnapshotted == "Invalid DateTime"
+            {!dateSnapshotted
               ? "Draft"
               : loginId === loggedInUserId
               ? "Snapshot"
               : "Shared Snapshot"}
           </div>
-          {formattedDateSubmitted !== "Invalid DateTime" ? (
+          {formattedDateSubmitted ? (
             <div>
               <strong>Snapshot Submitted: </strong>
               {formattedDateSubmitted} Pacific Time
             </div>
-          ) : (
-            ""
-          )}
-          {formattedDateSnapshotted !== "Invalid DateTime" ? (
+          ) : null}
+          {formattedDateSnapshotted ? (
             <div>
               <strong>Snapshot Created: </strong>
               {formattedDateSnapshotted} Pacific Time
             </div>
-          ) : (
-            ""
-          )}
+          ) : null}
           <div>
             <strong>Date Last Saved: </strong>
             {formattedDateModified} Pacific Time

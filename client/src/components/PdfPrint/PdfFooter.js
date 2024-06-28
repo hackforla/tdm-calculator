@@ -23,7 +23,7 @@ const PdfFooter = ({
 }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
-  const loggedInUserId = userContext?.account?.id;
+  const loggedInUserId = userContext.account?.id;
 
   const [printedDate, setPrintedDate] = useState(DateTime.now());
 
@@ -43,31 +43,34 @@ const PdfFooter = ({
 
   return (
     <section className={classes.pdfFooterContainer}>
-      <div className={classes.pdfTimeText}>
-        Status:{" "}
-        {dateSnapshotted === "Invalid DateTime"
-          ? "Draft"
-          : loginId === loggedInUserId
-          ? "Snapshot"
-          : "Shared Snapshot"}
-      </div>
-      {dateSubmitted !== "Invalid DateTime" ? (
-        <div className={classes.pdfTimeText}>
-          Snapshot Submitted: {dateSubmitted} Pacific Time
-        </div>
-      ) : (
-        ""
+      {loginId && (
+        <>
+          <div className={classes.pdfTimeText}>
+            Status:{" "}
+            {!dateSnapshotted
+              ? "Draft"
+              : loginId === loggedInUserId
+              ? "Snapshot"
+              : "Shared Snapshot"}
+          </div>
+          {dateSubmitted && (
+            <div className={classes.pdfTimeText}>
+              Snapshot Submitted: {dateSubmitted} Pacific Time
+            </div>
+          )}
+          {dateSnapshotted && (
+            <div className={classes.pdfTimeText}>
+              Snapshot Created: {dateSnapshotted} Pacific Time
+            </div>
+          )}
+          {dateModified && (
+            <div className={classes.pdfTimeText}>
+              Date Last Saved: {dateModified} Pacific Time
+            </div>
+          )}
+        </>
       )}
-      {dateSnapshotted !== "Invalid DateTime" ? (
-        <div className={classes.pdfTimeText}>
-          Snapshot Created: {dateSnapshotted} Pacific Time
-        </div>
-      ) : (
-        ""
-      )}
-      <div className={classes.pdfTimeText}>
-        Date Last Saved: {dateModified} Pacific Time
-      </div>
+
       <div
         className={classes.pdfTimeText}
         style={{
@@ -93,7 +96,7 @@ PdfFooter.propTypes = {
   dateModified: PropTypes.string || null,
   dateSubmitted: PropTypes.string || null,
   dateSnapshotted: PropTypes.string || null,
-  loginId: PropTypes.number
+  loginId: PropTypes.number || null
 };
 
 export default PdfFooter;
