@@ -337,8 +337,8 @@ export const PdfPrint = forwardRef((props, ref) => {
 PdfPrint.propTypes = {
   rules: PropTypes.array,
   account: PropTypes.object,
-  projectId: PropTypes.number,
-  loginId: PropTypes.number,
+  projectId: PropTypes.number || null,
+  loginId: PropTypes.number || null,
   dateModified: PropTypes.string || null,
   dateSubmitted: PropTypes.string || null,
   dateSnapshotted: PropTypes.string | null

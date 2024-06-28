@@ -70,9 +70,11 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   }, [fetchRules]);
 
   const formatDate = date => {
-    return DateTime.fromISO(date)
-      .setZone("America/Los_Angeles")
-      .toFormat("MM/dd/yyyy h:mm a");
+    return date
+      ? DateTime.fromISO(date)
+          .setZone("America/Los_Angeles")
+          .toFormat("MM/dd/yyyy h:mm a")
+      : null;
   };
 
   // Initialize Engine and (if existing project), perform initial calculation.
