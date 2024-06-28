@@ -76,7 +76,7 @@ const WizardFooter = ({
       )
     : "";
   const userContext = useContext(UserContext);
-  const loggedInUserId = userContext.account.id;
+  const loggedInUserId = userContext.account?.id;
 
   return (
     <>
@@ -193,8 +193,8 @@ WizardFooter.propTypes = {
   onSave: PropTypes.any,
   onDownload: PropTypes.any,
   dateModified: PropTypes.any,
-  dateSnapshotted: PropTypes.string,
-  dateSubmitted: PropTypes.string,
+  dateSnapshotted: PropTypes.any,
+  dateSubmitted: PropTypes.any,
   loginId: PropTypes.number
 };
 
