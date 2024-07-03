@@ -130,8 +130,7 @@ const useStyles = createUseStyles({
 export const PdfPrint = forwardRef((props, ref) => {
   const classes = useStyles();
 
-  const { rules, dateModified, dateSubmitted, dateSnapshotted, loginId } =
-    props;
+  const { rules, project } = props;
 
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
@@ -324,24 +323,14 @@ export const PdfPrint = forwardRef((props, ref) => {
         </div>
       </section>
 
-      <PdfFooter
-        dateModified={dateModified}
-        dateSubmitted={dateSubmitted}
-        dateSnapshotted={dateSnapshotted}
-        loginId={loginId}
-      />
+      <PdfFooter project={project} />
     </div>
   );
 });
 
 PdfPrint.propTypes = {
   rules: PropTypes.array,
-  account: PropTypes.object,
-  projectId: PropTypes.number || null,
-  loginId: PropTypes.number || null,
-  dateModified: PropTypes.string || null,
-  dateSubmitted: PropTypes.string || null,
-  dateSnapshotted: PropTypes.string | null
+  project: PropTypes.shape
 };
 
 export default PdfPrint;
