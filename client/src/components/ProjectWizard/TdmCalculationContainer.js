@@ -7,7 +7,7 @@ import * as ruleService from "../../services/rule.service";
 import * as projectService from "../../services/project.service";
 import Engine from "../../services/tdm-engine";
 import { useToast } from "../../contexts/Toast";
-import { DateTime } from "luxon";
+// import { formatDatetime } from "../../helpers/util";
 
 // These are the calculation results we want to calculate
 // and display on the main page.
@@ -45,15 +45,18 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
   const projectId = params.projectId ? Number(params.projectId) : 0;
-  const [loginId, setLoginId] = useState(0);
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
   const [inapplicableStrategiesModal, setInapplicableStrategiesModal] =
     useState(false);
   const [rules, setRules] = useState([]);
-  const [dateModified, setDateModified] = useState();
-  const [dateSnapshotted, setDateSnapshotted] = useState();
-  const [dateSubmitted, setDateSubmitted] = useState();
+
+  const [project, setProject] = useState({});
+  // const [loginId, setLoginId] = useState(0);
+  // const [dateModified, setDateModified] = useState();
+  // const [dateSnapshotted, setDateSnapshotted] = useState();
+  // const [dateSubmitted, setDateSubmitted] = useState();
+
   const toast = useToast();
 
   const fetchRules = useCallback(async () => {
@@ -69,14 +72,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     fetchRules();
   }, [fetchRules]);
 
-  const formatDate = date => {
-    return date
-      ? DateTime.fromISO(date)
-          .setZone("America/Los_Angeles")
-          .toFormat("MM/dd/yyyy h:mm a")
-      : null;
-  };
-
   // Initialize Engine and (if existing project), perform initial calculation.
   const initializeEngine = useCallback(async () => {
     // Only run if engine has been instantiated
@@ -87,10 +82,13 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       if (Number(projectId) > 0 && account.id) {
         projectResponse = await projectService.getById(projectId);
 
-        setLoginId(projectResponse.data.loginId);
-        setDateModified(formatDate(projectResponse.data.dateModified));
-        setDateSnapshotted(formatDate(projectResponse.data?.dateSnapshotted));
-        setDateSubmitted(formatDate(projectResponse.data?.dateSubmitted));
+        // setLoginId(projectResponse.data.loginId);
+        // setDateModified(formatDatetime(projectResponse.data.dateModified));
+        // setDateSnapshotted(
+        //   formatDatetime(projectResponse.data?.dateSnapshotted)
+        // );
+        // setDateSubmitted(formatDatetime(projectResponse.data?.dateSubmitted));
+        setProject(projectResponse.data);
 
         inputs = JSON.parse(projectResponse.data.formInputs);
         setStrategiesInitialized(true);
@@ -110,7 +108,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       // const redirect = account.id ? "/projects" : "/login";
       // navigate(redirect);
     }
-  }, [engine, projectId, account, setRules, setDateModified]);
+  }, [engine, projectId, account, setRules, setProject]);
 
   // Initialize the engine with saved project data, as appropriate.
   // Should run only when projectId changes.
@@ -462,7 +460,8 @@ export function TdmCalculationContainer({ contentContainerRef }) {
 
         projectResponse = await projectService.getById(projectId);
 
-        setDateModified(formatDate(projectResponse.data?.dateModified));
+        // setDateModified(formatDatetime(projectResponse.data?.dateModified));
+        setProject(projectResponse.data);
       } catch (err) {
         console.error(err);
         if (err.response) {
@@ -527,7 +526,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       onPkgSelect={onPkgSelect}
       onParkingProvidedChange={onParkingProvidedChange}
       resultRuleCodes={resultRuleCodes}
-      loginId={loginId}
       onSave={onSave}
       allowResidentialPackage={allowResidentialPackage}
       allowSchoolPackage={allowSchoolPackage}
@@ -535,12 +533,15 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       schoolPackageSelected={schoolPackageSelected}
       formIsDirty={!formHasSaved}
       projectIsValid={projectIsValid}
-      dateModified={dateModified}
-      dateSnapshotted={dateSnapshotted}
-      dateSubmitted={dateSubmitted}
+      // loginId={loginId}
+      // dateModified={dateModified}
+      // dateSnapshotted={dateSnapshotted}
+      // dateSubmitted={dateSubmitted}
       contentContainerRef={contentContainerRef}
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}
+      // projectId={projectId}
+      project={project}
     />
   );
 }

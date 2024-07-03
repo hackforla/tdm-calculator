@@ -11,7 +11,7 @@ import {
   faEyeSlash,
   faEllipsisV
 } from "@fortawesome/free-solid-svg-icons";
-import { DateTime } from "luxon";
+import { formatDate } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
@@ -56,12 +56,6 @@ const ProjectTableRow = ({
   checkedProjectIds
 }) => {
   const classes = useStyles();
-  const modifiedDate = DateTime.fromISO(project.dateModified)
-    .setZone("America/Los_Angeles")
-    .toFormat("yyyy-MM-dd, HH:mm:ss 'Pacific Time'");
-  const dateSubmitted = DateTime.fromISO(project.dateSubmitted ?? "")
-    .setZone("America/Los_Angeles")
-    .toFormat("yyyy-MM-dd, hh:mm a 'Pacific Time'");
   const formInputs = JSON.parse(project.formInputs);
   const printRef = useRef();
 
@@ -87,10 +81,6 @@ const ProjectTableRow = ({
 
   const fallbackToBlank = value => {
     return value !== "undefined" ? value : "";
-  };
-
-  const formatDate = date => {
-    return new Date(date).toISOString().split("T")[0];
   };
 
   // Last Modified Date column should display the Last Modified date, unless the project is
@@ -184,13 +174,7 @@ const ProjectTableRow = ({
               )}
             </Popup>
             <div style={{ display: "none" }}>
-              <PdfPrint
-                ref={printRef}
-                rules={projectRules}
-                dateModified={modifiedDate}
-                dateSubmitted={dateSubmitted}
-                loginId={project.loginId}
-              />
+              <PdfPrint ref={printRef} rules={projectRules} project={project} />
             </div>
           </div>
         )}
