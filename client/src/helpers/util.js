@@ -8,6 +8,6 @@ export const formatDatetime = datetime => {
   return datetime
     ? DateTime.fromISO(datetime)
         .setZone("America/Los_Angeles")
-        .toFormat("MM/dd/yyyy h:mm a")
+        .toFormat("yyyy-MM-dd hh:mm a")
     : null;
 };
