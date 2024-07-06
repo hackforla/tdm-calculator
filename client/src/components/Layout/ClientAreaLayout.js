@@ -8,8 +8,6 @@ import Header from "./Header";
 import Footer from "./Footer";
 import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
 import ChecklistModal from "../Checklist/ChecklistModal";
-import OktaAuthProvider from "../Okta/OktaAuthProvider";
-import OktaTdmAuthProvider from "../Okta/OktaTdmAuthProvider";
 import TdmAuthProvider from "./TdmAuthProvider";
 import ConfigContext from "../../contexts/ConfigContext";
 
@@ -48,37 +46,19 @@ const ClientAreaLayout = ({ appContainerRef }) => {
   return (
     <div className={classes.app} id="app-container" ref={appContainerRef}>
       <ConfigContext.Provider value={configs}>
-        {configs["OKTA_ENABLE"] && configs["OKTA_ENABLE"] === "T" ? (
-          <OktaAuthProvider>
-            <OktaTdmAuthProvider>
-              <TermsAndConditionsModal
-                hasAcceptedTerms={hasAcceptedTerms}
-                onAcceptTerms={onAcceptTerms}
-              />
-              <ChecklistModal
-                checklistModalOpen={checklistModalOpen}
-                toggleChecklistModal={toggleChecklistModal}
-              />
-              <Header />
-              <Outlet />
-              <Footer toggleChecklistModal={toggleChecklistModal} />
-            </OktaTdmAuthProvider>
-          </OktaAuthProvider>
-        ) : (
-          <TdmAuthProvider>
-            <TermsAndConditionsModal
-              hasAcceptedTerms={hasAcceptedTerms}
-              onAcceptTerms={onAcceptTerms}
-            />
-            <ChecklistModal
-              checklistModalOpen={checklistModalOpen}
-              toggleChecklistModal={toggleChecklistModal}
-            />
-            <Header />
-            <Outlet />
-            <Footer toggleChecklistModal={toggleChecklistModal} />
-          </TdmAuthProvider>
-        )}
+        <TdmAuthProvider>
+          <TermsAndConditionsModal
+            hasAcceptedTerms={hasAcceptedTerms}
+            onAcceptTerms={onAcceptTerms}
+          />
+          <ChecklistModal
+            checklistModalOpen={checklistModalOpen}
+            toggleChecklistModal={toggleChecklistModal}
+          />
+          <Header />
+          <Outlet />
+          <Footer toggleChecklistModal={toggleChecklistModal} />
+        </TdmAuthProvider>
       </ConfigContext.Provider>
     </div>
   );

@@ -36,10 +36,7 @@ import Feedback from "./components/Feedback/FeedbackPage";
 import ErrorPage from "./components/ErrorPage";
 import Offline from "./components/Offline";
 import Logout from "./components/Authorization/Logout";
-import ProfilePage from "./components/Okta/ProfilePage";
-import { LoginCallback } from "@okta/okta-react";
 import { getConfigs } from "./helpers/Config";
-import { OktaAuth } from "@okta/okta-auth-js";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
 
@@ -58,21 +55,7 @@ const App = () => {
         }
         loader={async () => {
           const configs = await getConfigs();
-          const clientId = configs.OKTA_CLIENT_ID;
-          const issuer = configs.OKTA_ISSUER;
-          const disableHttpsCheck =
-            configs.OKTA_TESTING_DISABLE_HTTPS_CHECK || "T";
-          const redirectUri = `${window.location.origin}/login/callback`;
-          const oidc = {
-            clientId,
-            issuer,
-            redirectUri,
-            scopes: ["openid", "profile", "email"],
-            pkce: true,
-            disableHttpsCheck
-          };
-
-          return { oktaAuth: new OktaAuth(oidc), configs };
+          return { configs };
         }}
       >
         {/* These routes either have no sidebar or use a custom sidebar */}
@@ -124,19 +107,10 @@ const App = () => {
             element={<TermsAndConditionsPage />}
           />
           <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/register/:email?" element={<Register />} />
           <Route path="/updateaccount/:email?" element={<UpdateAccount />} />
           <Route path="/confirm/:token?" element={<ConfirmEmail />} />
-          <Route
-            path="/login/callback"
-            element={
-              <LoginCallback
-                loadingElement={<h3 id="loading-icon">Loading...</h3>}
-              />
-            }
-          />
           <Route path="/login/:email?" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
