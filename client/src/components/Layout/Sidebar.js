@@ -5,7 +5,7 @@ import { createUseStyles } from "react-jss";
 export const useStyles = createUseStyles({
   sidebarContainer: {
     margin: "0",
-    flexBasis: "15%",
+    flexBasis: "387px",
     flexGrow: 0,
     flexShrink: 1,
     backgroundImage: "url(/assets/sidebarBackground.jpg)",
@@ -27,7 +27,7 @@ export const useStyles = createUseStyles({
   },
   "@media (max-width: 1024px)": {
     sidebarContainer: {
-      flexBasis: "10%",
+      flexBasis: "200px",
       flexShrink: 1
     }
   },
