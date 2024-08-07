@@ -53,15 +53,9 @@ const TdmCalculationWizard = props => {
     schoolPackageSelected,
     formIsDirty,
     projectIsValid,
-<<<<<<< HEAD
     // dateModified,
     // dateSnapshotted,
     // dateSubmitted,
-=======
-    dateModified,
-    dateSnapshotted,
-    dateSubmitted,
->>>>>>> a9507585 (submit database migration and route)
     contentContainerRef,
     inapplicableStrategiesModal,
     closeStrategiesModal,
@@ -344,17 +338,11 @@ const TdmCalculationWizard = props => {
           setDisplayPrintButton={setDisplayPrintButton}
           setDisplaySubmitButton={setDisplaySubmitButton}
           onSave={onSave}
-<<<<<<< HEAD
           project={project}
           // dateModified={dateModified}
           // dateSnapshotted={dateSnapshotted}
           // dateSubmitted={dateSubmitted}
           // loginId={loginId}
-=======
-          dateModified={dateModified}
-          dateSnapshotted={dateSnapshotted}
-          dateSubmitted={dateSubmitted}
->>>>>>> a9507585 (submit database migration and route)
         />
       </ContentContainer>
     </div>
@@ -399,15 +387,9 @@ TdmCalculationWizard.propTypes = {
   schoolPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
-<<<<<<< HEAD
   // dateModified: PropTypes.string,
   // dateSnapshotted: PropTypes.string,
   // dateSubmitted: PropTypes.string,
-=======
-  dateModified: PropTypes.string,
-  dateSnapshotted: PropTypes.string,
-  dateSubmitted: PropTypes.string,
->>>>>>> a9507585 (submit database migration and route)
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
   project: PropTypes.shape
