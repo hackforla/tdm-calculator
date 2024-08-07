@@ -1,1 +1,1 @@
-ALTER TABLE tdmdev.dbo.Project ADD dateSubmitted datetime2(0) NULL;
+ALTER TABLE Project ADD dateSubmitted datetime2(0) NULL;

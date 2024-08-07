@@ -58,7 +58,7 @@ const useStyles = createUseStyles({
   measuresContainer: {
     paddingTop: "10px",
     margin: "0 12px",
-    width: "80%"
+    width: "90%"
   },
   earnedPoints: {
     fontWeight: "600",
@@ -130,7 +130,7 @@ const useStyles = createUseStyles({
 export const PdfPrint = forwardRef((props, ref) => {
   const classes = useStyles();
 
-  const { rules, dateModified, dateSnapshotted } = props;
+  const { rules, project } = props;
 
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
@@ -232,6 +232,21 @@ export const PdfPrint = forwardRef((props, ref) => {
       </section>
       <section className={classes.categoryContainer}>
         <div className={clsx("space-between", classes.categoryHeaderContainer)}>
+          <span className={classes.categoryHeader}>RESULTS</span>
+        </div>
+        <div className={classes.pdfResultsContainer}>
+          <PdfResult
+            rule={targetPoints}
+            valueTestId={"summary-pdf-target-points-value"}
+          />
+          <PdfResult
+            rule={earnedPoints}
+            valueTestId={"summary-pdf-earned-points-value"}
+          />
+        </div>
+      </section>
+      <section className={classes.categoryContainer}>
+        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
           <span className={classes.categoryHeader}>PROJECT DETAILS</span>
         </div>
         <div className={classes.measuresContainer}>
@@ -307,36 +322,15 @@ export const PdfPrint = forwardRef((props, ref) => {
           ) : null}
         </div>
       </section>
-      <section className={classes.categoryContainer}>
-        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
-          <span className={classes.categoryHeader}>RESULTS</span>
-        </div>
-        <div className={classes.pdfResultsContainer}>
-          <PdfResult
-            rule={targetPoints}
-            valueTestId={"summary-pdf-target-points-value"}
-          />
-          <PdfResult
-            rule={earnedPoints}
-            valueTestId={"summary-pdf-earned-points-value"}
-          />
-        </div>
-      </section>
-      <PdfFooter
-        dateModified={dateModified}
-        dateSnapshotted={dateSnapshotted}
-      />
+
+      <PdfFooter project={project} />
     </div>
   );
 });
 
 PdfPrint.propTypes = {
   rules: PropTypes.array,
-  account: PropTypes.object,
-  projectId: PropTypes.number,
-  loginId: PropTypes.number,
-  dateModified: PropTypes.string || null,
-  dateSnapshotted: PropTypes.string || null
+  project: PropTypes.shape
 };
 
 export default PdfPrint;

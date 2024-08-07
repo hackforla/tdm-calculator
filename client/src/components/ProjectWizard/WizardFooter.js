@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import SaveButton from "../Button/SaveButton";
@@ -7,7 +7,8 @@ import { createUseStyles } from "react-jss";
 import PrintButton from "../Button/PrintButton";
 import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
-import { DateTime } from "luxon";
+import { formatDatetime } from "../../helpers/util";
+import UserContext from "../../contexts/UserContext";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -50,8 +51,7 @@ const WizardFooter = ({
   setDisplayPrintButton,
   setDisplaySubmitButton,
   onSave,
-  dateModified,
-  dateSnapshotted
+  project
 }) => {
   const classes = useStyles();
   const componentRef = useRef();
@@ -59,16 +59,11 @@ const WizardFooter = ({
   const projectName = projectNameRule
     ? projectNameRule.value
     : "TDM Calculation Summary";
-  const formattedDateSnapshot = dateSnapshotted
-    ? DateTime.fromFormat(dateSnapshotted, "MM/dd/yyyy h:mm a").toFormat(
-        "yyyy-MM-dd, h:mm a"
-      )
-    : "";
-  const formattedDateModified = dateModified
-    ? DateTime.fromFormat(dateModified, "MM/dd/yyyy h:mm a").toFormat(
-        "yyyy-MM-dd, HH:mm:ss"
-      )
-    : "";
+  const formattedDateSnapshotted = formatDatetime(project.dateSnapshotted);
+  const formattedDateSubmitted = formatDatetime(project.dateSubmitted);
+  const formattedDateModified = formatDatetime(project.dateModified);
+  const userContext = useContext(UserContext);
+  const loggedInUserId = userContext.account?.id;
 
   return (
     <>
@@ -113,11 +108,7 @@ const WizardFooter = ({
               pageStyle=".printContainer {overflow: hidden;}"
             />
             <div style={{ display: "none" }}>
-              <PdfPrint
-                ref={componentRef}
-                rules={rules}
-                dateModified={dateModified}
-              />
+              <PdfPrint ref={componentRef} rules={rules} project={project} />
             </div>
             <SaveButton
               id="saveButton"
@@ -135,16 +126,28 @@ const WizardFooter = ({
         ) : null}
       </div>
 
-      {page === 5 && formattedDateModified !== "Invalid DateTime" ? (
+      {page === 5 && formattedDateModified && loggedInUserId ? (
         <div className={classes.datesStatus}>
-          {formattedDateSnapshot !== "Invalid DateTime" ? (
+          <div className={classes.pdfTimeText}>
+            <strong>Status: </strong>
+            {!formattedDateSnapshotted
+              ? "Draft"
+              : project.loginId === loggedInUserId
+              ? "Snapshot"
+              : "Shared Snapshot"}
+          </div>
+          {formattedDateSubmitted ? (
+            <div>
+              <strong>Snapshot Submitted: </strong>
+              {formattedDateSubmitted} Pacific Time
+            </div>
+          ) : null}
+          {formattedDateSnapshotted ? (
             <div>
               <strong>Snapshot Created: </strong>
-              {formattedDateSnapshot} Pacific Time
+              {formattedDateSnapshotted} Pacific Time
             </div>
-          ) : (
-            ""
-          )}
+          ) : null}
           <div>
             <strong>Date Last Saved: </strong>
             {formattedDateModified} Pacific Time
@@ -157,7 +160,6 @@ const WizardFooter = ({
   );
 };
 
-// TODO:
 WizardFooter.propTypes = {
   classes: PropTypes.any,
   rules: PropTypes.any,
@@ -171,8 +173,7 @@ WizardFooter.propTypes = {
   setDisplaySubmitButton: PropTypes.any,
   onSave: PropTypes.any,
   onDownload: PropTypes.any,
-  dateModified: PropTypes.any,
-  dateSnapshotted: PropTypes.string
+  project: PropTypes.shape
 };
 
 export default WizardFooter;

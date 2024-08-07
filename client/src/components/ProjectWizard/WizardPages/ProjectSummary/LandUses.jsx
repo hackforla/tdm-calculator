@@ -17,7 +17,8 @@ const useStyles = createUseStyles({
   value: {
     display: "flex",
     fontSize: "14px",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    marginRight: "6.5rem"
   }
 });
 

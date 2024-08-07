@@ -45,7 +45,7 @@ const TdmCalculationWizard = props => {
     onPkgSelect,
     onParkingProvidedChange,
     resultRuleCodes,
-    loginId,
+    // loginId,
     onSave,
     allowResidentialPackage,
     allowSchoolPackage,
@@ -53,12 +53,13 @@ const TdmCalculationWizard = props => {
     schoolPackageSelected,
     formIsDirty,
     projectIsValid,
-    dateModified,
-    dateSnapshotted,
-    dateSubmitted,
+    // dateModified,
+    // dateSnapshotted,
+    // dateSubmitted,
     contentContainerRef,
     inapplicableStrategiesModal,
-    closeStrategiesModal
+    closeStrategiesModal,
+    project
   } = props;
   const classes = useStyles();
   const context = useContext(ToastContext);
@@ -70,6 +71,7 @@ const TdmCalculationWizard = props => {
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
   const [ainInputError, setAINInputError] = useState("");
+  const loginId = project.loginId;
   /*
     shouldBlock determines if user should be blocked from navigating away
     from wizard.  Note that navigation from /calculation/a/x to 
@@ -298,7 +300,7 @@ const TdmCalculationWizard = props => {
             projectId={projectId}
             loginId={loginId}
             onSave={onSave}
-            dateModified={dateModified}
+            dateModified={project.dateModified}
           />
         );
       default:
@@ -325,6 +327,7 @@ const TdmCalculationWizard = props => {
       >
         {pageContents(page)}
         <WizardFooter
+          // projectId={projectId}
           rules={rules}
           page={page}
           onPageChange={onPageChange}
@@ -335,9 +338,11 @@ const TdmCalculationWizard = props => {
           setDisplayPrintButton={setDisplayPrintButton}
           setDisplaySubmitButton={setDisplaySubmitButton}
           onSave={onSave}
-          dateModified={dateModified}
-          dateSnapshotted={dateSnapshotted}
-          dateSubmitted={dateSubmitted}
+          project={project}
+          // dateModified={dateModified}
+          // dateSnapshotted={dateSnapshotted}
+          // dateSubmitted={dateSubmitted}
+          // loginId={loginId}
         />
       </ContentContainer>
     </div>
@@ -374,7 +379,7 @@ TdmCalculationWizard.propTypes = {
   onResetProject: PropTypes.func.isRequired,
   filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,
-  loginId: PropTypes.number.isRequired,
+  // loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowSchoolPackage: PropTypes.bool.isRequired,
@@ -382,11 +387,12 @@ TdmCalculationWizard.propTypes = {
   schoolPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
-  dateModified: PropTypes.string,
-  dateSnapshotted: PropTypes.string,
-  dateSubmitted: PropTypes.string,
+  // dateModified: PropTypes.string,
+  // dateSnapshotted: PropTypes.string,
+  // dateSubmitted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
-  closeStrategiesModal: PropTypes.func
+  closeStrategiesModal: PropTypes.func,
+  project: PropTypes.shape
 };
 
 export default TdmCalculationWizard;

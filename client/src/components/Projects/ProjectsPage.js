@@ -842,19 +842,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   />
                 </>
               )}
-              {/* <div style={{ display: "none" }}>
-            {rules ? (
-              <PdfPrint
-                ref={componentRef}
-                rules={rules}
-                dateModified={
-                  dateModified || new Date(2023, 11, 18).toDateString()
-                }
-              />
-            ) : (
-              <div ref={componentRef}></div>
-            )}
-          </div> */}
             </div>
           </div>
         </div>

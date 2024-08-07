@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import clsx from "clsx";
 import { roundToTwo } from "../../helpers";
 
 const useStyles = createUseStyles({
@@ -14,16 +13,12 @@ const useStyles = createUseStyles({
     margin: "4px auto"
   },
   ruleName: {
-    minWidth: "270px"
+    flexBasis: "40%"
   },
   ruleText: {
-    textAlign: "center",
+    flexBasis: "40%",
+    textAlign: "right",
     margin: "0 16px"
-  },
-  detailsContainer: {
-    display: "flex",
-    minWidth: "180px",
-    maxWidth: "35%"
   },
   pointsContainer: {
     display: "flex",
@@ -46,20 +41,19 @@ const MeasureSelected = props => {
   return (
     <div className={classes.rule}>
       <div className={classes.ruleName}>{rule.name}</div>
-      <div className={clsx("justify-content-center", classes.detailsContainer)}>
-        <div className={classes.ruleText}>
-          {rule.dataType === "boolean" || rule.dataType === "number"
-            ? null
-            : rule.dataType === "choice"
+
+      <div className={classes.ruleText}>
+        {rule.dataType === "boolean" || rule.dataType === "number"
+          ? null
+          : rule.dataType === "choice"
+          ? rule.choices.find(
+              choice => Number(choice.id) === Number(rule.value)
+            )
             ? rule.choices.find(
                 choice => Number(choice.id) === Number(rule.value)
-              )
-              ? rule.choices.find(
-                  choice => Number(choice.id) === Number(rule.value)
-                ).name
-              : rule.value
-            : rule.value}
-        </div>
+              ).name
+            : rule.value
+          : rule.value}
       </div>
       <div className={classes.pointsContainer}>
         <div className={classes.value}>{roundToTwo(rule.calcValue)}</div>

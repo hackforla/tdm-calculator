@@ -1,6 +1,7 @@
 ---
 name: Bug report
-about: Lists out information that would be help developers quickly identify and fix potentail problems.
+about: Lists out information that would be help developers quickly identify and fix
+  potentail problems.
 title: 'Bug: '
 labels: 'bug, priority: MUST HAVE'
 assignees: ''
