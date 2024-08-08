@@ -17,8 +17,8 @@ import useProjects from "../../hooks/useGetProjects";
 import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData.js";
 import * as projectService from "../../services/project.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
+import ProjectsPageHeader from "./ProjectsPageHeader";
 import RenameSnapshotModal from "./RenameSnapshotModal";
-
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import CsvModal from "./CsvModal.js";
@@ -702,7 +702,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
               </div>
               <div className={classes.tableContainer}>
                 <table className={classes.table}>
-                  <thead className={classes.thead}>
+                  <ProjectsPageHeader headerData={headerData} />
+                  {/* <thead className={classes.thead}>
                     <tr className={classes.tr}>
                       {headerData.map(header => {
                         const label = header.label;
@@ -742,7 +743,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         );
                       })}
                     </tr>
-                  </thead>
+                  </thead> */}
                   <tbody className={classes.tbody}>
                     {projects.length ? (
                       currentProjects.map(project => (

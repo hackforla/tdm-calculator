@@ -9,11 +9,11 @@
     "process": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:jest/recommended",
-    "plugin:prettier/recommended",
-    "plugin:react-hooks/recommended"
+    // "eslint:recommended",
+    // "plugin:react/recommended",
+    // "plugin:jest/recommended",
+    // "plugin:prettier/recommended",
+    // "plugin:react-hooks/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
