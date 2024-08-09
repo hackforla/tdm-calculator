@@ -6,8 +6,8 @@ const Logout = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
     await accountService.logout();
-    // Redirect to the "/" page after the logout
-    navigate("/");
+    // Redirect to the "/login" page after the logout
+    navigate("/login");
   };
   // Call handleLogout when the component mounts
   handleLogout();

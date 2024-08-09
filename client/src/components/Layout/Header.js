@@ -1,13 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../images/ladot_white.png";
 import NavBar from "./NavBar";
-import OktaNavBar from "../Okta/OktaNavBar";
 import { Environment } from "../../helpers/Environment";
-import ConfigContext from "../../contexts/ConfigContext";
 
 const useStyles = createUseStyles({
   header: {
@@ -78,7 +76,6 @@ const useStyles = createUseStyles({
 const Header = () => {
   const classes = useStyles();
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const configs = useContext(ConfigContext);
 
   const handleHamburgerMenuClick = () => setNavbarOpen(!navbarOpen);
 
@@ -104,11 +101,8 @@ const Header = () => {
       >
         <FontAwesomeIcon icon={faBars} className={classes.hamburger} />
       </button>
-      {configs.OKTA_ENABLE && configs.OKTA_ENABLE === "T" ? (
-        <OktaNavBar navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />
-      ) : (
-        <NavBar navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />
-      )}
+
+      <NavBar navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />
     </div>
   );
 };

@@ -67,10 +67,4 @@ router.delete(
   accountController.deleteById
 );
 
-router.post(
-  "/getauthorization",
-  accountController.getAuthorization,
-  jwtSession.login
-);
-
 module.exports = router;

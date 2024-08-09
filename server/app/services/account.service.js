@@ -559,45 +559,6 @@ const deleteUser = async id => {
   }
 };
 
-// Used to get user information when user is already authenticated via Okta
-const getAuthorization = async (email, firstName, lastName) => {
-  let user = await selectByEmail(email);
-  if (!user) {
-    let registerResult = await register({ email, firstName, lastName });
-    if (registerResult.isSuccess) {
-      user = {
-        id: registerResult.id,
-        email,
-        firstName,
-        lastName,
-        isAdmin: false,
-        isSecurityAdmin: false
-      };
-    }
-  }
-
-  if (user) {
-    return {
-      isSuccess: true,
-      code: "AUTH_SUCCESS",
-      user: {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        emailConfirmed: user.emailConfirmed,
-        isSecurityAdmin: user.isSecurityAdmin
-      }
-    };
-  }
-  return {
-    isSuccess: false,
-    code: "AUTH_NO_ACCOUNT",
-    reason: `No account found for email ${email}`
-  };
-};
-
 async function hashPassword(user) {
   if (!user.password) throw user.invalidate("password", "password is required");
   if (user.password.length < 8)
@@ -620,6 +581,5 @@ module.exports = {
   archiveUser,
   unarchiveUser,
   getAllArchivedUsers,
-  deleteUser,
-  getAuthorization
+  deleteUser
 };

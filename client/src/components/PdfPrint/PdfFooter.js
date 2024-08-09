@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import UserContext from "../../contexts/UserContext";
 import { DateTime } from "luxon";
+import { formatDatetime } from "../../helpers/util";
 
 const useStyles = createUseStyles({
   pdfTimeText: {
@@ -14,16 +16,24 @@ const useStyles = createUseStyles({
   }
 });
 
-const PdfFooter = ({ dateModified, dateSnapshotted }) => {
+const PdfFooter = ({ project }) => {
+  const { dateModified, dateSubmitted, dateSnapshotted, loginId } = project;
   const classes = useStyles();
+  const userContext = useContext(UserContext);
+  const loggedInUserId = userContext.account?.id;
+  const formattedDateModified = formatDatetime(dateModified);
+  const formattedDateSnapshotted = formatDatetime(dateSnapshotted);
+  const formattedDateSubmitted = formatDatetime(dateSubmitted);
 
-  const [printedDate, setPrintedDate] = useState(DateTime.now());
+  const [formattedDatePrinted, setFormattedDatePrinted] = useState(
+    formatDatetime(DateTime.now())
+  );
 
   useEffect(() => {
     // You would update these dates based on your application logic
     // For instance, you might fetch them from an API when the component mounts
     const updateDates = () => {
-      setPrintedDate(DateTime.now()); // replace with actual date
+      setFormattedDatePrinted(formatDatetime(DateTime.now())); // replace with actual date
     };
 
     updateDates();
@@ -35,14 +45,34 @@ const PdfFooter = ({ dateModified, dateSnapshotted }) => {
 
   return (
     <section className={classes.pdfFooterContainer}>
-      {dateSnapshotted !== "Invalid DateTime" ? (
-        <div className={classes.pdfTimeText}>
-          Snapshot Submitted: {dateSnapshotted}
-        </div>
-      ) : (
-        ""
+      {loginId && (
+        <>
+          <div className={classes.pdfTimeText}>
+            Status:{" "}
+            {!formattedDateSnapshotted
+              ? "Draft"
+              : loginId === loggedInUserId
+              ? "Snapshot"
+              : "Shared Snapshot"}
+          </div>
+          {formattedDateSubmitted && (
+            <div className={classes.pdfTimeText}>
+              Snapshot Submitted: {formattedDateSubmitted} Pacific Time
+            </div>
+          )}
+          {formattedDateSnapshotted && (
+            <div className={classes.pdfTimeText}>
+              Snapshot Created: {formattedDateSnapshotted} Pacific Time
+            </div>
+          )}
+          {formattedDateModified && (
+            <div className={classes.pdfTimeText}>
+              Date Last Saved: {formattedDateModified} Pacific Time
+            </div>
+          )}
+        </>
       )}
-      <div className={classes.pdfTimeText}>Date Last Saved: {dateModified}</div>
+
       <div
         className={classes.pdfTimeText}
         style={{
@@ -51,10 +81,7 @@ const PdfFooter = ({ dateModified, dateSnapshotted }) => {
           marginBottom: "5px"
         }}
       >
-        Date Printed:{" "}
-        {printedDate
-          .setZone("America/Los_Angeles")
-          .toFormat("yyyy-MM-dd, HH:mm:ss 'Pacific Time'")}
+        Date Printed: {formattedDatePrinted}
       </div>
       <span className={classes.pdfTimeText}>
         Los Angeles Department of Transportation | tdm.ladot.lacity.org |
@@ -65,8 +92,7 @@ const PdfFooter = ({ dateModified, dateSnapshotted }) => {
 };
 
 PdfFooter.propTypes = {
-  dateModified: PropTypes.string || null,
-  dateSnapshotted: PropTypes.string || null
+  project: PropTypes.shape
 };
 
 export default PdfFooter;

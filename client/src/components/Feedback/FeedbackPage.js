@@ -80,7 +80,11 @@ const FeedbackPage = ({ contentContainerRef }) => {
   const classes = useStyles();
   const toast = useToast();
   const account = userContext.account;
-  const projects = account.email ? GetUserProjects(account.email) : [];
+  const projects = !account
+    ? null
+    : account.email
+    ? GetUserProjects(account.email)
+    : [];
   const [selectedProjects, setSelectedProjects] = useState([]);
 
   useEffect(() => {

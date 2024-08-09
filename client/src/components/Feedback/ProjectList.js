@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import { formatDatetime } from "../../helpers/util";
 
 const useStyles = createUseStyles({
   heading3: {
@@ -24,19 +25,6 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
       isSelected: selectedProjects.includes(project.id)
     }))
   );
-
-  const formatDates = date => {
-    return new Date(date)
-      .toLocaleDateString("en-US", {
-        month: "2-digit",
-        day: "2-digit",
-        year: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true
-      })
-      .replace(",", "");
-  };
 
   const onSelect = event => {
     const value = event.target.checked;
@@ -94,10 +82,10 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
                 {JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
               </td>
               <td className={classes.tableCell}>
-                {formatDates(project.dateCreated)}
+                {formatDatetime(project.dateCreated)}
               </td>
               <td className={classes.tableCell}>
-                {formatDates(project.dateModified)}
+                {formatDatetime(project.dateModified)}
               </td>
             </tr>
           ))}

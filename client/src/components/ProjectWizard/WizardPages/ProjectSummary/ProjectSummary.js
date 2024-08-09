@@ -219,39 +219,6 @@ const ProjectSummary = props => {
           </div>
 
           {rules ? <ProjectInfoContainer rules={rules} /> : null}
-
-          <div className={classes.categoryContainer}>
-            <div
-              className={clsx("space-between", classes.categoryHeaderContainer)}
-            >
-              <span className={classes.categoryHeader}>
-                TDM STRATEGIES SELECTED
-              </span>
-              <span className={classes.earnedPoints}>EARNED POINTS</span>
-            </div>
-            <div className={classes.measuresContainer}>
-              {rulesNotEmpty
-                ? measureRules.map(rule => (
-                    <MeasureSelected rule={rule} key={rule.id} />
-                  ))
-                : null}
-              {userDefinedStrategy.calcValue &&
-              userDefinedStrategy.comment.length > 0 ? (
-                <div>
-                  <div className={classes.rule}>
-                    <div className={classes.ruleName}>
-                      User-Defined Strategy Details:
-                    </div>
-                  </div>
-                  <div
-                    className={clsx("border-gray", classes.summaryContainer)}
-                  >
-                    {userDefinedStrategy.comment}
-                  </div>
-                </div>
-              ) : null}
-            </div>
-          </div>
           <div className={classes.categoryContainer}>
             <div
               className={clsx("space-between", classes.categoryHeaderContainer)}
@@ -308,12 +275,44 @@ const ProjectSummary = props => {
                 </div>
               ) : null}
             </div>
-            <div className={classes.tempTextContainer}>
-              <span className={classes.tempText}>
-                The ordinances behind this TDM calculator are still in public
-                comment. No submission is possible at this time.
+          </div>
+          <div className={classes.categoryContainer}>
+            <div
+              className={clsx("space-between", classes.categoryHeaderContainer)}
+            >
+              <span className={classes.categoryHeader}>
+                TDM STRATEGIES SELECTED
               </span>
+              <span className={classes.earnedPoints}>EARNED POINTS</span>
             </div>
+            <div className={classes.measuresContainer}>
+              {rulesNotEmpty
+                ? measureRules.map(rule => (
+                    <MeasureSelected rule={rule} key={rule.id} />
+                  ))
+                : null}
+              {userDefinedStrategy.calcValue &&
+              userDefinedStrategy.comment.length > 0 ? (
+                <div>
+                  <div className={classes.rule}>
+                    <div className={classes.ruleName}>
+                      User-Defined Strategy Details:
+                    </div>
+                  </div>
+                  <div
+                    className={clsx("border-gray", classes.summaryContainer)}
+                  >
+                    {userDefinedStrategy.comment}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div className={classes.tempTextContainer}>
+            <span className={classes.tempText}>
+              The ordinances behind this TDM calculator are still in public
+              comment. No submission is possible at this time.
+            </span>
           </div>
         </>
       ) : (

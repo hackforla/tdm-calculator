@@ -24,8 +24,6 @@
   "author": "Hack for LA",
   "license": "ISC",
   "dependencies": {
-    "@okta/jwt-verifier": "^3.0.1",
-    "@okta/oidc-middleware": "^5.2.1",
     "@sendgrid/mail": "^8.1.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
@@ -36,7 +34,7 @@
     "express-json-validator-middleware": "^3.0.1",
     "express-pino-logger": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mssql": "^10.0.1",
+    "mssql": "^11.0.1",
     "node-flywaydb": "^3.0.7",
     "path": "^0.12.7"
   },
