@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../Button/Button";
+import { MdEdit } from "react-icons/md";
 
 const EditToggleButton = ({ id, onClick, editMode }) => {
   return (
@@ -15,7 +14,7 @@ const EditToggleButton = ({ id, onClick, editMode }) => {
       style={{ margin: "0" }}
     >
       <>
-        <FontAwesomeIcon icon={faEdit} />
+        <MdEdit />
         {editMode ? ` SAVE EDITS` : ` EDIT FAQ PAGE`}
       </>
     </Button>

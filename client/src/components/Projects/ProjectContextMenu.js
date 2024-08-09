@@ -3,18 +3,17 @@ import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 
 import { createUseStyles } from "react-jss";
+import { FaFileCsv } from "react-icons/fa";
 import {
-  faPrint,
-  faEye,
-  faEyeSlash,
-  faCamera,
-  faTrash,
-  faTrashArrowUp,
-  faClone,
-  faFileCsv,
-  faPencil
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  MdPrint,
+  MdVisibility,
+  MdVisibilityOff,
+  MdCamera,
+  MdDelete,
+  MdRestoreFromTrash,
+  MdFileCopy,
+  MdEdit
+} from "react-icons/md";
 
 const useStyles = createUseStyles({
   list: {
@@ -69,8 +68,7 @@ const ProjectContextMenu = ({
           className={classes.listItem}
           onClick={() => handleClick(handleRenameSnapshotModalOpen)}
         >
-          <FontAwesomeIcon
-            icon={faPencil}
+          <MdEdit
             className={classes.listItemIcon}
             alt={`Snapshot Project #${project.id} Icon`}
           />
@@ -80,8 +78,7 @@ const ProjectContextMenu = ({
 
       {project.dateSnapshotted && project.loginId !== account.id ? (
         <li className={classes.listItemDisabled}>
-          <FontAwesomeIcon
-            icon={faPencil}
+          <MdEdit
             className={classes.listItemIcon}
             alt={`Snapshot Project #${project.id} Icon`}
           />
@@ -94,8 +91,7 @@ const ProjectContextMenu = ({
           className={classes.listItem}
           onClick={() => handleClick(handleSnapshotModalOpen)}
         >
-          <FontAwesomeIcon
-            icon={faCamera}
+          <MdCamera
             className={classes.listItemIcon}
             alt={`Snapshot Project #${project.id} Icon`}
           />
@@ -107,8 +103,7 @@ const ProjectContextMenu = ({
         onClick={() => handleClick(handlePrintPdf)}
         className={classes.listItem}
       >
-        <FontAwesomeIcon
-          icon={faPrint}
+        <MdPrint
           className={classes.listItemIcon}
           alt={`Print Project #${project.id} Icon`}
         />
@@ -118,8 +113,7 @@ const ProjectContextMenu = ({
         onClick={() => handleClick(() => handleCsvModalOpen(project))}
         className={classes.listItem}
       >
-        <FontAwesomeIcon
-          icon={faFileCsv}
+        <FaFileCsv
           className={classes.listItemIcon}
           alt={`Export Project #${project.id} as CSV Icon`}
         />
@@ -129,8 +123,7 @@ const ProjectContextMenu = ({
         onClick={() => handleClick(handleCopyModalOpen)}
         className={classes.listItem}
       >
-        <FontAwesomeIcon
-          icon={faClone}
+        <MdFileCopy
           className={classes.listItemIcon}
           alt={`Duplicate Project #${project.id} Icon`}
         />
@@ -143,8 +136,7 @@ const ProjectContextMenu = ({
         >
           {project.dateHidden ? (
             <>
-              <FontAwesomeIcon
-                icon={faEye}
+              <MdVisibility
                 className={classes.listItemIcon}
                 alt={`Hide Project #${project.id} as CSV Icon`}
               />
@@ -152,8 +144,7 @@ const ProjectContextMenu = ({
             </>
           ) : (
             <>
-              <FontAwesomeIcon
-                icon={faEyeSlash}
+              <MdVisibilityOff
                 className={classes.listItemIcon}
                 alt={`Hide Project #${project.id} as CSV Icon`}
               />
@@ -170,8 +161,7 @@ const ProjectContextMenu = ({
         >
           {project.dateTrashed ? (
             <span style={{ color: "" }}>
-              <FontAwesomeIcon
-                icon={faTrashArrowUp}
+              <MdRestoreFromTrash
                 className={classes.listItemIcon}
                 alt={`Restore Project from Trash Icon`}
               />
@@ -179,8 +169,7 @@ const ProjectContextMenu = ({
             </span>
           ) : (
             <span style={{ color: "red" }}>
-              <FontAwesomeIcon
-                icon={faTrash}
+              <MdDelete
                 className={classes.listItemIcon}
                 alt={`Delete Project Icon`}
               />

@@ -1,6 +1,5 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { MdHelp } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { PropTypes } from "prop-types";
@@ -13,8 +12,8 @@ const useStyles = createUseStyles({
       cursor: "pointer"
     }
   },
-  circle: {
-    filter: "drop-shadow(0px 4px 2px rgba(0, 46, 109, 0.3))"
+  help: {
+    color: "#a7c539"
   },
   tooltip: {
     color: "rgb(30, 36, 63) !important",
@@ -45,16 +44,7 @@ const ToolTipIcon = ({ size = "small", id, tooltipContent }) => {
       data-iscapture="true"
       data-html="true"
     >
-      <FontAwesomeIcon
-        icon={faCircle}
-        color="#a7c539"
-        className={classes.circle}
-      />
-      <FontAwesomeIcon
-        icon={faQuestion}
-        color="rgb(0, 46, 109)"
-        transform="shrink-5"
-      />
+      <MdHelp className={classes.help} />
     </span>
   );
 };

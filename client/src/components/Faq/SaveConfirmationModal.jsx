@@ -4,8 +4,7 @@ import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
 import WarningIcon from "../../images/warning-icon.png";
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdSave } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   buttonFlexBox: {
@@ -35,7 +34,7 @@ const SaveConfirmationModal = ({ isOpen, onClose, onYes }) => {
   return (
     <ModalDialog mounted={isOpen} onClose={onClose}>
       <div className={classes.modalHeader} style={{ marginBottom: "1.5rem" }}>
-        <FontAwesomeIcon icon={faFloppyDisk} />
+        <MdSave style={{ marginBottom: "-5px" }} />
         {" Save Edits"}
       </div>
       <div className={classes.modalSubHeader}>

@@ -1,13 +1,12 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+import { MdError } from "react-icons/md";
 import wave from "../images/wave.svg";
 
 const useStyles = createUseStyles(() => ({
   failure: {
     color: "#E46247",
-    width: "3em"
+    fontSize: "3.5em"
   },
   offlineContainer: {
     backgroundImage: `url(${wave})`,
@@ -42,11 +41,7 @@ const OfflinePage = () => {
   return (
     <div className={classes.offlineContainer}>
       <div>
-        <FontAwesomeIcon
-          icon={faExclamationCircle}
-          className={classes.failure}
-          transform="grow-30"
-        />
+        <MdError className={classes.failure} />
       </div>
       <br></br>
       <div className={classes.offlineText}>

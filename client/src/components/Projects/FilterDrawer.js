@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import Button from "../Button/Button";
 import "react-datepicker/dist/react-datepicker.css";
 import DateRangePicker from "../UI/DateRangePicker";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdChevronRight } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -90,7 +89,7 @@ const FilterPopup = ({
         }}
         onClick={() => setCollapsed(true)}
       >
-        <FontAwesomeIcon icon={faArrowRight} />
+        <MdChevronRight />
       </button>
       <h1 className={classes.majorHeading}>Filters</h1>
 

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { faTrash } from "@fortawesome/free-solid-svg-icons"; // faRemove
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdDelete } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -27,8 +26,7 @@ const RolesDeleteContextMenu = ({ user, handleDeleteUser }) => {
         className={classes.listItem}
         style={{ color: "red" }}
       >
-        <FontAwesomeIcon
-          icon={faTrash}
+        <MdDelete
           className={classes.listItemIcon}
           alt={`Delete User #${user.id} Icon`}
         />

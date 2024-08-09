@@ -1,7 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import { MdLaunch } from "react-icons/md";
 
 const useStyles = createUseStyles({
   container: {
@@ -114,10 +113,7 @@ const ChecklistContent = () => {
         >
           {" "}
           Draft Revised TDM Ordinance{" "}
-          <FontAwesomeIcon
-            icon={faExternalLinkAlt}
-            className={classes.externalLinkIcon}
-          />
+          <MdLaunch className={classes.externalLinkIcon} />
         </a>{" "}
         for applicability and exemption details.
       </p>

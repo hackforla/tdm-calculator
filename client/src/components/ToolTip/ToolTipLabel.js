@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfo, faCircle } from "@fortawesome/free-solid-svg-icons";
+import { MdInfo } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   labelWrapper: {
@@ -68,10 +67,7 @@ const useStyles = createUseStyles(theme => ({
       color: theme.colors.warning
     }
   },
-  faInfoIcon: {
-    color: "#ffffff"
-  },
-  faCircle: {
+  infoIcon: {
     color: "#002E6D"
   },
   iconContainer: {
@@ -138,12 +134,8 @@ const ToolTipLabel = ({
             className={clsx("fa-layers fa-fw", classes.iconContainer)}
             style={showDescription ? { visibility: "visible" } : {}}
           >
-            <FontAwesomeIcon icon={faCircle} className={classes.faCircle} />
-            <FontAwesomeIcon
-              icon={faInfo}
-              className={classes.faInfoIcon}
-              size="2xs"
-            />
+            {/* <MdCircle className={classes.faCircle} /> */}
+            <MdInfo className={classes.infoIcon} />
           </span>
         ) : null}
       </div>
@@ -192,12 +184,7 @@ const ToolTipLabel = ({
           className={clsx("fa-layers fa-fw", classes.iconContainer)}
           style={showDescription ? { visibility: "visible" } : {}}
         >
-          <FontAwesomeIcon icon={faCircle} className={classes.faCircle} />
-          <FontAwesomeIcon
-            icon={faInfo}
-            className={classes.faInfoIcon}
-            size="2xs"
-          />
+          <MdInfo className={classes.infoIcon} />
         </span>
       ) : null}
     </div>

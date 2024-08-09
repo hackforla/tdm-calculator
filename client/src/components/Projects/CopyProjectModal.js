@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-
 import Button from "../Button/Button";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { MdFileCopy } from "react-icons/md";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 
 const useStyles = createUseStyles(theme => ({
@@ -40,7 +37,7 @@ export default function CopyProjectModal({
       initialFocus="#duplicateName"
     >
       <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-        <FontAwesomeIcon icon={faCopy} /> Duplicate Project
+        <MdFileCopy /> Duplicate Project
       </div>
       <div style={theme.typography.subHeading}>
         Type a new name to duplicate the project
