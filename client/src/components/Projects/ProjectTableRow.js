@@ -99,10 +99,7 @@ const ProjectTableRow = ({
   };
 
   const dateSubmittedDisplay = () => {
-    if (project.dateSubmitted) {
-      return <span>{moment(project.dateSubmitted).format("YYYY-MM-DD")}</span>;
-    }
-    return <span>{moment(project.dateSubmitted).format("YYYY-MM-DD")}</span>;
+    return <span>{formatDate(project.dateSubmitted)}</span>;
   };
 
   return (
