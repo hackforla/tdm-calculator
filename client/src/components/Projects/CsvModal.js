@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { PropTypes } from "prop-types";
-import { faFileCsv } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaFileCsv } from "react-icons/fa";
 import Button from "../Button/Button";
 import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
@@ -90,7 +89,7 @@ const CsvModal = ({
       // initialFocus="#cancelButton"
     >
       <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-        <FontAwesomeIcon icon={faFileCsv} /> Generate CSV File
+        <FaFileCsv /> Generate CSV File
       </div>
       {project ? (
         <div style={theme.typography.subHeading}>

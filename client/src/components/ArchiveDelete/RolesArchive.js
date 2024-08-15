@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import Popup from "reactjs-popup";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faUndo } from "@fortawesome/free-solid-svg-icons";
+import { MdDelete, MdUndo } from "react-icons/md";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
 import RolesUnarchiveContextMenu from "./RolesUnarchiveContextMenu";
@@ -178,10 +177,7 @@ const RolesArchive = () => {
                 <Popup
                   trigger={
                     <button className={`${classes.optionsButton}`}>
-                      <FontAwesomeIcon
-                        icon={faUndo}
-                        alt={`Unarchive ${account.email}`}
-                      />
+                      <MdUndo alt={`Unarchive ${account.email}`} />
                     </button>
                   }
                   position="bottom center"
@@ -208,10 +204,7 @@ const RolesArchive = () => {
                       className={`${classes.optionsButton}`}
                       style={{ color: "red" }}
                     >
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        alt={`Permanently Delete ${account.email}`}
-                      />
+                      <MdDelete alt={`Permanently Delete ${account.email}`} />
                     </button>
                   }
                   position="bottom center"

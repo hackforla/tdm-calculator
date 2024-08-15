@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { MdMenu } from "react-icons/md";
 import logo from "../../images/ladot_white.png";
 import NavBar from "./NavBar";
 import { Environment } from "../../helpers/Environment";
@@ -99,7 +98,7 @@ const Header = () => {
         className={classes.hamburgerButton}
         onClick={handleHamburgerMenuClick}
       >
-        <FontAwesomeIcon icon={faBars} className={classes.hamburger} />
+        <MdMenu className={classes.hamburger} />
       </button>
 
       <NavBar navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />

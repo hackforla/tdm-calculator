@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { faArchive } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdArchive } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -26,8 +25,7 @@ const RolesContextMenu = ({ user, handleArchiveUser }) => {
         className={classes.listItem}
         style={{ color: "red" }}
       >
-        <FontAwesomeIcon
-          icon={faArchive}
+        <MdArchive
           className={classes.listItemIcon}
           alt={`Archive User #${user.id} Icon`}
         />

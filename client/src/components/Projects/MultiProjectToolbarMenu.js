@@ -2,15 +2,14 @@ import React, { useContext, useRef } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import { FaFileCsv } from "react-icons/fa";
 import {
-  faEyeSlash,
-  faEye,
-  faTrash,
-  faTrashArrowUp,
-  faPrint,
-  faFileCsv
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  MdDelete,
+  MdRestoreFromTrash,
+  MdPrint,
+  MdVisibility,
+  MdVisibilityOff
+} from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import { useReactToPrint } from "react-to-print";
@@ -118,7 +117,7 @@ const MultiProjectToolbarMenu = ({
             className={classes.button}
             onClick={handleCsvModalOpen}
           >
-            <FontAwesomeIcon icon={faFileCsv} />
+            <FaFileCsv />
           </button>
         </li>
         <li>
@@ -128,7 +127,7 @@ const MultiProjectToolbarMenu = ({
             onClick={handlePrintPdf}
             disabled={checkedProjectIds.length !== 1}
           >
-            <FontAwesomeIcon icon={faPrint} />
+            <MdPrint />
           </button>
           {checkedProjectIds.length !== 1 ? (
             <Tooltip
@@ -164,9 +163,9 @@ const MultiProjectToolbarMenu = ({
             onClick={handleHideBoxes}
           >
             {!checkedProjectsStatusData.dateHidden ? (
-              <FontAwesomeIcon icon={faEyeSlash} />
+              <MdVisibilityOff />
             ) : (
-              <FontAwesomeIcon icon={faEye} />
+              <MdVisibility />
             )}
 
             <Tooltip
@@ -193,15 +192,9 @@ const MultiProjectToolbarMenu = ({
             onClick={handleDeleteModalOpen}
           >
             {!checkedProjectsStatusData.dateTrashed ? (
-              <FontAwesomeIcon
-                icon={faTrash}
-                color={isDelBtnDisabled ? "#1010104d" : "red"}
-              />
+              <MdDelete color={isDelBtnDisabled ? "#1010104d" : "red"} />
             ) : (
-              <FontAwesomeIcon
-                icon={faTrashArrowUp}
-                color={isDelBtnDisabled ? "#1010104d" : ""}
-              />
+              <MdRestoreFromTrash color={isDelBtnDisabled ? "#1010104d" : ""} />
             )}
             <Tooltip
               style={{

@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import { MdLaunch } from "react-icons/md";
 
 export const useStyles = createUseStyles({
   footer: {
@@ -34,7 +33,7 @@ export const useStyles = createUseStyles({
   },
   externalLinkIcon: {
     fontSize: "14px",
-    padding: " 0 0.5em",
+    padding: " 0 0.4em",
     color: "white"
   },
   linkLastChild: {
@@ -72,10 +71,7 @@ const Footer = ({ toggleChecklistModal }) => {
             className={classes.glossaryLink}
           >
             Glossary
-            <FontAwesomeIcon
-              icon={faExternalLinkAlt}
-              className={classes.externalLinkIcon}
-            />
+            <MdLaunch className={classes.externalLinkIcon} />
           </a>
         </div>
         <div>|</div>

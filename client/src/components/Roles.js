@@ -7,8 +7,7 @@ import { useToast } from "../contexts/Toast";
 import UserContext from "../contexts/UserContext";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { MdCheck, MdMoreVert } from "react-icons/md";
 import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
 import ContentContainer from "./Layout/ContentContainer";
 
@@ -279,7 +278,7 @@ const Roles = ({ contentContainerRef }) => {
                 </td>
                 <td className={classes.tdCenter}>
                   {account.emailConfirmed ? (
-                    <FontAwesomeIcon icon={faCheck} alt="Email confirmed" />
+                    <MdCheck alt="Email confirmed" />
                   ) : (
                     ""
                   )}
@@ -306,10 +305,7 @@ const Roles = ({ contentContainerRef }) => {
                           account.id === loggedInUserId
                         }
                       >
-                        <FontAwesomeIcon
-                          icon={faEllipsisV}
-                          alt={`Options for ${account.email}`}
-                        />
+                        <MdMoreVert alt={`Options for ${account.email}`} />
                       </button>
                     }
                     position="bottom center"

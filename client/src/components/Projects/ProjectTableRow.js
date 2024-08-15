@@ -5,12 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEye,
-  faEyeSlash,
-  faEllipsisV
-} from "@fortawesome/free-solid-svg-icons";
+import { MdVisibility, MdVisibilityOff, MdMoreVert } from "react-icons/md";
 import { formatDate } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
@@ -110,15 +105,13 @@ const ProjectTableRow = ({
       </td>
       <td className={classes.tdCenterAlign}>
         {project.dateHidden ? (
-          <FontAwesomeIcon
-            icon={faEyeSlash}
+          <MdVisibilityOff
             alt={`Project Is Hidden`}
             title={`Project is hidden`}
             style={{ width: "2em" }}
           />
         ) : (
-          <FontAwesomeIcon
-            icon={faEye}
+          <MdVisibility
             alt={`Project Is Visible`}
             title={`Project is visible`}
             style={{ width: "2em" }}
@@ -148,10 +141,7 @@ const ProjectTableRow = ({
             <Popup
               trigger={
                 <button>
-                  <FontAwesomeIcon
-                    icon={faEllipsisV}
-                    alt={`Show project context menu`}
-                  />
+                  <MdMoreVert alt={`Show project context menu`} />
                 </button>
               }
               position="left center"

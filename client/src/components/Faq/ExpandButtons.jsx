@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { MdExpandLess, MdExpandMore } from "react-icons/md";
 
 const useStyles = createUseStyles({
   expandCollapseFlexContainer: {
@@ -18,7 +16,7 @@ const useStyles = createUseStyles({
     flexDirection: "column"
   },
   faqCarotIcon: {
-    fontSize: "14px",
+    fontSize: "large",
     margin: "-2px"
   },
   expandCollapseAll: {
@@ -41,10 +39,7 @@ const ExpandButtons = ({ toggleExpandCollapse }) => {
     <div className={classes.expandCollapseFlexContainer}>
       <div className={classes.expandCollapseAll}>
         <div className={classes.faqExpandIcons}>
-          <FontAwesomeIcon
-            icon={faAngleDown}
-            className={classes.faqCarotIcon}
-          />
+          <MdExpandMore className={classes.faqCarotIcon} />
         </div>
         <button
           className={classes.toggleButton}
@@ -52,7 +47,7 @@ const ExpandButtons = ({ toggleExpandCollapse }) => {
         >
           Expand All
         </button>
-        <FontAwesomeIcon icon={faAngleUp} className={classes.faqCarotIcon} />
+        <MdExpandLess className={classes.faqCarotIcon} />
         <button
           className={classes.toggleButton}
           onClick={() => toggleExpandCollapse()}
