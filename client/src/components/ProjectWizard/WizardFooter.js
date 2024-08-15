@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import SaveButton from "../Button/SaveButton";
@@ -6,6 +6,8 @@ import { createUseStyles } from "react-jss";
 import PrintButton from "../Button/PrintButton";
 import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
+import { formatDatetime } from "../../helpers/util";
+import UserContext from "../../contexts/UserContext";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -27,6 +29,13 @@ const useStyles = createUseStyles({
   },
   lastSavedContainer: {
     margin: "0 auto"
+  },
+  datesStatus: {
+    width: "90%",
+    display: "flex",
+    alignItems: "flex-start",
+    flexDirection: "column",
+    gap: "7px"
   }
 });
 
@@ -40,7 +49,7 @@ const WizardFooter = ({
   setDisplaySaveButton,
   setDisplayPrintButton,
   onSave,
-  dateModified
+  project
 }) => {
   const classes = useStyles();
   const componentRef = useRef();
@@ -48,6 +57,11 @@ const WizardFooter = ({
   const projectName = projectNameRule
     ? projectNameRule.value
     : "TDM Calculation Summary";
+  const formattedDateSnapshotted = formatDatetime(project.dateSnapshotted);
+  const formattedDateSubmitted = formatDatetime(project.dateSubmitted);
+  const formattedDateModified = formatDatetime(project.dateModified);
+  const userContext = useContext(UserContext);
+  const loggedInUserId = userContext.account?.id;
 
   return (
     <>
@@ -92,11 +106,7 @@ const WizardFooter = ({
               pageStyle=".printContainer {overflow: hidden;}"
             />
             <div style={{ display: "none" }}>
-              <PdfPrint
-                ref={componentRef}
-                rules={rules}
-                dateModified={dateModified}
-              />
+              <PdfPrint ref={componentRef} rules={rules} project={project} />
             </div>
             <SaveButton
               id="saveButton"
@@ -108,11 +118,41 @@ const WizardFooter = ({
           </>
         ) : null}
       </div>
+
+      {page === 5 && formattedDateModified && loggedInUserId ? (
+        <div className={classes.datesStatus}>
+          <div className={classes.pdfTimeText}>
+            <strong>Status: </strong>
+            {!formattedDateSnapshotted
+              ? "Draft"
+              : project.loginId === loggedInUserId
+              ? "Snapshot"
+              : "Shared Snapshot"}
+          </div>
+          {formattedDateSubmitted ? (
+            <div>
+              <strong>Snapshot Submitted: </strong>
+              {formattedDateSubmitted} Pacific Time
+            </div>
+          ) : null}
+          {formattedDateSnapshotted ? (
+            <div>
+              <strong>Snapshot Created: </strong>
+              {formattedDateSnapshotted} Pacific Time
+            </div>
+          ) : null}
+          <div>
+            <strong>Date Last Saved: </strong>
+            {formattedDateModified} Pacific Time
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 };
 
-// TODO:
 WizardFooter.propTypes = {
   classes: PropTypes.any,
   rules: PropTypes.any,
@@ -125,7 +165,7 @@ WizardFooter.propTypes = {
   setDisplayPrintButton: PropTypes.any,
   onSave: PropTypes.any,
   onDownload: PropTypes.any,
-  dateModified: PropTypes.any
+  project: PropTypes.shape
 };
 
 export default WizardFooter;

@@ -10,26 +10,25 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "space-between",
     minHeight: "24px",
-    margin: "4px auto"
+    margin: "4px auto",
+    fontSize: "0.875rem"
   },
   ruleName: {
-    minWidth: "270px"
+    flexBasis: "80%"
   },
   pointsContainer: {
     display: "flex",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    flaxBasis: "20%"
   },
   measureDetails: {
-    fontFamily: "Oswald",
-    fontSize: "18px",
     textAlign: "right",
-    fontWeight: "700",
+    fontWeight: "600",
     minWidth: "40px",
     marginRight: "10px"
   },
   measureUnits: {
-    fontSize: "14px",
-    width: "65px"
+    minWidth: "6rem"
   },
   leftIndent: {
     marginLeft: "20px"

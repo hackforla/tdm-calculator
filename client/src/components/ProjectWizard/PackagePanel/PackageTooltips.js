@@ -1,7 +1,6 @@
 import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { MdCheck } from "react-icons/md";
 
 const useStyles = createUseStyles({
   box: {
@@ -100,21 +99,21 @@ export const TooltipResidential = () => {
             <tbody>
               <tr>
                 <td>
-                  <FontAwesomeIcon icon={faCheck} />
+                  <MdCheck />
                 </td>
                 <td className={classes.col2}>Bike Parking</td>
                 <td className={classes.col1}>+ 2 Points</td>
               </tr>
               <tr>
                 <td>
-                  <FontAwesomeIcon icon={faCheck} />
+                  <MdCheck />
                 </td>
                 <td className={classes.col2}>Encouragement Program</td>
                 <td className={classes.col1}>+ 4 Points</td>
               </tr>
               <tr>
                 <td>
-                  <FontAwesomeIcon icon={faCheck} />
+                  <MdCheck />
                 </td>
                 <td className={classes.col2}>Unbundling Parking</td>
                 <td className={classes.col1}>+ 8 Points</td>
@@ -155,28 +154,28 @@ export const TooltipSchool = () => {
             <tbody>
               <tr>
                 <td>
-                  <FontAwesomeIcon icon={faCheck} />
+                  <MdCheck />
                 </td>
                 <td className={classes.col2}>Bike Parking</td>
                 <td className={classes.col1}>+ 2 Points</td>
               </tr>
               <tr>
                 <td>
-                  <FontAwesomeIcon icon={faCheck} />
+                  <MdCheck />
                 </td>
                 <td className={classes.col2}>Encouragement Program</td>
                 <td className={classes.col1}>+ 6 Points</td>
               </tr>
               <tr>
                 <td>
-                  <FontAwesomeIcon icon={faCheck} />
+                  <MdCheck />
                 </td>
                 <td className={classes.col2}>HOV Program</td>
                 <td className={classes.col1}>+ 2 Points</td>
               </tr>
               <tr>
                 <td>
-                  <FontAwesomeIcon icon={faCheck} />
+                  <MdCheck />
                 </td>
                 <td className={classes.col2}>School Safety Program</td>
                 <td className={classes.col1}>+ 4 Points</td>

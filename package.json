@@ -1,6 +1,10 @@
 {
   "name": "root",
+<<<<<<< HEAD
   "version": "0.2.50",
+=======
+  "version": "0.2.51",
+>>>>>>> release-0.2.51
   "private": true,
   "scripts": {
     "release-notes": "gren release --override",
@@ -10,10 +14,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.5.1",
-    "@fortawesome/free-solid-svg-icons": "^6.5.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
     "eslint": "^8.53.0",
+    "i": "^0.3.7",
+    "luxon": "^3.4.4",
     "react-csv": "^2.2.2",
     "wait-on": "^7.1.0"
   },
@@ -24,7 +27,7 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "husky": "^8.0.1",
+    "husky": "^8.0.0",
     "lerna": "^7.4.2"
   },
   "volta": {

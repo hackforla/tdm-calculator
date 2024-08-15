@@ -31,10 +31,10 @@ export const register = async (firstName, lastName, email, password) => {
   }
 };
 
-export const updateAccount = async (id, firstName, lastName, email) => {
+export const updateAccount = async (firstName, lastName, email) => {
   try {
-    const body = { id, firstName, lastName, email };
-    const response = await axios.put(`${baseUrl}/${id}/updateaccount`, body);
+    const body = { firstName, lastName, email };
+    const response = await axios.put(`${baseUrl}/updateaccount`, body);
     return response.data;
   } catch (err) {
     throw Error("Update account failed");
@@ -103,4 +103,28 @@ export const getAllArchivedAccounts = async () => {
 export const deleteAccount = async id => {
   const response = await axios.delete(`${baseUrl}/${id}/deleteaccount`);
   return response;
+};
+
+export const getAuthorization = async ({
+  email,
+  firstName,
+  lastName,
+  oktaAccessToken
+}) => {
+  const body = { email, firstName, lastName };
+  const config = {
+    headers: {
+      Authorization: `Bearer ${oktaAccessToken}`
+    }
+  };
+  try {
+    const response = await axios.post(
+      baseUrl + "/getauthorization",
+      body,
+      config
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
 };

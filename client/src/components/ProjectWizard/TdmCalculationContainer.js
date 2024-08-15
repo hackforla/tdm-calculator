@@ -7,7 +7,7 @@ import * as ruleService from "../../services/rule.service";
 import * as projectService from "../../services/project.service";
 import Engine from "../../services/tdm-engine";
 import { useToast } from "../../contexts/Toast";
-import moment from "moment";
+// import { formatDatetime } from "../../helpers/util";
 
 // These are the calculation results we want to calculate
 // and display on the main page.
@@ -45,13 +45,18 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
   const projectId = params.projectId ? Number(params.projectId) : 0;
-  const [loginId, setLoginId] = useState(0);
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
   const [inapplicableStrategiesModal, setInapplicableStrategiesModal] =
     useState(false);
   const [rules, setRules] = useState([]);
-  const [dateModified, setDateModified] = useState();
+
+  const [project, setProject] = useState({});
+  // const [loginId, setLoginId] = useState(0);
+  // const [dateModified, setDateModified] = useState();
+  // const [dateSnapshotted, setDateSnapshotted] = useState();
+  // const [dateSubmitted, setDateSubmitted] = useState();
+
   const toast = useToast();
 
   const fetchRules = useCallback(async () => {
@@ -76,10 +81,15 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       let inputs = {};
       if (Number(projectId) > 0 && account.id) {
         projectResponse = await projectService.getById(projectId);
-        setLoginId(projectResponse.data.loginId);
-        setDateModified(
-          moment(projectResponse.data.dateModified).format("MM/DD/YYYY h:mm A")
-        );
+
+        // setLoginId(projectResponse.data.loginId);
+        // setDateModified(formatDatetime(projectResponse.data.dateModified));
+        // setDateSnapshotted(
+        //   formatDatetime(projectResponse.data?.dateSnapshotted)
+        // );
+        // setDateSubmitted(formatDatetime(projectResponse.data?.dateSubmitted));
+        setProject(projectResponse.data);
+
         inputs = JSON.parse(projectResponse.data.formInputs);
         setStrategiesInitialized(true);
       } else {
@@ -98,7 +108,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       // const redirect = account.id ? "/projects" : "/login";
       // navigate(redirect);
     }
-  }, [engine, projectId, account, setRules, setDateModified]);
+  }, [engine, projectId, account, setRules, setProject]);
 
   // Initialize the engine with saved project data, as appropriate.
   // Should run only when projectId changes.
@@ -161,7 +171,9 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     const strategyBike4 = rules.find(r => r.code === "STRATEGY_BIKE_4");
     const strategyHov4 = rules.find(r => r.code === "STRATEGY_HOV_4");
     const strategyInfo3 = rules.find(r => r.code === "STRATEGY_INFO_3");
-    const strategyInfo5 = rules.find(r => r.code === "STRATEGY_INFO_5");
+    const strategyMobilityInvestment2 = rules.find(
+      r => r.code === "STRATEGY_MOBILITY_INVESTMENT_2"
+    );
     return (
       strategyBike4 &&
       !!strategyBike4.value &&
@@ -169,8 +181,8 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       !!strategyHov4.value &&
       strategyInfo3 &&
       strategyInfo3.value >= 2 &&
-      strategyInfo5 &&
-      !!strategyInfo5.value
+      strategyMobilityInvestment2 &&
+      strategyMobilityInvestment2.value >= 2
     );
   };
 
@@ -203,7 +215,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         if (rules.find(r => r.code === "STRATEGY_INFO_3").value <= 1) {
           modifiedInputs["STRATEGY_INFO_3"] = 2;
         }
-        modifiedInputs["STRATEGY_INFO_5"] = true;
+        modifiedInputs["STRATEGY_MOBILITY_INVESTMENT_2"] = 2;
         modifiedInputs["STRATEGY_HOV_4"] = true;
 
         // De-select Trip-Reduction Program
@@ -217,7 +229,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         } else {
           modifiedInputs["STRATEGY_INFO_3"] = 1;
         }
-        modifiedInputs["STRATEGY_INFO_5"] = false;
+        modifiedInputs["STRATEGY_MOBILITY_INVESTMENT_2"] = 0;
         modifiedInputs["STRATEGY_HOV_4"] = false;
       }
     }
@@ -445,10 +457,11 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
         let projectResponse = null;
+
         projectResponse = await projectService.getById(projectId);
-        setDateModified(
-          moment(projectResponse.data.dateModified).format("MM/DD/YYYY h:mm A")
-        );
+
+        // setDateModified(formatDatetime(projectResponse.data?.dateModified));
+        setProject(projectResponse.data);
       } catch (err) {
         console.error(err);
         if (err.response) {
@@ -472,7 +485,8 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         const postResponse = await projectService.post(requestBody);
         // Update URL to /calculation/<currentPage>/<newProjectId>
         // to keep working on same project.
-        const newPath = `/calculation/${location.pathname.split("/")[1]}/${
+
+        const newPath = `/calculation/${location.pathname.split("/")[2]}/${
           postResponse.data.id
         }`;
         navigate(newPath, { replace: true });
@@ -512,7 +526,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       onPkgSelect={onPkgSelect}
       onParkingProvidedChange={onParkingProvidedChange}
       resultRuleCodes={resultRuleCodes}
-      loginId={loginId}
       onSave={onSave}
       allowResidentialPackage={allowResidentialPackage}
       allowSchoolPackage={allowSchoolPackage}
@@ -520,10 +533,15 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       schoolPackageSelected={schoolPackageSelected}
       formIsDirty={!formHasSaved}
       projectIsValid={projectIsValid}
-      dateModified={dateModified}
+      // loginId={loginId}
+      // dateModified={dateModified}
+      // dateSnapshotted={dateSnapshotted}
+      // dateSubmitted={dateSubmitted}
       contentContainerRef={contentContainerRef}
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}
+      // projectId={projectId}
+      project={project}
     />
   );
 }

@@ -24,7 +24,7 @@ process.env.ADMIN_EMAIL = "ladot@dispostable.com";
 process.env.ADMIN_PASSWORD = "Dogfood1!";
 
 process.env.SQL_SERVER_NAME = "localhost";
-process.env.SQL_SERVER_PORT = "1434";
+process.env.SQL_SERVER_PORT = "1450";
 process.env.SQL_DATABASE_NAME = "tdmtestdb";
 process.env.SQL_USER_NAME = "sa";
 process.env.SQL_PASSWORD = "TestPassw0rd";

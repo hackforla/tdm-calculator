@@ -45,7 +45,7 @@ const TdmCalculationWizard = props => {
     onPkgSelect,
     onParkingProvidedChange,
     resultRuleCodes,
-    loginId,
+    // loginId,
     onSave,
     allowResidentialPackage,
     allowSchoolPackage,
@@ -53,10 +53,13 @@ const TdmCalculationWizard = props => {
     schoolPackageSelected,
     formIsDirty,
     projectIsValid,
-    dateModified,
+    // dateModified,
+    // dateSnapshotted,
+    // dateSubmitted,
     contentContainerRef,
     inapplicableStrategiesModal,
-    closeStrategiesModal
+    closeStrategiesModal,
+    project
   } = props;
   const classes = useStyles();
   const context = useContext(ToastContext);
@@ -68,39 +71,43 @@ const TdmCalculationWizard = props => {
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
   const [ainInputError, setAINInputError] = useState("");
+  const loginId = project.loginId;
   /*
     shouldBlock determines if user should be blocked from navigating away
     from wizard.  Note that navigation from /calculation/a/x to 
     /calculation/b/x is just going to a different step of the wizard, and is allowed. 
   */
   const calculationPath = "/calculation/:page/:projectId?/*";
-  const isSameProject = (currentLocation, nextLocation) => {
-    const currentMatch = matchPath(
-      {
-        path: calculationPath,
-        exact: true
-      },
-      currentLocation.pathname
-    );
-    const nextMatch = matchPath(
-      {
-        path: calculationPath,
-        exact: true
-      },
-      nextLocation.pathname
-    );
-    return (
-      currentMatch &&
-      nextMatch &&
-      currentMatch.params.projectId === nextMatch.params.projectId
-    );
-  };
 
   const shouldBlock = React.useCallback(
     ({ currentLocation, nextLocation }) => {
+      const isSameProject = (currentLocation, nextLocation) => {
+        const currentMatch = matchPath(
+          {
+            path: calculationPath,
+            exact: true
+          },
+          currentLocation.pathname
+        );
+        const nextMatch = matchPath(
+          {
+            path: calculationPath,
+            exact: true
+          },
+          nextLocation.pathname
+        );
+
+        return (
+          currentMatch &&
+          nextMatch &&
+          (currentMatch.params.projectId === nextMatch.params.projectId ||
+            !projectId)
+        );
+      };
+
       return formIsDirty && !isSameProject(currentLocation, nextLocation);
     },
-    [formIsDirty]
+    [formIsDirty, projectId]
   );
   const blocker = useBlocker(shouldBlock);
 
@@ -168,7 +175,7 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisabledSaveButton = () => {
-    const loggedIn = account && !!account.id;
+    const loggedIn = !!account && !!account.id;
     const notASavedProject = !projectId;
     const projectBelongsToUser = account && account.id === loginId;
     const setDisabled = !(
@@ -181,7 +188,7 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisplaySaveButton = () => {
-    const loggedIn = account && !!account.id;
+    const loggedIn = !!account && !!account.id;
     const setDisplayed = loggedIn;
     return setDisplayed;
   };
@@ -286,14 +293,13 @@ const TdmCalculationWizard = props => {
             projectId={projectId}
             loginId={loginId}
             onSave={onSave}
-            dateModified={dateModified}
+            dateModified={project.dateModified}
           />
         );
       default:
         return null;
     }
   };
-
   return (
     <div className={classes.wizard}>
       <InapplicableStrategiesModal
@@ -314,6 +320,7 @@ const TdmCalculationWizard = props => {
       >
         {pageContents(page)}
         <WizardFooter
+          // projectId={projectId}
           rules={rules}
           page={page}
           onPageChange={onPageChange}
@@ -323,7 +330,11 @@ const TdmCalculationWizard = props => {
           setDisplaySaveButton={setDisplaySaveButton}
           setDisplayPrintButton={setDisplayPrintButton}
           onSave={onSave}
-          dateModified={dateModified}
+          project={project}
+          // dateModified={dateModified}
+          // dateSnapshotted={dateSnapshotted}
+          // dateSubmitted={dateSubmitted}
+          // loginId={loginId}
         />
       </ContentContainer>
     </div>
@@ -360,7 +371,7 @@ TdmCalculationWizard.propTypes = {
   onResetProject: PropTypes.func.isRequired,
   filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,
-  loginId: PropTypes.number.isRequired,
+  // loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowSchoolPackage: PropTypes.bool.isRequired,
@@ -368,9 +379,12 @@ TdmCalculationWizard.propTypes = {
   schoolPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
-  dateModified: PropTypes.string,
+  // dateModified: PropTypes.string,
+  // dateSnapshotted: PropTypes.string,
+  // dateSubmitted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
-  closeStrategiesModal: PropTypes.func
+  closeStrategiesModal: PropTypes.func,
+  project: PropTypes.shape
 };
 
 export default TdmCalculationWizard;

@@ -7,21 +7,19 @@ const useStyles = createUseStyles({
     display: "flex",
     alignItems: "baseline",
     maxHeight: "20px",
-    width: "50%"
+    width: "50%",
+    fontSize: "0.875rem"
   },
   projectInfoCategory: {
-    fontFamily: "Oswald",
-    fontWeight: "500",
-    fontSize: "12px",
+    fontWeight: "600",
     textTransform: "uppercase",
-    color: "rgba(15, 41, 64, .5)",
-    marginRight: "17px"
+    color: "rgba(0, 0, 0, 1)",
+    marginRight: "2px"
   },
   projectInfoDetails: {
-    color: "#0F2940",
+    color: "rgba(0, 5, 30, 1)",
     fontFamily: "Calibri",
-    fontWeight: 700,
-    fontSize: "16px"
+    fontWeight: 400
   }
 });
 
@@ -31,7 +29,7 @@ const ProjectInfo = props => {
 
   return (
     <div className={classes.projectInfoDetailsSubContainer}>
-      <span className={classes.projectInfoCategory}>{name}</span>
+      <span className={classes.projectInfoCategory}>{name + ":"}</span>
       {rule && rule.value ? (
         <span className={classes.projectInfoDetails}>{rule.value}</span>
       ) : null}

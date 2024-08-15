@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader";
 import { numberWithCommas, getRule, roundToTwo } from "../../helpers";
 import ProjectInfoContainer from "./ProjectInfoContainer";
@@ -12,13 +9,20 @@ import MeasureSelected from "./MeasureSelected";
 import PointsEarnedMessage from "./PointsEarnedMessage";
 import LandUses from "./LandUses";
 import Result from "./Result";
-import { useTheme } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles({
   projectSummary: {
     display: "flex",
     flexDirection: "column",
     flex: "1 1 auto"
+  },
+  reviewPage: {
+    display: "flex",
+    flex: "1 1 auto",
+    flexDirection: "column",
+    maxWidth: "600px",
+    minWidth: "60vw"
   },
   // success: {
   //   color: "#A7C539"
@@ -43,6 +47,7 @@ const useStyles = createUseStyles({
     margin: "4px auto"
   },
   ruleName: {
+    fontSize: "14px",
     minWidth: "270px"
   },
   loaderContainer: {
@@ -64,6 +69,7 @@ const useStyles = createUseStyles({
   categoryHeaderContainer: {
     background: "#E7EBF0",
     paddingLeft: "12px",
+    paddingRight: "3rem",
     paddingTop: "4px"
   },
   categoryHeader: {
@@ -71,7 +77,8 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri",
     fontWeight: "700",
     fontStyle: "normal",
-    lineHeight: "32px"
+    lineHeight: "32px",
+    background: "#E7EBF0"
     // fontSmoothing: "antialiased"
   },
   resultsContainer: {
@@ -88,12 +95,15 @@ const useStyles = createUseStyles({
   earnedPoints: {
     fontFamily: "Calibri",
     fontWeight: "500",
-    fontSize: "12px",
-    color: "#0F2940",
-    paddingTop: "5px",
-    marginRight: "31px"
+    fontSize: "14px",
+    marginTop: "auto",
+    marginBottom: "auto",
+    color: "#00000",
+    verticalAlign: "center",
+    minWidth: "6rem"
   },
   summaryContainer: {
+    fontSize: "14px",
     display: "flex",
     minWidth: "180px",
     maxWidth: "100%",
@@ -178,18 +188,10 @@ const ProjectSummary = props => {
     : classes.failureBorder;
 
   return (
-    <div className={clsx("tdm-wizard-review-page", classes.projectSummary)}>
+    <div className={clsx(classes.reviewPage, classes.projectSummary)}>
       <h1 style={{ ...theme.typography.heading1, margin: 0, padding: 0 }}>
         TDM Calculation Summary
       </h1>
-      <div style={{ ...theme.typography.paragraph1, margin: 0, padding: 0 }}>
-        {props.dateModified && (
-          <span className={classes.lastSaved}>
-            <FontAwesomeIcon icon={faClock} /> &nbsp;Last saved:{" "}
-            {props.dateModified}
-          </span>
-        )}
-      </div>
 
       {!loading ? (
         <>
@@ -217,39 +219,6 @@ const ProjectSummary = props => {
           </div>
 
           {rules ? <ProjectInfoContainer rules={rules} /> : null}
-
-          <div className={classes.categoryContainer}>
-            <div
-              className={clsx("space-between", classes.categoryHeaderContainer)}
-            >
-              <span className={classes.categoryHeader}>
-                TDM STRATEGIES SELECTED
-              </span>
-              <span className={classes.earnedPoints}>EARNED POINTS</span>
-            </div>
-            <div className={classes.measuresContainer}>
-              {rulesNotEmpty
-                ? measureRules.map(rule => (
-                    <MeasureSelected rule={rule} key={rule.id} />
-                  ))
-                : null}
-              {userDefinedStrategy.calcValue &&
-              userDefinedStrategy.comment.length > 0 ? (
-                <div>
-                  <div className={classes.rule}>
-                    <div className={classes.ruleName}>
-                      User-Defined Strategy Details:
-                    </div>
-                  </div>
-                  <div
-                    className={clsx("border-gray", classes.summaryContainer)}
-                  >
-                    {userDefinedStrategy.comment}
-                  </div>
-                </div>
-              ) : null}
-            </div>
-          </div>
           <div className={classes.categoryContainer}>
             <div
               className={clsx("space-between", classes.categoryHeaderContainer)}
@@ -306,12 +275,44 @@ const ProjectSummary = props => {
                 </div>
               ) : null}
             </div>
-            <div className={classes.tempTextContainer}>
-              <span className={classes.tempText}>
-                The ordinances behind this TDM calculator are still in public
-                comment. No submission is possible at this time.
+          </div>
+          <div className={classes.categoryContainer}>
+            <div
+              className={clsx("space-between", classes.categoryHeaderContainer)}
+            >
+              <span className={classes.categoryHeader}>
+                TDM STRATEGIES SELECTED
               </span>
+              <span className={classes.earnedPoints}>EARNED POINTS</span>
             </div>
+            <div className={classes.measuresContainer}>
+              {rulesNotEmpty
+                ? measureRules.map(rule => (
+                    <MeasureSelected rule={rule} key={rule.id} />
+                  ))
+                : null}
+              {userDefinedStrategy.calcValue &&
+              userDefinedStrategy.comment.length > 0 ? (
+                <div>
+                  <div className={classes.rule}>
+                    <div className={classes.ruleName}>
+                      User-Defined Strategy Details:
+                    </div>
+                  </div>
+                  <div
+                    className={clsx("border-gray", classes.summaryContainer)}
+                  >
+                    {userDefinedStrategy.comment}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div className={classes.tempTextContainer}>
+            <span className={classes.tempText}>
+              The ordinances behind this TDM calculator are still in public
+              comment. No submission is possible at this time.
+            </span>
           </div>
         </>
       ) : (

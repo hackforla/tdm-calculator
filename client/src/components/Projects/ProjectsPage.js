@@ -1,27 +1,26 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, memo } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext.js";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSortUp,
-  faSortDown,
-  faFilter
-} from "@fortawesome/free-solid-svg-icons";
+import { MdFilterAlt, MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import SearchIcon from "../../images/search.png";
-import Pagination from "../ProjectWizard/Pagination.js";
+import Pagination from "../UI/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
+import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData.js";
 import * as projectService from "../../services/project.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
 
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
+import CsvModal from "./CsvModal.js";
 import ProjectTableRow from "./ProjectTableRow";
 import FilterDrawer from "./FilterDrawer.js";
+import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu.js";
+import fetchEngineRules from "./fetchEngineRules.js";
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -49,7 +48,7 @@ const useStyles = createUseStyles({
     flexBasis: "1%",
     flexShrink: 0,
     flexGrow: 0,
-    transition: "flex-basis 1s ease-in-out"
+    transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
     marginTop: "2em"
@@ -118,6 +117,26 @@ const useStyles = createUseStyles({
     overflow: "auto",
     width: "100%",
     margin: "20px 0px"
+  },
+  pageContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  dropContent: {
+    padding: "5px",
+    borderColor: "silver",
+    borderRadius: "4px"
+  },
+  optionItems: {
+    backgroundColor: "white",
+    "&:hover": {
+      backgroundColor: "silver"
+    }
+  },
+  itemsPerPage: {
+    marginLeft: "5px"
   }
 });
 
@@ -127,7 +146,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const [filterText, setFilterText] = useState("");
   const [order, setOrder] = useState("asc");
-  const email = userContext.account.email;
+  const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useProjects(handleError);
@@ -136,11 +155,27 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [csvModalOpen, setCsvModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [checkedProjectIds, setCheckedProjectIds] = useState([]);
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const [projectData, setProjectData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const projectsPerPage = perPage;
 
-  const projectsPerPage = 10;
-  const highestPage = Math.ceil(projects.length / projectsPerPage);
+  const handlePerPageChange = newPerPage => {
+    setPerPage(newPerPage);
+    const newHighestPage = Math.ceil(sortedProjects.length / newPerPage);
+
+    if (currentPage > newHighestPage) {
+      setCurrentPage(1);
+    }
+  };
+
+  const getCheckedProjects = checkedProjectIds.map(id =>
+    projects.find(p => p.id === id)
+  );
 
   const [criteria, setCriteria] = useState({
     type: "all",
@@ -156,9 +191,36 @@ const ProjectsPage = ({ contentContainerRef }) => {
     endDateModified: null
   });
   const [filterCollapsed, setFilterCollapsed] = useState(true);
+  const checkedProjectsStatusData = useCheckedProjectsStatusData(
+    checkedProjectIds,
+    projects
+  );
+
+  // fetching rules for PDF
+  useEffect(() => {
+    const fetchRules = async () => {
+      let project;
+
+      if (
+        checkedProjectIds.length === 1 &&
+        Object.keys(checkedProjectsStatusData).length > 0
+      ) {
+        project = checkedProjectsStatusData;
+      }
+
+      if (project && project.id && project.calculationId) {
+        const rules = await fetchEngineRules(project);
+        setProjectData({ pdf: rules });
+      }
+    };
+
+    fetchRules().catch(console.error);
+  }, [checkedProjectIds, checkedProjectsStatusData]);
+
+  const MemoizedMultiProjectToolbar = memo(MultiProjectToolbarMenu);
 
   const selectedProjectName = (() => {
-    if (!selectedProject) {
+    if (!selectedProject || !selectedProject.formInputs) {
       return "";
     }
     const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
@@ -166,13 +228,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
   })();
 
   const paginate = pageNumber => {
+    const newHighestPage = Math.ceil(sortedProjects.length / perPage);
     if (typeof pageNumber === "number") {
       setCurrentPage(pageNumber);
     } else if (pageNumber === "left" && currentPage !== 1) {
       setCurrentPage(currentPage - 1);
-    } else if (pageNumber === "right" && currentPage !== highestPage) {
+    } else if (pageNumber === "right" && currentPage < newHighestPage) {
       setCurrentPage(currentPage + 1);
     }
+    // uncheck Projects on page change
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
   };
 
   const handleCopyModalOpen = project => {
@@ -191,13 +257,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
     if (action === "ok") {
       const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
       projectFormInputsAsJson.PROJECT_NAME = newProjectName;
-
+      let newProject = {
+        ...selectedProject,
+        name: newProjectName,
+        formInputs: JSON.stringify(projectFormInputsAsJson)
+      };
+      if (!newProject.description) {
+        newProject.description = "";
+      }
       try {
-        await projectService.post({
-          ...selectedProject,
-          name: newProjectName,
-          formInputs: JSON.stringify(projectFormInputsAsJson)
-        });
+        await projectService.post(newProject);
         await updateProjects();
       } catch (err) {
         handleError(err);
@@ -207,23 +276,41 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleDeleteModalOpen = project => {
-    setSelectedProject(project);
+    if (!checkedProjectIds.length) setSelectedProject(project);
     setDeleteModalOpen(true);
   };
 
   const handleDeleteModalClose = async action => {
     if (action === "ok") {
+      const projectIDs = selectedProject
+        ? [selectedProject.id]
+        : checkedProjectIds;
+      const dateTrashed = selectedProject
+        ? !selectedProject.dateTrashed
+        : !checkedProjectsStatusData.dateTrashed;
+
       try {
-        await projectService.trash(
-          [selectedProject.id],
-          !selectedProject.dateTrashed
-        );
+        await projectService.trash(projectIDs, dateTrashed);
         await updateProjects();
       } catch (err) {
         handleError(err);
       }
     }
     setDeleteModalOpen(false);
+    setSelectedProject(null);
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
+  };
+
+  const handleCsvModalOpen = (event, project) => {
+    // If invoked from kebab menu, project will be the selected project.
+    // If invoked from MultiProjectToolbarMenu, want to reset selected project to null
+    setSelectedProject(project || null);
+    setCsvModalOpen(true);
+  };
+
+  const handleCsvModalClose = async () => {
+    setCsvModalOpen(false);
   };
 
   const handleSnapshotModalOpen = project => {
@@ -269,10 +356,65 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleHide = async project => {
-    setSelectedProject(project);
-    await projectService.hide([project.id], !project.dateHidden);
-    await updateProjects();
-    console.error(project.dateHidden);
+    try {
+      if (!checkedProjectIds.length) {
+        setSelectedProject(project);
+      }
+
+      const projectIDs =
+        checkedProjectIds.length > 0 ? checkedProjectIds : [project.id];
+      const dateHidden =
+        checkedProjectIds.length > 0
+          ? !checkedProjectsStatusData.dateHidden
+          : !project.dateHidden;
+
+      await projectService.hide(projectIDs, dateHidden);
+      await updateProjects();
+    } catch (err) {
+      console.error(err);
+    }
+
+    setSelectedProject(null);
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
+  };
+
+  const handleCheckboxChange = projectId => {
+    setCheckedProjectIds(prevCheckedProjectIds => {
+      if (prevCheckedProjectIds.includes(projectId)) {
+        return prevCheckedProjectIds.filter(id => id !== projectId);
+      } else {
+        return [...prevCheckedProjectIds, projectId];
+      }
+    });
+
+    // header checkbox status
+    setSelectAllChecked(checkedProjectIds.length === currentProjects.length);
+  };
+
+  const handleHeaderCheckbox = () => {
+    if (!selectAllChecked) {
+      setCheckedProjectIds(
+        currentProjects
+          .filter(
+            p =>
+              (criteria.visibility === "visible" && !p.dateHidden) ||
+              (criteria.visibility === "hidden" && p.dateHidden) ||
+              criteria.visibility === "all"
+          )
+          .filter(
+            p =>
+              (criteria.status === "active" && !p.dateTrashed) ||
+              (criteria.status === "deleted" && p.dateTrashed) ||
+              criteria.status === "all"
+          )
+          .map(p => p.id)
+      );
+    } else {
+      setCheckedProjectIds([]);
+    }
+
+    setSelectAllChecked(!selectAllChecked);
   };
 
   const descCompareBy = (a, b, orderBy) => {
@@ -330,6 +472,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleSort = property => {
+    // disable sorting for header checkbox
+    if (property === "checkAllProjects") return;
+
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -390,9 +535,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
       !p.fullname.toLowerCase().includes(criteria.author.toLowerCase())
     )
       return false;
-    p.alternative = JSON.parse(p["formInputs"]).VERSION_NO
-      ? JSON.parse(p["formInputs"]).VERSION_NO
-      : "";
+    try {
+      p.alternative = JSON.parse(p["formInputs"]).VERSION_NO
+        ? JSON.parse(p["formInputs"]).VERSION_NO
+        : "";
+    } catch (err) {
+      p.alternative = JSON.stringify(err, null, 2);
+    }
+
     if (
       criteria.alternative &&
       !p.alternative.toLowerCase().includes(criteria.alternative.toLowerCase())
@@ -416,6 +566,19 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const headerData = [
+    {
+      id: "checkAllProjects",
+      label: (
+        <input
+          style={{
+            height: "15px"
+          }}
+          type="checkbox"
+          checked={selectAllChecked}
+          onChange={handleHeaderCheckbox}
+        />
+      )
+    },
     {
       id: "dateHidden",
       label: "Visibility"
@@ -458,6 +621,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
             setCriteria={setCriteria}
             collapsed={filterCollapsed}
             setCollapsed={setFilterCollapsed}
+            setCheckedProjectIds={setCheckedProjectIds}
+            setSelectAllChecked={setSelectAllChecked}
           />
         </div>
 
@@ -480,39 +645,52 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-around",
-                  alignSelf: "flex-end"
+                  justifyContent: "space-between"
                 }}
               >
-                <div className={classes.searchBarWrapper}>
-                  <input
-                    className={classes.searchBar}
-                    type="search"
-                    id="filterText"
-                    name="filterText"
-                    placeholder="Search"
-                    value={filterText}
-                    onChange={e => handleFilterTextChange(e.target.value)}
-                  />
-                  <img
-                    className={classes.searchIcon}
-                    src={SearchIcon}
-                    alt="Search Icon"
-                  />
-                </div>
-                {filterCollapsed ? (
-                  <button
-                    alt="Show Filter Criteria"
-                    style={{ backgroundColor: "#0F2940", color: "white" }}
-                    onClick={() => setFilterCollapsed(false)}
-                  >
-                    <FontAwesomeIcon
-                      icon={faFilter}
-                      style={{ marginRight: "0.5em" }}
+                <MemoizedMultiProjectToolbar
+                  handleHideBoxes={handleHide}
+                  handleCsvModalOpen={handleCsvModalOpen}
+                  handleDeleteModalOpen={handleDeleteModalOpen}
+                  checkedProjectIds={checkedProjectIds}
+                  criteria={criteria}
+                  checkedProjectsStatusData={checkedProjectsStatusData}
+                  pdfProjectData={projectData}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignSelf: "flex-end"
+                  }}
+                >
+                  <div className={classes.searchBarWrapper}>
+                    <input
+                      className={classes.searchBar}
+                      type="search"
+                      id="filterText"
+                      name="filterText"
+                      placeholder="Search"
+                      value={filterText}
+                      onChange={e => handleFilterTextChange(e.target.value)}
                     />
-                    Filter By
-                  </button>
-                ) : null}
+                    <img
+                      className={classes.searchIcon}
+                      src={SearchIcon}
+                      alt="Search Icon"
+                    />
+                  </div>
+                  {filterCollapsed ? (
+                    <button
+                      alt="Show Filter Criteria"
+                      style={{ backgroundColor: "#0F2940", color: "white" }}
+                      onClick={() => setFilterCollapsed(false)}
+                    >
+                      <MdFilterAlt style={{ marginRight: "0.5em" }} />
+                      Filter By
+                    </button>
+                  ) : null}
+                </div>
               </div>
               <div className={classes.tableContainer}>
                 <table className={classes.table}>
@@ -538,13 +716,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                               <span className={classes.labelSpan}>
                                 {label}{" "}
                                 {order === "asc" ? (
-                                  <FontAwesomeIcon
-                                    icon={faSortDown}
+                                  <MdArrowDropDown
                                     className={classes.sortArrow}
                                   />
                                 ) : (
-                                  <FontAwesomeIcon
-                                    icon={faSortUp}
+                                  <MdArrowDropUp
                                     className={classes.sortArrow}
                                   />
                                 )}
@@ -563,6 +739,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         <ProjectTableRow
                           key={project.id}
                           project={project}
+                          handleCsvModalOpen={handleCsvModalOpen}
                           handleCopyModalOpen={handleCopyModalOpen}
                           handleDeleteModalOpen={handleDeleteModalOpen}
                           handleSnapshotModalOpen={handleSnapshotModalOpen}
@@ -570,6 +747,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             handleRenameSnapshotModalOpen
                           }
                           handleHide={handleHide}
+                          handleCheckboxChange={handleCheckboxChange}
+                          checkedProjectIds={checkedProjectIds}
                         />
                       ))
                     ) : (
@@ -582,14 +761,54 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   </tbody>
                 </table>
               </div>
-              <Pagination
-                projectsPerPage={projectsPerPage}
-                totalProjects={projects.length}
-                paginate={paginate}
-              />
+              <div className={classes.pageContainer}>
+                <Pagination
+                  projectsPerPage={projectsPerPage}
+                  totalProjects={sortedProjects.length}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                  maxNumOfVisiblePages={5}
+                />
+                <label>
+                  <select
+                    className={classes.dropContent}
+                    // defaultValue={10}
+                    value={perPage}
+                    onChange={e => handlePerPageChange(e.target.value)}
+                  >
+                    <option
+                      className={classes.optionItems}
+                      value={projects.length}
+                    >
+                      All
+                    </option>
+                    <option className={classes.optionItems} value={100}>
+                      100
+                    </option>
+                    <option className={classes.optionItems} value={50}>
+                      50
+                    </option>
+                    <option className={classes.optionItems} value={25}>
+                      25
+                    </option>
+                    <option className={classes.optionItems} value={10}>
+                      10
+                    </option>
+                  </select>
+                  <span className={classes.itemsPerPage}>Items per page</span>
+                </label>
+              </div>
 
-              {selectedProject && (
+              {(selectedProject || checkedProjectsStatusData) && (
                 <>
+                  <CsvModal
+                    mounted={csvModalOpen}
+                    onClose={handleCsvModalClose}
+                    project={selectedProject}
+                    projects={projects}
+                    filteredProjects={sortedProjects}
+                    checkedProjects={getCheckedProjects}
+                  />
                   <CopyProjectModal
                     mounted={copyModalOpen}
                     onClose={handleCopyModalClose}
@@ -598,7 +817,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <DeleteProjectModal
                     mounted={deleteModalOpen}
                     onClose={handleDeleteModalClose}
-                    project={selectedProject}
+                    project={selectedProject || checkedProjectsStatusData}
                   />
                   <SnapshotProjectModal
                     mounted={snapshotModalOpen}
@@ -612,19 +831,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   />
                 </>
               )}
-              {/* <div style={{ display: "none" }}>
-            {rules ? (
-              <PdfPrint
-                ref={componentRef}
-                rules={rules}
-                dateModified={
-                  dateModified || new Date(2023, 11, 18).toDateString()
-                }
-              />
-            ) : (
-              <div ref={componentRef}>duh</div>
-            )}
-          </div> */}
             </div>
           </div>
         </div>

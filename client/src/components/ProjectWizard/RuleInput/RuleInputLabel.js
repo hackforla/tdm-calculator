@@ -1,8 +1,7 @@
 import React from "react";
 import ToolTipLabel from "../../ToolTip/ToolTipLabel";
 import PropTypes from "prop-types";
-import { faLink } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdLink } from "react-icons/md";
 
 const RuleInputLabel = ({
   id,
@@ -29,7 +28,7 @@ const RuleInputLabel = ({
       {link ? (
         <a href={link} target="_blank" rel="noopener noreferrer" tabIndex="-1">
           {name}
-          <FontAwesomeIcon icon={faLink} color="black" transform="shrink-5" />
+          <MdLink color="black" transform="shrink-5" />
         </a>
       ) : (
         name

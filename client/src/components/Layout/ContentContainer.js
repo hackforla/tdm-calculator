@@ -4,11 +4,10 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   contentContainer: {
-    flex: "1 1 auto",
+    flex: "1",
     display: "flex",
     flexDirection: "row",
-    minHeight: "calc(100vh - 103px - 48px)",
-    border: "2px solid orange"
+    minHeight: "calc(100vh - 103px - 48px)"
   },
   content: {
     boxSizing: "border-box",

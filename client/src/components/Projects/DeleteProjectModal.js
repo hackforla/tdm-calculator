@@ -1,7 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdDelete, MdRestoreFromTrash } from "react-icons/md";
 import Button from "../Button/Button";
 import WarningIcon from "../../images/warning-icon.png";
 import { createUseStyles, useTheme } from "react-jss";
@@ -43,9 +42,9 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
         <>
           <div
             className={classes.heading1}
-            style={{ marginBottom: "1.5rem", color: "red" }}
+            style={{ marginBottom: "1.5rem", color: "" }}
           >
-            <FontAwesomeIcon icon={faTrashCan} /> Restore Project from Trash
+            <MdRestoreFromTrash /> Restore Project from Trash
           </div>
           <div style={theme.typography.subHeading}>
             <img
@@ -59,7 +58,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
       ) : (
         <>
           <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-            <FontAwesomeIcon icon={faTrashCan} /> Delete Project
+            <MdDelete /> Delete Project
           </div>
           <div style={theme.typography.subHeading}>
             <img
@@ -67,13 +66,14 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
               className={classes.warningIcon}
               alt="Warning"
             />
-            Are you sure you want to delete the project,
+            Are you sure you want to delete the following? <br></br>(It will
+            remain in the recycling bin for ninety days <br></br>before being
+            permanently deleted)
           </div>
         </>
       )}
-
       <div style={{ ...theme.typography.heading3, marginBottom: "1.5rem" }}>
-        {project.name}?
+        {Array.isArray(project.name) ? project.name.join(", ") : project.name}
       </div>
       <div className={classes.buttonFlexBox}>
         <Button onClick={onClose} variant="text" id="cancelButton">

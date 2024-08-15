@@ -1,4 +1,9 @@
 const projectService = require("../services/project.service");
+const {
+  validate,
+  validationErrorMiddleware
+} = require("../../middleware/validate");
+const projectSchema = require("../schemas/project");
 
 const getAll = async (req, res) => {
   try {
@@ -76,8 +81,8 @@ const getProject = async (req, res) => {
 const hide = async (req, res) => {
   try {
     const { ids, hide } = req.body;
-
     const result = await projectService.hide(ids, hide, req.user.id);
+
     if (result === 1) {
       res.sendStatus(403);
     } else {
@@ -150,7 +155,7 @@ const getAllArchivedProjects = async (req, res) => {
 module.exports = {
   getAll,
   getById,
-  post,
+  post: [validate({ body: projectSchema }), post, validationErrorMiddleware],
   put,
   del,
   hide,

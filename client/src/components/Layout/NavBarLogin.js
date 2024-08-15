@@ -58,7 +58,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           state: { prevPath: location.pathname }
         }}
         onClick={() => {
-          userContext.updateAccount({});
+          userContext.updateAccount(null);
           handleHamburgerMenuClick;
         }}
       >

@@ -24,7 +24,6 @@ const UpdateAccount = props => {
   const classes = useStyles();
   const params = useParams();
   const initialValues = {
-    id: account.id || "",
     firstName: account.firstName || "",
     lastName: account.lastName || "",
     email: params.email || ""
@@ -42,12 +41,11 @@ const UpdateAccount = props => {
   });
 
   const handleSubmit = async (
-    { id, firstName, lastName, email },
+    { firstName, lastName, email },
     { setSubmitting }
   ) => {
     try {
       const response = await accountService.updateAccount(
-        id,
         firstName,
         lastName,
         email

@@ -4,8 +4,7 @@ import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import WarningIcon from "../../images/warning-icon.png";
 import { createUseStyles } from "react-jss";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdDelete } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   buttonFlexBox: {
@@ -36,7 +35,7 @@ const DeleteFaqModal = ({ isModalOpen, closeModal, handleDelete, isFaq }) => {
   return (
     <ModalDialog mounted={isModalOpen} onClose={closeModal}>
       <div className={classes.modalHeader} style={{ marginBottom: "1.5rem" }}>
-        <FontAwesomeIcon icon={faTrashCan} />
+        <MdDelete />
         {` Delete ${type}`}
       </div>
       <div className={classes.modalSubHeader}>

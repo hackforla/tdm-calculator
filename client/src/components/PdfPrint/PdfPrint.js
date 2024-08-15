@@ -36,30 +36,38 @@ const useStyles = createUseStyles({
     marginTop: "25px"
   },
   categoryHeaderContainer: {
-    background: "#E7EBF0",
-    padding: "12px"
+    paddingInline: "12px",
+    paddingBottom: "0",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "left",
+    alignItems: "center",
+    gap: "2px"
   },
   categoryHeader: {
-    fontSize: "16px",
-    fontFamily: "Oswald",
-    fontWeight: "700"
+    fontSize: "18px",
+    width: "100%",
+    color: "rgb(53,119,163)",
+    fontWeight: "900"
   },
   pdfResultsContainer: {
-    display: "block",
-    padding: "10px 0",
+    flexDirection: "column",
+    padding: "10px 0.2em",
     maxWidth: "100%"
   },
   measuresContainer: {
     paddingTop: "10px",
-    margin: "0 12px"
+    margin: "0 12px",
+    width: "90%"
   },
   earnedPoints: {
-    fontFamily: "Oswald",
-    fontWeight: "500",
-    fontSize: "12px",
-    color: "#0F2940",
+    fontWeight: "600",
+    fontSize: "14px",
+    color: "#000000",
     paddingTop: "5px",
-    marginRight: "31px"
+    alignItems: "baseline",
+    width: "50%",
+    maxHeight: "20px"
   },
   summaryContainer: {
     display: "flex",
@@ -77,18 +85,39 @@ const useStyles = createUseStyles({
   projectInfoDetailsContainer: {
     paddingTop: "20px",
     paddingLeft: "12px",
+    display: "grid",
+    gridTemplateColumns: "2fr 1fr",
+    gap: "1.1rem",
+    maxWidth: "100%",
+    minHeight: "55px"
+  },
+  projectTitleName: {
     display: "flex",
     flexDirection: "row",
-    flexWrap: "wrap",
-    maxWidth: "100%",
-    minHeight: "55px",
-    rowGap: "1.1rem"
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "2px",
+    marginLeft: "2px",
+    paddingInline: "50px"
   },
   textProjectInfoHeaderAddress: {
     color: "rgba(15, 41, 64, .5)",
     fontSize: "16px",
+    padding: "0 0 0 8px",
     fontFamily: "Calibri",
-    fontWeight: 700
+    fontWeight: 700,
+    fontStyle: "normal",
+    maxHeight: "20px",
+    alignItems: "baseline",
+    textIndent: "2px"
+  },
+  projectDescription: {
+    fontSize: "14px"
+  },
+  projectDescriptionValue: {
+    fontSize: "14px",
+    marginLeft: "12px",
+    border: "1px solid #E7EBF0"
   },
   "@media (max-width: 768px)": {
     logoContainer: {
@@ -100,7 +129,8 @@ const useStyles = createUseStyles({
 // eslint-disable-next-line react/display-name
 export const PdfPrint = forwardRef((props, ref) => {
   const classes = useStyles();
-  const { rules, dateModified } = props;
+
+  const { rules, project } = props;
 
   const level = getRule(rules, "PROJECT_LEVEL");
   const targetPoints = getRule(rules, "TARGET_POINTS_PARK");
@@ -156,8 +186,20 @@ export const PdfPrint = forwardRef((props, ref) => {
         {""} | TDM Calculation Project Summary
       </h1>
       <section className={classes.categoryContainer}>
-        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
-          <span className={classes.categoryHeader}>PROJECT NAME</span>
+        <div
+          className={[
+            classes.categoryHeaderContainer,
+            classes.projectTitleName
+          ]}
+        >
+          <span
+            className={classes.categoryHeader}
+            style={{
+              paddingLeft: "12px"
+            }}
+          >
+            PROJECT NAME:
+          </span>
           {projectName && projectName.value ? (
             <span className={classes.textProjectInfoHeaderAddress}>
               {projectName.value}
@@ -166,7 +208,7 @@ export const PdfPrint = forwardRef((props, ref) => {
         </div>
         <div className={classes.projectInfoDetailsContainer}>
           {projectAddress && projectAddress.value && (
-            <ProjectInfo name={"ADDRESS:"} rule={projectAddress} />
+            <ProjectInfo name={projectAddress.name} rule={projectAddress} />
           )}
           {parcelNumbers && parcelNumbers.value ? (
             <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
@@ -190,6 +232,21 @@ export const PdfPrint = forwardRef((props, ref) => {
       </section>
       <section className={classes.categoryContainer}>
         <div className={clsx("space-between", classes.categoryHeaderContainer)}>
+          <span className={classes.categoryHeader}>RESULTS</span>
+        </div>
+        <div className={classes.pdfResultsContainer}>
+          <PdfResult
+            rule={targetPoints}
+            valueTestId={"summary-pdf-target-points-value"}
+          />
+          <PdfResult
+            rule={earnedPoints}
+            valueTestId={"summary-pdf-earned-points-value"}
+          />
+        </div>
+      </section>
+      <section className={classes.categoryContainer}>
+        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
           <span className={classes.categoryHeader}>PROJECT DETAILS</span>
         </div>
         <div className={classes.measuresContainer}>
@@ -198,42 +255,44 @@ export const PdfPrint = forwardRef((props, ref) => {
             value={level.value.toString()}
             valueTestId={"summary-project-level-value"}
           />
+          <LandUses rules={rules} />
+          {rulesNotEmpty
+            ? specificationRules.map(rule => {
+                return (
+                  <ProjectDetail rule={rule} valueTestId={""} key={rule.id} />
+                );
+              })
+            : null}
+          <ProjectDetail
+            rule={parkingProvided}
+            value={numberWithCommas(roundToTwo(parkingProvided.value))}
+            valueTestId={""}
+          />
+          <ProjectDetail
+            rule={parkingRequired}
+            value={numberWithCommas(roundToTwo(parkingRequired.value))}
+            valueTestId={""}
+          />
+          <ProjectDetail
+            rule={parkingRatio}
+            value={Math.floor(parkingRatio.value).toString()}
+            valueTestId={"summary-parking-ratio-value"}
+          />
+          {projectDescription &&
+          projectDescription.value &&
+          projectDescription.value.length > 0 ? (
+            <div>
+              <div className={classes.rule}>
+                <div className={classes.projectDescription}>
+                  {projectDescription.name}:
+                </div>
+              </div>
+              <div className={classes.projectDescriptionValue}>
+                {projectDescription.value}
+              </div>
+            </div>
+          ) : null}
         </div>
-        <LandUses rules={rules} />
-        {rulesNotEmpty
-          ? specificationRules.map(rule => {
-              return (
-                <ProjectDetail rule={rule} valueTestId={""} key={rule.id} />
-              );
-            })
-          : null}
-        <ProjectDetail
-          rule={parkingProvided}
-          value={numberWithCommas(roundToTwo(parkingProvided.value))}
-          valueTestId={""}
-        />
-        <ProjectDetail
-          rule={parkingRequired}
-          value={numberWithCommas(roundToTwo(parkingRequired.value))}
-          valueTestId={""}
-        />
-        <ProjectDetail
-          rule={parkingRatio}
-          value={Math.floor(parkingRatio.value).toString()}
-          valueTestId={"summary-parking-ratio-value"}
-        />
-        {projectDescription &&
-        projectDescription.value &&
-        projectDescription.value.length > 0 ? (
-          <div>
-            <div className={classes.rule}>
-              <div className={classes.ruleName}>{projectDescription.name}:</div>
-            </div>
-            <div className={clsx("border-gray", classes.summaryContainer)}>
-              {projectDescription.value}
-            </div>
-          </div>
-        ) : null}
       </section>
       <section className={classes.categoryContainer}>
         <div className={clsx("space-between", classes.categoryHeaderContainer)}>
@@ -256,38 +315,22 @@ export const PdfPrint = forwardRef((props, ref) => {
                   User-Defined Strategy Details:
                 </div>
               </div>
-              <div className={clsx("border-gray", classes.summaryContainer)}>
+              <div className={classes.summaryContainer}>
                 {userDefinedStrategy.comment}
               </div>
             </div>
           ) : null}
         </div>
       </section>
-      <section className={classes.categoryContainer}>
-        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
-          <span className={classes.categoryHeader}>RESULTS</span>
-        </div>
-        <div className={clsx("space-between", classes.pdfResultsContainer)}>
-          <PdfResult
-            rule={targetPoints}
-            valueTestId={"summary-pdf-target-points-value"}
-          />
-          <PdfResult
-            rule={earnedPoints}
-            valueTestId={"summary-pdf-earned-points-value"}
-          />
-        </div>
-      </section>
-      <PdfFooter dateModified={dateModified} />
+
+      <PdfFooter project={project} />
     </div>
   );
 });
+
 PdfPrint.propTypes = {
   rules: PropTypes.array,
-  account: PropTypes.object,
-  projectId: PropTypes.number,
-  loginId: PropTypes.number,
-  dateModified: PropTypes.string || null
+  project: PropTypes.shape
 };
 
 export default PdfPrint;

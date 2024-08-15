@@ -4,18 +4,13 @@ import PropTypes from "prop-types";
 import Button from "../Button/Button";
 import "react-datepicker/dist/react-datepicker.css";
 import DateRangePicker from "../UI/DateRangePicker";
-
+import { MdChevronRight } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  // "@keyframes expandWidth": {
-  //   from: { width: 0 },
-  //   to: { width: "100%" }
-  // },
   container: {
     margin: "0 0.5em 0 0",
     height: "100vh",
-    // width: "25rem",
     padding: "1rem",
     display: "flex",
     flexDirection: "column",
@@ -43,7 +38,13 @@ const useStyles = createUseStyles({
   }
 });
 
-const FilterPopup = ({ criteria, setCriteria, setCollapsed }) => {
+const FilterPopup = ({
+  criteria,
+  setCriteria,
+  setCollapsed,
+  setCheckedProjectIds,
+  setSelectAllChecked
+}) => {
   const userContext = useContext(UserContext);
   const account = userContext.account;
   const classes = useStyles();
@@ -66,6 +67,10 @@ const FilterPopup = ({ criteria, setCriteria, setCollapsed }) => {
 
   const handleChange = (e, propertyName) => {
     setCriteria({ ...criteria, [propertyName]: e.target.value });
+
+    // reset any checked project rows when filter is applied
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
   };
 
   const handleChangeDate = (property, date) => {
@@ -84,7 +89,7 @@ const FilterPopup = ({ criteria, setCriteria, setCollapsed }) => {
         }}
         onClick={() => setCollapsed(true)}
       >
-        &lt;&lt;
+        <MdChevronRight />
       </button>
       <h1 className={classes.majorHeading}>Filters</h1>
 
@@ -182,7 +187,9 @@ FilterPopup.propTypes = {
   criteria: PropTypes.any,
   setCriteria: PropTypes.func,
   collapsed: PropTypes.bool,
-  setCollapsed: PropTypes.func
+  setCollapsed: PropTypes.func,
+  setCheckedProjectIds: PropTypes.func,
+  setSelectAllChecked: PropTypes.func
 };
 
 export default FilterPopup;

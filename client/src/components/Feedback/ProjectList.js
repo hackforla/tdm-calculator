@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
 import { createUseStyles } from "react-jss";
+import { formatDatetime } from "../../helpers/util";
 
 const useStyles = createUseStyles({
   heading3: {
@@ -82,18 +82,15 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
                 {JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
               </td>
               <td className={classes.tableCell}>
-                {moment(project.dateCreated).format("MM/DD/YYYY h:mm A")}
+                {formatDatetime(project.dateCreated)}
               </td>
               <td className={classes.tableCell}>
-                {moment(project.dateModified).format("MM/DD/YYYY h:mm A")}
+                {formatDatetime(project.dateModified)}
               </td>
-              {/* <td>{JSON.stringify(project, null, 2)}</td> */}
             </tr>
           ))}
         </tbody>
       </table>
-
-      {/* <p>Selected Projects: {selectedProjects.join(", ")}</p> */}
     </div>
   );
 };
