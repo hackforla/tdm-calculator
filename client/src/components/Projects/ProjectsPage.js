@@ -593,6 +593,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     { id: "firstName", label: "Created By" },
     { id: "dateCreated", label: "Created On" },
     { id: "dateModified", label: "Last Modified" },
+    { id: "dateSubmitted", label: "Submitted" },
     {
       id: "contextMenu",
       label: ""

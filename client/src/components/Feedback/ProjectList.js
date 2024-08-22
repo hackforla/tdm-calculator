@@ -87,6 +87,9 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
               <td className={classes.tableCell}>
                 {formatDatetime(project.dateModified)}
               </td>
+              <td className={classes.tableCell}>
+                {formatDatetime(project.dateSubmitted)}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -102,6 +105,7 @@ ProjectsList.propTypes = {
       calculationId: PropTypes.number,
       dateCreated: PropTypes.string,
       dateModified: PropTypes.string,
+      dateSubmitted: PropTypes.string,
       description: PropTypes.string,
       firstName: PropTypes.string,
       formInputs: PropTypes.string,
