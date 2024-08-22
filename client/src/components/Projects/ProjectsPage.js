@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext.js";
-import { MdFilterAlt, MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
+import { MdFilterAlt } from "react-icons/md";
 import SearchIcon from "../../images/search.png";
 import Pagination from "../UI/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
@@ -14,6 +14,7 @@ import * as projectService from "../../services/project.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
 
+import ProjectTableHeader from "./ProjectsTableHeader.js";
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import CsvModal from "./CsvModal.js";
@@ -565,39 +566,39 @@ const ProjectsPage = ({ contentContainerRef }) => {
     return true;
   };
 
-  const headerData = [
-    {
-      id: "checkAllProjects",
-      label: (
-        <input
-          style={{
-            height: "15px"
-          }}
-          type="checkbox"
-          checked={selectAllChecked}
-          onChange={handleHeaderCheckbox}
-        />
-      )
-    },
-    {
-      id: "dateHidden",
-      label: "Visibility"
-    },
-    {
-      id: "dateSnapshotted",
-      label: "Status"
-    },
-    { id: "name", label: "Name" },
-    { id: "address", label: "Address" },
-    { id: "VERSION_NO", label: "Alternative Number" },
-    { id: "firstName", label: "Created By" },
-    { id: "dateCreated", label: "Created On" },
-    { id: "dateModified", label: "Last Modified" },
-    {
-      id: "contextMenu",
-      label: ""
-    }
-  ];
+  // const headerData = [
+  //   {
+  //     id: "checkAllProjects",
+  //     label: (
+  //       <input
+  //         style={{
+  //           height: "15px"
+  //         }}
+  //         type="checkbox"
+  //         checked={selectAllChecked}
+  //         onChange={handleHeaderCheckbox}
+  //       />
+  //     )
+  //   },
+  //   {
+  //     id: "dateHidden",
+  //     label: "Visibility"
+  //   },
+  //   {
+  //     id: "dateSnapshotted",
+  //     label: "Status"
+  //   },
+  //   { id: "name", label: "Name" },
+  //   { id: "address", label: "Address" },
+  //   { id: "VERSION_NO", label: "Alternative Number" },
+  //   { id: "firstName", label: "Created By" },
+  //   { id: "dateCreated", label: "Created On" },
+  //   { id: "dateModified", label: "Last Modified" },
+  //   {
+  //     id: "contextMenu",
+  //     label: ""
+  //   }
+  // ];
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
@@ -695,7 +696,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
               <div className={classes.tableContainer}>
                 <table className={classes.table}>
                   <thead className={classes.thead}>
-                    <tr className={classes.tr}>
+                    {/* <tr className={classes.tr}>
                       {headerData.map(header => {
                         const label = header.label;
                         return (
@@ -731,7 +732,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           </td>
                         );
                       })}
-                    </tr>
+                    </tr> */}
+                    <ProjectTableHeader
+                      handleSort={handleSort}
+                      selectAllChecked={selectAllChecked}
+                      handleHeaderCheckbox={handleHeaderCheckbox}
+                      order={order}
+                      orderBy={orderBy}
+                    />
                   </thead>
                   <tbody className={classes.tbody}>
                     {projects.length ? (
