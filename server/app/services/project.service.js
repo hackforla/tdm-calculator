@@ -139,14 +139,13 @@ const snapshot = async (id, loginId, name) => {
   }
 };
 
-const submit = async (id, loginId, name) => {
+const submit = async (id, loginId) => {
   try {
     await poolConnect;
     const request = pool.request();
 
     request.input("id", id);
     request.input("loginId", loginId);
-    request.input("name", name);
 
     const response = await request.execute("Project_Submit");
     return response.returnValue;

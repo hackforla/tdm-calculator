@@ -120,7 +120,7 @@ const WizardFooter = ({
             <SubmitButton
               id="submitButton"
               color="colorPrimary"
-              isDisplayed={setDisplaySubmitButton()}
+              isDisplayed={false && setDisplaySubmitButton()}
             />
           </>
         ) : null}

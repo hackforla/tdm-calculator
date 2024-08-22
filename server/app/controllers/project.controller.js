@@ -109,9 +109,9 @@ const trash = async (req, res) => {
 
 const submit = async (req, res) => {
   try {
-    const { id, name } = req.body;
+    const { id } = req.body;
 
-    const result = await projectService.submit(id, req.user.id, name);
+    const result = await projectService.submit(id, req.user.id);
     if (result === 1) {
       res.sendStatus(403);
     } else {
