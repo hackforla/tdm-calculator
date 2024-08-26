@@ -192,7 +192,7 @@ const ProjectTableRow = ({
 };
 
 ProjectTableRow.propTypes = {
-  project: PropTypes.object.isRequired,
+  project: PropTypes.any,
   handleCsvModalOpen: PropTypes.func.isRequired,
   handleCopyModalOpen: PropTypes.func.isRequired,
   handleDeleteModalOpen: PropTypes.func.isRequired,

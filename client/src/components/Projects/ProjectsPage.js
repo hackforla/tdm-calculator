@@ -5,8 +5,8 @@ import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSortUp,
-  faSortDown,
+  // faSortUp,
+  // faSortDown,
   faFilter
 } from "@fortawesome/free-solid-svg-icons";
 import SearchIcon from "../../images/search.png";
@@ -26,6 +26,7 @@ import ProjectTableRow from "./ProjectTableRow";
 import FilterDrawer from "./FilterDrawer.js";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu.js";
 import fetchEngineRules from "./fetchEngineRules.js";
+import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader.js";
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -422,7 +423,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setSelectAllChecked(!selectAllChecked);
   };
 
-  const descCompareBy = (a, b, orderBy) => {
+  const ascCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
 
     if (orderBy === "VERSION_NO") {
@@ -446,6 +447,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
     ) {
       projectA = a[orderBy] ? 1 : 0;
       projectB = b[orderBy] ? 1 : 0;
+    } else if (
+      orderBy === "dateSubmitted" ||
+      orderBy === "dateCreated" ||
+      orderBy === "dateModified"
+    ) {
+      projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
+      projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
     } else {
       projectA = a[orderBy].toLowerCase();
       projectB = b[orderBy].toLowerCase();
@@ -461,9 +469,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const getComparator = (order, orderBy) => {
-    return order === "desc"
-      ? (a, b) => descCompareBy(a, b, orderBy)
-      : (a, b) => -descCompareBy(a, b, orderBy);
+    return order === "asc"
+      ? (a, b) => ascCompareBy(a, b, orderBy)
+      : (a, b) => -ascCompareBy(a, b, orderBy);
   };
 
   const stableSort = (array, comparator) => {
@@ -476,13 +484,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
     return stabilizedList.map(el => el[0]);
   };
 
-  const handleSort = property => {
-    // disable sorting for header checkbox
-    if (property === "checkAllProjects") return;
-
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
+  const setSort = (orderBy, order) => {
+    setOrder(order);
+    setOrderBy(orderBy);
   };
 
   const handleFilterTextChange = text => {
@@ -586,19 +590,39 @@ const ProjectsPage = ({ contentContainerRef }) => {
     },
     {
       id: "dateHidden",
-      label: "Visibility"
+      label: "Visibility",
+      popupType: "visibility"
     },
     {
       id: "dateSnapshotted",
-      label: "Status"
+      label: "Status",
+      popupType: "status"
     },
-    { id: "name", label: "Name" },
-    { id: "address", label: "Address" },
-    { id: "VERSION_NO", label: "Alternative Number" },
-    { id: "firstName", label: "Created By" },
-    { id: "dateCreated", label: "Created On" },
-    { id: "dateModified", label: "Last Modified" },
-    { id: "dateSubmitted", label: "Submitted" },
+    { id: "name", label: "Name", popupType: "text" },
+    { id: "address", label: "Address", popupType: "text" },
+    { id: "alternative", label: "Alternative Number", popupType: "text" },
+    { id: "author", label: "Created By", popupType: "text" },
+    {
+      id: "dateCreated",
+      label: "Created On",
+      popupType: "datetime",
+      startDatePropertyName: "startDateCreated",
+      endDatePropertyName: "endDateCreated"
+    },
+    {
+      id: "dateModified",
+      label: "Last Modified",
+      popupType: "datetime",
+      startDatePropertyName: "startDateModified",
+      endDatePropertyName: "endDateModified"
+    },
+    {
+      id: "dateSubmitted",
+      label: "Submitted",
+      popupType: "datetime",
+      startDatePropertyName: "startDateSubmitted",
+      endDatePropertyName: "endDateSubmitted"
+    },
     {
       id: "contextMenu",
       label: ""
@@ -706,41 +730,55 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <thead className={classes.thead}>
                     <tr className={classes.tr}>
                       {headerData.map(header => {
-                        const label = header.label;
                         return (
-                          <td
-                            key={header.id}
-                            className={
-                              header.id === "contextMenu"
-                                ? `${classes.td}`
-                                : `${classes.td} ${classes.theadLabel}`
-                            }
-                            onClick={
-                              header.id == "contextMenu"
-                                ? null
-                                : () => handleSort(header.id)
-                            }
-                          >
-                            {orderBy === header.id ? (
-                              <span className={classes.labelSpan}>
-                                {label}{" "}
-                                {order === "asc" ? (
-                                  <FontAwesomeIcon
-                                    icon={faSortDown}
-                                    className={classes.sortArrow}
-                                  />
-                                ) : (
-                                  <FontAwesomeIcon
-                                    icon={faSortUp}
-                                    className={classes.sortArrow}
-                                  />
-                                )}
-                              </span>
-                            ) : (
-                              <span className={classes.labelSpan}>{label}</span>
-                            )}
+                          <td key={header.id}>
+                            <ProjectTableColumnHeader
+                              header={header}
+                              criteria={criteria}
+                              setCriteria={setCriteria}
+                              setSort={setSort}
+                              order={order}
+                              orderBy={orderBy}
+                              setCheckedProjectIds={setCheckedProjectIds}
+                              setSelectAllChecked={setSelectAllChecked}
+                            />
                           </td>
                         );
+                        // const label = header.label;
+                        // return (
+                        //   <td
+                        //     key={header.id}
+                        //     className={
+                        //       header.id === "contextMenu"
+                        //         ? `${classes.td}`
+                        //         : `${classes.td} ${classes.theadLabel}`
+                        //     }
+                        //     onClick={
+                        //       header.id == "contextMenu"
+                        //         ? null
+                        //         : () => handleSort(header.id)
+                        //     }
+                        //   >
+                        //     {orderBy === header.id ? (
+                        //       <span className={classes.labelSpan}>
+                        //         {label}{" "}
+                        //         {order === "asc" ? (
+                        //           <FontAwesomeIcon
+                        //             icon={faSortDown}
+                        //             className={classes.sortArrow}
+                        //           />
+                        //         ) : (
+                        //           <FontAwesomeIcon
+                        //             icon={faSortUp}
+                        //             className={classes.sortArrow}
+                        //           />
+                        //         )}
+                        //       </span>
+                        //     ) : (
+                        //       <span className={classes.labelSpan}>{label}</span>
+                        //     )}
+                        //   </td>
+                        // );
                       })}
                     </tr>
                   </thead>
@@ -844,6 +882,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
               )}
             </div>
           </div>
+          <pre>{JSON.stringify(criteria, null, 2)}</pre>
         </div>
       </div>
     </ContentContainerNoSidebar>
