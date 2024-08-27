@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faTrashAlt,
-  faChevronDown,
-  faChevronUp,
-  faGripHorizontal
-} from "@fortawesome/free-solid-svg-icons";
+  MdDelete,
+  MdExpandMore,
+  MdExpandLess,
+  MdViewModule
+} from "react-icons/md";
 
 const useStyles = createUseStyles({
   buttonContainer: {
@@ -44,33 +43,29 @@ export const FaqButtonContainer = ({
   return (
     <div className={classes.buttonContainer} {...dragHandleProps}>
       {isHovered && (
-        <FontAwesomeIcon
+        <MdDelete
           color={theme.colors.warning}
           className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
-          icon={faTrashAlt}
           onClick={onDeleteFAQ}
         />
       )}
       <div className={classes.faqIcon}>
         {faq.expand ? (
-          <FontAwesomeIcon
+          <MdExpandMore
             style={{ cursor: "pointer" }}
-            icon={faChevronUp}
             onClick={() => collapseFaq(faq)}
           />
         ) : (
-          <FontAwesomeIcon
+          <MdExpandLess
             style={{ cursor: "pointer" }}
-            icon={faChevronDown}
             onClick={() => expandFaq(faq)}
           />
         )}
       </div>
       {admin && (
-        <FontAwesomeIcon
+        <MdViewModule
           className={classes.faqGripIcon}
           color={theme.colors.secondary.gray}
-          icon={faGripHorizontal}
         />
       )}
     </div>

@@ -1,15 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdAddCircle } from "react-icons/md";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({
-  iconContainer: {
-    backgroundColor: theme.colorPrimary,
-    borderRadius: "50%",
-    padding: "5px"
+  icon: {
+    color: theme.colorPrimary,
+    fontSize: "xx-large"
   },
   buttonContainer: {
     display: "flex",
@@ -36,9 +34,7 @@ const AddNewCategoryButton = ({ id, onClick }) => {
       data-testid={id}
     >
       <div className={classes.buttonContainer}>
-        <div className={classes.iconContainer}>
-          <FontAwesomeIcon icon={faPlus} size="lg" />
-        </div>
+        <MdAddCircle className={classes.icon} color="primary" />
         <div className={classes.text}>{` Add New Category `}</div>
       </div>
     </Button>

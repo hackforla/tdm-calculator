@@ -3,12 +3,8 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext.js";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  // faSortUp,
-  // faSortDown,
-  faFilter
-} from "@fortawesome/free-solid-svg-icons";
+
+import { MdFilterAlt } from "react-icons/md";
 import SearchIcon from "../../images/search.png";
 import Pagination from "../UI/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
@@ -716,10 +712,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       style={{ backgroundColor: "#0F2940", color: "white" }}
                       onClick={() => setFilterCollapsed(false)}
                     >
-                      <FontAwesomeIcon
-                        icon={faFilter}
-                        style={{ marginRight: "0.5em" }}
-                      />
+                      <MdFilterAlt style={{ marginRight: "0.5em" }} />
                       Filter By
                     </button>
                   ) : null}
@@ -744,41 +737,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             />
                           </td>
                         );
-                        // const label = header.label;
-                        // return (
-                        //   <td
-                        //     key={header.id}
-                        //     className={
-                        //       header.id === "contextMenu"
-                        //         ? `${classes.td}`
-                        //         : `${classes.td} ${classes.theadLabel}`
-                        //     }
-                        //     onClick={
-                        //       header.id == "contextMenu"
-                        //         ? null
-                        //         : () => handleSort(header.id)
-                        //     }
-                        //   >
-                        //     {orderBy === header.id ? (
-                        //       <span className={classes.labelSpan}>
-                        //         {label}{" "}
-                        //         {order === "asc" ? (
-                        //           <FontAwesomeIcon
-                        //             icon={faSortDown}
-                        //             className={classes.sortArrow}
-                        //           />
-                        //         ) : (
-                        //           <FontAwesomeIcon
-                        //             icon={faSortUp}
-                        //             className={classes.sortArrow}
-                        //           />
-                        //         )}
-                        //       </span>
-                        //     ) : (
-                        //       <span className={classes.labelSpan}>{label}</span>
-                        //     )}
-                        //   </td>
-                        // );
                       })}
                     </tr>
                   </thead>
@@ -882,7 +840,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
               )}
             </div>
           </div>
-          <pre>{JSON.stringify(criteria, null, 2)}</pre>
         </div>
       </div>
     </ContentContainerNoSidebar>

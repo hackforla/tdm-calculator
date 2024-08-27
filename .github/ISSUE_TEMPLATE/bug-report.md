@@ -3,7 +3,8 @@ name: Bug report
 about: Lists out information that would be help developers quickly identify and fix
   potentail problems.
 title: 'Bug: '
-labels: 'bug, priority: MUST HAVE'
+labels: 'bug, feature: missing, level: missing, milestone: missing, priority: MUST
+  HAVE, role: missing, size: missing'
 assignees: ''
 
 ---

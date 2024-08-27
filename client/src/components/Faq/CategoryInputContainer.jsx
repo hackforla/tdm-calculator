@@ -1,11 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGripHorizontal,
-  faTrashAlt
-} from "@fortawesome/free-solid-svg-icons";
+import { MdDelete, MdViewModule } from "react-icons/md";
 import { CategoryInput } from "./CategoryInput";
 
 const useStyles = createUseStyles({
@@ -65,16 +61,12 @@ export const CategoryInputContainer = ({
         {admin && (
           <>
             {isHovered && (
-              <FontAwesomeIcon
+              <MdDelete
                 className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
-                icon={faTrashAlt}
                 onClick={onDeleteCategory}
               />
             )}
-            <FontAwesomeIcon
-              className={classes.faqGripIcon}
-              icon={faGripHorizontal}
-            />
+            <MdViewModule className={classes.faqGripIcon} />
           </>
         )}
       </div>

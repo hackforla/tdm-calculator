@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { MdWarning } from "react-icons/md";
 
 const useStyles = createUseStyles({
   title: {
@@ -34,11 +33,7 @@ const InapplicableStrategiesModal = props => {
       underlayClickExits={false}
     >
       <div className={classes.deselectedWrapper}>
-        <FontAwesomeIcon
-          icon={faTriangleExclamation}
-          style={{ color: "#E46247", height: "80px" }}
-          alt="Warning"
-        />
+        <MdWarning style={{ color: "#E46247", height: "80px" }} alt="Warning" />
         <h2 className={classes.deselectedAlign}>
           Due to changes made to the project specifications, one or more TDM
           strategies are no longer applicable and have been automatically

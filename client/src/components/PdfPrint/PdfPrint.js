@@ -119,6 +119,9 @@ const useStyles = createUseStyles({
     marginLeft: "12px",
     border: "1px solid #E7EBF0"
   },
+  footerSpace: {
+    height: "100px"
+  },
   "@media (max-width: 768px)": {
     logoContainer: {
       justifySelf: "start"
@@ -177,151 +180,202 @@ export const PdfPrint = forwardRef((props, ref) => {
 
   return (
     <div ref={ref} className={classes.Pdf}>
-      <h1>
-        <img
-          className={classes.logo}
-          src={logo}
-          alt="LA Department of Transportation Logo"
-        />
-        {""} | TDM Calculation Project Summary
-      </h1>
-      <section className={classes.categoryContainer}>
-        <div
-          className={[
-            classes.categoryHeaderContainer,
-            classes.projectTitleName
-          ]}
-        >
-          <span
-            className={classes.categoryHeader}
-            style={{
-              paddingLeft: "12px"
-            }}
-          >
-            PROJECT NAME:
-          </span>
-          {projectName && projectName.value ? (
-            <span className={classes.textProjectInfoHeaderAddress}>
-              {projectName.value}
-            </span>
-          ) : null}
-        </div>
-        <div className={classes.projectInfoDetailsContainer}>
-          {projectAddress && projectAddress.value && (
-            <ProjectInfo name={projectAddress.name} rule={projectAddress} />
-          )}
-          {parcelNumbers && parcelNumbers.value ? (
-            <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
-          ) : null}
-          {buildingPermit && (
-            <ProjectInfo name={buildingPermit.name} rule={buildingPermit} />
-          )}
-          {versionNumber && (
-            <ProjectInfo name={versionNumber.name} rule={versionNumber} />
-          )}
-          {caseNumberPlanning && (
-            <ProjectInfo
-              name={caseNumberPlanning.name}
-              rule={caseNumberPlanning}
-            />
-          )}
-          {caseNumberLADOT && (
-            <ProjectInfo name={caseNumberLADOT.name} rule={caseNumberLADOT} />
-          )}
-        </div>
-      </section>
-      <section className={classes.categoryContainer}>
-        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
-          <span className={classes.categoryHeader}>RESULTS</span>
-        </div>
-        <div className={classes.pdfResultsContainer}>
-          <PdfResult
-            rule={targetPoints}
-            valueTestId={"summary-pdf-target-points-value"}
-          />
-          <PdfResult
-            rule={earnedPoints}
-            valueTestId={"summary-pdf-earned-points-value"}
-          />
-        </div>
-      </section>
-      <section className={classes.categoryContainer}>
-        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
-          <span className={classes.categoryHeader}>PROJECT DETAILS</span>
-        </div>
-        <div className={classes.measuresContainer}>
-          <ProjectDetail
-            rule={level}
-            value={level.value.toString()}
-            valueTestId={"summary-project-level-value"}
-          />
-          <LandUses rules={rules} />
-          {rulesNotEmpty
-            ? specificationRules.map(rule => {
-                return (
-                  <ProjectDetail rule={rule} valueTestId={""} key={rule.id} />
-                );
-              })
-            : null}
-          <ProjectDetail
-            rule={parkingProvided}
-            value={numberWithCommas(roundToTwo(parkingProvided.value))}
-            valueTestId={""}
-          />
-          <ProjectDetail
-            rule={parkingRequired}
-            value={numberWithCommas(roundToTwo(parkingRequired.value))}
-            valueTestId={""}
-          />
-          <ProjectDetail
-            rule={parkingRatio}
-            value={Math.floor(parkingRatio.value).toString()}
-            valueTestId={"summary-parking-ratio-value"}
-          />
-          {projectDescription &&
-          projectDescription.value &&
-          projectDescription.value.length > 0 ? (
-            <div>
-              <div className={classes.rule}>
-                <div className={classes.projectDescription}>
-                  {projectDescription.name}:
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <h1>
+                <img
+                  className={classes.logo}
+                  src={logo}
+                  alt="LA Department of Transportation Logo"
+                />
+                {""} | TDM Calculation Project Summary
+              </h1>
+              <section className={classes.categoryContainer}>
+                <div
+                  className={[
+                    classes.categoryHeaderContainer,
+                    classes.projectTitleName
+                  ]}
+                >
+                  <span
+                    className={classes.categoryHeader}
+                    style={{
+                      paddingLeft: "12px"
+                    }}
+                  >
+                    PROJECT NAME:
+                  </span>
+                  {projectName && projectName.value ? (
+                    <span className={classes.textProjectInfoHeaderAddress}>
+                      {projectName.value}
+                    </span>
+                  ) : null}
                 </div>
-              </div>
-              <div className={classes.projectDescriptionValue}>
-                {projectDescription.value}
-              </div>
-            </div>
-          ) : null}
-        </div>
-      </section>
-      <section className={classes.categoryContainer}>
-        <div className={clsx("space-between", classes.categoryHeaderContainer)}>
-          <span className={classes.categoryHeader}>
-            TDM STRATEGIES SELECTED
-          </span>
-          <span className={classes.earnedPoints}>EARNED POINTS</span>
-        </div>
-        <div className={classes.measuresContainer}>
-          {rulesNotEmpty
-            ? measureRules.map(rule => (
-                <MeasureSelected rule={rule} key={rule.id} />
-              ))
-            : null}
-          {userDefinedStrategy.calcValue &&
-          userDefinedStrategy.comment.length > 0 ? (
-            <div>
-              <div className={classes.rule}>
-                <div className={classes.ruleName}>
-                  User-Defined Strategy Details:
+                <div className={classes.projectInfoDetailsContainer}>
+                  {projectAddress && projectAddress.value && (
+                    <ProjectInfo
+                      name={projectAddress.name}
+                      rule={projectAddress}
+                    />
+                  )}
+                  {parcelNumbers && parcelNumbers.value ? (
+                    <ProjectInfoList
+                      name={"PARCEL # (AIN)"}
+                      rule={parcelNumbers}
+                    />
+                  ) : null}
+                  {buildingPermit && (
+                    <ProjectInfo
+                      name={buildingPermit.name}
+                      rule={buildingPermit}
+                    />
+                  )}
+                  {versionNumber && (
+                    <ProjectInfo
+                      name={versionNumber.name}
+                      rule={versionNumber}
+                    />
+                  )}
+                  {caseNumberPlanning && (
+                    <ProjectInfo
+                      name={caseNumberPlanning.name}
+                      rule={caseNumberPlanning}
+                    />
+                  )}
+                  {caseNumberLADOT && (
+                    <ProjectInfo
+                      name={caseNumberLADOT.name}
+                      rule={caseNumberLADOT}
+                    />
+                  )}
                 </div>
-              </div>
-              <div className={classes.summaryContainer}>
-                {userDefinedStrategy.comment}
-              </div>
-            </div>
-          ) : null}
-        </div>
-      </section>
+              </section>
+              <section className={classes.categoryContainer}>
+                <div
+                  className={clsx(
+                    "space-between",
+                    classes.categoryHeaderContainer
+                  )}
+                >
+                  <span className={classes.categoryHeader}>RESULTS</span>
+                </div>
+                <div className={classes.pdfResultsContainer}>
+                  <PdfResult
+                    rule={targetPoints}
+                    valueTestId={"summary-pdf-target-points-value"}
+                  />
+                  <PdfResult
+                    rule={earnedPoints}
+                    valueTestId={"summary-pdf-earned-points-value"}
+                  />
+                </div>
+              </section>
+              <section className={classes.categoryContainer}>
+                <div
+                  className={clsx(
+                    "space-between",
+                    classes.categoryHeaderContainer
+                  )}
+                >
+                  <span className={classes.categoryHeader}>
+                    PROJECT DETAILS
+                  </span>
+                </div>
+                <div className={classes.measuresContainer}>
+                  <ProjectDetail
+                    rule={level}
+                    value={level.value.toString()}
+                    valueTestId={"summary-project-level-value"}
+                  />
+                  <LandUses rules={rules} />
+                  {rulesNotEmpty
+                    ? specificationRules.map(rule => {
+                        return (
+                          <ProjectDetail
+                            rule={rule}
+                            valueTestId={""}
+                            key={rule.id}
+                          />
+                        );
+                      })
+                    : null}
+                  <ProjectDetail
+                    rule={parkingProvided}
+                    value={numberWithCommas(roundToTwo(parkingProvided.value))}
+                    valueTestId={""}
+                  />
+                  <ProjectDetail
+                    rule={parkingRequired}
+                    value={numberWithCommas(roundToTwo(parkingRequired.value))}
+                    valueTestId={""}
+                  />
+                  <ProjectDetail
+                    rule={parkingRatio}
+                    value={Math.floor(parkingRatio.value).toString()}
+                    valueTestId={"summary-parking-ratio-value"}
+                  />
+                  {projectDescription &&
+                  projectDescription.value &&
+                  projectDescription.value.length > 0 ? (
+                    <div>
+                      <div className={classes.rule}>
+                        <div className={classes.projectDescription}>
+                          {projectDescription.name}:
+                        </div>
+                      </div>
+                      <div className={classes.projectDescriptionValue}>
+                        {projectDescription.value}
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </section>
+              <section className={classes.categoryContainer}>
+                <div
+                  className={clsx(
+                    "space-between",
+                    classes.categoryHeaderContainer
+                  )}
+                >
+                  <span className={classes.categoryHeader}>
+                    TDM STRATEGIES SELECTED
+                  </span>
+                  <span className={classes.earnedPoints}>EARNED POINTS</span>
+                </div>
+                <div className={classes.measuresContainer}>
+                  {rulesNotEmpty
+                    ? measureRules.map(rule => (
+                        <MeasureSelected rule={rule} key={rule.id} />
+                      ))
+                    : null}
+                  {userDefinedStrategy.calcValue &&
+                  userDefinedStrategy.comment.length > 0 ? (
+                    <div>
+                      <div className={classes.rule}>
+                        <div className={classes.ruleName}>
+                          User-Defined Strategy Details:
+                        </div>
+                      </div>
+                      <div className={classes.summaryContainer}>
+                        {userDefinedStrategy.comment}
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </section>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>
+              <div className={classes.footerSpace} />
+            </td>
+          </tr>
+        </tfoot>
+      </table>
 
       <PdfFooter project={project} />
     </div>

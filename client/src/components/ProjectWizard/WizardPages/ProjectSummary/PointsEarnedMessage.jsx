@@ -2,11 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheckCircle,
-  faExclamationTriangle
-} from "@fortawesome/free-solid-svg-icons";
+import { MdCheckCircle, MdWarning } from "react-icons/md";
 
 const useStyles = createUseStyles({
   success: {
@@ -53,7 +49,7 @@ const PointsEarnedMessage = props => {
       {targetPointsReached ? (
         <span className={clsx(classes.targetPointsReached, classes.success)}>
           <div className={classes.messageBox}>
-            <FontAwesomeIcon icon={faCheckCircle} className={classes.success} />{" "}
+            <MdCheckCircle className={classes.success} />{" "}
             <div className={classes.textBox}>
               You have successfully earned the target points.
             </div>
@@ -62,10 +58,7 @@ const PointsEarnedMessage = props => {
       ) : (
         <span className={clsx(classes.targetPointsReached, classes.failure)}>
           <div className={classes.messageBox}>
-            <FontAwesomeIcon
-              icon={faExclamationTriangle}
-              className={classes.failure}
-            />
+            <MdWarning className={classes.failure} />
             <div className={classes.textBox}>
               You have not reached the target points. <br />
               Please, go back and review your strategies

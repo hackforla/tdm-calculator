@@ -1,7 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import { faTrash, faTrashArrowUp } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdDelete, MdRestoreFromTrash } from "react-icons/md";
 import Button from "../Button/Button";
 import WarningIcon from "../../images/warning-icon.png";
 import { createUseStyles, useTheme } from "react-jss";
@@ -45,7 +44,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
             className={classes.heading1}
             style={{ marginBottom: "1.5rem", color: "" }}
           >
-            <FontAwesomeIcon icon={faTrashArrowUp} /> Restore Project from Trash
+            <MdRestoreFromTrash /> Restore Project from Trash
           </div>
           <div style={theme.typography.subHeading}>
             <img
@@ -59,7 +58,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
       ) : (
         <>
           <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-            <FontAwesomeIcon icon={faTrash} /> Delete Project
+            <MdDelete /> Delete Project
           </div>
           <div style={theme.typography.subHeading}>
             <img

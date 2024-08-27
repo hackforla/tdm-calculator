@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import PlanningIcon from "../../../images/planning.png";
 import WarningIcon from "../../../images/warning-icon.png";
 import { createUseStyles } from "react-jss";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdLaunch } from "react-icons/md";
 
 const useStyles = createUseStyles({
   level0NavButtons: {
@@ -69,10 +68,7 @@ const Level0Page = ({ isLevel0 }) => {
                   target="external"
                 >
                   Draft Revised TDM Ordinance{" "}
-                  <FontAwesomeIcon
-                    icon={faExternalLinkAlt}
-                    className={classes.externalLinkIcon}
-                  />
+                  <MdLaunch className={classes.externalLinkIcon} />
                 </a>{" "}
                 for applicability and exemption details.
               </p>

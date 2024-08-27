@@ -4,8 +4,7 @@ import PackagePanel from "../PackagePanel/PackagePanel";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import { createUseStyles, useTheme } from "react-jss";
 import ResetButtons from "./ResetButtons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { MdCheckCircle } from "react-icons/md";
 
 const useStyles = createUseStyles({
   pkgSelectContainer: {
@@ -81,10 +80,7 @@ function ProjectMeasure(props) {
       {(allowResidentialPackage || allowSchoolPackage) && (
         <>
           <div className={classes.packageBanner}>
-            <FontAwesomeIcon
-              icon={faCheckCircle}
-              className={classes.packageBannerIcon}
-            />
+            <MdCheckCircle className={classes.packageBannerIcon} />
             <div className={classes.packageBannerText}>
               You qualify for a bonus package to earn 1 extra point!
             </div>

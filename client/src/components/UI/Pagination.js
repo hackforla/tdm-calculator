@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   paginationContainer: {
@@ -168,7 +167,7 @@ const Pagination = props => {
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("left")}
         >
-          <FontAwesomeIcon icon={faAngleLeft} />
+          <MdChevronLeft />
         </button>
 
         {leftPerimeterLink}
@@ -195,7 +194,7 @@ const Pagination = props => {
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("right")}
         >
-          <FontAwesomeIcon icon={faAngleRight} />{" "}
+          <MdChevronRight />{" "}
         </button>
       </ul>
     </div>

@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPrint } from "@fortawesome/free-solid-svg-icons";
+import { MdPrint } from "react-icons/md";
 
 const DownloadButton = ({ id, onClick, isDisplayed }) => {
   return (
@@ -15,7 +14,7 @@ const DownloadButton = ({ id, onClick, isDisplayed }) => {
       data-testid={id}
       isDisplayed={isDisplayed}
     >
-      <FontAwesomeIcon icon={faPrint} style={{ marginRight: "0.5em" }} />
+      <MdPrint style={{ marginRight: "0.5em" }} />
       Print Summary
     </Button>
   );

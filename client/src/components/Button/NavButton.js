@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import clsx from "clsx";
 import Button from "./Button";
 
@@ -11,7 +10,6 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     padding: "0.35em 0.7em",
     margin: "0.5em",
-    fontSize: "2em",
     border: "1px solid rgba(0, 0, 0, 0.1)",
     boxShadow: "rgba(0, 46, 109, 0.3) 0px 3px 5px",
     "&:focus": {
@@ -53,9 +51,11 @@ const NavButton = ({
       onClick={onClick}
       disabled={isDisabled}
     >
-      <FontAwesomeIcon
-        icon={navDirection === "previous" ? faAngleLeft : faAngleRight}
-      />
+      {navDirection === "previous" ? (
+        <MdChevronLeft fontSize="2em" />
+      ) : (
+        <MdChevronRight fontSize="2em" />
+      )}
     </Button>
   );
 };
