@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
@@ -17,6 +17,12 @@ const StatusPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
+  const [newOrder, setNewOrder] = useState(
+    header.id !== orderBy ? null : order
+  );
+
+  // TODO More state variables for status filtering go here
+
   const setDefault = () => {
     setCriteria({
       ...criteria,
@@ -24,6 +30,16 @@ const StatusPopup = ({
     });
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
+  };
+
+  const applyChanges = () => {
+    // Set Criteria for status
+    if (newOrder) {
+      setSort(header.id, newOrder);
+    }
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
+    close();
   };
 
   return (
@@ -47,27 +63,32 @@ const StatusPopup = ({
         <RadioButton
           label="Sort Drafts First"
           value="asc"
-          checked={orderBy === header.id && order === "asc"}
-          onChange={() => setSort(header.id, "asc")}
+          checked={newOrder == "asc"}
+          onChange={() => setNewOrder("asc")}
         />
         <RadioButton
           label="Sort Snapshots First"
           value="desc"
-          checked={orderBy === header.id && order === "desc"}
-          onChange={() => setSort(header.id, "desc")}
+          checked={newOrder === "desc"}
+          onChange={() => setNewOrder("desc")}
         />
         <hr style={{ width: "100%" }} />
       </div>
       <div>(Under Construction)</div>
 
       <hr style={{ width: "100%" }} />
-      <Button
-        onClick={setDefault}
-        variant="text"
-        style={{ margin: "0.5rem", padding: "0.5rem", border: "1px solid red" }}
-      >
-        Reset
-      </Button>
+      <div style={{ display: "flex" }}>
+        <Button onClick={setDefault} variant="text">
+          Reset
+        </Button>
+        <Button
+          onClick={applyChanges}
+          variant="contained"
+          color={"colorPrimary"}
+        >
+          Apply
+        </Button>
+      </div>
     </div>
   );
 };

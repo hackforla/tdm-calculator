@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdFilterAlt } from "react-icons/md";
 import Popup from "reactjs-popup";
 import DatePopup from "./DatePopup";
 import TextPopup from "./TextPopup";
@@ -24,9 +23,22 @@ const ProjectTableColumnHeader = ({
       {header.id !== "checkAllProjects" && header.id !== "contextMenu" ? (
         <Popup
           trigger={
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between"
+              }}
+            >
               <span>{header.label}</span>
-              <FontAwesomeIcon
+              <MdFilterAlt
+                style={{
+                  backgroundColor: "transparent",
+                  color: "white",
+                  marginLeft: "0.5rem"
+                }}
+                alt={`Show column filter and sort popup`}
+              />
+              {/* <FontAwesomeIcon
                 style={{
                   backgroundColor: "transparent",
                   color: "white",
@@ -34,7 +46,7 @@ const ProjectTableColumnHeader = ({
                 }}
                 icon={faFilter}
                 alt={`Show column filter and sort popup`}
-              />
+              /> */}
             </div>
           }
           position="bottom center"
