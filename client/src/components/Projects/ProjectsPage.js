@@ -21,6 +21,7 @@ import ProjectTableRow from "./ProjectTableRow";
 import FilterDrawer from "./FilterDrawer.js";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu.js";
 import fetchEngineRules from "./fetchEngineRules.js";
+import UniversalSelect from "../UI/UniversalSelect.jsx";
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -125,9 +126,9 @@ const useStyles = createUseStyles({
     justifyContent: "center"
   },
   dropContent: {
-    padding: "5px",
-    borderColor: "silver",
-    borderRadius: "4px"
+    borderRadius: "4px",
+    width: "60px",
+    textAlign: "center"
   },
   optionItems: {
     backgroundColor: "white",
@@ -163,6 +164,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const projectsPerPage = perPage;
+
+  const perPageOptions = [
+    { value: projects.length, label: "All" },
+    { value: 100, label: "100" },
+    { value: 50, label: "50" },
+    { value: 25, label: "25" },
+    { value: 10, label: "10" }
+  ];
 
   const handlePerPageChange = newPerPage => {
     setPerPage(newPerPage);
@@ -593,7 +602,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     { id: "firstName", label: "Created By" },
     { id: "dateCreated", label: "Created On" },
     { id: "dateModified", label: "Last Modified" },
-    { id: "dateSubmitted", label: "Submitted" },
     {
       id: "contextMenu",
       label: ""
@@ -770,34 +778,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   currentPage={currentPage}
                   maxNumOfVisiblePages={5}
                 />
-                <label>
-                  <select
-                    className={classes.dropContent}
-                    // defaultValue={10}
-                    value={perPage}
-                    onChange={e => handlePerPageChange(e.target.value)}
-                  >
-                    <option
-                      className={classes.optionItems}
-                      value={projects.length}
-                    >
-                      All
-                    </option>
-                    <option className={classes.optionItems} value={100}>
-                      100
-                    </option>
-                    <option className={classes.optionItems} value={50}>
-                      50
-                    </option>
-                    <option className={classes.optionItems} value={25}>
-                      25
-                    </option>
-                    <option className={classes.optionItems} value={10}>
-                      10
-                    </option>
-                  </select>
-                  <span className={classes.itemsPerPage}>Items per page</span>
-                </label>
+                <UniversalSelect
+                  defaultValue={perPageOptions.find(
+                    option => option.value === perPage
+                  )}
+                  options={perPageOptions}
+                  onChange={e => handlePerPageChange(e.target.value)}
+                  name="perPage"
+                  className={classes.dropContent}
+                />
+                <span className={classes.itemsPerPage}>Items per page</span>
               </div>
 
               {(selectedProject || checkedProjectsStatusData) && (

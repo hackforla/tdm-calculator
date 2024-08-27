@@ -5,6 +5,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleStrategyLabel from "./RuleStrategyLabel";
+import UniversalSelect from "../../UI/UniversalSelect";
 
 const useStyles = createUseStyles(theme => ({
   rowContainer: {
@@ -49,7 +50,10 @@ const useStyles = createUseStyles(theme => ({
     marginBottom: "0.1em"
   },
   select: {
-    width: "200px"
+    width: "200px",
+    textAlign: "left",
+    padding: 0,
+    maring: 0
   },
   stringInput: {
     flexBasis: "50%",
@@ -230,21 +234,23 @@ const RuleStrategy = ({
             setShowDescription={setShowDescription}
           />
           <div className={classes.choiceSelectContainer}>
-            <select
+            <UniversalSelect
               autoFocus={autoFocus}
               className={classes.select}
-              value={value || ""}
+              defaultValue={
+                choices.length > 0
+                  ? { value: choices[0].id, label: choices[0].name }
+                  : null
+              }
               onChange={onInputChange}
               name={code}
               id={code}
               disabled={!display || !!readOnly}
-            >
-              {choices.map(choice => (
-                <option key={choice.id} value={choice.id}>
-                  {choice.name}
-                </option>
-              ))}
-            </select>
+              options={choices.map(choice => ({
+                value: choice.id,
+                label: choice.name
+              }))}
+            />
           </div>
           {possibleAndEarnedPointsContainers()}
         </div>
