@@ -56,7 +56,7 @@ const put = async (req, res) => {
 const del = async (req, res) => {
   try {
     const project = await getProject(req, res);
-    if (project.loginId !== req.user.id) {
+    if (project.loginId !== req.user.id && !req.user.isAdmin) {
       res.status(403).send("You can only delete your own projects.");
       return;
     }
@@ -97,6 +97,21 @@ const trash = async (req, res) => {
   const { ids, trash } = req.body;
   try {
     const result = await projectService.trash(ids, trash, req.user.id);
+    if (result === 1) {
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const submit = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const result = await projectService.submit(id, req.user.id);
     if (result === 1) {
       res.sendStatus(403);
     } else {
@@ -160,6 +175,7 @@ module.exports = {
   del,
   hide,
   trash,
+  submit,
   snapshot,
   renameSnapshot,
   getAllArchivedProjects

@@ -93,6 +93,13 @@ const ProjectTableRow = ({
     return <span>{formatDate(project.dateModified)}</span>;
   };
 
+  const dateSubmittedDisplay = () => {
+    if (project.dateSubmitted) {
+      return <span>{formatDate(project.dateSubmitted)}</span>;
+    }
+    return <span>{formatDate(project.dateSubmitted)}</span>;
+  };
+
   return (
     <tr key={project.id}>
       <td className={classes.tdCenterAlign}>
@@ -134,6 +141,7 @@ const ProjectTableRow = ({
       </td>
 
       <td className={classes.td}>{dateModifiedDisplay()}</td>
+      <td className={classes.td}>{dateSubmittedDisplay()}</td>
 
       <td className={classes.actionIcons}>
         {projectRules && (
@@ -174,7 +182,7 @@ const ProjectTableRow = ({
 };
 
 ProjectTableRow.propTypes = {
-  project: PropTypes.object.isRequired,
+  project: PropTypes.any,
   handleCsvModalOpen: PropTypes.func.isRequired,
   handleCopyModalOpen: PropTypes.func.isRequired,
   handleDeleteModalOpen: PropTypes.func.isRequired,

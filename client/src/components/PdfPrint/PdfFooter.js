@@ -12,7 +12,13 @@ const useStyles = createUseStyles({
   },
   pdfFooterContainer: {
     margin: "24px 0 0",
-    width: "100%"
+    width: "100%",
+    position: "fixed",
+    bottom: "0",
+    height: "100px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end"
   }
 });
 
@@ -92,7 +98,7 @@ const PdfFooter = ({ project }) => {
 };
 
 PdfFooter.propTypes = {
-  project: PropTypes.shape
+  project: PropTypes.shape(PropTypes.any)
 };
 
 export default PdfFooter;

@@ -139,6 +139,22 @@ const snapshot = async (id, loginId, name) => {
   }
 };
 
+const submit = async (id, loginId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("id", id);
+    request.input("loginId", loginId);
+
+    const response = await request.execute("Project_Submit");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
 const renameSnapshot = async (id, loginId, name) => {
   try {
     await poolConnect;
@@ -175,6 +191,7 @@ module.exports = {
   del,
   hide,
   trash,
+  submit,
   snapshot,
   renameSnapshot,
   getAllArchivedProjects

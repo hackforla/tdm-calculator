@@ -200,6 +200,13 @@ const TdmCalculationWizard = props => {
     return false;
   };
 
+  const setDisplaySubmitButton = () => {
+    if (page === 5) {
+      return true;
+    }
+    return false;
+  };
+
   const handleValidate = () => {
     const { page } = params;
     const validations = {
@@ -329,6 +336,7 @@ const TdmCalculationWizard = props => {
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
           setDisplayPrintButton={setDisplayPrintButton}
+          setDisplaySubmitButton={setDisplaySubmitButton}
           onSave={onSave}
           project={project}
           // dateModified={dateModified}
