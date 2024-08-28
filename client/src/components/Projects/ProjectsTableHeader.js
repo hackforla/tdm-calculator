@@ -14,7 +14,6 @@ const useStyles = createUseStyles({
     margin: "0 0 0 0.5em",
     verticalAlign: "baseline",
     fontSize: "20px"
-    // color: "#00F"
   }
 });
 
