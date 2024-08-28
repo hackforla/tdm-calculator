@@ -4,8 +4,7 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import DateRangePicker from "../../UI/DateRangePicker";
-import { faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdClose } from "react-icons/md";
 
 const DatePopup = ({
   close,
@@ -53,7 +52,7 @@ const DatePopup = ({
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <FontAwesomeIcon
+        <MdClose
           style={{
             backgroundColor: "transparent",
             color: "black",
@@ -61,7 +60,6 @@ const DatePopup = ({
             top: "0.5rem",
             right: "0.5rem"
           }}
-          icon={faX}
           alt={`Close popup`}
           onClick={close}
         />
