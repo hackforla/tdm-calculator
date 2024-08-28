@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
-import { faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdClose } from "react-icons/md";
 
 const VisibilityPopup = ({
   close,
@@ -45,7 +44,7 @@ const VisibilityPopup = ({
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <FontAwesomeIcon
+        <MdClose
           style={{
             backgroundColor: "transparent",
             color: "black",
@@ -53,7 +52,6 @@ const VisibilityPopup = ({
             top: "0.5rem",
             right: "0.5rem"
           }}
-          icon={faX}
           alt={`Close popup`}
           onClick={close}
         />
