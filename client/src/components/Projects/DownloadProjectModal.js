@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import * as projectResultService from "..////../services/projectResult.service";
-
 import Button from "../Button/Button";
-// import { faCopy } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 
