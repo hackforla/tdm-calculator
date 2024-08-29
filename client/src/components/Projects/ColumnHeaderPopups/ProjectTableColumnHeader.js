@@ -1,12 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
-import { MdFilterAlt } from "react-icons/md";
+import { MdFilterList } from "react-icons/md";
 import Popup from "reactjs-popup";
 import DatePopup from "./DatePopup";
 import TextPopup from "./TextPopup";
 import VisibilityPopup from "./VisibilityPopup";
 import StatusPopup from "./StatusPopup";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  icon: {
+    backgroundColor: "transparent",
+    color: "grey",
+    fontSize: "1.2em",
+    marginLeft: "1.2em",
+    "&:hover": {
+      color: "#000000"
+    }
+  }
+});
 
 const ProjectTableColumnHeader = ({
   header,
@@ -18,6 +31,8 @@ const ProjectTableColumnHeader = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
+  const classes = useStyles();
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
       {header.id !== "checkAllProjects" && header.id !== "contextMenu" ? (
@@ -30,12 +45,8 @@ const ProjectTableColumnHeader = ({
               }}
             >
               <span>{header.label}</span>
-              <MdFilterAlt
-                style={{
-                  backgroundColor: "transparent",
-                  color: "white",
-                  marginLeft: "0.5rem"
-                }}
+              <MdFilterList
+                className={classes.icon}
                 alt={`Show column filter and sort popup`}
               />
               {/* <FontAwesomeIcon

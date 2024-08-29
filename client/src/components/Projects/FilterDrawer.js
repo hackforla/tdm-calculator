@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import DateRangePicker from "../UI/DateRangePicker";
 import { MdChevronRight } from "react-icons/md";
 import { createUseStyles } from "react-jss";
+import UniversalSelect from "../UI/UniversalSelect";
 
 const useStyles = createUseStyles({
   container: {
@@ -35,6 +36,12 @@ const useStyles = createUseStyles({
     flexBasis: "50%",
     display: "flex",
     flexDirection: "column"
+  },
+  dropdown: {
+    width: "100%",
+    textAlign: "left",
+    padding: 0,
+    maring: 0
   }
 });
 
@@ -77,6 +84,24 @@ const FilterPopup = ({
     setCriteria({ ...criteria, [property]: date });
   };
 
+  const projectTypeoptions = [
+    { value: "draft", label: "Draft" },
+    { value: "snapshot", label: "Snapshot" },
+    { value: "all", label: "Draft and Snapshot" }
+  ];
+
+  const statusOptions = [
+    { value: "active", label: "Active" },
+    { value: "deleted", label: "Deleted" },
+    { value: "all", label: "Active and Deleted" }
+  ];
+
+  const visibilityOptions = [
+    { value: "visible", label: "Visible" },
+    { value: "hidden", label: "Hidden" },
+    { value: "all", label: "Visible and Hidden" }
+  ];
+
   return (
     <div className={classes.container}>
       <button
@@ -98,31 +123,38 @@ const FilterPopup = ({
           {/* <pre>{JSON.stringify(criteria, null, 2)}</pre> */}
           <h4 className={classes.minorHeading}>Project Type</h4>
         </div>
-        <select onChange={e => handleChange(e, "type")} value={criteria.type}>
-          <option value="draft">Draft</option>
-          <option value="snapshot">Snapshot</option>
-          <option value="all">Draft and Snapshot</option>
-        </select>
+
+        <UniversalSelect
+          defaultValue={projectTypeoptions.find(
+            option => option.value === criteria.type
+          )}
+          options={projectTypeoptions}
+          onChange={e => handleChange(e, "type")}
+          name="type"
+          className={classes.dropdown}
+        />
 
         <h4 className={classes.minorHeading}>Status</h4>
-        <select
+        <UniversalSelect
+          defaultValue={statusOptions.find(
+            option => option.value === criteria.status
+          )}
+          options={statusOptions}
           onChange={e => handleChange(e, "status")}
-          value={criteria.status}
-        >
-          <option value="active">Active</option>
-          <option value="deleted">Deleted</option>
-          <option value="all">Active and Deleted</option>
-        </select>
+          name="status"
+          className={classes.dropdown}
+        />
 
         <h4 className={classes.minorHeading}>Visibility</h4>
-        <select
+        <UniversalSelect
+          defaultValue={visibilityOptions.find(
+            option => option.value === criteria.visibility
+          )}
+          options={visibilityOptions}
           onChange={e => handleChange(e, "visibility")}
-          value={criteria.visibility}
-        >
-          <option value="visible">Visible</option>
-          <option value="hidden">Hidden</option>
-          <option value="all">Visible and Hidden</option>
-        </select>
+          name="visibility"
+          className={classes.dropdown}
+        />
 
         <h4 className={classes.minorHeading}>Project Name</h4>
         <input
