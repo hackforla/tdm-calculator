@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { PropTypes } from "prop-types";
-import { FaFileCsv } from "react-icons/fa";
+import { FaFileCsv } from "react-icons/fa6";
 import Button from "../Button/Button";
 import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/AriaModal/ModalDialog";

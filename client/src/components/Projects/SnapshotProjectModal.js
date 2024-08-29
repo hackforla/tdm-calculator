@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 
 import Button from "../Button/Button";
-import { MdFileCopy } from "react-icons/md";
+import { MdCameraAlt } from "react-icons/md";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 
 const useStyles = createUseStyles(theme => ({
@@ -16,6 +16,9 @@ const useStyles = createUseStyles(theme => ({
   heading1: theme.typography.heading1,
   buttonColor: {
     backgroundColor: "#eaeff2"
+  },
+  camera: {
+    marginBottom: "-5px"
   }
 }));
 
@@ -37,7 +40,7 @@ export default function SnapshotProjectModal({
       initialFocus="#duplicateName"
     >
       <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-        <MdFileCopy /> Convert &quot;
+        <MdCameraAlt className={classes.camera} /> Convert &quot;
         {`${selectedProjectName}`}&quot; Into a Snapshot?
       </div>
       <div style={theme.typography.subHeading}>
