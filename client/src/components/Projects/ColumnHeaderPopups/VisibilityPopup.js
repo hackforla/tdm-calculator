@@ -4,6 +4,7 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
+import UniversalSelect from "../../UI/UniversalSelect";
 
 const VisibilityPopup = ({
   close,
@@ -20,25 +21,37 @@ const VisibilityPopup = ({
     header.id !== orderBy ? null : order
   );
 
-  // TODO More state variables for visibility filtering go here
+  const [visibilitySetting, setVisibilitySetting] = useState();
+
+  const visibilityOptions = [
+    { value: "visible", label: "Visible" },
+    { value: "hidden", label: "Hidden" },
+    { value: "all", label: "Visible and Hidden" }
+  ];
 
   const setDefault = () => {
-    setCriteria({
-      ...criteria,
-      [header.id]: ""
-    });
+    setVisibilitySetting(null);
+    setNewOrder(null);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
     // Set Criteria for status
+    setCriteria({
+      ...criteria,
+      visibility: visibilitySetting
+    });
     if (newOrder) {
       setSort(header.id, newOrder);
     }
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
     close();
+  };
+
+  const handleChangeVisibility = visibilityValue => {
+    setVisibilitySetting(visibilityValue);
   };
 
   return (
@@ -72,8 +85,10 @@ const VisibilityPopup = ({
         />
         <hr style={{ width: "100%" }} />
       </div>
-      <div>(Under Construction)</div>
-
+      <UniversalSelect
+        options={visibilityOptions}
+        onChange={e => handleChangeVisibility(e.target.value)}
+      ></UniversalSelect>
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
         <Button onClick={setDefault} variant="text">

@@ -376,7 +376,6 @@ export const PdfPrint = forwardRef((props, ref) => {
           </tr>
         </tfoot>
       </table>
-
       <PdfFooter project={project} />
     </div>
   );
@@ -384,7 +383,7 @@ export const PdfPrint = forwardRef((props, ref) => {
 
 PdfPrint.propTypes = {
   rules: PropTypes.array,
-  project: PropTypes.shape
+  project: PropTypes.any
 };
 
 export default PdfPrint;

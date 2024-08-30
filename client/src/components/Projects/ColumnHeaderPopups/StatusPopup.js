@@ -20,6 +20,10 @@ const StatusPopup = ({
     header.id !== orderBy ? null : order
   );
 
+  // const [projectStatus, setProjectStatus] = useState(criteria.status);
+
+  console.log("HEADER IN STATUS", header);
+  console.log("CRITERIA IN STATUS", criteria);
   // TODO More state variables for status filtering go here
 
   const setDefault = () => {

@@ -37,7 +37,6 @@ export default function UniversalSelect({
       }
     });
   };
-  console.log(defaultValue);
   return (
     <Select
       className={classNames(className)}
