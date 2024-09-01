@@ -508,7 +508,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
     if (criteria.status === "active" && p.dateTrashed) return false;
     if (criteria.status === "deleted" && !p.dateTrashed) return false;
-    console.log("VISIBIILITY ", criteria.visibility);
     if (criteria.visibility === "visible" && p.dateHidden) return false;
     if (criteria.visibility === "hidden" && !p.dateHidden) return false;
     if (

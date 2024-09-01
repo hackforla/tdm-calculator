@@ -4,6 +4,7 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
+import UniversalSelect from "../../UI/UniversalSelect";
 
 const StatusPopup = ({
   close,
@@ -19,30 +20,72 @@ const StatusPopup = ({
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
+  //CHECK THIS VALUE
 
-  // const [projectStatus, setProjectStatus] = useState(criteria.status);
+  const [statusSettings, setStatusSettings] = useState(null);
 
-  console.log("HEADER IN STATUS", header);
-  console.log("CRITERIA IN STATUS", criteria);
-  // TODO More state variables for status filtering go here
+  const statusOptions = [
+    { value: "draft", label: "Draft" },
+    { value: "snapshot", label: "Snapshot" },
+    { value: "draftsnapshot", label: "Draft and Snapshot" },
+    { value: "deleted", label: "Deleted" },
+    { value: "all", label: "All" }
+  ];
 
   const setDefault = () => {
-    setCriteria({
-      ...criteria,
-      [header.id]: ""
-    });
+    setStatusSettings(null);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
-    // Set Criteria for status
+    switch (statusSettings) {
+      case "draft":
+        setCriteria({
+          ...criteria,
+          type: statusSettings
+        });
+        break;
+      case "snapshot":
+        setCriteria({
+          ...criteria,
+          type: statusSettings,
+          status: "active"
+        });
+        break;
+      case "draftsnapshot":
+        setCriteria({
+          ...criteria,
+          type: statusSettings,
+          status: "active"
+        });
+        break;
+      case "deleted":
+        setCriteria({
+          ...criteria,
+          type: "all",
+          status: statusSettings
+        });
+        break;
+      case "all":
+        setCriteria({
+          ...criteria,
+          type: "all",
+          status: "all"
+        });
+        break;
+    }
+
     if (newOrder) {
       setSort(header.id, newOrder);
     }
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
     close();
+  };
+
+  const handleChangeStatus = statusValue => {
+    setStatusSettings(statusValue);
   };
 
   return (
@@ -76,7 +119,10 @@ const StatusPopup = ({
         />
         <hr style={{ width: "100%" }} />
       </div>
-      <div>(Under Construction)</div>
+      <UniversalSelect
+        options={statusOptions}
+        onChange={e => handleChangeStatus(e.target.value)}
+      ></UniversalSelect>
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>

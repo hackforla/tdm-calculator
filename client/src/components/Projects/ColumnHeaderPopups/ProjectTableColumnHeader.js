@@ -49,15 +49,6 @@ const ProjectTableColumnHeader = ({
                 className={classes.icon}
                 alt={`Show column filter and sort popup`}
               />
-              {/* <FontAwesomeIcon
-                style={{
-                  backgroundColor: "transparent",
-                  color: "white",
-                  marginLeft: "0.5rem"
-                }}
-                icon={faFilter}
-                alt={`Show column filter and sort popup`}
-              /> */}
             </div>
           }
           position="bottom center"

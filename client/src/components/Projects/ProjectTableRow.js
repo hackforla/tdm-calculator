@@ -82,12 +82,7 @@ const ProjectTableRow = ({
   // deleted, in which case it will show the deleted date followed by "-Deleted" in red.
   const dateModifiedDisplay = () => {
     if (project.dateTrashed) {
-      return (
-        <span>
-          {formatDate(project.dateTrashed)}
-          <span style={{ color: "red" }}>-Deleted</span>
-        </span>
-      );
+      return <span>{formatDate(project.dateTrashed)}</span>;
     }
 
     return <span>{formatDate(project.dateModified)}</span>;

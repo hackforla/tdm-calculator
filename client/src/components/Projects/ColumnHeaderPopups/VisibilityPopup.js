@@ -20,8 +20,8 @@ const VisibilityPopup = ({
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
-
-  const [visibilitySetting, setVisibilitySetting] = useState();
+  //CHECK THIS VALUE in default usestate
+  const [visibilitySetting, setVisibilitySetting] = useState(null);
 
   const visibilityOptions = [
     { value: "visible", label: "Visible" },
