@@ -37,7 +37,7 @@ RuleStrategyLabel.propTypes = {
   id: PropTypes.number.isRequired,
   code: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  description: PropTypes.string,
+  description: PropTypes.any,
   display: PropTypes.bool,
   required: PropTypes.bool,
   link: PropTypes.string,
