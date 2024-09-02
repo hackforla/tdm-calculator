@@ -36,7 +36,7 @@ const useStyles = createUseStyles(theme => ({
 const AffordableEdgeCaseModal = ({ isOpen, onClose, onYes }) => {
   const classes = useStyles();
   return (
-    <ModalDialog mounted={isOpen} onClose={onClose}>
+    <ModalDialog mounted={isOpen} onClose={onClose} omitCloseBox={true}>
       <div className={classes.container}>
         <div className={classes.modalHeader} style={{ marginBottom: "1.5rem" }}>
           <MdError
