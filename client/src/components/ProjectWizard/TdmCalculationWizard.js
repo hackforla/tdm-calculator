@@ -79,6 +79,10 @@ const TdmCalculationWizard = props => {
   */
   const calculationPath = "/calculation/:page/:projectId?/*";
 
+  const onInputChangeMeasure = e => {
+    return onInputChange(e);
+  };
+
   const shouldBlock = React.useCallback(
     ({ currentLocation, nextLocation }) => {
       const isSameProject = (currentLocation, nextLocation) => {
@@ -280,7 +284,7 @@ const TdmCalculationWizard = props => {
             projectLevel={projectLevel}
             rules={strategyRules}
             landUseRules={landUseRules}
-            onInputChange={onInputChange}
+            onInputChange={onInputChangeMeasure}
             onCommentChange={onCommentChange}
             initializeStrategies={initializeStrategies}
             onPkgSelect={onPkgSelect}
@@ -392,7 +396,7 @@ TdmCalculationWizard.propTypes = {
   // dateSubmitted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
-  project: PropTypes.shape
+  project: PropTypes.any
 };
 
 export default TdmCalculationWizard;

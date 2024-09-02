@@ -98,7 +98,7 @@ const PdfFooter = ({ project }) => {
 };
 
 PdfFooter.propTypes = {
-  project: PropTypes.shape(PropTypes.any)
+  project: PropTypes.any
 };
 
 export default PdfFooter;

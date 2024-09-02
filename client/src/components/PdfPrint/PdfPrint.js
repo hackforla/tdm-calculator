@@ -384,7 +384,7 @@ export const PdfPrint = forwardRef((props, ref) => {
 
 PdfPrint.propTypes = {
   rules: PropTypes.array,
-  project: PropTypes.shape
+  project: PropTypes.any
 };
 
 export default PdfPrint;

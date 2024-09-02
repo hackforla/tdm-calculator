@@ -349,7 +349,7 @@ RuleStrategy.propTypes = {
     calcUnits: PropTypes.string,
     calcMinValue: PropTypes.number,
     calcMaxValue: PropTypes.number,
-    description: PropTypes.string,
+    description: PropTypes.any,
     display: PropTypes.bool,
     displayComment: PropTypes.bool,
     comment: PropTypes.string,
