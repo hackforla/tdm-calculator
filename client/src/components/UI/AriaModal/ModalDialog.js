@@ -41,12 +41,6 @@ const useStyles = createUseStyles({
     justifyContent: "flex-end",
     margin: 0
   },
-  contentFlexBox: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    margin: 0
-  },
   closeButton: {
     border: "0 solid white",
     backgroundColor: "transparent",
@@ -99,7 +93,7 @@ export default function ModalDialog({
             </button>
           </div>
         )}
-        <div className={classes.contentFlexBox}>{children}</div>
+        {children}
       </div>
     </AriaModal>
   );
