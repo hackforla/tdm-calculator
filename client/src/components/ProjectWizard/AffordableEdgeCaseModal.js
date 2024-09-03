@@ -6,6 +6,12 @@ import { createUseStyles } from "react-jss";
 import { MdError } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
+  contentFlexBox: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 0
+  },
   container: {
     width: "80%",
     maxWidth: "35rem",
@@ -37,27 +43,32 @@ const AffordableEdgeCaseModal = ({ isOpen, onClose, onYes }) => {
   const classes = useStyles();
   return (
     <ModalDialog mounted={isOpen} onClose={onClose} omitCloseBox={true}>
-      <div className={classes.container}>
-        <div className={classes.modalHeader} style={{ marginBottom: "1.5rem" }}>
-          <MdError
-            style={{
-              marginBottom: "-5px",
-              color: "#C35302",
-              height: "80px",
-              width: "5rem"
-            }}
-          />
-        </div>
-        <div className={classes.modalSubHeader}>
-          {`100% affordable housing of less than 50 units are exempt from the TDM Ordinance. Did you intend to change to 100% Affordable Housing?`}
-        </div>
-        <div className={classes.buttonFlexBox}>
-          <Button onClick={onClose} variant="text" id="cancelButton">
-            NO
-          </Button>
-          <Button onClick={onYes} variant="contained" color={"colorPrimary"}>
-            YES
-          </Button>
+      <div className={classes.contentFlexBox}>
+        <div className={classes.container}>
+          <div
+            className={classes.modalHeader}
+            style={{ marginBottom: "1.5rem" }}
+          >
+            <MdError
+              style={{
+                marginBottom: "-5px",
+                color: "#C35302",
+                height: "80px",
+                width: "5rem"
+              }}
+            />
+          </div>
+          <div className={classes.modalSubHeader}>
+            {`100% affordable housing of less than 50 units are exempt from the TDM Ordinance. Did you intend to change to 100% Affordable Housing?`}
+          </div>
+          <div className={classes.buttonFlexBox}>
+            <Button onClick={onClose} variant="text" id="cancelButton">
+              NO
+            </Button>
+            <Button onClick={onYes} variant="contained" color={"colorPrimary"}>
+              YES
+            </Button>
+          </div>
         </div>
       </div>
     </ModalDialog>
