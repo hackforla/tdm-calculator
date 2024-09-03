@@ -540,14 +540,9 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       schoolPackageSelected={schoolPackageSelected}
       formIsDirty={!formHasSaved}
       projectIsValid={projectIsValid}
-      // loginId={loginId}
-      // dateModified={dateModified}
-      // dateSnapshotted={dateSnapshotted}
-      // dateSubmitted={dateSubmitted}
       contentContainerRef={contentContainerRef}
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}
-      // projectId={projectId}
       project={project}
     />
   );

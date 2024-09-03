@@ -5,7 +5,8 @@ import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleStrategyLabel from "./RuleStrategyLabel";
-import UniversalSelect from "../../UI/UniversalSelect";
+// import UniversalSelect from "../../UI/UniversalSelect";
+import AffordableEdgeCaseModal from "../AffordableEdgeCaseModal";
 
 const useStyles = createUseStyles(theme => ({
   rowContainer: {
@@ -106,6 +107,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const RuleStrategy = ({
+  projectLevel,
   rule: {
     id,
     code,
@@ -133,12 +135,60 @@ const RuleStrategy = ({
   const classes = useStyles({ theme });
 
   const [showDescription, setShowDescription] = useState(false);
+  const [affordableEdgeCaseModalOpen, setAffordableEdgeCaseModalOpen] =
+    useState(false);
+  const [inputEvent, setInputEvent] = useState({});
+  const [previousValue, setPreviousValue] = useState(value);
+
+  const closeAffordableEdgeCaseModal = () => {
+    // Need to modify event to change value back to previous value and
+    // pass change to parent - this will re-render child control with previous value.
+    const target = { ...inputEvent.target, value: previousValue };
+    onPropInputChange({ ...inputEvent, target });
+    // Need to reset value to previous
+    setAffordableEdgeCaseModalOpen(false);
+  };
+
+  const handleAffordableEdgeCaseModalProceed = () => {
+    // Pass phony event to parent to re-do the calc.
+    onPropInputChange(inputEvent);
+    // Close the save confirmation modal
+    setAffordableEdgeCaseModalOpen(false);
+  };
+
+  const onInputChangeIfAllowed = e => {
+    // If user changes affordable housing strategy to 100% for a Level 1
+    // project, we want to prompt them to confirm the change before
+    // passing the change to parent object and re-calculating.
+    const ruleCode = (e.target && e.target.name) || e.detail.name;
+    if (
+      ruleCode === "STRATEGY_AFFORDABLE" &&
+      e.target.value == 4 &&
+      projectLevel <= 1
+    ) {
+      /* Need to stash the event object to pass to parent if user chooses to proceed.
+      However, React only stores part of the event (specifically excludes e.target.value)
+      when stored in a state variable, so we need to phony up and event object that
+      can be passed to the parent while retaining the essential properties.
+      */
+
+      const target = {
+        type: e.target.type,
+        name: e.target.name,
+        value: e.target.value,
+        checked: e.checked
+      };
+      const phonyEvent = { target };
+      setInputEvent(phonyEvent);
+      setAffordableEdgeCaseModalOpen(true);
+    } else {
+      const value = (e.target && e.target.value) || e.target.checked;
+      setPreviousValue(value);
+      onPropInputChange(e);
+    }
+  };
 
   const disabledStyle = !display && classes.disabled;
-
-  const onInputChange = e => {
-    onPropInputChange(e);
-  };
 
   const possibleAndEarnedPointsContainers = () => {
     const calculationUnits = calcUnits ? calcUnits : "";
@@ -187,7 +237,7 @@ const RuleStrategy = ({
               }
               type="text"
               value={value || ""}
-              onChange={onInputChange}
+              onChange={onInputChangeIfAllowed}
               name={code}
               id={code}
               autoComplete="off"
@@ -213,7 +263,7 @@ const RuleStrategy = ({
               type="checkbox"
               value={true}
               checked={!!value}
-              onChange={onInputChange}
+              onChange={onInputChangeIfAllowed}
               name={code}
               id={code}
               disabled={!display || !!readOnly}
@@ -234,15 +284,12 @@ const RuleStrategy = ({
             setShowDescription={setShowDescription}
           />
           <div className={classes.choiceSelectContainer}>
-            <UniversalSelect
+            {/* <UniversalSelect
               autoFocus={autoFocus}
               className={classes.select}
-              defaultValue={
-                choices.length > 0
-                  ? { value: choices[0].id, label: choices[0].name }
-                  : null
-              }
-              onChange={onInputChange}
+              value={value}
+              defaultValue={"0"}
+              onChange={onInputChangeIfAllowed}
               name={code}
               id={code}
               disabled={!display || !!readOnly}
@@ -250,7 +297,22 @@ const RuleStrategy = ({
                 value: choice.id,
                 label: choice.name
               }))}
-            />
+            /> */}
+            <select
+              autoFocus={autoFocus}
+              className={classes.select}
+              value={value || ""}
+              onChange={onInputChangeIfAllowed}
+              name={code}
+              id={code}
+              disabled={!display || !!readOnly}
+            >
+              {choices.map(choice => (
+                <option key={choice.id} value={choice.id}>
+                  {choice.name}
+                </option>
+              ))}
+            </select>
           </div>
           {possibleAndEarnedPointsContainers()}
         </div>
@@ -274,7 +336,7 @@ const RuleStrategy = ({
                 : classes.stringInput
             }
             value={value || ""}
-            onChange={onInputChange}
+            onChange={onInputChangeIfAllowed}
             name={code}
             id={code}
             autoComplete="off"
@@ -328,11 +390,18 @@ const RuleStrategy = ({
           disabledStyle={disabledStyle}
         />
       ) : null}
+
+      <AffordableEdgeCaseModal
+        isOpen={affordableEdgeCaseModalOpen}
+        onClose={closeAffordableEdgeCaseModal}
+        onYes={handleAffordableEdgeCaseModalProceed}
+      />
     </React.Fragment>
   );
 };
 
 RuleStrategy.propTypes = {
+  projectLevel: PropTypes.number,
   rule: PropTypes.shape({
     id: PropTypes.number.isRequired,
     calculationId: PropTypes.number.isRequired,
