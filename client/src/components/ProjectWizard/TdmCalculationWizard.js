@@ -45,7 +45,6 @@ const TdmCalculationWizard = props => {
     onPkgSelect,
     onParkingProvidedChange,
     resultRuleCodes,
-    // loginId,
     onSave,
     allowResidentialPackage,
     allowSchoolPackage,
@@ -53,9 +52,6 @@ const TdmCalculationWizard = props => {
     schoolPackageSelected,
     formIsDirty,
     projectIsValid,
-    // dateModified,
-    // dateSnapshotted,
-    // dateSubmitted,
     contentContainerRef,
     inapplicableStrategiesModal,
     closeStrategiesModal,
@@ -331,7 +327,6 @@ const TdmCalculationWizard = props => {
       >
         {pageContents(page)}
         <WizardFooter
-          // projectId={projectId}
           rules={rules}
           page={page}
           onPageChange={onPageChange}
@@ -343,10 +338,6 @@ const TdmCalculationWizard = props => {
           setDisplaySubmitButton={setDisplaySubmitButton}
           onSave={onSave}
           project={project}
-          // dateModified={dateModified}
-          // dateSnapshotted={dateSnapshotted}
-          // dateSubmitted={dateSubmitted}
-          // loginId={loginId}
         />
       </ContentContainer>
     </div>

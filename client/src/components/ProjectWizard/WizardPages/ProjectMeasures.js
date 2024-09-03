@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import PackagePanel from "../PackagePanel/PackagePanel";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import { createUseStyles, useTheme } from "react-jss";
 import ResetButtons from "./ResetButtons";
 import { MdCheckCircle } from "react-icons/md";
-import AffordableEdgeCaseModal from "../AffordableEdgeCaseModal";
 
 const useStyles = createUseStyles({
   pkgSelectContainer: {
@@ -49,6 +48,7 @@ const useStyles = createUseStyles({
 });
 function ProjectMeasure(props) {
   const {
+    projectLevel,
     rules,
     onInputChange,
     onCommentChange,
@@ -64,55 +64,6 @@ function ProjectMeasure(props) {
 
   const theme = useTheme();
   const classes = useStyles({ theme });
-
-  const [affordableEdgeCaseModalOpen, setAffordableEdgeCaseModalOpen] =
-    useState(false);
-  const [inputEvent, setInputEvent] = useState({});
-
-  const closeAffordableEdgeCaseModal = () => {
-    setAffordableEdgeCaseModalOpen(false);
-  };
-
-  const handleAffordableEdgeCaseModalProceed = () => {
-    // Submit data and set admin to false
-    onInputChange(inputEvent);
-    // Close the save confirmation modal
-    setAffordableEdgeCaseModalOpen(false);
-  };
-
-  const projectLevel =
-    rules && rules.find(rule => rule.code === "PROJECT_LEVEL")
-      ? rules.find(rule => rule.code === "PROJECT_LEVEL").value
-      : 0;
-
-  const onInputChangeIfAllowed = e => {
-    const ruleCode = (e.target && e.target.name) || e.detail.name;
-    // console.error(ruleCode);
-    // console.error(e.target.value);
-    // console.error(projectLevel);
-    if (
-      ruleCode === "STRATEGY_AFFORDABLE" &&
-      e.target.value == 4 &&
-      projectLevel <= 1
-    ) {
-      /* Need to stash the event object to pass to parent if user chooses to proceed.
-      However, React only stores part of the event (specifically excludes e.target.value)
-      when stored in a state variable, so we need to phony up and event object that
-      can be passed to the parent while retaining the essential properties.
-      */
-      const target = {
-        type: e.target.type,
-        name: e.target.name,
-        value: e.target.value,
-        checked: e.checked
-      };
-      const phonyEvent = { target };
-      setInputEvent(phonyEvent);
-      setAffordableEdgeCaseModalOpen(true);
-    } else {
-      onInputChange(e);
-    }
-  };
 
   useEffect(() => {
     initializeStrategies();
@@ -155,19 +106,16 @@ function ProjectMeasure(props) {
         />
       )}
       <RuleStrategyPanels
+        projectLevel={projectLevel}
         rules={rules.filter(r => r.calculationPanelId != 27)}
-        onInputChange={onInputChangeIfAllowed}
+        onInputChange={onInputChange}
         onCommentChange={onCommentChange}
-      />
-      <AffordableEdgeCaseModal
-        isOpen={affordableEdgeCaseModalOpen}
-        onClose={closeAffordableEdgeCaseModal}
-        onYes={handleAffordableEdgeCaseModalProceed}
       />
     </div>
   );
 }
 ProjectMeasure.propTypes = {
+  projectLevel: PropTypes.number,
   rules: PropTypes.arrayOf(
     PropTypes.shape({
       calculationPanelId: PropTypes.number.isRequired,

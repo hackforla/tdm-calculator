@@ -12,6 +12,7 @@ const useStyles = createUseStyles({
 });
 
 const RuleStrategyList = ({
+  projectLevel,
   rules,
   onInputChange,
   onCommentChange,
@@ -25,6 +26,7 @@ const RuleStrategyList = ({
             return (
               <RuleStrategy
                 key={rule.id}
+                projectLevel={projectLevel}
                 rule={rule}
                 onPropInputChange={onInputChange}
                 onCommentChange={onCommentChange}
@@ -38,6 +40,7 @@ const RuleStrategyList = ({
 };
 
 RuleStrategyList.propTypes = {
+  projectLevel: PropTypes.number,
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func.isRequired,

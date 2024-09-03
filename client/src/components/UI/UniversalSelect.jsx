@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 
 UniversalSelect.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -20,6 +21,7 @@ UniversalSelect.propTypes = {
 };
 
 export default function UniversalSelect({
+  value,
   defaultValue,
   options,
   onChange,
@@ -37,12 +39,12 @@ export default function UniversalSelect({
       }
     });
   };
-  console.log(defaultValue);
   return (
     <Select
       className={classNames(className)}
       autoFocus={autoFocus}
       onChange={handleSelectChange}
+      value={value}
       defaultValue={defaultValue}
       name={name}
       inputId={id}
