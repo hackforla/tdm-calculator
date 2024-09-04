@@ -96,7 +96,10 @@ const ProjectTableRow = ({
   };
 
   return (
-    <tr key={project.id}>
+    <tr
+      key={project.id}
+      style={{ background: project.dateTrashed ? "#ffdcdc" : "" }}
+    >
       <td className={classes.tdCenterAlign}>
         <input
           style={{ height: "15px" }}
@@ -122,6 +125,7 @@ const ProjectTableRow = ({
       </td>
       <td className={classes.td}>
         {project.dateSnapshotted ? "Snapshot" : "Draft"}
+        {project.dateTrashed ? " (deleted)" : ""}
       </td>
       <td className={classes.td}>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>

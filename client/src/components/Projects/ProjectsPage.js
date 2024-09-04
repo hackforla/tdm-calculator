@@ -516,6 +516,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const filterProjects = p => {
+    console.log(criteria);
     if (criteria.type === "draft" && p.dateSnapshotted) return false;
     if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
     if (criteria.status === "active" && p.dateTrashed) return false;

@@ -30,7 +30,7 @@ const StatusPopup = ({
     { value: "deleted", label: "Deleted" },
     { value: "all", label: "All" }
   ];
-
+  console.log("statusSettings", statusSettings);
   const setDefault = () => {
     setStatusSettings(null);
     setCheckedProjectIds([]);
