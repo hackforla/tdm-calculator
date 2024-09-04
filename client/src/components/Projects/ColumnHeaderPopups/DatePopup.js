@@ -26,7 +26,6 @@ const DatePopup = ({
   const [newEndDate, setNewEndDate] = useState(
     criteria[header.endDatePropertyName]
   );
-  console.log("HEADER in date", header);
 
   const setDefault = () => {
     setNewStartDate(null);

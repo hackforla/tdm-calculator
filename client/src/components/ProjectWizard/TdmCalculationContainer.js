@@ -364,6 +364,13 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         // The 100% Affordable Housing Input should be set to true
         if (value === "4") {
           formInputs["AFFORDABLE_HOUSING"] = true;
+          // If < 50 residential units and Affordable Housing is changed to 100%,
+          // then page 4 is no longer applicable, redirect to page 3.
+          if (projectLevel <= 1) {
+            const thirdPage =
+              "/calculation/3" + (projectId ? `/${projectId}` : "/0");
+            navigate(thirdPage);
+          }
         } else {
           formInputs["AFFORDABLE_HOUSING"] = false;
         }
@@ -533,14 +540,9 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       schoolPackageSelected={schoolPackageSelected}
       formIsDirty={!formHasSaved}
       projectIsValid={projectIsValid}
-      // loginId={loginId}
-      // dateModified={dateModified}
-      // dateSnapshotted={dateSnapshotted}
-      // dateSubmitted={dateSubmitted}
       contentContainerRef={contentContainerRef}
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}
-      // projectId={projectId}
       project={project}
     />
   );

@@ -15,14 +15,13 @@ const StatusPopup = ({
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked
+  setSelectAllChecked,
+  statusSettings,
+  setStatusSettings
 }) => {
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
-  //CHECK THIS VALUE
-
-  const [statusSettings, setStatusSettings] = useState(null);
 
   const statusOptions = [
     { value: "draft", label: "Draft" },
@@ -150,7 +149,9 @@ StatusPopup.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func
+  setSelectAllChecked: PropTypes.func,
+  statusSettings: PropTypes.string,
+  setStatusSettings: PropTypes.func
 };
 
 export default StatusPopup;

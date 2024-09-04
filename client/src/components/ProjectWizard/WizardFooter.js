@@ -121,6 +121,7 @@ const WizardFooter = ({
               id="submitButton"
               color="colorPrimary"
               isDisplayed={false && setDisplaySubmitButton()}
+              onClick={() => null}
             />
           </>
         ) : null}
@@ -173,7 +174,7 @@ WizardFooter.propTypes = {
   setDisplaySubmitButton: PropTypes.any,
   onSave: PropTypes.any,
   onDownload: PropTypes.any,
-  project: PropTypes.shape
+  project: PropTypes.any
 };
 
 export default WizardFooter;

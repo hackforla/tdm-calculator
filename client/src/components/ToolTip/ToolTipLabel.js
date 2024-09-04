@@ -193,13 +193,13 @@ const ToolTipLabel = ({
 
 ToolTipLabel.propTypes = {
   id: PropTypes.string.isRequired,
-  tooltipContent: PropTypes.string.isRequired,
+  tooltipContent: PropTypes.any.isRequired,
   children: PropTypes.node.isRequired,
   code: PropTypes.string,
   requiredInput: PropTypes.bool,
   disabledInput: PropTypes.bool,
   setShowDescription: PropTypes.func,
-  description: PropTypes.string,
+  description: PropTypes.any,
   showDescription: PropTypes.bool
 };
 

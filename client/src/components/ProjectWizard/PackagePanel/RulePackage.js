@@ -116,7 +116,7 @@ const RulePackage = ({ name, checked, onPkgSelect, packageTooltip }) => {
     <div className={classes.container}>
       <div className={classes.rowContainer}>
         <RuleStrategyLabel
-          id="778875"
+          id={Number("778875")}
           code="sss"
           description={packageTooltip}
           display={true}

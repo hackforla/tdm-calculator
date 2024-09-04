@@ -81,6 +81,7 @@ const RuleStrategyPanels = props => {
               ) : null}
               <RuleStrategyList
                 key={rules[0].calculationPanelId}
+                projectLevel={projectLevel}
                 rules={rules}
                 onInputChange={props.onInputChange}
                 onCommentChange={props.onCommentChange}

@@ -165,6 +165,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [projectData, setProjectData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
+  const [toggledHeader, setToggledHeader] = useState(null);
+  const [visibilitySetting, setVisibilitySetting] = useState("visibility");
+  const [statusSettings, setStatusSettings] = useState("draftsnapshot");
+
   const projectsPerPage = perPage;
 
   const perPageOptions = [
@@ -498,6 +502,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setFilterText(text);
   };
 
+  const handleHeaderToggle = headerId => {
+    if (!toggledHeader) {
+      setToggledHeader(headerId);
+    } else {
+      setToggledHeader(null);
+    }
+  };
+
   const getDateOnly = date => {
     const dateOnly = new Date(date).toDateString();
     return new Date(dateOnly);
@@ -733,9 +745,18 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     <tr className={classes.tr}>
                       {headerData.map(header => {
                         return (
-                          <td key={header.id}>
+                          <td
+                            key={header.id}
+                            style={{
+                              color: toggledHeader === header.id ? "white" : "",
+                              backgroundColor:
+                                toggledHeader === header.id ? "#082c6c" : ""
+                            }}
+                          >
                             <ProjectTableColumnHeader
                               header={header}
+                              toggledHeader={toggledHeader}
+                              handleHeaderToggle={handleHeaderToggle}
                               criteria={criteria}
                               setCriteria={setCriteria}
                               setSort={setSort}
@@ -743,6 +764,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                               orderBy={orderBy}
                               setCheckedProjectIds={setCheckedProjectIds}
                               setSelectAllChecked={setSelectAllChecked}
+                              visibilitySetting={visibilitySetting}
+                              setVisibilitySetting={setVisibilitySetting}
+                              statusSettings={statusSettings}
+                              setStatusSettings={setStatusSettings}
                             />
                           </td>
                         );

@@ -23,13 +23,19 @@ const useStyles = createUseStyles({
 
 const ProjectTableColumnHeader = ({
   header,
+  toggledHeader,
+  handleHeaderToggle,
   criteria,
   setCriteria,
   order,
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked
+  setSelectAllChecked,
+  visibilitySetting,
+  setVisibilitySetting,
+  statusSettings,
+  setStatusSettings
 }) => {
   const classes = useStyles();
 
@@ -37,6 +43,12 @@ const ProjectTableColumnHeader = ({
     <div style={{ width: "100%", height: "100%" }}>
       {header.id !== "checkAllProjects" && header.id !== "contextMenu" ? (
         <Popup
+          onOpen={() => {
+            handleHeaderToggle(header.id);
+          }}
+          onClose={() => {
+            handleHeaderToggle(header.id);
+          }}
           trigger={
             <div
               style={{
@@ -69,6 +81,7 @@ const ProjectTableColumnHeader = ({
                 setSort={setSort}
                 setCheckedProjectIds={setCheckedProjectIds}
                 setSelectAllChecked={setSelectAllChecked}
+                toggledHeader={toggledHeader}
               />
             ) : header.popupType === "text" ? (
               <TextPopup
@@ -81,6 +94,7 @@ const ProjectTableColumnHeader = ({
                 setSort={setSort}
                 setCheckedProjectIds={setCheckedProjectIds}
                 setSelectAllChecked={setSelectAllChecked}
+                toggledHeader={toggledHeader}
               />
             ) : header.popupType === "visibility" ? (
               <VisibilityPopup
@@ -93,6 +107,9 @@ const ProjectTableColumnHeader = ({
                 setSort={setSort}
                 setCheckedProjectIds={setCheckedProjectIds}
                 setSelectAllChecked={setSelectAllChecked}
+                toggledHeader={toggledHeader}
+                visibilitySetting={visibilitySetting}
+                setVisibilitySetting={setVisibilitySetting}
               />
             ) : header.popupType === "status" ? (
               <StatusPopup
@@ -105,6 +122,9 @@ const ProjectTableColumnHeader = ({
                 setSort={setSort}
                 setCheckedProjectIds={setCheckedProjectIds}
                 setSelectAllChecked={setSelectAllChecked}
+                toggledHeader={toggledHeader}
+                statusSettings={statusSettings}
+                setStatusSettings={setStatusSettings}
               />
             ) : null;
           }}
@@ -118,14 +138,19 @@ const ProjectTableColumnHeader = ({
 
 ProjectTableColumnHeader.propTypes = {
   header: PropTypes.any,
+  toggledHeader: PropTypes.string,
   criteria: PropTypes.any,
   setCriteria: PropTypes.func,
   order: PropTypes.string,
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
-
+  handleHeaderToggle: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func
+  setSelectAllChecked: PropTypes.func,
+  visibilitySetting: PropTypes.string,
+  setVisibilitySetting: PropTypes.func,
+  statusSettings: PropTypes.string,
+  setStatusSettings: PropTypes.func
 };
 
 export default ProjectTableColumnHeader;

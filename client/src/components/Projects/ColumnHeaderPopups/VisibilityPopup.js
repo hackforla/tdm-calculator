@@ -15,13 +15,13 @@ const VisibilityPopup = ({
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked
+  setSelectAllChecked,
+  visibilitySetting,
+  setVisibilitySetting
 }) => {
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
-  //CHECK THIS VALUE in default usestate
-  const [visibilitySetting, setVisibilitySetting] = useState(null);
 
   const visibilityOptions = [
     { value: "visible", label: "Visible" },
@@ -30,14 +30,13 @@ const VisibilityPopup = ({
   ];
 
   const setDefault = () => {
-    setVisibilitySetting(null);
+    setVisibilitySetting("visible");
     setNewOrder(null);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
-    // Set Criteria for status
     setCriteria({
       ...criteria,
       visibility: visibilitySetting
@@ -53,7 +52,6 @@ const VisibilityPopup = ({
   const handleChangeVisibility = visibilityValue => {
     setVisibilitySetting(visibilityValue);
   };
-
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -86,6 +84,9 @@ const VisibilityPopup = ({
         <hr style={{ width: "100%" }} />
       </div>
       <UniversalSelect
+        defaultValue={visibilityOptions.find(
+          option => option.value === visibilitySetting
+        )}
         options={visibilityOptions}
         onChange={e => handleChangeVisibility(e.target.value)}
       ></UniversalSelect>
@@ -115,7 +116,9 @@ VisibilityPopup.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func
+  setSelectAllChecked: PropTypes.funcs,
+  visibilitySetting: PropTypes.string,
+  setVisibilitySetting: PropTypes.func
 };
 
 export default VisibilityPopup;

@@ -45,7 +45,6 @@ const TdmCalculationWizard = props => {
     onPkgSelect,
     onParkingProvidedChange,
     resultRuleCodes,
-    // loginId,
     onSave,
     allowResidentialPackage,
     allowSchoolPackage,
@@ -53,9 +52,6 @@ const TdmCalculationWizard = props => {
     schoolPackageSelected,
     formIsDirty,
     projectIsValid,
-    // dateModified,
-    // dateSnapshotted,
-    // dateSubmitted,
     contentContainerRef,
     inapplicableStrategiesModal,
     closeStrategiesModal,
@@ -78,6 +74,10 @@ const TdmCalculationWizard = props => {
     /calculation/b/x is just going to a different step of the wizard, and is allowed. 
   */
   const calculationPath = "/calculation/:page/:projectId?/*";
+
+  const onInputChangeMeasure = e => {
+    return onInputChange(e);
+  };
 
   const shouldBlock = React.useCallback(
     ({ currentLocation, nextLocation }) => {
@@ -280,7 +280,7 @@ const TdmCalculationWizard = props => {
             projectLevel={projectLevel}
             rules={strategyRules}
             landUseRules={landUseRules}
-            onInputChange={onInputChange}
+            onInputChange={onInputChangeMeasure}
             onCommentChange={onCommentChange}
             initializeStrategies={initializeStrategies}
             onPkgSelect={onPkgSelect}
@@ -327,7 +327,6 @@ const TdmCalculationWizard = props => {
       >
         {pageContents(page)}
         <WizardFooter
-          // projectId={projectId}
           rules={rules}
           page={page}
           onPageChange={onPageChange}
@@ -339,10 +338,6 @@ const TdmCalculationWizard = props => {
           setDisplaySubmitButton={setDisplaySubmitButton}
           onSave={onSave}
           project={project}
-          // dateModified={dateModified}
-          // dateSnapshotted={dateSnapshotted}
-          // dateSubmitted={dateSubmitted}
-          // loginId={loginId}
         />
       </ContentContainer>
     </div>
@@ -392,7 +387,7 @@ TdmCalculationWizard.propTypes = {
   // dateSubmitted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
-  project: PropTypes.shape
+  project: PropTypes.any
 };
 
 export default TdmCalculationWizard;

@@ -48,6 +48,7 @@ const useStyles = createUseStyles({
 });
 function ProjectMeasure(props) {
   const {
+    projectLevel,
     rules,
     onInputChange,
     onCommentChange,
@@ -105,6 +106,7 @@ function ProjectMeasure(props) {
         />
       )}
       <RuleStrategyPanels
+        projectLevel={projectLevel}
         rules={rules.filter(r => r.calculationPanelId != 27)}
         onInputChange={onInputChange}
         onCommentChange={onCommentChange}
@@ -113,6 +115,7 @@ function ProjectMeasure(props) {
   );
 }
 ProjectMeasure.propTypes = {
+  projectLevel: PropTypes.number,
   rules: PropTypes.arrayOf(
     PropTypes.shape({
       calculationPanelId: PropTypes.number.isRequired,
