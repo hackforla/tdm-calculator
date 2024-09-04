@@ -3,12 +3,12 @@ import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 
 import { createUseStyles } from "react-jss";
-import { FaFileCsv } from "react-icons/fa";
+import { FaFileCsv } from "react-icons/fa6";
 import {
   MdPrint,
   MdVisibility,
   MdVisibilityOff,
-  MdCamera,
+  MdCameraAlt,
   MdDelete,
   MdRestoreFromTrash,
   MdFileCopy,
@@ -91,7 +91,7 @@ const ProjectContextMenu = ({
           className={classes.listItem}
           onClick={() => handleClick(handleSnapshotModalOpen)}
         >
-          <MdCamera
+          <MdCameraAlt
             className={classes.listItemIcon}
             alt={`Snapshot Project #${project.id} Icon`}
           />
