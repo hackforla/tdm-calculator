@@ -31,6 +31,8 @@ export default function UniversalSelect({
   autoFocus,
   className
 }) {
+  // To make UniversalSelect compatible with a standard react <select> component, the onChange method should be passed
+  // an object that at least looks like an event object.
   const handleSelectChange = selectedOption => {
     onChange({
       target: {
@@ -39,12 +41,15 @@ export default function UniversalSelect({
       }
     });
   };
+
   return (
     <Select
       className={classNames(className)}
       autoFocus={autoFocus}
       onChange={handleSelectChange}
-      value={value}
+      // To make value compatible with a standard react <select> component, value should be passed the value of
+      // the selected option.
+      value={options.find(o => o.value == value) || ""}
       defaultValue={defaultValue}
       name={name}
       inputId={id}

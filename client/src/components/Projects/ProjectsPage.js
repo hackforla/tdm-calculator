@@ -786,9 +786,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   maxNumOfVisiblePages={5}
                 />
                 <UniversalSelect
-                  defaultValue={perPageOptions.find(
-                    option => option.value === perPage
-                  )}
+                  value={perPage}
                   options={perPageOptions}
                   onChange={e => handlePerPageChange(e.target.value)}
                   name="perPage"
