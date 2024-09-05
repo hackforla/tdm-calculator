@@ -445,6 +445,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
       projectB = JSON.parse(b.formInputs).BUILDING_PERMIT
         ? JSON.parse(b.formInputs).BUILDING_PERMIT
         : "undefined";
+    } else if (orderBy === "author") {
+      projectA = `${a["lastName"]} ${a["firstName"]}`;
+      projectB = `${b["lastName"]} ${b["firstName"]}`;
     } else if (
       orderBy === "dateHidden" ||
       orderBy === "dateTrashed" ||
@@ -792,9 +795,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   maxNumOfVisiblePages={5}
                 />
                 <UniversalSelect
-                  defaultValue={perPageOptions.find(
-                    option => option.value === perPage
-                  )}
+                  value={perPage}
                   options={perPageOptions}
                   onChange={e => handlePerPageChange(e.target.value)}
                   name="perPage"

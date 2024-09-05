@@ -2,7 +2,7 @@ import React, { useContext, useRef } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { FaFileCsv } from "react-icons/fa";
+import { FaFileCsv } from "react-icons/fa6";
 import {
   MdDelete,
   MdRestoreFromTrash,
