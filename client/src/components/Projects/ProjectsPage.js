@@ -445,6 +445,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
       projectB = JSON.parse(b.formInputs).BUILDING_PERMIT
         ? JSON.parse(b.formInputs).BUILDING_PERMIT
         : "undefined";
+    } else if (orderBy === "author") {
+      projectA = `${a["lastName"]} ${a["firstName"]}`;
+      projectB = `${b["lastName"]} ${b["firstName"]}`;
     } else if (
       orderBy === "dateHidden" ||
       orderBy === "dateTrashed" ||
