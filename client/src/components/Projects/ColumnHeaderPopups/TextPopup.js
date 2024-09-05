@@ -5,6 +5,7 @@ import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
 import ReactSelect from "react-select";
+import SearchIcon from "../../../images/search.png";
 
 const TextPopup = ({
   selectOptions,
@@ -38,6 +39,17 @@ const TextPopup = ({
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
+
+  const placeholderComponent = (
+    <div>
+      <img
+        style={{ position: "absolute", left: "16 px", top: "14 px" }}
+        src={SearchIcon}
+        alt="Search Icon"
+      />
+      <div style={{ marginLeft: "30px" }}> Search by Keyword</div>
+    </div>
+  );
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -94,7 +106,7 @@ const TextPopup = ({
         }}
         defaultValue={newSearchString}
         styles={{ maxHeight: 200 }}
-        placeholder="Search by Keyword"
+        placeholder={placeholderComponent}
       ></ReactSelect>
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
