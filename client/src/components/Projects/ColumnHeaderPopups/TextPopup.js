@@ -4,8 +4,10 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
+import ReactSelect from "react-select";
 
 const TextPopup = ({
+  selectOptions,
   close,
   header,
   criteria,
@@ -67,15 +69,33 @@ const TextPopup = ({
         />
         <hr style={{ width: "100%" }} />
       </div>
-      <input
+      {/*  <div>
+        <ul>
+          {textAllCurrentProjects.map((text, index) => (
+            <li key={index}>{text}</li>
+          ))}
+        </ul>
+      </div> */}
+      {/* <input
         type="text"
         placeholder="Search by Partial Text"
         onChange={e => {
           setNewSearchString(e.target.value);
         }}
         value={newSearchString}
-      />
-
+      /> */}
+      <ReactSelect
+        options={selectOptions.map(text => ({
+          value: text,
+          label: text
+        }))}
+        onChange={e => {
+          setNewSearchString(e.value);
+        }}
+        defaultValue={newSearchString}
+        styles={{ maxHeight: 200 }}
+        placeholder="Search by Keyword"
+      ></ReactSelect>
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
         <Button onClick={setDefault} variant="text">
@@ -94,6 +114,7 @@ const TextPopup = ({
 };
 
 TextPopup.propTypes = {
+  selectOptions: PropTypes.any,
   close: PropTypes.func,
   header: PropTypes.any,
   criteria: PropTypes.any,
