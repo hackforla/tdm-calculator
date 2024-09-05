@@ -72,8 +72,8 @@ const FilterPopup = ({
     });
   };
 
-  const handleChange = (e, propertyName) => {
-    setCriteria({ ...criteria, [propertyName]: e.target.value });
+  const handleChange = e => {
+    setCriteria({ ...criteria, [e.target.name]: e.target.value });
 
     // reset any checked project rows when filter is applied
     setCheckedProjectIds([]);
@@ -125,33 +125,27 @@ const FilterPopup = ({
         </div>
 
         <UniversalSelect
-          defaultValue={projectTypeoptions.find(
-            option => option.value === criteria.type
-          )}
+          value={criteria.type}
           options={projectTypeoptions}
-          onChange={e => handleChange(e, "type")}
+          onChange={handleChange}
           name="type"
           className={classes.dropdown}
         />
 
         <h4 className={classes.minorHeading}>Status</h4>
         <UniversalSelect
-          defaultValue={statusOptions.find(
-            option => option.value === criteria.status
-          )}
+          value={criteria.status}
           options={statusOptions}
-          onChange={e => handleChange(e, "status")}
+          onChange={handleChange}
           name="status"
           className={classes.dropdown}
         />
 
         <h4 className={classes.minorHeading}>Visibility</h4>
         <UniversalSelect
-          defaultValue={visibilityOptions.find(
-            option => option.value === criteria.visibility
-          )}
+          value={criteria.visibility}
           options={visibilityOptions}
-          onChange={e => handleChange(e, "visibility")}
+          onChange={handleChange}
           name="visibility"
           className={classes.dropdown}
         />

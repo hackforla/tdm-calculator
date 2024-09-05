@@ -15,18 +15,23 @@ const RuleViewContainer = props => {
   const [ruleId, setRuleId] = useState(rules[0].id);
   const rule = rules.filter(rule => rule.id === ruleId)[0];
   const classes = useStyles();
+
+  const handleSetRule = e => {
+    const ruleId = Number(e.target.value);
+    setRuleId(ruleId);
+  };
+
   return (
     <React.Fragment>
       <UniversalSelect
         className={classes.select}
         options={rules.map(rule => ({
-          value: rule.id,
+          value: rule.id.toString(),
           label: rule.code
         }))}
-        defaultValue={
-          rules.length > 0 ? { value: rules[0].id, label: rules[0].code } : null
-        }
-        onChange={selectedOption => setRuleId(selectedOption.value)}
+        value={ruleId}
+        onChange={handleSetRule}
+        name={"Rule"}
       />
 
       <RuleView rule={rule} rules={rules} setRuleId={setRuleId} />
@@ -37,8 +42,8 @@ RuleViewContainer.propTypes = {
   rules: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-      filter: PropTypes.string.isRequired,
-      length: PropTypes.number.isRequired,
+      // filter: PropTypes.string.isRequired,
+      // length: PropTypes.number.isRequired,
       code: PropTypes.string.isRequired
     })
   )
