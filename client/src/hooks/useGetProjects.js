@@ -18,6 +18,8 @@ const useProjects = handleError => {
               (1000 * 60 * 60 * 24);
             if (numberOfDaysSinceTrashed && numberOfDaysSinceTrashed >= 90) {
               deleteOverNinety(cur.id, handleError);
+            } else {
+              fetchedProjects.push(cur);
             }
           } else {
             fetchedProjects.push(cur);
