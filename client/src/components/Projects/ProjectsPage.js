@@ -743,7 +743,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             <ProjectTableColumnHeader
                               uniqueValues={[
                                 ...new Set(sortedProjects.map(p => p[property]))
-                              ].filter(value => value !== null)}
+                              ]
+                                .filter(value => value !== null)
+                                .sort()}
                               header={header}
                               criteria={criteria}
                               setCriteria={setCriteria}

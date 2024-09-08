@@ -4,8 +4,8 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
-import ReactSelect from "react-select";
 import SearchIcon from "../../../images/search.png";
+import UniversalSelect from "../../UI/UniversalSelect.jsx";
 
 const TextPopup = ({
   selectOptions,
@@ -96,18 +96,22 @@ const TextPopup = ({
         }}
         value={newSearchString}
       /> */}
-      <ReactSelect
+      <UniversalSelect
         options={selectOptions.map(text => ({
           value: text,
           label: text
         }))}
+        name="inputName"
+        disabled={false}
         onChange={e => {
-          setNewSearchString(e.value);
+          setNewSearchString(e.target.value);
+          console.log(e.target.value);
         }}
+        value={newSearchString}
         defaultValue={newSearchString}
         styles={{ maxHeight: 200 }}
         placeholder={placeholderComponent}
-      ></ReactSelect>
+      ></UniversalSelect>
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
         <Button onClick={setDefault} variant="text">
