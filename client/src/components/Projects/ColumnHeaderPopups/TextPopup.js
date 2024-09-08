@@ -105,7 +105,6 @@ const TextPopup = ({
         disabled={false}
         onChange={e => {
           setNewSearchString(e.target.value);
-          console.log(e.target.value);
         }}
         value={newSearchString}
         defaultValue={newSearchString}
