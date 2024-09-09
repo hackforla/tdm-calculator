@@ -51,12 +51,12 @@ export const FaqButtonContainer = ({
       )}
       <div className={classes.faqIcon}>
         {faq.expand ? (
-          <MdExpandMore
+          <MdExpandLess
             style={{ cursor: "pointer" }}
             onClick={() => collapseFaq(faq)}
           />
         ) : (
-          <MdExpandLess
+          <MdExpandMore
             style={{ cursor: "pointer" }}
             onClick={() => expandFaq(faq)}
           />

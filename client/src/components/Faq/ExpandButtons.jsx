@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { MdExpandLess, MdExpandMore } from "react-icons/md";
+import { MdOutlineUnfoldMore, MdOutlineUnfoldLess } from "react-icons/md";
 
 const useStyles = createUseStyles({
   expandCollapseFlexContainer: {
@@ -38,22 +38,36 @@ const ExpandButtons = ({ toggleExpandCollapse }) => {
   return (
     <div className={classes.expandCollapseFlexContainer}>
       <div className={classes.expandCollapseAll}>
-        <div className={classes.faqExpandIcons}>
-          <MdExpandMore className={classes.faqCarotIcon} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center"
+          }}
+        >
+          <MdOutlineUnfoldMore className={classes.faqCarotIcon} />
+          <button
+            className={classes.toggleButton}
+            onClick={() => toggleExpandCollapse(true)}
+          >
+            Expand All
+          </button>
         </div>
-        <button
-          className={classes.toggleButton}
-          onClick={() => toggleExpandCollapse(true)}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center"
+          }}
         >
-          Expand All
-        </button>
-        <MdExpandLess className={classes.faqCarotIcon} />
-        <button
-          className={classes.toggleButton}
-          onClick={() => toggleExpandCollapse()}
-        >
-          Collapse All
-        </button>
+          <MdOutlineUnfoldLess className={classes.faqCarotIcon} />
+          <button
+            className={classes.toggleButton}
+            onClick={() => toggleExpandCollapse()}
+          >
+            Collapse All
+          </button>
+        </div>
       </div>
     </div>
   );
