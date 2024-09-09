@@ -1,34 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { MdExpandLess, MdExpandMore } from "react-icons/md";
+import { MdUnfoldLess, MdUnfoldMore } from "react-icons/md";
 
 const useStyles = createUseStyles({
   expandCollapseFlexContainer: {
-    gridColumn: "h-end",
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "flex-end",
-    margin: "20px 0px"
+    margin: "10px 0px"
   },
   faqExpandIcons: {
     display: "flex",
     flexDirection: "column"
   },
   faqCarotIcon: {
-    fontSize: "large",
-    margin: "-2px"
+    fontSize: "large"
   },
   expandCollapseAll: {
-    display: "flex",
-    margin: "5px"
+    display: "flex"
   },
   toggleButton: {
-    marginRight: "1em",
+    marginRight: "0",
+    marginTop: "4px",
+    marginBottom: "4px",
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
-    textDecoration: "underline"
+    textDecoration: "underline",
+    display: "flex"
   }
 });
 
@@ -38,21 +39,21 @@ const ExpandButtons = ({ toggleExpandCollapse }) => {
   return (
     <div className={classes.expandCollapseFlexContainer}>
       <div className={classes.expandCollapseAll}>
-        <div className={classes.faqExpandIcons}>
-          <MdExpandMore className={classes.faqCarotIcon} />
-        </div>
         <button
           className={classes.toggleButton}
           onClick={() => toggleExpandCollapse(true)}
         >
-          Expand All
+          <MdUnfoldMore className={classes.faqCarotIcon} />
+          <span style={{ marginLeft: "0.2rem", marginBottom: ".1rem" }}>
+            Expand All
+          </span>
         </button>
-        <MdExpandLess className={classes.faqCarotIcon} />
         <button
           className={classes.toggleButton}
           onClick={() => toggleExpandCollapse()}
         >
-          Collapse All
+          <MdUnfoldLess className={classes.faqCarotIcon} />
+          <span style={{ marginLeft: "0.1rem" }}>Collapse All</span>
         </button>
       </div>
     </div>
