@@ -92,7 +92,7 @@ const VisibilityPopup = ({
           onChange={() => setVisibilitySetting("hidden")}
         />
         <RadioButton
-          label="All"
+          label="Visible and Hidden"
           value="all"
           checked={visibilitySetting === "all"}
           onChange={() => setVisibilitySetting("all")}

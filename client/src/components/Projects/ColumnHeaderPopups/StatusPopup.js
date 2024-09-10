@@ -3,7 +3,14 @@ import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdError } from "react-icons/md";
+import { createUseStyles, useTheme } from "react-jss";
+
+const useStyles = createUseStyles(theme => ({
+  warningIcon: {
+    color: theme.colorCancel
+  }
+}));
 
 const StatusPopup = ({
   close,
@@ -16,6 +23,8 @@ const StatusPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
+  const theme = useTheme();
+  const classes = useStyles({ theme });
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
@@ -104,6 +113,28 @@ const StatusPopup = ({
         <hr style={{ width: "100%" }} />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{ marginLeft: "0.5rem", marginBottom: "0.5rem" }}>
+          <MdError
+            className={classes.warningIcon}
+            style={{
+              fontSize: "large",
+              verticalAlign: "top"
+            }}
+          />{" "}
+          {typeSetting === "snapshot" ? (
+            <span>Snapshots can&apos;t be deleted</span>
+          ) : (
+            <span
+              style={{
+                marginBottom: "1rem",
+                marginTop: "0",
+                verticalAlign: "top"
+              }}
+            >
+              Click to show or hide deleted projects
+            </span>
+          )}
+        </div>
         <label style={{ margin: "0.5em" }}>
           <input
             style={{ verticalAlign: "middle" }}
