@@ -20,19 +20,24 @@ const VisibilityPopup = ({
     header.id !== orderBy ? null : order
   );
 
-  // TODO More state variables for visibility filtering go here
+  const [visibilitySetting, setVisibilitySetting] = useState(
+    criteria.visibility
+  );
 
   const setDefault = () => {
     setCriteria({
       ...criteria,
-      [header.id]: ""
+      visibility: "visible"
     });
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
-    // Set Criteria for status
+    setCriteria({
+      ...criteria,
+      visibility: visibilitySetting
+    });
     if (newOrder) {
       setSort(header.id, newOrder);
     }
@@ -72,7 +77,27 @@ const VisibilityPopup = ({
         />
         <hr style={{ width: "100%" }} />
       </div>
-      <div>(Under Construction)</div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
+        <RadioButton
+          label="Visible"
+          value="visible"
+          checked={visibilitySetting == "visible"}
+          onChange={() => setVisibilitySetting("visible")}
+        />
+        <RadioButton
+          label="Hidden"
+          value="hidden"
+          checked={visibilitySetting === "hidden"}
+          onChange={() => setVisibilitySetting("hidden")}
+        />
+        <RadioButton
+          label="All"
+          value="all"
+          checked={visibilitySetting === "all"}
+          onChange={() => setVisibilitySetting("all")}
+        />
+      </div>
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>

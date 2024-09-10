@@ -78,21 +78,6 @@ const ProjectTableRow = ({
     return value !== "undefined" ? value : "";
   };
 
-  // Last Modified Date column should display the Last Modified date, unless the project is
-  // deleted, in which case it will show the deleted date followed by "-Deleted" in red.
-  const dateModifiedDisplay = () => {
-    if (project.dateTrashed) {
-      return (
-        <span>
-          {formatDate(project.dateTrashed)}
-          <span style={{ color: "red" }}>-Deleted</span>
-        </span>
-      );
-    }
-
-    return <span>{formatDate(project.dateModified)}</span>;
-  };
-
   const dateSubmittedDisplay = () => {
     if (project.dateSubmitted) {
       return <span>{formatDate(project.dateSubmitted)}</span>;
@@ -101,7 +86,10 @@ const ProjectTableRow = ({
   };
 
   return (
-    <tr key={project.id}>
+    <tr
+      key={project.id}
+      style={{ background: project.dateTrashed ? "#ffdcdc" : "" }}
+    >
       <td className={classes.tdCenterAlign}>
         <input
           style={{ height: "15px" }}
@@ -127,6 +115,7 @@ const ProjectTableRow = ({
       </td>
       <td className={classes.td}>
         {project.dateSnapshotted ? "Snapshot" : "Draft"}
+        {project.dateTrashed ? <span> (deleted)</span> : null}
       </td>
       <td className={classes.td}>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
@@ -139,10 +128,10 @@ const ProjectTableRow = ({
       <td className={classes.tdRightAlign}>
         {formatDate(project.dateCreated)}
       </td>
-
-      <td className={classes.td}>{dateModifiedDisplay()}</td>
+      <td className={classes.td}>
+        <span>{formatDate(project.dateModified)}</span>
+      </td>
       <td className={classes.td}>{dateSubmittedDisplay()}</td>
-
       <td className={classes.actionIcons}>
         {projectRules && (
           <div>
