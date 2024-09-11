@@ -75,8 +75,7 @@ function ProjectMeasure(props) {
         <span>Select TDM Strategies</span>
       </h1>
       <div style={theme.typography.subHeading}>
-        Select TDM strategies to earn earn points to reach the Target (left
-        panel).
+        Select TDM strategies to earn points to reach the Target (left panel).
       </div>
       {(allowResidentialPackage || allowSchoolPackage) && (
         <>
