@@ -735,9 +735,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <thead className={classes.thead}>
                     <tr className={classes.tr}>
                       {headerData.map(header => {
+                        //header.id can be used to index the property of the project object except for author
+                        const property =
+                          header.id == "author" ? "fullname" : header.id;
                         return (
                           <td key={header.id}>
                             <ProjectTableColumnHeader
+                              uniqueValues={[
+                                ...new Set(sortedProjects.map(p => p[property]))
+                              ]
+                                .filter(value => value !== null)
+                                .sort()}
                               header={header}
                               criteria={criteria}
                               setCriteria={setCriteria}

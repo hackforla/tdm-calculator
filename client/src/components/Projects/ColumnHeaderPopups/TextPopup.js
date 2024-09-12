@@ -4,8 +4,11 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
+import SearchIcon from "../../../images/search.png";
+import UniversalSelect from "../../UI/UniversalSelect.jsx";
 
 const TextPopup = ({
+  selectOptions,
   close,
   header,
   criteria,
@@ -37,6 +40,17 @@ const TextPopup = ({
     setSelectAllChecked(false);
   };
 
+  const placeholderComponent = (
+    <div>
+      <img
+        style={{ position: "absolute", left: "16 px", top: "14 px" }}
+        src={SearchIcon}
+        alt="Search Icon"
+      />
+      <div style={{ marginLeft: "30px" }}> Search by Keyword</div>
+    </div>
+  );
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -67,15 +81,36 @@ const TextPopup = ({
         />
         <hr style={{ width: "100%" }} />
       </div>
-      <input
+      {/*  <div>
+        <ul>
+          {textAllCurrentProjects.map((text, index) => (
+            <li key={index}>{text}</li>
+          ))}
+        </ul>
+      </div> */}
+      {/* <input
         type="text"
         placeholder="Search by Partial Text"
         onChange={e => {
           setNewSearchString(e.target.value);
         }}
         value={newSearchString}
-      />
-
+      /> */}
+      <UniversalSelect
+        options={selectOptions.map(text => ({
+          value: text,
+          label: text
+        }))}
+        name="inputName"
+        disabled={false}
+        onChange={e => {
+          setNewSearchString(e.target.value);
+        }}
+        value={newSearchString}
+        defaultValue={newSearchString}
+        styles={{ maxHeight: 200 }}
+        placeholder={placeholderComponent}
+      ></UniversalSelect>
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
         <Button onClick={setDefault} variant="text">
@@ -94,6 +129,7 @@ const TextPopup = ({
 };
 
 TextPopup.propTypes = {
+  selectOptions: PropTypes.any,
   close: PropTypes.func,
   header: PropTypes.any,
   criteria: PropTypes.any,

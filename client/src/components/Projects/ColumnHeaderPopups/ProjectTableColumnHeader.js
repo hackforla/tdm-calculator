@@ -9,6 +9,7 @@ import VisibilityPopup from "./VisibilityPopup";
 import StatusPopup from "./StatusPopup";
 
 const ProjectTableColumnHeader = ({
+  uniqueValues,
   header,
   criteria,
   setCriteria,
@@ -70,6 +71,7 @@ const ProjectTableColumnHeader = ({
               />
             ) : header.popupType === "text" ? (
               <TextPopup
+                selectOptions={uniqueValues}
                 close={close}
                 header={header}
                 criteria={criteria}
@@ -115,6 +117,7 @@ const ProjectTableColumnHeader = ({
 };
 
 ProjectTableColumnHeader.propTypes = {
+  uniqueValues: PropTypes.any,
   header: PropTypes.any,
   criteria: PropTypes.any,
   setCriteria: PropTypes.func,
