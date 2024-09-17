@@ -742,7 +742,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           <td key={header.id}>
                             <ProjectTableColumnHeader
                               uniqueValues={[
-                                ...new Set(sortedProjects.map(p => p[property]))
+                                ...new Set(projects.map(p => p[property]))
                               ]
                                 .filter(value => value !== null)
                                 .sort()}
