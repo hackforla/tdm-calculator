@@ -15,17 +15,17 @@ const useStyles = createUseStyles({
     textAlign: "center",
 
     "& h1": {
-      fontFamily: "Oswald",
+      fontFamily: "Calibri",
       fontWeight: "bold",
-      fontSize: "30px",
-      lineHeight: "44px",
+      fontSize: "28px",
+      lineHeight: "140%",
       marginTop: "22px"
     }
   },
   level0Message: {
     marginTop: "20px",
     maxWidth: "800px",
-    backgroundColor: "#FEF4F2",
+    backgroundColor: "#F9DFDA",
     color: "#B64E38",
     fontSize: "22px",
     lineHeight: "38px",
