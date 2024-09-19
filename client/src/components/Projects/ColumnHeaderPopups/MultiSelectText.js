@@ -37,7 +37,7 @@ const MultiSelectText = ({ options, selectedOptions, setSelectedOptions }) => {
 
   const filteredOptions = options
     .filter(o => !!o)
-    .filter(opt => opt.includes(searchString));
+    .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
 
   const onChangeSearchString = e => {
     setSearchString(e.target.value);
