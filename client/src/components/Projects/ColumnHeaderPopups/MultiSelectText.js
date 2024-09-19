@@ -34,6 +34,9 @@ const useStyles = createUseStyles({
 const MultiSelectText = ({ options, selectedOptions, setSelectedOptions }) => {
   const classes = useStyles();
   const [searchString, setSearchString] = useState("");
+  const [selectedListItems, setSelectedListItems] = useState([
+    ...selectedOptions
+  ]);
 
   const filteredOptions = options
     .filter(o => !!o)
@@ -43,15 +46,29 @@ const MultiSelectText = ({ options, selectedOptions, setSelectedOptions }) => {
     setSearchString(e.target.value);
   };
 
-  const handleCheckboxChange = o => {
-    if (selectedOptions.find(so => so.value == o)) {
-      setSelectedOptions(
-        selectedOptions.filter(selectedOption => selectedOption.value !== o)
+  const handleCheckboxChange = e => {
+    const optionValue = e.target.name;
+    if (selectedListItems.find(so => so.value == optionValue)) {
+      const newSelectedListItems = selectedListItems.filter(
+        selectedOption => selectedOption.value !== optionValue
       );
+      setSelectedListItems(newSelectedListItems);
+      setSelectedOptions(newSelectedListItems);
     } else {
-      selectedOptions.push({ value: o, label: o });
-      setSelectedOptions(selectedOptions);
+      const newSelectedListItems = [
+        ...selectedListItems,
+        { value: optionValue, label: optionValue }
+      ];
+      setSelectedListItems(newSelectedListItems);
+      setSelectedOptions(newSelectedListItems);
     }
+  };
+
+  const isChecked = optionValue => {
+    const checked = selectedListItems.find(
+      option => option.value == optionValue
+    );
+    return !!checked;
   };
 
   return (
@@ -72,16 +89,17 @@ const MultiSelectText = ({ options, selectedOptions, setSelectedOptions }) => {
       </div>
 
       <div style={{ overflow: "scroll", maxHeight: "15rem" }}>
-        {/* <pre>{JSON.stringify(selectedOptions, null, 2)}</pre>
-      <pre>{JSON.stringify(options, null, 2)}</pre> */}
+        <pre>{JSON.stringify(selectedOptions, null, 2)}</pre>
+        {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
 
         {filteredOptions.map(o => (
           <div key={o} className={classes.listItem}>
             <input
               style={{ height: "1.5rem" }}
               type="checkbox"
-              checked={selectedOptions.find(option => option.value == o)}
-              onChange={() => handleCheckboxChange(o)}
+              name={o}
+              checked={isChecked(o)}
+              onChange={handleCheckboxChange}
             />
             <span>{o}</span>
           </div>
