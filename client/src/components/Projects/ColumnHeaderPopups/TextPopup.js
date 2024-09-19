@@ -5,10 +5,12 @@ import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
 import SearchIcon from "../../../images/search.png";
-import UniversalSelect from "../../UI/UniversalSelect.jsx";
+import Select from "react-select";
+import MultiSelectText from "./MultiSelectText";
 
 const TextPopup = ({
-  selectOptions,
+  projects,
+  filter,
   close,
   header,
   criteria,
@@ -22,10 +24,24 @@ const TextPopup = ({
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
-  const [newSearchString, setNewSearchString] = useState(criteria[header.id]);
+  const [selectedListItems, setSelectedListItems] = useState(
+    criteria[header.id + "List"].map(s => ({ value: s, label: s }))
+  );
+
+  // To build the drop-down list, we want to apply all the criteria that
+  // are currently selected EXCEPT the criteria we are currently editing.
+  const listCriteria = { ...criteria, [header.id + "List"]: [] };
+  const filteredProjects = projects.filter(p => filter(p, listCriteria));
+  const property = header.id == "author" ? "fullname" : header.id;
+  const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
+    .filter(value => value !== null)
+    .sort();
 
   const applyChanges = () => {
-    setCriteria({ ...criteria, [header.id]: newSearchString });
+    setCriteria({
+      ...criteria,
+      [header.id + "List"]: selectedListItems.map(sli => sli.value)
+    });
     if (newOrder) {
       setSort(header.id, newOrder);
     }
@@ -35,7 +51,7 @@ const TextPopup = ({
   };
 
   const setDefault = () => {
-    setNewSearchString("");
+    setSelectedListItems([]);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
@@ -81,36 +97,35 @@ const TextPopup = ({
         />
         <hr style={{ width: "100%" }} />
       </div>
-      {/*  <div>
-        <ul>
-          {textAllCurrentProjects.map((text, index) => (
-            <li key={index}>{text}</li>
-          ))}
-        </ul>
-      </div> */}
-      {/* <input
-        type="text"
-        placeholder="Search by Partial Text"
-        onChange={e => {
-          setNewSearchString(e.target.value);
-        }}
-        value={newSearchString}
-      /> */}
-      <UniversalSelect
-        options={selectOptions.map(text => ({
-          value: text,
-          label: text
-        }))}
-        name="inputName"
-        disabled={false}
-        onChange={e => {
-          setNewSearchString(e.target.value);
-        }}
-        value={newSearchString}
-        defaultValue={newSearchString}
-        styles={{ maxHeight: 200 }}
-        placeholder={placeholderComponent}
-      ></UniversalSelect>
+      {/* TODO: This is currently implemented differently for the address column than the other text columns,
+      so PMs, designers and possibly stakeholders can evaluate two different implementations of the TextPopup, 
+      and experiment with the UX, in order to make a decision on how to evolve this filter.  */}
+      {header.id === "address" ? (
+        <MultiSelectText
+          options={selectOptions}
+          selectedOptions={selectedListItems}
+          setSelectedOptions={e => {
+            setSelectedListItems(e);
+          }}
+        />
+      ) : (
+        <Select
+          options={selectOptions.map(text => ({
+            value: text,
+            label: text
+          }))}
+          name={property}
+          disabled={false}
+          onChange={e => {
+            setSelectedListItems(e);
+          }}
+          value={selectedListItems}
+          styles={{ maxHeight: "50rem", maxWidth: "50rem" }}
+          placeholder={placeholderComponent}
+          isMulti
+        ></Select>
+      )}
+
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
         <Button onClick={setDefault} variant="text">
@@ -129,7 +144,8 @@ const TextPopup = ({
 };
 
 TextPopup.propTypes = {
-  selectOptions: PropTypes.any,
+  projects: PropTypes.any,
+  filter: PropTypes.func,
   close: PropTypes.func,
   header: PropTypes.any,
   criteria: PropTypes.any,

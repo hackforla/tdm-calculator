@@ -9,7 +9,8 @@ import VisibilityPopup from "./VisibilityPopup";
 import StatusPopup from "./StatusPopup";
 
 const ProjectTableColumnHeader = ({
-  uniqueValues,
+  projects,
+  filter,
   header,
   criteria,
   setCriteria,
@@ -23,6 +24,7 @@ const ProjectTableColumnHeader = ({
     <div style={{ width: "100%", height: "100%" }}>
       {header.id !== "checkAllProjects" && header.id !== "contextMenu" ? (
         <Popup
+          lockScroll={true}
           trigger={
             <div
               style={{
@@ -71,7 +73,6 @@ const ProjectTableColumnHeader = ({
               />
             ) : header.popupType === "text" ? (
               <TextPopup
-                selectOptions={uniqueValues}
                 close={close}
                 header={header}
                 criteria={criteria}
@@ -81,6 +82,8 @@ const ProjectTableColumnHeader = ({
                 setSort={setSort}
                 setCheckedProjectIds={setCheckedProjectIds}
                 setSelectAllChecked={setSelectAllChecked}
+                projects={projects}
+                filter={filter}
               />
             ) : header.popupType === "visibility" ? (
               <VisibilityPopup
@@ -117,7 +120,8 @@ const ProjectTableColumnHeader = ({
 };
 
 ProjectTableColumnHeader.propTypes = {
-  uniqueValues: PropTypes.any,
+  projects: PropTypes.any,
+  filter: PropTypes.func,
   header: PropTypes.any,
   criteria: PropTypes.any,
   setCriteria: PropTypes.func,

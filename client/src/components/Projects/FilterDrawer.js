@@ -68,7 +68,11 @@ const FilterPopup = ({
       startDateCreated: null,
       endDateCreated: null,
       startDateModified: null,
-      endDateModified: null
+      endDateModified: null,
+      nameList: [],
+      authorList: [],
+      addressList: [],
+      alternativeList: []
     });
   };
 
