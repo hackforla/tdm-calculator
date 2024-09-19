@@ -6,7 +6,46 @@ import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
 import SearchIcon from "../../../images/search.png";
 import Select from "react-select";
-import MultiSelectText from "./MultiSelectText";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  searchBarWrapper: {
+    position: "relative",
+    alignSelf: "center",
+    marginBottom: "0.5rem"
+  },
+  searchBar: {
+    maxWidth: "100%",
+    width: "20em",
+    padding: "12px 12px 12px 48px",
+    marginRight: "0.5rem"
+  },
+  searchIcon: {
+    position: "absolute",
+    left: "16px",
+    top: "14px"
+  },
+  listItem: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    height: "2rem",
+    "&:hover": {
+      backgroundColor: "lightblue"
+    }
+  },
+  toggleButton: {
+    marginRight: "0",
+    marginTop: "4px",
+    marginBottom: "4px",
+    backgroundColor: "transparent",
+    border: "0",
+    cursor: "pointer",
+    textDecoration: "underline",
+    display: "flex",
+    fontWeight: "normal"
+  }
+});
 
 const TextPopup = ({
   projects,
@@ -21,12 +60,15 @@ const TextPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
+  const classes = useStyles();
+
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
   const [selectedListItems, setSelectedListItems] = useState(
     criteria[header.id + "List"].map(s => ({ value: s, label: s }))
   );
+  const [searchString, setSearchString] = useState("");
 
   // To build the drop-down list, we want to apply all the criteria that
   // are currently selected EXCEPT the criteria we are currently editing.
@@ -36,6 +78,37 @@ const TextPopup = ({
   const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
     .filter(value => value !== null)
     .sort();
+
+  const filteredOptions = selectOptions
+    .filter(o => !!o)
+    .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
+
+  const onChangeSearchString = e => {
+    setSearchString(e.target.value);
+  };
+
+  const handleCheckboxChange = e => {
+    const optionValue = e.target.name;
+    if (!e.target.checked) {
+      const newSelectedListItems = selectedListItems.filter(
+        selectedOption => selectedOption.value !== optionValue
+      );
+      setSelectedListItems(newSelectedListItems);
+    } else {
+      const newSelectedListItems = [
+        ...selectedListItems,
+        { value: optionValue, label: optionValue }
+      ];
+      setSelectedListItems(newSelectedListItems);
+    }
+  };
+
+  const isChecked = optionValue => {
+    const checked = selectedListItems.find(
+      option => option.value == optionValue
+    );
+    return !!checked;
+  };
 
   const applyChanges = () => {
     setCriteria({
@@ -51,6 +124,7 @@ const TextPopup = ({
   };
 
   const setDefault = () => {
+    setNewOrder(null);
     setSelectedListItems([]);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
@@ -101,13 +175,60 @@ const TextPopup = ({
       so PMs, designers and possibly stakeholders can evaluate two different implementations of the TextPopup, 
       and experiment with the UX, in order to make a decision on how to evolve this filter.  */}
       {header.id === "address" ? (
-        <MultiSelectText
-          options={selectOptions}
-          selectedOptions={selectedListItems}
-          setSelectedOptions={e => {
-            setSelectedListItems(e);
-          }}
-        />
+        // <MultiSelectText
+        //   options={selectOptions}
+        //   selectedOptions={selectedListItems}
+        //   setSelectedOptions={setSelectedListItems}
+        // />
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline"
+            }}
+          >
+            <button
+              className={classes.toggleButton}
+              onClick={() => setSelectedListItems([])}
+            >
+              clear
+            </button>
+            <div>{`${selectedListItems.length}  selected`}</div>
+          </div>
+          <div className={classes.searchBarWrapper}>
+            <input
+              type="text"
+              value={searchString}
+              onChange={onChangeSearchString}
+              placeholder="Search"
+              className={classes.searchBar}
+            />
+            <img
+              className={classes.searchIcon}
+              src={SearchIcon}
+              alt="Search Icon"
+            />
+          </div>
+
+          <div style={{ overflow: "scroll", maxHeight: "15rem" }}>
+            {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
+            {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
+
+            {filteredOptions.map(o => (
+              <div key={o} className={classes.listItem}>
+                <input
+                  style={{ height: "1.5rem" }}
+                  type="checkbox"
+                  name={o}
+                  checked={isChecked(o)}
+                  onChange={handleCheckboxChange}
+                />
+                <span>{o}</span>
+              </div>
+            ))}
+          </div>
+        </>
       ) : (
         <Select
           options={selectOptions.map(text => ({
@@ -116,9 +237,7 @@ const TextPopup = ({
           }))}
           name={property}
           disabled={false}
-          onChange={e => {
-            setSelectedListItems(e);
-          }}
+          onChange={setSelectedListItems}
           value={selectedListItems}
           styles={{ maxHeight: "50rem", maxWidth: "50rem" }}
           placeholder={placeholderComponent}
