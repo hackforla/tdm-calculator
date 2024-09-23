@@ -199,7 +199,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
     startDateCreated: null,
     endDateCreated: null,
     startDateModified: null,
-    endDateModified: null
+    endDateModified: null,
+    nameList: [],
+    addressList: [],
+    alternativeList: [],
+    authorList: []
   });
   const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
@@ -506,7 +510,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     return new Date(dateOnly);
   };
 
-  const filterProjects = p => {
+  const filter = (p, criteria) => {
     if (criteria.type === "draft" && p.dateSnapshotted) return false;
     if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
     if (criteria.status === "active" && p.dateTrashed) return false;
@@ -563,6 +567,33 @@ const ProjectsPage = ({ contentContainerRef }) => {
     if (
       criteria.alternative &&
       !p.alternative.toLowerCase().includes(criteria.alternative.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.nameList.length > 0 &&
+      !criteria.nameList
+        .map(n => n.toLowerCase())
+        .includes(p.name.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.addressList.length > 0 &&
+      !criteria.addressList
+        .map(n => n.toLowerCase())
+        .includes(p.address.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.alternativeList.length > 0 &&
+      !criteria.alternativeList
+        .map(n => n.toLowerCase())
+        .includes(p.alternative.toLowerCase())
     ) {
       return false;
     }
@@ -640,7 +671,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
   const sortedProjects = stableSort(
-    projects.filter(filterProjects),
+    projects.filter(p => filter(p, criteria)),
     getComparator(order, orderBy)
   );
   const currentProjects = sortedProjects.slice(
@@ -735,17 +766,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <thead className={classes.thead}>
                     <tr className={classes.tr}>
                       {headerData.map(header => {
-                        //header.id can be used to index the property of the project object except for author
-                        const property =
-                          header.id == "author" ? "fullname" : header.id;
                         return (
                           <td key={header.id}>
                             <ProjectTableColumnHeader
-                              uniqueValues={[
-                                ...new Set(projects.map(p => p[property]))
-                              ]
-                                .filter(value => value !== null)
-                                .sort()}
+                              projects={projects}
+                              filter={filter}
                               header={header}
                               criteria={criteria}
                               setCriteria={setCriteria}
