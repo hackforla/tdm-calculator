@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import { Interweave } from "interweave";
+import { MdLaunch } from "react-icons/md";
 
 const useStyles = createUseStyles({
   accordionTooltipLabel: {
@@ -69,17 +71,31 @@ const AccordionToolTip = ({
             classes.accordionTooltipLabel,
             classes.disabledDescription
           )}
-          dangerouslySetInnerHTML={{ __html: `${description}` }}
-        ></div>
+        >
+          <Interweave transform={TransformExternalLink} content={description} />
+        </div>
       ) : (
-        <div
-          className={clsx(classes.accordionTooltipLabel)}
-          dangerouslySetInnerHTML={{ __html: `${description}` }}
-        ></div>
+        <div className={clsx(classes.accordionTooltipLabel)}>
+          <Interweave transform={TransformExternalLink} content={description} />
+        </div>
       )}
     </>
   );
 };
+
+function TransformExternalLink(node, children) {
+  const classes = useStyles();
+  if (node.tagName == "A" && !node.getAttribute("href").startsWith("/")) {
+    return (
+      <span>
+        <a href={node.getAttribute("href")} target="external">
+          {children}
+          <MdLaunch className={classes.externalLinkIcon} />
+        </a>
+      </span>
+    );
+  }
+}
 
 AccordionToolTip.propTypes = {
   description: PropTypes.string,
