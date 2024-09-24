@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
     color: "#A7C539"
   },
   failure: {
-    color: "#E46247"
+    color: "#E87D00"
   },
   targetPointsReachedContainer: {
     display: "flex"
@@ -21,9 +21,8 @@ const useStyles = createUseStyles({
     textAlign: "center",
     color: "#0F2940",
     fontFamily: "Calibri",
-    fontSize: "16px",
-    lineHeight: "29px",
-    textShadow: "0px 4px 4px rgba(0,0,0,.25)"
+    fontSize: "20px",
+    lineHeight: "29px"
   },
   messageBox: {
     display: "flex",
@@ -60,8 +59,8 @@ const PointsEarnedMessage = props => {
           <div className={classes.messageBox}>
             <MdWarning className={classes.failure} />
             <div className={classes.textBox}>
-              You have not reached the target points. <br />
-              Please, go back and review your strategies
+              You have not reached the target points. Please, go back and review
+              your strategies.
             </div>
           </div>
         </span>
