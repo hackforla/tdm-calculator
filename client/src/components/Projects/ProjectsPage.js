@@ -62,7 +62,7 @@ const useStyles = createUseStyles({
   },
   searchBar: {
     maxWidth: "100%",
-    width: "25em",
+    width: "27em",
     padding: "12px 12px 12px 48px",
     marginRight: "0.5rem"
   },
@@ -739,7 +739,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       type="search"
                       id="filterText"
                       name="filterText"
-                      placeholder="S Address; Description; Alt#" // redundant with FilterDrawer
+                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
                       value={filterText}
                       onChange={e => handleFilterTextChange(e.target.value)}
                     />
