@@ -62,7 +62,7 @@ const useStyles = createUseStyles({
   },
   searchBar: {
     maxWidth: "100%",
-    width: "20em",
+    width: "27em",
     padding: "12px 12px 12px 48px",
     marginRight: "0.5rem"
   },
@@ -602,7 +602,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     // criteria in FilterDrawer, and we could get rid of the search box
     // above the grid.
     if (filterText !== "") {
-      let ids = ["name", "address", "fullName", "alternative"];
+      let ids = ["name", "address", "fullName", "alternative", "description"];
 
       return ids.some(id => {
         let colValue = String(p[id]).toLowerCase();
@@ -739,7 +739,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       type="search"
                       id="filterText"
                       name="filterText"
-                      placeholder="Search"
+                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
                       value={filterText}
                       onChange={e => handleFilterTextChange(e.target.value)}
                     />
