@@ -10,19 +10,21 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   searchBarWrapper: {
+    width: "100%",
     position: "relative",
     alignSelf: "center",
     marginBottom: "0.5rem"
   },
   searchBar: {
     maxWidth: "100%",
-    width: "20em",
-    padding: "12px 12px 12px 48px",
-    marginRight: "0.5rem"
+    width: "100%",
+    padding: "12px 12px 12px 12px",
+    boxSizing: "border-box"
+    // marginRight: "0.5rem"
   },
   searchIcon: {
     position: "absolute",
-    left: "16px",
+    right: "16px",
     top: "14px"
   },
   listItem: {
@@ -69,6 +71,7 @@ const TextPopup = ({
     criteria[header.id + "List"].map(s => ({ value: s, label: s }))
   );
   const [searchString, setSearchString] = useState("");
+  const [targetVisibility, setTargetVisibility] = useState(false);
 
   // To build the drop-down list, we want to apply all the criteria that
   // are currently selected EXCEPT the criteria we are currently editing.
@@ -133,16 +136,18 @@ const TextPopup = ({
   const placeholderComponent = (
     <div>
       <img
-        style={{ position: "absolute", left: "16 px", top: "14 px" }}
+        style={{ position: "absolute", right: "16 px", top: "14 px" }}
         src={SearchIcon}
         alt="Search Icon"
       />
-      <div style={{ marginLeft: "30px" }}> Search by Keyword</div>
+      <div style={{ marginLeft: "30px" }}> Filter</div>
     </div>
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", maxWidth: "25rem" }}
+    >
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <MdClose
           style={{
@@ -201,7 +206,6 @@ const TextPopup = ({
               type="text"
               value={searchString}
               onChange={onChangeSearchString}
-              placeholder="Search"
               className={classes.searchBar}
             />
             <img
@@ -230,23 +234,36 @@ const TextPopup = ({
           </div>
         </>
       ) : (
-        <Select
-          options={selectOptions.map(text => ({
-            value: text,
-            label: text
-          }))}
-          name={property}
-          disabled={false}
-          onChange={setSelectedListItems}
-          value={selectedListItems}
-          styles={{ maxHeight: "50rem", maxWidth: "50rem" }}
-          placeholder={placeholderComponent}
-          isMulti
-        ></Select>
+        <>
+          <Select
+            options={selectOptions.map(text => ({
+              value: text,
+              label: text
+            }))}
+            name={property}
+            disabled={false}
+            onChange={setSelectedListItems}
+            value={selectedListItems}
+            placeholder={placeholderComponent}
+            isMulti
+            styles={{
+              maxWidth: "50rem",
+              menuPortal: base => ({
+                ...base,
+                zIndex: 9999,
+                maxHeight: "10rem"
+              })
+            }}
+            closeMenuOnSelect={false}
+            onMenuOpen={() => setTargetVisibility(true)}
+            onMenuClose={() => setTargetVisibility(false)}
+          ></Select>
+          {targetVisibility ? <div style={{ height: "19.5rem" }}></div> : null}
+        </>
       )}
 
       <hr style={{ width: "100%" }} />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Button onClick={setDefault} variant="text">
           Reset
         </Button>
