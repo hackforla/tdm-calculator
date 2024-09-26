@@ -4,9 +4,9 @@ import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
   container: {
     width: "calc((100% / 14.5) * 3);",
-    background: "#e9e9f1",
+    background: "#EEF1F4",
     padding: "1em",
-    paddingBottom: "0",
+    paddingBottom: "1em",
     position: "absolute",
     left: "23.5px",
     textAlign: "initial"
