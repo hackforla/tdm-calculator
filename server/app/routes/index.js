@@ -7,6 +7,7 @@ const projectRoutes = require("./project.routes");
 const feedbackRoutes = require("./feedback.routes");
 const emailRoutes = require("./email.routes");
 const configRoutes = require("./config.routes");
+const droRoutes = require("./dro.routes");
 
 module.exports = router;
 
@@ -17,3 +18,4 @@ router.use("/faqcategories", faqCategoryRoutes);
 router.use("/feedbacks", feedbackRoutes);
 router.use("/emails", emailRoutes);
 router.use("/configs", configRoutes);
+router.use("/dro", droRoutes);

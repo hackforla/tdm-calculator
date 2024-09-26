@@ -19,23 +19,23 @@ export function post(project) {
 }
 
 export function put(project) {
-  return axios.put(baseUrl + "/" + project.id, project);
+  return axios.put(`${baseUrl}/${project.id}`, project);
 }
 
 export function del(id) {
-  return axios.delete(baseUrl + "/" + id);
+  return axios.delete(`${baseUrl}/${id}`);
 }
 
 export function submit(id) {
-  return axios.put(baseUrl + "/submit", id);
+  return axios.put(`${baseUrl}/submit`, id);
 }
 
 export function snapshot(id) {
-  return axios.put(baseUrl + "/snapshot", id);
+  return axios.put(`${baseUrl}/snapshot`, id);
 }
 
 export function renameSnapshot(id) {
-  return axios.put(baseUrl + "/renameSnapshot", id);
+  return axios.put(`${baseUrl}/renameSnapshot`, id);
 }
 
 export function getAllArchivedProjects() {
@@ -56,8 +56,19 @@ export function hide(projectIds, hide) {
 
 export function trash(projectIds, trash) {
   try {
-    return axios.put(`${baseUrl}/trash`, { ids: projectIds, trash });
+    const response = axios.put(`${baseUrl}/trash`, { ids: projectIds, trash });
+    console.log("res", { ids: projectIds, trash });
+    return response;
   } catch (error) {
     return new Promise.reject(error);
   }
+}
+
+// New function to update the DRO ID
+export function updateDroId(projectId, droId, loginId) {
+  return axios.put(`${baseUrl}/updateDroId/${projectId}`, { droId, loginId });
+}
+
+export function updateAdminNotes(id, adminNotes) {
+  return axios.put(`${baseUrl}/updateAdminNotes/${id}`, { adminNotes });
 }

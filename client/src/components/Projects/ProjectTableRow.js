@@ -5,12 +5,19 @@ import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import { MdVisibility, MdVisibilityOff, MdMoreVert } from "react-icons/md";
+import {
+  MdVisibility,
+  MdVisibilityOff,
+  MdMoreVert,
+  MdEdit,
+  MdAddCircle
+} from "react-icons/md";
 import { formatDate } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import fetchEngineRules from "./fetchEngineRules";
+import * as droService from "../../services/dro.service";
 
 const useStyles = createUseStyles({
   td: {
@@ -36,6 +43,39 @@ const useStyles = createUseStyles({
         cursor: "pointer"
       }
     }
+  },
+
+  selectBox: {
+    padding: "0.5em",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    fontSize: "14px"
+  },
+  adminNoteInput: {
+    padding: "0.3em",
+    marginRight: "0.5em",
+    flexGrow: 1
+  },
+  saveButton: {
+    padding: "0.3em 0.6em",
+    marginRight: "0.3em",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    "&:disabled": {
+      backgroundColor: "#a5d6a7",
+      cursor: "not-allowed"
+    }
+  },
+  cancelButton: {
+    padding: "0.3em 0.6em",
+    backgroundColor: "#f44336",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer"
   }
 });
 
@@ -48,14 +88,21 @@ const ProjectTableRow = ({
   handleRenameSnapshotModalOpen,
   handleHide,
   handleCheckboxChange,
-  checkedProjectIds
+  checkedProjectIds,
+  isAdmin,
+  droOptions,
+  onDroChange, // New prop
+  onAdminNoteUpdate // New prop
 }) => {
   const classes = useStyles();
   const formInputs = JSON.parse(project.formInputs);
   const printRef = useRef();
-
   const [projectRules, setProjectRules] = useState(null);
-
+  const [selectedDro, setSelectedDro] = useState(project.droId || "");
+  const [droName, setDroName] = useState("N/A");
+  const [editingNote, setEditingNote] = useState(false);
+  const [adminNote, setAdminNote] = useState(project.adminNotes || "");
+  const [tempAdminNote, setTempAdminNote] = useState(project.adminNotes || "");
   // Download and process rules for PDF rendering
   useEffect(() => {
     const fetchRules = async () => {
@@ -67,6 +114,45 @@ const ProjectTableRow = ({
       // TODO: do we have better reporting than this?
       .catch(console.error);
   }, [project]);
+
+  useEffect(() => {
+    if (!isAdmin && project.droId) {
+      const fetchDroById = async () => {
+        try {
+          const response = await droService.getById(project.droId);
+          setDroName(response.data.name || "N/A");
+        } catch (error) {
+          console.error("Error fetching DRO by ID", error);
+          setDroName("N/A");
+        }
+      };
+      fetchDroById();
+    }
+  }, [isAdmin, project.droId]);
+
+  const handleSave = () => {
+    if (tempAdminNote.trim() !== adminNote.trim()) {
+      onAdminNoteUpdate(project.id, tempAdminNote.trim());
+    }
+    setEditingNote(false);
+  };
+
+  const handleCancel = () => {
+    setTempAdminNote(adminNote || "");
+    setEditingNote(false);
+  };
+
+  useEffect(() => {
+    setAdminNote(project.adminNotes || "");
+  }, [project.adminNotes]);
+
+  useEffect(() => {
+    setSelectedDro(project.droId || "");
+  }, [project.droId]);
+
+  useEffect(() => {
+    setTempAdminNote(project.adminNotes || "");
+  }, [project.adminNotes]);
 
   const handlePrintPdf = useReactToPrint({
     content: () => printRef.current,
@@ -132,6 +218,101 @@ const ProjectTableRow = ({
         <span>{formatDate(project.dateModified)}</span>
       </td>
       <td className={classes.td}>{dateSubmittedDisplay()}</td>
+      {/* DRO Column */}
+      <td className={classes.td}>
+        {isAdmin && droOptions.data ? (
+          <select
+            className={classes.selectBox}
+            value={selectedDro}
+            onChange={e => {
+              const newDroId = parseInt(e.target.value, 10);
+              setSelectedDro(newDroId);
+              onDroChange(project.id, newDroId); // Use the passed-in handler
+            }}
+          >
+            <option value="N/A">N/A</option>
+            {droOptions.data.map(dro => (
+              <option key={dro.id} value={dro.id}>
+                {dro.name}
+              </option>
+            ))}
+          </select>
+        ) : (
+          // Display the fetched DRO name for non-admin users
+          <span>{droName}</span>
+        )}
+      </td>
+
+      {isAdmin && (
+        <td className={classes.tdCenterAlign}>
+          <div>
+            {editingNote ? (
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  type="text"
+                  value={tempAdminNote}
+                  onChange={e => setTempAdminNote(e.target.value)}
+                  autoFocus
+                  className={classes.adminNoteInput} // Optional: Add styling for better UX
+                />
+                <button
+                  onClick={handleSave}
+                  className={classes.saveButton}
+                  disabled={tempAdminNote.trim() === ""}
+                  title="Save Note"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={handleCancel}
+                  className={classes.cancelButton}
+                  title="Cancel"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center"
+                }}
+              >
+                {adminNote && <span>{adminNote}</span>}
+                <button
+                  onClick={() => {
+                    setEditingNote(true);
+                    setTempAdminNote(adminNote || "");
+                  }}
+                  style={{
+                    marginLeft: "auto",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                    display: "flex",
+                    alignItems: "center"
+                  }}
+                  title="Edit Note"
+                >
+                  {adminNote ? <MdEdit /> : <MdAddCircle />}
+                </button>
+              </div>
+            )}
+          </div>
+        </td>
+      )}
+
+      {isAdmin && (
+        <td className={classes.td}>
+          <span>
+            {project.dateModifiedAdmin
+              ? formatDate(project.dateModifiedAdmin)
+              : "N/A"}
+          </span>
+        </td>
+      )}
       <td className={classes.actionIcons}>
         {projectRules && (
           <div>
@@ -179,7 +360,20 @@ ProjectTableRow.propTypes = {
   handleRenameSnapshotModalOpen: PropTypes.func.isRequired,
   handleHide: PropTypes.func.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
-  checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  droOptions: PropTypes.shape({
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired
+      })
+    ).isRequired,
+    headers: PropTypes.object,
+    find: PropTypes.func.isRequired
+  }).isRequired,
+  onDroChange: PropTypes.func.isRequired, // New propType
+  onAdminNoteUpdate: PropTypes.func.isRequired // New propType
 };
 
 export default ProjectTableRow;
