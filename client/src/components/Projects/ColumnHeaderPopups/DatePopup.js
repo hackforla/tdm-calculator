@@ -79,18 +79,21 @@ const DatePopup = ({
         />
         <hr style={{ width: "100%" }} />
       </div>
-      <DateRangePicker
-        startDate={newStartDate}
-        endDate={newEndDate}
-        setStartDate={date => {
-          setNewStartDate(date);
-        }}
-        setEndDate={date => {
-          setNewEndDate(date);
-        }}
-        startDatePlaceholder="Start Date"
-        endDatePlaceholder="End Date"
-      />
+      <div id="calendarPortal">
+        <DateRangePicker
+          startDate={newStartDate}
+          endDate={newEndDate}
+          setStartDate={date => {
+            setNewStartDate(date);
+          }}
+          setEndDate={date => {
+            setNewEndDate(date);
+          }}
+          startDatePlaceholder="Start Date"
+          endDatePlaceholder="End Date"
+        />
+      </div>
+
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
         <Button onClick={setDefault} variant="text">

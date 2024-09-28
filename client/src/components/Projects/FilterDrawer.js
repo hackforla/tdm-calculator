@@ -68,7 +68,11 @@ const FilterPopup = ({
       startDateCreated: null,
       endDateCreated: null,
       startDateModified: null,
-      endDateModified: null
+      endDateModified: null,
+      nameList: [],
+      authorList: [],
+      addressList: [],
+      alternativeList: []
     });
   };
 
@@ -153,6 +157,7 @@ const FilterPopup = ({
         <h4 className={classes.minorHeading}>Project Name</h4>
         <input
           type="text"
+          name="name"
           value={criteria.name}
           onChange={e => handleChange(e, "name")}
           className={classes.textInput}
@@ -161,6 +166,7 @@ const FilterPopup = ({
         <h4 className={classes.minorHeading}>Address</h4>
         <input
           type="text"
+          name="address"
           value={criteria.address}
           onChange={e => handleChange(e, "address")}
           className={classes.textInput}
@@ -170,6 +176,7 @@ const FilterPopup = ({
             <h4 className={classes.minorHeading}>Author</h4>
             <input
               type="text"
+              name="author"
               value={criteria.author}
               onChange={e => handleChange(e, "author")}
               className={classes.textInput}
@@ -180,6 +187,7 @@ const FilterPopup = ({
         <h4 className={classes.minorHeading}>Alternative Number</h4>
         <input
           type="text"
+          name="alternative"
           value={criteria.alternative}
           onChange={e => handleChange(e, "alternative")}
           className={classes.textInput}

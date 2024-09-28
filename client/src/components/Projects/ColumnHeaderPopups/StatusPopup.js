@@ -26,6 +26,8 @@ const StatusPopup = ({
   // TODO More state variables for status filtering go here
 
   const setDefault = () => {
+    setTypeSetting("all");
+    setShowDeleted(false);
     setCriteria({
       ...criteria,
       status: showDeleted ? "all" : "active",
