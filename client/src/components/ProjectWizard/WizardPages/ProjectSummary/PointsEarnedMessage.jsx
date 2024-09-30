@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import { MdCheckCircle, MdWarning } from "react-icons/md";
 
@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
     color: "#A7C539"
   },
   failure: {
-    color: "#E87D00"
+    color: ({ theme }) => theme.colors.notice
   },
   targetPointsReachedContainer: {
     display: "flex"
@@ -17,12 +17,7 @@ const useStyles = createUseStyles({
   targetPointsReached: {
     display: "flex",
     justifyContent: "center",
-    width: "100%",
-    textAlign: "center",
-    color: "#0F2940",
-    fontFamily: "Calibri",
-    fontSize: "20px",
-    lineHeight: "29px"
+    width: "100%"
   },
   messageBox: {
     display: "flex",
@@ -40,7 +35,8 @@ const useStyles = createUseStyles({
 });
 
 const PointsEarnedMessage = props => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme });
   const { targetPointsReached } = props;
 
   return (
@@ -56,7 +52,10 @@ const PointsEarnedMessage = props => {
         </span>
       ) : (
         <span className={clsx(classes.targetPointsReached, classes.failure)}>
-          <div className={classes.messageBox}>
+          <div
+            className={classes.messageBox}
+            style={theme.typography.subHeading}
+          >
             <MdWarning className={classes.failure} />
             <div className={classes.textBox}>
               You have not reached the target points. Please, go back and review
