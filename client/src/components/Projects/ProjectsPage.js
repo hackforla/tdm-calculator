@@ -62,7 +62,7 @@ const useStyles = createUseStyles({
   },
   searchBar: {
     maxWidth: "100%",
-    width: "20em",
+    width: "27em",
     padding: "12px 12px 12px 48px",
     marginRight: "0.5rem"
   },
@@ -199,7 +199,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
     startDateCreated: null,
     endDateCreated: null,
     startDateModified: null,
-    endDateModified: null
+    endDateModified: null,
+    nameList: [],
+    addressList: [],
+    alternativeList: [],
+    authorList: []
   });
   const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
@@ -506,7 +510,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     return new Date(dateOnly);
   };
 
-  const filterProjects = p => {
+  const filter = (p, criteria) => {
     if (criteria.type === "draft" && p.dateSnapshotted) return false;
     if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
     if (criteria.status === "active" && p.dateTrashed) return false;
@@ -567,11 +571,38 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
     }
 
+    if (
+      criteria.nameList.length > 0 &&
+      !criteria.nameList
+        .map(n => n.toLowerCase())
+        .includes(p.name.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.addressList.length > 0 &&
+      !criteria.addressList
+        .map(n => n.toLowerCase())
+        .includes(p.address.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.alternativeList.length > 0 &&
+      !criteria.alternativeList
+        .map(n => n.toLowerCase())
+        .includes(p.alternative.toLowerCase())
+    ) {
+      return false;
+    }
+
     // Search criteria for filterText - redundant with individual search
     // criteria in FilterDrawer, and we could get rid of the search box
     // above the grid.
     if (filterText !== "") {
-      let ids = ["name", "address", "fullName", "alternative"];
+      let ids = ["name", "address", "fullName", "alternative", "description"];
 
       return ids.some(id => {
         let colValue = String(p[id]).toLowerCase();
@@ -640,7 +671,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
   const sortedProjects = stableSort(
-    projects.filter(filterProjects),
+    projects.filter(p => filter(p, criteria)),
     getComparator(order, orderBy)
   );
   const currentProjects = sortedProjects.slice(
@@ -708,7 +739,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       type="search"
                       id="filterText"
                       name="filterText"
-                      placeholder="Search"
+                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
                       value={filterText}
                       onChange={e => handleFilterTextChange(e.target.value)}
                     />
@@ -735,17 +766,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <thead className={classes.thead}>
                     <tr className={classes.tr}>
                       {headerData.map(header => {
-                        //header.id can be used to index the property of the project object except for author
-                        const property =
-                          header.id == "author" ? "fullname" : header.id;
                         return (
                           <td key={header.id}>
                             <ProjectTableColumnHeader
-                              uniqueValues={[
-                                ...new Set(projects.map(p => p[property]))
-                              ]
-                                .filter(value => value !== null)
-                                .sort()}
+                              projects={projects}
+                              filter={filter}
                               header={header}
                               criteria={criteria}
                               setCriteria={setCriteria}

@@ -25,6 +25,7 @@ const VisibilityPopup = ({
   );
 
   const setDefault = () => {
+    setVisibilitySetting("visible");
     setCriteria({
       ...criteria,
       visibility: "visible"

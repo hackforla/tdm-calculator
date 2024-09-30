@@ -33,8 +33,7 @@ const useStyles = createUseStyles({
     boxShadow: "2px 2px 4px 2px rgba(0, 0, 0, 0.1)",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    textShadow: "0px 4px 4px rgba(0,0,0,.25)"
+    justifyContent: "center"
   },
   packageBannerIcon: {
     fontSize: "24px",
@@ -81,7 +80,10 @@ function ProjectMeasure(props) {
         <>
           <div className={classes.packageBanner}>
             <MdCheckCircle className={classes.packageBannerIcon} />
-            <div className={classes.packageBannerText}>
+            <div
+              className={classes.packageBannerText}
+              style={theme.typography.subHeading}
+            >
               You qualify for a bonus package to earn 1 extra point!
             </div>
           </div>

@@ -3,6 +3,7 @@ import Quill from "../UI/Quill";
 import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
 import { Interweave } from "interweave";
+import { MdLaunch } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   answerContainer: {
@@ -22,6 +23,11 @@ const useStyles = createUseStyles(theme => ({
     "&:hover": {
       textDecoration: admin => admin && "underline"
     }
+  },
+  externalLinkIcon: {
+    fontSize: "14px",
+    padding: " 0 0.4em",
+    color: "#00F"
   }
 }));
 
@@ -78,7 +84,7 @@ export const Answer = ({
           style={{ display: "flex" }}
         >
           <div className={classes.answerText}>
-            <Interweave content={answer} />
+            <Interweave transform={TransformExternalLink} content={answer} />
           </div>
         </div>
       )}
@@ -94,3 +100,17 @@ Answer.propTypes = {
   setIsEditAnswer: PropTypes.func,
   onSetFaq: PropTypes.func
 };
+
+function TransformExternalLink(node, children) {
+  const classes = useStyles();
+  if (node.tagName == "A" && !node.getAttribute("href").startsWith("/")) {
+    return (
+      <span>
+        <a href={node.getAttribute("href")} target="external">
+          {children}
+          <MdLaunch className={classes.externalLinkIcon} />
+        </a>
+      </span>
+    );
+  }
+}
