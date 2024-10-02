@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles({
   container: {
@@ -56,7 +56,8 @@ const useStyles = createUseStyles({
 
 const SidebarCart = props => {
   const { strategyRules, page } = props;
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme });
   const reducedParkingRule = strategyRules.find(
     r => r.code === "STRATEGY_PARKING_5"
   );
@@ -105,7 +106,10 @@ const SidebarCart = props => {
         ))}
 
       {showReducedParkingNotification && (
-        <div className={classes.reducedParkingBox}>
+        <div
+          className={classes.reducedParkingBox}
+          style={theme.typography.paragraph1}
+        >
           {`Automatically earned ${reducedParkingRule.calcValue.toString()} points
           on the TDM Strategy Reduced Parking Supply for reducing parking 
           by ${reductionPercentageText} below the Baseline.`}
