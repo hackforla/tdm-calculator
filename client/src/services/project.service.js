@@ -57,7 +57,6 @@ export function hide(projectIds, hide) {
 export function trash(projectIds, trash) {
   try {
     const response = axios.put(`${baseUrl}/trash`, { ids: projectIds, trash });
-    console.log("res", { ids: projectIds, trash });
     return response;
   } catch (error) {
     return new Promise.reject(error);

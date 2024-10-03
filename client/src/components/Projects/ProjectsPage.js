@@ -118,7 +118,7 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   tableContainer: {
-    overflow: "auto",
+    overflow: "visible", // changed to allow Universal Select to show above the page container when expanded
     width: "100%",
     margin: "20px 0px"
   },
@@ -578,7 +578,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleDroChange = async (projectId, newDroId) => {
     try {
-      console.log("handleDroChange", projectId, newDroId);
       await projectService.updateDroId(projectId, newDroId);
       await updateProjects(); // Refresh the project list
     } catch (error) {

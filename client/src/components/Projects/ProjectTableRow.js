@@ -18,6 +18,7 @@ import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import fetchEngineRules from "./fetchEngineRules";
 import * as droService from "../../services/dro.service";
+import UniversalSelect from "../UI/UniversalSelect.jsx";
 
 const useStyles = createUseStyles({
   td: {
@@ -221,22 +222,22 @@ const ProjectTableRow = ({
       {/* DRO Column */}
       <td className={classes.td}>
         {isAdmin && droOptions.data ? (
-          <select
-            className={classes.selectBox}
-            value={selectedDro}
-            onChange={e => {
-              const newDroId = parseInt(e.target.value, 10);
-              setSelectedDro(newDroId);
-              onDroChange(project.id, newDroId); // Use the passed-in handler
-            }}
-          >
-            <option value="N/A">N/A</option>
-            {droOptions.data.map(dro => (
-              <option key={dro.id} value={dro.id}>
-                {dro.name}
-              </option>
-            ))}
-          </select>
+          <div style={{ width: "150px" }}>
+            <UniversalSelect
+              value={selectedDro}
+              onChange={e => {
+                const newDroId = e.target.value;
+                setSelectedDro(newDroId);
+                onDroChange(project.id, newDroId); // Use the passed-in handler
+              }}
+              options={droOptions.data.map(dro => ({
+                value: dro.id,
+                label: dro.name
+              }))}
+              name="droId"
+              className={classes.selectBox}
+            />
+          </div>
         ) : (
           // Display the fetched DRO name for non-admin users
           <span>{droName}</span>
