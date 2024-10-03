@@ -53,6 +53,43 @@ const put = async (req, res) => {
   }
 };
 
+const updateDroId = async (req, res) => {
+  try {
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({ error: "You do not have permission to update the droId." });
+    }
+
+    const { id } = req.params;
+    const { droId } = req.body;
+
+    await projectService.updateDroId(id, droId, req.user.id);
+    res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const updateAdminNotes = async (req, res) => {
+  try {
+    console.log(req);
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({ error: "You do not have permission to update the droId." });
+    }
+
+    const { id } = req.params;
+    const { adminNotes } = req.body;
+
+    await projectService.updateAdminNotes(id, adminNotes, req.user.id);
+    res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const del = async (req, res) => {
   try {
     const project = await getProject(req, res);
@@ -177,6 +214,8 @@ module.exports = {
   trash,
   submit,
   snapshot,
+  updateDroId,
+  updateAdminNotes,
   renameSnapshot,
   getAllArchivedProjects
 };

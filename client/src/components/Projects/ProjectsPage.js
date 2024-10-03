@@ -12,6 +12,7 @@ import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData.js";
 import * as projectService from "../../services/project.service";
+import * as droService from "../../services/dro.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
 
@@ -117,7 +118,7 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   tableContainer: {
-    overflow: "auto",
+    overflow: "visible", // changed to allow Universal Select to show above the page container when expanded
     width: "100%",
     margin: "20px 0px"
   },
@@ -165,7 +166,76 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [projectData, setProjectData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
+  const [droOptions, setDroOptions] = useState([]);
+  const [droNameMap, setDroNameMap] = useState({});
   const projectsPerPage = perPage;
+
+  useEffect(() => {
+    // Check if the user is an admin
+    const isAdmin = userContext.account?.isAdmin || false;
+
+    if (isAdmin) {
+      // Fetch available DROs
+
+      const fetchDroOptions = async () => {
+        const result = await droService.get();
+        setDroOptions(result);
+      };
+      fetchDroOptions().catch(console.error);
+    }
+  }, [userContext.account]);
+
+  useEffect(() => {
+    const isAdmin = userContext.account?.isAdmin || false;
+
+    if (!isAdmin) {
+      // Extract unique droIds from projects
+      const uniqueDroIds = [
+        ...new Set(
+          projects
+            .filter(project => project.droId)
+            .map(project => project.droId)
+        )
+      ];
+
+      // Function to fetch DRO names for given droIds
+      const fetchDroNames = async () => {
+        try {
+          // Initialize a temporary map
+          const tempDroNameMap = {};
+
+          // Fetch each DRO by ID
+          await Promise.all(
+            uniqueDroIds.map(async droId => {
+              try {
+                const response = await droService.getById(droId);
+                tempDroNameMap[droId] = response.data.name || "N/A";
+              } catch (error) {
+                console.error(`Error fetching DRO with ID ${droId}:`, error);
+                tempDroNameMap[droId] = "N/A";
+              }
+            })
+          );
+
+          // Update the droNameMap state
+          setDroNameMap(tempDroNameMap);
+        } catch (error) {
+          console.error("Error fetching DRO names:", error);
+        }
+      };
+
+      // Only fetch if there are droIds to fetch
+      if (uniqueDroIds.length > 0) {
+        fetchDroNames();
+      } else {
+        // Reset the map if no droIds are present
+        setDroNameMap({});
+      }
+    } else {
+      // If admin, reset the map since admin already has droOptions
+      setDroNameMap({});
+    }
+  }, [projects, userContext.account?.isAdmin]);
 
   const perPageOptions = [
     { value: projects.length, label: "All" },
@@ -196,6 +266,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     address: "",
     author: "",
     alternative: "",
+    dro: "",
     startDateCreated: null,
     endDateCreated: null,
     startDateModified: null,
@@ -203,7 +274,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
     nameList: [],
     addressList: [],
     alternativeList: [],
-    authorList: []
+    authorList: [],
+    droList: [],
+    adminNotes: "",
+    startDateModifiedAdmin: null,
+    endDateModifiedAdmin: null
   });
   const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
@@ -501,6 +576,24 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setOrderBy(orderBy);
   };
 
+  const handleDroChange = async (projectId, newDroId) => {
+    try {
+      await projectService.updateDroId(projectId, newDroId);
+      await updateProjects(); // Refresh the project list
+    } catch (error) {
+      console.error("Error updating DRO ID:", error);
+    }
+  };
+
+  const handleAdminNoteUpdate = async (projectId, newAdminNote) => {
+    try {
+      await projectService.updateAdminNotes(projectId, newAdminNote);
+      await updateProjects(); // Refresh the project list
+    } catch (error) {
+      console.error("Error updating admin notes:", error);
+    }
+  };
+
   const handleFilterTextChange = text => {
     setFilterText(text);
   };
@@ -598,6 +691,29 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
     }
 
+    if (criteria.dro && !p.dro.includes(criteria.dro)) return false;
+
+    if (
+      criteria.adminNotes &&
+      !p.adminNotes.toLowerCase().includes(criteria.adminNotes.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.startDateModifiedAdmin &&
+      getDateOnly(p.dateModifiedAdmin) <
+        getDateOnly(criteria.startDateModifiedAdmin)
+    )
+      return false;
+
+    if (
+      criteria.endDateModifiedAdmin &&
+      getDateOnly(p.dateModifiedAdmin) >
+        getDateOnly(criteria.endDateModifiedAdmin)
+    )
+      return false;
+
     // Search criteria for filterText - redundant with individual search
     // criteria in FilterDrawer, and we could get rid of the search box
     // above the grid.
@@ -663,6 +779,26 @@ const ProjectsPage = ({ contentContainerRef }) => {
       endDatePropertyName: "endDateSubmitted"
     },
     {
+      id: "dro",
+      label: "DRO",
+      popupType: "text"
+    },
+
+    ...(userContext.account?.isAdmin
+      ? [
+          {
+            id: "adminNotes",
+            label: "Admin Notes",
+            popupType: null // No filter needed for this column
+          },
+          {
+            id: "dateModifiedAdmin",
+            label: "Date Admin Modified",
+            popupType: "datetime"
+          }
+        ]
+      : []),
+    {
       id: "contextMenu",
       label: ""
     }
@@ -692,6 +828,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
             setCollapsed={setFilterCollapsed}
             setCheckedProjectIds={setCheckedProjectIds}
             setSelectAllChecked={setSelectAllChecked}
+            droOptions={droOptions}
           />
         </div>
 
@@ -801,6 +938,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           handleHide={handleHide}
                           handleCheckboxChange={handleCheckboxChange}
                           checkedProjectIds={checkedProjectIds}
+                          isAdmin={userContext.account?.isAdmin}
+                          droOptions={droOptions}
+                          onDroChange={handleDroChange} // Pass the DRO change handler
+                          onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
+                          droName={
+                            userContext.account?.isAdmin
+                              ? null
+                              : droNameMap[project.droId] || "N/A"
+                          } // Pass the droName
                         />
                       ))
                     ) : (

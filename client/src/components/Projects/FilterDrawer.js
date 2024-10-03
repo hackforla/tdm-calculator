@@ -55,7 +55,6 @@ const FilterPopup = ({
   const userContext = useContext(UserContext);
   const account = userContext.account;
   const classes = useStyles();
-
   const resetCriteria = () => {
     setCriteria({
       type: "all",
