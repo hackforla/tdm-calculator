@@ -93,7 +93,7 @@ const updateAdminNotes = async (req, res) => {
 const del = async (req, res) => {
   try {
     const project = await getProject(req, res);
-    if (project.loginId !== req.user.id) {
+    if (project.loginId !== req.user.id && !req.user.isAdmin) {
       res.status(403).send("You can only delete your own projects.");
       return;
     }
