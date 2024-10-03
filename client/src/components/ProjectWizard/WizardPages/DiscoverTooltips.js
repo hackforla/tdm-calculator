@@ -1,10 +1,11 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
+import { jssTheme } from "../../../styles/theme";
 
 const useStyles = createUseStyles({
   container: {
     width: "calc((100% / 14.5) * 3);",
-    background: "#EEF1F4",
+    background: jssTheme.colors.secondary.lightGray,
     padding: "1em",
     paddingBottom: "1em",
     position: "absolute",
