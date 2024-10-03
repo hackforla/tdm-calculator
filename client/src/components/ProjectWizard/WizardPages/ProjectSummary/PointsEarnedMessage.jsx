@@ -6,7 +6,7 @@ import { MdCheckCircle, MdWarning } from "react-icons/md";
 
 const useStyles = createUseStyles({
   success: {
-    color: "#A7C539"
+    color: ({ theme }) => theme.colorPrimary
   },
   failure: {
     color: ({ theme }) => theme.colors.notice
@@ -43,8 +43,11 @@ const PointsEarnedMessage = props => {
     <div className={classes.targetPointsReachedContainer}>
       {targetPointsReached ? (
         <span className={clsx(classes.targetPointsReached, classes.success)}>
-          <div className={classes.messageBox}>
-            <MdCheckCircle className={classes.success} />{" "}
+          <div
+            className={classes.messageBox}
+            style={theme.typography.subHeading}
+          >
+            <MdCheckCircle className={classes.success} />
             <div className={classes.textBox}>
               You have successfully earned the target points.
             </div>
