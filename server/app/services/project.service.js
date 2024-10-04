@@ -115,7 +115,6 @@ const trash = async (ids, trash, loginId) => {
     request.input("trash", trash);
     request.input("loginId", loginId);
     const response = await request.execute("Project_Trash");
-    console.log(response);
     return response.returnValue;
   } catch (err) {
     console.log("err:", err);
@@ -190,7 +189,11 @@ const updateDroId = async (id, droId, loginId) => {
     const request = pool.request();
 
     request.input("id", mssql.Int, id);
-    request.input("droId", mssql.Int, droId);
+    if (droId === null) {
+      request.input("droId", mssql.Int, null); // Correctly pass NULL for droId
+    } else {
+      request.input("droId", mssql.Int, droId); // Pass the actual droId value if it's not null
+    }
     request.input(
       "DateModifiedAdmin",
       mssql.DateTime2,
