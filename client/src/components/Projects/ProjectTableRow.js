@@ -222,24 +222,26 @@ const ProjectTableRow = ({
       {/* DRO Column */}
       <td className={classes.td}>
         {isAdmin && droOptions.data ? (
-          <div style={{ width: "150px" }}>
+          <div style={{ width: "100px" }}>
             <UniversalSelect
               value={selectedDro}
               onChange={e => {
                 const newDroId = e.target.value;
                 setSelectedDro(newDroId);
-                onDroChange(project.id, newDroId); // Use the passed-in handler
+                onDroChange(project.id, newDroId);
               }}
-              options={droOptions.data.map(dro => ({
-                value: dro.id,
-                label: dro.name
-              }))}
+              options={[
+                { value: "", label: "Select..." },
+                ...droOptions.data.map(dro => ({
+                  value: dro.id,
+                  label: dro.name
+                }))
+              ]}
               name="droId"
               className={classes.selectBox}
             />
           </div>
         ) : (
-          // Display the fetched DRO name for non-admin users
           <span>{droName}</span>
         )}
       </td>
@@ -254,7 +256,7 @@ const ProjectTableRow = ({
                   value={tempAdminNote}
                   onChange={e => setTempAdminNote(e.target.value)}
                   autoFocus
-                  className={classes.adminNoteInput} // Optional: Add styling for better UX
+                  className={classes.adminNoteInput}
                 />
                 <button
                   onClick={handleSave}
