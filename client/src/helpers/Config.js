@@ -1,4 +1,4 @@
-import * as configService from "../services/config.service.js";
+import * as configService from "../services/config.service";
 
 export const getConfigs = async () => {
   try {
