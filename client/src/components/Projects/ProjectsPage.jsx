@@ -578,7 +578,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleDroChange = async (projectId, newDroId) => {
     try {
-      await projectService.updateDroId(projectId, newDroId);
+      const updatedDroId = newDroId === "" ? null : newDroId;
+      await projectService.updateDroId(projectId, updatedDroId);
       await updateProjects(); // Refresh the project list
     } catch (error) {
       console.error("Error updating DRO ID:", error);
