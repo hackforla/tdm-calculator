@@ -321,7 +321,7 @@ const ProjectTableRow = ({
           <div>
             <Popup
               trigger={
-                <button>
+                <button aria-label="context menu button">
                   <MdMoreVert alt={`Show project context menu`} />
                 </button>
               }
