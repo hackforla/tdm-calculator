@@ -7,6 +7,7 @@ import "@testing-library/jest-dom";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import { ThemeProvider } from "react-jss";
 import { jssTheme } from "../../styles/theme";
+import TdmAuthProvider from "../Layout/TdmAuthProvider";
 
 const add = jest.fn();
 const remove = jest.fn();
@@ -32,9 +33,11 @@ describe("FeedbackPage", () => {
     render(
       <ThemeProvider theme={jssTheme}>
         <BrowserRouter>
-          <ToastContext.Provider value={{ add, remove }}>
-            <FeedbackPage account={account} />
-          </ToastContext.Provider>
+          <TdmAuthProvider>
+            <ToastContext.Provider value={{ add, remove }}>
+              <FeedbackPage account={account} />
+            </ToastContext.Provider>
+          </TdmAuthProvider>
         </BrowserRouter>
       </ThemeProvider>
     );

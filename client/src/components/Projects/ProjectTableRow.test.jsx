@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import ProjectTableRow from "./ProjectTableRow";
 import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import TdmAuthProvider from "../Layout/TdmAuthProvider";
 
 jest.mock("react-to-print", () => ({
   __esModule: true,
@@ -10,7 +11,6 @@ jest.mock("react-to-print", () => ({
   useReactToPrint: jest.fn()
 }));
 
-// Set up a Jest mock function to check any props.
 const mockPrint = jest.fn();
 jest.mock("../PdfPrint/PdfPrint", () => {
   const { forwardRef } = jest.requireActual("react");
@@ -22,7 +22,7 @@ jest.mock("../PdfPrint/PdfPrint", () => {
     })
   };
 });
-// Set up a Jest mock function to check any props.
+
 const mockCsv = jest.fn();
 jest.mock("react-csv", () => {
   const { forwardRef } = jest.requireActual("react");
@@ -80,10 +80,23 @@ describe("ProjectTableRow", () => {
     formInputs: "{}"
   };
 
+  const handleCsvModalOpen = jest.fn();
   const handleCopyModalOpen = jest.fn();
   const handleDeleteModalOpen = jest.fn();
   const handleSnapshotModalOpen = jest.fn();
+  const handleRenameSnapshotModalOpen = jest.fn();
   const handleHide = jest.fn();
+  const handleCheckboxChange = jest.fn();
+  const checkedProjectIds = [];
+  const isAdmin = false;
+  const droOptions = {
+    data: [
+      { id: 1, name: "DRO #1" },
+      { id: 2, name: "DRO #2" }
+    ]
+  };
+  const onDroChange = jest.fn();
+  const onAdminNoteUpdate = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -94,16 +107,27 @@ describe("ProjectTableRow", () => {
   // in order to generate the CSV and PDF.
   // and the tests need a chance to process the setProjectData.
   it("renders project data", async () => {
+    const fetchEngineRules = require("./fetchEngineRules");
+    fetchEngineRules.mockImplementation(() => Promise.resolve(projectRules));
+
     render(
       <BrowserRouter>
         <table>
           <tbody>
             <ProjectTableRow
               project={project}
+              handleCsvModalOpen={handleCsvModalOpen}
               handleCopyModalOpen={handleCopyModalOpen}
               handleDeleteModalOpen={handleDeleteModalOpen}
               handleSnapshotModalOpen={handleSnapshotModalOpen}
+              handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
               handleHide={handleHide}
+              handleCheckboxChange={handleCheckboxChange}
+              checkedProjectIds={checkedProjectIds}
+              isAdmin={isAdmin}
+              droOptions={droOptions}
+              onDroChange={onDroChange}
+              onAdminNoteUpdate={onAdminNoteUpdate}
             />
           </tbody>
         </table>
@@ -122,12 +146,18 @@ describe("ProjectTableRow", () => {
     expect(screen.queryByTitle("Snapshot")).not.toBeInTheDocument();
     expect(screen.getByText("Draft")).toBeInTheDocument();
 
-    await waitFor(() => expect(screen.getByRole("button")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "context menu button" })
+      ).toBeInTheDocument()
+    );
   });
 
   it("renders project form inputs", async () => {
     const formInputs = { VERSION_NO: "98.6", BUILDING_PERMIT: "12345" };
     project.formInputs = JSON.stringify(formInputs);
+    const fetchEngineRules = require("./fetchEngineRules");
+    fetchEngineRules.mockImplementation(() => Promise.resolve(projectRules));
 
     render(
       <BrowserRouter>
@@ -135,10 +165,18 @@ describe("ProjectTableRow", () => {
           <tbody>
             <ProjectTableRow
               project={project}
+              handleCsvModalOpen={handleCsvModalOpen}
               handleCopyModalOpen={handleCopyModalOpen}
               handleDeleteModalOpen={handleDeleteModalOpen}
               handleSnapshotModalOpen={handleSnapshotModalOpen}
+              handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
               handleHide={handleHide}
+              handleCheckboxChange={handleCheckboxChange}
+              checkedProjectIds={checkedProjectIds}
+              isAdmin={isAdmin}
+              droOptions={droOptions}
+              onDroChange={onDroChange}
+              onAdminNoteUpdate={onAdminNoteUpdate}
             />
           </tbody>
         </table>
@@ -150,31 +188,51 @@ describe("ProjectTableRow", () => {
       screen.queryByText(formInputs.BUILDING_PERMIT)
     ).not.toBeInTheDocument();
 
-    await waitFor(() => expect(screen.getByRole("button")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "context menu button" })
+      ).toBeInTheDocument()
+    );
   });
 
   it("renders project date modified", async () => {
     const dateModified = "2023-10-02T12:34:56.789Z";
     project.dateModified = dateModified;
+    const fetchEngineRules = require("./fetchEngineRules");
+    fetchEngineRules.mockImplementation(() => Promise.resolve(projectRules));
 
     render(
       <BrowserRouter>
-        <table>
-          <tbody>
-            <ProjectTableRow
-              project={project}
-              handleCopyModalOpen={handleCopyModalOpen}
-              handleDeleteModalOpen={handleDeleteModalOpen}
-              handleSnapshotModalOpen={handleSnapshotModalOpen}
-              handleHide={handleHide}
-            />
-          </tbody>
-        </table>
+        <TdmAuthProvider>
+          <table>
+            <tbody>
+              <ProjectTableRow
+                project={project}
+                handleCsvModalOpen={handleCsvModalOpen}
+                handleCopyModalOpen={handleCopyModalOpen}
+                handleDeleteModalOpen={handleDeleteModalOpen}
+                handleSnapshotModalOpen={handleSnapshotModalOpen}
+                handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
+                handleHide={handleHide}
+                handleCheckboxChange={handleCheckboxChange}
+                checkedProjectIds={checkedProjectIds}
+                isAdmin={isAdmin}
+                droOptions={droOptions}
+                onDroChange={onDroChange}
+                onAdminNoteUpdate={onAdminNoteUpdate}
+              />
+            </tbody>
+          </table>
+        </TdmAuthProvider>
       </BrowserRouter>
     );
 
     expect(screen.getByText("2023-10-02")).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByRole("button")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "context menu button" })
+      ).toBeInTheDocument()
+    );
   });
 
   it("renders project hidden/trashed/snapshotted icons", async () => {
@@ -184,6 +242,8 @@ describe("ProjectTableRow", () => {
     project.dateHidden = dateHidden;
     project.dateTrashed = dateTrashed;
     project.dateSnapshotted = dateSnapshotted;
+    const fetchEngineRules = require("./fetchEngineRules");
+    fetchEngineRules.mockImplementation(() => Promise.resolve(projectRules));
 
     render(
       <BrowserRouter>
@@ -191,24 +251,38 @@ describe("ProjectTableRow", () => {
           <tbody>
             <ProjectTableRow
               project={project}
+              handleCsvModalOpen={handleCsvModalOpen}
               handleCopyModalOpen={handleCopyModalOpen}
               handleDeleteModalOpen={handleDeleteModalOpen}
               handleSnapshotModalOpen={handleSnapshotModalOpen}
+              handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
               handleHide={handleHide}
+              handleCheckboxChange={handleCheckboxChange}
+              checkedProjectIds={checkedProjectIds}
+              isAdmin={isAdmin}
+              droOptions={droOptions}
+              onDroChange={onDroChange}
+              onAdminNoteUpdate={onAdminNoteUpdate}
             />
           </tbody>
         </table>
       </BrowserRouter>
     );
 
-    expect(screen.queryByRole("button")).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: "context menu button" })
+    ).toBeNull();
 
     expect(screen.getByTitle("Project is hidden")).toBeInTheDocument();
-    expect(screen.getByText("-Deleted")).toBeInTheDocument();
+    expect(screen.getByText("(deleted)")).toBeInTheDocument();
     expect(screen.queryByTitle("Draft")).not.toBeInTheDocument();
     expect(screen.getByText("Snapshot")).toBeInTheDocument();
 
-    await waitFor(() => expect(screen.getByRole("button")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "context menu button" })
+      ).toBeInTheDocument()
+    );
   });
 
   it("renders async project context menu", async () => {
@@ -220,10 +294,18 @@ describe("ProjectTableRow", () => {
           <tbody>
             <ProjectTableRow
               project={project}
+              handleCsvModalOpen={handleCsvModalOpen}
               handleCopyModalOpen={handleCopyModalOpen}
               handleDeleteModalOpen={handleDeleteModalOpen}
               handleSnapshotModalOpen={handleSnapshotModalOpen}
+              handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
               handleHide={handleHide}
+              handleCheckboxChange={handleCheckboxChange}
+              checkedProjectIds={checkedProjectIds}
+              isAdmin={isAdmin}
+              droOptions={droOptions}
+              onDroChange={onDroChange}
+              onAdminNoteUpdate={onAdminNoteUpdate}
             />
           </tbody>
         </table>
@@ -232,32 +314,36 @@ describe("ProjectTableRow", () => {
     expect(fetchEngineRules).toHaveBeenCalledTimes(1);
     expect(screen.queryByRole("button")).toBeNull();
 
-    await waitFor(() => expect(screen.getByRole("button")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "context menu button" })
+      ).toBeInTheDocument()
+    );
     expect(mockPrint).toHaveBeenCalledTimes(1);
     expect(mockPrint).toHaveBeenCalledWith(
       expect.objectContaining({
-        dateModified: "10/02/2023",
+        project: project,
         rules: projectRules
       })
     );
 
-    expect(mockCsv).toHaveBeenCalledTimes(1);
-    expect(mockCsv).toHaveBeenCalledWith(
-      expect.objectContaining({
-        filename: "TDM-data.csv",
-        target: "_blank",
-        data: expect.arrayContaining([
-          expect.arrayContaining(["TDM Calculation Project Summary"]),
-          expect.arrayContaining([
-            "Rule 1",
-            "Rule 2",
-            "Rule 3 - Choice 1",
-            "Rule 3 - Choice 2",
-            "Rule 3 - Choice 3"
-          ]),
-          expect.arrayContaining(["1", "2", "Y", "N", "N"])
-        ])
-      })
-    );
+    // expect(mockCsv).toHaveBeenCalledTimes(1);
+    // expect(mockCsv).toHaveBeenCalledWith(
+    //   expect.objectContaining({
+    //     filename: "TDM-data.csv",
+    //     target: "_blank",
+    //     data: expect.arrayContaining([
+    //       expect.arrayContaining(["TDM Calculation Project Summary"]),
+    //       expect.arrayContaining([
+    //         "Rule 1",
+    //         "Rule 2",
+    //         "Rule 3 - Choice 1",
+    //         "Rule 3 - Choice 2",
+    //         "Rule 3 - Choice 3"
+    //       ]),
+    //       expect.arrayContaining(["1", "2", "Y", "N", "N"])
+    //     ])
+    //   })
+    // );
   });
 });

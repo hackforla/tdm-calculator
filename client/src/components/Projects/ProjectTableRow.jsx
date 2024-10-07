@@ -321,7 +321,7 @@ const ProjectTableRow = ({
           <div>
             <Popup
               trigger={
-                <button>
+                <button aria-label="context menu button">
                   <MdMoreVert alt={`Show project context menu`} />
                 </button>
               }
@@ -371,9 +371,7 @@ ProjectTableRow.propTypes = {
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired
       })
-    ).isRequired,
-    headers: PropTypes.object,
-    find: PropTypes.func.isRequired
+    ).isRequired
   }).isRequired,
   onDroChange: PropTypes.func.isRequired, // New propType
   onAdminNoteUpdate: PropTypes.func.isRequired // New propType
