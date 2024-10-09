@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import SearchIcon from "../../../images/search.png";
+import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -81,6 +82,7 @@ const MultiSelectText = ({ options, selectedOptions, setSelectedOptions }) => {
           placeholder="Search"
           className={classes.searchBar}
         />
+        <MdOutlineSearch className={classes.searchIcon} alt="Search Icon" />
         <img
           className={classes.searchIcon}
           src={SearchIcon}

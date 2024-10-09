@@ -5,7 +5,7 @@ import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext.js";
 
 import { MdFilterAlt } from "react-icons/md";
-import SearchIcon from "../../images/search.png";
+import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination.js";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
@@ -743,11 +743,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       value={filterText}
                       onChange={e => handleFilterTextChange(e.target.value)}
                     />
-                    <img
-                      className={classes.searchIcon}
-                      src={SearchIcon}
-                      alt="Search Icon"
-                    />
+                    <MdOutlineSearch className={classes.searchIcon} />
                   </div>
                   {filterCollapsed ? (
                     <button
