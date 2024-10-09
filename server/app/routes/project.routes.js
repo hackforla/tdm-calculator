@@ -22,4 +22,14 @@ router.put(
   projectController.renameSnapshot
 );
 router.put("/:id", jwtSession.validateUser, projectController.put);
+router.put(
+  "/updateDroId/:id",
+  jwtSession.validateUser,
+  projectController.updateDroId
+);
+router.put(
+  "/updateAdminNotes/:id",
+  jwtSession.validateUser,
+  projectController.updateAdminNotes
+);
 router.delete("/:id", jwtSession.validateUser, projectController.del);

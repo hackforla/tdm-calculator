@@ -183,6 +183,54 @@ const getAllArchivedProjects = async () => {
   }
 };
 
+const updateDroId = async (id, droId, loginId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("id", mssql.Int, id);
+    if (droId === null) {
+      request.input("droId", mssql.Int, null); // Correctly pass NULL for droId
+    } else {
+      request.input("droId", mssql.Int, droId); // Pass the actual droId value if it's not null
+    }
+    request.input(
+      "DateModifiedAdmin",
+      mssql.DateTime2,
+      new Date().toISOString()
+    );
+    request.input("LoginId", mssql.Int, loginId);
+
+    const response = await request.execute("Project_UpdateDroId");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
+const updateAdminNotes = async (id, adminNotes, loginId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("id", mssql.Int, id);
+    request.input("adminNotes", mssql.NVarChar(mssql.MAX), adminNotes);
+    request.input(
+      "DateModifiedAdmin",
+      mssql.DateTime2,
+      new Date().toISOString()
+    );
+    request.input("LoginId", mssql.Int, loginId);
+
+    const response = await request.execute("Project_UpdateAdminNotes");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -193,6 +241,8 @@ module.exports = {
   trash,
   submit,
   snapshot,
+  updateDroId,
+  updateAdminNotes,
   renameSnapshot,
   getAllArchivedProjects
 };
