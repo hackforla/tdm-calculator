@@ -4,7 +4,7 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
-import SearchIcon from "../../../images/search.png";
+import { MdOutlineSearch } from "react-icons/md";
 import Select from "react-select";
 import { createUseStyles } from "react-jss";
 
@@ -135,11 +135,7 @@ const TextPopup = ({
 
   const placeholderComponent = (
     <div>
-      <img
-        style={{ position: "absolute", right: "16 px", top: "14 px" }}
-        src={SearchIcon}
-        alt="Search Icon"
-      />
+      <MdOutlineSearch className={classes.searchIcon} alt="Search Icon" />
       <div style={{ marginLeft: "30px" }}> Filter</div>
     </div>
   );
@@ -208,11 +204,7 @@ const TextPopup = ({
               onChange={onChangeSearchString}
               className={classes.searchBar}
             />
-            <img
-              className={classes.searchIcon}
-              src={SearchIcon}
-              alt="Search Icon"
-            />
+            <MdOutlineSearch className={classes.searchIcon} alt="Search Icon" />
           </div>
 
           <div style={{ overflow: "scroll", maxHeight: "15rem" }}>

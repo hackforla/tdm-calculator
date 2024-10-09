@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
-import WarningIcon from "../../images/warning-icon.png";
+import { MdWarning } from "react-icons/md";
 import { MdSave } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
@@ -38,7 +38,7 @@ const SaveConfirmationModal = ({ isOpen, onClose, onYes }) => {
         {" Save Edits"}
       </div>
       <div className={classes.modalSubHeader}>
-        <img src={WarningIcon} className={classes.warningIcon} alt="Warning" />
+        <MdWarning className={classes.warningIcon} alt="Warning" />
         {"Are you sure you want to save FAQ page edits?"}
       </div>
       <div className={classes.buttonFlexBox}>
