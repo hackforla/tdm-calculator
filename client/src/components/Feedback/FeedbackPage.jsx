@@ -181,6 +181,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
                   name="name"
                   innerRef={focusRef}
                   type="text"
+                  placeholder="Required"
                   className={clsx(
                     classes.formInput,
                     errors.name && touched.name && classes.formErrorBorder
@@ -222,6 +223,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
                 <Field
                   id="comment"
                   name="comment"
+                  placeholder="Required"
                   as="textarea"
                   className={clsx(
                     classes.formTextArea,
