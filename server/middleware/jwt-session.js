@@ -23,7 +23,7 @@ async function login(req, res) {
   const expirationDateTime = new Date(Date.now() + 43200000); // 12 hours
   res.cookie("jwt", token, {
     httpOnly: true,
-    expires: 
+    expires: expirationDateTime
   });
   const user = { ...req.user, expiration: expirationDateTime };
   res.json({ isSuccess: true, token: token, user });
