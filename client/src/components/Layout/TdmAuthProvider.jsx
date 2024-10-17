@@ -30,7 +30,7 @@ const TdmAuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(checkUserExpiration, 10000); // Poll every 10 seconds
+    const intervalId = setInterval(checkUserExpiration, 5000); // Poll every 5 seconds
     return () => clearInterval(intervalId); // Cleanup on unmount
   });
 
