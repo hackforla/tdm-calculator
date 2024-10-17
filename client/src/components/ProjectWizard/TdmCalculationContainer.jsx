@@ -79,7 +79,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     try {
       let projectResponse = null;
       let inputs = {};
-      if (Number(projectId) > 0 && account.id) {
+      if (Number(projectId) > 0 && account?.id) {
         projectResponse = await projectService.getById(projectId);
 
         // setLoginId(projectResponse.data.loginId);
