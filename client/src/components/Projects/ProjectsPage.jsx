@@ -15,6 +15,7 @@ import * as projectService from "../../services/project.service";
 import * as droService from "../../services/dro.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
+import ShareSnapshotModal from "./ShareSnapshotModal";
 
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
@@ -160,6 +161,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
+  const [shareSnapshotModalOpen, setShareSnapshotModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
@@ -443,6 +445,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     }
     setRenameSnapshotModalOpen(false);
+  };
+
+  const handleShareSnapshotModalOpen = project => {
+    setSelectedProject(project);
+    setShareSnapshotModalOpen(true);
+  };
+
+  const handleShareSnapshotModalClose = async () => {
+    setShareSnapshotModalOpen(false);
   };
 
   const handleHide = async project => {
@@ -941,6 +952,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           handleRenameSnapshotModalOpen={
                             handleRenameSnapshotModalOpen
                           }
+                          handleShareSnapshotModalOpen={
+                            handleShareSnapshotModalOpen
+                          }
                           handleHide={handleHide}
                           handleCheckboxChange={handleCheckboxChange}
                           checkedProjectIds={checkedProjectIds}
@@ -1016,6 +1030,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     mounted={renameSnapshotModalOpen}
                     onClose={handleRenameSnapshotModalClose}
                     selectedProjectName={selectedProjectName}
+                  />
+                  <ShareSnapshotModal
+                    mounted={shareSnapshotModalOpen}
+                    onClose={handleShareSnapshotModalClose}
+                    project={selectedProject}
                   />
                 </>
               )}
