@@ -1,76 +1,77 @@
 # TDM Calculator
 
-Traffic Demand Management (TDM) calculator tool. DTLA Hack for LA is partnering with Los Angeles Department of Transportation (LADOT) to develop this tool to help planners at LADOT and real estate developers calculate how to meet some of Los Angeles’s Mobility Plan 2035 goals.
+Traffic Demand Management (TDM) Calculator Tool. DTLA Hack for LA is partnering with the Los Angeles Department of Transportation (LADOT) to develop this tool to help planners at LADOT and real estate developers calculate how to meet some of Los Angeles’s Mobility Plan 2035 goals.
 
-Transportation demand management (TDM) is a defined set of strategies aimed at maximizing traveller choices while also improving mobility, reduce congestion, vehicle miles travelled, greenhouse gas emissions, and air pollution. For our project purposes, we are creating a TDM calculator tool in order to help real estate developers learn how to pass their development plans through the city with visible calculations showing based on their development plans.
+Transportation demand management (TDM) is a set of strategies aimed at maximizing traveler choices while improving mobility, reducing congestion, vehicle miles traveled, greenhouse gas emissions, and air pollution. For our project, we are creating a TDM calculator tool to help real estate developers understand how to pass their development plans through the city, with visible calculations based on their plans.
 
-## Project context
+## Project Context
 
-In order to start construction on a building to the City of Los Angeles, real estate developers have to submit a proposal of their development plan to the city for review and must meet certain criteria in order to be approved. Currently, the process for getting approved to build plans (on a super high level, steps may vary) goes like this:
+To start construction on a building in the City of Los Angeles, real estate developers must submit a proposal of their development plan for city review and meet specific criteria to gain approval. Currently, the high-level process for approval is as follows:
 
-- Real estate developer submit development proposal
-- City manually checks criteria through manual review
-- If it meets the criteria, city "approves" the plan
-- If it doesn't, real estate developer is able to request a meeting for further review and discussion. Otherwise, the plan is rejected.
+- Real estate developers submit a development proposal.
+- The city manually checks criteria through review.
+- If the criteria are met, the city "approves" the plan.
+- If not, the developer may request a meeting for further review and discussion. Otherwise, the plan is rejected.
 
-Real estate developers currently don't have any way to understand where their development plans are getting rejected. The TDM Calculator will be created in order to give them more visibility into how to get their development plans approved and, more importantly, get fined less for following city building criteria.
+Real estate developers currently lack insight into where their development plans might be rejected. The TDM Calculator aims to provide visibility into how to get their plans approved and, importantly, reduce fines by following city building criteria.
 
-The city will benefit by having more time to review edge cases for building development plans, while being able to approve plans that fit criteria with more ease and less hassle.
+The city will benefit from having more time to review edge cases for development plans while being able to approve compliant plans with greater ease and less hassle.
 
-[LADOT New Requirements for Sustainable Developments](https://ladot.lacity.org/businesses/development-review#new-requirements-for-sustainable-developments)
+[LADOT New Requirements for Sustainable Developments](https://ladot.lacity.org/businesses/development-review#new-requirements-for-sustainable-developments)  
 
-[LA Mobility Plan 2035](https://planning.lacity.org/documents/policy/mobilityplnmemo.pdf)
+[LA Mobility Plan 2035](https://planning.lacity.org/documents/policy/mobilityplnmemo.pdf)  
 
 [Hack for LA Code of Conduct](https://github.com/hackforla/codeofconduct)
 
-### Technology used
+## Technology Used
 
-- [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
-- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) / [How CSS Works](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/How_CSS_works) / [MDN Resources](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_Resources)
-- Client and Server Programming Language: [JavaScript](https://www.ecma-international.org/ecma-262/6.0/) / [Introduction](http://javascript.info/)
-- Web Server Runtime: [Node](https://nodejs.org/en/)
-- Web API Server Library: [Express](https://expressjs.com/)
-- Client JavaScript Library: [React](https://reactjs.org/)
-- Scaffolding for Client Application: [Create React App](https://facebook.github.io/create-react-app/docs/getting-started)
-- JavaScript Unit Test Framework: [Jest](https://jestjs.io/)
-- Database Engine: [Microsoft SQL Server](http://www.sqlservertutorial.net/) / [Tutorial](http://www.sqlservertutorial.net/)
+- **HTML**: [HTML Documentation](https://developer.mozilla.org/en-US/docs/Web/HTML)
+- **CSS**: [CSS Documentation](https://developer.mozilla.org/en-US/docs/Web/CSS) / [How CSS Works](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/How_CSS_works)
+- **JavaScript**: [ECMAScript Documentation](https://www.ecma-international.org/ecma-262/6.0/) / [JavaScript Basics](http://javascript.info/)
+- **Node.js**: [Node.js Documentation](https://nodejs.org/en/)
+- **Express**: [Express Documentation](https://expressjs.com/)
+- **React**: [React Documentation](https://reactjs.org/)
+- **Create React App**: [Getting Started with Create React App](https://facebook.github.io/create-react-app/docs/getting-started)
+- **Jest**: [Jest Documentation](https://jestjs.io/)
+- **Microsoft SQL Server**: [SQL Server Tutorial](http://www.sqlservertutorial.net/)
 
 ## How to Contribute
 
-- Join the team on the Hack For LA Slack channel (#tdm-calculator), or at our weekly hack night on Tuesdays in [Hack For LA](https://www.hackforla.org/)!
+- Join the team on the Hack for LA Slack channel (#tdm-calculator), or attend our weekly hack night on Tuesdays with [Hack for LA](https://www.hackforla.org/)!
 
-- To help with user research, find other cities' TDM calculators. For example, check out [SF's TDM Tool](http://www.sftdmtool.org/)
+- To help with user research, check other cities' TDM calculators. For example, explore [San Francisco's TDM Tool](http://www.sftdmtool.org/).
 
-- To contribute to the code, see [Contributing](https://github.com/hackforla/tdm-calculator/wiki/Contributing-Code)
+- To contribute to the code, visit our [Contributing Guide](https://github.com/hackforla/tdm-calculator/wiki/Contributing-Code).
 
-### Working with issues
+## Working with Issues
 
-Access the [Issues tab](https://github.com/hackforla/tdm-calculator/issues) and click "New Issue", use the blank issue template and fill out the Issue Detail:
+1. Access the [Issues tab](https://github.com/hackforla/tdm-calculator/issues), click "New Issue," and use the blank issue template to fill out the details:
 
-Title: Enter a concise, descriptive title for your issue.
-Comment: Provide a detailed description of the issue, including what you expected to happen and what actually happened.
+    - **Title**: Enter a concise, descriptive title for the issue.
+    - **Comment**: Provide a detailed description, including what you expected and what actually happened.
+    - **Assignees**: Assign to a specific person if needed.
+    - **Labels**: Add labels to categorize (e.g., bug, enhancement, feature request).
+    - **Milestone**: Assign to a milestone if part of a larger project.
 
-Assignees: You can assign the issue to a specific person if needed.
-Labels: You can add labels to categorize the issue (e.g., bug, enhancement, feature request).
-Milestone: Assign the issue to a milestone if it's part of a larger project or goal.
-Preview and Submit
-Confirm.
+2. Preview and submit the issue. 
 
-Then go to the [projects Kanabn](https://github.com/hackforla/tdm-calculator/projects/1) you will see your new issue under
-'New Issue Approval' column. After being discussed in the first upcoming team meeting, PMs can move it to the prioritized backlog or 'In Progress,' depending on its status. If it's dependent on other issues that are not resolved, it will be moved to the 'Icebox.
+3. In the [Projects Kanban](https://github.com/hackforla/tdm-calculator/projects/1), your new issue will appear in the 'New Issue Approval' column. After team discussion, it will be moved to the prioritized backlog or 'In Progress,' depending on its status. If dependent on unresolved issues, it will be moved to the 'Icebox.'
 
-## Contact info
+## Contact Information
 
-Please use the tdm-calculator slack channel to communicate with the whole project team.
+For team communication, please use the #tdm-calculator Slack channel.
 
-If you have any questions or comments, feel free to reach out to:
-Hack For LA
-Bonnie
-Co-Host/Organizer
-tdm@hackforla.org
+For questions or comments, feel free to reach out to:
 
-### Licensing
+**Hack for LA**  
+**Bonnie**  
+Co-Host/Organizer  
+Email: tdm@hackforla.org  
 
-https://github.com/hackforla/tdm-calculator/blob/develop/LICENSE
+## Licensing
 
-_this readme file sourced from [Jessica Sand](http://jessicasand.com/other-stuff/just-enough-docs/)_
+See the [LICENSE file](https://github.com/hackforla/tdm-calculator/blob/develop/LICENSE) for details.
+
+---
+
+This README was created with guidance from [Jessica Sand](http://jessicasand.com/other-stuff/just-enough-docs/).
