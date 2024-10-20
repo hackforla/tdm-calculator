@@ -5,7 +5,6 @@ import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
 import SearchIcon from "../../../images/search.png";
-import Select from "react-select";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -71,7 +70,8 @@ const TextPopup = ({
     criteria[header.id + "List"].map(s => ({ value: s, label: s }))
   );
   const [searchString, setSearchString] = useState("");
-  const [targetVisibility, setTargetVisibility] = useState(false);
+
+  const initiallyChecked = o => criteria[header.id + "List"].includes(o);
 
   // To build the drop-down list, we want to apply all the criteria that
   // are currently selected EXCEPT the criteria we are currently editing.
@@ -80,7 +80,9 @@ const TextPopup = ({
   const property = header.id == "author" ? "fullname" : header.id;
   const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
     .filter(value => value !== null)
-    .sort();
+    .sort(
+      (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
+    );
 
   const filteredOptions = selectOptions
     .filter(o => !!o)
@@ -133,17 +135,6 @@ const TextPopup = ({
     setSelectAllChecked(false);
   };
 
-  const placeholderComponent = (
-    <div>
-      <img
-        style={{ position: "absolute", right: "16 px", top: "14 px" }}
-        src={SearchIcon}
-        alt="Search Icon"
-      />
-      <div style={{ marginLeft: "30px" }}> Filter</div>
-    </div>
-  );
-
   return (
     <div
       style={{ display: "flex", flexDirection: "column", maxWidth: "25rem" }}
@@ -176,91 +167,53 @@ const TextPopup = ({
         />
         <hr style={{ width: "100%" }} />
       </div>
-      {/* TODO: This is currently implemented differently for the address column than the other text columns,
-      so PMs, designers and possibly stakeholders can evaluate two different implementations of the TextPopup, 
-      and experiment with the UX, in order to make a decision on how to evolve this filter.  */}
-      {header.id === "address" ? (
-        // <MultiSelectText
-        //   options={selectOptions}
-        //   selectedOptions={selectedListItems}
-        //   setSelectedOptions={setSelectedListItems}
-        // />
-        <>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "baseline"
-            }}
-          >
-            <button
-              className={classes.toggleButton}
-              onClick={() => setSelectedListItems([])}
-            >
-              clear
-            </button>
-            <div>{`${selectedListItems.length}  selected`}</div>
-          </div>
-          <div className={classes.searchBarWrapper}>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline"
+        }}
+      >
+        <button
+          className={classes.toggleButton}
+          onClick={() => setSelectedListItems([])}
+        >
+          clear
+        </button>
+        <div>{`${selectedListItems.length}  selected`}</div>
+      </div>
+      <div className={classes.searchBarWrapper}>
+        <input
+          type="text"
+          value={searchString}
+          onChange={onChangeSearchString}
+          className={classes.searchBar}
+        />
+        <img
+          className={classes.searchIcon}
+          src={SearchIcon}
+          alt="Search Icon"
+        />
+      </div>
+
+      <div style={{ overflow: "scroll", maxHeight: "15rem" }}>
+        {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
+        {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
+
+        {filteredOptions.map(o => (
+          <div key={o} className={classes.listItem}>
             <input
-              type="text"
-              value={searchString}
-              onChange={onChangeSearchString}
-              className={classes.searchBar}
+              style={{ height: "1.5rem" }}
+              type="checkbox"
+              name={o}
+              checked={isChecked(o)}
+              onChange={handleCheckboxChange}
             />
-            <img
-              className={classes.searchIcon}
-              src={SearchIcon}
-              alt="Search Icon"
-            />
+            <span>{o}</span>
           </div>
-
-          <div style={{ overflow: "scroll", maxHeight: "15rem" }}>
-            {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
-            {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
-
-            {filteredOptions.map(o => (
-              <div key={o} className={classes.listItem}>
-                <input
-                  style={{ height: "1.5rem" }}
-                  type="checkbox"
-                  name={o}
-                  checked={isChecked(o)}
-                  onChange={handleCheckboxChange}
-                />
-                <span>{o}</span>
-              </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
-          <Select
-            options={selectOptions.map(text => ({
-              value: text,
-              label: text
-            }))}
-            name={property}
-            disabled={false}
-            onChange={setSelectedListItems}
-            value={selectedListItems}
-            placeholder={placeholderComponent}
-            isMulti
-            styles={{
-              maxWidth: "50rem",
-              menuPortal: base => ({
-                ...base,
-                zIndex: 9999,
-                maxHeight: "10rem"
-              })
-            }}
-            closeMenuOnSelect={false}
-            onMenuOpen={() => setTargetVisibility(true)}
-            onMenuClose={() => setTargetVisibility(false)}
-          ></Select>
-          {targetVisibility ? <div style={{ height: "19.5rem" }}></div> : null}
-        </>
-      )}
+        ))}
+      </div>
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex", justifyContent: "center" }}>
