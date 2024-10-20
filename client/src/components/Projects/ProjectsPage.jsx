@@ -692,6 +692,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
     }
 
+    if (
+      criteria.authorList.length > 0 &&
+      !criteria.authorList
+        .map(n => n.toLowerCase())
+        .includes(p.fullname.toLowerCase())
+    ) {
+      return false;
+    }
+
     if (criteria.dro && !p.dro.includes(criteria.dro)) return false;
 
     if (
