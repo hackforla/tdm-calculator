@@ -948,7 +948,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           handleHide={handleHide}
                           handleCheckboxChange={handleCheckboxChange}
                           checkedProjectIds={checkedProjectIds}
-                          isAdmin={userContext.account?.isAdmin}
+                          isAdmin={
+                            UserContext.account
+                              ? UserContext.account.isAdmin
+                              : false
+                          }
                           droOptions={droOptions}
                           onDroChange={handleDroChange} // Pass the DRO change handler
                           onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler

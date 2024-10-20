@@ -63,7 +63,7 @@ const ProjectContextMenu = ({
 
   return (
     <ul className={classes.list}>
-      {project.dateSnapshotted && project.loginId == account.id ? (
+      {project.dateSnapshotted && project.loginId == account?.id ? (
         <li
           className={classes.listItem}
           onClick={() => handleClick(handleRenameSnapshotModalOpen)}
@@ -76,7 +76,7 @@ const ProjectContextMenu = ({
         </li>
       ) : null}
 
-      {project.dateSnapshotted && project.loginId !== account.id ? (
+      {project.dateSnapshotted && project.loginId !== account?.id ? (
         <li className={classes.listItemDisabled}>
           <MdEdit
             className={classes.listItemIcon}
@@ -86,7 +86,7 @@ const ProjectContextMenu = ({
         </li>
       ) : null}
 
-      {!project.dateSnapshotted && project.loginId == account.id ? (
+      {!project.dateSnapshotted && project.loginId == account?.id ? (
         <li
           className={classes.listItem}
           onClick={() => handleClick(handleSnapshotModalOpen)}
@@ -129,7 +129,7 @@ const ProjectContextMenu = ({
         />
         Duplicate
       </li>
-      {project.loginId !== account.id ? null : (
+      {project.loginId !== account?.id ? null : (
         <li
           onClick={() => handleClick(handleHide)}
           className={classes.listItem}
@@ -153,7 +153,7 @@ const ProjectContextMenu = ({
           )}
         </li>
       )}
-      {project.loginId !== account.id ? null : (
+      {project.loginId !== account?.id ? null : (
         <li
           onClick={() => handleClick(handleDeleteModalOpen)}
           className={classes.listItem}

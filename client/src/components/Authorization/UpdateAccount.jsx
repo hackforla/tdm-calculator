@@ -24,8 +24,8 @@ const UpdateAccount = props => {
   const classes = useStyles();
   const params = useParams();
   const initialValues = {
-    firstName: account.firstName || "",
-    lastName: account.lastName || "",
+    firstName: account?.firstName || "",
+    lastName: account?.lastName || "",
     email: params.email || ""
   };
 

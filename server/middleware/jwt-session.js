@@ -20,11 +20,12 @@ async function login(req, res) {
     isAdmin: req.user.isAdmin,
     isSecurityAdmin: req.user.isSecurityAdmin
   });
+  const expirationDateTime = new Date(Date.now() + 43200000); // 12 hours
   res.cookie("jwt", token, {
     httpOnly: true,
-    expires: new Date(Date.now() + 43200000) // 12 hours
+    expires: expirationDateTime
   });
-  const user = req.user;
+  const user = { ...req.user, expiration: expirationDateTime };
   res.json({ isSuccess: true, token: token, user });
 }
 
