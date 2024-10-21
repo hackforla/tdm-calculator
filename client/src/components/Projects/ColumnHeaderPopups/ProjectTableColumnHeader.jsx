@@ -1,13 +1,58 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdFilterAlt, MdFilterList } from "react-icons/md";
-import Popup from "reactjs-popup";
+import { Popover } from "react-tiny-popover";
 import DatePopup from "./DatePopup";
 import TextPopup from "./TextPopup";
 import VisibilityPopup from "./VisibilityPopup";
 import StatusPopup from "./StatusPopup";
 import { useTheme } from "react-jss";
+
+const ColumnHeader = React.forwardRef((props, ref) => {
+  const theme = useTheme();
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        display: "flex",
+        justifyContent: "space-between"
+      }}
+      onClick={props.onClick}
+    >
+      <span>{props.header.label}</span>
+      {props.isFilterApplied() ? (
+        <MdFilterAlt
+          style={{
+            backgroundColor: "transparent",
+            color: "white",
+            marginLeft: "0.5rem"
+          }}
+          alt={`Show column filter and sort popup`}
+        />
+      ) : (
+        <MdFilterList
+          style={{
+            backgroundColor: "transparent",
+            color: theme.colorLightGray,
+            marginLeft: "0.5rem"
+          }}
+          alt={`Show column filter and sort popup`}
+        />
+      )}
+    </div>
+  );
+});
+
+ColumnHeader.displayName = "ColumnHeader";
+
+ColumnHeader.propTypes = {
+  onClick: PropTypes.func,
+  header: PropTypes.any,
+  isFilterApplied: PropTypes.bool
+};
 
 const ProjectTableColumnHeader = ({
   projects,
@@ -22,6 +67,7 @@ const ProjectTableColumnHeader = ({
   setSelectAllChecked
 }) => {
   const theme = useTheme();
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   // Filter is considered Applied if it is not set
   // to the default criteria values.
@@ -46,109 +92,87 @@ const ProjectTableColumnHeader = ({
     return false;
   };
 
+  const handlePopoverToggle = flag => {
+    setIsPopoverOpen(flag);
+  };
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
       {header.id !== "checkAllProjects" && header.id !== "contextMenu" ? (
-        <Popup
-          lockScroll={true}
-          trigger={
+        <Popover
+          isOpen={isPopoverOpen}
+          positions={["bottom", "left", "right", "top"]} // preferred positions by priority
+          align="start"
+          padding={10}
+          onClickOutside={() => handlePopoverToggle(false)}
+          content={
             <div
               style={{
-                display: "flex",
-                justifyContent: "space-between"
+                backgroundColor: "white",
+                border: "1px solid gray",
+                borderRadius: "0.2rem"
               }}
             >
-              <span>{header.label}</span>
-              {isFilterApplied() ? (
-                <MdFilterAlt
-                  style={{
-                    backgroundColor: "transparent",
-                    color: "white",
-                    marginLeft: "0.5rem"
-                  }}
-                  alt={`Show column filter and sort popup`}
+              {!header.popupType ? null : header.popupType === "datetime" ? (
+                <DatePopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
                 />
-              ) : (
-                <MdFilterList
-                  style={{
-                    backgroundColor: "transparent",
-                    color: theme.colorLightGray,
-                    marginLeft: "0.5rem"
-                  }}
-                  alt={`Show column filter and sort popup`}
+              ) : header.popupType === "text" ? (
+                <TextPopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
+                  projects={projects}
+                  filter={filter}
                 />
-              )}
-              {/* <FontAwesomeIcon
-                style={{
-                  backgroundColor: "transparent",
-                  color: "white",
-                  marginLeft: "0.5rem"
-                }}
-                icon={faFilter}
-                alt={`Show column filter and sort popup`}
-              /> */}
+              ) : header.popupType === "visibility" ? (
+                <VisibilityPopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
+                />
+              ) : header.popupType === "status" ? (
+                <StatusPopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
+                />
+              ) : null}
             </div>
           }
-          position="bottom center"
-          offsetY={10}
-          arrow={false}
-          contentStyle={{ width: "auto" }}
         >
-          {close => {
-            return !header.popupType ? null : header.popupType ===
-              "datetime" ? (
-              <DatePopup
-                close={close}
-                header={header}
-                criteria={criteria}
-                setCriteria={setCriteria}
-                order={order}
-                orderBy={orderBy}
-                setSort={setSort}
-                setCheckedProjectIds={setCheckedProjectIds}
-                setSelectAllChecked={setSelectAllChecked}
-              />
-            ) : header.popupType === "text" ? (
-              <TextPopup
-                close={close}
-                header={header}
-                criteria={criteria}
-                setCriteria={setCriteria}
-                order={order}
-                orderBy={orderBy}
-                setSort={setSort}
-                setCheckedProjectIds={setCheckedProjectIds}
-                setSelectAllChecked={setSelectAllChecked}
-                projects={projects}
-                filter={filter}
-              />
-            ) : header.popupType === "visibility" ? (
-              <VisibilityPopup
-                close={close}
-                header={header}
-                criteria={criteria}
-                setCriteria={setCriteria}
-                order={order}
-                orderBy={orderBy}
-                setSort={setSort}
-                setCheckedProjectIds={setCheckedProjectIds}
-                setSelectAllChecked={setSelectAllChecked}
-              />
-            ) : header.popupType === "status" ? (
-              <StatusPopup
-                close={close}
-                header={header}
-                criteria={criteria}
-                setCriteria={setCriteria}
-                order={order}
-                orderBy={orderBy}
-                setSort={setSort}
-                setCheckedProjectIds={setCheckedProjectIds}
-                setSelectAllChecked={setSelectAllChecked}
-              />
-            ) : null;
-          }}
-        </Popup>
+          <ColumnHeader
+            onClick={() => setIsPopoverOpen(!isPopoverOpen)}
+            header={header}
+            isFilterApplied={() => isFilterApplied()}
+          ></ColumnHeader>
+        </Popover>
       ) : (
         <span>{header.label}</span>
       )}
