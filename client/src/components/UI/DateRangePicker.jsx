@@ -39,6 +39,10 @@ const DateRangePicker = ({
           justifyContent: "space-between",
           minWidth: "15.5rem"
         }}
+        onClick={e => {
+          // We don't want a click event to bubble up to the parent container
+          e.stopPropagation();
+        }}
       >
         <DatePicker
           selected={startDate}
@@ -52,6 +56,10 @@ const DateRangePicker = ({
           popperPlacement="bottom-start"
           onCalendarOpen={handleCalendarOpen}
           onCalendarClose={handleCalendarClose}
+          onClick={e => {
+            // We don't want a click event to bubble up to the parent container
+            e.stopPropagation();
+          }}
           // withPortal
         />
         <div

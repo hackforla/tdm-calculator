@@ -193,7 +193,7 @@ const TextPopup = ({
         <MdOutlineSearch className={classes.searchIcon} alt="Search Icon" />
       </div>
 
-      <div style={{ overflow: "scroll", maxHeight: "15rem" }}>
+      <div style={{ overflow: "auto", maxHeight: "12rem" }}>
         {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
         {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
 
