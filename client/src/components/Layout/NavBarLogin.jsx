@@ -9,6 +9,7 @@ import NavBarToolTip from "./NavBarToolTip";
 const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
   const userContext = useContext(UserContext);
   const account = userContext.account;
+
   const [isCalculation, setIsCalculation] = useState(false);
 
   const location = useLocation();

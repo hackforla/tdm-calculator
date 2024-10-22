@@ -105,7 +105,7 @@ const Roles = ({ contentContainerRef }) => {
   const classes = useStyles();
   const toast = useToast();
   const userContext = useContext(UserContext);
-  const loggedInUserId = userContext.account.id;
+  const loggedInUserId = userContext.account?.id;
 
   useEffect(() => {
     const getAccounts = async () => {
@@ -295,17 +295,17 @@ const Roles = ({ contentContainerRef }) => {
                     trigger={
                       <button
                         className={`${classes.optionsButton} ${
-                          account.isSecurityAdmin ||
-                          account.id === loggedInUserId
+                          account?.isSecurityAdmin ||
+                          account?.id === loggedInUserId
                             ? classes.disabledOptionsButton
                             : ""
                         }`}
                         disabled={
-                          account.isSecurityAdmin ||
-                          account.id === loggedInUserId
+                          account?.isSecurityAdmin ||
+                          account?.id === loggedInUserId
                         }
                       >
-                        <MdMoreVert alt={`Options for ${account.email}`} />
+                        <MdMoreVert alt={`Options for ${account?.email}`} />
                       </button>
                     }
                     position="bottom center"
@@ -313,7 +313,7 @@ const Roles = ({ contentContainerRef }) => {
                     on="click"
                     closeOnDocumentClick
                     arrow={false}
-                    onOpen={() => setHoveredRow(account.id)}
+                    onOpen={() => setHoveredRow(account?.id)}
                     onClose={() => setHoveredRow(null)}
                   >
                     <div className={classes.popupContent}>

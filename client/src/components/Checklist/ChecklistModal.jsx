@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
-import { IoCloseSharp } from "react-icons/io5";
+import { MdClose } from "react-icons/md";
 
 import "./ChecklistModal.css";
 
@@ -68,7 +68,7 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
       className={classes.modal}
     >
       <span className={classes.close} onClick={toggleChecklistModal}>
-        <IoCloseSharp />
+        <MdClose />
       </span>
       <ChecklistContent />
     </Modal>
