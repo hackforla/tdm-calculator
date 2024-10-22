@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
-import WarningIcon from "../../images/warning-icon.png";
+import { MdWarning } from "react-icons/md";
 
 const useStyles = createUseStyles({
   title: {
@@ -37,7 +37,7 @@ const NavConfirmDialog = ({ blocker }) => {
       </h2>
       <br />
       <p className={classes.warningWrapper}>
-        <img src={WarningIcon} alt="Warning" />
+        <MdWarning alt="Warning" />
         <span className={classes.warningMessage}>
           &nbsp; This will permanently delete any unsaved projects or changes to
           project.

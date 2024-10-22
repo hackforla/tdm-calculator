@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import WarningIcon from "../../images/warning-icon.png";
+import { MdWarning } from "react-icons/md";
 
 const useStyles = createUseStyles({
   container: {
@@ -60,7 +60,7 @@ const NavBarToolTip = () => {
 
   return (
     <div className={classes[tooltipVisibility]}>
-      <img src={WarningIcon} className={classes.warningIcon} alt="Warning" />
+      <MdWarning className={classes.warningIcon} alt="Warning" />
       <span>Only projects created after logging in can be saved</span>
       <div className={classes.arrowUp}> </div>
       <button
