@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import PlanningIcon from "../../../images/planning.png";
-import WarningIcon from "../../../images/warning-icon.png";
 import { createUseStyles } from "react-jss";
 import { MdLaunch } from "react-icons/md";
+import { MdWarning } from "react-icons/md";
 
 const useStyles = createUseStyles({
   level0NavButtons: {
@@ -53,11 +53,7 @@ const Level0Page = ({ isLevel0 }) => {
             <img src={PlanningIcon} alt="planningIcon" />
             <h1>Your project level is 0!</h1>
             <div className={classes.level0Message}>
-              <img
-                src={WarningIcon}
-                className={classes.warningIcon}
-                alt="warningIcon"
-              />
+              <MdWarning className={classes.warningIcon} alt="Warning" />
               <p>
                 Based on the information you provided, the Transportation Demand
                 Management (TDM) Ordinance <strong>may</strong> not apply to
