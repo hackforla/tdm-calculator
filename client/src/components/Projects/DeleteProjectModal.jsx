@@ -68,7 +68,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
         {Array.isArray(project.name) ? project.name.join(", ") : project.name}
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button onClick={onClose} variant="text" id="cancelButton">
+        <Button onClick={onClose} variant="outlined" id="cancelButton">
           Cancel
         </Button>
         {project.dateTrashed ? (

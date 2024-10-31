@@ -158,7 +158,7 @@ const CsvModal = ({
               setProjectCollection("");
               setFilename("");
             }}
-            variant="text"
+            variant="outlined"
             id="cancelButton"
           >
             Cancel

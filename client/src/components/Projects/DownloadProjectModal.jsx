@@ -6,6 +6,8 @@ import Button from "../Button/Button";
 
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 
+// This file appears to be obsolete
+
 const useStyles = createUseStyles(theme => ({
   buttonFlexBox: {
     display: "flex",
@@ -93,7 +95,7 @@ export default function DownloadProjectModal({
         </table>
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button onClick={onClose} variant="text">
+        <Button onClick={onClose} variant="outlined">
           Close
         </Button>
         {/* <Button

@@ -102,7 +102,7 @@ const VisibilityPopup = ({
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
-        <Button onClick={setDefault} variant="text">
+        <Button onClick={setDefault} variant="outlined">
           Reset
         </Button>
         <Button

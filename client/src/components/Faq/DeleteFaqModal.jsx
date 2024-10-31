@@ -43,7 +43,7 @@ const DeleteFaqModal = ({ isModalOpen, closeModal, handleDelete, isFaq }) => {
         {`Are you sure you want to permanently delete the ${type}?`}
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button onClick={closeModal} variant="text" id="cancelButton">
+        <Button onClick={closeModal} variant="outlined" id="cancelButton">
           Cancel
         </Button>
         <Button onClick={handleDelete} variant="contained" color={"colorError"}>
