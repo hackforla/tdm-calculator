@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import PlanningIcon from "../../../images/planning.png";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { MdLaunch } from "react-icons/md";
 import { MdWarning } from "react-icons/md";
 
@@ -12,20 +12,12 @@ const useStyles = createUseStyles({
     }
   },
   level0Container: {
-    textAlign: "center",
-
-    "& h1": {
-      fontFamily: "Oswald",
-      fontWeight: "bold",
-      fontSize: "30px",
-      lineHeight: "44px",
-      marginTop: "22px"
-    }
+    textAlign: "center"
   },
   level0Message: {
     marginTop: "20px",
     maxWidth: "800px",
-    backgroundColor: "#FEF4F2",
+    backgroundColor: "#F9DFDA",
     color: "#B64E38",
     fontSize: "22px",
     lineHeight: "38px",
@@ -43,7 +35,8 @@ const useStyles = createUseStyles({
 });
 
 const Level0Page = ({ isLevel0 }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme });
 
   return (
     <>
@@ -51,7 +44,7 @@ const Level0Page = ({ isLevel0 }) => {
         <div className={classes.level0NavButtons}>
           <div className={classes.level0Container}>
             <img src={PlanningIcon} alt="planningIcon" />
-            <h1>Your project level is 0!</h1>
+            <h1 style={theme.typography.heading1}>Your project level is 0!</h1>
             <div className={classes.level0Message}>
               <MdWarning className={classes.warningIcon} alt="Warning" />
               <p>
