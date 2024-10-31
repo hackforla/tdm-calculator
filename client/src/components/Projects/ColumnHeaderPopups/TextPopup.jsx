@@ -213,7 +213,7 @@ const TextPopup = ({
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button onClick={setDefault} variant="text">
+        <Button onClick={setDefault} variant="outlined">
           Reset
         </Button>
         <Button

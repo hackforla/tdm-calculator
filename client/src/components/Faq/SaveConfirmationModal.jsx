@@ -42,7 +42,7 @@ const SaveConfirmationModal = ({ isOpen, onClose, onYes }) => {
         {"Are you sure you want to save FAQ page edits?"}
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button onClick={onClose} variant="text" id="cancelButton">
+        <Button onClick={onClose} variant="outlined" id="cancelButton">
           Cancel
         </Button>
         <Button onClick={onYes} variant="contained" color={"colorPrimary"}>

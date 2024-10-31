@@ -46,7 +46,7 @@ const NavConfirmDialog = ({ blocker }) => {
       <div className={classes.modalActions}>
         <Button
           color="colorCancel"
-          variant="text"
+          variant="outlined"
           id="modalCancel"
           data-testid="transitionCancel"
           onClick={() => blocker.reset()}
