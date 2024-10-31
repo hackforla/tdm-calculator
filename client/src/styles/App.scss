@@ -189,3 +189,10 @@ button.link {
 
 // add any override to the default styles in the individual component styles
 @import "./AuthForms.scss"; // Login and Register components
+
+// Add responsive styles
+@media screen and (max-width: 768px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
+}
