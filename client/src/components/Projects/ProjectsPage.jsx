@@ -819,7 +819,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
   const sortedProjects = stableSort(
     projects.filter(p => filter(p, criteria)),
-    getComparator(order, orderBy)
+    getComparator("desc", "dateModified")
   );
   const currentProjects = sortedProjects.slice(
     indexOfFirstPost,
