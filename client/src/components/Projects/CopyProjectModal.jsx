@@ -56,7 +56,7 @@ export default function CopyProjectModal({
         />
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button onClick={onClose} variant="text">
+        <Button onClick={onClose} variant="outlined">
           Cancel
         </Button>
         <Button

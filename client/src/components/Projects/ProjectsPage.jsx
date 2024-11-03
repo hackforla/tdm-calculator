@@ -5,7 +5,7 @@ import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext";
 
 import { MdFilterAlt } from "react-icons/md";
-import SearchIcon from "../../images/search.png";
+import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
@@ -169,6 +169,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [droOptions, setDroOptions] = useState([]);
   const [droNameMap, setDroNameMap] = useState({});
   const projectsPerPage = perPage;
+  const isAdmin = userContext.account?.isAdmin || false;
 
   useEffect(() => {
     // Check if the user is an admin
@@ -890,11 +891,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       value={filterText}
                       onChange={e => handleFilterTextChange(e.target.value)}
                     />
-                    <img
-                      className={classes.searchIcon}
-                      src={SearchIcon}
-                      alt="Search Icon"
-                    />
+                    <MdOutlineSearch className={classes.searchIcon} />
                   </div>
                   {filterCollapsed ? (
                     <button
@@ -948,18 +945,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           handleHide={handleHide}
                           handleCheckboxChange={handleCheckboxChange}
                           checkedProjectIds={checkedProjectIds}
-                          isAdmin={
-                            UserContext.account
-                              ? UserContext.account.isAdmin
-                              : false
-                          }
+                          isAdmin={isAdmin}
                           droOptions={droOptions}
                           onDroChange={handleDroChange} // Pass the DRO change handler
                           onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
                           droName={
-                            userContext.account?.isAdmin
-                              ? null
-                              : droNameMap[project.droId] || "N/A"
+                            isAdmin ? null : droNameMap[project.droId] || "N/A"
                           } // Pass the droName
                         />
                       ))

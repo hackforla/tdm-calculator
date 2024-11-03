@@ -62,7 +62,7 @@ const AffordableEdgeCaseModal = ({ isOpen, onClose, onYes }) => {
             {`100% affordable housing of less than 50 units are exempt from the TDM Ordinance. Did you intend to change to 100% Affordable Housing?`}
           </div>
           <div className={classes.buttonFlexBox}>
-            <Button onClick={onClose} variant="text" id="cancelButton">
+            <Button onClick={onClose} variant="outlined" id="cancelButton">
               NO
             </Button>
             <Button onClick={onYes} variant="contained" color={"colorPrimary"}>

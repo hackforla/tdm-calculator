@@ -181,7 +181,7 @@ const Login = () => {
                   >
                     <Button
                       color="colorDefault"
-                      variant="text"
+                      variant="outlined"
                       onClick={() => {
                         navigate("/calculation/1/0");
                       }}

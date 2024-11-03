@@ -4,7 +4,7 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
-import SearchIcon from "../../../images/search.png";
+import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -190,11 +190,7 @@ const TextPopup = ({
           onChange={onChangeSearchString}
           className={classes.searchBar}
         />
-        <img
-          className={classes.searchIcon}
-          src={SearchIcon}
-          alt="Search Icon"
-        />
+        <MdOutlineSearch className={classes.searchIcon} alt="Search Icon" />
       </div>
 
       <div style={{ overflow: "auto", maxHeight: "12rem" }}>
@@ -217,7 +213,7 @@ const TextPopup = ({
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button onClick={setDefault} variant="text">
+        <Button onClick={setDefault} variant="outlined">
           Reset
         </Button>
         <Button

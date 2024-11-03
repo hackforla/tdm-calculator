@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
-import { FaX } from "react-icons/fa6";
+import { MdClose } from "react-icons/md";
 
 import "./ChecklistModal.css";
 
@@ -68,8 +68,7 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
       className={classes.modal}
     >
       <span className={classes.close} onClick={toggleChecklistModal}>
-        {/* <FontAwesomeIcon icon={faX} /> */}
-        <FaX />
+        <MdClose />
       </span>
       <ChecklistContent />
     </Modal>

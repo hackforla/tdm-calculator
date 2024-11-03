@@ -2,7 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import { MdDelete, MdRestoreFromTrash } from "react-icons/md";
 import Button from "../Button/Button";
-import WarningIcon from "../../images/warning-icon.png";
+import { MdWarning } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 
@@ -47,11 +47,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
             <MdRestoreFromTrash /> Restore Project from Trash
           </div>
           <div style={theme.typography.subHeading}>
-            <img
-              src={WarningIcon}
-              className={classes.warningIcon}
-              alt="Warning"
-            />
+            <MdWarning className={classes.warningIcon} alt="Warning" />
             Are you sure you want to restore the project from the trash,
           </div>
         </>
@@ -61,11 +57,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
             <MdDelete /> Delete Project
           </div>
           <div style={theme.typography.subHeading}>
-            <img
-              src={WarningIcon}
-              className={classes.warningIcon}
-              alt="Warning"
-            />
+            <MdWarning className={classes.warningIcon} alt="Warning" />
             Are you sure you want to delete the following? <br></br>(It will
             remain in the recycling bin for ninety days <br></br>before being
             permanently deleted)
@@ -76,7 +68,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
         {Array.isArray(project.name) ? project.name.join(", ") : project.name}
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button onClick={onClose} variant="text" id="cancelButton">
+        <Button onClick={onClose} variant="outlined" id="cancelButton">
           Cancel
         </Button>
         {project.dateTrashed ? (
