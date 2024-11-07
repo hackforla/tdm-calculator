@@ -1,11 +1,7 @@
 import Engine from "./tdm-engine";
 import { engineTestRules, engineTestInput1 } from "../test-data/engine-test";
 import { tdmRules } from "../test-data/tdm-calc-rules";
-import {
-  project1,
-  project2,
-  project3
-} from "../test-data/tdm-calc-examples.js";
+import { project1, project2, project3 } from "../test-data/tdm-calc-examples";
 import "@testing-library/jest-dom";
 
 describe("class Engine", () => {
