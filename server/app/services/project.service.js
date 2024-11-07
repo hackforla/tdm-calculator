@@ -38,6 +38,9 @@ const post = async item => {
     request.input("address", mssql.NVarChar, item.address); // 200
     request.input("description", mssql.NVarChar, item.description); // max
     request.input("formInputs", mssql.NVarChar, item.formInputs); // max
+    request.input("targetPoints", mssql.Int, item.taretPoints);
+    request.input("earnedPoints", mssql.Int, item.earnedPoints);
+    request.input("projectLevel", mssql.Int, item.projectLevel);
     request.input("loginId", mssql.Int, item.loginId);
     request.input("calculationId", mssql.Int, item.calculationId);
     request.output("id", mssql.Int, null);
@@ -57,6 +60,9 @@ const put = async item => {
     request.input("address", mssql.NVarChar, item.address); // 200
     request.input("description", mssql.NVarChar, item.description); // max
     request.input("formInputs", mssql.NVarChar, item.formInputs); // max
+    request.input("targetPoints", mssql.Int, item.taretPoints);
+    request.input("earnedPoints", mssql.Int, item.earnedPoints);
+    request.input("projectLevel", mssql.Int, item.projectLevel);
     request.input("loginId", mssql.Int, item.loginId);
     request.input("calculationId", mssql.Int, item.calculationId);
     request.input("id", mssql.Int, item.id);
