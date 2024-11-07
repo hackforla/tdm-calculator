@@ -52,10 +52,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const [rules, setRules] = useState([]);
 
   const [project, setProject] = useState({});
-  // const [loginId, setLoginId] = useState(0);
-  // const [dateModified, setDateModified] = useState();
-  // const [dateSnapshotted, setDateSnapshotted] = useState();
-  // const [dateSubmitted, setDateSubmitted] = useState();
 
   const toast = useToast();
 
@@ -450,6 +446,9 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       address: formInputs.PROJECT_ADDRESS,
       description: formInputs.PROJECT_DESCRIPTION,
       formInputs: JSON.stringify(inputsToSave),
+      targetPoints: getRuleByCode("TARGET_POINTS_PARK").value,
+      earnedPoints: getRuleByCode("PTS_EARNED").value,
+      projectLevel: getRuleByCode("PROJECT_LEVEL").value,
       loginId: account.id,
       calculationId: TdmCalculationContainer.calculationId
     };
