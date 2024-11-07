@@ -12,7 +12,8 @@ import {
   MdDelete,
   MdRestoreFromTrash,
   MdFileCopy,
-  MdEdit
+  MdEdit,
+  MdOutlineIosShare
 } from "react-icons/md";
 
 const useStyles = createUseStyles({
@@ -49,6 +50,7 @@ const ProjectContextMenu = ({
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
+  handleShareSnapshotModalOpen,
   handlePrintPdf,
   handleHide
 }) => {
@@ -83,6 +85,19 @@ const ProjectContextMenu = ({
             alt={`Snapshot Project #${project.id} Icon`}
           />
           Rename Snapshot
+        </li>
+      ) : null}
+
+      {project.dateSnapshotted && project.loginId == account?.id ? (
+        <li
+          className={classes.listItem}
+          onClick={() => handleClick(handleShareSnapshotModalOpen)}
+        >
+          <MdOutlineIosShare
+            className={classes.listItemIcon}
+            alt={`Share Snapshot #${project.id} Icon`}
+          />
+          Share Snapshot
         </li>
       ) : null}
 
@@ -190,6 +205,7 @@ ProjectContextMenu.propTypes = {
   handleDeleteModalOpen: PropTypes.func,
   handleSnapshotModalOpen: PropTypes.func,
   handleRenameSnapshotModalOpen: PropTypes.func,
+  handleShareSnapshotModalOpen: PropTypes.func,
   handlePrintPdf: PropTypes.func,
   handleHide: PropTypes.func
 };
