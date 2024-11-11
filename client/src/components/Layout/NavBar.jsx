@@ -170,6 +170,15 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           Feedback
         </NavLink>
       </li>
+      <li className={classes.linkBlock}>
+        <NavLink
+          className={classes.link}
+          to="/submit"
+          onClick={handleHamburgerMenuClick}
+        >
+          Submit Snapshot
+        </NavLink>
+      </li>
       <NavBarLogin
         account={account}
         classes={classes}
