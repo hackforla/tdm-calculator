@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -8,10 +8,9 @@ import SubmitSnapshotModal from "./SubmitSnapshotModal.jsx";
 import SubmitSnapshotTable from "./SubmitSnapshotTable";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
-import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData.js";
 import UserContext from "../../contexts/UserContext";
 import * as projectService from "../../services/project.service.js";
-import fetchEngineRules from "../Projects/fetchEngineRules.js";
+import * as projectResultService from "../../services/projectResult.service";
 
 const useStyles = createUseStyles({
   pageTitle: {
@@ -48,56 +47,53 @@ const SubmitSnapshotPage = props => {
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useProjects(handleError);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [submissionModalOpen, setSubmissionModalOpen] = useState(false);
-  const [checkedProjectIds, setCheckedProjectIds] = useState([]);
-  const checkedProjectsStatusData = useCheckedProjectsStatusData(
-    checkedProjectIds,
-    projects
+
+  const eligibleProjects = projects.filter(
+    p =>
+      p.earnedPoints >= p.targetPoints && p.dateSnapshotted && !p.dateSubmitted
   );
-  const [projectData, setProjectData] = useState();
-
-  // fetching rules for PDF
-  useEffect(() => {
-    const fetchRules = async () => {
-      let project;
-
-      if (
-        checkedProjectIds.length === 1 ||
-        Object.keys(checkedProjectsStatusData).length > 0
-      ) {
-        project = checkedProjectsStatusData;
-      }
-
-      if (project && project.id && project.calculationId) {
-        const rules = await fetchEngineRules(project);
-        setProjectData({ points: rules });
-      }
-    };
-
-    fetchRules().catch(console.error);
-  }, [checkedProjectIds, checkedProjectsStatusData]);
+  const ineligibleProjects = projects.filter(
+    p =>
+      p.earnedPoints < p.targetPoints && p.dateSnapshotted && !p.dateSubmitted
+  );
+  const submittedProjects = projects.filter(p => p.dateSubmitted);
 
   const updateProjects = async () => {
-    const updated = await projectService.get();
-    setProjects(updated.data);
-  };
-
-  const handleCheckboxChange = projectId => {
-    setCheckedProjectIds(prevCheckedProjectIds => {
-      if (prevCheckedProjectIds.includes(projectId)) {
-        return prevCheckedProjectIds.filter(id => id !== projectId);
-      } else {
-        return [...prevCheckedProjectIds, projectId];
+    let response = await projectService.get();
+    let projects = response.data.filter(
+      p => p.loginId === userContext.account.loginId && p.dateSnapshotted
+    );
+    const projectsNeedingCalculation = projects.filter(p => !p.targetPoints);
+    // The following code determines if the targetPoints, earnedPoints or projectLevel
+    // columns in the project table have not been calculated. If this is the case, they
+    // are calculated, saved to the db, and the projects are re-fetched. This should
+    // only apply to legacy projects. New projects should have these fields saved
+    // when the project is saved.
+    if (projectsNeedingCalculation.length > 0) {
+      for (let i = 0; i < projectsNeedingCalculation.length; i++) {
+        await projectResultService.populateTargetPoints(
+          projectsNeedingCalculation[i]
+        );
       }
-    });
+      response = await projectService.get();
+      projects = response.data.filter(
+        p => p.loginId === userContext.account.loginId && p.dateSnapshotted
+      );
+    }
 
-    // header checkbox status
-    setSelectedProject(checkedProjectIds.length);
+    setProjects(projects);
   };
 
-  const handleSubmissionModalOpen = project => {
-    setSelectedProject(project);
+  const handleSelectProject = projectId => {
+    setSelectedProjectId(projectId);
+    setSelectedProject(projects.find(p => p.id === projectId));
+  };
+
+  const handleSubmissionModalOpen = () => {
+    if (!selectedProject) return;
     setSubmissionModalOpen(true);
   };
 
@@ -112,7 +108,7 @@ const SubmitSnapshotPage = props => {
     }
     setSubmissionModalOpen(false);
     setSelectedProject(null);
-    setCheckedProjectIds([]);
+    setSelectedProjectId(null);
   };
 
   return (
@@ -128,6 +124,7 @@ const SubmitSnapshotPage = props => {
         </div>
       </div>
       <div> Target Points</div>
+
       <h3 className={classes.heading3}>Snapshots Meeting Target Points:</h3>
 
       <div>
@@ -143,15 +140,69 @@ const SubmitSnapshotPage = props => {
           </thead>
 
           <tbody>
-            {projects.map(project =>
+            {eligibleProjects.map(project =>
               project.dateSnapshotted ? (
                 <SubmitSnapshotTable
                   key={project.id}
                   project={project}
-                  handleCheckboxChange={handleCheckboxChange}
+                  handleSelectProject={handleSelectProject}
                   handleSubmissionModalOpen={handleSubmissionModalOpen}
-                  checkedProjectIds={checkedProjectIds}
-                  projectData={projectData}
+                  selectedProjectId={selectedProjectId}
+                  includeRadioButton={true}
+                />
+              ) : null
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 className={classes.heading3}>Snapshots Not Meeting Target Points:</h3>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th className={classes.tableHead}>Name</th>
+              <th className={classes.tableHead}>Address</th>
+              <th className={classes.tableHead}>Date Submitted</th>
+              <th className={classes.tableHead}>Date Modified</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {ineligibleProjects.map(project =>
+              project.dateSnapshotted ? (
+                <SubmitSnapshotTable
+                  key={project.id}
+                  project={project}
+                  includeRadioButton={false}
+                />
+              ) : null
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 className={classes.heading3}>Submitted Snapshots:</h3>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th className={classes.tableHead}>Name</th>
+              <th className={classes.tableHead}>Address</th>
+              <th className={classes.tableHead}>Date Submitted</th>
+              <th className={classes.tableHead}>Date Modified</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {submittedProjects.map(project =>
+              project.dateSnapshotted ? (
+                <SubmitSnapshotTable
+                  key={project.id}
+                  project={project}
+                  includeRadioButton={false}
                 />
               ) : null
             )}
@@ -165,16 +216,16 @@ const SubmitSnapshotPage = props => {
           className={classes.submitButton}
           color="colorPrimary"
           onClick={handleSubmissionModalOpen}
+          disabled={!selectedProject}
         >
           Submit
         </Button>
-        {checkedProjectIds.length === 1 ? (
-          <SubmitSnapshotModal
-            mounted={submissionModalOpen}
-            onClose={handleSubmissionModalClose}
-            project={selectedProject}
-          />
-        ) : null}
+
+        <SubmitSnapshotModal
+          mounted={submissionModalOpen}
+          onClose={handleSubmissionModalClose}
+          project={selectedProject}
+        />
       </div>
     </ContentContainer>
   );

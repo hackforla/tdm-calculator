@@ -19,6 +19,7 @@ import PdfPrint from "../PdfPrint/PdfPrint";
 import fetchEngineRules from "./fetchEngineRules";
 import * as droService from "../../services/dro.service";
 import UniversalSelect from "../UI/UniversalSelect";
+import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 
 const useStyles = createUseStyles({
   td: {
@@ -246,7 +247,6 @@ const ProjectTableRow = ({
           <span>{droName}</span>
         )}
       </td>
-
       {isAdmin && (
         <td className={classes.tdCenterAlign}>
           <div>
@@ -307,7 +307,6 @@ const ProjectTableRow = ({
           </div>
         </td>
       )}
-
       {isAdmin && (
         <td className={classes.td}>
           <span>
@@ -351,7 +350,12 @@ const ProjectTableRow = ({
             </div>
           </div>
         )}
-      </td>
+      </td>{" "}
+      {ENABLE_UPDATE_TOTALS ? (
+        <td className={classes.td}>
+          <span>{`${project.targetPoints}/${project.earnedPoints}/${project.projectLevel}`}</span>
+        </td>
+      ) : null}
     </tr>
   );
 };

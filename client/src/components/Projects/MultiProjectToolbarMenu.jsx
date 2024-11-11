@@ -13,6 +13,9 @@ import {
 import { Tooltip } from "react-tooltip";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import { useReactToPrint } from "react-to-print";
+import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
+
+import * as projectResultService from "../../services/projectResult.service";
 
 const useStyles = createUseStyles({
   container: {
@@ -105,12 +108,29 @@ const MultiProjectToolbarMenu = ({
     pageStyle: ".printContainer {overflow: hidden;}"
   });
 
+  const handleComputeTotals = async () => {
+    for (let i = 0; i < checkedProjectIds.length; i++) {
+      await projectResultService.populateTargetPoints(checkedProjectIds[i]);
+    }
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.multiStatus}>
         {checkedProjectIds.length} Projects Selected
       </div>
       <ul className={classes.list}>
+        {ENABLE_UPDATE_TOTALS ? (
+          <li>
+            <button
+              id="csv-btn"
+              className={classes.button}
+              onClick={handleComputeTotals}
+            >
+              T
+            </button>
+          </li>
+        ) : null}
         <li>
           <button
             id="csv-btn"

@@ -2,8 +2,6 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
 import { formatDatetime } from "../../helpers/util";
-// import fetchEngineRules from "../Projects/fetchEngineRules";
-// import { getRule } from "../ProjectWizard/helpers";
 
 const useStyles = createUseStyles({
   heading3: {
@@ -21,20 +19,23 @@ const useStyles = createUseStyles({
 
 const SubmitSnapshotTable = ({
   project,
-  handleCheckboxChange,
-  checkedProjectIds
+  handleSelectProject,
+  selectedProjectId,
+  includeRadioButton
 }) => {
   const classes = useStyles();
 
   return (
     <tr key={project.id}>
-      <td className={classes.tableCell}>
-        <input
-          type="checkbox"
-          checked={checkedProjectIds.includes(project.id)}
-          onChange={() => handleCheckboxChange(project.id)}
-        />
-      </td>
+      {includeRadioButton && (
+        <td className={classes.tableCell}>
+          <input
+            type="radio"
+            checked={selectedProjectId === project.id}
+            onChange={() => handleSelectProject(project.id)}
+          />
+        </td>
+      )}
       <td className={classes.tableCell}>{project.name}</td>
       <td className={classes.tableCell}>{project.address}</td>
       <td className={classes.tableCell}>
@@ -50,8 +51,9 @@ const SubmitSnapshotTable = ({
 SubmitSnapshotTable.propTypes = {
   rules: PropTypes.array,
   project: PropTypes.any,
-  handleCheckboxChange: PropTypes.func.isRequired,
-  checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired
+  handleSelectProject: PropTypes.func,
+  selectedProjectId: PropTypes.number,
+  includeRadioButton: PropTypes.bool
 };
 
 export default SubmitSnapshotTable;

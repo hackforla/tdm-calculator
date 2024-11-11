@@ -38,7 +38,7 @@ const post = async item => {
     request.input("address", mssql.NVarChar, item.address); // 200
     request.input("description", mssql.NVarChar, item.description); // max
     request.input("formInputs", mssql.NVarChar, item.formInputs); // max
-    request.input("targetPoints", mssql.Int, item.taretPoints);
+    request.input("targetPoints", mssql.Int, item.targetPoints);
     request.input("earnedPoints", mssql.Int, item.earnedPoints);
     request.input("projectLevel", mssql.Int, item.projectLevel);
     request.input("loginId", mssql.Int, item.loginId);
@@ -60,7 +60,7 @@ const put = async item => {
     request.input("address", mssql.NVarChar, item.address); // 200
     request.input("description", mssql.NVarChar, item.description); // max
     request.input("formInputs", mssql.NVarChar, item.formInputs); // max
-    request.input("targetPoints", mssql.Int, item.taretPoints);
+    request.input("targetPoints", mssql.Int, item.targetPoints);
     request.input("earnedPoints", mssql.Int, item.earnedPoints);
     request.input("projectLevel", mssql.Int, item.projectLevel);
     request.input("loginId", mssql.Int, item.loginId);
@@ -237,6 +237,30 @@ const updateAdminNotes = async (id, adminNotes, loginId) => {
   }
 };
 
+const updateTotals = async (
+  id,
+  targetPoints,
+  earnedPoints,
+  projectLevel,
+  loginId
+) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssql.Int, id);
+    request.input("targetPoints", mssql.Int, targetPoints);
+    request.input("earnedPoints", mssql.Int, earnedPoints);
+    request.input("projectLevel", mssql.Int, projectLevel);
+    request.input("LoginId", mssql.Int, loginId);
+
+    const response = await request.execute("Project_UpdateTotals");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -250,5 +274,6 @@ module.exports = {
   updateDroId,
   updateAdminNotes,
   renameSnapshot,
-  getAllArchivedProjects
+  getAllArchivedProjects,
+  updateTotals
 };
