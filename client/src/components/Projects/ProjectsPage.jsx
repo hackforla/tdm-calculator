@@ -12,6 +12,7 @@ import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData";
 import * as projectService from "../../services/project.service";
+import * as projectResultService from "../../services/projectResult.service";
 import * as droService from "../../services/dro.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
@@ -347,11 +348,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleCopyModalClose = async (action, newProjectName) => {
+    let newSelectedProject = { ...selectedProject };
     if (action === "ok") {
       const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
       projectFormInputsAsJson.PROJECT_NAME = newProjectName;
+      if (!selectedProject.targetPoints) {
+        await projectResultService.populateTargetPoints(selectedProject);
+        newSelectedProject = await projectService.getById(selectedProject.id);
+      }
       let newProject = {
-        ...selectedProject,
+        ...newSelectedProject,
         name: newProjectName,
         formInputs: JSON.stringify(projectFormInputsAsJson)
       };

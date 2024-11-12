@@ -204,6 +204,28 @@ const getAllArchivedProjects = async (req, res) => {
   }
 };
 
+const updateTotals = async (req, res) => {
+  try {
+    if (!req.user.isAdmin) {
+      return res.status(403).json({
+        error: "Access denied. Only admins can update totals."
+      });
+    }
+    const { id, targetPoints, earnedPoints, projectLevel } = req.body;
+    const archivedProjects = await projectService.updateTotals(
+      id,
+      targetPoints,
+      earnedPoints,
+      projectLevel,
+      req.user.id
+    );
+    res.status(200).json(archivedProjects);
+    return;
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -217,5 +239,6 @@ module.exports = {
   updateDroId,
   updateAdminNotes,
   renameSnapshot,
-  getAllArchivedProjects
+  getAllArchivedProjects,
+  updateTotals
 };

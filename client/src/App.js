@@ -33,6 +33,7 @@ import FaqView from "./components/Faq/FaqView";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ForgotPassword from "./components/Authorization/ForgotPassword";
 import Feedback from "./components/Feedback/FeedbackPage";
+import SubmitSnapshotPage from "./components/SubmitSnapshot/SubmitSnapshotPage";
 import ErrorPage from "./components/ErrorPage";
 import Offline from "./components/Offline";
 import Logout from "./components/Authorization/Logout";
@@ -143,6 +144,14 @@ const App = () => {
           <Route
             path="/feedback"
             element={<Feedback contentContainerRef={contentContainerRef} />}
+          />
+          <Route
+            path="/submit"
+            element={
+              <RequireAuth>
+                <SubmitSnapshotPage contentContainerRef={contentContainerRef} />
+              </RequireAuth>
+            }
           />
           <Route path="*" element={<ErrorPage />} />
         </Route>

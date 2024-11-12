@@ -71,3 +71,7 @@ export function updateDroId(projectId, droId, loginId) {
 export function updateAdminNotes(id, adminNotes) {
   return axios.put(`${baseUrl}/updateAdminNotes/${id}`, { adminNotes });
 }
+
+export function updateTotals(requestBody) {
+  return axios.put(`${baseUrl}/updateTotals/${requestBody.id}`, requestBody);
+}
