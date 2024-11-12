@@ -568,7 +568,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const getComparator = (order, orderBy) => {
-    return order === "asc"
+    return order === "desc"
       ? (a, b) => ascCompareBy(a, b, orderBy)
       : (a, b) => -ascCompareBy(a, b, orderBy);
   };

@@ -66,13 +66,13 @@ const DatePopup = ({
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <RadioButton
-          label="Sort Newest to Oldest"
+          label="Sort Oldest to Newest"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
         />
         <RadioButton
-          label="Sort Oldest to Newest"
+          label="Sort Newest to Oldest"
           value="asc"
           checked={newOrder === "asc"}
           onChange={() => setNewOrder("asc")}
