@@ -284,6 +284,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     startDateModifiedAdmin: null,
     endDateModifiedAdmin: null
   });
+
   const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
     checkedProjectIds,
@@ -757,6 +758,33 @@ const ProjectsPage = ({ contentContainerRef }) => {
     return true;
   };
 
+  const resetFiltersSort = () => {
+    setCriteria({
+      type: "all",
+      status: "active",
+      visibility: "visible",
+      name: "",
+      address: "",
+      author: "",
+      alternative: "",
+      dro: "",
+      startDateCreated: null,
+      endDateCreated: null,
+      startDateModified: null,
+      endDateModified: null,
+      nameList: [],
+      addressList: [],
+      alternativeList: [],
+      authorList: [],
+      droList: [],
+      adminNotes: "",
+      startDateModifiedAdmin: null,
+      endDateModifiedAdmin: null
+    });
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
+  };
+
   const headerData = [
     {
       id: "checkAllProjects",
@@ -879,7 +907,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between"
+                  justifyContent: "flex-start"
                 }}
               >
                 <MemoizedMultiProjectToolbar
@@ -895,7 +923,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    alignSelf: "flex-end"
+                    alignSelf: "flex-end",
+                    marginLeft: "20px",
+                    justifyContent: "space-between",
+                    width: "80%"
                   }}
                 >
                   <div className={classes.searchBarWrapper}>
@@ -910,16 +941,24 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     />
                     <MdOutlineSearch className={classes.searchIcon} />
                   </div>
-                  {filterCollapsed ? (
+                  <div>
                     <button
-                      alt="Show Filter Criteria"
-                      style={{ backgroundColor: "#0F2940", color: "white" }}
-                      onClick={() => setFilterCollapsed(false)}
+                      onClick={resetFiltersSort}
+                      style={{ height: "40px" }}
                     >
-                      <MdFilterAlt style={{ marginRight: "0.5em" }} />
-                      Filter By
+                      RESET FILTERS/SORT
                     </button>
-                  ) : null}
+                    {filterCollapsed ? (
+                      <button
+                        alt="Show Filter Criteria"
+                        style={{ backgroundColor: "#0F2940", color: "white" }}
+                        onClick={() => setFilterCollapsed(false)}
+                      >
+                        <MdFilterAlt style={{ marginRight: "0.5em" }} />
+                        Filter By
+                      </button>
+                    ) : null}
+                  </div>
                 </div>
               </div>
               <div className={classes.tableContainer}>
