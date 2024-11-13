@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext";
 
-import { MdFilterAlt } from "react-icons/md";
+// import { MdFilterAlt } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
@@ -12,15 +12,17 @@ import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData";
 import * as projectService from "../../services/project.service";
+import * as projectResultService from "../../services/projectResult.service";
 import * as droService from "../../services/dro.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
+import ShareSnapshotModal from "./ShareSnapshotModal";
 
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import CsvModal from "./CsvModal";
 import ProjectTableRow from "./ProjectTableRow";
-import FilterDrawer from "./FilterDrawer";
+// import FilterDrawer from "./FilterDrawer";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import fetchEngineRules from "./fetchEngineRules";
 import UniversalSelect from "../UI/UniversalSelect";
@@ -149,17 +151,18 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const userContext = useContext(UserContext);
 
   const [filterText, setFilterText] = useState("");
-  const [order, setOrder] = useState("asc");
+  const [order, setOrder] = useState("desc");
+  const [orderBy, setOrderBy] = useState("dateModified");
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useProjects(handleError);
-  const [orderBy, setOrderBy] = useState("dateCreated");
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
+  const [shareSnapshotModalOpen, setShareSnapshotModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
@@ -281,7 +284,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
     startDateModifiedAdmin: null,
     endDateModifiedAdmin: null
   });
-  const [filterCollapsed, setFilterCollapsed] = useState(true);
+
+  // const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
     checkedProjectIds,
     projects
@@ -345,11 +349,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleCopyModalClose = async (action, newProjectName) => {
+    let newSelectedProject = { ...selectedProject };
     if (action === "ok") {
       const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
       projectFormInputsAsJson.PROJECT_NAME = newProjectName;
+      if (!selectedProject.targetPoints) {
+        await projectResultService.populateTargetPoints(selectedProject);
+        newSelectedProject = await projectService.getById(selectedProject.id);
+      }
       let newProject = {
-        ...selectedProject,
+        ...newSelectedProject,
         name: newProjectName,
         formInputs: JSON.stringify(projectFormInputsAsJson)
       };
@@ -444,6 +453,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     }
     setRenameSnapshotModalOpen(false);
+  };
+
+  const handleShareSnapshotModalOpen = project => {
+    setSelectedProject(project);
+    setShareSnapshotModalOpen(true);
+  };
+
+  const handleShareSnapshotModalClose = async () => {
+    setShareSnapshotModalOpen(false);
   };
 
   const handleHide = async project => {
@@ -725,9 +743,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     )
       return false;
 
-    // Search criteria for filterText - redundant with individual search
-    // criteria in FilterDrawer, and we could get rid of the search box
-    // above the grid.
     if (filterText !== "") {
       let ids = ["name", "address", "fullName", "alternative", "description"];
 
@@ -738,6 +753,35 @@ const ProjectsPage = ({ contentContainerRef }) => {
     }
 
     return true;
+  };
+
+  const resetFiltersSort = () => {
+    setCriteria({
+      type: "all",
+      status: "active",
+      visibility: "visible",
+      name: "",
+      address: "",
+      author: "",
+      alternative: "",
+      dro: "",
+      startDateCreated: null,
+      endDateCreated: null,
+      startDateModified: null,
+      endDateModified: null,
+      nameList: [],
+      addressList: [],
+      alternativeList: [],
+      authorList: [],
+      droList: [],
+      adminNotes: "",
+      startDateModifiedAdmin: null,
+      endDateModifiedAdmin: null
+    });
+    setOrderBy("dateModified");
+    setOrder("desc");
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
   };
 
   const headerData = [
@@ -792,7 +836,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     {
       id: "dro",
       label: "DRO",
-      popupType: "text"
+      popupType: null // temporarily disable filtering by DRO, as it crashes
     },
 
     ...(userContext.account?.isAdmin
@@ -829,7 +873,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <div className={classes.outerDiv}>
-        <div
+        {/* <div
           className={filterCollapsed ? classes.filterCollapsed : classes.filter}
         >
           <FilterDrawer
@@ -841,7 +885,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
             setSelectAllChecked={setSelectAllChecked}
             droOptions={droOptions}
           />
-        </div>
+        </div> */}
 
         <div className={classes.contentDiv}>
           <h1 className={classes.pageTitle}>Projects</h1>
@@ -862,7 +906,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between"
+                  justifyContent: "flex-start"
                 }}
               >
                 <MemoizedMultiProjectToolbar
@@ -878,7 +922,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    alignSelf: "flex-end"
+                    alignSelf: "flex-end",
+                    marginLeft: "20px",
+                    justifyContent: "space-between",
+                    width: "80%"
                   }}
                 >
                   <div className={classes.searchBarWrapper}>
@@ -893,16 +940,24 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     />
                     <MdOutlineSearch className={classes.searchIcon} />
                   </div>
-                  {filterCollapsed ? (
+                  <div>
                     <button
-                      alt="Show Filter Criteria"
-                      style={{ backgroundColor: "#0F2940", color: "white" }}
-                      onClick={() => setFilterCollapsed(false)}
+                      onClick={resetFiltersSort}
+                      style={{ height: "40px" }}
                     >
-                      <MdFilterAlt style={{ marginRight: "0.5em" }} />
-                      Filter By
+                      RESET FILTERS/SORT
                     </button>
-                  ) : null}
+                    {/* {filterCollapsed ? (
+                      <button
+                        alt="Show Filter Criteria"
+                        style={{ backgroundColor: "#0F2940", color: "white" }}
+                        onClick={() => setFilterCollapsed(false)}
+                      >
+                        <MdFilterAlt style={{ marginRight: "0.5em" }} />
+                        Filter By
+                      </button>
+                    ) : null} */}
+                  </div>
                 </div>
               </div>
               <div className={classes.tableContainer}>
@@ -941,6 +996,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           handleSnapshotModalOpen={handleSnapshotModalOpen}
                           handleRenameSnapshotModalOpen={
                             handleRenameSnapshotModalOpen
+                          }
+                          handleShareSnapshotModalOpen={
+                            handleShareSnapshotModalOpen
                           }
                           handleHide={handleHide}
                           handleCheckboxChange={handleCheckboxChange}
@@ -1011,6 +1069,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     mounted={renameSnapshotModalOpen}
                     onClose={handleRenameSnapshotModalClose}
                     selectedProjectName={selectedProjectName}
+                  />
+                  <ShareSnapshotModal
+                    mounted={shareSnapshotModalOpen}
+                    onClose={handleShareSnapshotModalClose}
+                    project={selectedProject}
                   />
                 </>
               )}

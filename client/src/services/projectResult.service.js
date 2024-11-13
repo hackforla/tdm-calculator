@@ -22,3 +22,23 @@ export async function getProjectResult(projectId) {
   const result = engine.showRulesArray();
   return result;
 }
+
+// This is a temporary function to fill in three columns in project table for
+// legacy projects
+export async function populateTargetPoints(projectId) {
+  const projectResponse = await projectService.getById(projectId);
+  const project = projectResponse.data;
+  const rules = await getProjectResult(project.id);
+  const targetPoints = rules.find(r => r.code === "TARGET_POINTS_PARK").value;
+  const earnedPoints = rules.find(r => r.code === "PTS_EARNED").value;
+  const projectLevel = rules.find(r => r.code === "PROJECT_LEVEL").value;
+
+  const requestBody = {
+    id: projectId,
+    targetPoints,
+    earnedPoints,
+    projectLevel
+  };
+
+  await projectService.updateTotals(requestBody);
+}

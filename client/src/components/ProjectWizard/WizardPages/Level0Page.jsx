@@ -17,8 +17,8 @@ const useStyles = createUseStyles({
   level0Message: {
     marginTop: "20px",
     maxWidth: "800px",
-    backgroundColor: "#F9DFDA",
-    color: "#B64E38",
+    backgroundColor: "white",
+    color: "black",
     fontSize: "22px",
     lineHeight: "38px",
     padding: "60px 48px 40px",

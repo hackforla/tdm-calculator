@@ -33,3 +33,8 @@ router.put(
   projectController.updateAdminNotes
 );
 router.delete("/:id", jwtSession.validateUser, projectController.del);
+router.put(
+  "/updateTotals/:id",
+  jwtSession.validateUser,
+  projectController.updateTotals
+);
