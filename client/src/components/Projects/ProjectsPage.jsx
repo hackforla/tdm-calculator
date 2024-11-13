@@ -940,7 +940,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       onClick={resetFiltersSort}
                       style={{ height: "40px" }}
                     >
-                      RESET FILTERS/SORT ({sortedProjects.length})
+                      RESET FILTERS/SORT
                     </button>
                     {filterCollapsed ? (
                       <button
