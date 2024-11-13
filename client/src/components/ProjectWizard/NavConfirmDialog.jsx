@@ -54,7 +54,7 @@ const NavConfirmDialog = ({ blocker }) => {
           Cancel
         </Button>
         <Button
-          color="colorError"
+          variant="error"
           id="modalProceed"
           data-testid="transitionProceed"
           onClick={() => blocker.proceed()}
