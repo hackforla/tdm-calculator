@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext";
-
-import { MdFilterAlt } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
@@ -22,7 +20,7 @@ import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import CsvModal from "./CsvModal";
 import ProjectTableRow from "./ProjectTableRow";
-import FilterDrawer from "./FilterDrawer";
+// import FilterDrawer from "./FilterDrawer";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import fetchEngineRules from "./fetchEngineRules";
 import UniversalSelect from "../UI/UniversalSelect";
@@ -151,12 +149,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const userContext = useContext(UserContext);
 
   const [filterText, setFilterText] = useState("");
-  const [order, setOrder] = useState("asc");
+  const [order, setOrder] = useState("desc");
+  const [orderBy, setOrderBy] = useState("dateModified");
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useProjects(handleError);
-  const [orderBy, setOrderBy] = useState("dateCreated");
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
@@ -285,7 +283,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     endDateModifiedAdmin: null
   });
 
-  const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
     checkedProjectIds,
     projects
@@ -743,9 +740,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     )
       return false;
 
-    // Search criteria for filterText - redundant with individual search
-    // criteria in FilterDrawer, and we could get rid of the search box
-    // above the grid.
     if (filterText !== "") {
       let ids = ["name", "address", "fullName", "alternative", "description"];
 
@@ -781,6 +775,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
       startDateModifiedAdmin: null,
       endDateModifiedAdmin: null
     });
+    setOrderBy("dateModified");
+    setOrder("desc");
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
@@ -874,7 +870,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <div className={classes.outerDiv}>
-        <div
+        {/* <div
           className={filterCollapsed ? classes.filterCollapsed : classes.filter}
         >
           <FilterDrawer
@@ -886,7 +882,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
             setSelectAllChecked={setSelectAllChecked}
             droOptions={droOptions}
           />
-        </div>
+        </div> */}
 
         <div className={classes.contentDiv}>
           <h1 className={classes.pageTitle}>Projects</h1>
@@ -935,7 +931,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       type="search"
                       id="filterText"
                       name="filterText"
-                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
+                      placeholder="Search by Name; Address; Description; Alt#"
                       value={filterText}
                       onChange={e => handleFilterTextChange(e.target.value)}
                     />
@@ -948,7 +944,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     >
                       RESET FILTERS/SORT
                     </button>
-                    {filterCollapsed ? (
+                    {/* {filterCollapsed ? (
                       <button
                         alt="Show Filter Criteria"
                         style={{ backgroundColor: "#0F2940", color: "white" }}
@@ -957,7 +953,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         <MdFilterAlt style={{ marginRight: "0.5em" }} />
                         Filter By
                       </button>
-                    ) : null}
+                    ) : null} */}
                   </div>
                 </div>
               </div>
