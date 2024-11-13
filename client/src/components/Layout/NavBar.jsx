@@ -170,7 +170,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           Feedback
         </NavLink>
       </li>
-      <li className={classes.linkBlock} style={{ display: "none" }}>
+      <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
           to="/submit"

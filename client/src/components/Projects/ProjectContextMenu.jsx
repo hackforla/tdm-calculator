@@ -92,8 +92,6 @@ const ProjectContextMenu = ({
         <li
           className={classes.listItem}
           onClick={() => handleClick(handleShareSnapshotModalOpen)}
-          // Temporarily hide the button until we get related features working.
-          style={{ display: "none" }}
         >
           <MdOutlineIosShare
             className={classes.listItemIcon}
