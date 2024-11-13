@@ -809,7 +809,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     {
       id: "dro",
       label: "DRO",
-      popupType: "text"
+      popupType: null // temporarily disable filtering by DRO, as it crashes
     },
 
     ...(userContext.account?.isAdmin
