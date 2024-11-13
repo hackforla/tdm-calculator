@@ -5,6 +5,8 @@ module.exports = {
     colorPrimary: "#a7c539", //lime green
     colorText: "#0F2940", //dark blue
     colorLADOT: "#002E6D",
+    colorGray: "#808080",
+    colorLightGray: "#A0A0A0",
     colorEarnedPoints: "rgb(255, 168, 4)", //orange
     colorDisabled: "rgba(0, 0, 0, .05)", //lightest grey transparent
     colorCancel: "rgba(0, 0, 0, 0.5)", //light grey, e.g. cancel button

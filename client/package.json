@@ -54,6 +54,7 @@
     "react-router-dom": "^6.18.0",
     "react-select": "^5.2.2",
     "react-string-replace": "^1.1.0",
+    "react-tiny-popover": "^8.1.2",
     "react-to-print": "^2.14.12",
     "react-tooltip": "^5.22.0",
     "reactjs-popup": "^2.0.6",

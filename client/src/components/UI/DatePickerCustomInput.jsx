@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 
 const DatePickerCustomInput = forwardRef(
-  ({ value, onClick, onChange }, ref) => (
+  ({ value, onClick, onChange, placeholder }, ref) => (
     <input
       type="text"
       onClick={onClick}
@@ -10,6 +10,7 @@ const DatePickerCustomInput = forwardRef(
       ref={ref}
       value={value}
       style={{ width: "6rem", padding: "0.1rem", border: "1px solid black" }}
+      placeholder={placeholder || null}
     />
   )
 );
@@ -23,7 +24,8 @@ DatePickerCustomInput.displayName = "DatePickerCustomInput";
 DatePickerCustomInput.propTypes = {
   value: PropTypes.any,
   onClick: PropTypes.func,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string
 };
 
 export default DatePickerCustomInput;

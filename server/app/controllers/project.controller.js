@@ -53,10 +53,47 @@ const put = async (req, res) => {
   }
 };
 
+const updateDroId = async (req, res) => {
+  try {
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({ error: "You do not have permission to update the droId." });
+    }
+
+    const { id } = req.params;
+    const { droId } = req.body;
+
+    await projectService.updateDroId(id, droId, req.user.id);
+    res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const updateAdminNotes = async (req, res) => {
+  try {
+    console.log(req);
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({ error: "You do not have permission to update the droId." });
+    }
+
+    const { id } = req.params;
+    const { adminNotes } = req.body;
+
+    await projectService.updateAdminNotes(id, adminNotes, req.user.id);
+    res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const del = async (req, res) => {
   try {
     const project = await getProject(req, res);
-    if (project.loginId !== req.user.id) {
+    if (project.loginId !== req.user.id && !req.user.isAdmin) {
       res.status(403).send("You can only delete your own projects.");
       return;
     }
@@ -97,6 +134,21 @@ const trash = async (req, res) => {
   const { ids, trash } = req.body;
   try {
     const result = await projectService.trash(ids, trash, req.user.id);
+    if (result === 1) {
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const submit = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const result = await projectService.submit(id, req.user.id);
     if (result === 1) {
       res.sendStatus(403);
     } else {
@@ -152,6 +204,28 @@ const getAllArchivedProjects = async (req, res) => {
   }
 };
 
+const updateTotals = async (req, res) => {
+  try {
+    if (!req.user.isAdmin) {
+      return res.status(403).json({
+        error: "Access denied. Only admins can update totals."
+      });
+    }
+    const { id, targetPoints, earnedPoints, projectLevel } = req.body;
+    const archivedProjects = await projectService.updateTotals(
+      id,
+      targetPoints,
+      earnedPoints,
+      projectLevel,
+      req.user.id
+    );
+    res.status(200).json(archivedProjects);
+    return;
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -160,7 +234,11 @@ module.exports = {
   del,
   hide,
   trash,
+  submit,
   snapshot,
+  updateDroId,
+  updateAdminNotes,
   renameSnapshot,
-  getAllArchivedProjects
+  getAllArchivedProjects,
+  updateTotals
 };

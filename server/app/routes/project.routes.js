@@ -15,10 +15,26 @@ router.post("/", jwtSession.validateUser, projectController.post);
 router.put("/hide", jwtSession.validateUser, projectController.hide);
 router.put("/trash", jwtSession.validateUser, projectController.trash);
 router.put("/snapshot", jwtSession.validateUser, projectController.snapshot);
+router.put("/submit", jwtSession.validateUser, projectController.submit);
 router.put(
   "/renameSnapshot",
   jwtSession.validateUser,
   projectController.renameSnapshot
 );
 router.put("/:id", jwtSession.validateUser, projectController.put);
+router.put(
+  "/updateDroId/:id",
+  jwtSession.validateUser,
+  projectController.updateDroId
+);
+router.put(
+  "/updateAdminNotes/:id",
+  jwtSession.validateUser,
+  projectController.updateAdminNotes
+);
 router.delete("/:id", jwtSession.validateUser, projectController.del);
+router.put(
+  "/updateTotals/:id",
+  jwtSession.validateUser,
+  projectController.updateTotals
+);
