@@ -98,13 +98,6 @@ export default function DownloadProjectModal({
         <Button onClick={onClose} variant="outlined">
           Close
         </Button>
-        {/* <Button
-          onClick={() => onClose("ok")}
-          variant="contained"
-          color={"colorPrimary"}
-        >
-          Create a Copy
-        </Button> */}
       </div>
     </ModalDialog>
   );

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import Button from "../Button/Button";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
-import clsx from "clsx";
 import * as projectShareService from "../../services/projectShare.service";
 
 const useStyles = createUseStyles(theme => ({
@@ -14,9 +13,6 @@ const useStyles = createUseStyles(theme => ({
   },
   heading1: theme.typography.heading1,
   heading2: theme.typography.heading2,
-  buttonColor: {
-    backgroundColor: theme.colors.secondary.lightGray
-  },
   buttonDisabled: {
     cursor: "default"
   },
@@ -216,12 +212,13 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 style={{ justifyContent: "right" }}
               >
                 <Button
-                  className={clsx(classes.buttonColor, maybeDisabled)}
+                  className={maybeDisabled}
                   onClick={() => {
                     setPage(2);
                   }}
                   disabled={sharedEmails.length ? false : true}
                   variant="contained"
+                  color={"colorPrimary"}
                 >
                   Next
                 </Button>
@@ -308,11 +305,11 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 }}
               >
                 <Button
-                  className={classes.buttonColor}
                   onClick={() => {
                     setPage(1);
                     setIsCopied(false);
                   }}
+                  variant="outlined"
                 >
                   Back
                 </Button>
@@ -363,6 +360,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     setPage(1);
                     setSelectedEmail("");
                   }}
+                  variant="outlined"
                 >
                   Cancel
                 </Button>
@@ -374,6 +372,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     setSelectedEmail("");
                   }}
                   variant="contained"
+                  color={"colorPrimary"}
                 >
                   Yes
                 </Button>
