@@ -165,11 +165,7 @@ const CsvModal = ({
           </Button>
 
           {(project || projectCollection) && !loading && !csvData && (
-            <Button
-              onClick={handleGenerateButton}
-              variant="contained"
-              color={"colorError"}
-            >
+            <Button onClick={handleGenerateButton} variant="error">
               Generate File
             </Button>
           )}

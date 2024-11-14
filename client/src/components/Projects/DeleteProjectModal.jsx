@@ -72,19 +72,11 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
           Cancel
         </Button>
         {project.dateTrashed ? (
-          <Button
-            onClick={() => onClose("ok")}
-            variant="contained"
-            color={"colorError"}
-          >
+          <Button onClick={() => onClose("ok")} variant="error">
             Restore
           </Button>
         ) : (
-          <Button
-            onClick={() => onClose("ok")}
-            variant="contained"
-            color={"colorError"}
-          >
+          <Button onClick={() => onClose("ok")} variant="error">
             Delete
           </Button>
         )}
