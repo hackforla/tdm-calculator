@@ -120,9 +120,10 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   tableContainer: {
-    overflow: "visible", // changed to allow Universal Select to show above the page container when expanded
+    overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
     width: "100%",
-    margin: "20px 0px"
+    margin: "20px 0px",
+    maxWidth: "100vw"
   },
   pageContainer: {
     display: "flex",
@@ -960,67 +961,71 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   </div>
                 </div>
               </div>
-              <div className={classes.tableContainer}>
-                <table className={classes.table}>
-                  <thead className={classes.thead}>
-                    <tr className={classes.tr}>
-                      {headerData.map(header => {
-                        return (
-                          <td key={header.id}>
-                            <ProjectTableColumnHeader
-                              projects={projects}
-                              filter={filter}
-                              header={header}
-                              criteria={criteria}
-                              setCriteria={setCriteria}
-                              setSort={setSort}
-                              order={order}
-                              orderBy={orderBy}
-                              setCheckedProjectIds={setCheckedProjectIds}
-                              setSelectAllChecked={setSelectAllChecked}
-                            />
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody className={classes.tbody}>
-                    {projects.length ? (
-                      currentProjects.map(project => (
-                        <ProjectTableRow
-                          key={project.id}
-                          project={project}
-                          handleCsvModalOpen={handleCsvModalOpen}
-                          handleCopyModalOpen={handleCopyModalOpen}
-                          handleDeleteModalOpen={handleDeleteModalOpen}
-                          handleSnapshotModalOpen={handleSnapshotModalOpen}
-                          handleRenameSnapshotModalOpen={
-                            handleRenameSnapshotModalOpen
-                          }
-                          handleShareSnapshotModalOpen={
-                            handleShareSnapshotModalOpen
-                          }
-                          handleHide={handleHide}
-                          handleCheckboxChange={handleCheckboxChange}
-                          checkedProjectIds={checkedProjectIds}
-                          isAdmin={isAdmin}
-                          droOptions={droOptions}
-                          onDroChange={handleDroChange} // Pass the DRO change handler
-                          onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
-                          droName={
-                            isAdmin ? null : droNameMap[project.droId] || "N/A"
-                          } // Pass the droName
-                        />
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={9} className={classes.tdNoSavedProjects}>
-                          No Saved Projects
-                        </td>
+              <div>
+                <div className={classes.tableContainer}>
+                  <table className={classes.table}>
+                    <thead className={classes.thead}>
+                      <tr className={classes.tr}>
+                        {headerData.map(header => {
+                          return (
+                            <td key={header.id}>
+                              <ProjectTableColumnHeader
+                                projects={projects}
+                                filter={filter}
+                                header={header}
+                                criteria={criteria}
+                                setCriteria={setCriteria}
+                                setSort={setSort}
+                                order={order}
+                                orderBy={orderBy}
+                                setCheckedProjectIds={setCheckedProjectIds}
+                                setSelectAllChecked={setSelectAllChecked}
+                              />
+                            </td>
+                          );
+                        })}
                       </tr>
-                    )}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className={classes.tbody}>
+                      {projects.length ? (
+                        currentProjects.map(project => (
+                          <ProjectTableRow
+                            key={project.id}
+                            project={project}
+                            handleCsvModalOpen={handleCsvModalOpen}
+                            handleCopyModalOpen={handleCopyModalOpen}
+                            handleDeleteModalOpen={handleDeleteModalOpen}
+                            handleSnapshotModalOpen={handleSnapshotModalOpen}
+                            handleRenameSnapshotModalOpen={
+                              handleRenameSnapshotModalOpen
+                            }
+                            handleShareSnapshotModalOpen={
+                              handleShareSnapshotModalOpen
+                            }
+                            handleHide={handleHide}
+                            handleCheckboxChange={handleCheckboxChange}
+                            checkedProjectIds={checkedProjectIds}
+                            isAdmin={isAdmin}
+                            droOptions={droOptions}
+                            onDroChange={handleDroChange} // Pass the DRO change handler
+                            onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
+                            droName={
+                              isAdmin
+                                ? null
+                                : droNameMap[project.droId] || "N/A"
+                            } // Pass the droName
+                          />
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={9} className={classes.tdNoSavedProjects}>
+                            No Saved Projects
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div className={classes.pageContainer}>
                 <Pagination
