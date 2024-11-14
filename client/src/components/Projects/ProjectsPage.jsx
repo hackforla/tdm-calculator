@@ -27,6 +27,7 @@ import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import fetchEngineRules from "./fetchEngineRules";
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
+import TertiaryButton from "../Button/TertiaryButton";
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -941,12 +942,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     <MdOutlineSearch className={classes.searchIcon} />
                   </div>
                   <div>
-                    <button
+                    <TertiaryButton
                       onClick={resetFiltersSort}
                       style={{ height: "40px" }}
                     >
                       RESET FILTERS/SORT
-                    </button>
+                    </TertiaryButton>
                     {/* {filterCollapsed ? (
                       <button
                         alt="Show Filter Criteria"
