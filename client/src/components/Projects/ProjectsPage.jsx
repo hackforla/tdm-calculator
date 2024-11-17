@@ -86,6 +86,9 @@ const useStyles = createUseStyles({
     textAlign: "left"
   },
   thead: {
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
     fontWeight: "bold",
     backgroundColor: "#002E6D",
     color: "white",
@@ -123,7 +126,12 @@ const useStyles = createUseStyles({
     overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
     width: "100%",
     margin: "20px 0px",
-    maxWidth: "100vw"
+    maxWidth: "100vw",
+    height: "60vh"
+  },
+  fixTableHead: {
+    overflowY: "auto",
+    height: "4em"
   },
   pageContainer: {
     display: "flex",
@@ -969,18 +977,20 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         {headerData.map(header => {
                           return (
                             <td key={header.id}>
-                              <ProjectTableColumnHeader
-                                projects={projects}
-                                filter={filter}
-                                header={header}
-                                criteria={criteria}
-                                setCriteria={setCriteria}
-                                setSort={setSort}
-                                order={order}
-                                orderBy={orderBy}
-                                setCheckedProjectIds={setCheckedProjectIds}
-                                setSelectAllChecked={setSelectAllChecked}
-                              />
+                              <th className={classes.stickyTh}>
+                                <ProjectTableColumnHeader
+                                  projects={projects}
+                                  filter={filter}
+                                  header={header}
+                                  criteria={criteria}
+                                  setCriteria={setCriteria}
+                                  setSort={setSort}
+                                  order={order}
+                                  orderBy={orderBy}
+                                  setCheckedProjectIds={setCheckedProjectIds}
+                                  setSelectAllChecked={setSelectAllChecked}
+                                />
+                              </th>
                             </td>
                           );
                         })}
