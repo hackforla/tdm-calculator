@@ -9,7 +9,8 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     alignItems: "center",
     minHeight: "calc(100vh - 103px - 48px)",
-    margin: "auto"
+    margin: "auto",
+    width: "100%"
   }
 });
 
