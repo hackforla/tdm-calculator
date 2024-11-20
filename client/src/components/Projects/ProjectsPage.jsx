@@ -127,7 +127,7 @@ const useStyles = createUseStyles({
     width: "100%",
     margin: "20px 0px",
     maxWidth: "100vw",
-    height: "60vh"
+    height: "calc(100vh - 275px - 11.34em)"
   },
   fixTableHead: {
     overflowY: "auto",
