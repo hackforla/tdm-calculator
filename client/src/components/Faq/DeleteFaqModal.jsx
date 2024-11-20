@@ -46,7 +46,7 @@ const DeleteFaqModal = ({ isModalOpen, closeModal, handleDelete, isFaq }) => {
         <Button onClick={closeModal} variant="outlined" id="cancelButton">
           Cancel
         </Button>
-        <Button onClick={handleDelete} variant="contained" color={"colorError"}>
+        <Button onClick={handleDelete} variant="error">
           Delete
         </Button>
       </div>

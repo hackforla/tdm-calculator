@@ -11,10 +11,7 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "center",
     margin: 0
   },
-  heading1: theme.typography.heading1,
-  buttonColor: {
-    backgroundColor: "#eaeff2"
-  }
+  heading1: theme.typography.heading1
 }));
 
 export default function RenameSnapshotModal({
@@ -54,7 +51,7 @@ export default function RenameSnapshotModal({
         <Button
           className={classes.buttonColor}
           onClick={onClose}
-          variant="contained"
+          variant="outlined"
         >
           Cancel
         </Button>
@@ -62,6 +59,7 @@ export default function RenameSnapshotModal({
           className={classes.buttonColor}
           onClick={() => onClose("ok", snapshotProjectName)}
           variant="contained"
+          color={"colorPrimary"}
         >
           Done
         </Button>

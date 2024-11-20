@@ -168,7 +168,7 @@ const CsvModal = ({
             <Button
               onClick={handleGenerateButton}
               variant="contained"
-              color={"colorError"}
+              color={"colorPrimary"}
             >
               Generate File
             </Button>
@@ -178,8 +178,8 @@ const CsvModal = ({
             <CSVLink
               data={csvData}
               style={{
-                backgroundColor: "green",
-                color: "black",
+                backgroundColor: theme.colorPrimary,
+                color: theme.colors.primary.black,
                 textDecoration: "none",
                 height: "1.4rem",
                 fontFamily: "Calibri",
