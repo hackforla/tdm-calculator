@@ -8,7 +8,7 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
-    minHeight: "calc(100vh - 103px)",
+    minHeight: "calc(100vh - 67px - 5em)",
     margin: "auto",
     width: "100%"
   }
