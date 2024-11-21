@@ -8,7 +8,7 @@ body {
   font-family: $font;
   -webkit-text-size-adjust: 100%;
   color: #474747;
-  overflow: hidden;
+  overflow-y: scroll;
 }
 
 h1 {
