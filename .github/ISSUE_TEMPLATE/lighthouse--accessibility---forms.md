@@ -15,6 +15,11 @@ In order for your sites form(s) to be usable by visitors using screen readers al
 *If your site already has forms* review the instructions and document the changes needed to bring your form(s) into WCAG compliance, by commenting on this issue.
 *If your site does not have forms* review the instructions and design new forms using the WCAG standards. 
 
+- [ ] Review with product and dev. Update if needed based on feedback
+- [ ] Once finalized, add before and after images to the [staging deck on this slide]() 
+   - [ ] if no slide has been made, make one in [the staging deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg)
+- [ ] Get Stakeholder sign-off via the stakeholder meeting slide deck.
+
 ### Instructions
 Deque University 
 https://dequeuniversity.com/rules/axe/3.2/label
