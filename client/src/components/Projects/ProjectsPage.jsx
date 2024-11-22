@@ -918,7 +918,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "flex-start",
-                  maxWidth: "100vh"
+                  width: "100vw"
                 }}
               >
                 <MemoizedMultiProjectToolbar
