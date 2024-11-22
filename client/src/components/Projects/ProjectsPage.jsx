@@ -879,6 +879,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
     indexOfLastPost
   );
 
+  document.body.style.overflowX = "hidden"; // prevent page level scrolling, becauase the table is scrollable
+
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <div className={classes.outerDiv}>
