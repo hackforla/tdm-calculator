@@ -16,5 +16,10 @@ REPLACE THIS TEXT -If this is the beginning of the task this is most likely some
 
 REPLACE THIS TEXT -If the issue has already been researched, and the course of action is clear, this will describe the steps.  However, if the steps can be divided into tasks for more than one person, we recommend dividing it up into separate issues, or assigning it as a pair programming task.
 
+- [ ] Review with product and dev. Update if needed based on feedback
+- [ ] Once finalized, add before and after images to the [staging deck on this slide]() 
+   - [ ] if no slide has been made, make one in [the staging deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg)
+- [ ] Get Stakeholder sign-off via the stakeholder meeting slide deck.
+
 ### Resources/Instructions
 REPLACE THIS TEXT -If there is a website which has documentation that helps with this issue provide the link(s) here.
