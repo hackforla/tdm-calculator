@@ -19,6 +19,7 @@ import PdfPrint from "../PdfPrint/PdfPrint";
 import fetchEngineRules from "./fetchEngineRules";
 import * as droService from "../../services/dro.service";
 import UniversalSelect from "../UI/UniversalSelect";
+import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 
 const useStyles = createUseStyles({
   td: {
@@ -87,6 +88,7 @@ const ProjectTableRow = ({
   handleDeleteModalOpen,
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
+  handleShareSnapshotModalOpen,
   handleHide,
   handleCheckboxChange,
   checkedProjectIds,
@@ -245,7 +247,6 @@ const ProjectTableRow = ({
           <span>{droName}</span>
         )}
       </td>
-
       {isAdmin && (
         <td className={classes.tdCenterAlign}>
           <div>
@@ -306,7 +307,6 @@ const ProjectTableRow = ({
           </div>
         </td>
       )}
-
       {isAdmin && (
         <td className={classes.td}>
           <span>
@@ -340,6 +340,7 @@ const ProjectTableRow = ({
                   handlePrintPdf={handlePrintPdf}
                   handleSnapshotModalOpen={handleSnapshotModalOpen}
                   handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
+                  handleShareSnapshotModalOpen={handleShareSnapshotModalOpen}
                   handleHide={handleHide}
                 />
               )}
@@ -349,7 +350,12 @@ const ProjectTableRow = ({
             </div>
           </div>
         )}
-      </td>
+      </td>{" "}
+      {ENABLE_UPDATE_TOTALS ? (
+        <td className={classes.td}>
+          <span>{`${project.targetPoints}/${project.earnedPoints}/${project.projectLevel}`}</span>
+        </td>
+      ) : null}
     </tr>
   );
 };
@@ -361,6 +367,7 @@ ProjectTableRow.propTypes = {
   handleDeleteModalOpen: PropTypes.func.isRequired,
   handleSnapshotModalOpen: PropTypes.func.isRequired,
   handleRenameSnapshotModalOpen: PropTypes.func.isRequired,
+  handleShareSnapshotModalOpen: PropTypes.func.isRequired,
   handleHide: PropTypes.func.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
   checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,

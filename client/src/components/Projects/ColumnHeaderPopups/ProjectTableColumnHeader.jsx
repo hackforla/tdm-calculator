@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
-import { MdFilterAlt, MdFilterList } from "react-icons/md";
+import { MdFilterAlt, MdOutlineFilterAlt } from "react-icons/md";
+import { createUseStyles } from "react-jss";
 import { Popover } from "react-tiny-popover";
 import DatePopup from "./DatePopup";
 import TextPopup from "./TextPopup";
@@ -12,6 +13,25 @@ import { useTheme } from "react-jss";
 
 const ColumnHeader = React.forwardRef((props, ref) => {
   const theme = useTheme();
+
+  const useStyles = createUseStyles({
+    iconNoFilter: {
+      color: theme.colorWhite,
+      "&:hover": {
+        backgroundColor: theme.colorWhite,
+        color: theme.colorLADOT,
+        borderRadius: "12.5%",
+        cursor: "pointer"
+      }
+    },
+    iconFilter: {
+      backgroundColor: "transparent",
+      color: "theme.colorWhite",
+      marginLeft: "0.5rem"
+    }
+  });
+
+  const classes = useStyles();
 
   return (
     <div
@@ -25,20 +45,12 @@ const ColumnHeader = React.forwardRef((props, ref) => {
       <span>{props.header.label}</span>
       {props.isFilterApplied() ? (
         <MdFilterAlt
-          style={{
-            backgroundColor: "transparent",
-            color: "white",
-            marginLeft: "0.5rem"
-          }}
+          className={classes.iconFilter}
           alt={`Show column filter and sort popup`}
         />
       ) : (
-        <MdFilterList
-          style={{
-            backgroundColor: "transparent",
-            color: theme.colorLightGray,
-            marginLeft: "0.5rem"
-          }}
+        <MdOutlineFilterAlt
+          className={classes.iconNoFilter}
           alt={`Show column filter and sort popup`}
         />
       )}

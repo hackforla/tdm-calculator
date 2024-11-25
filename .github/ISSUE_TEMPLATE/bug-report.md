@@ -49,3 +49,9 @@ REPLACE THE FOLLOWNG TEXT:
 - OS version: [e.g. iOS, Android version #]
 - Browser [e.g. Chrome, Firefox, Safari, etc.]
 - Browser version [e.g. 22]
+
+---
+- [ ] Review with product and dev. Update if needed based on feedback
+- [ ] Once finalized, add before and after images to the [staging deck on this slide]() 
+   - [ ] if no slide has been made, make one in [the staging deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg)
+- [ ] Get Stakeholder sign-off via the stakeholder meeting slide deck.

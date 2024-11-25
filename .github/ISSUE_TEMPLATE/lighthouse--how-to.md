@@ -20,6 +20,10 @@ Lighthouse is in the Audits panel of the Chrome DevTools. To run a report:
 5. Click Perform an audit. DevTools shows you a list of audit categories. Leave them all enabled.
 6. Click Run audit. After 60 to 90 seconds, Lighthouse gives you a report on the page.
 
+- [ ] Review with product and dev. Update if needed based on feedback
+- [ ] Once finalized, add before and after images to the [staging deck on this slide]() 
+   - [ ] if no slide has been made, make one in [the staging deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg)
+- [ ] Get Stakeholder sign-off via the stakeholder meeting slide deck.
 For more information go to :
 https://developers.google.com/web/tools/lighthouse/
 

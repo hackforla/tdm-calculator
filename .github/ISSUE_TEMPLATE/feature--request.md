@@ -23,6 +23,10 @@ Please write a user story for this feature suggestion in the following format: A
       - [ ] Database
    - [ ] What problem does this feature solve?
    - [ ] What technologies are needed for this feature?
+- [ ] Review with product and dev. Update if needed based on feedback
+- [ ] Once finalized, add before and after images to the [staging deck on this slide]() 
+   - [ ] if no slide has been made, make one in [the staging deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg)
+- [ ] Get Stakeholder sign-off via the stakeholder meeting slide deck.
 
 ### Resources/Instructions
 If there is a website which has documentation that helps with this issue provide the link(s) here:
