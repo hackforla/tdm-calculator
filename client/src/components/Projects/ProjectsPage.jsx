@@ -1013,7 +1013,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 <span className={classes.itemsPerPage}>Items per page</span>
               </div>
               {/* <pre>{JSON.stringify(sortCriteria, null, 2)}</pre> */}
-
               {(selectedProject || checkedProjectsStatusData) && (
                 <>
                   <CsvModal
