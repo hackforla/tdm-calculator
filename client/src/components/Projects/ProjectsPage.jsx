@@ -172,71 +172,76 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const isAdmin = userContext.account?.isAdmin || false;
 
   useEffect(() => {
-    // Check if the user is an admin
-    const isAdmin = userContext.account?.isAdmin || false;
-
-    if (isAdmin) {
-      // Fetch available DROs
-
-      const fetchDroOptions = async () => {
+    const fetchDroOptions = async () => {
+      try {
         const result = await droService.get();
-        setDroOptions(result);
-      };
-      fetchDroOptions().catch(console.error);
-    }
-  }, [userContext.account]);
+        setDroOptions(result.data); // Adjust based on your API response structure
+      } catch (error) {
+        console.error("Error fetching DRO options:", error);
+      }
+    };
+    fetchDroOptions();
+  }, []);
 
   useEffect(() => {
-    const isAdmin = userContext.account?.isAdmin || false;
+    const droMap = {};
+    droOptions.forEach(dro => {
+      droMap[dro.id] = dro.name;
+    });
+    setDroNameMap(droMap);
+  }, [droOptions]);
 
-    if (!isAdmin) {
-      // Extract unique droIds from projects
-      const uniqueDroIds = [
-        ...new Set(
-          projects
-            .filter(project => project.droId)
-            .map(project => project.droId)
-        )
-      ];
+  // useEffect(() => {
+  //   const isAdmin = userContext.account?.isAdmin || false;
 
-      // Function to fetch DRO names for given droIds
-      const fetchDroNames = async () => {
-        try {
-          // Initialize a temporary map
-          const tempDroNameMap = {};
+  //   if (!isAdmin) {
+  //     // Extract unique droIds from projects
+  //     const uniqueDroIds = [
+  //       ...new Set(
+  //         projects
+  //           .filter(project => project.droId)
+  //           .map(project => project.droId)
+  //       )
+  //     ];
 
-          // Fetch each DRO by ID
-          await Promise.all(
-            uniqueDroIds.map(async droId => {
-              try {
-                const response = await droService.getById(droId);
-                tempDroNameMap[droId] = response.data.name || "N/A";
-              } catch (error) {
-                console.error(`Error fetching DRO with ID ${droId}:`, error);
-                tempDroNameMap[droId] = "N/A";
-              }
-            })
-          );
+  //     // Function to fetch DRO names for given droIds
+  //     const fetchDroNames = async () => {
+  //       try {
+  //         // Initialize a temporary map
+  //         const tempDroNameMap = {};
 
-          // Update the droNameMap state
-          setDroNameMap(tempDroNameMap);
-        } catch (error) {
-          console.error("Error fetching DRO names:", error);
-        }
-      };
+  //         // Fetch each DRO by ID
+  //         await Promise.all(
+  //           uniqueDroIds.map(async droId => {
+  //             try {
+  //               const response = await droService.getById(droId);
+  //               tempDroNameMap[droId] = response.data.name || "N/A";
+  //             } catch (error) {
+  //               console.error(`Error fetching DRO with ID ${droId}:`, error);
+  //               tempDroNameMap[droId] = "N/A";
+  //             }
+  //           })
+  //         );
 
-      // Only fetch if there are droIds to fetch
-      if (uniqueDroIds.length > 0) {
-        fetchDroNames();
-      } else {
-        // Reset the map if no droIds are present
-        setDroNameMap({});
-      }
-    } else {
-      // If admin, reset the map since admin already has droOptions
-      setDroNameMap({});
-    }
-  }, [projects, userContext.account?.isAdmin]);
+  //         // Update the droNameMap state
+  //         setDroNameMap(tempDroNameMap);
+  //       } catch (error) {
+  //         console.error("Error fetching DRO names:", error);
+  //       }
+  //     };
+
+  //     // Only fetch if there are droIds to fetch
+  //     if (uniqueDroIds.length > 0) {
+  //       fetchDroNames();
+  //     } else {
+  //       // Reset the map if no droIds are present
+  //       setDroNameMap({});
+  //     }
+  //   } else {
+  //     // If admin, reset the map since admin already has droOptions
+  //     setDroNameMap({});
+  //   }
+  // }, [projects, userContext.account?.isAdmin]);
 
   const perPageOptions = [
     { value: projects.length, label: "All" },
@@ -275,6 +280,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     nameList: [],
     addressList: [],
     alternativeList: [],
+    adminNotesList: [],
     authorList: [],
     droList: [],
     adminNotes: "",
@@ -341,6 +347,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const updateProjects = async () => {
     const updated = await projectService.get();
+    console.log("Fetched projects:", updated.data);
     setProjects(updated.data);
   };
 
@@ -542,9 +549,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
     ) {
       projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
       projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
+    } else if (orderBy === "dro") {
+      projectA = a.droName.toLowerCase();
+      projectB = b.droName.toLowerCase();
+    } else if (orderBy === "adminNotes") {
+      projectA = a.adminNotes ? a.adminNotes.toLowerCase() : "";
+      projectB = b.adminNotes ? b.adminNotes.toLowerCase() : "";
     } else {
-      projectA = a[orderBy].toLowerCase();
-      projectB = b[orderBy].toLowerCase();
+      projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
+      projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";
     }
 
     if (projectA < projectB) {
@@ -599,11 +612,20 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const handleFilterTextChange = text => {
     setFilterText(text);
   };
-
   const getDateOnly = date => {
     const dateOnly = new Date(date).toDateString();
     return new Date(dateOnly);
   };
+
+  const enhancedProjects = projects.map(project => {
+    const droName =
+      droOptions.find(dro => dro.id === project.droId)?.name || "";
+    return {
+      ...project,
+      droName: droName,
+      adminNotes: project.adminNotes || ""
+    };
+  });
 
   const filter = (p, criteria) => {
     if (criteria.type === "draft" && p.dateSnapshotted) return false;
@@ -701,14 +723,41 @@ const ProjectsPage = ({ contentContainerRef }) => {
     ) {
       return false;
     }
+    if (criteria.dro) {
+      const droFilter = criteria.dro.toLowerCase();
+      const projectDroName = p.droName.toLowerCase();
 
-    if (criteria.dro && !p.dro.includes(criteria.dro)) return false;
-
+      if (!projectDroName.includes(droFilter)) {
+        return false;
+      }
+    }
     if (
-      criteria.adminNotes &&
-      !p.adminNotes.toLowerCase().includes(criteria.adminNotes.toLowerCase())
+      criteria.droList.length > 0 &&
+      !criteria.droList
+        .map(n => n.toLowerCase())
+        .includes((p.droName || "").toLowerCase())
     ) {
       return false;
+    }
+    if (userContext.account?.isAdmin) {
+      const projectAdminNotes = (p.adminNotes || "").toLowerCase().trim();
+      const criteriaAdminNotes = criteria.adminNotes.toLowerCase().trim();
+
+      if (
+        criteriaAdminNotes &&
+        !projectAdminNotes.includes(criteriaAdminNotes)
+      ) {
+        return false;
+      }
+
+      if (
+        criteria.adminNotesList.length > 0 &&
+        !criteria.adminNotesList
+          .map(n => n.toLowerCase())
+          .includes((p.adminNotes || "").toLowerCase())
+      ) {
+        return false;
+      }
     }
 
     if (
@@ -792,7 +841,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
     {
       id: "dro",
       label: "DRO",
-      popupType: "text"
+      popupType: "text",
+      accessor: "droName"
     },
 
     ...(userContext.account?.isAdmin
@@ -800,7 +850,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
           {
             id: "adminNotes",
             label: "Admin Notes",
-            popupType: null // No filter needed for this column
+            popupType: "text",
+            accessor: "adminNotes"
           },
           {
             id: "dateModifiedAdmin",
@@ -818,7 +869,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
   const sortedProjects = stableSort(
-    projects.filter(p => filter(p, criteria)),
+    enhancedProjects.filter(p => filter(p, criteria)),
     getComparator(order, orderBy)
   );
   const currentProjects = sortedProjects.slice(
@@ -930,7 +981,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     </tr>
                   </thead>
                   <tbody className={classes.tbody}>
-                    {projects.length ? (
+                    {enhancedProjects.length ? (
                       currentProjects.map(project => (
                         <ProjectTableRow
                           key={project.id}

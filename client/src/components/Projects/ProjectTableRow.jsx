@@ -221,7 +221,7 @@ const ProjectTableRow = ({
       <td className={classes.td}>{dateSubmittedDisplay()}</td>
       {/* DRO Column */}
       <td className={classes.td}>
-        {isAdmin && droOptions.data ? (
+        {isAdmin && droOptions.length > 0 ? (
           <div style={{ width: "100px" }}>
             <UniversalSelect
               value={selectedDro}
@@ -232,7 +232,7 @@ const ProjectTableRow = ({
               }}
               options={[
                 { value: "", label: "Select..." },
-                ...droOptions.data.map(dro => ({
+                ...droOptions.map(dro => ({
                   value: dro.id,
                   label: dro.name
                 }))
@@ -365,14 +365,12 @@ ProjectTableRow.propTypes = {
   handleCheckboxChange: PropTypes.func.isRequired,
   checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   isAdmin: PropTypes.bool.isRequired,
-  droOptions: PropTypes.shape({
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired
-  }).isRequired,
+  droOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  ).isRequired,
   onDroChange: PropTypes.func.isRequired, // New propType
   onAdminNoteUpdate: PropTypes.func.isRequired // New propType
 };
