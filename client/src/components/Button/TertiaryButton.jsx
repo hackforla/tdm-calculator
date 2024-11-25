@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import Button from "./Button";
 import { MdPrint } from "react-icons/md";
 
-const TertiaryButton = ({ id, onClick, isDisabled, isDisplayed, children }) => {
+const TertiaryButton = ({
+  id,
+  onClick,
+  isDisabled,
+  isDisplayed = false,
+  children
+}) => {
   return (
     <Button
       type="input"
@@ -22,11 +28,11 @@ const TertiaryButton = ({ id, onClick, isDisabled, isDisplayed, children }) => {
 };
 
 TertiaryButton.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.any,
   onClick: PropTypes.func,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   isDisabled: PropTypes.bool,
-  isDisplayed: PropTypes.bool.isRequired
+  isDisplayed: PropTypes.bool
 };
 
 export default TertiaryButton;
