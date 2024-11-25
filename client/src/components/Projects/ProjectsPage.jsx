@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext";
-
-// import { MdFilterAlt } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
@@ -17,17 +15,42 @@ import * as droService from "../../services/dro.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
 import ShareSnapshotModal from "./ShareSnapshotModal";
-
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import CsvModal from "./CsvModal";
 import ProjectTableRow from "./ProjectTableRow";
-// import FilterDrawer from "./FilterDrawer";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import fetchEngineRules from "./fetchEngineRules";
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
 import TertiaryButton from "../Button/TertiaryButton";
+import useSessionStorage from "../../hooks/useSessionStorage";
+
+const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
+const FILTER_CRITERIA_STORAGE_TAG = "myProjectsFilterCriteria";
+const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
+const DEFAULT_FILTER_CRITERIA = {
+  type: "all",
+  status: "active",
+  visibility: "visible",
+  name: "",
+  address: "",
+  author: "",
+  alternative: "",
+  dro: "",
+  startDateCreated: null,
+  endDateCreated: null,
+  startDateModified: null,
+  endDateModified: null,
+  nameList: [],
+  addressList: [],
+  alternativeList: [],
+  authorList: [],
+  droList: [],
+  adminNotes: "",
+  startDateModifiedAdmin: null,
+  endDateModifiedAdmin: null
+};
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -150,10 +173,18 @@ const useStyles = createUseStyles({
 const ProjectsPage = ({ contentContainerRef }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
+  const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
+    FILTER_CRITERIA_STORAGE_TAG,
+    DEFAULT_FILTER_CRITERIA
+  );
+  const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
+    SORT_CRITERIA_STORAGE_TAG,
+    DEFAULT_SORT_CRITERIA
+  );
 
+  const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
+  const [filterCriteria, setFilterCriteria] = useState(sessionFilterCriteria);
   const [filterText, setFilterText] = useState("");
-  const [order, setOrder] = useState("desc");
-  const [orderBy, setOrderBy] = useState("dateModified");
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
@@ -243,11 +274,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
   }, [projects, userContext.account?.isAdmin]);
 
   const perPageOptions = [
-    { value: projects.length, label: "All" },
-    { value: 100, label: "100" },
-    { value: 50, label: "50" },
-    { value: 25, label: "25" },
-    { value: 10, label: "10" }
+    { value: projects.length.toString(), label: "All" },
+    { value: "100", label: "100" },
+    { value: "50", label: "50" },
+    { value: "25", label: "25" },
+    { value: "10", label: "10" }
   ];
 
   const handlePerPageChange = newPerPage => {
@@ -262,29 +293,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const getCheckedProjects = checkedProjectIds.map(id =>
     projects.find(p => p.id === id)
   );
-
-  const [criteria, setCriteria] = useState({
-    type: "all",
-    status: "active",
-    visibility: "visible",
-    name: "",
-    address: "",
-    author: "",
-    alternative: "",
-    dro: "",
-    startDateCreated: null,
-    endDateCreated: null,
-    startDateModified: null,
-    endDateModified: null,
-    nameList: [],
-    addressList: [],
-    alternativeList: [],
-    authorList: [],
-    droList: [],
-    adminNotes: "",
-    startDateModifiedAdmin: null,
-    endDateModifiedAdmin: null
-  });
 
   // const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
@@ -508,15 +516,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
         currentProjects
           .filter(
             p =>
-              (criteria.visibility === "visible" && !p.dateHidden) ||
-              (criteria.visibility === "hidden" && p.dateHidden) ||
-              criteria.visibility === "all"
+              (filterCriteria.visibility === "visible" && !p.dateHidden) ||
+              (filterCriteria.visibility === "hidden" && p.dateHidden) ||
+              filterCriteria.visibility === "all"
           )
           .filter(
             p =>
-              (criteria.status === "active" && !p.dateTrashed) ||
-              (criteria.status === "deleted" && p.dateTrashed) ||
-              criteria.status === "all"
+              (filterCriteria.status === "active" && !p.dateTrashed) ||
+              (filterCriteria.status === "deleted" && p.dateTrashed) ||
+              filterCriteria.status === "all"
           )
           .map(p => p.id)
       );
@@ -581,19 +589,21 @@ const ProjectsPage = ({ contentContainerRef }) => {
       : (a, b) => -ascCompareBy(a, b, orderBy);
   };
 
-  const stableSort = (array, comparator) => {
-    const stabilizedList = array.map((el, index) => [el, index]);
-    stabilizedList.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    return stabilizedList.map(el => el[0]);
+  const setSort = (orderBy, order) => {
+    // If already sorted by the orderBy field, remove that entry from the
+    // sort array first
+    let newSortCriteria = sortCriteria.filter(c => c.field !== orderBy);
+    // Add new sort criteria and direction to the sortCriteria and
+    // save to local storagr
+    newSortCriteria.push({ field: orderBy, direction: order });
+    // and update the sortCriteria state.
+    setSessionSortCriteria(newSortCriteria);
+    setSortCriteria(newSortCriteria);
   };
 
-  const setSort = (orderBy, order) => {
-    setOrder(order);
-    setOrderBy(orderBy);
+  const setFilter = newFilterCriteria => {
+    setSessionFilterCriteria(newFilterCriteria);
+    setFilterCriteria(newFilterCriteria);
   };
 
   const handleDroChange = async (projectId, newDroId) => {
@@ -757,30 +767,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const resetFiltersSort = () => {
-    setCriteria({
-      type: "all",
-      status: "active",
-      visibility: "visible",
-      name: "",
-      address: "",
-      author: "",
-      alternative: "",
-      dro: "",
-      startDateCreated: null,
-      endDateCreated: null,
-      startDateModified: null,
-      endDateModified: null,
-      nameList: [],
-      addressList: [],
-      alternativeList: [],
-      authorList: [],
-      droList: [],
-      adminNotes: "",
-      startDateModifiedAdmin: null,
-      endDateModifiedAdmin: null
-    });
-    setOrderBy("dateModified");
-    setOrder("desc");
+    setFilter(DEFAULT_FILTER_CRITERIA);
+    setSortCriteria(DEFAULT_SORT_CRITERIA);
+    setSort(DEFAULT_SORT_CRITERIA[0].field, DEFAULT_SORT_CRITERIA[0].direction);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
@@ -862,10 +851,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  const sortedProjects = stableSort(
-    projects.filter(p => filter(p, criteria)),
-    getComparator(order, orderBy)
-  );
+  let sortedProjects = projects.filter(p => filter(p, filterCriteria));
+  for (let i = 0; i < sortCriteria.length; i++) {
+    sortedProjects.sort(
+      getComparator(sortCriteria[i].direction, sortCriteria[i].field)
+    );
+  }
   const currentProjects = sortedProjects.slice(
     indexOfFirstPost,
     indexOfLastPost
@@ -874,20 +865,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <div className={classes.outerDiv}>
-        {/* <div
-          className={filterCollapsed ? classes.filterCollapsed : classes.filter}
-        >
-          <FilterDrawer
-            criteria={criteria}
-            setCriteria={setCriteria}
-            collapsed={filterCollapsed}
-            setCollapsed={setFilterCollapsed}
-            setCheckedProjectIds={setCheckedProjectIds}
-            setSelectAllChecked={setSelectAllChecked}
-            droOptions={droOptions}
-          />
-        </div> */}
-
         <div className={classes.contentDiv}>
           <h1 className={classes.pageTitle}>Projects</h1>
           <div
@@ -915,7 +892,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   handleCsvModalOpen={handleCsvModalOpen}
                   handleDeleteModalOpen={handleDeleteModalOpen}
                   checkedProjectIds={checkedProjectIds}
-                  criteria={criteria}
+                  criteria={filterCriteria}
                   checkedProjectsStatusData={checkedProjectsStatusData}
                   pdfProjectData={projectData}
                 />
@@ -945,19 +922,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     <TertiaryButton
                       onClick={resetFiltersSort}
                       style={{ height: "40px" }}
+                      isDisplayed={true}
                     >
                       RESET FILTERS/SORT
                     </TertiaryButton>
-                    {/* {filterCollapsed ? (
-                      <button
-                        alt="Show Filter Criteria"
-                        style={{ backgroundColor: "#0F2940", color: "white" }}
-                        onClick={() => setFilterCollapsed(false)}
-                      >
-                        <MdFilterAlt style={{ marginRight: "0.5em" }} />
-                        Filter By
-                      </button>
-                    ) : null} */}
                   </div>
                 </div>
               </div>
@@ -972,11 +940,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
                               projects={projects}
                               filter={filter}
                               header={header}
-                              criteria={criteria}
-                              setCriteria={setCriteria}
+                              criteria={filterCriteria}
+                              setCriteria={setFilter}
                               setSort={setSort}
-                              order={order}
-                              orderBy={orderBy}
+                              orderBy={
+                                sortCriteria[sortCriteria.length - 1].field
+                              }
+                              order={
+                                sortCriteria[sortCriteria.length - 1].direction
+                              }
                               setCheckedProjectIds={setCheckedProjectIds}
                               setSelectAllChecked={setSelectAllChecked}
                             />
@@ -1032,7 +1004,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   maxNumOfVisiblePages={5}
                 />
                 <UniversalSelect
-                  value={perPage}
+                  value={perPage.toString()}
                   options={perPageOptions}
                   onChange={e => handlePerPageChange(e.target.value)}
                   name="perPage"
@@ -1040,6 +1012,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 />
                 <span className={classes.itemsPerPage}>Items per page</span>
               </div>
+              <pre>{JSON.stringify(sortCriteria, null, 2)}</pre>
 
               {(selectedProject || checkedProjectsStatusData) && (
                 <>
