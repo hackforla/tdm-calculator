@@ -63,7 +63,7 @@ ColumnHeader.displayName = "ColumnHeader";
 ColumnHeader.propTypes = {
   onClick: PropTypes.func,
   header: PropTypes.any,
-  isFilterApplied: PropTypes.bool
+  isFilterApplied: PropTypes.func
 };
 
 const ProjectTableColumnHeader = ({
