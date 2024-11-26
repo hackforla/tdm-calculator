@@ -929,10 +929,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     />
                     <MdOutlineSearch className={classes.searchIcon} />
                   </div>
-                  <div>
+                  <div style={{ marginRight: "0.75em" }}>
                     <TertiaryButton
                       onClick={resetFiltersSort}
-                      style={{ height: "40px" }}
+                      style={{ height: "40px", marginRight: "1em" }}
                       isDisplayed={true}
                     >
                       RESET FILTERS/SORT
@@ -960,7 +960,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                                     sortCriteria[sortCriteria.length - 1].field
                                   }
                                   order={
-                                    sortCriteria[sortCriteria.length - 1].direction
+                                    sortCriteria[sortCriteria.length - 1]
+                                      .direction
                                   }
                                   setCheckedProjectIds={setCheckedProjectIds}
                                   setSelectAllChecked={setSelectAllChecked}
