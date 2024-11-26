@@ -110,6 +110,9 @@ const useStyles = createUseStyles({
     textAlign: "left"
   },
   thead: {
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
     fontWeight: "bold",
     backgroundColor: "#002E6D",
     color: "white",
@@ -144,9 +147,14 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   tableContainer: {
-    overflow: "visible", // changed to allow Universal Select to show above the page container when expanded
-    width: "100%",
-    margin: "20px 0px"
+    overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
+    width: "calc(100vw - 20px)",
+    margin: "20px 0px",
+    height: "calc(100vh - 275px - 11.34em)"
+  },
+  fixTableHead: {
+    overflowY: "auto",
+    height: "4em"
   },
   pageContainer: {
     display: "flex",
@@ -862,6 +870,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
     indexOfLastPost
   );
 
+  document.body.style.overflowX = "hidden"; // prevent page level scrolling, becauase the table is scrollable
+
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <div className={classes.outerDiv}>
@@ -884,7 +894,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "flex-start"
+                  justifyContent: "flex-start",
+                  width: "100vw"
                 }}
               >
                 <MemoizedMultiProjectToolbar
@@ -918,10 +929,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     />
                     <MdOutlineSearch className={classes.searchIcon} />
                   </div>
-                  <div>
+                  <div style={{ marginRight: "0.75em" }}>
                     <TertiaryButton
                       onClick={resetFiltersSort}
-                      style={{ height: "40px" }}
+                      style={{ height: "40px", marginRight: "1em" }}
                       isDisplayed={true}
                     >
                       RESET FILTERS/SORT
@@ -929,71 +940,78 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   </div>
                 </div>
               </div>
-              <div className={classes.tableContainer}>
-                <table className={classes.table}>
-                  <thead className={classes.thead}>
-                    <tr className={classes.tr}>
-                      {headerData.map(header => {
-                        return (
-                          <td key={header.id}>
-                            <ProjectTableColumnHeader
-                              projects={projects}
-                              filter={filter}
-                              header={header}
-                              criteria={filterCriteria}
-                              setCriteria={setFilter}
-                              setSort={setSort}
-                              orderBy={
-                                sortCriteria[sortCriteria.length - 1].field
-                              }
-                              order={
-                                sortCriteria[sortCriteria.length - 1].direction
-                              }
-                              setCheckedProjectIds={setCheckedProjectIds}
-                              setSelectAllChecked={setSelectAllChecked}
-                            />
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody className={classes.tbody}>
-                    {projects.length ? (
-                      currentProjects.map(project => (
-                        <ProjectTableRow
-                          key={project.id}
-                          project={project}
-                          handleCsvModalOpen={handleCsvModalOpen}
-                          handleCopyModalOpen={handleCopyModalOpen}
-                          handleDeleteModalOpen={handleDeleteModalOpen}
-                          handleSnapshotModalOpen={handleSnapshotModalOpen}
-                          handleRenameSnapshotModalOpen={
-                            handleRenameSnapshotModalOpen
-                          }
-                          handleShareSnapshotModalOpen={
-                            handleShareSnapshotModalOpen
-                          }
-                          handleHide={handleHide}
-                          handleCheckboxChange={handleCheckboxChange}
-                          checkedProjectIds={checkedProjectIds}
-                          isAdmin={isAdmin}
-                          droOptions={droOptions}
-                          onDroChange={handleDroChange} // Pass the DRO change handler
-                          onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
-                          droName={
-                            isAdmin ? null : droNameMap[project.droId] || "N/A"
-                          } // Pass the droName
-                        />
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={9} className={classes.tdNoSavedProjects}>
-                          No Saved Projects
-                        </td>
+              <div>
+                <div className={classes.tableContainer}>
+                  <table className={classes.table}>
+                    <thead className={classes.thead}>
+                      <tr className={classes.tr}>
+                        {headerData.map(header => {
+                          return (
+                            <td key={header.id}>
+                              <th className={classes.stickyTh}>
+                                <ProjectTableColumnHeader
+                                  projects={projects}
+                                  filter={filter}
+                                  header={header}
+                                  criteria={filterCriteria}
+                                  setCriteria={setFilter}
+                                  setSort={setSort}
+                                  orderBy={
+                                    sortCriteria[sortCriteria.length - 1].field
+                                  }
+                                  order={
+                                    sortCriteria[sortCriteria.length - 1]
+                                      .direction
+                                  }
+                                  setCheckedProjectIds={setCheckedProjectIds}
+                                  setSelectAllChecked={setSelectAllChecked}
+                                />
+                              </th>
+                            </td>
+                          );
+                        })}
                       </tr>
-                    )}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className={classes.tbody}>
+                      {projects.length ? (
+                        currentProjects.map(project => (
+                          <ProjectTableRow
+                            key={project.id}
+                            project={project}
+                            handleCsvModalOpen={handleCsvModalOpen}
+                            handleCopyModalOpen={handleCopyModalOpen}
+                            handleDeleteModalOpen={handleDeleteModalOpen}
+                            handleSnapshotModalOpen={handleSnapshotModalOpen}
+                            handleRenameSnapshotModalOpen={
+                              handleRenameSnapshotModalOpen
+                            }
+                            handleShareSnapshotModalOpen={
+                              handleShareSnapshotModalOpen
+                            }
+                            handleHide={handleHide}
+                            handleCheckboxChange={handleCheckboxChange}
+                            checkedProjectIds={checkedProjectIds}
+                            isAdmin={isAdmin}
+                            droOptions={droOptions}
+                            onDroChange={handleDroChange} // Pass the DRO change handler
+                            onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
+                            droName={
+                              isAdmin
+                                ? null
+                                : droNameMap[project.droId] || "N/A"
+                            } // Pass the droName
+                          />
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={9} className={classes.tdNoSavedProjects}>
+                            No Saved Projects
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div className={classes.pageContainer}>
                 <Pagination
