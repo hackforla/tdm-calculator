@@ -55,7 +55,8 @@ const TdmCalculationWizard = props => {
     contentContainerRef,
     inapplicableStrategiesModal,
     closeStrategiesModal,
-    project
+    project,
+    shareView
   } = props;
   const classes = useStyles();
   const context = useContext(ToastContext);
@@ -63,7 +64,7 @@ const TdmCalculationWizard = props => {
   const account = userContext ? userContext.account : null;
   const params = useParams();
   const navigate = useNavigate();
-  const page = Number(params.page || 1);
+  const page = Number(shareView ? 5 : params.page || 1);
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
   const [ainInputError, setAINInputError] = useState("");
@@ -104,10 +105,13 @@ const TdmCalculationWizard = props => {
             !projectId)
         );
       };
-
-      return formIsDirty && !isSameProject(currentLocation, nextLocation);
+      return (
+        !shareView &&
+        formIsDirty &&
+        !isSameProject(currentLocation, nextLocation)
+      );
     },
-    [formIsDirty, projectId]
+    [formIsDirty, projectId, shareView]
   );
   const blocker = useBlocker(shouldBlock);
 
@@ -190,7 +194,7 @@ const TdmCalculationWizard = props => {
   const setDisplaySaveButton = () => {
     const loggedIn = !!account && !!account.id;
     const setDisplayed = loggedIn;
-    return setDisplayed;
+    return !shareView && setDisplayed;
   };
 
   const setDisplayPrintButton = () => {
@@ -201,7 +205,7 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisplaySubmitButton = () => {
-    if (page === 5) {
+    if (page === 5 && !shareView) {
       return true;
     }
     return false;
@@ -298,8 +302,8 @@ const TdmCalculationWizard = props => {
             rules={rules}
             account={account}
             projectId={projectId}
-            loginId={loginId}
-            onSave={onSave}
+            loginId={!shareView ? loginId : account?.id}
+            onSave={!shareView ? onSave : null}
             dateModified={project.dateModified}
           />
         );
@@ -338,6 +342,7 @@ const TdmCalculationWizard = props => {
           setDisplaySubmitButton={setDisplaySubmitButton}
           onSave={onSave}
           project={project}
+          shareView={shareView}
         />
       </ContentContainer>
     </div>
@@ -387,7 +392,8 @@ TdmCalculationWizard.propTypes = {
   // dateSubmitted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
-  project: PropTypes.any
+  project: PropTypes.any,
+  shareView: PropTypes.bool
 };
 
 export default TdmCalculationWizard;
