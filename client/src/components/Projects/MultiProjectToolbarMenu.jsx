@@ -64,7 +64,10 @@ const MultiProjectToolbarMenu = ({
   ) {
     project = checkedProjectsStatusData;
   }
-  const isProjectOwner = account ? account.id === project?.loginId : false;
+  const isProjectOwner = account
+    ? account.id === project?.loginId ||
+      account.id === checkedProjectsStatusData.loginId
+    : false;
 
   const isBtnDisabled = (projProp, criteriaProp) => {
     const sameDateVals = checkedProjectsStatusData[projProp] !== false;
