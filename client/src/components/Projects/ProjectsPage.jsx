@@ -195,58 +195,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setDroNameMap(droMap);
   }, [droOptions]);
 
-  // useEffect(() => {
-  //   const isAdmin = userContext.account?.isAdmin || false;
-
-  //   if (!isAdmin) {
-  //     // Extract unique droIds from projects
-  //     const uniqueDroIds = [
-  //       ...new Set(
-  //         projects
-  //           .filter(project => project.droId)
-  //           .map(project => project.droId)
-  //       )
-  //     ];
-
-  //     // Function to fetch DRO names for given droIds
-  //     const fetchDroNames = async () => {
-  //       try {
-  //         // Initialize a temporary map
-  //         const tempDroNameMap = {};
-
-  //         // Fetch each DRO by ID
-  //         await Promise.all(
-  //           uniqueDroIds.map(async droId => {
-  //             try {
-  //               const response = await droService.getById(droId);
-  //               tempDroNameMap[droId] = response.data.name || "N/A";
-  //             } catch (error) {
-  //               console.error(`Error fetching DRO with ID ${droId}:`, error);
-  //               tempDroNameMap[droId] = "N/A";
-  //             }
-  //           })
-  //         );
-
-  //         // Update the droNameMap state
-  //         setDroNameMap(tempDroNameMap);
-  //       } catch (error) {
-  //         console.error("Error fetching DRO names:", error);
-  //       }
-  //     };
-
-  //     // Only fetch if there are droIds to fetch
-  //     if (uniqueDroIds.length > 0) {
-  //       fetchDroNames();
-  //     } else {
-  //       // Reset the map if no droIds are present
-  //       setDroNameMap({});
-  //     }
-  //   } else {
-  //     // If admin, reset the map since admin already has droOptions
-  //     setDroNameMap({});
-  //   }
-  // }, [projects, userContext.account?.isAdmin]);
-
   const perPageOptions = [
     { value: projects.length, label: "All" },
     { value: 100, label: "100" },
@@ -276,7 +224,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     address: "",
     author: "",
     alternative: "",
-    dro: "",
     startDateCreated: null,
     endDateCreated: null,
     startDateModified: null,
@@ -569,22 +516,30 @@ const ProjectsPage = ({ contentContainerRef }) => {
       projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
       projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
     } else if (orderBy === "dro") {
-      projectA = a.droName.toLowerCase();
-      projectB = b.droName.toLowerCase();
+      projectA = a.droName ? a.droName.toLowerCase() : null;
+      projectB = b.droName ? b.droName.toLowerCase() : null;
     } else if (orderBy === "adminNotes") {
-      projectA = a.adminNotes ? a.adminNotes.toLowerCase() : "";
-      projectB = b.adminNotes ? b.adminNotes.toLowerCase() : "";
+      projectA = a.adminNotes ? a.adminNotes.toLowerCase() : null;
+      projectB = b.adminNotes ? b.adminNotes.toLowerCase() : null;
     } else {
       projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
       projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";
     }
 
-    if (projectA < projectB) {
-      return -1;
-    } else if (projectA > projectB) {
-      return 1;
-    } else {
+    if (projectA === null && projectB === null) {
       return 0;
+    } else if (projectA === null) {
+      return 1; // null values are greater
+    } else if (projectB === null) {
+      return -1;
+    } else {
+      if (projectA < projectB) {
+        return -1;
+      } else if (projectA > projectB) {
+        return 1;
+      } else {
+        return 0;
+      }
     }
   };
 
@@ -742,22 +697,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
     ) {
       return false;
     }
-    if (criteria.dro) {
-      const droFilter = criteria.dro.toLowerCase();
-      const projectDroName = p.droName.toLowerCase();
+    if (criteria.droList.length > 0) {
+      const droNames = criteria.droList.map(n => n.toLowerCase());
+      const projectDroName = (p.droName || "").toLowerCase();
 
-      if (!projectDroName.includes(droFilter)) {
+      if (!droNames.includes(projectDroName)) {
         return false;
       }
     }
-    if (
-      criteria.droList.length > 0 &&
-      !criteria.droList
-        .map(n => n.toLowerCase())
-        .includes((p.droName || "").toLowerCase())
-    ) {
-      return false;
-    }
+
     if (userContext.account?.isAdmin) {
       const projectAdminNotes = (p.adminNotes || "").toLowerCase().trim();
       const criteriaAdminNotes = criteria.adminNotes.toLowerCase().trim();
@@ -814,7 +762,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
       address: "",
       author: "",
       alternative: "",
-      dro: "",
       startDateCreated: null,
       endDateCreated: null,
       startDateModified: null,
@@ -824,6 +771,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       alternativeList: [],
       authorList: [],
       droList: [],
+      adminNotesList: [],
       adminNotes: "",
       startDateModifiedAdmin: null,
       endDateModifiedAdmin: null
@@ -1030,6 +978,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                               orderBy={orderBy}
                               setCheckedProjectIds={setCheckedProjectIds}
                               setSelectAllChecked={setSelectAllChecked}
+                              droOptions={droOptions}
                             />
                           </td>
                         );

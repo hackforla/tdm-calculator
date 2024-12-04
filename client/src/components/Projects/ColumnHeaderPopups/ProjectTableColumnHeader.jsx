@@ -76,7 +76,8 @@ const ProjectTableColumnHeader = ({
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked
+  setSelectAllChecked,
+  droOptions
 }) => {
   const theme = useTheme();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -88,6 +89,11 @@ const ProjectTableColumnHeader = ({
     if (header.popupType === "text") {
       const listPropertyName = propertyName + "List";
       const listValue = criteria[listPropertyName];
+
+      if (propertyName === "droName") {
+        return Array.isArray(listValue) && listValue.length > 0;
+      }
+
       const headerValue = criteria[header.id];
 
       const isListFilterApplied =
@@ -164,6 +170,7 @@ const ProjectTableColumnHeader = ({
                   setSelectAllChecked={setSelectAllChecked}
                   projects={projects}
                   filter={filter}
+                  droOptions={droOptions}
                 />
               ) : header.popupType === "visibility" ? (
                 <VisibilityPopup
@@ -217,7 +224,8 @@ ProjectTableColumnHeader.propTypes = {
   setSort: PropTypes.func,
 
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func
+  setSelectAllChecked: PropTypes.func,
+  droOptions: PropTypes.array.isRequired
 };
 
 export default ProjectTableColumnHeader;
