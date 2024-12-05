@@ -52,6 +52,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const [rules, setRules] = useState([]);
 
   const [project, setProject] = useState({});
+  const [shareView, setShareView] = useState(false);
 
   const toast = useToast();
 
@@ -76,19 +77,32 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       let projectResponse = null;
       let inputs = {};
       if (Number(projectId) > 0 && account?.id) {
-        projectResponse = await projectService.getById(projectId);
+        if (location.pathname.split("/")[1] == "projects") {
+          projectResponse = await projectService.getByIdWithEmail(projectId);
 
-        // setLoginId(projectResponse.data.loginId);
-        // setDateModified(formatDatetime(projectResponse.data.dateModified));
-        // setDateSnapshotted(
-        //   formatDatetime(projectResponse.data?.dateSnapshotted)
-        // );
-        // setDateSubmitted(formatDatetime(projectResponse.data?.dateSubmitted));
-        setProject(projectResponse.data);
+          if (projectResponse) {
+            setShareView(true);
+          } else {
+            navigate("/unauthorized");
+          }
+        } else {
+          projectResponse = await projectService.getById(projectId);
 
-        inputs = JSON.parse(projectResponse.data.formInputs);
-        setStrategiesInitialized(true);
+          // setLoginId(projectResponse.data.loginId);
+          // setDateModified(formatDatetime(projectResponse.data.dateModified));
+          // setDateSnapshotted(
+          //   formatDatetime(projectResponse.data?.dateSnapshotted)
+          // );
+          // setDateSubmitted(formatDatetime(projectResponse.data?.dateSubmitted));
+          setShareView(false);
+        }
+        if (projectResponse) {
+          setProject(projectResponse);
+          inputs = JSON.parse(projectResponse.data.formInputs);
+          setStrategiesInitialized(true);
+        }
       } else {
+        setShareView(false);
         setStrategiesInitialized(false);
       }
       engine.run(inputs, resultRuleCodes);
@@ -104,7 +118,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       // const redirect = account.id ? "/projects" : "/login";
       // navigate(redirect);
     }
-  }, [engine, projectId, account, setRules, setProject]);
+  }, [engine, projectId, account, location, navigate, setRules, setProject]);
 
   // Initialize the engine with saved project data, as appropriate.
   // Should run only when projectId changes.
@@ -543,6 +557,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}
       project={project}
+      shareView={shareView}
     />
   );
 }
