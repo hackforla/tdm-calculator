@@ -63,7 +63,7 @@ ColumnHeader.displayName = "ColumnHeader";
 ColumnHeader.propTypes = {
   onClick: PropTypes.func,
   header: PropTypes.any,
-  isFilterApplied: PropTypes.bool
+  isFilterApplied: PropTypes.func
 };
 
 const ProjectTableColumnHeader = ({
@@ -132,6 +132,7 @@ const ProjectTableColumnHeader = ({
     <div style={{ width: "100%", height: "100%" }}>
       {header.id !== "checkAllProjects" && header.id !== "contextMenu" ? (
         <Popover
+          containerStyle={{ zIndex: 2 }}
           isOpen={isPopoverOpen}
           positions={["bottom", "left", "right", "top"]} // preferred positions by priority
           align="start"

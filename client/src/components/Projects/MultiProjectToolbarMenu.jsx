@@ -23,7 +23,8 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     alignItems: "center",
     marginLeft: "0.5em",
-    marginBottom: "-1em"
+    marginBottom: "-1em",
+    padding: "0 5em 0 0.5em "
   },
   list: {
     display: "flex",
@@ -35,7 +36,7 @@ const useStyles = createUseStyles({
   },
   button: {
     border: "none",
-    padding: 0,
+    padding: "0",
     background: "none"
   },
   multiStatus: {
@@ -63,7 +64,10 @@ const MultiProjectToolbarMenu = ({
   ) {
     project = checkedProjectsStatusData;
   }
-  const isProjectOwner = account ? account.id === project?.loginId : false;
+  const isProjectOwner = account
+    ? account.id === project?.loginId ||
+      account.id === checkedProjectsStatusData.loginId
+    : false;
 
   const isBtnDisabled = (projProp, criteriaProp) => {
     const sameDateVals = checkedProjectsStatusData[projProp] !== false;
