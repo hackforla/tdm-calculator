@@ -214,6 +214,18 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
 
+  const enhancedProjects = projects
+    ? projects.map(project => {
+        const droName =
+          droOptions.find(dro => dro.id === project.droId)?.name || "";
+        return {
+          ...project,
+          droName: droName,
+          adminNotes: project.adminNotes || ""
+        };
+      })
+    : [];
+
   useEffect(() => {
     const fetchDroOptions = async () => {
       try {
@@ -608,16 +620,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     return new Date(dateOnly);
   };
 
-  const enhancedProjects = projects.map(project => {
-    const droName =
-      droOptions.find(dro => dro.id === project.droId)?.name || "";
-    return {
-      ...project,
-      droName: droName,
-      adminNotes: project.adminNotes || ""
-    };
-  });
-
   const filter = (p, criteria) => {
     if (criteria.type === "draft" && p.dateSnapshotted) return false;
     if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
@@ -714,6 +716,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     ) {
       return false;
     }
+
     if (criteria.droList.length > 0) {
       const droNames = criteria.droList.map(n => n.toLowerCase());
       const projectDroName = (p.droName || "").toLowerCase();
@@ -723,26 +726,37 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     }
 
-    if (userContext.account?.isAdmin) {
-      const projectAdminNotes = (p.adminNotes || "").toLowerCase().trim();
-      const criteriaAdminNotes = criteria.adminNotes.toLowerCase().trim();
-
-      if (
-        criteriaAdminNotes &&
-        !projectAdminNotes.includes(criteriaAdminNotes)
-      ) {
-        return false;
-      }
-
-      if (
-        criteria.adminNotesList.length > 0 &&
-        !criteria.adminNotesList
-          .map(n => n.toLowerCase())
-          .includes((p.adminNotes || "").toLowerCase())
-      ) {
-        return false;
-      }
+    if (
+      criteria.adminNotesList.length > 0 &&
+      !criteria.adminNotesList
+        .map(n => n.toLowerCase())
+        .includes(
+          p.adminNotes ? p.adminNotes.toLowerCase() : "eowurqoieuroiwutposi"
+        )
+    ) {
+      return false;
     }
+
+    // if (userContext.account?.isAdmin) {
+    //   const projectAdminNotes = (p.adminNotes || "").toLowerCase().trim();
+    //   const criteriaAdminNotes = criteria.adminNotes.toLowerCase().trim();
+
+    //   if (
+    //     criteriaAdminNotes &&
+    //     !projectAdminNotes.includes(criteriaAdminNotes)
+    //   ) {
+    //     return false;
+    //   }
+
+    //   if (
+    //     criteria.adminNotesList.length > 0 &&
+    //     !criteria.adminNotesList
+    //       .map(n => n.toLowerCase())
+    //       .includes((p.adminNotes || "").toLowerCase())
+    //   ) {
+    //     return false;
+    //   }
+    // }
 
     if (
       criteria.startDateModifiedAdmin &&
@@ -857,7 +871,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  let sortedProjects = projects.filter(p => filter(p, filterCriteria));
+  let sortedProjects = enhancedProjects.filter(p => filter(p, filterCriteria));
   for (let i = 0; i < sortCriteria.length; i++) {
     sortedProjects.sort(
       getComparator(sortCriteria[i].direction, sortCriteria[i].field)
@@ -972,8 +986,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       </tr>
                     </thead>
                     <tbody className={classes.tbody}>
-                      {enhancedProjects?.length ? (
-                        enhancedProjects.map(project => (
+                      {enhancedProjects.length ? (
+                        currentProjects.map(project => (
                           <ProjectTableRow
                             key={project.id}
                             project={project}
@@ -1030,6 +1044,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 <span className={classes.itemsPerPage}>Items per page</span>
               </div>
               {/* <pre>{JSON.stringify(sortCriteria, null, 2)}</pre> */}
+              {/* <pre>{JSON.stringify(filterCriteria, null, 2)}</pre> */}
               {(selectedProject || checkedProjectsStatusData) && (
                 <>
                   <CsvModal
@@ -1070,6 +1085,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
             </div>
           </div>
         </div>
+        ``
       </div>
     </ContentContainerNoSidebar>
   );
