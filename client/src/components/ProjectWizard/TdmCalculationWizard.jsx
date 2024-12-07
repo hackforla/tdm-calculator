@@ -96,7 +96,6 @@ const TdmCalculationWizard = props => {
           },
           nextLocation.pathname
         );
-
         return (
           currentMatch &&
           nextMatch &&
@@ -104,7 +103,6 @@ const TdmCalculationWizard = props => {
             !projectId)
         );
       };
-
       return formIsDirty && !isSameProject(currentLocation, nextLocation);
     },
     [formIsDirty, projectId]
