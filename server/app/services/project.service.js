@@ -30,6 +30,23 @@ const getById = async (loginId, id) => {
   }
 };
 
+const getByIdWithEmail = async (id, email) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("email", mssql.NVarChar, email);
+    request.input("Id", mssql.Int, id);
+    const response = await request.execute("Project_SelectByIdWithSharedEmail");
+    if (response.recordset && response.recordset.length > 0) {
+      return response.recordset[0];
+    } else {
+      return null;
+    }
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 const post = async item => {
   try {
     await poolConnect;
@@ -264,6 +281,7 @@ const updateTotals = async (
 module.exports = {
   getAll,
   getById,
+  getByIdWithEmail,
   post,
   put,
   del,

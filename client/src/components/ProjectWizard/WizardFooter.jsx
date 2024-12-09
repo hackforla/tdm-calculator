@@ -51,7 +51,8 @@ const WizardFooter = ({
   setDisplayPrintButton,
   setDisplaySubmitButton,
   onSave,
-  project
+  project,
+  shareView
 }) => {
   const classes = useStyles();
   const componentRef = useRef();
@@ -76,7 +77,7 @@ const WizardFooter = ({
                 navDirection="previous"
                 color="colorPrimary"
                 isVisible={page !== 1}
-                isDisabled={Number(page) === 1}
+                isDisabled={shareView || Number(page) === 1}
                 onClick={() => {
                   onPageChange(Number(page) - 1);
                 }}
@@ -174,7 +175,8 @@ WizardFooter.propTypes = {
   setDisplaySubmitButton: PropTypes.any,
   onSave: PropTypes.any,
   onDownload: PropTypes.any,
-  project: PropTypes.any
+  project: PropTypes.any,
+  shareView: PropTypes.bool
 };
 
 export default WizardFooter;
