@@ -76,7 +76,8 @@ const ProjectTableColumnHeader = ({
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked
+  setSelectAllChecked,
+  droOptions
 }) => {
   const theme = useTheme();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -84,10 +85,23 @@ const ProjectTableColumnHeader = ({
   // Filter is considered Applied if it is not set
   // to the default criteria values.
   const isFilterApplied = () => {
-    let propertyName = header.id;
+    let propertyName = header.accessor || header.id;
     if (header.popupType === "text") {
-      propertyName += "List";
-      return criteria[propertyName].length > 0;
+      const listPropertyName = propertyName + "List";
+      const listValue = criteria[listPropertyName];
+
+      if (propertyName === "droName") {
+        return Array.isArray(listValue) && listValue.length > 0;
+      }
+
+      const headerValue = criteria[header.id];
+
+      const isListFilterApplied =
+        Array.isArray(listValue) && listValue.length > 0;
+      const isTextFilterApplied =
+        typeof headerValue === "string" && headerValue.length > 0;
+
+      return isListFilterApplied || isTextFilterApplied;
     }
     if (header.popupType === "datetime") {
       return (
@@ -100,6 +114,12 @@ const ProjectTableColumnHeader = ({
     }
     if (header.id === "dateSnapshotted") {
       return criteria.type !== "all" || criteria.status !== "active";
+    }
+    if (header.id === "dro") {
+      return criteria.droList?.length > 0; // Use optional chaining
+    }
+    if (header.id === "adminNotes") {
+      return (criteria.adminNotes || "").length > 0; // Set default empty string
     }
     return false;
   };
@@ -151,6 +171,7 @@ const ProjectTableColumnHeader = ({
                   setSelectAllChecked={setSelectAllChecked}
                   projects={projects}
                   filter={filter}
+                  droOptions={droOptions}
                 />
               ) : header.popupType === "visibility" ? (
                 <VisibilityPopup
@@ -204,7 +225,8 @@ ProjectTableColumnHeader.propTypes = {
   setSort: PropTypes.func,
 
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func
+  setSelectAllChecked: PropTypes.func,
+  droOptions: PropTypes.array.isRequired
 };
 
 export default ProjectTableColumnHeader;

@@ -97,7 +97,6 @@ const TdmCalculationWizard = props => {
           },
           nextLocation.pathname
         );
-
         return (
           currentMatch &&
           nextMatch &&
