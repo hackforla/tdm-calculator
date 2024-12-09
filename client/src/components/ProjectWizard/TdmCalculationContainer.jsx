@@ -118,7 +118,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       // const redirect = account.id ? "/projects" : "/login";
       // navigate(redirect);
     }
-  }, [engine, projectId, account, location, navigate, setRules, setProject]);
+  }, [engine, projectId, account, setRules, setProject]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Initialize the engine with saved project data, as appropriate.
   // Should run only when projectId changes.
