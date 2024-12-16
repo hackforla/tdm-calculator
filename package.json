@@ -10,6 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@mui/icons-material": "^6.2.0",
     "eslint": "^8.53.0",
     "i": "^0.3.7",
     "luxon": "^3.4.4",
