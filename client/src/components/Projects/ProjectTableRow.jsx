@@ -5,13 +5,9 @@ import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import {
-  MdVisibility,
-  MdVisibilityOff,
-  MdMoreVert,
-  MdEdit,
-  MdAddCircle
-} from "react-icons/md";
+import { MdVisibility, MdVisibilityOff, MdMoreVert } from "react-icons/md";
+import AddIcon from "@mui/icons-material/Add";
+import StickyNote2OutlinedIcon from "@mui/icons-material/StickyNote2Outlined";
 import { formatDate } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
@@ -20,6 +16,8 @@ import fetchEngineRules from "./fetchEngineRules";
 import * as droService from "../../services/dro.service";
 import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
+import AdminNotesModal from "./AdminNotesModal";
+import WarningModal from "../UI/AriaModal/WarningModal";
 
 const useStyles = createUseStyles({
   td: {
@@ -81,6 +79,69 @@ const useStyles = createUseStyles({
   }
 });
 
+function useAdminNotesModal(project, onAdminNoteUpdate) {
+  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [adminNotes, setAdminNotes] = useState(project.adminNotes || "");
+  const [adminNotesModalOpen, setAdminNotesModalOpen] = useState(false);
+  const handleAdminNotesModalOpen = () => {
+    setAdminNotesModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    if (isEditing) {
+      if (adminNotes !== (project?.adminNotes || "")) {
+        // User would lose changes on cancel, so show warning modal
+        setShowWarningModal(true);
+      } else {
+        setIsEditing(false);
+        setAdminNotesModalOpen(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    setAdminNotes(project.adminNotes || "");
+  }, [project.adminNotes]);
+
+  const handleSave = () => {
+    onAdminNoteUpdate(project.id, adminNotes);
+    setIsEditing(false);
+    setAdminNotesModalOpen(false);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    //blue outline on input field
+  };
+
+  const handleConfirmDiscard = () => {
+    setIsEditing(false);
+    setAdminNotesModalOpen(false);
+  };
+
+  const handleDoNotDiscard = () => {
+    setIsEditing(true);
+    setShowWarningModal(false);
+  };
+
+  return {
+    showWarningModal,
+    setShowWarningModal,
+    isEditing,
+    adminNotes,
+    setAdminNotes,
+    adminNotesModalOpen,
+    setAdminNotesModalOpen,
+    handleAdminNotesModalOpen,
+    handleCancel,
+    handleSave,
+    handleEdit,
+    handleConfirmDiscard,
+    handleDoNotDiscard
+  };
+}
+
 const ProjectTableRow = ({
   project,
   handleCsvModalOpen,
@@ -97,15 +158,29 @@ const ProjectTableRow = ({
   onDroChange, // New prop
   onAdminNoteUpdate // New prop
 }) => {
+  const {
+    showWarningModal,
+    setShowWarningModal,
+    isEditing,
+    setIsEditing,
+    adminNotes,
+    setAdminNotes,
+    adminNotesModalOpen,
+    handleAdminNotesModalOpen,
+    handleCancel,
+    handleSave,
+    handleEdit,
+    handleConfirmDiscard,
+    handleDoNotDiscard
+  } = useAdminNotesModal(project, onAdminNoteUpdate);
+
   const classes = useStyles();
   const formInputs = JSON.parse(project.formInputs);
   const printRef = useRef();
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
   const [droName, setDroName] = useState("N/A");
-  const [editingNote, setEditingNote] = useState(false);
-  const [adminNote, setAdminNote] = useState(project.adminNotes || "");
-  const [tempAdminNote, setTempAdminNote] = useState(project.adminNotes || "");
+
   // Download and process rules for PDF rendering
   useEffect(() => {
     const fetchRules = async () => {
@@ -133,29 +208,9 @@ const ProjectTableRow = ({
     }
   }, [isAdmin, project.droId]);
 
-  const handleSave = () => {
-    if (tempAdminNote.trim() !== adminNote.trim()) {
-      onAdminNoteUpdate(project.id, tempAdminNote.trim());
-    }
-    setEditingNote(false);
-  };
-
-  const handleCancel = () => {
-    setTempAdminNote(adminNote || "");
-    setEditingNote(false);
-  };
-
-  useEffect(() => {
-    setAdminNote(project.adminNotes || "");
-  }, [project.adminNotes]);
-
   useEffect(() => {
     setSelectedDro(project.droId || "");
   }, [project.droId]);
-
-  useEffect(() => {
-    setTempAdminNote(project.adminNotes || "");
-  }, [project.adminNotes]);
 
   const handlePrintPdf = useReactToPrint({
     content: () => printRef.current,
@@ -248,64 +303,42 @@ const ProjectTableRow = ({
         )}
       </td>
       {isAdmin && (
-        <td className={classes.tdCenterAlign}>
-          <div>
-            {editingNote ? (
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <input
-                  type="text"
-                  value={tempAdminNote}
-                  onChange={e => setTempAdminNote(e.target.value)}
-                  autoFocus
-                  className={classes.adminNoteInput}
-                />
-                <button
-                  onClick={handleSave}
-                  className={classes.saveButton}
-                  disabled={tempAdminNote.trim() === ""}
-                  title="Save Note"
-                >
-                  Save
-                </button>
-                <button
-                  onClick={handleCancel}
-                  className={classes.cancelButton}
-                  title="Cancel"
-                >
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center"
-                }}
-              >
-                {adminNote && <span>{adminNote}</span>}
-                <button
-                  onClick={() => {
-                    setEditingNote(true);
-                    setTempAdminNote(adminNote || "");
-                  }}
-                  style={{
-                    marginLeft: "auto",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: 0,
-                    display: "flex",
-                    alignItems: "center"
-                  }}
-                  title="Edit Note"
-                >
-                  {adminNote ? <MdEdit /> : <MdAddCircle />}
-                </button>
-              </div>
-            )}
-          </div>
-        </td>
+        <div>
+          <button
+            onClick={handleAdminNotesModalOpen}
+            style={{
+              marginLeft: "auto",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              display: "flex",
+              alignItems: "center"
+            }}
+            title={adminNotes ? "Edit Note" : "Add Note"}
+          >
+            {adminNotes ? <StickyNote2OutlinedIcon /> : <AddIcon />}
+          </button>
+          <AdminNotesModal
+            mounted={adminNotesModalOpen}
+            adminNotes={adminNotes}
+            setAdminNotes={setAdminNotes}
+            onCancel={handleCancel}
+            onSave={handleSave}
+            onEdit={handleEdit}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+          />
+        </div>
+      )}
+      {isAdmin && (
+        <WarningModal
+          mounted={showWarningModal}
+          onClose={() => setShowWarningModal(false)}
+          project={project}
+          onDiscard={handleConfirmDiscard}
+          onKeepEditing={handleDoNotDiscard}
+        />
       )}
       {isAdmin && (
         <td className={classes.td}>
