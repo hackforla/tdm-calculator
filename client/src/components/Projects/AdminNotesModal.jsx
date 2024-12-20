@@ -1,48 +1,56 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { PropTypes } from "prop-types";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { MdEdit } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
+  "@global": {
+    "#adminNotesDialog > #react-aria-modal-dialog": {
+      color: "red"
+    }
+  },
   container: {
-    display: "grid",
-    gridTemplateRows: "auto 1fr", // 'auto' for the header, '1fr' for the flexible space for the textarea
+    display: "flex",
+    flexDirection: "column",
     width: "100%",
-    height: "100%", // Ensure it takes full height of the parent
+    // height: "auto",
     boxSizing: "border-box"
   },
-  // Header section
-  header: {
-    width: "100%",
-    padding: "10px",
-    backgroundColor: "#f1f1f1",
-    textAlign: "center",
-    fontSize: "24px",
-    fontWeight: "bold",
-    boxSizing: "border-box"
+  headerWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginLeft: "10px",
+    marginTop: "5px"
   },
-  // Textarea wrapper that will fill the remaining space
+  subHeader: {
+    fontSize: "18px",
+    textAlign: "left",
+    marginBottom: "0"
+  },
   textareaWrapper: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
     width: "100%",
     boxSizing: "border-box",
-    height: "100%",
-    overflow: "hidden"
+    flexDirection: "column",
+    paddingLeft: "15px",
+    paddingRight: "15px"
   },
   textarea: {
     width: "100%",
     height: "100%",
-    padding: "8px", // Optional padding for the textarea
-    resize: "none",
-    boxSizing: "border-box" // Ensure padding is included in height calculation
+    padding: "8px",
+    boxSizing: "border-box"
   },
   buttonWrapper: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end", // Align the button to the right
+    justifyContent: "flex-end",
     padding: "10px",
     boxSizing: "border-box"
   },
@@ -77,40 +85,51 @@ const AdminNotesModal = ({
   setAdminNotes,
   onCancel,
   onSave,
-  onEdit,
-  isEditing,
-  setIsEditing
+  handleEdit,
+  isEditing
 }) => {
   const classes = useStyles();
-  const [height, setHeight] = useState(0);
-  const containerRef = useRef(null);
-  // Use ResizeObserver to adjust the height based on container width
-  useEffect(() => {
-    // Create a local variable to store the current container ref
-    const containerElement = containerRef.current;
+  /*   const [height, setHeight] = useState(0); // Track height based on width
+  const containerRef = useRef(null); // Reference for the container */
 
-    // Define the ResizeObserver
-    const resizeObserver = new ResizeObserver(entries => {
-      for (let entry of entries) {
-        const width = entry.contentRect.width;
-        // Maintain 16:9 aspect ratio (height = 9/16 of width)
-        const newHeight = (width * 9) / 16;
-        setHeight(newHeight);
-      }
-    });
+  // // Use `useLayoutEffect` to make sure containerRef is set before observing
+  // useLayoutEffect(() => {
+  //   setTimeout(() => {
+  //     /* eslint-disable no-console */
+  //     console.log(
+  //       "useLayoutEffect: containerRef.current is",
+  //       containerRef.current
+  //     );
+  //     console.log("useLayoutEffect: adminNotes is", adminNotes);
+  //     console.log("useLayoutEffect: isEditing", isEditing);
 
-    // Start observing the container element
-    if (containerElement) {
-      resizeObserver.observe(containerElement);
-    }
+  //     const resizeObserver = new ResizeObserver(entries => {
+  //       for (let entry of entries) {
+  //         const width = entry.contentRect.width;
+  //         const newHeight = (width * 9) / 16; // Maintain 16:9 aspect ratio
+  //         console.log(`Element width: ${width}px, new height: ${newHeight}px`);
+  //         setHeight(newHeight); // Update height based on width
+  //       }
+  //     });
 
-    // Cleanup function to unobserve when the component is unmounted or dependencies change
-    return () => {
-      if (containerElement) {
-        resizeObserver.unobserve(containerElement);
-      }
-    };
-  }, []); // Empty dependency array means this effect runs once when component mounts
+  //     if (containerRef.current) {
+  //       resizeObserver.observe(containerRef.current); // Observe the container
+  //     } else {
+  //       console.log("Container reference is still null");
+  //     }
+
+  //     // Cleanup function to unobserve when the component is unmounted or dependencies change
+  //     return () => {
+  //       if (containerRef.current) {
+  //         resizeObserver.unobserve(containerRef.current);
+  //       }
+  //     };
+  //   }, 0); // Set a timeout with 0 delay to give React time to reconcile the ref
+  // }, [isEditing, adminNotes]); // Empty dependency array, ensuring this runs only once on mount
+
+  // useEffect(() => {
+  //   console.log("useEffect: adminNotes is", adminNotes);
+  // }, [isEditing, adminNotes]); // Only run once on mount
 
   let modalContent;
   if (adminNotes == "" && !isEditing) {
@@ -122,7 +141,6 @@ const AdminNotesModal = ({
         underlayColor="rgba(0, 0, 0, 0.4)"
         escapeExits={false}
         initialFocus="#saveButton"
-        onClose={onCancel}
       >
         <div
           style={{
@@ -132,7 +150,7 @@ const AdminNotesModal = ({
           }}
         >
           <div
-            className={classes.heading1}
+            className={classes.header}
             style={{ marginBottom: "1.5rem", color: "" }}
           >
             Add a New Note
@@ -142,6 +160,7 @@ const AdminNotesModal = ({
             onChange={e => setAdminNotes(e.target.value)}
             autoFocus
             className={classes.adminNoteInput}
+            id="adminNotesTextarea"
           />
           <Button
             onClick={onSave}
@@ -174,35 +193,53 @@ const AdminNotesModal = ({
         underlayClickExits={false}
         underlayColor="rgba(0, 0, 0, 0.4)"
         escapeExits={false}
+        titleText="View Note"
       >
-        <div className={classes.container} ref={containerRef}>
-          <div
-            className={classes.heading1}
-            style={{ marginBottom: "1.5rem", color: "" }}
-          >
-            View Note
+        {/*         <div
+          className={classes.container}
+          ref={containerRef}
+          style={{ height: `${height}px` }}
+        > */}
+        <div className={classes.container} id="adminNotesDialogContainer">
+          <div className={classes.headerWrapper}>
+            <h2 id="modal-title" style={{ fontWeight: "bold", margin: "0px" }}>
+              View Note
+            </h2>
+            <CloseOutlinedIcon onClick={onCancel} aria-label="Close" />
           </div>
-          <div
-            className={classes.textareaWrapper}
-            style={{ height: `${height}px` }}
-          >
+          <div style={{ borderTop: "1px solid #ccc", margin: "5px 0" }} />
+          <div className={classes.textareaWrapper}>
+            <h3 className={classes.subHeader} style={{ fontWeight: "normal" }}>
+              Note
+            </h3>
             <textarea
               type="text"
               value={adminNotes}
               onChange={e => setAdminNotes(e.target.value)}
               autoFocus
               className={classes.textarea}
+              id="adminNotesTextarea"
             />
           </div>
+          <div
+            style={{
+              borderTop: "1px solid #ccc",
+              marginTop: "10px",
+              marginBottom: "0"
+            }}
+          />
           <div className={classes.buttonWrapper}>
-            <button
-              onClick={() => setIsEditing(true)}
-              className={classes.editButton}
-              disabled={false}
-              title="Edit Note"
+            <Button
+              color="colorPrimary"
+              variant="contained"
+              onClick={handleEdit}
+              style={{ margin: "0" }}
             >
-              Edit Note
-            </button>
+              <>
+                <MdEdit />
+                EDIT NOTE
+              </>
+            </Button>
           </div>
         </div>
       </ModalDialog>
@@ -239,7 +276,7 @@ const AdminNotesModal = ({
             Cancel
           </button>
           <button
-            onClick={onEdit}
+            onClick={onSave}
             className={classes.cancelButton}
             disabled={adminNotes.trim() === ""}
             title="Save"
@@ -256,7 +293,14 @@ const AdminNotesModal = ({
 AdminNotesModal.propTypes = {
   mounted: PropTypes.bool,
   onClose: PropTypes.func,
-  project: PropTypes.any
+  project: PropTypes.any,
+  handleEdit: PropTypes.func,
+  adminNotes: PropTypes.string,
+  setAdminNotes: PropTypes.func,
+  onCancel: PropTypes.func,
+  onSave: PropTypes.func,
+  onEdit: PropTypes.func,
+  isEditing: PropTypes.bool
 };
 
 export default AdminNotesModal;

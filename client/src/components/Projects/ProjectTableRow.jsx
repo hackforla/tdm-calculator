@@ -112,7 +112,9 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
 
   const handleEdit = () => {
     setIsEditing(true);
-    //blue outline on input field
+    const textArea = document.querySelector("#adminNotesTextArea");
+    textArea && textArea.setAttribute("border-color", "blue");
+    textArea && textArea.focus();
   };
 
   const handleConfirmDiscard = () => {
@@ -162,7 +164,6 @@ const ProjectTableRow = ({
     showWarningModal,
     setShowWarningModal,
     isEditing,
-    setIsEditing,
     adminNotes,
     setAdminNotes,
     adminNotesModalOpen,
@@ -325,9 +326,8 @@ const ProjectTableRow = ({
             setAdminNotes={setAdminNotes}
             onCancel={handleCancel}
             onSave={handleSave}
-            onEdit={handleEdit}
+            handleEdit={handleEdit}
             isEditing={isEditing}
-            setIsEditing={setIsEditing}
           />
         </div>
       )}
