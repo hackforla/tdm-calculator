@@ -84,6 +84,9 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
   const [isEditing, setIsEditing] = useState(false);
   const [adminNotes, setAdminNotes] = useState(project.adminNotes || "");
   const [adminNotesModalOpen, setAdminNotesModalOpen] = useState(false);
+  /* eslint-disable no-console */
+  console.log("isEditing in useAdminNotesModal:", isEditing);
+
   const handleAdminNotesModalOpen = () => {
     setAdminNotesModalOpen(true);
   };
@@ -112,9 +115,6 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
 
   const handleEdit = () => {
     setIsEditing(true);
-    const textArea = document.querySelector("#adminNotesTextArea");
-    textArea && textArea.setAttribute("border-color", "blue");
-    textArea && textArea.focus();
   };
 
   const handleConfirmDiscard = () => {
@@ -143,7 +143,7 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
     handleDoNotDiscard
   };
 }
-
+/* eslint-disable no-unused-vars */
 const ProjectTableRow = ({
   project,
   handleCsvModalOpen,
@@ -303,12 +303,13 @@ const ProjectTableRow = ({
           <span>{droName}</span>
         )}
       </td>
-      {isAdmin && (
+      {isAdmin && ( // onSave={handleSave}  isEditing={isEditing}
         <div>
           <button
             onClick={handleAdminNotesModalOpen}
             style={{
               marginLeft: "auto",
+              marginRight: "auto",
               background: "none",
               border: "none",
               cursor: "pointer",
@@ -392,6 +393,7 @@ const ProjectTableRow = ({
     </tr>
   );
 };
+/* eslint-enable no-unused-vars */
 
 ProjectTableRow.propTypes = {
   project: PropTypes.any,

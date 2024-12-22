@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import Button from "../../Button/Button";
 import { createUseStyles } from "react-jss";
-import { MdWarning } from "react-icons/md";
 import ModalDialog from "./ModalDialog";
 
 const useStyles = createUseStyles(theme => ({
@@ -28,11 +27,14 @@ const useStyles = createUseStyles(theme => ({
     alignItems: "center"
   },
   warningMessage: {
-    verticalAlign: "middle"
+    fontColor: "black",
+    fontSize: "28px",
+    marginTop: "0px"
   },
   modalActions: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: "24px"
   },
   warningIcon: {
     margin: "0 10px"
@@ -54,46 +56,54 @@ const WarningModal = ({
   handleDoNotDiscard,
   handleConfirmDiscard
 }) => {
-  const classes = useStyles();
+  const [initialFocusNode, setInitialFocusNode] = useState(null);
 
-  <ModalDialog
-    mounted={mounted}
-    underlayClickExits={false}
-    underlayColor="rgba(0, 0, 0, 0.4)"
-    escapeExits={false}
-    initialFocus="#saveButton"
-    showCloseBox={false}
-  >
-    <h2 className={classes.title}>
-      <strong>You have unsaved changes</strong>
-    </h2>
-    <br />
-    <p className={classes.warningWrapper}>
-      <MdWarning alt="Warning" />
-      <span className={classes.warningMessage}>
-        Are you sure you want to continue without saving?
-      </span>
-    </p>
-    <div className={classes.modalActions}>
-      <Button
-        color="colorCancel"
-        variant="outlined"
-        id="modalCancel"
-        onClick={handleDoNotDiscard}
-      >
-        Keep Editing
-      </Button>
-      <Button color="color" variant="error" onClick={handleConfirmDiscard}>
-        Discard Changes
-      </Button>
-    </div>
-  </ModalDialog>;
+  const handleInitialFocusRef = node => {
+    if (node) {
+      setInitialFocusNode(node); // Assign the button node as the initial focus target
+    }
+  };
+
+  const classes = useStyles();
+  return (
+    <ModalDialog
+      mounted={mounted}
+      underlayClickExits={false}
+      underlayColor="rgba(0, 0, 0, 0.4)"
+      escapeExits={false}
+      initialFocus={initialFocusNode || undefined}
+      omitCloseBox={false}
+    >
+      <div style={{ textAlign: "center" }}>
+        <h2 className={classes.warningMessage}>
+          <strong>You have unsaved changes</strong>
+        </h2>
+        <p>
+          Are you sure you want to continue without saving?
+          {/* <span>Are you sure you want to continue without saving?</span> */}
+        </p>
+        <div className={classes.modalActions}>
+          <Button
+            color="white"
+            variant="contained"
+            onClick={handleDoNotDiscard}
+            ref={handleInitialFocusRef} //callback function to set the initial focus node
+          >
+            Keep Editing
+          </Button>
+          <Button color="color" variant="error" onClick={handleConfirmDiscard}>
+            Discard Changes
+          </Button>
+        </div>
+      </div>
+    </ModalDialog>
+  );
 };
 
-WarningModal.prototypes = {
-  mounted: PropTypes.bool,
-  onClose: PropTypes.func,
-  project: PropTypes.any
+WarningModal.propTypes = {
+  mounted: PropTypes.bool.isRequired,
+  handleDoNotDiscard: PropTypes.func.isRequired,
+  handleConfirmDiscard: PropTypes.func.isRequired
 };
 
 export default WarningModal;
