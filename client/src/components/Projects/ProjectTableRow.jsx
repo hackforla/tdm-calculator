@@ -82,7 +82,9 @@ const useStyles = createUseStyles({
 function useAdminNotesModal(project, onAdminNoteUpdate) {
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isNewNote, setIsNewNote] = useState(!project.adminNotes);
+  const [isNewNote, setIsNewNote] = useState(
+    !project.adminNotes || project.adminNotes == ""
+  );
   const [adminNotes, setAdminNotes] = useState(project.adminNotes || "");
   const [adminNotesModalOpen, setAdminNotesModalOpen] = useState(false);
 
@@ -95,14 +97,12 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
   };
 
   const handleCancel = () => {
-    if (isEditing || isNewNote) {
-      if (adminNotes !== (project?.adminNotes || "")) {
-        // User would lose changes on cancel, so show warning modal
-        setShowWarningModal(true);
-      } else {
-        setIsEditing(false);
-        setAdminNotesModalOpen(false);
-      }
+    if (adminNotes !== (project?.adminNotes || "")) {
+      // User would lose changes on cancel, so show warning modal
+      setShowWarningModal(true);
+    } else {
+      setIsEditing(false);
+      setAdminNotesModalOpen(false);
     }
   };
 
@@ -123,6 +123,7 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
 
   const handleConfirmDiscard = () => {
     setIsEditing(false);
+    setAdminNotes(project.adminNotes || "");
     setAdminNotesModalOpen(false);
     setShowWarningModal(false);
   };
@@ -183,10 +184,6 @@ const ProjectTableRow = ({
     handleDoNotDiscard,
     textUpdated
   } = useAdminNotesModal(project, onAdminNoteUpdate);
-
-  //console.log("textUpdated in PTR", textUpdated); // Should print the function reference
-  /* eslint-disable no-console */
-  console.log("showWarningModal in PTF", showWarningModal);
 
   const classes = useStyles();
   const formInputs = JSON.parse(project.formInputs);

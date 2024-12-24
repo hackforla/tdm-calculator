@@ -59,7 +59,7 @@ const useStyles = createUseStyles(theme => ({
     flexDirection: "column",
     // height: "auto",
     boxSizing: "border-box",
-    width: "67.5rem",
+    maxWidth: "67.5rem",
     height: "40.5rem"
   },
   headerWrapper: {
@@ -109,6 +109,11 @@ const useStyles = createUseStyles(theme => ({
     border: "2px solid #0075FF ! important",
     borderRadius: "5px"
   },
+
+  blueBorderOnFocus: {
+    width: "100%"
+  },
+
   buttonWrapper: {
     display: "flex",
     flexDirection: "row",
@@ -202,12 +207,15 @@ const AdminNotesModal = ({
   // Cleanup on unmount to prevent issues with stale selector
   /* eslint-disable no-console */
   useEffect(() => {
-    console.log("ANM mounted or updated");
+    if (!mounted) {
+      console.log("ANM is not mounted, resetting initial focus id");
+      setInitialFocusId(""); // Reset the id when the component unmounts
+    }
     return () => {
       console.log("ANM is unmounting, resetting initial focus id");
       setInitialFocusId(""); // Reset the id when the component unmounts
     };
-  }, []);
+  }, [mounted]);
 
   // Log the mounted prop to see if it controls rendering
   useEffect(() => {
@@ -270,6 +278,10 @@ const AdminNotesModal = ({
               Note
             </h3>
             <textarea
+              style={{
+                border: "2px solid #0075FF !important",
+                borderRadius: "5px"
+              }}
               type="text"
               value={adminNotes}
               onChange={e => setAdminNotes(e.target.value)}
@@ -355,6 +367,7 @@ const AdminNotesModal = ({
               readOnly
               autoFocus
               className={classes.textarea}
+              style={{ border: "2px solid #0075FF", borderRadius: "5px" }}
             />
           </div>
           <div
@@ -431,7 +444,10 @@ const AdminNotesModal = ({
               className={classes.textarea}
               ref={handleInitialFocusRef} //callback function to set the initial focus node
               id="editNote"
-              style={{ border: "2px solid #0075FF", borderRadius: "5px" }}
+              style={{
+                border: "2px solid #0075FF !important",
+                borderRadius: "5px"
+              }}
             />
           </div>
           <div
