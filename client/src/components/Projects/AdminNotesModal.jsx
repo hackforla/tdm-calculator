@@ -253,7 +253,6 @@ const AdminNotesModal = ({
         escapeExits={false}
         underlayColor="rgba(0, 0, 0, 0.4)"
         initialFocus={validInitialFocusId || undefined}
-        dialogStyle={{ width: "67.5rem", height: "40.5rem" }}
       >
         <div className={classes.contentContainer}>
           <div className={classes.headerWrapper}>
@@ -337,7 +336,6 @@ const AdminNotesModal = ({
         escapeExits={false}
         underlayColor="rgba(0, 0, 0, 0.4)"
         initialFocus={initialFocusId || undefined}
-        dialogStyle={{ width: "67.5rem", height: "40.5rem" }}
       >
         <div className={classes.contentContainer}>
           <div className={classes.headerWrapper}>
@@ -412,7 +410,6 @@ const AdminNotesModal = ({
         escapeExits={false}
         underlayColor="rgba(0, 0, 0, 0.4)"
         initialFocus={initialFocusId || undefined}
-        dialogStyle={{ width: "67.5", height: "40.5" }}
       >
         <div className={classes.contentContainer}>
           <div className={classes.headerWrapper}>
