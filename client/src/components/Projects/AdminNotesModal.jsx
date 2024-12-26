@@ -21,7 +21,7 @@ const useStyles = createUseStyles(theme => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
     fontSize: "1rem",
     fontWeight: "normal"
   },
@@ -93,23 +93,12 @@ const useStyles = createUseStyles(theme => ({
     height: "100%",
     padding: "8px",
     boxSizing: "border-box",
+    readonly: "true",
     flexGrow: 1,
     resize: "none",
     maxHeight: "414px",
     overflowY: "auto"
   },
-  addNewTextArea: {
-    width: "100%",
-    height: "100%",
-    padding: "8px",
-    boxSizing: "border-box",
-    flexGrow: 1,
-    maxHeight: "414px",
-    overflowY: "auto",
-    border: "2px solid #0075FF ! important",
-    borderRadius: "5px"
-  },
-
   blueBorderOnFocus: {
     width: "100%"
   },
@@ -204,28 +193,17 @@ const AdminNotesModal = ({
     }
   };
 
-  // Cleanup on unmount to prevent issues with stale selector
-  /* eslint-disable no-console */
+  // Cleanup on unmount to prevent issues with stale initialFocusId
   useEffect(() => {
     if (!mounted) {
-      console.log("ANM is not mounted, resetting initial focus id");
       setInitialFocusId(""); // Reset the id when the component unmounts
     }
     return () => {
-      console.log("ANM is unmounting, resetting initial focus id");
       setInitialFocusId(""); // Reset the id when the component unmounts
     };
   }, [mounted]);
 
-  // Log the mounted prop to see if it controls rendering
-  useEffect(() => {
-    console.log("ANM Mounted prop value:", mounted);
-    console.log("ANM Initial focus id:", initialFocusId);
-  }, [mounted, initialFocusId]);
-
   if (!mounted) {
-    //setInitialFocusId(""); // Reset the id when the component unmounts
-    console.log("ANM is not mounted, returning null");
     return null; // Ensure the component is properly unmounted when `mounted` is false
   }
 
@@ -278,14 +256,15 @@ const AdminNotesModal = ({
             </h3>
             <textarea
               style={{
-                border: "2px solid #0075FF !important",
+                border: "1px solid #0075FF",
+                outline: "1px solid #0075FF",
                 borderRadius: "5px"
               }}
               type="text"
               value={adminNotes}
               onChange={e => setAdminNotes(e.target.value)}
               autoFocus
-              className={classes.addNewTextArea}
+              className={classes.textarea}
               ref={handleInitialFocusRef} //callback function to set the initial focus node
               id="addNewNote"
             />
@@ -365,7 +344,6 @@ const AdminNotesModal = ({
               readOnly
               autoFocus
               className={classes.textarea}
-              style={{ border: "2px solid #0075FF", borderRadius: "5px" }}
             />
           </div>
           <div
@@ -442,7 +420,8 @@ const AdminNotesModal = ({
               ref={handleInitialFocusRef} //callback function to set the initial focus node
               id="editNote"
               style={{
-                border: "2px solid #0075FF !important",
+                border: "1px solid #0075FF",
+                outline: "1px solid #0075FF",
                 borderRadius: "5px"
               }}
             />
