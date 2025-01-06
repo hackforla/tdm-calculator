@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
-import { MdPrint } from "react-icons/md";
 
 const TertiaryButton = ({
   id,
@@ -21,7 +20,6 @@ const TertiaryButton = ({
       disabled={isDisabled}
       isDisplayed={isDisplayed}
     >
-      <MdPrint style={{ marginRight: "0.5em" }} />
       {children}
     </Button>
   );
