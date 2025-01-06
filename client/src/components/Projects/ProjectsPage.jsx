@@ -30,6 +30,7 @@ const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
 const FILTER_CRITERIA_STORAGE_TAG = "myProjectsFilterCriteria";
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
+  filterText: "",
   type: "all",
   status: "active",
   visibility: "visible",
@@ -192,7 +193,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
   const [filterCriteria, setFilterCriteria] = useState(sessionFilterCriteria);
-  const [filterText, setFilterText] = useState("");
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
@@ -591,6 +591,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const setFilter = newFilterCriteria => {
     setSessionFilterCriteria(newFilterCriteria);
     setFilterCriteria(newFilterCriteria);
+    setCurrentPage(1);
   };
 
   const handleDroChange = async (projectId, newDroId) => {
@@ -613,8 +614,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleFilterTextChange = text => {
-    setFilterText(text);
+    setFilterCriteria(crit => {
+      return { ...crit, filterText: text };
+    });
+    setCurrentPage(1);
   };
+
   const getDateOnly = date => {
     const dateOnly = new Date(date).toDateString();
     return new Date(dateOnly);
@@ -772,12 +777,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
     )
       return false;
 
-    if (filterText !== "") {
+    if (criteria.filterText && criteria.filterText !== "") {
       let ids = ["name", "address", "fullName", "alternative", "description"];
 
       return ids.some(id => {
         let colValue = String(p[id]).toLowerCase();
-        return colValue.includes(filterText.toLowerCase());
+        return colValue.includes(criteria.filterText.toLowerCase());
       });
     }
 
@@ -936,7 +941,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       id="filterText"
                       name="filterText"
                       placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
-                      value={filterText}
+                      value={filterCriteria.filterText}
                       onChange={e => handleFilterTextChange(e.target.value)}
                     />
                     <MdOutlineSearch className={classes.searchIcon} />
