@@ -11,6 +11,11 @@ router.get(
 );
 router.get("/", jwtSession.validateUser, projectController.getAll);
 router.get("/:id", jwtSession.validateUser, projectController.getById);
+router.get(
+  "/projectShare/:id/",
+  jwtSession.validateUser,
+  projectController.getByIdWithEmail
+);
 router.post("/", jwtSession.validateUser, projectController.post);
 router.put("/hide", jwtSession.validateUser, projectController.hide);
 router.put("/trash", jwtSession.validateUser, projectController.trash);
