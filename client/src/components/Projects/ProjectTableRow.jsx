@@ -5,9 +5,13 @@ import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import { MdVisibility, MdVisibilityOff, MdMoreVert } from "react-icons/md";
-import AddIcon from "@mui/icons-material/Add";
-import StickyNote2OutlinedIcon from "@mui/icons-material/StickyNote2Outlined";
+import {
+  MdVisibility,
+  MdVisibilityOff,
+  MdMoreVert,
+  MdAdd,
+  MdOutlineStickyNote2
+} from "react-icons/md";
 import { formatDate } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
@@ -329,7 +333,7 @@ const ProjectTableRow = ({
             }}
             title={adminNotes ? "Edit Note" : "Add Note"}
           >
-            {adminNotes ? <StickyNote2OutlinedIcon /> : <AddIcon />}
+            {adminNotes ? <MdOutlineStickyNote2 /> : <MdAdd />}
           </button>
           <AdminNotesModal
             key="admin-notes-modal"

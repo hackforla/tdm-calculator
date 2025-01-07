@@ -3,8 +3,7 @@ import { PropTypes } from "prop-types";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
 // import ModalDialog from "../UI/AriaModal/ModalDialog";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdOutlineClose } from "react-icons/md";
 import AriaModal from "react-aria-modal";
 import clsx from "clsx";
 
@@ -245,7 +244,7 @@ const AdminNotesModal = ({
             >
               Add a New Note
             </h2>
-            <CloseOutlinedIcon onClick={onCancel} aria-label="Close" />
+            <MdOutlineClose onClick={onCancel} aria-label="Close" />
           </div>
           <div
             style={{ borderTop: "1px solid #ccc", margin: "8px 0px 0px 0px" }}
@@ -329,7 +328,7 @@ const AdminNotesModal = ({
             >
               View Note
             </h2>
-            <CloseOutlinedIcon onClick={onCancel} aria-label="Close" />
+            <MdOutlineClose onClick={onCancel} aria-label="Close" />
           </div>
           <div
             style={{ borderTop: "1px solid #ccc", margin: "8px 0px 0px 0px" }}
@@ -402,7 +401,7 @@ const AdminNotesModal = ({
             >
               Edit Note
             </h2>
-            <CloseOutlinedIcon onClick={onCancel} aria-label="Close" />
+            <MdOutlineClose onClick={onCancel} aria-label="Close" />
           </div>
           <div
             style={{ borderTop: "1px solid #ccc", margin: "8px 0px 0px 0px" }}
