@@ -87,17 +87,10 @@ export function TdmCalculationContainer({ contentContainerRef }) {
           }
         } else {
           projectResponse = await projectService.getById(projectId);
-
-          // setLoginId(projectResponse.data.loginId);
-          // setDateModified(formatDatetime(projectResponse.data.dateModified));
-          // setDateSnapshotted(
-          //   formatDatetime(projectResponse.data?.dateSnapshotted)
-          // );
-          // setDateSubmitted(formatDatetime(projectResponse.data?.dateSubmitted));
           setShareView(false);
         }
         if (projectResponse) {
-          setProject(projectResponse);
+          setProject(projectResponse.data);
           inputs = JSON.parse(projectResponse.data.formInputs);
           setStrategiesInitialized(true);
         }
