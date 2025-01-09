@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
+import { Tooltip } from "react-tooltip";
 
 /* 
 See https://css-tricks.com/building-progress-ring-quickly/
@@ -107,11 +108,27 @@ const useStyles = createUseStyles({
   }
 });
 
-const EarnedPointsProgress = props => {
+// const EarnedPointsProgress = props => {
+//   const theme = useTheme();
+//   const classes = useStyles({ theme });
+
+//   const { rulesConfig } = props;
+//   const radius = DIAL_RADIUS;
+//   const stroke = STROKE_WIDTH;
+
+//   const target = rulesConfig.targetPointsRule.value || 0;
+//   const earned = rulesConfig.earnedPointsRule.value || 0;
+
+//   const normalizedRadius = radius - stroke * 2;
+//   const circumference = normalizedRadius * 2 * Math.PI;
+//   const strokeDashoffset = Math.max(
+//     0,
+//     target ? circumference - (earned / target) * 0.875 * circumference : 0
+//   );
+const EarnedPointsProgress = ({ rulesConfig }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
 
-  const { rulesConfig } = props;
   const radius = DIAL_RADIUS;
   const stroke = STROKE_WIDTH;
 
@@ -142,23 +159,45 @@ const EarnedPointsProgress = props => {
         <div className={classes.targetPointsLabel}>TARGET</div>
       </div>
       <div
-        data-tip={
+        data-tooltip-content={
           "<p>Earned Points: " +
           rulesConfig.earnedPointsRule.description +
           "</p><p>Target Points: " +
           rulesConfig.targetPointsRule.description +
           "</p>"
         }
-        data-iscapture="true"
-        data-html="true"
-        data-class={
-          target > 0
-            ? classes.tooltip
-            : clsx(classes.tooltip, classes.noDisplay)
-        }
-        className={classes.tooltipIcon}
+        className={clsx(
+          classes.tooltipIcon,
+          target > 0 ? "" : classes.noDisplay
+        )}
       >
-        <ToolTipIcon />
+        <span
+          data-tooltip-id="earned-points-tooltip" // Associate tooltip with a unique ID
+          style={{ cursor: "pointer" }}
+        >
+          <ToolTipIcon />
+        </span>
+        <Tooltip
+          id="earned-points-tooltip"
+          place="right"
+          offset={{ top: 0, left: 10 }}
+          style={{
+            color: "rgb(30, 36, 63)",
+            backgroundColor: "white",
+            padding: "15px",
+            minWidth: "200px",
+            maxWidth: "400px",
+            fontFamily: "Arial",
+            fontSize: "12px",
+            lineHeight: "16px",
+            fontWeight: "bold",
+            boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
+            borderRadius: "2px"
+          }}
+        >
+          {`<p>Earned Points: ${rulesConfig.earnedPointsRule.description}</p>
+      <p>Target Points: ${rulesConfig.targetPointsRule.description}</p>`}
+        </Tooltip>
       </div>
       <svg className={clsx(classes.rotate, classes.dial)}>
         <circle
@@ -205,8 +244,22 @@ const EarnedPointsProgress = props => {
   );
 };
 
+// EarnedPointsProgress.propTypes = {
+//   rulesConfig: PropTypes.object
+// };
 EarnedPointsProgress.propTypes = {
-  rulesConfig: PropTypes.object
+  rulesConfig: PropTypes.shape({
+    targetPointsRule: PropTypes.shape({
+      value: PropTypes.number,
+      code: PropTypes.string,
+      description: PropTypes.string
+    }).isRequired,
+    earnedPointsRule: PropTypes.shape({
+      value: PropTypes.number,
+      code: PropTypes.string,
+      description: PropTypes.string
+    }).isRequired
+  }).isRequired
 };
 
 export default EarnedPointsProgress;

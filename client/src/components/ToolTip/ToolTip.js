@@ -8,9 +8,9 @@ const ToolTip = ({ id }) => {
     <Tooltip
       id={id}
       place="right"
-      type="info"
-      effect="float"
-      multiline={true}
+      variant="info"
+      float
+      // multiline={true}
       style={{
         width: "25vw",
         textAlign: "left"

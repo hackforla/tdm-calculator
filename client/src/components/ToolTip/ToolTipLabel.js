@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { MdInfo } from "react-icons/md";
+import { Tooltip } from "react-tooltip";
 
 const useStyles = createUseStyles(theme => ({
   labelWrapper: {
@@ -55,11 +56,7 @@ const useStyles = createUseStyles(theme => ({
     lineHeight: "16px",
     fontWeight: "bold",
     boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    borderRadius: 2,
-    "&.show": {
-      visibility: "visible !important",
-      opacity: "1 !important"
-    }
+    borderRadius: 2
   },
   requiredInputLabel: {
     "&:after": {
@@ -121,20 +118,17 @@ const ToolTipLabel = ({
               ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
               : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
           }
-          data-class={classes.tooltip}
-          data-for={id}
-          data-tip={tooltipContent}
-          data-iscapture="true"
-          data-html="true"
+          data-tooltip-id={id} // Correctly associate tooltip with ID
+          data-tooltip-content={tooltipContent} // Tooltip content
         >
           {children}
         </label>
+        <Tooltip id={id} className={classes.tooltip} />
         {description ? (
           <span
             className={clsx("fa-layers fa-fw", classes.iconContainer)}
             style={showDescription ? { visibility: "visible" } : {}}
           >
-            {/* <MdCircle className={classes.faCircle} /> */}
             <MdInfo className={classes.infoIcon} />
           </span>
         ) : null}
@@ -152,7 +146,7 @@ const ToolTipLabel = ({
       onClick={descriptionHandler}
     >
       <label
-        htmlFor={code ? code : null}
+        htmlFor={code || null}
         className={
           showDescription
             ? description
@@ -166,19 +160,12 @@ const ToolTipLabel = ({
             ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
             : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
         }
-        data-class={classes.tooltip}
-        data-for={id}
-        data-tip={tooltipContent}
-        data-iscapture="true"
-        data-html="true"
+        data-tooltip-id={id} // Tooltip ID for association
+        data-tooltip-content={tooltipContent} // Tooltip content
       >
         {children}
-        {tooltipContent &&
-          code &&
-          !code.startsWith("STRATEGY") &&
-          !code.startsWith("PKG") &&
-          null}
       </label>
+      <Tooltip id={id} className={classes.tooltip} />
       {description ? (
         <span
           className={clsx("fa-layers fa-fw", classes.iconContainer)}
