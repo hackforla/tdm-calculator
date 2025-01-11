@@ -37,7 +37,7 @@ const ResetButtons = props => {
         Reset Project
       </button>
       <button className={classes.unSelectButton} onClick={uncheckAll}>
-        Reset Page
+        Clear Page
       </button>
     </div>
   );
