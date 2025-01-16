@@ -14,13 +14,15 @@ const useStyles = createUseStyles({
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
-    textDecoration: "underline"
+    textDecoration: "underline",
+    fontWeight: "normal"
   },
   resetProjectButton: {
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
-    textDecoration: "underline"
+    textDecoration: "underline",
+    fontWeight: "normal"
   }
 });
 

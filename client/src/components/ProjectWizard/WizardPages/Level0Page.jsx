@@ -4,6 +4,7 @@ import PlanningIcon from "../../../images/planning.png";
 import { createUseStyles, useTheme } from "react-jss";
 import { MdLaunch } from "react-icons/md";
 import { MdWarning } from "react-icons/md";
+import ResetButtons from "./ResetButtons";
 
 const useStyles = createUseStyles({
   level0NavButtons: {
@@ -34,7 +35,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Level0Page = ({ isLevel0 }) => {
+const Level0Page = ({ isLevel0, uncheckAll, resetProject }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
 
@@ -42,6 +43,13 @@ const Level0Page = ({ isLevel0 }) => {
     <>
       {isLevel0 && (
         <div className={classes.level0NavButtons}>
+          <div className={classes.pkgSelectContainer}>
+            <ResetButtons
+              className={classes.alignRight}
+              uncheckAll={uncheckAll}
+              resetProject={resetProject}
+            />
+          </div>
           <div className={classes.level0Container}>
             <img src={PlanningIcon} alt="planningIcon" />
             <h1 style={theme.typography.heading1}>Your project level is 0!</h1>
@@ -75,7 +83,9 @@ const Level0Page = ({ isLevel0 }) => {
 };
 
 Level0Page.propTypes = {
-  isLevel0: PropTypes.bool.isRequired
+  isLevel0: PropTypes.bool.isRequired,
+  uncheckAll: PropTypes.func.isRequired,
+  resetProject: PropTypes.func.isRequired
 };
 
 export default Level0Page;
