@@ -274,6 +274,8 @@ const TdmCalculationWizard = props => {
             onParkingProvidedChange={onParkingProvidedChange}
             onInputChange={onInputChange}
             isLevel0={isLevel0}
+            uncheckAll={onUncheckAll}
+            resetProject={onResetProject}
           />
         );
 

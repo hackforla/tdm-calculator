@@ -4,6 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
 import Level0Page from "./Level0Page";
 import ParkingProvidedRuleInput from "../RuleInput/ParkingProvidedRuleInput";
+import ResetButtons from "./ResetButtons";
 
 const useStyles = createUseStyles(theme => ({
   projectBox: {
@@ -50,7 +51,14 @@ const useStyles = createUseStyles(theme => ({
 function ProjectTargetPoints(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const { rules, onInputChange, isLevel0, onParkingProvidedChange } = props;
+  const {
+    rules,
+    onInputChange,
+    isLevel0,
+    onParkingProvidedChange,
+    uncheckAll,
+    resetProject
+  } = props;
   const projectLevel = rules.find(e => e.code === "LEVEL");
   const targetValue = rules.find(e => e.code === "INPUT_TARGET_POINTS_PARK");
 
@@ -61,7 +69,11 @@ function ProjectTargetPoints(props) {
 
   return (
     <>
-      <Level0Page isLevel0={isLevel0} />
+      <Level0Page
+        isLevel0={isLevel0}
+        uncheckAll={uncheckAll}
+        resetProject={resetProject}
+      />
 
       {projectLevel && projectLevel.calcValue > 0 && (
         <div>
@@ -73,6 +85,13 @@ function ProjectTargetPoints(props) {
               Target Points (left panel) may be adjusted based on parking spaces
               entered below.
             </span>
+          </div>
+          <div className={classes.pkgSelectContainer}>
+            <ResetButtons
+              className={classes.alignRight}
+              uncheckAll={uncheckAll}
+              resetProject={resetProject}
+            />
           </div>
           {parkingProvidedRuleOnly && (
             <ParkingProvidedRuleInput
@@ -109,7 +128,9 @@ ProjectTargetPoints.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onParkingProvidedChange: PropTypes.func.isRequired,
-  isLevel0: PropTypes.bool.isRequired
+  isLevel0: PropTypes.bool.isRequired,
+  uncheckAll: PropTypes.func.isRequired,
+  resetProject: PropTypes.func.isRequired
 };
 
 export default ProjectTargetPoints;
