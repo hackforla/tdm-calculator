@@ -126,7 +126,12 @@ const TdmCalculationWizard = props => {
   useEffect(() => {
     if (projectId && (!account || !account.id)) {
       // user not logged in, existing project -> log in
-      navigate(`/login`);
+      let locationPath = location.pathname.split("/");
+      if (locationPath[1] == "projects" && locationPath[2]) {
+        navigate(`/login?url=${locationPath[1]}/${locationPath[2]}`);
+      } else {
+        navigate(`/login`);
+      }
     } else if (
       // Redirect to Summary Page if project exists,
       // but does not belong to logged-in user
@@ -140,7 +145,7 @@ const TdmCalculationWizard = props => {
       !(account.isAdmin || account.id === loginId)
     ) {
       navigate(`/calculation/6/${projectId}`);
-    }
+    } // eslint-disable-next-line
   }, [projectId, account, loginId, navigate]);
 
   const projectDescriptionRules =
