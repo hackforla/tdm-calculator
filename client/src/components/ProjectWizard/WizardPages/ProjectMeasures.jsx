@@ -21,8 +21,7 @@ const useStyles = createUseStyles({
     marginLeft: "2em"
   },
   alignRight: {
-    gridColumn: "h-end",
-    justifyContent: "flex-end"
+    marginRight: ".4em"
   },
   packageBanner: {
     margin: "0.5em auto",
@@ -89,12 +88,9 @@ function ProjectMeasure(props) {
           </div>
         </>
       )}
-      <div
-        className={classes.pkgSelectContainer}
-        style={{ marginTop: "1em", marginBottom: "1em" }}
-      >
+      <div className={classes.resetContainer} style={{ marginTop: "1em" }}>
         <ResetButtons
-          className={classes.alignRight}
+          alignRightClass={classes.alignRight}
           uncheckAll={uncheckAll}
           resetProject={resetProject}
         />

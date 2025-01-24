@@ -12,11 +12,11 @@ const useStyles = createUseStyles(theme => ({
     gridTemplateColumns: "[h-start] auto [h-end] 35%",
     alignItems: "center",
     justifyContent: "space-between",
-    position: "relative"
+    position: "relative",
+    marginBottom: "1em"
   },
   alignRight: {
-    gridColumn: "h-end",
-    justifyContent: "flex-end"
+    marginRight: ".4em"
   },
   subtitle: {
     marginTop: "0.5em",
@@ -41,7 +41,7 @@ function ProjectSpecifications(props) {
       </h3>
       <div className={classes.resetContainer}>
         <ResetButtons
-          className={classes.alignRight}
+          alignRightClass={classes.alignRight}
           uncheckAll={uncheckAll}
           resetProject={resetProject}
         />

@@ -256,6 +256,8 @@ const TdmCalculationWizard = props => {
             rules={projectDescriptionRules}
             onInputChange={onInputChange}
             onAINInputError={handleAINInputError}
+            uncheckAll={() => onUncheckAll(filters.specificationRules)}
+            resetProject={() => onResetProject()}
           />
         );
       case 2:
