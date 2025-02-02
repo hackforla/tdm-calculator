@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
+import Popup from "reactjs-popup";
+import { MdClose } from "react-icons/md";
 
 const useStyles = createUseStyles({
   projectLevelHeader: {
@@ -27,58 +29,72 @@ const useStyles = createUseStyles({
   },
   lowOpacity: {
     opacity: 0.4
-  },
-  noDisplay: {
-    display: "none !important"
-  },
-  tooltip: {
-    color: "rgb(30, 36, 63) !important",
-    padding: "15px",
-    minWidth: "200px",
-    maxWidth: "400px",
-    fontFamily: "Arial",
-    fontSize: 12,
-    lineHeight: "16px",
-    fontWeight: "bold",
-    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-    borderRadius: 2,
-    "&.show": {
-      visibility: "visible !important",
-      opacity: "1 !important"
-    }
   }
 });
 
 const SidebarProjectLevel = ({ level, rules }) => {
+  const theme = useTheme();
   const classes = useStyles();
-  const tipText = rules[0].description;
-  const opacityTest = level === 0 ? classes.lowOpacity : "";
-  const noToolTip = level === 0 ? classes.noDisplay : "";
+  const tipText = `<p>${rules[0]?.description}</p>`;
 
   return (
-    <div className={clsx(classes.projectLevelContainer, opacityTest)}>
+    <div
+      className={clsx(
+        classes.projectLevelContainer,
+        level === 0 && classes.lowOpacity
+      )}
+    >
       <p id="PROJECT_LEVEL" className={classes.projectLevelValue}>
         {level}
       </p>
       <h3 className={classes.projectLevelHeader}>
         PROJECT LEVEL
-        <span
-          className={clsx(classes.projectLevelContainer, noToolTip)}
-          data-tip={tipText}
-          data-iscapture="true"
-          data-html="true"
-          data-class={classes.tooltip}
-        >
-          <ToolTipIcon />
-        </span>
+        {level > 0 && (
+          <Popup
+            trigger={
+              <span style={{ cursor: "pointer" }}>
+                <ToolTipIcon />
+              </span>
+            }
+            position="right center"
+            arrow={true}
+            contentStyle={{ width: "30%" }}
+          >
+            {close => {
+              return (
+                <div style={{ margin: "1rem" }}>
+                  <button
+                    style={{
+                      backgroundColor: "transparent",
+                      color: theme.colors.secondary.gray,
+                      border: "none",
+                      position: "absolute",
+                      top: "0",
+                      right: "0",
+                      cursor: "pointer"
+                    }}
+                    onClick={close}
+                  >
+                    <MdClose style={{ height: "20px", width: "20px" }} />
+                  </button>
+                  <div dangerouslySetInnerHTML={{ __html: tipText }} />
+                </div>
+              );
+            }}
+          </Popup>
+        )}
       </h3>
     </div>
   );
 };
 
 SidebarProjectLevel.propTypes = {
-  level: PropTypes.number,
-  rules: PropTypes.array
+  level: PropTypes.number.isRequired,
+  rules: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string.isRequired
+    })
+  ).isRequired
 };
 
 export default SidebarProjectLevel;

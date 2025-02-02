@@ -77,13 +77,21 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       let projectResponse = null;
       let inputs = {};
       if (Number(projectId) > 0 && account?.id) {
-        if (location.pathname.split("/")[1] == "projects") {
-          projectResponse = await projectService.getByIdWithEmail(projectId);
+        let locationPath = location.pathname.split("/");
+        if (locationPath[1] == "projects") {
+          try {
+            projectResponse = await projectService.getByIdWithEmail(projectId);
 
-          if (projectResponse) {
-            setShareView(true);
-          } else {
-            navigate("/unauthorized");
+            if (projectResponse) {
+              setShareView(true);
+            }
+          } catch (err) {
+            if (err.response.status == 404) {
+              navigate(`/login?url=${locationPath[1]}/${locationPath[2]}`);
+            } else {
+              console.error(JSON.stringify(err, null, 2));
+              throw new Error(JSON.stringify(err, null, 2));
+            }
           }
         } else {
           projectResponse = await projectService.getById(projectId);
