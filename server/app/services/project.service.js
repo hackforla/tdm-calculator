@@ -30,6 +30,23 @@ const getById = async (loginId, id) => {
   }
 };
 
+const getByIdWithEmail = async (id, email) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("email", mssql.NVarChar, email);
+    request.input("Id", mssql.Int, id);
+    const response = await request.execute("Project_SelectByIdWithSharedEmail");
+    if (response.recordset && response.recordset.length > 0) {
+      return response.recordset[0];
+    } else {
+      return null;
+    }
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 const post = async item => {
   try {
     await poolConnect;
@@ -38,6 +55,9 @@ const post = async item => {
     request.input("address", mssql.NVarChar, item.address); // 200
     request.input("description", mssql.NVarChar, item.description); // max
     request.input("formInputs", mssql.NVarChar, item.formInputs); // max
+    request.input("targetPoints", mssql.Int, item.targetPoints);
+    request.input("earnedPoints", mssql.Int, item.earnedPoints);
+    request.input("projectLevel", mssql.Int, item.projectLevel);
     request.input("loginId", mssql.Int, item.loginId);
     request.input("calculationId", mssql.Int, item.calculationId);
     request.output("id", mssql.Int, null);
@@ -57,6 +77,9 @@ const put = async item => {
     request.input("address", mssql.NVarChar, item.address); // 200
     request.input("description", mssql.NVarChar, item.description); // max
     request.input("formInputs", mssql.NVarChar, item.formInputs); // max
+    request.input("targetPoints", mssql.Int, item.targetPoints);
+    request.input("earnedPoints", mssql.Int, item.earnedPoints);
+    request.input("projectLevel", mssql.Int, item.projectLevel);
     request.input("loginId", mssql.Int, item.loginId);
     request.input("calculationId", mssql.Int, item.calculationId);
     request.input("id", mssql.Int, item.id);
@@ -183,9 +206,82 @@ const getAllArchivedProjects = async () => {
   }
 };
 
+const updateDroId = async (id, droId, loginId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("id", mssql.Int, id);
+    if (droId === null) {
+      request.input("droId", mssql.Int, null); // Correctly pass NULL for droId
+    } else {
+      request.input("droId", mssql.Int, droId); // Pass the actual droId value if it's not null
+    }
+    request.input(
+      "DateModifiedAdmin",
+      mssql.DateTime2,
+      new Date().toISOString()
+    );
+    request.input("LoginId", mssql.Int, loginId);
+
+    const response = await request.execute("Project_UpdateDroId");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
+const updateAdminNotes = async (id, adminNotes, loginId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("id", mssql.Int, id);
+    request.input("adminNotes", mssql.NVarChar(mssql.MAX), adminNotes);
+    request.input(
+      "DateModifiedAdmin",
+      mssql.DateTime2,
+      new Date().toISOString()
+    );
+    request.input("LoginId", mssql.Int, loginId);
+
+    const response = await request.execute("Project_UpdateAdminNotes");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
+const updateTotals = async (
+  id,
+  targetPoints,
+  earnedPoints,
+  projectLevel,
+  loginId
+) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssql.Int, id);
+    request.input("targetPoints", mssql.Int, targetPoints);
+    request.input("earnedPoints", mssql.Int, earnedPoints);
+    request.input("projectLevel", mssql.Int, projectLevel);
+    request.input("LoginId", mssql.Int, loginId);
+
+    const response = await request.execute("Project_UpdateTotals");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
+  getByIdWithEmail,
   post,
   put,
   del,
@@ -193,6 +289,9 @@ module.exports = {
   trash,
   submit,
   snapshot,
+  updateDroId,
+  updateAdminNotes,
   renameSnapshot,
-  getAllArchivedProjects
+  getAllArchivedProjects,
+  updateTotals
 };

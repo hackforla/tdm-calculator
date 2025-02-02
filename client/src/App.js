@@ -33,12 +33,14 @@ import FaqView from "./components/Faq/FaqView";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ForgotPassword from "./components/Authorization/ForgotPassword";
 import Feedback from "./components/Feedback/FeedbackPage";
+import SubmitSnapshotPage from "./components/SubmitSnapshot/SubmitSnapshotPage";
 import ErrorPage from "./components/ErrorPage";
 import Offline from "./components/Offline";
 import Logout from "./components/Authorization/Logout";
 import { getConfigs } from "./helpers/Config";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
+const sharedProjectPath = "/projects/:projectId?";
 
 const App = () => {
   const contentContainerRef = useRef();
@@ -65,6 +67,14 @@ const App = () => {
             <RequireAuth>
               <ProjectsPage contentContainerRef={contentContainerRef} />
             </RequireAuth>
+          }
+        />
+        <Route
+          path={sharedProjectPath}
+          element={
+            <TdmCalculationContainer
+              contentContainerRef={contentContainerRef}
+            />
           }
         />
         <Route
@@ -143,6 +153,14 @@ const App = () => {
           <Route
             path="/feedback"
             element={<Feedback contentContainerRef={contentContainerRef} />}
+          />
+          <Route
+            path="/submit"
+            element={
+              <RequireAuth>
+                <SubmitSnapshotPage contentContainerRef={contentContainerRef} />
+              </RequireAuth>
+            }
           />
           <Route path="*" element={<ErrorPage />} />
         </Route>

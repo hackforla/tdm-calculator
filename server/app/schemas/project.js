@@ -19,6 +19,15 @@ module.exports = {
     },
     calculationId: {
       type: "number"
+    },
+    targetPoints: {
+      type: "number"
+    },
+    earnedPoints: {
+      type: "number"
+    },
+    projectLevel: {
+      type: "number"
     }
   }
 };

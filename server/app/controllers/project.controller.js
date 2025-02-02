@@ -24,6 +24,30 @@ const getById = async (req, res) => {
   }
 };
 
+const getByIdWithEmail = async (req, res) => {
+  try {
+    const project = await projectService.getByIdWithEmail(
+      req.params.id,
+      req.user.email
+    );
+    if (!project) {
+      res
+        .status(404)
+        .send(
+          "project " +
+            req.params.id +
+            " not shared with " +
+            req.user.email +
+            " or does not exist."
+        );
+      return;
+    }
+    res.status(200).json(project);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const post = async (req, res) => {
   try {
     if (req.body.loginId !== req.user.id) {
@@ -47,6 +71,43 @@ const put = async (req, res) => {
     }
 
     await projectService.put(req.body);
+    res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const updateDroId = async (req, res) => {
+  try {
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({ error: "You do not have permission to update the droId." });
+    }
+
+    const { id } = req.params;
+    const { droId } = req.body;
+
+    await projectService.updateDroId(id, droId, req.user.id);
+    res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const updateAdminNotes = async (req, res) => {
+  try {
+    console.log(req);
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({ error: "You do not have permission to update the droId." });
+    }
+
+    const { id } = req.params;
+    const { adminNotes } = req.body;
+
+    await projectService.updateAdminNotes(id, adminNotes, req.user.id);
     res.sendStatus(204);
   } catch (err) {
     res.status(500).send(err);
@@ -167,9 +228,32 @@ const getAllArchivedProjects = async (req, res) => {
   }
 };
 
+const updateTotals = async (req, res) => {
+  try {
+    if (!req.user.isAdmin) {
+      return res.status(403).json({
+        error: "Access denied. Only admins can update totals."
+      });
+    }
+    const { id, targetPoints, earnedPoints, projectLevel } = req.body;
+    const archivedProjects = await projectService.updateTotals(
+      id,
+      targetPoints,
+      earnedPoints,
+      projectLevel,
+      req.user.id
+    );
+    res.status(200).json(archivedProjects);
+    return;
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
+  getByIdWithEmail,
   post: [validate({ body: projectSchema }), post, validationErrorMiddleware],
   put,
   del,
@@ -177,6 +261,9 @@ module.exports = {
   trash,
   submit,
   snapshot,
+  updateDroId,
+  updateAdminNotes,
   renameSnapshot,
-  getAllArchivedProjects
+  getAllArchivedProjects,
+  updateTotals
 };

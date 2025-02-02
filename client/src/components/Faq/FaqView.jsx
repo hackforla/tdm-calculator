@@ -10,6 +10,8 @@ import AddNewCategoryButton from "../Button/AddNewCategory";
 import { createUseStyles } from "react-jss";
 import DeleteFaqModal from "./DeleteFaqModal";
 import SaveConfirmationModal from "./SaveConfirmationModal";
+import FaqConfirmDialog from "./FaqConfirmDialog";
+import { matchPath, unstable_useBlocker as useBlocker } from "react-router-dom";
 
 const useStyles = createUseStyles(theme => ({
   headerContainer: {
@@ -35,6 +37,7 @@ const FaqView = () => {
   const [highestFaqId, setHighestFaqId] = useState(0);
   const [highestCategoryId, setHighestCategoryId] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  const [formHasSaved, setFormHasSaved] = useState(false);
   const [admin, setAdmin] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [faqToDelete, setFaqToDelete] = useState(null);
@@ -46,6 +49,36 @@ const FaqView = () => {
   useEffect(() => {
     fetchFaqData();
   }, []);
+
+  const calculationPath = "/faqs";
+
+  const shouldBlock = React.useCallback(
+    ({ currentLocation, nextLocation }) => {
+      const isSamePage = (currentLocation, nextLocation) => {
+        const currentMatch = matchPath(
+          {
+            path: calculationPath,
+            exact: true
+          },
+          currentLocation.pathname
+        );
+        const nextMatch = matchPath(
+          {
+            path: calculationPath,
+            exact: true
+          },
+          nextLocation.pathname
+        );
+
+        return currentMatch && nextMatch;
+      };
+
+      return formHasSaved && !isSamePage(currentLocation, nextLocation);
+    },
+    [formHasSaved]
+  );
+
+  const blocker = useBlocker(shouldBlock);
 
   const handleDragEnd = result => {
     const { type, destination, source } = result;
@@ -161,12 +194,14 @@ const FaqView = () => {
     };
     setHighestCategoryId(updatedHighestCategoryId);
     setFaqCategoryList(prevState => [...prevState, newCategory]);
+    setFormHasSaved(true);
   };
 
   const onDeleteCategory = categoryId => {
     setFaqCategoryList(prevState =>
       prevState.filter(category => category.id !== categoryId)
     );
+    setFormHasSaved(true);
   };
 
   const handleAddFAQ = (category, question, answer) => {
@@ -198,6 +233,7 @@ const FaqView = () => {
         return category;
       })
     );
+    setFormHasSaved(true);
   };
 
   const handleEditFAQ = (categoryId, faqId, question, answer) => {
@@ -224,6 +260,7 @@ const FaqView = () => {
         return category;
       })
     );
+    setFormHasSaved(true);
   };
 
   const handleEditCategory = (category, name) => {
@@ -240,6 +277,7 @@ const FaqView = () => {
           return cat;
         })
     );
+    setFormHasSaved(true);
   };
 
   const onDeleteFAQ = (categoryId, faqId) => {
@@ -256,6 +294,7 @@ const FaqView = () => {
         return category;
       })
     );
+    setFormHasSaved(true);
   };
 
   const expandFaq = faq => {
@@ -312,7 +351,7 @@ const FaqView = () => {
     // Submit data and set admin to false
     submitFaqData();
     setAdmin(false);
-
+    setFormHasSaved(false);
     // Close the save confirmation modal
     closeSaveConfirmationModal();
   };
@@ -320,12 +359,14 @@ const FaqView = () => {
   const handleDeleteCategory = categoryId => {
     setCategoryToDelete(categoryId);
     setIsDeleteConfirmationModalOpen(true);
+    setFormHasSaved(true);
   };
 
   const handleDeleteFAQ = (categoryId, faqId) => {
     setCategoryToDelete(categoryId);
     setFaqToDelete(faqId);
     setIsDeleteConfirmationModalOpen(true);
+    setFormHasSaved(true);
   };
 
   const closeModal = () => {
@@ -405,6 +446,7 @@ const FaqView = () => {
         onClose={closeSaveConfirmationModal}
         onYes={handleSaveConfirmationYes}
       />
+      {blocker ? <FaqConfirmDialog blocker={blocker} /> : null}
     </ContentContainer>
   );
 };

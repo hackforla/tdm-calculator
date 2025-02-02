@@ -11,6 +11,11 @@ router.get(
 );
 router.get("/", jwtSession.validateUser, projectController.getAll);
 router.get("/:id", jwtSession.validateUser, projectController.getById);
+router.get(
+  "/projectShare/:id/",
+  jwtSession.validateUser,
+  projectController.getByIdWithEmail
+);
 router.post("/", jwtSession.validateUser, projectController.post);
 router.put("/hide", jwtSession.validateUser, projectController.hide);
 router.put("/trash", jwtSession.validateUser, projectController.trash);
@@ -22,4 +27,19 @@ router.put(
   projectController.renameSnapshot
 );
 router.put("/:id", jwtSession.validateUser, projectController.put);
+router.put(
+  "/updateDroId/:id",
+  jwtSession.validateUser,
+  projectController.updateDroId
+);
+router.put(
+  "/updateAdminNotes/:id",
+  jwtSession.validateUser,
+  projectController.updateAdminNotes
+);
 router.delete("/:id", jwtSession.validateUser, projectController.del);
+router.put(
+  "/updateTotals/:id",
+  jwtSession.validateUser,
+  projectController.updateTotals
+);

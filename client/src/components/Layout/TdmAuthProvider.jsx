@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import UserContext from "../../contexts/UserContext";
 
@@ -18,6 +18,21 @@ const getUserFromLocalStorage = () => {
 
 const TdmAuthProvider = ({ children }) => {
   const [account, setAccount] = useState(getUserFromLocalStorage());
+
+  const checkUserExpiration = () => {
+    if (account) {
+      const now = new Date();
+      const expirationDate = new Date(account.expiration);
+      if (now > expirationDate) {
+        updateAccount(null);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(checkUserExpiration, 5000); // Poll every 5 seconds
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  });
 
   const updateAccount = userAccount => {
     /*
