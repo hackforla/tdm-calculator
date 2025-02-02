@@ -11,27 +11,41 @@ import VisibilityPopup from "./VisibilityPopup";
 import StatusPopup from "./StatusPopup";
 import { useTheme } from "react-jss";
 
+const useStyles = createUseStyles(theme => ({
+  iconNoFilter: {
+    color: theme.colorWhite,
+    "&:hover": {
+      backgroundColor: theme.colorWhite,
+      color: theme.colorLADOT,
+      borderRadius: "12.5%",
+      cursor: "pointer"
+    }
+  },
+  iconFilter: {
+    backgroundColor: "transparent",
+    color: "theme.colorWhite",
+    marginLeft: "0.5rem"
+  },
+  reactTinyPopoverContainer: {
+    color: "orange"
+  },
+  popoverContent: {
+    ...theme.typography.paragraph1,
+    color: theme.colorBlack,
+    textAlign: "left",
+    backgroundColor: theme.colorWhite,
+    borderWidth: "1px",
+    borderColor: theme.colors.secondary.gray,
+    borderRadius: "5px",
+    padding: "20px",
+    boxShadow:
+      "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
+  }
+}));
+
 const ColumnHeader = React.forwardRef((props, ref) => {
   const theme = useTheme();
-
-  const useStyles = createUseStyles({
-    iconNoFilter: {
-      color: theme.colorWhite,
-      "&:hover": {
-        backgroundColor: theme.colorWhite,
-        color: theme.colorLADOT,
-        borderRadius: "12.5%",
-        cursor: "pointer"
-      }
-    },
-    iconFilter: {
-      backgroundColor: "transparent",
-      color: "theme.colorWhite",
-      marginLeft: "0.5rem"
-    }
-  });
-
-  const classes = useStyles();
+  const classes = useStyles(theme);
 
   return (
     <div
@@ -80,6 +94,7 @@ const ProjectTableColumnHeader = ({
   droOptions
 }) => {
   const theme = useTheme();
+  const classes = useStyles(theme);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   // Filter is considered Applied if it is not set
@@ -140,11 +155,15 @@ const ProjectTableColumnHeader = ({
           onClickOutside={() => handlePopoverToggle(false)}
           content={
             <div
-              style={{
-                backgroundColor: "white",
-                border: "1px solid gray",
-                borderRadius: "0.2rem"
-              }}
+              className={classes.popoverContent}
+              // style={{
+              //   backgroundColor: "white",
+              //   border: "1px solid gray",
+              //   borderRadius: "5px",
+              //   padding: "20px",
+              //   boxShadow:
+              //     "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
+              // }}
             >
               {!header.popupType ? null : header.popupType === "datetime" ? (
                 <DatePopup

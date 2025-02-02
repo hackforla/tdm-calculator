@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { FaFileCsv } from "react-icons/fa6";
 import {
   MdPrint,
@@ -16,7 +16,7 @@ import {
   MdOutlineIosShare
 } from "react-icons/md";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   list: {
     display: "flex",
     flexDirection: "column",
@@ -37,10 +37,10 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     padding: "0.5rem",
-    color: "gray"
+    color: theme.colors.secondary.mediumGray
   },
   listItemIcon: { marginRight: "0.3rem" }
-});
+}));
 
 const ProjectContextMenu = ({
   project,
@@ -54,9 +54,10 @@ const ProjectContextMenu = ({
   handlePrintPdf,
   handleHide
 }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const account = userContext.account;
-  const classes = useStyles();
 
   const handleClick = callback => {
     callback(project);
@@ -175,21 +176,22 @@ const ProjectContextMenu = ({
           style={{ borderTop: "1px solid black" }}
         >
           {project.dateTrashed ? (
-            <span style={{ color: "" }}>
+            <>
               <MdRestoreFromTrash
                 className={classes.listItemIcon}
                 alt={`Restore Project from Trash Icon`}
               />
               Restore from Trash
-            </span>
+            </>
           ) : (
-            <span style={{ color: "red" }}>
+            <>
               <MdDelete
                 className={classes.listItemIcon}
+                style={{ color: theme.colorCritical }}
                 alt={`Delete Project Icon`}
               />
               Delete
-            </span>
+            </>
           )}
         </li>
       )}

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import Popup from "reactjs-popup";
@@ -23,7 +23,7 @@ import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "./AdminNotesModal";
 import WarningModal from "../UI/AriaModal/WarningModal";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   td: {
     padding: "0.2em",
     textAlign: "left"
@@ -75,13 +75,22 @@ const useStyles = createUseStyles({
   },
   cancelButton: {
     padding: "0.3em 0.6em",
-    backgroundColor: "#f44336",
+    backgroundColor: theme.colorWhite,
     color: "white",
     border: "none",
     borderRadius: "4px",
     cursor: "pointer"
+  },
+  popover: {
+    display: "flex",
+    flexDirection: "column",
+    listStyleType: "none",
+    margin: 0,
+    padding: 0,
+    boxShadow:
+      "10px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
   }
-});
+}));
 
 function useAdminNotesModal(project, onAdminNoteUpdate) {
   const [showWarningModal, setShowWarningModal] = useState(false);
@@ -188,8 +197,8 @@ const ProjectTableRow = ({
     handleDoNotDiscard,
     textUpdated
   } = useAdminNotesModal(project, onAdminNoteUpdate);
-
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const formInputs = JSON.parse(project.formInputs);
   const printRef = useRef();
   const [projectRules, setProjectRules] = useState(null);
@@ -370,6 +379,7 @@ const ProjectTableRow = ({
         {projectRules && (
           <div>
             <Popup
+              className={classes.popover}
               trigger={
                 <button aria-label="context menu button">
                   <MdMoreVert alt={`Show project context menu`} />
