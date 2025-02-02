@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
-import ToolTip from "../../ToolTip/ToolTip";
+// import ToolTip from "../../ToolTip/ToolTip";
 import clsx from "clsx";
+import Popup from "reactjs-popup";
+import { MdClose } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   field: {
@@ -187,6 +189,7 @@ const RuleCalculation = ({
   },
   onPropInputChange
 }) => {
+  const theme = useTheme();
   const classes = useStyles();
 
   // The validationErrors property of the rule indicates whether the
@@ -342,16 +345,45 @@ const RuleCalculation = ({
             {name}
             <div className={classes.baselineIconContainer}>
               {description ? (
-                <ToolTipIcon
-                  id={"tooltip-parking-baseline" + id}
-                  tooltipContent={description}
-                />
+                <Popup
+                  trigger={
+                    <span style={{ cursor: "pointer" }}>
+                      <ToolTipIcon id={id} />
+                    </span>
+                  }
+                  position="left center"
+                  arrow={true}
+                  contentStyle={{ width: "30%" }}
+                >
+                  {close => {
+                    return (
+                      <div style={{ margin: "1rem" }}>
+                        <button
+                          style={{
+                            backgroundColor: "transparent",
+                            color: theme.colors.secondary.gray,
+                            border: "none",
+                            position: "absolute",
+                            top: "0",
+                            right: "0",
+                            cursor: "pointer"
+                          }}
+                          onClick={close}
+                        >
+                          <MdClose style={{ height: "20px", width: "20px" }} />
+                        </button>
+                        <div
+                          dangerouslySetInnerHTML={{ __html: description }}
+                        />
+                      </div>
+                    );
+                  }}
+                </Popup>
               ) : (
                 <span />
               )}
             </div>
           </span>
-          <ToolTip id={"tooltip-parking-baseline" + id} />
           <div className={classes.codeWrapper} name={code} id={code} />
           <div className={classes.unitsCaption}>{units}</div>
           <div className={classes.calcUnitsCaption}>

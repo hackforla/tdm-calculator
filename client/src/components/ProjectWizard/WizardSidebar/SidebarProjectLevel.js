@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
-import { Tooltip } from "react-tooltip";
+import Popup from "reactjs-popup";
+import { MdClose } from "react-icons/md";
 
 const useStyles = createUseStyles({
   projectLevelHeader: {
@@ -32,8 +33,9 @@ const useStyles = createUseStyles({
 });
 
 const SidebarProjectLevel = ({ level, rules }) => {
+  const theme = useTheme();
   const classes = useStyles();
-  const tipText = rules[0]?.description || "";
+  const tipText = `<p>${rules[0]?.description}</p>`;
 
   return (
     <div
@@ -48,36 +50,40 @@ const SidebarProjectLevel = ({ level, rules }) => {
       <h3 className={classes.projectLevelHeader}>
         PROJECT LEVEL
         {level > 0 && (
-          <span
-            data-tooltip-id="sidebar-tooltip" // Associate tooltip with a unique ID
-            style={{ cursor: "pointer" }}
+          <Popup
+            trigger={
+              <span style={{ cursor: "pointer" }}>
+                <ToolTipIcon />
+              </span>
+            }
+            position="right center"
+            arrow={true}
+            contentStyle={{ width: "30%" }}
           >
-            <ToolTipIcon />
-          </span>
+            {close => {
+              return (
+                <div style={{ margin: "1rem" }}>
+                  <button
+                    style={{
+                      backgroundColor: "transparent",
+                      color: theme.colors.secondary.gray,
+                      border: "none",
+                      position: "absolute",
+                      top: "0",
+                      right: "0",
+                      cursor: "pointer"
+                    }}
+                    onClick={close}
+                  >
+                    <MdClose style={{ height: "20px", width: "20px" }} />
+                  </button>
+                  <div dangerouslySetInnerHTML={{ __html: tipText }} />
+                </div>
+              );
+            }}
+          </Popup>
         )}
       </h3>
-
-      {/* Tooltip Component */}
-      <Tooltip
-        id="sidebar-tooltip"
-        place="right"
-        offset={{ top: 0, left: 10 }}
-        style={{
-          color: "rgb(30, 36, 63)",
-          backgroundColor: "white",
-          padding: "15px",
-          minWidth: "200px",
-          maxWidth: "400px",
-          fontFamily: "Arial",
-          fontSize: "12px",
-          lineHeight: "16px",
-          fontWeight: "bold",
-          boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
-          borderRadius: "2px"
-        }}
-      >
-        {tipText}
-      </Tooltip>
     </div>
   );
 };
