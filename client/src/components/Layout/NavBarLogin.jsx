@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-// import NavBarToolTip from "./NavBarToolTip";
 import { useTheme } from "react-jss";
 import Popup from "reactjs-popup";
 import { MdClose, MdWarning } from "react-icons/md";
@@ -93,7 +92,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           contentStyle={{
             borderRadius: "5px",
             border: "1px solid " + theme.colorCritical,
-            width: "50%",
+            width: "25rem",
             backgroundColor: theme.colorTooltipBackground,
             boxShadow:
               "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
