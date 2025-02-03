@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
-import RuleStrategyLabel from "./RuleStrategyLabel";
+import RuleLabel from "../Common/RuleLabel";
 import UniversalSelect from "../../UI/UniversalSelect";
 import AffordableEdgeCaseModal from "../AffordableEdgeCaseModal";
 
@@ -218,7 +218,7 @@ const RuleStrategy = ({
     <React.Fragment>
       {dataType === "number" ? (
         <div className={clsx(classes.rowContainer, disabledStyle)}>
-          <RuleStrategyLabel
+          <RuleLabel
             id={id}
             description={description}
             code={code}
@@ -248,7 +248,7 @@ const RuleStrategy = ({
         </div>
       ) : dataType === "boolean" ? (
         <div className={clsx(classes.rowContainer, disabledStyle)}>
-          <RuleStrategyLabel
+          <RuleLabel
             id={id}
             description={description}
             code={code}
@@ -274,7 +274,7 @@ const RuleStrategy = ({
         </div>
       ) : dataType === "choice" ? (
         <div className={clsx(classes.rowContainer, disabledStyle)}>
-          <RuleStrategyLabel
+          <RuleLabel
             id={id}
             description={description}
             code={code}
@@ -302,7 +302,7 @@ const RuleStrategy = ({
         </div>
       ) : dataType === "string" ? (
         <div className={clsx(classes.rowContainer, disabledStyle)}>
-          <RuleStrategyLabel
+          <RuleLabel
             id={id}
             description={description}
             code={code}
@@ -329,7 +329,7 @@ const RuleStrategy = ({
         </div>
       ) : (
         <div className={clsx(classes.rowContainer, disabledStyle)}>
-          <RuleStrategyLabel
+          <RuleLabel
             id={id}
             description={description}
             code={code}

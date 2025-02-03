@@ -1,24 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import { Interweave } from "interweave";
-import { MdLaunch } from "react-icons/md";
+import { MdLaunch, MdClose } from "react-icons/md";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   accordionTooltipLabel: {
-    border: "1px solid black",
+    ...theme.typography.paragraph1,
+    color: theme.colorText,
+    textAlign: "left",
+    border: "1px solid " + theme.colorBlack,
     padding: "1em",
     borderRadius: "5px",
     width: "min-content",
     minWidth: "97%",
-    boxShadow: "0px 0px 8px rgba(0, 46, 109, 0.2)",
+    boxShadow:
+      "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)",
     marginBottom: "10px"
   },
   closeButton: {
+    color: theme.colors.secondary.gray,
     float: "right",
-    padding: "4px 10px",
-    fontSize: "16px",
+    padding: "0.5rem",
+    fontSize: "20px",
     "&:hover": {
       cursor: "pointer"
     }
@@ -29,7 +34,7 @@ const useStyles = createUseStyles({
     left: "20px",
     width: "0",
     height: "0",
-    borderBottom: "6px solid black",
+    borderBottom: "6px solid " + theme.colors.secondary.gray,
     borderLeft: "6px solid transparent",
     borderRight: "6px solid transparent"
   },
@@ -46,14 +51,15 @@ const useStyles = createUseStyles({
   disabledDescription: {
     color: "rgba(15, 41, 64, 0.6)"
   }
-});
+}));
 
 const AccordionToolTip = ({
   description,
   setShowDescription,
   disabledStyle
 }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   return (
     <>
       <div className={clsx(classes.triangle)}>
@@ -63,7 +69,7 @@ const AccordionToolTip = ({
         className={clsx(classes.closeButton)}
         onClick={() => setShowDescription(prev => !prev)}
       >
-        x
+        <MdClose />
       </div>
       {disabledStyle ? (
         <div
