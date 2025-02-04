@@ -77,10 +77,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
         {loginLink}
       </li>
     ) : (
-      <li
-        className={clsx(classes.userLogin, classes.linkBlock)}
-        onMouseEnter={() => setTooltipOpen(true)}
-      >
+      <li className={clsx(classes.userLogin, classes.linkBlock)}>
         <Popup
           open={tooltipOpen}
           onClose={closeModal}
@@ -89,6 +86,10 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           trigger={<span style={{ cursor: "pointer" }}>{loginLink}</span>}
           position="bottom right"
           arrow={true}
+          arrowStyle={{
+            borderColor: theme.colorCritical,
+            color: theme.colorTooltipBackground
+          }}
           contentStyle={{
             borderRadius: "5px",
             border: "1px solid " + theme.colorCritical,

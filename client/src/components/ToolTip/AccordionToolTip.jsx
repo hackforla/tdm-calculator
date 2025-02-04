@@ -10,8 +10,8 @@ const useStyles = createUseStyles(theme => ({
     ...theme.typography.paragraph1,
     color: theme.colorText,
     textAlign: "left",
-    border: "1px solid " + theme.colorBlack,
-    padding: "1em",
+    border: "1px solid " + theme.colors.secondary.gray,
+    padding: "1rem",
     borderRadius: "5px",
     width: "min-content",
     minWidth: "97%",
@@ -22,7 +22,8 @@ const useStyles = createUseStyles(theme => ({
   closeButton: {
     color: theme.colors.secondary.gray,
     float: "right",
-    padding: "0.5rem",
+    marginTop: "0.25rem ",
+    marginRight: "-0.50rem",
     fontSize: "20px",
     "&:hover": {
       cursor: "pointer"
