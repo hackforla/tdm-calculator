@@ -32,6 +32,7 @@ const Login = () => {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const projectId = searchParams.get("projectId");
+  const redirectUrl = searchParams.get("url");
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
   const [withoutSavingWarningIsVisible, setWithoutSavingWarningIsVisible] =
@@ -61,6 +62,8 @@ const Login = () => {
         userContext.updateAccount(loginResponse.user);
         if (projectId) {
           navigate(`/calculation/5/${projectId}`);
+        } else if (redirectUrl) {
+          navigate(`/${redirectUrl}`);
         } else {
           navigate("/calculation/1/0");
         }

@@ -4,7 +4,8 @@ import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import MultiInput from "./MultiInput";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
-import RuleInputLabel from "./RuleInputLabel";
+// import RuleInputLabel from "./RuleInputLabel";
+import RuleLabel from "../Common/RuleLabel";
 
 const useStyles = createUseStyles(theme => ({
   rowContainer: {
@@ -185,7 +186,7 @@ const RuleInput = ({
           <div
             className={clsx(classes.rowContainer, classes.numberFieldWrapper)}
           >
-            <RuleInputLabel
+            <RuleLabel
               id={id}
               description={description}
               code={code}
@@ -232,7 +233,7 @@ const RuleInput = ({
           </div>
         ) : dataType === "boolean" ? (
           <div className={clsx(classes.rowContainer)}>
-            <RuleInputLabel
+            <RuleLabel
               id={id}
               description={description}
               code={code}
@@ -259,7 +260,7 @@ const RuleInput = ({
           <div
             className={clsx(classes.rowContainer, classes.selectFieldWrapper)}
           >
-            <RuleInputLabel
+            <RuleLabel
               id={id}
               description={description}
               code={code}
@@ -292,7 +293,7 @@ const RuleInput = ({
             className={clsx(classes.rowContainer, classes.textFieldWrapper)}
             onBlur={onBlur}
           >
-            <RuleInputLabel
+            <RuleLabel
               id={id}
               description={description}
               code={code}
@@ -361,7 +362,7 @@ const RuleInput = ({
           </div>
         ) : (
           <div className={clsx(classes.rowContainer, classes.miscFieldWrapper)}>
-            <RuleInputLabel
+            <RuleLabel
               id={id}
               description={description}
               code={code}

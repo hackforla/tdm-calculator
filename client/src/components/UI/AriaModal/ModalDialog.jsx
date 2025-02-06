@@ -58,7 +58,8 @@ export default function ModalDialog({
   omitCloseBox = false,
   underlayClickExits = true,
   escapeExits = true,
-  title = "Title Text"
+  title = "Title Text",
+  underlayClass
 }) {
   const classes = useStyles();
 
@@ -73,7 +74,7 @@ export default function ModalDialog({
       onExit={() => onClose()}
       initialFocus={initialFocus || null}
       getApplicationNode={getApplicationNode}
-      underlayClass={classes.modalContainer}
+      underlayClass={underlayClass || classes.modalContainer}
       dialogClass={classes.modalContent}
       includeDefaultStyles={false}
       verticallyCenter={true}
@@ -107,5 +108,6 @@ ModalDialog.propTypes = {
   omitCloseBox: PropTypes.bool,
   underlayClickExits: PropTypes.bool,
   escapeExits: PropTypes.bool,
-  title: PropTypes.string
+  title: PropTypes.string,
+  underlayClass: PropTypes.string
 };

@@ -3,16 +3,19 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import debounce from "lodash/debounce";
+import ResetButtons from "../WizardPages/ResetButtons";
 
 const useStyles = createUseStyles(theme => ({
   parkingProvidedWrapper: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    margin: "2em"
+    margin: "2em",
+    marginTop: "1em"
   },
   label: {
-    ...theme.typography.heading2
+    ...theme.typography.heading2,
+    marginTop: "1em"
   },
   requiredInputLabel: {
     "&:after": {
@@ -42,7 +45,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const ParkingProvidedRuleInput = ({ rule, onInputChange }) => {
+const ParkingProvidedRuleInput = ({ rule, onInputChange, resetProject }) => {
   const { code, name, value, units, maxValue, validationErrors, required } =
     rule;
   const classes = useStyles();
@@ -61,12 +64,25 @@ const ParkingProvidedRuleInput = ({ rule, onInputChange }) => {
     onDebounceInputChange(e);
   };
 
+  const handleClear = e => {
+    setShowValidationErrors(true);
+    setSpacesProvided("");
+    onDebounceInputChange(e);
+  };
+
   const onBlur = () => {
     setShowValidationErrors(true);
   };
 
   return (
     <div className={classes.parkingProvidedWrapper}>
+      <div className={classes.pkgSelectContainer}>
+        <ResetButtons
+          className={classes.alignRight}
+          uncheckAll={handleClear}
+          resetProject={resetProject}
+        />
+      </div>
       <label htmlFor={code} className={clsx(classes.label, requiredStyle)}>
         {name}
       </label>
@@ -103,7 +119,8 @@ ParkingProvidedRuleInput.propTypes = {
     validationErrors: PropTypes.array,
     required: PropTypes.bool.isRequired
   }).isRequired,
-  onInputChange: PropTypes.func.isRequired
+  onInputChange: PropTypes.func.isRequired,
+  resetProject: PropTypes.func.isRequired
 };
 
 export default ParkingProvidedRuleInput;

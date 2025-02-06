@@ -14,13 +14,15 @@ const useStyles = createUseStyles({
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
-    textDecoration: "underline"
+    textDecoration: "underline",
+    fontWeight: "normal"
   },
   resetProjectButton: {
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
-    textDecoration: "underline"
+    textDecoration: "underline",
+    fontWeight: "normal"
   }
 });
 
@@ -36,15 +38,17 @@ const ResetButtons = props => {
       >
         Reset Project
       </button>
-      <button className={classes.unSelectButton} onClick={uncheckAll}>
-        Reset Page
-      </button>
+      {uncheckAll && (
+        <button className={classes.unSelectButton} onClick={uncheckAll}>
+          Clear Page
+        </button>
+      )}
     </div>
   );
 };
 
 ResetButtons.propTypes = {
-  uncheckAll: PropTypes.func.isRequired,
+  uncheckAll: PropTypes.func,
   resetProject: PropTypes.func.isRequired
 };
 
