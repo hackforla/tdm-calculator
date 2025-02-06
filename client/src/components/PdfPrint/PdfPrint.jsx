@@ -36,19 +36,20 @@ const useStyles = createUseStyles({
     marginTop: "25px"
   },
   categoryHeaderContainer: {
-    paddingInline: "12px",
     paddingBottom: "0",
     display: "flex",
     flexDirection: "row",
     justifyContent: "left",
     alignItems: "center",
-    gap: "2px"
+    gap: "2px",
+    borderBottom: "1px solid #084b80"
   },
   categoryHeader: {
     fontSize: "18px",
     width: "100%",
-    color: "rgb(53,119,163)",
-    fontWeight: "900"
+    color: "rgb(0, 18, 43)",
+    fontWeight: "900",
+    marginBottom: "4px"
   },
   pdfResultsContainer: {
     flexDirection: "column",
@@ -86,8 +87,8 @@ const useStyles = createUseStyles({
     paddingTop: "20px",
     paddingLeft: "12px",
     display: "grid",
-    gridTemplateColumns: "2fr 1fr",
-    gap: "1.1rem",
+    gridTemplateColumns: "2.5fr 1fr",
+    gap: "1.1em",
     maxWidth: "100%",
     minHeight: "55px"
   },
@@ -109,7 +110,9 @@ const useStyles = createUseStyles({
     fontStyle: "normal",
     maxHeight: "20px",
     alignItems: "baseline",
-    textIndent: "2px"
+    textIndent: "2px",
+    whiteSpace: "nowrap",
+    marginRight: "43px"
   },
   projectDescription: {
     fontSize: "14px"
@@ -195,18 +198,10 @@ export const PdfPrint = forwardRef((props, ref) => {
               <section className={classes.categoryContainer}>
                 <div
                   className={[
-                    classes.categoryHeaderContainer,
-                    classes.projectTitleName
+                    clsx("space-between", classes.categoryHeaderContainer)
                   ]}
                 >
-                  <span
-                    className={classes.categoryHeader}
-                    style={{
-                      paddingLeft: "12px"
-                    }}
-                  >
-                    PROJECT NAME:
-                  </span>
+                  <span className={classes.categoryHeader}>PROJECT NAME:</span>
                   {projectName && projectName.value ? (
                     <span className={classes.textProjectInfoHeaderAddress}>
                       {projectName.value}
