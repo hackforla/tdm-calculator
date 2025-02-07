@@ -22,8 +22,8 @@ const useStyles = createUseStyles(theme => ({
   closeButton: {
     color: theme.colors.secondary.gray,
     float: "right",
-    marginTop: "0.25rem ",
-    marginRight: "-0.50rem",
+    marginTop: "-0.75rem",
+    marginRight: "-0.750rem",
     fontSize: "20px",
     "&:hover": {
       cursor: "pointer"
@@ -66,12 +66,7 @@ const AccordionToolTip = ({
       <div className={clsx(classes.triangle)}>
         <div className={clsx(classes.triangleInner)}></div>
       </div>
-      <div
-        className={clsx(classes.closeButton)}
-        onClick={() => setShowDescription(prev => !prev)}
-      >
-        <MdClose />
-      </div>
+
       {disabledStyle ? (
         <div
           className={clsx(
@@ -79,10 +74,22 @@ const AccordionToolTip = ({
             classes.disabledDescription
           )}
         >
+          <div
+            className={clsx(classes.closeButton)}
+            onClick={() => setShowDescription(prev => !prev)}
+          >
+            <MdClose />
+          </div>
           <Interweave transform={TransformExternalLink} content={description} />
         </div>
       ) : (
         <div className={clsx(classes.accordionTooltipLabel)}>
+          <div
+            className={clsx(classes.closeButton)}
+            onClick={() => setShowDescription(prev => !prev)}
+          >
+            <MdClose />
+          </div>
           <Interweave transform={TransformExternalLink} content={description} />
         </div>
       )}
