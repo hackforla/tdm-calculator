@@ -38,15 +38,17 @@ const ResetButtons = props => {
       >
         Reset Project
       </button>
-      <button className={classes.unSelectButton} onClick={uncheckAll}>
-        Clear Page
-      </button>
+      {uncheckAll && (
+        <button className={classes.unSelectButton} onClick={uncheckAll}>
+          Clear Page
+        </button>
+      )}
     </div>
   );
 };
 
 ResetButtons.propTypes = {
-  uncheckAll: PropTypes.func.isRequired,
+  uncheckAll: PropTypes.func,
   resetProject: PropTypes.func.isRequired
 };
 

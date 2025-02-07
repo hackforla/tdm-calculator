@@ -66,7 +66,6 @@ const AccordionToolTip = ({
       <div className={clsx(classes.triangle)}>
         <div className={clsx(classes.triangleInner)}></div>
       </div>
-
       {disabledStyle ? (
         <div
           className={clsx(
