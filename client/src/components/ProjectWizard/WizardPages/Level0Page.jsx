@@ -32,9 +32,6 @@ const useStyles = createUseStyles({
   },
   warningIcon: {
     float: "left"
-  },
-  alignClearRight: {
-    marginRight: "1em"
   }
 });
 
