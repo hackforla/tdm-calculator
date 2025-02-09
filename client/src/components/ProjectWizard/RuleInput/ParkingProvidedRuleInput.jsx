@@ -42,6 +42,9 @@ const useStyles = createUseStyles(theme => ({
   },
   error: {
     color: theme.colors.warning
+  },
+  resetButtonWrapper: {
+    width: "100%"
   }
 }));
 
@@ -76,11 +79,11 @@ const ParkingProvidedRuleInput = ({ rule, onInputChange, resetProject }) => {
 
   return (
     <div className={classes.parkingProvidedWrapper}>
-      <div className={classes.pkgSelectContainer}>
+      <div className={classes.resetButtonWrapper}>
         <ResetButtons
-          className={classes.alignRight}
           uncheckAll={handleClear}
           resetProject={resetProject}
+          rightAlignStyle={{ marginRight: "-2em" }}
         />
       </div>
       <label htmlFor={code} className={clsx(classes.label, requiredStyle)}>
