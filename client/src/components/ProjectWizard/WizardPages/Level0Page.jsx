@@ -35,7 +35,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Level0Page = ({ isLevel0, uncheckAll, resetProject }) => {
+const Level0Page = ({ isLevel0, resetProject }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
 
@@ -43,10 +43,9 @@ const Level0Page = ({ isLevel0, uncheckAll, resetProject }) => {
     <>
       {isLevel0 && (
         <div className={classes.level0NavButtons}>
-          <div className={classes.pkgSelectContainer}>
+          <div>
             <ResetButtons
-              className={classes.alignRight}
-              uncheckAll={uncheckAll}
+              rightAlignStyle={{ marginRight: "1.1em" }}
               resetProject={resetProject}
             />
           </div>

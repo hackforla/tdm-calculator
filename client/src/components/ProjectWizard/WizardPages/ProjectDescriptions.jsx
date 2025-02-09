@@ -34,12 +34,9 @@ function ProjectDescriptions(props) {
       <h3 style={theme.typography.subHeading}>
         First, let&rsquo;s get some information about your project
       </h3>
-      <div
-        className={classes.pkgSelectContainer}
-        style={{ marginBottom: "1em" }}
-      >
+      <div style={{ marginBottom: "1em" }}>
         <ResetButtons
-          className={classes.alignRight}
+          rightAlignStyle={{ marginRight: "1.1em" }}
           uncheckAll={uncheckAll}
           resetProject={resetProject}
         />
