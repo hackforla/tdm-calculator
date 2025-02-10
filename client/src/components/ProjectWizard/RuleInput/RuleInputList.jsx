@@ -13,7 +13,9 @@ const useStyles = createUseStyles({
 
 const RuleInputList = ({
   rules,
+  partialMultiInput,
   onInputChange,
+  onPartialMultiChange,
   onAINInputError,
   autoFocus,
   showPlaceholder
@@ -28,7 +30,9 @@ const RuleInputList = ({
               <RuleInput
                 key={rule.id}
                 rule={rule}
+                partialMultiInput={partialMultiInput}
                 onPropInputChange={onInputChange}
+                onPartialMultiChange={onPartialMultiChange}
                 onAINInputError={onAINInputError}
                 autoFocus={autoFocus && !index}
                 showPlaceholder={showPlaceholder}
@@ -41,7 +45,9 @@ const RuleInputList = ({
 };
 RuleInputList.propTypes = {
   rules: PropTypes.array,
+  partialMultiInput: PropTypes.string,
   onInputChange: PropTypes.func.isRequired,
+  onPartialMultiChange: PropTypes.func,
   onAINInputError: PropTypes.func,
   autoFocus: PropTypes.bool,
   showPlaceholder: PropTypes.bool

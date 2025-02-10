@@ -36,7 +36,9 @@ const TdmCalculationWizard = props => {
   const {
     projectLevel,
     rules,
+    partialAINInput,
     onInputChange,
+    onPartialAINChange,
     onCommentChange,
     onUncheckAll,
     onResetProject,
@@ -259,7 +261,9 @@ const TdmCalculationWizard = props => {
         return (
           <ProjectDescriptions
             rules={projectDescriptionRules}
+            partialAINInput={partialAINInput}
             onInputChange={onInputChange}
+            onPartialAINChange={onPartialAINChange}
             onAINInputError={handleAINInputError}
             uncheckAll={() => onUncheckAll(filters.projectDescriptionRules)}
             resetProject={() => onResetProject()}
@@ -378,7 +382,9 @@ TdmCalculationWizard.propTypes = {
       validationErrors: PropTypes.array
     })
   ).isRequired,
+  partialAINInput: PropTypes.string.isRequired,
   onInputChange: PropTypes.func.isRequired,
+  onPartialAINChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func,
   onPkgSelect: PropTypes.func.isRequired,
   onParkingProvidedChange: PropTypes.func.isRequired,

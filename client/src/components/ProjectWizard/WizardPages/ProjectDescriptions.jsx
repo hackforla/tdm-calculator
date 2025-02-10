@@ -19,8 +19,15 @@ const useStyles = createUseStyles({
 });
 
 function ProjectDescriptions(props) {
-  const { rules, onInputChange, onAINInputError, uncheckAll, resetProject } =
-    props;
+  const {
+    rules,
+    partialAINInput,
+    onInputChange,
+    onPartialAINChange,
+    onAINInputError,
+    uncheckAll,
+    resetProject
+  } = props;
   const classes = useStyles();
   const theme = useTheme();
   return (
@@ -44,7 +51,9 @@ function ProjectDescriptions(props) {
       <form noValidate>
         <RuleInputPanels
           rules={rules}
+          partialMultiInput={partialAINInput}
           onInputChange={onInputChange}
+          onPartialMultiChange={onPartialAINChange}
           onAINInputError={onAINInputError}
           suppressHeader={true}
           showPlaceholder={true}
@@ -59,7 +68,9 @@ function ProjectDescriptions(props) {
 }
 ProjectDescriptions.propTypes = {
   rules: PropTypes.array.isRequired,
+  partialAINInput: PropTypes.string,
   onInputChange: PropTypes.func.isRequired,
+  onPartialAINChange: PropTypes.func.isRequired,
   onAINInputError: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
   resetProject: PropTypes.func.isRequired

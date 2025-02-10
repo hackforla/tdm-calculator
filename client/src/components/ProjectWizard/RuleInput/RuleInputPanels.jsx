@@ -6,8 +6,10 @@ import Panels from "../Common/Panels";
 
 const RuleInputPanels = ({
   rules,
+  partialMultiInput,
   suppressHeader,
   onInputChange,
+  onPartialMultiChange,
   onAINInputError,
   showPlaceholder
 }) => {
@@ -25,7 +27,9 @@ const RuleInputPanels = ({
           <RuleInputList
             key={pRules[0].calculationPanelId}
             rules={pRules}
+            partialMultiInput={partialMultiInput}
             onInputChange={onInputChange}
+            onPartialMultiChange={onPartialMultiChange}
             onAINInputError={onAINInputError}
             autoFocus={!index}
             showPlaceholder={showPlaceholder}
@@ -38,8 +42,10 @@ const RuleInputPanels = ({
 
 RuleInputPanels.propTypes = {
   rules: PropTypes.array.isRequired,
+  partialMultiInput: PropTypes.string,
   suppressHeader: PropTypes.bool,
   onInputChange: PropTypes.func.isRequired,
+  onPartialMultiChange: PropTypes.func,
   onAINInputError: PropTypes.func,
   autoFocus: PropTypes.bool,
   showPlaceholder: PropTypes.bool
