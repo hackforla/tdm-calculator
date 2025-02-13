@@ -2,7 +2,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
-import { MdFilterAlt, MdOutlineFilterAlt } from "react-icons/md";
+import {
+  MdFilterAlt,
+  MdOutlineFilterAlt,
+  MdOutlineSwitchRight,
+  MdOutlineSwitchLeft
+} from "react-icons/md";
 import { createUseStyles } from "react-jss";
 import { Popover } from "react-tiny-popover";
 import DatePopup from "./DatePopup";
@@ -14,6 +19,7 @@ import { useTheme } from "react-jss";
 const useStyles = createUseStyles(theme => ({
   iconNoFilter: {
     color: theme.colorWhite,
+    fontSize: "1.2rem",
     "&:hover": {
       backgroundColor: theme.colorWhite,
       color: theme.colorLADOT,
@@ -22,9 +28,14 @@ const useStyles = createUseStyles(theme => ({
     }
   },
   iconFilter: {
+    fontSize: "1.2rem",
     backgroundColor: "transparent",
     color: "theme.colorWhite",
     marginLeft: "0.5rem"
+  },
+  sortIcon: {
+    fontSize: "1.2rem",
+    transform: "rotate(90deg)"
   },
   reactTinyPopoverContainer: {
     color: "orange"
@@ -57,6 +68,13 @@ const ColumnHeader = React.forwardRef((props, ref) => {
       onClick={props.onClick}
     >
       <span>{props.header.label}</span>
+      {props.orderBy === props.header.id ? (
+        props.order === "asc" ? (
+          <MdOutlineSwitchRight className={classes.sortIcon} />
+        ) : (
+          <MdOutlineSwitchLeft className={classes.sortIcon} />
+        )
+      ) : null}
       {props.isFilterApplied() ? (
         <MdFilterAlt
           className={classes.iconFilter}
@@ -77,7 +95,9 @@ ColumnHeader.displayName = "ColumnHeader";
 ColumnHeader.propTypes = {
   onClick: PropTypes.func,
   header: PropTypes.any,
-  isFilterApplied: PropTypes.func
+  isFilterApplied: PropTypes.func,
+  order: PropTypes.string,
+  orderBy: PropTypes.string
 };
 
 const ProjectTableColumnHeader = ({
@@ -224,6 +244,8 @@ const ProjectTableColumnHeader = ({
             onClick={() => setIsPopoverOpen(!isPopoverOpen)}
             header={header}
             isFilterApplied={() => isFilterApplied()}
+            order={order}
+            orderBy={orderBy}
           ></ColumnHeader>
         </Popover>
       ) : (
