@@ -44,6 +44,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const account = userContext ? userContext.account : null;
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
+  const [partialAIN, setPartialAIN] = useState("");
   const projectId = params.projectId ? Number(params.projectId) : 0;
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
@@ -357,6 +358,10 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     recalculate(newFormInputs);
   };
 
+  const onPartialAINChange = value => {
+    setPartialAIN(value);
+  };
+
   // If selecting a particular value for a particular rule needs to cause
   // a change to another input...
   const applySideEffects = (formInputs, ruleCode, value) => {
@@ -426,12 +431,16 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         }
       }
     }
+    if (filterRules === filters.projectDescriptionRules) {
+      setPartialAIN(""); // Clear incomplete AIN input
+    }
     recalculate(updateInputs);
   };
 
   // resets wizard to empty for new project, or saved state for existing project.
   // In either case, navigate to first page
   const onResetProject = async () => {
+    setPartialAIN(""); // In case there is a partial AIN entered, clear it
     await fetchRules();
     await initializeEngine();
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "/0");
@@ -538,7 +547,9 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     <TdmCalculationWizard
       projectLevel={projectLevel}
       rules={rules}
+      partialAINInput={partialAIN}
       onInputChange={onInputChange}
+      onPartialAINChange={onPartialAINChange}
       onCommentChange={onCommentChange}
       onUncheckAll={onUncheckAll}
       onResetProject={onResetProject}

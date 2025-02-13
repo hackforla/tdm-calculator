@@ -147,7 +147,9 @@ const RuleInput = ({
     mask,
     link
   },
+  partialMultiInput,
   onPropInputChange,
+  onPartialMultiChange,
   onAINInputError,
   autoFocus,
   showPlaceholder
@@ -348,6 +350,8 @@ const RuleInput = ({
               <MultiInput
                 code={code}
                 value={value}
+                partialMultiInput={partialMultiInput}
+                onPartialMultiChange={onPartialMultiChange}
                 validationErrors={validationErrors}
                 mask={mask}
                 onChange={onInputChange}
@@ -424,7 +428,9 @@ RuleInput.propTypes = {
     mask: PropTypes.string,
     link: PropTypes.string
   }),
+  partialMultiInput: PropTypes.string,
   onPropInputChange: PropTypes.func,
+  onPartialMultiChange: PropTypes.func,
   onAINInputError: PropTypes.func,
   autoFocus: PropTypes.bool,
   showPlaceholder: PropTypes.bool
