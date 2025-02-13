@@ -15,6 +15,7 @@ import * as droService from "../../services/dro.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
 import ShareSnapshotModal from "./ShareSnapshotModal";
+import SubmitProjectModal from "../SubmitSnapshot/SubmitSnapshotModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import CsvModal from "./CsvModal";
@@ -199,6 +200,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [projects, setProjects] = useProjects(handleError);
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
+  const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
@@ -414,6 +416,24 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     }
     setSnapshotModalOpen(false);
+  };
+
+  const handleSubmitModalOpen = project => {
+    setSelectedProject(project);
+    setSubmitModalOpen(true);
+  };
+
+  const handleSubmitModalClose = async action => {
+    if (action === "ok") {
+      try {
+        await projectService.submit({ id: selectedProject.id });
+        await updateProjects();
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setSubmitModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleRenameSnapshotModalOpen = project => {
@@ -1006,6 +1026,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             handleShareSnapshotModalOpen={
                               handleShareSnapshotModalOpen
                             }
+                            handleSubmitModalOpen={handleSubmitModalOpen}
                             handleHide={handleHide}
                             handleCheckboxChange={handleCheckboxChange}
                             checkedProjectIds={checkedProjectIds}
@@ -1083,6 +1104,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <ShareSnapshotModal
                     mounted={shareSnapshotModalOpen}
                     onClose={handleShareSnapshotModalClose}
+                    project={selectedProject}
+                  />
+                  <SubmitProjectModal
+                    mounted={submitModalOpen}
+                    onClose={handleSubmitModalClose}
                     project={selectedProject}
                   />
                 </>

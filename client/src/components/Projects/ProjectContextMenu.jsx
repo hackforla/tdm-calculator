@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { createUseStyles, useTheme } from "react-jss";
 import { FaFileCsv } from "react-icons/fa6";
+import { TbFileExport } from "react-icons/tb";
 import {
   MdPrint,
   MdVisibility,
@@ -51,6 +52,7 @@ const ProjectContextMenu = ({
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
   handleShareSnapshotModalOpen,
+  handleSubmitModalOpen,
   handlePrintPdf,
   handleHide
 }) => {
@@ -112,6 +114,22 @@ const ProjectContextMenu = ({
             alt={`Snapshot Project #${project.id} Icon`}
           />
           Convert to Snapshot
+        </li>
+      ) : null}
+
+      {project.dateSnapshotted &&
+      !project.dateSubmitted &&
+      project.earnedPoints >= project.targetPoints &&
+      project.loginId == account?.id ? (
+        <li
+          className={classes.listItem}
+          onClick={() => handleClick(handleSubmitModalOpen)}
+        >
+          <TbFileExport
+            className={classes.listItemIcon}
+            alt={`Submit Project #${project.id} Icon`}
+          />
+          Submit to LADOT
         </li>
       ) : null}
 
@@ -208,6 +226,7 @@ ProjectContextMenu.propTypes = {
   handleSnapshotModalOpen: PropTypes.func,
   handleRenameSnapshotModalOpen: PropTypes.func,
   handleShareSnapshotModalOpen: PropTypes.func,
+  handleSubmitModalOpen: PropTypes.func,
   handlePrintPdf: PropTypes.func,
   handleHide: PropTypes.func
 };
