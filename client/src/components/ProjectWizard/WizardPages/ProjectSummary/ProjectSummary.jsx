@@ -24,9 +24,6 @@ const useStyles = createUseStyles({
     maxWidth: "600px",
     minWidth: "60vw"
   },
-  // success: {
-  //   color: "#A7C539"
-  // },
   failure: {
     color: "#E46247"
   },
@@ -47,7 +44,6 @@ const useStyles = createUseStyles({
     margin: "4px auto"
   },
   ruleName: {
-    fontSize: "14px",
     minWidth: "270px"
   },
   loaderContainer: {
@@ -57,7 +53,6 @@ const useStyles = createUseStyles({
     justifyContent: "center"
   },
   lastSaved: {
-    fontSize: "14px",
     color: "#6F6C64"
   },
   lastSavedContainer: {
@@ -95,7 +90,6 @@ const useStyles = createUseStyles({
   earnedPoints: {
     fontFamily: "Calibri",
     fontWeight: "500",
-    fontSize: "14px",
     marginTop: "auto",
     marginBottom: "auto",
     color: "#00000",
@@ -103,7 +97,6 @@ const useStyles = createUseStyles({
     minWidth: "6rem"
   },
   summaryContainer: {
-    fontSize: "14px",
     display: "flex",
     minWidth: "180px",
     maxWidth: "100%",
@@ -121,7 +114,6 @@ const useStyles = createUseStyles({
   tempText: {
     fontFamily: "Calibri",
     fontStyle: "italic",
-    fontSize: "14px",
     color: "#C35302"
   }
 });
