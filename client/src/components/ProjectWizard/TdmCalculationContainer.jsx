@@ -440,6 +440,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   // resets wizard to empty for new project, or saved state for existing project.
   // In either case, navigate to first page
   const onResetProject = async () => {
+    setPartialAIN(""); // In case there is a partial AIN entered, clear it
     await fetchRules();
     await initializeEngine();
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "/0");
