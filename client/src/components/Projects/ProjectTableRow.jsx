@@ -164,6 +164,7 @@ const ProjectTableRow = ({
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
   handleShareSnapshotModalOpen,
+  handleSubmitModalOpen,
   handleHide,
   handleCheckboxChange,
   checkedProjectIds,
@@ -391,6 +392,7 @@ const ProjectTableRow = ({
                   handleSnapshotModalOpen={handleSnapshotModalOpen}
                   handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
                   handleShareSnapshotModalOpen={handleShareSnapshotModalOpen}
+                  handleSubmitModalOpen={handleSubmitModalOpen}
                   handleHide={handleHide}
                 />
               )}
@@ -419,6 +421,7 @@ ProjectTableRow.propTypes = {
   handleSnapshotModalOpen: PropTypes.func.isRequired,
   handleRenameSnapshotModalOpen: PropTypes.func.isRequired,
   handleShareSnapshotModalOpen: PropTypes.func.isRequired,
+  handleSubmitModalOpen: PropTypes.func.isRequired,
   handleHide: PropTypes.func.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
   checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
