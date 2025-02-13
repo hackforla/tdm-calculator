@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
 // import ModalDialog from "../UI/AriaModal/ModalDialog";
-import { MdEdit, MdOutlineClose } from "react-icons/md";
+import { MdOutlineClose } from "react-icons/md";
 import AriaModal from "react-aria-modal";
 import clsx from "clsx";
 
@@ -365,7 +365,6 @@ const AdminNotesModal = ({
               id="editButton"
               color="#A7C539"
             >
-              <MdEdit />
               EDIT NOTE
             </button>
           </div>
