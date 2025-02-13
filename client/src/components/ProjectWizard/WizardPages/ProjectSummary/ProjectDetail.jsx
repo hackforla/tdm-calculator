@@ -10,8 +10,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "space-between",
     minHeight: "24px",
-    margin: "4px auto",
-    fontSize: "0.875rem"
+    margin: "4px auto"
   },
   ruleName: {
     flexBasis: "80%"
@@ -19,7 +18,7 @@ const useStyles = createUseStyles({
   pointsContainer: {
     display: "flex",
     justifyContent: "flex-end",
-    flaxBasis: "20%"
+    flexBasis: "20%"
   },
   measureDetails: {
     textAlign: "right",

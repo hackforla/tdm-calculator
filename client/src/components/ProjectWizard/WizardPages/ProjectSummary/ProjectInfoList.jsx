@@ -10,7 +10,6 @@ const useStyles = createUseStyles({
   },
   projectInfoCategory: {
     fontWeight: "600",
-    fontSize: "14px",
     textTransform: "uppercase",
     color: "rgba(0, 0, 0, 1)",
     marginRight: "2px"
@@ -18,8 +17,7 @@ const useStyles = createUseStyles({
   projectInfoDetails: {
     color: "#00051e",
     fontFamily: "Calibri",
-    fontWeight: 600,
-    fontSize: "14px"
+    fontWeight: 600
   },
   AINValuesContainer: {
     display: "flex",

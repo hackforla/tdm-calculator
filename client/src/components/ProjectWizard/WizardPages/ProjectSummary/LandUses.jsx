@@ -11,12 +11,10 @@ const useStyles = createUseStyles({
     margin: "4px auto"
   },
   ruleName: {
-    minWidth: "270px",
-    fontSize: "14px"
+    minWidth: "270px"
   },
   value: {
     display: "flex",
-    fontSize: "14px",
     justifyContent: "flex-end",
     marginRight: "6.5rem"
   }

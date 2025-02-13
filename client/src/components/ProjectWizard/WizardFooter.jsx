@@ -25,7 +25,6 @@ const useStyles = createUseStyles({
     padding: "0px 12px"
   },
   lastSaved: {
-    fontSize: "14px",
     color: "#6F6C64"
   },
   lastSavedContainer: {
