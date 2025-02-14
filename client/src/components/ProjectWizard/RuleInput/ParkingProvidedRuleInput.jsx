@@ -101,6 +101,7 @@ const ParkingProvidedRuleInput = ({ rule, onInputChange, resetProject }) => {
           data-testid={code}
           max={maxValue}
           onBlur={onBlur}
+          maxLength="7"
         />
         <span className={classes.unit}>&nbsp;{units}</span>
       </div>
