@@ -205,7 +205,7 @@ const ProjectContextMenu = ({
             <>
               <MdDelete
                 className={classes.listItemIcon}
-                style={{ color: theme.colorCritical }}
+                style={{ color: theme.colors.warning }}
                 alt={`Delete Project Icon`}
               />
               Delete
