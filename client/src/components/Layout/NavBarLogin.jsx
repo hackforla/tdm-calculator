@@ -87,12 +87,12 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           position="bottom right"
           arrow={true}
           arrowStyle={{
-            borderColor: theme.colorCritical,
+            borderColor: theme.colors.warning,
             color: theme.colorTooltipBackground
           }}
           contentStyle={{
             borderRadius: "5px",
-            border: "1px solid " + theme.colorCritical,
+            border: "1px solid " + theme.colors.warning,
             width: "25rem",
             backgroundColor: theme.colorTooltipBackground,
             boxShadow:
@@ -119,7 +119,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
                 <div style={{ display: "flex", margin: "0" }}>
                   <MdWarning
                     style={{
-                      color: theme.colorCritical,
+                      color: theme.colors.warning,
                       width: "20px",
                       height: "20px",
                       margin: "0"
