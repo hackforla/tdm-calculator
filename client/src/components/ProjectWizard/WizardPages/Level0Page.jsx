@@ -1,12 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import PlanningIcon from "../../../images/planning.png";
 import { createUseStyles, useTheme } from "react-jss";
 import { MdLaunch } from "react-icons/md";
 import { MdWarning } from "react-icons/md";
 import ResetButtons from "./ResetButtons";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   level0NavButtons: {
     "& + div #rightNavArrow": {
       visibility: "hidden" // this hides the next nav button
@@ -16,24 +15,20 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   level0Message: {
+    ...theme.typography.paragraph1,
     marginTop: "20px",
     maxWidth: "800px",
-    backgroundColor: "white",
-    color: "black",
-    fontSize: "22px",
-    lineHeight: "38px",
-    padding: "60px 48px 40px",
+    backgroundColor: theme.colorTooltipBackground,
+    padding: "48px",
     textAlign: "initial",
     boxSizing: "border-box",
-
-    "& p": {
-      marginLeft: "44px"
-    }
+    border: "1px solid " + theme.colors.primary.black
   },
   warningIcon: {
-    float: "left"
+    fontSize: "72px",
+    color: theme.colorWarning
   }
-});
+}));
 
 const Level0Page = ({ isLevel0, resetProject }) => {
   const theme = useTheme();
@@ -50,10 +45,9 @@ const Level0Page = ({ isLevel0, resetProject }) => {
             />
           </div>
           <div className={classes.level0Container}>
-            <img src={PlanningIcon} alt="planningIcon" />
-            <h1 style={theme.typography.heading1}>Your project level is 0!</h1>
+            <MdWarning className={classes.warningIcon} alt="Warning" />
+            <h1 style={theme.typography.heading1}>Your project level is 0</h1>
             <div className={classes.level0Message}>
-              <MdWarning className={classes.warningIcon} alt="Warning" />
               <p>
                 Based on the information you provided, the Transportation Demand
                 Management (TDM) Ordinance <strong>may</strong> not apply to
