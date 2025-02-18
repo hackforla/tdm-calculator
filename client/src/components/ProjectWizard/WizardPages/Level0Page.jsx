@@ -62,7 +62,7 @@ const Level0Page = ({ isLevel0, resetProject }) => {
                 </a>{" "}
                 for applicability and exemption details.
               </p>
-              <p>
+              <p style={{ marginTop: "2em" }}>
                 Final determination of the TDM Ordinance applicability will be
                 made by the Department of Building and Safety upon review of
                 your project application.
