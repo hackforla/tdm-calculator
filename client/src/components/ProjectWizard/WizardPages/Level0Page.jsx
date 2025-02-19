@@ -21,8 +21,7 @@ const useStyles = createUseStyles(theme => ({
     backgroundColor: theme.colorTooltipBackground,
     padding: "48px",
     textAlign: "initial",
-    boxSizing: "border-box",
-    border: "1px solid " + theme.colors.primary.black
+    boxSizing: "border-box"
   },
   warningIcon: {
     fontSize: "72px",
