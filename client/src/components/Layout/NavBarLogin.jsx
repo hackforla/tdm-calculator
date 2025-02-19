@@ -102,7 +102,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           {close => {
             return (
               <div style={{ margin: "1rem" }}>
-                <button
+                {/* <button
                   style={{
                     backgroundColor: "transparent",
                     color: theme.colors.secondary.gray,
@@ -113,9 +113,20 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
                     cursor: "pointer"
                   }}
                   onClick={close}
-                >
-                  <MdClose />
-                </button>
+                > */}
+                <MdClose
+                  style={{
+                    backgroundColor: "transparent",
+                    color: theme.colors.secondary.gray,
+                    border: "none",
+                    position: "absolute",
+                    top: "0.25rem",
+                    right: "0.25rem",
+                    cursor: "pointer"
+                  }}
+                  onClick={close}
+                />
+                {/* </button> */}
                 <div style={{ display: "flex", margin: "0" }}>
                   <MdWarning
                     style={{
