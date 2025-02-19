@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import Popup from "reactjs-popup";
@@ -9,8 +9,8 @@ import {
   MdVisibility,
   MdVisibilityOff,
   MdMoreVert,
-  MdEdit,
-  MdAddCircle
+  MdAdd,
+  MdOutlineStickyNote2
 } from "react-icons/md";
 import { formatDate } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
@@ -20,8 +20,10 @@ import fetchEngineRules from "./fetchEngineRules";
 import * as droService from "../../services/dro.service";
 import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
+import AdminNotesModal from "./AdminNotesModal";
+import WarningModal from "../UI/AriaModal/WarningModal";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   td: {
     padding: "0.2em",
     textAlign: "left"
@@ -73,14 +75,96 @@ const useStyles = createUseStyles({
   },
   cancelButton: {
     padding: "0.3em 0.6em",
-    backgroundColor: "#f44336",
+    backgroundColor: theme.colorWhite,
     color: "white",
     border: "none",
     borderRadius: "4px",
     cursor: "pointer"
+  },
+  popover: {
+    display: "flex",
+    flexDirection: "column",
+    listStyleType: "none",
+    margin: 0,
+    padding: 0,
+    boxShadow:
+      "10px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
   }
-});
+}));
 
+function useAdminNotesModal(project, onAdminNoteUpdate) {
+  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isNewNote, setIsNewNote] = useState(
+    !project.adminNotes || project.adminNotes == ""
+  );
+  const [adminNotes, setAdminNotes] = useState(project.adminNotes || "");
+  const [adminNotesModalOpen, setAdminNotesModalOpen] = useState(false);
+
+  const handleAdminNotesModalOpen = () => {
+    setAdminNotesModalOpen(true);
+  };
+
+  const textUpdated = () => {
+    return adminNotes !== (project?.adminNotes || "");
+  };
+
+  const handleCancel = () => {
+    if (adminNotes !== (project?.adminNotes || "")) {
+      // User would lose changes on cancel, so show warning modal
+      setShowWarningModal(true);
+    } else {
+      setIsEditing(false);
+      setAdminNotesModalOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    setAdminNotes(project.adminNotes || "");
+  }, [project.adminNotes]);
+
+  const handleSave = () => {
+    onAdminNoteUpdate(project.id, adminNotes);
+    setIsEditing(false);
+    setAdminNotesModalOpen(false);
+    setIsNewNote(false);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleConfirmDiscard = () => {
+    setIsEditing(false);
+    setAdminNotes(project.adminNotes || "");
+    setAdminNotesModalOpen(false);
+    setShowWarningModal(false);
+  };
+
+  const handleDoNotDiscard = () => {
+    setIsEditing(true);
+    setShowWarningModal(false);
+  };
+
+  return {
+    showWarningModal,
+    setShowWarningModal,
+    isEditing,
+    isNewNote,
+    adminNotes,
+    setAdminNotes,
+    adminNotesModalOpen,
+    setAdminNotesModalOpen,
+    handleAdminNotesModalOpen,
+    handleCancel,
+    handleSave,
+    handleEdit,
+    handleConfirmDiscard,
+    handleDoNotDiscard,
+    textUpdated
+  };
+}
+/* eslint-disable no-unused-vars */
 const ProjectTableRow = ({
   project,
   handleCsvModalOpen,
@@ -89,6 +173,7 @@ const ProjectTableRow = ({
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
   handleShareSnapshotModalOpen,
+  handleSubmitModalOpen,
   handleHide,
   handleCheckboxChange,
   checkedProjectIds,
@@ -97,15 +182,30 @@ const ProjectTableRow = ({
   onDroChange, // New prop
   onAdminNoteUpdate // New prop
 }) => {
-  const classes = useStyles();
+  const {
+    showWarningModal,
+    setShowWarningModal,
+    isEditing,
+    isNewNote,
+    adminNotes,
+    setAdminNotes,
+    adminNotesModalOpen,
+    handleAdminNotesModalOpen,
+    handleCancel,
+    handleSave,
+    handleEdit,
+    handleConfirmDiscard,
+    handleDoNotDiscard,
+    textUpdated
+  } = useAdminNotesModal(project, onAdminNoteUpdate);
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const formInputs = JSON.parse(project.formInputs);
   const printRef = useRef();
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
   const [droName, setDroName] = useState("N/A");
-  const [editingNote, setEditingNote] = useState(false);
-  const [adminNote, setAdminNote] = useState(project.adminNotes || "");
-  const [tempAdminNote, setTempAdminNote] = useState(project.adminNotes || "");
+
   // Download and process rules for PDF rendering
   useEffect(() => {
     const fetchRules = async () => {
@@ -133,29 +233,9 @@ const ProjectTableRow = ({
     }
   }, [isAdmin, project.droId]);
 
-  const handleSave = () => {
-    if (tempAdminNote.trim() !== adminNote.trim()) {
-      onAdminNoteUpdate(project.id, tempAdminNote.trim());
-    }
-    setEditingNote(false);
-  };
-
-  const handleCancel = () => {
-    setTempAdminNote(adminNote || "");
-    setEditingNote(false);
-  };
-
-  useEffect(() => {
-    setAdminNote(project.adminNotes || "");
-  }, [project.adminNotes]);
-
   useEffect(() => {
     setSelectedDro(project.droId || "");
   }, [project.droId]);
-
-  useEffect(() => {
-    setTempAdminNote(project.adminNotes || "");
-  }, [project.adminNotes]);
 
   const handlePrintPdf = useReactToPrint({
     content: () => printRef.current,
@@ -212,7 +292,7 @@ const ProjectTableRow = ({
       <td className={classes.td}>{project.address}</td>
       <td className={classes.td}>{fallbackToBlank(formInputs.VERSION_NO)}</td>
       <td className={classes.td}>
-        {`${project.firstName} ${project.lastName}`}
+        {`${project.lastName}, ${project.firstName}`}
       </td>
       <td className={classes.tdRightAlign}>
         {formatDate(project.dateCreated)}
@@ -223,7 +303,7 @@ const ProjectTableRow = ({
       <td className={classes.td}>{dateSubmittedDisplay()}</td>
       {/* DRO Column */}
       <td className={classes.td}>
-        {isAdmin && droOptions.data ? (
+        {isAdmin && droOptions.length > 0 ? (
           <div style={{ width: "100px" }}>
             <UniversalSelect
               value={selectedDro}
@@ -234,7 +314,7 @@ const ProjectTableRow = ({
               }}
               options={[
                 { value: "", label: "Select..." },
-                ...droOptions.data.map(dro => ({
+                ...droOptions.map(dro => ({
                   value: dro.id,
                   label: dro.name
                 }))
@@ -247,65 +327,45 @@ const ProjectTableRow = ({
           <span>{droName}</span>
         )}
       </td>
+      {isAdmin && ( // onSave={handleSave}  isEditing={isEditing}
+        <div>
+          <button
+            onClick={handleAdminNotesModalOpen}
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              display: "flex",
+              alignItems: "center"
+            }}
+            title={adminNotes ? "Edit Note" : "Add Note"}
+          >
+            {adminNotes ? <MdOutlineStickyNote2 /> : <MdAdd />}
+          </button>
+          <AdminNotesModal
+            key="admin-notes-modal"
+            mounted={adminNotesModalOpen}
+            adminNotes={adminNotes}
+            setAdminNotes={setAdminNotes}
+            onCancel={handleCancel}
+            onSave={handleSave}
+            handleEdit={handleEdit}
+            isEditing={isEditing}
+            isNewNote={isNewNote}
+            textUpdated={textUpdated}
+          />
+        </div>
+      )}
       {isAdmin && (
-        <td className={classes.tdCenterAlign}>
-          <div>
-            {editingNote ? (
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <input
-                  type="text"
-                  value={tempAdminNote}
-                  onChange={e => setTempAdminNote(e.target.value)}
-                  autoFocus
-                  className={classes.adminNoteInput}
-                />
-                <button
-                  onClick={handleSave}
-                  className={classes.saveButton}
-                  disabled={tempAdminNote.trim() === ""}
-                  title="Save Note"
-                >
-                  Save
-                </button>
-                <button
-                  onClick={handleCancel}
-                  className={classes.cancelButton}
-                  title="Cancel"
-                >
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center"
-                }}
-              >
-                {adminNote && <span>{adminNote}</span>}
-                <button
-                  onClick={() => {
-                    setEditingNote(true);
-                    setTempAdminNote(adminNote || "");
-                  }}
-                  style={{
-                    marginLeft: "auto",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: 0,
-                    display: "flex",
-                    alignItems: "center"
-                  }}
-                  title="Edit Note"
-                >
-                  {adminNote ? <MdEdit /> : <MdAddCircle />}
-                </button>
-              </div>
-            )}
-          </div>
-        </td>
+        <WarningModal
+          key="warning-modal"
+          mounted={showWarningModal}
+          handleConfirmDiscard={handleConfirmDiscard}
+          handleDoNotDiscard={handleDoNotDiscard}
+        />
       )}
       {isAdmin && (
         <td className={classes.td}>
@@ -320,6 +380,7 @@ const ProjectTableRow = ({
         {projectRules && (
           <div>
             <Popup
+              className={classes.popover}
               trigger={
                 <button aria-label="context menu button">
                   <MdMoreVert alt={`Show project context menu`} />
@@ -341,6 +402,7 @@ const ProjectTableRow = ({
                   handleSnapshotModalOpen={handleSnapshotModalOpen}
                   handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
                   handleShareSnapshotModalOpen={handleShareSnapshotModalOpen}
+                  handleSubmitModalOpen={handleSubmitModalOpen}
                   handleHide={handleHide}
                 />
               )}
@@ -359,6 +421,7 @@ const ProjectTableRow = ({
     </tr>
   );
 };
+/* eslint-enable no-unused-vars */
 
 ProjectTableRow.propTypes = {
   project: PropTypes.any,
@@ -368,18 +431,17 @@ ProjectTableRow.propTypes = {
   handleSnapshotModalOpen: PropTypes.func.isRequired,
   handleRenameSnapshotModalOpen: PropTypes.func.isRequired,
   handleShareSnapshotModalOpen: PropTypes.func.isRequired,
+  handleSubmitModalOpen: PropTypes.func.isRequired,
   handleHide: PropTypes.func.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
   checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   isAdmin: PropTypes.bool.isRequired,
-  droOptions: PropTypes.shape({
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired
-  }).isRequired,
+  droOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  ).isRequired,
   onDroChange: PropTypes.func.isRequired, // New propType
   onAdminNoteUpdate: PropTypes.func.isRequired // New propType
 };

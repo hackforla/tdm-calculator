@@ -41,7 +41,7 @@ function ProjectSpecifications(props) {
       </h3>
       <div className={classes.resetContainer}>
         <ResetButtons
-          className={classes.alignRight}
+          rightAlignStyle={{ marginRight: "0.3em" }}
           uncheckAll={uncheckAll}
           resetProject={resetProject}
         />

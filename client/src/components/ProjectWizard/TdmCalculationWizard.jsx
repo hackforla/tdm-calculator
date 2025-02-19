@@ -36,7 +36,9 @@ const TdmCalculationWizard = props => {
   const {
     projectLevel,
     rules,
+    partialAINInput,
     onInputChange,
+    onPartialAINChange,
     onCommentChange,
     onUncheckAll,
     onResetProject,
@@ -55,7 +57,8 @@ const TdmCalculationWizard = props => {
     contentContainerRef,
     inapplicableStrategiesModal,
     closeStrategiesModal,
-    project
+    project,
+    shareView
   } = props;
   const classes = useStyles();
   const context = useContext(ToastContext);
@@ -63,7 +66,7 @@ const TdmCalculationWizard = props => {
   const account = userContext ? userContext.account : null;
   const params = useParams();
   const navigate = useNavigate();
-  const page = Number(params.page || 1);
+  const page = Number(shareView ? 5 : params.page || 1);
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
   const [ainInputError, setAINInputError] = useState("");
@@ -96,7 +99,6 @@ const TdmCalculationWizard = props => {
           },
           nextLocation.pathname
         );
-
         return (
           currentMatch &&
           nextMatch &&
@@ -104,10 +106,13 @@ const TdmCalculationWizard = props => {
             !projectId)
         );
       };
-
-      return formIsDirty && !isSameProject(currentLocation, nextLocation);
+      return (
+        !shareView &&
+        formIsDirty &&
+        !isSameProject(currentLocation, nextLocation)
+      );
     },
-    [formIsDirty, projectId]
+    [formIsDirty, projectId, shareView]
   );
   const blocker = useBlocker(shouldBlock);
 
@@ -123,7 +128,12 @@ const TdmCalculationWizard = props => {
   useEffect(() => {
     if (projectId && (!account || !account.id)) {
       // user not logged in, existing project -> log in
-      navigate(`/login`);
+      let locationPath = location.pathname.split("/");
+      if (locationPath[1] == "projects" && locationPath[2]) {
+        navigate(`/login?url=${locationPath[1]}/${locationPath[2]}`);
+      } else {
+        navigate(`/login`);
+      }
     } else if (
       // Redirect to Summary Page if project exists,
       // but does not belong to logged-in user
@@ -137,7 +147,7 @@ const TdmCalculationWizard = props => {
       !(account.isAdmin || account.id === loginId)
     ) {
       navigate(`/calculation/6/${projectId}`);
-    }
+    } // eslint-disable-next-line
   }, [projectId, account, loginId, navigate]);
 
   const projectDescriptionRules =
@@ -190,7 +200,7 @@ const TdmCalculationWizard = props => {
   const setDisplaySaveButton = () => {
     const loggedIn = !!account && !!account.id;
     const setDisplayed = loggedIn;
-    return setDisplayed;
+    return !shareView && setDisplayed;
   };
 
   const setDisplayPrintButton = () => {
@@ -201,7 +211,7 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisplaySubmitButton = () => {
-    if (page === 5) {
+    if (page === 5 && !shareView) {
       return true;
     }
     return false;
@@ -251,8 +261,12 @@ const TdmCalculationWizard = props => {
         return (
           <ProjectDescriptions
             rules={projectDescriptionRules}
+            partialAINInput={partialAINInput}
             onInputChange={onInputChange}
+            onPartialAINChange={onPartialAINChange}
             onAINInputError={handleAINInputError}
+            uncheckAll={() => onUncheckAll(filters.projectDescriptionRules)}
+            resetProject={() => onResetProject()}
           />
         );
       case 2:
@@ -271,6 +285,8 @@ const TdmCalculationWizard = props => {
             onParkingProvidedChange={onParkingProvidedChange}
             onInputChange={onInputChange}
             isLevel0={isLevel0}
+            uncheckAll={onUncheckAll}
+            resetProject={onResetProject}
           />
         );
 
@@ -298,8 +314,8 @@ const TdmCalculationWizard = props => {
             rules={rules}
             account={account}
             projectId={projectId}
-            loginId={loginId}
-            onSave={onSave}
+            loginId={!shareView ? loginId : account?.id}
+            onSave={!shareView ? onSave : null}
             dateModified={project.dateModified}
           />
         );
@@ -338,6 +354,7 @@ const TdmCalculationWizard = props => {
           setDisplaySubmitButton={setDisplaySubmitButton}
           onSave={onSave}
           project={project}
+          shareView={shareView}
         />
       </ContentContainer>
     </div>
@@ -365,7 +382,9 @@ TdmCalculationWizard.propTypes = {
       validationErrors: PropTypes.array
     })
   ).isRequired,
+  partialAINInput: PropTypes.string.isRequired,
   onInputChange: PropTypes.func.isRequired,
+  onPartialAINChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func,
   onPkgSelect: PropTypes.func.isRequired,
   onParkingProvidedChange: PropTypes.func.isRequired,
@@ -387,7 +406,8 @@ TdmCalculationWizard.propTypes = {
   // dateSubmitted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
-  project: PropTypes.any
+  project: PropTypes.any,
+  shareView: PropTypes.bool
 };
 
 export default TdmCalculationWizard;

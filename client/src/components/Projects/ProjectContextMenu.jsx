@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { FaFileCsv } from "react-icons/fa6";
+import { TbFileExport } from "react-icons/tb";
 import {
   MdPrint,
   MdVisibility,
@@ -16,7 +17,7 @@ import {
   MdOutlineIosShare
 } from "react-icons/md";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   list: {
     display: "flex",
     flexDirection: "column",
@@ -37,10 +38,10 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     padding: "0.5rem",
-    color: "gray"
+    color: theme.colors.secondary.mediumGray
   },
   listItemIcon: { marginRight: "0.3rem" }
-});
+}));
 
 const ProjectContextMenu = ({
   project,
@@ -51,12 +52,14 @@ const ProjectContextMenu = ({
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
   handleShareSnapshotModalOpen,
+  handleSubmitModalOpen,
   handlePrintPdf,
   handleHide
 }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const account = userContext.account;
-  const classes = useStyles();
 
   const handleClick = callback => {
     callback(project);
@@ -92,8 +95,6 @@ const ProjectContextMenu = ({
         <li
           className={classes.listItem}
           onClick={() => handleClick(handleShareSnapshotModalOpen)}
-          // Temporarily hide the button until we get related features working.
-          style={{ display: "none" }}
         >
           <MdOutlineIosShare
             className={classes.listItemIcon}
@@ -113,6 +114,22 @@ const ProjectContextMenu = ({
             alt={`Snapshot Project #${project.id} Icon`}
           />
           Convert to Snapshot
+        </li>
+      ) : null}
+
+      {project.dateSnapshotted &&
+      !project.dateSubmitted &&
+      project.earnedPoints >= project.targetPoints &&
+      project.loginId == account?.id ? (
+        <li
+          className={classes.listItem}
+          onClick={() => handleClick(handleSubmitModalOpen)}
+        >
+          <TbFileExport
+            className={classes.listItemIcon}
+            alt={`Submit Project #${project.id} Icon`}
+          />
+          Submit to LADOT
         </li>
       ) : null}
 
@@ -177,21 +194,22 @@ const ProjectContextMenu = ({
           style={{ borderTop: "1px solid black" }}
         >
           {project.dateTrashed ? (
-            <span style={{ color: "" }}>
+            <>
               <MdRestoreFromTrash
                 className={classes.listItemIcon}
                 alt={`Restore Project from Trash Icon`}
               />
               Restore from Trash
-            </span>
+            </>
           ) : (
-            <span style={{ color: "red" }}>
+            <>
               <MdDelete
                 className={classes.listItemIcon}
+                style={{ color: theme.colors.warning }}
                 alt={`Delete Project Icon`}
               />
               Delete
-            </span>
+            </>
           )}
         </li>
       )}
@@ -208,6 +226,7 @@ ProjectContextMenu.propTypes = {
   handleSnapshotModalOpen: PropTypes.func,
   handleRenameSnapshotModalOpen: PropTypes.func,
   handleShareSnapshotModalOpen: PropTypes.func,
+  handleSubmitModalOpen: PropTypes.func,
   handlePrintPdf: PropTypes.func,
   handleHide: PropTypes.func
 };

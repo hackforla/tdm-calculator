@@ -3,6 +3,10 @@ import ToolTipLabel from "../../ToolTip/ToolTipLabel";
 import PropTypes from "prop-types";
 import { MdLink } from "react-icons/md";
 
+/* 
+Probably can be removed. Replaced by RuleLabel.jsx
+*/
+
 const RuleInputLabel = ({
   id,
   description,

@@ -15,16 +15,44 @@ import * as droService from "../../services/dro.service";
 import SnapshotProjectModal from "./SnapshotProjectModal";
 import RenameSnapshotModal from "./RenameSnapshotModal";
 import ShareSnapshotModal from "./ShareSnapshotModal";
-
+import SubmitProjectModal from "../SubmitSnapshot/SubmitSnapshotModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 import CopyProjectModal from "./CopyProjectModal";
 import CsvModal from "./CsvModal";
 import ProjectTableRow from "./ProjectTableRow";
-// import FilterDrawer from "./FilterDrawer";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import fetchEngineRules from "./fetchEngineRules";
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
+import TertiaryButton from "../Button/TertiaryButton";
+import useSessionStorage from "../../hooks/useSessionStorage";
+
+const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
+const FILTER_CRITERIA_STORAGE_TAG = "myProjectsFilterCriteria";
+const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
+const DEFAULT_FILTER_CRITERIA = {
+  filterText: "",
+  type: "all",
+  status: "active",
+  visibility: "visible",
+  name: "",
+  address: "",
+  author: "",
+  alternative: "",
+  dro: "",
+  startDateCreated: null,
+  endDateCreated: null,
+  startDateModified: null,
+  endDateModified: null,
+  nameList: [],
+  addressList: [],
+  alternativeList: [],
+  authorList: [],
+  droList: [],
+  adminNotesList: [],
+  startDateModifiedAdmin: null,
+  endDateModifiedAdmin: null
+};
 
 const useStyles = createUseStyles({
   outerDiv: {
@@ -84,6 +112,9 @@ const useStyles = createUseStyles({
     textAlign: "left"
   },
   thead: {
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
     fontWeight: "bold",
     backgroundColor: "#002E6D",
     color: "white",
@@ -118,9 +149,14 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   tableContainer: {
-    overflow: "visible", // changed to allow Universal Select to show above the page container when expanded
-    width: "100%",
-    margin: "20px 0px"
+    overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
+    width: "calc(100vw - 20px)",
+    margin: "20px 0px",
+    height: "calc(100vh - 275px - 11.34em)"
+  },
+  fixTableHead: {
+    overflowY: "auto",
+    height: "4em"
   },
   pageContainer: {
     display: "flex",
@@ -147,16 +183,24 @@ const useStyles = createUseStyles({
 const ProjectsPage = ({ contentContainerRef }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
+  const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
+    FILTER_CRITERIA_STORAGE_TAG,
+    DEFAULT_FILTER_CRITERIA
+  );
+  const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
+    SORT_CRITERIA_STORAGE_TAG,
+    DEFAULT_SORT_CRITERIA
+  );
 
-  const [filterText, setFilterText] = useState("");
-  const [order, setOrder] = useState("desc");
-  const [orderBy, setOrderBy] = useState("dateModified");
+  const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
+  const [filterCriteria, setFilterCriteria] = useState(sessionFilterCriteria);
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useProjects(handleError);
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
+  const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
@@ -172,79 +216,44 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
 
+  const enhancedProjects = projects
+    ? projects.map(project => {
+        const droName =
+          droOptions.find(dro => dro.id === project.droId)?.name || "";
+        return {
+          ...project,
+          droName: droName,
+          adminNotes: project.adminNotes || ""
+        };
+      })
+    : [];
+
   useEffect(() => {
-    // Check if the user is an admin
-    const isAdmin = userContext.account?.isAdmin || false;
-
-    if (isAdmin) {
-      // Fetch available DROs
-
-      const fetchDroOptions = async () => {
+    const fetchDroOptions = async () => {
+      try {
         const result = await droService.get();
-        setDroOptions(result);
-      };
-      fetchDroOptions().catch(console.error);
-    }
-  }, [userContext.account]);
+        setDroOptions(result.data); // Adjust based on your API response structure
+      } catch (error) {
+        console.error("Error fetching DRO options:", error);
+      }
+    };
+    fetchDroOptions();
+  }, []);
 
   useEffect(() => {
-    const isAdmin = userContext.account?.isAdmin || false;
-
-    if (!isAdmin) {
-      // Extract unique droIds from projects
-      const uniqueDroIds = [
-        ...new Set(
-          projects
-            .filter(project => project.droId)
-            .map(project => project.droId)
-        )
-      ];
-
-      // Function to fetch DRO names for given droIds
-      const fetchDroNames = async () => {
-        try {
-          // Initialize a temporary map
-          const tempDroNameMap = {};
-
-          // Fetch each DRO by ID
-          await Promise.all(
-            uniqueDroIds.map(async droId => {
-              try {
-                const response = await droService.getById(droId);
-                tempDroNameMap[droId] = response.data.name || "N/A";
-              } catch (error) {
-                console.error(`Error fetching DRO with ID ${droId}:`, error);
-                tempDroNameMap[droId] = "N/A";
-              }
-            })
-          );
-
-          // Update the droNameMap state
-          setDroNameMap(tempDroNameMap);
-        } catch (error) {
-          console.error("Error fetching DRO names:", error);
-        }
-      };
-
-      // Only fetch if there are droIds to fetch
-      if (uniqueDroIds.length > 0) {
-        fetchDroNames();
-      } else {
-        // Reset the map if no droIds are present
-        setDroNameMap({});
-      }
-    } else {
-      // If admin, reset the map since admin already has droOptions
-      setDroNameMap({});
-    }
-  }, [projects, userContext.account?.isAdmin]);
+    const droMap = {};
+    droOptions.forEach(dro => {
+      droMap[dro.id] = dro.name;
+    });
+    setDroNameMap(droMap);
+  }, [droOptions]);
 
   const perPageOptions = [
-    { value: projects.length, label: "All" },
-    { value: 100, label: "100" },
-    { value: 50, label: "50" },
-    { value: 25, label: "25" },
-    { value: 10, label: "10" }
+    { value: projects.length.toString(), label: "All" },
+    { value: "100", label: "100" },
+    { value: "50", label: "50" },
+    { value: "25", label: "25" },
+    { value: "10", label: "10" }
   ];
 
   const handlePerPageChange = newPerPage => {
@@ -260,29 +269,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     projects.find(p => p.id === id)
   );
 
-  const [criteria, setCriteria] = useState({
-    type: "all",
-    status: "active",
-    visibility: "visible",
-    name: "",
-    address: "",
-    author: "",
-    alternative: "",
-    dro: "",
-    startDateCreated: null,
-    endDateCreated: null,
-    startDateModified: null,
-    endDateModified: null,
-    nameList: [],
-    addressList: [],
-    alternativeList: [],
-    authorList: [],
-    droList: [],
-    adminNotes: "",
-    startDateModifiedAdmin: null,
-    endDateModifiedAdmin: null
-  });
-
+  // const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
     checkedProjectIds,
     projects
@@ -431,6 +418,24 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setSnapshotModalOpen(false);
   };
 
+  const handleSubmitModalOpen = project => {
+    setSelectedProject(project);
+    setSubmitModalOpen(true);
+  };
+
+  const handleSubmitModalClose = async action => {
+    if (action === "ok") {
+      try {
+        await projectService.submit({ id: selectedProject.id });
+        await updateProjects();
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setSubmitModalOpen(false);
+    setSelectedProject(null);
+  };
+
   const handleRenameSnapshotModalOpen = project => {
     setSelectedProject(project);
     setRenameSnapshotModalOpen(true);
@@ -504,15 +509,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
         currentProjects
           .filter(
             p =>
-              (criteria.visibility === "visible" && !p.dateHidden) ||
-              (criteria.visibility === "hidden" && p.dateHidden) ||
-              criteria.visibility === "all"
+              (filterCriteria.visibility === "visible" && !p.dateHidden) ||
+              (filterCriteria.visibility === "hidden" && p.dateHidden) ||
+              filterCriteria.visibility === "all"
           )
           .filter(
             p =>
-              (criteria.status === "active" && !p.dateTrashed) ||
-              (criteria.status === "deleted" && p.dateTrashed) ||
-              criteria.status === "all"
+              (filterCriteria.status === "active" && !p.dateTrashed) ||
+              (filterCriteria.status === "deleted" && p.dateTrashed) ||
+              filterCriteria.status === "all"
           )
           .map(p => p.id)
       );
@@ -557,17 +562,31 @@ const ProjectsPage = ({ contentContainerRef }) => {
     ) {
       projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
       projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
+    } else if (orderBy === "dro") {
+      projectA = a.droName ? a.droName.toLowerCase() : null;
+      projectB = b.droName ? b.droName.toLowerCase() : null;
+    } else if (orderBy === "adminNotes") {
+      projectA = a.adminNotes ? a.adminNotes.toLowerCase() : null;
+      projectB = b.adminNotes ? b.adminNotes.toLowerCase() : null;
     } else {
-      projectA = a[orderBy].toLowerCase();
-      projectB = b[orderBy].toLowerCase();
+      projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
+      projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";
     }
 
-    if (projectA < projectB) {
-      return -1;
-    } else if (projectA > projectB) {
-      return 1;
-    } else {
+    if (projectA === null && projectB === null) {
       return 0;
+    } else if (projectA === null) {
+      return 1; // null values are greater
+    } else if (projectB === null) {
+      return -1;
+    } else {
+      if (projectA < projectB) {
+        return -1;
+      } else if (projectA > projectB) {
+        return 1;
+      } else {
+        return 0;
+      }
     }
   };
 
@@ -577,19 +596,22 @@ const ProjectsPage = ({ contentContainerRef }) => {
       : (a, b) => -ascCompareBy(a, b, orderBy);
   };
 
-  const stableSort = (array, comparator) => {
-    const stabilizedList = array.map((el, index) => [el, index]);
-    stabilizedList.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    return stabilizedList.map(el => el[0]);
+  const setSort = (orderBy, order) => {
+    // If already sorted by the orderBy field, remove that entry from the
+    // sort array first
+    let newSortCriteria = sortCriteria.filter(c => c.field !== orderBy);
+    // Add new sort criteria and direction to the sortCriteria and
+    // save to local storagr
+    newSortCriteria.push({ field: orderBy, direction: order });
+    // and update the sortCriteria state.
+    setSessionSortCriteria(newSortCriteria);
+    setSortCriteria(newSortCriteria);
   };
 
-  const setSort = (orderBy, order) => {
-    setOrder(order);
-    setOrderBy(orderBy);
+  const setFilter = newFilterCriteria => {
+    setSessionFilterCriteria(newFilterCriteria);
+    setFilterCriteria(newFilterCriteria);
+    setCurrentPage(1);
   };
 
   const handleDroChange = async (projectId, newDroId) => {
@@ -612,7 +634,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleFilterTextChange = text => {
-    setFilterText(text);
+    setFilterCriteria(crit => {
+      return { ...crit, filterText: text };
+    });
+    setCurrentPage(1);
   };
 
   const getDateOnly = date => {
@@ -717,14 +742,46 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
     }
 
-    if (criteria.dro && !p.dro.includes(criteria.dro)) return false;
+    if (criteria.droList.length > 0) {
+      const droNames = criteria.droList.map(n => n.toLowerCase());
+      const projectDroName = (p.droName || "").toLowerCase();
+
+      if (!droNames.includes(projectDroName)) {
+        return false;
+      }
+    }
 
     if (
-      criteria.adminNotes &&
-      !p.adminNotes.toLowerCase().includes(criteria.adminNotes.toLowerCase())
+      criteria.adminNotesList.length > 0 &&
+      !criteria.adminNotesList
+        .map(n => n.toLowerCase())
+        .includes(
+          p.adminNotes ? p.adminNotes.toLowerCase() : "eowurqoieuroiwutposi"
+        )
     ) {
       return false;
     }
+
+    // if (userContext.account?.isAdmin) {
+    //   const projectAdminNotes = (p.adminNotes || "").toLowerCase().trim();
+    //   const criteriaAdminNotes = criteria.adminNotes.toLowerCase().trim();
+
+    //   if (
+    //     criteriaAdminNotes &&
+    //     !projectAdminNotes.includes(criteriaAdminNotes)
+    //   ) {
+    //     return false;
+    //   }
+
+    //   if (
+    //     criteria.adminNotesList.length > 0 &&
+    //     !criteria.adminNotesList
+    //       .map(n => n.toLowerCase())
+    //       .includes((p.adminNotes || "").toLowerCase())
+    //   ) {
+    //     return false;
+    //   }
+    // }
 
     if (
       criteria.startDateModifiedAdmin &&
@@ -740,12 +797,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
     )
       return false;
 
-    if (filterText !== "") {
+    if (criteria.filterText && criteria.filterText !== "") {
       let ids = ["name", "address", "fullName", "alternative", "description"];
 
       return ids.some(id => {
         let colValue = String(p[id]).toLowerCase();
-        return colValue.includes(filterText.toLowerCase());
+        return colValue.includes(criteria.filterText.toLowerCase());
       });
     }
 
@@ -753,30 +810,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const resetFiltersSort = () => {
-    setCriteria({
-      type: "all",
-      status: "active",
-      visibility: "visible",
-      name: "",
-      address: "",
-      author: "",
-      alternative: "",
-      dro: "",
-      startDateCreated: null,
-      endDateCreated: null,
-      startDateModified: null,
-      endDateModified: null,
-      nameList: [],
-      addressList: [],
-      alternativeList: [],
-      authorList: [],
-      droList: [],
-      adminNotes: "",
-      startDateModifiedAdmin: null,
-      endDateModifiedAdmin: null
-    });
-    setOrderBy("dateModified");
-    setOrder("desc");
+    setFilter(DEFAULT_FILTER_CRITERIA);
+    setSortCriteria(DEFAULT_SORT_CRITERIA);
+    setSort(DEFAULT_SORT_CRITERIA[0].field, DEFAULT_SORT_CRITERIA[0].direction);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
@@ -833,7 +869,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
     {
       id: "dro",
       label: "DRO",
-      popupType: null // temporarily disable filtering by DRO, as it crashes
+      popupType: "text",
+      accessor: "droName"
     },
 
     ...(userContext.account?.isAdmin
@@ -841,7 +878,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
           {
             id: "adminNotes",
             label: "Admin Notes",
-            popupType: null // No filter needed for this column
+            popupType: "text",
+            accessor: "adminNotes"
           },
           {
             id: "dateModifiedAdmin",
@@ -858,32 +896,22 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  const sortedProjects = stableSort(
-    projects.filter(p => filter(p, criteria)),
-    getComparator(order, orderBy)
-  );
+  let sortedProjects = enhancedProjects.filter(p => filter(p, filterCriteria));
+  for (let i = 0; i < sortCriteria.length; i++) {
+    sortedProjects.sort(
+      getComparator(sortCriteria[i].direction, sortCriteria[i].field)
+    );
+  }
   const currentProjects = sortedProjects.slice(
     indexOfFirstPost,
     indexOfLastPost
   );
 
+  document.body.style.overflowX = "hidden"; // prevent page level scrolling, becauase the table is scrollable
+
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <div className={classes.outerDiv}>
-        {/* <div
-          className={filterCollapsed ? classes.filterCollapsed : classes.filter}
-        >
-          <FilterDrawer
-            criteria={criteria}
-            setCriteria={setCriteria}
-            collapsed={filterCollapsed}
-            setCollapsed={setFilterCollapsed}
-            setCheckedProjectIds={setCheckedProjectIds}
-            setSelectAllChecked={setSelectAllChecked}
-            droOptions={droOptions}
-          />
-        </div> */}
-
         <div className={classes.contentDiv}>
           <h1 className={classes.pageTitle}>Projects</h1>
           <div
@@ -903,7 +931,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "flex-start"
+                  justifyContent: "flex-start",
+                  width: "100vw"
                 }}
               >
                 <MemoizedMultiProjectToolbar
@@ -911,7 +940,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   handleCsvModalOpen={handleCsvModalOpen}
                   handleDeleteModalOpen={handleDeleteModalOpen}
                   checkedProjectIds={checkedProjectIds}
-                  criteria={criteria}
+                  criteria={filterCriteria}
                   checkedProjectsStatusData={checkedProjectsStatusData}
                   pdfProjectData={projectData}
                 />
@@ -931,93 +960,97 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       type="search"
                       id="filterText"
                       name="filterText"
-                      placeholder="Search by Name; Address; Description; Alt#"
-                      value={filterText}
+                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
+                      value={filterCriteria.filterText}
                       onChange={e => handleFilterTextChange(e.target.value)}
                     />
                     <MdOutlineSearch className={classes.searchIcon} />
                   </div>
-                  <div>
-                    <button
+                  <div style={{ marginRight: "0.75em" }}>
+                    <TertiaryButton
                       onClick={resetFiltersSort}
-                      style={{ height: "40px" }}
+                      style={{ height: "40px", marginRight: "1em" }}
+                      isDisplayed={true}
                     >
                       RESET FILTERS/SORT
-                    </button>
-                    {/* {filterCollapsed ? (
-                      <button
-                        alt="Show Filter Criteria"
-                        style={{ backgroundColor: "#0F2940", color: "white" }}
-                        onClick={() => setFilterCollapsed(false)}
-                      >
-                        <MdFilterAlt style={{ marginRight: "0.5em" }} />
-                        Filter By
-                      </button>
-                    ) : null} */}
+                    </TertiaryButton>
                   </div>
                 </div>
               </div>
-              <div className={classes.tableContainer}>
-                <table className={classes.table}>
-                  <thead className={classes.thead}>
-                    <tr className={classes.tr}>
-                      {headerData.map(header => {
-                        return (
-                          <td key={header.id}>
-                            <ProjectTableColumnHeader
-                              projects={projects}
-                              filter={filter}
-                              header={header}
-                              criteria={criteria}
-                              setCriteria={setCriteria}
-                              setSort={setSort}
-                              order={order}
-                              orderBy={orderBy}
-                              setCheckedProjectIds={setCheckedProjectIds}
-                              setSelectAllChecked={setSelectAllChecked}
-                            />
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody className={classes.tbody}>
-                    {projects.length ? (
-                      currentProjects.map(project => (
-                        <ProjectTableRow
-                          key={project.id}
-                          project={project}
-                          handleCsvModalOpen={handleCsvModalOpen}
-                          handleCopyModalOpen={handleCopyModalOpen}
-                          handleDeleteModalOpen={handleDeleteModalOpen}
-                          handleSnapshotModalOpen={handleSnapshotModalOpen}
-                          handleRenameSnapshotModalOpen={
-                            handleRenameSnapshotModalOpen
-                          }
-                          handleShareSnapshotModalOpen={
-                            handleShareSnapshotModalOpen
-                          }
-                          handleHide={handleHide}
-                          handleCheckboxChange={handleCheckboxChange}
-                          checkedProjectIds={checkedProjectIds}
-                          isAdmin={isAdmin}
-                          droOptions={droOptions}
-                          onDroChange={handleDroChange} // Pass the DRO change handler
-                          onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
-                          droName={
-                            isAdmin ? null : droNameMap[project.droId] || "N/A"
-                          } // Pass the droName
-                        />
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={9} className={classes.tdNoSavedProjects}>
-                          No Saved Projects
-                        </td>
+              <div>
+                <div className={classes.tableContainer}>
+                  <table className={classes.table}>
+                    <thead className={classes.thead}>
+                      <tr className={classes.tr}>
+                        {headerData.map(header => {
+                          return (
+                            <td key={header.id}>
+                              <th className={classes.stickyTh}>
+                                <ProjectTableColumnHeader
+                                  projects={projects}
+                                  filter={filter}
+                                  header={header}
+                                  criteria={filterCriteria}
+                                  setCriteria={setFilter}
+                                  setSort={setSort}
+                                  orderBy={
+                                    sortCriteria[sortCriteria.length - 1].field
+                                  }
+                                  order={
+                                    sortCriteria[sortCriteria.length - 1]
+                                      .direction
+                                  }
+                                  setCheckedProjectIds={setCheckedProjectIds}
+                                  setSelectAllChecked={setSelectAllChecked}
+                                  droOptions={droOptions}
+                                />
+                              </th>
+                            </td>
+                          );
+                        })}
                       </tr>
-                    )}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className={classes.tbody}>
+                      {enhancedProjects.length ? (
+                        currentProjects.map(project => (
+                          <ProjectTableRow
+                            key={project.id}
+                            project={project}
+                            handleCsvModalOpen={handleCsvModalOpen}
+                            handleCopyModalOpen={handleCopyModalOpen}
+                            handleDeleteModalOpen={handleDeleteModalOpen}
+                            handleSnapshotModalOpen={handleSnapshotModalOpen}
+                            handleRenameSnapshotModalOpen={
+                              handleRenameSnapshotModalOpen
+                            }
+                            handleShareSnapshotModalOpen={
+                              handleShareSnapshotModalOpen
+                            }
+                            handleSubmitModalOpen={handleSubmitModalOpen}
+                            handleHide={handleHide}
+                            handleCheckboxChange={handleCheckboxChange}
+                            checkedProjectIds={checkedProjectIds}
+                            isAdmin={isAdmin}
+                            droOptions={droOptions}
+                            onDroChange={handleDroChange} // Pass the DRO change handler
+                            onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
+                            droName={
+                              isAdmin
+                                ? null
+                                : droNameMap[project.droId] || "N/A"
+                            } // Pass the droName
+                          />
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={9} className={classes.tdNoSavedProjects}>
+                            No Saved Projects
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div className={classes.pageContainer}>
                 <Pagination
@@ -1028,7 +1061,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   maxNumOfVisiblePages={5}
                 />
                 <UniversalSelect
-                  value={perPage}
+                  value={perPage.toString()}
                   options={perPageOptions}
                   onChange={e => handlePerPageChange(e.target.value)}
                   name="perPage"
@@ -1036,7 +1069,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 />
                 <span className={classes.itemsPerPage}>Items per page</span>
               </div>
-
+              {/* <pre>{JSON.stringify(sortCriteria, null, 2)}</pre> */}
+              {/* <pre>{JSON.stringify(filterCriteria, null, 2)}</pre> */}
               {(selectedProject || checkedProjectsStatusData) && (
                 <>
                   <CsvModal
@@ -1072,11 +1106,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     onClose={handleShareSnapshotModalClose}
                     project={selectedProject}
                   />
+                  <SubmitProjectModal
+                    mounted={submitModalOpen}
+                    onClose={handleSubmitModalClose}
+                    project={selectedProject}
+                  />
                 </>
               )}
             </div>
           </div>
         </div>
+        ``
       </div>
     </ContentContainerNoSidebar>
   );

@@ -47,7 +47,7 @@ const useStyles = createUseStyles({
     height: "100px"
   },
   formErrorBorder: {
-    border: "dotted red 2px"
+    border: "2px dotted red "
   },
   errorMessage: {
     color: "red"

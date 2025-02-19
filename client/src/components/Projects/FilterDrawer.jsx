@@ -50,7 +50,8 @@ const FilterPopup = ({
   setCriteria,
   setCollapsed,
   setCheckedProjectIds,
-  setSelectAllChecked
+  setSelectAllChecked,
+  droOptions
 }) => {
   const userContext = useContext(UserContext);
   const account = userContext.account;
@@ -71,7 +72,9 @@ const FilterPopup = ({
       nameList: [],
       authorList: [],
       addressList: [],
-      alternativeList: []
+      alternativeList: [],
+      dro: "",
+      adminNotes: ""
     });
   };
 
@@ -208,6 +211,33 @@ const FilterPopup = ({
           setEndDate={date => handleChangeDate("endDateModified", date)}
         />
 
+        <h4 className={classes.minorHeading}>
+          Development Review Offices (DRO)
+        </h4>
+        <UniversalSelect
+          value={criteria.dro}
+          options={droOptions.map(dro => ({
+            value: dro.name,
+            label: dro.name
+          }))}
+          onChange={e => setCriteria({ ...criteria, dro: e.target.value })}
+          name="dro"
+          className={classes.dropdown}
+        />
+
+        {account?.isAdmin && (
+          <>
+            <h4 className={classes.minorHeading}>Admin Notes</h4>
+            <input
+              type="text"
+              name="adminNotes"
+              value={criteria.adminNotes}
+              onChange={handleChange}
+              className={classes.textInput}
+            />
+          </>
+        )}
+
         <div className={classes.row}>
           <Button onClick={resetCriteria}>Reset Filters</Button>
         </div>
@@ -222,7 +252,13 @@ FilterPopup.propTypes = {
   collapsed: PropTypes.bool,
   setCollapsed: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func
+  setSelectAllChecked: PropTypes.func,
+  droOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.any.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  ).isRequired
 };
 
 export default FilterPopup;

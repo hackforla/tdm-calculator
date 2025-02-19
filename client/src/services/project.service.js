@@ -14,6 +14,10 @@ export function getById(id) {
   return axios.get(`${baseUrl}/${id}`);
 }
 
+export function getByIdWithEmail(id) {
+  return axios.get(`${baseUrl}/projectShare/${id}`);
+}
+
 export function post(project) {
   return axios.post(baseUrl, project);
 }

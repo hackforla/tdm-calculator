@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
+import Popup from "reactjs-popup";
+import { MdClose } from "react-icons/md";
 
 /* 
 See https://css-tricks.com/building-progress-ring-quickly/
@@ -107,11 +109,10 @@ const useStyles = createUseStyles({
   }
 });
 
-const EarnedPointsProgress = props => {
+const EarnedPointsProgress = ({ rulesConfig }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
 
-  const { rulesConfig } = props;
   const radius = DIAL_RADIUS;
   const stroke = STROKE_WIDTH;
 
@@ -124,6 +125,8 @@ const EarnedPointsProgress = props => {
     0,
     target ? circumference - (earned / target) * 0.875 * circumference : 0
   );
+  const tipText = `<div><p><strong>Earned Points:</strong> ${rulesConfig.earnedPointsRule.description}</p>
+      <p style="margin-top: 0.5rem;"><strong>Target Points:</strong> ${rulesConfig.targetPointsRule.description}</p></div>`;
 
   return (
     <div
@@ -142,23 +145,44 @@ const EarnedPointsProgress = props => {
         <div className={classes.targetPointsLabel}>TARGET</div>
       </div>
       <div
-        data-tip={
-          "<p>Earned Points: " +
-          rulesConfig.earnedPointsRule.description +
-          "</p><p>Target Points: " +
-          rulesConfig.targetPointsRule.description +
-          "</p>"
-        }
-        data-iscapture="true"
-        data-html="true"
-        data-class={
-          target > 0
-            ? classes.tooltip
-            : clsx(classes.tooltip, classes.noDisplay)
-        }
-        className={classes.tooltipIcon}
+        className={clsx(
+          classes.tooltipIcon,
+          target > 0 ? "" : classes.noDisplay
+        )}
       >
-        <ToolTipIcon />
+        <Popup
+          lockScroll={false}
+          trigger={
+            <span style={{ cursor: "pointer" }}>
+              <ToolTipIcon />
+            </span>
+          }
+          position="right center"
+          arrow={true}
+          contentStyle={{ width: "30%" }}
+        >
+          {close => {
+            return (
+              <div style={{ margin: "1rem" }}>
+                <button
+                  style={{
+                    backgroundColor: "transparent",
+                    color: theme.colors.secondary.gray,
+                    border: "none",
+                    position: "absolute",
+                    top: "0",
+                    right: "0",
+                    cursor: "pointer"
+                  }}
+                  onClick={close}
+                >
+                  <MdClose style={{ height: "20px", width: "20px" }} />
+                </button>
+                <div dangerouslySetInnerHTML={{ __html: tipText }} />
+              </div>
+            );
+          }}
+        </Popup>
       </div>
       <svg className={clsx(classes.rotate, classes.dial)}>
         <circle
@@ -205,8 +229,22 @@ const EarnedPointsProgress = props => {
   );
 };
 
+// EarnedPointsProgress.propTypes = {
+//   rulesConfig: PropTypes.object
+// };
 EarnedPointsProgress.propTypes = {
-  rulesConfig: PropTypes.object
+  rulesConfig: PropTypes.shape({
+    targetPointsRule: PropTypes.shape({
+      value: PropTypes.number,
+      code: PropTypes.string,
+      description: PropTypes.string
+    }).isRequired,
+    earnedPointsRule: PropTypes.shape({
+      value: PropTypes.number,
+      code: PropTypes.string,
+      description: PropTypes.string
+    }).isRequired
+  }).isRequired
 };
 
 export default EarnedPointsProgress;

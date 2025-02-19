@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import RuleInputPanels from "../RuleInput/RuleInputPanels";
 import DiscoverTooltips from "./DiscoverTooltips";
 import { createUseStyles, useTheme } from "react-jss";
+import ResetButtons from "./ResetButtons";
 
 const useStyles = createUseStyles({
   disclaimer: {
@@ -18,7 +19,15 @@ const useStyles = createUseStyles({
 });
 
 function ProjectDescriptions(props) {
-  const { rules, onInputChange, onAINInputError } = props;
+  const {
+    rules,
+    partialAINInput,
+    onInputChange,
+    onPartialAINChange,
+    onAINInputError,
+    uncheckAll,
+    resetProject
+  } = props;
   const classes = useStyles();
   const theme = useTheme();
   return (
@@ -29,13 +38,22 @@ function ProjectDescriptions(props) {
           Calculator
         </span>
       </div>
-      <div style={theme.typography.subHeading}>
+      <h3 style={theme.typography.subHeading}>
         First, let&rsquo;s get some information about your project
+      </h3>
+      <div style={{ marginBottom: "1em" }}>
+        <ResetButtons
+          rightAlignStyle={{ marginRight: "1.1em" }}
+          uncheckAll={uncheckAll}
+          resetProject={resetProject}
+        />
       </div>
       <form noValidate>
         <RuleInputPanels
           rules={rules}
+          partialMultiInput={partialAINInput}
           onInputChange={onInputChange}
+          onPartialMultiChange={onPartialAINChange}
           onAINInputError={onAINInputError}
           suppressHeader={true}
           showPlaceholder={true}
@@ -50,8 +68,12 @@ function ProjectDescriptions(props) {
 }
 ProjectDescriptions.propTypes = {
   rules: PropTypes.array.isRequired,
+  partialAINInput: PropTypes.string,
   onInputChange: PropTypes.func.isRequired,
-  onAINInputError: PropTypes.func.isRequired
+  onPartialAINChange: PropTypes.func.isRequired,
+  onAINInputError: PropTypes.func.isRequired,
+  uncheckAll: PropTypes.func.isRequired,
+  resetProject: PropTypes.func.isRequired
 };
 
 export default ProjectDescriptions;

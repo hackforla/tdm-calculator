@@ -61,6 +61,18 @@ const useStyles = createUseStyles(theme => ({
       backgroundColor: theme.colors.warning, // Solid red background on hover
       boxShadow: "rgba(0, 46, 109, 0.4) 2px 4px 6px" // Heavier box shadow on hover
     }
+  },
+  error: {
+    backgroundColor: theme.colorError,
+    color: "white",
+    borderColor: "rgba(0, 0, 0, .05)", //lightest grey
+    boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px",
+    "&[disabled]:hover": {
+      boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px"
+    },
+    "&:hover": {
+      boxShadow: "rgba(0, 46, 109, 0.6) 2px 4px 6px" // Heavier box shadow on hover
+    }
   }
 }));
 

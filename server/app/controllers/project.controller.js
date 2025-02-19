@@ -24,6 +24,30 @@ const getById = async (req, res) => {
   }
 };
 
+const getByIdWithEmail = async (req, res) => {
+  try {
+    const project = await projectService.getByIdWithEmail(
+      req.params.id,
+      req.user.email
+    );
+    if (!project) {
+      res
+        .status(404)
+        .send(
+          "project " +
+            req.params.id +
+            " not shared with " +
+            req.user.email +
+            " or does not exist."
+        );
+      return;
+    }
+    res.status(200).json(project);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const post = async (req, res) => {
   try {
     if (req.body.loginId !== req.user.id) {
@@ -229,6 +253,7 @@ const updateTotals = async (req, res) => {
 module.exports = {
   getAll,
   getById,
+  getByIdWithEmail,
   post: [validate({ body: projectSchema }), post, validationErrorMiddleware],
   put,
   del,

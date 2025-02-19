@@ -5,7 +5,6 @@ import { roundToTwo } from "../../helpers";
 
 const useStyles = createUseStyles({
   rule: {
-    fontSize: "0.875rem",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",

@@ -12,8 +12,10 @@ module.exports = {
     colorCancel: "rgba(0, 0, 0, 0.5)", //light grey, e.g. cancel button
     colorWhite: "#fff", //white
     colorError: "#E46247", //e.g. red
+    colorWarning: "#C3391D",
     colorDeselect: "#EEF1F4", //e.g. red
     colorHighlight: "#F0E300", //yellow
+    colorTooltipBackground: "#FFEDEA",
     colors: {
       primary: {
         navy: "#002E6D",
@@ -28,7 +30,7 @@ module.exports = {
         darkNavy: "#002E6D",
         darkBlue: "#00122B"
       },
-      warning: "#B64E38",
+      warning: "#C3391D",
       notice: "#E87D00",
       tooltip: "#F9DFDA"
     },

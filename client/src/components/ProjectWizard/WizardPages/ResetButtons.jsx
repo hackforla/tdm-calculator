@@ -14,19 +14,21 @@ const useStyles = createUseStyles({
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
-    textDecoration: "underline"
+    textDecoration: "underline",
+    fontWeight: "normal"
   },
   resetProjectButton: {
     backgroundColor: "transparent",
     border: "0",
     cursor: "pointer",
-    textDecoration: "underline"
+    textDecoration: "underline",
+    fontWeight: "normal"
   }
 });
 
 const ResetButtons = props => {
   const classes = useStyles();
-  const { uncheckAll, resetProject } = props;
+  const { uncheckAll, resetProject, rightAlignStyle } = props;
   return (
     <div className={classes.resetFlexContainer}>
       <button
@@ -36,16 +38,23 @@ const ResetButtons = props => {
       >
         Reset Project
       </button>
-      <button className={classes.unSelectButton} onClick={uncheckAll}>
-        Reset Page
-      </button>
+      {uncheckAll && (
+        <button
+          className={classes.unSelectButton}
+          style={rightAlignStyle}
+          onClick={uncheckAll}
+        >
+          Clear Page
+        </button>
+      )}
     </div>
   );
 };
 
 ResetButtons.propTypes = {
-  uncheckAll: PropTypes.func.isRequired,
-  resetProject: PropTypes.func.isRequired
+  uncheckAll: PropTypes.func,
+  resetProject: PropTypes.func.isRequired,
+  rightAlignStyle: PropTypes.object
 };
 
 export default ResetButtons;

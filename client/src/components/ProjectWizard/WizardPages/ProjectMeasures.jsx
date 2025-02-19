@@ -89,11 +89,11 @@ function ProjectMeasure(props) {
           </div>
         </>
       )}
-      <div className={classes.pkgSelectContainer}>
+      <div style={{ marginTop: "1em", marginBottom: "1em" }}>
         <ResetButtons
-          className={classes.alignRight}
           uncheckAll={uncheckAll}
           resetProject={resetProject}
+          rightAlignStyle={{ marginRight: "0.4em" }}
         />
       </div>
       {(allowResidentialPackage || allowSchoolPackage) && (

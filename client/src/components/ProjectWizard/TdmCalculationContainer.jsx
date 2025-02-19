@@ -44,6 +44,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const account = userContext ? userContext.account : null;
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
+  const [partialAIN, setPartialAIN] = useState("");
   const projectId = params.projectId ? Number(params.projectId) : 0;
   const [strategiesInitialized, setStrategiesInitialized] = useState(false);
   const [formHasSaved, setFormHasSaved] = useState(true);
@@ -52,6 +53,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const [rules, setRules] = useState([]);
 
   const [project, setProject] = useState({});
+  const [shareView, setShareView] = useState(false);
 
   const toast = useToast();
 
@@ -76,19 +78,33 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       let projectResponse = null;
       let inputs = {};
       if (Number(projectId) > 0 && account?.id) {
-        projectResponse = await projectService.getById(projectId);
+        let locationPath = location.pathname.split("/");
+        if (locationPath[1] == "projects") {
+          try {
+            projectResponse = await projectService.getByIdWithEmail(projectId);
 
-        // setLoginId(projectResponse.data.loginId);
-        // setDateModified(formatDatetime(projectResponse.data.dateModified));
-        // setDateSnapshotted(
-        //   formatDatetime(projectResponse.data?.dateSnapshotted)
-        // );
-        // setDateSubmitted(formatDatetime(projectResponse.data?.dateSubmitted));
-        setProject(projectResponse.data);
-
-        inputs = JSON.parse(projectResponse.data.formInputs);
-        setStrategiesInitialized(true);
+            if (projectResponse) {
+              setShareView(true);
+            }
+          } catch (err) {
+            if (err.response.status == 404) {
+              navigate(`/login?url=${locationPath[1]}/${locationPath[2]}`);
+            } else {
+              console.error(JSON.stringify(err, null, 2));
+              throw new Error(JSON.stringify(err, null, 2));
+            }
+          }
+        } else {
+          projectResponse = await projectService.getById(projectId);
+          setShareView(false);
+        }
+        if (projectResponse) {
+          setProject(projectResponse.data);
+          inputs = JSON.parse(projectResponse.data.formInputs);
+          setStrategiesInitialized(true);
+        }
       } else {
+        setShareView(false);
         setStrategiesInitialized(false);
       }
       engine.run(inputs, resultRuleCodes);
@@ -104,7 +120,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       // const redirect = account.id ? "/projects" : "/login";
       // navigate(redirect);
     }
-  }, [engine, projectId, account, setRules, setProject]);
+  }, [engine, projectId, account, setRules, setProject]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Initialize the engine with saved project data, as appropriate.
   // Should run only when projectId changes.
@@ -342,6 +358,10 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     recalculate(newFormInputs);
   };
 
+  const onPartialAINChange = value => {
+    setPartialAIN(value);
+  };
+
   // If selecting a particular value for a particular rule needs to cause
   // a change to another input...
   const applySideEffects = (formInputs, ruleCode, value) => {
@@ -411,12 +431,16 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         }
       }
     }
+    if (filterRules === filters.projectDescriptionRules) {
+      setPartialAIN(""); // Clear incomplete AIN input
+    }
     recalculate(updateInputs);
   };
 
   // resets wizard to empty for new project, or saved state for existing project.
   // In either case, navigate to first page
   const onResetProject = async () => {
+    setPartialAIN(""); // In case there is a partial AIN entered, clear it
     await fetchRules();
     await initializeEngine();
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "/0");
@@ -523,7 +547,9 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     <TdmCalculationWizard
       projectLevel={projectLevel}
       rules={rules}
+      partialAINInput={partialAIN}
       onInputChange={onInputChange}
+      onPartialAINChange={onPartialAINChange}
       onCommentChange={onCommentChange}
       onUncheckAll={onUncheckAll}
       onResetProject={onResetProject}
@@ -543,6 +569,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}
       project={project}
+      shareView={shareView}
     />
   );
 }

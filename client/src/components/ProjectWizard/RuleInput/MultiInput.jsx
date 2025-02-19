@@ -241,6 +241,8 @@ const toOptions = value => {
 const MultiInput = ({
   code,
   value,
+  partialMultiInput: inputValue,
+  onPartialMultiChange,
   validationErrors,
   mask,
   onChange,
@@ -249,8 +251,6 @@ const MultiInput = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
-
-  const [inputValue, setInputValue] = useState("");
   const [hasError, setHasError] = useState(false);
   const valueOptions = toOptions(value);
 
@@ -258,6 +258,7 @@ const MultiInput = ({
     setHasError(false);
     onError(null);
   };
+
   const checkAndCreateTag = () => {
     // don't create duplicate tag
     const indexValue = valueOptions.findIndex(
@@ -269,7 +270,7 @@ const MultiInput = ({
       : valueOptions;
 
     handleChange(newValue);
-    setInputValue("");
+    onPartialMultiChange("");
 
     resetAINError();
   };
@@ -290,11 +291,9 @@ const MultiInput = ({
       })
     );
   };
-  const handleInputChange = inputValue => {
-    setInputValue(inputValue);
-  };
+
   const handleKeyDown = event => {
-    const validLength = matchLength(inputValue);
+    const validLength = matchLength(inputValue || "");
 
     switch (validLength) {
       case 0:
@@ -340,7 +339,7 @@ const MultiInput = ({
       isMulti
       menuIsOpen={false}
       onChange={handleChange}
-      onInputChange={handleInputChange}
+      onInputChange={onPartialMultiChange}
       onKeyDown={handleKeyDown}
       placeholder=""
       value={valueOptions}
@@ -357,6 +356,8 @@ const MultiInput = ({
 MultiInput.propTypes = {
   code: PropTypes.string.isRequired,
   value: PropTypes.any,
+  partialMultiInput: PropTypes.string,
+  onPartialMultiChange: PropTypes.func,
   validationErrors: PropTypes.array,
   mask: PropTypes.string.isRequired,
   onChange: PropTypes.func,

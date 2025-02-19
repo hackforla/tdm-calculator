@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import PlanningIcon from "../../../images/planning.png";
 import { createUseStyles, useTheme } from "react-jss";
 import { MdLaunch } from "react-icons/md";
 import { MdWarning } from "react-icons/md";
+import ResetButtons from "./ResetButtons";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   level0NavButtons: {
     "& + div #rightNavArrow": {
       visibility: "hidden" // this hides the next nav button
@@ -15,26 +15,20 @@ const useStyles = createUseStyles({
     textAlign: "center"
   },
   level0Message: {
+    ...theme.typography.paragraph1,
     marginTop: "20px",
     maxWidth: "800px",
-    backgroundColor: "white",
-    color: "black",
-    fontSize: "22px",
-    lineHeight: "38px",
-    padding: "60px 48px 40px",
-    textAlign: "initial",
-    boxSizing: "border-box",
-
-    "& p": {
-      marginLeft: "44px"
-    }
+    backgroundColor: theme.colorTooltipBackground,
+    padding: "48px",
+    textAlign: "initial"
   },
   warningIcon: {
-    float: "left"
+    fontSize: "72px",
+    color: theme.colorWarning
   }
-});
+}));
 
-const Level0Page = ({ isLevel0 }) => {
+const Level0Page = ({ isLevel0, resetProject }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
 
@@ -42,11 +36,16 @@ const Level0Page = ({ isLevel0 }) => {
     <>
       {isLevel0 && (
         <div className={classes.level0NavButtons}>
+          <div>
+            <ResetButtons
+              rightAlignStyle={{ marginRight: "1.1em" }}
+              resetProject={resetProject}
+            />
+          </div>
           <div className={classes.level0Container}>
-            <img src={PlanningIcon} alt="planningIcon" />
-            <h1 style={theme.typography.heading1}>Your project level is 0!</h1>
+            <MdWarning className={classes.warningIcon} alt="Warning" />
+            <h1 style={theme.typography.heading1}>Your project level is 0</h1>
             <div className={classes.level0Message}>
-              <MdWarning className={classes.warningIcon} alt="Warning" />
               <p>
                 Based on the information you provided, the Transportation Demand
                 Management (TDM) Ordinance <strong>may</strong> not apply to
@@ -61,7 +60,7 @@ const Level0Page = ({ isLevel0 }) => {
                 </a>{" "}
                 for applicability and exemption details.
               </p>
-              <p>
+              <p style={{ marginTop: "2em" }}>
                 Final determination of the TDM Ordinance applicability will be
                 made by the Department of Building and Safety upon review of
                 your project application.
@@ -75,7 +74,9 @@ const Level0Page = ({ isLevel0 }) => {
 };
 
 Level0Page.propTypes = {
-  isLevel0: PropTypes.bool.isRequired
+  isLevel0: PropTypes.bool.isRequired,
+  uncheckAll: PropTypes.func.isRequired,
+  resetProject: PropTypes.func.isRequired
 };
 
 export default Level0Page;

@@ -59,15 +59,33 @@ const TextPopup = ({
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked
+  setSelectAllChecked,
+  droOptions
 }) => {
+  const property = header.accessor || header.id;
+  const getDisplayValue = value => {
+    if (property === "droName" && value === "") {
+      return "No DRO Assigned";
+    }
+    return value;
+  };
+
+  const getInternalValue = displayValue => {
+    if (property === "droName" && displayValue === "No DRO Assigned") {
+      return "";
+    }
+    return displayValue;
+  };
   const classes = useStyles();
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
   const [selectedListItems, setSelectedListItems] = useState(
-    criteria[header.id + "List"].map(s => ({ value: s, label: s }))
+    (criteria[header.id + "List"] || []).map(s => ({
+      value: getDisplayValue(s),
+      label: getDisplayValue(s)
+    }))
   );
   const [searchString, setSearchString] = useState("");
 
@@ -77,13 +95,28 @@ const TextPopup = ({
   // are currently selected EXCEPT the criteria we are currently editing.
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
-  const property = header.id == "author" ? "fullname" : header.id;
-  const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
-    .filter(value => value !== null)
-    .sort(
-      (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
-    );
+  // const property = header.id == "author" ? "fullname" : header.id;
 
+  let selectOptions;
+
+  if (property === "droName") {
+    selectOptions = droOptions.map(dro => dro.name);
+    selectOptions.push("No DRO Assigned");
+  } else if (property === "author") {
+    selectOptions = [
+      ...new Set(filteredProjects.map(p => `${p.firstName} ${p.lastName}`))
+    ]
+      .filter(value => value !== null)
+      .sort(
+        (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
+      );
+  } else {
+    selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
+      .filter(value => value !== null && value !== "")
+      .sort(
+        (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
+      );
+  }
   const filteredOptions = selectOptions
     .filter(o => !!o)
     .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
@@ -110,16 +143,21 @@ const TextPopup = ({
 
   const isChecked = optionValue => {
     const checked = selectedListItems.find(
-      option => option.value == optionValue
+      option => option.value === optionValue
     );
     return !!checked;
   };
 
   const applyChanges = () => {
+    let selectedValues = selectedListItems.map(sli =>
+      getInternalValue(sli.value)
+    );
+
     setCriteria({
       ...criteria,
-      [header.id + "List"]: selectedListItems.map(sli => sli.value)
+      [header.id + "List"]: selectedValues
     });
+
     if (newOrder) {
       setSort(header.id, newOrder);
     }
@@ -239,7 +277,8 @@ TextPopup.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func
+  setSelectAllChecked: PropTypes.func,
+  droOptions: PropTypes.array.isRequired
 };
 
 export default TextPopup;

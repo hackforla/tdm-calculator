@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { FaFileCsv } from "react-icons/fa6";
 import {
   MdDelete,
@@ -17,13 +17,14 @@ import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 
 import * as projectResultService from "../../services/projectResult.service";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     marginLeft: "0.5em",
-    marginBottom: "-1em"
+    marginBottom: "-1em",
+    padding: "0 5em 0 0.5em "
   },
   list: {
     display: "flex",
@@ -35,13 +36,13 @@ const useStyles = createUseStyles({
   },
   button: {
     border: "none",
-    padding: 0,
+    padding: "0",
     background: "none"
   },
   multiStatus: {
-    color: "#002E6D"
+    color: theme.colors.primary.navy
   }
-});
+}));
 
 const MultiProjectToolbarMenu = ({
   handleHideBoxes,
@@ -53,7 +54,8 @@ const MultiProjectToolbarMenu = ({
   pdfProjectData
 }) => {
   const printRef = useRef(null);
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const account = userContext.account;
   let project = null;
@@ -63,7 +65,10 @@ const MultiProjectToolbarMenu = ({
   ) {
     project = checkedProjectsStatusData;
   }
-  const isProjectOwner = account ? account.id === project?.loginId : false;
+  const isProjectOwner = account
+    ? account.id === project?.loginId ||
+      account.id === checkedProjectsStatusData.loginId
+    : false;
 
   const isBtnDisabled = (projProp, criteriaProp) => {
     const sameDateVals = checkedProjectsStatusData[projProp] !== false;
@@ -151,14 +156,17 @@ const MultiProjectToolbarMenu = ({
           </button>
           {checkedProjectIds.length !== 1 ? (
             <Tooltip
+              // Cannot use JSS, because Tooltip default styles would overwrite
               style={{
-                backgroundColor: "#e6e3e3",
-                color: "#000",
-                width: "11%",
-                borderRadius: "10px",
-                fontWeight: "bold",
-                textAlign: "center"
+                ...theme.typography.paragraph1,
+                backgroundColor: theme.colors.secondary.lightGray,
+                width: "12rem",
+                borderRadius: "5px",
+                textAlign: "center",
+                boxShadow:
+                  "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
               }}
+              border="1px solid black"
               anchorSelect="#print-btn"
               content="Please select one project"
             />
@@ -189,12 +197,17 @@ const MultiProjectToolbarMenu = ({
             )}
 
             <Tooltip
+              // Cannot use JSS, because Tooltip default styles would overwrite
               style={{
-                backgroundColor: "#e6e3e3",
-                color: "#000",
-                width: "10%",
-                borderRadius: "10px"
+                ...theme.typography.paragraph1,
+                backgroundColor: theme.colors.secondary.lightGray,
+                width: "12rem",
+                borderRadius: "5px",
+                textAlign: "center",
+                boxShadow:
+                  "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
               }}
+              border="1px solid black"
               anchorSelect="#hide-btn"
               content={tooltipMsg(
                 "visibility",
@@ -217,12 +230,17 @@ const MultiProjectToolbarMenu = ({
               <MdRestoreFromTrash color={isDelBtnDisabled ? "#1010104d" : ""} />
             )}
             <Tooltip
+              // Cannot use JSS, because Tooltip default styles would overwrite
               style={{
-                backgroundColor: "#e6e3e3",
-                color: "#000",
-                width: "10%",
-                borderRadius: "10px"
+                ...theme.typography.paragraph1,
+                backgroundColor: theme.colors.secondary.lightGray,
+                width: "12rem",
+                borderRadius: "5px",
+                textAlign: "center",
+                boxShadow:
+                  "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
               }}
+              border="1px solid black"
               anchorSelect="#delete-btn"
               content={tooltipMsg(
                 "status",

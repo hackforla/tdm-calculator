@@ -7,7 +7,7 @@ const useStyles = createUseStyles({
     flex: "1",
     display: "flex",
     flexDirection: "row",
-    minHeight: "calc(100vh - 103px - 48px)"
+    minHeight: "calc(100vh - 71px - 5em)"
   },
   content: {
     boxSizing: "border-box",

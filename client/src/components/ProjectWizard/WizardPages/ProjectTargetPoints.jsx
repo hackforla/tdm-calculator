@@ -50,7 +50,13 @@ const useStyles = createUseStyles(theme => ({
 function ProjectTargetPoints(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const { rules, onInputChange, isLevel0, onParkingProvidedChange } = props;
+  const {
+    rules,
+    onInputChange,
+    isLevel0,
+    onParkingProvidedChange,
+    resetProject
+  } = props;
   const projectLevel = rules.find(e => e.code === "LEVEL");
   const targetValue = rules.find(e => e.code === "INPUT_TARGET_POINTS_PARK");
 
@@ -61,7 +67,7 @@ function ProjectTargetPoints(props) {
 
   return (
     <>
-      <Level0Page isLevel0={isLevel0} />
+      <Level0Page isLevel0={isLevel0} resetProject={resetProject} />
 
       {projectLevel && projectLevel.calcValue > 0 && (
         <div>
@@ -78,9 +84,9 @@ function ProjectTargetPoints(props) {
             <ParkingProvidedRuleInput
               rule={parkingProvidedRuleOnly}
               onInputChange={onParkingProvidedChange}
+              resetProject={resetProject}
             />
           )}
-
           <div className={classes.projectBox}>
             <h4>
               <span className={classes.PLLabel}>Your project level </span>
@@ -109,7 +115,8 @@ ProjectTargetPoints.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onParkingProvidedChange: PropTypes.func.isRequired,
-  isLevel0: PropTypes.bool.isRequired
+  isLevel0: PropTypes.bool.isRequired,
+  resetProject: PropTypes.func.isRequired
 };
 
 export default ProjectTargetPoints;
