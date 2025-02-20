@@ -16,6 +16,7 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "center"
   },
   warningMessage: {
+    ...theme.typography.paragraph1,
     verticalAlign: "middle",
     display: "flex",
     alignItems: "center",
@@ -39,7 +40,7 @@ const FaqConfirmDialog = ({ blocker }) => {
     <ModalDialog
       mounted={blocker.state === "blocked"}
       onClose={blocker.reset}
-      showCloseBox={false}
+      omitCloseBox={true}
     >
       <div className={classes.warningWrapper}>
         <MdWarning alt="Warning" size={70} />
@@ -55,8 +56,7 @@ const FaqConfirmDialog = ({ blocker }) => {
       </p>
       <div className={classes.modalActions}>
         <Button
-          color="colorCancel"
-          variant="outlined"
+          variant="secondary"
           id="modalCancel"
           data-testid="transitionCancel"
           onClick={() => blocker.reset()}
@@ -64,7 +64,7 @@ const FaqConfirmDialog = ({ blocker }) => {
           <p style={{ fontWeight: "bold" }}>Cancel</p>
         </Button>
         <Button
-          color="colorWarning"
+          variant="warning"
           id="modalProceed"
           data-testid="trarnsitionProceed"
           onClick={() => blocker.proceed()}

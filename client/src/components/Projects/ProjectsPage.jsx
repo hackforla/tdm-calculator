@@ -12,13 +12,13 @@ import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusDa
 import * as projectService from "../../services/project.service";
 import * as projectResultService from "../../services/projectResult.service";
 import * as droService from "../../services/dro.service";
-import SnapshotProjectModal from "./SnapshotProjectModal";
-import RenameSnapshotModal from "./RenameSnapshotModal";
-import ShareSnapshotModal from "./ShareSnapshotModal";
-import SubmitProjectModal from "../SubmitSnapshot/SubmitSnapshotModal";
-import DeleteProjectModal from "./DeleteProjectModal";
-import CopyProjectModal from "./CopyProjectModal";
-import CsvModal from "./CsvModal";
+import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
+import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
+import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
+import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
+import WarningProjectDelete from "../Modals/WarningProjectDelete";
+import CopyProjectModal from "../Modals/ActionProjectCopy";
+import CsvModal from "../Modals/ActionProjectsCsv";
 import ProjectTableRow from "./ProjectTableRow";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import fetchEngineRules from "./fetchEngineRules";
@@ -1086,7 +1086,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     onClose={handleCopyModalClose}
                     selectedProjectName={selectedProjectName}
                   />
-                  <DeleteProjectModal
+                  <WarningProjectDelete
                     mounted={deleteModalOpen}
                     onClose={handleDeleteModalClose}
                     project={selectedProject || checkedProjectsStatusData}
@@ -1106,7 +1106,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     onClose={handleShareSnapshotModalClose}
                     project={selectedProject}
                   />
-                  <SubmitProjectModal
+                  <WarningSnapshotSubmit
                     mounted={submitModalOpen}
                     onClose={handleSubmitModalClose}
                     project={selectedProject}
