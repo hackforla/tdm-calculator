@@ -6,7 +6,7 @@ import clsx from "clsx";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleLabel from "../Common/RuleLabel";
 import UniversalSelect from "../../UI/UniversalSelect";
-import AffordableEdgeCaseModal from "../AffordableEdgeCaseModal";
+import AffordableEdgeCaseModal from "../../Modals/WarningWizardAffordableEdgeCase";
 
 const useStyles = createUseStyles(theme => ({
   rowContainer: {

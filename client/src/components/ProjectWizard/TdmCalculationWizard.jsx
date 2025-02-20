@@ -11,8 +11,8 @@ import {
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainer from "../Layout/ContentContainer";
-import InapplicableStrategiesModal from "./InapplicableStrategiesModal";
-import NavConfirmDialog from "./NavConfirmDialog";
+import InapplicableStrategiesModal from "../Modals/InfoWizardInapplicableStrategies";
+import NavConfirmDialog from "../Modals/WarningWizardLeave";
 import {
   ProjectDescriptions,
   ProjectSpecifications,

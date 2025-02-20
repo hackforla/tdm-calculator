@@ -20,7 +20,7 @@ import fetchEngineRules from "./fetchEngineRules";
 import * as droService from "../../services/dro.service";
 import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
-import AdminNotesModal from "./AdminNotesModal";
+import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../UI/AriaModal/WarningModal";
 
 const useStyles = createUseStyles(theme => ({

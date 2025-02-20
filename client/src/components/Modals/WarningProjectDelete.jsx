@@ -1,12 +1,22 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import { MdDelete, MdRestoreFromTrash } from "react-icons/md";
 import Button from "../Button/Button";
 import { MdWarning } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 
 const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  warningIcon: {
+    height: "80px",
+    width: "80px",
+    color: theme.colorCritical,
+    textAlign: "center"
+  },
   buttonFlexBox: {
     display: "flex",
     flexDirection: "row",
@@ -14,17 +24,10 @@ const useStyles = createUseStyles(theme => ({
     margin: 0
   },
   heading1: theme.typography.heading1,
-  instruction: {
-    fontSize: "20px",
-    lineHeight: "32px",
-    textAlign: "center",
-    color: "#B64E38",
-    "& span": {
-      fontStyle: "italic"
-    }
-  },
-  warningIcon: {
-    margin: "0 10px"
+  subheading: {
+    ...theme.typography.subHeading,
+    width: "30rem",
+    lineHeight: "1.5rem"
   }
 }));
 
@@ -36,47 +39,48 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
     <ModalDialog
       mounted={mounted}
       onClose={onClose}
+      omitCloseBox={true}
       initialFocus="#cancelButton"
     >
       {project.dateTrashed ? (
-        <>
+        <div className={classes.container}>
+          <MdWarning alt="Warning" className={classes.warningIcon} />
+
           <div
             className={classes.heading1}
             style={{ marginBottom: "1.5rem", color: "" }}
           >
-            <MdRestoreFromTrash /> Restore Project from Trash
+            Restore Project from Trash
           </div>
-          <div style={theme.typography.subHeading}>
-            <MdWarning className={classes.warningIcon} alt="Warning" />
-            Are you sure you want to restore the project from the trash,
+          <div className={classes.subheading}>
+            Are you sure you want to restore the following from the trash?
           </div>
-        </>
+        </div>
       ) : (
-        <>
+        <div className={classes.container}>
+          <MdWarning alt="Warning" className={classes.warningIcon} />
           <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-            <MdDelete /> Delete Project
+            Delete Project
           </div>
-          <div style={theme.typography.subHeading}>
-            <MdWarning className={classes.warningIcon} alt="Warning" />
-            Are you sure you want to delete the following? <br></br>(It will
-            remain in the recycling bin for ninety days <br></br>before being
-            permanently deleted)
+          <div className={classes.subheading}>
+            Are you sure you want to delete the following? (It will remain in
+            the recycling bin for ninety days before being permanently deleted.)
           </div>
-        </>
+        </div>
       )}
       <div style={{ ...theme.typography.heading3, marginBottom: "1.5rem" }}>
         {Array.isArray(project.name) ? project.name.join(", ") : project.name}
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button onClick={onClose} variant="outlined" id="cancelButton">
+        <Button onClick={onClose} variant="secondary" id="cancelButton">
           Cancel
         </Button>
         {project.dateTrashed ? (
-          <Button onClick={() => onClose("ok")} variant="error">
+          <Button onClick={() => onClose("ok")} variant="primary">
             Restore
           </Button>
         ) : (
-          <Button onClick={() => onClose("ok")} variant="error">
+          <Button onClick={() => onClose("ok")} variant="warning">
             Delete
           </Button>
         )}

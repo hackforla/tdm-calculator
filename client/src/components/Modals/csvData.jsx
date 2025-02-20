@@ -1,4 +1,4 @@
-import fetchEngineRules from "./fetchEngineRules";
+import fetchEngineRules from "../Projects/fetchEngineRules";
 
 // This method gets properties from the project object and converts them to
 // an array of objects that look enough like rules to concatenate with an

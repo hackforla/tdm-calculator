@@ -8,9 +8,9 @@ import { DragDropContext } from "react-beautiful-dnd";
 import * as faqCategoryService from "../../services/faqCategory.service";
 import AddNewCategoryButton from "../Button/AddNewCategory";
 import { createUseStyles } from "react-jss";
-import DeleteFaqModal from "./DeleteFaqModal";
-import SaveConfirmationModal from "./SaveConfirmationModal";
-import FaqConfirmDialog from "./FaqConfirmDialog";
+import DeleteFaqModal from "../Modals/WarningFaqDelete";
+import SaveConfirmationModal from "../Modals/WarningFaqSaveEdits";
+import FaqConfirmDialog from "../Modals/WarnngFaqLeave";
 import { matchPath, unstable_useBlocker as useBlocker } from "react-router-dom";
 
 const useStyles = createUseStyles(theme => ({

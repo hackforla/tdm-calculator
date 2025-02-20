@@ -12,10 +12,15 @@ module.exports = {
     colorCancel: "rgba(0, 0, 0, 0.5)", //light grey, e.g. cancel button
     colorWhite: "#fff", //white
     colorError: "#E46247", //e.g. red
-    colorWarning: "#C3391D",
+    colorCritical: "#C3391D",
+    colorWarning: "#C35302",
     colorDeselect: "#EEF1F4", //e.g. red
     colorHighlight: "#F0E300", //yellow
     colorTooltipBackground: "#FFEDEA",
+    // Drop Shadow Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
+    colorDropShadow: "#00000040",
+    colorDropShadowHover: "#AAB5CA",
+    colorDropShadowDisabled: "#BBBBBBFF",
     colors: {
       primary: {
         navy: "#002E6D",
