@@ -21,7 +21,7 @@ import * as droService from "../../services/dro.service";
 import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
-import WarningModal from "../UI/AriaModal/WarningModal";
+import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 
 const useStyles = createUseStyles(theme => ({
   td: {

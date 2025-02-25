@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
-// import ModalDialog from "../UI/AriaModal/ModalDialog";
 import { MdOutlineClose } from "react-icons/md";
 import AriaModal from "react-aria-modal";
-import clsx from "clsx";
 
 const useStyles = createUseStyles(theme => ({
   adminNotesModalContainer: {
@@ -39,19 +37,6 @@ const useStyles = createUseStyles(theme => ({
     boxSizing: "border-box",
     boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.5)",
     backgroundColor: "rgba(255, 255, 255, 1)"
-  },
-  buttonFlexBox1: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    margin: 0
-  },
-  closeButton: {
-    border: "0 solid white",
-    backgroundColor: "transparent",
-    "&:hover": {
-      cursor: "pointer"
-    }
   },
   contentContainer: {
     display: "flex",
@@ -101,7 +86,6 @@ const useStyles = createUseStyles(theme => ({
   blueBorderOnFocus: {
     width: "100%"
   },
-
   buttonWrapper: {
     display: "flex",
     flexDirection: "row",
@@ -109,65 +93,7 @@ const useStyles = createUseStyles(theme => ({
     padding: "14px 10px 14px 10px",
     boxSizing: "border-box"
   },
-  button: {
-    cursor: "pointer",
-    fontFamily: "Calibri",
-    fontWeight: 700,
-    height: "min-content",
-    margin: "0.5em",
-    padding: "0.25em 1em",
-    textAlign: "center",
-    textTransform: "uppercase",
-    //TODO: Move these when we figure out size-related props
-    letterSpacing: "0.05em",
-    fontSize: "20px"
-  },
-  contained: {
-    borderColor: "rgba(0, 0, 0, .05)", //lightest grey
-    boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px",
-    "&[disabled]:hover": {
-      boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px"
-    },
-    "&:hover": {
-      boxShadow: "rgba(0, 46, 109, 0.6) 2px 4px 6px" // Heavier box shadow on hover
-    }
-  },
-  editButton: {
-    width: "10.6rem", //    padding: "10px 20px",
-    height: "3.6rem",
-    fontSize: "16px",
-    backgroundColor: "#A7C539"
-  },
-  cancelButton: {
-    width: "7.3rem", //    padding: "10px 20px",
-    height: "3.6rem",
-    fontSize: "16px"
-  },
-  saveButton: {
-    width: "6.7rem", //    padding: "10px 20px",
-    height: "3.6rem",
-    fontSize: "16px",
-    backgroundColor: "#A7C539"
-  },
-  buttonFlexBox2: {
-    display: "flex",
-    flexDirection: "row",
-    margin: 0,
-    width: "100%"
-  },
-  heading1: theme.typography.heading1,
-  instruction: {
-    fontSize: "20px",
-    lineHeight: "32px",
-    textAlign: "center",
-    color: "#B64E38",
-    "& span": {
-      fontStyle: "italic"
-    }
-  },
-  warningIcon: {
-    margin: "0 10px"
-  }
+  heading1: theme.typography.heading1
 }));
 
 const AdminNotesModal = ({
@@ -277,19 +203,17 @@ const AdminNotesModal = ({
           />
           <div className={classes.buttonWrapper}>
             <Button
+              variant="secondary"
               onClick={onCancel}
               id="cancelButton"
-              className={classes.cancelButton}
               title="Cancel"
             >
               Cancel
             </Button>
             <Button
-              color="colorPrimary"
-              variant="outlined"
+              variant="primary"
               onClick={onSave}
               id="saveButton"
-              className={classes.saveButton}
               disabled={adminNotes.trim() === ""}
               title="Save Note"
             >
@@ -353,20 +277,16 @@ const AdminNotesModal = ({
             }}
           />
           <div className={classes.buttonWrapper}>
-            <button
+            <Button
               onClick={handleEdit}
-              className={clsx(
-                classes.button,
-                classes.contained,
-                classes.editButton
-              )}
+              variant="primary"
               title="Edit Note"
               ref={handleInitialFocusRef}
               id="editButton"
               color="#A7C539"
             >
               EDIT NOTE
-            </button>
+            </Button>
           </div>
         </div>
       </AriaModal>
@@ -432,29 +352,17 @@ const AdminNotesModal = ({
             }}
           />
           <div className={classes.buttonWrapper}>
-            <button
-              onClick={onCancel}
-              className={clsx(
-                classes.button,
-                classes.contained,
-                classes.cancelButton
-              )}
-              title="Cancel"
-            >
+            <Button onClick={onCancel} variant="secondary" title="Cancel">
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={onSave}
-              className={clsx(
-                classes.button,
-                classes.contained,
-                classes.saveButton
-              )}
+              variant="primary"
               disabled={!textUpdated()}
               title="Save"
             >
               Save
-            </button>
+            </Button>
           </div>
         </div>
       </AriaModal>
@@ -462,8 +370,6 @@ const AdminNotesModal = ({
   }
   return modalContent;
 };
-
-/* eslint-enable no-unused-vars */
 
 AdminNotesModal.propTypes = {
   mounted: PropTypes.bool,

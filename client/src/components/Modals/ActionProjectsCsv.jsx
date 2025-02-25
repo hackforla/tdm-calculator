@@ -9,6 +9,11 @@ import { getCsvForProjects } from "./csvData";
 import RadioButton from "../UI/RadioButton";
 
 const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
   buttonFlexBox: {
     display: "flex",
     flexDirection: "row",
@@ -25,8 +30,12 @@ const useStyles = createUseStyles(theme => ({
       fontStyle: "italic"
     }
   },
-  warningIcon: {
-    margin: "0 10px"
+  icon: {
+    height: "40px",
+    width: "40px",
+    color: theme.colorBlack,
+    marginBottom: "0",
+    verticalAlign: "middle"
   }
 }));
 
@@ -86,121 +95,121 @@ const CsvModal = ({
         setProjectCollection("");
         setFilename("");
       }}
-      // initialFocus="#cancelButton"
+      initialFocus="#filename"
     >
-      <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-        <FaFileCsv /> Generate CSV File
-      </div>
-      {project ? (
-        <div style={theme.typography.subHeading}>
-          {"Create a CSV for the project " + project.name}
+      <div className={classes.container}>
+        <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
+          <FaFileCsv className={classes.icon} />
+          Generate CSV File
         </div>
-      ) : (
-        <>
+        {project ? (
           <div style={theme.typography.subHeading}>
-            Choose a set of Projects to include
+            Create a CSV for the project &quot;{project.name}&quot;
           </div>
-          <div style={{ marginLeft: "30%", width: "35%" }}>
-            {checkedProjects && checkedProjects.length > 0 && (
+        ) : (
+          <>
+            <div style={theme.typography.subHeading}>
+              Choose a set of Projects to include
+            </div>
+            <div style={{ marginLeft: "30%", width: "35%" }}>
+              {checkedProjects && checkedProjects.length > 0 && (
+                <div style={{ margin: "0.5em" }}>
+                  <RadioButton
+                    label={"Checked Projects "}
+                    value="Checked"
+                    checked={projectCollection === "Checked"}
+                    onChange={handleOptionChange}
+                  />
+                </div>
+              )}
+
               <div style={{ margin: "0.5em" }}>
                 <RadioButton
-                  label={"Checked Projects "}
-                  value="Checked"
-                  checked={projectCollection === "Checked"}
+                  label="Filtered Projects"
+                  value="Filtered"
+                  checked={projectCollection === "Filtered"}
                   onChange={handleOptionChange}
                 />
               </div>
-            )}
-
-            <div style={{ margin: "0.5em" }}>
-              <RadioButton
-                label="Filtered Projects"
-                value="Filtered"
-                checked={projectCollection === "Filtered"}
-                onChange={handleOptionChange}
-              />
+              <div style={{ margin: "0.5em" }}>
+                <RadioButton
+                  label="All Projects"
+                  value="All"
+                  checked={projectCollection === "All"}
+                  onChange={handleOptionChange}
+                />
+              </div>
             </div>
-            <div style={{ margin: "0.5em" }}>
-              <RadioButton
-                label="All Projects"
-                value="All"
-                checked={projectCollection === "All"}
-                onChange={handleOptionChange}
-              />
-            </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
 
-      <div style={{ ...theme.typography.subHeading, marginTop: "1em" }}>
-        Specify file name for downloaded file
-      </div>
-      <div style={{ marginLeft: "30%", width: "35%" }}>
-        <input
-          type="text"
-          value={filename}
-          onChange={handleFilenameChange}
-          style={{ margin: "0.5em" }}
-        />
-      </div>
-      {loading && (
-        <progress
-          value={progress}
-          style={{ width: "80%", marginLeft: "10%" }}
-        />
-      )}
-      <div>
-        <div className={classes.buttonFlexBox}>
-          <Button
-            onClick={() => {
-              onClose();
-              setCsvData(null);
-              setProjectCollection("");
-              setFilename("");
-            }}
-            variant="outlined"
-            id="cancelButton"
-          >
-            Cancel
-          </Button>
-
-          {(project || projectCollection) && !loading && !csvData && (
+        <div style={{ ...theme.typography.subHeading, marginTop: "1em" }}>
+          Specify file name for downloaded file
+        </div>
+        <div style={{ width: "75%" }}>
+          <input
+            type="text"
+            id="filename"
+            value={filename}
+            onChange={handleFilenameChange}
+            style={{ margin: "0.5em" }}
+          />
+        </div>
+        {loading && (
+          <progress
+            value={progress}
+            style={{ width: "80%", marginLeft: "10%" }}
+          />
+        )}
+        <div>
+          <div className={classes.buttonFlexBox}>
             <Button
-              onClick={handleGenerateButton}
-              variant="contained"
-              color={"colorPrimary"}
-            >
-              Generate File
-            </Button>
-          )}
-
-          {(project || projectCollection) && !loading && csvData ? (
-            <CSVLink
-              data={csvData}
-              style={{
-                backgroundColor: theme.colorPrimary,
-                color: theme.colors.primary.black,
-                textDecoration: "none",
-                height: "1.4rem",
-                fontFamily: "Calibri",
-                fontSize: "20px",
-                fontWeight: "700",
-                margin: "0.55em",
-                padding: "0.75rem 1rem",
-                textAlign: "center",
-                letterSpacing: "0.05rem"
-              }}
-              filename={filename + ".csv"}
               onClick={() => {
+                onClose();
                 setCsvData(null);
                 setProjectCollection("");
-                onClose();
                 setFilename("");
               }}
+              variant="secondary"
+              id="cancelButton"
             >
-              DOWNLOAD FILE
-            </CSVLink>
-          ) : null}
+              Cancel
+            </Button>
+
+            {(project || projectCollection) && !loading && !csvData && (
+              <Button onClick={handleGenerateButton} variant="primary">
+                Generate File
+              </Button>
+            )}
+
+            {(project || projectCollection) && !loading && csvData ? (
+              <CSVLink
+                data={csvData}
+                style={{
+                  backgroundColor: theme.colorPrimary,
+                  color: theme.colors.primary.black,
+                  textDecoration: "none",
+                  height: "1.4rem",
+                  fontFamily: "Calibri",
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  margin: "0.55em",
+                  padding: "0.75rem 1rem",
+                  textAlign: "center",
+                  letterSpacing: "0.05rem"
+                }}
+                filename={filename + ".csv"}
+                onClick={() => {
+                  setCsvData(null);
+                  setProjectCollection("");
+                  onClose();
+                  setFilename("");
+                }}
+              >
+                DOWNLOAD FILE
+              </CSVLink>
+            ) : null}
+          </div>
         </div>
       </div>
     </ModalDialog>

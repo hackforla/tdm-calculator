@@ -56,7 +56,7 @@ export default function ModalDialog({
   onClose,
   initialFocus,
   omitCloseBox = false,
-  underlayClickExits = true,
+  underlayClickExits = false,
   escapeExits = true,
   title = "Title Text",
   underlayClass

@@ -4,6 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import Button from "../Button/Button";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import * as projectShareService from "../../services/projectShare.service";
+import { MdCameraAlt } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   buttonFlexBox: {
@@ -13,6 +14,18 @@ const useStyles = createUseStyles(theme => ({
   },
   heading1: theme.typography.heading1,
   heading2: theme.typography.heading2,
+  subheading: {
+    ...theme.typography.subHeading,
+    marginTop: "1rem",
+    marginBottom: "1rem"
+  },
+  icon: {
+    height: "40px",
+    width: "40px",
+    color: theme.colorBlack,
+    marginBottom: "0",
+    verticalAlign: "middle"
+  },
   buttonDisabled: {
     cursor: "default"
   },
@@ -105,7 +118,7 @@ export default function ShareSnapshotModal({ mounted, onClose, project }) {
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
   const maybeDisabled = !sharedEmails.length && classes.buttonDisabled;
-  const tdmLink = "https://tdm-dev.azurewebsites.net";
+  const tdmLink = window.location.origin; //"https://tdm-dev.azurewebsites.net";
   const copyLink = `${tdmLink}/projects/${project ? project.id : -1}`;
   const copyMessage = `Here's a snapshot of the current TDM Calculator plan for: [${
     project ? project.name : ""
@@ -164,7 +177,8 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
               className={classes.heading1}
               style={{ marginBottom: "1.5rem" }}
             >
-              Share &quot;{project ? project.name : ""}&quot; Snapshot?
+              <MdCameraAlt className={classes.icon} />
+              Share &quot;{project ? project.name : ""}&quot; Snapshot
             </div>
             <div className={classes.input}>
               <input
@@ -234,6 +248,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 className={classes.heading1}
                 style={{ marginBottom: "1.5rem" }}
               >
+                <MdCameraAlt className={classes.icon} />
                 Share &quot;{project ? project.name : ""}&quot; Snapshot
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
@@ -255,7 +270,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     up to see the above snapshot link.
                   </p>
                   <Button
-                    className={classes.copyButton}
+                    variant="primary"
                     onClick={() => {
                       navigator.clipboard.writeText(copyMessage);
                       setIsCopied(true);
@@ -287,7 +302,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     {copyLink}
                   </p>
                   <Button
-                    className={classes.copyButton}
+                    variant="primary"
                     onClick={() => {
                       navigator.clipboard.writeText(copyLink);
                       setIsCopied(true);
@@ -309,13 +324,13 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     setPage(1);
                     setIsCopied(false);
                   }}
-                  variant="outlined"
+                  variant="secondary"
                 >
                   Back
                 </Button>
                 <Button
                   className={!isCopied && classes.buttonDisabled}
-                  color={"colorPrimary"}
+                  variant="primary"
                   onClick={() => {
                     closeProject();
                   }}
@@ -343,7 +358,8 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
               className={classes.heading1}
               style={{ marginBottom: "1.5rem" }}
             >
-              Are you sure?
+              <MdCameraAlt className={classes.icon} />
+              Confirm Unsharing
             </div>
             <div className={classes.viewPermissionsList}>
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -360,19 +376,17 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     setPage(1);
                     setSelectedEmail("");
                   }}
-                  variant="outlined"
+                  variant="secondary"
                 >
                   Cancel
                 </Button>
                 <Button
-                  className={classes.buttonColor}
+                  variant="warning"
                   onClick={() => {
                     deleteProjectShare(selectedEmail);
                     setPage(1);
                     setSelectedEmail("");
                   }}
-                  variant="contained"
-                  color={"colorPrimary"}
                 >
                   Yes
                 </Button>
