@@ -10,7 +10,8 @@ module.exports = {
     colorEarnedPoints: "rgb(255, 168, 4)", //orange
     colorDisabled: "rgba(0, 0, 0, .05)", //lightest grey transparent
     colorCancel: "rgba(0, 0, 0, 0.5)", //light grey, e.g. cancel button
-    colorWhite: "#fff", //white
+    colorWhite: "#FFFFFF", //white
+    colorBlack: "#000000",
     colorError: "#E46247", //e.g. red
     colorCritical: "#C3391D",
     colorWarning: "#C35302",

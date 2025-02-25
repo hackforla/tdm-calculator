@@ -110,14 +110,6 @@ const useStyles = createUseStyles(theme => ({
       boxShadow: "rgba(0, 0, 0, 0.1) 2px 4px 6px" // Heavier box shadow on hover
     }
   },
-  // warning: {
-  //   backgroundColor: theme.colors.warning, // Red background color with some transparency
-  //   color: "white",
-  //   "&:hover": {
-  //     backgroundColor: theme.colors.warning, // Solid red background on hover
-  //     boxShadow: "rgba(0, 46, 109, 0.4) 2px 4px 6px" // Heavier box shadow on hover
-  //   }
-  // },
   error: {
     backgroundColor: theme.colorError,
     color: "white",
