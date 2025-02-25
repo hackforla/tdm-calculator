@@ -9,7 +9,8 @@ assignees: ''
 
 ---
 
-#### Description
+#### Describe the bug
+<!-- REPLACE THIS TEXT - A clear and concise description of what the bug is, who it affects, how it affects users. (optional: what is the user's goal? -->
 
 
 #### Steps to Reproduce
