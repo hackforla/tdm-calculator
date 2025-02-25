@@ -35,8 +35,7 @@ export default function SnapshotProjectModal({
 }) {
   const theme = useTheme();
   const classes = useStyles({ theme });
-  const [snapshotProjectName, setSnapshotProjectName] =
-    useState(selectedProjectName);
+  const [snapshotProjectName, setSnapshotProjectName] = useState("");
 
   return (
     <ModalDialog
@@ -55,7 +54,7 @@ export default function SnapshotProjectModal({
         </div>
         <div className={classes.subheading} style={{ width: "75%" }}>
           <input
-            placeholder="Name of Snapshot Project"
+            placeholder="Name of the Snapshot"
             type="text"
             id="duplicateName"
             name="duplicateName"
@@ -64,16 +63,13 @@ export default function SnapshotProjectModal({
           />
         </div>
         <div className={classes.buttonFlexBox}>
-          <Button
-            className={classes.buttonColor}
-            onClick={onClose}
-            variant="secondary"
-          >
+          <Button variant="secondary" onClick={onClose}>
             Cancel
           </Button>
           <Button
             onClick={() => onClose("ok", snapshotProjectName)}
             variant="primary"
+            disabled={!snapshotProjectName}
           >
             Done
           </Button>

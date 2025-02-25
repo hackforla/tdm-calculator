@@ -58,7 +58,7 @@ export default function CopyProjectModal({
         <div style={theme.typography.heading3}>{selectedProjectName}</div>
         <div style={{ margin: "1.5rem 2.5rem 1.5rem 0.75rem" }}>
           <input
-            placeholder="Name of Duplicated Project"
+            placeholder="Name of the duplicated project"
             type="text"
             id="duplicateName"
             name="duplicateName"
@@ -75,6 +75,7 @@ export default function CopyProjectModal({
           <Button
             onClick={() => onClose("ok", duplicateProjectName)}
             variant="primary"
+            disabled={!duplicateProjectName}
           >
             Create a Copy
           </Button>

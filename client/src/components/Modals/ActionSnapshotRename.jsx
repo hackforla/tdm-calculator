@@ -39,8 +39,7 @@ export default function RenameSnapshotModal({
 }) {
   const theme = useTheme();
   const classes = useStyles({ theme });
-  const [snapshotProjectName, setSnapshotProjectName] =
-    useState(selectedProjectName);
+  const [snapshotProjectName, setSnapshotProjectName] = useState("");
 
   return (
     <ModalDialog
@@ -51,14 +50,14 @@ export default function RenameSnapshotModal({
       <div className={classes.container}>
         <div className={classes.heading1}>
           <MdCameraAlt className={classes.icon} />
-          Rename Snapshot
+          Rename Snapshot &quot;{selectedProjectName}&quot;
         </div>
         <div className={classes.subheading}>
           Enter a new name for your snapshot
         </div>
         <div className={classes.subheading} style={{ width: "75%" }}>
           <input
-            placeholder="Name of Duplicated Project"
+            placeholder="New project name for snapshot"
             type="text"
             id="duplicateName"
             name="duplicateName"
@@ -77,6 +76,7 @@ export default function RenameSnapshotModal({
           <Button
             onClick={() => onClose("ok", snapshotProjectName)}
             variant="primary"
+            disabled={!snapshotProjectName}
           >
             Done
           </Button>
