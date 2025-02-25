@@ -45,14 +45,12 @@ export default function CopyProjectModal({
       <div style={theme.typography.heading3}>{`${selectedProjectName}`}.</div>
       <div style={{ margin: "1.5rem 2.5rem 1.5rem 0.75rem" }}>
         <input
-          placeholder="Name of Duplicated Project"
+          placeholder="Name of the duplicated project"
           type="text"
           id="duplicateName"
           name="duplicateName"
           value={duplicateProjectName}
           onChange={e => setDuplicateProjectName(e.target.value)}
-          // autoFocus
-          // onFocus={e => e.currentTarget.select()}
         />
       </div>
       <div className={classes.buttonFlexBox}>
@@ -63,6 +61,7 @@ export default function CopyProjectModal({
           onClick={() => onClose("ok", duplicateProjectName)}
           variant="contained"
           color={"colorPrimary"}
+          disabled={!duplicateProjectName}
         >
           Create a Copy
         </Button>

@@ -21,9 +21,7 @@ export default function RenameSnapshotModal({
 }) {
   const theme = useTheme();
   const classes = useStyles({ theme });
-  const [snapshotProjectName, setSnapshotProjectName] = useState(
-    `${selectedProjectName}`
-  );
+  const [snapshotProjectName, setSnapshotProjectName] = useState("");
 
   return (
     <ModalDialog
@@ -32,14 +30,14 @@ export default function RenameSnapshotModal({
       initialFocus="#duplicateName"
     >
       <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-        Rename Snapshot?
+        Rename Snapshot &quot;{selectedProjectName}&quot;
       </div>
       <div style={theme.typography.subHeading}>
         What would you like to rename your snapshot to?
       </div>
       <div style={{ margin: "1.5rem 2.5rem 1.5rem 0.75rem" }}>
         <input
-          placeholder="Name of Duplicated Project"
+          placeholder="New project name for snapshot"
           type="text"
           id="duplicateName"
           name="duplicateName"
@@ -60,6 +58,7 @@ export default function RenameSnapshotModal({
           onClick={() => onClose("ok", snapshotProjectName)}
           variant="contained"
           color={"colorPrimary"}
+          disabled={!snapshotProjectName}
         >
           Done
         </Button>

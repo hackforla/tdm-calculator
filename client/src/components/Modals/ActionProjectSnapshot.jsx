@@ -29,9 +29,7 @@ export default function SnapshotProjectModal({
 }) {
   const theme = useTheme();
   const classes = useStyles({ theme });
-  const [snapshotProjectName, setSnapshotProjectName] = useState(
-    `${selectedProjectName}`
-  );
+  const [snapshotProjectName, setSnapshotProjectName] = useState("");
 
   return (
     <ModalDialog
@@ -49,7 +47,7 @@ export default function SnapshotProjectModal({
       </div>
       <div style={{ margin: "1.5rem 2.5rem 1.5rem 0.75rem" }}>
         <input
-          placeholder="Name of Duplicated Project"
+          placeholder="Name of the Snapshot"
           type="text"
           id="duplicateName"
           name="duplicateName"
@@ -58,17 +56,13 @@ export default function SnapshotProjectModal({
         />
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button
-          className={classes.buttonColor}
-          onClick={onClose}
-          variant="contained"
-        >
+        <Button onClick={onClose} variant="secondary">
           Cancel
         </Button>
         <Button
-          className={classes.buttonColor}
           onClick={() => onClose("ok", snapshotProjectName)}
-          variant="contained"
+          variant="primary"
+          disabled={!snapshotProjectName}
         >
           Done
         </Button>
