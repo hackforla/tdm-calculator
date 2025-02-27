@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Lists out information that would be help developers quickly identify and fix
-  potentail problems.
+  potential problems.
 title: 'Bug: '
 labels: 'bug, feature: missing, level: missing, milestone: missing, priority: MUST
   HAVE, role: missing, size: missing'
@@ -9,49 +9,39 @@ assignees: ''
 
 ---
 
-#### Describe the bug 
-
-REPLACE THIS TEXT - A clear and concise description of what the bug is, who it affects, how it affects users.
-
-(optional) REPLACE THIS TEXT - What is the user's goal?
+#### Describe the bug
+<!-- REPLACE THIS TEXT - A clear and concise description of what the bug is, who it affects, how it affects users. (optional: what is the user's goal? -->
 
 
-#### Steps to reproduce the issue
-
-(if applicable, please specify platform (iOS, Android, Windows, Mac version) and brower)
-
-REPLACE THE FOLLOWNG TEXT:
+#### Steps to Reproduce
+<!-- REPLACE THE FOLLOWNG TEXT:
 - 1. Go to '...'
 - 2. Click on '....'
 - 3. Scroll down to '....'
 - 4. See error 
+-->
+1. 
+
+#### Actual Result
 
 
-#### What's the expected result?
+<details><summary></summary>
 
-REPLACE THIS TEXT - What is supposed to happen after following the above steps?
 
-(if you have a suggested solution, you can add it here)
+</details>
 
-#### What's the actual result?
+#### Expected Result
 
-REPLACE THIS TEXT - What is supposed actually happening after following the above steps?
 
-#### Additional details / screenshot
+#### Device Configuration
+- Device: 
+- OS version: 
+- Browser: 
+- Browser version: 
 
-REPLACE THIS TEXT - Screenshot (drag in)
-REPLACE THIS TEXT - Video recording (drag in)
-
-#### Device configuration
-
-REPLACE THE FOLLOWNG TEXT:
-- Device: [e.g. type of smartphone, tablet, desktop computer]
-- OS version: [e.g. iOS, Android version #]
-- Browser [e.g. Chrome, Firefox, Safari, etc.]
-- Browser version [e.g. 22]
-
----
-- [ ] Review with product and dev. Update if needed based on feedback
-- [ ] Once finalized, add before and after images to the [staging deck on this slide]() 
-   - [ ] if no slide has been made, make one in [the staging deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg)
+#### Action Items
+- [ ] Fix bug.
+- [ ] Review with development lead.
+- [ ] Review with product, development, and research teams. Update if needed based on feedback.
+- [ ] Once finalized, add a slide to [the staging deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg).
 - [ ] Get Stakeholder sign-off via the stakeholder meeting slide deck.
