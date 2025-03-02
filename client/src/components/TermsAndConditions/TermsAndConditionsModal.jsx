@@ -6,10 +6,11 @@ import PropTypes from "prop-types";
 import TermsAndConditionsContent from "./TermsAndConditionsContent";
 
 const useStyles = createUseStyles({
-  modalActions: {
+  buttonFlexBox: {
     display: "flex",
-    justifyContent: "flex-end",
-    margin: "42px auto"
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 0
   }
 });
 
@@ -29,7 +30,7 @@ const TermsAndConditionsModal = ({ hasAcceptedTerms, onAcceptTerms }) => {
         <TermsAndConditionsContent />
       </div>
 
-      <div className={classes.modalActions}>
+      <div className={classes.buttonFlexBox}>
         <Button
           id="cy-terms-decline"
           onClick={e => {
@@ -37,14 +38,14 @@ const TermsAndConditionsModal = ({ hasAcceptedTerms, onAcceptTerms }) => {
             window.location.href = "https://ladot.lacity.org/";
             // THIS WILL CLOSE THE MODAL IMPLICITLY
           }}
-          variant="outlined"
+          variant="secondary"
         >
           Decline and exit site
         </Button>
 
         <Button
           id="cy-terms-accept"
-          color="colorPrimary"
+          variant="primary"
           onClick={e => {
             e.preventDefault();
             onAcceptTerms();

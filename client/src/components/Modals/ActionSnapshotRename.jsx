@@ -21,7 +21,8 @@ const useStyles = createUseStyles(theme => ({
   subheading: {
     ...theme.typography.subHeading,
     marginTop: "1rem",
-    marginBottom: "1rem"
+    marginBottom: "1rem",
+    width: "20rem"
   },
   icon: {
     height: "40px",
