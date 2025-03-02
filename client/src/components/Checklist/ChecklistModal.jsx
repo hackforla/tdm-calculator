@@ -1,6 +1,6 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
 import Modal from "react-modal";
+import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
 import { MdClose } from "react-icons/md";
@@ -16,6 +16,7 @@ const useStyles = createUseStyles({
   close: {
     display: "flex",
     justifyContent: "flex-end",
+    marginBottom: "0",
     border: "0 solid white",
     backgroundColor: "transparent",
     "&:hover": {
@@ -39,9 +40,9 @@ const modalStyleDefaultOverrides = {
     fontWeight: "normal"
   },
   content: {
-    maxWidth: "90vw",
-    minWidth: "40vw",
-    padding: "1rem",
+    // maxWidth: "90vw",
+    // minWidth: "40vw",
+    padding: "0.5rem",
     position: "relative",
     display: "flex",
     flexDirection: "column",
@@ -67,9 +68,9 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
       style={modalStyleDefaultOverrides}
       className={classes.modal}
     >
-      <span className={classes.close} onClick={toggleChecklistModal}>
+      <div className={classes.close} onClick={toggleChecklistModal}>
         <MdClose />
-      </span>
+      </div>
       <ChecklistContent />
     </Modal>
   );

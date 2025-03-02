@@ -4,7 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import Button from "../Button/Button";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import * as projectShareService from "../../services/projectShare.service";
-import { MdCameraAlt } from "react-icons/md";
+import { MdCameraAlt, MdWarning } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   buttonFlexBox: {
@@ -25,6 +25,12 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colorBlack,
     marginBottom: "0",
     verticalAlign: "middle"
+  },
+  unshareIcon: {
+    height: "80px",
+    width: "80px",
+    color: theme.colorCritical,
+    marginBottom: "-1rem"
   },
   buttonDisabled: {
     cursor: "default"
@@ -223,7 +229,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
               )}
               <div
                 className={classes.buttonFlexBox}
-                style={{ justifyContent: "right" }}
+                style={{ justifyContent: "center" }}
               >
                 <Button
                   className={maybeDisabled}
@@ -316,7 +322,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 className={classes.buttonFlexBox}
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-between"
+                  justifyContent: "center"
                 }}
               >
                 <Button
@@ -358,9 +364,9 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
               className={classes.heading1}
               style={{ marginBottom: "1.5rem" }}
             >
-              <MdCameraAlt className={classes.icon} />
-              Confirm Unsharing
+              <MdWarning className={classes.unshareIcon} />
             </div>
+            <h1 className={classes.heading1}>Confirm Unsharing</h1>
             <div className={classes.viewPermissionsList}>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 Are you sure you want to remove {selectedEmail.email} from
