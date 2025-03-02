@@ -71,6 +71,26 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
     </li>
   );
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const tooltip = document.querySelector(".popup-content");
+      const loginButton = document.getElementById("cy-login-menu-item");
+      if (tooltip && loginButton) {
+        const rect = loginButton.getBoundingClientRect();
+        tooltip.style.top = `${Math.floor(
+          rect.bottom + window.scrollY + 10
+        )}px`;
+      }
+    };
+
+    const scrollableElement = document.querySelector("#body");
+    scrollableElement.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return !account || !account.email ? (
     !isCalculation ? (
       <li className={clsx(classes.userLogin, classes.linkBlock)}>
@@ -82,7 +102,6 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           open={tooltipOpen}
           onClose={closeModal}
           closeOnDocumentClick={false}
-          lockScroll={true}
           trigger={<span style={{ cursor: "pointer" }}>{loginLink}</span>}
           position="bottom right"
           arrow={true}
