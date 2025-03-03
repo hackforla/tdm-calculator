@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
-// import DatePickerCustomInput from "./DatePickerCustomInput";
 import { createUseStyles } from "react-jss";
 
 // TODO: we want the calendar popup to appear as if it were in the normal CSS flow.
