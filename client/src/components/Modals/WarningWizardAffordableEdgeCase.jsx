@@ -3,22 +3,19 @@ import PropTypes from "prop-types";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
-import { MdError } from "react-icons/md";
+import { MdWarning } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
-  contentFlexBox: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    margin: 0
-  },
   container: {
-    width: "80%",
-    maxWidth: "35rem",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-end",
-    margin: 0
+    alignItems: "center"
+  },
+  warningIcon: {
+    height: "80px",
+    width: "80px",
+    color: theme.colorCritical,
+    textAlign: "center"
   },
   buttonFlexBox: {
     display: "flex",
@@ -26,49 +23,29 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "center",
     margin: 0
   },
-  modalHeader: theme.typography.heading1,
-  modalSubHeader: theme.typography.subHeading,
-  instruction: {
-    fontSize: "20px",
-    lineHeight: "32px",
-    textAlign: "center",
-    color: "#B64E38",
-    "& span": {
-      fontStyle: "italic"
-    }
-  }
+  heading1: theme.typography.heading1,
+  text: { ...theme.typography.paragraph1, width: "3       0rem" }
 }));
 
 const AffordableEdgeCaseModal = ({ isOpen, onClose, onYes }) => {
   const classes = useStyles();
   return (
     <ModalDialog mounted={isOpen} onClose={onClose} omitCloseBox={true}>
-      <div className={classes.contentFlexBox}>
-        <div className={classes.container}>
-          <div
-            className={classes.modalHeader}
-            style={{ marginBottom: "1.5rem" }}
-          >
-            <MdError
-              style={{
-                marginBottom: "-5px",
-                color: "#C35302",
-                height: "80px",
-                width: "5rem"
-              }}
-            />
-          </div>
-          <div className={classes.modalSubHeader}>
-            {`100% affordable housing of less than 50 units are exempt from the TDM Ordinance. Did you intend to change to 100% Affordable Housing?`}
-          </div>
-          <div className={classes.buttonFlexBox}>
-            <Button onClick={onClose} variant="outlined" id="cancelButton">
-              NO
-            </Button>
-            <Button onClick={onYes} variant="contained" color={"colorPrimary"}>
-              YES
-            </Button>
-          </div>
+      <div className={classes.container}>
+        <div className={classes.modalHeader} style={{ marginBottom: "1.5rem" }}>
+          <MdWarning className={classes.warningIcon} />
+        </div>
+        <h1 className={classes.heading1}>100% Affordable Housing</h1>
+        <div className={classes.text}>
+          {`100% affordable housing of less than 50 units are exempt from the TDM Ordinance. Did you intend to change to 100% Affordable Housing?`}
+        </div>
+        <div className={classes.buttonFlexBox}>
+          <Button onClick={onClose} variant="secondary" id="cancelButton">
+            NO
+          </Button>
+          <Button onClick={onYes} variant="warning" color={"colorPrimary"}>
+            YES
+          </Button>
         </div>
       </div>
     </ModalDialog>

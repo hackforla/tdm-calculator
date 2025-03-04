@@ -111,7 +111,7 @@ const CsvModal = ({
             <div style={theme.typography.subHeading}>
               Choose a set of Projects to include
             </div>
-            <div style={{ marginLeft: "30%", width: "35%" }}>
+            <div style={{ marginLeft: "10%", width: "35%" }}>
               {checkedProjects && checkedProjects.length > 0 && (
                 <div style={{ margin: "0.5em" }}>
                   <RadioButton
