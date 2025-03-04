@@ -17,7 +17,8 @@ const useStyles = createUseStyles(theme => ({
   subheading: {
     ...theme.typography.subHeading,
     marginTop: "1rem",
-    marginBottom: "1rem"
+    marginBottom: "1rem",
+    textAlign: "center"
   },
   icon: {
     height: "40px",
@@ -52,7 +53,10 @@ export default function SnapshotProjectModal({
           Once converted, this project draft will no longer be in an editable
           state
         </div>
-        <div className={classes.subheading} style={{ width: "75%" }}>
+        <div
+          className={classes.subheading}
+          style={{ marginLeft: "10%", marginRight: "10%" }}
+        >
           <input
             placeholder="Name of the Snapshot"
             type="text"
