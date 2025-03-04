@@ -34,7 +34,7 @@ export const useStyles = createUseStyles(theme => ({
   errorMessage: {
     margin: "8px auto",
     width: "403px",
-    color: theme.colorWarning
+    color: theme.colorCritical
   },
   authText: {
     color: theme.colors.secondary.gray,
