@@ -39,6 +39,9 @@ const useStyles = createUseStyles(theme => ({
     padding: "0",
     background: "none"
   },
+  showPointer: {
+    cursor: "pointer"
+  },
   multiStatus: {
     color: theme.colors.primary.navy
   }
@@ -129,7 +132,7 @@ const MultiProjectToolbarMenu = ({
           <li>
             <button
               id="csv-btn"
-              className={classes.button}
+              className={`${classes.button} ${classes.showPointer}`}
               onClick={handleComputeTotals}
             >
               T
@@ -139,7 +142,7 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="csv-btn"
-            className={classes.button}
+            className={`${classes.button} ${classes.showPointer}`}
             onClick={handleCsvModalOpen}
           >
             <FaFileCsv />
@@ -148,7 +151,9 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="print-btn"
-            className={classes.button}
+            className={`${classes.button} ${
+              checkedProjectIds.length === 1 && classes.showPointer
+            }`}
             onClick={handlePrintPdf}
             disabled={checkedProjectIds.length !== 1}
           >
@@ -186,7 +191,9 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="hide-btn"
-            className={classes.button}
+            className={`${classes.button} ${
+              !isHideBtnDisabled && classes.showPointer
+            }`}
             disabled={isHideBtnDisabled}
             onClick={handleHideBoxes}
           >
@@ -220,7 +227,9 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="delete-btn"
-            className={classes.button}
+            className={`${classes.button} ${
+              !isDelBtnDisabled && classes.showPointer
+            }`}
             disabled={isDelBtnDisabled}
             onClick={handleDeleteModalOpen}
           >
