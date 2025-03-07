@@ -14,6 +14,9 @@ const useStyles = createUseStyles({
   },
   authText: {
     color: "#979797"
+  },
+  invalidFeedback: {
+    color: "#ff0418"
   }
 });
 
@@ -121,7 +124,7 @@ const Register = props => {
                     <ErrorMessage
                       name="firstName"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.invalidFeedback}
                     />
                   </div>
                   <div className="form-group">
@@ -136,7 +139,7 @@ const Register = props => {
                     <ErrorMessage
                       name="lastName"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.invalidFeedback}
                     />
                   </div>
                   <div className="form-group">
@@ -151,7 +154,7 @@ const Register = props => {
                     <ErrorMessage
                       name="email"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.invalidFeedback}
                     />
                   </div>
                   <div className="form-group">
@@ -167,7 +170,7 @@ const Register = props => {
                     <ErrorMessage
                       name="password"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.invalidFeedback}
                     />
                   </div>
                   <div className="form-group">
@@ -185,7 +188,7 @@ const Register = props => {
                     <ErrorMessage
                       name="passwordConfirm"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.invalidFeedback}
                     />
                   </div>
 
