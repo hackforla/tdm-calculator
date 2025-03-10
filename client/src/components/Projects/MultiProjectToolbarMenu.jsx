@@ -41,6 +41,9 @@ const useStyles = createUseStyles(theme => ({
     padding: "0",
     background: "none"
   },
+  showPointer: {
+    cursor: "pointer"
+  },
   multiStatus: {
     ...theme.typography.subHeading,
     color: theme.colors.primary.navy,
@@ -145,7 +148,7 @@ const MultiProjectToolbarMenu = ({
           <li>
             <button
               id="csv-btn"
-              className={classes.button}
+              className={`${classes.button} ${classes.showPointer}`}
               onClick={handleComputeTotals}
             >
               T
@@ -155,8 +158,8 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="csv-btn"
+            className={`${classes.buttonStyle} ${classes.showPointer}`}
             onClick={handleCsvModalOpen}
-            className={classes.buttonStyle}
           >
             <FaFileCsv className={classes.iconSmall} />
           </button>
@@ -164,7 +167,9 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="print-btn"
-            className={classes.buttonStyle}
+            className={`${classes.buttonStyle} ${
+              checkedProjectIds.length === 1 && classes.showPointer
+            }`}
             onClick={handlePrintPdf}
             disabled={checkedProjectIds.length !== 1}
           >
@@ -202,7 +207,9 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="hide-btn"
-            className={classes.buttonStyle}
+            className={`${classes.buttonStyle} ${
+              !isHideBtnDisabled && classes.showPointer
+            }`}
             disabled={isHideBtnDisabled}
             onClick={handleHideBoxes}
           >
@@ -236,7 +243,9 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="delete-btn"
-            className={classes.buttonStyle}
+            className={`${classes.buttonStyle} ${
+              !isDelBtnDisabled && classes.showPointer
+            }`}
             disabled={isDelBtnDisabled}
             onClick={handleDeleteModalOpen}
           >
