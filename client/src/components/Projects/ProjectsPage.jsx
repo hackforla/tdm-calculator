@@ -97,8 +97,10 @@ const useStyles = createUseStyles({
   },
   searchIcon: {
     position: "absolute",
-    left: "16px",
-    top: "14px"
+    left: "14px",
+    top: "10px",
+    height: "28px",
+    width: "28px"
   },
   table: {
     minWidth: "850px",
@@ -931,7 +933,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "flex-start",
+                  justifyContent: "space-between",
                   width: "100vw"
                 }}
               >
@@ -948,10 +950,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    alignSelf: "flex-end",
-                    marginLeft: "20px",
-                    justifyContent: "space-between",
-                    width: "80%"
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    flexBasis: "33%"
                   }}
                 >
                   <div className={classes.searchBarWrapper}>
@@ -966,15 +967,23 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     />
                     <MdOutlineSearch className={classes.searchIcon} />
                   </div>
-                  <div style={{ marginRight: "0.75em" }}>
-                    <TertiaryButton
-                      onClick={resetFiltersSort}
-                      style={{ height: "40px", marginRight: "1em" }}
-                      isDisplayed={true}
-                    >
-                      RESET FILTERS/SORT
-                    </TertiaryButton>
-                  </div>
+                </div>
+
+                <div
+                  style={{
+                    marginRight: "0 em",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    flexBasis: "33%"
+                  }}
+                >
+                  <TertiaryButton
+                    onClick={resetFiltersSort}
+                    style={{ height: "40px", marginRight: "1em" }}
+                    isDisplayed={true}
+                  >
+                    RESET FILTERS/SORT
+                  </TertiaryButton>
                 </div>
               </div>
               <div>
