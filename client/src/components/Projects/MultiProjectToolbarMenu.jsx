@@ -21,10 +21,12 @@ const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "flex-start",
     alignItems: "center",
     marginLeft: "0.5em",
     marginBottom: "-1em",
-    padding: "0 5em 0 0.5em "
+    padding: "0 3em 0 .5em ",
+    flexBasis: "33%"
   },
   list: {
     display: "flex",
@@ -43,7 +45,21 @@ const useStyles = createUseStyles(theme => ({
     cursor: "pointer"
   },
   multiStatus: {
-    color: theme.colors.primary.navy
+    ...theme.typography.subHeading,
+    color: theme.colors.primary.navy,
+    textAlign: "left"
+  },
+  buttonStyle: {
+    border: "none",
+    backgroundColor: "transparent"
+  },
+  iconSmall: {
+    height: "23.3px",
+    width: "23.3px"
+  },
+  icon: {
+    height: "28px",
+    width: "28px"
   }
 }));
 
@@ -142,22 +158,22 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="csv-btn"
-            className={`${classes.button} ${classes.showPointer}`}
+            className={`${classes.buttonStyle} ${classes.showPointer}`}
             onClick={handleCsvModalOpen}
           >
-            <FaFileCsv />
+            <FaFileCsv className={classes.iconSmall} />
           </button>
         </li>
         <li>
           <button
             id="print-btn"
-            className={`${classes.button} ${
+            className={`${classes.buttonStyle} ${
               checkedProjectIds.length === 1 && classes.showPointer
             }`}
             onClick={handlePrintPdf}
             disabled={checkedProjectIds.length !== 1}
           >
-            <MdPrint />
+            <MdPrint className={classes.icon} />
           </button>
           {checkedProjectIds.length !== 1 ? (
             <Tooltip
@@ -191,16 +207,16 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="hide-btn"
-            className={`${classes.button} ${
+            className={`${classes.buttonStyle} ${
               !isHideBtnDisabled && classes.showPointer
             }`}
             disabled={isHideBtnDisabled}
             onClick={handleHideBoxes}
           >
             {!checkedProjectsStatusData.dateHidden ? (
-              <MdVisibilityOff />
+              <MdVisibilityOff className={classes.icon} />
             ) : (
-              <MdVisibility />
+              <MdVisibility className={classes.icon} />
             )}
 
             <Tooltip
@@ -227,16 +243,22 @@ const MultiProjectToolbarMenu = ({
         <li>
           <button
             id="delete-btn"
-            className={`${classes.button} ${
+            className={`${classes.buttonStyle} ${
               !isDelBtnDisabled && classes.showPointer
             }`}
             disabled={isDelBtnDisabled}
             onClick={handleDeleteModalOpen}
           >
             {!checkedProjectsStatusData.dateTrashed ? (
-              <MdDelete color={isDelBtnDisabled ? "#1010104d" : "red"} />
+              <MdDelete
+                className={classes.icon}
+                color={isDelBtnDisabled ? "#1010104d" : "red"}
+              />
             ) : (
-              <MdRestoreFromTrash color={isDelBtnDisabled ? "#1010104d" : ""} />
+              <MdRestoreFromTrash
+                className={classes.icon}
+                color={isDelBtnDisabled ? "#1010104d" : ""}
+              />
             )}
             <Tooltip
               // Cannot use JSS, because Tooltip default styles would overwrite
