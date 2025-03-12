@@ -26,7 +26,8 @@ import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 const useStyles = createUseStyles(theme => ({
   td: {
     padding: "0.2em",
-    textAlign: "left"
+    textAlign: "left",
+    width: "5%"
   },
   tdRightAlign: {
     padding: "0.2em",
