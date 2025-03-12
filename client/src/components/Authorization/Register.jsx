@@ -1,28 +1,53 @@
 import React, { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import * as accountService from "../../services/account.service";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
 
-const useStyles = createUseStyles({
-  submitButton: {
-    float: "right"
+const useStyles = createUseStyles(theme => ({
+  authForm: {
+    minWidth: "500px",
+    maxWidth: "600px"
+  },
+  formGroup: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  textInput: {
+    boxSizing: "border-box",
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    marginTop: "1rem"
+  },
+  textInputInvalid: {
+    boxSizing: "border-box",
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    border: theme.border.dashedWarning,
+    marginTop: "1rem"
   },
   authText: {
-    color: "#979797"
+    color: theme.colorLightGray
   },
   invalidFeedback: {
-    color: "#ff0418"
+    color: theme.colorCritical
+  },
+  buttonsContainer: {
+    display: "flex",
+    justifyContent: "center"
   }
-});
+}));
 
 const Register = props => {
   const focusRef = useRef(null);
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const params = useParams();
   const initialValues = {
     firstName: "",
@@ -34,12 +59,6 @@ const Register = props => {
 
   const [errorMsg, setErrorMsg] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
-  // useEffect(() => {
-  //   if (focusRef.current) {
-  //     focusRef.current.focus();
-  //   }
-  // });
 
   const registerSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -88,18 +107,16 @@ const Register = props => {
       setErrorMsg(err.message);
       setSubmitting(false);
     }
-    // TODO: figure out if there is a scanrio where you actually
-    // want to reset the form, and move/copy the next line accordingly
-    //resetForm(initialValues);
   };
   return (
     <ContentContainer>
       {!submitted ? (
         <>
-          <h1>Create a New Account</h1>
-          <h3>Save your project information.</h3>
-          <br />
-          <div className="auth-form">
+          <h1 style={theme.typography.heading1}>Create a New Account</h1>
+          <div style={theme.typography.subHeading}>
+            Save your project information.
+          </div>
+          <div className={classes.authForm}>
             <Formik
               initialValues={initialValues}
               validationSchema={registerSchema}
@@ -109,98 +126,120 @@ const Register = props => {
             >
               {({ touched, errors, isSubmitting }) => (
                 <Form>
-                  <div className="form-group">
+                  <div>
                     <Field
                       type="text"
                       innerRef={focusRef}
                       name="firstName"
                       placeholder="First Name"
-                      className={`form-control ${
+                      className={
                         touched.firstName && errors.firstName
-                          ? "is-invalid"
-                          : ""
-                      }`}
+                          ? classes.textInputInvalid
+                          : classes.textInput
+                      }
                     />
                     <ErrorMessage
                       name="firstName"
                       component="div"
-                      className={classes.invalidFeedback}
+                      style={{
+                        marginTop: "0.5rem",
+                        color: theme.colorCritical
+                      }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div>
                     <Field
                       type="text"
                       name="lastName"
                       placeholder="Last Name"
-                      className={`form-control ${
-                        touched.lastName && errors.lastName ? "is-invalid" : ""
-                      }`}
+                      className={
+                        touched.lastName && errors.lastName
+                          ? classes.textInputInvalid
+                          : classes.textInput
+                      }
                     />
                     <ErrorMessage
                       name="lastName"
                       component="div"
-                      className={classes.invalidFeedback}
+                      style={{
+                        marginTop: "0.5rem",
+                        color: theme.colorCritical
+                      }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div>
                     <Field
                       type="email"
                       name="email"
                       placeholder="Email"
-                      className={`form-control ${
-                        touched.email && errors.email ? "is-invalid" : ""
-                      }`}
+                      className={
+                        touched.email && errors.email
+                          ? classes.textInputInvalid
+                          : classes.textInput
+                      }
                     />
                     <ErrorMessage
                       name="email"
                       component="div"
-                      className={classes.invalidFeedback}
+                      style={{
+                        marginTop: "0.5rem",
+                        color: theme.colorCritical
+                      }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div>
                     <Field
                       type="password"
                       name="password"
                       placeholder="Password"
                       autocomplete="new-password"
-                      className={`form-control ${
-                        touched.password && errors.password ? "is-invalid" : ""
-                      }`}
+                      className={
+                        touched.password && errors.password
+                          ? classes.textInputInvalid
+                          : classes.textInput
+                      }
                     />
                     <ErrorMessage
                       name="password"
                       component="div"
-                      className={classes.invalidFeedback}
+                      style={{
+                        marginTop: "0.5rem",
+                        color: theme.colorCritical
+                      }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div>
                     <Field
                       type="password"
                       name="passwordConfirm"
                       placeholder="Retype Password"
                       autocomplete="new-password"
-                      className={`form-control ${
+                      className={
                         touched.passwordConfirm && errors.passwordConfirm
-                          ? "is-invalid"
-                          : ""
-                      }`}
+                          ? classes.textInputInvalid
+                          : classes.textInput
+                      }
                     />
                     <ErrorMessage
                       name="passwordConfirm"
                       component="div"
-                      className={classes.invalidFeedback}
+                      style={{
+                        marginTop: "0.5rem",
+                        color: theme.colorCritical
+                      }}
                     />
                   </div>
-
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    color="colorPrimary"
-                    className={classes.submitButton}
-                  >
-                    {isSubmitting ? "Please wait..." : "Create Account"}
-                  </Button>
-                  <div className="warning">
+                  <div className={classes.buttonsContainer}>
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      variant="primary"
+                      style={{ margin: "auto" }}
+                    >
+                      {isSubmitting ? "Please wait..." : "Create Account"}
+                    </Button>
+                  </div>
+                  <div className={classes.invalidFeedback}>
                     <br />
                     {errorMsg}
                   </div>
@@ -219,8 +258,6 @@ const Register = props => {
           </h2>
         </>
       )}
-      <br />
-      <br />
       {submitted ? null : (
         <div className={classes.authText}>
           Already have an account? &nbsp;{" "}

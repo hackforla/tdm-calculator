@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -33,10 +33,6 @@ const ResetPassword = () => {
   const token = params.token;
   const classes = useStyles();
   const toast = useToast();
-
-  useEffect(() => {
-    focusRef.current.focus();
-  });
 
   const handleSubmit = async ({ token, password }, { setFieldError }) => {
     const submitResponse = await accountService.resetPassword({

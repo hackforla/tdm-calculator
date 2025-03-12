@@ -9,9 +9,11 @@ import clsx from "clsx";
 
 export const useStyles = createUseStyles(theme => ({
   pageTitle: {
+    ...theme.typography.heading1,
     marginBottom: "16px"
   },
   subTitle: {
+    ...theme.typography.subHeading,
     marginBottom: "32px",
     textAlign: "center"
   },
@@ -23,17 +25,19 @@ export const useStyles = createUseStyles(theme => ({
     alignItems: "center"
   },
   inputField: {
-    width: "403px",
-    height: "30px",
-    border: "1px solid" + theme.colors.secondary.gray,
-    marginTop: "8px"
+    width: "30rem",
+    boxSizing: "border-box",
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    marginTop: "1rem"
   },
   error: {
-    borderColor: theme.colorWarning
+    border: theme.border.dashedWarning
   },
   errorMessage: {
     margin: "8px auto",
-    width: "403px",
+    width: "30rem",
     color: theme.colorCritical
   },
   authText: {
@@ -57,11 +61,11 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
     <>
       <h1 className={classes.pageTitle}>Send {label} Email</h1>
       <div className={classes.subTitle}>
-        <h3>
+        <p>
           Please enter the email registered with your account, or if you have
           recently updated your email, provide the new one below.
-        </h3>
-        <h3>An email containing further instructions will be sent to you.</h3>
+        </p>
+        <p>An email containing further instructions will be sent to you.</p>
       </div>
       <Formik
         initialValues={{ email: "" }}
@@ -89,9 +93,14 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
                 <ErrorMessage
                   name="email"
                   component="div"
+                  style={{
+                    margin: "0.5rem 0 0 1.5rem",
+                    width: "30rem",
+                    color: theme.colorCritical
+                  }}
                   className={classes.errorMessage}
                 />
-                <Button type="submit" color="colorPrimary">
+                <Button type="submit" variant="primary">
                   Send Email
                 </Button>
               </div>

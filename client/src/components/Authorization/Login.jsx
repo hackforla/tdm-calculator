@@ -9,25 +9,61 @@ import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
 
 const useStyles = createUseStyles(theme => ({
+  authForm: {
+    minWidth: "500px",
+    maxWidth: "600px"
+  },
+  formGroup: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  textInput: {
+    boxSizing: "border-box",
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    marginTop: "1rem"
+  },
+  textInputInvalid: {
+    boxSizing: "border-box",
+    flexBasis: "50%",
+    flexGrow: "1",
+    flexShrink: "1",
+    border: theme.border.dashedWarning,
+    marginTop: "1rem"
+  },
+  authText: {
+    color: theme.colorLightGray
+  },
   warningText: {
-    ...theme.typography.paragraph1,
-    color: theme.colors.warning,
-    textAlign: "left"
+    color: theme.colorCritical
   },
   buttonsContainer: {
     display: "flex",
     justifyContent: "flex-end",
     margin: "16px auto"
-  },
-  warning: {
-    color: "red",
-    textAlign: "center",
-    marginBottom: "2em"
   }
 }));
 
+// const useStyles = createUseStyles(theme => ({
+//   warningText: {
+//     ...theme.typography.paragraph1,
+//     color: theme.colors.warning,
+//     textAlign: "left"
+//   },
+
+//   warning: {
+//     color: "red",
+//     textAlign: "center",
+//     marginBottom: "2em"
+//   }
+// }));
+
 const Login = () => {
   const focusRef = useRef(null);
+  const theme = useTheme();
+  const classes = useStyles(theme);
+  const params = useParams();
   const userContext = useContext(UserContext);
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -37,9 +73,7 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [withoutSavingWarningIsVisible, setWithoutSavingWarningIsVisible] =
     useState(false);
-  const classes = useStyles();
-  const theme = useTheme();
-  const params = useParams();
+
   const initialValues = {
     email: params.email ? decodeURIComponent(params.email) : "",
     password: ""
@@ -109,14 +143,13 @@ const Login = () => {
 
   return (
     <ContentContainer>
-      <div style={theme.typography.heading1}>
-        <span>Welcome to Los Angeles&rsquo; TDM Calculator</span>
-      </div>
+      <h1 style={theme.typography.heading1}>
+        Welcome to Los Angeles&rsquo; TDM Calculator
+      </h1>
       <div style={theme.typography.subHeading}>
-        <span>Please sign into your account to save progress</span>
+        Please sign into your account to save progress
       </div>
-      <br />
-      <div className="auth-form">
+      <div className={classes.authForm}>
         <Formik
           initialValues={initialValues}
           validationSchema={loginSchema}
@@ -133,7 +166,7 @@ const Login = () => {
 
             return (
               <Form>
-                <div className="form-group">
+                <div>
                   <Field
                     id="cy-login-email"
                     innerRef={focusRef}
@@ -142,17 +175,22 @@ const Login = () => {
                     name="email"
                     value={values.email}
                     placeholder="Email Address"
-                    className={`form-control ${
-                      touched.email && errors.email ? "is-invalid" : ""
-                    }`}
+                    className={
+                      touched.email && errors.email
+                        ? classes.textInputInvalid
+                        : classes.textInput
+                    }
                   />
                   <ErrorMessage
                     name="email"
                     component="div"
-                    className={classes.warningText}
+                    style={{
+                      marginTop: "0.5rem",
+                      color: theme.colorCritical
+                    }}
                   />
                 </div>
-                <div className="form-group">
+                <div>
                   <Field
                     id="cy-login-password"
                     type="password"
@@ -160,14 +198,19 @@ const Login = () => {
                     value={values.password}
                     name="password"
                     placeholder="Password"
-                    className={`form-control ${
-                      touched.password && errors.password ? "is-invalid" : ""
-                    }`}
+                    className={
+                      touched.password && errors.password
+                        ? classes.textInputInvalid
+                        : classes.textInput
+                    }
                   />
                   <ErrorMessage
                     name="password"
                     component="div"
-                    className={classes.warningText}
+                    style={{
+                      marginTop: "0.5rem",
+                      color: theme.colorCritical
+                    }}
                   />
                 </div>
                 <Link
@@ -183,8 +226,7 @@ const Login = () => {
                     onMouseOut={() => setWithoutSavingWarningIsVisible(false)}
                   >
                     <Button
-                      color="colorDefault"
-                      variant="outlined"
+                      variant="secondary"
                       onClick={() => {
                         navigate("/calculation/1/0");
                       }}
@@ -196,7 +238,7 @@ const Login = () => {
                     id="cy-login-submit"
                     type="submit"
                     disabled={isDisabled}
-                    color="colorPrimary"
+                    variant="primary"
                   >
                     {isSubmitting ? "Please wait..." : "Login"}
                   </Button>
