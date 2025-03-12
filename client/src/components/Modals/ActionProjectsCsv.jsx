@@ -52,10 +52,10 @@ const CsvModal = ({
   const [csvData, setCsvData] = useState(null);
   const [projectCollection, setProjectCollection] = useState("");
   const [loading, setLoading] = useState(false);
-  const [filename, setFilename] = useState("");
+  const [filename, setFilename] = useState(new Date().toISOString());
   const [progress, setProgress] = useState(0);
 
-  if (filename === "") {
+  if (filename === "dummy") {
     setFilename(new Date().toISOString());
   }
 
@@ -93,7 +93,7 @@ const CsvModal = ({
         onClose();
         setCsvData(null);
         setProjectCollection("");
-        setFilename("");
+        setFilename("dummy");
       }}
       initialFocus="#filename"
     >
@@ -168,7 +168,7 @@ const CsvModal = ({
                 onClose();
                 setCsvData(null);
                 setProjectCollection("");
-                setFilename("");
+                setFilename("dummy");
               }}
               variant="secondary"
               id="cancelButton"
@@ -176,11 +176,14 @@ const CsvModal = ({
               Cancel
             </Button>
 
-            {(project || projectCollection) && !loading && !csvData && (
-              <Button onClick={handleGenerateButton} variant="primary">
-                Generate File
-              </Button>
-            )}
+            {(project || projectCollection) &&
+              !loading &&
+              !csvData &&
+              !!filename && (
+                <Button onClick={handleGenerateButton} variant="primary">
+                  Generate File
+                </Button>
+              )}
 
             {(project || projectCollection) && !loading && csvData ? (
               <CSVLink
