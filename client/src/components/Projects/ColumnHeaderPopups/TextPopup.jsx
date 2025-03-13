@@ -104,7 +104,7 @@ const TextPopup = ({
     selectOptions.push("No DRO Assigned");
   } else if (property === "author") {
     selectOptions = [
-      ...new Set(filteredProjects.map(p => `${p.lastName}, ${p.firstName}`))
+      ...new Set(filteredProjects.map(p => `${p.firstName} ${p.lastName}`))
     ]
       .filter(value => value !== null)
       .sort(
