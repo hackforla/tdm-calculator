@@ -7,6 +7,7 @@ import * as ruleService from "../../services/rule.service";
 import * as projectService from "../../services/project.service";
 import Engine from "../../services/tdm-engine";
 import { useToast } from "../../contexts/Toast";
+import CopyAndEditSnapshotModal from "../Modals/ActionCopyAndEditSnapshot";
 // import { formatDatetime } from "../../helpers/util";
 
 // These are the calculation results we want to calculate
@@ -543,34 +544,78 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     }
   };
 
+  const [showCopyAndEditSnapshot, setShowCopyAndEditSnapshot] = useState(false);
+  const isSnapshotOwner = project?.loginId === account?.id;
+
+  const copyAndEditSnapshot = async nameOfCopy => {
+    if (!projectIsValid()) {
+      toast.add("Some project inputs are missing or invalid. Save failed.");
+      return;
+    }
+
+    formInputs.PROJECT_NAME = nameOfCopy;
+
+    const inputsToSave = { ...formInputs };
+
+    const requestBody = {
+      name: formInputs.PROJECT_NAME,
+      address: formInputs.PROJECT_ADDRESS,
+      description: formInputs.PROJECT_DESCRIPTION,
+      formInputs: JSON.stringify(inputsToSave),
+      targetPoints: getRuleByCode("TARGET_POINTS_PARK").value,
+      earnedPoints: getRuleByCode("PTS_EARNED").value,
+      projectLevel: getRuleByCode("PROJECT_LEVEL").value,
+      loginId: account.id,
+      calculationId: TdmCalculationContainer.calculationId
+    };
+
+    try {
+      const postResponse = await projectService.post(requestBody);
+
+      return postResponse.data.id;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <TdmCalculationWizard
-      projectLevel={projectLevel}
-      rules={rules}
-      partialAINInput={partialAIN}
-      onInputChange={onInputChange}
-      onPartialAINChange={onPartialAINChange}
-      onCommentChange={onCommentChange}
-      onUncheckAll={onUncheckAll}
-      onResetProject={onResetProject}
-      initializeStrategies={initializeStrategies}
-      filters={filters}
-      onPkgSelect={onPkgSelect}
-      onParkingProvidedChange={onParkingProvidedChange}
-      resultRuleCodes={resultRuleCodes}
-      onSave={onSave}
-      allowResidentialPackage={allowResidentialPackage}
-      allowSchoolPackage={allowSchoolPackage}
-      residentialPackageSelected={residentialPackageSelected}
-      schoolPackageSelected={schoolPackageSelected}
-      formIsDirty={!formHasSaved}
-      projectIsValid={projectIsValid}
-      contentContainerRef={contentContainerRef}
-      inapplicableStrategiesModal={inapplicableStrategiesModal}
-      closeStrategiesModal={closeStrategiesModal}
-      project={project}
-      shareView={shareView}
-    />
+    <>
+      <TdmCalculationWizard
+        projectLevel={projectLevel}
+        rules={rules}
+        partialAINInput={partialAIN}
+        onInputChange={onInputChange}
+        onPartialAINChange={onPartialAINChange}
+        onCommentChange={onCommentChange}
+        onUncheckAll={onUncheckAll}
+        onResetProject={onResetProject}
+        initializeStrategies={initializeStrategies}
+        filters={filters}
+        onPkgSelect={onPkgSelect}
+        onParkingProvidedChange={onParkingProvidedChange}
+        resultRuleCodes={resultRuleCodes}
+        onSave={onSave}
+        showCopyAndEditSnapshot={() => setShowCopyAndEditSnapshot(true)}
+        allowResidentialPackage={allowResidentialPackage}
+        allowSchoolPackage={allowSchoolPackage}
+        residentialPackageSelected={residentialPackageSelected}
+        schoolPackageSelected={schoolPackageSelected}
+        formIsDirty={!formHasSaved}
+        projectIsValid={projectIsValid}
+        contentContainerRef={contentContainerRef}
+        inapplicableStrategiesModal={inapplicableStrategiesModal}
+        closeStrategiesModal={closeStrategiesModal}
+        project={project}
+        shareView={shareView}
+      />
+      <CopyAndEditSnapshotModal
+        mounted={showCopyAndEditSnapshot}
+        onClose={() => setShowCopyAndEditSnapshot(false)}
+        isSnapshotOwner={isSnapshotOwner}
+        copyAndEditSnapshot={copyAndEditSnapshot}
+        projectName={project.name}
+      />
+    </>
   );
 }
 

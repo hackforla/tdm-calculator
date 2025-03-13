@@ -58,6 +58,7 @@ const TdmCalculationWizard = props => {
     inapplicableStrategiesModal,
     closeStrategiesModal,
     project,
+    showCopyAndEditSnapshot,
     shareView
   } = props;
   const classes = useStyles();
@@ -203,12 +204,7 @@ const TdmCalculationWizard = props => {
     return !shareView && setDisplayed;
   };
 
-  const setDisplayPrintButton = () => {
-    if (page === 5) {
-      return true;
-    }
-    return false;
-  };
+  const isFinalPage = page === 5;
 
   const setDisplaySubmitButton = () => {
     if (page === 5 && !shareView) {
@@ -347,11 +343,12 @@ const TdmCalculationWizard = props => {
           page={page}
           onPageChange={onPageChange}
           pageNumber={page}
+          isFinalPage={isFinalPage}
           setDisabledForNextNavButton={setDisabledForNextNavButton}
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
-          setDisplayPrintButton={setDisplayPrintButton}
           setDisplaySubmitButton={setDisplaySubmitButton}
+          showCopyAndEditSnapshot={showCopyAndEditSnapshot}
           onSave={onSave}
           project={project}
           shareView={shareView}
@@ -407,6 +404,7 @@ TdmCalculationWizard.propTypes = {
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
   project: PropTypes.any,
+  showCopyAndEditSnapshot: PropTypes.func,
   shareView: PropTypes.bool
 };
 
