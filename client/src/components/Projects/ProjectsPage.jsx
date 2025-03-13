@@ -693,7 +693,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
 
     // fullName attr allows searching by full name, not just by first or last name
-    p["fullname"] = `${p["firstName"]} ${p["lastName"]}`;
+    p["fullname"] = `${p["lastName"]}, ${p["firstName"]}`;
     if (
       criteria.author &&
       !p.fullname.toLowerCase().includes(criteria.author.toLowerCase())
