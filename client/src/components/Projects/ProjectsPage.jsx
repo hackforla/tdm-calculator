@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, memo } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -102,9 +102,15 @@ const useStyles = createUseStyles({
     height: "28px",
     width: "28px"
   },
+  tableAdmin: {
+    minWidth: "135rem",
+    width: "135rem",
+    tableLayout: "fixed"
+  },
   table: {
-    minWidth: "850px",
-    width: "100%"
+    minWidth: "110rem",
+    width: "110rem",
+    tableLayout: "fixed"
   },
   tr: {
     margin: "0.5em"
@@ -298,7 +304,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     fetchRules().catch(console.error);
   }, [checkedProjectIds, checkedProjectsStatusData]);
 
-  const MemoizedMultiProjectToolbar = memo(MultiProjectToolbarMenu);
+  // const MemoizedMultiProjectToolbar = memo(MultiProjectToolbarMenu);
 
   const selectedProjectName = (() => {
     if (!selectedProject || !selectedProject.formInputs) {
@@ -687,7 +693,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
 
     // fullName attr allows searching by full name, not just by first or last name
-    p["fullname"] = `${p["firstName"]} ${p["lastName"]}`;
+    p["fullname"] = `${p["lastName"]}, ${p["firstName"]}`;
     if (
       criteria.author &&
       !p.fullname.toLowerCase().includes(criteria.author.toLowerCase())
@@ -831,48 +837,60 @@ const ProjectsPage = ({ contentContainerRef }) => {
           checked={selectAllChecked}
           onChange={handleHeaderCheckbox}
         />
-      )
+      ),
+      colWidth: "3rem"
     },
     {
       id: "dateHidden",
       label: "Visibility",
-      popupType: "visibility"
+      popupType: "visibility",
+      colWidth: "7rem"
     },
     {
       id: "dateSnapshotted",
       label: "Status",
-      popupType: "status"
+      popupType: "status",
+      colWidth: "7rem"
     },
-    { id: "name", label: "Name", popupType: "text" },
-    { id: "address", label: "Address", popupType: "text" },
-    { id: "alternative", label: "Alternative Number", popupType: "text" },
-    { id: "author", label: "Created By", popupType: "text" },
+    { id: "name", label: "Name", popupType: "text", colWidth: "20rem" },
+    { id: "address", label: "Address", popupType: "text", colWidth: "20rem" },
+    {
+      id: "alternative",
+      label: "Alt No.",
+      popupType: "text",
+      colWidth: "10rem"
+    },
+    { id: "author", label: "Created By", popupType: "text", colWidth: "15rem" },
     {
       id: "dateCreated",
       label: "Created On",
       popupType: "datetime",
       startDatePropertyName: "startDateCreated",
-      endDatePropertyName: "endDateCreated"
+      endDatePropertyName: "endDateCreated",
+      colWidth: "8rem"
     },
     {
       id: "dateModified",
-      label: "Last Modified",
+      label: "Last Saved",
       popupType: "datetime",
       startDatePropertyName: "startDateModified",
-      endDatePropertyName: "endDateModified"
+      endDatePropertyName: "endDateModified",
+      colWidth: "8rem"
     },
     {
       id: "dateSubmitted",
       label: "Submitted",
       popupType: "datetime",
       startDatePropertyName: "startDateSubmitted",
-      endDatePropertyName: "endDateSubmitted"
+      endDatePropertyName: "endDateSubmitted",
+      colWidth: "10rem"
     },
     {
       id: "dro",
       label: "DRO",
       popupType: "text",
-      accessor: "droName"
+      accessor: "droName",
+      colWidth: "10rem"
     },
 
     ...(userContext.account?.isAdmin
@@ -881,18 +899,21 @@ const ProjectsPage = ({ contentContainerRef }) => {
             id: "adminNotes",
             label: "Admin Notes",
             popupType: "text",
-            accessor: "adminNotes"
+            accessor: "adminNotes",
+            colWidth: "10rem"
           },
           {
             id: "dateModifiedAdmin",
-            label: "Date Admin Modified",
-            popupType: "datetime"
+            label: "Date Admin Saved",
+            popupType: "datetime",
+            colWidth: "15rem"
           }
         ]
       : []),
     {
       id: "contextMenu",
-      label: ""
+      label: "",
+      colWidth: "3rem"
     }
   ];
 
@@ -937,7 +958,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   width: "100vw"
                 }}
               >
-                <MemoizedMultiProjectToolbar
+                <MultiProjectToolbarMenu
                   handleHideBoxes={handleHide}
                   handleCsvModalOpen={handleCsvModalOpen}
                   handleDeleteModalOpen={handleDeleteModalOpen}
@@ -971,24 +992,31 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
                 <div
                   style={{
-                    marginRight: "0 em",
+                    paddingRight: "1.5em",
                     display: "flex",
                     justifyContent: "flex-end",
                     flexBasis: "33%"
                   }}
                 >
-                  <TertiaryButton
-                    onClick={resetFiltersSort}
-                    style={{ height: "40px", marginRight: "1em" }}
-                    isDisplayed={true}
-                  >
+                  <TertiaryButton onClick={resetFiltersSort} isDisplayed={true}>
                     RESET FILTERS/SORT
                   </TertiaryButton>
                 </div>
               </div>
               <div>
                 <div className={classes.tableContainer}>
-                  <table className={classes.table}>
+                  <table
+                    className={
+                      userContext.account?.isAdmin
+                        ? classes.tableAdmin
+                        : classes.table
+                    }
+                  >
+                    <colgroup>
+                      {headerData.map(h => (
+                        <col key={h.id} width={h.colWidth} />
+                      ))}
+                    </colgroup>
                     <thead className={classes.thead}>
                       <tr className={classes.tr}>
                         {headerData.map(header => {

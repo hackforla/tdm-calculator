@@ -64,6 +64,16 @@ const DateRangePicker = ({
           dateFormat="yyyy-MM-dd"
           placeholderText={startDatePlaceholder || ""}
           popperPlacement="bottom-start"
+          popperModifiers={[
+            {
+              name: "flip",
+              enabled: false
+            },
+            {
+              name: "hide",
+              enabled: false
+            }
+          ]}
           onCalendarOpen={handleCalendarOpen}
           onCalendarClose={handleCalendarClose}
           onClick={e => {
@@ -87,6 +97,16 @@ const DateRangePicker = ({
           dateFormat="yyyy-MM-dd"
           placeholderText={endDatePlaceholder || ""}
           popperPlacement="bottom-end"
+          popperModifiers={[
+            {
+              name: "flip",
+              enabled: false
+            },
+            {
+              name: "hide",
+              enabled: false
+            }
+          ]}
           onCalendarOpen={handleCalendarOpen}
           onCalendarClose={handleCalendarClose}
           // withPortal
