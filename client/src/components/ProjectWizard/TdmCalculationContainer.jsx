@@ -425,7 +425,11 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const onUncheckAll = filterRules => {
     let updateInputs = { ...formInputs };
     for (let i = 0; i < rules.length; i++) {
-      if (filterRules(rules[i]) && rules[i].code !== "STRATEGY_BIKE_4") {
+      if (
+        filterRules(rules[i]) &&
+        rules[i].code !== "STRATEGY_BIKE_4" &&
+        rules[i].code !== "STRATEGY_PARKING_5"
+      ) {
         if (updateInputs[rules[i].code]) {
           updateInputs[rules[i].code] = null;
         }
