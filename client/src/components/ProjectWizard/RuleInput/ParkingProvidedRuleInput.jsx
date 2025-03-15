@@ -20,7 +20,7 @@ const useStyles = createUseStyles(theme => ({
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: theme.colors.warning
+      color: theme.colorCritical
     }
   },
   inputContainer: {
@@ -41,7 +41,7 @@ const useStyles = createUseStyles(theme => ({
     marginLeft: "-80px"
   },
   error: {
-    color: theme.colors.warning
+    color: theme.colorCritical
   },
   resetButtonWrapper: {
     width: "100%"

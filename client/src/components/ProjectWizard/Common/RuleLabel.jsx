@@ -62,7 +62,7 @@ const useStyles = createUseStyles(theme => ({
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: theme.colors.warning
+      color: theme.colorCritical
     }
   },
   infoIcon: {

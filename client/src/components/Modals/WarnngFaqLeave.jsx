@@ -10,7 +10,7 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "center"
   },
   warningWrapper: {
-    color: theme.colors.warning,
+    color: theme.colorCritical,
     display: "flex",
     alignItems: "center",
     justifyContent: "center"

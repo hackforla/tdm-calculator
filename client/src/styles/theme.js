@@ -14,7 +14,6 @@ module.exports = {
     colorBlack: "#000000",
     colorError: "#E46247", //e.g. red
     colorCritical: "#C3391D",
-    colorWarning: "#C35302",
     colorDeselect: "#EEF1F4", //e.g. red
     colorHighlight: "#F0E300", //yellow
     colorTooltipBackground: "#FFEDEA",
