@@ -9,6 +9,7 @@ import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
+import CopyAndEditProject from "../Button/CopyAndEditProject";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -44,12 +45,13 @@ const WizardFooter = ({
   page,
   onPageChange,
   pageNumber,
+  isFinalPage,
   setDisabledForNextNavButton,
   setDisabledSaveButton,
   setDisplaySaveButton,
-  setDisplayPrintButton,
   setDisplaySubmitButton,
   onSave,
+  showCopyAndEditSnapshot,
   project,
   shareView
 }) => {
@@ -95,18 +97,22 @@ const WizardFooter = ({
                 }}
               />
             </div>
+            {isFinalPage && project?.dateSnapshotted && (
+              <CopyAndEditProject
+                id="copyAndEditSnapshot"
+                onClick={showCopyAndEditSnapshot}
+              />
+            )}
             <ReactToPrint
               trigger={() => (
-                <PrintButton
-                  id="PrintButton"
-                  isDisplayed={setDisplayPrintButton()}
-                />
+                <PrintButton id="PrintButton" isDisplayed={isFinalPage} />
               )}
               content={() => componentRef.current}
               documentTitle={projectName}
               bodyClass="printContainer"
               pageStyle=".printContainer {overflow: hidden;}"
             />
+
             <div style={{ display: "none" }}>
               <PdfPrint ref={componentRef} rules={rules} project={project} />
             </div>
@@ -117,6 +123,7 @@ const WizardFooter = ({
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
             />
+
             <SubmitButton
               id="submitButton"
               color="colorPrimary"
@@ -167,12 +174,13 @@ WizardFooter.propTypes = {
   page: PropTypes.any,
   onPageChange: PropTypes.any,
   pageNumber: PropTypes.any,
+  isFinalPage: PropTypes.bool,
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
-  setDisplayPrintButton: PropTypes.any,
   setDisplaySubmitButton: PropTypes.any,
   onSave: PropTypes.any,
+  showCopyAndEditSnapshot: PropTypes.func,
   onDownload: PropTypes.any,
   project: PropTypes.any,
   shareView: PropTypes.bool

@@ -23,7 +23,7 @@ const useStyles = createUseStyles({
   },
   modalContent: {
     maxWidth: "90vw",
-    minWidth: "40vw",
+    // minWidth: "40vw",
     padding: "1rem",
     position: "relative",
     display: "flex",

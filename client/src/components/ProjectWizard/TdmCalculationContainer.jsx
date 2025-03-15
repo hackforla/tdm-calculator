@@ -7,7 +7,6 @@ import * as ruleService from "../../services/rule.service";
 import * as projectService from "../../services/project.service";
 import Engine from "../../services/tdm-engine";
 import { useToast } from "../../contexts/Toast";
-// import { formatDatetime } from "../../helpers/util";
 
 // These are the calculation results we want to calculate
 // and display on the main page.
