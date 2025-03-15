@@ -79,7 +79,7 @@ export default function RenameSnapshotModal({
             variant="primary"
             disabled={!snapshotProjectName}
           >
-            Done
+            Proceed
           </Button>
         </div>
       </div>

@@ -75,7 +75,7 @@ export default function SnapshotProjectModal({
             variant="primary"
             disabled={!snapshotProjectName}
           >
-            Done
+            Proceed
           </Button>
         </div>
       </div>
