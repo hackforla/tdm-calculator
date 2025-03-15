@@ -11,13 +11,8 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "2rem",
-    maxWidth: "23rem",
-    margin: "0 auto"
-  },
-  description: {
-    fontWeight: 500,
-    fontSize: "1.2rem"
+    maxWidth: "25rem",
+    margin: "0 2rem"
   },
   buttonFlexBox: {
     display: "flex",
@@ -27,12 +22,7 @@ const useStyles = createUseStyles(theme => ({
     margin: 0
   },
   heading1: theme.typography.heading1,
-  subheading: {
-    ...theme.typography.subHeading,
-    marginTop: "1rem",
-    marginBottom: "1rem",
-    textAlign: "center"
-  },
+  description: { ...theme.typography.paragraph1, textAlign: "left" },
   icon: {
     height: "40px",
     width: "40px",
@@ -85,8 +75,6 @@ export default function CopyAndEditSnapshotModal({
       onClose={handleClose}
       contentClass={classes.container}
       title="Copy and Edit Snapshot"
-      // style={{ background: "red" }}
-      // initialFocus="#copyAndEditSnapshot"
     >
       {!hasSubmitted ? (
         <CreateCopyOfSnapshot {...props} />
@@ -121,19 +109,30 @@ function CreateCopyOfSnapshot({
     <div className={classes.container}>
       <div style={{ display: "flex", alignItems: "center" }}>
         <MdFileCopy className={classes.icon} />
-        <h2 className={classes.heading1}>Create Editable Copy</h2>
+        <h1 className={classes.heading1}>
+          {isSnapshotOwner ? "Copy and Edit Project" : "Create Editable Copy"}{" "}
+        </h1>
       </div>
-      <div>
-        <p className={classes.description}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          alignItems: "flaex-start"
+        }}
+      >
+        <p className={classes.description} style={{ marginTop: "0" }}>
           {isSnapshotOwner
             ? `This snapshot cannot be edited. Create a copy of the project to edit.`
             : `You are looking at a project snapshot that has been shared with you. To save it to your "My Projects" page, create a copy of this project, which you can view and edit.`}
         </p>
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <div>
-          <label htmlFor="copyAndEditSnapshot">
-            Rename the copy (optional).
+          <label
+            htmlFor="copyAndEditSnapshot"
+            className={classes.description}
+            style={{ marginBottom: "0" }}
+          >
+            Rename the copy (optional)
           </label>
           <input
             type="text"
@@ -143,16 +142,11 @@ function CreateCopyOfSnapshot({
             autoFocus
             value={newSnapshotName}
             onChange={e => setNewSnapshotName(e.target.value)}
-            style={{ width: "90%" }}
+            style={{ width: "90%", marginTop: "0.5rem" }}
           />
         </div>
         <div className={classes.buttonFlexBox}>
-          <Button
-            onClick={onClose}
-            color="colorDisabled"
-            variant="download"
-            style={{ backgroundColor: "blue" }}
-          >
+          <Button onClick={onClose} variant="secondary">
             No, Cancel
           </Button>
           <Button
@@ -176,7 +170,7 @@ function ProjectRedirect({ onClose, setHasSubmitted, newProjectId }) {
   const handleClose = page => {
     const pagePath = {
       myProjects: "/projects",
-      editProject: `/calculation/1/${newProjectId}`
+      editProject: `/calculation/5/${newProjectId}`
     };
 
     setHasSubmitted(false);

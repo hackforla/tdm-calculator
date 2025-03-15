@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import UserContext from "../../contexts/UserContext";
+import { useToast } from "../../contexts/Toast";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import {
   useParams,
@@ -22,6 +23,8 @@ import {
 import { ProjectSummary } from "./WizardPages/ProjectSummary";
 import { createUseStyles } from "react-jss";
 import { matchPath } from "react-router-dom";
+import CopyAndEditSnapshotModal from "../Modals/ActionCopyAndEditSnapshot";
+import * as projectService from "../../services/project.service";
 
 const useStyles = createUseStyles({
   wizard: {
@@ -58,11 +61,11 @@ const TdmCalculationWizard = props => {
     inapplicableStrategiesModal,
     closeStrategiesModal,
     project,
-    showCopyAndEditSnapshot,
     shareView
   } = props;
   const classes = useStyles();
   const context = useContext(ToastContext);
+  const toast = useToast();
   const userContext = useContext(UserContext);
   const account = userContext ? userContext.account : null;
   const params = useParams();
@@ -72,6 +75,38 @@ const TdmCalculationWizard = props => {
   const { pathname } = useLocation();
   const [ainInputError, setAINInputError] = useState("");
   const loginId = project.loginId;
+  const [copyAndEditSnapshotModalOpen, setCopyAndEditSnapshotModalOpen] =
+    useState(false);
+  const isSnapshotOwner = project?.loginId === account?.id;
+
+  const copyAndEditSnapshot = async nameOfCopy => {
+    if (!projectIsValid) {
+      toast.add("Some project inputs are missing or invalid. Save failed.");
+      return;
+    }
+
+    let formInputs = JSON.parse(project.formInputs);
+    formInputs.PROJECT_NAME = nameOfCopy;
+    const inputsToSave = { ...formInputs, PROJECT_NAME: nameOfCopy };
+    const description = project.description || "";
+
+    const requestBody = {
+      ...project,
+      name: nameOfCopy,
+      loginId: account.id,
+      formInputs: JSON.stringify(inputsToSave),
+      description
+    };
+
+    try {
+      const postResponse = await projectService.post(requestBody);
+
+      return postResponse.data.id;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   /*
     shouldBlock determines if user should be blocked from navigating away
     from wizard.  Note that navigation from /calculation/a/x to 
@@ -145,9 +180,10 @@ const TdmCalculationWizard = props => {
       // is properly set.
       projectId &&
       loginId &&
-      !(account.isAdmin || account.id === loginId)
+      (!(account.isAdmin || account.id === loginId) ||
+        !!project.dateSnapshotted)
     ) {
-      navigate(`/calculation/6/${projectId}`);
+      navigate(`/calculation/5/${projectId}`);
     } // eslint-disable-next-line
   }, [projectId, account, loginId, navigate]);
 
@@ -348,12 +384,19 @@ const TdmCalculationWizard = props => {
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
           setDisplaySubmitButton={setDisplaySubmitButton}
-          showCopyAndEditSnapshot={showCopyAndEditSnapshot}
+          showCopyAndEditSnapshot={() => setCopyAndEditSnapshotModalOpen(true)}
           onSave={onSave}
           project={project}
           shareView={shareView}
         />
       </ContentContainer>
+      <CopyAndEditSnapshotModal
+        mounted={copyAndEditSnapshotModalOpen}
+        onClose={() => setCopyAndEditSnapshotModalOpen(false)}
+        isSnapshotOwner={isSnapshotOwner}
+        copyAndEditSnapshot={copyAndEditSnapshot}
+        projectName={project.name}
+      />
     </div>
   );
 };
@@ -398,13 +441,9 @@ TdmCalculationWizard.propTypes = {
   schoolPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
-  // dateModified: PropTypes.string,
-  // dateSnapshotted: PropTypes.string,
-  // dateSubmitted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
   project: PropTypes.any,
-  showCopyAndEditSnapshot: PropTypes.func,
   shareView: PropTypes.bool
 };
 
