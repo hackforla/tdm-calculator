@@ -7,6 +7,13 @@ import { MdCameraAlt } from "react-icons/md";
 import ModalDialog from "../UI/AriaModal/ModalDialog";
 
 const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    maxWidth: "30rem",
+    margin: "0 2rem"
+  },
   buttonFlexBox: {
     display: "flex",
     flexDirection: "row",
@@ -75,7 +82,7 @@ export default function SnapshotProjectModal({
             variant="primary"
             disabled={!snapshotProjectName}
           >
-            Done
+            Proceed
           </Button>
         </div>
       </div>
