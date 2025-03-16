@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import Loader from "react-loader";
@@ -178,6 +178,11 @@ const ProjectSummary = props => {
   const earnedPointsBorderStyle = targetPointsReached
     ? classes.successBorder
     : classes.failureBorder;
+
+  useEffect(() => {
+    const scrollableElement = document.querySelector("#body");
+    scrollableElement.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <div className={clsx(classes.reviewPage, classes.projectSummary)}>
