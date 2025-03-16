@@ -6,14 +6,12 @@ import { createUseStyles, useTheme } from "react-jss";
 import ResetButtons from "./ResetButtons";
 
 const useStyles = createUseStyles(theme => ({
-  // disclaimer: {
-  //   fontStyle: "normal",
-  //   fontWeight: "400",
-  //   position: "relative",
-  //   textAlign: "center",
-  //   top: "20px"
-  // },
-  disclaimer: theme.typography.paragraph1,
+  disclaimer: {
+    ...theme.typography.paragraph1,
+    position: "relative",
+    textAlign: "center",
+    top: "20px"
+  },
   asterisk: {
     color: theme.colorCritical
   }

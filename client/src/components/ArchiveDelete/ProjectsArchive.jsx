@@ -97,7 +97,7 @@ const ProjectsArchive = () => {
             <td className={classes.td}>Address</td>
             <td className={classes.td}>Created By</td>
             <td className={classes.td}>Created On</td>
-            <td className={classes.td}>Last Modified</td>
+            <td className={classes.td}>Last Saved</td>
             <td className={classes.td}>Archive Date</td>
           </tr>
         </thead>
