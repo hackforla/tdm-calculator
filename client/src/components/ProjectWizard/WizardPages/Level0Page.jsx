@@ -24,7 +24,7 @@ const useStyles = createUseStyles(theme => ({
   },
   warningIcon: {
     fontSize: "72px",
-    color: theme.colorWarning
+    color: theme.colorCritical
   }
 }));
 

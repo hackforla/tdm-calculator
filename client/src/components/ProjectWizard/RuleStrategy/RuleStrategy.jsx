@@ -99,7 +99,7 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "space-between"
   },
   errorLabel: {
-    color: "red",
+    color: theme.colorCritical,
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"

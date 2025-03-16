@@ -29,7 +29,7 @@ export const useStyles = createUseStyles(theme => ({
     marginTop: "8px"
   },
   error: {
-    borderColor: theme.colorWarning
+    borderColor: theme.colorCritical
   },
   errorMessage: {
     margin: "8px auto",

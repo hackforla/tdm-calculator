@@ -44,7 +44,7 @@ export const FaqButtonContainer = ({
     <div className={classes.buttonContainer} {...dragHandleProps}>
       {isHovered && (
         <MdDelete
-          color={theme.colors.warning}
+          color={theme.colorCritical}
           className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
           onClick={onDeleteFAQ}
         />

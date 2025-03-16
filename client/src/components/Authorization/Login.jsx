@@ -11,7 +11,7 @@ import ContentContainer from "../Layout/ContentContainer";
 const useStyles = createUseStyles(theme => ({
   warningText: {
     ...theme.typography.paragraph1,
-    color: theme.colors.warning,
+    color: <theme className="colorCritical"></theme>,
     textAlign: "left"
   },
   buttonsContainer: {
