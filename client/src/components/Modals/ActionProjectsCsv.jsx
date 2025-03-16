@@ -12,7 +12,8 @@ const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    minWidth: "35rem"
   },
   buttonFlexBox: {
     display: "flex",
