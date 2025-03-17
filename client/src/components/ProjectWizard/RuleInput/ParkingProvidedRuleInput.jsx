@@ -33,7 +33,14 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "right",
     margin: ".5em auto",
     height: 45,
-    width: "50%"
+    width: "50%",
+    "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+      "-webkit-appearance": "none"
+    },
+    // Firefox input type number still allows letters, but will validate on submit
+    "&[type=number]": {
+      "-moz-appearance": "textfield"
+    }
   },
   unit: {
     ...theme.typography.heading2,
@@ -93,12 +100,13 @@ const ParkingProvidedRuleInput = ({ rule, onInputChange, resetProject }) => {
         <input
           className={classes.input}
           autoFocus
-          type="text"
+          type="number"
           value={spacesProvided}
           onChange={handleChange}
           name={code}
           id={code}
           data-testid={code}
+          min={0}
           max={maxValue}
           onBlur={onBlur}
           maxLength="7"
