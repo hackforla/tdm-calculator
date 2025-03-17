@@ -158,7 +158,8 @@ const TdmCalculationWizard = props => {
     Implemented per: https://reactrouter.com/web/guides/scroll-restoration
   */
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const scrollableElement = document.querySelector("#body");
+    scrollableElement.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [pathname]);
 
   useEffect(() => {
