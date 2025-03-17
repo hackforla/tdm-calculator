@@ -31,8 +31,15 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     alignItems: "center",
     height: "2rem",
+    gap: "0.2em",
     "&:hover": {
       backgroundColor: "lightblue"
+    },
+    "& span": {
+      maxWidth: "25ch",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis"
     }
   },
   toggleButton: {
