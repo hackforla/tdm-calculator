@@ -60,10 +60,7 @@ export default function SnapshotProjectModal({
           Once converted, this project draft will no longer be in an editable
           state
         </div>
-        <div
-          className={classes.subheading}
-          style={{ marginLeft: "10%", marginRight: "10%" }}
-        >
+        <div className={classes.subheading} style={{ width: "75%" }}>
           <input
             placeholder="Name of the Snapshot"
             type="text"

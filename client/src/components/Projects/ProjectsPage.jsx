@@ -24,7 +24,7 @@ import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import fetchEngineRules from "./fetchEngineRules";
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
-import TertiaryButton from "../Button/TertiaryButton";
+import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
 
 const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
@@ -998,9 +998,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     flexBasis: "33%"
                   }}
                 >
-                  <TertiaryButton onClick={resetFiltersSort} isDisplayed={true}>
+                  <Button
+                    onClick={resetFiltersSort}
+                    isDisplayed={true}
+                    variant="tertiary"
+                  >
                     RESET FILTERS/SORT
-                  </TertiaryButton>
+                  </Button>
                 </div>
               </div>
               <div>

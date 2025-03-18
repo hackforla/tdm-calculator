@@ -30,8 +30,7 @@ const useStyles = createUseStyles({
   wizard: {
     flex: "1 1 auto",
     display: "flex",
-    flexDirection: "column",
-    border: "2px solid blue"
+    flexDirection: "column"
   }
 });
 

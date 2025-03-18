@@ -1,15 +1,13 @@
 import React, { useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
-import SaveButton from "../Button/SaveButton";
 import SubmitButton from "../Button/SubmitButton";
 import { createUseStyles } from "react-jss";
-import PrintButton from "../Button/PrintButton";
+import Button from "../Button/Button";
 import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
-import CopyAndEditProject from "../Button/CopyAndEditProject";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -98,32 +96,41 @@ const WizardFooter = ({
               />
             </div>
             {isFinalPage && project?.dateSnapshotted && (
-              <CopyAndEditProject
+              <Button
                 id="copyAndEditSnapshot"
                 onClick={showCopyAndEditSnapshot}
-              />
+                variant="tertiary"
+              >
+                Copy and Edit Snapshot
+              </Button>
             )}
             <ReactToPrint
               trigger={() => (
-                <PrintButton id="PrintButton" isDisplayed={isFinalPage} />
+                <Button
+                  id="PrintButton"
+                  isDisplayed={isFinalPage}
+                  variant="tertiary"
+                >
+                  Print Summary
+                </Button>
               )}
               content={() => componentRef.current}
               documentTitle={projectName}
               bodyClass="printContainer"
               pageStyle=".printContainer {overflow: hidden;}"
             />
-
             <div style={{ display: "none" }}>
               <PdfPrint ref={componentRef} rules={rules} project={project} />
             </div>
-            <SaveButton
+            <Button
               id="saveButton"
-              color="colorPrimary"
-              isDisabled={setDisabledSaveButton()}
+              variant="primary"
+              disabled={setDisabledSaveButton()}
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
-            />
-
+            >
+              Save Project
+            </Button>
             <SubmitButton
               id="submitButton"
               color="colorPrimary"
