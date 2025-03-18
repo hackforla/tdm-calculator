@@ -61,7 +61,7 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
             <th className={classes.tableHead}>Name</th>
             <th className={classes.tableHead}>Address</th>
             <th className={classes.tableHead}>Date Entered</th>
-            <th className={classes.tableHead}>Date Modified</th>
+            <th className={classes.tableHead}>Date Saved</th>
           </tr>
         </thead>
         <tbody>
