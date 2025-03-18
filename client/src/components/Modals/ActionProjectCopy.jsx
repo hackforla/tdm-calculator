@@ -9,7 +9,8 @@ const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    width: "30rem"
   },
   buttonFlexBox: {
     display: "flex",
@@ -56,7 +57,9 @@ export default function CopyProjectModal({
           Type a new name to duplicate the project
         </div>
         <div style={theme.typography.heading3}>{selectedProjectName}</div>
-        <div style={{ margin: "1.5rem 2.5rem 1.5rem 0.75rem" }}>
+        <div
+          style={{ marginTop: "1.5rem", marginBottom: "1.5rem", width: "75%" }}
+        >
           <input
             placeholder="Name of the duplicated project"
             type="text"

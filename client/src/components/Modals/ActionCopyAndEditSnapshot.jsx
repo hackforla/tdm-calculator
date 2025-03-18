@@ -188,11 +188,7 @@ function ProjectRedirect({ onClose, setHasSubmitted, newProjectId }) {
         <p>View the “My Project” dashboard or edit the new copy</p>
       </div>
       <div className={classes.buttonFlexBox}>
-        <Button
-          onClick={() => handleClose("myProjects")}
-          color="colorDisabled"
-          variant="download"
-        >
+        <Button onClick={() => handleClose("myProjects")} variant="tertiary">
           My Projects
         </Button>
         <Button

@@ -50,7 +50,7 @@ const useStyles = createUseStyles(theme => ({
     }
   },
   tertiary: {
-    color: theme.colors.secondary.green,
+    color: theme.colors.primary.black,
     // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
     boxShadow: "0px 4px 4px 0px" + theme.colorDropShadow,
     "&:hover": {
