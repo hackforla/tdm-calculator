@@ -25,6 +25,7 @@ import { createUseStyles } from "react-jss";
 import { matchPath } from "react-router-dom";
 import CopyAndEditSnapshotModal from "../Modals/ActionCopyAndEditSnapshot";
 import * as projectService from "../../services/project.service";
+import WarningProjectReset from "../Modals/WarningProjectReset";
 
 const useStyles = createUseStyles({
   wizard: {
@@ -76,6 +77,8 @@ const TdmCalculationWizard = props => {
   const [ainInputError, setAINInputError] = useState("");
   const loginId = project.loginId;
   const [copyAndEditSnapshotModalOpen, setCopyAndEditSnapshotModalOpen] =
+    useState(false);
+  const [resetProjectWarningModalOpen, setResetProjectWarningModalOpen] =
     useState(false);
   const isSnapshotOwner = project?.loginId === account?.id;
 
@@ -298,7 +301,7 @@ const TdmCalculationWizard = props => {
             onPartialAINChange={onPartialAINChange}
             onAINInputError={handleAINInputError}
             uncheckAll={() => onUncheckAll(filters.projectDescriptionRules)}
-            resetProject={() => onResetProject()}
+            resetProject={() => setResetProjectWarningModalOpen(true)}
           />
         );
       case 2:
@@ -307,7 +310,7 @@ const TdmCalculationWizard = props => {
             rules={specificationRules}
             onInputChange={onInputChange}
             uncheckAll={() => onUncheckAll(filters.specificationRules)}
-            resetProject={() => onResetProject()}
+            resetProject={() => setResetProjectWarningModalOpen(true)}
           />
         );
       case 3:
@@ -318,7 +321,7 @@ const TdmCalculationWizard = props => {
             onInputChange={onInputChange}
             isLevel0={isLevel0}
             uncheckAll={onUncheckAll}
-            resetProject={onResetProject}
+            resetProject={() => setResetProjectWarningModalOpen(true)}
           />
         );
 
@@ -333,7 +336,7 @@ const TdmCalculationWizard = props => {
             initializeStrategies={initializeStrategies}
             onPkgSelect={onPkgSelect}
             uncheckAll={() => onUncheckAll(filters.strategyRules)}
-            resetProject={() => onResetProject()}
+            resetProject={() => setResetProjectWarningModalOpen(true)}
             allowResidentialPackage={allowResidentialPackage}
             allowSchoolPackage={allowSchoolPackage}
             residentialPackageSelected={residentialPackageSelected}
@@ -355,6 +358,7 @@ const TdmCalculationWizard = props => {
         return null;
     }
   };
+
   return (
     <div className={classes.wizard}>
       <InapplicableStrategiesModal
@@ -396,6 +400,12 @@ const TdmCalculationWizard = props => {
         isSnapshotOwner={isSnapshotOwner}
         copyAndEditSnapshot={copyAndEditSnapshot}
         projectName={project.name}
+      />
+      <WarningProjectReset
+        mounted={resetProjectWarningModalOpen}
+        project={project}
+        resetProject={() => onResetProject()}
+        onClose={() => setResetProjectWarningModalOpen(false)}
       />
     </div>
   );
