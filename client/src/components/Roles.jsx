@@ -190,10 +190,7 @@ const Roles = ({ contentContainerRef }) => {
   };
 
   return (
-    <ContentContainer
-      contentContainerRef={contentContainerRef}
-      customStyle={{ overflow: "none" }}
-    >
+    <ContentContainer contentContainerRef={contentContainerRef}>
       {redirectPath ? <Navigate to="{redirectPath}" /> : null}
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>
