@@ -348,7 +348,7 @@ const RuleCalculation = ({
                 <Popup
                   trigger={
                     <span style={{ cursor: "pointer" }}>
-                      <ToolTipIcon id={id} />
+                      <ToolTipIcon id={id.toString()} />
                     </span>
                   }
                   position="left center"

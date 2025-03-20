@@ -435,7 +435,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         // In addition to the rule value, also clear
         // the associated comment, if any
         if (updateInputs[rules[i].code + "_comment"]) {
-          updateInputs[rules[i].code + "_comment"] = null;
+          delete updateInputs[rules[i].code + "_comment"];
         }
       }
     }

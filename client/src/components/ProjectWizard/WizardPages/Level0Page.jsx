@@ -75,7 +75,6 @@ const Level0Page = ({ isLevel0, resetProject }) => {
 
 Level0Page.propTypes = {
   isLevel0: PropTypes.bool.isRequired,
-  uncheckAll: PropTypes.func.isRequired,
   resetProject: PropTypes.func.isRequired
 };
 
