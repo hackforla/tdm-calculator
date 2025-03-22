@@ -604,15 +604,24 @@ const ProjectsPage = ({ contentContainerRef }) => {
       : (a, b) => -ascCompareBy(a, b, orderBy);
   };
 
-  const setSort = (orderBy, order) => {
+  const setSort = (orderBy, order, isStatus = false) => {
     // If already sorted by the orderBy field, remove that entry from the
     // sort array first
-    let newSortCriteria = sortCriteria.filter(c => c.field !== orderBy);
-    // Add new sort criteria and direction to the sortCriteria and
+    let newSortCriteria = [];
+    if (isStatus) {
+      newSortCriteria = sortCriteria.filter(
+        c => c.field != "dateSnapshotted" && c.field != "dateTrashed"
+      );
+      newSortCriteria.push({ field: "dateTrashed", direction: order });
+      newSortCriteria.push({ field: "dateSnapshotted", direction: order });
+    } else {
+      newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
+      newSortCriteria.push({ field: orderBy, direction: order });
+    }
+
     // save to local storagr
-    newSortCriteria.push({ field: orderBy, direction: order });
-    // and update the sortCriteria state.
     setSessionSortCriteria(newSortCriteria);
+    // and update the sortCriteria state.
     setSortCriteria(newSortCriteria);
   };
 
@@ -770,27 +779,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
     }
 
-    // if (userContext.account?.isAdmin) {
-    //   const projectAdminNotes = (p.adminNotes || "").toLowerCase().trim();
-    //   const criteriaAdminNotes = criteria.adminNotes.toLowerCase().trim();
-
-    //   if (
-    //     criteriaAdminNotes &&
-    //     !projectAdminNotes.includes(criteriaAdminNotes)
-    //   ) {
-    //     return false;
-    //   }
-
-    //   if (
-    //     criteria.adminNotesList.length > 0 &&
-    //     !criteria.adminNotesList
-    //       .map(n => n.toLowerCase())
-    //       .includes((p.adminNotes || "").toLowerCase())
-    //   ) {
-    //     return false;
-    //   }
-    // }
-
     if (
       criteria.startDateModifiedAdmin &&
       getDateOnly(p.dateModifiedAdmin) <
@@ -820,7 +808,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const resetFiltersSort = () => {
     setFilter(DEFAULT_FILTER_CRITERIA);
     setSortCriteria(DEFAULT_SORT_CRITERIA);
-    setSort(DEFAULT_SORT_CRITERIA[0].field, DEFAULT_SORT_CRITERIA[0].direction);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
@@ -1157,7 +1144,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
             </div>
           </div>
         </div>
-        ``
       </div>
     </ContentContainerNoSidebar>
   );
