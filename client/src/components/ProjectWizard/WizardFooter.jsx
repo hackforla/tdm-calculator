@@ -9,6 +9,7 @@ import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
+import SubmitProjectModal from "../SubmitSnapshot/SubmitSnapshotModal";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -48,8 +49,12 @@ const WizardFooter = ({
   setDisabledSaveButton,
   setDisplaySaveButton,
   setDisplayPrintButton,
+  setDisabledSubmitButton,
   setDisplaySubmitButton,
   onSave,
+  submitModalOpen,
+  handleSubmitModalOpen,
+  handleSubmitModalClose,
   project,
   shareView
 }) => {
@@ -64,6 +69,7 @@ const WizardFooter = ({
   const formattedDateModified = formatDatetime(project.dateModified);
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
+  console.log(project);
 
   return (
     <>
@@ -120,8 +126,14 @@ const WizardFooter = ({
             <SubmitButton
               id="submitButton"
               color="colorPrimary"
-              isDisplayed={false && setDisplaySubmitButton()}
-              onClick={() => null}
+              isDisabled={setDisabledSubmitButton()}
+              isDisplayed={setDisplaySubmitButton()}
+              onClick={handleSubmitModalOpen}
+            />
+            <SubmitProjectModal
+              mounted={submitModalOpen}
+              onClose={handleSubmitModalClose}
+              project={project}
             />
           </>
         ) : null}
@@ -171,10 +183,15 @@ WizardFooter.propTypes = {
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
   setDisplayPrintButton: PropTypes.any,
+  setDisabledSubmitButton: PropTypes.any,
   setDisplaySubmitButton: PropTypes.any,
   onSave: PropTypes.any,
+  submitModalOpen: PropTypes.any,
+  handleSubmitModalOpen: PropTypes.any,
+  handleSubmitModalClose: PropTypes.any,
   onDownload: PropTypes.any,
   project: PropTypes.any,
+  setProject: PropTypes.any,
   shareView: PropTypes.bool
 };
 

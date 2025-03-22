@@ -48,6 +48,9 @@ const TdmCalculationWizard = props => {
     onParkingProvidedChange,
     resultRuleCodes,
     onSave,
+    submitModalOpen,
+    handleSubmitModalOpen,
+    handleSubmitModalClose,
     allowResidentialPackage,
     allowSchoolPackage,
     residentialPackageSelected,
@@ -58,6 +61,7 @@ const TdmCalculationWizard = props => {
     inapplicableStrategiesModal,
     closeStrategiesModal,
     project,
+    projects,
     shareView
   } = props;
   const classes = useStyles();
@@ -210,8 +214,16 @@ const TdmCalculationWizard = props => {
     return false;
   };
 
+  const setDisabledSubmitButton = () => {
+    const projectSubmitted = project.dateSubmitted;
+    const targetPoints = resultRules[2].value;
+    const earnedPoints = resultRules[3].value;
+    const setDisabled = projectSubmitted || earnedPoints < targetPoints;
+    return setDisabled;
+  };
+
   const setDisplaySubmitButton = () => {
-    if (page === 5 && !shareView) {
+    if (page === 5) {
       return true;
     }
     return false;
@@ -323,6 +335,8 @@ const TdmCalculationWizard = props => {
         return null;
     }
   };
+
+  console.log(project);
   return (
     <div className={classes.wizard}>
       <InapplicableStrategiesModal
@@ -351,9 +365,14 @@ const TdmCalculationWizard = props => {
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
           setDisplayPrintButton={setDisplayPrintButton}
+          setDisabledSubmitButton={setDisabledSubmitButton}
           setDisplaySubmitButton={setDisplaySubmitButton}
           onSave={onSave}
+          submitModalOpen={submitModalOpen}
+          handleSubmitModalOpen={handleSubmitModalOpen}
+          handleSubmitModalClose={handleSubmitModalClose}
           project={project}
+          projects={projects}
           shareView={shareView}
         />
       </ContentContainer>
@@ -395,6 +414,9 @@ TdmCalculationWizard.propTypes = {
   resultRuleCodes: PropTypes.array.isRequired,
   // loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
+  submitModalOpen: PropTypes.func.isRequired,
+  handleSubmitModalOpen: PropTypes.func.isRequired,
+  handleSubmitModalClose: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowSchoolPackage: PropTypes.bool.isRequired,
   residentialPackageSelected: PropTypes.func,
@@ -407,6 +429,7 @@ TdmCalculationWizard.propTypes = {
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
   project: PropTypes.any,
+  projects: PropTypes.array,
   shareView: PropTypes.bool
 };
 
