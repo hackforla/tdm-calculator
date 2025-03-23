@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import * as feedbackService from "../../services/feedback.service";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -14,20 +14,22 @@ import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import ProjectList from "./ProjectList";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   feedbackContainer: {
     height: "max-content",
-    width: "80%",
-    maxWidth: "840px"
+    width: "90%"
   },
   pageTitle: {
     marginBottom: "16px",
     textAlign: "center"
   },
   formContainer: {
+    margin: "0 auto",
     display: "flex",
     flexDirection: "column",
-    marginTop: "2em"
+    marginTop: "2em",
+    width: "80%",
+    maxWidth: "840px"
   },
   row: {
     display: "flex",
@@ -50,7 +52,9 @@ const useStyles = createUseStyles({
     border: "2px dotted red "
   },
   errorMessage: {
-    color: "red"
+    color: theme.colorCritical,
+    marginTop: "-0.5rem",
+    marginBottom: "1rem"
   },
   forwardToWebTeam: {
     marginTop: "32px",
@@ -65,7 +69,7 @@ const useStyles = createUseStyles({
     textAlign: "center",
     padding: 0
   }
-});
+}));
 
 const GetUserProjects = email => {
   const navigate = useNavigate();
@@ -76,8 +80,9 @@ const GetUserProjects = email => {
 
 const FeedbackPage = ({ contentContainerRef }) => {
   const userContext = useContext(UserContext);
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const focusRef = useRef(null);
-  const classes = useStyles();
   const toast = useToast();
   const account = userContext.account;
   const projects = !account
@@ -165,86 +170,90 @@ const FeedbackPage = ({ contentContainerRef }) => {
           onSubmit={handleSubmit}
         >
           {({ errors, touched, isSubmitting }) => (
-            <Form className={classes.formContainer}>
-              <div className={classes.row}>
-                <label htmlFor="name" className={classes.formLabel}>
-                  Name <span style={{ color: "red" }}>*</span>
+            <Form>
+              <div className={classes.formContainer}>
+                <div className={classes.row}>
+                  <label htmlFor="name" className={classes.formLabel}>
+                    Name <span style={{ color: "red" }}>*</span>
+                  </label>
+
+                  <Field
+                    id="name"
+                    name="name"
+                    innerRef={focusRef}
+                    type="text"
+                    placeholder="required"
+                    className={clsx(
+                      classes.formInput,
+                      errors.name && touched.name && classes.formErrorBorder
+                    )}
+                  />
                   <ErrorMessage
-                    name="nameErrorMessage"
+                    name="name"
                     component="span"
                     className={classes.errorMessage}
                   />
-                </label>
+                </div>
 
-                <Field
-                  id="name"
-                  name="name"
-                  innerRef={focusRef}
-                  type="text"
-                  placeholder="required"
-                  className={clsx(
-                    classes.formInput,
-                    errors.name && touched.name && classes.formErrorBorder
-                  )}
-                />
-              </div>
+                <div className={classes.row}>
+                  <label htmlFor="email" className={classes.formLabel}>
+                    Email Address &nbsp;
+                  </label>
 
-              <div className={classes.row}>
-                <label htmlFor="email" className={classes.formLabel}>
-                  Email Address &nbsp;
+                  <Field
+                    id="email"
+                    name="email"
+                    type="email"
+                    className={clsx(
+                      classes.formInput,
+                      errors.email && touched.email && classes.formErrorBorder
+                    )}
+                  />
                   <ErrorMessage
                     name="email"
                     component="span"
                     className={classes.errorMessage}
                   />
-                </label>
+                </div>
 
-                <Field
-                  id="email"
-                  name="email"
-                  type="email"
-                  className={clsx(
-                    classes.formInput,
-                    errors.email && touched.email && classes.formErrorBorder
-                  )}
-                />
-              </div>
+                <div className={classes.row}>
+                  <label htmlFor="comment" className={classes.formLabel}>
+                    Comment <span style={{ color: "red" }}>*</span>
+                  </label>
 
-              <div className={classes.row}>
-                <label htmlFor="comment" className={classes.formLabel}>
-                  Comment <span style={{ color: "red" }}>*</span>
+                  <Field
+                    id="comment"
+                    name="comment"
+                    placeholder="required"
+                    as="textarea"
+                    className={clsx(
+                      classes.formTextArea,
+                      errors.comment &&
+                        touched.comment &&
+                        classes.formErrorBorder
+                    )}
+                  />
                   <ErrorMessage
                     name="comment"
                     component="span"
                     className={classes.errorMessage}
                   />
-                </label>
+                </div>
 
-                <Field
-                  id="comment"
-                  name="comment"
-                  placeholder="required"
-                  as="textarea"
-                  className={clsx(
-                    classes.formTextArea,
-                    errors.comment && touched.comment && classes.formErrorBorder
-                  )}
-                />
-              </div>
-
-              <div className={clsx(classes.row)}>
-                <label
-                  htmlFor="forwardToWebTeam"
-                  className={classes.forwardToWebTeam}
-                >
-                  Would you like your comment to also be delivered to the
-                  website team?&nbsp;
-                  <Field
-                    id="forwardToWebTeam"
-                    type="checkbox"
-                    name="forwardToWebTeam"
-                  />
-                </label>
+                <div className={clsx(classes.row)}>
+                  <label
+                    htmlFor="forwardToWebTeam"
+                    className={classes.forwardToWebTeam}
+                  >
+                    Would you like your comment to also be delivered to the
+                    website team?&nbsp;
+                    <Field
+                      id="forwardToWebTeam"
+                      type="checkbox"
+                      name="forwardToWebTeam"
+                    />
+                  </label>
+                </div>
               </div>
               {account && account.id && projects.length !== 0 ? (
                 <ProjectList
