@@ -8,8 +8,6 @@ import * as projectService from "../../services/project.service";
 import Engine from "../../services/tdm-engine";
 import { useToast } from "../../contexts/Toast";
 // import { formatDatetime } from "../../helpers/util";
-import useErrorHandler from "../../hooks/useErrorHandler";
-import useProjects from "../../hooks/useGetProjects";
 
 // These are the calculation results we want to calculate
 // and display on the main page.
@@ -56,11 +54,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
 
   const [project, setProject] = useState({});
   const [shareView, setShareView] = useState(false);
-
-  const [submitModalOpen, setSubmitModalOpen] = useState(false);
-  const email = userContext.account ? userContext.account.email : "";
-  const handleError = useErrorHandler(email, navigate);
-  const [projects, setProjects] = useProjects(handleError);
 
   const toast = useToast();
 
@@ -550,29 +543,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     }
   };
 
-  const updateProjects = async () => {
-    const updated = await projectService.get();
-    setProjects(updated.data);
-  };
-
-  const handleSubmitModalOpen = project => {
-    setProjects(project);
-    setSubmitModalOpen(true);
-  };
-
-  const handleSubmitModalClose = async action => {
-    if (action === "ok") {
-      try {
-        await projectService.submit({ id: project.id });
-        await updateProjects();
-      } catch (err) {
-        handleError(err);
-      }
-    }
-    setSubmitModalOpen(false);
-  };
-  console.log(project);
-
   return (
     <TdmCalculationWizard
       projectLevel={projectLevel}
@@ -589,9 +559,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       onParkingProvidedChange={onParkingProvidedChange}
       resultRuleCodes={resultRuleCodes}
       onSave={onSave}
-      submitModalOpen={submitModalOpen}
-      handleSubmitModalOpen={handleSubmitModalOpen}
-      handleSubmitModalClose={handleSubmitModalClose}
       allowResidentialPackage={allowResidentialPackage}
       allowSchoolPackage={allowSchoolPackage}
       residentialPackageSelected={residentialPackageSelected}
@@ -602,7 +569,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}
       project={project}
-      projects={projects}
       shareView={shareView}
     />
   );

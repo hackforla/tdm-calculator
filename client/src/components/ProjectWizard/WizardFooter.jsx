@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import SaveButton from "../Button/SaveButton";
@@ -9,7 +9,11 @@ import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
-import SubmitProjectModal from "../SubmitSnapshot/SubmitSnapshotModal";
+import { useNavigate } from "react-router-dom";
+import useErrorHandler from "../../hooks/useErrorHandler";
+import * as projectService from "../../services/project.service.js";
+import WarningProjectSubmit from "./WarningProjectSubmit.jsx";
+import WarningTargetNotReached from "./WarningTargetNotReached.jsx";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -52,9 +56,6 @@ const WizardFooter = ({
   setDisabledSubmitButton,
   setDisplaySubmitButton,
   onSave,
-  submitModalOpen,
-  handleSubmitModalOpen,
-  handleSubmitModalClose,
   project,
   shareView
 }) => {
@@ -68,8 +69,46 @@ const WizardFooter = ({
   const formattedDateSubmitted = formatDatetime(project.dateSubmitted);
   const formattedDateModified = formatDatetime(project.dateModified);
   const userContext = useContext(UserContext);
+  const email = userContext.account ? userContext.account.email : "";
+  const navigate = useNavigate();
+  const handleError = useErrorHandler(email, navigate);
   const loggedInUserId = userContext.account?.id;
-  console.log(project);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
+    useState(false);
+
+  const updateProject = async () => {
+    const updated = await projectService.getById(selectedProject.id);
+    setSelectedProject(updated.data);
+  };
+
+  const handleSubmitModalOpen = project => {
+    setSelectedProject(project);
+    setSubmitModalOpen(true);
+  };
+
+  const handleSubmitModalClose = async action => {
+    if (action === "ok") {
+      try {
+        await projectService.submit({ id: selectedProject.id });
+        await updateProject();
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setSubmitModalOpen(false);
+  };
+
+  const handleTargetNotReachedModalOpen = () => {
+    setTargetNotReachedModalOpen(true);
+  };
+
+  const handleTargetNotReachedModalClose = action => {
+    if (action === "ok") {
+      setTargetNotReachedModalOpen(false);
+    }
+  };
 
   return (
     <>
@@ -128,12 +167,20 @@ const WizardFooter = ({
               color="colorPrimary"
               isDisabled={setDisabledSubmitButton()}
               isDisplayed={setDisplaySubmitButton()}
-              onClick={handleSubmitModalOpen}
+              onClick={
+                setDisabledSubmitButton()
+                  ? handleTargetNotReachedModalOpen
+                  : handleSubmitModalOpen
+              }
             />
-            <SubmitProjectModal
+            <WarningProjectSubmit
               mounted={submitModalOpen}
               onClose={handleSubmitModalClose}
               project={project}
+            />
+            <WarningTargetNotReached
+              mounted={targetNotReachedModalOpen}
+              onClose={handleTargetNotReachedModalClose}
             />
           </>
         ) : null}
@@ -189,9 +236,12 @@ WizardFooter.propTypes = {
   submitModalOpen: PropTypes.any,
   handleSubmitModalOpen: PropTypes.any,
   handleSubmitModalClose: PropTypes.any,
+  targetNotReachedModalOpen: PropTypes.any,
+  handleTargetNotReachedModalOpen: PropTypes.any,
+  handleTargetNotReachedModalClose: PropTypes.any,
   onDownload: PropTypes.any,
   project: PropTypes.any,
-  setProject: PropTypes.any,
+  selectProject: PropTypes.any,
   shareView: PropTypes.bool
 };
 

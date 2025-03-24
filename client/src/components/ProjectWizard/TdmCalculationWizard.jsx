@@ -48,9 +48,6 @@ const TdmCalculationWizard = props => {
     onParkingProvidedChange,
     resultRuleCodes,
     onSave,
-    submitModalOpen,
-    handleSubmitModalOpen,
-    handleSubmitModalClose,
     allowResidentialPackage,
     allowSchoolPackage,
     residentialPackageSelected,
@@ -61,7 +58,6 @@ const TdmCalculationWizard = props => {
     inapplicableStrategiesModal,
     closeStrategiesModal,
     project,
-    projects,
     shareView
   } = props;
   const classes = useStyles();
@@ -336,7 +332,6 @@ const TdmCalculationWizard = props => {
     }
   };
 
-  console.log(project);
   return (
     <div className={classes.wizard}>
       <InapplicableStrategiesModal
@@ -368,11 +363,7 @@ const TdmCalculationWizard = props => {
           setDisabledSubmitButton={setDisabledSubmitButton}
           setDisplaySubmitButton={setDisplaySubmitButton}
           onSave={onSave}
-          submitModalOpen={submitModalOpen}
-          handleSubmitModalOpen={handleSubmitModalOpen}
-          handleSubmitModalClose={handleSubmitModalClose}
           project={project}
-          projects={projects}
           shareView={shareView}
         />
       </ContentContainer>
@@ -414,9 +405,6 @@ TdmCalculationWizard.propTypes = {
   resultRuleCodes: PropTypes.array.isRequired,
   // loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
-  submitModalOpen: PropTypes.func.isRequired,
-  handleSubmitModalOpen: PropTypes.func.isRequired,
-  handleSubmitModalClose: PropTypes.func.isRequired,
   allowResidentialPackage: PropTypes.bool.isRequired,
   allowSchoolPackage: PropTypes.bool.isRequired,
   residentialPackageSelected: PropTypes.func,
@@ -429,7 +417,6 @@ TdmCalculationWizard.propTypes = {
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
   project: PropTypes.any,
-  projects: PropTypes.array,
   shareView: PropTypes.bool
 };
 
