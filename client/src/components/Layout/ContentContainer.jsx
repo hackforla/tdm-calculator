@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
   },
   content: {
     boxSizing: "border-box",
-    overflow: "auto",
+    // overflow: "auto",
     flexBasis: "auto",
     flexGrow: "1",
     flexShrink: "1",
