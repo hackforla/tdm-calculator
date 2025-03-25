@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
 import { createUseStyles, useTheme } from "react-jss";
 import { MdWarning } from "react-icons/md";

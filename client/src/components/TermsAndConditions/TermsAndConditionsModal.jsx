@@ -1,6 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
 import PropTypes from "prop-types";
 import TermsAndConditionsContent from "./TermsAndConditionsContent";

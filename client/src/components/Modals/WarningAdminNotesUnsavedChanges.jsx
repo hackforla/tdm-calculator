@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import ModalDialog from "../UI/Modal";
 import clsx from "clsx";
 import Button from "../Button/Button";
 import { MdWarning } from "react-icons/md";
@@ -72,7 +72,6 @@ const WarningModal = ({
       mounted={mounted}
       escapeExits={false}
       omitCloseBox={true}
-      // underlayClass={classes.warningModalContainer}
       initialFocus={validInitialFocusId || undefined}
     >
       <div className={classes.container}>
