@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 import { FaFileCsv } from "react-icons/fa6";
 import Button from "../Button/Button";
 import { createUseStyles, useTheme } from "react-jss";
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import ModalDialog from "../UI/Modal";
 import { CSVLink } from "react-csv";
 import { getCsvForProjects } from "./csvData";
 import RadioButton from "../UI/RadioButton";

@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 import Button from "../Button/Button";
 import { MdWarning } from "react-icons/md";
 import { createUseStyles } from "react-jss";
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import ModalDialog from "../UI/Modal";
 import { formatDatetime } from "../../helpers/util";
 import { useNavigate } from "react-router-dom";
 

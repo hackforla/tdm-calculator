@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import Button from "../Button/Button";
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import ModalDialog from "../UI/Modal";
 import { MdCameraAlt } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({

@@ -2,58 +2,21 @@ import React, { useState, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import Button from "../Button/Button";
 import { createUseStyles } from "react-jss";
-import { MdOutlineClose } from "react-icons/md";
-import AriaModal from "react-aria-modal";
+import ModalDialog from "../UI/Modal";
 
 const useStyles = createUseStyles(theme => ({
-  adminNotesModalContainer: {
-    zIndex: "900", //must be less than 999 for warning modal
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "100vw",
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
-    fontSize: "1rem",
-    fontWeight: "normal"
-  },
-  adminNotesModalContent: {
-    maxWidth: "90vw",
-    minWidth: "40vw",
-    width: "67.5rem",
-    height: "40.5rem",
-    padding: "0",
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "stretch",
-    border: "1px solid #d8dce3",
-    borderRadius: "10px",
-    boxSizing: "border-box",
-    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.5)",
-    backgroundColor: "rgba(255, 255, 255, 1)"
-  },
   contentContainer: {
     display: "flex",
     flexDirection: "column",
-    // height: "auto",
     boxSizing: "border-box",
-    maxWidth: "67.5rem",
-    height: "40.5rem"
+    minWidth: "20rem",
+    width: "40rem",
+    minHeight: "25rem"
   },
-  headerWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginLeft: "24px",
-    marginTop: "16px",
-    marginRight: "24px"
+  heading: {
+    ...theme.typography.heading1,
+    marginTop: "0",
+    marginBottom: "0"
   },
   subHeader: {
     fontSize: "20px",
@@ -89,15 +52,13 @@ const useStyles = createUseStyles(theme => ({
   buttonWrapper: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end",
-    padding: "14px 10px 14px 10px",
+    justifyContent: "center",
+    padding: "8px 10px 0px 10px",
     boxSizing: "border-box"
-  },
-  heading1: theme.typography.heading1
+  }
 }));
 
 const AdminNotesModal = ({
-  //removed onSave and isEditing
   mounted,
   adminNotes,
   setAdminNotes,
@@ -128,50 +89,24 @@ const AdminNotesModal = ({
     };
   }, [mounted]);
 
-  if (!mounted) {
-    return null; // Ensure the component is properly unmounted when `mounted` is false
-  }
-
-  const validInitialFocusId = document.getElementById(initialFocusId)
-    ? initialFocusId
-    : null;
-
-  const getApplicationNode = () => {
-    return document.getElementById("body");
-  };
+  // if (!mounted) {
+  //   return null; // Ensure the component is properly unmounted when `mounted` is false
+  // }
 
   let modalContent;
   if (isNewNote) {
     // Add a new note - focus on the textarea, enable save button when there is text
     modalContent = (
-      <AriaModal
+      <ModalDialog
         mounted={mounted}
-        titleText="Admin Notes Modal"
-        getApplicationNode={getApplicationNode}
-        underlayClass={classes.adminNotesModalContainer}
-        dialogClass={classes.adminNotesModalContent}
-        includeDefaultStyles={false}
-        verticallyCenter={true}
-        underlayClickExits={false}
-        escapeExits={false}
-        underlayColor="rgba(0, 0, 0, 0.4)"
-        initialFocus={validInitialFocusId || undefined}
+        title="Admin Notes Modal"
+        onClose={onCancel}
+        initialFocus={initialFocusId}
       >
         <div className={classes.contentContainer}>
-          <div className={classes.headerWrapper}>
-            <h2
-              id="modal-title"
-              style={{
-                fontWeight: "bold",
-                margin: "0px",
-                lineHeight: "32px",
-                color: "#0f2940"
-              }}
-            >
-              Add a New Note
-            </h2>
-            <MdOutlineClose onClick={onCancel} aria-label="Close" />
-          </div>
+          <h1 id="modal-title" className={classes.heading}>
+            Add a New Note
+          </h1>
           <div
             style={{ borderTop: "1px solid #ccc", margin: "8px 0px 0px 0px" }}
           />
@@ -221,39 +156,16 @@ const AdminNotesModal = ({
             </Button>
           </div>
         </div>
-      </AriaModal>
+      </ModalDialog>
     );
   } else if (!isEditing) {
     // Viewing a note with option to edit - textarea is read-only, focus on edit button
     modalContent = (
-      <AriaModal
-        mounted={mounted}
-        titleText="View Note Modal"
-        getApplicationNode={getApplicationNode}
-        underlayClass={classes.adminNotesModalContainer}
-        dialogClass={classes.adminNotesModalContent}
-        includeDefaultStyles={false}
-        verticallyCenter={true}
-        underlayClickExits={false}
-        escapeExits={false}
-        underlayColor="rgba(0, 0, 0, 0.4)"
-        initialFocus={initialFocusId || undefined}
-      >
+      <ModalDialog mounted={mounted} title="View Note Modal" onClose={onCancel}>
         <div className={classes.contentContainer}>
-          <div className={classes.headerWrapper}>
-            <h2
-              id="modal-title"
-              style={{
-                fontWeight: "bold",
-                margin: "0px",
-                lineHeight: "32px",
-                color: "#0f2940"
-              }}
-            >
-              View Note
-            </h2>
-            <MdOutlineClose onClick={onCancel} aria-label="Close" />
-          </div>
+          <h1 id="modal-title" className={classes.heading}>
+            View Note
+          </h1>
           <div
             style={{ borderTop: "1px solid #ccc", margin: "8px 0px 0px 0px" }}
           />
@@ -281,47 +193,23 @@ const AdminNotesModal = ({
               onClick={handleEdit}
               variant="primary"
               title="Edit Note"
-              ref={handleInitialFocusRef}
+              ref={() => handleInitialFocusRef({ id: "editButton" })}
               id="editButton"
-              color="#A7C539"
             >
               EDIT NOTE
             </Button>
           </div>
         </div>
-      </AriaModal>
+      </ModalDialog>
     );
   } else {
     //editing a note - focus on the textarea, add blue outline, enable save button when there is change
     modalContent = (
-      <AriaModal
-        mounted={mounted}
-        titleText="View Note Modal"
-        getApplicationNode={getApplicationNode}
-        underlayClass={classes.adminNotesModalContainer}
-        dialogClass={classes.adminNotesModalContent}
-        includeDefaultStyles={false}
-        verticallyCenter={true}
-        underlayClickExits={false}
-        escapeExits={false}
-        underlayColor="rgba(0, 0, 0, 0.4)"
-        initialFocus={initialFocusId || undefined}
-      >
+      <ModalDialog mounted={mounted} title="View Note Modal">
         <div className={classes.contentContainer}>
-          <div className={classes.headerWrapper}>
-            <h2
-              id="modal-title"
-              style={{
-                fontWeight: "bold",
-                margin: "0px",
-                lineHeight: "32px",
-                color: "#0f2940"
-              }}
-            >
-              Edit Note
-            </h2>
-            <MdOutlineClose onClick={onCancel} aria-label="Close" />
-          </div>
+          <h1 id="modal-title" className={classes.heading}>
+            Edit Note
+          </h1>
           <div
             style={{ borderTop: "1px solid #ccc", margin: "8px 0px 0px 0px" }}
           />
@@ -365,7 +253,7 @@ const AdminNotesModal = ({
             </Button>
           </div>
         </div>
-      </AriaModal>
+      </ModalDialog>
     );
   }
   return modalContent;

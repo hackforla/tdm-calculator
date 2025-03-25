@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { MdFileCopy } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 
@@ -49,8 +49,8 @@ export default function CopyAndEditSnapshotModal({
   copyAndEditSnapshot,
   projectName
 }) {
-  const theme = useTheme();
-  const classes = useStyles({ theme });
+  // const theme = useTheme();
+  // const classes = useStyles({ theme });
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [newProjectId, setNewProjectId] = useState(null);
 
@@ -70,12 +70,7 @@ export default function CopyAndEditSnapshotModal({
   };
 
   return (
-    <ModalDialog
-      mounted={mounted}
-      onClose={handleClose}
-      contentClass={classes.container}
-      title="Copy and Edit Snapshot"
-    >
+    <ModalDialog mounted={mounted} onClose={handleClose}>
       {!hasSubmitted ? (
         <CreateCopyOfSnapshot {...props} />
       ) : (

@@ -128,7 +128,7 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
     onAdminNoteUpdate(project.id, adminNotes);
     setIsEditing(false);
     setAdminNotesModalOpen(false);
-    setIsNewNote(false);
+    setIsNewNote(!adminNotes);
   };
 
   const handleEdit = () => {
