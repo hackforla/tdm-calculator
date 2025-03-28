@@ -3,8 +3,8 @@ name: Bug report
 about: Lists out information that would be help developers quickly identify and fix
   potential problems.
 title: 'Bug: '
-labels: 'bug, deck: missing, feature: missing, level: missing, milestone: missing,
-  priority: MUST HAVE, role: missing, size: missing'
+labels: 'bug, feature: missing, level: missing, milestone: missing, priority: MUST
+  HAVE, role: missing, size: missing'
 assignees: ''
 
 ---
