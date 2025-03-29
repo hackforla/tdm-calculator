@@ -88,8 +88,8 @@ const FeedbackPage = ({ contentContainerRef }) => {
   const projects = !account
     ? null
     : account.email
-    ? GetUserProjects(account.email)
-    : [];
+      ? GetUserProjects(account.email)
+      : [];
   const [selectedProjects, setSelectedProjects] = useState([]);
 
   useEffect(() => {
