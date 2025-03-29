@@ -198,8 +198,8 @@ const EarnedPointsProgress = ({ rulesConfig }) => {
             earned / target >= 1
               ? theme.colorPrimary
               : earned / target >= 0.01
-              ? theme.colorEarnedPoints
-              : theme.colorDisabled
+                ? theme.colorEarnedPoints
+                : theme.colorDisabled
           }
           fill="transparent"
           strokeWidth={stroke}

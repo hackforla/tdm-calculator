@@ -148,8 +148,8 @@ const WizardFooter = ({
             {!formattedDateSnapshotted
               ? "Draft"
               : project.loginId === loggedInUserId
-              ? "Snapshot"
-              : "Shared Snapshot"}
+                ? "Snapshot"
+                : "Shared Snapshot"}
           </div>
           {formattedDateSubmitted ? (
             <div>
