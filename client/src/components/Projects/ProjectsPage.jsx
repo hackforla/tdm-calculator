@@ -147,7 +147,7 @@ const useStyles = createUseStyles({
     },
     "& tr td": {
       padding: "12px",
-      verticalAlign: "middle"
+      verticalAlign: "top"
     },
     "& tr:hover": {
       background: "#B2C0D3"
