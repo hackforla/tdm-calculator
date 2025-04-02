@@ -16,10 +16,12 @@ SELECT
   dateHidden 
 FROM Project p 
 WHERE dateHidden IS NOT NULL
+GO
 
 
 -- remove dateHidden from Project
 ALTER TABLE dbo.Project DROP COLUMN dateHidden;
+GO
 
 
 -- update ProjectHide proc
@@ -48,6 +50,7 @@ BEGIN
   END
 
 END
+GO
 
 
 -- update ProjectSelectAll proc to use ProjectHidden table
@@ -115,6 +118,7 @@ BEGIN
       WHERE author.id = ISNULL(@loginId, author.id);
    END
 END;
+GO
 
 -- update ProjectSelectAllArchived proc
 ALTER   PROCEDURE [dbo].[Project_SelectAllArchived]
@@ -143,6 +147,7 @@ BEGIN
     LEFT JOIN ProjectHidden ph on p.id = ph.projectId
     WHERE p.archivedAt IS NOT NULL
 END;
+GO
 
 
 -- update SelectByIdWithSharedEmail proc
@@ -173,6 +178,7 @@ BEGIN
   LEFT JOIN ProjectHidden ph on p.id = ph.projectId
 	WHERE ps.email = @email AND ps.projectid = @id;
 END
+GO
 
 
 -- update ProjectSelectById proc
@@ -241,6 +247,7 @@ BEGIN
       WHERE p.id = @id AND p.loginId = ISNULL(@loginId, p.loginId);
    END
 END;
+GO
 
 
 
