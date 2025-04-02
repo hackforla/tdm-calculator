@@ -76,7 +76,7 @@ BEGIN
 			, p.description
 			, author.firstName
 			, author.lastName
-			, ph.dateHidden
+			, ph.dateCreated as dateHidden
 			, p.dateTrashed
 			, p.dateSnapshotted
 			, p.dateSubmitted
@@ -105,7 +105,7 @@ BEGIN
 			, p.description
 			, author.firstName
 			, author.lastName
-			, ph.dateHidden
+			, ph.dateCreated as dateHidden
 			, p.dateTrashed
 			, p.dateSnapshotted
 			, p.dateSubmitted
@@ -137,7 +137,7 @@ BEGIN
         , author.firstName
         , author.lastName
 		    , author.email
-        , ph.dateHidden
+			  , ph.dateCreated as dateHidden
         , p.dateTrashed
         , p.dateSnapshotted
 		    , p.archivedAt
@@ -169,7 +169,7 @@ BEGIN
          p.droId,
          p.adminNotes,
          p.dateModifiedAdmin,
-         ph.dateHidden,
+			   ph.dateCreated as dateHidden,
          p.dateTrashed,
          p.dateSnapshotted,
          p.dateSubmitted
@@ -208,7 +208,7 @@ BEGIN
          p.droId,               
          p.adminNotes,           
          p.dateModifiedAdmin,    
-         ph.dateHidden,
+			   ph.dateCreated as dateHidden,
          p.dateTrashed,
          p.dateSnapshotted,
          p.dateSubmitted
@@ -237,7 +237,7 @@ BEGIN
          p.droId,               
          p.adminNotes,          
          p.dateModifiedAdmin,    
-         ph.dateHidden,
+         ph.dateCreated as dateHidden,
          p.dateTrashed,
          p.dateSnapshotted,
          p.dateSubmitted
