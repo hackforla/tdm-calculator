@@ -44,6 +44,8 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateCreated: null,
   startDateModified: null,
   endDateModified: null,
+  startDateSubmitted: null,
+  endDateSubmitted: null,
   nameList: [],
   addressList: [],
   alternativeList: [],
@@ -758,6 +760,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
     ) {
       return false;
     }
+
+    if (
+      criteria.startDateSubmitted &&
+      getDateOnly(p.dateSubmitted) < getDateOnly(criteria.startDateSubmitted)
+    )
+      return false;
+    if (
+      criteria.endDateSubmitted &&
+      getDateOnly(p.dateSubmitted) > getDateOnly(criteria.endDateSubmitted)
+    )
+      return false;
 
     if (criteria.droList.length > 0) {
       const droNames = criteria.droList.map(n => n.toLowerCase());
