@@ -54,7 +54,7 @@ GO
 
 
 -- update ProjectSelectAll proc to use ProjectHidden table
-ALTER   PROC [dbo].[Project_SelectAll]
+CREATE OR ALTER   PROC [dbo].[Project_SelectAll]
    @loginId int = null
 AS
 BEGIN
@@ -86,10 +86,11 @@ BEGIN
       FROM Project p
       JOIN Login author ON p.loginId = author.id
 	  LEFT JOIN ProjectHidden ph on p.id = ph.projectId;
-   END
+     END
    ELSE
    BEGIN
-      -- User can only see their own projects
+      -- User can only see their own projects or projects 
+	  -- explicitly shared with them
       SELECT
          p.id
 			, p.name
@@ -114,8 +115,13 @@ BEGIN
          , p.dateModifiedAdmin  -- New column
       FROM Project p
       JOIN Login author ON p.loginId = author.id
-	    LEFT JOIN ProjectHidden ph on p.id = ph.projectId
-      WHERE author.id = ISNULL(@loginId, author.id);
+	   LEFT JOIN ProjectHidden ph on p.id = ph.projectId
+      WHERE author.id = ISNULL(307, author.id) OR EXISTS
+	  (
+		SELECT 1 from ProjectShare ps 
+		JOIN Login viewer ON viewer.email = ps.email
+		WHERE p.id = ps.projectId AND viewer.id = 307
+	  )
    END
 END;
 GO
