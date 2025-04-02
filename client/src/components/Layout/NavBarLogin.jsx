@@ -71,6 +71,26 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
     </li>
   );
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const tooltip = document.querySelector(".popup-content");
+      const loginButton = document.getElementById("cy-login-menu-item");
+      if (tooltip && loginButton) {
+        const rect = loginButton.getBoundingClientRect();
+        tooltip.style.top = `${Math.floor(
+          rect.bottom + window.scrollY + 10
+        )}px`;
+      }
+    };
+
+    const scrollableElement = document.querySelector("#body");
+    scrollableElement.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return !account || !account.email ? (
     !isCalculation ? (
       <li className={clsx(classes.userLogin, classes.linkBlock)}>
@@ -82,7 +102,6 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           open={tooltipOpen}
           onClose={closeModal}
           closeOnDocumentClick={false}
-          lockScroll={true}
           trigger={<span style={{ cursor: "pointer" }}>{loginLink}</span>}
           position="bottom right"
           arrow={true}
@@ -102,20 +121,19 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           {close => {
             return (
               <div style={{ margin: "1rem" }}>
-                <button
+                <MdClose
                   style={{
                     backgroundColor: "transparent",
                     color: theme.colors.secondary.gray,
                     border: "none",
                     position: "absolute",
-                    top: "0",
-                    right: "0",
+                    top: "0.25rem",
+                    right: "0.25rem",
                     cursor: "pointer"
                   }}
                   onClick={close}
-                >
-                  <MdClose />
-                </button>
+                />
+                {/* </button> */}
                 <div style={{ display: "flex", margin: "0" }}>
                   <MdWarning
                     style={{

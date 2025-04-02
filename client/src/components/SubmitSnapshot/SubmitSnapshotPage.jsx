@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import ContentContainer from "../Layout/ContentContainer";
 import Button from "../Button/Button";
-import SubmitSnapshotModal from "./SubmitSnapshotModal.jsx";
+import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
 import SubmitSnapshotTable from "./SubmitSnapshotTable";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
@@ -125,7 +125,7 @@ const SubmitSnapshotPage = props => {
       </div>
       <div> Target Points</div>
 
-      <h3 className={classes.heading3}>Snapshots Meeting Target Points:</h3>
+      <h3 className={classes.heading3}>Snapshots Meeting Target Points</h3>
 
       <div>
         <table>
@@ -135,7 +135,7 @@ const SubmitSnapshotPage = props => {
               <th className={classes.tableHead}>Name</th>
               <th className={classes.tableHead}>Address</th>
               <th className={classes.tableHead}>Date Submitted</th>
-              <th className={classes.tableHead}>Date Modified</th>
+              <th className={classes.tableHead}>Date Saved</th>
             </tr>
           </thead>
 
@@ -155,8 +155,19 @@ const SubmitSnapshotPage = props => {
           </tbody>
         </table>
       </div>
+      <div>
+        <Button
+          type="submit"
+          className={classes.submitButton}
+          color="colorPrimary"
+          onClick={handleSubmissionModalOpen}
+          disabled={!selectedProject}
+        >
+          Submit
+        </Button>
+      </div>
 
-      <h3 className={classes.heading3}>Snapshots Not Meeting Target Points:</h3>
+      <h3 className={classes.heading3}>Snapshots Not Meeting Target Points</h3>
 
       <div>
         <table>
@@ -165,7 +176,7 @@ const SubmitSnapshotPage = props => {
               <th className={classes.tableHead}>Name</th>
               <th className={classes.tableHead}>Address</th>
               <th className={classes.tableHead}>Date Submitted</th>
-              <th className={classes.tableHead}>Date Modified</th>
+              <th className={classes.tableHead}>Date Saved</th>
             </tr>
           </thead>
 
@@ -183,7 +194,7 @@ const SubmitSnapshotPage = props => {
         </table>
       </div>
 
-      <h3 className={classes.heading3}>Submitted Snapshots:</h3>
+      <h3 className={classes.heading3}>Submitted Snapshots</h3>
 
       <div>
         <table>
@@ -192,7 +203,7 @@ const SubmitSnapshotPage = props => {
               <th className={classes.tableHead}>Name</th>
               <th className={classes.tableHead}>Address</th>
               <th className={classes.tableHead}>Date Submitted</th>
-              <th className={classes.tableHead}>Date Modified</th>
+              <th className={classes.tableHead}>Date Saved</th>
             </tr>
           </thead>
 
@@ -210,23 +221,11 @@ const SubmitSnapshotPage = props => {
         </table>
       </div>
 
-      <div>
-        <Button
-          type="submit"
-          className={classes.submitButton}
-          color="colorPrimary"
-          onClick={handleSubmissionModalOpen}
-          disabled={!selectedProject}
-        >
-          Submit
-        </Button>
-
-        <SubmitSnapshotModal
-          mounted={submissionModalOpen}
-          onClose={handleSubmissionModalClose}
-          project={selectedProject}
-        />
-      </div>
+      <WarningSnapshotSubmit
+        mounted={submissionModalOpen}
+        onClose={handleSubmissionModalClose}
+        project={selectedProject}
+      />
     </ContentContainer>
   );
 };

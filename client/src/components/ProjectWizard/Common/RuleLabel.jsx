@@ -62,7 +62,7 @@ const useStyles = createUseStyles(theme => ({
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: theme.colors.warning
+      color: theme.colorCritical
     }
   },
   infoIcon: {
@@ -166,8 +166,8 @@ const RuleLabel = ({
                 )
               : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
             : description
-            ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
-            : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+              ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+              : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
         }
       >
         {link ? (

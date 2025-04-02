@@ -1,21 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { MdWarning } from "react-icons/md";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   title: {
     textAlign: "center"
   },
   warningWrapper: {
-    color: "#B64E38",
+    color: theme.colorCritical,
     display: "flex",
     alignItems: "center",
     justifyContent: "center"
   },
   warningMessage: {
+    ...theme.typography.paragraph1,
     verticalAlign: "middle",
     display: "flex",
     alignItems: "center",
@@ -30,15 +31,16 @@ const useStyles = createUseStyles({
     color: "white",
     fontWeight: "bold"
   }
-});
+}));
 
 const FaqConfirmDialog = ({ blocker }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   return (
     <ModalDialog
       mounted={blocker.state === "blocked"}
       onClose={blocker.reset}
-      showCloseBox={false}
+      omitCloseBox={true}
     >
       <div className={classes.warningWrapper}>
         <MdWarning alt="Warning" size={70} />
@@ -54,8 +56,7 @@ const FaqConfirmDialog = ({ blocker }) => {
       </p>
       <div className={classes.modalActions}>
         <Button
-          color="colorCancel"
-          variant="outlined"
+          variant="secondary"
           id="modalCancel"
           data-testid="transitionCancel"
           onClick={() => blocker.reset()}
@@ -63,9 +64,9 @@ const FaqConfirmDialog = ({ blocker }) => {
           <p style={{ fontWeight: "bold" }}>Cancel</p>
         </Button>
         <Button
-          color="colorError"
+          variant="warning"
           id="modalProceed"
-          data-testid="transitionProceed"
+          data-testid="trarnsitionProceed"
           onClick={() => blocker.proceed()}
         >
           <p className={classes.proceedButton}>Proceed</p>

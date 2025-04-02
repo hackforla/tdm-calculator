@@ -1,11 +1,10 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
-import { jssTheme } from "../../../styles/theme";
+import { createUseStyles, useTheme } from "react-jss";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   container: {
     width: "calc((100% / 14.5) * 3);",
-    background: jssTheme.colors.secondary.lightGray,
+    background: theme.colors.secondary.lightGray,
     padding: "1em",
     paddingBottom: "1em",
     position: "absolute",
@@ -19,10 +18,11 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri",
     fontWeight: 700
   }
-});
+}));
 
 const DiscoverTooltips = () => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   return (
     <div className={classes.container}>
       <p className={classes.title}>

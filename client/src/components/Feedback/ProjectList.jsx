@@ -9,11 +9,30 @@ const useStyles = createUseStyles({
     fontSize: "20px",
     lineHeight: "140%"
   },
-  tableHead: {
-    textAlign: "left"
+  table: {
+    overflow: "auto"
   },
-  tableCell: {
-    padding: "0em 1em 0em 0em"
+  tableHead: {
+    textAlign: "left",
+    fontWeight: "600"
+  },
+  checkboxCell: {
+    padding: "0em 1em 0.4rem 0em",
+    width: "1rem",
+    minWidth: "1rem",
+    maxWidth: "1rem"
+  },
+  textCell: {
+    padding: "0em 1em 0.4rem 0em",
+    width: "20rem",
+    minWidth: "20rem",
+    maxWidth: "25rem"
+  },
+  dateCell: {
+    padding: "0em 1em 0.4rem 0em",
+    width: "10rem",
+    minWidth: "10rem",
+    maxWidth: "10rem"
   }
 });
 
@@ -54,22 +73,24 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
   return (
     <div>
       <h3 className={classes.heading3}>Select Relevant Projects:</h3>
-      <table>
+      <table className={classes.table}>
         <thead>
           <tr>
             <th></th>
             <th className={classes.tableHead}>Name</th>
             <th className={classes.tableHead}>Address</th>
             <th className={classes.tableHead}>Date Entered</th>
-            <th className={classes.tableHead}>Date Modified</th>
+            <th className={classes.tableHead}>Date Saved</th>
+            <th className={classes.tableHead}>Date Submitted</th>
           </tr>
         </thead>
         <tbody>
           {augmentedProjects.map(project => (
             <tr key={project.id}>
-              <td className={classes.tableCell}>
+              <td className={classes.checkboxCell}>
                 <input
                   type="checkbox"
+                  style={{ verticalAlign: "bottom" }}
                   value={false}
                   checked={project.isSelected}
                   onChange={onSelect}
@@ -77,17 +98,17 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
                   id={project.id}
                 />
               </td>
-              <td className={classes.tableCell}>{project.name}</td>
-              <td className={classes.tableCell}>
+              <td className={classes.textCell}>{project.name}</td>
+              <td className={classes.textCell}>
                 {JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
               </td>
-              <td className={classes.tableCell}>
+              <td className={classes.dateCell}>
                 {formatDatetime(project.dateCreated)}
               </td>
-              <td className={classes.tableCell}>
+              <td className={classes.dateCell}>
                 {formatDatetime(project.dateModified)}
               </td>
-              <td className={classes.tableCell}>
+              <td className={classes.dateCell}>
                 {formatDatetime(project.dateSubmitted)}
               </td>
             </tr>

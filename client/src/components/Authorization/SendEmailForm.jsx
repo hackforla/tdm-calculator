@@ -2,12 +2,12 @@ import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 
-export const useStyles = createUseStyles({
+export const useStyles = createUseStyles(theme => ({
   pageTitle: {
     marginBottom: "16px"
   },
@@ -25,22 +25,22 @@ export const useStyles = createUseStyles({
   inputField: {
     width: "403px",
     height: "30px",
-    border: "1px solid #979797",
+    border: "1px solid" + theme.colors.secondary.gray,
     marginTop: "8px"
   },
   error: {
-    borderColor: "#dc3545"
+    borderColor: theme.colorCritical
   },
   errorMessage: {
     margin: "8px auto",
     width: "403px",
-    color: "red"
+    color: theme.colorCritical
   },
   authText: {
-    color: "#979797",
+    color: theme.colors.secondary.gray,
     marginTop: "20px"
   }
-});
+}));
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -50,7 +50,8 @@ const validationSchema = Yup.object().shape({
 
 const SendEmailForm = ({ label, submitted, handleSubmit }) => {
   const focusRef = useRef(null);
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
 
   return !submitted ? (
     <>

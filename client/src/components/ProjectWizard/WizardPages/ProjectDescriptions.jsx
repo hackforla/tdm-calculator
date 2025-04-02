@@ -5,18 +5,17 @@ import DiscoverTooltips from "./DiscoverTooltips";
 import { createUseStyles, useTheme } from "react-jss";
 import ResetButtons from "./ResetButtons";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   disclaimer: {
-    fontStyle: "normal",
-    fontWeight: "400",
+    ...theme.typography.paragraph1,
     position: "relative",
     textAlign: "center",
     top: "20px"
   },
   asterisk: {
-    color: "red"
+    color: theme.colorCritical
   }
-});
+}));
 
 function ProjectDescriptions(props) {
   const {

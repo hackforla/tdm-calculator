@@ -1,4 +1,4 @@
-import fetchEngineRules from "./fetchEngineRules";
+import fetchEngineRules from "../Projects/fetchEngineRules";
 
 // This method gets properties from the project object and converts them to
 // an array of objects that look enough like rules to concatenate with an
@@ -15,8 +15,8 @@ const getProjectProperties = project => {
       value: project.dateCreated
     },
     {
-      code: "Date Modified",
-      name: "Date Modified",
+      code: "Date Saved",
+      name: "Date Saved",
       dataType: "project",
       choices: null,
       value: project.dateModified
@@ -78,7 +78,7 @@ const orderedCodes = [
   "PROJECT_DESCRIPTION",
   "VERSION_NO",
   "Date Created",
-  "Date Modified",
+  "Date Saved",
   "Date Snapshotted",
   "Date Hidden",
   "Date Deleted",

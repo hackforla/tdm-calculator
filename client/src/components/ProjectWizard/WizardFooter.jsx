@@ -1,10 +1,8 @@
 import React, { useRef, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
-import SaveButton from "../Button/SaveButton";
-import SubmitButton from "../Button/SubmitButton";
 import { createUseStyles } from "react-jss";
-import PrintButton from "../Button/PrintButton";
+import Button from "../Button/Button";
 import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { formatDatetime } from "../../helpers/util";
@@ -49,13 +47,14 @@ const WizardFooter = ({
   page,
   onPageChange,
   pageNumber,
+  isFinalPage,
   setDisabledForNextNavButton,
   setDisabledSaveButton,
   setDisplaySaveButton,
-  setDisplayPrintButton,
   setDisabledSubmitButton,
   setDisplaySubmitButton,
   onSave,
+  showCopyAndEditSnapshot,
   project,
   shareView
 }) => {
@@ -73,26 +72,27 @@ const WizardFooter = ({
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const loggedInUserId = userContext.account?.id;
-  const [selectedProject, setSelectedProject] = useState(null);
+  // const [selectedProject, setSelectedProject] = useState(null);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
     useState(false);
 
-  const updateProject = async () => {
-    const updated = await projectService.getById(selectedProject.id);
-    setSelectedProject(updated.data);
+  const handleSubmitClick = () => {
+    setDisabledSubmitButton()
+      ? handleTargetNotReachedModalOpen()
+      : handleSubmitModalOpen(project);
   };
 
-  const handleSubmitModalOpen = project => {
-    setSelectedProject(project);
+  const handleSubmitModalOpen = () => {
+    // setSelectedProject(project);
     setSubmitModalOpen(true);
   };
 
   const handleSubmitModalClose = async action => {
     if (action === "ok") {
       try {
-        await projectService.submit({ id: selectedProject.id });
-        await updateProject();
+        await projectService.submit({ id: project.id });
+        // await updateProject();
       } catch (err) {
         handleError(err);
       }
@@ -140,12 +140,24 @@ const WizardFooter = ({
                 }}
               />
             </div>
+            {isFinalPage && project?.dateSnapshotted && (
+              <Button
+                id="copyAndEditSnapshot"
+                onClick={showCopyAndEditSnapshot}
+                variant="tertiary"
+              >
+                Copy and Edit Snapshot
+              </Button>
+            )}
             <ReactToPrint
               trigger={() => (
-                <PrintButton
+                <Button
                   id="PrintButton"
-                  isDisplayed={setDisplayPrintButton()}
-                />
+                  isDisplayed={isFinalPage}
+                  variant="tertiary"
+                >
+                  Print Summary
+                </Button>
               )}
               content={() => componentRef.current}
               documentTitle={projectName}
@@ -155,24 +167,25 @@ const WizardFooter = ({
             <div style={{ display: "none" }}>
               <PdfPrint ref={componentRef} rules={rules} project={project} />
             </div>
-            <SaveButton
+
+            <Button
+              id="submitButton"
+              variant="tertiary"
+              disabled={setDisabledSubmitButton}
+              isDisplayed={setDisplaySubmitButton}
+              onClick={handleSubmitClick}
+            >
+              Submit
+            </Button>
+            <Button
               id="saveButton"
-              color="colorPrimary"
-              isDisabled={setDisabledSaveButton()}
+              variant="primary"
+              disabled={setDisabledSaveButton()}
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
-            />
-            <SubmitButton
-              id="submitButton"
-              color="colorPrimary"
-              isDisabled={setDisabledSubmitButton()}
-              isDisplayed={setDisplaySubmitButton()}
-              onClick={
-                setDisabledSubmitButton()
-                  ? handleTargetNotReachedModalOpen
-                  : handleSubmitModalOpen
-              }
-            />
+            >
+              Save Project
+            </Button>
             <WarningProjectSubmit
               mounted={submitModalOpen}
               onClose={handleSubmitModalClose}
@@ -193,8 +206,8 @@ const WizardFooter = ({
             {!formattedDateSnapshotted
               ? "Draft"
               : project.loginId === loggedInUserId
-              ? "Snapshot"
-              : "Shared Snapshot"}
+                ? "Snapshot"
+                : "Shared Snapshot"}
           </div>
           {formattedDateSubmitted ? (
             <div>
@@ -226,10 +239,10 @@ WizardFooter.propTypes = {
   page: PropTypes.any,
   onPageChange: PropTypes.any,
   pageNumber: PropTypes.any,
+  isFinalPage: PropTypes.bool,
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
-  setDisplayPrintButton: PropTypes.any,
   setDisabledSubmitButton: PropTypes.any,
   setDisplaySubmitButton: PropTypes.any,
   onSave: PropTypes.any,
@@ -239,6 +252,7 @@ WizardFooter.propTypes = {
   targetNotReachedModalOpen: PropTypes.any,
   handleTargetNotReachedModalOpen: PropTypes.any,
   handleTargetNotReachedModalClose: PropTypes.any,
+  showCopyAndEditSnapshot: PropTypes.func,
   onDownload: PropTypes.any,
   project: PropTypes.any,
   selectProject: PropTypes.any,

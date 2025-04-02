@@ -150,11 +150,11 @@ const useStyles = createUseStyles(theme => ({
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: theme.colors.warning
+      color: theme.colorCritical
     }
   },
   errorLabel: {
-    color: theme.colors.warning,
+    color: theme.colorCritical,
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
@@ -348,7 +348,7 @@ const RuleCalculation = ({
                 <Popup
                   trigger={
                     <span style={{ cursor: "pointer" }}>
-                      <ToolTipIcon id={id} />
+                      <ToolTipIcon id={id.toString()} />
                     </span>
                   }
                   position="left center"
@@ -391,8 +391,8 @@ const RuleCalculation = ({
               {calcCode === "CALC_PARK_RATIO"
                 ? Math.round((calcValue || 0) * 100) / 100
                 : calcValue
-                ? Math.round(calcValue * 100) / 100
-                : ""}
+                  ? Math.round(calcValue * 100) / 100
+                  : ""}
             </span>
             <span className={classes.calcUnits}> {calcUnits || ""}</span>
           </div>

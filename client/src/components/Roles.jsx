@@ -52,6 +52,8 @@ const useStyles = createUseStyles({
     fontWeight: "bold",
     backgroundColor: "#0f2940",
     color: "white",
+    position: "sticky",
+    top: "0",
     "& td": {
       padding: ".4em"
     }
@@ -188,10 +190,7 @@ const Roles = ({ contentContainerRef }) => {
   };
 
   return (
-    <ContentContainer
-      contentContainerRef={contentContainerRef}
-      // className={classes.main}
-    >
+    <ContentContainer contentContainerRef={contentContainerRef}>
       {redirectPath ? <Navigate to="{redirectPath}" /> : null}
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>

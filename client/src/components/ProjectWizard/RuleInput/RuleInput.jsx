@@ -121,7 +121,7 @@ const useStyles = createUseStyles(theme => ({
     border: theme.border.dashedWarning
   },
   errorLabel: {
-    color: theme.colors.warning,
+    color: theme.colorCritical,
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"

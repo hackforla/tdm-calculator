@@ -2,7 +2,8 @@
 name: Post an open role
 about: Recruit volunteers for specific open roles template
 title: 'TDM: Open Role for: [Replace with NAME OF ROLE]'
-labels: 'feature: recruiting, level: easy, role: missing, size: 0.25pt'
+labels: 'feature: recruiting, level: easy, priority: missing, role: missing, size:
+  0.25pt'
 assignees: ''
 
 ---

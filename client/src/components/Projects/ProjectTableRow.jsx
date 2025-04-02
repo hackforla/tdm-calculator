@@ -20,13 +20,14 @@ import fetchEngineRules from "./fetchEngineRules";
 import * as droService from "../../services/dro.service";
 import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
-import AdminNotesModal from "./AdminNotesModal";
-import WarningModal from "../UI/AriaModal/WarningModal";
+import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
+import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 
 const useStyles = createUseStyles(theme => ({
   td: {
     padding: "0.2em",
-    textAlign: "left"
+    textAlign: "left",
+    width: "5%"
   },
   tdRightAlign: {
     padding: "0.2em",
@@ -127,7 +128,7 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
     onAdminNoteUpdate(project.id, adminNotes);
     setIsEditing(false);
     setAdminNotesModalOpen(false);
-    setIsNewNote(false);
+    setIsNewNote(!adminNotes);
   };
 
   const handleEdit = () => {
