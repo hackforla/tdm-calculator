@@ -82,10 +82,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         if (locationPath[1] == "projects") {
           try {
             projectResponse = await projectService.getByIdWithEmail(projectId);
-
-            // if (projectResponse) {
-            //   setShareView(true);
-            // }
           } catch (err) {
             if (err.response.status == 404) {
               navigate(`/login?url=${locationPath[1]}/${locationPath[2]}`);
@@ -96,7 +92,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
           }
         } else {
           projectResponse = await projectService.getById(projectId);
-          // setShareView(false);
         }
         if (projectResponse) {
           setProject(projectResponse.data);
@@ -114,12 +109,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));
       throw new Error(JSON.stringify(err, null, 2));
-      // const errMessage = account.id
-      //   ? "The project you are trying to view can only be viewed by the user."
-      //   : "You must be logged in to view project.";
-      // toast.add(errMessage);
-      // const redirect = account.id ? "/projects" : "/login";
-      // navigate(redirect);
     }
   }, [engine, projectId, account, setRules, setProject]); // eslint-disable-line react-hooks/exhaustive-deps
 

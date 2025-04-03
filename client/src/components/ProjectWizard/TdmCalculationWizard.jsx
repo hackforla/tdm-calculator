@@ -68,11 +68,9 @@ const TdmCalculationWizard = props => {
   const toast = useToast();
   const userContext = useContext(UserContext);
   const account = userContext ? userContext.account : null;
-  // const isAdmin = !!account?.isAdmin;
   const params = useParams();
   const navigate = useNavigate();
   const page = Number(params.page || 1);
-  // const page = Number(shareView || !isAdmin ? 5 : params.page || 1);
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
   const [ainInputError, setAINInputError] = useState("");
@@ -240,10 +238,8 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisplaySaveButton = () => {
-    return true;
-    // const loggedIn = !!account && !!account.id;
-    // const setDisplayed = loggedIn;
-    // return !shareView && setDisplayed;
+    const loggedIn = !!account && !!account.id;
+    return loggedIn;
   };
 
   const isFinalPage = page === 5;
