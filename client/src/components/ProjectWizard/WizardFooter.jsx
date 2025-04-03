@@ -13,7 +13,7 @@ const useStyles = createUseStyles({
   allButtonsWrapper: {
     display: "flex",
     alignItems: "center",
-    margin: "3em 0",
+    margin: "1.5em 0",
     width: "80%",
     justifyContent: "center"
   },
@@ -22,12 +22,6 @@ const useStyles = createUseStyles({
     margin: "auto",
     fontWeight: "bold",
     padding: "0px 12px"
-  },
-  lastSaved: {
-    color: "#6F6C64"
-  },
-  lastSavedContainer: {
-    margin: "0 auto"
   },
   datesStatus: {
     width: "90%",
@@ -64,6 +58,7 @@ const WizardFooter = ({
   const formattedDateModified = formatDatetime(project.dateModified);
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
+  const isAdmin = !!userContext.account?.isAdmin;
 
   return (
     <>
@@ -75,15 +70,26 @@ const WizardFooter = ({
                 id="leftNavArrow"
                 navDirection="previous"
                 color="colorPrimary"
-                isVisible={page !== 1}
-                isDisabled={shareView || Number(page) === 1}
+                isVisible={
+                  page !== 1 &&
+                  !project.dateSnapshotted &&
+                  (!shareView || isAdmin)
+                }
+                isDisabled={
+                  (shareView && !isAdmin) ||
+                  project.dateSnapshotted ||
+                  Number(page) === 1
+                }
                 onClick={() => {
                   onPageChange(Number(page) - 1);
                 }}
               />
-              <div className={classes.pageNumberCounter}>
-                Page {pageNumber}/5
-              </div>
+              {(!shareView || isAdmin) && !project.dateSnapshotted ? (
+                <div className={classes.pageNumberCounter}>
+                  Page {pageNumber}/5
+                </div>
+              ) : null}
+              {/* Page {pageNumber}/5 */}
               <NavButton
                 id="rightNavArrow"
                 navDirection="next"
