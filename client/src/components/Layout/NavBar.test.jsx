@@ -5,7 +5,15 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "@testing-library/jest-dom";
 import TdmAuthProvider from "../Layout/TdmAuthProvider";
 
+let spy;
+beforeAll(() => {
+  spy = jest.spyOn(document, 'querySelector');
+});
+
 it("renders without crashing", () => {
+  let mockBody =document.createElement('body',);
+  spy.mockReturnValue(mockBody);
+
   render(
     <Router>
       <TdmAuthProvider>
