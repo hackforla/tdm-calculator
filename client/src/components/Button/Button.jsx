@@ -13,9 +13,65 @@ const useStyles = createUseStyles(theme => ({
     padding: "0.5em 1em",
     textAlign: "center",
     textTransform: "uppercase",
-    //TODO: Move these when we figure out size-related props
     letterSpacing: "0.05em",
-    fontSize: "20px"
+    fontSize: "20px",
+    // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
+    boxShadow: "0 4 4 0" + theme.colorDropShadow,
+    "&[disabled]:hover": {
+      boxShadow: "3 4 4 0 " + theme.colorDropShadowDisabled
+    },
+    "&:hover": {
+      boxShadow: "3 3 4 0" + theme.colorDropShadowHover
+    }
+  },
+  primary: {
+    backgroundColor: theme.colorPrimary,
+    border: "none",
+    // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
+    boxShadow: "0px 4px 4px 0px" + theme.colorDropShadow,
+    "&[disabled]:hover": {
+      boxShadow: "3px 4px 4px 0px " + theme.colorDropShadowDisabled
+    },
+    "&:hover": {
+      boxShadow: "3px 3px 4px 0px" + theme.colorDropShadowHover
+    }
+  },
+  secondary: {
+    color: theme.colors.primary.black,
+    backgroundColor: theme.colorDefault,
+    border: "1px solid " + theme.colors.primary.black,
+    boxShadow: "0px 4px 4px 0px" + theme.colorDropShadow,
+    // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
+    "&[disabled]:hover": {
+      boxShadow: "3px 4px 4px 0px " + theme.colorDropShadowDisabled
+    },
+    "&:hover": {
+      boxShadow: "3px 3px 4px 0px" + theme.colorDropShadowHover
+    }
+  },
+  tertiary: {
+    color: theme.colors.primary.black,
+    // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
+    boxShadow: "0px 4px 4px 0px" + theme.colorDropShadow,
+    "&:hover": {
+      boxShadow: "3px 3px 4px 0px" + theme.colorDropShadowHover
+    },
+    "&[disabled]:hover": {
+      boxShadow: "3px 4px 4px 0px " + theme.colorDropShadowDisabled
+    }
+  },
+  warning: {
+    color: theme.colorWhite,
+    backgroundColor: theme.colorCritical,
+    border: "none",
+    // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
+    boxShadow: "0px 4px 4px 0px " + theme.colorDropShadow,
+    "&[disabled]:hover": {
+      boxShadow: "3px 4px 4px 0px " + theme.colorDropShadowDisabled
+    },
+    "&:hover": {
+      boxShadow: "3px 3px 4px 0px" + theme.colorDropShadowHover
+    }
   },
   contained: {
     backgroundColor: ({ color }) => theme[color],
@@ -52,14 +108,6 @@ const useStyles = createUseStyles(theme => ({
     marginRight: 0,
     "&:hover": {
       boxShadow: "rgba(0, 0, 0, 0.1) 2px 4px 6px" // Heavier box shadow on hover
-    }
-  },
-  warning: {
-    backgroundColor: theme.colors.warning, // Red background color with some transparency
-    color: "white",
-    "&:hover": {
-      backgroundColor: theme.colors.warning, // Solid red background on hover
-      boxShadow: "rgba(0, 46, 109, 0.4) 2px 4px 6px" // Heavier box shadow on hover
     }
   },
   error: {

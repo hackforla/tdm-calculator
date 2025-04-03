@@ -1,10 +1,9 @@
 import React, { useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
-import SaveButton from "../Button/SaveButton";
 import SubmitButton from "../Button/SubmitButton";
 import { createUseStyles } from "react-jss";
-import PrintButton from "../Button/PrintButton";
+import Button from "../Button/Button";
 import ReactToPrint from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { formatDatetime } from "../../helpers/util";
@@ -14,7 +13,7 @@ const useStyles = createUseStyles({
   allButtonsWrapper: {
     display: "flex",
     alignItems: "center",
-    margin: "3em 0",
+    margin: "1.5em 0",
     width: "80%",
     justifyContent: "center"
   },
@@ -23,12 +22,6 @@ const useStyles = createUseStyles({
     margin: "auto",
     fontWeight: "bold",
     padding: "0px 12px"
-  },
-  lastSaved: {
-    color: "#6F6C64"
-  },
-  lastSavedContainer: {
-    margin: "0 auto"
   },
   datesStatus: {
     width: "90%",
@@ -44,12 +37,13 @@ const WizardFooter = ({
   page,
   onPageChange,
   pageNumber,
+  isFinalPage,
   setDisabledForNextNavButton,
   setDisabledSaveButton,
   setDisplaySaveButton,
-  setDisplayPrintButton,
   setDisplaySubmitButton,
   onSave,
+  showCopyAndEditSnapshot,
   project,
   shareView
 }) => {
@@ -64,6 +58,7 @@ const WizardFooter = ({
   const formattedDateModified = formatDatetime(project.dateModified);
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
+  const isAdmin = !!userContext.account?.isAdmin;
 
   return (
     <>
@@ -75,15 +70,26 @@ const WizardFooter = ({
                 id="leftNavArrow"
                 navDirection="previous"
                 color="colorPrimary"
-                isVisible={page !== 1}
-                isDisabled={shareView || Number(page) === 1}
+                isVisible={
+                  page !== 1 &&
+                  !project.dateSnapshotted &&
+                  (!shareView || isAdmin)
+                }
+                isDisabled={
+                  (shareView && !isAdmin) ||
+                  project.dateSnapshotted ||
+                  Number(page) === 1
+                }
                 onClick={() => {
                   onPageChange(Number(page) - 1);
                 }}
               />
-              <div className={classes.pageNumberCounter}>
-                Page {pageNumber}/5
-              </div>
+              {(!shareView || isAdmin) && !project.dateSnapshotted ? (
+                <div className={classes.pageNumberCounter}>
+                  Page {pageNumber}/5
+                </div>
+              ) : null}
+              {/* Page {pageNumber}/5 */}
               <NavButton
                 id="rightNavArrow"
                 navDirection="next"
@@ -95,12 +101,24 @@ const WizardFooter = ({
                 }}
               />
             </div>
+            {isFinalPage && project?.dateSnapshotted && (
+              <Button
+                id="copyAndEditSnapshot"
+                onClick={showCopyAndEditSnapshot}
+                variant="tertiary"
+              >
+                Copy and Edit Snapshot
+              </Button>
+            )}
             <ReactToPrint
               trigger={() => (
-                <PrintButton
+                <Button
                   id="PrintButton"
-                  isDisplayed={setDisplayPrintButton()}
-                />
+                  isDisplayed={isFinalPage}
+                  variant="tertiary"
+                >
+                  Print Summary
+                </Button>
               )}
               content={() => componentRef.current}
               documentTitle={projectName}
@@ -110,13 +128,15 @@ const WizardFooter = ({
             <div style={{ display: "none" }}>
               <PdfPrint ref={componentRef} rules={rules} project={project} />
             </div>
-            <SaveButton
+            <Button
               id="saveButton"
-              color="colorPrimary"
-              isDisabled={setDisabledSaveButton()}
+              variant="primary"
+              disabled={setDisabledSaveButton()}
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
-            />
+            >
+              Save Project
+            </Button>
             <SubmitButton
               id="submitButton"
               color="colorPrimary"
@@ -134,8 +154,8 @@ const WizardFooter = ({
             {!formattedDateSnapshotted
               ? "Draft"
               : project.loginId === loggedInUserId
-              ? "Snapshot"
-              : "Shared Snapshot"}
+                ? "Snapshot"
+                : "Shared Snapshot"}
           </div>
           {formattedDateSubmitted ? (
             <div>
@@ -167,12 +187,13 @@ WizardFooter.propTypes = {
   page: PropTypes.any,
   onPageChange: PropTypes.any,
   pageNumber: PropTypes.any,
+  isFinalPage: PropTypes.bool,
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
-  setDisplayPrintButton: PropTypes.any,
   setDisplaySubmitButton: PropTypes.any,
   onSave: PropTypes.any,
+  showCopyAndEditSnapshot: PropTypes.func,
   onDownload: PropTypes.any,
   project: PropTypes.any,
   shareView: PropTypes.bool

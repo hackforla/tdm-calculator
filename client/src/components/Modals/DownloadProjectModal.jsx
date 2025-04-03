@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import * as projectResultService from "../../services/projectResult.service";
 import Button from "../Button/Button";
-
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import ModalDialog from "../UI/Modal";
 
 // This file appears to be obsolete
 

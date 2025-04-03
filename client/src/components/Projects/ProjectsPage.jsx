@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, memo } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
@@ -12,19 +12,19 @@ import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusDa
 import * as projectService from "../../services/project.service";
 import * as projectResultService from "../../services/projectResult.service";
 import * as droService from "../../services/dro.service";
-import SnapshotProjectModal from "./SnapshotProjectModal";
-import RenameSnapshotModal from "./RenameSnapshotModal";
-import ShareSnapshotModal from "./ShareSnapshotModal";
-import SubmitProjectModal from "../SubmitSnapshot/SubmitSnapshotModal";
-import DeleteProjectModal from "./DeleteProjectModal";
-import CopyProjectModal from "./CopyProjectModal";
-import CsvModal from "./CsvModal";
+import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
+import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
+import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
+import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
+import WarningProjectDelete from "../Modals/WarningProjectDelete";
+import CopyProjectModal from "../Modals/ActionProjectCopy";
+import CsvModal from "../Modals/ActionProjectsCsv";
 import ProjectTableRow from "./ProjectTableRow";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import fetchEngineRules from "./fetchEngineRules";
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
-import TertiaryButton from "../Button/TertiaryButton";
+import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
 
 const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
@@ -97,12 +97,20 @@ const useStyles = createUseStyles({
   },
   searchIcon: {
     position: "absolute",
-    left: "16px",
-    top: "14px"
+    left: "14px",
+    top: "10px",
+    height: "28px",
+    width: "28px"
+  },
+  tableAdmin: {
+    minWidth: "135rem",
+    width: "135rem",
+    tableLayout: "fixed"
   },
   table: {
-    minWidth: "850px",
-    width: "100%"
+    minWidth: "110rem",
+    width: "110rem",
+    tableLayout: "fixed"
   },
   tr: {
     margin: "0.5em"
@@ -139,7 +147,7 @@ const useStyles = createUseStyles({
     },
     "& tr td": {
       padding: "12px",
-      verticalAlign: "middle"
+      verticalAlign: "top"
     },
     "& tr:hover": {
       background: "#B2C0D3"
@@ -296,7 +304,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     fetchRules().catch(console.error);
   }, [checkedProjectIds, checkedProjectsStatusData]);
 
-  const MemoizedMultiProjectToolbar = memo(MultiProjectToolbarMenu);
+  // const MemoizedMultiProjectToolbar = memo(MultiProjectToolbarMenu);
 
   const selectedProjectName = (() => {
     if (!selectedProject || !selectedProject.formInputs) {
@@ -596,15 +604,24 @@ const ProjectsPage = ({ contentContainerRef }) => {
       : (a, b) => -ascCompareBy(a, b, orderBy);
   };
 
-  const setSort = (orderBy, order) => {
+  const setSort = (orderBy, order, isStatus = false) => {
     // If already sorted by the orderBy field, remove that entry from the
     // sort array first
-    let newSortCriteria = sortCriteria.filter(c => c.field !== orderBy);
-    // Add new sort criteria and direction to the sortCriteria and
+    let newSortCriteria = [];
+    if (isStatus) {
+      newSortCriteria = sortCriteria.filter(
+        c => c.field != "dateSnapshotted" && c.field != "dateTrashed"
+      );
+      newSortCriteria.push({ field: "dateTrashed", direction: order });
+      newSortCriteria.push({ field: "dateSnapshotted", direction: order });
+    } else {
+      newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
+      newSortCriteria.push({ field: orderBy, direction: order });
+    }
+
     // save to local storagr
-    newSortCriteria.push({ field: orderBy, direction: order });
-    // and update the sortCriteria state.
     setSessionSortCriteria(newSortCriteria);
+    // and update the sortCriteria state.
     setSortCriteria(newSortCriteria);
   };
 
@@ -685,7 +702,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
 
     // fullName attr allows searching by full name, not just by first or last name
-    p["fullname"] = `${p["firstName"]} ${p["lastName"]}`;
+    p["fullname"] = `${p["lastName"]}, ${p["firstName"]}`;
     if (
       criteria.author &&
       !p.fullname.toLowerCase().includes(criteria.author.toLowerCase())
@@ -762,27 +779,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
     }
 
-    // if (userContext.account?.isAdmin) {
-    //   const projectAdminNotes = (p.adminNotes || "").toLowerCase().trim();
-    //   const criteriaAdminNotes = criteria.adminNotes.toLowerCase().trim();
-
-    //   if (
-    //     criteriaAdminNotes &&
-    //     !projectAdminNotes.includes(criteriaAdminNotes)
-    //   ) {
-    //     return false;
-    //   }
-
-    //   if (
-    //     criteria.adminNotesList.length > 0 &&
-    //     !criteria.adminNotesList
-    //       .map(n => n.toLowerCase())
-    //       .includes((p.adminNotes || "").toLowerCase())
-    //   ) {
-    //     return false;
-    //   }
-    // }
-
     if (
       criteria.startDateModifiedAdmin &&
       getDateOnly(p.dateModifiedAdmin) <
@@ -812,7 +808,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const resetFiltersSort = () => {
     setFilter(DEFAULT_FILTER_CRITERIA);
     setSortCriteria(DEFAULT_SORT_CRITERIA);
-    setSort(DEFAULT_SORT_CRITERIA[0].field, DEFAULT_SORT_CRITERIA[0].direction);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
@@ -829,48 +824,60 @@ const ProjectsPage = ({ contentContainerRef }) => {
           checked={selectAllChecked}
           onChange={handleHeaderCheckbox}
         />
-      )
+      ),
+      colWidth: "3rem"
     },
     {
       id: "dateHidden",
       label: "Visibility",
-      popupType: "visibility"
+      popupType: "visibility",
+      colWidth: "7rem"
     },
     {
       id: "dateSnapshotted",
       label: "Status",
-      popupType: "status"
+      popupType: "status",
+      colWidth: "7rem"
     },
-    { id: "name", label: "Name", popupType: "text" },
-    { id: "address", label: "Address", popupType: "text" },
-    { id: "alternative", label: "Alternative Number", popupType: "text" },
-    { id: "author", label: "Created By", popupType: "text" },
+    { id: "name", label: "Name", popupType: "text", colWidth: "20rem" },
+    { id: "address", label: "Address", popupType: "text", colWidth: "20rem" },
+    {
+      id: "alternative",
+      label: "Alt No.",
+      popupType: "text",
+      colWidth: "10rem"
+    },
+    { id: "author", label: "Created By", popupType: "text", colWidth: "15rem" },
     {
       id: "dateCreated",
       label: "Created On",
       popupType: "datetime",
       startDatePropertyName: "startDateCreated",
-      endDatePropertyName: "endDateCreated"
+      endDatePropertyName: "endDateCreated",
+      colWidth: "8rem"
     },
     {
       id: "dateModified",
-      label: "Last Modified",
+      label: "Last Saved",
       popupType: "datetime",
       startDatePropertyName: "startDateModified",
-      endDatePropertyName: "endDateModified"
+      endDatePropertyName: "endDateModified",
+      colWidth: "8rem"
     },
     {
       id: "dateSubmitted",
       label: "Submitted",
       popupType: "datetime",
       startDatePropertyName: "startDateSubmitted",
-      endDatePropertyName: "endDateSubmitted"
+      endDatePropertyName: "endDateSubmitted",
+      colWidth: "10rem"
     },
     {
       id: "dro",
       label: "DRO",
       popupType: "text",
-      accessor: "droName"
+      accessor: "droName",
+      colWidth: "10rem"
     },
 
     ...(userContext.account?.isAdmin
@@ -879,18 +886,21 @@ const ProjectsPage = ({ contentContainerRef }) => {
             id: "adminNotes",
             label: "Admin Notes",
             popupType: "text",
-            accessor: "adminNotes"
+            accessor: "adminNotes",
+            colWidth: "10rem"
           },
           {
             id: "dateModifiedAdmin",
-            label: "Date Admin Modified",
-            popupType: "datetime"
+            label: "Date Admin Saved",
+            popupType: "datetime",
+            colWidth: "15rem"
           }
         ]
       : []),
     {
       id: "contextMenu",
-      label: ""
+      label: "",
+      colWidth: "3rem"
     }
   ];
 
@@ -931,11 +941,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "flex-start",
+                  justifyContent: "space-between",
                   width: "100vw"
                 }}
               >
-                <MemoizedMultiProjectToolbar
+                <MultiProjectToolbarMenu
                   handleHideBoxes={handleHide}
                   handleCsvModalOpen={handleCsvModalOpen}
                   handleDeleteModalOpen={handleDeleteModalOpen}
@@ -948,10 +958,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    alignSelf: "flex-end",
-                    marginLeft: "20px",
-                    justifyContent: "space-between",
-                    width: "80%"
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    flexBasis: "33%"
                   }}
                 >
                   <div className={classes.searchBarWrapper}>
@@ -966,20 +975,39 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     />
                     <MdOutlineSearch className={classes.searchIcon} />
                   </div>
-                  <div style={{ marginRight: "0.75em" }}>
-                    <TertiaryButton
-                      onClick={resetFiltersSort}
-                      style={{ height: "40px", marginRight: "1em" }}
-                      isDisplayed={true}
-                    >
-                      RESET FILTERS/SORT
-                    </TertiaryButton>
-                  </div>
+                </div>
+
+                <div
+                  style={{
+                    paddingRight: "1.5em",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    flexBasis: "33%"
+                  }}
+                >
+                  <Button
+                    onClick={resetFiltersSort}
+                    isDisplayed={true}
+                    variant="tertiary"
+                  >
+                    RESET FILTERS/SORT
+                  </Button>
                 </div>
               </div>
               <div>
                 <div className={classes.tableContainer}>
-                  <table className={classes.table}>
+                  <table
+                    className={
+                      userContext.account?.isAdmin
+                        ? classes.tableAdmin
+                        : classes.table
+                    }
+                  >
+                    <colgroup>
+                      {headerData.map(h => (
+                        <col key={h.id} width={h.colWidth} />
+                      ))}
+                    </colgroup>
                     <thead className={classes.thead}>
                       <tr className={classes.tr}>
                         {headerData.map(header => {
@@ -1086,7 +1114,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     onClose={handleCopyModalClose}
                     selectedProjectName={selectedProjectName}
                   />
-                  <DeleteProjectModal
+                  <WarningProjectDelete
                     mounted={deleteModalOpen}
                     onClose={handleDeleteModalClose}
                     project={selectedProject || checkedProjectsStatusData}
@@ -1106,7 +1134,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     onClose={handleShareSnapshotModalClose}
                     project={selectedProject}
                   />
-                  <SubmitProjectModal
+                  <WarningSnapshotSubmit
                     mounted={submitModalOpen}
                     onClose={handleSubmitModalClose}
                     project={selectedProject}
@@ -1116,7 +1144,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
             </div>
           </div>
         </div>
-        ``
       </div>
     </ContentContainerNoSidebar>
   );

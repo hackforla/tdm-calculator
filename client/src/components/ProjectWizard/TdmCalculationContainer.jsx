@@ -7,7 +7,6 @@ import * as ruleService from "../../services/rule.service";
 import * as projectService from "../../services/project.service";
 import Engine from "../../services/tdm-engine";
 import { useToast } from "../../contexts/Toast";
-// import { formatDatetime } from "../../helpers/util";
 
 // These are the calculation results we want to calculate
 // and display on the main page.
@@ -42,6 +41,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const location = useLocation();
   const userContext = useContext(UserContext);
   const account = userContext ? userContext.account : null;
+  const isAdmin = !!account?.isAdmin;
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
   const [partialAIN, setPartialAIN] = useState("");
@@ -82,10 +82,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         if (locationPath[1] == "projects") {
           try {
             projectResponse = await projectService.getByIdWithEmail(projectId);
-
-            if (projectResponse) {
-              setShareView(true);
-            }
           } catch (err) {
             if (err.response.status == 404) {
               navigate(`/login?url=${locationPath[1]}/${locationPath[2]}`);
@@ -96,10 +92,10 @@ export function TdmCalculationContainer({ contentContainerRef }) {
           }
         } else {
           projectResponse = await projectService.getById(projectId);
-          setShareView(false);
         }
         if (projectResponse) {
           setProject(projectResponse.data);
+          setShareView(projectResponse.data.loginId !== account.id && !isAdmin);
           inputs = JSON.parse(projectResponse.data.formInputs);
           setStrategiesInitialized(true);
         }
@@ -113,12 +109,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));
       throw new Error(JSON.stringify(err, null, 2));
-      // const errMessage = account.id
-      //   ? "The project you are trying to view can only be viewed by the user."
-      //   : "You must be logged in to view project.";
-      // toast.add(errMessage);
-      // const redirect = account.id ? "/projects" : "/login";
-      // navigate(redirect);
     }
   }, [engine, projectId, account, setRules, setProject]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -425,9 +415,18 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const onUncheckAll = filterRules => {
     let updateInputs = { ...formInputs };
     for (let i = 0; i < rules.length; i++) {
-      if (filterRules(rules[i]) && rules[i].code !== "STRATEGY_BIKE_4") {
+      if (
+        filterRules(rules[i]) &&
+        rules[i].code !== "STRATEGY_BIKE_4" &&
+        rules[i].code !== "STRATEGY_PARKING_5"
+      ) {
         if (updateInputs[rules[i].code]) {
           updateInputs[rules[i].code] = null;
+        }
+        // In addition to the rule value, also clear
+        // the associated comment, if any
+        if (updateInputs[rules[i].code + "_comment"]) {
+          delete updateInputs[rules[i].code + "_comment"];
         }
       }
     }

@@ -29,12 +29,12 @@ export const useStyles = createUseStyles(theme => ({
     marginTop: "8px"
   },
   error: {
-    borderColor: theme.colorWarning
+    borderColor: theme.colorCritical
   },
   errorMessage: {
-    margin: "8px auto",
-    width: "403px",
-    color: theme.colorWarning
+    margin: "8px 0 0 0 ",
+    width: "100%",
+    color: theme.colorCritical
   },
   authText: {
     color: theme.colors.secondary.gray,

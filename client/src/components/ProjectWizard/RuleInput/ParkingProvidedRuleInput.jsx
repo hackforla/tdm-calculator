@@ -20,20 +20,23 @@ const useStyles = createUseStyles(theme => ({
   requiredInputLabel: {
     "&:after": {
       content: '" *"',
-      color: theme.colors.warning
+      color: theme.colorCritical
     }
-  },
-  inputContainer: {
-    width: "100%",
-    textAlign: "center"
   },
   input: {
     ...theme.typography.heading2,
     padding: "8px 4em 8px 8px",
     textAlign: "right",
-    margin: ".5em auto",
+    margin: ".5em 0",
     height: 45,
-    width: "50%"
+    width: "50%",
+    "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+      "-webkit-appearance": "none"
+    },
+    // Firefox input type number still allows letters, but will validate on submit
+    "&[type=number]": {
+      "-moz-appearance": "textfield"
+    }
   },
   unit: {
     ...theme.typography.heading2,
@@ -41,7 +44,7 @@ const useStyles = createUseStyles(theme => ({
     marginLeft: "-80px"
   },
   error: {
-    color: theme.colors.warning
+    color: theme.colorCritical
   },
   resetButtonWrapper: {
     width: "100%"
@@ -89,26 +92,29 @@ const ParkingProvidedRuleInput = ({ rule, onInputChange, resetProject }) => {
       <label htmlFor={code} className={clsx(classes.label, requiredStyle)}>
         {name}
       </label>
-      <div className={classes.inputContainer}>
-        <input
-          className={classes.input}
-          autoFocus
-          type="text"
-          value={spacesProvided}
-          onChange={handleChange}
-          name={code}
-          id={code}
-          data-testid={code}
-          max={maxValue}
-          onBlur={onBlur}
-          maxLength="7"
-        />
-        <span className={classes.unit}>&nbsp;{units}</span>
-      </div>
+      <div>
+        <div>
+          <input
+            className={classes.input}
+            autoFocus
+            type="number"
+            value={spacesProvided}
+            onChange={handleChange}
+            name={code}
+            id={code}
+            data-testid={code}
+            min={0}
+            max={maxValue}
+            onBlur={onBlur}
+            maxLength="7"
+          />
+          <span className={classes.unit}>&nbsp;{units}</span>
+        </div>
 
-      {validationErrors && showValidationErrors ? (
-        <div className={classes.error}>{validationErrors[0]}</div>
-      ) : null}
+        {validationErrors && showValidationErrors ? (
+          <div className={classes.error}>{validationErrors[0]}</div>
+        ) : null}
+      </div>
     </div>
   );
 };

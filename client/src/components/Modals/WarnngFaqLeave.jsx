@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ModalDialog from "../UI/AriaModal/ModalDialog";
+import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
 import { createUseStyles, useTheme } from "react-jss";
 import { MdWarning } from "react-icons/md";
@@ -10,12 +10,13 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "center"
   },
   warningWrapper: {
-    color: theme.colors.warning,
+    color: theme.colorCritical,
     display: "flex",
     alignItems: "center",
     justifyContent: "center"
   },
   warningMessage: {
+    ...theme.typography.paragraph1,
     verticalAlign: "middle",
     display: "flex",
     alignItems: "center",
@@ -39,7 +40,7 @@ const FaqConfirmDialog = ({ blocker }) => {
     <ModalDialog
       mounted={blocker.state === "blocked"}
       onClose={blocker.reset}
-      showCloseBox={false}
+      omitCloseBox={true}
     >
       <div className={classes.warningWrapper}>
         <MdWarning alt="Warning" size={70} />
@@ -55,8 +56,7 @@ const FaqConfirmDialog = ({ blocker }) => {
       </p>
       <div className={classes.modalActions}>
         <Button
-          color="colorCancel"
-          variant="outlined"
+          variant="secondary"
           id="modalCancel"
           data-testid="transitionCancel"
           onClick={() => blocker.reset()}
@@ -64,7 +64,7 @@ const FaqConfirmDialog = ({ blocker }) => {
           <p style={{ fontWeight: "bold" }}>Cancel</p>
         </Button>
         <Button
-          color="colorWarning"
+          variant="warning"
           id="modalProceed"
           data-testid="trarnsitionProceed"
           onClick={() => blocker.proceed()}

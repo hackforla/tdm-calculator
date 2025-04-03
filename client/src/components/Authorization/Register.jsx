@@ -14,6 +14,9 @@ const useStyles = createUseStyles({
   },
   authText: {
     color: "#979797"
+  },
+  invalidFeedback: {
+    color: "#ff0418"
   }
 });
 
@@ -39,8 +42,18 @@ const Register = props => {
   // });
 
   const registerSchema = Yup.object().shape({
-    firstName: Yup.string().required("First Name is required"),
-    lastName: Yup.string().required("Last Name is required"),
+    firstName: Yup.string()
+      .matches(
+        /^[a-zA-Z' .-]*$/,
+        "Your first name can only contain the alphabet, apostrophes, hyphens, periods, and spaces"
+      )
+      .required("First Name is required"),
+    lastName: Yup.string()
+      .matches(
+        /^[a-zA-Z' .-]*$/,
+        "Your last name can only contain the alphabet, apostrophes, hyphens, periods, and spaces"
+      )
+      .required("Last Name is required"),
     email: Yup.string()
       .email("Invalid email address format")
       .required("Email is required"),
@@ -121,7 +134,7 @@ const Register = props => {
                     <ErrorMessage
                       name="firstName"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.invalidFeedback}
                     />
                   </div>
                   <div className="form-group">
@@ -136,7 +149,7 @@ const Register = props => {
                     <ErrorMessage
                       name="lastName"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.invalidFeedback}
                     />
                   </div>
                   <div className="form-group">
@@ -151,7 +164,7 @@ const Register = props => {
                     <ErrorMessage
                       name="email"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.invalidFeedback}
                     />
                   </div>
                   <div className="form-group">
@@ -167,7 +180,7 @@ const Register = props => {
                     <ErrorMessage
                       name="password"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.invalidFeedback}
                     />
                   </div>
                   <div className="form-group">
@@ -185,7 +198,7 @@ const Register = props => {
                     <ErrorMessage
                       name="passwordConfirm"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.invalidFeedback}
                     />
                   </div>
 

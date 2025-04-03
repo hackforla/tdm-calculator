@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import ContentContainer from "../Layout/ContentContainer";
 import Button from "../Button/Button";
-import SubmitSnapshotModal from "./SubmitSnapshotModal.jsx";
+import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
 import SubmitSnapshotTable from "./SubmitSnapshotTable";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
@@ -135,7 +135,7 @@ const SubmitSnapshotPage = props => {
               <th className={classes.tableHead}>Name</th>
               <th className={classes.tableHead}>Address</th>
               <th className={classes.tableHead}>Date Submitted</th>
-              <th className={classes.tableHead}>Date Modified</th>
+              <th className={classes.tableHead}>Date Saved</th>
             </tr>
           </thead>
 
@@ -176,7 +176,7 @@ const SubmitSnapshotPage = props => {
               <th className={classes.tableHead}>Name</th>
               <th className={classes.tableHead}>Address</th>
               <th className={classes.tableHead}>Date Submitted</th>
-              <th className={classes.tableHead}>Date Modified</th>
+              <th className={classes.tableHead}>Date Saved</th>
             </tr>
           </thead>
 
@@ -203,7 +203,7 @@ const SubmitSnapshotPage = props => {
               <th className={classes.tableHead}>Name</th>
               <th className={classes.tableHead}>Address</th>
               <th className={classes.tableHead}>Date Submitted</th>
-              <th className={classes.tableHead}>Date Modified</th>
+              <th className={classes.tableHead}>Date Saved</th>
             </tr>
           </thead>
 
@@ -221,7 +221,7 @@ const SubmitSnapshotPage = props => {
         </table>
       </div>
 
-      <SubmitSnapshotModal
+      <WarningSnapshotSubmit
         mounted={submissionModalOpen}
         onClose={handleSubmissionModalClose}
         project={selectedProject}

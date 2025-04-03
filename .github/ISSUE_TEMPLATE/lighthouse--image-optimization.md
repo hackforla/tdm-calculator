@@ -2,7 +2,8 @@
 name: 'Lighthouse: Image Optimization'
 about: Instructions for optimizing images
 title: 'Lighthouse: Image Optimization'
-labels: ''
+labels: 'deck: missing, feature: missing, level: missing, milestone: missing, priority:
+  missing, role: missing, size: missing'
 assignees: ''
 
 ---

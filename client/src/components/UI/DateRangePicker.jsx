@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
-import DatePickerCustomInput from "./DatePickerCustomInput";
+import { createUseStyles } from "react-jss";
 
 // TODO: we want the calendar popup to appear as if it were in the normal CSS flow.
 // We should be able to do this with a React portal, but I (John Darragh) was not
@@ -13,6 +13,14 @@ import DatePickerCustomInput from "./DatePickerCustomInput";
 // the popup appears above the date picker and is then not positioned over the
 // spacer div.
 
+const useStyles = createUseStyles({
+  container: {
+    width: "6rem",
+    padding: "0.1rem",
+    border: "1px solid black"
+  }
+});
+
 const DateRangePicker = ({
   startDate,
   endDate,
@@ -22,6 +30,8 @@ const DateRangePicker = ({
   endDatePlaceholder
 }) => {
   const [calendarDivHeight, setCalendarDivHeight] = useState(false);
+  const classes = useStyles();
+
   const handleCalendarOpen = () => {
     setCalendarDivHeight(true);
   };
@@ -45,15 +55,25 @@ const DateRangePicker = ({
         }}
       >
         <DatePicker
+          className={classes.container}
           selected={startDate}
           selectsStart
           onChange={date => setStartDate(date)}
           startDate={startDate}
           endDate={endDate}
-          customInput={<DatePickerCustomInput />}
           dateFormat="yyyy-MM-dd"
           placeholderText={startDatePlaceholder || ""}
           popperPlacement="bottom-start"
+          popperModifiers={[
+            {
+              name: "flip",
+              enabled: false
+            },
+            {
+              name: "hide",
+              enabled: false
+            }
+          ]}
           onCalendarOpen={handleCalendarOpen}
           onCalendarClose={handleCalendarClose}
           onClick={e => {
@@ -68,15 +88,25 @@ const DateRangePicker = ({
           to
         </div>
         <DatePicker
+          className={classes.container}
           selected={endDate}
           selectsEnd
           onChange={date => setEndDate(date)}
           startDate={startDate}
           endDate={endDate}
-          customInput={<DatePickerCustomInput />}
           dateFormat="yyyy-MM-dd"
           placeholderText={endDatePlaceholder || ""}
           popperPlacement="bottom-end"
+          popperModifiers={[
+            {
+              name: "flip",
+              enabled: false
+            },
+            {
+              name: "hide",
+              enabled: false
+            }
+          ]}
           onCalendarOpen={handleCalendarOpen}
           onCalendarClose={handleCalendarClose}
           // withPortal

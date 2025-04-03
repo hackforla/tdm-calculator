@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import UserContext from "../../contexts/UserContext";
+import { useToast } from "../../contexts/Toast";
 import ToastContext from "../../contexts/Toast/ToastContext";
 import {
   useParams,
@@ -11,8 +12,8 @@ import {
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainer from "../Layout/ContentContainer";
-import InapplicableStrategiesModal from "./InapplicableStrategiesModal";
-import NavConfirmDialog from "./NavConfirmDialog";
+import InapplicableStrategiesModal from "../Modals/InfoWizardInapplicableStrategies";
+import NavConfirmDialog from "../Modals/WarningWizardLeave";
 import {
   ProjectDescriptions,
   ProjectSpecifications,
@@ -22,13 +23,15 @@ import {
 import { ProjectSummary } from "./WizardPages/ProjectSummary";
 import { createUseStyles } from "react-jss";
 import { matchPath } from "react-router-dom";
+import CopyAndEditSnapshotModal from "../Modals/ActionCopyAndEditSnapshot";
+import * as projectService from "../../services/project.service";
+import WarningProjectReset from "../Modals/WarningProjectReset";
 
 const useStyles = createUseStyles({
   wizard: {
     flex: "1 1 auto",
     display: "flex",
-    flexDirection: "column",
-    border: "2px solid blue"
+    flexDirection: "column"
   }
 });
 
@@ -62,15 +65,50 @@ const TdmCalculationWizard = props => {
   } = props;
   const classes = useStyles();
   const context = useContext(ToastContext);
+  const toast = useToast();
   const userContext = useContext(UserContext);
   const account = userContext ? userContext.account : null;
   const params = useParams();
   const navigate = useNavigate();
-  const page = Number(shareView ? 5 : params.page || 1);
+  const page = Number(params.page || 1);
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
   const [ainInputError, setAINInputError] = useState("");
   const loginId = project.loginId;
+  const [copyAndEditSnapshotModalOpen, setCopyAndEditSnapshotModalOpen] =
+    useState(false);
+  const [resetProjectWarningModalOpen, setResetProjectWarningModalOpen] =
+    useState(false);
+  const isSnapshotOwner = project?.loginId === account?.id;
+
+  const copyAndEditSnapshot = async nameOfCopy => {
+    if (!projectIsValid) {
+      toast.add("Some project inputs are missing or invalid. Save failed.");
+      return;
+    }
+
+    let formInputs = JSON.parse(project.formInputs);
+    formInputs.PROJECT_NAME = nameOfCopy;
+    const inputsToSave = { ...formInputs, PROJECT_NAME: nameOfCopy };
+    const description = project.description || "";
+
+    const requestBody = {
+      ...project,
+      name: nameOfCopy,
+      loginId: account.id,
+      formInputs: JSON.stringify(inputsToSave),
+      description
+    };
+
+    try {
+      const postResponse = await projectService.post(requestBody);
+
+      return postResponse.data.id;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   /*
     shouldBlock determines if user should be blocked from navigating away
     from wizard.  Note that navigation from /calculation/a/x to 
@@ -122,7 +160,8 @@ const TdmCalculationWizard = props => {
     Implemented per: https://reactrouter.com/web/guides/scroll-restoration
   */
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const scrollableElement = document.querySelector("#body");
+    scrollableElement.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [pathname]);
 
   useEffect(() => {
@@ -144,9 +183,10 @@ const TdmCalculationWizard = props => {
       // is properly set.
       projectId &&
       loginId &&
-      !(account.isAdmin || account.id === loginId)
+      (!(account.isAdmin || account.id === loginId) ||
+        !!project.dateSnapshotted)
     ) {
-      navigate(`/calculation/6/${projectId}`);
+      navigate(`/calculation/5/${projectId}`);
     } // eslint-disable-next-line
   }, [projectId, account, loginId, navigate]);
 
@@ -199,16 +239,10 @@ const TdmCalculationWizard = props => {
 
   const setDisplaySaveButton = () => {
     const loggedIn = !!account && !!account.id;
-    const setDisplayed = loggedIn;
-    return !shareView && setDisplayed;
+    return loggedIn;
   };
 
-  const setDisplayPrintButton = () => {
-    if (page === 5) {
-      return true;
-    }
-    return false;
-  };
+  const isFinalPage = page === 5;
 
   const setDisplaySubmitButton = () => {
     if (page === 5 && !shareView) {
@@ -241,7 +275,6 @@ const TdmCalculationWizard = props => {
     const projectIdParam = projectId ? `/${projectId}` : "/0";
     if (Number(pageNo) > Number(page)) {
       if (handleValidate()) {
-        // Skip page 4 unless Packages are applicable
         const nextPage = Number(page) + 1;
         navigate(`/calculation/${nextPage}${projectIdParam}`);
       }
@@ -266,7 +299,7 @@ const TdmCalculationWizard = props => {
             onPartialAINChange={onPartialAINChange}
             onAINInputError={handleAINInputError}
             uncheckAll={() => onUncheckAll(filters.projectDescriptionRules)}
-            resetProject={() => onResetProject()}
+            resetProject={() => setResetProjectWarningModalOpen(true)}
           />
         );
       case 2:
@@ -275,7 +308,7 @@ const TdmCalculationWizard = props => {
             rules={specificationRules}
             onInputChange={onInputChange}
             uncheckAll={() => onUncheckAll(filters.specificationRules)}
-            resetProject={() => onResetProject()}
+            resetProject={() => setResetProjectWarningModalOpen(true)}
           />
         );
       case 3:
@@ -286,7 +319,7 @@ const TdmCalculationWizard = props => {
             onInputChange={onInputChange}
             isLevel0={isLevel0}
             uncheckAll={onUncheckAll}
-            resetProject={onResetProject}
+            resetProject={() => setResetProjectWarningModalOpen(true)}
           />
         );
 
@@ -301,7 +334,7 @@ const TdmCalculationWizard = props => {
             initializeStrategies={initializeStrategies}
             onPkgSelect={onPkgSelect}
             uncheckAll={() => onUncheckAll(filters.strategyRules)}
-            resetProject={() => onResetProject()}
+            resetProject={() => setResetProjectWarningModalOpen(true)}
             allowResidentialPackage={allowResidentialPackage}
             allowSchoolPackage={allowSchoolPackage}
             residentialPackageSelected={residentialPackageSelected}
@@ -323,6 +356,7 @@ const TdmCalculationWizard = props => {
         return null;
     }
   };
+
   return (
     <div className={classes.wizard}>
       <InapplicableStrategiesModal
@@ -347,16 +381,30 @@ const TdmCalculationWizard = props => {
           page={page}
           onPageChange={onPageChange}
           pageNumber={page}
+          isFinalPage={isFinalPage}
           setDisabledForNextNavButton={setDisabledForNextNavButton}
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
-          setDisplayPrintButton={setDisplayPrintButton}
           setDisplaySubmitButton={setDisplaySubmitButton}
+          showCopyAndEditSnapshot={() => setCopyAndEditSnapshotModalOpen(true)}
           onSave={onSave}
           project={project}
           shareView={shareView}
         />
       </ContentContainer>
+      <CopyAndEditSnapshotModal
+        mounted={copyAndEditSnapshotModalOpen}
+        onClose={() => setCopyAndEditSnapshotModalOpen(false)}
+        isSnapshotOwner={isSnapshotOwner}
+        copyAndEditSnapshot={copyAndEditSnapshot}
+        projectName={project.name}
+      />
+      <WarningProjectReset
+        mounted={resetProjectWarningModalOpen}
+        project={project}
+        resetProject={() => onResetProject()}
+        onClose={() => setResetProjectWarningModalOpen(false)}
+      />
     </div>
   );
 };
@@ -401,9 +449,6 @@ TdmCalculationWizard.propTypes = {
   schoolPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
-  // dateModified: PropTypes.string,
-  // dateSnapshotted: PropTypes.string,
-  // dateSubmitted: PropTypes.string,
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
   project: PropTypes.any,

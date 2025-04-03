@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.2.55",
+  "version": "0.2.56",
   "private": true,
   "scripts": {
     "release-notes": "gren release --override",
@@ -10,12 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "eslint": "^8.53.0",
-    "i": "^0.3.7",
-    "luxon": "^3.4.4",
-    "react-csv": "^2.2.2",
-    "react-icons": "^5.2.1",
-    "wait-on": "^7.1.0"
+    "wait-on": "^8.0.3"
   },
   "husky": {
     "hooks": {
@@ -23,9 +18,9 @@
     }
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
-    "husky": "^8.0.0",
-    "lerna": "^7.4.2"
+    "concurrently": "^9.1.2",
+    "husky": "^9.1.7",
+    "lerna": "^8.2.1"
   },
   "volta": {
     "node": "20.10.0"

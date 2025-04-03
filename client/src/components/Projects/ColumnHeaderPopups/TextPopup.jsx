@@ -31,8 +31,15 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     alignItems: "center",
     height: "2rem",
+    gap: "0.2em",
     "&:hover": {
       backgroundColor: "lightblue"
+    },
+    "& span": {
+      maxWidth: "25ch",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis"
     }
   },
   toggleButton: {
@@ -104,7 +111,7 @@ const TextPopup = ({
     selectOptions.push("No DRO Assigned");
   } else if (property === "author") {
     selectOptions = [
-      ...new Set(filteredProjects.map(p => `${p.firstName} ${p.lastName}`))
+      ...new Set(filteredProjects.map(p => `${p.lastName}, ${p.firstName}`))
     ]
       .filter(value => value !== null)
       .sort(

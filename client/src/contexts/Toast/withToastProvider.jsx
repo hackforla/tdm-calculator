@@ -52,8 +52,8 @@ const withToastProvider = Component => {
           contentContainer
             ? contentContainer
             : appContainer
-            ? appContainer
-            : document.body
+              ? appContainer
+              : document.body
         )}
       </ToastContext.Provider>
     );

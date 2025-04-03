@@ -107,7 +107,7 @@ const sendFeedback = async (loginId, feedback) => {
         <tr>
           <th style="text-align:left;">Name</th>
           <th style="text-align:left;">Address</th>
-          <th style="text-align:left;">Date Modified</th>
+          <th style="text-align:left;">Date Saved</th>
           <th style="text-align:left;">Date Created</th>
           <th style="text-align:left;">Link</th>
         </tr>` +

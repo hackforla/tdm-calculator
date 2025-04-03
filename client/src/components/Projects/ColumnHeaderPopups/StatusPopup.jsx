@@ -23,8 +23,6 @@ const StatusPopup = ({
   const [typeSetting, setTypeSetting] = useState(criteria.type);
   const [showDeleted, setShowDeleted] = useState(criteria.status === "all");
 
-  // TODO More state variables for status filtering go here
-
   const setDefault = () => {
     setTypeSetting("all");
     setShowDeleted(false);
@@ -45,7 +43,8 @@ const StatusPopup = ({
       type: typeSetting
     });
     if (newOrder) {
-      setSort(header.id, newOrder);
+      setSort("dateSnapshotted", newOrder, true);
+      // setSort("dateTrashed", newOrder);
     }
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
@@ -70,13 +69,13 @@ const StatusPopup = ({
       <div style={{ display: "flex", flexDirection: "column" }}>
         {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
         <RadioButton
-          label="Sort Drafts First"
+          label="Sort A-Z"
           value="asc"
           checked={newOrder == "asc"}
           onChange={() => setNewOrder("asc")}
         />
         <RadioButton
-          label="Sort Snapshots First"
+          label="Sort Z-A"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}

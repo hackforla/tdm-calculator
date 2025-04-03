@@ -6,7 +6,7 @@ import clsx from "clsx";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 import RuleLabel from "../Common/RuleLabel";
 import UniversalSelect from "../../UI/UniversalSelect";
-import AffordableEdgeCaseModal from "../AffordableEdgeCaseModal";
+import AffordableEdgeCaseModal from "../../Modals/WarningWizardAffordableEdgeCase";
 
 const useStyles = createUseStyles(theme => ({
   rowContainer: {
@@ -99,7 +99,7 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "space-between"
   },
   errorLabel: {
-    color: "red",
+    color: theme.colorCritical,
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
@@ -198,10 +198,10 @@ const RuleStrategy = ({
           {calcMinValue === calcMaxValue
             ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
             : calcMinValue < calcMaxValue
-            ? `${Math.round(calcMinValue).toString()}-${Math.round(
-                calcMaxValue
-              ).toString()} ${calculationUnits}`
-            : null}
+              ? `${Math.round(calcMinValue).toString()}-${Math.round(
+                  calcMaxValue
+                ).toString()} ${calculationUnits}`
+              : null}
         </div>
         <div className={classes.points}>
           {`${
