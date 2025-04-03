@@ -8,7 +8,6 @@ const useStyles = createUseStyles({
     padding: "0",
     marginRight: "5px",
     appearance: "none",
-    WebkitAppearance: "none",
     borderRadius: "50%",
     boxShadow: "0 0 0 1px #939393",
     width: "1em",

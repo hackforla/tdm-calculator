@@ -107,7 +107,38 @@ textarea {
   margin: 0 1px 0;
 }
 
-input[type="checkbox"],
+input[type="checkbox"] {
+  box-sizing: border-box;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  appearance: none;
+  border-radius: 3px;
+  border: 1px solid #939393;
+  background-color: transparent;
+
+  &:checked {
+    background-size: cover;
+
+    border-color: #1967d2;
+    background-color: #1967d2;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 32 32" xml:space="preserve"><path style="fill: %23FFFFFF" d="M11.941,28.877l-11.941-11.942l5.695-5.696l6.246,6.246l14.364-14.364L32,8.818"/></svg>');
+
+    &:hover {
+      border-color: #1450a4;
+      background-color: #1450a4;
+    }
+  }
+
+  &:disabled {
+    border-color: gray;
+    background-color: gray;
+  }
+
+  &:hover {
+    border-color: #000000;
+  }
+}
 
 // default styles for  links, buttons, etc here?
 // import individual scss files below
