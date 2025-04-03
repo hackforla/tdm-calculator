@@ -41,6 +41,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const location = useLocation();
   const userContext = useContext(UserContext);
   const account = userContext ? userContext.account : null;
+  const isAdmin = !!account?.isAdmin;
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
   const [partialAIN, setPartialAIN] = useState("");
@@ -82,9 +83,9 @@ export function TdmCalculationContainer({ contentContainerRef }) {
           try {
             projectResponse = await projectService.getByIdWithEmail(projectId);
 
-            if (projectResponse) {
-              setShareView(true);
-            }
+            // if (projectResponse) {
+            //   setShareView(true);
+            // }
           } catch (err) {
             if (err.response.status == 404) {
               navigate(`/login?url=${locationPath[1]}/${locationPath[2]}`);
@@ -95,10 +96,11 @@ export function TdmCalculationContainer({ contentContainerRef }) {
           }
         } else {
           projectResponse = await projectService.getById(projectId);
-          setShareView(false);
+          // setShareView(false);
         }
         if (projectResponse) {
           setProject(projectResponse.data);
+          setShareView(projectResponse.data.loginId !== account.id && !isAdmin);
           inputs = JSON.parse(projectResponse.data.formInputs);
           setStrategiesInitialized(true);
         }

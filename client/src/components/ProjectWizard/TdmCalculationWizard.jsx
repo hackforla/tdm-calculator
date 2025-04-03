@@ -68,9 +68,11 @@ const TdmCalculationWizard = props => {
   const toast = useToast();
   const userContext = useContext(UserContext);
   const account = userContext ? userContext.account : null;
+  // const isAdmin = !!account?.isAdmin;
   const params = useParams();
   const navigate = useNavigate();
-  const page = Number(shareView ? 5 : params.page || 1);
+  const page = Number(params.page || 1);
+  // const page = Number(shareView || !isAdmin ? 5 : params.page || 1);
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
   const [ainInputError, setAINInputError] = useState("");
@@ -238,9 +240,10 @@ const TdmCalculationWizard = props => {
   };
 
   const setDisplaySaveButton = () => {
-    const loggedIn = !!account && !!account.id;
-    const setDisplayed = loggedIn;
-    return !shareView && setDisplayed;
+    return true;
+    // const loggedIn = !!account && !!account.id;
+    // const setDisplayed = loggedIn;
+    // return !shareView && setDisplayed;
   };
 
   const isFinalPage = page === 5;
@@ -276,7 +279,6 @@ const TdmCalculationWizard = props => {
     const projectIdParam = projectId ? `/${projectId}` : "/0";
     if (Number(pageNo) > Number(page)) {
       if (handleValidate()) {
-        // Skip page 4 unless Packages are applicable
         const nextPage = Number(page) + 1;
         navigate(`/calculation/${nextPage}${projectIdParam}`);
       }
