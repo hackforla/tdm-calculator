@@ -7,11 +7,11 @@ import TdmAuthProvider from "../Layout/TdmAuthProvider";
 
 let spy;
 beforeAll(() => {
-  spy = jest.spyOn(document, 'querySelector');
+  spy = jest.spyOn(document, "querySelector");
 });
 
 it("renders without crashing", () => {
-  let mockBody =document.createElement('body',);
+  let mockBody = document.createElement("body");
   spy.mockReturnValue(mockBody);
 
   render(
