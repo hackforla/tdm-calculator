@@ -163,30 +163,27 @@ const ProjectContextMenu = ({
         />
         Duplicate
       </li>
-      {project.loginId !== account?.id ? null : (
-        <li
-          onClick={() => handleClick(handleHide)}
-          className={classes.listItem}
-        >
-          {project.dateHidden ? (
-            <>
-              <MdVisibility
-                className={classes.listItemIcon}
-                alt={`Hide Project #${project.id} as CSV Icon`}
-              />
-              Unhide
-            </>
-          ) : (
-            <>
-              <MdVisibilityOff
-                className={classes.listItemIcon}
-                alt={`Hide Project #${project.id} as CSV Icon`}
-              />
-              Hide
-            </>
-          )}
-        </li>
-      )}
+
+      <li onClick={() => handleClick(handleHide)} className={classes.listItem}>
+        {project.dateHidden ? (
+          <>
+            <MdVisibility
+              className={classes.listItemIcon}
+              alt={`Hide Project #${project.id} as CSV Icon`}
+            />
+            Unhide
+          </>
+        ) : (
+          <>
+            <MdVisibilityOff
+              className={classes.listItemIcon}
+              alt={`Hide Project #${project.id} as CSV Icon`}
+            />
+            Hide
+          </>
+        )}
+      </li>
+
       {project.loginId !== account?.id ? null : (
         <li
           onClick={() => handleClick(handleDeleteModalOpen)}
