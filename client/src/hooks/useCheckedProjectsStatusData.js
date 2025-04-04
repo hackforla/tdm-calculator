@@ -51,7 +51,7 @@ const useCheckedProjectsStatusData = (checkedProjects, projects) => {
           p => typeof p[property] === "string"
         );
 
-        return allNull || allString ? firstVal : false;
+        return allNull || allString ? true : false;
       } else {
         return getProjects.every(p => p[property] === firstVal) ? firstVal : "";
       }
