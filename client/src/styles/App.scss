@@ -128,15 +128,20 @@ input[type="checkbox"] {
       border-color: #1450a4;
       background-color: #1450a4;
     }
+
+    &:disabled {
+      border-color: gray;
+      background-color: gray;
+    }
+  }
+
+  &:hover {
+    border-color: #000000;
   }
 
   &:disabled {
     border-color: gray;
     background-color: gray;
-  }
-
-  &:hover {
-    border-color: #000000;
   }
 }
 
