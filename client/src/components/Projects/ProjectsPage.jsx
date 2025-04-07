@@ -16,6 +16,7 @@ import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
 import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
 import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
+import InfoTargetNotReached from "../Modals/InfoTargetNotReached";
 import WarningProjectDelete from "../Modals/WarningProjectDelete";
 import CopyProjectModal from "../Modals/ActionProjectCopy";
 import CsvModal from "../Modals/ActionProjectsCsv";
@@ -147,7 +148,7 @@ const useStyles = createUseStyles({
     },
     "& tr td": {
       padding: "12px",
-      verticalAlign: "middle"
+      verticalAlign: "top"
     },
     "& tr:hover": {
       background: "#B2C0D3"
@@ -209,6 +210,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
+    useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
@@ -430,17 +433,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleSubmitModalOpen = project => {
     setSelectedProject(project);
-    setSubmitModalOpen(true);
+    if (project.earnedPoints >= project.targetPoints) {
+      setSubmitModalOpen(true);
+    } else {
+      setTargetNotReachedModalOpen(true);
+    }
   };
 
   const handleSubmitModalClose = async action => {
     if (action === "ok") {
-      try {
-        await projectService.submit({ id: selectedProject.id });
-        await updateProjects();
-      } catch (err) {
-        handleError(err);
-      }
+      await updateProjects();
     }
     setSubmitModalOpen(false);
     setSelectedProject(null);
@@ -1139,6 +1141,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <WarningSnapshotSubmit
                     mounted={submitModalOpen}
                     onClose={handleSubmitModalClose}
+                    project={selectedProject}
+                  />
+                  <InfoTargetNotReached
+                    mounted={targetNotReachedModalOpen}
+                    onClose={() => setTargetNotReachedModalOpen(false)}
                     project={selectedProject}
                   />
                 </>

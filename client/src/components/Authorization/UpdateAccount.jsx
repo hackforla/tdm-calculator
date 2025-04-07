@@ -1,27 +1,33 @@
 import React, { useState, useRef, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import * as accountService from "../../services/account.service";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   submitButton: {
     float: "right"
   },
   authText: {
-    color: "#979797"
+    color: theme.colorCritical
+  },
+  warningText: {
+    ...theme.typography.paragraph1,
+    color: theme.colorCritical,
+    textAlign: "left"
   }
-});
+}));
 
 const UpdateAccount = props => {
   const userContext = useContext(UserContext);
   const account = userContext.account;
   const focusRef = useRef(null);
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const params = useParams();
   const initialValues = {
     firstName: account?.firstName || "",
@@ -98,7 +104,7 @@ const UpdateAccount = props => {
                     <ErrorMessage
                       name="firstName"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.warningText}
                     />
                   </div>
                   <div className="form-group">
@@ -113,7 +119,7 @@ const UpdateAccount = props => {
                     <ErrorMessage
                       name="lastName"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.warningText}
                     />
                   </div>
                   <div className="form-group">
@@ -128,7 +134,7 @@ const UpdateAccount = props => {
                     <ErrorMessage
                       name="email"
                       component="div"
-                      className="invalid-feedback"
+                      className={classes.warningText}
                     />
                   </div>
 

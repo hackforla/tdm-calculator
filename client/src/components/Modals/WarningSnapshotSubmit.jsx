@@ -1,4 +1,5 @@
 import React from "react";
+import * as projectService from "../../services/project.service";
 import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
@@ -33,9 +34,18 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-export default function WarningSnapshotSubmit({ mounted, onClose }) {
+export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
   const theme = useTheme();
   const classes = useStyles(theme);
+
+  const handleClose = async () => {
+    try {
+      await projectService.submit({ id: project.id });
+    } catch (err) {
+      console.error(err);
+    }
+    onClose("ok");
+  };
 
   return (
     <ModalDialog
@@ -50,12 +60,13 @@ export default function WarningSnapshotSubmit({ mounted, onClose }) {
         <div className={classes.subheading}>
           Are you sure you want to submit the Snapshot?
         </div>
+        <div className={classes.subheading}>{project?.name}</div>
       </div>
       <div className={classes.buttonFlexBox} style={{ marginTop: "1.5rem" }}>
         <Button onClick={onClose} variant="secondary" id="cancelButton">
           Cancel
         </Button>
-        <Button onClick={() => onClose("ok")} variant="primary">
+        <Button onClick={handleClose} variant="primary">
           OK
         </Button>
       </div>
@@ -65,5 +76,6 @@ export default function WarningSnapshotSubmit({ mounted, onClose }) {
 
 WarningSnapshotSubmit.propTypes = {
   mounted: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  project: PropTypes.any
 };

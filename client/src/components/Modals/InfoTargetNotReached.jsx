@@ -3,7 +3,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
 import PropTypes from "prop-types";
-import { MdWarning } from "react-icons/md";
+import { MdInfo } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -11,11 +11,12 @@ const useStyles = createUseStyles(theme => ({
     flexDirection: "column",
     alignItems: "center"
   },
-  warningIcon: {
+  icon: {
     height: "80px",
     width: "80px",
-    color: theme.colorCritical,
-    textAlign: "center"
+    color: theme.colorLADOT,
+    marginBottom: "0",
+    verticalAlign: "middle"
   },
   buttonFlexBox: {
     display: "flex",
@@ -33,7 +34,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-export default function WarningProjectSubmit({ mounted, onClose }) {
+export default function WarningTargetNotReached({ mounted, onClose }) {
   const theme = useTheme();
   const classes = useStyles(theme);
 
@@ -42,28 +43,32 @@ export default function WarningProjectSubmit({ mounted, onClose }) {
       mounted={mounted}
       onClose={onClose}
       omitCloseBox={true}
+      escapeExits={false}
       initialFocus="#cancelButton"
+      underlayClickExits={false}
     >
       <div className={classes.container}>
-        <MdWarning alt="Warning" className={classes.warningIcon} />
-        <div className={classes.heading1}>Submit Project</div>
+        <MdInfo alt="Warning" className={classes.icon} />
+        <div className={classes.heading1}>
+          You have not reached the target points.
+        </div>
         <div className={classes.subheading}>
-          Are you sure you want to submit the Project?
+          Since your project has not reached the target points, you cannot
+          submit this project. Please go back and select enough strategies to
+          meet the target points and create a new snapshot to submit, or contact
+          a LADOT planner for assistance.
         </div>
       </div>
       <div className={classes.buttonFlexBox} style={{ marginTop: "1.5rem" }}>
-        <Button onClick={onClose} variant="secondary" id="cancelButton">
-          Cancel
-        </Button>
         <Button onClick={() => onClose("ok")} variant="primary">
-          OK
+          Okay, I Understand
         </Button>
       </div>
     </ModalDialog>
   );
 }
 
-WarningProjectSubmit.propTypes = {
+WarningTargetNotReached.propTypes = {
   mounted: PropTypes.bool,
   onClose: PropTypes.func
 };
