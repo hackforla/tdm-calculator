@@ -13,6 +13,7 @@ import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainer from "../Layout/ContentContainer";
 import InapplicableStrategiesModal from "../Modals/InfoWizardInapplicableStrategies";
+import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
 import NavConfirmDialog from "../Modals/WarningWizardLeave";
 import {
   ProjectDescriptions,
@@ -26,6 +27,7 @@ import { matchPath } from "react-router-dom";
 import CopyAndEditSnapshotModal from "../Modals/ActionCopyAndEditSnapshot";
 import * as projectService from "../../services/project.service";
 import WarningProjectReset from "../Modals/WarningProjectReset";
+import InfoTargetNotReached from "../Modals/InfoTargetNotReached";
 
 const useStyles = createUseStyles({
   wizard: {
@@ -61,7 +63,8 @@ const TdmCalculationWizard = props => {
     inapplicableStrategiesModal,
     closeStrategiesModal,
     project,
-    shareView
+    shareView,
+    initializeEngine
   } = props;
   const classes = useStyles();
   const context = useContext(ToastContext);
@@ -79,7 +82,25 @@ const TdmCalculationWizard = props => {
     useState(false);
   const [resetProjectWarningModalOpen, setResetProjectWarningModalOpen] =
     useState(false);
+  const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
+    useState(false);
   const isSnapshotOwner = project?.loginId === account?.id;
+
+  const showSubmitModal = () => {
+    if (project.earnedPoints >= project.targetPoints) {
+      setSubmitModalOpen(true);
+    } else {
+      setTargetNotReachedModalOpen(true);
+    }
+  };
+
+  const handleSubmitModalClose = async action => {
+    if (action === "ok") {
+      initializeEngine();
+    }
+    setSubmitModalOpen(false);
+  };
 
   const copyAndEditSnapshot = async nameOfCopy => {
     if (!projectIsValid) {
@@ -236,20 +257,12 @@ const TdmCalculationWizard = props => {
     );
     return setDisabled;
   };
-
   const setDisplaySaveButton = () => {
     const loggedIn = !!account && !!account.id;
     return loggedIn;
   };
 
   const isFinalPage = page === 5;
-
-  const setDisplaySubmitButton = () => {
-    if (page === 5 && !shareView) {
-      return true;
-    }
-    return false;
-  };
 
   const handleValidate = () => {
     const { page } = params;
@@ -385,8 +398,8 @@ const TdmCalculationWizard = props => {
           setDisabledForNextNavButton={setDisabledForNextNavButton}
           setDisabledSaveButton={setDisabledSaveButton}
           setDisplaySaveButton={setDisplaySaveButton}
-          setDisplaySubmitButton={setDisplaySubmitButton}
           showCopyAndEditSnapshot={() => setCopyAndEditSnapshotModalOpen(true)}
+          showSubmitModal={showSubmitModal}
           onSave={onSave}
           project={project}
           shareView={shareView}
@@ -404,6 +417,16 @@ const TdmCalculationWizard = props => {
         project={project}
         resetProject={() => onResetProject()}
         onClose={() => setResetProjectWarningModalOpen(false)}
+      />
+      <WarningSnapshotSubmit
+        mounted={submitModalOpen}
+        onClose={handleSubmitModalClose}
+        project={project}
+      />
+      <InfoTargetNotReached
+        mounted={targetNotReachedModalOpen}
+        onClose={() => setTargetNotReachedModalOpen(false)}
+        project={project}
       />
     </div>
   );
@@ -452,7 +475,8 @@ TdmCalculationWizard.propTypes = {
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
   project: PropTypes.any,
-  shareView: PropTypes.bool
+  shareView: PropTypes.bool,
+  initializeEngine: PropTypes.func
 };
 
 export default TdmCalculationWizard;

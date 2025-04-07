@@ -68,6 +68,7 @@ export default function ModalDialog({
       shouldCloseOnEscape={escapeExits}
       contentLabel={title}
       style={modalStyleDefaultOverrides}
+      appElement={document.getElementById("root") || undefined}
       // initialFocus={initialFocus || null}
     >
       <div>

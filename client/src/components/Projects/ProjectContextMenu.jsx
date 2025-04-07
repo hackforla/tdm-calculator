@@ -119,7 +119,7 @@ const ProjectContextMenu = ({
 
       {project.dateSnapshotted &&
       !project.dateSubmitted &&
-      project.earnedPoints >= project.targetPoints &&
+      // project.earnedPoints >= project.targetPoints &&
       project.loginId == account?.id ? (
         <li
           className={classes.listItem}

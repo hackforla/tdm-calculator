@@ -309,11 +309,7 @@ const ProjectSummary = props => {
   );
 };
 ProjectSummary.propTypes = {
-  rules: PropTypes.array.isRequired,
-  account: PropTypes.object.isRequired,
-  projectId: PropTypes.number.isRequired,
-  loginId: PropTypes.number.isRequired,
-  dateModified: PropTypes.string || null
+  rules: PropTypes.array.isRequired
 };
 
 export default ProjectSummary;
