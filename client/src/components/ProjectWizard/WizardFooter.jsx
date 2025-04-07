@@ -73,7 +73,12 @@ const WizardFooter = ({
   };
 
   const setDisplaySubmitButton = () => {
-    if (page === 5 && project.dateSnapshotted && !project.dateSubmitted) {
+    if (
+      page === 5 &&
+      project.dateSnapshotted &&
+      !project.dateSubmitted &&
+      project.loginId === loggedInUserId
+    ) {
       return true;
     }
     return false;
