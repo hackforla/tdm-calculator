@@ -1,7 +1,8 @@
-version: "3.2"
 services:
   db:
-    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    volumes:
+      - sqlvolume:/var/opt/mssql
     ports:
       # exposed on localhost 1434
       - "1434:1433"
@@ -9,4 +10,6 @@ services:
       ACCEPT_EULA: Y
       SA_PASSWORD: Dogfood1!
       MSSQL_PID: Express
-    command: ls
+
+volumes:
+  sqlvolume:
