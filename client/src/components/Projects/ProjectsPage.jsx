@@ -105,12 +105,12 @@ const useStyles = createUseStyles({
   },
   tableAdmin: {
     minWidth: "135rem",
-    width: "135rem",
+    width: "100%",
     tableLayout: "fixed"
   },
   table: {
     minWidth: "110rem",
-    width: "110rem",
+    width: "100%",
     tableLayout: "fixed"
   },
   tr: {
@@ -835,7 +835,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateHidden",
       label: "Visibility",
       popupType: "visibility",
-      colWidth: "7rem"
+      colWidth: "8rem"
     },
     {
       id: "dateSnapshotted",
@@ -858,7 +858,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateCreated",
       endDatePropertyName: "endDateCreated",
-      colWidth: "8rem"
+      colWidth: "10rem"
     },
     {
       id: "dateModified",
@@ -866,7 +866,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateModified",
       endDatePropertyName: "endDateModified",
-      colWidth: "8rem"
+      colWidth: "10rem"
     },
     {
       id: "dateSubmitted",
@@ -895,9 +895,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
           },
           {
             id: "dateModifiedAdmin",
-            label: "Date Admin Saved",
+            label: "Admin Saved",
             popupType: "datetime",
-            colWidth: "15rem"
+            colWidth: "10rem"
           }
         ]
       : []),
@@ -921,7 +921,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     indexOfLastPost
   );
 
-  document.body.style.overflowX = "hidden"; // prevent page level scrolling, becauase the table is scrollable
+  document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
