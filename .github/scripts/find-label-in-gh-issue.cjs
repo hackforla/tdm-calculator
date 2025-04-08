@@ -13,7 +13,7 @@ module.exports = async ({ github, context, issueNumber }) => {
     const hasUILabel = issue.data.labels.some(label => 
       label.name.toLowerCase().includes('ui') || 
       label.name.toLowerCase().includes('design') ||
-      label.name.toLowerCase().includes('frontend') 
+      label.name.toLowerCase().includes('front-end') 
     );
     
     if (!hasUILabel) {
