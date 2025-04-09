@@ -1,0 +1,68 @@
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    ports:
+      - "$CLIENT_EXPOSED_PORT:$CLIENT_PORT"
+    env_file:
+      - .env
+    volumes:
+      - ./client/:/usr/app
+    depends_on:
+      api:
+        condition: service_healthy
+        restart: true
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:$CLIENT_PORT || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s
+
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    # uncomment to debug on localhost
+    # ports:
+    #   - "5002:$PORT"
+    env_file:
+      - .env
+    volumes:
+      - ./server/:/usr/app
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:$PORT/api/calculations || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    ports:
+      # exposed on localhost 1434
+      - "1434:1433"
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Dogfood1!
+      MSSQL_PID: Express
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -C -S ${DOCKER_DB_SERVER_NAME:?error} -U ${DOCKER_DB_USER_NAME:?error} -P ${DOCKER_DB_PASSWORD:?error} -Q 'SELECT 1' -b",
+        ]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s
+
+volumes:
+  sqlvolume:
