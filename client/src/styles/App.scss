@@ -1,11 +1,12 @@
+@use "sass:meta";
+@use "_variables.scss";
 @import url("https://fonts.googleapis.com/css?family=Montserrat:900&display=swap");
-@import "./reset.scss";
-@import "_variables.scss";
+@include meta.load-css("reset.scss");
 // import scss files below
 
 body {
-  background: $color-background;
-  font-family: $font;
+  background: variables.$color-background;
+  font-family: variables.$font;
   -webkit-text-size-adjust: 100%;
   color: #474747;
   overflow-y: scroll;
@@ -94,7 +95,7 @@ abbr {
 }
 
 button {
-  font-family: $font;
+  font-family: variables.$font;
   font-weight: bold;
   font-size: 16px;
 }
@@ -102,7 +103,7 @@ button {
 input,
 select,
 textarea {
-  font-family: $font;
+  font-family: variables.$font;
   font-size: 16px;
   margin: 0 1px 0;
 }
@@ -148,8 +149,8 @@ input[type="checkbox"] {
 // default styles for  links, buttons, etc here?
 // import individual scss files below
 #root {
-  color: $color-primary;
-  background-color: $color-background;
+  color: variables.$color-primary;
+  background-color: variables.$color-background;
 }
 
 #ladot-logo {
@@ -219,4 +220,4 @@ button.link {
 }
 
 // add any override to the default styles in the individual component styles
-@import "./AuthForms.scss"; // Login and Register components
+@include meta.load-css("AuthForms.scss"); // Login and Register components

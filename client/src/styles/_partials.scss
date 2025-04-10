@@ -1,4 +1,4 @@
-@import "./variables.scss";
+@use "variables.scss";
 // for form inputs styles
 // use custom widths in respective components
 %form-inputs {
@@ -6,9 +6,9 @@
   background-color: white;
   border: 1px solid lightgrey;
   box-sizing: border-box;
-  color: $color-primary;
+  color: variables.$color-primary;
   display: block;
-  font-family: $font;
+  font-family: variables.$font;
   font-size: 1rem;
   font-weight: 400;
   height: 2.9em;
@@ -19,8 +19,8 @@
 
 //for buttons and React Links that look like buttons
 %button-shared {
-  background-color: $color-form-lightgrey;
-  border-color: $color-form-lightgrey; 
+  background-color: variables.$color-form-lightgrey;
+  border-color: variables.$color-form-lightgrey; 
   color: black;
   font-size: 1em;
   font-weight: bold;
