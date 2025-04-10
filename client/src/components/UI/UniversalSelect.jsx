@@ -87,7 +87,7 @@ export default function UniversalSelect({
         }),
         menu: provided => ({
           ...provided,
-          padding: "8px", // Set padding of the dropdown menu to 8
+          padding: "0", // Set padding of the dropdown menu to 0
           border: "1px solid black",
           boxShadow: "none",
           marginTop: "1px",
