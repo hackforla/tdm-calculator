@@ -20,7 +20,6 @@ const useStyles = createUseStyles(theme => ({
 const DiscoverTooltips = () => {
   const theme = useTheme();
   const classes = useStyles(theme);
-  console.debug("Window width: ", window.innerWidth);
   return (
     <div className={classes.container}>
       <p className={classes.title}>
