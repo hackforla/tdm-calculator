@@ -6,9 +6,7 @@ const useStyles = createUseStyles(theme => ({
     width: "calc((100% / 14.5) * 3);",
     background: theme.colors.secondary.lightGray,
     padding: "1em",
-    paddingBottom: "1em",
     position: "absolute",
-    left: "23.5px",
     textAlign: "initial"
   },
   title: {
@@ -19,10 +17,10 @@ const useStyles = createUseStyles(theme => ({
     fontWeight: 700
   }
 }));
-
 const DiscoverTooltips = () => {
   const theme = useTheme();
   const classes = useStyles(theme);
+  console.debug("Window width: ", window.innerWidth);
   return (
     <div className={classes.container}>
       <p className={classes.title}>
