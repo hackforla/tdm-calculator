@@ -71,7 +71,7 @@ export default function UniversalSelect({
         option: (provided, state) => ({
           ...provided,
           fontSize: "15px", // Set your desired font size for options
-          padding: "2px", // Set padding to 0 for options
+          padding: "8px", // Set padding to 8 for options
           backgroundColor: state.isSelected
             ? "#1967D2"
             : state.isFocused
