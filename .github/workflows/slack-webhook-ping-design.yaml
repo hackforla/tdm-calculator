@@ -18,7 +18,7 @@ jobs:
         id: get-issue
         run: |
           # Store PR body in a file to avoid shell interpretation issues
-          echo '${{ github.event.pull_request.body }}' > pr_body.txt
+          echo '${{ github.event.pull_request.body }}' | tr -d '\r' > pr_body.txt
           # Extract issue number from PR body (assumes format like "Closes #123" or "Fixes #123")
           ISSUE_NUMBER=$(grep -i -oE "(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)\s+#[0-9]+" pr_body.txt | grep -oE "#[0-9]+" | sed 's/#//')
           if [ -z "$ISSUE_NUMBER" ]; then
