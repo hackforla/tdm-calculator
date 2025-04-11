@@ -27,9 +27,11 @@ import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
+import {
+  SORT_CRITERIA_STORAGE_TAG,
+  FILTER_CRITERIA_STORAGE_TAG
+} from "../../helpers/Constants";
 
-const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
-const FILTER_CRITERIA_STORAGE_TAG = "myProjectsFilterCriteria";
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",

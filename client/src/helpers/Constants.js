@@ -1,1 +1,10 @@
-export const ENABLE_UPDATE_TOTALS = false;
+const ENABLE_UPDATE_TOTALS = false;
+
+const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
+const FILTER_CRITERIA_STORAGE_TAG = "myProjectsFilterCriteria";
+
+export {
+  ENABLE_UPDATE_TOTALS,
+  SORT_CRITERIA_STORAGE_TAG,
+  FILTER_CRITERIA_STORAGE_TAG
+};
