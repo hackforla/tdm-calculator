@@ -947,7 +947,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 }}
               >
                 <div>
-                  {/*first*/}
                   <MultiProjectToolbarMenu
                     handleHideBoxes={handleHide}
                     handleCsvModalOpen={handleCsvModalOpen}
@@ -959,7 +958,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   />
                 </div>
                 <div>
-                  {/*{" second div"}*/}
                   <div
                     style={{
                       display: "flex",
@@ -984,7 +982,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   </div>
                 </div>
                 <div>
-                  {" "}
                   <div
                     style={{
                       paddingRight: "1.5em",
