@@ -14,11 +14,13 @@ assignees: ''
 
 
 ### Action Items
-- [ ] Moves the issue from the Prioritized Backlog column to In Progress column.
-- [ ] In Figma, moves a blank page to the Design section.
-- [ ] Changes the Figma page's title to be "#Issue Number | Title | Assignee Name".
-- [ ] Copies contents from the Template page to the Figma page.
-- [ ] Uses the Figma page to design solutions for the GitHub issue.
+- [ ] Assign yourself to this issue.
+- [ ] Move the issue from Prioritized Backlog to In Progress.
+- [ ] In Figma, move a blank page to the Design section.
+- [ ] Change the Figma page's title to have the format "#Issue Number | Title | Assignee Name".
+- [ ] Copy contents from the Figma Template page to this issue's Figma page.
+- [ ] Include
+- [ ] Uses the Figma page to design solutions for this issue.
 - [ ] Review proposed designs with the design lead. Implement feedback as necessary.
 - [ ] Review proposed designs with the design director. Implement feedback as necessary.
 - [ ] Review proposed designs with the product, development, and research teams. Implement feedback as necessary.
@@ -27,13 +29,19 @@ assignees: ''
 - [ ] Update the Figma Design System with changes resulting from the issue's final design, if applicable.
 - [ ] Update the [Style Guide Presentation](https://docs.google.com/presentation/d/1I4q35NL2WW2RpksIyawhHCd8qJnrjme1ZDNIBxu24hQ/), if applicable.
 - [ ] Create a development handoff issue.
-- [ ] Move this issue's Figma page to the Development section.
+- [ ] Move this issue's Figma page to the Figma section below.
 - [ ] Add the development issue's number in parentheses at the beginning of the title of the Figma page.
 - [ ] Include the development issue number in the Development Issue section below.
 - [ ] Reassign any previous assignees to this issue.
 - [ ] Close this issue.
 
 ### Resources
+
+#### GitHub
 - 
 
-#### Development Issue
+#### Figma
+- 
+
+#### Dev Site
+- 
