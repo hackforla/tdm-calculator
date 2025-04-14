@@ -17,8 +17,8 @@ Please implement [brief description of design] as described in [design issue num
 - [ ] Assign yourself to the development issue.
 - [ ] Move the development issue from the Prioritized Backlog to In Progress.
 - [ ] [ADD DEVELOPER ACTION ITEMS]
-- [ ] Create a peer review task.
-- [ ] Once the peer review task has been approved, use it to close this issue.
+- [ ] Create a peer review task, if applicable.
+- [ ] Once the peer review task has been approved, use it to close this issue. If there is no peer review task associated with this issue, close this issue.
 
 ### Resources
 -
