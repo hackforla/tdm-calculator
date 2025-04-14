@@ -3,7 +3,7 @@ name: Design Issue
 about: Describe a design problem and request a solution
 title: ''
 labels: 'deck: missing, draft, feature: missing, milestone: missing, priority: missing,
-  role: missing, size: missing, ready for dev lead'
+  ready for dev lead, role: missing, size: missing'
 assignees: ''
 
 ---
@@ -22,8 +22,8 @@ assignees: ''
 - [ ] Include a link to this issue's Figma page in the Figma section below.
 - [ ] Uses the Figma page to design solutions for this issue.
 - [ ] Review proposed designs with the design lead. Implement feedback as necessary.
-- [ ] Review proposed designs with the design director. Implement feedback as necessary.
-- [ ] Review proposed designs with the product, development, and research teams. Implement feedback as necessary.
+- [ ] Use [presentation structure](https://github.com/hackforla/tdm-calculator/wiki/Design:-Presentations) to review proposed designs with the design director. Implement feedback as necessary.
+- [ ] Use [presentation structure](https://github.com/hackforla/tdm-calculator/wiki/Design:-Presentations) to review proposed designs with the product, development, and research teams. Implement feedback as necessary.
 - [ ] Receive design approval from stakeholders. Implement feedback as necessary.
 - [ ] Create a Ready for Dev section around the final designs on the Figma page.
 - [ ] Update the Figma Design System with changes resulting from the issue's final design, if applicable.
@@ -44,4 +44,4 @@ assignees: ''
 - 
 
 #### Dev Site
-- 
+-
