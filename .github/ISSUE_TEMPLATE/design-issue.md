@@ -20,7 +20,7 @@ assignees: ''
 - [ ] Change the Figma page's title to have the format "#Issue Number | Title | Assignee Name".
 - [ ] Copy contents from the Figma Template page to this issue's Figma page.
 - [ ] Include a link to this issue's Figma page in the Figma section below.
-- [ ] Uses the Figma page to design solutions for this issue.
+- [ ] Use the Figma page to design solutions for this issue.
 - [ ] Review proposed designs with the design lead. Implement feedback as necessary.
 - [ ] Use [presentation structure](https://github.com/hackforla/tdm-calculator/wiki/Design:-Presentations) to review proposed designs with the design director. Implement feedback as necessary.
 - [ ] Use [presentation structure](https://github.com/hackforla/tdm-calculator/wiki/Design:-Presentations) to review proposed designs with the product, development, and research teams. Implement feedback as necessary.
