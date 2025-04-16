@@ -2,8 +2,8 @@
 name: Design Issue
 about: Describe a design problem and request a solution
 title: ''
-labels: 'deck: missing, draft, feature: missing, milestone: missing, priority: missing,
-  ready for design lead - Tristan, role: missing, size: missing'
+labels: 'deck: missing, draft, feature: missing, level: missing, milestone: missing,
+  priority: missing, ready for design lead - Tristan, role: missing, size: missing'
 assignees: ''
 
 ---
