@@ -16,6 +16,7 @@ import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
 import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
 import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
+import InfoTargetNotReached from "../Modals/InfoTargetNotReached";
 import WarningProjectDelete from "../Modals/WarningProjectDelete";
 import CopyProjectModal from "../Modals/ActionProjectCopy";
 import CsvModal from "../Modals/ActionProjectsCsv";
@@ -26,9 +27,11 @@ import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
+import {
+  SORT_CRITERIA_STORAGE_TAG,
+  FILTER_CRITERIA_STORAGE_TAG
+} from "../../helpers/Constants";
 
-const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
-const FILTER_CRITERIA_STORAGE_TAG = "myProjectsFilterCriteria";
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
@@ -104,12 +107,12 @@ const useStyles = createUseStyles({
   },
   tableAdmin: {
     minWidth: "135rem",
-    width: "135rem",
+    width: "100%",
     tableLayout: "fixed"
   },
   table: {
     minWidth: "110rem",
-    width: "110rem",
+    width: "100%",
     tableLayout: "fixed"
   },
   tr: {
@@ -209,6 +212,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
+    useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
@@ -223,6 +228,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [droNameMap, setDroNameMap] = useState({});
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
+  const loginId = userContext.account?.id || null;
 
   const enhancedProjects = projects
     ? projects.map(project => {
@@ -351,6 +357,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
       let newProject = {
         ...newSelectedProject,
+        loginId: loginId,
         name: newProjectName,
         formInputs: JSON.stringify(projectFormInputsAsJson)
       };
@@ -428,17 +435,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleSubmitModalOpen = project => {
     setSelectedProject(project);
-    setSubmitModalOpen(true);
+    if (project.earnedPoints >= project.targetPoints) {
+      setSubmitModalOpen(true);
+    } else {
+      setTargetNotReachedModalOpen(true);
+    }
   };
 
   const handleSubmitModalClose = async action => {
     if (action === "ok") {
-      try {
-        await projectService.submit({ id: selectedProject.id });
-        await updateProjects();
-      } catch (err) {
-        handleError(err);
-      }
+      await updateProjects();
     }
     setSubmitModalOpen(false);
     setSelectedProject(null);
@@ -831,7 +837,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateHidden",
       label: "Visibility",
       popupType: "visibility",
-      colWidth: "7rem"
+      colWidth: "8rem"
     },
     {
       id: "dateSnapshotted",
@@ -854,7 +860,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateCreated",
       endDatePropertyName: "endDateCreated",
-      colWidth: "8rem"
+      colWidth: "10rem"
     },
     {
       id: "dateModified",
@@ -862,7 +868,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateModified",
       endDatePropertyName: "endDateModified",
-      colWidth: "8rem"
+      colWidth: "10rem"
     },
     {
       id: "dateSubmitted",
@@ -891,9 +897,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
           },
           {
             id: "dateModifiedAdmin",
-            label: "Date Admin Saved",
+            label: "Admin Saved",
             popupType: "datetime",
-            colWidth: "15rem"
+            colWidth: "10rem"
           }
         ]
       : []),
@@ -917,7 +923,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     indexOfLastPost
   );
 
-  document.body.style.overflowX = "hidden"; // prevent page level scrolling, becauase the table is scrollable
+  document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
@@ -1137,6 +1143,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <WarningSnapshotSubmit
                     mounted={submitModalOpen}
                     onClose={handleSubmitModalClose}
+                    project={selectedProject}
+                  />
+                  <InfoTargetNotReached
+                    mounted={targetNotReachedModalOpen}
+                    onClose={() => setTargetNotReachedModalOpen(false)}
                     project={selectedProject}
                   />
                 </>

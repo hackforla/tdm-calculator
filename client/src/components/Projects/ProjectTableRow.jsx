@@ -295,9 +295,7 @@ const ProjectTableRow = ({
       <td className={classes.td}>
         {`${project.lastName}, ${project.firstName}`}
       </td>
-      <td className={classes.tdRightAlign}>
-        {formatDate(project.dateCreated)}
-      </td>
+      <td className={classes.td}>{formatDate(project.dateCreated)}</td>
       <td className={classes.td}>
         <span>{formatDate(project.dateModified)}</span>
       </td>

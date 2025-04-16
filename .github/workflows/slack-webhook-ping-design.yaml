@@ -17,9 +17,10 @@ jobs:
       - name: Get linked issue
         id: get-issue
         run: |
-          PR_BODY="${{ github.event.pull_request.body }}"
+          # Store PR body in a file to avoid shell interpretation issues
+          echo '${{ github.event.pull_request.body }}' | tr -d '\r' > pr_body.txt
           # Extract issue number from PR body (assumes format like "Closes #123" or "Fixes #123")
-          ISSUE_NUMBER=$(echo "$PR_BODY" | grep -oE "(Close|Closes|Closed|Fix|Fixes|Fixed|Resolve|Resolves|Resolved)\s+#[0-9]+" | grep -oE "#[0-9]+" | sed 's/#//')
+          ISSUE_NUMBER=$(grep -i -oE "(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)\s+#[0-9]+" pr_body.txt | grep -oE "#[0-9]+" | sed 's/#//')
           if [ -z "$ISSUE_NUMBER" ]; then
             echo "No linked issue found in PR description"
             echo "issue_number=" >> $GITHUB_OUTPUT

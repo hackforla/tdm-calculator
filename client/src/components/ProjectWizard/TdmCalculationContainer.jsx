@@ -569,6 +569,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       closeStrategiesModal={closeStrategiesModal}
       project={project}
       shareView={shareView}
+      initializeEngine={initializeEngine}
     />
   );
 }

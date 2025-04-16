@@ -1,12 +1,12 @@
 {
   "name": "root",
-  "version": "0.2.56",
+  "version": "0.2.57",
   "private": true,
   "scripts": {
     "release-notes": "gren release --override",
     "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\" ",
     "start:backend": "cd ./server && npm start",
-    "start:frontend": "wait-on http://localhost:5001/api/rules && cd ./client && npm start",
+    "start:frontend": "wait-on http://localhost:5001/api/calculations && cd ./client && npm start",
     "prepare": "husky install"
   },
   "dependencies": {
