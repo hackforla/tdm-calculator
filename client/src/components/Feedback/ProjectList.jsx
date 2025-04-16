@@ -10,7 +10,9 @@ const useStyles = createUseStyles({
     lineHeight: "140%"
   },
   table: {
-    overflow: "auto"
+    overflow: "auto",
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   tableHead: {
     textAlign: "left",
