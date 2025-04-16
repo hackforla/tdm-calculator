@@ -1,5 +1,5 @@
 ---
-name: 'Content: FAQ database: Revise content: [Replace with NAME OF ITEM]'
+name: 'Content: FAQ database: Revise content'
 about: To make it easy to create new issues for FAQ content needing revision
 title: 'FAQ database: Revise content: [Replace with NAME OF ITEM]'
 labels: 'deck: add to staging, level: missing, milestone: missing, p-feature: FAQ
