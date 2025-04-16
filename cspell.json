@@ -1,0 +1,29 @@
+{
+    "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+    "version": "0.2",
+    "language": "en",
+    "dictionaryDefinitions": [
+        {
+            "name": "project-words",
+            "path": "project-words.txt",
+            "addWords": true
+        }
+    ],
+    "dictionaries": [
+        "project-words",
+        "en_us",
+        "typescript",
+        "lorem-ipsum",
+        "fullstack"
+    ],
+    "ignorePaths": [
+        "node_modules",
+        "package.json",
+        "package-lock.json",
+        "project-words.txt"
+    ],
+    "ignoreRegExpList": [
+        "/^\\s*\\/.*$/gm",
+        "/[\"'`]\\/?[\\w\\-\\/\\.\\d]*[\"'`]/g"
+    ]
+}

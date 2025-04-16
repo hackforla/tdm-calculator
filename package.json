@@ -21,7 +21,8 @@
   "devDependencies": {
     "concurrently": "^8.2.2",
     "husky": "^8.0.0",
-    "lerna": "^8.2.1"
+    "lerna": "^8.2.2",
+    "node-flywaydb": "^3.0.7"
   },
   "volta": {
     "node": "20.10.0"

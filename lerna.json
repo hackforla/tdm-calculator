@@ -1,5 +1,9 @@
 {
   "version": "independent",
   "npmClient": "npm",
-  "packages": ["client", "server"]
+  "packages": [
+    "client",
+    "server"
+  ],
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }
