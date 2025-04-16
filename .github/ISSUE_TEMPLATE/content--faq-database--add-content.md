@@ -1,5 +1,5 @@
 ---
-name: Add content to FAQ database
+name: 'Content: FAQ database: Add content'
 about: To make it easy to create new issues for FAQ content needed
 title: 'Add content to FAQ database: [Replace with NAME OF ITEM]'
 labels: 'deck: add to staging, level: missing, milestone: missing, p-feature: FAQ
