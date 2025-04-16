@@ -202,8 +202,31 @@ const ProjectsPage = ({ contentContainerRef }) => {
     DEFAULT_SORT_CRITERIA
   );
 
+  const formatDatesFromCookieStrigify = sessionFilterCriteria => {
+    const newFilterCriteria = { ...sessionFilterCriteria };
+    const dateProperties = [
+      "startDateCreated",
+      "endDateCreated",
+      "startDateModified",
+      "endDateModified",
+      "startDateSubmitted",
+      "endDateSubmitted",
+      "startDateModifiedAdmin",
+      "endDateModifiedAdmin"
+    ];
+    dateProperties.forEach(dateProp => {
+      if (sessionFilterCriteria[dateProp] !== null) {
+        newFilterCriteria[dateProp] = new Date(sessionFilterCriteria[dateProp]);
+      }
+    });
+    return newFilterCriteria;
+  };
+
   const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
-  const [filterCriteria, setFilterCriteria] = useState(sessionFilterCriteria);
+  const [filterCriteria, setFilterCriteria] = useState(
+    formatDatesFromCookieStrigify(sessionFilterCriteria)
+  );
+
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
@@ -763,12 +786,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
     if (
       criteria.startDateSubmitted &&
-      getDateOnly(p.dateSubmitted) < getDateOnly(criteria.startDateSubmitted)
+      getDateOnly(p.dateSubmitted) <= getDateOnly(criteria.startDateSubmitted)
     )
       return false;
     if (
       criteria.endDateSubmitted &&
-      getDateOnly(p.dateSubmitted) > getDateOnly(criteria.endDateSubmitted)
+      getDateOnly(p.dateSubmitted) >= getDateOnly(criteria.endDateSubmitted)
     )
       return false;
 
