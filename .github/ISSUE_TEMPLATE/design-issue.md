@@ -22,7 +22,11 @@ assignees: ''
 - [ ] Copy contents from the Figma Template page to this issue's Figma page.
 - [ ] Include a link to this issue's Figma page in the Figma section below.
 - [ ] Use the Figma page to design solutions for this issue.
-- [ ] Review proposed designs with the design lead. Implement feedback as necessary.
+- Once this issue is ready to be reviewed:
+  - [ ] Add a comment tagging the team design lead that [explains the design](https://github.com/hackforla/tdm-calculator/wiki/Design:-Presentations).
+  - [ ] Move it to the Visual Review column.
+  - [ ] Add the "ready for Design lead-[team]" label specific to your team.
+  - [ ] Once you have received feedback from the team lead, implement feedback as necessary.
 - [ ] Use [presentation structure](https://github.com/hackforla/tdm-calculator/wiki/Design:-Presentations) to review proposed designs with the design director. Implement feedback as necessary.
 - [ ] Use [presentation structure](https://github.com/hackforla/tdm-calculator/wiki/Design:-Presentations) to review proposed designs with the product, development, and research teams. Implement feedback as necessary.
 - [ ] Receive design approval from stakeholders. Implement feedback as necessary.
