@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { formatDatetime } from "../../helpers/util";
 
-const useStyles = createUseStyles({
-  heading3: {
-    fontWeight: "bold",
-    fontSize: "20px",
-    lineHeight: "140%"
-  },
+const useStyles = createUseStyles(theme => ({
+  heading3: theme.heading3,
   table: {
     overflow: "auto",
     marginLeft: "auto",
@@ -36,10 +32,11 @@ const useStyles = createUseStyles({
     minWidth: "10rem",
     maxWidth: "10rem"
   }
-});
+}));
 
 const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const [augmentedProjects, setAugmentedProjects] = useState(
     projects.map(project => ({
       ...project,
@@ -74,7 +71,7 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
 
   return (
     <div>
-      <h3 className={classes.heading3}>Select Relevant Projects:</h3>
+      <h3 className={theme.heading3}>Select Relevant Projects:</h3>
       <table className={classes.table}>
         <thead>
           <tr>
