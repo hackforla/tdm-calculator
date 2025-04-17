@@ -132,10 +132,10 @@ const PackagePanel = props => {
                 {calcMinValue === calcMaxValue
                   ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
                   : calcMinValue < calcMaxValue
-                  ? `${Math.round(calcMinValue).toString()}-${Math.round(
-                      calcMaxValue
-                    ).toString()} ${calculationUnits}`
-                  : null}
+                    ? `${Math.round(calcMinValue).toString()}-${Math.round(
+                        calcMaxValue
+                      ).toString()} ${calculationUnits}`
+                    : null}
               </div>
               <div className={classes.calculationAreaColumn}>
                 {`${

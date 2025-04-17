@@ -22,7 +22,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "./index.html",
-        app: "/src/index.tsx"
+        app: "/src/index.jsx"
       }
     }
   },

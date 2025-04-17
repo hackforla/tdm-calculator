@@ -2,7 +2,8 @@
 name: 'Lighthouse: Cross-origin destinations are unsafe'
 about: Instructions for addressing the cross-origin linking vulnerabilities
 title: 'Lighthouse Issue: Cross-origin destinations are unsafe'
-labels: ''
+labels: 'deck: missing, feature: missing, level: missing, milestone: missing, priority:
+  missing, role: missing, size: missing'
 assignees: ''
 
 ---

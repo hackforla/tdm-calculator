@@ -1,0 +1,76 @@
+name: Notify Designers on PR Merge to Develop
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - develop
+
+jobs:
+  notify-designers:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+    
+      - name: Get linked issue
+        id: get-issue
+        run: |
+          # Store PR body in a file to avoid shell interpretation issues
+          echo '${{ github.event.pull_request.body }}' | tr -d '\r' > pr_body.txt
+          # Extract issue number from PR body (assumes format like "Closes #123" or "Fixes #123")
+          ISSUE_NUMBER=$(grep -i -oE "(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)\s+#[0-9]+" pr_body.txt | grep -oE "#[0-9]+" | sed 's/#//')
+          if [ -z "$ISSUE_NUMBER" ]; then
+            echo "No linked issue found in PR description"
+            echo "issue_number=" >> $GITHUB_OUTPUT
+          else
+            echo "Linked issue: #$ISSUE_NUMBER"
+            echo "issue_number=$ISSUE_NUMBER" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check if issue has UI label and designer
+        if: steps.get-issue.outputs.issue_number != ''
+        id: check-issue
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const script = require('./.github/scripts/find-label-in-gh-issue.cjs')
+            const issueNumber = ${{ steps.get-issue.outputs.issue_number }};
+            return await script({github, context, issueNumber})
+
+      - name: Prepare message
+        id: prepare-message
+        if: fromJSON(steps.check-issue.outputs.result).hasUILabel && steps.get-issue.outputs.issue_number != ''
+        run: |
+            echo "message=👋 @here This PR includes UI changes and fixes this issue: https://github.com/hackforla/tdm-calculator/issues/${{steps.get-issue.outputs.issue_number}}." >> $GITHUB_OUTPUT
+          
+      
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.24.0
+        if: fromJSON(steps.check-issue.outputs.result).hasUILabel
+        with:
+          payload: |
+            {
+              "text": "✅ PR #${{ github.event.pull_request.number }} has been merged into develop: ${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "✅ PR #${{ github.event.pull_request.number }} has been merged into develop:\n*<${{ github.event.pull_request.html_url }}|${{ github.event.pull_request.title }}>*"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ steps.prepare-message.outputs.message }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

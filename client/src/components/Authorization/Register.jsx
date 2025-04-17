@@ -42,8 +42,18 @@ const Register = props => {
   // });
 
   const registerSchema = Yup.object().shape({
-    firstName: Yup.string().required("First Name is required"),
-    lastName: Yup.string().required("Last Name is required"),
+    firstName: Yup.string()
+      .matches(
+        /^[a-zA-Z' .-]*$/,
+        "Your first name can only contain the alphabet, apostrophes, hyphens, periods, and spaces"
+      )
+      .required("First Name is required"),
+    lastName: Yup.string()
+      .matches(
+        /^[a-zA-Z' .-]*$/,
+        "Your last name can only contain the alphabet, apostrophes, hyphens, periods, and spaces"
+      )
+      .required("Last Name is required"),
     email: Yup.string()
       .email("Invalid email address format")
       .required("Email is required"),
