@@ -2,7 +2,8 @@
 name: Feature request
 about: Suggest an idea for this project
 title: 'Feature Suggestion: '
-labels: documentation
+labels: 'deck: missing, documentation, feature: missing, level: missing, milestone:
+  missing, priority: missing, role: missing, size: missing'
 assignees: ''
 
 ---

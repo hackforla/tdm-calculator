@@ -20,10 +20,10 @@ const useStyles = createUseStyles({
     "@media print": {
       display: "none"
     },
-    "@media (max-width:900px)": {
+    "@media (max-width:1024px)": {
       marginLeft: "1em"
     },
-    "@media (max-width:768px)": {
+    "@media (max-width:900px)": {
       marginLeft: 0
     }
   },
@@ -34,7 +34,7 @@ const useStyles = createUseStyles({
     "&:hover": {
       color: "#a7c539"
     },
-    "@media (max-width:900px)": {
+    "@media (max-width:1024px)": {
       marginRight: "1em"
     }
   },
@@ -52,7 +52,7 @@ const useStyles = createUseStyles({
     }
   },
   linkBlock: {
-    "@media (max-width:768px)": {
+    "@media (max-width:900px)": {
       borderTop: "2px solid #0f2940",
       width: "100%",
       paddingTop: ".5em",
@@ -71,14 +71,14 @@ const useStyles = createUseStyles({
     marginLeft: "2em",
     paddingRight: 0,
     marginRight: "1em",
-    "@media (max-width:900px)": {
+    "@media (max-width:1024px)": {
       marginLeft: "1em"
     },
-    "@media (max-width:768px)": {
+    "@media (max-width:900px)": {
       marginLeft: 0
     }
   },
-  "@media (max-width:768px)": {
+  "@media (max-width:900px)": {
     navbar: {
       flexDirection: "column",
       minWidth: "100%"
@@ -101,7 +101,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
   const account = userContext.account;
 
   const handleHamburgerMenuClick = () => {
-    setNavbarOpen(window.innerWidth < 768 ? !navbarOpen : false);
+    setNavbarOpen(window.innerWidth < 900 ? !navbarOpen : false);
   };
 
   return (

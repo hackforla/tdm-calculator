@@ -1,0 +1,20 @@
+name: 'Check spelling'
+on: # rebuild any PRs and main branch changes
+  pull_request:
+  push:
+
+jobs:
+  spell-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - name: Install CSpell
+        run: npm install -g cspell
+      - name: Check spelling
+        run: npx cspell --config ./cspell.json "**/*.jsx" --no-progress --no-exit-code

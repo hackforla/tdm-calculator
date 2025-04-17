@@ -16,8 +16,8 @@ module.exports = function () {
   const origin = instance
     ? `${host}\\${instance}`
     : port
-    ? `${host}:${port}`
-    : host; // default instance and port
+      ? `${host}:${port}`
+      : host; // default instance and port
 
   return {
     flywayArgs: {
