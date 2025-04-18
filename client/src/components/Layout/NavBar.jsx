@@ -140,6 +140,28 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           </NavLink>
         </li>
       )}
+      {account && !account.isAdmin && (
+        <li className={classes.linkBlock}>
+          <NavLink
+            className={classes.link}
+            to="/submissions"
+            onClick={handleHamburgerMenuClick}
+          >
+            Submissions
+          </NavLink>
+        </li>
+      )}
+      {account && account.isAdmin && (
+        <li className={classes.linkBlock}>
+          <NavLink
+            className={classes.link}
+            to="/submissionsadmin"
+            onClick={handleHamburgerMenuClick}
+          >
+            Submission Admin
+          </NavLink>
+        </li>
+      )}
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
