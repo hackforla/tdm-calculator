@@ -130,7 +130,7 @@ describe("email API unit tests", () => {
   it("sendFeedback", async () => {
     const loginId = 99;
     const feedback = {
-      name: "John Doe",
+      name: "Doe, John",
       email: "user@example.com",
       comment: "some comment",
       forwardToWebTeam: true,
