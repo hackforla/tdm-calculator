@@ -982,58 +982,64 @@ const ProjectsPage = ({ contentContainerRef }) => {
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexWrap: "wrap",
                   justifyContent: "space-between",
-                  width: "100vw"
+                  alignItems: "center",
+                  gap: "15px"
                 }}
               >
-                <MultiProjectToolbarMenu
-                  handleHideBoxes={handleHide}
-                  handleCsvModalOpen={handleCsvModalOpen}
-                  handleDeleteModalOpen={handleDeleteModalOpen}
-                  checkedProjectIds={checkedProjectIds}
-                  criteria={filterCriteria}
-                  checkedProjectsStatusData={checkedProjectsStatusData}
-                  pdfProjectData={projectData}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <div className={classes.searchBarWrapper}>
-                    <input
-                      className={classes.searchBar}
-                      type="search"
-                      id="filterText"
-                      name="filterText"
-                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
-                      value={filterCriteria.filterText}
-                      onChange={e => handleFilterTextChange(e.target.value)}
-                    />
-                    <MdOutlineSearch className={classes.searchIcon} />
+                <div>
+                  <MultiProjectToolbarMenu
+                    handleHideBoxes={handleHide}
+                    handleCsvModalOpen={handleCsvModalOpen}
+                    handleDeleteModalOpen={handleDeleteModalOpen}
+                    checkedProjectIds={checkedProjectIds}
+                    criteria={filterCriteria}
+                    checkedProjectsStatusData={checkedProjectsStatusData}
+                    pdfProjectData={projectData}
+                  />
+                </div>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignSelf: "center",
+                      justifyContent: "center",
+                      flexBasis: "33%"
+                    }}
+                  >
+                    <div className={classes.searchBarWrapper}>
+                      <input
+                        className={classes.searchBar}
+                        type="search"
+                        id="filterText"
+                        name="filterText"
+                        placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
+                        value={filterCriteria.filterText}
+                        onChange={e => handleFilterTextChange(e.target.value)}
+                      />
+                      <MdOutlineSearch className={classes.searchIcon} />
+                    </div>
                   </div>
                 </div>
-
-                <div
-                  style={{
-                    paddingRight: "1.5em",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <Button
-                    onClick={resetFiltersSort}
-                    isDisplayed={true}
-                    variant="tertiary"
+                <div>
+                  <div
+                    style={{
+                      paddingRight: "1.5em",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      flexBasis: "33%"
+                    }}
                   >
-                    RESET FILTERS/SORT
-                  </Button>
+                    <Button
+                      onClick={resetFiltersSort}
+                      isDisplayed={true}
+                      variant="tertiary"
+                    >
+                      RESET FILTERS/SORT
+                    </Button>
+                  </div>
                 </div>
               </div>
               <div>
