@@ -250,6 +250,35 @@ const updateTotals = async (req, res) => {
   }
 };
 
+const getSubmissions = async (req, res) => {
+  try {
+    const projects = await projectService.getSubmissions(req.user.id);
+    res.status(200).json(projects);
+    return;
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const getSubmissionsAdmin = async (req, res) => {
+  try {
+    const projects = await projectService.getSubmissionsAdmin(req.user.id);
+    res.status(200).json(projects);
+    return;
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const putSubmission = async (req, res) => {
+  try {
+    await projectService.putSubmission(req.user.id, req.body);
+    res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -265,5 +294,8 @@ module.exports = {
   updateAdminNotes,
   renameSnapshot,
   getAllArchivedProjects,
-  updateTotals
+  updateTotals,
+  getSubmissions,
+  getSubmissionsAdmin,
+  putSubmission
 };
