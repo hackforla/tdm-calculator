@@ -187,6 +187,7 @@ const RuleInput = ({
         dataType === "number" ? (
           <div
             className={clsx(classes.rowContainer, classes.numberFieldWrapper)}
+            onBlur={onBlur}
           >
             <RuleLabel
               id={id}
@@ -261,6 +262,7 @@ const RuleInput = ({
         ) : dataType === "choice" ? (
           <div
             className={clsx(classes.rowContainer, classes.selectFieldWrapper)}
+            onBlur={onBlur}
           >
             <RuleLabel
               id={id}
