@@ -42,7 +42,7 @@ export const FaqButtonContainer = ({
   const theme = useTheme();
   return (
     <div className={classes.buttonContainer} {...dragHandleProps}>
-      {isHovered && (
+      {admin && (
         <MdDelete
           color={theme.colorCritical}
           className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
