@@ -183,8 +183,7 @@ const Login = () => {
                     onMouseOut={() => setWithoutSavingWarningIsVisible(false)}
                   >
                     <Button
-                      color="colorDefault"
-                      variant="outlined"
+                      variant="secondary"
                       onClick={() => {
                         navigate("/calculation/1/0");
                       }}
