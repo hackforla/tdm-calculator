@@ -1,7 +1,6 @@
 import React, { useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
-import SubmitButton from "../Button/SubmitButton";
 import { createUseStyles } from "react-jss";
 import Button from "../Button/Button";
 import ReactToPrint from "react-to-print";
@@ -13,7 +12,7 @@ const useStyles = createUseStyles({
   allButtonsWrapper: {
     display: "flex",
     alignItems: "center",
-    margin: "3em 0",
+    margin: "1.5em 0",
     width: "80%",
     justifyContent: "center"
   },
@@ -22,12 +21,6 @@ const useStyles = createUseStyles({
     margin: "auto",
     fontWeight: "bold",
     padding: "0px 12px"
-  },
-  lastSaved: {
-    color: "#6F6C64"
-  },
-  lastSavedContainer: {
-    margin: "0 auto"
   },
   datesStatus: {
     width: "90%",
@@ -47,9 +40,9 @@ const WizardFooter = ({
   setDisabledForNextNavButton,
   setDisabledSaveButton,
   setDisplaySaveButton,
-  setDisplaySubmitButton,
   onSave,
   showCopyAndEditSnapshot,
+  showSubmitModal,
   project,
   shareView
 }) => {
@@ -64,6 +57,32 @@ const WizardFooter = ({
   const formattedDateModified = formatDatetime(project.dateModified);
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
+  const isAdmin = !!userContext.account?.isAdmin;
+
+  const setDisabledSubmitButton = () => {
+    // PMs and Designers are still deciding whether to use a tooltlip to indicate that target points are not met.
+    const projectSubmitted = !!project.dateSubmitted;
+    // const targetPoints = project.targetPoints;
+    // const earnedPoints = project.earnedPoints;
+    // const setDisabled =
+    //   !project.dateSnapshotted ||
+    //   projectSubmitted ||
+    //   earnedPoints < targetPoints;
+    // return setDisabled;
+    return !project.dateSnapshotted || projectSubmitted;
+  };
+
+  const setDisplaySubmitButton = () => {
+    if (
+      page === 5 &&
+      project.dateSnapshotted &&
+      !project.dateSubmitted &&
+      project.loginId === loggedInUserId
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <>
@@ -75,15 +94,26 @@ const WizardFooter = ({
                 id="leftNavArrow"
                 navDirection="previous"
                 color="colorPrimary"
-                isVisible={page !== 1}
-                isDisabled={shareView || Number(page) === 1}
+                isVisible={
+                  page !== 1 &&
+                  !project.dateSnapshotted &&
+                  (!shareView || isAdmin)
+                }
+                isDisabled={
+                  (shareView && !isAdmin) ||
+                  !!project.dateSnapshotted ||
+                  Number(page) === 1
+                }
                 onClick={() => {
                   onPageChange(Number(page) - 1);
                 }}
               />
-              <div className={classes.pageNumberCounter}>
-                Page {pageNumber}/5
-              </div>
+              {(!shareView || isAdmin) && !project.dateSnapshotted ? (
+                <div className={classes.pageNumberCounter}>
+                  Page {pageNumber}/5
+                </div>
+              ) : null}
+              {/* Page {pageNumber}/5 */}
               <NavButton
                 id="rightNavArrow"
                 navDirection="next"
@@ -122,6 +152,16 @@ const WizardFooter = ({
             <div style={{ display: "none" }}>
               <PdfPrint ref={componentRef} rules={rules} project={project} />
             </div>
+
+            <Button
+              id="submitButton"
+              variant="tertiary"
+              disabled={setDisabledSubmitButton()}
+              isDisplayed={setDisplaySubmitButton()}
+              onClick={showSubmitModal}
+            >
+              Submit
+            </Button>
             <Button
               id="saveButton"
               variant="primary"
@@ -131,12 +171,6 @@ const WizardFooter = ({
             >
               Save Project
             </Button>
-            <SubmitButton
-              id="submitButton"
-              color="colorPrimary"
-              isDisplayed={false && setDisplaySubmitButton()}
-              onClick={() => null}
-            />
           </>
         ) : null}
       </div>
@@ -185,11 +219,16 @@ WizardFooter.propTypes = {
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
-  setDisplaySubmitButton: PropTypes.any,
   onSave: PropTypes.any,
+  submitModalOpen: PropTypes.any,
+  handleSubmitModalOpen: PropTypes.any,
+  handleSubmitModalClose: PropTypes.any,
+  targetNotReachedModalOpen: PropTypes.any,
   showCopyAndEditSnapshot: PropTypes.func,
+  showSubmitModal: PropTypes.func,
   onDownload: PropTypes.any,
   project: PropTypes.any,
+  selectProject: PropTypes.any,
   shareView: PropTypes.bool
 };
 

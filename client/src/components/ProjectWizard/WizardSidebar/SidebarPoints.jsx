@@ -5,6 +5,12 @@ import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
 import ToolTip from "../../ToolTip/ToolTip";
 
+/*
+  DEPRECATED - This component is no longer in the application, but
+  User Research still has a task to A/B test this design against the 
+  current "dial" component <EarnedPointsProgress>, so we don't want to 
+  remove it entirely until the User Research task is complete.
+*/
 const useStyles = createUseStyles({
   ruleTargetGreen: {
     fontSize: "80px",

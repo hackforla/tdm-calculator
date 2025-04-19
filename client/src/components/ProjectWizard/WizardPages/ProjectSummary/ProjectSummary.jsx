@@ -52,12 +52,6 @@ const useStyles = createUseStyles({
     display: "flex",
     justifyContent: "center"
   },
-  lastSaved: {
-    color: "#6F6C64"
-  },
-  lastSavedContainer: {
-    margin: "24px auto 0"
-  },
   categoryContainer: {
     marginTop: "25px"
   },
@@ -105,7 +99,6 @@ const useStyles = createUseStyles({
   },
   tempTextContainer: {
     width: "100%",
-    height: "50px",
     display: "flex",
     justifyContent: "center",
     marginTop: "4px",
@@ -316,11 +309,7 @@ const ProjectSummary = props => {
   );
 };
 ProjectSummary.propTypes = {
-  rules: PropTypes.array.isRequired,
-  account: PropTypes.object.isRequired,
-  projectId: PropTypes.number.isRequired,
-  loginId: PropTypes.number.isRequired,
-  dateModified: PropTypes.string || null
+  rules: PropTypes.array.isRequired
 };
 
 export default ProjectSummary;

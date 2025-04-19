@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-client",
-  "version": "0.2.55",
+  "version": "0.2.57",
   "private": true,
   "proxy": "http://localhost:5001",
   "type": "module",
@@ -81,7 +81,7 @@
     "require-context.macro": "^1.2.2",
     "sass": "^1.51.0",
     "typescript": "^5.8.2",
-    "vite": "^6.2.4",
+    "vite": "^6.3.1",
     "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.1.4"
   },
