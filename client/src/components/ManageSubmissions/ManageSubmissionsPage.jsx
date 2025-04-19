@@ -12,7 +12,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const SubmissionsPage = props => {
+const ManageSubmissions = props => {
   const { contentContainerRef } = props;
   const classes = useStyles();
   const [projects, setProjects] = useState([]);
@@ -33,8 +33,8 @@ const SubmissionsPage = props => {
   );
 };
 
-SubmissionsPage.propTypes = {
+ManageSubmissions.propTypes = {
   contentContainerRef: PropTypes.object
 };
 
-export default SubmissionsPage;
+export default ManageSubmissions;

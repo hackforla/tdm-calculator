@@ -38,7 +38,7 @@ import ErrorPage from "./components/ErrorPage";
 import Offline from "./components/Offline";
 import Logout from "./components/Authorization/Logout";
 import SubmissionsPage from "./components/Submissions/SubmissionsPage";
-import SubmissionsAdminPage from "./components/Submissions/SubmissionsAdminPage";
+import ManageSubmissionsPage from "./components/ManageSubmissions/ManageSubmissionsPage";
 import { getConfigs } from "./helpers/Config";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
@@ -173,10 +173,10 @@ const App = () => {
             }
           />
           <Route
-            path="/submissionsadmin"
+            path="/managesubmissions"
             element={
               <RequireAuth>
-                <SubmissionsAdminPage
+                <ManageSubmissionsPage
                   contentContainerRef={contentContainerRef}
                 />
               </RequireAuth>
