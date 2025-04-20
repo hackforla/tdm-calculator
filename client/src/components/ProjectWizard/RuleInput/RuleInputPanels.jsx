@@ -11,7 +11,8 @@ const RuleInputPanels = ({
   onInputChange,
   onPartialMultiChange,
   onAINInputError,
-  showPlaceholder
+  showPlaceholder,
+  page
 }) => {
   const panelIds = getCalculationPanelIds(rules);
   const panelsRules = getPanelRules(panelIds, rules);
@@ -33,6 +34,7 @@ const RuleInputPanels = ({
             onAINInputError={onAINInputError}
             autoFocus={!index}
             showPlaceholder={showPlaceholder}
+            page={page}
           />
         </Panels>
       ))}
@@ -48,7 +50,8 @@ RuleInputPanels.propTypes = {
   onPartialMultiChange: PropTypes.func,
   onAINInputError: PropTypes.func,
   autoFocus: PropTypes.bool,
-  showPlaceholder: PropTypes.bool
+  showPlaceholder: PropTypes.bool,
+  page: PropTypes.number
 };
 
 export default RuleInputPanels;

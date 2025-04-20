@@ -25,7 +25,8 @@ function ProjectDescriptions(props) {
     onPartialAINChange,
     onAINInputError,
     uncheckAll,
-    resetProject
+    resetProject,
+    page
   } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -56,6 +57,7 @@ function ProjectDescriptions(props) {
           onAINInputError={onAINInputError}
           suppressHeader={true}
           showPlaceholder={true}
+          page={page}
         />
       </form>
       <div className={classes.disclaimer}>
@@ -72,7 +74,8 @@ ProjectDescriptions.propTypes = {
   onPartialAINChange: PropTypes.func.isRequired,
   onAINInputError: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
-  resetProject: PropTypes.func.isRequired
+  resetProject: PropTypes.func.isRequired,
+  page: PropTypes.number
 };
 
 export default ProjectDescriptions;

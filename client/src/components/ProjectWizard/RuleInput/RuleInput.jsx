@@ -407,6 +407,7 @@ const RuleInput = ({
           <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
             {inputError}
           </div>
+          <div className={classes.newLabel}></div>
         </div>
       ) : display &&
         (dataType === "string" ||
@@ -419,6 +420,7 @@ const RuleInput = ({
           <div className={clsx(classes.textInputLabel, classes.errorLabel)}>
             {validationErrors[0]}
           </div>
+          <div className={classes.newLabel}></div>
         </div>
       ) : null}
       {showDescription && description ? (
