@@ -183,8 +183,7 @@ const Login = () => {
                     onMouseOut={() => setWithoutSavingWarningIsVisible(false)}
                   >
                     <Button
-                      color="colorDefault"
-                      variant="outlined"
+                      variant="secondary"
                       onClick={() => {
                         navigate("/calculation/1/0");
                       }}
@@ -196,7 +195,7 @@ const Login = () => {
                     id="cy-login-submit"
                     type="submit"
                     disabled={isDisabled}
-                    color="colorPrimary"
+                    variant="primary"
                   >
                     {isSubmitting ? "Please wait..." : "Login"}
                   </Button>
