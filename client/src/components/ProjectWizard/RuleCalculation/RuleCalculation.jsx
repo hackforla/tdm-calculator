@@ -391,8 +391,8 @@ const RuleCalculation = ({
               {calcCode === "CALC_PARK_RATIO"
                 ? Math.round((calcValue || 0) * 100) / 100
                 : calcValue
-                  ? Math.round(calcValue * 100) / 100
-                  : ""}
+                ? Math.round(calcValue * 100) / 100
+                : ""}
             </span>
             <span className={classes.calcUnits}> {calcUnits || ""}</span>
           </div>

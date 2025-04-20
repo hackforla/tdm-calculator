@@ -3,5 +3,5 @@ export const Environment =
   window.location.hostname.toLowerCase().includes("tdm-dev")
     ? import.meta.env.ENV || "DEV"
     : window.location.hostname.toLowerCase().includes("tdm-uat")
-      ? "UAT"
-      : "PROD";
+    ? "UAT"
+    : "PROD";

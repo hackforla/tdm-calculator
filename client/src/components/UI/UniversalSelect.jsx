@@ -75,8 +75,8 @@ export default function UniversalSelect({
           backgroundColor: state.isSelected
             ? "#1967D2"
             : state.isFocused
-              ? "#EEF1F4"
-              : "white", // Change background color based on state
+            ? "#EEF1F4"
+            : "white", // Change background color based on state
           color: state.isSelected ? "white" : "black", // Ensure text is readable on dark background,
           boxShadow: "10px"
         }),

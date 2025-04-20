@@ -166,8 +166,8 @@ const RuleLabel = ({
                 )
               : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
             : description
-              ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
-              : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+            ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+            : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
         }
       >
         {link ? (

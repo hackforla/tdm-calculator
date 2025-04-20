@@ -47,12 +47,12 @@ const ProjectDetail = props => {
   const displayValue = propsValue
     ? propsValue
     : rule.dataType === "boolean"
-      ? rule.value
-        ? "Yes"
-        : "No"
-      : rule.dataType === "number"
-        ? numberWithCommas(rule.value)
-        : "Unknown Data Type";
+    ? rule.value
+      ? "Yes"
+      : "No"
+    : rule.dataType === "number"
+    ? numberWithCommas(rule.value)
+    : "Unknown Data Type";
 
   return rule ? (
     <div className={clsx("space-between", classes.rule)}>

@@ -105,9 +105,7 @@ function CreateCopyOfSnapshot({
       <div style={{ display: "flex", alignItems: "center" }}>
         <MdFileCopy className={classes.icon} />
         <h1 className={classes.heading1}>
-          {isSnapshotOwner
-            ? "Copy and Edit Project"
-            : "Create Editable Copy"}{" "}
+          {isSnapshotOwner ? "Copy and Edit Project" : "Create Editable Copy"}{" "}
         </h1>
       </div>
       <div
