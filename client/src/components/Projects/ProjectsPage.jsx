@@ -36,7 +36,7 @@ const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   type: "all",
-  status: "active",
+  status: "all",
   visibility: "visible",
   name: "",
   address: "",
@@ -73,6 +73,17 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     alignItems: "center"
   },
+  pageTabsDiv: {
+    fontSize: "16pt",
+    fontWeight: "bold",
+    display: "flex",
+    gap: "10px"
+  },
+  activePageTab: {
+    borderBottom: "4px solid green",
+    padding: "6px"
+  },
+  inactivePageTab: { color: "#919090", padding: "6px" },
   filter: {
     overflow: "hidden",
     flexBasis: "18rem",
@@ -254,6 +265,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
+  const [currentTabView, setCurrentTabView] = useState("Projects");
+
+  const handleTabClick = e => {
+    setCurrentTabView(e.target.innerText);
+  };
 
   const enhancedProjects = projects
     ? projects.map(project => {
@@ -266,6 +282,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
         };
       })
     : [];
+
+  const tabProjects =
+    currentTabView === "Projects"
+      ? enhancedProjects.filter(p => !p.dateTrashed)
+      : enhancedProjects.filter(p => p.dateTrashed);
 
   useEffect(() => {
     const fetchDroOptions = async () => {
@@ -948,7 +969,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  let sortedProjects = enhancedProjects.filter(p => filter(p, filterCriteria));
+  let sortedProjects = tabProjects.filter(p => filter(p, filterCriteria));
   for (let i = 0; i < sortCriteria.length; i++) {
     sortedProjects.sort(
       getComparator(sortCriteria[i].direction, sortCriteria[i].field)
@@ -965,7 +986,29 @@ const ProjectsPage = ({ contentContainerRef }) => {
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <div className={classes.outerDiv}>
         <div className={classes.contentDiv}>
-          <h1 className={classes.pageTitle}>Projects</h1>
+          <h1 className={classes.pageTitle}>My Projects</h1>
+          <div className={classes.pageTabsDiv}>
+            <span
+              className={
+                currentTabView === "Projects"
+                  ? classes.activePageTab
+                  : classes.inactivePageTab
+              }
+              onClick={handleTabClick}
+            >
+              Projects
+            </span>
+            <span
+              className={
+                currentTabView !== "Projects"
+                  ? classes.activePageTab
+                  : classes.inactivePageTab
+              }
+              onClick={handleTabClick}
+            >
+              Deleted Projects
+            </span>
+          </div>
           <div
             style={{
               display: "flex",
@@ -995,6 +1038,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   criteria={filterCriteria}
                   checkedProjectsStatusData={checkedProjectsStatusData}
                   pdfProjectData={projectData}
+                  currentTabView={currentTabView}
                 />
                 <div
                   style={{
@@ -1081,7 +1125,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       </tr>
                     </thead>
                     <tbody className={classes.tbody}>
-                      {enhancedProjects.length ? (
+                      {tabProjects.length ? (
                         currentProjects.map(project => (
                           <ProjectTableRow
                             key={project.id}
