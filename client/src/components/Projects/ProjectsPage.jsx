@@ -74,18 +74,34 @@ const useStyles = createUseStyles({
     alignItems: "center"
   },
   pageTabsDiv: {
-    fontSize: "16pt",
+    fontSize: "14pt",
     fontWeight: "bold",
     display: "flex",
-    gap: "10px"
+    justifyContent: "center",
+    width: "100%",
+    gap: "10px",
+    borderBottom: "2px solid #e6ebf0",
+    position: "relative",
+    alignItems: "flex-start"
   },
   pageTab: {
-    padding: "6px"
+    padding: "10px",
+    borderTop: "2px solid #e6ebf0",
+    borderLeft: "2px solid #e6ebf0",
+    borderRight: "2px solid #e6ebf0",
+    borderRadius: "2px 2px 0 0"
   },
   activePageTab: {
-    borderBottom: "4px solid green"
+    position: "relative",
+    zIndex: 1,
+    boxShadow: "0 2px 0 white",
+    borderBottom: "none"
   },
-  inactivePageTab: { color: "#919090" },
+  inactivePageTab: {
+    color: "#808589",
+    backgroundColor: "#e6ebf0",
+    cursor: "pointer"
+  },
   filter: {
     overflow: "hidden",
     flexBasis: "18rem",
