@@ -7,18 +7,18 @@ import { MdClose } from "react-icons/md";
 
 const StatusPopup = ({
   close,
-  header,
+  // header,
   criteria,
   setCriteria,
-  order,
-  orderBy,
-  setSort,
+  // order,
+  // orderBy,
+  // setSort,
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
-  const [newOrder, setNewOrder] = useState(
-    header.id !== orderBy ? null : order
-  );
+  // const [newOrder, setNewOrder] = useState(
+  //   header.id !== orderBy ? null : order
+  // );
 
   const [typeSetting, setTypeSetting] = useState(criteria.type);
 
@@ -38,9 +38,9 @@ const StatusPopup = ({
       ...criteria,
       type: typeSetting
     });
-    if (newOrder) {
-      setSort("dateSnapshotted", newOrder, true);
-    }
+    // if (newOrder) {
+    //   setSort("dateSnapshotted", newOrder, true);
+    // }
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
     close();
@@ -60,22 +60,6 @@ const StatusPopup = ({
           alt={`Close popup`}
           onClick={close}
         />
-      </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
-        <RadioButton
-          label="Sort A-Z"
-          value="asc"
-          checked={newOrder == "asc"}
-          onChange={() => setNewOrder("asc")}
-        />
-        <RadioButton
-          label="Sort Z-A"
-          value="desc"
-          checked={newOrder === "desc"}
-          onChange={() => setNewOrder("desc")}
-        />
-        <hr style={{ width: "100%" }} />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
