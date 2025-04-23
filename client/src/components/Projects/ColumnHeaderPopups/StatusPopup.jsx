@@ -21,14 +21,11 @@ const StatusPopup = ({
   );
 
   const [typeSetting, setTypeSetting] = useState(criteria.type);
-  const [showDeleted, setShowDeleted] = useState(criteria.status === "all");
 
   const setDefault = () => {
     setTypeSetting("all");
-    setShowDeleted(false);
     setCriteria({
       ...criteria,
-      status: showDeleted ? "all" : "active",
       type: "all"
     });
     setCheckedProjectIds([]);
@@ -39,12 +36,10 @@ const StatusPopup = ({
     // Set Criteria for status
     setCriteria({
       ...criteria,
-      status: showDeleted ? "all" : "active",
       type: typeSetting
     });
     if (newOrder) {
       setSort("dateSnapshotted", newOrder, true);
-      // setSort("dateTrashed", newOrder);
     }
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
@@ -104,19 +99,6 @@ const StatusPopup = ({
         />
         <hr style={{ width: "100%" }} />
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <label style={{ margin: "0.5em" }}>
-          <input
-            style={{ verticalAlign: "middle" }}
-            type="checkbox"
-            checked={showDeleted}
-            value="active"
-            onChange={() => setShowDeleted(!showDeleted)}
-          />
-          <span style={{ verticalAlign: "middle" }}> Show Deleted</span>
-        </label>
-      </div>
-      <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
         <Button onClick={setDefault} variant="outlined">
           Reset
