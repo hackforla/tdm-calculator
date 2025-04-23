@@ -264,25 +264,6 @@ const MultiProjectToolbarMenu = ({
                 color={isDelBtnDisabled ? "#1010104d" : ""}
               />
             )}
-            <Tooltip
-              // Cannot use JSS, because Tooltip default styles would overwrite
-              style={{
-                ...theme.typography.paragraph1,
-                backgroundColor: theme.colors.secondary.lightGray,
-                width: "12rem",
-                borderRadius: "5px",
-                textAlign: "center",
-                boxShadow:
-                  "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
-              }}
-              border="1px solid black"
-              anchorSelect="#delete-btn"
-              content={tooltipMsg(
-                "status",
-                "Your selection includes both deleted and active items",
-                "dateTrashed"
-              )}
-            />
           </button>
         </li>
       </ul>
