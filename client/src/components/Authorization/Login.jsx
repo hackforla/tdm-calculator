@@ -195,7 +195,7 @@ const Login = () => {
                     id="cy-login-submit"
                     type="submit"
                     disabled={isDisabled}
-                    color="colorPrimary"
+                    variant="primary"
                   >
                     {isSubmitting ? "Please wait..." : "Login"}
                   </Button>

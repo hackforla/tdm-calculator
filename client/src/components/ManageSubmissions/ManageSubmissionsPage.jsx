@@ -27,7 +27,7 @@ const ManageSubmissions = props => {
 
   return (
     <ContentContainer contentContainerRef={contentContainerRef}>
-      <h1 className={classes.pageTitle}>Submission Admin</h1>
+      <h1 className={classes.pageTitle}>Manage Submissions</h1>
       <div>{JSON.stringify(projects, null, 2)}</div>
     </ContentContainer>
   );

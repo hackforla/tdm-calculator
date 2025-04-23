@@ -1025,9 +1025,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexWrap: "wrap",
                   justifyContent: "space-between",
-                  width: "100vw"
+                  alignItems: "center",
+                  gap: "15px"
                 }}
               >
                 <MultiProjectToolbarMenu
