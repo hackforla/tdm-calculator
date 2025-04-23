@@ -285,7 +285,6 @@ const ProjectTableRow = ({
       </td>
       <td className={classes.td}>
         {project.dateSnapshotted ? "Snapshot" : "Draft"}
-        {project.dateTrashed ? <span> (deleted)</span> : null}
       </td>
       <td className={classes.td}>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
