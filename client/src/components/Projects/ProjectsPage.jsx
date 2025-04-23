@@ -79,11 +79,13 @@ const useStyles = createUseStyles({
     display: "flex",
     gap: "10px"
   },
-  activePageTab: {
-    borderBottom: "4px solid green",
+  pageTab: {
     padding: "6px"
   },
-  inactivePageTab: { color: "#919090", padding: "6px" },
+  activePageTab: {
+    borderBottom: "4px solid green"
+  },
+  inactivePageTab: { color: "#919090" },
   filter: {
     overflow: "hidden",
     flexBasis: "18rem",
@@ -989,21 +991,25 @@ const ProjectsPage = ({ contentContainerRef }) => {
           <h1 className={classes.pageTitle}>My Projects</h1>
           <div className={classes.pageTabsDiv}>
             <span
-              className={
-                currentTabView === "Projects"
-                  ? classes.activePageTab
-                  : classes.inactivePageTab
-              }
+              className={`${classes.pageTab}
+                ${
+                  currentTabView === "Projects"
+                    ? classes.activePageTab
+                    : classes.inactivePageTab
+                }
+              `}
               onClick={handleTabClick}
             >
               Projects
             </span>
             <span
-              className={
-                currentTabView !== "Projects"
-                  ? classes.activePageTab
-                  : classes.inactivePageTab
-              }
+              className={`${classes.pageTab}
+                ${
+                  currentTabView !== "Projects"
+                    ? classes.activePageTab
+                    : classes.inactivePageTab
+                }
+              `}
               onClick={handleTabClick}
             >
               Deleted Projects
