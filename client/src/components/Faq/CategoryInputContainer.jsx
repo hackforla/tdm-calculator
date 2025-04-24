@@ -60,12 +60,12 @@ export const CategoryInputContainer = ({
       <div {...dragHandleProps}>
         {admin && (
           <>
-            {isHovered && (
+            {
               <MdDelete
                 className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
                 onClick={onDeleteCategory}
               />
-            )}
+            }
             <MdViewModule className={classes.faqGripIcon} />
           </>
         )}

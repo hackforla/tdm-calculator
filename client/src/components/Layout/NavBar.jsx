@@ -155,10 +155,10 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
-            to="/submissionsadmin"
+            to="/managesubmissions"
             onClick={handleHamburgerMenuClick}
           >
-            Submission Admin
+            Manage Submissions
           </NavLink>
         </li>
       )}
