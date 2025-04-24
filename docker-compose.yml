@@ -42,6 +42,21 @@ services:
       start_period: 10s
       timeout: 3s
 
+  db-init:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    volumes:
+      - ./server/db:/db
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    entrypoint:
+      [
+        "/bin/sh",
+        "-c",
+        '/opt/mssql-tools18/bin/sqlcmd -C -S ${SQL_SERVER_NAME:?error} -U ${SQL_USER_NAME:?error} -P ${SQL_PASSWORD:?error} -Q "IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = ''tdmdev'') CREATE DATABASE tdmdev; ELSE PRINT ''Database \"${SQL_DATABASE_NAME:?error}\" already exists. Operation successful.''" -b',
+      ]
+
   db:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     volumes:
