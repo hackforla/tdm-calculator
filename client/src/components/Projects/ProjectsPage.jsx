@@ -36,7 +36,6 @@ const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   type: "all",
-  status: "all",
   visibility: "visible",
   name: "",
   address: "",
@@ -92,8 +91,7 @@ const useStyles = createUseStyles({
   activePageTab: {
     position: "relative",
     zIndex: 1,
-    boxShadow: "0 2px 0 white",
-    borderBottom: "none"
+    boxShadow: "0 2px 0 white"
   },
   inactivePageTab: {
     color: "#808589",
@@ -567,16 +565,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleCheckboxChange = projectId => {
-    setCheckedProjectIds(prevCheckedProjectIds => {
-      if (prevCheckedProjectIds.includes(projectId)) {
-        return prevCheckedProjectIds.filter(id => id !== projectId);
-      } else {
-        return [...prevCheckedProjectIds, projectId];
-      }
-    });
+    setCheckedProjectIds(prevChecked => {
+      const updated = prevChecked.includes(projectId)
+        ? prevChecked.filter(id => id !== projectId)
+        : [...prevChecked, projectId];
 
-    // header checkbox status
-    setSelectAllChecked(checkedProjectIds.length === currentProjects.length);
+      setSelectAllChecked(updated.length === currentProjects.length);
+
+      return updated;
+    });
   };
 
   const handleHeaderCheckbox = () => {
@@ -589,12 +586,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
               (filterCriteria.visibility === "hidden" && p.dateHidden) ||
               filterCriteria.visibility === "all"
           )
-          .filter(
-            p =>
-              (filterCriteria.status === "active" && !p.dateTrashed) ||
-              (filterCriteria.status === "deleted" && p.dateTrashed) ||
-              filterCriteria.status === "all"
-          )
           .map(p => p.id)
       );
     } else {
@@ -603,6 +594,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
     setSelectAllChecked(!selectAllChecked);
   };
+
+  useEffect(() => {
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
+  }, [currentTabView]);
 
   const ascCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
@@ -733,8 +729,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const filter = (p, criteria) => {
     if (criteria.type === "draft" && p.dateSnapshotted) return false;
     if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
-    if (criteria.status === "active" && p.dateTrashed) return false;
-    if (criteria.status === "deleted" && !p.dateTrashed) return false;
     if (criteria.visibility === "visible" && p.dateHidden) return false;
     if (criteria.visibility === "hidden" && !p.dateHidden) return false;
     if (
