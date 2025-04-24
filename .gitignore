@@ -6,6 +6,7 @@
 # Custom ignores
 cypress/screenshots
 cypress/videos
+**/db_table_csv/*.csv
 
 ### Linux ###
 *~

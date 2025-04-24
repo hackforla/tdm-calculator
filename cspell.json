@@ -31,5 +31,7 @@
         "CalculationRule",
         "CalculationPanel",
         "FaqCategory"
+    ],
+    "db_tables_excluded": [
     ]
 }

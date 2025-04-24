@@ -8,8 +8,7 @@
     "start:backend": "cd ./server && npm start",
     "start:frontend": "wait-on http://localhost:5001/api/calculations && cd ./client && npm start",
     "prepare": "husky install",
-    "spellcheck": "npx cspell --config ./cspell.json \"./**/*.jsx\" --no-progress --no-exit-code",
-    "spellcheck_db": "node \"./server/db/spelling_test/spelling_test.js\" &&  npx cspell --config ./cspell.json \"./**/*.csv\" --no-progress --no-exit-code"
+    "spellcheck": "npx cspell --config ./cspell.json \"./**/*.jsx\" --no-progress --no-exit-code"
   },
   "dependencies": {
     "wait-on": "^8.0.3"
@@ -20,10 +19,13 @@
     }
   },
   "devDependencies": {
+    "@cspell/cspell-json-reporter": "^8.19.2",
     "concurrently": "^9.1.2",
     "cspell": "^8.19.2",
+    "csv-stringify": "^6.5.2",
     "husky": "^9.1.7",
     "lerna": "^8.2.1",
+    "mssql-to-csv": "^1.1.0",
     "prettier-eslint": "^16.4.1"
   },
   "volta": {
