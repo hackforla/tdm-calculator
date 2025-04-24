@@ -80,9 +80,7 @@ const useStyles = createUseStyles({
     justifyContent: "center",
     width: "100%",
     gap: "10px",
-    borderBottom: "2px solid #e6ebf0",
-    position: "relative",
-    alignItems: "flex-start"
+    borderBottom: "2px solid #e6ebf0"
   },
   pageTab: {
     padding: "10px",
