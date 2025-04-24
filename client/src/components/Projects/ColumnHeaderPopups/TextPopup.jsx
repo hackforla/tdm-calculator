@@ -106,10 +106,10 @@ const TextPopup = ({
 
   let selectOptions;
 
-  if (property === "droName") {
+  if (property === "droName" && droOptions) {
     selectOptions = droOptions.map(dro => dro.name);
     selectOptions.push("No DRO Assigned");
-  } else if (property === "author") {
+  } else if (property === "author" && droOptions) {
     selectOptions = [
       ...new Set(filteredProjects.map(p => `${p.lastName}, ${p.firstName}`))
     ]
@@ -284,7 +284,7 @@ TextPopup.propTypes = {
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
   setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array.isRequired
+  droOptions: PropTypes.array
 };
 
 export default TextPopup;
