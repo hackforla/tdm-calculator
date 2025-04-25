@@ -32,6 +32,8 @@ services:
     volumes:
       - ./server/:/usr/app
     depends_on:
+      db-migrate:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
         restart: true
