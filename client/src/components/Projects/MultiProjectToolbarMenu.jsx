@@ -70,7 +70,7 @@ const MultiProjectToolbarMenu = ({
   criteria,
   checkedProjectsStatusData,
   pdfProjectData,
-  currentTabView
+  isActiveProjectsTab
 }) => {
   const printRef = useRef(null);
   const theme = useTheme();
@@ -104,7 +104,7 @@ const MultiProjectToolbarMenu = ({
   const isDelBtnDisabled =
     !isProjectOwner ||
     isBtnDisabled("dateTrashed", "status") ||
-    currentTabView === "Deleted Projects";
+    !isActiveProjectsTab;
 
   const tooltipMsg = criteriaProp => {
     if (checkedProjectIds.length === 0) return;
@@ -241,7 +241,7 @@ const MultiProjectToolbarMenu = ({
             disabled={isDelBtnDisabled}
             onClick={handleDeleteModalOpen}
           >
-            {currentTabView === "Projects" ? (
+            {isActiveProjectsTab ? (
               <MdDelete
                 className={classes.icon}
                 color={isDelBtnDisabled ? "#1010104d" : "red"}
@@ -267,7 +267,7 @@ MultiProjectToolbarMenu.propTypes = {
   criteria: PropTypes.object.isRequired,
   checkedProjectsStatusData: PropTypes.object.isRequired,
   pdfProjectData: PropTypes.object,
-  currentTabView: PropTypes.string.isRequired
+  isActiveProjectsTab: PropTypes.string.isRequired
 };
 
 export default MultiProjectToolbarMenu;

@@ -293,10 +293,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
-  const [currentTabView, setCurrentTabView] = useState("Projects");
+  const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
 
   const handleTabClick = e => {
-    setCurrentTabView(e.target.innerText);
+    setIsActiveProjectsTab(e.target.innerText === "Projects");
   };
 
   const enhancedProjects = projects
@@ -311,10 +311,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
       })
     : [];
 
-  const tabProjects =
-    currentTabView === "Projects"
-      ? enhancedProjects.filter(p => !p.dateTrashed)
-      : enhancedProjects.filter(p => p.dateTrashed);
+  const tabProjects = isActiveProjectsTab
+    ? enhancedProjects.filter(p => !p.dateTrashed)
+    : enhancedProjects.filter(p => p.dateTrashed);
 
   useEffect(() => {
     const fetchDroOptions = async () => {
@@ -612,7 +611,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   useEffect(() => {
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
-  }, [currentTabView]);
+  }, [isActiveProjectsTab]);
 
   const ascCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
@@ -934,7 +933,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateSnapshotted",
       label: "Status",
       popupType: "status",
-      colWidth: `${currentTabView === "Projects" ? "7rem" : "12rem"}`
+      colWidth: `${isActiveProjectsTab ? "7rem" : "12rem"}`
     },
     { id: "name", label: "Name", popupType: "text", colWidth: "20rem" },
     { id: "address", label: "Address", popupType: "text", colWidth: "20rem" },
@@ -961,7 +960,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       endDatePropertyName: "endDateModified",
       colWidth: "10rem"
     },
-    ...(currentTabView !== "Projects"
+    ...(!isActiveProjectsTab
       ? [
           {
             id: "dateTrashed",
@@ -1037,7 +1036,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
             <span
               className={`${classes.pageTab}
                 ${
-                  currentTabView === "Projects"
+                  isActiveProjectsTab
                     ? classes.activePageTab
                     : classes.inactivePageTab
                 }
@@ -1049,9 +1048,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
             <span
               className={`${classes.pageTab}
                 ${
-                  currentTabView !== "Projects"
-                    ? classes.activePageTab
-                    : classes.inactivePageTab
+                  isActiveProjectsTab
+                    ? classes.inactivePageTab
+                    : classes.activePageTab
                 }
               `}
               onClick={handleTabClick}
@@ -1090,7 +1089,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     criteria={filterCriteria}
                     checkedProjectsStatusData={checkedProjectsStatusData}
                     pdfProjectData={projectData}
-                    currentTabView={currentTabView}
+                    isActiveProjectsTab={isActiveProjectsTab}
                   />
                 </div>
                 <div>
@@ -1126,7 +1125,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       flexBasis: "33%"
                     }}
                   >
-                    {currentTabView !== "Projects" && (
+                    {!isActiveProjectsTab && (
                       <Button
                         onClick={handleDeleteModalOpen}
                         isDisplayed={true}
@@ -1151,12 +1150,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <table
                     className={
                       userContext.account?.isAdmin
-                        ? currentTabView === "Deleted Projects"
-                          ? classes.tableAdminDeleted
-                          : classes.tableAdmin
-                        : currentTabView === "Deleted Projects"
-                          ? classes.tableDeleted
-                          : classes.table
+                        ? isActiveProjectsTab
+                          ? classes.tableAdmin
+                          : classes.tableAdminDeleted
+                        : isActiveProjectsTab
+                          ? classes.table
+                          : classes.tableDeleted
                     }
                   >
                     <colgroup>
@@ -1223,7 +1222,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                                 ? null
                                 : droNameMap[project.droId] || "N/A"
                             } // Pass the droName
-                            currentTabView={currentTabView}
+                            isActiveProjectsTab={isActiveProjectsTab}
                           />
                         ))
                       ) : (
