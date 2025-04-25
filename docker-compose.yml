@@ -42,6 +42,25 @@ services:
       start_period: 10s
       timeout: 3s
 
+  db-migrate:
+    image: redgate/flyway
+    volumes:
+      - ./server/db/migration:/flyway/sql
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+        restart: true
+    command: [
+        "-user=${SQL_USER_NAME:?error}",
+        "-password=${SQL_PASSWORD:?error}",
+        "-url=jdbc:sqlserver://${SQL_SERVER_NAME:?error}:${SQL_SERVER_PORT:?error};databaseName=${SQL_DATABASE_NAME:?error};trustServerCertificate=true",
+        # uncomment for debug messages
+        # "-X",
+        "migrate",
+      ]
+
   db-init:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     volumes:
