@@ -181,7 +181,8 @@ const ProjectTableRow = ({
   isAdmin,
   droOptions,
   onDroChange, // New prop
-  onAdminNoteUpdate // New prop
+  onAdminNoteUpdate, // New prop
+  currentTabView
 }) => {
   const {
     showWarningModal,
@@ -298,6 +299,11 @@ const ProjectTableRow = ({
       <td className={classes.td}>
         <span>{formatDate(project.dateModified)}</span>
       </td>
+      {currentTabView === "Deleted Projects" && (
+        <td className={classes.td}>
+          <span>{formatDate(project.dateTrashed)}</span>
+        </td>
+      )}
       <td className={classes.td}>{dateSubmittedDisplay()}</td>
       {/* DRO Column */}
       <td className={classes.td}>
@@ -441,7 +447,8 @@ ProjectTableRow.propTypes = {
     })
   ).isRequired,
   onDroChange: PropTypes.func.isRequired, // New propType
-  onAdminNoteUpdate: PropTypes.func.isRequired // New propType
+  onAdminNoteUpdate: PropTypes.func.isRequired, // New propType
+  currentTabView: PropTypes.string.isRequired
 };
 
 export default ProjectTableRow;
