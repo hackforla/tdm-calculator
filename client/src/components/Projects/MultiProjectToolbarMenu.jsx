@@ -5,7 +5,6 @@ import { createUseStyles, useTheme } from "react-jss";
 import { FaFileCsv } from "react-icons/fa6";
 import {
   MdDelete,
-  MdRestoreFromTrash,
   MdPrint,
   MdVisibility,
   MdVisibilityOff
@@ -103,26 +102,15 @@ const MultiProjectToolbarMenu = ({
     isBtnDisabled("dateHidden", "visibility");
 
   const isDelBtnDisabled =
-    !isProjectOwner || isBtnDisabled("dateTrashed", "status");
+    !isProjectOwner ||
+    isBtnDisabled("dateTrashed", "status") ||
+    currentTabView === "Deleted Projects";
 
-  const tooltipMsg = (criteriaProp, msg, dateProp) => {
+  const tooltipMsg = criteriaProp => {
     if (checkedProjectIds.length === 0) return;
 
     if (!isProjectOwner && criteriaProp !== "visibility") {
       return "You have selected a project that does not belong to you";
-    }
-
-    // show recover message if project is deleted
-    if (checkedProjectsStatusData.dateTrashed && criteriaProp === "status") {
-      return "Restore from Trash";
-    }
-
-    // show message when selecting mixed types (e.g. hide & unhide)
-    if (
-      checkedProjectIds.length > 1 &&
-      checkedProjectsStatusData[dateProp] === false
-    ) {
-      return criteria[criteriaProp] === "all" ? msg : "";
     }
   };
 
@@ -259,7 +247,7 @@ const MultiProjectToolbarMenu = ({
                 color={isDelBtnDisabled ? "#1010104d" : "red"}
               />
             ) : (
-              <MdRestoreFromTrash
+              <MdDelete
                 className={classes.icon}
                 color={isDelBtnDisabled ? "#1010104d" : ""}
               />
