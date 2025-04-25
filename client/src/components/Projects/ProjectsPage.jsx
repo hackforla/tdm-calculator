@@ -16,6 +16,7 @@ import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
 import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
 import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
+import InfoTargetNotReached from "../Modals/InfoTargetNotReached";
 import WarningProjectDelete from "../Modals/WarningProjectDelete";
 import CopyProjectModal from "../Modals/ActionProjectCopy";
 import CsvModal from "../Modals/ActionProjectsCsv";
@@ -26,9 +27,11 @@ import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
+import {
+  SORT_CRITERIA_STORAGE_TAG,
+  FILTER_CRITERIA_STORAGE_TAG
+} from "../../helpers/Constants";
 
-const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
-const FILTER_CRITERIA_STORAGE_TAG = "myProjectsFilterCriteria";
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
@@ -44,6 +47,8 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateCreated: null,
   startDateModified: null,
   endDateModified: null,
+  startDateSubmitted: null,
+  endDateSubmitted: null,
   nameList: [],
   addressList: [],
   alternativeList: [],
@@ -104,12 +109,12 @@ const useStyles = createUseStyles({
   },
   tableAdmin: {
     minWidth: "135rem",
-    width: "135rem",
+    width: "100%",
     tableLayout: "fixed"
   },
   table: {
     minWidth: "110rem",
-    width: "110rem",
+    width: "100%",
     tableLayout: "fixed"
   },
   tr: {
@@ -147,7 +152,7 @@ const useStyles = createUseStyles({
     },
     "& tr td": {
       padding: "12px",
-      verticalAlign: "middle"
+      verticalAlign: "top"
     },
     "& tr:hover": {
       background: "#B2C0D3"
@@ -200,8 +205,31 @@ const ProjectsPage = ({ contentContainerRef }) => {
     DEFAULT_SORT_CRITERIA
   );
 
+  const formatDatesFromCookieStrigify = sessionFilterCriteria => {
+    const newFilterCriteria = { ...sessionFilterCriteria };
+    const dateProperties = [
+      "startDateCreated",
+      "endDateCreated",
+      "startDateModified",
+      "endDateModified",
+      "startDateSubmitted",
+      "endDateSubmitted",
+      "startDateModifiedAdmin",
+      "endDateModifiedAdmin"
+    ];
+    dateProperties.forEach(dateProp => {
+      if (sessionFilterCriteria[dateProp] !== null) {
+        newFilterCriteria[dateProp] = new Date(sessionFilterCriteria[dateProp]);
+      }
+    });
+    return newFilterCriteria;
+  };
+
   const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
-  const [filterCriteria, setFilterCriteria] = useState(sessionFilterCriteria);
+  const [filterCriteria, setFilterCriteria] = useState(
+    formatDatesFromCookieStrigify(sessionFilterCriteria)
+  );
+
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
@@ -209,6 +237,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
+    useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
@@ -223,6 +253,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [droNameMap, setDroNameMap] = useState({});
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
+  const loginId = userContext.account?.id || null;
 
   const enhancedProjects = projects
     ? projects.map(project => {
@@ -351,6 +382,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
       let newProject = {
         ...newSelectedProject,
+        loginId: loginId,
         name: newProjectName,
         formInputs: JSON.stringify(projectFormInputsAsJson)
       };
@@ -428,17 +460,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleSubmitModalOpen = project => {
     setSelectedProject(project);
-    setSubmitModalOpen(true);
+    if (project.earnedPoints >= project.targetPoints) {
+      setSubmitModalOpen(true);
+    } else {
+      setTargetNotReachedModalOpen(true);
+    }
   };
 
   const handleSubmitModalClose = async action => {
     if (action === "ok") {
-      try {
-        await projectService.submit({ id: selectedProject.id });
-        await updateProjects();
-      } catch (err) {
-        handleError(err);
-      }
+      await updateProjects();
     }
     setSubmitModalOpen(false);
     setSelectedProject(null);
@@ -759,6 +790,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
     }
 
+    if (
+      criteria.startDateSubmitted &&
+      getDateOnly(p.dateSubmitted) <= getDateOnly(criteria.startDateSubmitted)
+    )
+      return false;
+    if (
+      criteria.endDateSubmitted &&
+      getDateOnly(p.dateSubmitted) >= getDateOnly(criteria.endDateSubmitted)
+    )
+      return false;
+
     if (criteria.droList.length > 0) {
       const droNames = criteria.droList.map(n => n.toLowerCase());
       const projectDroName = (p.droName || "").toLowerCase();
@@ -831,7 +873,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateHidden",
       label: "Visibility",
       popupType: "visibility",
-      colWidth: "7rem"
+      colWidth: "8rem"
     },
     {
       id: "dateSnapshotted",
@@ -854,7 +896,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateCreated",
       endDatePropertyName: "endDateCreated",
-      colWidth: "8rem"
+      colWidth: "10rem"
     },
     {
       id: "dateModified",
@@ -862,7 +904,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateModified",
       endDatePropertyName: "endDateModified",
-      colWidth: "8rem"
+      colWidth: "10rem"
     },
     {
       id: "dateSubmitted",
@@ -891,9 +933,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
           },
           {
             id: "dateModifiedAdmin",
-            label: "Date Admin Saved",
+            label: "Admin Saved",
             popupType: "datetime",
-            colWidth: "15rem"
+            colWidth: "10rem"
           }
         ]
       : []),
@@ -917,7 +959,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     indexOfLastPost
   );
 
-  document.body.style.overflowX = "hidden"; // prevent page level scrolling, becauase the table is scrollable
+  document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
@@ -940,58 +982,64 @@ const ProjectsPage = ({ contentContainerRef }) => {
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexWrap: "wrap",
                   justifyContent: "space-between",
-                  width: "100vw"
+                  alignItems: "center",
+                  gap: "15px"
                 }}
               >
-                <MultiProjectToolbarMenu
-                  handleHideBoxes={handleHide}
-                  handleCsvModalOpen={handleCsvModalOpen}
-                  handleDeleteModalOpen={handleDeleteModalOpen}
-                  checkedProjectIds={checkedProjectIds}
-                  criteria={filterCriteria}
-                  checkedProjectsStatusData={checkedProjectsStatusData}
-                  pdfProjectData={projectData}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <div className={classes.searchBarWrapper}>
-                    <input
-                      className={classes.searchBar}
-                      type="search"
-                      id="filterText"
-                      name="filterText"
-                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
-                      value={filterCriteria.filterText}
-                      onChange={e => handleFilterTextChange(e.target.value)}
-                    />
-                    <MdOutlineSearch className={classes.searchIcon} />
+                <div>
+                  <MultiProjectToolbarMenu
+                    handleHideBoxes={handleHide}
+                    handleCsvModalOpen={handleCsvModalOpen}
+                    handleDeleteModalOpen={handleDeleteModalOpen}
+                    checkedProjectIds={checkedProjectIds}
+                    criteria={filterCriteria}
+                    checkedProjectsStatusData={checkedProjectsStatusData}
+                    pdfProjectData={projectData}
+                  />
+                </div>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignSelf: "center",
+                      justifyContent: "center",
+                      flexBasis: "33%"
+                    }}
+                  >
+                    <div className={classes.searchBarWrapper}>
+                      <input
+                        className={classes.searchBar}
+                        type="search"
+                        id="filterText"
+                        name="filterText"
+                        placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
+                        value={filterCriteria.filterText}
+                        onChange={e => handleFilterTextChange(e.target.value)}
+                      />
+                      <MdOutlineSearch className={classes.searchIcon} />
+                    </div>
                   </div>
                 </div>
-
-                <div
-                  style={{
-                    paddingRight: "1.5em",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <Button
-                    onClick={resetFiltersSort}
-                    isDisplayed={true}
-                    variant="tertiary"
+                <div>
+                  <div
+                    style={{
+                      paddingRight: "1.5em",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      flexBasis: "33%"
+                    }}
                   >
-                    RESET FILTERS/SORT
-                  </Button>
+                    <Button
+                      onClick={resetFiltersSort}
+                      isDisplayed={true}
+                      variant="tertiary"
+                    >
+                      RESET FILTERS/SORT
+                    </Button>
+                  </div>
                 </div>
               </div>
               <div>
@@ -1137,6 +1185,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <WarningSnapshotSubmit
                     mounted={submitModalOpen}
                     onClose={handleSubmitModalClose}
+                    project={selectedProject}
+                  />
+                  <InfoTargetNotReached
+                    mounted={targetNotReachedModalOpen}
+                    onClose={() => setTargetNotReachedModalOpen(false)}
                     project={selectedProject}
                   />
                 </>

@@ -93,18 +93,21 @@ const MultiProjectToolbarMenu = ({
     const sameDateVals = checkedProjectsStatusData[projProp] !== false;
     const criteriaFilter = criteria[criteriaProp] === "all";
 
-    // disable button if current user is not the owner
-    // or if criteria is "all" and the date values are different
-    return !isProjectOwner || (criteriaFilter && !sameDateVals);
+    // disable button if criteria is "all" and the date values are different
+    return criteriaFilter && !sameDateVals;
   };
 
-  const isHideBtnDisabled = isBtnDisabled("dateHidden", "visibility");
-  const isDelBtnDisabled = isBtnDisabled("dateTrashed", "status");
+  const isHideBtnDisabled =
+    !checkedProjectsStatusData.loginId ||
+    isBtnDisabled("dateHidden", "visibility");
+
+  const isDelBtnDisabled =
+    !isProjectOwner || isBtnDisabled("dateTrashed", "status");
 
   const tooltipMsg = (criteriaProp, msg, dateProp) => {
     if (checkedProjectIds.length === 0) return;
 
-    if (!isProjectOwner) {
+    if (!isProjectOwner && criteriaProp !== "visibility") {
       return "You have selected a project that does not belong to you";
     }
 

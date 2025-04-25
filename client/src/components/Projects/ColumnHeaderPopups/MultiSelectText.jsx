@@ -97,7 +97,6 @@ const MultiSelectText = ({ options, selectedOptions, setSelectedOptions }) => {
         {filteredOptions.map(o => (
           <div key={o} className={classes.listItem}>
             <input
-              style={{ height: "1.5rem" }}
               type="checkbox"
               name={o}
               checked={isChecked(o)}

@@ -3,8 +3,8 @@ name: Bug report
 about: Lists out information that would be help developers quickly identify and fix
   potential problems.
 title: 'Bug: '
-labels: 'bug, feature: missing, level: missing, milestone: missing, priority: MUST
-  HAVE, role: missing, size: missing'
+labels: 'bug, deck: missing, feature: missing, level: missing, milestone: missing,
+  priority: MUST HAVE, role: missing, size: missing'
 assignees: ''
 
 ---
@@ -43,5 +43,11 @@ assignees: ''
 - [ ] Fix bug.
 - [ ] Review with development lead.
 - [ ] Review with product, development, and research teams. Update if needed based on feedback.
-- [ ] Once finalized, add a slide to [the staging deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg).
+- [ ] Once finalized, add a slide to the staging deck (see resources) 
 - [ ] Get Stakeholder sign-off via the stakeholder meeting slide deck.
+
+#### Staging and Release decks
+- [Staging Deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg/)
+   - [Staging slide for getting content approved on this issue]
+- Release Deck
+   - [2025-MM-DD Release deck, slide ISSUE NUMBER]
