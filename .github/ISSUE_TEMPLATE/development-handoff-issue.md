@@ -19,6 +19,12 @@ Please implement [brief description of design] as described in [design issue num
 - [ ] Create a PR, if applicable.
 - [ ] Once the PR has been approved, use it to close this issue. If there is no PR is associated with this issue, close this issue after lead signoff.
 
-### Resources
+### Resources/Instructions
 - Design details: [link to final comment in GitHub issue]
 - Design mockups: [link to Ready for Dev section in the related Figma page]
+
+#### Staging and Release decks
+- [Staging Deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg/)
+   - [Staging slide for getting content approved on this issue]
+- Release Deck
+   - [2025-MM-DD Release deck, slide ISSUE NUMBER]
