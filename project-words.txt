@@ -27,3 +27,5 @@ unarchived
 unarchiving
 updateaccount
 filt
+Unclickable
+Unsharing
