@@ -257,14 +257,11 @@ const ProjectTableRow = ({
   };
 
   const daysUntilPermanentDeletion = () => {
-    const trashedDate = new Date(project.dateTrashed);
-    const permanentDeletionDate = new Date(
-      trashedDate.getTime() + 90 * 24 * 60 * 60 * 1000
-    );
-    const now = new Date();
-    const diffMs = permanentDeletionDate - now;
-    const diffDays = diffMs / (1000 * 60 * 60 * 24);
-
+    const diffDays =
+      (new Date(project.dateTrashed).getTime() +
+        90 * 24 * 60 * 60 * 1000 -
+        Date.now()) /
+      (1000 * 60 * 60 * 24);
     return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
   };
 
