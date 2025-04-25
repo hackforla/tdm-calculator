@@ -633,17 +633,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (orderBy === "author") {
       projectA = `${a["lastName"]} ${a["firstName"]}`;
       projectB = `${b["lastName"]} ${b["firstName"]}`;
-    } else if (
-      orderBy === "dateHidden" ||
-      orderBy === "dateTrashed" ||
-      orderBy === "dateSnapshotted"
-    ) {
+    } else if (orderBy === "dateHidden" || orderBy === "dateSnapshotted") {
       projectA = a[orderBy] ? 1 : 0;
       projectB = b[orderBy] ? 1 : 0;
     } else if (
       orderBy === "dateSubmitted" ||
       orderBy === "dateCreated" ||
-      orderBy === "dateModified"
+      orderBy === "dateModified" ||
+      orderBy === "dateTrashed"
     ) {
       projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
       projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
@@ -1020,6 +1017,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       getComparator(sortCriteria[i].direction, sortCriteria[i].field)
     );
   }
+
   const currentProjects = sortedProjects.slice(
     indexOfFirstPost,
     indexOfLastPost
