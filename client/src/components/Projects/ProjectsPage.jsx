@@ -139,6 +139,16 @@ const useStyles = createUseStyles({
     width: "100%",
     tableLayout: "fixed"
   },
+  tableDeleted: {
+    minWidth: "127rem",
+    width: "100%",
+    tableLayout: "fixed"
+  },
+  tableAdminDeleted: {
+    minWidth: "152rem",
+    width: "100%",
+    tableLayout: "fixed"
+  },
   table: {
     minWidth: "110rem",
     width: "100%",
@@ -924,7 +934,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateSnapshotted",
       label: "Status",
       popupType: "status",
-      colWidth: "7rem"
+      colWidth: `${currentTabView === "Projects" ? "7rem" : "12rem"}`
     },
     { id: "name", label: "Name", popupType: "text", colWidth: "20rem" },
     { id: "address", label: "Address", popupType: "text", colWidth: "20rem" },
@@ -1131,8 +1141,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <table
                     className={
                       userContext.account?.isAdmin
-                        ? classes.tableAdmin
-                        : classes.table
+                        ? currentTabView === "Deleted Projects"
+                          ? classes.tableAdminDeleted
+                          : classes.tableAdmin
+                        : currentTabView === "Deleted Projects"
+                          ? classes.tableDeleted
+                          : classes.table
                     }
                   >
                     <colgroup>
