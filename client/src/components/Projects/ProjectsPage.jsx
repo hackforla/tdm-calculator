@@ -1126,14 +1126,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       flexBasis: "33%"
                     }}
                   >
-                    <Button
-                      onClick={handleDeleteModalOpen}
-                      isDisplayed={true}
-                      variant="primary"
-                      disabled={!checkedProjectsStatusData.dateTrashed}
-                    >
-                      RESTORE
-                    </Button>
+                    {currentTabView !== "Projects" && (
+                      <Button
+                        onClick={handleDeleteModalOpen}
+                        isDisplayed={true}
+                        variant="primary"
+                        disabled={!checkedProjectsStatusData.dateTrashed}
+                      >
+                        RESTORE
+                      </Button>
+                    )}
                     <Button
                       onClick={resetFiltersSort}
                       isDisplayed={true}
