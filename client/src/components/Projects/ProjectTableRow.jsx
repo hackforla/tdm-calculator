@@ -256,11 +256,20 @@ const ProjectTableRow = ({
     return <span>{formatDate(project.dateSubmitted)}</span>;
   };
 
+  const daysUntilPermanentDeletion = () => {
+    const trashedDate = new Date(project.dateTrashed);
+    const permanentDeletionDate = new Date(
+      trashedDate.getTime() + 90 * 24 * 60 * 60 * 1000
+    );
+    const now = new Date();
+    const diffMs = permanentDeletionDate - now;
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+    return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
+  };
+
   return (
-    <tr
-      key={project.id}
-      style={{ background: project.dateTrashed ? "#ffdcdc" : "" }}
-    >
+    <tr key={project.id}>
       <td className={classes.tdCenterAlign}>
         <input
           style={{ height: "15px" }}
@@ -285,7 +294,16 @@ const ProjectTableRow = ({
         )}
       </td>
       <td className={classes.td}>
-        {project.dateSnapshotted ? "Snapshot" : "Draft"}
+        {project.dateSnapshotted ? "Snapshot" : "Draft"}{" "}
+        {project.dateTrashed ? (
+          <span
+            style={{
+              color: daysUntilPermanentDeletion(project) <= 7 ? "red" : "gray"
+            }}
+          >
+            ({daysUntilPermanentDeletion(project)})
+          </span>
+        ) : null}
       </td>
       <td className={classes.td}>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
