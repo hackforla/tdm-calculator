@@ -1127,6 +1127,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     }}
                   >
                     <Button
+                      onClick={handleDeleteModalOpen}
+                      isDisplayed={true}
+                      variant="primary"
+                      disabled={!checkedProjectsStatusData.dateTrashed}
+                    >
+                      RESTORE
+                    </Button>
+                    <Button
                       onClick={resetFiltersSort}
                       isDisplayed={true}
                       variant="tertiary"
