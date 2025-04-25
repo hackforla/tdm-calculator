@@ -46,6 +46,8 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateCreated: null,
   startDateModified: null,
   endDateModified: null,
+  startDateTrashed: null,
+  endDateTrashed: null,
   startDateSubmitted: null,
   endDateSubmitted: null,
   nameList: [],
@@ -237,6 +239,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
       "endDateCreated",
       "startDateModified",
       "endDateModified",
+      "startDateTrashed",
+      "endDateTrashed",
       "startDateSubmitted",
       "endDateSubmitted",
       "startDateModifiedAdmin",
@@ -762,6 +766,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
       getDateOnly(p.dateModified) > getDateOnly(criteria.endDateModified)
     )
       return false;
+    if (
+      criteria.startDateTrashed &&
+      getDateOnly(p.dateTrashed) < getDateOnly(criteria.startDateTrashed)
+    )
+      return false;
+    if (
+      criteria.endDateTrashed &&
+      getDateOnly(p.dateTrashed) > getDateOnly(criteria.endDateTrashed)
+    )
+      return false;
 
     // fullName attr allows searching by full name, not just by first or last name
     p["fullname"] = `${p["lastName"]}, ${p["firstName"]}`;
@@ -937,6 +951,18 @@ const ProjectsPage = ({ contentContainerRef }) => {
       endDatePropertyName: "endDateModified",
       colWidth: "10rem"
     },
+    ...(currentTabView !== "Projects"
+      ? [
+          {
+            id: "dateTrashed",
+            label: "Date Trashed",
+            popupType: "datetime",
+            startDatePropertyName: "startDateTrashed",
+            endDatePropertyName: "endDateTrashed",
+            colWidth: "12rem"
+          }
+        ]
+      : []),
     {
       id: "dateSubmitted",
       label: "Submitted",
@@ -1173,6 +1199,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                                 ? null
                                 : droNameMap[project.droId] || "N/A"
                             } // Pass the droName
+                            currentTabView={currentTabView}
                           />
                         ))
                       ) : (
