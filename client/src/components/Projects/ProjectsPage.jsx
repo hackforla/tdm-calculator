@@ -839,7 +839,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "status",
       colWidth: "7rem"
     },
-    { id: "name", label: "Name", popupType: "text", colWidth: "20rem" },
+    { id: "name", label: "Project Name", popupType: "text", colWidth: "20rem" },
     { id: "address", label: "Address", popupType: "text", colWidth: "20rem" },
     {
       id: "alternative",

@@ -174,7 +174,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
               <div className={classes.formContainer}>
                 <div className={classes.row}>
                   <label htmlFor="name" className={classes.formLabel}>
-                    Name <span style={{ color: "red" }}>*</span>
+                    Project Name <span style={{ color: "red" }}>*</span>
                   </label>
 
                   <Field
