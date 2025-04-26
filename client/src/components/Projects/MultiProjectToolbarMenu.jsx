@@ -176,7 +176,10 @@ const MultiProjectToolbarMenu = ({
             onClick={handlePrintPdf}
             disabled={checkedProjectIds.length !== 1}
           >
-            <MdPrint className={classes.icon} />
+            <MdPrint
+              className={classes.icon}
+              color={isDelBtnDisabled ? "#1010104d" : ""}
+            />
           </button>
           {checkedProjectIds.length !== 1 ? (
             <Tooltip
@@ -217,7 +220,10 @@ const MultiProjectToolbarMenu = ({
             onClick={handleHideBoxes}
           >
             {!checkedProjectsStatusData.dateHidden ? (
-              <MdVisibilityOff className={classes.icon} />
+              <MdVisibilityOff
+                className={classes.icon}
+                color={isDelBtnDisabled ? "#1010104d" : ""}
+              />
             ) : (
               <MdVisibility className={classes.icon} />
             )}
