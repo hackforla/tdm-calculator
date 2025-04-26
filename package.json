@@ -10,7 +10,7 @@
     "prepare": "husky install",
     "spellcheck": "npx cspell --config ./cspell.json \"**/*.jsx\" --no-progress --no-exit-code",
     "test": "jest",
-    "test:ci": "jest --ci --runInBand"
+    "test:ci": "npm run test"
   },
   "dependencies": {
     "wait-on": "^8.0.3"
