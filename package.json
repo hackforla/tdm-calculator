@@ -9,6 +9,7 @@
     "start:frontend": "wait-on http://localhost:5001/api/calculations && cd ./client && npm start",
     "prepare": "husky install",
     "spellcheck": "npx cspell --config ./cspell.json \"**/*.jsx\" --no-progress --no-exit-code",
+    "test": "jest",
     "test:ci": "jest --ci --runInBand"
   },
   "dependencies": {
@@ -20,6 +21,8 @@
     }
   },
   "devDependencies": {
+    "jest": "^27.0.0",
+    "react-scripts": "^4.0.0", 
     "concurrently": "^9.1.2",
     "husky": "^9.1.7",
     "lerna": "^8.2.1"
