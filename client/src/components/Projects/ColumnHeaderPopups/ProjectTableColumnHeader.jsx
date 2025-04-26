@@ -264,10 +264,9 @@ ProjectTableColumnHeader.propTypes = {
   order: PropTypes.string,
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
-
   setCheckedProjectIds: PropTypes.func,
   setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array.isRequired
+  droOptions: PropTypes.array
 };
 
 export default ProjectTableColumnHeader;

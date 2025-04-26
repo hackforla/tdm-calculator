@@ -37,6 +37,8 @@ import SubmitSnapshotPage from "./components/SubmitSnapshot/SubmitSnapshotPage";
 import ErrorPage from "./components/ErrorPage";
 import Offline from "./components/Offline";
 import Logout from "./components/Authorization/Logout";
+import SubmissionsPage from "./components/Submissions/SubmissionsPage";
+import ManageSubmissionsPage from "./components/ManageSubmissions/ManageSubmissionsPage";
 import { getConfigs } from "./helpers/Config";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
@@ -159,6 +161,24 @@ const App = () => {
             element={
               <RequireAuth>
                 <SubmitSnapshotPage contentContainerRef={contentContainerRef} />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/submissions"
+            element={
+              <RequireAuth>
+                <SubmissionsPage contentContainerRef={contentContainerRef} />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/managesubmissions"
+            element={
+              <RequireAuth>
+                <ManageSubmissionsPage
+                  contentContainerRef={contentContainerRef}
+                />
               </RequireAuth>
             }
           />

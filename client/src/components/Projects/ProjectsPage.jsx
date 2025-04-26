@@ -27,9 +27,11 @@ import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
+import {
+  SORT_CRITERIA_STORAGE_TAG,
+  FILTER_CRITERIA_STORAGE_TAG
+} from "../../helpers/Constants";
 
-const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
-const FILTER_CRITERIA_STORAGE_TAG = "myProjectsFilterCriteria";
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
@@ -45,6 +47,8 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateCreated: null,
   startDateModified: null,
   endDateModified: null,
+  startDateSubmitted: null,
+  endDateSubmitted: null,
   nameList: [],
   addressList: [],
   alternativeList: [],
@@ -201,8 +205,31 @@ const ProjectsPage = ({ contentContainerRef }) => {
     DEFAULT_SORT_CRITERIA
   );
 
+  const formatDatesFromCookieStrigify = sessionFilterCriteria => {
+    const newFilterCriteria = { ...sessionFilterCriteria };
+    const dateProperties = [
+      "startDateCreated",
+      "endDateCreated",
+      "startDateModified",
+      "endDateModified",
+      "startDateSubmitted",
+      "endDateSubmitted",
+      "startDateModifiedAdmin",
+      "endDateModifiedAdmin"
+    ];
+    dateProperties.forEach(dateProp => {
+      if (sessionFilterCriteria[dateProp] !== null) {
+        newFilterCriteria[dateProp] = new Date(sessionFilterCriteria[dateProp]);
+      }
+    });
+    return newFilterCriteria;
+  };
+
   const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
-  const [filterCriteria, setFilterCriteria] = useState(sessionFilterCriteria);
+  const [filterCriteria, setFilterCriteria] = useState(
+    formatDatesFromCookieStrigify(sessionFilterCriteria)
+  );
+
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
@@ -763,6 +790,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
     }
 
+    if (
+      criteria.startDateSubmitted &&
+      getDateOnly(p.dateSubmitted) <= getDateOnly(criteria.startDateSubmitted)
+    )
+      return false;
+    if (
+      criteria.endDateSubmitted &&
+      getDateOnly(p.dateSubmitted) >= getDateOnly(criteria.endDateSubmitted)
+    )
+      return false;
+
     if (criteria.droList.length > 0) {
       const droNames = criteria.droList.map(n => n.toLowerCase());
       const projectDroName = (p.droName || "").toLowerCase();
@@ -944,58 +982,64 @@ const ProjectsPage = ({ contentContainerRef }) => {
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexWrap: "wrap",
                   justifyContent: "space-between",
-                  width: "100vw"
+                  alignItems: "center",
+                  gap: "15px"
                 }}
               >
-                <MultiProjectToolbarMenu
-                  handleHideBoxes={handleHide}
-                  handleCsvModalOpen={handleCsvModalOpen}
-                  handleDeleteModalOpen={handleDeleteModalOpen}
-                  checkedProjectIds={checkedProjectIds}
-                  criteria={filterCriteria}
-                  checkedProjectsStatusData={checkedProjectsStatusData}
-                  pdfProjectData={projectData}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <div className={classes.searchBarWrapper}>
-                    <input
-                      className={classes.searchBar}
-                      type="search"
-                      id="filterText"
-                      name="filterText"
-                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
-                      value={filterCriteria.filterText}
-                      onChange={e => handleFilterTextChange(e.target.value)}
-                    />
-                    <MdOutlineSearch className={classes.searchIcon} />
+                <div>
+                  <MultiProjectToolbarMenu
+                    handleHideBoxes={handleHide}
+                    handleCsvModalOpen={handleCsvModalOpen}
+                    handleDeleteModalOpen={handleDeleteModalOpen}
+                    checkedProjectIds={checkedProjectIds}
+                    criteria={filterCriteria}
+                    checkedProjectsStatusData={checkedProjectsStatusData}
+                    pdfProjectData={projectData}
+                  />
+                </div>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignSelf: "center",
+                      justifyContent: "center",
+                      flexBasis: "33%"
+                    }}
+                  >
+                    <div className={classes.searchBarWrapper}>
+                      <input
+                        className={classes.searchBar}
+                        type="search"
+                        id="filterText"
+                        name="filterText"
+                        placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
+                        value={filterCriteria.filterText}
+                        onChange={e => handleFilterTextChange(e.target.value)}
+                      />
+                      <MdOutlineSearch className={classes.searchIcon} />
+                    </div>
                   </div>
                 </div>
-
-                <div
-                  style={{
-                    paddingRight: "1.5em",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <Button
-                    onClick={resetFiltersSort}
-                    isDisplayed={true}
-                    variant="tertiary"
+                <div>
+                  <div
+                    style={{
+                      paddingRight: "1.5em",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      flexBasis: "33%"
+                    }}
                   >
-                    RESET FILTERS/SORT
-                  </Button>
+                    <Button
+                      onClick={resetFiltersSort}
+                      isDisplayed={true}
+                      variant="tertiary"
+                    >
+                      RESET FILTERS/SORT
+                    </Button>
+                  </div>
                 </div>
               </div>
               <div>

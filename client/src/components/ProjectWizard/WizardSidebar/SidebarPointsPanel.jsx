@@ -43,7 +43,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const USE_PROGRESS_DIAL = true;
+const USE_PROGRESS_DIAL = false;
 
 const SidebarPointsPanel = props => {
   const classes = useStyles();
@@ -99,7 +99,7 @@ const SidebarPointsPanel = props => {
               key={earnedPointsRule.id}
               rule={earnedPointsRule}
               rulesConfig={rulesConfig}
-              tipText={earnedPointsRule.desccription}
+              tipText={earnedPointsRule.description}
             />
           </div>
         </>
