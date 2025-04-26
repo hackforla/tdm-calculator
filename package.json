@@ -8,7 +8,8 @@
     "start:backend": "cd ./server && npm start",
     "start:frontend": "wait-on http://localhost:5001/api/calculations && cd ./client && npm start",
     "prepare": "husky install",
-    "spellcheck": "npx cspell --config ./cspell.json \"**/*.jsx\" --no-progress --no-exit-code"
+    "spellcheck": "npx cspell --config ./cspell.json \"**/*.jsx\" --no-progress --no-exit-code",
+    "test:ci": "jest --ci --runInBand"
   },
   "dependencies": {
     "wait-on": "^8.0.3"

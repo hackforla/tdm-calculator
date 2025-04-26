@@ -4,13 +4,13 @@ import "react-quill/dist/quill.snow.css";
 import { ROUTES } from "../../../src/routes.jsx";
 import "../../../src/styles/AdminQuill.scss";
 
-const Quill = (props) => {
+const Quill = props => {
   const quillRef = useRef(null);
   const [showLinkDialog, setShowLinkDialog] = useState(false);
   const [linkValue, setLinkValue] = useState("");
   const savedRange = useRef(null);
 
-  const insertLink = (url) => {
+  const insertLink = url => {
     const editor = quillRef.current?.getEditor();
 
     if (editor && url) {
@@ -25,28 +25,31 @@ const Quill = (props) => {
     savedRange.current = null;
   };
 
-  const modules = useMemo(() => ({
-    ...props.modules,
-    toolbar: {
-      container: [
-        ["bold", "underline", "strike"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        [{ indent: "-1" }, { indent: "+1" }],
-        ["link"],
-      ],
-      handlers: {
-        link: () => {
-          const editor = quillRef.current?.getEditor();
-          const range = editor?.getSelection();
+  const modules = useMemo(
+    () => ({
+      ...props.modules,
+      toolbar: {
+        container: [
+          ["bold", "underline", "strike"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          [{ indent: "-1" }, { indent: "+1" }],
+          ["link"]
+        ],
+        handlers: {
+          link: () => {
+            const editor = quillRef.current?.getEditor();
+            const range = editor?.getSelection();
 
-          if (range && range.length > 0) {
-            savedRange.current = range;
-            setShowLinkDialog(true);
+            if (range && range.length > 0) {
+              savedRange.current = range;
+              setShowLinkDialog(true);
+            }
           }
-        },
-      },
-    },
-  }), [props.modules]);
+        }
+      }
+    }),
+    [props.modules]
+  );
 
   return (
     <div className="editorWrapper">
@@ -63,13 +66,13 @@ const Quill = (props) => {
           <input
             type="text"
             value={linkValue}
-            onChange={(e) => setLinkValue(e.target.value)}
+            onChange={e => setLinkValue(e.target.value)}
             placeholder="Provide URL"
             className="linkInput"
           />
           <select
             value={linkValue}
-            onChange={(e) => setLinkValue(e.target.value)}
+            onChange={e => setLinkValue(e.target.value)}
             className="linkSelect"
           >
             <option value="">Or Select Internal Page</option>

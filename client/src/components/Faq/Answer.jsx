@@ -115,7 +115,7 @@ function TransformExternalLink(node, children) {
       </span>
     );
   } else {
-      node.removeAttribute("target");
-      node.removeAttribute("rel");
+    node.removeAttribute("target");
+    node.removeAttribute("rel");
   }
 }
