@@ -104,6 +104,8 @@ Answer.propTypes = {
 function TransformExternalLink(node, children) {
   const classes = useStyles();
   if (node.tagName == "A" && !node.getAttribute("href").startsWith("/")) {
+    node.setAttribute("target", "_blank");
+    node.setAttribute("rel", "noopener noreferrer");
     return (
       <span>
         <a href={node.getAttribute("href")} target="external">
@@ -112,5 +114,8 @@ function TransformExternalLink(node, children) {
         </a>
       </span>
     );
+  } else {
+      node.removeAttribute("target");
+      node.removeAttribute("rel");
   }
 }
