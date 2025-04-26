@@ -29,6 +29,7 @@ const useStyles = createUseStyles({
   }
 });
 
+/* eslint-disable no-unused-vars */
 export const FaqButtonContainer = ({
   admin,
   isHovered,
@@ -81,3 +82,4 @@ FaqButtonContainer.propTypes = {
   collapseFaq: PropTypes.func,
   faq: PropTypes.object
 };
+/* eslint-enable no-unused-vars */

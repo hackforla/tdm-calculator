@@ -25,6 +25,7 @@ const Quill = props => {
     savedRange.current = null;
   };
 
+  /* eslint-disable react/prop-types */
   const modules = useMemo(
     () => ({
       ...props.modules,
@@ -100,3 +101,4 @@ const Quill = props => {
 };
 
 export default Quill;
+/* eslint-enable react/prop-types */

@@ -34,6 +34,7 @@ const useStyles = createUseStyles({
   }
 });
 
+/* eslint-disable no-unused-vars */
 export const CategoryInputContainer = ({
   categoryName,
   handleCategoryNameChange,
@@ -85,3 +86,4 @@ CategoryInputContainer.propTypes = {
   onDeleteCategory: PropTypes.func,
   admin: PropTypes.bool
 };
+/* eslint-enable no-unused-vars */
