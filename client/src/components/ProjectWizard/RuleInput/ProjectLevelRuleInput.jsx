@@ -12,7 +12,7 @@ const useStyles = createUseStyles(theme => ({
     alignItems: "center"
   },
   numberFieldUnits: {
-    flexBasis: "20%",
+    flexBasis: "6em",
     marginLeft: "1em",
     flexGrow: "0",
     flexShrink: "1"
@@ -33,22 +33,22 @@ const useStyles = createUseStyles(theme => ({
   checkbox: {
     flexGrow: "0",
     flexShrink: "1",
+    width: "5.5rem",
     textAlign: "right"
   },
   errorLabel: {
     color: theme.colorCritical,
-    flexBasis: "50%",
-    flexGrow: "1",
-    flexShrink: "1"
+    textAlign: "left",
+    flex: "0 1 19.5rem"
   },
   rowItem1: {
-    flex: "0 0 72.5%"
+    flex: "1 0 50%"
   },
   rowItem2: {
-    flex: "1 1 0%"
+    flex: "0 1 5.5rem"
   },
   rowItem3: {
-    flex: "1 1 20%"
+    flex: "0 1 14em"
   }
 }));
 
@@ -88,11 +88,15 @@ const ProjectLevelRuleInput = ({
     onPropInputChange(e);
   };
 
+  const onBlur = () => {
+    setShowValidationErrors(true);
+  };
+
   return (
     <React.Fragment>
       {display ? (
         dataType === "number" ? (
-          <div className={classes.rowContainer}>
+          <div className={classes.rowContainer} onBlur={onBlur}>
             <div className={classes.rowItem1}>
               <RuleLabel
                 id={id}
@@ -151,27 +155,37 @@ const ProjectLevelRuleInput = ({
               required={required}
               link={link}
               name={name}
+              className={classes.rowItem1}
               setShowDescription={setShowDescription}
             />
-            <input
-              type="checkbox"
-              autoFocus={autoFocus}
-              className={classes.checkbox}
-              value={true}
-              checked={!!value}
-              onChange={onInputChange}
-              name={code}
-              id={code}
-              data-testid={code}
-            />
-            <div className={classes.numberFieldUnits}>{units}</div>
+            <div
+              className={classes.rowItem2}
+              style={{
+                textAlign: "right"
+              }}
+            >
+              <input
+                type="checkbox"
+                autoFocus={autoFocus}
+                value={true}
+                checked={!!value}
+                onChange={onInputChange}
+                name={code}
+                id={code}
+                data-testid={code}
+              />
+            </div>
+            <div className={classes.rowItem3}>{units}</div>
           </div>
         ) : null
       ) : null}
       {display && validationErrors && showValidationErrors ? (
         <div className={classes.rowContainer}>
           <div className={classes.rowItem1}></div>
-          <div className={clsx(classes.rowItem2, classes.errorLabel)}>
+          <div
+            className={clsx(classes.errorLabel, classes.errorLabel)}
+            style={{ overflowX: "visible" }}
+          >
             {validationErrors[0]}
           </div>
         </div>
