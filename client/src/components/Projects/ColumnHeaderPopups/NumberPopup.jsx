@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
-import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
@@ -55,7 +54,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const TextPopup = ({
+const NumberPopup = ({
   projects,
   filter,
   close,
@@ -66,23 +65,9 @@ const TextPopup = ({
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked,
-  droOptions
+  setSelectAllChecked
 }) => {
   const property = header.accessor || header.id;
-  const getDisplayValue = value => {
-    if (property === "droName" && value === "") {
-      return "No DRO Assigned";
-    }
-    return value;
-  };
-
-  const getInternalValue = displayValue => {
-    if (property === "droName" && displayValue === "No DRO Assigned") {
-      return "";
-    }
-    return displayValue;
-  };
   const classes = useStyles();
 
   const [newOrder, setNewOrder] = useState(
@@ -90,8 +75,8 @@ const TextPopup = ({
   );
   const [selectedListItems, setSelectedListItems] = useState(
     (criteria[header.id + "List"] || []).map(s => ({
-      value: getDisplayValue(s),
-      label: getDisplayValue(s)
+      value: s,
+      label: s
     }))
   );
   const [searchString, setSearchString] = useState("");
@@ -102,38 +87,24 @@ const TextPopup = ({
   // are currently selected EXCEPT the criteria we are currently editing.
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
-  // const property = header.id == "author" ? "fullname" : header.id;
 
-  let selectOptions;
+  const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
+    .filter(value => value !== null && value !== "")
+    .toSorted()
+    .sort(
+      (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
+    );
 
-  if (property === "droName" && droOptions) {
-    selectOptions = droOptions.map(dro => dro.name);
-    selectOptions.push("No DRO Assigned");
-  } else if (property === "author" && droOptions) {
-    selectOptions = [
-      ...new Set(filteredProjects.map(p => `${p.lastName}, ${p.firstName}`))
-    ]
-      .filter(value => value !== null)
-      .sort(
-        (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
-      );
-  } else {
-    selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
-      .filter(value => value !== null && value !== "")
-      .sort(
-        (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
-      );
-  }
   const filteredOptions = selectOptions
     .filter(o => !!o)
-    .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
+    .filter(opt => opt.toString().includes(searchString));
 
   const onChangeSearchString = e => {
     setSearchString(e.target.value);
   };
 
   const handleCheckboxChange = e => {
-    const optionValue = e.target.name;
+    const optionValue = Number(e.target.name);
     if (!e.target.checked) {
       const newSelectedListItems = selectedListItems.filter(
         selectedOption => selectedOption.value !== optionValue
@@ -156,9 +127,7 @@ const TextPopup = ({
   };
 
   const applyChanges = () => {
-    let selectedValues = selectedListItems.map(sli =>
-      getInternalValue(sli.value)
-    );
+    let selectedValues = selectedListItems.map(sli => sli.value);
 
     setCriteria({
       ...criteria,
@@ -199,13 +168,13 @@ const TextPopup = ({
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <RadioButton
-          label="Sort A-Z"
+          label="Sort Ascending"
           value="asc"
           checked={newOrder === "asc"}
           onChange={() => setNewOrder("asc")}
         />
         <RadioButton
-          label="Sort Z-A"
+          label="Sort Descending"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
@@ -272,7 +241,7 @@ const TextPopup = ({
   );
 };
 
-TextPopup.propTypes = {
+NumberPopup.propTypes = {
   projects: PropTypes.any,
   filter: PropTypes.func,
   close: PropTypes.func,
@@ -287,4 +256,4 @@ TextPopup.propTypes = {
   droOptions: PropTypes.array
 };
 
-export default TextPopup;
+export default NumberPopup;

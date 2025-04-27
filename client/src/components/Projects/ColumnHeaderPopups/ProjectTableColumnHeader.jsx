@@ -12,6 +12,9 @@ import { createUseStyles } from "react-jss";
 import { Popover } from "react-tiny-popover";
 import DatePopup from "./DatePopup";
 import TextPopup from "./TextPopup";
+import StringPopup from "./StringPopup";
+import NumberPopup from "./NumberPopup";
+import BooleanPopup from "./BooleanPopup";
 import VisibilityPopup from "./VisibilityPopup";
 import StatusPopup from "./StatusPopup";
 import { useTheme } from "react-jss";
@@ -121,22 +124,21 @@ const ProjectTableColumnHeader = ({
   // to the default criteria values.
   const isFilterApplied = () => {
     let propertyName = header.accessor || header.id;
-    if (header.popupType === "text") {
+    if (
+      header.popupType === "text" ||
+      header.popupType === "string" ||
+      header.popupType === "number"
+    ) {
       const listPropertyName = propertyName + "List";
       const listValue = criteria[listPropertyName];
 
-      if (propertyName === "droName") {
-        return Array.isArray(listValue) && listValue.length > 0;
-      }
-
-      const headerValue = criteria[header.id];
-
       const isListFilterApplied =
         Array.isArray(listValue) && listValue.length > 0;
-      const isTextFilterApplied =
-        typeof headerValue === "string" && headerValue.length > 0;
 
-      return isListFilterApplied || isTextFilterApplied;
+      return isListFilterApplied;
+    }
+    if (header.popupType === "boolean") {
+      return criteria[header.id] !== null;
     }
     if (header.popupType === "datetime") {
       return (
@@ -174,17 +176,7 @@ const ProjectTableColumnHeader = ({
           padding={10}
           onClickOutside={() => handlePopoverToggle(false)}
           content={
-            <div
-              className={classes.popoverContent}
-              // style={{
-              //   backgroundColor: "white",
-              //   border: "1px solid gray",
-              //   borderRadius: "5px",
-              //   padding: "20px",
-              //   boxShadow:
-              //     "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
-              // }}
-            >
+            <div className={classes.popoverContent}>
               {!header.popupType ? null : header.popupType === "datetime" ? (
                 <DatePopup
                   close={() => handlePopoverToggle(false)}
@@ -196,6 +188,21 @@ const ProjectTableColumnHeader = ({
                   setSort={setSort}
                   setCheckedProjectIds={setCheckedProjectIds}
                   setSelectAllChecked={setSelectAllChecked}
+                />
+              ) : header.popupType === "boolean" ? (
+                <BooleanPopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
+                  projects={projects}
+                  filter={filter}
+                  droOptions={droOptions}
                 />
               ) : header.popupType === "text" ? (
                 <TextPopup
@@ -211,6 +218,34 @@ const ProjectTableColumnHeader = ({
                   projects={projects}
                   filter={filter}
                   droOptions={droOptions}
+                />
+              ) : header.popupType === "string" ? (
+                <StringPopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
+                  projects={projects}
+                  filter={filter}
+                />
+              ) : header.popupType === "number" ? (
+                <NumberPopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
+                  projects={projects}
+                  filter={filter}
                 />
               ) : header.popupType === "visibility" ? (
                 <VisibilityPopup
@@ -264,10 +299,9 @@ ProjectTableColumnHeader.propTypes = {
   order: PropTypes.string,
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
-
   setCheckedProjectIds: PropTypes.func,
   setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array.isRequired
+  droOptions: PropTypes.array
 };
 
 export default ProjectTableColumnHeader;

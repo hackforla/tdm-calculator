@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
-import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
+
+/*
+Variant of the TextPopup that gets rid of all the quirky accommodation of dro and author filtering used on the My Projects Page
+*/
 
 const useStyles = createUseStyles({
   searchBarWrapper: {
@@ -66,23 +69,9 @@ const TextPopup = ({
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked,
-  droOptions
+  setSelectAllChecked
 }) => {
   const property = header.accessor || header.id;
-  const getDisplayValue = value => {
-    if (property === "droName" && value === "") {
-      return "No DRO Assigned";
-    }
-    return value;
-  };
-
-  const getInternalValue = displayValue => {
-    if (property === "droName" && displayValue === "No DRO Assigned") {
-      return "";
-    }
-    return displayValue;
-  };
   const classes = useStyles();
 
   const [newOrder, setNewOrder] = useState(
@@ -90,8 +79,8 @@ const TextPopup = ({
   );
   const [selectedListItems, setSelectedListItems] = useState(
     (criteria[header.id + "List"] || []).map(s => ({
-      value: getDisplayValue(s),
-      label: getDisplayValue(s)
+      value: s,
+      label: s
     }))
   );
   const [searchString, setSearchString] = useState("");
@@ -104,26 +93,12 @@ const TextPopup = ({
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
   // const property = header.id == "author" ? "fullname" : header.id;
 
-  let selectOptions;
+  const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
+    .filter(value => value !== null && value !== "")
+    .sort(
+      (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
+    );
 
-  if (property === "droName" && droOptions) {
-    selectOptions = droOptions.map(dro => dro.name);
-    selectOptions.push("No DRO Assigned");
-  } else if (property === "author" && droOptions) {
-    selectOptions = [
-      ...new Set(filteredProjects.map(p => `${p.lastName}, ${p.firstName}`))
-    ]
-      .filter(value => value !== null)
-      .sort(
-        (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
-      );
-  } else {
-    selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
-      .filter(value => value !== null && value !== "")
-      .sort(
-        (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
-      );
-  }
   const filteredOptions = selectOptions
     .filter(o => !!o)
     .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
@@ -156,9 +131,7 @@ const TextPopup = ({
   };
 
   const applyChanges = () => {
-    let selectedValues = selectedListItems.map(sli =>
-      getInternalValue(sli.value)
-    );
+    let selectedValues = selectedListItems.map(sli => sli.value);
 
     setCriteria({
       ...criteria,

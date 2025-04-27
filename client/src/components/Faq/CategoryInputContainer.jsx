@@ -41,7 +41,6 @@ export const CategoryInputContainer = ({
   setCategoryEditMode,
   onSetCategory,
   admin,
-  isHovered,
   dragHandleProps,
   onDeleteCategory
 }) => {
@@ -60,12 +59,12 @@ export const CategoryInputContainer = ({
       <div {...dragHandleProps}>
         {admin && (
           <>
-            {isHovered && (
+            {
               <MdDelete
                 className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
                 onClick={onDeleteCategory}
               />
-            )}
+            }
             <MdViewModule className={classes.faqGripIcon} />
           </>
         )}
@@ -80,7 +79,6 @@ CategoryInputContainer.propTypes = {
   categoryEditMode: PropTypes.bool,
   setCategoryEditMode: PropTypes.func,
   onSetCategory: PropTypes.func,
-  isHovered: PropTypes.bool,
   dragHandleProps: PropTypes.object,
   onDeleteCategory: PropTypes.func,
   admin: PropTypes.bool
