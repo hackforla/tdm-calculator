@@ -25,3 +25,11 @@ aboutcookies
 iscapture
 unarchived
 unarchiving
+updateaccount
+filt
+Unclickable
+Unsharing
+Typeoptions
+Strigify 
+Unbundling
+statuser
