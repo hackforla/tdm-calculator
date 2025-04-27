@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-// import ContentContainer from "../Layout/ContentContainer";
+import { Link } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
@@ -673,12 +673,12 @@ const SubmissionsPage = ({ contentContainerRef }) => {
           <p>These snapshots have been submitted to LADOT for review.</p>
           <p>
             For more advanced filtering, go to{" "}
-            <a href="../Projects/ProjectsPage">My Projects</a>.
+            <Link to="../Projects/ProjectsPage">My Projects</Link>.
           </p>
           <p>
             To submit a snapshot, go to{" "}
-            <a href="../Projects/ProjectsPage">My Projects</a> or Page 5 of your
-            project.
+            <Link to="../Projects/ProjectsPage">My Projects</Link> or Page 5 of
+            your project.
           </p>
           <div
             style={{
