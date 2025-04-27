@@ -17,17 +17,19 @@ import {
   MANAGE_SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
 
-const DEFAULT_SORT_CRITERIA = [{ field: "dateSubmitted", direction: "desc" }];
+const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
+  idList: [],
   nameList: [],
   addressList: [],
+  projectLevelList: [],
   startDateSubmitted: null,
   endDateSubmitted: null,
   startDateStatus: null,
   endDateStatus: null,
   authorList: [],
-  droList: [],
+  droNameList: [],
   assigneeList: [],
   startDateAssigned: null,
   endDateAssigned: null,
@@ -41,7 +43,8 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateSnapshot: null,
   adminNotesList: [],
   startDateModifiedAdmin: null,
-  endDateModifiedAdmin: null
+  endDateModifiedAdmin: null,
+  onHold: null
 };
 
 const useStyles = createUseStyles({
@@ -73,7 +76,8 @@ const useStyles = createUseStyles({
     transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
-    marginTop: "1em"
+    marginTop: "1rem",
+    marginBottom: "0rem"
   },
   searchBarWrapper: {
     position: "relative",
@@ -81,9 +85,9 @@ const useStyles = createUseStyles({
   },
   searchBar: {
     maxWidth: "100%",
-    width: "27em",
-    padding: "12px 12px 12px 48px",
-    marginRight: "0.5rem"
+    width: "27rem",
+    padding: "12px 12px 12px 48px"
+    // marginRight: "0.5rem"
   },
   searchIcon: {
     position: "absolute",
@@ -149,8 +153,8 @@ const useStyles = createUseStyles({
   tableContainer: {
     overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
     width: "calc(100vw - 20px)",
-    margin: "20px 0px",
-    height: "calc(100vh - 275px - 11.34em)"
+    margin: "0px 1rem",
+    height: "calc(100vh - 175px - 11.34em)"
   },
   fixTableHead: {
     overflowY: "auto",
@@ -209,7 +213,8 @@ const ManageSubmissions = ({ contentContainerRef }) => {
             : "",
           statuser: d.statuserLastName
             ? `${d.statuserLastName}, ${d.statuserFirstName}`
-            : ""
+            : "",
+          droName: d.droName || "-"
         };
       });
       setProjects(projects);
@@ -279,9 +284,13 @@ const ManageSubmissions = ({ contentContainerRef }) => {
   const ascCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
 
-    if (orderBy === "projectLevel") {
-      projectA = a.projectLevel;
-      projectB = b.projectLevel;
+    if (
+      orderBy === "projectLevel" ||
+      orderBy === "id" ||
+      orderBy === "onHold"
+    ) {
+      projectA = a[orderBy];
+      projectB = b[orderBy];
     } else if (
       orderBy === "dateSubmitted" ||
       orderBy === "dateCreated" ||
@@ -419,6 +428,17 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       return false;
     }
 
+    if (criteria.idList?.length > 0 && !criteria.idList.includes(p.id)) {
+      return false;
+    }
+
+    if (
+      criteria.projectLevelList?.length > 0 &&
+      !criteria.projectLevelList.includes(p.projectLevel)
+    ) {
+      return false;
+    }
+
     if (
       criteria.startDateSubmitted &&
       getDateOnly(p.dateSubmitted) < getDateOnly(criteria.startDateSubmitted)
@@ -475,24 +495,6 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       return false;
 
     if (
-      criteria.author &&
-      !p.author.toLowerCase().includes(criteria.author.toLowerCase())
-    )
-      return false;
-
-    if (
-      criteria.assignee &&
-      !p.assignee.toLowerCase().includes(criteria.assignee.toLowerCase())
-    )
-      return false;
-
-    if (
-      criteria.statuser &&
-      !p.statuser.toLowerCase().includes(criteria.statuser.toLowerCase())
-    )
-      return false;
-
-    if (
       criteria.startDateSubmitted &&
       getDateOnly(p.dateSubmitted) <= getDateOnly(criteria.startDateSubmitted)
     )
@@ -502,10 +504,11 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       getDateOnly(p.dateSubmitted) >= getDateOnly(criteria.endDateSubmitted)
     )
       return false;
+    if (criteria.onHold !== null && p.onHold != criteria.onHold) return false;
 
-    if (criteria.droList.length > 0) {
-      const droNames = criteria.droList.map(n => n.toLowerCase());
-      const projectDroName = (p.droName || "").toLowerCase();
+    if (criteria.droNameList.length > 0) {
+      const droNames = criteria.droNameList.map(n => n.toLowerCase());
+      const projectDroName = (p.droName || "-").toLowerCase();
 
       if (!droNames.includes(projectDroName)) {
         return false;
@@ -542,48 +545,30 @@ const ManageSubmissions = ({ contentContainerRef }) => {
 
   const headerData = [
     {
-      id: "id",
-      label: "ID",
-      popupType: null,
-      colWidth: "5rem"
-    },
-    {
       id: "name",
       label: "Project Name",
-      popupType: "text",
+      popupType: "string",
       colWidth: "22rem"
     },
     {
-      id: "address",
-      label: "Address",
-      popupType: "text",
-      colWidth: "22rem"
+      id: "author",
+      label: "Created By",
+      popupType: "string",
+      colWidth: "15rem"
     },
     {
       id: "projectLevel",
       label: "Level",
-      popupType: null,
-      colWidth: "5rem"
+      popupType: "number",
+      colWidth: "8rem"
     },
+    { id: "droName", label: "DRO", popupType: "string", colWidth: "10rem" },
     {
-      id: "dateSubmitted",
-      label: "Submitted",
-      popupType: "datetime",
-      startDatePropertyName: "startDateSubmitted",
-      endDatePropertyName: "endDateSubmitted",
+      id: "assignee",
+      label: "Assignee",
+      popupType: "string",
       colWidth: "10rem"
     },
-    {
-      id: "dateStatus",
-      label: "Status Dt",
-      popupType: "datetime",
-      startDatePropertyName: "startDateStatus",
-      endDatePropertyName: "endDateStatus",
-      colWidth: "10rem"
-    },
-    { id: "author", label: "Created By", popupType: "text", colWidth: "15rem" },
-    { id: "droName", label: "DRO", popupType: null, colWidth: "10rem" },
-    { id: "assignee", label: "Assignee", popupType: "text", colWidth: "10rem" },
     {
       id: "dateAssigned",
       label: "Assigned",
@@ -595,7 +580,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "invoiceStatusName",
       label: "Invoice Status",
-      popupType: "text",
+      popupType: "string",
       colWidth: "7rem"
     },
     {
@@ -606,12 +591,19 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       endDatePropertyName: "endDateInvoicePaid",
       colWidth: "10rem"
     },
-    { id: "onHold", label: "On Hold", popupType: null, colWidth: "5rem" },
+    { id: "onHold", label: "On Hold", popupType: "boolean", colWidth: "8rem" },
     {
       id: "approvalStatusName",
       label: "Approval Status",
-      popupType: "text",
+      popupType: "string",
       colWidth: "12rem"
+    },
+    {
+      id: "adminNotes",
+      label: "Admin Notes",
+      popupType: "string",
+      accessor: "adminNotes",
+      colWidth: "10rem"
     },
     {
       id: "dateCoO",
@@ -622,26 +614,47 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       colWidth: "10rem"
     },
     {
-      id: "dateSnapshotted",
-      label: "Snapshot",
-      popupType: "datetime",
-      startDatePropertyName: "startDateSnapshotted",
-      endDatePropertyName: "endDateSnapshotted",
-      colWidth: "10rem"
-    },
-    {
-      id: "adminNotes",
-      label: "Admin Notes",
-      popupType: "text",
-      accessor: "adminNotes",
-      colWidth: "10rem"
-    },
-    {
-      id: "dateModifiedAdmin",
-      label: "Admin Saved",
-      popupType: "datetime",
-      colWidth: "10rem"
+      id: "id",
+      label: "ID",
+      popupType: "number",
+      colWidth: "8rem"
     }
+    // {
+    //   id: "address",
+    //   label: "Address",
+    //   popupType: "string",
+    //   colWidth: "22rem"
+    // },
+    // {
+    //   id: "dateSubmitted",
+    //   label: "Submitted",
+    //   popupType: "datetime",
+    //   startDatePropertyName: "startDateSubmitted",
+    //   endDatePropertyName: "endDateSubmitted",
+    //   colWidth: "10rem"
+    // },
+    // {
+    //   id: "dateStatus",
+    //   label: "Status Dt",
+    //   popupType: "datetime",
+    //   startDatePropertyName: "startDateStatus",
+    //   endDatePropertyName: "endDateStatus",
+    //   colWidth: "10rem"
+    // },
+    // {
+    //   id: "dateSnapshotted",
+    //   label: "Snapshot",
+    //   popupType: "datetime",
+    //   startDatePropertyName: "startDateSnapshotted",
+    //   endDatePropertyName: "endDateSnapshotted",
+    //   colWidth: "10rem"
+    // },
+    // {
+    //   id: "dateModifiedAdmin",
+    //   label: "Admin Saved",
+    //   popupType: "datetime",
+    //   colWidth: "10rem"
+    // },
   ];
 
   const indexOfLastPost = currentPage * projectsPerPage;
@@ -693,6 +706,15 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                     justifyContent: "center",
                     flexBasis: "33%"
                   }}
+                ></div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    flexBasis: "33%"
+                  }}
                 >
                   <div className={classes.searchBarWrapper}>
                     <input
@@ -710,7 +732,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
 
                 <div
                   style={{
-                    paddingRight: "1.5em",
+                    paddingRight: "1rem",
                     display: "flex",
                     justifyContent: "flex-end",
                     flexBasis: "33%"
