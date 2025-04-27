@@ -31,7 +31,6 @@ const useStyles = createUseStyles({
 
 export const FaqButtonContainer = ({
   admin,
-  isHovered,
   dragHandleProps,
   onDeleteFAQ,
   expandFaq,
@@ -74,7 +73,6 @@ export const FaqButtonContainer = ({
 
 FaqButtonContainer.propTypes = {
   admin: PropTypes.bool,
-  isHovered: PropTypes.bool,
   dragHandleProps: PropTypes.any,
   onDeleteFAQ: PropTypes.func,
   expandFaq: PropTypes.func,

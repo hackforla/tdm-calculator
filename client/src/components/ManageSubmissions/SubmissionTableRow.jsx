@@ -86,15 +86,11 @@ const SubmissionTableRow = ({ project }) => {
       key={project.id}
       style={{ background: project.dateTrashed ? "#ffdcdc" : "" }}
     >
-      <td className={classes.td}>{project.id}</td>
       <td className={classes.td}>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
       </td>
-      <td className={classes.td}>{project.address}</td>
-      <td className={classes.td}>{project.projectLevel}</td>
-      <td className={classes.td}>{formatDate(project.dateSubmitted)}</td>
-      <td className={classes.td}>{formatDate(project.dateStatus)}</td>
       <td className={classes.td}>{project.author}</td>
+      <td className={classes.tdCenterAlign}>{project.projectLevel}</td>
       <td className={classes.td}>{project.droName}</td>
       <td className={classes.td}>{project.assignee}</td>
       <td className={classes.td}>{formatDate(project.dateAssigned)}</td>
@@ -102,10 +98,16 @@ const SubmissionTableRow = ({ project }) => {
       <td className={classes.td}>{formatDate(project.dateInvoice)}</td>
       <td className={classes.td}>{project.onHold ? "x" : ""}</td>
       <td className={classes.td}>{project.approvalStatusName}</td>
-      <td className={classes.td}>{formatDate(project.dateCoO)}</td>
-      <td className={classes.td}>{formatDate(project.dateSnapshotted)}</td>
       <td className={classes.td}>{project.adminNotes ? "y" : "n"}</td>
-      <td className={classes.td}>{formatDate(project.dateModifiedAdmin)}</td>
+      <td className={classes.td}>{formatDate(project.dateCoO)}</td>
+      <td className={classes.tdRightAlign}>
+        {project.id.toString().padStart(10, "0")}
+      </td>
+      {/* <td className={classes.td}>{project.address}</td> */}
+      {/* <td className={classes.td}>{formatDate(project.dateSubmitted)}</td> */}
+      {/* <td className={classes.td}>{formatDate(project.dateStatus)}</td> */}
+      {/* <td className={classes.td}>{formatDate(project.dateSnapshotted)}</td> */}
+      {/* <td className={classes.td}>{formatDate(project.dateModifiedAdmin)}</td> */}
     </tr>
   );
 };
