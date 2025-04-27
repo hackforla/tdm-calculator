@@ -673,12 +673,11 @@ const SubmissionsPage = ({ contentContainerRef }) => {
           <p>These snapshots have been submitted to LADOT for review.</p>
           <p>
             For more advanced filtering, go to{" "}
-            <Link to="../Projects/ProjectsPage">My Projects</Link>.
+            <Link to="/projects">My Projects</Link>.
           </p>
           <p>
-            To submit a snapshot, go to{" "}
-            <Link to="../Projects/ProjectsPage">My Projects</Link> or Page 5 of
-            your project.
+            To submit a snapshot, go to <Link to="/projects">My Projects</Link>{" "}
+            or Page 5 of your project.
           </p>
           <div
             style={{
