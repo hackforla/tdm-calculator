@@ -60,6 +60,11 @@ const useStyles = createUseStyles(theme => ({
   icon: {
     height: "28px",
     width: "28px"
+  },
+  iconDisabled: {
+    height: "28px",
+    width: "28px",
+    color: theme.colorDisabled
   }
 }));
 
@@ -177,8 +182,11 @@ const MultiProjectToolbarMenu = ({
             disabled={checkedProjectIds.length !== 1}
           >
             <MdPrint
-              className={classes.icon}
-              color={isDelBtnDisabled ? "#1010104d" : ""}
+              className={
+                checkedProjectIds.length !== 1
+                  ? classes.iconDisabled
+                  : classes.icon
+              }
             />
           </button>
           {checkedProjectIds.length !== 1 ? (
@@ -221,11 +229,16 @@ const MultiProjectToolbarMenu = ({
           >
             {!checkedProjectsStatusData.dateHidden ? (
               <MdVisibilityOff
-                className={classes.icon}
-                color={isDelBtnDisabled ? "#1010104d" : ""}
+                className={
+                  isHideBtnDisabled ? classes.iconDisabled : classes.icon
+                }
               />
             ) : (
-              <MdVisibility className={classes.icon} />
+              <MdVisibility
+                className={
+                  isHideBtnDisabled ? classes.iconDisabled : classes.icon
+                }
+              />
             )}
 
             <Tooltip
@@ -260,13 +273,11 @@ const MultiProjectToolbarMenu = ({
           >
             {!checkedProjectsStatusData.dateTrashed ? (
               <MdDelete
-                className={classes.icon}
-                color={isDelBtnDisabled ? "#1010104d" : "red"}
+                className={isDelBtnDisabled ? classes.isDisabled : classes.icon}
               />
             ) : (
               <MdRestoreFromTrash
-                className={classes.icon}
-                color={isDelBtnDisabled ? "#1010104d" : ""}
+                className={isDelBtnDisabled ? classes.isDisabled : classes.icon}
               />
             )}
             <Tooltip
