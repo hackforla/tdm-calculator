@@ -1,8 +1,11 @@
 import React, { useRef, useState, useMemo } from "react";
 import ReactQuill from "react-quill";
+import PropTypes from "prop-types";
 import "react-quill/dist/quill.snow.css";
 import { ROUTES } from "../../../src/routes.jsx";
-import "../../../src/styles/AdminQuill.scss";
+import "../../styles/AdminQuill.scss";
+import Button from "../Button/Button";
+import UniversalSelect from "../UI/UniversalSelect.jsx";
 
 const Quill = props => {
   const quillRef = useRef(null);
@@ -25,7 +28,6 @@ const Quill = props => {
     savedRange.current = null;
   };
 
-  /* eslint-disable react/prop-types */
   const modules = useMemo(
     () => ({
       ...props.modules,
@@ -52,6 +54,10 @@ const Quill = props => {
     [props.modules]
   );
 
+  const onChangeLink = e => {
+    setLinkValue(e.target.value);
+  };
+
   return (
     <div className="editorWrapper">
       <ReactQuill
@@ -67,32 +73,31 @@ const Quill = props => {
           <input
             type="text"
             value={linkValue}
-            onChange={e => setLinkValue(e.target.value)}
+            onChange={onChangeLink}
             placeholder="Provide URL"
-            className="linkInput"
           />
-          <select
+          <UniversalSelect
             value={linkValue}
-            onChange={e => setLinkValue(e.target.value)}
-            className="linkSelect"
-          >
-            <option value="">Or Select Internal Page</option>
-            {ROUTES.map(({ label, path }) => (
-              <option key={path} value={path}>
-                {label}
-              </option>
-            ))}
-          </select>
+            defaultValue={{ value: "", label: "Or Select Internal Page" }}
+            onChange={onChangeLink}
+            options={[{ value: "", label: "Or Select Internal Page" }].concat(
+              ROUTES.map(x => ({ label: x.label, value: x.path }))
+            )}
+            name="Ted"
+          />
           <div className="dialogActions">
-            <button onClick={() => insertLink(linkValue)}>Insert</button>
-            <button
+            <Button
+              variant="secondary"
               onClick={() => {
                 setShowLinkDialog(false);
                 savedRange.current = null;
               }}
             >
               Cancel
-            </button>
+            </Button>
+            <Button variant="primary" onClick={() => insertLink(linkValue)}>
+              Insert
+            </Button>
           </div>
         </div>
       )}
@@ -100,5 +105,8 @@ const Quill = props => {
   );
 };
 
+Quill.propTypes = {
+  modules: PropTypes.any
+};
+
 export default Quill;
-/* eslint-enable react/prop-types */
