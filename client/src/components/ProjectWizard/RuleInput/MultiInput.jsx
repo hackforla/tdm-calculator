@@ -82,8 +82,8 @@ const Input = props => {
         props.selectProps.hasError
           ? classes.textInputInvalidLocal
           : props.selectProps.validationErrors
-          ? classes.textInputInvalid
-          : classes.textInput
+            ? classes.textInputInvalid
+            : classes.textInput
       }
       id={"BIG FAT ID"}
       style={{
@@ -154,8 +154,8 @@ const SelectContainer = ({ children, ...props }) => {
         props.selectProps.hasError
           ? classes.textInputInvalidLocal
           : props.selectProps.validationErrors
-          ? classes.textInputInvalid
-          : classes.textInput
+            ? classes.textInputInvalid
+            : classes.textInput
       }
     >
       {children}

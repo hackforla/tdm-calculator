@@ -313,6 +313,7 @@ const TdmCalculationWizard = props => {
             onAINInputError={handleAINInputError}
             uncheckAll={() => onUncheckAll(filters.projectDescriptionRules)}
             resetProject={() => setResetProjectWarningModalOpen(true)}
+            page={Number(page)}
           />
         );
       case 2:
@@ -322,6 +323,7 @@ const TdmCalculationWizard = props => {
             onInputChange={onInputChange}
             uncheckAll={() => onUncheckAll(filters.specificationRules)}
             resetProject={() => setResetProjectWarningModalOpen(true)}
+            page={Number(page)}
           />
         );
       case 3:

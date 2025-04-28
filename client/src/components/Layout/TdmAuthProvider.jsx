@@ -38,7 +38,7 @@ const TdmAuthProvider = ({ children }) => {
     /*
       Storing user account object in Local Storage as well as state allows the
       login session to persist across browser sessions. It also allows a deep
-      link to a protexted client path be propery authenticated.
+      link to a protected client path be properly authenticated.
      */
     localStorage.setItem("currentUser", JSON.stringify(userAccount));
     setAccount(userAccount);

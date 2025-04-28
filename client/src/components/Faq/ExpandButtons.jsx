@@ -15,7 +15,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column"
   },
-  faqUndfoldIcon: {
+  faqUnfoldIcon: {
     fontSize: "large"
   },
   expandCollapseAll: {
