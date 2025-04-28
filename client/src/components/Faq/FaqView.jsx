@@ -135,6 +135,7 @@ const FaqView = () => {
   const fetchFaqData = async () => {
     const faqCategoryListResponse = await faqCategoryService.get();
     const categories = faqCategoryListResponse.data;
+    categories.sort((a, b) => a.displayOrder - b.displayOrder);
 
     let highestFaqId = 0;
     let highestCategoryId = 0;
@@ -157,7 +158,10 @@ const FaqView = () => {
   };
 
   const submitFaqData = useCallback(async () => {
-    const categories = [...faqCategoryList];
+    const categories = faqCategoryList.map((a, index) => ({
+      ...a,
+      displayOrder: index * 10
+    }));
 
     for (let i = 0; i < categories.length; i++) {
       if (categories[i].faqs) {
