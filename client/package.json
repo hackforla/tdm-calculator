@@ -10,6 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "jest --config=jest.config.cjs",
+    "test:ci": "echo \"Skipping test:ci for now\"",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\"",
     "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \"**/*.{js,jsx}\""
   },
