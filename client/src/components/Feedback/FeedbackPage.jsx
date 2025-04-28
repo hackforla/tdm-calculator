@@ -229,8 +229,8 @@ const FeedbackPage = ({ contentContainerRef }) => {
                     className={clsx(
                       classes.formTextArea,
                       errors.comment &&
-                      touched.comment &&
-                      classes.formErrorBorder
+                        touched.comment &&
+                        classes.formErrorBorder
                     )}
                   />
                   <ErrorMessage
