@@ -115,8 +115,8 @@ const ToolTipLabel = ({
                   )
                 : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
               : description
-              ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
-              : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
+                ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
+                : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
           }
           data-tooltip-id={id} // Correctly associate tooltip with ID
           data-tooltip-content={tooltipContent} // Tooltip content

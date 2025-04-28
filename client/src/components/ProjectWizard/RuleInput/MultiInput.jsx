@@ -32,8 +32,8 @@ const matchLength = value => {
     digitLength >= 7
       ? digitLength + 2
       : digitLength >= 4
-      ? digitLength + 1
-      : digitLength;
+        ? digitLength + 1
+        : digitLength;
   return matchLength;
 };
 

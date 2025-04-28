@@ -58,8 +58,8 @@ const PdfFooter = ({ project }) => {
             {!formattedDateSnapshotted
               ? "Draft"
               : loginId === loggedInUserId
-              ? "Snapshot"
-              : "Shared Snapshot"}
+                ? "Snapshot"
+                : "Shared Snapshot"}
           </div>
           {formattedDateSubmitted && (
             <div className={classes.pdfTimeText}>

@@ -29,7 +29,7 @@ const exportDBToCSV = async (tables_included, tables_excluded) => {
   const schema_result = await request.query(`
     SELECT
         x.table_name
-        ,(
+        ,(SELECT CASE WHEN name IS NOT NULL THEN '['+name+'],' ELSE NULL END FROM sys.columns AS y WHERE x.OBJECT_ID = y.OBJECT_ID AND y.is_identity = 1)+(
             SELECT STRING_AGG('['+y.name+']', ',') WITHIN GROUP (ORDER BY y.name) AS column_names
             FROM sys.columns AS y
             WHERE x.OBJECT_ID = y.OBJECT_ID

@@ -88,8 +88,8 @@ const FeedbackPage = ({ contentContainerRef }) => {
   const projects = !account
     ? null
     : account.email
-    ? GetUserProjects(account.email)
-    : [];
+      ? GetUserProjects(account.email)
+      : [];
   const [selectedProjects, setSelectedProjects] = useState([]);
 
   useEffect(() => {
@@ -229,8 +229,8 @@ const FeedbackPage = ({ contentContainerRef }) => {
                     className={clsx(
                       classes.formTextArea,
                       errors.comment &&
-                        touched.comment &&
-                        classes.formErrorBorder
+                      touched.comment &&
+                      classes.formErrorBorder
                     )}
                   />
                   <ErrorMessage
