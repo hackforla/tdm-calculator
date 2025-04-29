@@ -47,7 +47,7 @@ const WarningModal = ({
     /* eslint-disable no-console */
     console.log("useEffect in warning modal");
     return () => {
-      console.log("WM unmouting, resetting initial focus id");
+      console.log("WM unmounting, resetting initial focus id");
       setInitialFocusId(""); // Reset the id when the component unmounts
     };
   }, []);

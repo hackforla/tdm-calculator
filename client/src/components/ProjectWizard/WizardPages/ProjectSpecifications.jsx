@@ -31,7 +31,7 @@ const useStyles = createUseStyles(theme => ({
 
 function ProjectSpecifications(props) {
   const classes = useStyles();
-  const { rules, onInputChange, uncheckAll, resetProject } = props;
+  const { rules, onInputChange, uncheckAll, resetProject, page } = props;
   return (
     <div>
       <div className={classes.header}>Determine Project Level</div>
@@ -46,7 +46,11 @@ function ProjectSpecifications(props) {
           resetProject={resetProject}
         />
       </div>
-      <RuleInputPanels rules={rules} onInputChange={onInputChange} />
+      <RuleInputPanels
+        rules={rules}
+        onInputChange={onInputChange}
+        page={page}
+      />
     </div>
   );
 }
@@ -54,7 +58,8 @@ ProjectSpecifications.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
-  resetProject: PropTypes.func.isRequired
+  resetProject: PropTypes.func.isRequired,
+  page: PropTypes.number
 };
 
 export default ProjectSpecifications;

@@ -1,0 +1,25 @@
+.editorWrapper {
+  width: 100%;
+}
+
+.linkDialog {
+  position: relative;
+  top: calc(2% - 6rem);
+  left: 40%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  z-index: 1000;
+  border-radius: 8px;
+  width: 300px;
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ql-tooltip {
+  display: none !important;
+}

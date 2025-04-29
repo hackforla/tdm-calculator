@@ -137,7 +137,7 @@ describe("ProjectTableRow", () => {
     expect(screen.getByText(project.name)).toBeInTheDocument();
     expect(screen.getByText(project.address)).toBeInTheDocument();
     expect(
-      screen.getByText(project.firstName + " " + project.lastName)
+      screen.getByText(project.lastName + ", " + project.firstName)
     ).toBeInTheDocument();
     expect(screen.getByText("2022-08-01")).toBeInTheDocument();
     expect(screen.getByText("2023-08-01")).toBeInTheDocument();

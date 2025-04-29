@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleInput from "./RuleInput";
+import ProjectLevelRuleInput from "./ProjectLevelRuleInput";
 
 const useStyles = createUseStyles({
   ruleInputList: {
@@ -18,7 +19,8 @@ const RuleInputList = ({
   onPartialMultiChange,
   onAINInputError,
   autoFocus,
-  showPlaceholder
+  showPlaceholder,
+  page
 }) => {
   const classes = useStyles();
 
@@ -26,7 +28,7 @@ const RuleInputList = ({
     <div className={classes.ruleInputList}>
       {rules && rules.length > 0
         ? rules.map((rule, index) => {
-            return (
+            return page === 1 ? (
               <RuleInput
                 key={rule.id}
                 rule={rule}
@@ -37,7 +39,18 @@ const RuleInputList = ({
                 autoFocus={autoFocus && !index}
                 showPlaceholder={showPlaceholder}
               />
-            );
+            ) : page === 2 ? (
+              <ProjectLevelRuleInput
+                key={rule.id}
+                rule={rule}
+                partialMultiInput={partialMultiInput}
+                onPropInputChange={onInputChange}
+                onPartialMultiChange={onPartialMultiChange}
+                onAINInputError={onAINInputError}
+                autoFocus={autoFocus && !index}
+                showPlaceholder={showPlaceholder}
+              />
+            ) : null;
           })
         : null}
     </div>
@@ -50,7 +63,8 @@ RuleInputList.propTypes = {
   onPartialMultiChange: PropTypes.func,
   onAINInputError: PropTypes.func,
   autoFocus: PropTypes.bool,
-  showPlaceholder: PropTypes.bool
+  showPlaceholder: PropTypes.bool,
+  page: PropTypes.number
 };
 
 export default RuleInputList;

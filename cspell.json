@@ -25,5 +25,13 @@
     "ignoreRegExpList": [
         "/^\\s*\\/.*$/gm",
         "/[\"'`]\\/?[\\w\\-\\/\\.\\d]*[\"'`]/g"
+    ],
+    "db_tables_included": [
+        
+        "CalculationRule",
+        "CalculationPanel",
+        "FaqCategory"
+    ],
+    "db_tables_excluded": [
     ]
 }

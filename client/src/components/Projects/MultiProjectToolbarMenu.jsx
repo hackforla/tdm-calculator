@@ -59,6 +59,11 @@ const useStyles = createUseStyles(theme => ({
   icon: {
     height: "28px",
     width: "28px"
+  },
+  iconDisabled: {
+    height: "28px",
+    width: "28px",
+    color: theme.colorDisabled
   }
 }));
 
@@ -165,7 +170,13 @@ const MultiProjectToolbarMenu = ({
             onClick={handlePrintPdf}
             disabled={checkedProjectIds.length !== 1}
           >
-            <MdPrint className={classes.icon} />
+            <MdPrint
+              className={
+                checkedProjectIds.length !== 1
+                  ? classes.iconDisabled
+                  : classes.icon
+              }
+            />
           </button>
           {checkedProjectIds.length !== 1 ? (
             <Tooltip
@@ -206,9 +217,17 @@ const MultiProjectToolbarMenu = ({
             onClick={handleHideBoxes}
           >
             {!checkedProjectsStatusData.dateHidden ? (
-              <MdVisibilityOff className={classes.icon} />
+              <MdVisibilityOff
+                className={
+                  isHideBtnDisabled ? classes.iconDisabled : classes.icon
+                }
+              />
             ) : (
-              <MdVisibility className={classes.icon} />
+              <MdVisibility
+                className={
+                  isHideBtnDisabled ? classes.iconDisabled : classes.icon
+                }
+              />
             )}
 
             <Tooltip
@@ -243,13 +262,11 @@ const MultiProjectToolbarMenu = ({
           >
             {isActiveProjectsTab ? (
               <MdDelete
-                className={classes.icon}
-                color={isDelBtnDisabled ? "#1010104d" : "red"}
+                className={isDelBtnDisabled ? classes.isDisabled : classes.icon}
               />
             ) : (
-              <MdDelete
-                className={classes.icon}
-                color={isDelBtnDisabled ? "#1010104d" : ""}
+              <MdRestoreFromTrash
+                className={isDelBtnDisabled ? classes.isDisabled : classes.icon}
               />
             )}
           </button>
