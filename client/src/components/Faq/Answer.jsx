@@ -12,17 +12,46 @@ const useStyles = createUseStyles(theme => ({
   answerInput: {
     width: "100%",
     display: "flex",
-    flexDirection: "column"
+    fontSize: '16px',
+    flexDirection: "column",
+    '& .ql-editor ol, & .ql-editor ul': {
+      fontSize: '16px',
+    },
+    '& .ql-editor li': {
+      fontSize: '16px',
+    },
   },
   answerText: {
     ...theme.typography.subHeading,
     textAlign: "inherit",
     padding: 8,
     fontWeight: 22,
+    fontSize: '16px',
+    margin: 0,
     cursor: admin => (admin ? "pointer" : "default"),
     "&:hover": {
       textDecoration: admin => admin && "underline"
-    }
+    },
+    '& .ql-editor p': {
+      margin: '0',
+      padding: '0',
+    },
+    '& .ql-indent-1': {
+      marginLeft: '3em',
+    },
+    '& .ql-indent-2': {
+      marginLeft: '6em',
+    },
+    '& .ql-editor ol, & .ql-editor ul': {
+      fontSize: '16px',
+      margin: '0 !important',
+      padding: '0',
+      listStylePosition: 'inside',
+    },
+    '& .ql-editor li': {
+      margin: '0 !important',
+      padding: '0',
+    },
   },
   externalLinkIcon: {
     fontSize: "14px",
