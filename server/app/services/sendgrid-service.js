@@ -1,3 +1,4 @@
+const sgClient = require("@sendgrid/client");
 const sgMail = require("@sendgrid/mail");
 const clientUrl = process.env.CLIENT_URL;
 const sendgridKey = process.env.SENDGRID_API_KEY;
@@ -6,7 +7,17 @@ const laCityEmail = process.env.EMAIL_PUBLIC_COMMENT_LA_CITY;
 const webTeamEmail = process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM;
 const projectService = require("../services/project.service");
 
-sgMail.setApiKey(sendgridKey);
+if (
+  process.env.NODE_ENV === "production" ||
+  !process.env.SENDGRID_EXPOSED_PORT
+) {
+  sgMail.setApiKey(sendgridKey);
+} else {
+  // use sgClient to set the mock service URL in development
+  sgClient.setApiKey(sendgridKey);
+  sgClient.setDefaultRequest("baseUrl", "http://sendgrid:3000");
+  sgMail.setClient(sgClient);
+}
 
 const formatDates = date => {
   return new Date(date)
