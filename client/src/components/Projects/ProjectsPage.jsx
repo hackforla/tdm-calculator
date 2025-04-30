@@ -1130,7 +1130,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         variant="primary"
                         disabled={!checkedProjectsStatusData.dateTrashed}
                       >
-                        RESTORE
+                        Restore
                       </Button>
                     )}
                     <Button
