@@ -5,6 +5,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import { FaFileCsv } from "react-icons/fa6";
 import {
   MdDelete,
+  MdRestoreFromTrash,
   MdPrint,
   MdVisibility,
   MdVisibilityOff
