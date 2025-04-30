@@ -5,7 +5,6 @@ import { createUseStyles, useTheme } from "react-jss";
 import { FaFileCsv } from "react-icons/fa6";
 import {
   MdDelete,
-  MdRestoreFromTrash,
   MdPrint,
   MdVisibility,
   MdVisibilityOff
@@ -75,7 +74,8 @@ const MultiProjectToolbarMenu = ({
   checkedProjectIds,
   criteria,
   checkedProjectsStatusData,
-  pdfProjectData
+  pdfProjectData,
+  isActiveProjectsTab
 }) => {
   const printRef = useRef(null);
   const theme = useTheme();
@@ -107,26 +107,15 @@ const MultiProjectToolbarMenu = ({
     isBtnDisabled("dateHidden", "visibility");
 
   const isDelBtnDisabled =
-    !isProjectOwner || isBtnDisabled("dateTrashed", "status");
+    !isProjectOwner ||
+    isBtnDisabled("dateTrashed", "status") ||
+    !isActiveProjectsTab;
 
-  const tooltipMsg = (criteriaProp, msg, dateProp) => {
+  const tooltipMsg = criteriaProp => {
     if (checkedProjectIds.length === 0) return;
 
     if (!isProjectOwner && criteriaProp !== "visibility") {
       return "You have selected a project that does not belong to you";
-    }
-
-    // show recover message if project is deleted
-    if (checkedProjectsStatusData.dateTrashed && criteriaProp === "status") {
-      return "Restore from Trash";
-    }
-
-    // show message when selecting mixed types (e.g. hide & unhide)
-    if (
-      checkedProjectIds.length > 1 &&
-      checkedProjectsStatusData[dateProp] === false
-    ) {
-      return criteria[criteriaProp] === "all" ? msg : "";
     }
   };
 
@@ -271,7 +260,7 @@ const MultiProjectToolbarMenu = ({
             disabled={isDelBtnDisabled}
             onClick={handleDeleteModalOpen}
           >
-            {!checkedProjectsStatusData.dateTrashed ? (
+            {isActiveProjectsTab ? (
               <MdDelete
                 className={isDelBtnDisabled ? classes.isDisabled : classes.icon}
               />
@@ -280,25 +269,6 @@ const MultiProjectToolbarMenu = ({
                 className={isDelBtnDisabled ? classes.isDisabled : classes.icon}
               />
             )}
-            <Tooltip
-              // Cannot use JSS, because Tooltip default styles would overwrite
-              style={{
-                ...theme.typography.paragraph1,
-                backgroundColor: theme.colors.secondary.lightGray,
-                width: "12rem",
-                borderRadius: "5px",
-                textAlign: "center",
-                boxShadow:
-                  "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
-              }}
-              border="1px solid black"
-              anchorSelect="#delete-btn"
-              content={tooltipMsg(
-                "status",
-                "Your selection includes both deleted and active items",
-                "dateTrashed"
-              )}
-            />
           </button>
         </li>
       </ul>
@@ -313,7 +283,8 @@ MultiProjectToolbarMenu.propTypes = {
   checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   criteria: PropTypes.object.isRequired,
   checkedProjectsStatusData: PropTypes.object.isRequired,
-  pdfProjectData: PropTypes.object
+  pdfProjectData: PropTypes.object,
+  isActiveProjectsTab: PropTypes.string.isRequired
 };
 
 export default MultiProjectToolbarMenu;

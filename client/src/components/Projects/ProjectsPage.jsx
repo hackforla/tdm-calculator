@@ -36,7 +36,6 @@ const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   type: "all",
-  status: "active",
   visibility: "visible",
   name: "",
   address: "",
@@ -47,6 +46,8 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateCreated: null,
   startDateModified: null,
   endDateModified: null,
+  startDateTrashed: null,
+  endDateTrashed: null,
   startDateSubmitted: null,
   endDateSubmitted: null,
   nameList: [],
@@ -72,6 +73,32 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
+  },
+  pageTabsDiv: {
+    fontSize: "14pt",
+    fontWeight: "bold",
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    gap: "10px",
+    borderBottom: "2px solid #e6ebf0"
+  },
+  pageTab: {
+    padding: "10px",
+    borderTop: "2px solid #e6ebf0",
+    borderLeft: "2px solid #e6ebf0",
+    borderRight: "2px solid #e6ebf0",
+    borderRadius: "2px 2px 0 0"
+  },
+  activePageTab: {
+    position: "relative",
+    zIndex: 1,
+    boxShadow: "0 2px 0 white"
+  },
+  inactivePageTab: {
+    color: "#808589",
+    backgroundColor: "#e6ebf0",
+    cursor: "pointer"
   },
   filter: {
     overflow: "hidden",
@@ -109,6 +136,16 @@ const useStyles = createUseStyles({
   },
   tableAdmin: {
     minWidth: "135rem",
+    width: "100%",
+    tableLayout: "fixed"
+  },
+  tableDeleted: {
+    minWidth: "127rem",
+    width: "100%",
+    tableLayout: "fixed"
+  },
+  tableAdminDeleted: {
+    minWidth: "152rem",
     width: "100%",
     tableLayout: "fixed"
   },
@@ -212,6 +249,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
       "endDateCreated",
       "startDateModified",
       "endDateModified",
+      "startDateTrashed",
+      "endDateTrashed",
       "startDateSubmitted",
       "endDateSubmitted",
       "startDateModifiedAdmin",
@@ -254,6 +293,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
+  const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
+
+  const handleTabClick = e => {
+    setIsActiveProjectsTab(e.target.innerText === "Projects");
+  };
 
   const enhancedProjects = projects
     ? projects.map(project => {
@@ -266,6 +310,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
         };
       })
     : [];
+
+  const tabProjects = isActiveProjectsTab
+    ? enhancedProjects.filter(p => !p.dateTrashed)
+    : enhancedProjects.filter(p => p.dateTrashed);
 
   useEffect(() => {
     const fetchDroOptions = async () => {
@@ -530,16 +578,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleCheckboxChange = projectId => {
-    setCheckedProjectIds(prevCheckedProjectIds => {
-      if (prevCheckedProjectIds.includes(projectId)) {
-        return prevCheckedProjectIds.filter(id => id !== projectId);
-      } else {
-        return [...prevCheckedProjectIds, projectId];
-      }
-    });
+    setCheckedProjectIds(prevChecked => {
+      const updated = prevChecked.includes(projectId)
+        ? prevChecked.filter(id => id !== projectId)
+        : [...prevChecked, projectId];
 
-    // header checkbox status
-    setSelectAllChecked(checkedProjectIds.length === currentProjects.length);
+      setSelectAllChecked(updated.length === currentProjects.length);
+
+      return updated;
+    });
   };
 
   const handleHeaderCheckbox = () => {
@@ -552,12 +599,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
               (filterCriteria.visibility === "hidden" && p.dateHidden) ||
               filterCriteria.visibility === "all"
           )
-          .filter(
-            p =>
-              (filterCriteria.status === "active" && !p.dateTrashed) ||
-              (filterCriteria.status === "deleted" && p.dateTrashed) ||
-              filterCriteria.status === "all"
-          )
           .map(p => p.id)
       );
     } else {
@@ -566,6 +607,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
     setSelectAllChecked(!selectAllChecked);
   };
+
+  useEffect(() => {
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
+  }, [isActiveProjectsTab]);
 
   const ascCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
@@ -587,17 +633,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (orderBy === "author") {
       projectA = `${a["lastName"]} ${a["firstName"]}`;
       projectB = `${b["lastName"]} ${b["firstName"]}`;
-    } else if (
-      orderBy === "dateHidden" ||
-      orderBy === "dateTrashed" ||
-      orderBy === "dateSnapshotted"
-    ) {
+    } else if (orderBy === "dateHidden" || orderBy === "dateSnapshotted") {
       projectA = a[orderBy] ? 1 : 0;
       projectB = b[orderBy] ? 1 : 0;
     } else if (
       orderBy === "dateSubmitted" ||
       orderBy === "dateCreated" ||
-      orderBy === "dateModified"
+      orderBy === "dateModified" ||
+      orderBy === "dateTrashed"
     ) {
       projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
       projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
@@ -696,8 +739,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const filter = (p, criteria) => {
     if (criteria.type === "draft" && p.dateSnapshotted) return false;
     if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
-    if (criteria.status === "active" && p.dateTrashed) return false;
-    if (criteria.status === "deleted" && !p.dateTrashed) return false;
     if (criteria.visibility === "visible" && p.dateHidden) return false;
     if (criteria.visibility === "hidden" && !p.dateHidden) return false;
     if (
@@ -729,6 +770,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
     if (
       criteria.endDateModified &&
       getDateOnly(p.dateModified) > getDateOnly(criteria.endDateModified)
+    )
+      return false;
+    if (
+      criteria.startDateTrashed &&
+      getDateOnly(p.dateTrashed) < getDateOnly(criteria.startDateTrashed)
+    )
+      return false;
+    if (
+      criteria.endDateTrashed &&
+      getDateOnly(p.dateTrashed) > getDateOnly(criteria.endDateTrashed)
     )
       return false;
 
@@ -879,7 +930,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateSnapshotted",
       label: "Status",
       popupType: "status",
-      colWidth: "7rem"
+      colWidth: `${isActiveProjectsTab ? "7rem" : "12rem"}`
     },
     { id: "name", label: "Project Name", popupType: "text", colWidth: "20rem" },
     { id: "address", label: "Address", popupType: "text", colWidth: "20rem" },
@@ -906,6 +957,18 @@ const ProjectsPage = ({ contentContainerRef }) => {
       endDatePropertyName: "endDateModified",
       colWidth: "10rem"
     },
+    ...(!isActiveProjectsTab
+      ? [
+          {
+            id: "dateTrashed",
+            label: "Date Trashed",
+            popupType: "datetime",
+            startDatePropertyName: "startDateTrashed",
+            endDatePropertyName: "endDateTrashed",
+            colWidth: "12rem"
+          }
+        ]
+      : []),
     {
       id: "dateSubmitted",
       label: "Submitted",
@@ -948,12 +1011,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  let sortedProjects = enhancedProjects.filter(p => filter(p, filterCriteria));
+  let sortedProjects = tabProjects.filter(p => filter(p, filterCriteria));
   for (let i = 0; i < sortCriteria.length; i++) {
     sortedProjects.sort(
       getComparator(sortCriteria[i].direction, sortCriteria[i].field)
     );
   }
+
   const currentProjects = sortedProjects.slice(
     indexOfFirstPost,
     indexOfLastPost
@@ -965,7 +1029,33 @@ const ProjectsPage = ({ contentContainerRef }) => {
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <div className={classes.outerDiv}>
         <div className={classes.contentDiv}>
-          <h1 className={classes.pageTitle}>Projects</h1>
+          <h1 className={classes.pageTitle}>My Projects</h1>
+          <div className={classes.pageTabsDiv}>
+            <span
+              className={`${classes.pageTab}
+                ${
+                  isActiveProjectsTab
+                    ? classes.activePageTab
+                    : classes.inactivePageTab
+                }
+              `}
+              onClick={handleTabClick}
+            >
+              Projects
+            </span>
+            <span
+              className={`${classes.pageTab}
+                ${
+                  isActiveProjectsTab
+                    ? classes.inactivePageTab
+                    : classes.activePageTab
+                }
+              `}
+              onClick={handleTabClick}
+            >
+              Deleted Projects
+            </span>
+          </div>
           <div
             style={{
               display: "flex",
@@ -997,6 +1087,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     criteria={filterCriteria}
                     checkedProjectsStatusData={checkedProjectsStatusData}
                     pdfProjectData={projectData}
+                    isActiveProjectsTab={isActiveProjectsTab}
                   />
                 </div>
                 <div>
@@ -1032,6 +1123,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       flexBasis: "33%"
                     }}
                   >
+                    {!isActiveProjectsTab && (
+                      <Button
+                        onClick={handleDeleteModalOpen}
+                        isDisplayed={true}
+                        variant="primary"
+                        disabled={!checkedProjectsStatusData.dateTrashed}
+                      >
+                        RESTORE
+                      </Button>
+                    )}
                     <Button
                       onClick={resetFiltersSort}
                       isDisplayed={true}
@@ -1047,8 +1148,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <table
                     className={
                       userContext.account?.isAdmin
-                        ? classes.tableAdmin
-                        : classes.table
+                        ? isActiveProjectsTab
+                          ? classes.tableAdmin
+                          : classes.tableAdminDeleted
+                        : isActiveProjectsTab
+                          ? classes.table
+                          : classes.tableDeleted
                     }
                   >
                     <colgroup>
@@ -1087,7 +1192,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       </tr>
                     </thead>
                     <tbody className={classes.tbody}>
-                      {enhancedProjects.length ? (
+                      {tabProjects.length ? (
                         currentProjects.map(project => (
                           <ProjectTableRow
                             key={project.id}
@@ -1115,6 +1220,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                                 ? null
                                 : droNameMap[project.droId] || "N/A"
                             } // Pass the droName
+                            isActiveProjectsTab={isActiveProjectsTab}
                           />
                         ))
                       ) : (

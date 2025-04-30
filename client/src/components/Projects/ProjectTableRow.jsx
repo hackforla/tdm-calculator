@@ -181,7 +181,8 @@ const ProjectTableRow = ({
   isAdmin,
   droOptions,
   onDroChange, // New prop
-  onAdminNoteUpdate // New prop
+  onAdminNoteUpdate, // New prop
+  isActiveProjectsTab
 }) => {
   const {
     showWarningModal,
@@ -255,11 +256,17 @@ const ProjectTableRow = ({
     return <span>{formatDate(project.dateSubmitted)}</span>;
   };
 
+  const daysUntilPermanentDeletion = () => {
+    const diffDays =
+      (new Date(project.dateTrashed).getTime() +
+        90 * 24 * 60 * 60 * 1000 -
+        Date.now()) /
+      (1000 * 60 * 60 * 24);
+    return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
+  };
+
   return (
-    <tr
-      key={project.id}
-      style={{ background: project.dateTrashed ? "#ffdcdc" : "" }}
-    >
+    <tr key={project.id}>
       <td className={classes.tdCenterAlign}>
         <input
           style={{ height: "15px" }}
@@ -284,8 +291,16 @@ const ProjectTableRow = ({
         )}
       </td>
       <td className={classes.td}>
-        {project.dateSnapshotted ? "Snapshot" : "Draft"}
-        {project.dateTrashed ? <span> (deleted)</span> : null}
+        {project.dateSnapshotted ? "Snapshot" : "Draft"}{" "}
+        {project.dateTrashed ? (
+          <span
+            style={{
+              color: daysUntilPermanentDeletion(project) <= 7 ? "red" : "gray"
+            }}
+          >
+            ({daysUntilPermanentDeletion(project)})
+          </span>
+        ) : null}
       </td>
       <td className={classes.td}>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
@@ -299,6 +314,11 @@ const ProjectTableRow = ({
       <td className={classes.td}>
         <span>{formatDate(project.dateModified)}</span>
       </td>
+      {!isActiveProjectsTab && (
+        <td className={classes.td}>
+          <span>{formatDate(project.dateTrashed)}</span>
+        </td>
+      )}
       <td className={classes.td}>{dateSubmittedDisplay()}</td>
       {/* DRO Column */}
       <td className={classes.td}>
@@ -442,7 +462,8 @@ ProjectTableRow.propTypes = {
     })
   ).isRequired,
   onDroChange: PropTypes.func.isRequired, // New propType
-  onAdminNoteUpdate: PropTypes.func.isRequired // New propType
+  onAdminNoteUpdate: PropTypes.func.isRequired, // New propType
+  isActiveProjectsTab: PropTypes.string.isRequired
 };
 
 export default ProjectTableRow;
