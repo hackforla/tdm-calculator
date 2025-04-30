@@ -34,7 +34,7 @@ const useStyles = createUseStyles(theme => ({
     listStyleType: "none",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "6.5em"
+    width: "6em"
   },
   button: {
     border: "none",
@@ -64,7 +64,7 @@ const useStyles = createUseStyles(theme => ({
   iconDisabled: {
     height: "28px",
     width: "28px",
-    color: theme.colorDisabled
+    color: theme.colors.lightGray
   }
 }));
 
@@ -263,11 +263,15 @@ const MultiProjectToolbarMenu = ({
           >
             {isActiveProjectsTab ? (
               <MdDelete
-                className={isDelBtnDisabled ? classes.isDisabled : classes.icon}
+                className={
+                  isDelBtnDisabled ? classes.iconDisabled : classes.icon
+                }
               />
             ) : (
               <MdRestoreFromTrash
-                className={isDelBtnDisabled ? classes.isDisabled : classes.icon}
+                className={
+                  isDelBtnDisabled ? classes.iconDisabled : classes.icon
+                }
               />
             )}
           </button>
