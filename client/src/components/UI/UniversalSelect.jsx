@@ -17,7 +17,9 @@ UniversalSelect.propTypes = {
   id: PropTypes.string,
   disabled: PropTypes.bool,
   autoFocus: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
+  isSearchable: PropTypes.bool,
+  maxMenuHeight: PropTypes.number
 };
 
 export default function UniversalSelect({
@@ -29,7 +31,9 @@ export default function UniversalSelect({
   id,
   disabled,
   autoFocus,
-  className
+  className,
+  isSearchable = false,
+  maxMenuHeight
 }) {
   // To make UniversalSelect compatible with a standard react <select> component, the onChange method should be passed
   // an object that at least looks like an event object.
@@ -54,7 +58,9 @@ export default function UniversalSelect({
       name={name}
       inputId={id}
       isDisabled={disabled}
+      isSearchable={isSearchable}
       options={options}
+      maxMenuHeight={maxMenuHeight}
       styles={{
         container: (provided, state) => ({
           ...provided,
