@@ -50,6 +50,7 @@ function ProjectSpecifications(props) {
         rules={rules}
         onInputChange={onInputChange}
         page={page}
+        showPlaceholder={true}
       />
     </div>
   );
