@@ -44,7 +44,7 @@ The below text provides a general outline for the question and answer. Use it as
       ```
 - [ ] Implement feedback as necessary.
 - [ ] Once approved, sign in as an admin and Update the FAQ
-- [ ] Create a new slide in staging and add a screenshot of the Q and A being added
+- [ ] Create a new slide (or edit one if it already exists) in staging and add a screenshot of the Q and A being revised
    - [ ] add a comment on the slide with the text
       ```
       add to stakeholder release deck
@@ -62,7 +62,6 @@ The below text provides a general outline for the question and answer. Use it as
 
 #### Staging and Release decks
 - [Staging Deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg/)
-   - [Staging slide for getting content approved on this issue]
-       - [YYYY-MM-DD Release deck, slide #]
-   - [Staging slide for showing FAQ got added]
-      - [YYYY-MM-DD Release deck, slide #]
+   - [Staging slide, ISSUE NUMBER]
+- Release Deck
+   - [2025-MM-DD Release deck, slide ISSUE NUMBER]

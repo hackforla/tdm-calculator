@@ -1,35 +1,882 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
-import ContentContainer from "../Layout/ContentContainer";
+import { createUseStyles, useTheme } from "react-jss";
+import UserContext from "../../contexts/UserContext";
+import { Link } from "react-router-dom";
+import { MdOutlineSearch, MdCheck } from "react-icons/md";
+import Pagination from "../UI/Pagination";
+import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
+import * as projectService from "../../services/project.service";
+import { formatDate } from "../../helpers/util";
 
-import * as projectService from "../../services/project.service.js";
+import UniversalSelect from "../UI/UniversalSelect";
+import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
+import Button from "../Button/Button";
+import useSessionStorage from "../../hooks/useSessionStorage";
+import {
+  SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG,
+  SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG
+} from "../../helpers/Constants";
 
-const useStyles = createUseStyles({
+const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
+const DEFAULT_FILTER_CRITERIA = {
+  filterText: "",
+  idList: [],
+  nameList: [],
+  addressList: [],
+  projectLevelList: [],
+  startDateSubmitted: null,
+  endDateSubmitted: null,
+  startDateStatus: null,
+  endDateStatus: null,
+  authorList: [],
+  droNameList: [],
+  assigneeList: [],
+  startDateAssigned: null,
+  endDateAssigned: null,
+  invoiceStatusNameList: [],
+  startDateInvoicePaid: null,
+  endDateInvoicePaid: null,
+  approvalStatusNameList: [],
+  startDateCoO: null,
+  endDateCoO: null,
+  startDateSnapshot: null,
+  endDateSnapshot: null,
+  adminNotesList: [],
+  startDateModifiedAdmin: null,
+  endDateModifiedAdmin: null,
+  onHold: null
+};
+
+const useStyles = createUseStyles(theme => ({
+  outerDiv: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    justifyItems: "flex-start"
+  },
+  contentDiv: {
+    flexBasis: "75%",
+    flexShrink: 1,
+    flexGrow: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  filter: {
+    overflow: "hidden",
+    flexBasis: "18rem",
+    flexShrink: 0,
+    flexGrow: 0,
+    transition: "flex-basis 1s ease-in-out"
+  },
+  filterCollapsed: {
+    overflow: "hidden",
+    flexBasis: "1%",
+    flexShrink: 0,
+    flexGrow: 0,
+    transition: "flex-basis 0.5s ease-in-out"
+  },
   pageTitle: {
-    marginBottom: "16px",
+    marginTop: "1rem",
+    marginBottom: "0rem"
+  },
+  subheading: {
+    ...theme.typography.subHeading,
+    // width: "100%",
+    lineHeight: "1.2rem",
+    marginTop: "0rem",
+    marginBottom: "0rem"
+  },
+  searchBarWrapper: {
+    position: "relative",
+    alignSelf: "center"
+  },
+  searchBar: {
+    maxWidth: "100%",
+    width: "27rem",
+    padding: "12px 12px 12px 48px"
+    // marginRight: "0.5rem"
+  },
+  searchIcon: {
+    position: "absolute",
+    left: "14px",
+    top: "10px",
+    height: "28px",
+    width: "28px"
+  },
+  tableAdmin: {
+    minWidth: "135rem",
+    width: "100%",
+    tableLayout: "fixed"
+  },
+  table: {
+    minWidth: "110rem",
+    width: "100%",
+    tableLayout: "fixed"
+  },
+  tr: {
+    margin: "0.5em"
+  },
+  thead: {
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
+    fontWeight: "bold",
+    backgroundColor: "#002E6D",
+    color: "white",
+    "& td": {
+      padding: "12px"
+    }
+  },
+  theadLabel: {
+    cursor: "pointer"
+  },
+  labelSpan: {
+    display: "inline-flex" // fix arrow
+  },
+  sortArrow: {
+    marginLeft: "8px",
+    verticalAlign: "baseline"
+  },
+  tbody: {
+    background: "#F9FAFB",
+    "& tr": {
+      borderBottom: "1px solid #E7EBF0"
+    },
+    "& tr td": {
+      padding: "12px",
+      verticalAlign: "top"
+    },
+    "& tr:hover": {
+      background: "#B2C0D3"
+    }
+  },
+  tdNoSavedProjects: {
     textAlign: "center"
+  },
+  td: {
+    padding: "0.2em",
+    textAlign: "left",
+    width: "5%"
+  },
+  tdRightAlign: {
+    padding: "0.2em",
+    textAlign: "right"
+  },
+  tdCenterAlign: {
+    padding: "0.2em",
+    textAlign: "center"
+  },
+  tableContainer: {
+    overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
+    width: "calc(100vw - 20px)",
+    margin: "0px 1rem",
+    height: "calc(100vh - 175px - 11.34em)"
+  },
+  fixTableHead: {
+    overflowY: "auto",
+    height: "4em"
+  },
+  pageContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  dropContent: {
+    borderRadius: "4px",
+    width: "60px",
+    textAlign: "center"
+  },
+  optionItems: {
+    backgroundColor: "white",
+    "&:hover": {
+      backgroundColor: "silver"
+    }
+  },
+  itemsPerPage: {
+    marginLeft: "5px"
   }
-});
+}));
 
-const SubmissionsPage = props => {
-  const { contentContainerRef } = props;
-  const classes = useStyles();
+const SubmissionsPage = ({ contentContainerRef }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
+  const userContext = useContext(UserContext);
   const [projects, setProjects] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const projectsPerPage = perPage;
+  const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
+    SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
+    DEFAULT_FILTER_CRITERIA
+  );
+  const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
+    SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG,
+    DEFAULT_SORT_CRITERIA
+  );
 
   useEffect(() => {
     async function fetchData() {
       const response = await projectService.getSubmissions();
-      setProjects(response.data);
+      const projects = response.data.map(d => {
+        return {
+          ...d,
+          author: d.authorLastName
+            ? `${d.authorLastName}, ${d.authorFirstName}`
+            : "",
+          assignee: d.assigneeLastName
+            ? `${d.assigneeLastName}, ${d.assigneeFirstName}`
+            : "",
+          statuser: d.statuserLastName
+            ? `${d.statuserLastName}, ${d.statuserFirstName}`
+            : "",
+          droName: d.droName || "-"
+        };
+      });
+      setProjects(projects);
     }
     fetchData();
   }, [setProjects]);
 
+  const formatDatesFromCookieStrigify = sessionFilterCriteria => {
+    const newFilterCriteria = { ...sessionFilterCriteria };
+    const dateProperties = [
+      "startDateSubmitted",
+      "endDateSubmitted",
+      "startDateStatus",
+      "endDateStatus",
+      "startDateAssigned",
+      "endDateAssigned",
+      "startDateInvoicePaid",
+      "endDateInvoicePaid",
+      "startDateCoO",
+      "endDateCoO",
+      "startDateSnapshotted",
+      "endDateSnapshotted",
+      "startDateModifiedAdmin",
+      "endDateModifiedAdmin"
+    ];
+    dateProperties.forEach(dateProp => {
+      if (sessionFilterCriteria[dateProp] !== null) {
+        newFilterCriteria[dateProp] = new Date(sessionFilterCriteria[dateProp]);
+      }
+    });
+    return newFilterCriteria;
+  };
+
+  const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
+  const [filterCriteria, setFilterCriteria] = useState(
+    formatDatesFromCookieStrigify(sessionFilterCriteria)
+  );
+
+  const perPageOptions = [
+    { value: projects.length.toString(), label: "All" },
+    { value: "100", label: "100" },
+    { value: "50", label: "50" },
+    { value: "25", label: "25" },
+    { value: "10", label: "10" }
+  ];
+
+  const handlePerPageChange = newPerPage => {
+    setPerPage(newPerPage);
+    const newHighestPage = Math.ceil(sortedProjects.length / newPerPage);
+
+    if (currentPage > newHighestPage) {
+      setCurrentPage(1);
+    }
+  };
+
+  const paginate = pageNumber => {
+    const newHighestPage = Math.ceil(sortedProjects.length / perPage);
+    if (typeof pageNumber === "number") {
+      setCurrentPage(pageNumber);
+    } else if (pageNumber === "left" && currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    } else if (pageNumber === "right" && currentPage < newHighestPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const ascCompareBy = (a, b, orderBy) => {
+    let projectA, projectB;
+
+    if (
+      orderBy === "projectLevel" ||
+      orderBy === "id" ||
+      orderBy === "onHold"
+    ) {
+      projectA = a[orderBy];
+      projectB = b[orderBy];
+    } else if (
+      orderBy === "dateSubmitted" ||
+      orderBy === "dateCreated" ||
+      orderBy === "dateStatus" ||
+      orderBy === "dateAssigned" ||
+      orderBy === "dateInvoicePaid" ||
+      orderBy === "dateCoO" ||
+      orderBy === "dateSnapshotted" ||
+      orderBy === "dateModifiedAdmin"
+    ) {
+      projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
+      projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
+    } else if (orderBy === "adminNotes") {
+      projectA = a.adminNotes ? a.adminNotes.toLowerCase() : null;
+      projectB = b.adminNotes ? b.adminNotes.toLowerCase() : null;
+    } else {
+      projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
+      projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";
+    }
+
+    if (projectA === null && projectB === null) {
+      return 0;
+    } else if (projectA === null) {
+      return 1; // null values are greater
+    } else if (projectB === null) {
+      return -1;
+    } else {
+      if (projectA < projectB) {
+        return -1;
+      } else if (projectA > projectB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  };
+
+  const getComparator = (order, orderBy) => {
+    return order === "asc"
+      ? (a, b) => ascCompareBy(a, b, orderBy)
+      : (a, b) => -ascCompareBy(a, b, orderBy);
+  };
+
+  const setSort = (orderBy, order, isStatus = false) => {
+    // If already sorted by the orderBy field, remove that entry from the
+    // sort array first
+    let newSortCriteria = [];
+    if (isStatus) {
+      newSortCriteria = sortCriteria.filter(
+        c => c.field != "dateSnapshotted" && c.field != "dateTrashed"
+      );
+      newSortCriteria.push({ field: "dateTrashed", direction: order });
+      newSortCriteria.push({ field: "dateSnapshotted", direction: order });
+    } else {
+      newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
+      newSortCriteria.push({ field: orderBy, direction: order });
+    }
+
+    // save to local storagr
+    setSessionSortCriteria(newSortCriteria);
+    // and update the sortCriteria state.
+    setSortCriteria(newSortCriteria);
+  };
+
+  const setFilter = newFilterCriteria => {
+    setSessionFilterCriteria(newFilterCriteria);
+    setFilterCriteria(newFilterCriteria);
+    setCurrentPage(1);
+  };
+
+  const handleFilterTextChange = text => {
+    setFilterCriteria(crit => {
+      return { ...crit, filterText: text };
+    });
+    setCurrentPage(1);
+  };
+
+  const getDateOnly = date => {
+    const dateOnly = new Date(date).toDateString();
+    return new Date(dateOnly);
+  };
+
+  const filter = (p, criteria) => {
+    if (
+      criteria.nameList.length > 0 &&
+      !criteria.nameList
+        .map(n => n.toLowerCase())
+        .includes(p.name.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.addressList.length > 0 &&
+      !criteria.addressList
+        .map(n => n.toLowerCase())
+        .includes(p.address.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.authorList.length > 0 &&
+      !criteria.authorList
+        .map(n => n.toLowerCase())
+        .includes(p.author.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.assigneeList.length > 0 &&
+      !criteria.assigneeList
+        .map(n => n.toLowerCase())
+        .includes(p.assignee.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.invoiceStatusNameList?.length > 0 &&
+      !criteria.invoiceStatusNameList
+        .map(n => n.toLowerCase())
+        .includes(p.invoiceStatusName.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.approvalStatusNameList?.length > 0 &&
+      !criteria.approvalStatusNameList
+        .map(n => n.toLowerCase())
+        .includes(p.approvalStatusName.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (criteria.idList?.length > 0 && !criteria.idList.includes(p.id)) {
+      return false;
+    }
+
+    if (
+      criteria.projectLevelList?.length > 0 &&
+      !criteria.projectLevelList.includes(p.projectLevel)
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.startDateSubmitted &&
+      getDateOnly(p.dateSubmitted) < getDateOnly(criteria.startDateSubmitted)
+    )
+      return false;
+    if (
+      criteria.endDateSubmitted &&
+      getDateOnly(p.dateSubmitted) > getDateOnly(criteria.endDateSubmitted)
+    )
+      return false;
+    if (
+      criteria.startDateStatus &&
+      getDateOnly(p.dateStatus) < getDateOnly(criteria.startDateStatus)
+    )
+      return false;
+    if (
+      criteria.endDateStatus &&
+      getDateOnly(p.dateStatus) > getDateOnly(criteria.endDateStatus)
+    )
+      return false;
+
+    if (
+      criteria.startDateInvoice &&
+      getDateOnly(p.dateInvoice) < getDateOnly(criteria.startDateInvoice)
+    )
+      return false;
+    if (
+      criteria.endDateInvoice &&
+      getDateOnly(p.dateInvoice) > getDateOnly(criteria.endDateInvoice)
+    )
+      return false;
+
+    if (
+      criteria.startDateSnapshotted &&
+      getDateOnly(p.dateSnapshotted) <
+        getDateOnly(criteria.startDateSnapshotted)
+    )
+      return false;
+    if (
+      criteria.endDateSnapshotted &&
+      getDateOnly(p.dateSnapshotted) > getDateOnly(criteria.endDateSnapshotted)
+    )
+      return false;
+
+    if (
+      criteria.startDateCoO &&
+      getDateOnly(p.dateCoO) < getDateOnly(criteria.startDateCoO)
+    )
+      return false;
+    if (
+      criteria.endDateCoO &&
+      getDateOnly(p.dateCoO) > getDateOnly(criteria.endDateCoO)
+    )
+      return false;
+
+    if (
+      criteria.startDateSubmitted &&
+      getDateOnly(p.dateSubmitted) <= getDateOnly(criteria.startDateSubmitted)
+    )
+      return false;
+    if (
+      criteria.endDateSubmitted &&
+      getDateOnly(p.dateSubmitted) >= getDateOnly(criteria.endDateSubmitted)
+    )
+      return false;
+    if (criteria.onHold !== null && p.onHold != criteria.onHold) return false;
+
+    if (criteria.droNameList.length > 0) {
+      const droNames = criteria.droNameList.map(n => n.toLowerCase());
+      const projectDroName = (p.droName || "-").toLowerCase();
+
+      if (!droNames.includes(projectDroName)) {
+        return false;
+      }
+    }
+
+    if (
+      criteria.adminNotesList.length > 0 &&
+      !criteria.adminNotesList
+        .map(n => n.toLowerCase())
+        .includes(
+          p.adminNotes ? p.adminNotes.toLowerCase() : "eowurqoieuroiwutposi"
+        )
+    ) {
+      return false;
+    }
+
+    if (criteria.filterText && criteria.filterText !== "") {
+      let ids = ["name", "address", "author", "assignee"];
+
+      return ids.some(id => {
+        let colValue = String(p[id]).toLowerCase();
+        return colValue.includes(criteria.filterText.toLowerCase());
+      });
+    }
+
+    return true;
+  };
+
+  const resetFiltersSort = () => {
+    setFilter(DEFAULT_FILTER_CRITERIA);
+    setSortCriteria(DEFAULT_SORT_CRITERIA);
+  };
+
+  const headerData = [
+    {
+      id: "id",
+      label: "ID",
+      popupType: "number",
+      colWidth: "100px"
+    },
+    {
+      id: "name",
+      label: "Project Name",
+      popupType: "string",
+      colWidth: "206px"
+    },
+    {
+      id: "address",
+      label: "Address",
+      popupType: "string",
+      colWidth: "250px"
+    },
+    {
+      id: "dateSubmitted",
+      label: "Date Submitted",
+      popupType: "datetime",
+      startDatePropertyName: "startDateSubmitted",
+      endDatePropertyName: "endDateSubmitted",
+      colWidth: "160px"
+    },
+    {
+      id: "dateStatus",
+      label: "Status Updated",
+      popupType: "datetime",
+      startDatePropertyName: "startDateStatus",
+      endDatePropertyName: "endDateStatus",
+      colWidth: "160px"
+    },
+    {
+      id: "projectLevel",
+      label: "Level",
+      popupType: "number",
+      colWidth: "96px"
+    },
+    { id: "droName", label: "DRO", popupType: "string", colWidth: "160px" },
+    {
+      id: "assignee",
+      label: "Staff Assigned",
+      popupType: "string",
+      colWidth: "224px"
+    },
+    {
+      id: "dateAssigned",
+      label: "Assigned Date",
+      popupType: "datetime",
+      startDatePropertyName: "startDateAssigned",
+      endDatePropertyName: "endDateAssigned",
+      colWidth: "160px"
+    },
+    {
+      id: "invoiceStatusName",
+      label: "Invoice Status",
+      popupType: "string",
+      colWidth: "160px"
+    },
+    {
+      id: "dateInvoicePaid",
+      label: "Invoice Paid Date",
+      popupType: "datetime",
+      startDatePropertyName: "startDateInvoicePaid",
+      endDatePropertyName: "endDateInvoicePaid",
+      colWidth: "160px"
+    },
+    { id: "onHold", label: "On Hold", popupType: "boolean", colWidth: "113px" },
+    {
+      id: "approvalStatusName",
+      label: "Approval Status",
+      popupType: "string",
+      colWidth: "240px"
+    },
+    {
+      id: "dateCoO",
+      label: "CofO Date",
+      popupType: "datetime",
+      startDatePropertyName: "startDateCoO",
+      endDatePropertyName: "endDateCoO",
+      colWidth: "160px"
+    }
+  ];
+
+  const indexOfLastPost = currentPage * projectsPerPage;
+  const indexOfFirstPost = indexOfLastPost - projectsPerPage;
+  let sortedProjects = projects.filter(p => filter(p, filterCriteria));
+  for (let i = 0; i < sortCriteria.length; i++) {
+    sortedProjects.sort(
+      getComparator(sortCriteria[i].direction, sortCriteria[i].field)
+    );
+  }
+  const currentProjects = sortedProjects.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
+
+  document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
+
   return (
-    <ContentContainer contentContainerRef={contentContainerRef}>
-      <h1 className={classes.pageTitle}>Submissions</h1>
-      <div>{JSON.stringify(projects, null, 2)}</div>
-    </ContentContainer>
+    <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
+      <div className={classes.outerDiv}>
+        <div className={classes.contentDiv}>
+          <h1 className={classes.pageTitle}>Submissions</h1>
+          <h2 className={classes.subheading}>
+            These snapshots have been submitted to LADOT for review.
+          </h2>
+          <h2 className={classes.subheading}>
+            For more advanced filtering, go to{" "}
+            <a href="/projects">My Projects</a>.
+          </h2>
+          <h2 className={classes.subheading}>
+            To submit a snapshot, go to <a href="/projects">My Projects</a> or
+            page 5 of your project.
+          </h2>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row"
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start"
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100vw"
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    flexBasis: "33%"
+                  }}
+                ></div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    flexBasis: "33%"
+                  }}
+                >
+                  <div className={classes.searchBarWrapper}>
+                    <input
+                      className={classes.searchBar}
+                      type="search"
+                      id="filterText"
+                      name="filterText"
+                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
+                      value={filterCriteria.filterText}
+                      onChange={e => handleFilterTextChange(e.target.value)}
+                    />
+                    <MdOutlineSearch className={classes.searchIcon} />
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    paddingRight: "1rem",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    flexBasis: "33%"
+                  }}
+                >
+                  <Button
+                    onClick={resetFiltersSort}
+                    isDisplayed={true}
+                    variant="tertiary"
+                  >
+                    RESET FILTERS/SORT
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <div className={classes.tableContainer}>
+                  <table
+                    className={
+                      userContext.account?.isAdmin
+                        ? classes.tableAdmin
+                        : classes.table
+                    }
+                  >
+                    <colgroup>
+                      {headerData.map(h => (
+                        <col key={h.id} width={h.colWidth} />
+                      ))}
+                    </colgroup>
+                    <thead className={classes.thead}>
+                      <tr className={classes.tr}>
+                        {headerData.map(header => {
+                          return (
+                            <td key={header.id}>
+                              <th className={classes.stickyTh}>
+                                <ProjectTableColumnHeader
+                                  projects={projects}
+                                  filter={filter}
+                                  header={header}
+                                  criteria={filterCriteria}
+                                  setCriteria={setFilter}
+                                  setSort={setSort}
+                                  orderBy={
+                                    sortCriteria[sortCriteria.length - 1].field
+                                  }
+                                  order={
+                                    sortCriteria[sortCriteria.length - 1]
+                                      .direction
+                                  }
+                                  setCheckedProjectIds={null}
+                                  setSelectAllChecked={null}
+                                  droOptions={null}
+                                />
+                              </th>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody className={classes.tbody}>
+                      {currentProjects.length ? (
+                        currentProjects.map(project => (
+                          <tr
+                            key={project.id}
+                            style={{
+                              background: project.dateTrashed ? "#ffdcdc" : ""
+                            }}
+                          >
+                            <td className={classes.tdRightAlign}>
+                              {project.id.toString().padStart(10, "0")}
+                            </td>
+                            <td className={classes.td}>
+                              <Link to={`/calculation/1/${project.id}`}>
+                                {project.name}
+                              </Link>
+                            </td>
+                            <td className={classes.td}>{project.address}</td>
+                            <td className={classes.td}>
+                              {formatDate(project.dateSubmitted)}
+                            </td>
+                            <td className={classes.td}>
+                              {formatDate(project.dateStatus)}
+                            </td>
+                            <td className={classes.tdCenterAlign}>
+                              {project.projectLevel}
+                            </td>
+                            <td className={classes.td}>{project.droName}</td>
+                            <td className={classes.td}>{project.assignee}</td>
+                            <td className={classes.td}>
+                              {formatDate(project.dateAssigned)}
+                            </td>
+                            <td className={classes.td}>
+                              {project.invoiceStatusName}
+                            </td>
+                            <td className={classes.td}>
+                              {formatDate(project.dateInvoice)}
+                            </td>
+                            <td className={classes.tdCenterAlign}>
+                              {project.onHold ? <MdCheck /> : ""}
+                            </td>
+                            <td className={classes.td}>
+                              {project.approvalStatusName}
+                            </td>
+                            <td className={classes.td}>
+                              {formatDate(project.dateCoO)}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={9} className={classes.tdNoSavedProjects}>
+                            No Saved Projects
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className={classes.pageContainer}>
+                <Pagination
+                  projectsPerPage={projectsPerPage}
+                  totalProjects={sortedProjects.length}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                  maxNumOfVisiblePages={5}
+                />
+                <UniversalSelect
+                  value={perPage.toString()}
+                  options={perPageOptions}
+                  onChange={e => handlePerPageChange(e.target.value)}
+                  name="perPage"
+                  className={classes.dropContent}
+                />
+                <span className={classes.itemsPerPage}>Items per page</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <pre>{JSON.stringify(sortCriteria, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(filterCriteria, null, 2)}</pre> */}
+      {/* <div>{JSON.stringify(projects, null, 2)}</div> */}
+    </ContentContainerNoSidebar>
   );
 };
 
