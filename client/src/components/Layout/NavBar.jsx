@@ -182,24 +182,15 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           FAQ
         </NavLink>
       </li>
-      <li className={classes.linkBlock}>
-        <NavLink
-          className={classes.link}
-          // activeClassName={classes.currentLink}
-          to="/feedback"
-          onClick={handleHamburgerMenuClick}
-        >
-          Feedback
-        </NavLink>
-      </li>
-      {account && (
+      {account && !account.isAdmin && (
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
-            to="/submit"
+            // activeClassName={classes.currentLink}
+            to="/feedback"
             onClick={handleHamburgerMenuClick}
           >
-            Submit Snapshot
+            Feedback
           </NavLink>
         </li>
       )}
