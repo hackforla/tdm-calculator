@@ -1248,6 +1248,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   onChange={e => handlePerPageChange(e.target.value)}
                   name="perPage"
                   className={classes.dropContent}
+                  maxMenuHeight={"60px"}
                 />
                 <span className={classes.itemsPerPage}>Items per page</span>
               </div>
