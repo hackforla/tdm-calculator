@@ -35,3 +35,10 @@ If there is a website which has documentation that helps with this issue provide
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
+
+
+#### Staging and Release decks
+- [Staging Deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg/)
+   - [Staging slide, ISSUE NUMBER]
+- Release Deck
+   - [2025-MM-DD Release deck, slide ISSUE NUMBER]
