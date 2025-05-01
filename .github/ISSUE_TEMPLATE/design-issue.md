@@ -29,6 +29,7 @@ assignees: ''
   - [ ] Once you have received feedback from the team lead, implement feedback as necessary.
 - [ ] Use [presentation structure](https://github.com/hackforla/tdm-calculator/wiki/Design:-Presentations) to review proposed designs with the design director. Implement feedback as necessary.
 - [ ] Use [presentation structure](https://github.com/hackforla/tdm-calculator/wiki/Design:-Presentations) to review proposed designs with the product, development, and research teams. Implement feedback as necessary.
+- [ ] Create a new slide (or edit one if it already exists) in staging and add images and appropriate text
 - [ ] Receive design approval from stakeholders. Implement feedback as necessary.
 - [ ] Add any annotations to the Figma design that would help the developer with implementation.
 - [ ] Create a Ready for Dev section around the final designs on the Figma page.

@@ -37,7 +37,7 @@ The below text provides a general outline for the question and answer. Use it as
       ```
 - [ ] Implement feedback as necessary.
 - [ ] Once approved, sign in as an admin and Update the FAQ
-- [ ] Create a new slide in staging and add a screenshot of the Q and A being added
+- [ ] Create a new slide (or edit one if it already exists) in staging and add a screenshot of the Q and A being added
    - [ ] add a comment on the slide with the text
       ```
       add to stakeholder release deck
