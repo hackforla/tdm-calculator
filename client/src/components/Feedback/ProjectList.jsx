@@ -4,7 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import { formatDatetime } from "../../helpers/util";
 
 const useStyles = createUseStyles(theme => ({
-  heading3: theme.heading3,
+  heading3: { ...theme.heading3, textAlign: "center" },
   table: {
     overflow: "auto",
     marginLeft: "auto",
@@ -71,7 +71,7 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
 
   return (
     <div>
-      <h3 className={theme.heading3}>Select Relevant Projects:</h3>
+      <h3 className={classes.heading3}>Select Relevant Projects</h3>
       <table className={classes.table}>
         <thead>
           <tr>
