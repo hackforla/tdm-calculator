@@ -4,6 +4,9 @@ const sendgridKey = process.env.SENDGRID_API_KEY;
 const senderEmail = process.env.EMAIL_SENDER;
 const laCityEmail = process.env.EMAIL_PUBLIC_COMMENT_LA_CITY;
 const webTeamEmail = process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM;
+const droCentralEmail = process.env.DRO_CENTRAL_EMAIL;
+const droValleyEmail = process.env.DRO_VALLEY_EMAIL;
+const droWestsideEmail = process.env.DRO_WESTSIDE_EMAIL;
 const projectService = require("../services/project.service");
 
 sgMail.setApiKey(sendgridKey);
@@ -71,6 +74,33 @@ const sendResetPasswordConfirmation = async (email, token) => {
     html: `<p>Hello, please click the following link to reset your password for TDM Calculator.</p>
               <br>
               <p><a href="${clientUrl}/resetPassword/${token}">Reset Password</a></p>
+              <br>
+              <p>Thanks,</p>
+              <p>TDM Calculator Team</p>`
+  };
+  return sgMail.send(msg, false);
+};
+
+const sendSnapshotSubmissionToDRO = async (projectId, droId) => {
+  const droEmail = {
+    1: droCentralEmail,
+    2: droValleyEmail,
+    3: droWestsideEmail
+  };
+  const droName = {
+    1: "Metro Development Review Office",
+    2: "Valley Development Review Office",
+    3: "West Los Angeles Development Review Office"
+  };
+
+  const msg = {
+    to: `${droEmail[droId]}`,
+    from: senderEmail,
+    subject: `New Snapshot Submission for DRO: ${droName[droId]}`,
+    text: `New Snapshot Submission for DRO: ${droName[droId]}`,
+    html: `<p>Email body TBD. Sample: Hello, there's a new snapshot submission. Please click the following link to view the snapshot</p>
+              <br>
+              <p><a href="${clientUrl}/projects/${projectId}">Visit Application Snapshot</a></p>
               <br>
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
@@ -147,5 +177,6 @@ module.exports = {
   sendVerifyUpdateConfirmation,
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation,
+  sendSnapshotSubmissionToDRO,
   sendFeedback
 };
