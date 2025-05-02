@@ -1,6 +1,8 @@
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
 
+const pAdmin = process.env.REACT_APP_ADMIN_ID;
+
 const getAll = async loginId => {
   try {
     await poolConnect;
@@ -244,7 +246,7 @@ const updateAdminNotes = async (id, adminNotes, loginId) => {
       mssql.DateTime2,
       new Date().toISOString()
     );
-    request.input("LoginId", mssql.Int, loginId);
+    request.input("LoginId", mssql.Int, pAdmin);
 
     const response = await request.execute("Project_UpdateAdminNotes");
     return response.returnValue;

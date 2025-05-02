@@ -207,6 +207,10 @@ const ProjectTableRow = ({
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
   const [droName, setDroName] = useState("N/A");
+  const fName = window.fName;
+  const lName = window.lName;
+  const pForename = project.firstName;
+  const pSurname = project.lastName;
 
   // Download and process rules for PDF rendering
   useEffect(() => {
@@ -221,7 +225,7 @@ const ProjectTableRow = ({
   }, [project]);
 
   useEffect(() => {
-    if (!isAdmin && project.droId) {
+    if (( (lName !== "Admin") || (lName !== "Security") || ((fName !== pForename) && (lName !== pSurname)) || (project.dateSubmitted !== null) || (project.dateSnapshotted !== null) ) && project.droId) {
       const fetchDroById = async () => {
         try {
           const response = await droService.getById(project.droId);
@@ -233,7 +237,7 @@ const ProjectTableRow = ({
       };
       fetchDroById();
     }
-  }, [isAdmin, project.droId]);
+  }, [project.droId]);
 
   useEffect(() => {
     setSelectedDro(project.droId || "");
@@ -322,7 +326,8 @@ const ProjectTableRow = ({
       <td className={classes.td}>{dateSubmittedDisplay()}</td>
       {/* DRO Column */}
       <td className={classes.td}>
-        {isAdmin && droOptions.length > 0 ? (
+        { ( (lName === "Admin") || (lName === "Security") || ((fName === pForename) && (lName === pSurname) && (project.dateSubmitted === null) && (project.dateSnapshotted === null) ) && droOptions.length > 0) 
+        ? (
           <div style={{ width: "100px" }}>
             <UniversalSelect
               value={selectedDro}
@@ -346,7 +351,7 @@ const ProjectTableRow = ({
           <span>{droName}</span>
         )}
       </td>
-      {isAdmin && ( // onSave={handleSave}  isEditing={isEditing}
+      { lName === "Admin" && ( // onSave={handleSave}  isEditing={isEditing}
         <div>
           <button
             onClick={handleAdminNotesModalOpen}
@@ -386,7 +391,7 @@ const ProjectTableRow = ({
           handleDoNotDiscard={handleDoNotDiscard}
         />
       )}
-      {isAdmin && (
+      {lName === "Admin" && (
         <td className={classes.td}>
           <span>
             {project.dateModifiedAdmin

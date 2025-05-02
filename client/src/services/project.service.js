@@ -68,8 +68,8 @@ export function trash(projectIds, trash) {
 }
 
 // New function to update the DRO ID
-export function updateDroId(projectId, droId, loginId) {
-  return axios.put(`${baseUrl}/updateDroId/${projectId}`, { droId, loginId });
+export function updateDroId(projectId, droId) {
+  return axios.put(`${baseUrl}/updateDroId/${projectId}`, { droId });
 }
 
 export function updateAdminNotes(id, adminNotes) {

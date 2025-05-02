@@ -173,7 +173,7 @@ const FilterPopup = ({
           onChange={e => handleChange(e, "address")}
           className={classes.textInput}
         />
-        {account?.isAdmin && (
+        {(
           <>
             <h4 className={classes.minorHeading}>Author</h4>
             <input
@@ -225,7 +225,7 @@ const FilterPopup = ({
           className={classes.dropdown}
         />
 
-        {account?.isAdmin && (
+        {(
           <>
             <h4 className={classes.minorHeading}>Admin Notes</h4>
             <input

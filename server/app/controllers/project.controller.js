@@ -5,6 +5,8 @@ const {
 } = require("../../middleware/validate");
 const projectSchema = require("../schemas/project");
 
+const pAdmin = process.env.REACT_APP_ADMIN_ID;
+
 const getAll = async (req, res) => {
   try {
     const projects = await projectService.getAll(req.user.id);
@@ -79,16 +81,10 @@ const put = async (req, res) => {
 
 const updateDroId = async (req, res) => {
   try {
-    if (!req.user.isAdmin) {
-      return res
-        .status(403)
-        .json({ error: "You do not have permission to update the droId." });
-    }
-
     const { id } = req.params;
     const { droId } = req.body;
 
-    await projectService.updateDroId(id, droId, req.user.id);
+    await projectService.updateDroId(id, droId, pAdmin);
     res.sendStatus(204);
   } catch (err) {
     res.status(500).send(err);
@@ -97,17 +93,10 @@ const updateDroId = async (req, res) => {
 
 const updateAdminNotes = async (req, res) => {
   try {
-    console.log(req);
-    if (!req.user.isAdmin) {
-      return res
-        .status(403)
-        .json({ error: "You do not have permission to update the droId." });
-    }
-
     const { id } = req.params;
     const { adminNotes } = req.body;
 
-    await projectService.updateAdminNotes(id, adminNotes, req.user.id);
+    await projectService.updateAdminNotes(id, adminNotes);
     res.sendStatus(204);
   } catch (err) {
     res.status(500).send(err);

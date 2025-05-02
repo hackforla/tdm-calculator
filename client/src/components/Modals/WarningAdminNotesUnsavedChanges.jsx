@@ -57,11 +57,6 @@ const WarningModal = ({
     console.log("WM Mounted prop value:", mounted);
   }, [mounted]);
 
-  if (!mounted) {
-    console.log("WM is not mounted, returning null");
-    return null; // Ensure the component is properly unmounted when `mounted` is false
-  }
-
   // Check if initialFocusNodeId refers to a valid node
   const validInitialFocusId = document.getElementById(initialFocusId)
     ? initialFocusId

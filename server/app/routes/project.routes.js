@@ -44,7 +44,7 @@ router.put(
 );
 router.put(
   "/updateAdminNotes/:id",
-  jwtSession.validateUser,
+  // jwtSession.validateUser,
   projectController.updateAdminNotes
 );
 router.delete("/:id", jwtSession.validateUser, projectController.del);

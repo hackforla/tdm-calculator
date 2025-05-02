@@ -1211,14 +1211,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             handleHide={handleHide}
                             handleCheckboxChange={handleCheckboxChange}
                             checkedProjectIds={checkedProjectIds}
-                            isAdmin={isAdmin}
                             droOptions={droOptions}
                             onDroChange={handleDroChange} // Pass the DRO change handler
                             onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
                             droName={
-                              isAdmin
-                                ? null
-                                : droNameMap[project.droId] || "N/A"
+                              droNameMap[project.droId] || "N/A"
                             } // Pass the droName
                             isActiveProjectsTab={isActiveProjectsTab}
                           />

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import UserContext from "../../contexts/UserContext";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
@@ -55,11 +55,14 @@ const Login = () => {
   });
 
   const handleSubmit = async ({ email, password }, { setSubmitting }) => {
+    let fName, lName;
     try {
       const loginResponse = await accountService.login(email, password);
 
       if (loginResponse.isSuccess) {
         userContext.updateAccount(loginResponse.user);
+        fName = loginResponse.user.firstName;
+        lName = loginResponse.user.lastName; 
         if (projectId) {
           navigate(`/calculation/5/${projectId}`);
         } else if (redirectUrl) {
@@ -105,7 +108,13 @@ const Login = () => {
     } catch (err) {
       setErrorMsg(err.message);
     }
+    window.fName = fName;
+    window.lName = lName;
   };
+
+  useEffect(() => {
+    handleSubmit();
+  }, []);
 
   return (
     <ContentContainer>
