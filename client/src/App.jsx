@@ -37,7 +37,7 @@ import ErrorPage from "./components/ErrorPage";
 import Offline from "./components/Offline";
 import Logout from "./components/Authorization/Logout";
 import SubmissionsPage from "./components/Submissions/SubmissionsPage";
-import ManageSubmissionsPage from "./components/ManageSubmissions/ManageSubmissionsPage";
+import ManageSubmissionsPage from "./components/Submissions/ManageSubmissionsPage";
 import { getConfigs } from "./helpers/Config";
 
 const calculationPath = "/calculation/:page/:projectId?/*";

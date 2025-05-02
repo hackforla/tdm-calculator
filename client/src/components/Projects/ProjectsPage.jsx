@@ -1108,7 +1108,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         type="search"
                         id="filterText"
                         name="filterText"
-                        placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
+                        placeholder="Search by Name; Address; Description; Alt#"
                         value={filterCriteria.filterText}
                         onChange={e => handleFilterTextChange(e.target.value)}
                       />
@@ -1214,9 +1214,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             handleCheckboxChange={handleCheckboxChange}
                             checkedProjectIds={checkedProjectIds}
                             droOptions={droOptions}
-                            onDroChange={handleDroChange} // Pass the DRO change handler
-                            onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
-                            droName={droNameMap[project.droId] || "N/A"} // Pass the droName
+                            onDroChange={handleDroChange}
+                            onAdminNoteUpdate={handleAdminNoteUpdate}
+                            droName={
+                              isAdmin
+                                ? null
+                                : droNameMap[project.droId] || "N/A"
+                            } // Pass the droName
                             isActiveProjectsTab={isActiveProjectsTab}
                           />
                         ))

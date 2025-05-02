@@ -174,7 +174,7 @@ const ProjectTableColumnHeader = ({
           positions={["bottom", "left", "right", "top"]} // preferred positions by priority
           align="start"
           padding={10}
-          onClickOutside={() => handlePopoverToggle(false)}
+          // onClickOutside={() => handlePopoverToggle(false)}
           content={
             <div className={classes.popoverContent}>
               {!header.popupType ? null : header.popupType === "datetime" ? (

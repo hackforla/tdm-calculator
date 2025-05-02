@@ -137,16 +137,16 @@ const NumberPopup = ({
     if (newOrder) {
       setSort(header.id, newOrder);
     }
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
     close();
   };
 
   const setDefault = () => {
     setNewOrder(null);
     setSelectedListItems([]);
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   return (
