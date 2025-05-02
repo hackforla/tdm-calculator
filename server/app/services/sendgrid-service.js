@@ -98,7 +98,9 @@ const sendSnapshotSubmissionToDRO = async (projectId, droId) => {
     from: senderEmail,
     subject: `New Snapshot Submission for DRO: ${droName[droId]}`,
     text: `New Snapshot Submission for DRO: ${droName[droId]}`,
-    html: `<p>Email body TBD. Sample: Hello, there's a new snapshot submission. Please click the following link to view the snapshot</p>
+    html: `<p> Sample Email For Snapshot Submittal Notification</p>
+              <br>
+              <p>Hello, there's a new snapshot submission. Please click the following link to view the snapshot
               <br>
               <p><a href="${clientUrl}/projects/${projectId}">Visit Application Snapshot</a></p>
               <br>
