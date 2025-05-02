@@ -217,11 +217,6 @@ const updateDroId = async (id, droId, loginId) => {
     } else {
       request.input("droId", mssql.Int, droId); // Pass the actual droId value if it's not null
     }
-    request.input(
-      "DateModifiedAdmin",
-      mssql.DateTime2,
-      new Date().toISOString()
-    );
     request.input("LoginId", mssql.Int, loginId);
 
     const response = await request.execute("Project_UpdateDroId");
@@ -239,11 +234,6 @@ const updateAdminNotes = async (id, adminNotes, loginId) => {
 
     request.input("id", mssql.Int, id);
     request.input("adminNotes", mssql.NVarChar(mssql.MAX), adminNotes);
-    request.input(
-      "DateModifiedAdmin",
-      mssql.DateTime2,
-      new Date().toISOString()
-    );
     request.input("LoginId", mssql.Int, loginId);
 
     const response = await request.execute("Project_UpdateAdminNotes");
