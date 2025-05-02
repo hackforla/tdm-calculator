@@ -30,8 +30,8 @@ const VisibilityPopup = ({
       ...criteria,
       visibility: "visible"
     });
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   const applyChanges = () => {

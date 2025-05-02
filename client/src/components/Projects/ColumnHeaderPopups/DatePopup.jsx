@@ -31,8 +31,8 @@ const DatePopup = ({
     setNewStartDate(null);
     setNewEndDate(null);
     setNewOrder(null);
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
@@ -44,8 +44,8 @@ const DatePopup = ({
     if (newOrder) {
       setSort(header.id, newOrder);
     }
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
     close();
   };
 
