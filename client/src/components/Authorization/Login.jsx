@@ -54,6 +54,8 @@ const Login = () => {
       .required("Password is required")
   });
 
+  /* eslint-disable react-hooks/exhaustive-deps */
+
   const handleSubmit = async ({ email, password }, { setSubmitting }) => {
     let fName, lName;
     try {
@@ -62,7 +64,7 @@ const Login = () => {
       if (loginResponse.isSuccess) {
         userContext.updateAccount(loginResponse.user);
         fName = loginResponse.user.firstName;
-        lName = loginResponse.user.lastName; 
+        lName = loginResponse.user.lastName;
         if (projectId) {
           navigate(`/calculation/5/${projectId}`);
         } else if (redirectUrl) {
@@ -237,3 +239,4 @@ const Login = () => {
 };
 
 export default Login;
+/* eslint-enable react-hooks/exhaustive-deps */

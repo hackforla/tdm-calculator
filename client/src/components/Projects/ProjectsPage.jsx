@@ -291,6 +291,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [droOptions, setDroOptions] = useState([]);
   const [droNameMap, setDroNameMap] = useState({});
   const projectsPerPage = perPage;
+
+  /* eslint-disable no-unused-vars */
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
   const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
@@ -1214,9 +1216,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             droOptions={droOptions}
                             onDroChange={handleDroChange} // Pass the DRO change handler
                             onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
-                            droName={
-                              droNameMap[project.droId] || "N/A"
-                            } // Pass the droName
+                            droName={droNameMap[project.droId] || "N/A"} // Pass the droName
                             isActiveProjectsTab={isActiveProjectsTab}
                           />
                         ))
@@ -1311,3 +1311,4 @@ ProjectsPage.propTypes = {
 };
 
 export default ProjectsPage;
+/* eslint-enable no-unused-vars */

@@ -45,6 +45,8 @@ const useStyles = createUseStyles({
   }
 });
 
+/* eslint-disable no-unused-vars */
+
 const FilterPopup = ({
   criteria,
   setCriteria,
@@ -173,7 +175,7 @@ const FilterPopup = ({
           onChange={e => handleChange(e, "address")}
           className={classes.textInput}
         />
-        {(
+        {
           <>
             <h4 className={classes.minorHeading}>Author</h4>
             <input
@@ -184,7 +186,7 @@ const FilterPopup = ({
               className={classes.textInput}
             />
           </>
-        )}
+        }
 
         <h4 className={classes.minorHeading}>Alternative Number</h4>
         <input
@@ -225,7 +227,7 @@ const FilterPopup = ({
           className={classes.dropdown}
         />
 
-        {(
+        {
           <>
             <h4 className={classes.minorHeading}>Admin Notes</h4>
             <input
@@ -236,7 +238,7 @@ const FilterPopup = ({
               className={classes.textInput}
             />
           </>
-        )}
+        }
 
         <div className={classes.row}>
           <Button onClick={resetCriteria}>Reset Filters</Button>
@@ -262,3 +264,4 @@ FilterPopup.propTypes = {
 };
 
 export default FilterPopup;
+/* eslint-enable no-unused-vars */

@@ -224,8 +224,16 @@ const ProjectTableRow = ({
       .catch(console.error);
   }, [project]);
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    if (( (lName !== "Admin") || (lName !== "Security") || ((fName !== pForename) && (lName !== pSurname)) || (project.dateSubmitted !== null) || (project.dateSnapshotted !== null) ) && project.droId) {
+    if (
+      (lName !== "Admin" ||
+        lName !== "Security" ||
+        (fName !== pForename && lName !== pSurname) ||
+        project.dateSubmitted !== null ||
+        project.dateSnapshotted !== null) &&
+      project.droId
+    ) {
       const fetchDroById = async () => {
         try {
           const response = await droService.getById(project.droId);
@@ -326,8 +334,13 @@ const ProjectTableRow = ({
       <td className={classes.td}>{dateSubmittedDisplay()}</td>
       {/* DRO Column */}
       <td className={classes.td}>
-        { ( (lName === "Admin") || (lName === "Security") || ((fName === pForename) && (lName === pSurname) && (project.dateSubmitted === null) && (project.dateSnapshotted === null) ) && droOptions.length > 0) 
-        ? (
+        {lName === "Admin" ||
+        lName === "Security" ||
+        (fName === pForename &&
+          lName === pSurname &&
+          project.dateSubmitted === null &&
+          project.dateSnapshotted === null &&
+          droOptions.length > 0) ? (
           <div style={{ width: "100px" }}>
             <UniversalSelect
               value={selectedDro}
@@ -351,7 +364,7 @@ const ProjectTableRow = ({
           <span>{droName}</span>
         )}
       </td>
-      { lName === "Admin" && ( // onSave={handleSave}  isEditing={isEditing}
+      {lName === "Admin" && ( // onSave={handleSave}  isEditing={isEditing}
         <div>
           <button
             onClick={handleAdminNotesModalOpen}
@@ -472,3 +485,4 @@ ProjectTableRow.propTypes = {
 };
 
 export default ProjectTableRow;
+/* eslint-enable react-hooks/exhaustive-deps */

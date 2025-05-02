@@ -234,6 +234,7 @@ const updateDroId = async (id, droId, loginId) => {
   }
 };
 
+/* eslint-disable no-unused-vars */
 const updateAdminNotes = async (id, adminNotes, loginId) => {
   try {
     await poolConnect;
@@ -348,3 +349,4 @@ module.exports = {
   getSubmissionsAdmin,
   putSubmission
 };
+/* eslint-enable no-unused-vars */
