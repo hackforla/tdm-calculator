@@ -1106,7 +1106,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         type="search"
                         id="filterText"
                         name="filterText"
-                        placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
+                        placeholder="Search by Name; Address; Description; Alt#"
                         value={filterCriteria.filterText}
                         onChange={e => handleFilterTextChange(e.target.value)}
                       />
@@ -1213,8 +1213,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             checkedProjectIds={checkedProjectIds}
                             isAdmin={isAdmin}
                             droOptions={droOptions}
-                            onDroChange={handleDroChange} // Pass the DRO change handler
-                            onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
+                            onDroChange={handleDroChange}
+                            onAdminNoteUpdate={handleAdminNoteUpdate}
                             droName={
                               isAdmin
                                 ? null
