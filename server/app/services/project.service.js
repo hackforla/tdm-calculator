@@ -176,7 +176,10 @@ const submit = async (id, loginId) => {
     if (response.returnValue === 0) {
       //submission succeeded
       const project = await getById(loginId, id);
-      await sendSnapshotSubmissionToDRO(id, project.droId);
+      if (project && project.droId) {
+        //project is assigned to a DRO
+        await sendSnapshotSubmissionToDRO(id, project.droId);
+      }
     }
     return response.returnValue;
   } catch (err) {
