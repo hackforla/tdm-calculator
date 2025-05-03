@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+
 import UserContext from "../../contexts/UserContext";
 import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
-import SubmissionTableRow from "./SubmissionTableRow";
+import { ascCompareBy, filter } from "./SubmissionUtil";
 
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
+import SubmissionTableRow from "./SubmissionTableRow";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
 import {
@@ -106,13 +108,6 @@ const useStyles = createUseStyles({
     width: "100%",
     tableLayout: "fixed"
   },
-  tr: {
-    margin: "0.5em"
-  },
-  td: {
-    padding: "0.2em",
-    textAlign: "left"
-  },
   thead: {
     position: "sticky",
     top: 0,
@@ -127,6 +122,23 @@ const useStyles = createUseStyles({
   theadLabel: {
     cursor: "pointer"
   },
+  tr: {
+    margin: "0.5em"
+  },
+  td: {
+    padding: "0.2em",
+    textAlign: "left",
+    width: "5%"
+  },
+  tdRightAlign: {
+    padding: "0.2em",
+    textAlign: "right"
+  },
+  tdCenterAlign: {
+    padding: "0.2em",
+    textAlign: "center"
+  },
+
   labelSpan: {
     display: "inline-flex" // fix arrow
   },
@@ -189,7 +201,6 @@ const ManageSubmissions = ({ contentContainerRef }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const projectsPerPage = perPage;
-  const isAdmin = userContext.account?.isAdmin || false;
   const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
     MANAGE_SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
     DEFAULT_FILTER_CRITERIA
@@ -281,53 +292,6 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     }
   };
 
-  const ascCompareBy = (a, b, orderBy) => {
-    let projectA, projectB;
-
-    if (
-      orderBy === "projectLevel" ||
-      orderBy === "id" ||
-      orderBy === "onHold"
-    ) {
-      projectA = a[orderBy];
-      projectB = b[orderBy];
-    } else if (
-      orderBy === "dateSubmitted" ||
-      orderBy === "dateCreated" ||
-      orderBy === "dateStatus" ||
-      orderBy === "dateAssigned" ||
-      orderBy === "dateInvoicePaid" ||
-      orderBy === "dateCoO" ||
-      orderBy === "dateSnapshotted" ||
-      orderBy === "dateModifiedAdmin"
-    ) {
-      projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
-      projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
-    } else if (orderBy === "adminNotes") {
-      projectA = a.adminNotes ? a.adminNotes.toLowerCase() : null;
-      projectB = b.adminNotes ? b.adminNotes.toLowerCase() : null;
-    } else {
-      projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
-      projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";
-    }
-
-    if (projectA === null && projectB === null) {
-      return 0;
-    } else if (projectA === null) {
-      return 1; // null values are greater
-    } else if (projectB === null) {
-      return -1;
-    } else {
-      if (projectA < projectB) {
-        return -1;
-      } else if (projectA > projectB) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
-  };
-
   const getComparator = (order, orderBy) => {
     return order === "asc"
       ? (a, b) => ascCompareBy(a, b, orderBy)
@@ -368,182 +332,18 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     setCurrentPage(1);
   };
 
-  const getDateOnly = date => {
-    const dateOnly = new Date(date).toDateString();
-    return new Date(dateOnly);
-  };
-
-  const filter = (p, criteria) => {
-    if (
-      criteria.nameList.length > 0 &&
-      !criteria.nameList
-        .map(n => n.toLowerCase())
-        .includes(p.name.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.addressList.length > 0 &&
-      !criteria.addressList
-        .map(n => n.toLowerCase())
-        .includes(p.address.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.authorList.length > 0 &&
-      !criteria.authorList
-        .map(n => n.toLowerCase())
-        .includes(p.author.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.assigneeList.length > 0 &&
-      !criteria.assigneeList
-        .map(n => n.toLowerCase())
-        .includes(p.assignee.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.invoiceStatusNameList?.length > 0 &&
-      !criteria.invoiceStatusNameList
-        .map(n => n.toLowerCase())
-        .includes(p.invoiceStatusName.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.approvalStatusNameList?.length > 0 &&
-      !criteria.approvalStatusNameList
-        .map(n => n.toLowerCase())
-        .includes(p.approvalStatusName.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (criteria.idList?.length > 0 && !criteria.idList.includes(p.id)) {
-      return false;
-    }
-
-    if (
-      criteria.projectLevelList?.length > 0 &&
-      !criteria.projectLevelList.includes(p.projectLevel)
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.startDateSubmitted &&
-      getDateOnly(p.dateSubmitted) < getDateOnly(criteria.startDateSubmitted)
-    )
-      return false;
-    if (
-      criteria.endDateSubmitted &&
-      getDateOnly(p.dateSubmitted) > getDateOnly(criteria.endDateSubmitted)
-    )
-      return false;
-    if (
-      criteria.startDateStatus &&
-      getDateOnly(p.dateStatus) < getDateOnly(criteria.startDateStatus)
-    )
-      return false;
-    if (
-      criteria.endDateStatus &&
-      getDateOnly(p.dateStatus) > getDateOnly(criteria.endDateStatus)
-    )
-      return false;
-
-    if (
-      criteria.startDateInvoice &&
-      getDateOnly(p.dateInvoice) < getDateOnly(criteria.startDateInvoice)
-    )
-      return false;
-    if (
-      criteria.endDateInvoice &&
-      getDateOnly(p.dateInvoice) > getDateOnly(criteria.endDateInvoice)
-    )
-      return false;
-
-    if (
-      criteria.startDateSnapshotted &&
-      getDateOnly(p.dateSnapshotted) <
-        getDateOnly(criteria.startDateSnapshotted)
-    )
-      return false;
-    if (
-      criteria.endDateSnapshotted &&
-      getDateOnly(p.dateSnapshotted) > getDateOnly(criteria.endDateSnapshotted)
-    )
-      return false;
-
-    if (
-      criteria.startDateCoO &&
-      getDateOnly(p.dateCoO) < getDateOnly(criteria.startDateCoO)
-    )
-      return false;
-    if (
-      criteria.endDateCoO &&
-      getDateOnly(p.dateCoO) > getDateOnly(criteria.endDateCoO)
-    )
-      return false;
-
-    if (
-      criteria.startDateSubmitted &&
-      getDateOnly(p.dateSubmitted) <= getDateOnly(criteria.startDateSubmitted)
-    )
-      return false;
-    if (
-      criteria.endDateSubmitted &&
-      getDateOnly(p.dateSubmitted) >= getDateOnly(criteria.endDateSubmitted)
-    )
-      return false;
-    if (criteria.onHold !== null && p.onHold != criteria.onHold) return false;
-
-    if (criteria.droNameList.length > 0) {
-      const droNames = criteria.droNameList.map(n => n.toLowerCase());
-      const projectDroName = (p.droName || "-").toLowerCase();
-
-      if (!droNames.includes(projectDroName)) {
-        return false;
-      }
-    }
-
-    if (
-      criteria.adminNotesList.length > 0 &&
-      !criteria.adminNotesList
-        .map(n => n.toLowerCase())
-        .includes(
-          p.adminNotes ? p.adminNotes.toLowerCase() : "eowurqoieuroiwutposi"
-        )
-    ) {
-      return false;
-    }
-
-    if (criteria.filterText && criteria.filterText !== "") {
-      let ids = ["name", "address", "author", "assignee"];
-
-      return ids.some(id => {
-        let colValue = String(p[id]).toLowerCase();
-        return colValue.includes(criteria.filterText.toLowerCase());
-      });
-    }
-
-    return true;
-  };
-
   const resetFiltersSort = () => {
     setFilter(DEFAULT_FILTER_CRITERIA);
     setSortCriteria(DEFAULT_SORT_CRITERIA);
   };
 
   const headerData = [
+    {
+      id: "id",
+      label: "ID",
+      popupType: "number",
+      colWidth: "6rem"
+    },
     {
       id: "name",
       label: "Project Name",
@@ -601,7 +401,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "adminNotes",
       label: "Admin Notes",
-      popupType: "string",
+      popupType: "text",
       accessor: "adminNotes",
       colWidth: "10rem"
     },
@@ -612,49 +412,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       startDatePropertyName: "startDateCoO",
       endDatePropertyName: "endDateCoO",
       colWidth: "10rem"
-    },
-    {
-      id: "id",
-      label: "ID",
-      popupType: "number",
-      colWidth: "8rem"
     }
-    // {
-    //   id: "address",
-    //   label: "Address",
-    //   popupType: "string",
-    //   colWidth: "22rem"
-    // },
-    // {
-    //   id: "dateSubmitted",
-    //   label: "Submitted",
-    //   popupType: "datetime",
-    //   startDatePropertyName: "startDateSubmitted",
-    //   endDatePropertyName: "endDateSubmitted",
-    //   colWidth: "10rem"
-    // },
-    // {
-    //   id: "dateStatus",
-    //   label: "Status Dt",
-    //   popupType: "datetime",
-    //   startDatePropertyName: "startDateStatus",
-    //   endDatePropertyName: "endDateStatus",
-    //   colWidth: "10rem"
-    // },
-    // {
-    //   id: "dateSnapshotted",
-    //   label: "Snapshot",
-    //   popupType: "datetime",
-    //   startDatePropertyName: "startDateSnapshotted",
-    //   endDatePropertyName: "endDateSnapshotted",
-    //   colWidth: "10rem"
-    // },
-    // {
-    //   id: "dateModifiedAdmin",
-    //   label: "Admin Saved",
-    //   popupType: "datetime",
-    //   colWidth: "10rem"
-    // },
   ];
 
   const indexOfLastPost = currentPage * projectsPerPage;
@@ -671,6 +429,15 @@ const ManageSubmissions = ({ contentContainerRef }) => {
   );
 
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
+
+  const handleAdminNoteUpdate = async (projectId, newAdminNote) => {
+    try {
+      await projectService.updateAdminNotes(projectId, newAdminNote);
+      // await updateProjects();
+    } catch (error) {
+      console.error("Error updating admin notes:", error);
+    }
+  };
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
@@ -722,7 +489,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                       type="search"
                       id="filterText"
                       name="filterText"
-                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
+                      placeholder="Search by Name; Address; Description; Alt#"
                       value={filterCriteria.filterText}
                       onChange={e => handleFilterTextChange(e.target.value)}
                     />
@@ -797,7 +564,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                           <SubmissionTableRow
                             key={project.id}
                             project={project}
-                            isAdmin={isAdmin}
+                            onAdminNoteUpdate={handleAdminNoteUpdate}
                           />
                         ))
                       ) : (

@@ -289,7 +289,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [droOptions, setDroOptions] = useState([]);
-  const [droNameMap, setDroNameMap] = useState({});
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
@@ -326,14 +325,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     };
     fetchDroOptions();
   }, []);
-
-  useEffect(() => {
-    const droMap = {};
-    droOptions.forEach(dro => {
-      droMap[dro.id] = dro.name;
-    });
-    setDroNameMap(droMap);
-  }, [droOptions]);
 
   const perPageOptions = [
     { value: projects.length.toString(), label: "All" },
@@ -709,7 +700,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     try {
       const updatedDroId = newDroId === "" ? null : newDroId;
       await projectService.updateDroId(projectId, updatedDroId);
-      await updateProjects(); // Refresh the project list
+      await updateProjects();
     } catch (error) {
       console.error("Error updating DRO ID:", error);
     }
@@ -718,7 +709,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const handleAdminNoteUpdate = async (projectId, newAdminNote) => {
     try {
       await projectService.updateAdminNotes(projectId, newAdminNote);
-      await updateProjects(); // Refresh the project list
+      await updateProjects();
     } catch (error) {
       console.error("Error updating admin notes:", error);
     }
@@ -1106,7 +1097,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         type="search"
                         id="filterText"
                         name="filterText"
-                        placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
+                        placeholder="Search by Name; Address; Description; Alt#"
                         value={filterCriteria.filterText}
                         onChange={e => handleFilterTextChange(e.target.value)}
                       />
@@ -1213,13 +1204,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             checkedProjectIds={checkedProjectIds}
                             isAdmin={isAdmin}
                             droOptions={droOptions}
-                            onDroChange={handleDroChange} // Pass the DRO change handler
-                            onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
-                            droName={
-                              isAdmin
-                                ? null
-                                : droNameMap[project.droId] || "N/A"
-                            } // Pass the droName
+                            onDroChange={handleDroChange}
+                            onAdminNoteUpdate={handleAdminNoteUpdate}
                             isActiveProjectsTab={isActiveProjectsTab}
                           />
                         ))
