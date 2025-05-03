@@ -14,7 +14,11 @@ const {
 const {
   sendResetPasswordConfirmation
 } = require("../app/services/sendgrid-service");
-const { sendFeedback } = require("../app/services/sendgrid-service");
+const {
+  sendSnapshotSubmissionToDRO
+} = require("../app/services/sendgrid-service");
+
+const { sendFeedback } = require("../app/services/feedback.service");
 
 let server;
 let originalSendgrid;
@@ -24,6 +28,10 @@ beforeAll(async () => {
 
   originalSendgrid = sgMail.send; // save original state
   sgMail.send = jest.fn(async () => ({ statusCode: 202 })); // mocks sgMail.send
+});
+
+beforeEach(() => {
+  sgMail.send.mockClear(); // Clear mock calls before each test
 });
 
 afterAll(async () => {
@@ -126,11 +134,57 @@ describe("email API unit tests", () => {
     );
   });
 
+  // sendSnapshotSubmissionToDRO
+  describe("sendSnapshotSubmissionToDRO", () => {
+    it.each([
+      {
+        droId: 1,
+        droEmail: process.env.DRO_CENTRAL_EMAIL,
+        droName: "Metro Development Review Office"
+      },
+      {
+        droId: 2,
+        droEmail: process.env.DRO_VALLEY_EMAIL,
+        droName: "Valley Development Review Office"
+      },
+      {
+        droId: 3,
+        droEmail: process.env.DRO_WESTSIDE_EMAIL,
+        droName: "West Los Angeles Development Review Office"
+      }
+    ])(
+      "should call sgMail.send with correct parameters for droId $droId",
+      async ({ droId, droEmail, droName }) => {
+        const projectId = 123;
+        const expectedHtml = `<p>Sample Email For Snapshot Submittal Notification</p>
+              <br>
+              <p>Hello, there's a new snapshot submission. Please click the following link to view the snapshot
+              <br>
+              <p><a href="${process.env.CLIENT_URL}/projects/${projectId}">Visit Application Snapshot</a></p>
+              <br>
+              <p>Thanks,</p>
+              <p>TDM Calculator Team</p>`;
+
+        await sendSnapshotSubmissionToDRO(projectId, droId);
+
+        expect(sgMail.send).toHaveBeenCalledWith(
+          {
+            to: droEmail,
+            from: process.env.EMAIL_SENDER,
+            subject: `New Snapshot Submission for DRO: ${droName}`,
+            text: `New Snapshot Submission for DRO: ${droName}`,
+            html: expectedHtml
+          },
+          false
+        );
+      }
+    );
+  });
   // sendFeedback
   it("sendFeedback", async () => {
     const loginId = 99;
     const feedback = {
-      name: "John Doe",
+      name: "Doe, John",
       email: "user@example.com",
       comment: "some comment",
       forwardToWebTeam: true,

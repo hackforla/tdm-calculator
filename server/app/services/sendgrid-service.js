@@ -2,27 +2,12 @@ const sgMail = require("@sendgrid/mail");
 const clientUrl = process.env.CLIENT_URL;
 const sendgridKey = process.env.SENDGRID_API_KEY;
 const senderEmail = process.env.EMAIL_SENDER;
-const laCityEmail = process.env.EMAIL_PUBLIC_COMMENT_LA_CITY;
-const webTeamEmail = process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM;
+
 const droCentralEmail = process.env.DRO_CENTRAL_EMAIL;
 const droValleyEmail = process.env.DRO_VALLEY_EMAIL;
 const droWestsideEmail = process.env.DRO_WESTSIDE_EMAIL;
-const projectService = require("../services/project.service");
 
 sgMail.setApiKey(sendgridKey);
-
-const formatDates = date => {
-  return new Date(date)
-    .toLocaleDateString("en-US", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true
-    })
-    .replace(",", "");
-};
 
 const send = async (emailTo, emailFrom, subject, textBody, htmlBody) => {
   const msg = {
@@ -98,7 +83,7 @@ const sendSnapshotSubmissionToDRO = async (projectId, droId) => {
     from: senderEmail,
     subject: `New Snapshot Submission for DRO: ${droName[droId]}`,
     text: `New Snapshot Submission for DRO: ${droName[droId]}`,
-    html: `<p> Sample Email For Snapshot Submittal Notification</p>
+    html: `<p>Sample Email For Snapshot Submittal Notification</p>
               <br>
               <p>Hello, there's a new snapshot submission. Please click the following link to view the snapshot
               <br>
@@ -110,75 +95,10 @@ const sendSnapshotSubmissionToDRO = async (projectId, droId) => {
   return sgMail.send(msg, false);
 };
 
-const sendFeedback = async (loginId, feedback) => {
-  try {
-    const { name, email, comment, forwardToWebTeam, selectedProjectIds } =
-      feedback;
-
-    let projects = [];
-    if (loginId && selectedProjectIds) {
-      for (let i = 0; i < selectedProjectIds.length; i++) {
-        const p = await projectService.getById(loginId, selectedProjectIds[i]);
-        projects.push(p);
-      }
-    }
-
-    let body = ` <p><strong>Name:</strong> ${name}</p>
-              <p><strong>Email</strong>: ${email ? email : "Anonymous"}</p>
-              <p><strong>Comment</strong>: ${comment}</p>
-              <p><strong>Forward To Website Team</strong>: ${
-                forwardToWebTeam ? "Yes" : "No"
-              } </p>
-              `;
-    if (projects && projects.length > 0) {
-      body +=
-        `<p><strong>Referenced Project(s)</strong></p>
-        <p>Clicking on a link to one of the projects will allow you to log in to TDM, then, once login is successful, it will
-        open the project.</p>
-        <table style="list-style-type:none">
-        <tr>
-          <th style="text-align:left;">Name</th>
-          <th style="text-align:left;">Address</th>
-          <th style="text-align:left;">Date Saved</th>
-          <th style="text-align:left;">Date Created</th>
-          <th style="text-align:left;">Link</th>
-        </tr>` +
-        projects.map(project => {
-          // console.log(project);
-          return `<tr>
-            <td>${project.name}</td>
-            <td >
-              ${JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
-            </td>
-            <td>${formatDates(project.dateModified)}</td>
-            <td>${formatDates(project.dateCreated)}</td>
-            <td> ${clientUrl}/login?projectId=${project.id}</td>
-          </tr>`;
-        }) +
-        "</table></div>";
-    }
-
-    const msg = {
-      to: laCityEmail,
-      cc: forwardToWebTeam ? webTeamEmail : "",
-      from: senderEmail,
-      subject: `TDM Feedback Submission - ${name}`,
-      text: `TDM Feedback Submission - ${name}`,
-      html: body
-    };
-
-    return sgMail.send(msg, false);
-  } catch (err) {
-    console.error(err);
-    return Promise.reject("Sending email to LA City or Website team failed.");
-  }
-};
-
 module.exports = {
   send,
   sendVerifyUpdateConfirmation,
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation,
-  sendSnapshotSubmissionToDRO,
-  sendFeedback
+  sendSnapshotSubmissionToDRO
 };
