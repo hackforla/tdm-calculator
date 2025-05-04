@@ -61,6 +61,12 @@ router.get(
   accountController.getAllArchivedUsers
 );
 
+router.get(
+  "/droLogins",
+  jwtSession.validateRoles(["isSecurityAdmin"]),
+  accountController.getAllDROUsers
+);
+
 router.delete(
   "/:id/deleteaccount",
   jwtSession.validateRoles(["isSecurityAdmin"]),

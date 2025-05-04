@@ -10,6 +10,7 @@ import "reactjs-popup/dist/index.css";
 import { MdCheck, MdMoreVert } from "react-icons/md";
 import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
 import ContentContainer from "./Layout/ContentContainer";
+import DropdownCombo from "./Dropdown/DropdownCombo"
 
 const useStyles = createUseStyles({
   main: {
@@ -109,6 +110,9 @@ const Roles = ({ contentContainerRef }) => {
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
 
+  const [selectedUsersList, setSelectedUsersList] = useState([]);
+  const [DROAccounts, setDROAccounts] = useState([]);
+
   useEffect(() => {
     const getAccounts = async () => {
       try {
@@ -154,14 +158,15 @@ const Roles = ({ contentContainerRef }) => {
     filt(newAccounts, searchString);
 
     const msg = `The ${
-      e.target.name === "isAdmin" ? "Admin" : "Security Admin"
+      e.target.name === "isAdmin" ? "Admin" : "isDro" ? "Development Review Office": "Security Admin"
     } role has been ${e.target.checked ? "granted to" : "revoked from"} ${
       newAccount.firstName
     } ${newAccount.lastName}.`;
     const reqBody = {
       id: newAccount.id,
       isAdmin: newAccount.isAdmin,
-      isSecurityAdmin: newAccount.isSecurityAdmin
+      isSecurityAdmin: newAccount.isSecurityAdmin,
+      isDro: newAccount.isDro
     };
 
     try {
@@ -244,6 +249,9 @@ const Roles = ({ contentContainerRef }) => {
             <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
               Options
             </td>
+            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+              Development Review Office
+            </td>
           </tr>
         </thead>
         <tbody className={classes.tbody}>
@@ -322,6 +330,15 @@ const Roles = ({ contentContainerRef }) => {
                       />
                     </div>
                   </Popup>
+                </td>
+                <td className={classes.tdCenter}>
+                  <input
+                    type="checkbox"
+                    value={true}
+                    checked={account.isDro}
+                    onChange={e => onInputChange(e, account)}
+                    name="isDro"
+                  />
                 </td>
               </tr>
             ))}
