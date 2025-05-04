@@ -241,6 +241,9 @@ const Roles = ({ contentContainerRef }) => {
               Security Admin
             </td>
             <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+              Dev. Review Office
+            </td>
+            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
               Email Confirmed
             </td>
             <td className={`${classes.td} ${classes.tdheadLabel}`}>
@@ -248,9 +251,6 @@ const Roles = ({ contentContainerRef }) => {
             </td>
             <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
               Options
-            </td>
-            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
-              Development Review Office
             </td>
           </tr>
         </thead>
@@ -281,6 +281,15 @@ const Roles = ({ contentContainerRef }) => {
                     checked={account.isSecurityAdmin}
                     onChange={e => onInputChange(e, account)}
                     name="isSecurityAdmin"
+                  />
+                </td>
+                <td className={classes.tdCenter}>
+                  <input
+                    type="checkbox"
+                    value={true}
+                    checked={account.isDro}
+                    onChange={e => onInputChange(e, account)}
+                    name="isDro"
                   />
                 </td>
                 <td className={classes.tdCenter}>
@@ -330,15 +339,6 @@ const Roles = ({ contentContainerRef }) => {
                       />
                     </div>
                   </Popup>
-                </td>
-                <td className={classes.tdCenter}>
-                  <input
-                    type="checkbox"
-                    value={true}
-                    checked={account.isDro}
-                    onChange={e => onInputChange(e, account)}
-                    name="isDro"
-                  />
                 </td>
               </tr>
             ))}

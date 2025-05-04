@@ -126,12 +126,12 @@ const ListContainer = () => {
     const classes = useStyles();
     return (
         isDropdownOpen && (
-          <ul 
-            className={`${classes.list_container}`}
-            onClick={(e) => { if (!multiSelection) {
-              e.stopPropagation();
-              setIsDropdownOpen(false);
-            }}}
+            <ul 
+                className={`${classes.list_container}`}
+                onClick={(e) => { if (!multiSelection) {
+                    e.stopPropagation();
+                    setIsDropdownOpen(false);
+                }}}
           >
               <div>
                 {users && users.map((user, index) => (
@@ -195,8 +195,6 @@ const UserAssignDropdown = ({
 
 export default function DropdownCombo({users, selectedUsersList, setSelectedUsersList, multiSelection}) {
 
-    // const [selectedUsersList, setSelectedUsersList] = useState([]);
-    // const [selectedUsersList, setSelectedUsersList] = useState([]);
     const classes = useStyles();
 
     return (
