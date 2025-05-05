@@ -339,6 +339,11 @@ const ManageSubmissions = ({ contentContainerRef }) => {
 
   const headerData = [
     {
+      id: "contextMenu",
+      label: "",
+      colWidth: "3rem"
+    },
+    {
       id: "id",
       label: "ID",
       popupType: "number",

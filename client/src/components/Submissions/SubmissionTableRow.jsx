@@ -4,9 +4,10 @@ import { createUseStyles, useTheme } from "react-jss";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "reactjs-popup/dist/index.css";
-import { MdAdd, MdOutlineStickyNote2, MdCheck } from "react-icons/md";
+import { MdAdd, MdOutlineStickyNote2, MdCheck, MdEdit } from "react-icons/md";
 import { formatDate } from "../../helpers/util";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
+import ActionManageSubmission from "../Modals/ActionManageSubmission";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 
 const useStyles = createUseStyles(theme => ({
@@ -135,7 +136,6 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
 
   return {
     showWarningModal,
-    setShowWarningModal,
     isEditing,
     isNewNote,
     adminNotes,
@@ -151,11 +151,10 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
     textUpdated
   };
 }
-/* eslint-disable no-unused-vars */
+
 const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
   const {
     showWarningModal,
-    setShowWarningModal,
     isEditing,
     isNewNote,
     adminNotes,
@@ -171,14 +170,19 @@ const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
   } = useAdminNotesModal(project, onAdminNoteUpdate);
   const theme = useTheme();
   const classes = useStyles(theme);
+  const [actionManageSubmissionOpen, setActionManageSubmissionOpen] =
+    useState(false);
 
   return (
-    <tr
-      key={project.id}
-      style={{
-        background: project.dateTrashed ? "#ffdcdc" : ""
-      }}
-    >
+    <tr key={project.id}>
+      <td className={classes.td}>
+        <MdEdit
+          onClick={() => {
+            setActionManageSubmissionOpen(true);
+          }}
+        />
+      </td>
+
       <td className={classes.tdRightAlign}>
         {project.id.toString().padStart(10, "0")}
       </td>
@@ -232,6 +236,14 @@ const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
         mounted={showWarningModal}
         handleConfirmDiscard={handleConfirmDiscard}
         handleDoNotDiscard={handleDoNotDiscard}
+      />
+      <ActionManageSubmission
+        key={project.id}
+        mounted={actionManageSubmissionOpen}
+        onClose={() => {
+          setActionManageSubmissionOpen(false);
+        }}
+        project={project}
       />
     </tr>
   );
