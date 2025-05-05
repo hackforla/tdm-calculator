@@ -28,8 +28,8 @@ const StatusPopup = ({
       ...criteria,
       type: "all"
     });
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
@@ -41,8 +41,8 @@ const StatusPopup = ({
     if (newOrder) {
       setSort("dateSnapshotted", newOrder, true);
     }
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
     close();
   };
 

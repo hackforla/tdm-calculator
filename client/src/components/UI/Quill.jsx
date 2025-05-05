@@ -49,6 +49,9 @@ const Quill = props => {
             }
           }
         }
+      },
+      clipboard: {
+        matchVisual: false
       }
     }),
     [props.modules]
@@ -71,6 +74,7 @@ const Quill = props => {
       {showLinkDialog && (
         <div className="linkDialog">
           <input
+            className="linkInputBox"
             type="text"
             value={linkValue}
             onChange={onChangeLink}

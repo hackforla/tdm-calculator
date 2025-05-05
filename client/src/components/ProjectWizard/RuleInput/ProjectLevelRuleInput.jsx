@@ -126,7 +126,7 @@ const ProjectLevelRuleInput = ({
                 autoComplete="off"
                 disabled={!display}
                 placeholder={
-                  showPlaceholder ? (required ? "required" : "optional") : ""
+                  showPlaceholder ? (required ? "required" : "") : ""
                 }
               />
             </div>

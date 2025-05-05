@@ -28,8 +28,8 @@ const BooleanPopup = ({
       ...criteria,
       [header.id]: null
     });
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
@@ -40,8 +40,8 @@ const BooleanPopup = ({
     if (newOrder) {
       setSort(header.id, newOrder);
     }
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
     close();
   };
 
@@ -63,15 +63,15 @@ const BooleanPopup = ({
       <div style={{ display: "flex", flexDirection: "column" }}>
         <RadioButton
           label={header.label + " First"}
-          value="asc"
-          checked={newOrder === "asc"}
-          onChange={() => setNewOrder("asc")}
-        />
-        <RadioButton
-          label={"Not " + header.label + " First"}
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
+        />
+        <RadioButton
+          label={"Not " + header.label + " First"}
+          value="asc"
+          checked={newOrder === "asc"}
+          onChange={() => setNewOrder("asc")}
         />
         <hr style={{ width: "100%" }} />
       </div>

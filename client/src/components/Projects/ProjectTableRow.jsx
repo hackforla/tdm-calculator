@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
-import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import {
@@ -178,12 +178,16 @@ const ProjectTableRow = ({
   handleHide,
   handleCheckboxChange,
   checkedProjectIds,
-  isAdmin,
   droOptions,
   onDroChange, // New prop
   onAdminNoteUpdate, // New prop
   isActiveProjectsTab
 }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
+  const userContext = useContext(UserContext);
+  const loginId = userContext?.account?.id;
+  const isAdmin = userContext?.account?.isAdmin || false;
   const {
     showWarningModal,
     setShowWarningModal,
@@ -200,8 +204,7 @@ const ProjectTableRow = ({
     handleDoNotDiscard,
     textUpdated
   } = useAdminNotesModal(project, onAdminNoteUpdate);
-  const theme = useTheme();
-  const classes = useStyles(theme);
+
   const formInputs = JSON.parse(project.formInputs);
   const printRef = useRef();
   const [projectRules, setProjectRules] = useState(null);
@@ -322,7 +325,9 @@ const ProjectTableRow = ({
       <td className={classes.td}>{dateSubmittedDisplay()}</td>
       {/* DRO Column */}
       <td className={classes.td}>
-        {isAdmin && droOptions.length > 0 ? (
+        {/* Dro is editable if user is an admin OR user is the author and project is not submitted */}
+        {droOptions.length > 0 &&
+        (isAdmin || (project.loginId === loginId && !project.dateSubmitted)) ? (
           <div style={{ width: "100px" }}>
             <UniversalSelect
               value={selectedDro}
@@ -346,7 +351,7 @@ const ProjectTableRow = ({
           <span>{droName}</span>
         )}
       </td>
-      {isAdmin && ( // onSave={handleSave}  isEditing={isEditing}
+      {isAdmin && (
         <div>
           <button
             onClick={handleAdminNotesModalOpen}
@@ -454,7 +459,6 @@ ProjectTableRow.propTypes = {
   handleHide: PropTypes.func.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
   checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-  isAdmin: PropTypes.bool.isRequired,
   droOptions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
