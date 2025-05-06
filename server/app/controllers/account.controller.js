@@ -191,6 +191,15 @@ const getAllArchivedUsers = async (req, res) => {
   }
 };
 
+const getAllDROUsers = async (req, res) => {
+  try {
+    const response = await accountService.getAllDROfficeUsers();
+    res.send(response);
+  } catch (err) {
+    res.send(500).send(err);
+  }
+};
+
 const deleteById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -262,5 +271,6 @@ module.exports = {
   archiveById,
   unarchiveById,
   getAllArchivedUsers,
+  getAllDROUsers,
   deleteById
 };

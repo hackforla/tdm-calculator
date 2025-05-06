@@ -389,6 +389,7 @@ const updateRoles = async model => {
     request.input("id", mssql.Int, model.id);
     request.input("isAdmin", mssql.Bit, model.isAdmin);
     request.input("isSecurityAdmin", mssql.Bit, model.isSecurityAdmin);
+    request.input("isDro", mssql.Bit, model.isDro);
     await request.execute("Login_UpdateRoles");
 
     return {
@@ -511,6 +512,18 @@ const getAllArchivedUsers = async () => {
   }
 };
 
+// selects all DRO users
+const getAllDROfficeUsers = async () => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    const response = await request.execute("Login_SelectAllIsDRO");
+    return response.recordset;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 // HARD DELETE
 const deleteUser = async id => {
   try {
@@ -581,5 +594,6 @@ module.exports = {
   archiveUser,
   unarchiveUser,
   getAllArchivedUsers,
+  getAllDROfficeUsers,
   deleteUser
 };

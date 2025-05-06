@@ -154,14 +154,19 @@ const Roles = ({ contentContainerRef }) => {
     filt(newAccounts, searchString);
 
     const msg = `The ${
-      e.target.name === "isAdmin" ? "Admin" : "Security Admin"
+      e.target.name === "isAdmin"
+        ? "Admin"
+        : e.target.name === "isDro"
+          ? "Development Review Office"
+          : "Security Admin"
     } role has been ${e.target.checked ? "granted to" : "revoked from"} ${
       newAccount.firstName
     } ${newAccount.lastName}.`;
     const reqBody = {
       id: newAccount.id,
       isAdmin: newAccount.isAdmin,
-      isSecurityAdmin: newAccount.isSecurityAdmin
+      isSecurityAdmin: newAccount.isSecurityAdmin,
+      isDro: newAccount.isDro
     };
 
     try {
@@ -236,6 +241,9 @@ const Roles = ({ contentContainerRef }) => {
               Security Admin
             </td>
             <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+              Dev. Review Office
+            </td>
+            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
               Email Confirmed
             </td>
             <td className={`${classes.td} ${classes.tdheadLabel}`}>
@@ -273,6 +281,15 @@ const Roles = ({ contentContainerRef }) => {
                     checked={account.isSecurityAdmin}
                     onChange={e => onInputChange(e, account)}
                     name="isSecurityAdmin"
+                  />
+                </td>
+                <td className={classes.tdCenter}>
+                  <input
+                    type="checkbox"
+                    value={true}
+                    checked={account.isDro}
+                    onChange={e => onInputChange(e, account)}
+                    name="isDro"
                   />
                 </td>
                 <td className={classes.tdCenter}>
