@@ -11,9 +11,9 @@ export const search = async () => {
   }
 };
 
-export const putRoles = async ({ id, isAdmin, isSecurityAdmin }) => {
+export const putRoles = async ({ id, isAdmin, isSecurityAdmin, isDro }) => {
   try {
-    const body = { id, isAdmin, isSecurityAdmin };
+    const body = { id, isAdmin, isSecurityAdmin, isDro };
     const response = await axios.put(`${baseUrl}/${id}/roles`, body);
     return response;
   } catch (err) {
@@ -97,6 +97,11 @@ export const unarchiveAccount = async id => {
 
 export const getAllArchivedAccounts = async () => {
   const response = await axios.get(`${baseUrl}/archivedaccounts`);
+  return response;
+};
+
+export const getAllDROAccounts = async () => {
+  const response = await axios.get(`${baseUrl}/droLogins`);
   return response;
 };
 
