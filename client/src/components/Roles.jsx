@@ -10,7 +10,6 @@ import "reactjs-popup/dist/index.css";
 import { MdCheck, MdMoreVert } from "react-icons/md";
 import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
 import ContentContainer from "./Layout/ContentContainer";
-import DropdownCombo from "./Dropdown/DropdownCombo"
 
 const useStyles = createUseStyles({
   main: {
@@ -110,9 +109,6 @@ const Roles = ({ contentContainerRef }) => {
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
 
-  const [selectedUsersList, setSelectedUsersList] = useState([]);
-  const [DROAccounts, setDROAccounts] = useState([]);
-
   useEffect(() => {
     const getAccounts = async () => {
       try {
@@ -158,7 +154,11 @@ const Roles = ({ contentContainerRef }) => {
     filt(newAccounts, searchString);
 
     const msg = `The ${
-      e.target.name === "isAdmin" ? "Admin" : "isDro" ? "Development Review Office": "Security Admin"
+      e.target.name === "isAdmin"
+        ? "Admin"
+        : e.target.name === "isDro"
+          ? "Development Review Office"
+          : "Security Admin"
     } role has been ${e.target.checked ? "granted to" : "revoked from"} ${
       newAccount.firstName
     } ${newAccount.lastName}.`;
