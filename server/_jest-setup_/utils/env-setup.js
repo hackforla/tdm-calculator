@@ -14,6 +14,9 @@ process.env.EMAIL_SENDER = "tdm+sendgrid@test.org";
 process.env.EMAIL_PUBLIC_COMMENT_LA_CITY =
   "tdm+devpubliccommentplanning@test.org";
 process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM = "tdm+devpubliccomment@test.org";
+process.env.DRO_CENTRAL_EMAIL = "dro1@example.com";
+process.env.DRO_VALLEY_EMAIL = "dro2@example.com";
+process.env.DRO_WESTSIDE_EMAIL = "dro3@example.com";
 
 process.env.APPLICATIONINSIGHTS_CONNECTION_STRING =
   "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/";
