@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 
@@ -7,6 +7,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
+import * as accountService from "../../services/account.service";
 import { ascCompareBy, filter } from "./SubmissionUtil";
 
 import UniversalSelect from "../UI/UniversalSelect";
@@ -198,6 +199,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const [projects, setProjects] = useState([]);
+  const [assigneeList, setAssigneeList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const projectsPerPage = perPage;
@@ -210,28 +212,45 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     DEFAULT_SORT_CRITERIA
   );
 
+  const getProjects = useCallback(async () => {
+    const response = await projectService.getSubmissionsAdmin();
+    const projects = response.data.map(d => {
+      return {
+        ...d,
+        author: d.authorLastName
+          ? `${d.authorLastName}, ${d.authorFirstName}`
+          : "",
+        assignee: d.assigneeLastName
+          ? `${d.assigneeLastName}, ${d.assigneeFirstName}`
+          : "",
+        statuser: d.statuserLastName
+          ? `${d.statuserLastName}, ${d.statuserFirstName}`
+          : "",
+        droName: d.droName || "-"
+      };
+    });
+    setProjects(projects);
+  }, []);
+
+  useEffect(() => {
+    getProjects();
+  }, [getProjects]);
+
   useEffect(() => {
     async function fetchData() {
-      const response = await projectService.getSubmissionsAdmin();
-      const projects = response.data.map(d => {
-        return {
-          ...d,
-          author: d.authorLastName
-            ? `${d.authorLastName}, ${d.authorFirstName}`
-            : "",
-          assignee: d.assigneeLastName
-            ? `${d.assigneeLastName}, ${d.assigneeFirstName}`
-            : "",
-          statuser: d.statuserLastName
-            ? `${d.statuserLastName}, ${d.statuserFirstName}`
-            : "",
-          droName: d.droName || "-"
-        };
-      });
-      setProjects(projects);
+      const response = await accountService.getAllDROAccounts();
+      const assignees = [{ value: 0, label: "(unassigned)" }].concat(
+        response.data.map(d => {
+          return {
+            value: d.id,
+            label: `${d.lastName}, ${d.firstName}`
+          };
+        })
+      );
+      setAssigneeList(assignees);
     }
     fetchData();
-  }, [setProjects]);
+  }, []);
 
   const formatDatesFromCookieStrigify = sessionFilterCriteria => {
     const newFilterCriteria = { ...sessionFilterCriteria };
@@ -570,6 +589,8 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                             key={project.id}
                             project={project}
                             onAdminNoteUpdate={handleAdminNoteUpdate}
+                            assigneeList={assigneeList}
+                            onStatusUpdate={getProjects}
                           />
                         ))
                       ) : (

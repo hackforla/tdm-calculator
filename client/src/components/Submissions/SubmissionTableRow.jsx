@@ -152,7 +152,12 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
   };
 }
 
-const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
+const SubmissionTableRow = ({
+  project,
+  onAdminNoteUpdate,
+  assigneeList,
+  onStatusUpdate
+}) => {
   const {
     showWarningModal,
     isEditing,
@@ -173,14 +178,22 @@ const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
   const [actionManageSubmissionOpen, setActionManageSubmissionOpen] =
     useState(false);
 
+  const handleActionManageSubmissionOpen = () => {
+    console.error(project);
+    setActionManageSubmissionOpen(true);
+  };
+
+  const handleActionManageSubmissionClose = project => {
+    if (project) {
+      onStatusUpdate();
+    }
+    setActionManageSubmissionOpen(false);
+  };
+
   return (
     <tr key={project.id}>
       <td className={classes.td}>
-        <MdEdit
-          onClick={() => {
-            setActionManageSubmissionOpen(true);
-          }}
-        />
+        <MdEdit onClick={handleActionManageSubmissionOpen} />
       </td>
 
       <td className={classes.tdRightAlign}>
@@ -195,7 +208,7 @@ const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
       <td className={classes.td}>{project.assignee}</td>
       <td className={classes.td}>{formatDate(project.dateAssigned)}</td>
       <td className={classes.td}>{project.invoiceStatusName}</td>
-      <td className={classes.td}>{formatDate(project.dateInvoice)}</td>
+      <td className={classes.td}>{formatDate(project.dateInvoicePaid)}</td>
       <td className={classes.tdCenterAlign}>
         {project.onHold ? <MdCheck /> : ""}
       </td>
@@ -240,10 +253,9 @@ const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
       <ActionManageSubmission
         key={project.id}
         mounted={actionManageSubmissionOpen}
-        onClose={() => {
-          setActionManageSubmissionOpen(false);
-        }}
+        onClose={handleActionManageSubmissionClose}
         project={project}
+        assigneeList={assigneeList}
       />
     </tr>
   );
@@ -251,7 +263,9 @@ const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
 
 SubmissionTableRow.propTypes = {
   project: PropTypes.any,
-  onAdminNoteUpdate: PropTypes.func.isRequired // New propType
+  onAdminNoteUpdate: PropTypes.func.isRequired,
+  assigneeList: PropTypes.array,
+  onStatusUpdate: PropTypes.func
 };
 
 export default SubmissionTableRow;
