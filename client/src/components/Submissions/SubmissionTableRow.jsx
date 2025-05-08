@@ -4,9 +4,10 @@ import { createUseStyles, useTheme } from "react-jss";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "reactjs-popup/dist/index.css";
-import { MdAdd, MdOutlineStickyNote2, MdCheck } from "react-icons/md";
+import { MdAdd, MdOutlineStickyNote2, MdCheck, MdEdit } from "react-icons/md";
 import { formatDate } from "../../helpers/util";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
+import ActionManageSubmission from "../Modals/ActionManageSubmission";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 
 const useStyles = createUseStyles(theme => ({
@@ -135,7 +136,6 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
 
   return {
     showWarningModal,
-    setShowWarningModal,
     isEditing,
     isNewNote,
     adminNotes,
@@ -151,11 +151,15 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
     textUpdated
   };
 }
-/* eslint-disable no-unused-vars */
-const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
+
+const SubmissionTableRow = ({
+  project,
+  onAdminNoteUpdate,
+  assigneeList,
+  onStatusUpdate
+}) => {
   const {
     showWarningModal,
-    setShowWarningModal,
     isEditing,
     isNewNote,
     adminNotes,
@@ -171,14 +175,27 @@ const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
   } = useAdminNotesModal(project, onAdminNoteUpdate);
   const theme = useTheme();
   const classes = useStyles(theme);
+  const [actionManageSubmissionOpen, setActionManageSubmissionOpen] =
+    useState(false);
+
+  const handleActionManageSubmissionOpen = () => {
+    console.error(project);
+    setActionManageSubmissionOpen(true);
+  };
+
+  const handleActionManageSubmissionClose = project => {
+    if (project) {
+      onStatusUpdate();
+    }
+    setActionManageSubmissionOpen(false);
+  };
 
   return (
-    <tr
-      key={project.id}
-      style={{
-        background: project.dateTrashed ? "#ffdcdc" : ""
-      }}
-    >
+    <tr key={project.id}>
+      <td className={classes.td}>
+        <MdEdit onClick={handleActionManageSubmissionOpen} />
+      </td>
+
       <td className={classes.tdRightAlign}>
         {project.id.toString().padStart(10, "0")}
       </td>
@@ -191,7 +208,7 @@ const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
       <td className={classes.td}>{project.assignee}</td>
       <td className={classes.td}>{formatDate(project.dateAssigned)}</td>
       <td className={classes.td}>{project.invoiceStatusName}</td>
-      <td className={classes.td}>{formatDate(project.dateInvoice)}</td>
+      <td className={classes.td}>{formatDate(project.dateInvoicePaid)}</td>
       <td className={classes.tdCenterAlign}>
         {project.onHold ? <MdCheck /> : ""}
       </td>
@@ -233,13 +250,22 @@ const SubmissionTableRow = ({ project, onAdminNoteUpdate }) => {
         handleConfirmDiscard={handleConfirmDiscard}
         handleDoNotDiscard={handleDoNotDiscard}
       />
+      <ActionManageSubmission
+        key={project.id}
+        mounted={actionManageSubmissionOpen}
+        onClose={handleActionManageSubmissionClose}
+        project={project}
+        assigneeList={assigneeList}
+      />
     </tr>
   );
 };
 
 SubmissionTableRow.propTypes = {
   project: PropTypes.any,
-  onAdminNoteUpdate: PropTypes.func.isRequired // New propType
+  onAdminNoteUpdate: PropTypes.func.isRequired,
+  assigneeList: PropTypes.array,
+  onStatusUpdate: PropTypes.func
 };
 
 export default SubmissionTableRow;

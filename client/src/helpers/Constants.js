@@ -10,18 +10,25 @@ const SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG = "submissionsSortCriteria";
 const SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG = "submissionsFilterCriteria";
 
 const invoiceStatuses = [
-  { id: 1, name: "Invoice Not Generated" },
-  { id: 2, name: "Sent" },
-  { id: 3, name: "Paid" }
+  { value: 1, label: "Invoice Not Generated" },
+  { value: 2, label: "Sent" },
+  { value: 3, label: "Paid" }
 ];
 
 const approvalStatuses = [
-  { id: 1, displayOrder: 10, name: "Pending" },
-  { id: 2, displayOrder: 20, name: "Terminated" },
-  { id: 3, displayOrder: 30, name: "Withdrawn" },
-  { id: 4, displayOrder: 40, name: "Denied" },
-  { id: 5, displayOrder: 50, name: "Approved" },
-  { id: 6, displayOrder: 60, name: "Approved with Conditions" }
+  { value: 1, displayOrder: 10, label: "Pending" },
+  { value: 2, displayOrder: 20, label: "Terminated" },
+  { value: 3, displayOrder: 30, label: "Withdrawn" },
+  { value: 4, displayOrder: 40, label: "Denied" },
+  { value: 5, displayOrder: 50, label: "Approved" },
+  { value: 6, displayOrder: 60, label: "Approved with Conditions" }
+];
+
+const dros = [
+  { value: 0, label: "(unassigned)" },
+  { value: 1, label: "Central" },
+  { value: 2, label: "Valley" },
+  { value: 3, label: "West LA" }
 ];
 
 export {
@@ -33,5 +40,6 @@ export {
   SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG,
   SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
   invoiceStatuses,
-  approvalStatuses
+  approvalStatuses,
+  dros
 };

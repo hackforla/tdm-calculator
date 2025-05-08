@@ -226,8 +226,8 @@ const SubmissionsPage = ({ contentContainerRef }) => {
           author: d.authorLastName
             ? `${d.authorLastName}, ${d.authorFirstName}`
             : "",
-          assignee: d.assigneeLastName
-            ? `${d.assigneeLastName}, ${d.assigneeFirstName}`
+          assignee: d.assignedLastName
+            ? `${d.assignedLastName}, ${d.assignedFirstName}`
             : "",
           statuser: d.statuserLastName
             ? `${d.statuserLastName}, ${d.statuserFirstName}`
@@ -612,7 +612,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                               {project.invoiceStatusName}
                             </td>
                             <td className={classes.td}>
-                              {formatDate(project.dateInvoice)}
+                              {formatDate(project.dateInvoicePaid)}
                             </td>
                             <td className={classes.tdCenterAlign}>
                               {project.onHold ? <MdCheck /> : ""}
