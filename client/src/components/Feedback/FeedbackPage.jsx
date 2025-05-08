@@ -255,6 +255,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
                   </label>
                 </div>
               </div>
+
               {account && account.id && projects.length !== 0 ? (
                 <ProjectList
                   key={JSON.stringify(projects, null, 2)}
@@ -264,15 +265,16 @@ const FeedbackPage = ({ contentContainerRef }) => {
                 />
               ) : null}
 
-              {/* <div>{JSON.stringify(projects, null, 2)}</div> */}
-              <Button
-                type="submit"
-                className={classes.submitButton}
-                color="colorPrimary"
-                disabled={isSubmitting}
-              >
-                Submit
-              </Button>
+              <div className={classes.formContainer}>
+                <Button
+                  type="submit"
+                  className={classes.submitButton}
+                  color="colorPrimary"
+                  disabled={isSubmitting}
+                >
+                  Submit
+                </Button>
+              </div>
             </Form>
           )}
         </Formik>
