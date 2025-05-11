@@ -1,5 +1,6 @@
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
+const { sendSnapshotSubmissionToDRO } = require("./sendgrid-service");
 
 const getAll = async loginId => {
   try {
@@ -171,6 +172,15 @@ const submit = async (id, loginId) => {
     request.input("loginId", loginId);
 
     const response = await request.execute("Project_Submit");
+
+    if (response.returnValue === 0) {
+      //submission succeeded
+      const project = await getById(loginId, id);
+      if (project && project.droId) {
+        //project is assigned to a DRO
+        await sendSnapshotSubmissionToDRO(id, project.droId);
+      }
+    }
     return response.returnValue;
   } catch (err) {
     console.log("err:", err);

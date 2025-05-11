@@ -125,7 +125,7 @@ export default function ShareSnapshotModal({ mounted, onClose, project }) {
   const [isCopied, setIsCopied] = useState(false);
   const maybeDisabled = !sharedEmails.length && classes.buttonDisabled;
   const tdmLink = window.location.origin; //"https://tdm-dev.azurewebsites.net";
-  const copyLink = `${tdmLink}/projects/${project ? project.id : -1}`;
+  const copyLink = `${tdmLink}/calculation/5/${project ? project.id : -1}`;
   const copyMessage = `Here's a snapshot of the current TDM Calculator plan for: [${
     project ? project.name : ""
   }](${copyLink}). \

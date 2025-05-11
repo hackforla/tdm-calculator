@@ -1,9 +1,18 @@
 const { pool, poolConnect } = require("./tedious-pool");
-const mssql = require("mssql");
 const { sendFeedback } = require("./sendgrid-service");
+const projectService = require("../services/project.service");
+const mssql = require("mssql");
 
 const post = async (loginId, feedback) => {
   try {
+    let projects = [];
+    let projectIds = feedback.selectedProjectIds;
+    if (loginId && projectIds) {
+      for (let i = 0; i < projectIds.length; i++) {
+        const p = await projectService.getById(loginId, projectIds[i]);
+        projects.push(p);
+      }
+    }
     // TODO: add selectedProjectIds to feedback table and stored proc.
     await poolConnect;
     const request = pool.request();
@@ -15,7 +24,7 @@ const post = async (loginId, feedback) => {
 
     const response = await request.execute("Feedback_Insert");
 
-    await sendFeedback(loginId, feedback);
+    await sendFeedback(loginId, feedback, projects);
 
     return response.returnValue;
   } catch (err) {

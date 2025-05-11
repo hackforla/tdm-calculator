@@ -179,8 +179,8 @@ const ProjectTableRow = ({
   handleCheckboxChange,
   checkedProjectIds,
   droOptions,
-  onDroChange, // New prop
-  onAdminNoteUpdate, // New prop
+  onDroChange,
+  onAdminNoteUpdate,
   isActiveProjectsTab
 }) => {
   const theme = useTheme();
@@ -465,8 +465,8 @@ ProjectTableRow.propTypes = {
       name: PropTypes.string.isRequired
     })
   ).isRequired,
-  onDroChange: PropTypes.func.isRequired, // New propType
-  onAdminNoteUpdate: PropTypes.func.isRequired, // New propType
+  onDroChange: PropTypes.func.isRequired,
+  onAdminNoteUpdate: PropTypes.func.isRequired,
   isActiveProjectsTab: PropTypes.string.isRequired
 };
 
