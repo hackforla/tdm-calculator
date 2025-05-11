@@ -98,10 +98,7 @@ export function getSubmissionsAdmin() {
 
 export function putSubmission(submission) {
   try {
-    return axios.put(
-      `${baseUrl}/submissions/${submission.projectId}`,
-      submission
-    );
+    return axios.put(`${baseUrl}/submissions/${submission.id}`, submission);
   } catch (error) {
     return new Promise.reject(error);
   }
