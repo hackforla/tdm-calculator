@@ -18,7 +18,7 @@ const {
   sendSnapshotSubmissionToDRO
 } = require("../app/services/sendgrid-service");
 
-const { sendFeedback } = require("../app/services/feedback.service");
+const { sendFeedback } = require("../app/services/sendgrid-service");
 
 let server;
 let originalSendgrid;
@@ -160,7 +160,7 @@ describe("email API unit tests", () => {
               <br>
               <p>Hello, there's a new snapshot submission. Please click the following link to view the snapshot
               <br>
-              <p><a href="${process.env.CLIENT_URL}/projects/${projectId}">Visit Application Snapshot</a></p>
+              <p><a href="${process.env.CLIENT_URL}/calculation/5/${projectId}">Visit Application Snapshot</a></p>
               <br>
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`;
