@@ -79,11 +79,11 @@ const put = async (req, res) => {
 
 const updateDroId = async (req, res) => {
   try {
-    if (!req.user.isAdmin) {
-      return res
-        .status(403)
-        .json({ error: "You do not have permission to update the droId." });
-    }
+    // if (!req.user.isAdmin && req.user.id != req.params.id) {
+    //   return res
+    //     .status(403)
+    //     .json({ error: "You do not have permission to update the droId." });
+    // }
 
     const { id } = req.params;
     const { droId } = req.body;
