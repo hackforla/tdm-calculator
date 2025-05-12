@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import SearchIcon from "../../../images/search.png";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
+import ToggleCheckbox from "components/UI/ToggleCheckbox";
 
 const useStyles = createUseStyles({
   searchBarWrapper: {
@@ -94,7 +95,7 @@ const MultiSelectText = ({ options, selectedOptions, setSelectedOptions }) => {
         <pre>{JSON.stringify(selectedOptions, null, 2)}</pre>
         {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
 
-        {filteredOptions.map(o => (
+        {/* {filteredOptions.map(o => (
           <div key={o} className={classes.listItem}>
             <input
               type="checkbox"
@@ -108,7 +109,30 @@ const MultiSelectText = ({ options, selectedOptions, setSelectedOptions }) => {
       </div>
     </>
   );
-};
+}; */}
+        {filteredOptions.map(o => {
+          const checked = isChecked(o);
+          return (
+            <div key={o} className={classes.listItem}>
+              <ToggleCheckbox
+                checked={checked}
+                onChange={() => handleCheckboxChange({
+                  target: {
+                    name: o,
+                    checked: !isChecked(o),
+                  }
+                })
+                }
+                label={o}
+              />
+              <span>{o}</span>
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
+}
 
 MultiSelectText.propTypes = {
   options: PropTypes.any,

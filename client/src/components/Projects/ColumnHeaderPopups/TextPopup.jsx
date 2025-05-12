@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
+import ToggleCheckbox from "components/UI/ToggleCheckbox";
 
 const useStyles = createUseStyles({
   searchBarWrapper: {
@@ -242,7 +243,7 @@ const TextPopup = ({
         {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
         {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
 
-        {filteredOptions.map(o => (
+        {/* {filteredOptions.map(o => (
           <div key={o} className={classes.listItem}>
             <input
               type="checkbox"
@@ -252,7 +253,27 @@ const TextPopup = ({
             />
             <span>{o}</span>
           </div>
-        ))}
+        ))} */}
+
+        {filteredOptions.map(o => {
+          const checked = isChecked(o);
+          return (
+            <div key={o} className={classes.listItem}>
+              <ToggleCheckbox
+                checked={checked}
+                onChange={() => handleCheckboxChange({
+                  target: {
+                    name: o,
+                    checked: !isChecked(o),
+                  }
+                })
+                }
+                label={o}
+              />
+              <span>{o}</span>
+            </div>
+          );
+        })}
       </div>
 
       <hr style={{ width: "100%" }} />
