@@ -158,7 +158,10 @@ const useStyles = createUseStyles(theme => ({
   td: {
     padding: "0.2em",
     textAlign: "left",
-    width: "5%"
+    width: "5%",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   },
   tdRightAlign: {
     padding: "0.2em",
