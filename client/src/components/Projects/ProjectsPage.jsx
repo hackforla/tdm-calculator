@@ -952,7 +952,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       ? [
           {
             id: "dateTrashed",
-            label: "Date Trashed",
+            label: "Date Deleted",
             popupType: "datetime",
             startDatePropertyName: "startDateTrashed",
             endDatePropertyName: "endDateTrashed",
