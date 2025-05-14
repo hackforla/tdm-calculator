@@ -116,12 +116,13 @@ const MultiSelectText = ({ options, selectedOptions, setSelectedOptions }) => {
             <div key={o} className={classes.listItem}>
               <ToggleCheckbox
                 checked={checked}
-                onChange={() => handleCheckboxChange({
-                  target: {
-                    name: o,
-                    checked: !isChecked(o),
-                  }
-                })
+                onChange={() =>
+                  handleCheckboxChange({
+                    target: {
+                      name: o,
+                      checked: !isChecked(o)
+                    }
+                  })
                 }
                 label={o}
               />
@@ -132,7 +133,7 @@ const MultiSelectText = ({ options, selectedOptions, setSelectedOptions }) => {
       </div>
     </>
   );
-}
+};
 
 MultiSelectText.propTypes = {
   options: PropTypes.any,

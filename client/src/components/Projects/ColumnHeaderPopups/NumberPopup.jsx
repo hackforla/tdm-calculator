@@ -230,12 +230,13 @@ const NumberPopup = ({
             <div key={o} className={classes.listItem}>
               <ToggleCheckbox
                 checked={checked}
-                onChange={() => handleCheckboxChange({
-                  target: {
-                    name: o,
-                    checked: !isChecked(o),
-                  }
-                })
+                onChange={() =>
+                  handleCheckboxChange({
+                    target: {
+                      name: o,
+                      checked: !isChecked(o)
+                    }
+                  })
                 }
                 label={o}
               />
