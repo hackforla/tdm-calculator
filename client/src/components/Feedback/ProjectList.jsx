@@ -24,7 +24,10 @@ const useStyles = createUseStyles(theme => ({
     padding: "0em 1em 0.4rem 0em",
     width: "20rem",
     minWidth: "20rem",
-    maxWidth: "25rem"
+    maxWidth: "25rem",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   },
   dateCell: {
     padding: "0em 1em 0.4rem 0em",
