@@ -97,8 +97,10 @@ const useStyles = createUseStyles({
   },
   inactivePageTab: {
     color: "#808589",
-    backgroundColor: "#e6ebf0",
-    cursor: "pointer"
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: "#e6ebf0"
+    }
   },
   filter: {
     overflow: "hidden",
