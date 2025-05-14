@@ -1114,6 +1114,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       flexBasis: "33%"
                     }}
                   >
+                    <Button
+                      onClick={resetFiltersSort}
+                      isDisplayed={true}
+                      variant="tertiary"
+                    >
+                      RESET FILTERS/SORT
+                    </Button>
                     {!isActiveProjectsTab && (
                       <Button
                         onClick={handleDeleteModalOpen}
@@ -1124,13 +1131,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         Restore
                       </Button>
                     )}
-                    <Button
-                      onClick={resetFiltersSort}
-                      isDisplayed={true}
-                      variant="tertiary"
-                    >
-                      RESET FILTERS/SORT
-                    </Button>
                   </div>
                 </div>
               </div>
