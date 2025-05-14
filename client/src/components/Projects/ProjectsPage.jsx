@@ -115,7 +115,7 @@ const useStyles = createUseStyles({
     transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
-    marginTop: "2em"
+    marginTop: "20px"
   },
   searchBarWrapper: {
     position: "relative",
