@@ -166,7 +166,7 @@ const useStyles = createUseStyles({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: "#002E6D",
+    backgroundColor: "#0F2940",
     color: "white",
     "& td": {
       padding: "12px"
