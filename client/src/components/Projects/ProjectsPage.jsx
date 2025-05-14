@@ -78,7 +78,7 @@ const useStyles = createUseStyles({
     fontSize: "14pt",
     fontWeight: "bold",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "right",
     width: "100%",
     gap: "10px",
     borderBottom: "2px solid #e6ebf0"
