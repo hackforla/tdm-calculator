@@ -150,7 +150,7 @@ const useStyles = createUseStyles({
     tableLayout: "fixed"
   },
   table: {
-    minWidth: "110rem",
+    minWidth: "115rem",
     width: "100%",
     tableLayout: "fixed"
   },
