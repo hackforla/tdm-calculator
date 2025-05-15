@@ -5,6 +5,7 @@ import RadioButton from "../../UI/RadioButton";
 import { MdClose } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
+import ToggleCheckbox from "components/UI/ToggleCheckbox";
 
 /*
 Variant of the TextPopup that gets rid of all the quirky accommodation of dro and author filtering used on the My Projects Page
@@ -215,17 +216,26 @@ const TextPopup = ({
         {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
         {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
 
-        {filteredOptions.map(o => (
-          <div key={o} className={classes.listItem}>
-            <input
-              type="checkbox"
-              name={o}
-              checked={isChecked(o)}
-              onChange={handleCheckboxChange}
-            />
-            <span>{o}</span>
-          </div>
-        ))}
+        {filteredOptions.map(o => {
+          const checked = isChecked(o);
+          return (
+            <div key={o} className={classes.listItem}>
+              <ToggleCheckbox
+                checked={checked}
+                onChange={() =>
+                  handleCheckboxChange({
+                    target: {
+                      name: o,
+                      checked: !isChecked(o)
+                    }
+                  })
+                }
+                label={o}
+              />
+              <span>{o}</span>
+            </div>
+          );
+        })}
       </div>
 
       <hr style={{ width: "100%" }} />
