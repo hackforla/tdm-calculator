@@ -470,7 +470,7 @@ ProjectTableRow.propTypes = {
   ).isRequired,
   onDroChange: PropTypes.func.isRequired,
   onAdminNoteUpdate: PropTypes.func.isRequired,
-  isActiveProjectsTab: PropTypes.string.isRequired
+  isActiveProjectsTab: PropTypes.bool.isRequired
 };
 
 export default ProjectTableRow;

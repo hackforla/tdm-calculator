@@ -289,7 +289,7 @@ MultiProjectToolbarMenu.propTypes = {
   criteria: PropTypes.object.isRequired,
   checkedProjectsStatusData: PropTypes.object.isRequired,
   pdfProjectData: PropTypes.object,
-  isActiveProjectsTab: PropTypes.string.isRequired
+  isActiveProjectsTab: PropTypes.bool.isRequired
 };
 
 export default MultiProjectToolbarMenu;
