@@ -216,18 +216,6 @@ const TextPopup = ({
         {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
         {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
 
-        {/* {filteredOptions.map(o => (
-          <div key={o} className={classes.listItem}>
-            <input
-              type="checkbox"
-              name={o}
-              checked={isChecked(o)}
-              onChange={handleCheckboxChange}
-            />
-            <span>{o}</span>
-          </div>
-        ))} */}
-
         {filteredOptions.map(o => {
           const checked = isChecked(o);
           return (

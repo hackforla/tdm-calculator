@@ -3,36 +3,6 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
 
-// default radio button css
-// const useStyles = createUseStyles({
-//   radioButtonInput: {
-//     // display: "none",
-//     verticalAlign: "middle",
-//     padding: "0",
-//     marginRight: "5px",
-//     appearance: "none",
-//     borderRadius: "50%",
-//     // boxShadow: "0 0 0 1px #939393",
-//     width: "1em",
-//     height: "1em",
-//     "&:hover": {
-//       boxShadow: "0 0 0 1px #000000"
-//     },
-//     "&:checked": {
-//       border: "3px solid #FFF",
-//       background: "#1967D2",
-//       boxShadow: "0 0 0 1px #1967D2",
-//       "&:hover": {
-//         background: "#1450A4",
-//         boxShadow: "0 0 0 1px #1450A4"
-//       }
-//     }
-//   },
-//   hiddenRadioInput: {
-//     display: "none"
-//   }
-// });
-
 const useStyles = createUseStyles({
   radioButtonInput: {
     display: "none"
