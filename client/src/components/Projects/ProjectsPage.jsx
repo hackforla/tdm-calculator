@@ -74,6 +74,10 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     alignItems: "center"
   },
+  pageTitle: {
+    marginTop: "20px",
+    marginBottom: "-35px"
+  },
   pageTabsDiv: {
     fontSize: "14pt",
     fontWeight: "bold",
@@ -84,11 +88,13 @@ const useStyles = createUseStyles({
     borderBottom: "2px solid #e6ebf0"
   },
   pageTab: {
-    padding: "10px",
     borderTop: "2px solid #e6ebf0",
     borderLeft: "2px solid #e6ebf0",
     borderRight: "2px solid #e6ebf0",
-    borderRadius: "2px 2px 0 0"
+    borderRadius: "2px 2px 0 0",
+    height: "50px",
+    width: "185px",
+    textAlign: "center"
   },
   activePageTab: {
     position: "relative",
@@ -115,9 +121,6 @@ const useStyles = createUseStyles({
     flexShrink: 0,
     flexGrow: 0,
     transition: "flex-basis 0.5s ease-in-out"
-  },
-  pageTitle: {
-    marginTop: "20px"
   },
   searchBarWrapper: {
     position: "relative",
@@ -152,7 +155,7 @@ const useStyles = createUseStyles({
     tableLayout: "fixed"
   },
   table: {
-    minWidth: "115rem",
+    minWidth: "110rem",
     width: "100%",
     tableLayout: "fixed"
   },
@@ -923,7 +926,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateSnapshotted",
       label: "Status",
       popupType: "status",
-      colWidth: "12rem"
+      colWidth: `${isActiveProjectsTab ? "7rem" : "12rem"}`
     },
     { id: "name", label: "Project Name", popupType: "text", colWidth: "20rem" },
     { id: "address", label: "Address", popupType: "text", colWidth: "20rem" },
