@@ -76,7 +76,7 @@ const useStyles = createUseStyles({
   },
   pageTitle: {
     marginTop: "20px",
-    marginBottom: "-35px"
+    marginBottom: "-45px"
   },
   pageTabsDiv: {
     fontSize: "14pt",
@@ -84,24 +84,31 @@ const useStyles = createUseStyles({
     display: "flex",
     justifyContent: "right",
     width: "100%",
-    gap: "10px",
+    gap: "7px",
     borderBottom: "2px solid #e6ebf0"
   },
   pageTab: {
+    height: "50px",
+    width: "185px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    boxSizing: "border-box"
+  },
+  activePageTab: {
     borderTop: "2px solid #e6ebf0",
     borderLeft: "2px solid #e6ebf0",
     borderRight: "2px solid #e6ebf0",
     borderRadius: "2px 2px 0 0",
-    height: "50px",
-    width: "185px",
-    textAlign: "center"
-  },
-  activePageTab: {
     position: "relative",
     zIndex: 1,
     boxShadow: "0 2px 0 white"
   },
   inactivePageTab: {
+    borderTop: "2px solid transparent",
+    borderLeft: "2px solid transparent",
+    borderRight: "2px solid transparent",
+    borderRadius: "2px 2px 0 0",
     color: "#808589",
     cursor: "pointer",
     "&:hover": {
