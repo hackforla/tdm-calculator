@@ -214,7 +214,7 @@ const useStyles = createUseStyles({
     overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
     width: "calc(100vw - 20px)",
     margin: "20px 0px",
-    height: "calc(100vh - 275px - 11.34em)"
+    height: "calc(100vh - 200px - 11.34em)"
   },
   fixTableHead: {
     overflowY: "auto",
