@@ -33,7 +33,6 @@ const useStyles = createUseStyles({
     marginRight: "2em",
     padding: "0.4rem 0.75rem",
     transition: "background-color 0.3s ease-in-out",
-    borderRadius: "1px",
     "&:hover": {
       color: "#0f2940",
       backgroundColor: "#fff"
