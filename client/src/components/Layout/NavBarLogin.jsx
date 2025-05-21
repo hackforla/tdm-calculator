@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../../contexts/UserContext";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useLocation } from "react-router";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -41,7 +41,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
 
   const getUserGreeting = account => (
     <li className={classes.userLogin}>
-      <Link
+      <NavLink
         className={`${classes.link} ${classes.lastItem}`}
         to={{
           pathname: `/updateaccount/${(account && account.email) || ""}`,
@@ -49,7 +49,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
         }}
       >
         Hello, {`${account.firstName} ${account.lastName} `}
-      </Link>
+      </NavLink>
     </li>
   );
 
