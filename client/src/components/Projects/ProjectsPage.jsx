@@ -74,31 +74,46 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     alignItems: "center"
   },
+  pageTitle: {
+    marginTop: "20px",
+    marginBottom: "-45px"
+  },
   pageTabsDiv: {
     fontSize: "14pt",
     fontWeight: "bold",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "right",
     width: "100%",
-    gap: "10px",
+    gap: "7px",
     borderBottom: "2px solid #e6ebf0"
   },
   pageTab: {
-    padding: "10px",
+    height: "50px",
+    width: "185px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    boxSizing: "border-box"
+  },
+  activePageTab: {
     borderTop: "2px solid #e6ebf0",
     borderLeft: "2px solid #e6ebf0",
     borderRight: "2px solid #e6ebf0",
-    borderRadius: "2px 2px 0 0"
-  },
-  activePageTab: {
+    borderRadius: "2px 2px 0 0",
     position: "relative",
     zIndex: 1,
     boxShadow: "0 2px 0 white"
   },
   inactivePageTab: {
+    borderTop: "2px solid transparent",
+    borderLeft: "2px solid transparent",
+    borderRight: "2px solid transparent",
+    borderRadius: "2px 2px 0 0",
     color: "#808589",
-    backgroundColor: "#e6ebf0",
-    cursor: "pointer"
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: "#e6ebf0"
+    }
   },
   filter: {
     overflow: "hidden",
@@ -113,9 +128,6 @@ const useStyles = createUseStyles({
     flexShrink: 0,
     flexGrow: 0,
     transition: "flex-basis 0.5s ease-in-out"
-  },
-  pageTitle: {
-    marginTop: "2em"
   },
   searchBarWrapper: {
     position: "relative",
@@ -166,7 +178,7 @@ const useStyles = createUseStyles({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: "#002E6D",
+    backgroundColor: "#0F2940",
     color: "white",
     "& td": {
       padding: "12px"
@@ -202,7 +214,7 @@ const useStyles = createUseStyles({
     overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
     width: "calc(100vw - 20px)",
     margin: "20px 0px",
-    height: "calc(100vh - 275px - 11.34em)"
+    height: "calc(100vh - 200px - 11.34em)"
   },
   fixTableHead: {
     overflowY: "auto",
@@ -952,7 +964,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       ? [
           {
             id: "dateTrashed",
-            label: "Date Trashed",
+            label: "Date Deleted",
             popupType: "datetime",
             startDatePropertyName: "startDateTrashed",
             endDatePropertyName: "endDateTrashed",
@@ -1114,6 +1126,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
                       flexBasis: "33%"
                     }}
                   >
+                    <Button
+                      onClick={resetFiltersSort}
+                      isDisplayed={true}
+                      variant="tertiary"
+                    >
+                      RESET FILTERS/SORT
+                    </Button>
                     {!isActiveProjectsTab && (
                       <Button
                         onClick={handleDeleteModalOpen}
@@ -1124,13 +1143,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         Restore
                       </Button>
                     )}
-                    <Button
-                      onClick={resetFiltersSort}
-                      isDisplayed={true}
-                      variant="tertiary"
-                    >
-                      RESET FILTERS/SORT
-                    </Button>
                   </div>
                 </div>
               </div>
