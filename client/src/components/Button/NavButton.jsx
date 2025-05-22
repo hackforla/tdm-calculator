@@ -18,7 +18,8 @@ const useStyles = createUseStyles(theme => ({
   },
   wizardNavButtonDisabled: {
     cursor: "default",
-    backgroundColor: theme.colorPrimaryDisabled
+    backgroundColor: theme.colorPrimaryDisabled,
+    color: theme.colorGray
   },
   hidden: {
     visibility: "hidden"
