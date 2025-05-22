@@ -9,6 +9,7 @@ const useStyles = createUseStyles(theme => ({
     fontFamily: "Calibri",
     fontWeight: 700,
     height: "min-content",
+    minHeight: "44px",
     margin: "0.5em",
     padding: "0.5em 1em",
     textAlign: "center",
