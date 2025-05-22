@@ -5,7 +5,7 @@ import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import clsx from "clsx";
 import Button from "./Button";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   navButton: {
     cursor: "pointer",
     padding: "0.35em 0.7em",
@@ -17,7 +17,8 @@ const useStyles = createUseStyles({
     }
   },
   wizardNavButtonDisabled: {
-    cursor: "default"
+    cursor: "default",
+    backgroundColor: theme.colorPrimaryDisabled
   },
   hidden: {
     visibility: "hidden"
@@ -27,7 +28,7 @@ const useStyles = createUseStyles({
       display: "none"
     }
   }
-});
+}));
 
 const NavButton = ({
   id,

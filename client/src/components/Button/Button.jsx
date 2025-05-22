@@ -29,8 +29,14 @@ const useStyles = createUseStyles(theme => ({
     border: "none",
     // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
     boxShadow: "0px 4px 4px 0px" + theme.colorDropShadow,
+    "&[disabled]": {
+      color: theme.colorGray,
+      backgroundColor: theme.colorPrimaryDisabled,
+      boxShadow: "none"
+    },
     "&[disabled]:hover": {
-      boxShadow: "3px 4px 4px 0px " + theme.colorDropShadowDisabled
+      boxShadow: "none",
+      cursor: "default"
     },
     "&:hover": {
       boxShadow: "3px 3px 4px 0px" + theme.colorDropShadowHover
@@ -42,8 +48,14 @@ const useStyles = createUseStyles(theme => ({
     border: "1px solid " + theme.colors.primary.black,
     boxShadow: "0px 4px 4px 0px" + theme.colorDropShadow,
     // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
+    "&[disabled]": {
+      color: theme.colorGray,
+      border: "1px solid " + theme.colorSecondaryDisabled,
+      boxShadow: "none"
+    },
     "&[disabled]:hover": {
-      boxShadow: "3px 4px 4px 0px " + theme.colorDropShadowDisabled
+      boxShadow: "none",
+      cursor: "default"
     },
     "&:hover": {
       boxShadow: "3px 3px 4px 0px" + theme.colorDropShadowHover
@@ -56,8 +68,14 @@ const useStyles = createUseStyles(theme => ({
     "&:hover": {
       boxShadow: "3px 3px 4px 0px" + theme.colorDropShadowHover
     },
+    "&[disabled]": {
+      color: theme.colorGray,
+      border: "none",
+      boxShadow: "none"
+    },
     "&[disabled]:hover": {
-      boxShadow: "3px 4px 4px 0px " + theme.colorDropShadowDisabled
+      boxShadow: "none",
+      cursor: "default"
     }
   },
   warning: {
@@ -66,8 +84,13 @@ const useStyles = createUseStyles(theme => ({
     border: "none",
     // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
     boxShadow: "0px 4px 4px 0px " + theme.colorDropShadow,
+    "&[disabled]": {
+      backgroundColor: theme.colorCriticalDisabled,
+      boxShadow: "none"
+    },
     "&[disabled]:hover": {
-      boxShadow: "3px 4px 4px 0px " + theme.colorDropShadowDisabled
+      boxShadow: "none",
+      cursor: "default"
     },
     "&:hover": {
       boxShadow: "3px 3px 4px 0px" + theme.colorDropShadowHover
