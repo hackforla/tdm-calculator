@@ -59,9 +59,9 @@ services:
         condition: service_healthy
         restart: true
     command: [
-        "-user=${SQL_USER_NAME:?error}",
-        "-password=${SQL_PASSWORD:?error}",
-        "-url=jdbc:sqlserver://${SQL_SERVER_NAME:?error}:${SQL_SERVER_PORT:?error};databaseName=${SQL_DATABASE_NAME:?error};trustServerCertificate=true",
+        "-user=${DOCKER_DB_USER_NAME:?error}",
+        "-password=${DOCKER_DB_PASSWORD:?error}",
+        "-url=jdbc:sqlserver://${DOCKER_DB_SERVER_NAME:?error}:${DOCKER_DB_SERVER_PORT:?error};databaseName=${SQL_DATABASE_NAME:?error};trustServerCertificate=true",
         # uncomment for debug messages
         # "-X",
         "migrate",
@@ -79,7 +79,7 @@ services:
       [
         "/bin/sh",
         "-c",
-        '/opt/mssql-tools18/bin/sqlcmd -C -S ${SQL_SERVER_NAME:?error} -U ${SQL_USER_NAME:?error} -P ${SQL_PASSWORD:?error} -Q "IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = ''tdmdev'') CREATE DATABASE tdmdev; ELSE PRINT ''Database \"${SQL_DATABASE_NAME:?error}\" already exists. Operation successful.''" -b',
+        '/opt/mssql-tools18/bin/sqlcmd -C -S ${DOCKER_DB_SERVER_NAME:?error} -U ${DOCKER_DB_USER_NAME:?error} -P ${DOCKER_DB_PASSWORD:?error} -Q "IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = ''tdmdev'') CREATE DATABASE tdmdev; ELSE PRINT ''Database \"${DOCKER_DB_SERVER_NAME:?error}\" already exists. Operation successful.''" -b',
       ]
 
   db:
