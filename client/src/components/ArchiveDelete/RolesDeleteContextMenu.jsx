@@ -6,13 +6,20 @@ import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
   list: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyItems: "start",
     listStyleType: "none",
     margin: 0,
     padding: 0
   },
-  listItem: { display: "flex", flexDirection: "row", padding: "0.5rem" },
-  listItemIcon: { marginRight: "0.3rem" }
+  listItem: {
+    padding: "5px",
+    fontSize: "16px",
+    overflow: "hidden",
+    width: "173px"
+  },
+  listItemIcon: { width: "24px" }
 });
 
 const RolesDeleteContextMenu = ({ user, handleDeleteUser }) => {
@@ -21,15 +28,16 @@ const RolesDeleteContextMenu = ({ user, handleDeleteUser }) => {
   return (
     <ul className={classes.list}>
       {/* Delete User */}
+      <MdDelete
+        className={classes.listItemIcon}
+        alt={`Delete User #${user.id} Icon`}
+        style={{ color: "#C3391D" }}
+      />
       <li
         onClick={() => handleDeleteUser(user)}
         className={classes.listItem}
-        style={{ color: "red" }}
+        style={{ color: "black" }}
       >
-        <MdDelete
-          className={classes.listItemIcon}
-          alt={`Delete User #${user.id} Icon`}
-        />
         Permanently Delete {user.firstName} {user.lastName}
       </li>
     </ul>
