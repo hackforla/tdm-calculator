@@ -12,7 +12,7 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "40px",
+    padding: "40px"
   },
   warningIcon: {
     height: "80px",
@@ -32,12 +32,12 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "left",
     marginLeft: "1rem",
     marginRight: "1rem",
-    lineHeight: "2rem",
+    lineHeight: "2rem"
   },
   userContainer: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "start",
+    alignItems: "start"
   },
   subheading: {
     ...theme.typography.subHeading,
@@ -45,9 +45,8 @@ const useStyles = createUseStyles(theme => ({
     lineHeight: "1.5rem",
     marginTop: "1.6rem",
     marginLeft: "1rem",
-    marginRight: "1rem",
-  },
-
+    marginRight: "1rem"
+  }
 }));
 
 export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
@@ -56,8 +55,12 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
   const [apnDroData, setApnDroData] = useState(null);
 
   useEffect(() => {
-    const fetchApnDro = (async () => {
-      if (!project || !project.formInputs || project.formInputs === "undefined") {
+    const fetchApnDro = async () => {
+      if (
+        !project ||
+        !project.formInputs ||
+        project.formInputs === "undefined"
+      ) {
         return;
       }
 
@@ -72,12 +75,11 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
         };
         setApnDroData(data);
       } catch (error) {
-        console.log("Unable to obtain the apn and dro of project: ", error);
+        console.error("Unable to obtain the apn and dro of project: ", error);
       }
-    })
+    };
     fetchApnDro();
   }, [project]);
-
 
   const handleClose = async () => {
     try {
@@ -88,12 +90,13 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
     onClose("ok");
   };
 
-  const convertTimeStamp = (date) => {
-    if (!date) return;
+  const convertTimeStamp = date => {
+    if (!date) {
+      return;
+    }
     const dataObj = new Date(date);
     return dataObj.toISOString().split("T")[0];
-  }
-
+  };
   const dateLastSaved = convertTimeStamp(project?.dateModified);
   const dateSnapShot = convertTimeStamp(project?.dateSnapshotted);
 
@@ -110,22 +113,32 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
         <div className={classes.subheading}>
           This Snapshot will be submitted to LADOT as a TDM Plan application.
         </div>
-
         <div className={classes.userContainer}>
-          <div className={classes.subheading}>An application
-            fee must be paid to initiate review.See the
-            <a href="/"> FAQ</a> for more
-            information about the application process.
+          <div className={classes.subheading}>
+            An application fee must be paid to initiate review.See the
+            <a href="/"> FAQ</a> for more information about the application
+            process.
           </div>
-          <div className={classes.heading3} style={{ marginTop: "1.6rem" }}>{project?.name}</div>
+
+          <div className={classes.heading3} style={{ marginTop: "1.6rem" }}>
+            {project?.name}
+          </div>
           <div className={classes.heading3}>{project?.address}</div>
           <div className={classes.heading3}>{apnDroData?.apn || ""}</div>
-          <div className={classes.heading3}>{`DRO: ${apnDroData?.dro}` || null}</div>
-          <div className={classes.heading3}>{`Date Last Saved: ${dateLastSaved}` || null}</div>
-          <div className={classes.heading3}>{`Date Snapshot Created: ${dateSnapShot}` || null}</div>
+          <div className={classes.heading3}>
+            {`DRO: ${apnDroData?.dro}` || null}
+          </div>
+          <div className={classes.heading3}>
+            {`Date Last Saved: ${dateLastSaved}` || null}
+          </div>
+          <div className={classes.heading3}>
+            {`Date Snapshot Created: ${dateSnapShot}` || null}
+          </div>
         </div>
-        <div className={classes.subheading}>Are you sure you want to submit this Snapshot?</div>
-        <div className={classes.buttonFlexBox} style={{ marginTop: "1.5rem" }} >
+        <div className={classes.subheading}>
+          Are you sure you want to submit this Snapshot?
+        </div>
+        <div className={classes.buttonFlexBox} style={{ marginTop: "1.5rem" }}>
           <Button onClick={onClose} variant="secondary" id="cancelButton">
             Cancel
           </Button>
@@ -133,9 +146,7 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
             SUBMIT
           </Button>
         </div>
-
       </div>
-
     </ModalDialog>
   );
 }
