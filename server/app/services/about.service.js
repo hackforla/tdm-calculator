@@ -19,13 +19,13 @@ const postAbout = async about => {
     const tvp = new mssql.Table();
     tvp.columns.add("title", mssql.VarChar, 250);
     tvp.columns.add("displayOrder", mssql.Int);
-    tvp.columns.add("content", mssql.VarChar, mssql.MAX);
+    tvp.columns.add("content", mssql.NVarChar, mssql.MAX);
 
     about.forEach(aboutItem => {
       tvp.rows.add(aboutItem.name, aboutItem.displayOrder, aboutItem.about);
     });
 
-    request.input("about", tvp);
+    request.input("abouts", tvp);
     const response = await request.execute("About_InsertAll");
     return response.returnValue;
   } catch (err) {
