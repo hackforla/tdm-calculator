@@ -6,6 +6,7 @@ import Button from "../Button/Button";
 import PropTypes from "prop-types";
 import { MdWarning } from "react-icons/md";
 import { getById } from "services/dro.service";
+import { Link } from "react-router-dom";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -29,8 +30,6 @@ const useStyles = createUseStyles(theme => ({
   heading1: theme.typography.heading1,
   heading3: {
     ...theme.typography.heading3,
-    textAlign: "left",
-    marginLeft: "1rem",
     marginRight: "1rem",
     lineHeight: "2rem"
   },
@@ -41,11 +40,10 @@ const useStyles = createUseStyles(theme => ({
   },
   subheading: {
     ...theme.typography.subHeading,
+    textAlign: "left",
     width: "30rem",
     lineHeight: "1.5rem",
-    marginTop: "1.6rem",
-    marginLeft: "1rem",
-    marginRight: "1rem"
+    marginTop: "1.6rem"
   }
 }));
 
@@ -66,9 +64,11 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
 
       try {
         const formInputs = JSON.parse(project.formInputs);
-        const apn = formInputs.APN;
-        const dro = (await getById(project.droId)).data.name;
-
+        const apn = formInputs?.APN ? formInputs.APN : "N/A";
+        let dro = "N/A";
+        if (project.droId) {
+          dro = (await getById(project.droId)).data.name;
+        }
         const data = {
           apn: apn,
           dro: dro
@@ -99,7 +99,6 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
   };
   const dateLastSaved = convertTimeStamp(project?.dateModified);
   const dateSnapShot = convertTimeStamp(project?.dateSnapshotted);
-
   return (
     <ModalDialog
       mounted={mounted}
@@ -110,14 +109,17 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
       <div className={classes.container}>
         <MdWarning alt="Warning" className={classes.warningIcon} />
         <div className={classes.heading1}>Ready to Submit</div>
-        <div className={classes.subheading}>
-          This Snapshot will be submitted to LADOT as a TDM Plan application.
+        <div className={classes.subheading} style={{ textAlign: "center" }}>
+          This Snapshot will be submitted to LADOT as a TDM <br /> Plan
+          application.
         </div>
         <div className={classes.userContainer}>
           <div className={classes.subheading}>
             An application fee must be paid to initiate review.See the
-            <a href="/"> FAQ</a> for more information about the application
-            process.
+            <Link to="/faqs" style={{ paddingInline: "4px" }}>
+              FAQ
+            </Link>
+            for more information about the application process.
           </div>
 
           <div className={classes.heading3} style={{ marginTop: "1.6rem" }}>

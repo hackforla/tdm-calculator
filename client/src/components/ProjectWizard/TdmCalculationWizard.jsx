@@ -107,8 +107,7 @@ const TdmCalculationWizard = props => {
 
   const handleSuccessModalClose = () => {
     setSuccessModelOpen(false);
-  }
-
+  };
 
   const copyAndEditSnapshot = async nameOfCopy => {
     if (!projectIsValid) {
