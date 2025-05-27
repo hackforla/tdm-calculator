@@ -327,7 +327,7 @@ const ProjectTableRow = ({
       )}
       <td className={classes.td}>{dateSubmittedDisplay()}</td>
       {/* DRO Column */}
-      <td className={classes.td}>
+      <td className={classes.td} style={{ overflow: "visible" }}>
         {/* Dro is editable if user is an admin OR user is the author and project is not submitted */}
         {droOptions.length > 0 &&
         (isAdmin || (project.loginId === loginId && !project.dateSubmitted)) ? (
