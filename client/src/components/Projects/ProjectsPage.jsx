@@ -31,6 +31,7 @@ import {
   SORT_CRITERIA_STORAGE_TAG,
   FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
+import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
@@ -288,6 +289,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [successModelOpen, setSuccessModelOpen] = useState(false);
   const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
     useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
@@ -312,14 +314,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const enhancedProjects = projects
     ? projects.map(project => {
-        const droName =
-          droOptions.find(dro => dro.id === project.droId)?.name || "";
-        return {
-          ...project,
-          droName: droName,
-          adminNotes: project.adminNotes || ""
-        };
-      })
+      const droName =
+        droOptions.find(dro => dro.id === project.droId)?.name || "";
+      return {
+        ...project,
+        droName: droName,
+        adminNotes: project.adminNotes || ""
+      };
+    })
     : [];
 
   const tabProjects = isActiveProjectsTab
@@ -521,10 +523,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const handleSubmitModalClose = async action => {
     if (action === "ok") {
       await updateProjects();
+      setSuccessModelOpen(true);
     }
     setSubmitModalOpen(false);
-    setSelectedProject(null);
   };
+
+  const handleSuccessModalClose = () => {
+    setSuccessModelOpen(false);
+    setSelectedProject(null);
+  }
 
   const handleRenameSnapshotModalOpen = project => {
     setSelectedProject(project);
@@ -878,14 +885,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
     if (
       criteria.startDateModifiedAdmin &&
       getDateOnly(p.dateModifiedAdmin) <
-        getDateOnly(criteria.startDateModifiedAdmin)
+      getDateOnly(criteria.startDateModifiedAdmin)
     )
       return false;
 
     if (
       criteria.endDateModifiedAdmin &&
       getDateOnly(p.dateModifiedAdmin) >
-        getDateOnly(criteria.endDateModifiedAdmin)
+      getDateOnly(criteria.endDateModifiedAdmin)
     )
       return false;
 
@@ -962,15 +969,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
     },
     ...(!isActiveProjectsTab
       ? [
-          {
-            id: "dateTrashed",
-            label: "Date Deleted",
-            popupType: "datetime",
-            startDatePropertyName: "startDateTrashed",
-            endDatePropertyName: "endDateTrashed",
-            colWidth: "12rem"
-          }
-        ]
+        {
+          id: "dateTrashed",
+          label: "Date Deleted",
+          popupType: "datetime",
+          startDatePropertyName: "startDateTrashed",
+          endDatePropertyName: "endDateTrashed",
+          colWidth: "12rem"
+        }
+      ]
       : []),
     {
       id: "dateSubmitted",
@@ -990,20 +997,20 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
     ...(userContext.account?.isAdmin
       ? [
-          {
-            id: "adminNotes",
-            label: "Admin Notes",
-            popupType: "text",
-            accessor: "adminNotes",
-            colWidth: "10rem"
-          },
-          {
-            id: "dateModifiedAdmin",
-            label: "Admin Saved",
-            popupType: "datetime",
-            colWidth: "10rem"
-          }
-        ]
+        {
+          id: "adminNotes",
+          label: "Admin Notes",
+          popupType: "text",
+          accessor: "adminNotes",
+          colWidth: "10rem"
+        },
+        {
+          id: "dateModifiedAdmin",
+          label: "Admin Saved",
+          popupType: "datetime",
+          colWidth: "10rem"
+        }
+      ]
       : []),
     {
       id: "contextMenu",
@@ -1036,10 +1043,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
           <div className={classes.pageTabsDiv}>
             <span
               className={`${classes.pageTab}
-                ${
-                  isActiveProjectsTab
-                    ? classes.activePageTab
-                    : classes.inactivePageTab
+                ${isActiveProjectsTab
+                  ? classes.activePageTab
+                  : classes.inactivePageTab
                 }
               `}
               onClick={handleTabClick}
@@ -1048,10 +1054,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
             </span>
             <span
               className={`${classes.pageTab}
-                ${
-                  isActiveProjectsTab
-                    ? classes.inactivePageTab
-                    : classes.activePageTab
+                ${isActiveProjectsTab
+                  ? classes.inactivePageTab
+                  : classes.activePageTab
                 }
               `}
               onClick={handleTabClick}
@@ -1296,6 +1301,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     mounted={targetNotReachedModalOpen}
                     onClose={() => setTargetNotReachedModalOpen(false)}
                     project={selectedProject}
+                  />
+                  <InfoSnapshotSubmit
+                    mounted={successModelOpen}
+                    onClose={handleSuccessModalClose}
+                    project={selectedProject}
+
                   />
                 </>
               )}
