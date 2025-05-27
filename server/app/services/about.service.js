@@ -22,7 +22,7 @@ const postAbout = async about => {
     tvp.columns.add("content", mssql.NVarChar, mssql.MAX);
 
     about.forEach(aboutItem => {
-      tvp.rows.add(aboutItem.name, aboutItem.displayOrder, aboutItem.about);
+      tvp.rows.add(aboutItem.title, aboutItem.displayOrder, aboutItem.content);
     });
 
     request.input("abouts", tvp);
