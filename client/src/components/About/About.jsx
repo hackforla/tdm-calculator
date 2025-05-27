@@ -9,6 +9,7 @@ import { MdCancel } from "react-icons/md";
 import AdminView from "./AdminView";
 import DefaultView from "./DefaultView";
 import SaveAboutEditsConfirmationModal from "components/Modals/WarningAboutSaveEdits";
+import packageInfo from "../../../package.json";
 
 const useStyles = createUseStyles({
   editButton: {
@@ -88,7 +89,7 @@ const About = () => {
 
   return (
     <ContentContainer>
-      <div className="page" style={{ maxWidth: "800px", alignSelf: "center" }}>
+      <div className="page" style={{ maxWidth: "1000px", alignSelf: "center" }}>
         <div style={{ display: "flex", gap: "1rem" }}>
           {isAdmin && (
             <Button
@@ -141,6 +142,7 @@ const About = () => {
           setIsSaveConfirmationModalOpen(false);
         }}
       />
+      <p>Release #: {packageInfo.version}</p>
     </ContentContainer>
   );
 };
