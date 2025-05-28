@@ -1,5 +1,6 @@
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
+const { sendSnapshotSubmissionToDRO } = require("./sendgrid-service");
 
 const getAll = async loginId => {
   try {
@@ -171,6 +172,15 @@ const submit = async (id, loginId) => {
     request.input("loginId", loginId);
 
     const response = await request.execute("Project_Submit");
+
+    if (response.returnValue === 0) {
+      //submission succeeded
+      const project = await getById(loginId, id);
+      if (project && project.droId) {
+        //project is assigned to a DRO
+        await sendSnapshotSubmissionToDRO(id, project.droId);
+      }
+    }
     return response.returnValue;
   } catch (err) {
     console.log("err:", err);
@@ -217,11 +227,6 @@ const updateDroId = async (id, droId, loginId) => {
     } else {
       request.input("droId", mssql.Int, droId); // Pass the actual droId value if it's not null
     }
-    request.input(
-      "DateModifiedAdmin",
-      mssql.DateTime2,
-      new Date().toISOString()
-    );
     request.input("LoginId", mssql.Int, loginId);
 
     const response = await request.execute("Project_UpdateDroId");
@@ -239,11 +244,6 @@ const updateAdminNotes = async (id, adminNotes, loginId) => {
 
     request.input("id", mssql.Int, id);
     request.input("adminNotes", mssql.NVarChar(mssql.MAX), adminNotes);
-    request.input(
-      "DateModifiedAdmin",
-      mssql.DateTime2,
-      new Date().toISOString()
-    );
     request.input("LoginId", mssql.Int, loginId);
 
     const response = await request.execute("Project_UpdateAdminNotes");
@@ -278,6 +278,54 @@ const updateTotals = async (
   }
 };
 
+const getSubmissions = async loginId => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("LoginId", mssql.Int, loginId);
+    const response = await request.execute("ProjectSubmission_SelectByLoginId");
+    return response.recordset;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getSubmissionsAdmin = async loginId => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("LoginId", mssql.Int, loginId);
+    const response = await request.execute("ProjectSubmission_SelectAdmin");
+    return response.recordset;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const putSubmission = async (loginId, item) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("projectId", mssql.Int, item.id);
+    request.input("loginId", mssql.Int, loginId);
+    request.input("droId", mssql.Int, item.droId);
+    request.input("adminNotes", mssql.NVarChar, item.adminNotes); // max
+    request.input("dateModifiedAdmin", mssql.DateTime2, item.dateModifiedAdmin);
+    request.input("loginIdAssigned", mssql.Int, item.loginIdAssigned);
+    request.input("dateAssigned", mssql.DateTime2, item.dateAssigned);
+    request.input("invoiceStatusId", mssql.Int, item.invoiceStatusId);
+    request.input("dateInvoicePaid", mssql.DateTime2, item.dateInvoicePaid);
+    request.input("onHold", mssql.Bit, item.onHold);
+    request.input("approvalStatusId", mssql.Int, item.approvalStatusId);
+    request.input("dateCoO", mssql.DateTime2, item.dateCoO);
+
+    await request.execute("ProjectSubmission_Update");
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -293,5 +341,8 @@ module.exports = {
   updateAdminNotes,
   renameSnapshot,
   getAllArchivedProjects,
-  updateTotals
+  updateTotals,
+  getSubmissions,
+  getSubmissionsAdmin,
+  putSubmission
 };

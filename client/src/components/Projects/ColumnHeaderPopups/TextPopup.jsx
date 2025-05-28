@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
+import ToggleCheckbox from "components/UI/ToggleCheckbox";
 
 const useStyles = createUseStyles({
   searchBarWrapper: {
@@ -106,10 +107,10 @@ const TextPopup = ({
 
   let selectOptions;
 
-  if (property === "droName") {
+  if (property === "droName" && droOptions) {
     selectOptions = droOptions.map(dro => dro.name);
     selectOptions.push("No DRO Assigned");
-  } else if (property === "author") {
+  } else if (property === "author" && droOptions) {
     selectOptions = [
       ...new Set(filteredProjects.map(p => `${p.lastName}, ${p.firstName}`))
     ]
@@ -168,16 +169,16 @@ const TextPopup = ({
     if (newOrder) {
       setSort(header.id, newOrder);
     }
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
     close();
   };
 
   const setDefault = () => {
     setNewOrder(null);
     setSelectedListItems([]);
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   return (
@@ -242,17 +243,26 @@ const TextPopup = ({
         {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
         {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
 
-        {filteredOptions.map(o => (
-          <div key={o} className={classes.listItem}>
-            <input
-              type="checkbox"
-              name={o}
-              checked={isChecked(o)}
-              onChange={handleCheckboxChange}
-            />
-            <span>{o}</span>
-          </div>
-        ))}
+        {filteredOptions.map(o => {
+          const checked = isChecked(o);
+          return (
+            <div key={o} className={classes.listItem}>
+              <ToggleCheckbox
+                checked={checked}
+                onChange={() =>
+                  handleCheckboxChange({
+                    target: {
+                      name: o,
+                      checked: !isChecked(o)
+                    }
+                  })
+                }
+                label={o}
+              />
+              <span>{o}</span>
+            </div>
+          );
+        })}
       </div>
 
       <hr style={{ width: "100%" }} />
@@ -284,7 +294,7 @@ TextPopup.propTypes = {
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
   setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array.isRequired
+  droOptions: PropTypes.array
 };
 
 export default TextPopup;

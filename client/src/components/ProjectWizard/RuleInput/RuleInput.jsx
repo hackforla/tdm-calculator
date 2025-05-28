@@ -187,6 +187,7 @@ const RuleInput = ({
         dataType === "number" ? (
           <div
             className={clsx(classes.rowContainer, classes.numberFieldWrapper)}
+            onBlur={onBlur}
           >
             <RuleLabel
               id={id}
@@ -248,7 +249,6 @@ const RuleInput = ({
             <input
               type="checkbox"
               autoFocus={autoFocus}
-              className={classes.checkbox}
               value={true}
               checked={!!value}
               onChange={onInputChange}
@@ -256,11 +256,13 @@ const RuleInput = ({
               id={code}
               data-testid={code}
             />
+
             <div className={classes.numberFieldUnits}>{units}</div>
           </div>
         ) : dataType === "choice" ? (
           <div
             className={clsx(classes.rowContainer, classes.selectFieldWrapper)}
+            onBlur={onBlur}
           >
             <RuleLabel
               id={id}

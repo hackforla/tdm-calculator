@@ -1,11 +1,13 @@
 const sgMail = require("@sendgrid/mail");
+
 const clientUrl = process.env.CLIENT_URL;
 const sendgridKey = process.env.SENDGRID_API_KEY;
 const senderEmail = process.env.EMAIL_SENDER;
 const laCityEmail = process.env.EMAIL_PUBLIC_COMMENT_LA_CITY;
 const webTeamEmail = process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM;
-const projectService = require("../services/project.service");
-
+const droCentralEmail = process.env.DRO_CENTRAL_EMAIL;
+const droValleyEmail = process.env.DRO_VALLEY_EMAIL;
+const droWestsideEmail = process.env.DRO_WESTSIDE_EMAIL;
 sgMail.setApiKey(sendgridKey);
 
 const formatDates = date => {
@@ -78,18 +80,9 @@ const sendResetPasswordConfirmation = async (email, token) => {
   return sgMail.send(msg, false);
 };
 
-const sendFeedback = async (loginId, feedback) => {
+const sendFeedback = async (loginId, feedback, projects) => {
   try {
-    const { name, email, comment, forwardToWebTeam, selectedProjectIds } =
-      feedback;
-
-    let projects = [];
-    if (loginId && selectedProjectIds) {
-      for (let i = 0; i < selectedProjectIds.length; i++) {
-        const p = await projectService.getById(loginId, selectedProjectIds[i]);
-        projects.push(p);
-      }
-    }
+    const { name, email, comment, forwardToWebTeam } = feedback;
 
     let body = ` <p><strong>Name:</strong> ${name}</p>
               <p><strong>Email</strong>: ${email ? email : "Anonymous"}</p>
@@ -142,10 +135,40 @@ const sendFeedback = async (loginId, feedback) => {
   }
 };
 
+const sendSnapshotSubmissionToDRO = async (projectId, droId) => {
+  const droEmail = {
+    1: droCentralEmail,
+    2: droValleyEmail,
+    3: droWestsideEmail
+  };
+  const droName = {
+    1: "Metro Development Review Office",
+    2: "Valley Development Review Office",
+    3: "West Los Angeles Development Review Office"
+  };
+
+  const msg = {
+    to: `${droEmail[droId]}`,
+    from: senderEmail,
+    subject: `New Snapshot Submission for DRO: ${droName[droId]}`,
+    text: `New Snapshot Submission for DRO: ${droName[droId]}`,
+    html: `<p>Sample Email For Snapshot Submittal Notification</p>
+              <br>
+              <p>Hello, there's a new snapshot submission. Please click the following link to view the snapshot
+              <br>
+              <p><a href="${clientUrl}/calculation/5/${projectId}">Visit Application Snapshot</a></p>
+              <br>
+              <p>Thanks,</p>
+              <p>TDM Calculator Team</p>`
+  };
+  return sgMail.send(msg, false);
+};
+
 module.exports = {
   send,
   sendVerifyUpdateConfirmation,
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation,
-  sendFeedback
+  sendFeedback,
+  sendSnapshotSubmissionToDRO
 };

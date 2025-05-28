@@ -25,8 +25,7 @@ Please write a user story for this feature suggestion in the following format: A
    - [ ] What problem does this feature solve?
    - [ ] What technologies are needed for this feature?
 - [ ] Review with product and dev. Update if needed based on feedback
-- [ ] Once finalized, add before and after images to the [staging deck on this slide]() 
-   - [ ] if no slide has been made, make one in [the staging deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg)
+- [ ] Once finalized, add before and after images to the staging deck (see resources) 
 - [ ] Get Stakeholder sign-off via the stakeholder meeting slide deck.
 
 ### Resources/Instructions
@@ -35,3 +34,10 @@ If there is a website which has documentation that helps with this issue provide
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
+
+
+#### Staging and Release decks
+- [Staging Deck](https://docs.google.com/presentation/d/1crZ3IxqA4hAu3qzD7ns93Ieuqjwh6wyEtuX_46cP-fg/)
+   - [Staging slide, ISSUE NUMBER]
+- Release Deck
+   - [2025-MM-DD Release deck, slide ISSUE NUMBER]

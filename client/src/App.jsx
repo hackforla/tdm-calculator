@@ -33,10 +33,11 @@ import FaqView from "./components/Faq/FaqView";
 import ResetPassword from "./components/Authorization/ResetPassword";
 import ForgotPassword from "./components/Authorization/ForgotPassword";
 import Feedback from "./components/Feedback/FeedbackPage";
-import SubmitSnapshotPage from "./components/SubmitSnapshot/SubmitSnapshotPage";
 import ErrorPage from "./components/ErrorPage";
 import Offline from "./components/Offline";
 import Logout from "./components/Authorization/Logout";
+import SubmissionsPage from "./components/Submissions/SubmissionsPage";
+import ManageSubmissionsPage from "./components/Submissions/ManageSubmissionsPage";
 import { getConfigs } from "./helpers/Config";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
@@ -155,10 +156,20 @@ const App = () => {
             element={<Feedback contentContainerRef={contentContainerRef} />}
           />
           <Route
-            path="/submit"
+            path="/submissions"
             element={
               <RequireAuth>
-                <SubmitSnapshotPage contentContainerRef={contentContainerRef} />
+                <SubmissionsPage contentContainerRef={contentContainerRef} />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/managesubmissions"
+            element={
+              <RequireAuth>
+                <ManageSubmissionsPage
+                  contentContainerRef={contentContainerRef}
+                />
               </RequireAuth>
             }
           />

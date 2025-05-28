@@ -285,7 +285,18 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     const lowParkRatio = rules.find(
       r => r.code === "CALC_PARK_RATIO" && r.value < 110
     );
-    return !!(projectLevel === 1 && applicableLandUse && lowParkRatio);
+    // Must provide some parking, in order for the package to apply, since
+    // one strategy in the package is Pricing/Unbundling, and that can only apply if
+    // some parking is provided
+    const parkingProvided = rules.find(
+      r => r.code === "PARK_SPACES" && r.value > 0
+    );
+    return !!(
+      projectLevel === 1 &&
+      applicableLandUse &&
+      lowParkRatio &&
+      parkingProvided
+    );
   })();
 
   const allowSchoolPackage = (() => {

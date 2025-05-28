@@ -132,7 +132,7 @@ const SubmitSnapshotPage = props => {
           <thead>
             <tr>
               <th></th>
-              <th className={classes.tableHead}>Name</th>
+              <th className={classes.tableHead}>Project Name</th>
               <th className={classes.tableHead}>Address</th>
               <th className={classes.tableHead}>Date Submitted</th>
               <th className={classes.tableHead}>Date Saved</th>
@@ -173,7 +173,7 @@ const SubmitSnapshotPage = props => {
         <table>
           <thead>
             <tr>
-              <th className={classes.tableHead}>Name</th>
+              <th className={classes.tableHead}>Project Name</th>
               <th className={classes.tableHead}>Address</th>
               <th className={classes.tableHead}>Date Submitted</th>
               <th className={classes.tableHead}>Date Saved</th>
@@ -200,7 +200,7 @@ const SubmitSnapshotPage = props => {
         <table>
           <thead>
             <tr>
-              <th className={classes.tableHead}>Name</th>
+              <th className={classes.tableHead}>Project Name</th>
               <th className={classes.tableHead}>Address</th>
               <th className={classes.tableHead}>Date Submitted</th>
               <th className={classes.tableHead}>Date Saved</th>

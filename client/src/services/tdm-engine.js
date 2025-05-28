@@ -164,6 +164,7 @@ class Engine {
       name,
       value,
       dataType,
+      display,
       required,
       minStringLength,
       maxStringLength,
@@ -175,8 +176,11 @@ class Engine {
     } = rule;
     const validationErrors = [];
 
-    if (required && !value) {
-      validationErrors.push(`${name} is required`);
+    if (required && !value && display) {
+      // There are some edge cases like PARK_CONDO where a rule is
+      // required, but only if is applicable (i.e., display == true)
+      const name1 = name.replace("..... ", "");
+      validationErrors.push(`${name1} is required`);
     } else if (value) {
       if (minStringLength) {
         if (typeof value === "string" && value.length < minStringLength) {

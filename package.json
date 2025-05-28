@@ -1,24 +1,22 @@
 {
   "name": "root",
-  "version": "0.2.57",
+  "version": "0.2.58",
   "private": true,
   "scripts": {
     "release-notes": "gren release --override",
     "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\" ",
     "start:backend": "cd ./server && npm start",
     "start:frontend": "wait-on http://localhost:5001/api/calculations && cd ./client && npm start",
-    "prepare": "husky install"
+    "prepare": "husky",
+    "spellcheck": "npx cspell --config ./cspell.json \"./**/*.jsx\" --no-progress --no-exit-code"
   },
   "dependencies": {
     "wait-on": "^8.0.3"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lerna run lint"
-    }
-  },
   "devDependencies": {
+    "@cspell/cspell-json-reporter": "^8.19.2",
     "concurrently": "^9.1.2",
+    "cspell": "^8.19.2",
     "husky": "^9.1.7",
     "lerna": "^8.2.1"
   },
