@@ -17,6 +17,7 @@
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\" ",
     "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \"**/*.{js,jsx}\" ",
     "flyway:migrate": "env-cmd -f ../.env flyway -c ./db/flyway-config.js migrate",
+    "flyway-in-test:migrate": "flyway -c ./db/flyway-config.js migrate",
     "flyway:clean": "env-cmd -f ../.env flyway -c ./db/flyway-config.js clean",
     "flyway:repair": "env-cmd -f ../.env flyway -c ./db/flyway-config.js repair",
     "flyway:info": "env-cmd -f ../.env flyway -c ./db/flyway-config.js info",
