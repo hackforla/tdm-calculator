@@ -16,7 +16,7 @@ import PlainSidebarLayout from "./components/Layout/PlainSidebarLayout";
 // Path Routes
 import TdmCalculationContainer from "./components/ProjectWizard/TdmCalculationContainer";
 import ProjectsPage from "./components/Projects/ProjectsPage";
-import About from "./components/About";
+import About from "./components/About/About";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
 import ChecklistPage from "./components/Checklist/ChecklistPage";
 import PrivacyPolicy from "./components/PrivacyPolicy";

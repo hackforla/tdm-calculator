@@ -1,7 +1,8 @@
 const router = require("express").Router();
 
-const calculationRoutes = require("./calculation.routes");
+const aboutRoutes = require("./about.routes");
 const accountRoutes = require("./account.routes");
+const calculationRoutes = require("./calculation.routes");
 const faqCategoryRoutes = require("./faqCategory.routes");
 const projectRoutes = require("./project.routes");
 const feedbackRoutes = require("./feedback.routes");
@@ -12,6 +13,7 @@ const projectShare = require("./projectShare.routes");
 
 module.exports = router;
 
+router.use("/about", aboutRoutes);
 router.use("/accounts", accountRoutes);
 router.use("/calculations", calculationRoutes);
 router.use("/projects", projectRoutes);
