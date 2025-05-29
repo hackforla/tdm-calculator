@@ -30,8 +30,8 @@ const useStyles = createUseStyles({
   link: {
     color: "#ffffff",
     textDecoration: "none",
-    marginRight: "2em",
-    padding: "0.4rem 0.75rem",
+    marginRight: "1.6em",
+    padding: "0.4em 0.75em",
     transition: "background-color 0.3s ease-in-out",
     "&:hover": {
       color: "#0f2940",
