@@ -107,7 +107,7 @@ services:
   sendgrid:
     image: ghashange/sendgrid-mock:1.12.0
     ports:
-      - "${SENDGRID_EXPOSED_PORT:-7000}:3000"
+      - "${SENDGRID_EXPOSED_PORT:-7001}:3000"
     environment:
       API_KEY: ${SENDGRID_API_KEY:?error}
 
