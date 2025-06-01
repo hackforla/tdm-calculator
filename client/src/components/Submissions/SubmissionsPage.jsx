@@ -65,7 +65,7 @@ const useStyles = createUseStyles(theme => ({
     transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
-    marginTop: "1rem",
+    marginTop: 0,
     marginBottom: "0rem"
   },
   subheading: {

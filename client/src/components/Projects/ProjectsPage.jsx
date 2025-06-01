@@ -102,6 +102,11 @@ const useStyles = createUseStyles({
       backgroundColor: "#e6ebf0"
     }
   },
+  tabBody: {
+    display: "flex",
+    flexDirection: "row",
+    minHeight: "calc(100% - 50px)"
+  },
   filter: {
     overflow: "hidden",
     flexBasis: "18rem",
@@ -1044,12 +1049,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
           Deleted Projects
         </span>
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row"
-        }}
-      >
+      <div className={classes.tabBody}>
         <div
           style={{
             display: "flex",

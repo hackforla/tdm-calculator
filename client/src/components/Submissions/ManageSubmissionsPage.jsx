@@ -66,7 +66,7 @@ const useStyles = createUseStyles({
     transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
-    marginTop: "1rem",
+    marginTop: 0,
     marginBottom: "0rem"
   },
   searchBarWrapper: {
@@ -164,7 +164,8 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: "auto"
   },
   dropContent: {
     borderRadius: "4px",
@@ -456,7 +457,8 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       <div
         style={{
           display: "flex",
-          flexDirection: "row"
+          flexDirection: "row",
+          minHeight: "calc(100% - 40px)"
         }}
       >
         <div
