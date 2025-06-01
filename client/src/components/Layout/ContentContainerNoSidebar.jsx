@@ -24,7 +24,9 @@ const useStyles = createUseStyles({
     flexGrow: 1,
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    paddingTop: "20px",
+    paddingBottom: "10px"
   }
 });
 
