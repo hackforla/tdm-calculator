@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import Popup from "reactjs-popup";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
@@ -8,8 +9,9 @@ import RolesUnarchiveContextMenu from "./RolesUnarchiveContextMenu";
 import RolesDeleteContextMenu from "./RolesDeleteContextMenu";
 import UserContext from "../../contexts/UserContext";
 import { MdMoreVert, MdOutlineSearch } from "react-icons/md";
+import ContentContainer from "components/Layout/ContentContainer";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   main: {
     display: "flex",
     flexDirection: "column",
@@ -44,8 +46,8 @@ const useStyles = createUseStyles({
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: "#002E6D",
-    color: "white",
+    backgroundColor: theme.colors.primary.navy,
+    color: theme.colors.primary.white,
     "& td": {
       padding: "12px"
     }
@@ -60,7 +62,7 @@ const useStyles = createUseStyles({
       verticalAlign: "top"
     },
     "& tr:hover": {
-      background: "#CFCFCF"
+      background: theme.colors.secondary.mediumGray
     }
   },
   link: {
@@ -73,7 +75,7 @@ const useStyles = createUseStyles({
     padding: "0.2em 0.5em",
     borderRadius: "4px",
     "&:hover": {
-      backgroundColor: "#CFCFCF"
+      backgroundColor: theme.colors.secondary.mediumGray
     }
   },
   popupContent: {
@@ -120,14 +122,15 @@ const useStyles = createUseStyles({
     boxShadow:
       "10px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
   }
-});
+}));
 
-const RolesArchive = () => {
+const RolesArchive = ({ contentContainerRef }) => {
   const [searchString, setSearchString] = useState("");
   const [archivedAccounts, setArchivedAccounts] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const { add } = useToast();
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
@@ -196,111 +199,119 @@ const RolesArchive = () => {
   };
 
   return (
-    <div className={classes.main}>
-      <h1 className={classes.pageTitle}>Archived Accounts</h1>
-      <div className={classes.pageSubtitle}>
-        Archived accounts don’t have access to project data. If a user with an
-        archived account needs to access this info, you can restore their
-        account.
+    <ContentContainer contentContainerRef={contentContainerRef}>
+      <div className={classes.main}>
+        <h1 className={classes.pageTitle}>Archived Accounts</h1>
+        <div className={classes.pageSubtitle}>
+          Archived accounts don’t have access to project data. If a user with an
+          archived account needs to access this info, you can restore their
+          account.
+        </div>
+        <div className={classes.pageSubtitle}>
+          <Link to="/roles" className={classes.link}>
+            Return to Active Accounts
+          </Link>
+        </div>
+        <div className={classes.pageSubtitle}>
+          <Link to="/archivedprojects" className={classes.link}>
+            See All Archived Projects
+          </Link>
+        </div>
+        <div className={classes.searchBarWrapper}>
+          <label htmlFor="searchString" className={classes.textInputLabel}>
+            Search for user:
+          </label>
+          <input
+            className={classes.searchBar}
+            name="searchString"
+            type="text"
+            value={searchString || ""}
+            onChange={e => {
+              setSearchString(e.target.value);
+              filt(archivedAccounts, e.target.value);
+            }}
+            data-testid="searchString"
+            placeholder="Enter name or email"
+          />
+          <MdOutlineSearch className={classes.searchIcon} />
+        </div>
+        <table className={classes.table}>
+          <thead className={classes.thead}>
+            <tr className={classes.tr}>
+              <td className={classes.td}>Email</td>
+              <td className={classes.td}>Name</td>
+              <td className={classes.td}>Date Archived</td>
+              <td className={classes.tdCenter}></td>
+            </tr>
+          </thead>
+          <tbody className={classes.tbody}>
+            {filteredAccounts &&
+              filteredAccounts.map(account => (
+                <tr
+                  key={account.id}
+                  className={
+                    hoveredRow === account.id ? classes.hoveredRow : ""
+                  }
+                >
+                  <td className={classes.td}>{account.email}</td>
+                  <td
+                    className={classes.td}
+                  >{`${account.lastName}, ${account.firstName}`}</td>
+                  <td className={classes.td}>
+                    {new Date(account.archivedAt).toLocaleDateString()}
+                  </td>
+                  <td className={classes.tdCenter}>
+                    <Popup
+                      className={classes.popover}
+                      trigger={
+                        <button
+                          className={`${classes.optionsButton} ${
+                            account?.isSecurityAdmin ||
+                            account?.id === loggedInUserId
+                              ? classes.disabledOptionsButton
+                              : ""
+                          }`}
+                          disabled={
+                            account?.isSecurityAdmin ||
+                            account?.id === loggedInUserId
+                          }
+                        >
+                          <MdMoreVert alt={`Options for ${account?.email}`} />
+                        </button>
+                      }
+                      position="left center"
+                      offsetX={-5}
+                      on="click"
+                      closeOnDocumentClick
+                      arrow={true}
+                      onOpen={() => setHoveredRow(account?.id)}
+                      onClose={() => setHoveredRow(null)}
+                    >
+                      <div className={classes.popupContent}>
+                        <RolesUnarchiveContextMenu
+                          user={account}
+                          handleUnarchiveUser={handleUnarchiveUser}
+                        />
+                      </div>
+                      <div className={classes.popupContent}>
+                        <RolesDeleteContextMenu
+                          user={account}
+                          handleDeleteUser={handleDeleteUser}
+                        />
+                      </div>
+                    </Popup>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
-      <div className={classes.pageSubtitle}>
-        <Link to="/roles" className={classes.link}>
-          Return to Active Accounts
-        </Link>
-      </div>
-      <div className={classes.pageSubtitle}>
-        <Link to="/archivedprojects" className={classes.link}>
-          See All Archived Projects
-        </Link>
-      </div>
-      <div className={classes.searchBarWrapper}>
-        <label htmlFor="searchString" className={classes.textInputLabel}>
-          Search for user:
-        </label>
-        <input
-          className={classes.searchBar}
-          name="searchString"
-          type="text"
-          value={searchString || ""}
-          onChange={e => {
-            setSearchString(e.target.value);
-            filt(archivedAccounts, e.target.value);
-          }}
-          data-testid="searchString"
-          placeholder="Enter name or email"
-        />
-        <MdOutlineSearch className={classes.searchIcon} />
-      </div>
-      <table className={classes.table}>
-        <thead className={classes.thead}>
-          <tr className={classes.tr}>
-            <td className={classes.td}>Email</td>
-            <td className={classes.td}>Name</td>
-            <td className={classes.td}>Date Archived</td>
-            <td className={classes.tdCenter}></td>
-          </tr>
-        </thead>
-        <tbody className={classes.tbody}>
-          {filteredAccounts &&
-            filteredAccounts.map(account => (
-              <tr
-                key={account.id}
-                className={hoveredRow === account.id ? classes.hoveredRow : ""}
-              >
-                <td className={classes.td}>{account.email}</td>
-                <td
-                  className={classes.td}
-                >{`${account.lastName}, ${account.firstName}`}</td>
-                <td className={classes.td}>
-                  {new Date(account.archivedAt).toLocaleDateString()}
-                </td>
-                <td className={classes.tdCenter}>
-                  <Popup
-                    className={classes.popover}
-                    trigger={
-                      <button
-                        className={`${classes.optionsButton} ${
-                          account?.isSecurityAdmin ||
-                          account?.id === loggedInUserId
-                            ? classes.disabledOptionsButton
-                            : ""
-                        }`}
-                        disabled={
-                          account?.isSecurityAdmin ||
-                          account?.id === loggedInUserId
-                        }
-                      >
-                        <MdMoreVert alt={`Options for ${account?.email}`} />
-                      </button>
-                    }
-                    position="left center"
-                    offsetX={-5}
-                    on="click"
-                    closeOnDocumentClick
-                    arrow={true}
-                    onOpen={() => setHoveredRow(account?.id)}
-                    onClose={() => setHoveredRow(null)}
-                  >
-                    <div className={classes.popupContent}>
-                      <RolesUnarchiveContextMenu
-                        user={account}
-                        handleUnarchiveUser={handleUnarchiveUser}
-                      />
-                    </div>
-                    <div className={classes.popupContent}>
-                      <RolesDeleteContextMenu
-                        user={account}
-                        handleDeleteUser={handleDeleteUser}
-                      />
-                    </div>
-                  </Popup>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
+    </ContentContainer>
   );
+};
+
+RolesArchive.propTypes = {
+  contentContainerRef: PropTypes.object
 };
 
 export default RolesArchive;
