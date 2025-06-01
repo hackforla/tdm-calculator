@@ -51,19 +51,6 @@ const DEFAULT_FILTER_CRITERIA = {
 };
 
 const useStyles = createUseStyles({
-  outerDiv: {
-    display: "flex",
-    flexDirection: "row-reverse",
-    justifyItems: "flex-start"
-  },
-  contentDiv: {
-    flexBasis: "75%",
-    flexShrink: 1,
-    flexGrow: 1,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  },
   filter: {
     overflow: "hidden",
     flexBasis: "18rem",
@@ -465,163 +452,158 @@ const ManageSubmissions = ({ contentContainerRef }) => {
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
-      <div className={classes.outerDiv}>
-        <div className={classes.contentDiv}>
-          <h1 className={classes.pageTitle}>Manage Submissions</h1>
+      <h1 className={classes.pageTitle}>Manage Submissions</h1>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row"
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start"
+          }}
+        >
           <div
             style={{
               display: "flex",
-              flexDirection: "row"
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100vw"
             }}
           >
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-start"
+                flexDirection: "row",
+                alignSelf: "center",
+                justifyContent: "center",
+                flexBasis: "33%"
+              }}
+            ></div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignSelf: "center",
+                justifyContent: "center",
+                flexBasis: "33%"
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100vw"
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    flexBasis: "33%"
-                  }}
-                ></div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <div className={classes.searchBarWrapper}>
-                    <input
-                      className={classes.searchBar}
-                      type="search"
-                      id="filterText"
-                      name="filterText"
-                      placeholder="Search by Name; Address; Description; Alt#"
-                      value={filterCriteria.filterText}
-                      onChange={e => handleFilterTextChange(e.target.value)}
-                    />
-                    <MdOutlineSearch className={classes.searchIcon} />
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    paddingRight: "1rem",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <Button
-                    onClick={resetFiltersSort}
-                    isDisplayed={true}
-                    variant="tertiary"
-                  >
-                    RESET FILTERS/SORT
-                  </Button>
-                </div>
-              </div>
-              <div>
-                <div className={classes.tableContainer}>
-                  <table
-                    className={
-                      userContext.account?.isAdmin
-                        ? classes.tableAdmin
-                        : classes.table
-                    }
-                  >
-                    <colgroup>
-                      {headerData.map(h => (
-                        <col key={h.id} width={h.colWidth} />
-                      ))}
-                    </colgroup>
-                    <thead className={classes.thead}>
-                      <tr className={classes.tr}>
-                        {headerData.map(header => {
-                          return (
-                            <td key={header.id}>
-                              <th className={classes.stickyTh}>
-                                <ProjectTableColumnHeader
-                                  projects={projects}
-                                  filter={filter}
-                                  header={header}
-                                  criteria={filterCriteria}
-                                  setCriteria={setFilter}
-                                  setSort={setSort}
-                                  orderBy={
-                                    sortCriteria[sortCriteria.length - 1].field
-                                  }
-                                  order={
-                                    sortCriteria[sortCriteria.length - 1]
-                                      .direction
-                                  }
-                                  setCheckedProjectIds={null}
-                                  setSelectAllChecked={null}
-                                  droOptions={null}
-                                />
-                              </th>
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody className={classes.tbody}>
-                      {currentProjects.length ? (
-                        currentProjects.map(project => (
-                          <SubmissionTableRow
-                            key={project.id}
-                            project={project}
-                            onAdminNoteUpdate={handleAdminNoteUpdate}
-                            assigneeList={assigneeList}
-                            onStatusUpdate={getProjects}
-                          />
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={9} className={classes.tdNoSavedProjects}>
-                            No Saved Projects
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div className={classes.pageContainer}>
-                <Pagination
-                  projectsPerPage={projectsPerPage}
-                  totalProjects={sortedProjects.length}
-                  paginate={paginate}
-                  currentPage={currentPage}
-                  maxNumOfVisiblePages={5}
+              <div className={classes.searchBarWrapper}>
+                <input
+                  className={classes.searchBar}
+                  type="search"
+                  id="filterText"
+                  name="filterText"
+                  placeholder="Search by Name; Address; Description; Alt#"
+                  value={filterCriteria.filterText}
+                  onChange={e => handleFilterTextChange(e.target.value)}
                 />
-                <UniversalSelect
-                  value={perPage.toString()}
-                  options={perPageOptions}
-                  onChange={e => handlePerPageChange(e.target.value)}
-                  name="perPage"
-                  className={classes.dropContent}
-                />
-                <span className={classes.itemsPerPage}>Items per page</span>
+                <MdOutlineSearch className={classes.searchIcon} />
               </div>
             </div>
+
+            <div
+              style={{
+                paddingRight: "1rem",
+                display: "flex",
+                justifyContent: "flex-end",
+                flexBasis: "33%"
+              }}
+            >
+              <Button
+                onClick={resetFiltersSort}
+                isDisplayed={true}
+                variant="tertiary"
+              >
+                RESET FILTERS/SORT
+              </Button>
+            </div>
+          </div>
+          <div>
+            <div className={classes.tableContainer}>
+              <table
+                className={
+                  userContext.account?.isAdmin
+                    ? classes.tableAdmin
+                    : classes.table
+                }
+              >
+                <colgroup>
+                  {headerData.map(h => (
+                    <col key={h.id} width={h.colWidth} />
+                  ))}
+                </colgroup>
+                <thead className={classes.thead}>
+                  <tr className={classes.tr}>
+                    {headerData.map(header => {
+                      return (
+                        <td key={header.id}>
+                          <th className={classes.stickyTh}>
+                            <ProjectTableColumnHeader
+                              projects={projects}
+                              filter={filter}
+                              header={header}
+                              criteria={filterCriteria}
+                              setCriteria={setFilter}
+                              setSort={setSort}
+                              orderBy={
+                                sortCriteria[sortCriteria.length - 1].field
+                              }
+                              order={
+                                sortCriteria[sortCriteria.length - 1].direction
+                              }
+                              setCheckedProjectIds={null}
+                              setSelectAllChecked={null}
+                              droOptions={null}
+                            />
+                          </th>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                </thead>
+                <tbody className={classes.tbody}>
+                  {currentProjects.length ? (
+                    currentProjects.map(project => (
+                      <SubmissionTableRow
+                        key={project.id}
+                        project={project}
+                        onAdminNoteUpdate={handleAdminNoteUpdate}
+                        assigneeList={assigneeList}
+                        onStatusUpdate={getProjects}
+                      />
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={9} className={classes.tdNoSavedProjects}>
+                        No Saved Projects
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={classes.pageContainer}>
+            <Pagination
+              projectsPerPage={projectsPerPage}
+              totalProjects={sortedProjects.length}
+              paginate={paginate}
+              currentPage={currentPage}
+              maxNumOfVisiblePages={5}
+            />
+            <UniversalSelect
+              value={perPage.toString()}
+              options={perPageOptions}
+              onChange={e => handlePerPageChange(e.target.value)}
+              name="perPage"
+              className={classes.dropContent}
+            />
+            <span className={classes.itemsPerPage}>Items per page</span>
           </div>
         </div>
       </div>
