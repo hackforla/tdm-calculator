@@ -30,7 +30,9 @@ const useStyles = createUseStyles(theme => ({
   heading3: {
     ...theme.typography.heading3,
     marginRight: "1rem",
-    lineHeight: "2rem"
+    lineHeight: "2rem",
+    wordBreak: "break-all",
+    textAlign: "left"
   },
   userContainer: {
     display: "flex",
@@ -118,7 +120,10 @@ export default function InfoSnapshotSubmit({ mounted, onClose, project }) {
             the application process and payment.
           </div>
 
-          <div className={classes.heading3} style={{ marginTop: "1.6rem" }}>
+          <div
+            className={classes.heading3}
+            style={{ marginTop: "1.6rem", maxWidth: "425px" }}
+          >
             {project?.name}
           </div>
           <div className={classes.heading3}>{project?.address}</div>

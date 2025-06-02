@@ -25,18 +25,22 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
+    textAlign: "center",
     margin: 0
   },
   heading1: theme.typography.heading1,
   heading3: {
     ...theme.typography.heading3,
     marginRight: "1rem",
-    lineHeight: "2rem"
+    lineHeight: "2rem",
+    wordBreak: "break-all",
+    textAlign: "left"
   },
   userContainer: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "start"
+    alignItems: "start",
+    maxWidth: "560px"
   },
   subheading: {
     ...theme.typography.subHeading,
@@ -122,7 +126,10 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
             for more information about the application process.
           </div>
 
-          <div className={classes.heading3} style={{ marginTop: "1.6rem" }}>
+          <div
+            className={classes.heading3}
+            style={{ marginTop: "1.6rem", maxWidth: "425px" }}
+          >
             {project?.name}
           </div>
           <div className={classes.heading3}>{project?.address}</div>
@@ -137,7 +144,7 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
             {`Date Snapshot Created: ${dateSnapShot}` || null}
           </div>
         </div>
-        <div className={classes.subheading}>
+        <div className={classes.subheading} style={{ textAlign: "center" }}>
           Are you sure you want to submit this Snapshot?
         </div>
         <div className={classes.buttonFlexBox} style={{ marginTop: "1.5rem" }}>
