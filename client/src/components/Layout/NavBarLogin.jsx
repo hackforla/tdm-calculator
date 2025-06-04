@@ -15,7 +15,11 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
 
   const [isCalculation, setIsCalculation] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(true);
-  const closeModal = () => setTooltipOpen(false);
+  const closeModal = () => {
+    const loginLink = document.getElementById("login-link");
+    loginLink.removeAttribute("aria-describedby");
+    setTooltipOpen(false);
+  };
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -102,7 +106,11 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           open={tooltipOpen}
           onClose={closeModal}
           closeOnDocumentClick={false}
-          trigger={<span style={{ cursor: "pointer" }}>{loginLink}</span>}
+          trigger={
+            <span id="login-link" style={{ cursor: "pointer" }}>
+              {loginLink}
+            </span>
+          }
           position="bottom right"
           arrow={true}
           arrowStyle={{
