@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import * as projectService from "../../services/project.service";
 import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
 import PropTypes from "prop-types";
-import { MdWarning } from "react-icons/md";
+import { MdCheckCircle } from "react-icons/md";
 import { getById } from "services/dro.service";
 import { Link } from "react-router-dom";
 
@@ -15,17 +14,16 @@ const useStyles = createUseStyles(theme => ({
     alignItems: "center",
     padding: "40px"
   },
-  warningIcon: {
+  submittedIcon: {
     height: "80px",
     width: "80px",
-    color: theme.colorCritical,
+    color: theme.colorPrimary,
     textAlign: "center"
   },
   buttonFlexBox: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    textAlign: "center",
     margin: 0
   },
   heading1: theme.typography.heading1,
@@ -39,8 +37,7 @@ const useStyles = createUseStyles(theme => ({
   userContainer: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "start",
-    maxWidth: "560px"
+    alignItems: "start"
   },
   subheading: {
     ...theme.typography.subHeading,
@@ -51,7 +48,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
+export default function InfoSnapshotSubmit({ mounted, onClose, project }) {
   const theme = useTheme();
   const classes = useStyles(theme);
   const [apnDroData, setApnDroData] = useState(null);
@@ -73,6 +70,7 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
         if (project.droId) {
           dro = (await getById(project.droId)).data.name;
         }
+
         const data = {
           apn: apn,
           dro: dro
@@ -86,11 +84,6 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
   }, [project]);
 
   const handleClose = async () => {
-    try {
-      await projectService.submit({ id: project.id });
-    } catch (err) {
-      console.error(err);
-    }
     onClose("ok");
   };
 
@@ -103,6 +96,9 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
   };
   const dateLastSaved = convertTimeStamp(project?.dateModified);
   const dateSnapShot = convertTimeStamp(project?.dateSnapshotted);
+  const date = new Date();
+  const dateSubmitted = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+
   return (
     <ModalDialog
       mounted={mounted}
@@ -111,19 +107,17 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
       initialFocus="#cancelButton"
     >
       <div className={classes.container}>
-        <MdWarning alt="Warning" className={classes.warningIcon} />
-        <div className={classes.heading1}>Ready to Submit</div>
+        <MdCheckCircle alt="Checked" className={classes.submittedIcon} />
+        <div className={classes.heading1}>Submitted</div>
         <div className={classes.subheading} style={{ textAlign: "center" }}>
-          This Snapshot will be submitted to LADOT as a TDM <br /> Plan
-          application.
+          Your TDM Plan submission to LADOT was successful.
         </div>
         <div className={classes.userContainer}>
+          <div className={classes.subheading}>Submitted: {dateSubmitted}</div>
+
           <div className={classes.subheading}>
-            An application fee must be paid to initiate review.See the
-            <Link to="/faqs" style={{ paddingInline: "4px" }}>
-              FAQ
-            </Link>
-            for more information about the application process.
+            See the <Link to="/faqs">FAQ</Link> page for more information about
+            the application process and payment.
           </div>
 
           <div
@@ -144,15 +138,9 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
             {`Date Snapshot Created: ${dateSnapShot}` || null}
           </div>
         </div>
-        <div className={classes.subheading} style={{ textAlign: "center" }}>
-          Are you sure you want to submit this Snapshot?
-        </div>
         <div className={classes.buttonFlexBox} style={{ marginTop: "1.5rem" }}>
-          <Button onClick={onClose} variant="secondary" id="cancelButton">
-            Cancel
-          </Button>
           <Button onClick={handleClose} variant="primary">
-            SUBMIT
+            OK
           </Button>
         </div>
       </div>
@@ -160,7 +148,7 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
   );
 }
 
-WarningSnapshotSubmit.propTypes = {
+InfoSnapshotSubmit.propTypes = {
   mounted: PropTypes.bool,
   onClose: PropTypes.func,
   project: PropTypes.any

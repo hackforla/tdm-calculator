@@ -30,16 +30,19 @@ const useStyles = createUseStyles({
   link: {
     color: "#ffffff",
     textDecoration: "none",
-    marginRight: "2em",
+    marginRight: "5px",
+    padding: "0.4em 0.75em",
+    transition: "background-color 0.3s ease-in-out",
     "&:hover": {
-      color: "#a7c539"
+      color: "#0f2940",
+      backgroundColor: "#fff"
     },
     "@media (max-width:1024px)": {
       marginRight: "1em"
+    },
+    "&.active": {
+      borderBottom: "1px solid #fff"
     }
-  },
-  currentLink: {
-    borderBottom: "2px solid #a7c539"
   },
   linkUnclickable: {
     color: "rgba(255, 255, 255, 0.5)",
@@ -69,7 +72,6 @@ const useStyles = createUseStyles({
   },
   lastItem: {
     marginLeft: "2em",
-    paddingRight: 0,
     marginRight: "1em",
     "@media (max-width:1024px)": {
       marginLeft: "1em"
@@ -110,7 +112,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
-            // activeClassName={classes.currentLink}
             to="/projects"
             onClick={handleHamburgerMenuClick}
           >
@@ -121,7 +122,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
-          // activeClassName={classes.currentLink}
           to="/calculation/1/0"
           onClick={handleHamburgerMenuClick}
         >
@@ -132,7 +132,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
-            // activeClassName={classes.currentLink}
             to="/roles"
             onClick={handleHamburgerMenuClick}
           >
@@ -165,7 +164,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
-          // activeClassName={classes.currentLink}
           to="/about"
           onClick={handleHamburgerMenuClick}
         >
@@ -175,7 +173,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
-          // activeClassName={classes.currentLink}
           to="/faqs"
           onClick={handleHamburgerMenuClick}
         >
@@ -186,7 +183,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
-            // activeClassName={classes.currentLink}
             to="/feedback"
             onClick={handleHamburgerMenuClick}
           >

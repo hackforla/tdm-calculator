@@ -28,6 +28,7 @@ import CopyAndEditSnapshotModal from "../Modals/ActionCopyAndEditSnapshot";
 import * as projectService from "../../services/project.service";
 import WarningProjectReset from "../Modals/WarningProjectReset";
 import InfoTargetNotReached from "../Modals/InfoTargetNotReached";
+import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 
 const useStyles = createUseStyles({
   wizard: {
@@ -83,6 +84,7 @@ const TdmCalculationWizard = props => {
   const [resetProjectWarningModalOpen, setResetProjectWarningModalOpen] =
     useState(false);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [successModelOpen, setSuccessModelOpen] = useState(false);
   const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
     useState(false);
   const isSnapshotOwner = project?.loginId === account?.id;
@@ -98,8 +100,13 @@ const TdmCalculationWizard = props => {
   const handleSubmitModalClose = async action => {
     if (action === "ok") {
       initializeEngine();
+      setSuccessModelOpen(true);
     }
     setSubmitModalOpen(false);
+  };
+
+  const handleSuccessModalClose = () => {
+    setSuccessModelOpen(false);
   };
 
   const copyAndEditSnapshot = async nameOfCopy => {
@@ -428,6 +435,11 @@ const TdmCalculationWizard = props => {
       <InfoTargetNotReached
         mounted={targetNotReachedModalOpen}
         onClose={() => setTargetNotReachedModalOpen(false)}
+        project={project}
+      />
+      <InfoSnapshotSubmit
+        mounted={successModelOpen}
+        onClose={handleSuccessModalClose}
         project={project}
       />
     </div>
