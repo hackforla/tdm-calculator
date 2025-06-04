@@ -31,6 +31,7 @@ import {
   SORT_CRITERIA_STORAGE_TAG,
   FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
+import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
@@ -288,6 +289,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [successModelOpen, setSuccessModelOpen] = useState(false);
   const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
     useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
@@ -521,8 +523,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const handleSubmitModalClose = async action => {
     if (action === "ok") {
       await updateProjects();
+      setSuccessModelOpen(true);
     }
     setSubmitModalOpen(false);
+  };
+
+  const handleSuccessModalClose = () => {
+    setSuccessModelOpen(false);
     setSelectedProject(null);
   };
 
@@ -1295,6 +1302,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   <InfoTargetNotReached
                     mounted={targetNotReachedModalOpen}
                     onClose={() => setTargetNotReachedModalOpen(false)}
+                    project={selectedProject}
+                  />
+                  <InfoSnapshotSubmit
+                    mounted={successModelOpen}
+                    onClose={handleSuccessModalClose}
                     project={selectedProject}
                   />
                 </>
