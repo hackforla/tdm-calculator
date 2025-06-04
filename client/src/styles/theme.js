@@ -31,7 +31,9 @@ export const jssTheme = {
       lightGray: "#EEF1F4",
       green: "#A7C539",
       darkNavy: "#002E6D",
-      darkBlue: "#00122B"
+      darkBlue: "#00122B",
+      yellow: "#FFFF00",
+      linkBlue: "#0000FF"
     },
     warning: "#C3391D",
     notice: "#E87D00",
