@@ -50,19 +50,6 @@ const DEFAULT_FILTER_CRITERIA = {
 };
 
 const useStyles = createUseStyles(theme => ({
-  outerDiv: {
-    display: "flex",
-    flexDirection: "row-reverse",
-    justifyItems: "flex-start"
-  },
-  contentDiv: {
-    flexBasis: "75%",
-    flexShrink: 1,
-    flexGrow: 1,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  },
   filter: {
     overflow: "hidden",
     flexBasis: "18rem",
@@ -78,7 +65,7 @@ const useStyles = createUseStyles(theme => ({
     transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
-    marginTop: "1rem",
+    marginTop: 0,
     marginBottom: "0rem"
   },
   subheading: {
@@ -451,212 +438,206 @@ const SubmissionsPage = ({ contentContainerRef }) => {
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
-      <div className={classes.outerDiv}>
-        <div className={classes.contentDiv}>
-          <h1 className={classes.pageTitle}>Submissions</h1>
-          <h2 className={classes.subheading}>
-            These snapshots have been submitted to LADOT for review.
-          </h2>
-          <h2 className={classes.subheading}>
-            For more advanced filtering, go to{" "}
-            <a href="/projects">My Projects</a>.
-          </h2>
-          <h2 className={classes.subheading}>
-            To submit a snapshot, go to <a href="/projects">My Projects</a> or
-            page 5 of your project.
-          </h2>
+      <h1 className={classes.pageTitle}>Submissions</h1>
+      <h2 className={classes.subheading}>
+        These snapshots have been submitted to LADOT for review.
+      </h2>
+      <h2 className={classes.subheading}>
+        For more advanced filtering, go to <a href="/projects">My Projects</a>.
+      </h2>
+      <h2 className={classes.subheading}>
+        To submit a snapshot, go to <a href="/projects">My Projects</a> or page
+        5 of your project.
+      </h2>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row"
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start"
+          }}
+        >
           <div
             style={{
               display: "flex",
-              flexDirection: "row"
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100vw"
             }}
           >
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-start"
+                flexDirection: "row",
+                alignSelf: "center",
+                justifyContent: "center",
+                flexBasis: "33%"
+              }}
+            ></div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignSelf: "center",
+                justifyContent: "center",
+                flexBasis: "33%"
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100vw"
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    flexBasis: "33%"
-                  }}
-                ></div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <div className={classes.searchBarWrapper}>
-                    <input
-                      className={classes.searchBar}
-                      type="search"
-                      id="filterText"
-                      name="filterText"
-                      placeholder="Search by Name; Address; Description; Alt#"
-                      value={filterCriteria.filterText}
-                      onChange={e => handleFilterTextChange(e.target.value)}
-                    />
-                    <MdOutlineSearch className={classes.searchIcon} />
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    paddingRight: "1rem",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <Button
-                    onClick={resetFiltersSort}
-                    isDisplayed={true}
-                    variant="tertiary"
-                  >
-                    RESET FILTERS/SORT
-                  </Button>
-                </div>
-              </div>
-              <div>
-                <div className={classes.tableContainer}>
-                  <table
-                    className={
-                      userContext.account?.isAdmin
-                        ? classes.tableAdmin
-                        : classes.table
-                    }
-                  >
-                    <colgroup>
-                      {headerData.map(h => (
-                        <col key={h.id} width={h.colWidth} />
-                      ))}
-                    </colgroup>
-                    <thead className={classes.thead}>
-                      <tr className={classes.tr}>
-                        {headerData.map(header => {
-                          return (
-                            <td key={header.id}>
-                              <th className={classes.stickyTh}>
-                                <ProjectTableColumnHeader
-                                  projects={projects}
-                                  filter={filter}
-                                  header={header}
-                                  criteria={filterCriteria}
-                                  setCriteria={setFilter}
-                                  setSort={setSort}
-                                  orderBy={
-                                    sortCriteria[sortCriteria.length - 1].field
-                                  }
-                                  order={
-                                    sortCriteria[sortCriteria.length - 1]
-                                      .direction
-                                  }
-                                  setCheckedProjectIds={null}
-                                  setSelectAllChecked={null}
-                                  droOptions={null}
-                                />
-                              </th>
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody className={classes.tbody}>
-                      {currentProjects.length ? (
-                        currentProjects.map(project => (
-                          <tr
-                            key={project.id}
-                            style={{
-                              background: project.dateTrashed ? "#ffdcdc" : ""
-                            }}
-                          >
-                            <td className={classes.tdRightAlign}>
-                              {project.id.toString().padStart(10, "0")}
-                            </td>
-                            <td className={classes.td}>
-                              <Link to={`/calculation/1/${project.id}`}>
-                                {project.name}
-                              </Link>
-                            </td>
-                            <td className={classes.td}>{project.address}</td>
-                            <td className={classes.td}>
-                              {formatDate(project.dateSubmitted)}
-                            </td>
-                            <td className={classes.td}>
-                              {formatDate(project.dateStatus)}
-                            </td>
-                            <td className={classes.tdCenterAlign}>
-                              {project.projectLevel}
-                            </td>
-                            <td className={classes.td}>{project.droName}</td>
-                            <td className={classes.td}>{project.assignee}</td>
-                            <td className={classes.td}>
-                              {formatDate(project.dateAssigned)}
-                            </td>
-                            <td className={classes.td}>
-                              {project.invoiceStatusName}
-                            </td>
-                            <td className={classes.td}>
-                              {formatDate(project.dateInvoicePaid)}
-                            </td>
-                            <td className={classes.tdCenterAlign}>
-                              {project.onHold ? <MdCheck /> : ""}
-                            </td>
-                            <td className={classes.td}>
-                              {project.approvalStatusName}
-                            </td>
-                            <td className={classes.td}>
-                              {formatDate(project.dateCoO)}
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={9} className={classes.tdNoSavedProjects}>
-                            No Saved Projects
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div className={classes.pageContainer}>
-                <Pagination
-                  projectsPerPage={projectsPerPage}
-                  totalProjects={sortedProjects.length}
-                  paginate={paginate}
-                  currentPage={currentPage}
-                  maxNumOfVisiblePages={5}
+              <div className={classes.searchBarWrapper}>
+                <input
+                  className={classes.searchBar}
+                  type="search"
+                  id="filterText"
+                  name="filterText"
+                  placeholder="Search by Name; Address; Description; Alt#"
+                  value={filterCriteria.filterText}
+                  onChange={e => handleFilterTextChange(e.target.value)}
                 />
-                <UniversalSelect
-                  value={perPage.toString()}
-                  options={perPageOptions}
-                  onChange={e => handlePerPageChange(e.target.value)}
-                  name="perPage"
-                  className={classes.dropContent}
-                />
-                <span className={classes.itemsPerPage}>Items per page</span>
+                <MdOutlineSearch className={classes.searchIcon} />
               </div>
             </div>
+
+            <div
+              style={{
+                paddingRight: "1rem",
+                display: "flex",
+                justifyContent: "flex-end",
+                flexBasis: "33%"
+              }}
+            >
+              <Button
+                onClick={resetFiltersSort}
+                isDisplayed={true}
+                variant="tertiary"
+              >
+                RESET FILTERS/SORT
+              </Button>
+            </div>
+          </div>
+          <div>
+            <div className={classes.tableContainer}>
+              <table
+                className={
+                  userContext.account?.isAdmin
+                    ? classes.tableAdmin
+                    : classes.table
+                }
+              >
+                <colgroup>
+                  {headerData.map(h => (
+                    <col key={h.id} width={h.colWidth} />
+                  ))}
+                </colgroup>
+                <thead className={classes.thead}>
+                  <tr className={classes.tr}>
+                    {headerData.map(header => {
+                      return (
+                        <td key={header.id}>
+                          <th className={classes.stickyTh}>
+                            <ProjectTableColumnHeader
+                              projects={projects}
+                              filter={filter}
+                              header={header}
+                              criteria={filterCriteria}
+                              setCriteria={setFilter}
+                              setSort={setSort}
+                              orderBy={
+                                sortCriteria[sortCriteria.length - 1].field
+                              }
+                              order={
+                                sortCriteria[sortCriteria.length - 1].direction
+                              }
+                              setCheckedProjectIds={null}
+                              setSelectAllChecked={null}
+                              droOptions={null}
+                            />
+                          </th>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                </thead>
+                <tbody className={classes.tbody}>
+                  {currentProjects.length ? (
+                    currentProjects.map(project => (
+                      <tr
+                        key={project.id}
+                        style={{
+                          background: project.dateTrashed ? "#ffdcdc" : ""
+                        }}
+                      >
+                        <td className={classes.tdRightAlign}>
+                          {project.id.toString().padStart(10, "0")}
+                        </td>
+                        <td className={classes.td}>
+                          <Link to={`/calculation/1/${project.id}`}>
+                            {project.name}
+                          </Link>
+                        </td>
+                        <td className={classes.td}>{project.address}</td>
+                        <td className={classes.td}>
+                          {formatDate(project.dateSubmitted)}
+                        </td>
+                        <td className={classes.td}>
+                          {formatDate(project.dateStatus)}
+                        </td>
+                        <td className={classes.tdCenterAlign}>
+                          {project.projectLevel}
+                        </td>
+                        <td className={classes.td}>{project.droName}</td>
+                        <td className={classes.td}>{project.assignee}</td>
+                        <td className={classes.td}>
+                          {formatDate(project.dateAssigned)}
+                        </td>
+                        <td className={classes.td}>
+                          {project.invoiceStatusName}
+                        </td>
+                        <td className={classes.td}>
+                          {formatDate(project.dateInvoicePaid)}
+                        </td>
+                        <td className={classes.tdCenterAlign}>
+                          {project.onHold ? <MdCheck /> : ""}
+                        </td>
+                        <td className={classes.td}>
+                          {project.approvalStatusName}
+                        </td>
+                        <td className={classes.td}>
+                          {formatDate(project.dateCoO)}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={9} className={classes.tdNoSavedProjects}>
+                        No Saved Projects
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={classes.pageContainer}>
+            <Pagination
+              projectsPerPage={projectsPerPage}
+              totalProjects={sortedProjects.length}
+              paginate={paginate}
+              currentPage={currentPage}
+              maxNumOfVisiblePages={5}
+            />
+            <UniversalSelect
+              value={perPage.toString()}
+              options={perPageOptions}
+              onChange={e => handlePerPageChange(e.target.value)}
+              name="perPage"
+              className={classes.dropContent}
+            />
+            <span className={classes.itemsPerPage}>Items per page</span>
           </div>
         </div>
       </div>

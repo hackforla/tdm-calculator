@@ -10,7 +10,8 @@ const useStyles = createUseStyles(theme => ({
     marginRight: "10px"
   },
   pagination: {
-    display: "flex"
+    display: "flex",
+    margin: "auto"
   },
   button: {
     border: "none",
