@@ -409,7 +409,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     },
     {
       id: "dateInvoicePaid",
-      label: "Invoice Pd",
+      label: "Invoice Paid",
       popupType: "datetime",
       startDatePropertyName: "startDateInvoicePaid",
       endDatePropertyName: "endDateInvoicePaid",
