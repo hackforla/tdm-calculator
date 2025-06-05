@@ -14,12 +14,16 @@ const useStyles = createUseStyles(theme => ({
     boxShadow: "rgba(0, 46, 109, 0.3) 0px 3px 5px",
     "&:focus": {
       borderRadius: "none"
+    },
+    "&[disabled]:hover": {
+      boxShadow: "none"
     }
   },
   wizardNavButtonDisabled: {
     cursor: "default",
     backgroundColor: theme.colorPrimaryDisabled,
-    color: theme.colorGray
+    color: theme.colorGray,
+    boxShadow: "none"
   },
   hidden: {
     visibility: "hidden"
