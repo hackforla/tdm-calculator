@@ -9,6 +9,7 @@ import clsx from "clsx";
 
 export const useStyles = createUseStyles(theme => ({
   pageTitle: {
+    marginTop: 0,
     marginBottom: "16px"
   },
   subTitle: {

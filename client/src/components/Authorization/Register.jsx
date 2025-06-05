@@ -106,7 +106,7 @@ const Register = props => {
     <ContentContainer>
       {!submitted ? (
         <>
-          <h1>Create a New Account</h1>
+          <h1 style={{ marginTop: 0 }}>Create a New Account</h1>
           <h3>Save your project information.</h3>
           <br />
           <div className="auth-form">
@@ -221,7 +221,7 @@ const Register = props => {
         </>
       ) : (
         <>
-          <h1>
+          <h1 style={{ marginTop: 0 }}>
             Registration instructions have been sent to the email you provided.
           </h1>
           <h2>

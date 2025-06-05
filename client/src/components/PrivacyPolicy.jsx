@@ -12,7 +12,8 @@ const useStyles = createUseStyles({
   title: {
     color: "#0F2940",
     textAlign: "center",
-    marginBottom: ".7em"
+    marginBottom: ".7em",
+    marginTop: 0
   },
   subTitle: {
     color: "grey",

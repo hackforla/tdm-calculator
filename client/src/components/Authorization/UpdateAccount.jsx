@@ -77,7 +77,7 @@ const UpdateAccount = props => {
     <ContentContainer>
       {!submitted ? (
         <>
-          <h1>Update Your Account</h1>
+          <h1 style={{ marginTop: 0 }}>Update Your Account</h1>
           <br />
           <div className="auth-form">
             <Formik
@@ -157,7 +157,7 @@ const UpdateAccount = props => {
         </>
       ) : (
         <>
-          <h1>
+          <h1 style={{ marginTop: 0 }}>
             Instructions have been sent to the email you provided in order to
             confirm account updates.
           </h1>

@@ -2,7 +2,7 @@ import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({
-  title: theme.typography.heading1,
+  title: { ...theme.typography.heading1, marginTop: 0 },
   subTitle: {
     color: "grey"
   },

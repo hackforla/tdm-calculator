@@ -4,7 +4,7 @@ import ContentContainer from "../Layout/ContentContainer";
 const Unauthorized = () => {
   return (
     <ContentContainer>
-      <h1>Attempt to Access Restricted Page</h1>
+      <h1 style={{ marginTop: 0 }}>Attempt to Access Restricted Page</h1>
       <div style={{ marginTop: "2em", maxWidth: "40em" }}>
         <p>
           The feature you are attempting to access is not allowed for this login
