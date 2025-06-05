@@ -51,7 +51,7 @@ const useStyles = createUseStyles(theme => ({
     // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
     "&[disabled]": {
       color: theme.colorGray,
-      border: "1px solid " + theme.colorSecondaryDisabled,
+      border: "1px solid " + theme.colors.secondary.mediumGray,
       boxShadow: "none"
     },
     "&[disabled]:hover": {

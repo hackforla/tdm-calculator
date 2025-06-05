@@ -2,7 +2,6 @@ export const jssTheme = {
   colorDefault: "#fff", //white
   colorPrimary: "#a7c539", //lime green
   colorPrimaryDisabled: "#D3E29C", //green tint
-  colorSecondaryDisabled: "#dbdbdb",
   colorText: "#0F2940", //dark blue
   colorLADOT: "#002E6D",
   colorGray: "#808080",
