@@ -151,7 +151,9 @@ const ProjectTableColumnHeader = ({
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      {header.id !== "checkAllProjects" && header.id !== "contextMenu" ? (
+      {header.id !== "checkAllProjects" &&
+      header.id !== "contextMenu" &&
+      header.id !== "editIcon" ? (
         <Popover
           containerStyle={{ zIndex: 2 }}
           isOpen={isPopoverOpen}
