@@ -351,6 +351,11 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       colWidth: "3rem"
     },
     {
+      id: "editIcon",
+      label: "",
+      colWidth: "3rem"
+    },
+    {
       id: "id",
       label: "ID",
       popupType: "number",

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
@@ -178,12 +178,17 @@ const SubmissionTableRow = ({
   } = useAdminNotesModal(project, onAdminNoteUpdate);
   const theme = useTheme();
   const classes = useStyles(theme);
+  const navigate = useNavigate();
   const [actionManageSubmissionOpen, setActionManageSubmissionOpen] =
     useState(false);
 
   const handleActionManageSubmissionOpen = () => {
-    console.error(project);
     setActionManageSubmissionOpen(true);
+  };
+
+  const handleEditSubmissionNavigate = () => {
+    console.error(project);
+    navigate(`/editsubmission/${project.id}`);
   };
 
   const handleActionManageSubmissionClose = project => {
@@ -197,6 +202,9 @@ const SubmissionTableRow = ({
     <tr key={project.id}>
       <td className={classes.td}>
         <MdEdit onClick={handleActionManageSubmissionOpen} />
+      </td>
+      <td className={classes.td}>
+        <MdEdit onClick={handleEditSubmissionNavigate} />
       </td>
 
       <td className={classes.tdRightAlign}>
