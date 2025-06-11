@@ -38,6 +38,8 @@ services:
         required: false
       - path: ./server/docker-config/.env.urls
         required: false
+      - path: ./server/docker-config/.env.sendgrid
+        required: false
     volumes:
       - ./server/:/usr/app
       - /usr/app/node_modules

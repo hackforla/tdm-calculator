@@ -27,6 +27,17 @@ if [ "$1" == "all-local" ]; then
   docker-compose \
   --env-file ./docker-config/.env.all \
   "${@:2}"
+elif [ "$1" == "test" ]; then
+  # Docker everything (app + DB + sendgrid-mock)
+  set -x
+  docker-compose \
+  --env-file .env \
+  --env-file ./server/docker-config/.env \
+  --env-file ./server/docker-config/.env.local-db \
+  --env-file ./server/docker-config/.env.sendgrid \
+  --env-file ./server/docker-config/.env.urls \
+  --env-file ./client/docker-config/.env \
+  "${@:2}"
 elif [ "$1" == "all" ]; then
   # Docker everything (app + DB + sendgrid-mock)
   set -x

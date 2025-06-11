@@ -13,6 +13,7 @@
     "compose:config": "bash scripts/compose.sh config",
     "compose:all": "bash scripts/compose.sh all",
     "compose:all-local": "bash scripts/compose.sh all-local",
+    "compose:test": "bash scripts/compose.sh test",
     "compose:app": "bash scripts/compose.sh app",
     "compose:local-db": "bash scripts/compose.sh localdb",
     "start:app-local-db": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\" "
