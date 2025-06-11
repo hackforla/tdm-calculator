@@ -42,10 +42,6 @@ const useStyles = createUseStyles({
     },
     "&.active": {
       borderBottom: "1px solid #fff"
-    },
-    "&:focus": {
-      color: "#0f2940",
-      backgroundColor: "#fff"
     }
   },
   linkUnclickable: {
@@ -111,14 +107,13 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
   };
 
   return (
-    <ul className={classes.navbar} onBlur={() => setNavbarOpen(false)}>
+    <ul className={classes.navbar}>
       {account && account.id && (
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
             to="/projects"
             onClick={handleHamburgerMenuClick}
-            onFocus={() => setNavbarOpen(true)}
           >
             My Projects
           </NavLink>
@@ -129,7 +124,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           className={classes.link}
           to="/calculation/1/0"
           onClick={handleHamburgerMenuClick}
-          onFocus={() => setNavbarOpen(true)}
         >
           Create Project
         </NavLink>
@@ -140,7 +134,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
             className={classes.link}
             to="/roles"
             onClick={handleHamburgerMenuClick}
-            onFocus={() => setNavbarOpen(true)}
           >
             Security
           </NavLink>
@@ -152,7 +145,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
             className={classes.link}
             to="/submissions"
             onClick={handleHamburgerMenuClick}
-            onFocus={() => setNavbarOpen(true)}
           >
             Submissions
           </NavLink>
@@ -164,7 +156,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
             className={classes.link}
             to="/managesubmissions"
             onClick={handleHamburgerMenuClick}
-            onFocus={() => setNavbarOpen(true)}
           >
             Manage Submissions
           </NavLink>
@@ -175,7 +166,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           className={classes.link}
           to="/about"
           onClick={handleHamburgerMenuClick}
-          onFocus={() => setNavbarOpen(true)}
         >
           About
         </NavLink>
@@ -185,7 +175,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           className={classes.link}
           to="/faqs"
           onClick={handleHamburgerMenuClick}
-          onFocus={() => setNavbarOpen(true)}
         >
           FAQ
         </NavLink>
@@ -196,7 +185,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
             className={classes.link}
             to="/feedback"
             onClick={handleHamburgerMenuClick}
-            onFocus={() => setNavbarOpen(true)}
           >
             Feedback
           </NavLink>
@@ -207,7 +195,6 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         classes={classes}
         navbarOpen={navbarOpen}
         handleHamburgerMenuClick={handleHamburgerMenuClick}
-        setNavbarOpen={setNavbarOpen}
       />
     </ul>
   );
