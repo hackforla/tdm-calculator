@@ -6,6 +6,8 @@ const errorHandler = require("error-handler");
 const routes = require("./app/routes");
 // const pino = require("express-pino-logger")();
 
+require("dotenv").config();
+
 const port = process.env.PORT || 5000;
 
 const app = express();

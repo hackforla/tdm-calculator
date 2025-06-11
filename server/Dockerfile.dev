@@ -10,4 +10,4 @@ RUN --mount=type=cache,target=/root/.npm \
 
 COPY . .
 
-CMD ["npm", "run", "start-in-docker"]
+CMD ["npm", "start"]

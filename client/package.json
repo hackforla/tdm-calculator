@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "precommit": "lint-staged",
-    "start": "env-cmd -f ../.env --verbose vite",
-    "start-in-docker": "vite",
+    "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "test": "jest --config=jest.config.cjs",
@@ -36,6 +35,7 @@
     "@react-pdf/renderer": "^3.1.9",
     "axios": "^1.6.1",
     "clsx": "^2.1.1",
+    "dotenv": "^16.5.0",
     "env-cmd": "^10.1.0",
     "formik": "^2.4.6",
     "identity-obj-proxy": "^3.0.0",

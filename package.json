@@ -8,7 +8,14 @@
     "start:backend": "cd ./server && npm start",
     "start:frontend": "wait-on http://localhost:5001/api/calculations && cd ./client && npm start",
     "prepare": "husky",
-    "spellcheck": "npx cspell --config ./cspell.json \"./**/*.jsx\" --no-progress --no-exit-code"
+    "spellcheck": "npx cspell --config ./cspell.json \"./**/*.jsx\" --no-progress --no-exit-code",
+    "compose:build": "bash scripts/compose.sh build",
+    "compose:config": "bash scripts/compose.sh config",
+    "compose:all": "bash scripts/compose.sh all",
+    "compose:all-local": "bash scripts/compose.sh all-local",
+    "compose:app": "bash scripts/compose.sh app",
+    "compose:local-db": "bash scripts/compose.sh localdb",
+    "start:app-local-db": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\" "
   },
   "dependencies": {
     "wait-on": "^8.0.3"

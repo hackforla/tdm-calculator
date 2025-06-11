@@ -2,6 +2,8 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import svgrPlugin from "vite-plugin-svgr";
 import viteTsconfigPaths from "vite-tsconfig-paths";
+import dotenv from "dotenv";
+dotenv.config();
 
 export default defineConfig(() => {
   const OPEN_BROWSER = process.env.VITE_OPEN_BROWSER == "true" ? true : false;
