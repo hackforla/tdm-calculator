@@ -20,21 +20,19 @@ import StatusPopup from "./StatusPopup";
 import { useTheme } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({
-  iconNoFilter: {
+  iconFilter: {
     color: theme.colorWhite,
     fontSize: "1.2rem",
+    marginLeft: "1rem",
+    "&.active": {
+      borderBottom: "1px solid #fff"
+    },
     "&:hover": {
       backgroundColor: theme.colorWhite,
       color: theme.colorLADOT,
       borderRadius: "12.5%",
       cursor: "pointer"
     }
-  },
-  iconFilter: {
-    fontSize: "1.2rem",
-    backgroundColor: "transparent",
-    color: "theme.colorWhite",
-    marginLeft: "0.5rem"
   },
   sortIcon: {
     fontSize: "1.2rem",
@@ -71,24 +69,10 @@ const ColumnHeader = React.forwardRef((props, ref) => {
       onClick={props.onClick}
     >
       <span>{props.header.label}</span>
-      {props.orderBy === props.header.id ? (
-        props.order === "asc" ? (
-          <MdOutlineSwitchRight className={classes.sortIcon} />
-        ) : (
-          <MdOutlineSwitchLeft className={classes.sortIcon} />
-        )
-      ) : null}
-      {props.isFilterApplied() ? (
-        <MdFilterAlt
-          className={classes.iconFilter}
-          alt={`Show column filter and sort popup`}
-        />
-      ) : (
-        <MdOutlineFilterAlt
-          className={classes.iconNoFilter}
-          alt={`Show column filter and sort popup`}
-        />
-      )}
+      <MdOutlineFilterAlt
+        className={`${classes.iconFilter} ${props.isFilterApplied() ? "active" : ""}`}
+        alt={`Show column filter and sort popup`}
+      />
     </div>
   );
 });
@@ -167,7 +151,9 @@ const ProjectTableColumnHeader = ({
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      {header.id !== "checkAllProjects" && header.id !== "contextMenu" ? (
+      {header.id !== "checkAllProjects" &&
+      header.id !== "contextMenu" &&
+      header.id !== "editIcon" ? (
         <Popover
           containerStyle={{ zIndex: 2 }}
           isOpen={isPopoverOpen}

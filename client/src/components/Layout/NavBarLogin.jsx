@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../../contexts/UserContext";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useLocation } from "react-router";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -15,7 +15,11 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
 
   const [isCalculation, setIsCalculation] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(true);
-  const closeModal = () => setTooltipOpen(false);
+  const closeModal = () => {
+    const loginLink = document.getElementById("login-link");
+    loginLink.removeAttribute("aria-describedby");
+    setTooltipOpen(false);
+  };
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -41,7 +45,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
 
   const getUserGreeting = account => (
     <li className={classes.userLogin}>
-      <Link
+      <NavLink
         className={`${classes.link} ${classes.lastItem}`}
         to={{
           pathname: `/updateaccount/${(account && account.email) || ""}`,
@@ -49,7 +53,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
         }}
       >
         Hello, {`${account.firstName} ${account.lastName} `}
-      </Link>
+      </NavLink>
     </li>
   );
 
@@ -102,7 +106,11 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           open={tooltipOpen}
           onClose={closeModal}
           closeOnDocumentClick={false}
-          trigger={<span style={{ cursor: "pointer" }}>{loginLink}</span>}
+          trigger={
+            <span id="login-link" style={{ cursor: "pointer" }}>
+              {loginLink}
+            </span>
+          }
           position="bottom right"
           arrow={true}
           arrowStyle={{

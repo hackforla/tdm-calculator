@@ -290,12 +290,20 @@ const getSubmissions = async loginId => {
   }
 };
 
-const getSubmissionsAdmin = async loginId => {
+const getSubmissionsAdmin = async (loginId, projectId = null) => {
   try {
     await poolConnect;
     const request = pool.request();
     request.input("LoginId", mssql.Int, loginId);
+    if (projectId) request.input("projectId", mssql.Int, projectId);
     const response = await request.execute("ProjectSubmission_SelectAdmin");
+    if (projectId) {
+      if (response.recordset && response.recordset.length > 0) {
+        return response.recordset[0];
+      } else {
+        return null;
+      }
+    }
     return response.recordset;
   } catch (err) {
     console.log(err);

@@ -16,7 +16,7 @@ import PlainSidebarLayout from "./components/Layout/PlainSidebarLayout";
 // Path Routes
 import TdmCalculationContainer from "./components/ProjectWizard/TdmCalculationContainer";
 import ProjectsPage from "./components/Projects/ProjectsPage";
-import About from "./components/About";
+import About from "./components/About/About";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
 import ChecklistPage from "./components/Checklist/ChecklistPage";
 import PrivacyPolicy from "./components/PrivacyPolicy";
@@ -38,6 +38,7 @@ import Offline from "./components/Offline";
 import Logout from "./components/Authorization/Logout";
 import SubmissionsPage from "./components/Submissions/SubmissionsPage";
 import ManageSubmissionsPage from "./components/Submissions/ManageSubmissionsPage";
+import EditSubmissionPage from "./components/Submissions/EditSubmissionPage";
 import { getConfigs } from "./helpers/Config";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
@@ -170,6 +171,14 @@ const App = () => {
                 <ManageSubmissionsPage
                   contentContainerRef={contentContainerRef}
                 />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/editsubmission/:projectId?"
+            element={
+              <RequireAuth>
+                <EditSubmissionPage contentContainerRef={contentContainerRef} />
               </RequireAuth>
             }
           />
