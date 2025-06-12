@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
-import ContentContainer from "../Layout/ContentContainer";
+import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import InapplicableStrategiesModal from "../Modals/InfoWizardInapplicableStrategies";
 import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
 import NavConfirmDialog from "../Modals/WarningWizardLeave";
@@ -386,7 +386,7 @@ const TdmCalculationWizard = props => {
         closeStrategiesModal={closeStrategiesModal}
       />
       {blocker ? <NavConfirmDialog blocker={blocker} /> : null}
-      <ContentContainer
+      <ContentContainerWithTables
         customSidebar={() => (
           <WizardSidebar
             rules={rules}
@@ -413,7 +413,7 @@ const TdmCalculationWizard = props => {
           project={project}
           shareView={shareView}
         />
-      </ContentContainer>
+      </ContentContainerWithTables>
       <CopyAndEditSnapshotModal
         mounted={copyAndEditSnapshotModalOpen}
         onClose={() => setCopyAndEditSnapshotModalOpen(false)}

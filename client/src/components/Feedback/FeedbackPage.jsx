@@ -9,7 +9,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import useToast from "../../contexts/Toast/useToast";
-import ContentContainer from "../Layout/ContentContainer";
+import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import ProjectList from "./ProjectList";
@@ -20,6 +20,7 @@ const useStyles = createUseStyles(theme => ({
     width: "90%"
   },
   pageTitle: {
+    marginTop: 0,
     marginBottom: "16px",
     textAlign: "center"
   },
@@ -140,7 +141,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
   };
 
   return (
-    <ContentContainer contentContainerRef={contentContainerRef}>
+    <ContentContainerWithTables contentContainerRef={contentContainerRef}>
       <div className={classes.feedbackContainer}>
         <h1 className={classes.pageTitle}>TDM Calculator Feedback Form</h1>
         <div className={classes.subtitle}>
@@ -279,7 +280,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
           )}
         </Formik>
       </div>
-    </ContentContainer>
+    </ContentContainerWithTables>
   );
 };
 
