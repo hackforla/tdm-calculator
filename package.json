@@ -6,6 +6,7 @@
     "release-notes": "gren release --override",
     "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\" ",
     "start:backend": "cd ./server && npm start",
+    "start:backend-local": "cd ./server && npm run start-local",
     "start:frontend": "wait-on http://localhost:5001/api/calculations && cd ./client && npm start",
     "prepare": "husky",
     "spellcheck": "npx cspell --config ./cspell.json \"./**/*.jsx\" --no-progress --no-exit-code",
@@ -15,8 +16,8 @@
     "compose:all-local": "bash scripts/compose.sh all-local",
     "compose:test": "bash scripts/compose.sh test",
     "compose:app": "bash scripts/compose.sh app",
-    "compose:local-db": "bash scripts/compose.sh localdb",
-    "start:app-local-db": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\" "
+    "compose:local-db": "bash scripts/compose.sh local-db",
+    "start:app-local-db": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend-local\" \"npm run start:frontend\" "
   },
   "dependencies": {
     "wait-on": "^8.0.3"

@@ -1,6 +1,8 @@
 const sgClient = require("@sendgrid/client");
 const sgMail = require("@sendgrid/mail");
 
+require("@dotenvx/dotenvx").config();
+
 const clientUrl = process.env.CLIENT_URL;
 const sendgridKey = process.env.SENDGRID_API_KEY;
 const senderEmail = process.env.EMAIL_SENDER;
@@ -18,7 +20,13 @@ if (
 } else {
   // use sgClient to set the mock service URL in development
   sgClient.setApiKey(sendgridKey);
-  sgClient.setDefaultRequest("baseUrl", "http://sendgrid:3000");
+  sgClient.setDefaultRequest(
+    "baseUrl",
+    "http://" +
+      process.env.SENDGRID_HOST +
+      ":" +
+      process.env.SENDGRID_EXPOSED_PORT
+  );
   sgMail.setClient(sgClient);
 }
 

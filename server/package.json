@@ -12,6 +12,7 @@
     "test": "jest --runInBand --passWithNoTests --forceExit --detectOpenHandles",
     "heroku-postbuild": "cd client && npm i && npm run build",
     "start": "nodemon",
+    "start-local": "dotenvx run -f .env -f local-config/.env.sendgrid -f local-config/.env.docker-db --overload -- nodemon",
     "release-notes": "gren release --override",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\" ",
     "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \"**/*.{js,jsx}\" ",
@@ -25,6 +26,7 @@
   "author": "Hack for LA",
   "license": "ISC",
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.44.2",
     "@sendgrid/mail": "^8.1.4",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
