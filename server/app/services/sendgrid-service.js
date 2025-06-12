@@ -1,8 +1,6 @@
 const sgClient = require("@sendgrid/client");
 const sgMail = require("@sendgrid/mail");
 
-require("@dotenvx/dotenvx").config();
-
 const clientUrl = process.env.CLIENT_URL;
 const sendgridKey = process.env.SENDGRID_API_KEY;
 const senderEmail = process.env.EMAIL_SENDER;
