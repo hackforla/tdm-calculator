@@ -9,6 +9,9 @@ const webTeamEmail = process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM;
 const droCentralEmail = process.env.DRO_CENTRAL_EMAIL;
 const droValleyEmail = process.env.DRO_VALLEY_EMAIL;
 const droWestsideEmail = process.env.DRO_WESTSIDE_EMAIL;
+const sendGridHost = process.env.SENDGRID_HOST;
+const sendGridPort =
+  sendGridHost == "localhost" ? process.env.SENDGRID_EXPOSED_PORT : 3000;
 
 if (
   process.env.NODE_ENV === "production" ||
@@ -20,10 +23,7 @@ if (
   sgClient.setApiKey(sendgridKey);
   sgClient.setDefaultRequest(
     "baseUrl",
-    "http://" +
-      process.env.SENDGRID_HOST +
-      ":" +
-      process.env.SENDGRID_EXPOSED_PORT
+    "http://" + sendGridHost + ":" + sendGridPort
   );
   sgMail.setClient(sgClient);
 }
