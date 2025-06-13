@@ -10,10 +10,10 @@
     "start:frontend": "wait-on http://localhost:5001/api/calculations && cd ./client && npm start",
     "prepare": "husky",
     "spellcheck": "npx cspell --config ./cspell.json \"./**/*.jsx\" --no-progress --no-exit-code",
-    "copy:env": "bash scripts/copy-env.sh",
-    "compose:all": "bash scripts/copy-env.sh all && bash scripts/compose.sh all",
-    "compose:app": "bash scripts/copy-env.sh app && bash scripts/compose.sh app",
-    "compose:local-db": "bash scripts/copy-env.sh local-db && bash scripts/compose.sh local-db",
+    "compose:all": "bash scripts/start-env.sh all",
+    "compose:app": "bash scripts/start-env.sh app",
+    "compose:local-db": "bash scripts/start-env.sh local-db",
+    "local:shared-db": "bash scripts/start-env.sh shared-db",
     "start:app-local-db": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend-local\" \"npm run start:frontend\" "
   },
   "dependencies": {

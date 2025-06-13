@@ -31,8 +31,6 @@ elif [ "$1" == "all" ]; then
   copy_env server/docker-config/.env.node
   copy_env server/docker-config/.env.sendgrid
   copy_env server/docker-config/.env.urls
-  copy_env server/local-config/.env.docker-db
-  copy_env server/local-config/.env.sendgrid
   copy_env client/docker-config/.env.vite
 elif [ "$1" == "app" ]; then
   # Host app
@@ -46,5 +44,9 @@ elif [ "$1" == "local-db" ]; then
   remove_all_env
   copy_env .env
   copy_env server/docker-config/.env.db
+  copy_env server/local-config/.env.docker-db
   copy_env server/local-config/.env.sendgrid
+elif [ "$1" == "shared-db" ]; then
+  # Shared DB
+  remove_all_env
 fi
