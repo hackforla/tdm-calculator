@@ -79,6 +79,7 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
         <thead>
           <tr>
             <th></th>
+            <th className={classes.tableHead}>Id</th>
             <th className={classes.tableHead}>Project Name</th>
             <th className={classes.tableHead}>Address</th>
             <th className={classes.tableHead}>Date Entered</th>
@@ -99,6 +100,9 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
                   name={project.id}
                   id={project.id}
                 />
+              </td>
+              <td className={classes.dateCell}>
+                {project.id.toString().padStart(10, "0")}
               </td>
               <td className={classes.textCell}>{project.name}</td>
               <td className={classes.textCell}>
