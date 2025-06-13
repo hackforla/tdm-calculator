@@ -45,7 +45,7 @@ elif [ "$1" == "all" ]; then
   --env-file .env \
   --env-file ./server/.env \
   --env-file ./server/docker-config/.env \
-  --env-file ./server/docker-config/.env.local-db \
+  --env-file ./server/docker-config/.env.db \
   --env-file ./server/docker-config/.env.sendgrid \
   --env-file ./server/docker-config/.env.urls \
   --env-file ./client/.env \
@@ -53,7 +53,7 @@ elif [ "$1" == "all" ]; then
   "${@:2}"
 elif [ "$1" == "app" ]; then
   # Docker app + shared DB
-  # Rename server/docker-config/.env.local-db and
+  # Rename server/docker-config/.env.db and
   # server/docker-config/.env.sendgrid to disable them
   # before running this.
   docker-compose \
@@ -70,7 +70,7 @@ elif [ "$1" == "local-db" ]; then
   --env-file .env \
   --env-file ./server/.env \
   --env-file ./server/docker-config/.env \
-  --env-file ./server/docker-config/.env.local-db \
+  --env-file ./server/docker-config/.env.db \
   --env-file ./server/docker-config/.env.sendgrid \
   --env-file ./client/.env \
   "${@:2}"

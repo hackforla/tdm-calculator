@@ -34,7 +34,7 @@ services:
       - .env
       - path: ./server/docker-config/.env
         required: false
-      - path: ./server/docker-config/.env.local-db
+      - path: ./server/docker-config/.env.db
         required: false
       - path: ./server/docker-config/.env.urls
         required: false
