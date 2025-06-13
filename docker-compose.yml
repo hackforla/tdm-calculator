@@ -7,7 +7,7 @@ services:
       - "$CLIENT_EXPOSED_PORT:$CLIENT_PORT"
     env_file:
       - .env
-      - path: ./client/docker-config/.env
+      - path: ./client/docker-config/.env.vite
         required: false
     volumes:
       - ./client/:/usr/app
@@ -32,7 +32,7 @@ services:
     #   - "5002:$PORT"
     env_file:
       - .env
-      - path: ./server/docker-config/.env
+      - path: ./server/docker-config/.env.node
         required: false
       - path: ./server/docker-config/.env.db
         required: false

@@ -27,11 +27,11 @@ if [ "$1" == "all" ]; then
   set -x
   docker-compose \
   --env-file .env \
-  --env-file ./server/docker-config/.env \
+  --env-file ./server/docker-config/.env.node \
   --env-file ./server/docker-config/.env.db \
   --env-file ./server/docker-config/.env.sendgrid \
   --env-file ./server/docker-config/.env.urls \
-  --env-file ./client/docker-config/.env \
+  --env-file ./client/docker-config/.env.vite \
   "${@:2}"
 elif [ "$1" == "app" ]; then
   # Docker app + shared DB
@@ -41,9 +41,9 @@ elif [ "$1" == "app" ]; then
   docker-compose \
   --env-file .env \
   --env-file ./server/.env \
-  --env-file ./server/docker-config/.env \
+  --env-file ./server/docker-config/.env.node \
   --env-file ./server/docker-config/.env.urls \
-  --env-file ./client/docker-config/.env \
+  --env-file ./client/docker-config/.env.vite \
   "${@:2}"
 elif [ "$1" == "local-db" ]; then
   # Docker DB + sendgrid-mock
