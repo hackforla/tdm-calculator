@@ -49,7 +49,6 @@ elif [ "$1" == "local-db" ]; then
   # Docker DB + sendgrid-mock
   docker-compose \
   --env-file .env \
-  --env-file ./server/docker-config/.env \
   --env-file ./server/docker-config/.env.db \
   --env-file ./server/docker-config/.env.sendgrid \
   "${@:2}"
