@@ -27,12 +27,10 @@ if [ "$1" == "all" ]; then
   set -x
   docker-compose \
   --env-file .env \
-  --env-file ./server/.env \
   --env-file ./server/docker-config/.env \
   --env-file ./server/docker-config/.env.db \
   --env-file ./server/docker-config/.env.sendgrid \
   --env-file ./server/docker-config/.env.urls \
-  --env-file ./client/.env \
   --env-file ./client/docker-config/.env \
   "${@:2}"
 elif [ "$1" == "app" ]; then
@@ -42,21 +40,17 @@ elif [ "$1" == "app" ]; then
   # before running this.
   docker-compose \
   --env-file .env \
-  --env-file ./server/.env \
   --env-file ./server/docker-config/.env \
   --env-file ./server/docker-config/.env.urls \
-  --env-file ./client/.env \
   --env-file ./client/docker-config/.env \
   "${@:2}"
 elif [ "$1" == "local-db" ]; then
   # Docker DB + sendgrid-mock
   docker-compose \
   --env-file .env \
-  --env-file ./server/.env \
   --env-file ./server/docker-config/.env \
   --env-file ./server/docker-config/.env.db \
   --env-file ./server/docker-config/.env.sendgrid \
-  --env-file ./client/.env \
   "${@:2}"
   # up db-migrate sendgrid -d
 fi
