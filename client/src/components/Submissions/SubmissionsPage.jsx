@@ -420,7 +420,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
       colWidth: "160px"
     }
   ];
-
+  
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
   let sortedProjects = projects.filter(p => filter(p, filterCriteria));

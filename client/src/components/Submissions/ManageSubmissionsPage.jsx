@@ -49,7 +49,7 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateModifiedAdmin: null,
   onHold: null
 };
-
+  
 const useStyles = createUseStyles({
   filter: {
     overflow: "hidden",
