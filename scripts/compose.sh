@@ -40,6 +40,7 @@ elif [ "$1" == "app" ]; then
   # before running this.
   docker-compose \
   --env-file .env \
+  --env-file ./server/.env \
   --env-file ./server/docker-config/.env \
   --env-file ./server/docker-config/.env.urls \
   --env-file ./client/docker-config/.env \
