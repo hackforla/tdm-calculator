@@ -33,7 +33,6 @@ import {
 } from "../../helpers/Constants";
 import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 
-
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
@@ -619,7 +618,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const ascCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
-    
+
     if (orderBy === "VERSION_NO") {
       projectA = JSON.parse(a.formInputs).VERSION_NO
         ? JSON.parse(a.formInputs).VERSION_NO
@@ -654,12 +653,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (orderBy === "adminNotes") {
       projectA = a.adminNotes ? a.adminNotes.toLowerCase() : null;
       projectB = b.adminNotes ? b.adminNotes.toLowerCase() : null;
-    }
-      else if (orderBy === "id") {
-        projectA = a.id !== undefined && a.id !== null ? a.id : null;
-        projectB = b.id !== undefined && b.id !== null ? b.id : null;
-    }
-    else {  
+    } else if (orderBy === "id") {
+      projectA = a.id !== undefined && a.id !== null ? a.id : null;
+      projectB = b.id !== undefined && b.id !== null ? b.id : null;
+    } else {
       projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
       projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";
     }
@@ -793,7 +790,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
 
     if (criteria.idList?.length > 0 && !criteria.idList.includes(p.id)) {
-    return false;
+      return false;
     }
 
     // fullName attr allows searching by full name, not just by first or last name
@@ -949,7 +946,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "id",
       label: "ID",
       popupType: "number",
-      colWidth: "4rem"
+      colWidth: "10rem"
     },
     { id: "name", label: "Project Name", popupType: "text", colWidth: "20rem" },
     { id: "address", label: "Address", popupType: "text", colWidth: "20rem" },

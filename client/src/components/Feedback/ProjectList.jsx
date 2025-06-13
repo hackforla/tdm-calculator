@@ -101,7 +101,9 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
                   id={project.id}
                 />
               </td>
-              <td className={classes.dateCell}>{project.id.toString().padStart(10, "0")}</td>
+              <td className={classes.dateCell}>
+                {project.id.toString().padStart(10, "0")}
+              </td>
               <td className={classes.textCell}>{project.name}</td>
               <td className={classes.textCell}>
                 {JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}

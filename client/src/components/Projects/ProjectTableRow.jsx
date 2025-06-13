@@ -270,7 +270,6 @@ const ProjectTableRow = ({
       (1000 * 60 * 60 * 24);
     return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
   };
-  
   return (
     <tr key={project.id}>
       <td className={classes.tdCenterAlign}>
@@ -308,7 +307,7 @@ const ProjectTableRow = ({
           </span>
         ) : null}
       </td>
-      <td className={classes.tdRightAlign}>
+      <td className={classes.td}>
         {project.id.toString().padStart(10, "0")}
       </td>
       <td className={classes.td}>

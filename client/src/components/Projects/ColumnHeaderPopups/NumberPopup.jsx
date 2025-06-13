@@ -83,7 +83,6 @@ const NumberPopup = ({
   const [searchString, setSearchString] = useState("");
 
   const initiallyChecked = o => criteria[header.id + "List"].includes(o);
-  
   // To build the drop-down list, we want to apply all the criteria that
   // are currently selected EXCEPT the criteria we are currently editing.
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
