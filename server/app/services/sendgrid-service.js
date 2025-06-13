@@ -2,16 +2,16 @@ const sgClient = require("@sendgrid/client");
 const sgMail = require("@sendgrid/mail");
 
 const clientUrl = process.env.CLIENT_URL;
+const sendgridHost = process.env.SENDGRID_HOST;
 const sendgridKey = process.env.SENDGRID_API_KEY;
+const sendgridPort =
+  sendgridHost == "localhost" ? process.env.SENDGRID_EXPOSED_PORT : 3000;
 const senderEmail = process.env.EMAIL_SENDER;
 const laCityEmail = process.env.EMAIL_PUBLIC_COMMENT_LA_CITY;
 const webTeamEmail = process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM;
 const droCentralEmail = process.env.DRO_CENTRAL_EMAIL;
 const droValleyEmail = process.env.DRO_VALLEY_EMAIL;
 const droWestsideEmail = process.env.DRO_WESTSIDE_EMAIL;
-const sendGridHost = process.env.SENDGRID_HOST;
-const sendGridPort =
-  sendGridHost == "localhost" ? process.env.SENDGRID_EXPOSED_PORT : 3000;
 
 if (
   process.env.NODE_ENV === "production" ||
@@ -23,7 +23,7 @@ if (
   sgClient.setApiKey(sendgridKey);
   sgClient.setDefaultRequest(
     "baseUrl",
-    "http://" + sendGridHost + ":" + sendGridPort
+    "http://" + sendgridHost + ":" + sendgridPort
   );
   sgMail.setClient(sgClient);
 }
