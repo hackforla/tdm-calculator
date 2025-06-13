@@ -22,12 +22,7 @@ set -eu
 # down -v --remove-orphans
 
 
-if [ "$1" == "all-local" ]; then
-  # Docker everything (app + DB + sendgrid-mock)
-  docker-compose \
-  --env-file ./docker-config/.env.all \
-  "${@:2}"
-elif [ "$1" == "all" ]; then
+if [ "$1" == "all" ]; then
   # Docker everything (app + DB + sendgrid-mock)
   set -x
   docker-compose \
