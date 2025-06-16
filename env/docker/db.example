@@ -1,4 +1,7 @@
-# Local Development Database - Docker Compose
+# Local Development Database
+
+# Settings for API server container connecting to database container
+# $DOCKER_DB_* settings are from root/.env file
 SQL_SERVER_NAME=${DOCKER_DB_SERVER_NAME:?error}
 SQL_SERVER_INSTANCE=
 SQL_SERVER_PORT=${DOCKER_DB_SERVER_PORT:?error}

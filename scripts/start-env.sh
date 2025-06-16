@@ -42,11 +42,11 @@ call_start() {
     set -x
     docker-compose \
     --env-file .env \
-    --env-file ./server/docker-config/.env.node \
-    --env-file ./server/docker-config/.env.db \
-    --env-file ./server/docker-config/.env.sendgrid \
-    --env-file ./server/docker-config/.env.urls \
-    --env-file ./client/docker-config/.env.vite \
+    --env-file env/docker/node \
+    --env-file env/docker/db \
+    --env-file env/docker/sendgrid \
+    --env-file env/docker/urls \
+    --env-file env/docker/vite \
     "${@:2}"
   elif [ "$1" == "app" ]; then
     # Docker app + shared DB
@@ -54,9 +54,9 @@ call_start() {
     docker-compose \
     --env-file .env \
     --env-file ./server/.env \
-    --env-file ./server/docker-config/.env.node \
-    --env-file ./server/docker-config/.env.urls \
-    --env-file ./client/docker-config/.env.vite \
+    --env-file env/docker/node \
+    --env-file env/docker/urls \
+    --env-file env/docker/vite \
     "${@:2}"
   elif [ "$1" == "local-db" ]; then
     # Docker DB + sendgrid-mock
@@ -68,8 +68,8 @@ call_start() {
     set -x
     docker-compose \
     --env-file .env \
-    --env-file ./server/docker-config/.env.db \
-    --env-file ./server/local-config/.env.sendgrid \
+    --env-file env/docker/db \
+    --env-file env/host/sendgrid \
     "${@:2}"
     { set +x; } 2>&-;
 

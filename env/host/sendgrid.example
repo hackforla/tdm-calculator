@@ -1,0 +1,7 @@
+# Mock Sendgrid Settings
+
+# Settings for the on host API server connecting to the sendgrid container
+
+SENDGRID_API_KEY=SG.secretAPIKey
+SENDGRID_EXPOSED_PORT=7001
+SENDGRID_HOST=localhost

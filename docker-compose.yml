@@ -7,7 +7,7 @@ services:
       - "$CLIENT_EXPOSED_PORT:$CLIENT_PORT"
     env_file:
       - .env
-      - path: ./client/docker-config/.env.vite
+      - path: ./env/docker/vite
         required: false
     volumes:
       - ./client/:/usr/app
@@ -32,13 +32,13 @@ services:
     #   - "5002:$PORT"
     env_file:
       - .env
-      - path: ./server/docker-config/.env.node
+      - path: env/docker/node
         required: false
-      - path: ./server/docker-config/.env.db
+      - path: env/docker/db
         required: false
-      - path: ./server/docker-config/.env.urls
+      - path: env/docker/urls
         required: false
-      - path: ./server/docker-config/.env.sendgrid
+      - path: env/docker/sendgrid
         required: false
     volumes:
       - ./server/:/usr/app
@@ -121,7 +121,7 @@ services:
     environment:
       API_KEY: ${SENDGRID_API_KEY:?error}
     env_file:
-      - path: ./server/docker-config/.env.sendgrid
+      - path: env/docker/sendgrid
         required: false
 
 volumes:

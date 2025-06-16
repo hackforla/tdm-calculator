@@ -12,7 +12,7 @@
     "test": "jest --runInBand --passWithNoTests --forceExit --detectOpenHandles",
     "heroku-postbuild": "cd client && npm i && npm run build",
     "start": "nodemon",
-    "start-local": "dotenvx run -f .env -f local-config/.env.sendgrid -f local-config/.env.docker-db --overload -- nodemon",
+    "start-local": "dotenvx run -f .env -f ../env/host/sendgrid -f ../env/host/db --overload -- nodemon",
     "release-notes": "gren release --override",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\" ",
     "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \"**/*.{js,jsx}\" ",

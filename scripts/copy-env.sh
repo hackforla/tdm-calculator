@@ -10,13 +10,13 @@ copy_env() {
 remove_all_env() {
   set -x
   rm -f .env
-  rm -f server/docker-config/.env.db
-  rm -f server/docker-config/.env.node
-  rm -f server/docker-config/.env.sendgrid
-  rm -f server/docker-config/.env.urls
-  rm -f server/local-config/.env.docker-db
-  rm -f server/local-config/.env.sendgrid
-  rm -f client/docker-config/.env.vite
+  rm -f env/docker/db
+  rm -f env/docker/node
+  rm -f env/docker/sendgrid
+  rm -f env/docker/urls
+  rm -f env/host/db
+  rm -f env/host/sendgrid
+  rm -f env/docker/vite
   { set +x; } 2>&-;
 }
 
@@ -27,25 +27,25 @@ elif [ "$1" == "all" ]; then
   # Docker everything (app + DB + sendgrid-mock)
   remove_all_env
   copy_env .env
-  copy_env server/docker-config/.env.db
-  copy_env server/docker-config/.env.node
-  copy_env server/docker-config/.env.sendgrid
-  copy_env server/docker-config/.env.urls
-  copy_env client/docker-config/.env.vite
+  copy_env env/docker/db
+  copy_env env/docker/node
+  copy_env env/docker/sendgrid
+  copy_env env/docker/urls
+  copy_env env/docker/vite
 elif [ "$1" == "app" ]; then
   # Host app
   remove_all_env
   copy_env .env
-  copy_env server/docker-config/.env.node
-  copy_env server/docker-config/.env.urls
-  copy_env client/docker-config/.env.vite
+  copy_env env/docker/node
+  copy_env env/docker/urls
+  copy_env env/docker/vite
 elif [ "$1" == "local-db" ]; then
   # Local DB
   remove_all_env
   copy_env .env
-  copy_env server/docker-config/.env.db
-  copy_env server/local-config/.env.docker-db
-  copy_env server/local-config/.env.sendgrid
+  copy_env env/docker/db
+  copy_env env/host/db
+  copy_env env/host/sendgrid
 elif [ "$1" == "shared-db" ]; then
   # Shared DB
   remove_all_env

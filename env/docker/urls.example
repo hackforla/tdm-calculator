@@ -1,4 +1,8 @@
 # External URLs
-CLIENT_EXPOSED_PORT=3001
+
+# Settings for API server container
+
+# $* variables are from root/.env file
+
 CLIENT_URL=http://localhost:$CLIENT_EXPOSED_PORT
 SERVER_URL=http://localhost:$PORT
