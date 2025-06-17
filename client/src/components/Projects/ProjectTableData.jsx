@@ -15,19 +15,6 @@ const useStyles = createUseStyles({
   tdCenterAlign: {
     textAlign: "center"
   },
-  tdExpandable: {
-    padding: "0.2em",
-    textAlign: "left",
-    width: "5%",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
-  },
-  tdExpanded: {
-    whiteSpace: "normal",
-    overflow: "visible",
-    textOverflow: "unset"
-  },
   contentWrapper: {
     display: "inline-block",
     maxWidth: "100%",
@@ -80,8 +67,6 @@ const TdExpandable = ({ children }) => {
   const [isTruncated, setIsTruncated] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const cellClass = isExpanded ? classes.tdExpanded : classes.tdExpandable;
-
   const wrapperClass = isExpanded
     ? classes.contentWrapperExpanded
     : classes.contentWrapper;
@@ -96,7 +81,7 @@ const TdExpandable = ({ children }) => {
   }, []);
 
   return (
-    <td className={cellClass}>
+    <td className={classes.td}>
       <div className={classes.contentContainer}>
         <span ref={contentRef} className={wrapperClass}>
           {children}
