@@ -5,7 +5,7 @@
   "scripts": {
     "release-notes": "gren release --override",
     "start": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\" ",
-    "start:app-local-db": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend-local\" \"npm run start:frontend\" ",
+    "start:local-db": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend-local\" \"npm run start:frontend\" ",
     "start:backend": "cd ./server && npm start",
     "start:backend-local": "cd ./server && npm run start-local",
     "start:frontend": "wait-on http://localhost:5001/api/calculations && cd ./client && npm start",

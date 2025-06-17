@@ -74,7 +74,7 @@ call_start() {
 
     if [ "$2" == "up" ]; then
       # Start app locally
-      npm run start:app-local-db
+      npm run start:local-db
     fi
   elif [ "$1" == "shared-db" ]; then
     # No Docker (local app + shared DB)
