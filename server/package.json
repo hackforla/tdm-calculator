@@ -31,8 +31,6 @@
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "env-cmd": "^10.1.0",
     "error-handler": "^1.0.0",
     "express": "^4.21.2",
     "express-json-validator-middleware": "^3.0.1",
