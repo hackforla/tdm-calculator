@@ -24,12 +24,11 @@ set -eu
 
 # Usage if the config is not valid
 if [[ "$1" != "all" && "$1" != "app" && "$1" != "local-db" && "$1" != "shared-db" ]]; then
-  echo "Usage: $0 <all|app|local-db> <compose action>"
+  echo "Usage: $0 [all|app|local-db] <compose action>"
+  echo "Actions are [build|config|up|down]"
+  echo ""
   echo "Example: $0 all build"
   echo "Example: $0 all up -d"
-  echo "Example: $0 app up -d"
-  echo "Example: $0 local-db up -d"
-  echo "Example: $0 shared-db"
   echo "Example: $0 all down"
   exit 1
 fi
