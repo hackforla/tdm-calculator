@@ -36,7 +36,6 @@
     "axios": "^1.6.1",
     "clsx": "^2.1.1",
     "dotenv": "^16.5.0",
-    "env-cmd": "^10.1.0",
     "formik": "^2.4.6",
     "identity-obj-proxy": "^3.0.0",
     "interweave": "^13.1.1",
