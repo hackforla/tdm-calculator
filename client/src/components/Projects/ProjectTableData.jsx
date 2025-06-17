@@ -15,9 +15,6 @@ const useStyles = createUseStyles({
     overflow: "hidden",
     textOverflow: "ellipsis"
   },
-  tdRightAlign: {
-    textAlign: "right"
-  },
   tdCenterAlign: {
     textAlign: "center"
   },
@@ -56,7 +53,7 @@ const useStyles = createUseStyles({
     lineHeight: 0
   },
   expandButtonIcon: {
-    fontSize: "22px",
+    fontSize: "24px",
     transform: "translateY(-4px)"
   }
 });
@@ -65,14 +62,11 @@ const Td = ({ children, align }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
 
-  let alignClass = "";
-  if (align === "right") alignClass = classes.tdRightAlign;
-  else if (align === "center") alignClass = classes.tdCenterAlign;
-
-  const combinedClass = `${classes.td} ${alignClass}`.trim();
+  const cellClass =
+    align === "center" ? `${classes.td} ${classes.tdCenterAlign}` : classes.td;
 
   return (
-    <td className={combinedClass}>
+    <td className={cellClass}>
       <div className={classes.contentContainer}>{children}</div>
     </td>
   );
@@ -112,14 +106,10 @@ const TdExpandable = ({ children }) => {
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? (
-              <MdOutlineKeyboardArrowUp
-                className={classes.expandButtonIcon}
-                viewBox="0 0 24 24"
-              />
+              <MdOutlineKeyboardArrowUp className={classes.expandButtonIcon} />
             ) : (
               <MdOutlineKeyboardArrowDown
                 className={classes.expandButtonIcon}
-                viewBox="0 0 24 24"
               />
             )}
           </button>
