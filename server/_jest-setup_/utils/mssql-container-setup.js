@@ -57,11 +57,11 @@ const setupContainer = async () => {
 const runMigrations = async () => {
   try {
     console.log("Running migrations on test database...");
-    const { stdout } = await exec("npm run flyway-in-test:migrate");
+    const { stdout } = await exec("npm run flyway:migrate");
     console.log("Migrations completed on tdmtestdb");
     return stdout;
   } catch (error) {
-    console.error(`Error running flyway-in-test:migrate: ${error}`);
+    console.error(`Error running flyway:migrate: ${error}`);
     throw error;
   }
 };
