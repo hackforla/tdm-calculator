@@ -42,10 +42,10 @@ call_start() {
     docker compose \
     --env-file .env \
     --env-file env/docker/node \
+    --env-file env/docker/vite \
+    --env-file env/docker/urls \
     --env-file env/docker/db \
     --env-file env/docker/sendgrid \
-    --env-file env/docker/urls \
-    --env-file env/docker/vite \
     "${@:2}"
   elif [ "$1" == "app" ]; then
     # Docker app + shared DB
@@ -54,8 +54,8 @@ call_start() {
     --env-file .env \
     --env-file ./server/.env \
     --env-file env/docker/node \
-    --env-file env/docker/urls \
     --env-file env/docker/vite \
+    --env-file env/docker/urls \
     "${@:2}"
   elif [ "$1" == "local-db" ]; then
     # Docker DB + sendgrid-mock
@@ -77,7 +77,7 @@ call_start() {
       npm run start:app-local-db
     fi
   elif [ "$1" == "shared-db" ]; then
-    # No docker (local app + shared DB)
+    # No Docker (local app + shared DB)
     set -x
     # Start app locally
     npm start
