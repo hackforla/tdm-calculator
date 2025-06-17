@@ -22,24 +22,9 @@ import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
+import { Td, TdExpandable } from "./ProjectTableData";
 
 const useStyles = createUseStyles(theme => ({
-  td: {
-    padding: "0.2em",
-    textAlign: "left",
-    width: "5%",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
-  },
-  tdRightAlign: {
-    padding: "0.2em",
-    textAlign: "right"
-  },
-  tdCenterAlign: {
-    padding: "0.2em",
-    textAlign: "center"
-  },
   actionIcons: {
     display: "flex",
     justifyContent: "space-around",
@@ -52,7 +37,6 @@ const useStyles = createUseStyles(theme => ({
       }
     }
   },
-
   selectBox: {
     padding: "0.5em",
     border: "1px solid #ccc",
@@ -273,15 +257,15 @@ const ProjectTableRow = ({
 
   return (
     <tr key={project.id}>
-      <td className={classes.tdCenterAlign}>
+      <Td>
         <input
           style={{ height: "15px" }}
           type="checkbox"
           checked={checkedProjectIds.includes(project.id)}
           onChange={() => handleCheckboxChange(project.id)}
         />
-      </td>
-      <td className={classes.tdCenterAlign}>
+      </Td>
+      <Td align="center">
         {project.dateHidden ? (
           <MdVisibilityOff
             alt={`Project Is Hidden`}
@@ -295,8 +279,8 @@ const ProjectTableRow = ({
             style={{ width: "2em" }}
           />
         )}
-      </td>
-      <td className={classes.td}>
+      </Td>
+      <Td>
         {project.dateSnapshotted ? "Snapshot" : "Draft"}{" "}
         {project.dateTrashed ? (
           <span
@@ -307,27 +291,25 @@ const ProjectTableRow = ({
             ({daysUntilPermanentDeletion(project)})
           </span>
         ) : null}
-      </td>
-      <td className={classes.td}>
+      </Td>
+      <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
-      </td>
-      <td className={classes.td}>{project.address}</td>
-      <td className={classes.td}>{fallbackToBlank(formInputs.VERSION_NO)}</td>
-      <td className={classes.td}>
-        {`${project.lastName}, ${project.firstName}`}
-      </td>
-      <td className={classes.td}>{formatDate(project.dateCreated)}</td>
-      <td className={classes.td}>
+      </TdExpandable>
+      <TdExpandable>{project.address}</TdExpandable>
+      <Td>{fallbackToBlank(formInputs.VERSION_NO)}</Td>
+      <Td> {`${project.lastName}, ${project.firstName}`}</Td>
+      <Td>{formatDate(project.dateCreated)}</Td>
+      <Td>
         <span>{formatDate(project.dateModified)}</span>
-      </td>
+      </Td>
       {!isActiveProjectsTab && (
-        <td className={classes.td}>
+        <Td>
           <span>{formatDate(project.dateTrashed)}</span>
-        </td>
+        </Td>
       )}
-      <td className={classes.td}>{dateSubmittedDisplay()}</td>
+      <Td>{dateSubmittedDisplay()}</Td>
       {/* DRO Column */}
-      <td className={classes.td} style={{ overflow: "visible" }}>
+      <Td style={{ overflow: "visible" }}>
         {/* Dro is editable if user is an admin OR user is the author and project is not submitted */}
         {droOptions.length > 0 &&
         (isAdmin || (project.loginId === loginId && !project.dateSubmitted)) ? (
@@ -353,7 +335,7 @@ const ProjectTableRow = ({
         ) : (
           <span>{droName}</span>
         )}
-      </td>
+      </Td>
       {isAdmin && (
         <div>
           <button
@@ -395,13 +377,13 @@ const ProjectTableRow = ({
         />
       )}
       {isAdmin && (
-        <td className={classes.td}>
+        <Td>
           <span>
             {project.dateModifiedAdmin
               ? formatDate(project.dateModifiedAdmin)
               : "N/A"}
           </span>
-        </td>
+        </Td>
       )}
       <td className={classes.actionIcons}>
         {projectRules && (
@@ -441,9 +423,9 @@ const ProjectTableRow = ({
         )}
       </td>{" "}
       {ENABLE_UPDATE_TOTALS ? (
-        <td className={classes.td}>
+        <Td>
           <span>{`${project.targetPoints}/${project.earnedPoints}/${project.projectLevel}`}</span>
-        </td>
+        </Td>
       ) : null}
     </tr>
   );
