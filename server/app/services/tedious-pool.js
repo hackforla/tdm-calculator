@@ -1,5 +1,7 @@
 const sql = require("mssql");
-require("dotenv").config();
+
+const dotenv = require("dotenv");
+dotenv.config();
 
 var config = process.env.SQL_SERVER_INSTANCE
   ? {
