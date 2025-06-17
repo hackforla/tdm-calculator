@@ -39,7 +39,7 @@ call_start() {
   if [ "$1" == "all" ]; then
     # Docker everything (app + DB + sendgrid-mock)
     set -x
-    docker-compose \
+    docker compose \
     --env-file .env \
     --env-file env/docker/node \
     --env-file env/docker/db \
@@ -50,7 +50,7 @@ call_start() {
   elif [ "$1" == "app" ]; then
     # Docker app + shared DB
     set -x
-    docker-compose \
+    docker compose \
     --env-file .env \
     --env-file ./server/.env \
     --env-file env/docker/node \
@@ -65,7 +65,7 @@ call_start() {
       set -- "$1" "up" "db-migrate" "sendgrid" "${@:3}"
     fi
     set -x
-    docker-compose \
+    docker compose \
     --env-file .env \
     --env-file env/docker/db \
     --env-file env/host/sendgrid \
