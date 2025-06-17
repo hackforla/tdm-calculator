@@ -10,13 +10,18 @@ const useStyles = createUseStyles({
   td: {
     padding: "0.2em",
     textAlign: "left",
+    width: "5%"
+  },
+  tdCenterAlign: {
+    textAlign: "center"
+  },
+  tdExpandable: {
+    padding: "0.2em",
+    textAlign: "left",
     width: "5%",
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis"
-  },
-  tdCenterAlign: {
-    textAlign: "center"
   },
   tdExpanded: {
     whiteSpace: "normal",
@@ -65,11 +70,7 @@ const Td = ({ children, align }) => {
   const cellClass =
     align === "center" ? `${classes.td} ${classes.tdCenterAlign}` : classes.td;
 
-  return (
-    <td className={cellClass}>
-      <div className={classes.contentContainer}>{children}</div>
-    </td>
-  );
+  return <td className={cellClass}>{children}</td>;
 };
 
 const TdExpandable = ({ children }) => {
@@ -79,7 +80,7 @@ const TdExpandable = ({ children }) => {
   const [isTruncated, setIsTruncated] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const cellClass = isExpanded ? classes.tdExpanded : classes.td;
+  const cellClass = isExpanded ? classes.tdExpanded : classes.tdExpandable;
 
   const wrapperClass = isExpanded
     ? classes.contentWrapperExpanded

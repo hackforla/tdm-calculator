@@ -257,7 +257,7 @@ const ProjectTableRow = ({
 
   return (
     <tr key={project.id}>
-      <Td>
+      <Td align="center">
         <input
           style={{ height: "15px" }}
           type="checkbox"
