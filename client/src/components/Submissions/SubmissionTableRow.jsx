@@ -1,14 +1,21 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "reactjs-popup/dist/index.css";
-import { MdAdd, MdOutlineStickyNote2, MdCheck, MdEdit } from "react-icons/md";
+import {
+  MdAdd,
+  MdOutlineStickyNote2,
+  MdCheck,
+  MdEdit,
+  MdList
+} from "react-icons/md";
 import { formatDate } from "../../helpers/util";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import ActionManageSubmission from "../Modals/ActionManageSubmission";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
+import InfoSubmissionLog from "../Modals/InfoSubmissionLog";
 
 const useStyles = createUseStyles(theme => ({
   td: {
@@ -178,17 +185,12 @@ const SubmissionTableRow = ({
   } = useAdminNotesModal(project, onAdminNoteUpdate);
   const theme = useTheme();
   const classes = useStyles(theme);
-  const navigate = useNavigate();
   const [actionManageSubmissionOpen, setActionManageSubmissionOpen] =
     useState(false);
+  const [infoSubmissionLogOpen, setInfoSubmissionLogOpen] = useState(false);
 
   const handleActionManageSubmissionOpen = () => {
     setActionManageSubmissionOpen(true);
-  };
-
-  const handleEditSubmissionNavigate = () => {
-    console.error(project);
-    navigate(`/editsubmission/${project.id}`);
   };
 
   const handleActionManageSubmissionClose = project => {
@@ -204,7 +206,7 @@ const SubmissionTableRow = ({
         <MdEdit onClick={handleActionManageSubmissionOpen} />
       </td>
       <td className={classes.td}>
-        <MdEdit onClick={handleEditSubmissionNavigate} />
+        <MdList onClick={() => setInfoSubmissionLogOpen(true)} />
       </td>
 
       <td className={classes.tdRightAlign}>
@@ -267,6 +269,12 @@ const SubmissionTableRow = ({
         onClose={handleActionManageSubmissionClose}
         project={project}
         assigneeList={assigneeList}
+      />
+      <InfoSubmissionLog
+        key={project.id}
+        mounted={infoSubmissionLogOpen}
+        onClose={() => setInfoSubmissionLogOpen(false)}
+        project={project}
       />
     </tr>
   );
