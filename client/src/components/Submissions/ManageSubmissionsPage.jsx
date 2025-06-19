@@ -379,7 +379,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "number",
       colWidth: "8rem"
     },
-    { id: "droName", label: "DRO", popupType: "string", colWidth: "10rem" },
+    { id: "droName", label: "DRO", popupType: "stringList", colWidth: "10rem" },
     {
       id: "assignee",
       label: "Assignee",
@@ -397,7 +397,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "invoiceStatusName",
       label: "Invoice Status",
-      popupType: "string",
+      popupType: "stringList",
       colWidth: "7rem"
     },
     {
@@ -412,7 +412,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "approvalStatusName",
       label: "Approval Status",
-      popupType: "string",
+      popupType: "stringList",
       colWidth: "12rem"
     },
     {

@@ -13,6 +13,7 @@ import { Popover } from "react-tiny-popover";
 import DatePopup from "./DatePopup";
 import TextPopup from "./TextPopup";
 import StringPopup from "./StringPopup";
+import StringListPopup from "./StringListPopup";
 import NumberPopup from "./NumberPopup";
 import BooleanPopup from "./BooleanPopup";
 import VisibilityPopup from "./VisibilityPopup";
@@ -111,7 +112,8 @@ const ProjectTableColumnHeader = ({
     if (
       header.popupType === "text" ||
       header.popupType === "string" ||
-      header.popupType === "number"
+      header.popupType === "number" ||
+      header.popupType === "stringList"
     ) {
       const listPropertyName = propertyName + "List";
       const listValue = criteria[listPropertyName];
@@ -160,7 +162,7 @@ const ProjectTableColumnHeader = ({
           positions={["bottom", "left", "right", "top"]} // preferred positions by priority
           align="start"
           padding={10}
-          // onClickOutside={() => handlePopoverToggle(false)}
+          onClickOutside={() => handlePopoverToggle(false)}
           content={
             <div className={classes.popoverContent}>
               {!header.popupType ? null : header.popupType === "datetime" ? (
@@ -207,6 +209,20 @@ const ProjectTableColumnHeader = ({
                 />
               ) : header.popupType === "string" ? (
                 <StringPopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
+                  projects={projects}
+                  filter={filter}
+                />
+              ) : header.popupType === "stringList" ? (
+                <StringListPopup
                   close={() => handlePopoverToggle(false)}
                   header={header}
                   criteria={criteria}

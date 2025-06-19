@@ -375,7 +375,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
       popupType: "number",
       colWidth: "96px"
     },
-    { id: "droName", label: "DRO", popupType: "string", colWidth: "160px" },
+    { id: "droName", label: "DRO", popupType: "stringList", colWidth: "160px" },
     {
       id: "assignee",
       label: "Staff Assigned",
@@ -393,7 +393,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     {
       id: "invoiceStatusName",
       label: "Invoice Status",
-      popupType: "string",
+      popupType: "stringList",
       colWidth: "160px"
     },
     {
@@ -408,7 +408,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     {
       id: "approvalStatusName",
       label: "Approval Status",
-      popupType: "string",
+      popupType: "stringList",
       colWidth: "240px"
     },
     {
