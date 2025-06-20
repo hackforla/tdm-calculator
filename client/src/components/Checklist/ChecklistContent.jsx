@@ -8,7 +8,7 @@ const useStyles = createUseStyles(theme => ({
     maxWidth: "30rem",
     marginTop: "0px"
   },
-  heading1: { ...theme.typography.heading1, marginTop: "0px" },
+  heading1: theme.typography.heading1,
   mainBullet: {
     ...theme.typography.paragraph1,
     fontWeight: "700",

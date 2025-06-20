@@ -15,7 +15,6 @@ const useStyles = createUseStyles(theme => ({
   },
   heading: {
     ...theme.typography.heading1,
-    marginTop: "0",
     marginBottom: "0"
   },
   subHeader: {
