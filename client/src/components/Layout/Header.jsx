@@ -97,8 +97,17 @@ const Header = () => {
       <button
         className={classes.hamburgerButton}
         onClick={handleHamburgerMenuClick}
+        aria-label="Toggle navigation menu"
+        aria-expanded={navbarOpen}
+        aria-controls="navbar"
+        data-testid="hamburger-button"
+        type="button"
+        id="navigation-hamburger-button"
       >
-        <MdMenu className={classes.hamburger} />
+        <MdMenu
+          aria-describedby="navigation-hamburger-button"
+          className={classes.hamburger}
+        />
       </button>
 
       <NavBar navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />
