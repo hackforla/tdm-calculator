@@ -49,7 +49,7 @@ export const jssTheme = {
       textAlign: "center",
       color: "#000000"
     },
-    heading1: {
+    iconHeading1: {
       fontFamily: "Calibri",
       fontSize: "28px",
       fontWeight: 700,
@@ -57,6 +57,16 @@ export const jssTheme = {
       letterSpacing: "0.01em",
       textAlign: "center",
       color: "#000000"
+    },
+    heading1: {
+      fontFamily: "Calibri",
+      fontSize: "28px",
+      fontWeight: 700,
+      lineHeight: "40px",
+      letterSpacing: "0.01em",
+      textAlign: "center",
+      color: "#000000",
+      marginTop: 0
     },
     heading2: {
       fontFamily: "Calibri",
