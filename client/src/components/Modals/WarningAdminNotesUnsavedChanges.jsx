@@ -18,7 +18,7 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colorCritical,
     textAlign: "center"
   },
-  heading1: theme.typography.heading1,
+  heading1: theme.typography.iconHeading1,
   subheading: theme.typography.subHeading,
   modalActions: {
     display: "flex",

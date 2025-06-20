@@ -23,7 +23,7 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "center",
     margin: 0
   },
-  modalHeader: theme.typography.heading1,
+  modalHeader: theme.typography.iconHeading1,
   subheading: {
     ...theme.typography.subHeading,
     width: "30rem",
