@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { createUseStyles, useTheme } from "react-jss";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "reactjs-popup/dist/index.css";
@@ -10,50 +9,6 @@ import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import ActionManageSubmission from "../Modals/ActionManageSubmission";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import { Td, TdExpandable } from "./SubmissionTableData";
-
-const useStyles = createUseStyles(theme => ({
-  selectBox: {
-    padding: "0.5em",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    fontSize: "14px"
-  },
-  adminNoteInput: {
-    padding: "0.3em",
-    marginRight: "0.5em",
-    flexGrow: 1
-  },
-  saveButton: {
-    padding: "0.3em 0.6em",
-    marginRight: "0.3em",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    "&:disabled": {
-      backgroundColor: "#a5d6a7",
-      cursor: "not-allowed"
-    }
-  },
-  cancelButton: {
-    padding: "0.3em 0.6em",
-    backgroundColor: theme.colorWhite,
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer"
-  },
-  popover: {
-    display: "flex",
-    flexDirection: "column",
-    listStyleType: "none",
-    margin: 0,
-    padding: 0,
-    boxShadow:
-      "10px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
-  }
-}));
 
 function useAdminNotesModal(project, onAdminNoteUpdate) {
   const [showWarningModal, setShowWarningModal] = useState(false);
@@ -148,8 +103,6 @@ const SubmissionTableRow = ({
     handleDoNotDiscard,
     textUpdated
   } = useAdminNotesModal(project, onAdminNoteUpdate);
-  const theme = useTheme();
-  const classes = useStyles(theme);
   const [actionManageSubmissionOpen, setActionManageSubmissionOpen] =
     useState(false);
 
@@ -175,7 +128,7 @@ const SubmissionTableRow = ({
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
       </TdExpandable>
       <Td>{project.author}</Td>
-      <td className={classes.tdCenterAlign}>{project.projectLevel}</td>
+      <Td align="center">{project.projectLevel}</Td>
       <Td>{project.droName}</Td>
       <Td>{project.assignee}</Td>
       <Td>{formatDate(project.dateAssigned)}</Td>
