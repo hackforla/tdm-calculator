@@ -18,6 +18,7 @@ import {
   SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG,
   SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
+import { Td, TdExpandable } from "./SubmissionTableData";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
 const DEFAULT_FILTER_CRITERIA = {
@@ -140,22 +141,6 @@ const useStyles = createUseStyles(theme => ({
     }
   },
   tdNoSavedProjects: {
-    textAlign: "center"
-  },
-  td: {
-    padding: "0.2em",
-    textAlign: "left",
-    width: "5%",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
-  },
-  tdRightAlign: {
-    padding: "0.2em",
-    textAlign: "right"
-  },
-  tdCenterAlign: {
-    padding: "0.2em",
     textAlign: "center"
   },
   tableContainer: {
@@ -571,44 +556,28 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                           background: project.dateTrashed ? "#ffdcdc" : ""
                         }}
                       >
-                        <td className={classes.tdRightAlign}>
+                        <Td align="right">
                           {project.id.toString().padStart(10, "0")}
-                        </td>
-                        <td className={classes.td}>
+                        </Td>
+                        <TdExpandable>
                           <Link to={`/calculation/1/${project.id}`}>
                             {project.name}
                           </Link>
-                        </td>
-                        <td className={classes.td}>{project.address}</td>
-                        <td className={classes.td}>
-                          {formatDate(project.dateSubmitted)}
-                        </td>
-                        <td className={classes.td}>
-                          {formatDate(project.dateStatus)}
-                        </td>
-                        <td className={classes.tdCenterAlign}>
-                          {project.projectLevel}
-                        </td>
-                        <td className={classes.td}>{project.droName}</td>
-                        <td className={classes.td}>{project.assignee}</td>
-                        <td className={classes.td}>
-                          {formatDate(project.dateAssigned)}
-                        </td>
-                        <td className={classes.td}>
-                          {project.invoiceStatusName}
-                        </td>
-                        <td className={classes.td}>
-                          {formatDate(project.dateInvoicePaid)}
-                        </td>
-                        <td className={classes.tdCenterAlign}>
+                        </TdExpandable>
+                        <TdExpandable>{project.address}</TdExpandable>
+                        <Td>{formatDate(project.dateSubmitted)}</Td>
+                        <Td>{formatDate(project.dateStatus)}</Td>
+                        <Td align="center">{project.projectLevel}</Td>
+                        <Td>{project.droName}</Td>
+                        <Td>{project.assignee}</Td>
+                        <Td>{formatDate(project.dateAssigned)}</Td>
+                        <Td>{project.invoiceStatusName}</Td>
+                        <Td>{formatDate(project.dateInvoicePaid)}</Td>
+                        <Td align="center">
                           {project.onHold ? <MdCheck /> : ""}
-                        </td>
-                        <td className={classes.td}>
-                          {project.approvalStatusName}
-                        </td>
-                        <td className={classes.td}>
-                          {formatDate(project.dateCoO)}
-                        </td>
+                        </Td>
+                        <Td>{project.approvalStatusName}</Td>
+                        <Td>{formatDate(project.dateCoO)}</Td>
                       </tr>
                     ))
                   ) : (
