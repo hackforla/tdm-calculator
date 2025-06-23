@@ -351,6 +351,11 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       colWidth: "3rem"
     },
     {
+      id: "editIcon",
+      label: "",
+      colWidth: "3rem"
+    },
+    {
       id: "id",
       label: "ID",
       popupType: "number",
@@ -374,7 +379,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "number",
       colWidth: "8rem"
     },
-    { id: "droName", label: "DRO", popupType: "string", colWidth: "10rem" },
+    { id: "droName", label: "DRO", popupType: "stringList", colWidth: "10rem" },
     {
       id: "assignee",
       label: "Assignee",
@@ -392,12 +397,12 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "invoiceStatusName",
       label: "Invoice Status",
-      popupType: "string",
+      popupType: "stringList",
       colWidth: "7rem"
     },
     {
       id: "dateInvoicePaid",
-      label: "Invoice Pd",
+      label: "Invoice Paid",
       popupType: "datetime",
       startDatePropertyName: "startDateInvoicePaid",
       endDatePropertyName: "endDateInvoicePaid",
@@ -407,7 +412,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "approvalStatusName",
       label: "Approval Status",
-      popupType: "string",
+      popupType: "stringList",
       colWidth: "12rem"
     },
     {

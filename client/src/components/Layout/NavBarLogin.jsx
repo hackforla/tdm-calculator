@@ -8,7 +8,7 @@ import { useTheme } from "react-jss";
 import Popup from "reactjs-popup";
 import { MdClose, MdWarning } from "react-icons/md";
 
-const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
+const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
   const theme = useTheme();
   const userContext = useContext(UserContext);
   const account = userContext.account;
@@ -38,6 +38,8 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
       className={`${classes.link} ${classes.lastItem}`}
       to="/login"
       onClick={handleHamburgerMenuClick}
+      onFocus={() => setNavbarOpen(true)}
+      onBlur={() => setNavbarOpen(false)}
     >
       Login
     </Link>
@@ -51,6 +53,8 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           pathname: `/updateaccount/${(account && account.email) || ""}`,
           state: { prevPath: location.pathname }
         }}
+        onFocus={() => setNavbarOpen(true)}
+        onBlur={() => setNavbarOpen(false)}
       >
         Hello, {`${account.firstName} ${account.lastName} `}
       </NavLink>
@@ -69,6 +73,8 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           userContext.updateAccount(null);
           handleHamburgerMenuClick;
         }}
+        onFocus={() => setNavbarOpen(true)}
+        onBlur={() => setNavbarOpen(false)}
       >
         Logout
       </Link>
@@ -173,7 +179,8 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
 NavBarLogin.propTypes = {
   account: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  handleHamburgerMenuClick: PropTypes.func
+  handleHamburgerMenuClick: PropTypes.func,
+  setNavbarOpen: PropTypes.func.isRequired
 };
 
 export default NavBarLogin;

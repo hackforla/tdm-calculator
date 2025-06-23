@@ -3,11 +3,18 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "reactjs-popup/dist/index.css";
-import { MdAdd, MdOutlineStickyNote2, MdCheck, MdEdit } from "react-icons/md";
+import {
+  MdAdd,
+  MdOutlineStickyNote2,
+  MdCheck,
+  MdEdit,
+  MdList
+} from "react-icons/md";
 import { formatDate } from "../../helpers/util";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import ActionManageSubmission from "../Modals/ActionManageSubmission";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
+import InfoSubmissionLog from "../Modals/InfoSubmissionLog";
 import { Td, TdExpandable } from "./SubmissionTableData";
 
 function useAdminNotesModal(project, onAdminNoteUpdate) {
@@ -105,9 +112,9 @@ const SubmissionTableRow = ({
   } = useAdminNotesModal(project, onAdminNoteUpdate);
   const [actionManageSubmissionOpen, setActionManageSubmissionOpen] =
     useState(false);
+  const [infoSubmissionLogOpen, setInfoSubmissionLogOpen] = useState(false);
 
   const handleActionManageSubmissionOpen = () => {
-    console.error(project);
     setActionManageSubmissionOpen(true);
   };
 
@@ -122,6 +129,9 @@ const SubmissionTableRow = ({
     <tr key={project.id}>
       <Td>
         <MdEdit onClick={handleActionManageSubmissionOpen} />
+      </Td>
+      <Td>
+        <MdList onClick={() => setInfoSubmissionLogOpen(true)} />
       </Td>
       <Td align="right">{project.id.toString().padStart(10, "0")}</Td>
       <TdExpandable>
@@ -179,6 +189,12 @@ const SubmissionTableRow = ({
         onClose={handleActionManageSubmissionClose}
         project={project}
         assigneeList={assigneeList}
+      />
+      <InfoSubmissionLog
+        key={project.id}
+        mounted={infoSubmissionLogOpen}
+        onClose={() => setInfoSubmissionLogOpen(false)}
+        project={project}
       />
     </tr>
   );
