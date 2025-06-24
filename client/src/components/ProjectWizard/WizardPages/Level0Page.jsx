@@ -44,7 +44,9 @@ const Level0Page = ({ isLevel0, resetProject }) => {
           </div>
           <div className={classes.level0Container}>
             <MdWarning className={classes.warningIcon} alt="Warning" />
-            <h1 style={theme.typography.heading1}>Your project level is 0</h1>
+            <h1 style={theme.typography.iconHeading1}>
+              Your project level is 0
+            </h1>
             <div className={classes.level0Message}>
               <p>
                 Based on the information you provided, the Transportation Demand

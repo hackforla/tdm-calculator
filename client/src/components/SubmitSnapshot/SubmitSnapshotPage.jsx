@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-import ContentContainer from "../Layout/ContentContainer";
+import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import Button from "../Button/Button";
 import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
 import SubmitSnapshotTable from "./SubmitSnapshotTable";
@@ -14,6 +14,7 @@ import * as projectResultService from "../../services/projectResult.service";
 
 const useStyles = createUseStyles({
   pageTitle: {
+    marginTop: 0,
     marginBottom: "16px",
     textAlign: "center"
   },
@@ -112,7 +113,7 @@ const SubmitSnapshotPage = props => {
   };
 
   return (
-    <ContentContainer contentContainerRef={contentContainerRef}>
+    <ContentContainerWithTables contentContainerRef={contentContainerRef}>
       <div>
         <h1 className={classes.pageTitle}>Snapshot Submittal Form</h1>
         <div className={classes.subtitle}>
@@ -226,7 +227,7 @@ const SubmitSnapshotPage = props => {
         onClose={handleSubmissionModalClose}
         project={selectedProject}
       />
-    </ContentContainer>
+    </ContentContainerWithTables>
   );
 };
 
