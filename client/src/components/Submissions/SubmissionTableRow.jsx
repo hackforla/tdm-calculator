@@ -10,7 +10,7 @@ import {
   MdEdit,
   MdList
 } from "react-icons/md";
-import { formatDate } from "../../helpers/util";
+import { formatDate, formatId } from "../../helpers/util";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import ActionManageSubmission from "../Modals/ActionManageSubmission";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
@@ -133,7 +133,7 @@ const SubmissionTableRow = ({
       <Td>
         <MdList onClick={() => setInfoSubmissionLogOpen(true)} />
       </Td>
-      <Td align="right">{project.id.toString().padStart(10, "0")}</Td>
+      <Td align="right">{formatId(project.id)}</Td>
       <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
       </TdExpandable>
