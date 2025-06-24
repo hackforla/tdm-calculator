@@ -254,7 +254,6 @@ const ProjectTableRow = ({
       (1000 * 60 * 60 * 24);
     return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
   };
-
   return (
     <tr key={project.id}>
       <Td align="center">
@@ -291,6 +290,9 @@ const ProjectTableRow = ({
             ({daysUntilPermanentDeletion(project)})
           </span>
         ) : null}
+      </Td>
+      <Td className={classes.td}>
+        {project.id.toString().padStart(10, "0")}
       </Td>
       <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
