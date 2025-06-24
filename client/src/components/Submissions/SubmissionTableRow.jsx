@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { createUseStyles, useTheme } from "react-jss";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "reactjs-popup/dist/index.css";
@@ -16,79 +15,7 @@ import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import ActionManageSubmission from "../Modals/ActionManageSubmission";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import InfoSubmissionLog from "../Modals/InfoSubmissionLog";
-
-const useStyles = createUseStyles(theme => ({
-  td: {
-    padding: "0.2em",
-    textAlign: "left",
-    width: "5%",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
-  },
-  tdRightAlign: {
-    padding: "0.2em",
-    textAlign: "right"
-  },
-  tdCenterAlign: {
-    padding: "0.2em",
-    textAlign: "center"
-  },
-  actionIcons: {
-    display: "flex",
-    justifyContent: "space-around",
-    width: "auto",
-    "& button": {
-      border: "none",
-      backgroundColor: "transparent",
-      "&:hover": {
-        cursor: "pointer"
-      }
-    }
-  },
-
-  selectBox: {
-    padding: "0.5em",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    fontSize: "14px"
-  },
-  adminNoteInput: {
-    padding: "0.3em",
-    marginRight: "0.5em",
-    flexGrow: 1
-  },
-  saveButton: {
-    padding: "0.3em 0.6em",
-    marginRight: "0.3em",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    "&:disabled": {
-      backgroundColor: "#a5d6a7",
-      cursor: "not-allowed"
-    }
-  },
-  cancelButton: {
-    padding: "0.3em 0.6em",
-    backgroundColor: theme.colorWhite,
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer"
-  },
-  popover: {
-    display: "flex",
-    flexDirection: "column",
-    listStyleType: "none",
-    margin: 0,
-    padding: 0,
-    boxShadow:
-      "10px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
-  }
-}));
+import { Td, TdExpandable } from "./SubmissionTableData";
 
 function useAdminNotesModal(project, onAdminNoteUpdate) {
   const [showWarningModal, setShowWarningModal] = useState(false);
@@ -183,8 +110,6 @@ const SubmissionTableRow = ({
     handleDoNotDiscard,
     textUpdated
   } = useAdminNotesModal(project, onAdminNoteUpdate);
-  const theme = useTheme();
-  const classes = useStyles(theme);
   const [actionManageSubmissionOpen, setActionManageSubmissionOpen] =
     useState(false);
   const [infoSubmissionLogOpen, setInfoSubmissionLogOpen] = useState(false);
@@ -202,31 +127,26 @@ const SubmissionTableRow = ({
 
   return (
     <tr key={project.id}>
-      <td className={classes.td}>
+      <Td>
         <MdEdit onClick={handleActionManageSubmissionOpen} />
-      </td>
-      <td className={classes.td}>
+      </Td>
+      <Td>
         <MdList onClick={() => setInfoSubmissionLogOpen(true)} />
-      </td>
-
-      <td className={classes.tdRightAlign}>
-        {project.id.toString().padStart(10, "0")}
-      </td>
-      <td className={classes.td}>
+      </Td>
+      <Td align="right">{project.id.toString().padStart(10, "0")}</Td>
+      <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
-      </td>
-      <td className={classes.td}>{project.author}</td>
-      <td className={classes.tdCenterAlign}>{project.projectLevel}</td>
-      <td className={classes.td}>{project.droName}</td>
-      <td className={classes.td}>{project.assignee}</td>
-      <td className={classes.td}>{formatDate(project.dateAssigned)}</td>
-      <td className={classes.td}>{project.invoiceStatusName}</td>
-      <td className={classes.td}>{formatDate(project.dateInvoicePaid)}</td>
-      <td className={classes.tdCenterAlign}>
-        {project.onHold ? <MdCheck /> : ""}
-      </td>
-      <td className={classes.td}>{project.approvalStatusName}</td>
-      <td className={classes.td}>
+      </TdExpandable>
+      <Td>{project.author}</Td>
+      <Td align="center">{project.projectLevel}</Td>
+      <Td>{project.droName}</Td>
+      <Td>{project.assignee}</Td>
+      <Td>{formatDate(project.dateAssigned)}</Td>
+      <Td>{project.invoiceStatusName}</Td>
+      <Td>{formatDate(project.dateInvoicePaid)}</Td>
+      <Td align="center">{project.onHold ? <MdCheck /> : ""}</Td>
+      <Td>{project.approvalStatusName}</Td>
+      <Td>
         <button
           onClick={handleAdminNotesModalOpen}
           style={{
@@ -255,8 +175,8 @@ const SubmissionTableRow = ({
           isNewNote={isNewNote}
           textUpdated={textUpdated}
         />
-      </td>
-      <td className={classes.td}>{formatDate(project.dateCoO)}</td>
+      </Td>
+      <Td>{formatDate(project.dateCoO)}</Td>
       <WarningModal
         key="warning-modal"
         mounted={showWarningModal}
