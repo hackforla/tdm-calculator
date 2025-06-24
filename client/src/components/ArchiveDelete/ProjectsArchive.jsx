@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import * as projectService from "../../services/project.service";
 import { useToast } from "../../contexts/Toast";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   main: {
     display: "flex",
     flexDirection: "column",
@@ -34,7 +34,7 @@ const useStyles = createUseStyles({
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: "#0f2940",
+    backgroundColor: theme.colorText,
     color: "white",
     "& td": {
       padding: ".4em"
@@ -51,12 +51,12 @@ const useStyles = createUseStyles({
   link: {
     textDecoration: "underline"
   }
-});
+}));
 
 const ProjectsArchive = () => {
   const [archivedProjects, setArchivedProjects] = useState([]);
-
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   // const toast = useToast();
   const { add } = useToast();
 
