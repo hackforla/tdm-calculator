@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-import { formatDatetime } from "../../helpers/util";
+import { formatDatetime, formatId } from "../../helpers/util";
 
 const useStyles = createUseStyles(theme => ({
   heading3: { ...theme.heading3, textAlign: "center" },
@@ -101,9 +101,7 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
                   id={project.id}
                 />
               </td>
-              <td className={classes.dateCell}>
-                {project.id.toString().padStart(10, "0")}
-              </td>
+              <td className={classes.dateCell}>{formatId(project.id)}</td>
               <td className={classes.textCell}>{project.name}</td>
               <td className={classes.textCell}>
                 {JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}

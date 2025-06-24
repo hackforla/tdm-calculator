@@ -8,7 +8,7 @@ import { MdOutlineSearch, MdCheck } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
-import { formatDate } from "../../helpers/util";
+import { formatDate, formatId } from "../../helpers/util";
 
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
@@ -556,9 +556,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                           background: project.dateTrashed ? "#ffdcdc" : ""
                         }}
                       >
-                        <Td align="right">
-                          {project.id.toString().padStart(10, "0")}
-                        </Td>
+                        <Td align="right">{formatId(project.id)}</Td>
                         <TdExpandable>
                           <Link to={`/calculation/1/${project.id}`}>
                             {project.name}

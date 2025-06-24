@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
+import { formatId } from "../../helpers/util";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext";
@@ -309,10 +310,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
     ? projects.map(project => {
         const droName =
           droOptions.find(dro => dro.id === project.droId)?.name || "";
+
         return {
           ...project,
           droName: droName,
-          adminNotes: project.adminNotes || ""
+          adminNotes: project.adminNotes || "",
+          idFormatted: formatId(project.id)
         };
       })
     : [];
@@ -948,15 +951,25 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "number",
       colWidth: "10rem"
     },
-    { id: "name", label: "Project Name", popupType: "text", colWidth: "20rem" },
-    { id: "address", label: "Address", popupType: "text", colWidth: "20rem" },
+    {
+      id: "name",
+      label: "Project Name",
+      popupType: "string",
+      colWidth: "20rem"
+    },
+    { id: "address", label: "Address", popupType: "string", colWidth: "20rem" },
     {
       id: "alternative",
       label: "Alt No.",
-      popupType: "text",
+      popupType: "string",
       colWidth: "10rem"
     },
-    { id: "author", label: "Created By", popupType: "text", colWidth: "15rem" },
+    {
+      id: "author",
+      label: "Created By",
+      popupType: "text",
+      colWidth: "15rem"
+    },
     {
       id: "dateCreated",
       label: "Created On",
@@ -1006,7 +1019,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
           {
             id: "adminNotes",
             label: "Admin Notes",
-            popupType: "text",
+            popupType: "string",
             accessor: "adminNotes",
             colWidth: "10rem"
           },
@@ -1177,7 +1190,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         <td key={header.id}>
                           <th className={classes.stickyTh}>
                             <ProjectTableColumnHeader
-                              projects={projects}
+                              projects={tabProjects}
                               filter={filter}
                               header={header}
                               criteria={filterCriteria}
