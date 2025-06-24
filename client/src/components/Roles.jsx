@@ -9,7 +9,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { MdCheck, MdMoreVert } from "react-icons/md";
 import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
-import ContentContainer from "./Layout/ContentContainer";
+import ContentContainerWithTables from "./Layout/ContentContainerWithTables";
 
 const useStyles = createUseStyles({
   main: {
@@ -19,7 +19,7 @@ const useStyles = createUseStyles({
     alignItems: "center"
   },
   pageTitle: {
-    marginTop: "2em"
+    marginTop: 0
   },
   pageSubtitle: {
     marginTop: "0.5em",
@@ -195,7 +195,7 @@ const Roles = ({ contentContainerRef }) => {
   };
 
   return (
-    <ContentContainer contentContainerRef={contentContainerRef}>
+    <ContentContainerWithTables contentContainerRef={contentContainerRef}>
       {redirectPath ? <Navigate to="{redirectPath}" /> : null}
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>
@@ -344,7 +344,7 @@ const Roles = ({ contentContainerRef }) => {
             ))}
         </tbody>
       </table>
-    </ContentContainer>
+    </ContentContainerWithTables>
   );
 };
 

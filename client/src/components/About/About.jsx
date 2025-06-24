@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "contexts/UserContext";
 import ContentContainer from "../Layout/ContentContainer";
 import * as aboutService from "../../services/about.service";
@@ -11,14 +11,16 @@ import DefaultView from "./DefaultView";
 import SaveAboutEditsConfirmationModal from "components/Modals/WarningAboutSaveEdits";
 import packageInfo from "../../../package.json";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   editButton: {
     marginLeft: 0
-  }
-});
+  },
+  heading1: { ...theme.typography.heading1, textAlign: "left" }
+}));
 
 const About = () => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const [aboutList, setAboutList] = useState([]);
   const [originalAboutList, setOriginalAboutList] = useState([]);
@@ -120,7 +122,7 @@ const About = () => {
             </Button>
           )}
         </div>
-        <h1>About the TDM Calculator</h1>
+        <h1 className={classes.heading1}>About the TDM Calculator</h1>
         {isAdmin && editMode ? (
           <DragDropContext onDragEnd={handleDragEnd}>
             <AdminView

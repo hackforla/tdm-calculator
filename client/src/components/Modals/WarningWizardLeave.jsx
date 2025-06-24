@@ -17,7 +17,7 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colorCritical,
     textAlign: "center"
   },
-  title: theme.typography.heading1,
+  title: theme.typography.iconHeading1,
   text: theme.typography.paragraph1,
   modalActions: {
     marginTop: "1.5rem",

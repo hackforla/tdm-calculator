@@ -28,7 +28,7 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "center",
     margin: 0
   },
-  heading1: theme.typography.heading1,
+  heading1: theme.typography.iconHeading1,
   heading3: {
     ...theme.typography.heading3,
     marginRight: "1rem",
