@@ -21,7 +21,7 @@ const useStyles = createUseStyles(theme => ({
     alignItems: "center",
     margin: 0
   },
-  heading1: theme.typography.heading1,
+  heading1: theme.typography.iconHeading1,
   description: { ...theme.typography.paragraph1, textAlign: "left" },
   icon: {
     height: "40px",

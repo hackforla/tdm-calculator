@@ -111,3 +111,11 @@ export function putSubmission(submission) {
     return new Promise.reject(error);
   }
 }
+
+export function getSubmissionLogByProjectId(projectId) {
+  try {
+    return axios.get(`${baseUrl}/submissionLog/${projectId}`);
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}

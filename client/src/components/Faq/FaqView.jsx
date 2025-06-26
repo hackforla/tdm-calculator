@@ -3,7 +3,7 @@ import UserContext from "../../contexts/UserContext";
 import FaqCategoryList from "./FaqCategoryList";
 import ExpandButtons from "./ExpandButtons";
 import EditToggleButton from "../Button/EditToggleButton";
-import ContentContainer from "../Layout/ContentContainer";
+import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import { DragDropContext } from "react-beautiful-dnd";
 import * as faqCategoryService from "../../services/faqCategory.service";
 import AddNewCategoryButton from "../Button/AddNewCategory";
@@ -397,7 +397,7 @@ const FaqView = () => {
   };
 
   return (
-    <ContentContainer>
+    <ContentContainerWithTables>
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
         {isAdmin && (
           <EditToggleButton
@@ -451,7 +451,7 @@ const FaqView = () => {
         onYes={handleSaveConfirmationYes}
       />
       {blocker ? <FaqConfirmDialog blocker={blocker} /> : null}
-    </ContentContainer>
+    </ContentContainerWithTables>
   );
 };
 

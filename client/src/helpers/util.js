@@ -13,3 +13,8 @@ export const formatDatetime = datetime => {
         .toFormat("yyyy-MM-dd hh:mm a")
     : null;
 };
+
+export const formatId = id => {
+  const padded = id.toString().padStart(10, "0");
+  return padded.substring(0, 5) + "-" + padded.substring(5, 10);
+};

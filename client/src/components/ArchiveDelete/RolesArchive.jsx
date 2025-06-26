@@ -9,7 +9,7 @@ import RolesUnarchiveContextMenu from "./RolesUnarchiveContextMenu";
 import RolesDeleteContextMenu from "./RolesDeleteContextMenu";
 import UserContext from "../../contexts/UserContext";
 import { MdMoreVert, MdOutlineSearch } from "react-icons/md";
-import ContentContainer from "components/Layout/ContentContainer";
+import ContentContainerWithTables from "components/Layout/ContentContainerWithTables";
 
 const useStyles = createUseStyles(theme => ({
   main: {
@@ -20,7 +20,7 @@ const useStyles = createUseStyles(theme => ({
     margin: "auto"
   },
   pageTitle: {
-    margin: "2em 0 0 0"
+    margin: 0
   },
   pageSubtitle: {
     marginTop: "1em",
@@ -199,7 +199,7 @@ const RolesArchive = ({ contentContainerRef }) => {
   };
 
   return (
-    <ContentContainer contentContainerRef={contentContainerRef}>
+    <ContentContainerWithTables contentContainerRef={contentContainerRef}>
       <div className={classes.main}>
         <h1 className={classes.pageTitle}>Archived Accounts</h1>
         <div className={classes.pageSubtitle}>
@@ -306,7 +306,7 @@ const RolesArchive = ({ contentContainerRef }) => {
           </tbody>
         </table>
       </div>
-    </ContentContainer>
+    </ContentContainerWithTables>
   );
 };
 

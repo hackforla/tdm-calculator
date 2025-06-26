@@ -334,6 +334,19 @@ const putSubmission = async (loginId, item) => {
   }
 };
 
+const getSubmissionLog = async (loginId, projectId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("ProjectId", mssql.Int, projectId);
+    request.input("LoginId", mssql.Int, loginId);
+    const response = await request.execute("ProjectLog_SelectByProjectId");
+    return response.recordset;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -352,5 +365,6 @@ module.exports = {
   updateTotals,
   getSubmissions,
   getSubmissionsAdmin,
-  putSubmission
+  putSubmission,
+  getSubmissionLog
 };

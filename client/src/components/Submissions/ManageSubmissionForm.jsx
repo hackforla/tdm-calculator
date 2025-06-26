@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import { formatId } from "../../helpers/util";
 import { createUseStyles, useTheme } from "react-jss";
 import { useFormik } from "formik";
 import DatePicker from "react-datepicker";
@@ -16,82 +17,6 @@ import {
   dros
 } from "../../helpers/Constants";
 
-import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
-import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
-import { MdAdd, MdOutlineStickyNote2 } from "react-icons/md";
-
-function useAdminNotesModal(project, onAdminNoteUpdate) {
-  const [showWarningModal, setShowWarningModal] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isNewNote, setIsNewNote] = useState(
-    !project.adminNotes || project.adminNotes == ""
-  );
-  const [adminNotes, setAdminNotes] = useState(project.adminNotes || "");
-  const [adminNotesModalOpen, setAdminNotesModalOpen] = useState(false);
-
-  const handleAdminNotesModalOpen = () => {
-    setAdminNotesModalOpen(true);
-  };
-
-  const textUpdated = () => {
-    return adminNotes !== (project?.adminNotes || "");
-  };
-
-  const handleCancel = () => {
-    if (adminNotes !== (project?.adminNotes || "")) {
-      // User would lose changes on cancel, so show warning modal
-      setShowWarningModal(true);
-    } else {
-      setIsEditing(false);
-      setAdminNotesModalOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    setAdminNotes(project.adminNotes || "");
-  }, [project.adminNotes]);
-
-  const handleSave = () => {
-    onAdminNoteUpdate(project.id, adminNotes);
-    setIsEditing(false);
-    setAdminNotesModalOpen(false);
-    setIsNewNote(!adminNotes);
-  };
-
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-  const handleConfirmDiscard = () => {
-    setIsEditing(false);
-    setAdminNotes(project.adminNotes || "");
-    setAdminNotesModalOpen(false);
-    setShowWarningModal(false);
-  };
-
-  const handleDoNotDiscard = () => {
-    setIsEditing(true);
-    setShowWarningModal(false);
-  };
-
-  return {
-    showWarningModal,
-    isEditing,
-    isNewNote,
-    adminNotes,
-    setAdminNotes,
-    adminNotesModalOpen,
-    setAdminNotesModalOpen,
-    handleAdminNotesModalOpen,
-    handleCancel,
-    handleSave,
-    handleEdit,
-    handleConfirmDiscard,
-    handleDoNotDiscard,
-    textUpdated
-  };
-}
-
 const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
@@ -99,7 +24,6 @@ const useStyles = createUseStyles(theme => ({
     alignItems: "center",
     margin: "0 2rem",
     width: "80vw"
-    // maxWidth: "80"
   },
   columnContainer: {
     display: "flex",
@@ -141,26 +65,11 @@ const useStyles = createUseStyles(theme => ({
     marginTop: ".5em",
     width: "100%"
   },
-  row: {
-    display: "flex",
-    flexDirection: "row"
-  },
-  rowHalf: {
-    flex: "0 1 50%",
-    display: "flex",
-    flexDirection: "row"
-  },
-  formLabel: {
-    flex: "0 1 15rem",
-    textAlign: "left",
-    marginLeft: "1rem"
-  },
   formInput: {
     flex: "0 1 13rem",
     marginBottom: "0.5rem"
   },
   datepicker: {
-    // display: "block",
     width: "6rem",
     padding: "2px",
     borderRadius: "3px",
@@ -187,12 +96,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const ManageSubmissionForm = ({
-  onClose,
-  project,
-  assigneeList,
-  adminNotesModal
-}) => {
+const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
   const toast = useToast();
@@ -200,32 +104,6 @@ const ManageSubmissionForm = ({
   const handleClose = () => {
     onClose();
   };
-
-  const onAdminNoteUpdate = async (projectId, newAdminNote) => {
-    try {
-      const fakeEventTarget = { value: newAdminNote, name: "adminNotes" };
-      const fakeEvent = { target: fakeEventTarget };
-      formik.handleChange(fakeEvent);
-    } catch (error) {
-      console.error("Error updating admin notes:", error);
-    }
-  };
-
-  const {
-    showWarningModal,
-    isEditing,
-    isNewNote,
-    adminNotes,
-    setAdminNotes,
-    adminNotesModalOpen,
-    handleAdminNotesModalOpen,
-    handleCancel,
-    handleSave,
-    handleEdit,
-    handleConfirmDiscard,
-    handleDoNotDiscard,
-    textUpdated
-  } = useAdminNotesModal(project, onAdminNoteUpdate);
 
   const validationSchema = Yup.object({
     droId: Yup.number().min(1, "DRO must be assigned")
@@ -295,7 +173,7 @@ const ManageSubmissionForm = ({
           <div className={classes.column1}>
             <div className={classes.rowFlexBox}>
               <span className={classes.rowLabel}>Project ID</span>
-              <span>{project.id}</span>
+              <span>{formatId(project.id)}</span>
             </div>
             <div className={classes.rowFlexBox}>
               <span className={classes.rowLabel}>Project Name</span>
@@ -439,49 +317,24 @@ const ManageSubmissionForm = ({
                 />
               </div>
             </div>
-            {adminNotesModal ? (
-              <div className={classes.rowFlexBox}>
-                <span className={classes.rowLabel}>Admin Notes</span>
-                <div>
-                  <button
-                    type="button"
-                    onClick={handleAdminNotesModalOpen}
-                    style={{
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                      padding: 0,
-                      display: "flex",
-                      alignItems: "center"
-                    }}
-                    title={adminNotes ? "Edit Note" : "Add Note"}
-                  >
-                    {adminNotes ? <MdOutlineStickyNote2 /> : <MdAdd />}
-                  </button>
-                </div>
-              </div>
-            ) : null}
           </div>
-          {!adminNotesModal ? (
-            <div className={classes.column2}>
-              <div
-                className={classes.label}
-                style={{ marginTop: "1.2rem", marginBottom: "0.85rem" }}
-              >
-                Admin Notes
-              </div>
-              <textarea
-                name="adminNotes"
-                rows="26.5"
-                id="adminNotes"
-                value={formik.values.adminNotes}
-                onChange={formik.handleChange}
-                style={{ resize: "none", padding: "0.2rem" }}
-              />
+
+          <div className={classes.column2}>
+            <div
+              className={classes.label}
+              style={{ marginTop: "1.2rem", marginBottom: "0.85rem" }}
+            >
+              Admin Notes
             </div>
-          ) : null}
+            <textarea
+              name="adminNotes"
+              rows="26.5"
+              id="adminNotes"
+              value={formik.values.adminNotes}
+              onChange={formik.handleChange}
+              style={{ resize: "none", padding: "0.2rem" }}
+            />
+          </div>
         </div>
 
         {/* <div>{JSON.stringify(formik.initialValues, null, 2)}</div> */}
@@ -506,24 +359,6 @@ const ManageSubmissionForm = ({
           {project.statuser}
         </p>
       </form>
-      <AdminNotesModal
-        key="admin-notes-modal"
-        mounted={adminNotesModalOpen}
-        adminNotes={adminNotes}
-        setAdminNotes={setAdminNotes}
-        onCancel={handleCancel}
-        onSave={handleSave}
-        handleEdit={handleEdit}
-        isEditing={isEditing}
-        isNewNote={isNewNote}
-        textUpdated={textUpdated}
-      />
-      <WarningModal
-        key="warning-modal"
-        mounted={showWarningModal}
-        handleConfirmDiscard={handleConfirmDiscard}
-        handleDoNotDiscard={handleDoNotDiscard}
-      />
     </div>
   );
 };
@@ -531,8 +366,7 @@ const ManageSubmissionForm = ({
 ManageSubmissionForm.propTypes = {
   onClose: PropTypes.func,
   project: PropTypes.any,
-  assigneeList: PropTypes.array,
-  adminNotesModal: PropTypes.bool
+  assigneeList: PropTypes.array
 };
 
 export default ManageSubmissionForm;

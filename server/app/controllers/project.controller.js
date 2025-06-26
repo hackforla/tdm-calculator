@@ -295,6 +295,19 @@ const putSubmission = async (req, res) => {
   }
 };
 
+const getSubmissionLogByProjectId = async (req, res) => {
+  try {
+    const projects = await projectService.getSubmissionLog(
+      req.user.id,
+      req.params.projectId
+    );
+    res.status(200).json(projects);
+    return;
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -314,5 +327,6 @@ module.exports = {
   getSubmissions,
   getSubmissionsAdmin,
   getSubmissionsAdminByProjectId,
-  putSubmission
+  putSubmission,
+  getSubmissionLogByProjectId
 };
