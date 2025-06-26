@@ -8,7 +8,7 @@ import { MdOutlineSearch, MdCheck } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
-import { formatDate } from "../../helpers/util";
+import { formatDate, formatId } from "../../helpers/util";
 
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
@@ -23,7 +23,7 @@ import { Td, TdExpandable } from "./SubmissionTableData";
 const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
-  idList: [],
+  idFormattedList: [],
   nameList: [],
   addressList: [],
   projectLevelList: [],
@@ -207,7 +207,8 @@ const SubmissionsPage = ({ contentContainerRef }) => {
           statuser: d.statuserLastName
             ? `${d.statuserLastName}, ${d.statuserFirstName}`
             : "",
-          droName: d.droName || "-"
+          droName: d.droName || "-",
+          idFormatted: formatId(d.id)
         };
       });
       setProjects(projects);
@@ -321,10 +322,10 @@ const SubmissionsPage = ({ contentContainerRef }) => {
 
   const headerData = [
     {
-      id: "id",
+      id: "idFormatted",
       label: "ID",
-      popupType: "number",
-      colWidth: "100px"
+      popupType: "string",
+      colWidth: "116px"
     },
     {
       id: "name",
@@ -556,9 +557,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                           background: project.dateTrashed ? "#ffdcdc" : ""
                         }}
                       >
-                        <Td align="right">
-                          {project.id.toString().padStart(10, "0")}
-                        </Td>
+                        <Td align="right">{formatId(project.id)}</Td>
                         <TdExpandable>
                           <Link to={`/calculation/1/${project.id}`}>
                             {project.name}

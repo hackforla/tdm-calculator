@@ -12,7 +12,7 @@ import {
   MdAdd,
   MdOutlineStickyNote2
 } from "react-icons/md";
-import { formatDate } from "../../helpers/util";
+import { formatDate, formatId } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
@@ -291,9 +291,7 @@ const ProjectTableRow = ({
           </span>
         ) : null}
       </Td>
-      <Td className={classes.td}>
-        {project.id.toString().padStart(10, "0")}
-      </Td>
+      <Td className={classes.td}>{formatId(project.id)}</Td>
       <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
       </TdExpandable>

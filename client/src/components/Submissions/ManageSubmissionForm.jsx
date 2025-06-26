@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { formatId } from "../../helpers/util";
 import { createUseStyles, useTheme } from "react-jss";
 import { useFormik } from "formik";
 import DatePicker from "react-datepicker";
@@ -23,7 +24,6 @@ const useStyles = createUseStyles(theme => ({
     alignItems: "center",
     margin: "0 2rem",
     width: "80vw"
-    // maxWidth: "80"
   },
   columnContainer: {
     display: "flex",
@@ -173,7 +173,7 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
           <div className={classes.column1}>
             <div className={classes.rowFlexBox}>
               <span className={classes.rowLabel}>Project ID</span>
-              <span>{project.id}</span>
+              <span>{formatId(project.id)}</span>
             </div>
             <div className={classes.rowFlexBox}>
               <span className={classes.rowLabel}>Project Name</span>

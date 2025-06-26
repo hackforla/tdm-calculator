@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
 import {
-  MdFilterAlt,
   MdOutlineFilterAlt,
   MdOutlineSwitchRight,
   MdOutlineSwitchLeft
@@ -70,6 +69,13 @@ const ColumnHeader = React.forwardRef((props, ref) => {
       onClick={props.onClick}
     >
       <span>{props.header.label}</span>
+      {props.orderBy === props.header.id ? (
+        props.order === "asc" ? (
+          <MdOutlineSwitchRight className={classes.sortIcon} />
+        ) : (
+          <MdOutlineSwitchLeft className={classes.sortIcon} />
+        )
+      ) : null}
       <MdOutlineFilterAlt
         className={`${classes.iconFilter} ${props.isFilterApplied() ? "active" : ""}`}
         alt={`Show column filter and sort popup`}
@@ -157,12 +163,13 @@ const ProjectTableColumnHeader = ({
       header.id !== "contextMenu" &&
       header.id !== "editIcon" ? (
         <Popover
-          containerStyle={{ zIndex: 2 }}
+          containerStyle={{ zIndex: 20 }}
           isOpen={isPopoverOpen}
+          onClickOutside={() => handlePopoverToggle(false)}
+          clickOutsideCapture={true}
           positions={["bottom", "left", "right", "top"]} // preferred positions by priority
           align="start"
           padding={10}
-          onClickOutside={() => handlePopoverToggle(false)}
           content={
             <div className={classes.popoverContent}>
               {!header.popupType ? null : header.popupType === "datetime" ? (
