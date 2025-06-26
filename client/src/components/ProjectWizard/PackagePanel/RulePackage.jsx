@@ -14,7 +14,8 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    height: "27px"
   },
   commentContainer: {
     minWidth: "60vw",
@@ -99,6 +100,11 @@ const useStyles = createUseStyles(theme => ({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
+  },
+  checkboxContainer: {
+    width: "200px",
+    display: "flex",
+    justifyContent: "center"
   }
 }));
 
@@ -123,7 +129,7 @@ const RulePackage = ({ name, checked, onPkgSelect, packageTooltip }) => {
           name={name}
           setShowDescription={setShowDescription}
         />
-        <div>
+        <div className={classes.checkboxContainer}>
           <input
             type="checkbox"
             value={true}
