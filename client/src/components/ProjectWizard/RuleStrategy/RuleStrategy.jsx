@@ -14,7 +14,8 @@ const useStyles = createUseStyles(theme => ({
     margin: "0.2em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    height: "27px"
   },
   commentContainer: {
     minWidth: "60vw",
