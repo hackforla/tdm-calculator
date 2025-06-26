@@ -51,6 +51,11 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "right",
     marginBottom: "0.1em"
   },
+  checkboxContainer: {
+    width: "200px",
+    display: "flex",
+    justifyContent: "center"
+  },
   select: {
     width: "200px",
     textAlign: "left",
@@ -258,7 +263,7 @@ const RuleStrategy = ({
             name={name}
             setShowDescription={setShowDescription}
           />
-          <div>
+          <div className={classes.checkboxContainer}>
             <input
               autoFocus={autoFocus}
               type="checkbox"
