@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import PropTypes from "prop-types";
+import { formatId } from "../../helpers/util";
 import { createUseStyles } from "react-jss";
 
 import UserContext from "../../contexts/UserContext";
@@ -23,7 +24,7 @@ import {
 const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
-  idList: [],
+  idFormattedList: [],
   nameList: [],
   addressList: [],
   projectLevelList: [],
@@ -214,7 +215,8 @@ const ManageSubmissions = ({ contentContainerRef }) => {
         statuser: d.statuserLastName
           ? `${d.statuserLastName}, ${d.statuserFirstName}`
           : "",
-        droName: d.droName || "-"
+        droName: d.droName || "-",
+        idFormatted: formatId(d.id)
       };
     });
     setProjects(projects);
@@ -356,10 +358,10 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       colWidth: "3rem"
     },
     {
-      id: "id",
+      id: "idFormatted",
       label: "ID",
-      popupType: "number",
-      colWidth: "6rem"
+      popupType: "string",
+      colWidth: "8rem"
     },
     {
       id: "name",

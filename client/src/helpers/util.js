@@ -16,6 +16,5 @@ export const formatDatetime = datetime => {
 
 export const formatId = id => {
   const padded = id.toString().padStart(10, "0");
-  return padded;
-  // return padded.substring(0, 5) + "-" + padded.substring(5, 10);
+  return padded.substring(0, 5) + "-" + padded.substring(5, 10);
 };

@@ -52,7 +52,7 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateTrashed: null,
   startDateSubmitted: null,
   endDateSubmitted: null,
-  idList: [],
+  idFormattedList: [],
   nameList: [],
   addressList: [],
   alternativeList: [],
@@ -702,7 +702,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       newSortCriteria.push({ field: orderBy, direction: order });
     }
 
-    // save to local storagr
+    // save to local storage
     setSessionSortCriteria(newSortCriteria);
     // and update the sortCriteria state.
     setSortCriteria(newSortCriteria);
@@ -792,7 +792,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
     )
       return false;
 
-    if (criteria.idList?.length > 0 && !criteria.idList.includes(p.id)) {
+    if (
+      criteria.idFormattedList?.length > 0 &&
+      !criteria.idFormattedList.includes(p.idFormatted)
+    ) {
       return false;
     }
 
@@ -946,9 +949,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
       colWidth: `${isActiveProjectsTab ? "7rem" : "12rem"}`
     },
     {
-      id: "id",
+      id: "idFormatted",
       label: "ID",
-      popupType: "number",
+      popupType: "string",
       colWidth: "10rem"
     },
     {

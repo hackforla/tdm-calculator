@@ -104,6 +104,13 @@ export const filter = (p, criteria) => {
   }
 
   if (
+    criteria.idFormattedList?.length > 0 &&
+    !criteria.idFormattedList.includes(p.idFormatted)
+  ) {
+    return false;
+  }
+
+  if (
     criteria.projectLevelList?.length > 0 &&
     !criteria.projectLevelList.includes(p.projectLevel)
   ) {

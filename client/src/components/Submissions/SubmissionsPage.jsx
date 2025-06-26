@@ -23,7 +23,7 @@ import { Td, TdExpandable } from "./SubmissionTableData";
 const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
-  idList: [],
+  idFormattedList: [],
   nameList: [],
   addressList: [],
   projectLevelList: [],
@@ -207,7 +207,8 @@ const SubmissionsPage = ({ contentContainerRef }) => {
           statuser: d.statuserLastName
             ? `${d.statuserLastName}, ${d.statuserFirstName}`
             : "",
-          droName: d.droName || "-"
+          droName: d.droName || "-",
+          idFormatted: formatId(d.id)
         };
       });
       setProjects(projects);
@@ -321,10 +322,10 @@ const SubmissionsPage = ({ contentContainerRef }) => {
 
   const headerData = [
     {
-      id: "id",
+      id: "idFormatted",
       label: "ID",
-      popupType: "number",
-      colWidth: "100px"
+      popupType: "string",
+      colWidth: "116px"
     },
     {
       id: "name",

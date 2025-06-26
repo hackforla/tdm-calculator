@@ -86,7 +86,10 @@ const TextPopup = ({
   );
   const [searchString, setSearchString] = useState("");
 
-  const initiallyChecked = o => criteria[header.id + "List"].includes(o);
+  const initiallyChecked = o =>
+    criteria[header.id + "List"]
+      ? criteria[header.id + "List"].includes(o)
+      : false;
 
   // To build the drop-down list, we want to apply all the criteria that
   // are currently selected EXCEPT the criteria we are currently editing.
@@ -96,6 +99,9 @@ const TextPopup = ({
 
   const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
     .filter(value => value !== null && value !== "")
+    .sort((a, b) => {
+      return a.localeCompare(b, "en", { sensitivity: "base" });
+    })
     .sort(
       (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
     );
