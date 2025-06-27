@@ -14,7 +14,8 @@ const useStyles = createUseStyles(theme => ({
     margin: "0.2em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    height: "27px"
   },
   commentContainer: {
     minWidth: "60vw",
@@ -30,10 +31,12 @@ const useStyles = createUseStyles(theme => ({
     opacity: "0.6"
   },
   points: {
-    marginLeft: "0.5em",
+    flexBasis: "10%",
+    marginLeft: "1em",
     marginRight: "0.5em",
     textAlign: "right",
-    minWidth: "65px"
+    flexGrow: "0",
+    flexShrink: "1"
   },
   numberInput: {
     padding: "0.1em",
@@ -49,6 +52,11 @@ const useStyles = createUseStyles(theme => ({
   choiceSelectContainer: {
     textAlign: "right",
     marginBottom: "0.1em"
+  },
+  checkboxContainer: {
+    width: "200px",
+    display: "flex",
+    justifyContent: "center"
   },
   select: {
     width: "200px",
@@ -257,7 +265,7 @@ const RuleStrategy = ({
             name={name}
             setShowDescription={setShowDescription}
           />
-          <div>
+          <div className={classes.checkboxContainer}>
             <input
               autoFocus={autoFocus}
               type="checkbox"
