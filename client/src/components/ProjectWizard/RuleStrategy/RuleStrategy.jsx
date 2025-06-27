@@ -31,10 +31,12 @@ const useStyles = createUseStyles(theme => ({
     opacity: "0.6"
   },
   points: {
-    marginLeft: "0.5em",
+    flexBasis: "10%",
+    marginLeft: "1em",
     marginRight: "0.5em",
     textAlign: "right",
-    minWidth: "65px"
+    flexGrow: "0",
+    flexShrink: "1"
   },
   numberInput: {
     padding: "0.1em",
