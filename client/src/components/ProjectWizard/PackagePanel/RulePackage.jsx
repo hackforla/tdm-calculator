@@ -108,7 +108,14 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const RulePackage = ({ name, checked, onPkgSelect, packageTooltip }) => {
+const RulePackage = ({
+  name,
+  checked,
+  onPkgSelect,
+  packageTooltip,
+  possiblePoints,
+  earnedPoints
+}) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
 
@@ -137,8 +144,8 @@ const RulePackage = ({ name, checked, onPkgSelect, packageTooltip }) => {
             onChange={handlePkgSelect}
           />
         </div>
-        <div className={classes.points}></div>
-        <div className={classes.points}></div>
+        <div className={classes.points}> {possiblePoints} </div>
+        <div className={classes.points}> {earnedPoints} </div>
       </div>
 
       {showDescription && packageTooltip ? (
@@ -154,7 +161,9 @@ RulePackage.propTypes = {
   name: PropTypes.string.isRequired,
   checked: PropTypes.bool,
   onPkgSelect: PropTypes.func,
-  packageTooltip: PropTypes.any
+  packageTooltip: PropTypes.any,
+  possiblePoints: PropTypes.string,
+  earnedPoints: PropTypes.string
 };
 
 export default RulePackage;
