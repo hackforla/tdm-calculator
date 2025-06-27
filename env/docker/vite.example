@@ -1,0 +1,4 @@
+# Client
+CLIENT_PORT=3000
+VITE_OPEN_BROWSER=false
+VITE_API_URL=http://api:$PORT # PORT is the server port defined in /server/.env

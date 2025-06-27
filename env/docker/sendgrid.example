@@ -1,0 +1,8 @@
+# Mock Sendgrid
+
+# Setting for API server container connecting to sendgrid container
+SENDGRID_API_KEY=SG.secretAPIKey
+SENDGRID_EXPOSED_PORT=7001
+SENDGRID_HOST=sendgrid
+
+EMAIL_SENDER=tdm+sendgrid@testdomain.org

@@ -1,0 +1,128 @@
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    ports:
+      - "$CLIENT_EXPOSED_PORT:$CLIENT_PORT"
+    env_file:
+      - .env
+      - path: ./env/docker/vite
+        required: false
+    volumes:
+      - ./client/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      api:
+        condition: service_healthy
+        restart: true
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:$CLIENT_PORT || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s
+
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    # uncomment to debug on localhost
+    # ports:
+    #   - "5002:$PORT"
+    env_file:
+      - .env
+      - path: env/docker/node
+        required: false
+      - path: env/docker/db
+        required: false
+      - path: env/docker/urls
+        required: false
+      - path: env/docker/sendgrid
+        required: false
+    volumes:
+      - ./server/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      db-migrate:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+        restart: true
+      sendgrid:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:$PORT/api/calculations || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s
+
+  db-migrate:
+    image: redgate/flyway
+    volumes:
+      - ./server/db/migration:/flyway/sql
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+        restart: true
+    command: [
+        "-user=${DOCKER_DB_USER_NAME:?error}",
+        "-password=${DOCKER_DB_PASSWORD:?error}",
+        "-url=jdbc:sqlserver://${DOCKER_DB_SERVER_NAME:?error}:${DOCKER_DB_SERVER_PORT:?error};databaseName=${SQL_DATABASE_NAME:?error};trustServerCertificate=true",
+        # uncomment for debug messages
+        # "-X",
+        "migrate",
+      ]
+
+  db-init:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    volumes:
+      - ./server/db:/db
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    entrypoint:
+      [
+        "/bin/sh",
+        "-c",
+        '/opt/mssql-tools18/bin/sqlcmd -C -S ${DOCKER_DB_SERVER_NAME:?error} -U ${DOCKER_DB_USER_NAME:?error} -P ${DOCKER_DB_PASSWORD:?error} -Q "IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = ''tdmdev'') CREATE DATABASE tdmdev; ELSE PRINT ''Database \"${DOCKER_DB_SERVER_NAME:?error}\" already exists. Operation successful.''" -b',
+      ]
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    ports:
+      # exposed on localhost 1434
+      - "1434:1433"
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Dogfood1!
+      MSSQL_PID: Express
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -C -S ${DOCKER_DB_SERVER_NAME:?error} -U ${DOCKER_DB_USER_NAME:?error} -P ${DOCKER_DB_PASSWORD:?error} -Q 'SELECT 1' -b",
+        ]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s
+
+  sendgrid:
+    image: ghashange/sendgrid-mock:1.12.0
+    ports:
+      - "${SENDGRID_EXPOSED_PORT:-7001}:3000"
+    environment:
+      API_KEY: ${SENDGRID_API_KEY:?error}
+    env_file:
+      - path: env/docker/sendgrid
+        required: false
+
+volumes:
+  sqlvolume:

@@ -1,0 +1,9 @@
+# Local Development Database
+
+# Settings for on host API server connecting to the database container
+
+SQL_SERVER_NAME=localhost
+SQL_SERVER_PORT=1434
+SQL_USER_NAME=sa
+SQL_PASSWORD=Dogfood1!
+SQL_TRUST_SERVER_CERTIFICATE=true
