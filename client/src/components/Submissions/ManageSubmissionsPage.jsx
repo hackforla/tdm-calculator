@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import PropTypes from "prop-types";
+import { formatId } from "../../helpers/util";
 import { createUseStyles } from "react-jss";
 
 import UserContext from "../../contexts/UserContext";
@@ -23,7 +24,7 @@ import {
 const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
-  idList: [],
+  idFormattedList: [],
   nameList: [],
   addressList: [],
   projectLevelList: [],
@@ -214,7 +215,8 @@ const ManageSubmissions = ({ contentContainerRef }) => {
         statuser: d.statuserLastName
           ? `${d.statuserLastName}, ${d.statuserFirstName}`
           : "",
-        droName: d.droName || "-"
+        droName: d.droName || "-",
+        idFormatted: formatId(d.id)
       };
     });
     setProjects(projects);
@@ -351,10 +353,15 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       colWidth: "3rem"
     },
     {
-      id: "id",
+      id: "editIcon",
+      label: "",
+      colWidth: "3rem"
+    },
+    {
+      id: "idFormatted",
       label: "ID",
-      popupType: "number",
-      colWidth: "6rem"
+      popupType: "string",
+      colWidth: "8rem"
     },
     {
       id: "name",
@@ -374,7 +381,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "number",
       colWidth: "8rem"
     },
-    { id: "droName", label: "DRO", popupType: "string", colWidth: "10rem" },
+    { id: "droName", label: "DRO", popupType: "stringList", colWidth: "10rem" },
     {
       id: "assignee",
       label: "Assignee",
@@ -392,12 +399,12 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "invoiceStatusName",
       label: "Invoice Status",
-      popupType: "string",
+      popupType: "stringList",
       colWidth: "7rem"
     },
     {
       id: "dateInvoicePaid",
-      label: "Invoice Pd",
+      label: "Invoice Paid",
       popupType: "datetime",
       startDatePropertyName: "startDateInvoicePaid",
       endDatePropertyName: "endDateInvoicePaid",
@@ -407,7 +414,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "approvalStatusName",
       label: "Approval Status",
-      popupType: "string",
+      popupType: "stringList",
       colWidth: "12rem"
     },
     {

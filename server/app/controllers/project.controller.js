@@ -262,7 +262,23 @@ const getSubmissions = async (req, res) => {
 
 const getSubmissionsAdmin = async (req, res) => {
   try {
-    const projects = await projectService.getSubmissionsAdmin(req.user.id);
+    const projects = await projectService.getSubmissionsAdmin(
+      req.user.id,
+      req.params.projectId
+    );
+    res.status(200).json(projects);
+    return;
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const getSubmissionsAdminByProjectId = async (req, res) => {
+  try {
+    const projects = await projectService.getSubmissionsAdmin(
+      req.user.id,
+      req.params.projectId
+    );
     res.status(200).json(projects);
     return;
   } catch (err) {
@@ -274,6 +290,19 @@ const putSubmission = async (req, res) => {
   try {
     await projectService.putSubmission(req.user.id, req.body);
     res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const getSubmissionLogByProjectId = async (req, res) => {
+  try {
+    const projects = await projectService.getSubmissionLog(
+      req.user.id,
+      req.params.projectId
+    );
+    res.status(200).json(projects);
+    return;
   } catch (err) {
     res.status(500).send(err);
   }
@@ -297,5 +326,7 @@ module.exports = {
   updateTotals,
   getSubmissions,
   getSubmissionsAdmin,
-  putSubmission
+  getSubmissionsAdminByProjectId,
+  putSubmission,
+  getSubmissionLogByProjectId
 };

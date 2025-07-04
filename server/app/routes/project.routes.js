@@ -20,6 +20,16 @@ router.get(
   jwtSession.validateUser,
   projectController.getSubmissionsAdmin
 );
+router.get(
+  "/submissionsadmin/:projectId",
+  jwtSession.validateUser,
+  projectController.getSubmissionsAdminByProjectId
+);
+router.get(
+  "/submissionLog/:projectId",
+  jwtSession.validateUser,
+  projectController.getSubmissionLogByProjectId
+);
 router.get("/:id", jwtSession.validateUser, projectController.getById);
 router.get(
   "/projectShare/:id/",

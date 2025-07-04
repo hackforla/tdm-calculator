@@ -96,9 +96,25 @@ export function getSubmissionsAdmin() {
   }
 }
 
+export function getSubmissionsAdminById(projectId) {
+  try {
+    return axios.get(`${baseUrl}/submissionsadmin/${projectId}`);
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}
+
 export function putSubmission(submission) {
   try {
     return axios.put(`${baseUrl}/submissions/${submission.id}`, submission);
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}
+
+export function getSubmissionLogByProjectId(projectId) {
+  try {
+    return axios.get(`${baseUrl}/submissionLog/${projectId}`);
   } catch (error) {
     return new Promise.reject(error);
   }

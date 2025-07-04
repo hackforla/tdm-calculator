@@ -19,7 +19,8 @@ const useStyles = createUseStyles(theme => ({
     ...theme.typography.paragraph1,
     color: theme.colorCritical,
     textAlign: "left"
-  }
+  },
+  heading1: { ...theme.typography.heading1, textAlign: "auto" }
 }));
 
 const UpdateAccount = props => {
@@ -77,7 +78,7 @@ const UpdateAccount = props => {
     <ContentContainer>
       {!submitted ? (
         <>
-          <h1>Update Your Account</h1>
+          <h1 className={classes.heading1}>Update Your Account</h1>
           <br />
           <div className="auth-form">
             <Formik
@@ -157,7 +158,7 @@ const UpdateAccount = props => {
         </>
       ) : (
         <>
-          <h1>
+          <h1 className={classes.heading1}>
             Instructions have been sent to the email you provided in order to
             confirm account updates.
           </h1>

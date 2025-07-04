@@ -23,7 +23,7 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "center",
     margin: 0
   },
-  heading1: theme.typography.heading1,
+  heading1: theme.typography.iconHeading1,
   text: { ...theme.typography.paragraph1, width: "3       0rem" }
 }));
 

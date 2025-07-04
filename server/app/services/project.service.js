@@ -290,12 +290,20 @@ const getSubmissions = async loginId => {
   }
 };
 
-const getSubmissionsAdmin = async loginId => {
+const getSubmissionsAdmin = async (loginId, projectId = null) => {
   try {
     await poolConnect;
     const request = pool.request();
     request.input("LoginId", mssql.Int, loginId);
+    if (projectId) request.input("projectId", mssql.Int, projectId);
     const response = await request.execute("ProjectSubmission_SelectAdmin");
+    if (projectId) {
+      if (response.recordset && response.recordset.length > 0) {
+        return response.recordset[0];
+      } else {
+        return null;
+      }
+    }
     return response.recordset;
   } catch (err) {
     console.log(err);
@@ -326,6 +334,19 @@ const putSubmission = async (loginId, item) => {
   }
 };
 
+const getSubmissionLog = async (loginId, projectId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("ProjectId", mssql.Int, projectId);
+    request.input("LoginId", mssql.Int, loginId);
+    const response = await request.execute("ProjectLog_SelectByProjectId");
+    return response.recordset;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -344,5 +365,6 @@ module.exports = {
   updateTotals,
   getSubmissions,
   getSubmissionsAdmin,
-  putSubmission
+  putSubmission,
+  getSubmissionLog
 };

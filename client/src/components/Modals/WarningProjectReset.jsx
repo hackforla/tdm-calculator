@@ -26,7 +26,7 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "center",
     margin: 0
   },
-  heading1: { ...theme.typography.heading1, marginBottom: "1.5rem" },
+  heading1: { ...theme.typography.iconHeading1, marginBottom: "1.5rem" },
   subheading: {
     ...theme.typography.subHeading,
     width: "30rem",

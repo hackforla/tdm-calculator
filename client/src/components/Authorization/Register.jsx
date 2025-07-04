@@ -1,14 +1,14 @@
 import React, { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import * as accountService from "../../services/account.service";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   submitButton: {
     float: "right"
   },
@@ -17,12 +17,14 @@ const useStyles = createUseStyles({
   },
   invalidFeedback: {
     color: "#ff0418"
-  }
-});
+  },
+  heading1: { ...theme.typography.heading1, textAlign: "auto" }
+}));
 
 const Register = props => {
   const focusRef = useRef(null);
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const params = useParams();
   const initialValues = {
     firstName: "",
@@ -106,7 +108,7 @@ const Register = props => {
     <ContentContainer>
       {!submitted ? (
         <>
-          <h1>Create a New Account</h1>
+          <h1 className={classes.heading1}>Create a New Account</h1>
           <h3>Save your project information.</h3>
           <br />
           <div className="auth-form">
@@ -221,7 +223,7 @@ const Register = props => {
         </>
       ) : (
         <>
-          <h1>
+          <h1 className={classes.heading1}>
             Registration instructions have been sent to the email you provided.
           </h1>
           <h2>
