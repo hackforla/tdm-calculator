@@ -1288,10 +1288,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 onClose={() => setTargetNotReachedModalOpen(false)}
                 project={selectedProject}
               />
-              <InfoSnapshotSubmit 
-              mounted={successModelOpen}
-              onClose={handleSuccessModalClose}
-              project={selectedProject}
+              <InfoSnapshotSubmit
+                mounted={successModelOpen}
+                onClose={handleSuccessModalClose}
+                project={selectedProject}
               />
             </>
           )}
