@@ -113,7 +113,9 @@ export default function InfoSnapshotSubmit({ mounted, onClose, project }) {
           Your TDM Plan submission to LADOT was successful.
         </div>
         <div className={classes.userContainer}>
-          <div className={classes.subheading}>Submitted: {dateSubmitted}</div>
+          <div className={classes.subheading} style={{ fontWeight: "700" }}>
+            Submitted: {dateSubmitted}
+          </div>
 
           <div className={classes.subheading}>
             See the <Link to="/faqs">FAQ</Link> page for more information about

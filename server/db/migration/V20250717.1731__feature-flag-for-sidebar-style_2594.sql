@@ -1,0 +1,2 @@
+INSERT Config(code, value)
+VALUES('SIDEBAR_STYLE', 'LEGACY')

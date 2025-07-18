@@ -129,7 +129,7 @@ const ProjectContextMenu = ({
             className={classes.listItemIcon}
             alt={`Submit Project #${project.id} Icon`}
           />
-          Submit to LADOT
+          Submit Snapshot
         </li>
       ) : null}
 

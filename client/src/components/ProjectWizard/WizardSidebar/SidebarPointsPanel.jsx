@@ -1,4 +1,4 @@
-import React /*, { useEffect, useState } */ from "react";
+import React, { useContext /*, { useEffect, useState } */ } from "react";
 import PropTypes from "prop-types";
 import SidebarProjectLevel from "./SidebarProjectLevel";
 // import EarnedPointsMetContainer from "./EarnedPointsMetContainer";
@@ -7,6 +7,7 @@ import EarnedPointsProgress from "./EarnedPointsProgress";
 import SidebarCart from "./SidebarCart";
 import ToolTip from "../../ToolTip/ToolTip";
 import { createUseStyles } from "react-jss";
+import ConfigContext from "../../../contexts/ConfigContext";
 
 const useStyles = createUseStyles({
   resultsPanel: {
@@ -43,10 +44,12 @@ const useStyles = createUseStyles({
   }
 });
 
-const USE_PROGRESS_DIAL = false;
+//const USE_PROGRESS_DIAL = false;
 
 const SidebarPointsPanel = props => {
   const classes = useStyles();
+  const configContext = useContext(ConfigContext);
+  const useProgressDial = configContext.SIDEBAR_STYLE !== "LEGACY";
   const { rules, strategyRules, page } = props;
   let targetPointsRule = {};
   let earnedPointsRule = {};
@@ -78,7 +81,7 @@ const SidebarPointsPanel = props => {
         />
       </div>
       <hr className={classes.divider} />
-      {USE_PROGRESS_DIAL ? (
+      {useProgressDial ? (
         <div className={classes.calculationProgress}>
           <EarnedPointsProgress
             key={targetPointsRule.id}
