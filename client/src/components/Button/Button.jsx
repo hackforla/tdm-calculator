@@ -158,6 +158,7 @@ const Button = ({
   color = "colorDefault",
   type = "button",
   disabled = false,
+  ariaLabel = undefined,
   id
 }) => {
   const classes = useStyles({ color });
@@ -169,6 +170,7 @@ const Button = ({
       onClick={onClick}
       type={type}
       disabled={disabled}
+      aria-label={ariaLabel}
       id={id}
     >
       {children}
@@ -186,6 +188,7 @@ Button.propTypes = {
   color: PropTypes.string,
   type: PropTypes.string,
   disabled: PropTypes.bool,
+  ariaLabel: PropTypes.string,
   id: PropTypes.string
 };
 
