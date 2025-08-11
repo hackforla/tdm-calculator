@@ -102,11 +102,6 @@ const useStyles = createUseStyles(theme => ({
     flexBasis: "50%",
     flexGrow: "1",
     flexShrink: "1"
-  },
-  checkboxContainer: {
-    width: "200px",
-    display: "flex",
-    justifyContent: "center"
   }
 }));
 
@@ -138,7 +133,7 @@ const RulePackage = ({
           name={name}
           setShowDescription={setShowDescription}
         />
-        <div className={classes.checkboxContainer}>
+        <div>
           <input
             type="checkbox"
             value={true}
