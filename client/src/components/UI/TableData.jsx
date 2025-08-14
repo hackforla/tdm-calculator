@@ -116,10 +116,10 @@ const TdExpandable = ({ children }) => {
 export { Td, TdExpandable };
 
 Td.propTypes = {
-  children: PropTypes.node.isRequired,
-  align: PropTypes.string.isRequired
+  children: PropTypes.node,
+  align: PropTypes.string
 };
 
 TdExpandable.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 };
