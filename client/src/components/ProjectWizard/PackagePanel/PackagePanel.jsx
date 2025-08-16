@@ -45,33 +45,6 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     position: "relative",
     backgroundColor: "transparent"
-  },
-  // calculationArea: {
-  //   flexGrow: "0",
-  //   flexShrink: "0",
-  //   flexBasis: "20%",
-
-  //   display: "flex",
-  //   flexDirection: "row",
-  //   justifyContent: "space-stretch"
-  // },
-  calculationArea: {
-    position: "absolute",
-    right: "0.75em",
-    top: "0.4em",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  calculationAreaColumn: {
-    flexBasis: "50%",
-    marginLeft: "0.5em",
-    marginRight: "0.5em",
-    minWidth: "65px",
-    padding: "0",
-    textAlign: "right",
-    flexGrow: "0",
-    flexShrink: "1"
   }
 });
 
@@ -91,6 +64,17 @@ const PackagePanel = props => {
   const ttSchool = TooltipSchool();
   const { calcMinValue, calcMaxValue, calcUnits, calcValue } = bonusRule;
   const calculationUnits = calcUnits ? calcUnits : "";
+  const possiblePoints =
+    calcMinValue === calcMaxValue
+      ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
+      : calcMinValue < calcMaxValue
+        ? `${Math.round(calcMinValue).toString()}-${Math.round(
+            calcMaxValue
+          ).toString()} ${calculationUnits}`
+        : null;
+  const earnedPoints = calcValue
+    ? Math.round(calcValue * 100) / 100 + " " + calculationUnits || ""
+    : "";
 
   return (
     <div className={classes.panelContainer}>
@@ -109,6 +93,8 @@ const PackagePanel = props => {
                 onPkgSelect={isChecked => onPkgSelect("Residential", isChecked)}
                 packageTooltip={ttResidential}
                 name={"Residential or Employment Package"}
+                possiblePoints={possiblePoints}
+                earnedPoints={earnedPoints}
               />
             )}
 
@@ -118,35 +104,10 @@ const PackagePanel = props => {
                 onPkgSelect={isChecked => onPkgSelect("School", isChecked)}
                 packageTooltip={ttSchool}
                 name={"School Package"}
+                possiblePoints={possiblePoints}
+                earnedPoints={earnedPoints}
               />
             )}
-            <div
-              className={classes.calculationArea}
-              style={
-                allowSchoolPackage && allowResidentialPackage
-                  ? { top: "0.9em" }
-                  : null
-              }
-            >
-              <div className={classes.calculationAreaColumn}>
-                {calcMinValue === calcMaxValue
-                  ? `${Math.round(calcMinValue).toString()} ${calculationUnits}`
-                  : calcMinValue < calcMaxValue
-                    ? `${Math.round(calcMinValue).toString()}-${Math.round(
-                        calcMaxValue
-                      ).toString()} ${calculationUnits}`
-                    : null}
-              </div>
-              <div className={classes.calculationAreaColumn}>
-                {`${
-                  calcValue
-                    ? Math.round(calcValue * 100) / 100 +
-                        " " +
-                        calculationUnits || ""
-                    : ""
-                } `}
-              </div>
-            </div>
           </div>
         </>
       ) : (
