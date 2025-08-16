@@ -56,6 +56,11 @@ const NavButton = ({
       color={color}
       onClick={onClick}
       disabled={isDisabled}
+      ariaLabel={
+        navDirection === "previous"
+          ? "project creation previous page"
+          : "project creation next page"
+      }
     >
       {navDirection === "previous" ? (
         <MdChevronLeft fontSize="2em" />
