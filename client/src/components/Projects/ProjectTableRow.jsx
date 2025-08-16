@@ -22,7 +22,7 @@ import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
-import { Td, TdExpandable } from "./ProjectTableData";
+import { Td, TdExpandable } from "../UI/TableData";
 
 const useStyles = createUseStyles(theme => ({
   actionIcons: {

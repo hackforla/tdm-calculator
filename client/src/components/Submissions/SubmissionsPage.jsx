@@ -18,7 +18,7 @@ import {
   SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG,
   SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
-import { Td, TdExpandable } from "./SubmissionTableData";
+import { Td, TdExpandable } from "../UI/TableData";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
 const DEFAULT_FILTER_CRITERIA = {
