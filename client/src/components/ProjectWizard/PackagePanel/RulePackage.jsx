@@ -14,7 +14,8 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    height: "27px"
   },
   commentContainer: {
     minWidth: "60vw",
@@ -30,10 +31,12 @@ const useStyles = createUseStyles(theme => ({
     opacity: "0.5"
   },
   points: {
-    marginLeft: "0.5em",
+    flexBasis: "10%",
+    marginLeft: "1em",
     marginRight: "0.5em",
     textAlign: "right",
-    minWidth: "65px"
+    flexGrow: "0",
+    flexShrink: "1"
   },
   numberInput: {
     padding: "0.1em",
@@ -102,7 +105,14 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const RulePackage = ({ name, checked, onPkgSelect, packageTooltip }) => {
+const RulePackage = ({
+  name,
+  checked,
+  onPkgSelect,
+  packageTooltip,
+  possiblePoints,
+  earnedPoints
+}) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
 
@@ -131,8 +141,8 @@ const RulePackage = ({ name, checked, onPkgSelect, packageTooltip }) => {
             onChange={handlePkgSelect}
           />
         </div>
-        <div className={classes.points}></div>
-        <div className={classes.points}></div>
+        <div className={classes.points}> {possiblePoints} </div>
+        <div className={classes.points}> {earnedPoints} </div>
       </div>
 
       {showDescription && packageTooltip ? (
@@ -148,7 +158,9 @@ RulePackage.propTypes = {
   name: PropTypes.string.isRequired,
   checked: PropTypes.bool,
   onPkgSelect: PropTypes.func,
-  packageTooltip: PropTypes.any
+  packageTooltip: PropTypes.any,
+  possiblePoints: PropTypes.string,
+  earnedPoints: PropTypes.string
 };
 
 export default RulePackage;
