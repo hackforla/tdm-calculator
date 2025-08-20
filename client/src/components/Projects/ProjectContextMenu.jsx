@@ -132,19 +132,16 @@ const ProjectContextMenu = ({
           Submit Snapshot
         </li>
       ) : null}
-
-      {handlePrintPdf ? (
-        <li
-          onClick={() => handleClick(handlePrintPdf)}
-          className={classes.listItem}
-        >
-          <MdPrint
-            className={classes.listItemIcon}
-            alt={`Print Project #${project.id} Icon`}
-          />
-          Print Summary
-        </li>
-      ) : null}
+      <li
+        onClick={() => handleClick(handlePrintPdf)}
+        className={classes.listItem}
+      >
+        <MdPrint
+          className={classes.listItemIcon}
+          alt={`Print Project #${project.id} Icon`}
+        />
+        Print Summary
+      </li>
       <li
         onClick={() => handleClick(() => handleCsvModalOpen(project))}
         className={classes.listItem}
