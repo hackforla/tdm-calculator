@@ -100,7 +100,7 @@ const Input = props => {
         value={props.value || ""}
         onChange={props.onChange}
         onBlur={handleBlur}
-        selectProps={props.selectProps}
+        props={props.selectProps}
         maxLength={props.maxStringLength}
         autoComplete="off"
         placeholder={value.length ? "Add another" : null}
