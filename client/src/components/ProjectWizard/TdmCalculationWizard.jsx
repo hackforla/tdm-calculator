@@ -30,6 +30,14 @@ import WarningProjectReset from "../Modals/WarningProjectReset";
 import InfoTargetNotReached from "../Modals/InfoTargetNotReached";
 import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 
+import CsvModal from "../Modals/ActionProjectsCsv";
+import WarningProjectDelete from "../Modals/WarningProjectDelete";
+import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
+import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
+import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
+
+import useErrorHandler from "../../hooks/useErrorHandler";
+
 const useStyles = createUseStyles({
   wizard: {
     flex: "1 1 auto",
@@ -89,6 +97,16 @@ const TdmCalculationWizard = props => {
     useState(false);
   const isSnapshotOwner = project?.loginId === account?.id;
 
+  const email = userContext.account ? userContext.account.email : "";
+  const handleError = useErrorHandler(email, navigate);
+
+  const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
+
+  const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [csvModalOpen, setCsvModalOpen] = useState(false);
+  const [shareSnapshotModalOpen, setShareSnapshotModalOpen] = useState(false);
+
   const showSubmitModal = () => {
     if (project.earnedPoints >= project.targetPoints) {
       setSubmitModalOpen(true);
@@ -135,6 +153,96 @@ const TdmCalculationWizard = props => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleRenameSnapshotModalOpen = () => {
+    setRenameSnapshotModalOpen(true);
+  };
+
+  const handleRenameSnapshotModalClose = async (action, newProjectName) => {
+    if (action === "ok") {
+      try {
+        await projectService.renameSnapshot({
+          id: project.id,
+          name: newProjectName
+        });
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setRenameSnapshotModalOpen(false);
+  };
+
+  const handleShareSnapshotModalOpen = () => {
+    setShareSnapshotModalOpen(true);
+  };
+
+  const handleShareSnapshotModalClose = async () => {
+    setShareSnapshotModalOpen(false);
+  };
+
+  const handleSubmitModalOpen = () => {
+    if (project.earnedPoints >= project.targetPoints) {
+      setSubmitModalOpen(true);
+    } else {
+      setTargetNotReachedModalOpen(true);
+    }
+  };
+
+  const handleCsvModalOpen = () => {
+    setCsvModalOpen(true);
+  };
+
+  const handleCsvModalClose = async () => {
+    setCsvModalOpen(false);
+  };
+
+  const handleSnapshotModalClose = async () => {
+    // if (action === "ok") {
+    //   try {
+    //     await projectService.snapshot({
+    //       id: selectedProject.id,
+    //       name: newProjectName
+    //     });
+    //     await updateProjects();
+    //     setSelectedProject(null);
+    //   } catch (err) {
+    //     handleError(err);
+    //   }
+    // }
+    setSnapshotModalOpen(false);
+  };
+
+  const handleSnapshotModalOpen = () => {
+    setSnapshotModalOpen(true);
+  };
+
+  const handleHide = async project => {
+    try {
+      const projectIDs = [project.id];
+      const dateHidden = !project.dateHidden;
+
+      await projectService.hide(projectIDs, dateHidden);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteModalOpen = () => {
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteModalClose = async action => {
+    if (action === "ok") {
+      const projectIDs = [project.id];
+      const dateTrashed = !project.dateTrashed;
+      try {
+        await projectService.trash(projectIDs, dateTrashed);
+      } catch (err) {
+        handleError(err);
+      }
+    }
+    setDeleteModalOpen(false);
   };
 
   /*
@@ -409,6 +517,14 @@ const TdmCalculationWizard = props => {
           setDisplaySaveButton={setDisplaySaveButton}
           showCopyAndEditSnapshot={() => setCopyAndEditSnapshotModalOpen(true)}
           showSubmitModal={showSubmitModal}
+          handleCsvModalOpen={ev => handleCsvModalOpen(ev, project)}
+          handleHide={handleHide}
+          handleDeleteModalOpen={handleDeleteModalOpen}
+          handlePrintPdf={null}
+          handleSnapshotModalOpen={handleSnapshotModalOpen}
+          handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
+          handleShareSnapshotModalOpen={handleShareSnapshotModalOpen}
+          handleSubmitModalOpen={handleSubmitModalOpen}
           onSave={onSave}
           project={project}
           shareView={shareView}
@@ -440,6 +556,31 @@ const TdmCalculationWizard = props => {
       <InfoSnapshotSubmit
         mounted={successModelOpen}
         onClose={handleSuccessModalClose}
+        project={project}
+      />
+      <CsvModal
+        mounted={csvModalOpen}
+        onClose={handleCsvModalClose}
+        project={project}
+      />
+      <WarningProjectDelete
+        mounted={deleteModalOpen}
+        onClose={handleDeleteModalClose}
+        project={project}
+      />
+      <SnapshotProjectModal
+        mounted={snapshotModalOpen}
+        onClose={handleSnapshotModalClose}
+        selectedProjectName={project}
+      />
+      <RenameSnapshotModal
+        mounted={renameSnapshotModalOpen}
+        onClose={handleRenameSnapshotModalClose}
+        selectedProjectName={project.name}
+      />
+      <ShareSnapshotModal
+        mounted={shareSnapshotModalOpen}
+        onClose={handleShareSnapshotModalClose}
         project={project}
       />
     </div>
