@@ -140,7 +140,7 @@ const SubmissionTableRow = ({
       <Td>{project.author}</Td>
       <Td align="center">{project.projectLevel}</Td>
       <Td>{project.droName}</Td>
-      <Td>{project.assignee}</Td>
+      <TdExpandable>{project.assignee}</TdExpandable>
       <Td>{formatDate(project.dateAssigned)}</Td>
       <Td>{project.invoiceStatusName}</Td>
       <Td>{formatDate(project.dateInvoicePaid)}</Td>

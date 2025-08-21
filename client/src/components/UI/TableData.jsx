@@ -30,7 +30,9 @@ const useStyles = createUseStyles({
     whiteSpace: "normal",
     overflow: "visible",
     textOverflow: "unset",
-    verticalAlign: "middle"
+    verticalAlign: "middle",
+    overflowWrap: "anywhere",
+    hyphens: "auto"
   },
   contentContainer: {
     display: "flex",
