@@ -56,7 +56,6 @@ const WizardFooter = ({
   handleCsvModalOpen,
   handleHideModalOpen,
   handleDeleteModalOpen,
-  handlePrintPdf,
   handleSnapshotModalOpen,
   handleRenameSnapshotModalOpen,
   handleShareSnapshotModalOpen,
@@ -66,6 +65,7 @@ const WizardFooter = ({
 }) => {
   const classes = useStyles();
   const componentRef = useRef();
+  const reactToPrintRef = useRef();
   const projectNameRule = rules && rules.find(r => r.code === "PROJECT_NAME");
   const projectName = projectNameRule
     ? projectNameRule.value
@@ -143,7 +143,9 @@ const WizardFooter = ({
                       handleCopyModalOpen={showCopyAndEditSnapshot}
                       handleHide={handleHideModalOpen}
                       handleDeleteModalOpen={handleDeleteModalOpen}
-                      handlePrintPdf={handlePrintPdf}
+                      handlePrintPdf={() =>
+                        reactToPrintRef.current.handlePrint()
+                      }
                       handleSnapshotModalOpen={handleSnapshotModalOpen}
                       handleRenameSnapshotModalOpen={
                         handleRenameSnapshotModalOpen
@@ -158,15 +160,7 @@ const WizardFooter = ({
               </div>
             )}
             <ReactToPrint
-              trigger={() => (
-                <Button
-                  id="PrintButton"
-                  isDisplayed={isFinalPage}
-                  variant="tertiary"
-                >
-                  Print Summary
-                </Button>
-              )}
+              ref={reactToPrintRef}
               content={() => componentRef.current}
               documentTitle={projectName}
               bodyClass="printContainer"

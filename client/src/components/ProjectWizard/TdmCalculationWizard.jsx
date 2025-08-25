@@ -531,7 +531,6 @@ const TdmCalculationWizard = props => {
           handleCsvModalOpen={ev => handleCsvModalOpen(ev, project)}
           handleHideModalOpen={handleHideModalOpen}
           handleDeleteModalOpen={handleDeleteModalOpen}
-          handlePrintPdf={null}
           handleSnapshotModalOpen={handleSnapshotModalOpen}
           handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
           handleShareSnapshotModalOpen={handleShareSnapshotModalOpen}
