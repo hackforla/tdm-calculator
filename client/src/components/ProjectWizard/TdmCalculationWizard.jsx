@@ -200,24 +200,23 @@ const TdmCalculationWizard = props => {
     setCsvModalOpen(false);
   };
 
-  const handleSnapshotModalClose = async () => {
-    // if (action === "ok") {
-    //   try {
-    //     await projectService.snapshot({
-    //       id: selectedProject.id,
-    //       name: newProjectName
-    //     });
-    //     await updateProjects();
-    //     setSelectedProject(null);
-    //   } catch (err) {
-    //     handleError(err);
-    //   }
-    // }
-    setSnapshotModalOpen(false);
-  };
-
   const handleSnapshotModalOpen = () => {
     setSnapshotModalOpen(true);
+  };
+
+  const handleSnapshotModalClose = async (action, newProjectName) => {
+    if (action === "ok") {
+      try {
+        await projectService.snapshot({
+          id: project.id,
+          name: newProjectName
+        });
+      } catch (err) {
+        handleError(err);
+      }
+      initializeEngine();
+    }
+    setSnapshotModalOpen(false);
   };
 
   const handleHideModalOpen = () => {
@@ -588,7 +587,7 @@ const TdmCalculationWizard = props => {
       <SnapshotProjectModal
         mounted={snapshotModalOpen}
         onClose={handleSnapshotModalClose}
-        selectedProjectName={project}
+        selectedProjectName={project.name}
       />
       <RenameSnapshotModal
         mounted={renameSnapshotModalOpen}
