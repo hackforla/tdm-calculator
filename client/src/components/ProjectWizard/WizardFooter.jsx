@@ -55,7 +55,7 @@ const WizardFooter = ({
   showCopyAndEditSnapshot,
   showSubmitModal,
   handleCsvModalOpen,
-  handleHide,
+  handleHideModalOpen,
   handleDeleteModalOpen,
   handlePrintPdf,
   handleSnapshotModalOpen,
@@ -167,7 +167,7 @@ const WizardFooter = ({
                       closeMenu={close}
                       handleCsvModalOpen={handleCsvModalOpen}
                       handleCopyModalOpen={showCopyAndEditSnapshot}
-                      handleHide={handleHide}
+                      handleHideModalOpen={handleHideModalOpen}
                       handleDeleteModalOpen={handleDeleteModalOpen}
                       handlePrintPdf={handlePrintPdf}
                       handleSnapshotModalOpen={handleSnapshotModalOpen}
@@ -275,7 +275,7 @@ WizardFooter.propTypes = {
   showCopyAndEditSnapshot: PropTypes.func,
   showSubmitModal: PropTypes.func,
   handleCsvModalOpen: PropTypes.func,
-  handleHide: PropTypes.func,
+  handleHideModalOpen: PropTypes.func,
   handleDeleteModalOpen: PropTypes.func,
   handlePrintPdf: PropTypes.func,
   handleSnapshotModalOpen: PropTypes.func,

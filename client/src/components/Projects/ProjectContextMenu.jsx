@@ -54,7 +54,7 @@ const ProjectContextMenu = ({
   handleShareSnapshotModalOpen,
   handleSubmitModalOpen,
   handlePrintPdf,
-  handleHide
+  handleHideModalOpen
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -163,7 +163,10 @@ const ProjectContextMenu = ({
         Duplicate
       </li>
 
-      <li onClick={() => handleClick(handleHide)} className={classes.listItem}>
+      <li
+        onClick={() => handleClick(handleHideModalOpen)}
+        className={classes.listItem}
+      >
         {project.dateHidden ? (
           <>
             <MdVisibility
@@ -224,7 +227,7 @@ ProjectContextMenu.propTypes = {
   handleShareSnapshotModalOpen: PropTypes.func,
   handleSubmitModalOpen: PropTypes.func,
   handlePrintPdf: PropTypes.func,
-  handleHide: PropTypes.func
+  handleHideModalOpen: PropTypes.func
 };
 
 export default ProjectContextMenu;

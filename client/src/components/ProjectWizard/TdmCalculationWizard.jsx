@@ -32,6 +32,7 @@ import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 
 import CsvModal from "../Modals/ActionProjectsCsv";
 import WarningProjectDelete from "../Modals/WarningProjectDelete";
+import WarningProjectHide from "../Modals/WarningProjectHide";
 import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
 import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
@@ -103,6 +104,7 @@ const TdmCalculationWizard = props => {
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
 
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
+  const [hideModalOpen, setHideModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
   const [shareSnapshotModalOpen, setShareSnapshotModalOpen] = useState(false);
@@ -217,15 +219,22 @@ const TdmCalculationWizard = props => {
     setSnapshotModalOpen(true);
   };
 
-  const handleHide = async project => {
-    try {
-      const projectIDs = [project.id];
-      const dateHidden = !project.dateHidden;
+  const handleHideModalOpen = () => {
+    setHideModalOpen(true);
+  };
 
-      await projectService.hide(projectIDs, dateHidden);
-    } catch (err) {
-      console.error(err);
+  const handleHideModalClose = async action => {
+    if (action === "ok") {
+      try {
+        const projectIDs = [project.id];
+        const dateHidden = !project.dateHidden;
+
+        await projectService.hide(projectIDs, dateHidden);
+      } catch (err) {
+        handleError(err);
+      }
     }
+    setHideModalOpen(false);
   };
 
   const handleDeleteModalOpen = () => {
@@ -518,7 +527,7 @@ const TdmCalculationWizard = props => {
           showCopyAndEditSnapshot={() => setCopyAndEditSnapshotModalOpen(true)}
           showSubmitModal={showSubmitModal}
           handleCsvModalOpen={ev => handleCsvModalOpen(ev, project)}
-          handleHide={handleHide}
+          handleHideModalOpen={handleHideModalOpen}
           handleDeleteModalOpen={handleDeleteModalOpen}
           handlePrintPdf={null}
           handleSnapshotModalOpen={handleSnapshotModalOpen}
@@ -566,6 +575,11 @@ const TdmCalculationWizard = props => {
       <WarningProjectDelete
         mounted={deleteModalOpen}
         onClose={handleDeleteModalClose}
+        project={project}
+      />
+      <WarningProjectHide
+        mounted={hideModalOpen}
+        onClose={handleHideModalClose}
         project={project}
       />
       <SnapshotProjectModal
