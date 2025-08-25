@@ -171,6 +171,7 @@ const TdmCalculationWizard = props => {
       } catch (err) {
         handleError(err);
       }
+      initializeEngine();
     }
     setRenameSnapshotModalOpen(false);
   };
@@ -233,6 +234,7 @@ const TdmCalculationWizard = props => {
       } catch (err) {
         handleError(err);
       }
+      initializeEngine();
     }
     setHideModalOpen(false);
   };
@@ -250,6 +252,7 @@ const TdmCalculationWizard = props => {
       } catch (err) {
         handleError(err);
       }
+      initializeEngine();
     }
     setDeleteModalOpen(false);
   };
