@@ -166,6 +166,7 @@ const WizardFooter = ({
                       project={project}
                       closeMenu={close}
                       handleCsvModalOpen={handleCsvModalOpen}
+                      handleCopyModalOpen={showCopyAndEditSnapshot}
                       handleHide={handleHide}
                       handleDeleteModalOpen={handleDeleteModalOpen}
                       handlePrintPdf={handlePrintPdf}
@@ -181,15 +182,6 @@ const WizardFooter = ({
                   )}
                 </Popup>
               </div>
-            )}
-            {isFinalPage && project?.dateSnapshotted && (
-              <Button
-                id="copyAndEditSnapshot"
-                onClick={showCopyAndEditSnapshot}
-                variant="tertiary"
-              >
-                Copy and Edit Snapshot
-              </Button>
             )}
             <ReactToPrint
               trigger={() => (
