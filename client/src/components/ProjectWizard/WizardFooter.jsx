@@ -53,7 +53,6 @@ const WizardFooter = ({
   setDisplaySaveButton,
   onSave,
   showCopyAndEditSnapshot,
-  showSubmitModal,
   handleCsvModalOpen,
   handleHideModalOpen,
   handleDeleteModalOpen,
@@ -78,31 +77,6 @@ const WizardFooter = ({
   const loggedInUserId = userContext.account?.id || null;
 
   const isAdmin = userContext.account?.isAdmin || false;
-
-  const setDisabledSubmitButton = () => {
-    // PMs and Designers are still deciding whether to use a tooltlip to indicate that target points are not met.
-    const projectSubmitted = !!project.dateSubmitted;
-    // const targetPoints = project.targetPoints;
-    // const earnedPoints = project.earnedPoints;
-    // const setDisabled =
-    //   !project.dateSnapshotted ||
-    //   projectSubmitted ||
-    //   earnedPoints < targetPoints;
-    // return setDisabled;
-    return !project.dateSnapshotted || projectSubmitted;
-  };
-
-  const setDisplaySubmitButton = () => {
-    if (
-      page === 5 &&
-      project.dateSnapshotted &&
-      !project.dateSubmitted &&
-      project.loginId === loggedInUserId
-    ) {
-      return true;
-    }
-    return false;
-  };
 
   return (
     <>
@@ -201,15 +175,6 @@ const WizardFooter = ({
             <div style={{ display: "none" }}>
               <PdfPrint ref={componentRef} rules={rules} project={project} />
             </div>
-            <Button
-              id="submitButton"
-              variant="tertiary"
-              disabled={setDisabledSubmitButton()}
-              isDisplayed={setDisplaySubmitButton()}
-              onClick={showSubmitModal}
-            >
-              Submit
-            </Button>
             <Button
               id="saveButton"
               variant="primary"
