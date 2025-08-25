@@ -132,6 +132,7 @@ const ProjectContextMenu = ({
           Submit Snapshot
         </li>
       ) : null}
+
       <li
         onClick={() => handleClick(handlePrintPdf)}
         className={classes.listItem}

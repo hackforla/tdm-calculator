@@ -29,14 +29,12 @@ import * as projectService from "../../services/project.service";
 import WarningProjectReset from "../Modals/WarningProjectReset";
 import InfoTargetNotReached from "../Modals/InfoTargetNotReached";
 import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
-
 import CsvModal from "../Modals/ActionProjectsCsv";
 import WarningProjectDelete from "../Modals/WarningProjectDelete";
 import WarningProjectHide from "../Modals/WarningProjectHide";
 import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
 import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
-
 import useErrorHandler from "../../hooks/useErrorHandler";
 
 const useStyles = createUseStyles({
@@ -97,12 +95,9 @@ const TdmCalculationWizard = props => {
   const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
     useState(false);
   const isSnapshotOwner = project?.loginId === account?.id;
-
   const email = userContext.account ? userContext.account.email : "";
   const handleError = useErrorHandler(email, navigate);
-
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
-
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
   const [hideModalOpen, setHideModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
