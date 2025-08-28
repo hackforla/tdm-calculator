@@ -100,8 +100,7 @@ const Input = props => {
         value={props.value || ""}
         onChange={props.onChange}
         onBlur={handleBlur}
-        name={props.code}
-        id={props.code}
+        props={props.selectProps}
         maxLength={props.maxStringLength}
         autoComplete="off"
         placeholder={value.length ? "Add another" : null}
@@ -113,6 +112,8 @@ const Input = props => {
             // placeholder attribute is hard-coded, as I could not figure out how to pass props to the InputMask,
             // and the only usage is for a required field on page 1 of wizard. (JCD)
             placeholder={props.hasValue ? "optional" : "required"}
+            name={props.selectProps.name}
+            id={props.selectProps.id}
             className={classes.textInput}
             style={{
               margin: 0,
