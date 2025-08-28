@@ -132,7 +132,6 @@ const WizardFooter = ({
                     </div>
                   }
                   position="left center"
-                  on="hover"
                   arrow={true}
                 >
                   {close => (
