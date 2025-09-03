@@ -15,7 +15,7 @@ import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import ActionManageSubmission from "../Modals/ActionManageSubmission";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import InfoSubmissionLog from "../Modals/InfoSubmissionLog";
-import { Td, TdExpandable } from "./SubmissionTableData";
+import { Td, TdExpandable } from "../UI/TableData";
 
 function useAdminNotesModal(project, onAdminNoteUpdate) {
   const [showWarningModal, setShowWarningModal] = useState(false);
@@ -140,7 +140,7 @@ const SubmissionTableRow = ({
       <Td>{project.author}</Td>
       <Td align="center">{project.projectLevel}</Td>
       <Td>{project.droName}</Td>
-      <Td>{project.assignee}</Td>
+      <TdExpandable>{project.assignee}</TdExpandable>
       <Td>{formatDate(project.dateAssigned)}</Td>
       <Td>{project.invoiceStatusName}</Td>
       <Td>{formatDate(project.dateInvoicePaid)}</Td>

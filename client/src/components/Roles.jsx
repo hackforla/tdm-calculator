@@ -234,6 +234,9 @@ const Roles = ({ contentContainerRef }) => {
           <tr className={classes.tr}>
             <td className={`${classes.td} ${classes.tdheadLabel}`}>Email</td>
             <td className={`${classes.td} ${classes.tdheadLabel}`}>Name</td>
+            <td className={`${classes.td} ${classes.tdheadLabel}`}>
+              # of Projects
+            </td>
             <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
               Admin
             </td>
@@ -264,6 +267,9 @@ const Roles = ({ contentContainerRef }) => {
                 <td className={classes.td}>{account.email}</td>
                 <td className={classes.td}>
                   {`${account.lastName}, ${account.firstName}`}
+                </td>
+                <td className={classes.tdCenter}>
+                  {account?.numberOfProjects || "0"}
                 </td>
                 <td className={classes.tdCenter}>
                   <input

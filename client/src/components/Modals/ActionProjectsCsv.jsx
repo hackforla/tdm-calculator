@@ -77,11 +77,11 @@ const CsvModal = ({
   const handleGenerateButton = async () => {
     setLoading(true);
     let projectSet;
-    const activeProjects = projects.filter(p => !p.dateTrashed);
 
     if (project) {
       projectSet = [project];
     } else {
+      const activeProjects = projects.filter(p => !p.dateTrashed);
       switch (projectCollection) {
         case "All":
           projectSet = projects;

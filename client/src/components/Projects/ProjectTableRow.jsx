@@ -22,7 +22,7 @@ import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
-import { Td, TdExpandable } from "./ProjectTableData";
+import { Td, TdExpandable } from "../UI/TableData";
 
 const useStyles = createUseStyles(theme => ({
   actionIcons: {
@@ -296,8 +296,8 @@ const ProjectTableRow = ({
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
       </TdExpandable>
       <TdExpandable>{project.address}</TdExpandable>
-      <Td>{fallbackToBlank(formInputs.VERSION_NO)}</Td>
-      <Td> {`${project.lastName}, ${project.firstName}`}</Td>
+      <TdExpandable>{fallbackToBlank(formInputs.VERSION_NO)}</TdExpandable>
+      <TdExpandable>{`${project.lastName}, ${project.firstName}`}</TdExpandable>
       <Td>{formatDate(project.dateCreated)}</Td>
       <Td>
         <span>{formatDate(project.dateModified)}</span>

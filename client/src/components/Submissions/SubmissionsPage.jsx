@@ -18,7 +18,7 @@ import {
   SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG,
   SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
-import { Td, TdExpandable } from "./SubmissionTableData";
+import { Td, TdExpandable } from "../UI/TableData";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
 const DEFAULT_FILTER_CRITERIA = {
@@ -568,7 +568,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                         <Td>{formatDate(project.dateStatus)}</Td>
                         <Td align="center">{project.projectLevel}</Td>
                         <Td>{project.droName}</Td>
-                        <Td>{project.assignee}</Td>
+                        <TdExpandable>{project.assignee}</TdExpandable>
                         <Td>{formatDate(project.dateAssigned)}</Td>
                         <Td>{project.invoiceStatusName}</Td>
                         <Td>{formatDate(project.dateInvoicePaid)}</Td>

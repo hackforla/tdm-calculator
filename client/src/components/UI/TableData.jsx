@@ -30,7 +30,9 @@ const useStyles = createUseStyles({
     whiteSpace: "normal",
     overflow: "visible",
     textOverflow: "unset",
-    verticalAlign: "middle"
+    verticalAlign: "middle",
+    overflowWrap: "anywhere",
+    hyphens: "auto"
   },
   contentContainer: {
     display: "flex",
@@ -116,10 +118,10 @@ const TdExpandable = ({ children }) => {
 export { Td, TdExpandable };
 
 Td.propTypes = {
-  children: PropTypes.node.isRequired,
-  align: PropTypes.string.isRequired
+  children: PropTypes.node,
+  align: PropTypes.string
 };
 
 TdExpandable.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 };
