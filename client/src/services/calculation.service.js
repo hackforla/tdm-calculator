@@ -11,5 +11,5 @@ export function getById(id) {
 }
 
 export function updateDescription(id, description) {
-  return axios.put(`${baseUrl}/updateDescription/${id}`);
+  return axios.put(`${baseUrl}/updateDescription/${id}`, { description });
 }

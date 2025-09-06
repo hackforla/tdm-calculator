@@ -375,6 +375,7 @@ const RuleStrategy = ({
           description={description}
           setShowDescription={setShowDescription}
           disabledStyle={disabledStyle}
+          id={id}
         />
       ) : null}
 
