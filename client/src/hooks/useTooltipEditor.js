@@ -27,7 +27,6 @@ const useTooltipEditor = (
   }, [forceEditMode]);
 
   const handleSave = useCallback(async () => {
-    console.log(id);
     try {
       const isEmpty =
         !newDescription ||
@@ -49,19 +48,19 @@ const useTooltipEditor = (
     }
   }, [id, newDescription, onEditDescription]);
 
+  const handleCancel = useCallback(() => {
+    setNewDescription(description);
+    setIsEditing(false);
+    setHasUnsavedChanges(false);
+  }, [description]);
+
   const handleModalClose = useCallback(() => {
     if (hasUnsavedChanges) {
       setShowConfirmationModal(true);
     } else {
       handleCancel();
     }
-  }, [hasUnsavedChanges]);
-
-  const handleCancel = useCallback(() => {
-    setNewDescription(description);
-    setIsEditing(false);
-    setHasUnsavedChanges(false);
-  }, [description]);
+  }, [hasUnsavedChanges, handleCancel]);
 
   const handleConfirmDiscard = useCallback(() => {
     setShowConfirmationModal(false);

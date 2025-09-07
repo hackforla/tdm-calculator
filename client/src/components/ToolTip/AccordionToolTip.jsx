@@ -113,7 +113,6 @@ const AccordionToolTip = ({
   const {
     isEditing,
     newDescription,
-    // hasUnsavedChanges,
     showConfirmationModal,
     setNewDescription,
     handleSave,
@@ -153,6 +152,9 @@ const AccordionToolTip = ({
             }
             content={newDescription}
           />
+          <div className={clsx(classes.editButton)} onClick={startEditing}>
+            <MdEdit />
+          </div>
         </div>
       ) : (
         <div className={clsx(classes.accordionTooltipLabel)}>

@@ -142,6 +142,8 @@ const RuleStrategy = ({
     useState(false);
   const [inputEvent, setInputEvent] = useState({});
   const [previousValue, setPreviousValue] = useState(value);
+  const [localDescription, setLocalDescription] = useState(description);
+  const [isEditing, setIsEditing] = useState(false);
 
   const closeAffordableEdgeCaseModal = () => {
     // Need to modify event to change value back to previous value and
@@ -157,6 +159,11 @@ const RuleStrategy = ({
     onPropInputChange(inputEvent);
     // Close the save confirmation modal
     setAffordableEdgeCaseModalOpen(false);
+  };
+
+  const handleDescriptionUpdate = newDescription => {
+    setLocalDescription(newDescription);
+    setIsEditing(false);
   };
 
   const onInputChangeIfAllowed = e => {
@@ -223,12 +230,13 @@ const RuleStrategy = ({
         <div className={clsx(classes.rowContainer, disabledStyle)}>
           <RuleLabel
             id={id}
-            description={description}
+            description={localDescription}
             code={code}
             display={display}
             link={link}
             name={name}
             setShowDescription={setShowDescription}
+            setIsEditing={setIsEditing}
           />
           <div>
             <input
@@ -253,12 +261,13 @@ const RuleStrategy = ({
         <div className={clsx(classes.rowContainer, disabledStyle)}>
           <RuleLabel
             id={id}
-            description={description}
+            description={localDescription}
             code={code}
             display={display}
             link={link}
             name={name}
             setShowDescription={setShowDescription}
+            setIsEditing={setIsEditing}
           />
           <div>
             <input
@@ -279,12 +288,13 @@ const RuleStrategy = ({
         <div className={clsx(classes.rowContainer, disabledStyle)}>
           <RuleLabel
             id={id}
-            description={description}
+            description={localDescription}
             code={code}
             display={display}
             link={link}
             name={name}
             setShowDescription={setShowDescription}
+            setIsEditing={setIsEditing}
           />
           <div className={classes.choiceSelectContainer}>
             <UniversalSelect
@@ -307,12 +317,13 @@ const RuleStrategy = ({
         <div className={clsx(classes.rowContainer, disabledStyle)}>
           <RuleLabel
             id={id}
-            description={description}
+            description={localDescription}
             code={code}
             display={display}
             link={link}
             name={name}
             setShowDescription={setShowDescription}
+            setIsEditing={setIsEditing}
           />
           <input
             autoFocus={autoFocus}
@@ -334,12 +345,13 @@ const RuleStrategy = ({
         <div className={clsx(classes.rowContainer, disabledStyle)}>
           <RuleLabel
             id={id}
-            description={description}
+            description={localDescription}
             code={code}
             display={display}
             link={link}
             name={name}
             setShowDescription={setShowDescription}
+            setIsEditing={setIsEditing}
           />
           <div className={classes.allElse} name={code} />
           {possibleAndEarnedPointsContainers()}
@@ -370,12 +382,14 @@ const RuleStrategy = ({
           </div>
         </div>
       ) : null}
-      {showDescription && description ? (
+      {(showDescription && localDescription) || isEditing ? (
         <AccordionToolTip
-          description={description}
+          description={localDescription || ""}
           setShowDescription={setShowDescription}
           disabledStyle={disabledStyle}
           id={id}
+          forceEditMode={isEditing}
+          onEditDescription={handleDescriptionUpdate}
         />
       ) : null}
 
