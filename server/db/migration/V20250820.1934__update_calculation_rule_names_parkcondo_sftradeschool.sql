@@ -1,6 +1,6 @@
 UPDATE [CalculationRule]
 SET name = '..... Required Number of Parking Spaces'
-WHERE id = 'PARK_CONDO' AND calculationId = 1;
+WHERE code = 'PARK_CONDO' AND calculationId = 1;
 
 UPDATE [CalculationRule]
 SET name = '..... Classroom or Assembly Area'
