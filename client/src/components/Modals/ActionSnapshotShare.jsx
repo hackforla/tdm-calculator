@@ -4,7 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import Button from "../Button/Button";
 import ModalDialog from "../UI/Modal";
 import * as projectShareService from "../../services/projectShare.service";
-import { MdCameraAlt, MdWarning } from "react-icons/md";
+import { MdIosShare, MdAddCircle, MdInfo, MdWarning } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   buttonFlexBox: {
@@ -43,6 +43,11 @@ const useStyles = createUseStyles(theme => ({
     padding: "0 5em",
     margin: "1.5rem 2.5rem 1.5rem 0.75rem"
   },
+  addCircleButton: {
+    border: "none",
+    background: "none"
+  },
+  addCircleIcon: { color: "green" },
   emailList: {
     height: "15em",
     overflowY: "scroll",
@@ -51,13 +56,13 @@ const useStyles = createUseStyles(theme => ({
   },
   emptyList: {
     display: "flex",
-    height: "15em",
-    border: "solid black 2px",
+    // height: "15em",
+    // border: "solid black 2px",
     margin: "1em",
     alignItems: "center",
     fontSize: "18px",
-    fontWeight: "bold",
-    padding: "0em 2em"
+    fontWeight: "bold"
+    // padding: "0em 2em"
   },
   viewPermissionsList: {
     padding: "0em 4em"
@@ -71,6 +76,9 @@ const useStyles = createUseStyles(theme => ({
     "&:hover": {
       backgroundColor: "#f2f2f2"
     }
+  },
+  sendLinkMessage: {
+    color: "red"
   },
   copyMessageBox: {
     border: "solid 2px",
@@ -161,9 +169,15 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
   };
 
   const handleSubmitEmail = e => {
-    switch (e.key) {
-      case "Enter":
-        shareProject(e.target.value, project);
+    // switch (e.key) {
+    //   case "Enter":
+    //     shareProject(e.target.value, project);
+    // }
+    if (e.key === "Enter") {
+      shareProject(e.target.value, project);
+    } else {
+      const inputValue = document.querySelector("#emailAddresses").value;
+      shareProject(inputValue, project);
     }
   };
 
@@ -183,7 +197,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
               className={classes.heading1}
               style={{ marginBottom: "1.5rem" }}
             >
-              <MdCameraAlt className={classes.icon} />
+              <MdIosShare className={classes.icon} />
               Share &quot;{project ? project.name : ""}&quot; Snapshot
             </div>
             <div className={classes.input}>
@@ -196,41 +210,57 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   handleSubmitEmail(e);
                 }}
               />
+              <button
+                className={classes.addCircleButton}
+                onClick={handleSubmitEmail}
+              >
+                <MdAddCircle className={classes.addCircleIcon} />
+              </button>
             </div>
             <div className={classes.viewPermissionsList}>
-              <div
-                className={classes.heading2}
-                style={{ display: "inline-block", marginLeft: "1em" }}
-              >
-                People with viewing permission
-              </div>
               {sharedEmails.length ? (
-                <div className={classes.emailList}>
-                  {sharedEmails.map(email => (
-                    <div key={email.id} className={classes.email}>
-                      {email.email}
-                      <button
-                        className={classes.remove}
-                        onClick={() => {
-                          setPage(3);
-                          setSelectedEmail(email);
-                        }}
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  ))}
-                </div>
+                <>
+                  <div
+                    className={classes.heading2}
+                    style={{ display: "inline-block", marginLeft: "1em" }}
+                  >
+                    People with viewing permission
+                  </div>
+                  <div className={classes.emailList}>
+                    {sharedEmails.map(email => (
+                      <div key={email.id} className={classes.email}>
+                        {email.email}
+                        <button
+                          className={classes.remove}
+                          onClick={() => {
+                            setPage(3);
+                            setSelectedEmail(email);
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </>
               ) : (
                 <div className={classes.emptyList}>
-                  No email addresses added. Please include at least one email to
-                  share the project.
+                  Enter at least one email to give access to this snapshot.
                 </div>
               )}
               <div
                 className={classes.buttonFlexBox}
                 style={{ justifyContent: "center" }}
               >
+                <Button
+                  className={maybeDisabled}
+                  onClick={onClose}
+                  // disabled={sharedEmails.length ? false : true}
+                  variant="contained"
+                  color={"colorSecondary"}
+                >
+                  Cancel
+                </Button>
                 <Button
                   className={maybeDisabled}
                   onClick={() => {
@@ -250,12 +280,16 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
         return (
           <div className={classes.modal}>
             <div className={classes.viewPermissionsList}>
+              <MdInfo className={classes.icon} />
               <div
                 className={classes.heading1}
                 style={{ marginBottom: "1.5rem" }}
               >
-                <MdCameraAlt className={classes.icon} />
                 Share &quot;{project ? project.name : ""}&quot; Snapshot
+              </div>
+              <div className={classes.sendLinkMessage}>
+                Added accounts won&apos;t be notified automatically. Use the
+                options below to send the link with or without a message.
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <div
