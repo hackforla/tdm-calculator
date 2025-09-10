@@ -113,7 +113,7 @@ const TextPopup = ({
     selectOptions = droOptions.map(dro => dro.name);
     selectOptions.push("No DRO Assigned");
   } else if (property === "author" && droOptions) {
-    const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
+    const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName} (Me)`;
     let hasLoggedInUserInList = false;
 
     selectOptions = [
