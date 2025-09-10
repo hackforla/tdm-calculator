@@ -26,6 +26,7 @@ const useStyles = createUseStyles(theme => ({
     marginBottom: "0",
     verticalAlign: "middle"
   },
+  infoIcon: { height: "60px", width: "60px", color: "darkBlue" },
   unshareIcon: {
     height: "80px",
     width: "80px",
@@ -41,7 +42,8 @@ const useStyles = createUseStyles(theme => ({
   },
   input: {
     padding: "0 5em",
-    margin: "1.5rem 2.5rem 1.5rem 0.75rem"
+    margin: "1.5rem 2.5rem 1.5rem 0.75rem",
+    display: "flex"
   },
   addCircleButton: {
     border: "none",
@@ -56,13 +58,9 @@ const useStyles = createUseStyles(theme => ({
   },
   emptyList: {
     display: "flex",
-    // height: "15em",
-    // border: "solid black 2px",
     margin: "1em",
     alignItems: "center",
-    fontSize: "18px",
-    fontWeight: "bold"
-    // padding: "0em 2em"
+    fontSize: "18px"
   },
   viewPermissionsList: {
     padding: "0em 4em"
@@ -78,7 +76,10 @@ const useStyles = createUseStyles(theme => ({
     }
   },
   sendLinkMessage: {
-    color: "red"
+    color: theme.colorError,
+    marginBottom: "1.5rem",
+    fontSize: "18px",
+    margin: "1em"
   },
   copyMessageBox: {
     border: "solid 2px",
@@ -254,8 +255,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
               >
                 <Button
                   className={maybeDisabled}
-                  onClick={onClose}
-                  // disabled={sharedEmails.length ? false : true}
+                  onClick={closeProject}
                   variant="contained"
                   color={"colorSecondary"}
                 >
@@ -280,18 +280,15 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
         return (
           <div className={classes.modal}>
             <div className={classes.viewPermissionsList}>
-              <MdInfo className={classes.icon} />
-              <div
-                className={classes.heading1}
-                style={{ marginBottom: "1.5rem" }}
-              >
+              <MdInfo className={classes.infoIcon} />
+              <div className={classes.heading1}>
                 Share &quot;{project ? project.name : ""}&quot; Snapshot
               </div>
-              <div className={classes.sendLinkMessage}>
-                Added accounts won&apos;t be notified automatically. Use the
-                options below to send the link with or without a message.
-              </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
+                <div className={classes.sendLinkMessage}>
+                  Added accounts won&apos;t be notified automatically. Use the
+                  options below to send the link with or without a message.
+                </div>
                 <div
                   className={classes.heading2}
                   style={{
