@@ -277,6 +277,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   );
 
   const email = userContext.account ? userContext.account.email : "";
+  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useProjects(handleError);
@@ -310,6 +311,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
     ? projects.map(project => {
         const droName =
           droOptions.find(dro => dro.id === project.droId)?.name || "";
+        const name = `${project.lastName}, ${project.firstName}`;
+
+        if (name === loggedInUserName) project.firstName += " (Me)";
 
         return {
           ...project,
