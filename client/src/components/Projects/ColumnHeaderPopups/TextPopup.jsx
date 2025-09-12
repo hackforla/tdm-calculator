@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
@@ -7,6 +7,7 @@ import { MdClose } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
+import UserContext from "contexts/UserContext";
 
 const useStyles = createUseStyles({
   searchBarWrapper: {
@@ -70,6 +71,7 @@ const TextPopup = ({
   setSelectAllChecked,
   droOptions
 }) => {
+  const userContext = useContext(UserContext);
   const property = header.accessor || header.id;
   const getDisplayValue = value => {
     if (property === "droName" && value === "") {
@@ -111,16 +113,27 @@ const TextPopup = ({
     selectOptions = droOptions.map(dro => dro.name);
     selectOptions.push("No DRO Assigned");
   } else if (property === "author" && droOptions) {
+    const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName} (Me)`;
+    let hasLoggedInUserInList = false;
+
     selectOptions = [
-      ...new Set(filteredProjects.map(p => `${p.lastName}, ${p.firstName}`))
+      ...new Set(
+        filteredProjects.map(p => {
+          const name = `${p.lastName}, ${p.firstName}`;
+          if (name === loggedInUserName) hasLoggedInUserInList = true;
+          return name;
+        })
+      )
     ]
-      .filter(value => value !== null)
+      .filter(value => value !== null && value !== loggedInUserName)
       .sort((a, b) => {
         return a.localeCompare(b, "en", { sensitivity: "base" });
       })
       .sort(
         (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
       );
+
+    if (hasLoggedInUserInList) selectOptions.unshift(loggedInUserName);
   } else {
     selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
       .filter(value => value !== null && value !== "")
