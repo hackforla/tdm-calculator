@@ -1,0 +1,224 @@
+{
+  "individualResults": [
+    {
+      "initialSchemaVersion": "20250820.1934",
+      "targetSchemaVersion": null,
+      "schemaName": "",
+      "migrations": [],
+      "migrationsExecuted": 0,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2025-09-11T18:11:01.206737100",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20250404.1628",
+      "targetSchemaVersion": null,
+      "schemaName": "",
+      "migrations": [],
+      "migrationsExecuted": 0,
+      "success": false,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2025-09-11T18:38:00.215471300",
+      "operation": "migrate",
+      "exception": "Migration V20250417.1734__project_submission_changes_2367.sql failed\n--------------------------------------------------------------------\nSQL State  : S0004\nError Code : 2705\nMessage    : Column names in each table must be unique. Column name \u0027loginIdAssigned\u0027 in table \u0027Project\u0027 is specified more than once.\nLocation   : C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250417.1734__project_submission_changes_2367.sql (C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250417.1734__project_submission_changes_2367.sql)\nLine       : 55\nStatement  : ALTER TABLE Project \n\tADD loginIdAssigned int null,\n\tdateAssigned datetime2(7) null,\n\tinvoiceStatusId int not null default 1,\n\tdateInvoicePaid datetime2(7) null,\n\tonHold bit DEFAULT 0 not null,\n\tapprovalStatusId int not null default 1,\n\tdateCoO datetime2(7) null,\n\tdateStatus datetime2(7) null,\n\tloginIdStatus int null,\n\tCONSTRAINT FK_Project_InvoiceStatus FOREIGN KEY (invoiceStatusId)\n\t REFERENCES InvoiceStatus(id),\n\tCONSTRAINT FK_Project_ApprovalStatus FOREIGN KEY (approvalStatusId)\n\t REFERENCES ApprovalStatus(id),\n\tCONSTRAINT FK_Project_LoginAssigned FOREIGN KEY (loginIdAssigned)\n\t REFERENCES Login(id),\n\tCONSTRAINT FK_Project_LoginStatus FOREIGN KEY (loginIdStatus)\n\t REFERENCES Login(id)\n",
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20250404.1628",
+      "targetSchemaVersion": null,
+      "schemaName": "",
+      "migrations": [],
+      "migrationsExecuted": 0,
+      "success": false,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2025-09-11T18:44:14.687240100",
+      "operation": "migrate",
+      "exception": "Migration V20250417.1734__project_submission_changes_2367.sql failed\n--------------------------------------------------------------------\nSQL State  : S0004\nError Code : 2705\nMessage    : Column names in each table must be unique. Column name \u0027approvalStatusId\u0027 in table \u0027Project\u0027 is specified more than once.\nLocation   : C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250417.1734__project_submission_changes_2367.sql (C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250417.1734__project_submission_changes_2367.sql)\nLine       : 55\nStatement  : ALTER TABLE Project \n\tADD loginIdAssigned int null,\n\tdateAssigned datetime2(7) null,\n\tinvoiceStatusId int not null default 1,\n\tdateInvoicePaid datetime2(7) null,\n\tonHold bit DEFAULT 0 not null,\n\tapprovalStatusId int not null default 1,\n\tdateCoO datetime2(7) null,\n\tdateStatus datetime2(7) null,\n\tloginIdStatus int null,\n\tCONSTRAINT FK_Project_InvoiceStatus FOREIGN KEY (invoiceStatusId)\n\t REFERENCES InvoiceStatus(id),\n\tCONSTRAINT FK_Project_ApprovalStatus FOREIGN KEY (approvalStatusId)\n\t REFERENCES ApprovalStatus(id),\n\tCONSTRAINT FK_Project_LoginAssigned FOREIGN KEY (loginIdAssigned)\n\t REFERENCES Login(id),\n\tCONSTRAINT FK_Project_LoginStatus FOREIGN KEY (loginIdStatus)\n\t REFERENCES Login(id)\n",
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20250404.1628",
+      "targetSchemaVersion": null,
+      "schemaName": "",
+      "migrations": [],
+      "migrationsExecuted": 0,
+      "success": false,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2025-09-11T18:45:06.054834600",
+      "operation": "migrate",
+      "exception": "Migration V20250417.1734__project_submission_changes_2367.sql failed\n--------------------------------------------------------------------\nSQL State  : S0001\nError Code : 2714\nMessage    : There is already an object named \u0027ProjectLog\u0027 in the database.\nLocation   : C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250417.1734__project_submission_changes_2367.sql (C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250417.1734__project_submission_changes_2367.sql)\nLine       : 77\nStatement  : CREATE TABLE ProjectLog (\n\tid int IDENTITY(1,1) NOT NULL,\n\tprojectId int not null,\n\tdroId int null,\n\tadminNotes nvarchar(max) null,\n\tdateModifiedAdmin datetime2(7) null,\n\tloginIdAssigned int null,\n\tdateAssigned datetime2(7) null,\n\tinvoiceStatusId int null,\n\tdateInvoicePaid datetime2(7) null,\n\tonHold bit DEFAULT 0 not null,\n\tapprovalStatusId int null,\n\tdateCoO datetime2(7) null,\n\tdateStatus datetime2(7) null,\n\tloginIdStatus int null,\n\tCONSTRAINT FK_ProjectLog_Project FOREIGN KEY (projectId)\n\t REFERENCES Project(id)\n)\n",
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20250404.1628",
+      "targetSchemaVersion": "20250820.1934",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20250417.1734",
+          "description": "project submission changes 2367",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250417.1734__project_submission_changes_2367.sql",
+          "executionTime": 94
+        },
+        {
+          "category": "Versioned",
+          "version": "20250423.1624",
+          "description": "sproc changes  2454",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250423.1624__sproc_changes _2454.sql",
+          "executionTime": 15
+        },
+        {
+          "category": "Versioned",
+          "version": "20250430.1543",
+          "description": "conditionally-reqd rules 2467",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250430.1543__conditionally-reqd_rules_2467.sql",
+          "executionTime": 23
+        },
+        {
+          "category": "Versioned",
+          "version": "20250502.1115",
+          "description": "relax-security-on-project-updatedroid-sproc 2409",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250502.1115__relax-security-on-project-updatedroid-sproc_2409.sql",
+          "executionTime": 19
+        },
+        {
+          "category": "Versioned",
+          "version": "20250505.1613",
+          "description": "add isDro to login 2409",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250505.1613__add_isDro_to_login_2409.sql",
+          "executionTime": 33
+        },
+        {
+          "category": "Versioned",
+          "version": "20250521.1637",
+          "description": "about-table-sprocs 1531",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250521.1637__about-table-sprocs_1531.sql",
+          "executionTime": 25
+        },
+        {
+          "category": "Versioned",
+          "version": "20250602.1535",
+          "description": "fix spelling error 2492",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250602.1535__fix_spelling_error_2492.sql",
+          "executionTime": 29
+        },
+        {
+          "category": "Versioned",
+          "version": "20250609.1048",
+          "description": "modify manage submission sproc 2454",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250609.1048__modify_manage_submission_sproc_2454.sql",
+          "executionTime": 26
+        },
+        {
+          "category": "Versioned",
+          "version": "20250717.1731",
+          "description": "feature-flag-for-sidebar-style 2594",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250717.1731__feature-flag-for-sidebar-style_2594.sql",
+          "executionTime": 14
+        },
+        {
+          "category": "Versioned",
+          "version": "20250806.1716",
+          "description": "add num of project to login select all",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250806.1716__add_num_of_project_to_login_select_all.sql",
+          "executionTime": 17
+        },
+        {
+          "category": "Versioned",
+          "version": "20250813.2045",
+          "description": "modify-mobility-investment-strategies 2576",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250813.2045__modify-mobility-investment-strategies_2576.sql",
+          "executionTime": 67
+        },
+        {
+          "category": "Versioned",
+          "version": "20250820.1934",
+          "description": "update calculation rule names parkcondo sftradeschool",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250820.1934__update_calculation_rule_names_parkcondo_sftradeschool.sql",
+          "executionTime": 13
+        }
+      ],
+      "migrationsExecuted": 12,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2025-09-11T18:45:35.431261",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20250820.1934",
+      "targetSchemaVersion": "20250831.1550",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20250831.1550",
+          "description": "calculation rule update  description 1992",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250831.1550__calculation_rule_update__description_1992.sql",
+          "executionTime": 13
+        }
+      ],
+      "migrationsExecuted": 1,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2025-09-11T18:48:38.349234400",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    },
+    {
+      "initialSchemaVersion": "20250820.1934",
+      "targetSchemaVersion": "20250831.1550",
+      "schemaName": "",
+      "migrations": [
+        {
+          "category": "Versioned",
+          "version": "20250831.1550",
+          "description": "calculation rule update  description 1992",
+          "type": "SQL",
+          "filepath": "C:\\git\\hackforla\\tdm-calculator\\server\\db\\migration\\V20250831.1550__calculation_rule_update__description_1992.sql",
+          "executionTime": 261
+        }
+      ],
+      "migrationsExecuted": 1,
+      "success": true,
+      "flywayVersion": "9.22.3",
+      "database": "tdmdev",
+      "warnings": [],
+      "timestamp": "2025-09-11T18:49:07.911602200",
+      "operation": "migrate",
+      "exception": null,
+      "licenseFailed": false
+    }
+  ]
+}
