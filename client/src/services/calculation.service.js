@@ -9,3 +9,7 @@ export function get() {
 export function getById(id) {
   return axios.get(`${baseUrl}/${id}`);
 }
+
+export function updateDescription(id, description) {
+  return axios.put(`${baseUrl}/updateDescription/${id}`, { description });
+}
