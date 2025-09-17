@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import RuleLabel from "../Common/RuleLabel";
+import AccordionToolTip from "../../ToolTip/AccordionToolTip";
 
 const useStyles = createUseStyles(theme => ({
   rowContainer: {
@@ -82,6 +83,14 @@ const ProjectLevelRuleInput = ({
   // user first touches the input field to display the text of the error message.
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [localDescription, setLocalDescription] = useState(description);
+
+  // Add callback to handle description updates
+  const handleDescriptionUpdate = newDescription => {
+    setLocalDescription(newDescription);
+    setIsEditing(false); // Close editing mode
+  };
 
   const onInputChange = e => {
     setShowValidationErrors(true);
@@ -108,6 +117,7 @@ const ProjectLevelRuleInput = ({
                 name={name}
                 setShowDescription={setShowDescription}
                 showDescription={showDescription}
+                setIsEditing={setIsEditing}
               />
             </div>
             <div className={classes.rowItem2}>
@@ -155,8 +165,9 @@ const ProjectLevelRuleInput = ({
               required={required}
               link={link}
               name={name}
-              className={classes.rowItem1}
               setShowDescription={setShowDescription}
+              showDescription={showDescription}
+              setIsEditing={setIsEditing}
             />
             <div
               className={classes.rowItem2}
@@ -189,6 +200,15 @@ const ProjectLevelRuleInput = ({
             {validationErrors[0]}
           </div>
         </div>
+      ) : null}
+      {(showDescription && localDescription) || isEditing ? (
+        <AccordionToolTip
+          description={localDescription || ""}
+          setShowDescription={setShowDescription}
+          id={id}
+          forceEditMode={isEditing}
+          onEditDescription={handleDescriptionUpdate}
+        />
       ) : null}
     </React.Fragment>
   );

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { MdLink } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
-import { MdInfo } from "react-icons/md";
+import { MdInfo, MdAddCircle } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   labelWrapper: {
@@ -20,7 +20,13 @@ const useStyles = createUseStyles(theme => ({
   labelWrapperWithoutDesc: {
     flexGrow: "1",
     flexShrink: "1",
-    flexBasis: "50%"
+    flexBasis: "50%",
+    "&:hover $iconContainer": {
+      visibility: "visible"
+    },
+    "&:hover": {
+      cursor: "pointer"
+    }
   },
   tooltipLabel: {
     flexGrow: "1",
@@ -81,7 +87,8 @@ const RuleLabel = ({
   link,
   name,
   setShowDescription,
-  showDescription
+  showDescription,
+  setIsEditing
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -91,6 +98,14 @@ const RuleLabel = ({
   const descriptionHandler = e => {
     e.preventDefault();
     setShowDescription(prev => !prev);
+  };
+
+  const addDescriptionHandler = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (setIsEditing) {
+      setIsEditing(prev => !prev);
+    }
   };
 
   // if (code && code.startsWith("UNITS_HABIT")) {
@@ -191,7 +206,15 @@ const RuleLabel = ({
         >
           <MdInfo className={classes.infoIcon} />
         </span>
-      ) : null}
+      ) : (
+        <span
+          className={clsx("fa-layers fa-fw", classes.iconContainer)}
+          style={showDescription ? { visibility: "visible" } : {}}
+          onClick={addDescriptionHandler}
+        >
+          <MdAddCircle className={classes.infoIcon} />
+        </span>
+      )}
     </div>
   );
 };
@@ -205,6 +228,7 @@ RuleLabel.propTypes = {
   required: PropTypes.bool,
   link: PropTypes.string,
   setShowDescription: PropTypes.func,
-  showDescription: PropTypes.bool
+  showDescription: PropTypes.bool,
+  setIsEditing: PropTypes.func
 };
 export default RuleLabel;
