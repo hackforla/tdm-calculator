@@ -5,6 +5,7 @@ import Button from "../Button/Button";
 import ModalDialog from "../UI/Modal";
 import * as projectShareService from "../../services/projectShare.service";
 import { MdIosShare, MdAddCircle, MdInfo, MdWarning } from "react-icons/md";
+import * as Yup from "yup";
 import { useToast } from "../../contexts/Toast";
 
 const useStyles = createUseStyles(theme => ({
@@ -49,7 +50,7 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     alignItems: "center",
     padding: "0 2.5rem",
-    margin: "1.5rem"
+    margin: "1.5rem 1.5rem .25rem 1.5rem"
   },
   input: {
     borderRadius: "5px"
@@ -60,6 +61,12 @@ const useStyles = createUseStyles(theme => ({
     width: "25px",
     marginLeft: "-30px",
     padding: "none"
+  },
+  warningText: {
+    color: theme.colorError,
+    fontSize: "0.9rem",
+    marginBottom: "1.5rem",
+    padding: "0 4.5rem"
   },
   emailList: {
     height: "15em",
@@ -141,10 +148,15 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
+const emailSchema = Yup.string()
+  .email("Invalid email address")
+  .required("Email is required");
+
 export default function ShareSnapshotModal({ mounted, onClose, project }) {
   const theme = useTheme();
   const classes = useStyles({ theme });
   const toast = useToast();
+  const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const [sharedEmails, setSharedEmails] = useState([]);
   const [selectedEmail, setSelectedEmail] = useState(null);
@@ -186,23 +198,26 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
     }
   };
 
-  const handleSubmitEmail = e => {
-    // switch (e.key) {
-    //   case "Enter":
-    //     shareProject(e.target.value, project);
-    // }
-    if (e.key === "Enter") {
-      shareProject(e.target.value, project);
-      toast.add("Email added.");
-    } else {
-      // don't need to hit button to get toast to come up. wrong
-      const inputValue = document.querySelector("#emailAddresses").value;
-      shareProject(inputValue, project);
-      toast.add("Email added.");
-    }
+  const addEmail = async value => {
+    const email = value.trim();
+    if (!email) return;
 
-    // fix so only confirms if email is actually added. add check for valid email
-    // add toast for email removed
+    try {
+      await emailSchema.validate(email);
+      setError("");
+      shareProject(email, project);
+      toast.add("Email added.");
+      document.querySelector("#emailAddresses").value = ""; // clear input
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleSubmitEmail = e => {
+    if (e.key && e.key !== "Enter") return; // ignore other keys
+    e.preventDefault();
+    const inputValue = document.querySelector("#emailAddresses").value;
+    addEmail(inputValue);
   };
 
   const closeProject = () => {
@@ -233,15 +248,14 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 type="text"
                 id="emailAddresses"
                 name="emailAddresses"
-                onKeyDown={e => {
-                  handleSubmitEmail(e);
-                }}
+                onKeyDown={handleSubmitEmail}
               />
               <MdAddCircle
                 className={classes.addCircleIcon}
                 onClick={handleSubmitEmail}
               />
             </div>
+            {error && <div className={classes.warningText}>{error}</div>}
             <div className={classes.viewPermissionsList}>
               {sharedEmails.length ? (
                 <>
