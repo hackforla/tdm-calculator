@@ -18,8 +18,7 @@ const useStyles = createUseStyles(theme => ({
   heading2: theme.typography.heading2,
   subheading: {
     ...theme.typography.subHeading,
-    marginTop: "1rem",
-    marginBottom: "1rem"
+    fontWeight: "bold"
   },
   shareIcon: {
     height: "40px",
@@ -29,8 +28,8 @@ const useStyles = createUseStyles(theme => ({
     verticalAlign: "middle"
   },
   infoIcon: {
-    height: "80px",
-    width: "80px",
+    height: "75px",
+    width: "75px",
     color: theme.colorLADOT
   },
   unshareIcon: {
@@ -62,7 +61,7 @@ const useStyles = createUseStyles(theme => ({
     marginLeft: "-30px",
     padding: "none"
   },
-  warningText: {
+  emailWarningText: {
     color: theme.colorError,
     fontSize: "0.9rem",
     marginBottom: "1.5rem",
@@ -96,13 +95,12 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "6px"
+    gap: ".25em"
   },
   sendLinkMessage: {
     color: theme.colorError,
-    marginBottom: "1.5rem",
     fontSize: "18px",
-    margin: "1em"
+    margin: ".75em"
   },
   copyMessageBox: {
     border: "solid 2px",
@@ -255,12 +253,12 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 onClick={handleSubmitEmail}
               />
             </div>
-            {error && <div className={classes.warningText}>{error}</div>}
+            {error && <div className={classes.emailWarningText}>{error}</div>}
             <div className={classes.viewPermissionsList}>
               {sharedEmails.length ? (
                 <>
                   <div
-                    className={classes.heading2}
+                    className={classes.subheading}
                     style={{ display: "inline-block", marginLeft: ".4em" }}
                   >
                     People with viewing permission
@@ -331,7 +329,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   options below to send the link with or without a message.
                 </div>
                 <div
-                  className={classes.heading2}
+                  className={classes.subheading}
                   style={{
                     display: "flex",
                     marginLeft: "1em"
@@ -371,7 +369,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   </span>
                 </div>
                 <div
-                  className={classes.heading2}
+                  className={classes.subheading}
                   style={{ display: "flex", marginLeft: "1em" }}
                 >
                   Copy link
