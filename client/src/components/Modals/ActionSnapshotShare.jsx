@@ -49,7 +49,7 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     alignItems: "center",
     padding: "0 2.5rem",
-    margin: "1.5rem 1.5rem .25rem 1.5rem"
+    margin: "1.5rem"
   },
   input: {
     borderRadius: "5px"
@@ -204,7 +204,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
       await emailSchema.validate(email);
       setError("");
       shareProject(email, project);
-      toast.add("Email added.");
+      toast.add("Email added.", { variant: "modal", topOffset: "8.3em" });
       document.querySelector("#emailAddresses").value = ""; // clear input
     } catch (err) {
       setError(err.message);
@@ -350,7 +350,9 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     onClick={() => {
                       navigator.clipboard.writeText(copyMessage);
                       setIsCopied(true);
-                      toast.add("Link copied to clipboard.");
+                      toast.add("Link copied to clipboard.", {
+                        variant: "modal"
+                      });
                     }}
                   >
                     Copy to Clipboard
@@ -383,7 +385,9 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     onClick={() => {
                       navigator.clipboard.writeText(copyLink);
                       setIsCopied(true);
-                      toast.add("Link copied to clipboard.");
+                      toast.add("Link copied to clipboard.", {
+                        variant: "modal"
+                      });
                     }}
                   >
                     Copy to Clipboard
