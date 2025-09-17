@@ -5,6 +5,7 @@ import Button from "../Button/Button";
 import ModalDialog from "../UI/Modal";
 import * as projectShareService from "../../services/projectShare.service";
 import { MdIosShare, MdAddCircle, MdInfo, MdWarning } from "react-icons/md";
+import { useToast } from "../../contexts/Toast";
 
 const useStyles = createUseStyles(theme => ({
   buttonFlexBox: {
@@ -19,14 +20,18 @@ const useStyles = createUseStyles(theme => ({
     marginTop: "1rem",
     marginBottom: "1rem"
   },
-  icon: {
+  shareIcon: {
     height: "40px",
     width: "40px",
     color: theme.colorBlack,
     marginBottom: "0",
     verticalAlign: "middle"
   },
-  infoIcon: { height: "60px", width: "60px", color: "darkBlue" },
+  infoIcon: {
+    height: "80px",
+    width: "80px",
+    color: theme.colorLADOT
+  },
   unshareIcon: {
     height: "80px",
     width: "80px",
@@ -40,16 +45,22 @@ const useStyles = createUseStyles(theme => ({
     width: "40em",
     margin: "0 auto"
   },
-  input: {
+  inputContainer: {
+    display: "flex",
+    alignItems: "center",
     padding: "0 5em",
-    margin: "1.5rem 2.5rem 1.5rem 0.75rem",
-    display: "flex"
+    margin: "1.5rem"
   },
-  addCircleButton: {
-    border: "none",
-    background: "none"
+  input: {
+    borderRadius: "5px"
   },
-  addCircleIcon: { color: "green" },
+  addCircleIcon: {
+    color: theme.colorPrimary,
+    height: "25px",
+    width: "25px",
+    marginLeft: "-30px",
+    padding: "none"
+  },
   emailList: {
     height: "15em",
     overflowY: "scroll",
@@ -74,6 +85,12 @@ const useStyles = createUseStyles(theme => ({
     "&:hover": {
       backgroundColor: "#f2f2f2"
     }
+  },
+  page2Header: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "6px"
   },
   sendLinkMessage: {
     color: theme.colorError,
@@ -128,6 +145,7 @@ const useStyles = createUseStyles(theme => ({
 export default function ShareSnapshotModal({ mounted, onClose, project }) {
   const theme = useTheme();
   const classes = useStyles({ theme });
+  const toast = useToast();
   const [page, setPage] = useState(1);
   const [sharedEmails, setSharedEmails] = useState([]);
   const [selectedEmail, setSelectedEmail] = useState(null);
@@ -176,10 +194,16 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
     // }
     if (e.key === "Enter") {
       shareProject(e.target.value, project);
+      toast.add("Email added.");
     } else {
+      // don't need to hit button to get toast to come up. wrong
       const inputValue = document.querySelector("#emailAddresses").value;
       shareProject(inputValue, project);
+      toast.add("Email added.");
     }
+
+    // fix so only confirms if email is actually added. add check for valid email
+    // add toast for email removed
   };
 
   const closeProject = () => {
@@ -187,6 +211,11 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
     setPage(1);
     setSelectedEmail(null);
     setIsCopied(false);
+  };
+
+  const cancelShare = () => {
+    closeProject();
+    setSharedEmails([]);
   };
 
   const modalContents = page => {
@@ -198,11 +227,12 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
               className={classes.heading1}
               style={{ marginBottom: "1.5rem" }}
             >
-              <MdIosShare className={classes.icon} />
+              <MdIosShare className={classes.shareIcon} />
               Share &quot;{project ? project.name : ""}&quot; Snapshot
             </div>
-            <div className={classes.input}>
+            <div className={classes.inputContainer}>
               <input
+                className={classes.input}
                 placeholder="Add email addresses"
                 type="text"
                 id="emailAddresses"
@@ -211,12 +241,10 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   handleSubmitEmail(e);
                 }}
               />
-              <button
-                className={classes.addCircleButton}
+              <MdAddCircle
+                className={classes.addCircleIcon}
                 onClick={handleSubmitEmail}
-              >
-                <MdAddCircle className={classes.addCircleIcon} />
-              </button>
+              />
             </div>
             <div className={classes.viewPermissionsList}>
               {sharedEmails.length ? (
@@ -255,7 +283,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
               >
                 <Button
                   className={maybeDisabled}
-                  onClick={closeProject}
+                  onClick={cancelShare}
                   variant="contained"
                   color={"colorSecondary"}
                 >
@@ -280,10 +308,13 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
         return (
           <div className={classes.modal}>
             <div className={classes.viewPermissionsList}>
-              <MdInfo className={classes.infoIcon} />
-              <div className={classes.heading1}>
-                Share &quot;{project ? project.name : ""}&quot; Snapshot
+              <div className={classes.page2Header}>
+                <MdInfo className={classes.infoIcon} />
+                <div className={classes.heading1}>
+                  Share &quot;{project ? project.name : ""}&quot; Snapshot
+                </div>
               </div>
+
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <div className={classes.sendLinkMessage}>
                   Added accounts won&apos;t be notified automatically. Use the
@@ -311,6 +342,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     onClick={() => {
                       navigator.clipboard.writeText(copyMessage);
                       setIsCopied(true);
+                      toast.add("Link copied to clipboard.");
                     }}
                   >
                     Copy to Clipboard
@@ -343,6 +375,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     onClick={() => {
                       navigator.clipboard.writeText(copyLink);
                       setIsCopied(true);
+                      toast.add("Link copied to clipboard.");
                     }}
                   >
                     Copy to Clipboard
@@ -375,15 +408,6 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 >
                   Done
                 </Button>
-              </div>
-              <div
-                style={{
-                  display: isCopied ? "flex" : "none",
-                  justifyContent: "center",
-                  width: "100%"
-                }}
-              >
-                <div className={classes.popupMessage}>Successfully Copied!</div>
               </div>
             </div>
           </div>
