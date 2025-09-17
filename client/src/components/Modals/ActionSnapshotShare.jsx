@@ -48,7 +48,7 @@ const useStyles = createUseStyles(theme => ({
   inputContainer: {
     display: "flex",
     alignItems: "center",
-    padding: "0 5em",
+    padding: "0 2.5rem",
     margin: "1.5rem"
   },
   input: {
@@ -70,7 +70,7 @@ const useStyles = createUseStyles(theme => ({
   emptyList: {
     display: "flex",
     margin: "1em",
-    alignItems: "center",
+    justifyContent: "center",
     fontSize: "18px"
   },
   viewPermissionsList: {
@@ -80,7 +80,6 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: "0px 12px",
     fontSize: "18px",
     "&:hover": {
       backgroundColor: "#f2f2f2"
@@ -223,10 +222,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
       case 1:
         return (
           <div className={classes.modal}>
-            <div
-              className={classes.heading1}
-              style={{ marginBottom: "1.5rem" }}
-            >
+            <div className={classes.heading1}>
               <MdIosShare className={classes.shareIcon} />
               Share &quot;{project ? project.name : ""}&quot; Snapshot
             </div>
@@ -251,7 +247,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 <>
                   <div
                     className={classes.heading2}
-                    style={{ display: "inline-block", marginLeft: "1em" }}
+                    style={{ display: "inline-block", marginLeft: ".4em" }}
                   >
                     People with viewing permission
                   </div>
