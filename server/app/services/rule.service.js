@@ -18,6 +18,22 @@ const getByCalculationId = async calculationId => {
   }
 };
 
+const updateDescription = async ({ id, loginId, description }) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("id", mssql.Int, id);
+    request.input("loginId", mssql.Int, loginId);
+    request.input("description", mssql.NVarChar, description);
+    const result = await request.execute("CalculationRule_UpdateDescription");
+
+    return result;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 module.exports = {
-  getByCalculationId
+  getByCalculationId,
+  updateDescription
 };
