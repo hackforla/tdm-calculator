@@ -215,7 +215,7 @@ const RuleLabel = ({
           style={showDescription ? { visibility: "visible" } : {}}
           onClick={addDescriptionHandler}
         >
-          {isAdmin ? <MdAddCircle className={classes.infoIcon} /> : null }
+          {isAdmin ? <MdAddCircle className={classes.infoIcon} /> : null}
         </span>
       )}
     </div>
