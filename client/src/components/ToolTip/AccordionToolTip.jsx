@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
@@ -11,6 +11,7 @@ import "react-quill/dist/quill.snow.css";
 import "../../styles/AdminQuill.scss";
 import WarningAdminNotesUnsavedChanges from "../Modals/WarningAdminNotesUnsavedChanges";
 import useTooltipEditor from "../../hooks/useTooltipEditor";
+import UserContext from "contexts/UserContext";
 
 const useStyles = createUseStyles(theme => ({
   accordionTooltipLabel: {
@@ -109,6 +110,8 @@ const AccordionToolTip = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
+  const userContext = useContext(UserContext);
+  const isAdmin = !!userContext?.account?.isAdmin;
 
   const {
     isEditing,
@@ -153,7 +156,7 @@ const AccordionToolTip = ({
             content={newDescription}
           />
           <div className={clsx(classes.editButton)} onClick={startEditing}>
-            <MdEdit />
+            {isAdmin ? <MdEdit />: null}
           </div>
         </div>
       ) : (
@@ -171,7 +174,7 @@ const AccordionToolTip = ({
             content={newDescription}
           />
           <div className={clsx(classes.editButton)} onClick={startEditing}>
-            <MdEdit />
+            {isAdmin ? <MdEdit />: null}
           </div>
         </div>
       )}
