@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { MdLink } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import { MdInfo, MdAddCircle } from "react-icons/md";
+import UserContext from "contexts/UserContext";
 
 const useStyles = createUseStyles(theme => ({
   labelWrapper: {
@@ -94,6 +95,8 @@ const RuleLabel = ({
   const classes = useStyles(theme);
   const requiredStyle = required && classes.requiredInputLabel;
   const disabledStyle = !display;
+  const userContext = useContext(UserContext);
+  const isAdmin = !!userContext?.account?.isAdmin;
 
   const descriptionHandler = e => {
     e.preventDefault();
@@ -212,7 +215,7 @@ const RuleLabel = ({
           style={showDescription ? { visibility: "visible" } : {}}
           onClick={addDescriptionHandler}
         >
-          <MdAddCircle className={classes.infoIcon} />
+          {isAdmin ? <MdAddCircle className={classes.infoIcon} /> : null }
         </span>
       )}
     </div>
