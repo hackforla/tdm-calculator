@@ -156,7 +156,7 @@ const AccordionToolTip = ({
             content={newDescription}
           />
           <div className={clsx(classes.editButton)} onClick={startEditing}>
-            {isAdmin ? <MdEdit /> : null}
+            {isAdmin ? <MdEdit />: null}
           </div>
         </div>
       ) : (
@@ -174,7 +174,7 @@ const AccordionToolTip = ({
             content={newDescription}
           />
           <div className={clsx(classes.editButton)} onClick={startEditing}>
-            {isAdmin ? <MdEdit /> : null}
+            {isAdmin ? <MdEdit />: null}
           </div>
         </div>
       )}
