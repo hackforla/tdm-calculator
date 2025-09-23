@@ -62,7 +62,7 @@ const useStyles = createUseStyles(theme => ({
     padding: "none"
   },
   emailWarningText: {
-    color: theme.colorError,
+    color: theme.colorCritical,
     fontSize: "0.9rem",
     marginTop: "-1.25rem",
     marginBottom: "1.5rem",
