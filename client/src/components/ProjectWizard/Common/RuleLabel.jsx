@@ -27,7 +27,8 @@ const useStyles = createUseStyles(theme => ({
     "&:hover $iconContainer": {
       visibility: "visible"
     },
-    cursor: props => (props.isAdmin ? "pointer" : "default")
+    cursor: props =>
+      props.isAdmin || props.description ? "pointer" : "default"
   },
   tooltipLabel: {
     flexGrow: "1",
