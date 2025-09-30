@@ -4,6 +4,8 @@ import { createUseStyles } from "react-jss";
 import ProjectInfo from "./ProjectInfo";
 import { getRule } from "../../helpers";
 import ProjectInfoList from "./ProjectInfoList";
+import { useParams } from "react-router-dom";
+import { formatId } from "helpers/util";
 
 const useStyles = createUseStyles({
   projectInfoContainer: {
@@ -28,9 +30,9 @@ const useStyles = createUseStyles({
   projectInfoDetailsContainer: {
     paddingTop: "6px",
     paddingLeft: "12px",
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    columnGap: "2rem",
     maxWidth: "100%",
     minHeight: "55px",
     rowGap: "1.1rem"
@@ -39,6 +41,9 @@ const useStyles = createUseStyles({
     margin: ".7em 0",
     border: "0",
     borderTop: "1px solid #E7EBF0"
+  },
+  projectIdRight: {
+    gridColumn: "2"
   }
 });
 
@@ -53,6 +58,9 @@ const ProjectInfoContainer = props => {
   const caseNumberPlanning = getRule(rules, "CASE_NO_PLANNING");
   const parcelNumbers = getRule(rules, "APN");
   const versionNumber = getRule(rules, "VERSION_NO");
+
+  const params = useParams();
+  const projectID = formatId(Number(params.projectId));
 
   return (
     <div className={classes.projectInfoContainer}>
@@ -77,6 +85,11 @@ const ProjectInfoContainer = props => {
         {caseNumberLADOT && (
           <ProjectInfo name={caseNumberLADOT.name} rule={caseNumberLADOT} />
         )}
+        <div className={classes.projectIdRight}>
+          {projectID && (
+            <ProjectInfo name="Project ID #" rule={{ value: projectID }} />
+          )}
+        </div>
       </div>
     </div>
   );
