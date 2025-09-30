@@ -60,7 +60,9 @@ const ProjectInfoContainer = props => {
   const versionNumber = getRule(rules, "VERSION_NO");
 
   const params = useParams();
-  const projectID = formatId(Number(params.projectId));
+  const projectID = params?.projectId
+    ? formatId(Number(params.projectId))
+    : null;
 
   return (
     <div className={classes.projectInfoContainer}>
