@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -110,6 +110,8 @@ const ProjectTableColumnHeader = ({
   const theme = useTheme();
   const classes = useStyles(theme);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [allowClickOutside, setAllowClickOutside] = useState(false);
+  const clickOutsideTimeoutRef = useRef(null);
 
   // Filter is considered Applied if it is not set
   // to the default criteria values.
@@ -155,7 +157,40 @@ const ProjectTableColumnHeader = ({
 
   const handlePopoverToggle = flag => {
     setIsPopoverOpen(flag);
+
+    if (flag) {
+      setAllowClickOutside(false);
+
+      if (clickOutsideTimeoutRef.current) {
+        clearTimeout(clickOutsideTimeoutRef.current);
+      }
+
+      // small hack to avoid immediate closing of the popover when it moves away from where the cursor is currently
+      clickOutsideTimeoutRef.current = setTimeout(() => {
+        setAllowClickOutside(true);
+      }, 100);
+    } else {
+      setAllowClickOutside(false);
+      if (clickOutsideTimeoutRef.current) {
+        clearTimeout(clickOutsideTimeoutRef.current);
+        clickOutsideTimeoutRef.current = null;
+      }
+    }
   };
+
+  useEffect(() => {
+    return () => {
+      if (clickOutsideTimeoutRef.current) {
+        clearTimeout(clickOutsideTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  function handleClickOutside() {
+    if (allowClickOutside) {
+      handlePopoverToggle(false);
+    }
+  }
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -165,7 +200,7 @@ const ProjectTableColumnHeader = ({
         <Popover
           containerStyle={{ zIndex: 20 }}
           isOpen={isPopoverOpen}
-          onClickOutside={() => handlePopoverToggle(false)}
+          onClickOutside={handleClickOutside}
           clickOutsideCapture={true}
           positions={["bottom", "left", "right", "top"]} // preferred positions by priority
           align="start"
