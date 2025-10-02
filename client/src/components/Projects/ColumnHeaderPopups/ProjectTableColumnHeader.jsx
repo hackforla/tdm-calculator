@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
@@ -110,8 +109,18 @@ const ProjectTableColumnHeader = ({
   const theme = useTheme();
   const classes = useStyles(theme);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const [allowClickOutside, setAllowClickOutside] = useState(false);
-  const clickOutsideTimeoutRef = useRef(null);
+  const columnHeaderRef = useRef(null);
+  const popoverContentRef = useRef(null);
+  const suppressNextOutsideClickRef = useRef(false);
+  const internalInteractionTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (internalInteractionTimeoutRef.current) {
+        clearTimeout(internalInteractionTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Filter is considered Applied if it is not set
   // to the default criteria values.
@@ -157,40 +166,57 @@ const ProjectTableColumnHeader = ({
 
   const handlePopoverToggle = flag => {
     setIsPopoverOpen(flag);
-
-    if (flag) {
-      setAllowClickOutside(false);
-
-      if (clickOutsideTimeoutRef.current) {
-        clearTimeout(clickOutsideTimeoutRef.current);
-      }
-
-      // small hack to avoid immediate closing of the popover when it moves away from where the cursor is currently
-      clickOutsideTimeoutRef.current = setTimeout(() => {
-        setAllowClickOutside(true);
-      }, 100);
-    } else {
-      setAllowClickOutside(false);
-      if (clickOutsideTimeoutRef.current) {
-        clearTimeout(clickOutsideTimeoutRef.current);
-        clickOutsideTimeoutRef.current = null;
-      }
-    }
   };
 
-  useEffect(() => {
-    return () => {
-      if (clickOutsideTimeoutRef.current) {
-        clearTimeout(clickOutsideTimeoutRef.current);
+  const handleClickOutside = event => {
+    if (suppressNextOutsideClickRef.current) {
+      suppressNextOutsideClickRef.current = false;
+      if (internalInteractionTimeoutRef.current) {
+        clearTimeout(internalInteractionTimeoutRef.current);
+        internalInteractionTimeoutRef.current = null;
       }
-    };
-  }, []);
-
-  function handleClickOutside() {
-    if (allowClickOutside) {
-      handlePopoverToggle(false);
+      return;
     }
-  }
+
+    const target = event?.target;
+
+    if (!target) {
+      handlePopoverToggle(false);
+      return;
+    }
+
+    const isWithinTrigger = columnHeaderRef.current?.contains(target);
+    const isWithinContent = popoverContentRef.current?.contains(target);
+
+    if (isWithinTrigger || isWithinContent) {
+      return;
+    }
+
+    if (target instanceof Element) {
+      const isWithinDatepicker = target.closest(
+        ".react-datepicker, .react-datepicker__portal"
+      );
+
+      if (isWithinDatepicker) {
+        return;
+      }
+    }
+
+    handlePopoverToggle(false);
+  };
+
+  const handleInternalInteraction = () => {
+    suppressNextOutsideClickRef.current = true;
+
+    if (internalInteractionTimeoutRef.current) {
+      clearTimeout(internalInteractionTimeoutRef.current);
+    }
+
+    internalInteractionTimeoutRef.current = setTimeout(() => {
+      suppressNextOutsideClickRef.current = false;
+      internalInteractionTimeoutRef.current = null;
+    }, 150);
+  };
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -206,7 +232,12 @@ const ProjectTableColumnHeader = ({
           align="start"
           padding={10}
           content={
-            <div className={classes.popoverContent}>
+            <div
+              ref={popoverContentRef}
+              className={classes.popoverContent}
+              onMouseDownCapture={handleInternalInteraction}
+              onTouchStartCapture={handleInternalInteraction}
+            >
               {!header.popupType ? null : header.popupType === "datetime" ? (
                 <DatePopup
                   close={() => handlePopoverToggle(false)}
@@ -320,6 +351,7 @@ const ProjectTableColumnHeader = ({
           }
         >
           <ColumnHeader
+            ref={columnHeaderRef}
             onClick={() => setIsPopoverOpen(!isPopoverOpen)}
             header={header}
             isFilterApplied={() => isFilterApplied()}
