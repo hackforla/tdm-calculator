@@ -52,11 +52,7 @@ const useTooltipEditor = (
     setNewDescription(description);
     setIsEditing(false);
     setHasUnsavedChanges(false);
-
-    if (onEditDescription) {
-      onEditDescription(description);
-    }
-  }, [description, onEditDescription]);
+  }, [description]);
 
   const handleModalClose = useCallback(() => {
     if (hasUnsavedChanges) {
