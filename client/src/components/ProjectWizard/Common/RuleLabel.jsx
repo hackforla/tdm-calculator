@@ -14,11 +14,9 @@ const useStyles = createUseStyles(theme => ({
     "&:hover $iconContainer": {
       visibility: "visible"
     },
-    cursor: props =>
-      props.isAdmin || props.description ? "pointer" : "default"
-    // "&:hover": {
-    //   cursor: "pointer"
-    // }
+    "&:hover": {
+      cursor: "pointer"
+    }
   },
   labelWrapperWithoutDesc: {
     flexGrow: "1",
@@ -27,8 +25,7 @@ const useStyles = createUseStyles(theme => ({
     "&:hover $iconContainer": {
       visibility: "visible"
     },
-    cursor: props =>
-      props.isAdmin || props.description ? "pointer" : "default"
+    cursor: props => (props.isAdmin ? "pointer" : "default")
   },
   tooltipLabel: {
     flexGrow: "1",
@@ -93,11 +90,11 @@ const RuleLabel = ({
   setIsEditing
 }) => {
   const theme = useTheme();
-  const userContext = useContext(UserContext);
-  const isAdmin = !!userContext?.account?.isAdmin;
-  const classes = useStyles({ theme, description, isAdmin });
+  const classes = useStyles(theme);
   const requiredStyle = required && classes.requiredInputLabel;
   const disabledStyle = !display;
+  const userContext = useContext(UserContext);
+  const isAdmin = !!userContext?.account?.isAdmin;
 
   const descriptionHandler = e => {
     e.preventDefault();
