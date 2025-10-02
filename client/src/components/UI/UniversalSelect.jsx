@@ -2,6 +2,7 @@ import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import { jssTheme } from "styles/theme";
 
 UniversalSelect.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -46,6 +47,18 @@ export default function UniversalSelect({
     });
   };
 
+  const setFocusStyle = state => {
+    return state.isFocused || state.menuIsOpen
+      ? {
+          border: `none`,
+          outline: `2px solid ${jssTheme.colors.secondary.linkBlue}`
+        }
+      : {
+          border: `1px solid gray`,
+          outline: "none"
+        };
+  };
+
   return (
     <Select
       className={classNames(className)}
@@ -64,13 +77,9 @@ export default function UniversalSelect({
       styles={{
         container: (provided, state) => ({
           ...provided,
-          border:
-            state.isFocused || state.menuIsOpen
-              ? "1px solid black"
-              : "1px solid gray",
+          ...setFocusStyle(state),
           boxShadow:
             state.isFocused || state.menuIsOpen ? "none" : provided.boxShadow,
-          outline: "none",
           borderRadius: "3px",
           padding: 0
         }),
