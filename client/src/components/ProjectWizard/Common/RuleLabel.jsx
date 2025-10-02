@@ -25,7 +25,9 @@ const useStyles = createUseStyles(theme => ({
     "&:hover $iconContainer": {
       visibility: "visible"
     },
-    cursor: props => (props.isAdmin ? "pointer" : "default")
+    "&:hover": {
+      cursor: "pointer"
+    }
   },
   tooltipLabel: {
     flexGrow: "1",
@@ -208,14 +210,13 @@ const RuleLabel = ({
           <MdInfo className={classes.infoIcon} />
         </span>
       ) : (
-        isAdmin && (
-          <span
-            className={clsx("fa-layers fa-fw", classes.iconContainer)}
-            onClick={addDescriptionHandler}
-          >
-            <MdAddCircle className={classes.infoIcon} />
-          </span>
-        )
+        <span
+          className={clsx("fa-layers fa-fw", classes.iconContainer)}
+          style={showDescription ? { visibility: "visible" } : {}}
+          onClick={addDescriptionHandler}
+        >
+          {isAdmin ? <MdAddCircle className={classes.infoIcon} /> : null}
+        </span>
       )}
     </div>
   );
