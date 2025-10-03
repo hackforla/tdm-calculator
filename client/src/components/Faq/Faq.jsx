@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 
 import { Question } from "./Question";
 import { FaqButtonContainer } from "./FaqButtonContainer";
 import { Answer } from "./Answer";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   faqContainer: {
     display: "flex",
     flexDirection: "column"
@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
     alignItems: "top",
     minHeight: "2em",
     padding: 4,
-    border: "2px solid #a6c439"
+    border: `2px solid ${theme.colors.secondary.linkBlue}`
   },
   faqPlusMinusIcons: {
     display: "flex",
@@ -40,7 +40,7 @@ const useStyles = createUseStyles({
     marginRight: "0.5em",
     flex: "0 0 auto"
   }
-});
+}));
 
 const Faq = props => {
   const {
@@ -52,7 +52,8 @@ const Faq = props => {
     handleEditFAQ,
     handleDeleteFAQ
   } = props;
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const [answer, setAnswer] = useState(faq.answer);
   const [question, setQuestion] = useState(faq.question);
   const [isEditAnswer, setIsEditAnswer] = useState(false);
