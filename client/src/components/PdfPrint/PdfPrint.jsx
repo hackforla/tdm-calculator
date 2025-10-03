@@ -251,14 +251,14 @@ export const PdfPrint = forwardRef((props, ref) => {
                       rule={caseNumberLADOT}
                     />
                   )}
-                  <div className={classes.projectIdRight}>
-                    {formattedId && (
+                  {formattedId && (
+                    <div className={classes.projectIdRight}>
                       <ProjectInfo
                         name={"Project Id #"}
                         rule={{ value: formattedId }}
                       />
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </section>
               <section className={classes.categoryContainer}>

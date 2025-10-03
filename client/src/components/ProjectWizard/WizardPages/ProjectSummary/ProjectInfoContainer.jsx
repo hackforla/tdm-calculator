@@ -87,11 +87,12 @@ const ProjectInfoContainer = props => {
         {caseNumberLADOT && (
           <ProjectInfo name={caseNumberLADOT.name} rule={caseNumberLADOT} />
         )}
-        <div className={classes.projectIdRight}>
-          {projectID && (
+
+        {projectID && (
+          <div className={classes.projectIdRight}>
             <ProjectInfo name="Project ID #" rule={{ value: projectID }} />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
