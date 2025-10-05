@@ -18,11 +18,12 @@ import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import fetchEngineRules from "./fetchEngineRules";
 import * as droService from "../../services/dro.service";
-import UniversalSelect from "../UI/UniversalSelect";
+// import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import { Td, TdExpandable } from "../UI/TableData";
+import DROSelectionModal from "../Modals/DROSelectionModal";
 
 const useStyles = createUseStyles(theme => ({
   actionIcons: {
@@ -196,7 +197,9 @@ const ProjectTableRow = ({
   const printRef = useRef();
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
+  const [committedDro, setCommittedDro] = useState(project.droId || "");
   const [droName, setDroName] = useState("N/A");
+  const [DROSelectionModalOpen, setDROSelectionModalOpen] = useState(false);
 
   // Download and process rules for PDF rendering
   useEffect(() => {
@@ -228,6 +231,27 @@ const ProjectTableRow = ({
   useEffect(() => {
     setSelectedDro(project.droId || "");
   }, [project.droId]);
+
+  const handleDROSelectionModalOpen = () => {
+    setDROSelectionModalOpen(true);
+  };
+
+  const handleDROSelectionModalClose = () => {
+    setSelectedDro(committedDro);
+    setDROSelectionModalOpen(false);
+  };
+
+  const handleDROSelection = action => {
+    if (action === "ok") {
+      setCommittedDro(selectedDro);
+    }
+    setDROSelectionModalOpen(false);
+  };
+
+  const getDroNameById = id => {
+    const dro = droOptions.find(d => String(d.id) === String(id));
+    return dro ? dro.name : "N/A";
+  };
 
   const handlePrintPdf = useReactToPrint({
     content: () => printRef.current,
@@ -314,7 +338,39 @@ const ProjectTableRow = ({
         {droOptions.length > 0 &&
         (isAdmin || (project.loginId === loginId && !project.dateSubmitted)) ? (
           <div style={{ width: "100px" }}>
-            <UniversalSelect
+            {!committedDro ? (
+              <MdAdd
+                onClick={handleDROSelectionModalOpen}
+                style={{
+                  cursor: "pointer"
+                }}
+              />
+            ) : (
+              <span
+                onClick={handleDROSelectionModalOpen}
+                style={{
+                  color: "#0000FF",
+                  textDecoration: "underline",
+                  cursor: "pointer"
+                }}
+              >
+                {getDroNameById(committedDro)}
+              </span>
+            )}
+
+            <DROSelectionModal
+              mounted={DROSelectionModalOpen}
+              onClose={handleDROSelectionModalClose}
+              onConfirm={handleDROSelection}
+              selectedDro={selectedDro}
+              droOptions={droOptions}
+              onChange={e => {
+                const newDroId = e.target.value;
+                setSelectedDro(newDroId);
+                onDroChange(project.id, newDroId);
+              }}
+            />
+            {/* <UniversalSelect
               value={selectedDro}
               onChange={e => {
                 const newDroId = e.target.value;
@@ -330,7 +386,7 @@ const ProjectTableRow = ({
               ]}
               name="droId"
               className={classes.selectBox}
-            />
+            /> */}
           </div>
         ) : (
           <span>{droName}</span>
@@ -443,6 +499,7 @@ ProjectTableRow.propTypes = {
   handleSubmitModalOpen: PropTypes.func.isRequired,
   handleHide: PropTypes.func.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
+  handleDROSelectionModalOpen: PropTypes.func,
   checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   droOptions: PropTypes.arrayOf(
     PropTypes.shape({

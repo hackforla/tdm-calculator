@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { MdLink } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import { MdInfo, MdAddCircle } from "react-icons/md";
+import UserContext from "contexts/UserContext";
 
 const useStyles = createUseStyles(theme => ({
   labelWrapper: {
@@ -13,9 +14,11 @@ const useStyles = createUseStyles(theme => ({
     "&:hover $iconContainer": {
       visibility: "visible"
     },
-    "&:hover": {
-      cursor: "pointer"
-    }
+    cursor: props =>
+      props.isAdmin || props.description ? "pointer" : "default"
+    // "&:hover": {
+    //   cursor: "pointer"
+    // }
   },
   labelWrapperWithoutDesc: {
     flexGrow: "1",
@@ -24,9 +27,8 @@ const useStyles = createUseStyles(theme => ({
     "&:hover $iconContainer": {
       visibility: "visible"
     },
-    "&:hover": {
-      cursor: "pointer"
-    }
+    cursor: props =>
+      props.isAdmin || props.description ? "pointer" : "default"
   },
   tooltipLabel: {
     flexGrow: "1",
@@ -91,7 +93,9 @@ const RuleLabel = ({
   setIsEditing
 }) => {
   const theme = useTheme();
-  const classes = useStyles(theme);
+  const userContext = useContext(UserContext);
+  const isAdmin = !!userContext?.account?.isAdmin;
+  const classes = useStyles({ theme, description, isAdmin });
   const requiredStyle = required && classes.requiredInputLabel;
   const disabledStyle = !display;
 
@@ -207,13 +211,14 @@ const RuleLabel = ({
           <MdInfo className={classes.infoIcon} />
         </span>
       ) : (
-        <span
-          className={clsx("fa-layers fa-fw", classes.iconContainer)}
-          style={showDescription ? { visibility: "visible" } : {}}
-          onClick={addDescriptionHandler}
-        >
-          <MdAddCircle className={classes.infoIcon} />
-        </span>
+        isAdmin && (
+          <span
+            className={clsx("fa-layers fa-fw", classes.iconContainer)}
+            onClick={addDescriptionHandler}
+          >
+            <MdAddCircle className={classes.infoIcon} />
+          </span>
+        )
       )}
     </div>
   );
