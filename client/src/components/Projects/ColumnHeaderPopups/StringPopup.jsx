@@ -6,6 +6,7 @@ import { MdClose } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
+import { selectAllCheckboxes } from "helpers/util";
 
 /*
 Variant of the TextPopup that gets rid of all the quirky accommodation of dro and author filtering used on the My Projects Page
@@ -200,12 +201,23 @@ const TextPopup = ({
           alignItems: "baseline"
         }}
       >
-        <button
-          className={classes.toggleButton}
-          onClick={() => setSelectedListItems([])}
-        >
-          Clear
-        </button>
+        <div style={{ display: "flex" }}>
+          <button
+            className={classes.toggleButton}
+            onClick={() =>
+              selectAllCheckboxes(filteredOptions, setSelectedListItems)
+            }
+          >
+            Select All {filteredOptions.length}
+          </button>
+          <div style={{ display: "flex", alignItems: "center" }}>-</div>
+          <button
+            className={classes.toggleButton}
+            onClick={() => setSelectedListItems([])}
+          >
+            Clear
+          </button>
+        </div>
         <div>{`${selectedListItems.length}  selected`}</div>
       </div>
       <div className={classes.searchBarWrapper}>

@@ -8,6 +8,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import UserContext from "contexts/UserContext";
+import { selectAllCheckboxes } from "helpers/util";
 
 const useStyles = createUseStyles({
   searchBarWrapper: {
@@ -200,19 +201,6 @@ const TextPopup = ({
     if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
-  const selectAllCheckboxes = () => {
-    /**
-     * Build an array of objects that contain the name
-     * for all the list items in the popup
-     */
-    const listItems = filteredOptions.map(item => ({
-      value: item,
-      label: item
-    }));
-
-    setSelectedListItems(listItems);
-  };
-
   return (
     <div
       style={{ display: "flex", flexDirection: "column", maxWidth: "25rem" }}
@@ -253,14 +241,12 @@ const TextPopup = ({
           alignItems: "baseline"
         }}
       >
-        <div
-          style={{
-            display: "flex"
-          }}
-        >
+        <div style={{ display: "flex" }}>
           <button
             className={classes.toggleButton}
-            onClick={() => selectAllCheckboxes()}
+            onClick={() =>
+              selectAllCheckboxes(filteredOptions, setSelectedListItems)
+            }
           >
             Select All {filteredOptions.length}
           </button>
