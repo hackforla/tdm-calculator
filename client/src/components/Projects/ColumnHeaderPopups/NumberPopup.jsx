@@ -193,7 +193,7 @@ const NumberPopup = ({
           className={classes.toggleButton}
           onClick={() => setSelectedListItems([])}
         >
-          clear
+          Clear
         </button>
         <div>{`${selectedListItems.length}  selected`}</div>
       </div>
