@@ -200,6 +200,19 @@ const TextPopup = ({
     if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
+  const selectAllCheckboxes = () => {
+    /**
+     * Build an array of objects that contain the name
+     * for all the list items in the popup
+     */
+    const listItems = filteredOptions.map(item => ({
+      value: item,
+      label: item
+    }));
+
+    setSelectedListItems(listItems);
+  };
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", maxWidth: "25rem" }}
@@ -240,12 +253,25 @@ const TextPopup = ({
           alignItems: "baseline"
         }}
       >
-        <button
-          className={classes.toggleButton}
-          onClick={() => setSelectedListItems([])}
+        <div
+          style={{
+            display: "flex"
+          }}
         >
-          Clear
-        </button>
+          <button
+            className={classes.toggleButton}
+            onClick={() => selectAllCheckboxes()}
+          >
+            Select All {filteredOptions.length}
+          </button>
+          <div style={{ display: "flex", alignItems: "center" }}>-</div>
+          <button
+            className={classes.toggleButton}
+            onClick={() => setSelectedListItems([])}
+          >
+            Clear
+          </button>
+        </div>
         <div>{`${selectedListItems.length}  selected`}</div>
       </div>
       <div className={classes.searchBarWrapper}>
