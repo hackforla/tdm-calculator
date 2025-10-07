@@ -193,7 +193,7 @@ const TextPopup = ({
               selectAllCheckboxes(filteredOptions, setSelectedListItems)
             }
           >
-            Select All {filteredOptions.length}
+            Select all {filteredOptions.length}
           </button>
           <div style={{ display: "flex", alignItems: "center" }}>-</div>
           <button
