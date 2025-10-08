@@ -407,9 +407,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (pageNumber === "right" && currentPage < newHighestPage) {
       setCurrentPage(currentPage + 1);
     }
-    // uncheck Projects on page change
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
   };
 
   const handleCopyModalOpen = project => {
