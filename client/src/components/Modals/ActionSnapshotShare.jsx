@@ -55,7 +55,6 @@ const useStyles = createUseStyles(theme => ({
     borderRadius: "5px"
   },
   addCircleIcon: {
-    color: theme.colorPrimary,
     height: "25px",
     width: "25px",
     marginLeft: "-30px",
@@ -148,8 +147,8 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const emailSchema = Yup.string()
-  .email("Invalid email address")
-  .required("Email is required");
+  .required("Email is required")
+  .matches(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, "Invalid email address");
 
 export default function ShareSnapshotModal({ mounted, onClose, project }) {
   const theme = useTheme();
@@ -157,6 +156,8 @@ export default function ShareSnapshotModal({ mounted, onClose, project }) {
   const toast = useToast();
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
+  const [emailInput, setEmailInput] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const [sharedEmails, setSharedEmails] = useState([]);
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
@@ -197,26 +198,56 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
     }
   };
 
-  const addEmail = async value => {
-    const email = value.trim();
-    if (!email) return;
+  const validateEmail = async value => {
+    const email = (value ?? emailInput).trim();
+
+    if (!email) {
+      setError("");
+      setIsEmailValid(false);
+      return false;
+    }
+
+    const emailAlreadyShared = sharedEmails.some(
+      shared => shared.email.toLowerCase() === email.toLowerCase()
+    );
+
+    if (emailAlreadyShared) {
+      setError("Email already added");
+      setIsEmailValid(false);
+      return false;
+    }
 
     try {
       await emailSchema.validate(email);
       setError("");
-      shareProject(email, project);
-      toast.add("Email added.", { variant: "modal", topOffset: "8.3em" });
-      document.querySelector("#emailAddresses").value = ""; // clear input
+      setIsEmailValid(true);
+      return true;
     } catch (err) {
       setError(err.message);
+      setIsEmailValid(false);
+      return false;
     }
   };
 
-  const handleSubmitEmail = e => {
-    if (e.key && e.key !== "Enter") return; // ignore other keys
-    e.preventDefault();
-    const inputValue = document.querySelector("#emailAddresses").value;
-    addEmail(inputValue);
+  let timeout;
+  const debouncedValidate = value => {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      validateEmail(value);
+    }, 600);
+  };
+
+  const handleSubmitEmail = async () => {
+    const inputValue = emailInput.trim();
+
+    const valid = await validateEmail();
+    if (!valid) return;
+
+    await shareProject(inputValue, project);
+    toast.add("Email added.", { variant: "modal", topOffset: "8.3em" });
+    setEmailInput("");
+    setIsEmailValid(false);
+    setError("");
   };
 
   const closeProject = () => {
@@ -228,7 +259,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
 
   const cancelShare = () => {
     closeProject();
-    setSharedEmails([]);
+    setError("");
   };
 
   const modalContents = page => {
@@ -247,10 +278,20 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 type="text"
                 id="emailAddresses"
                 name="emailAddresses"
-                onKeyDown={handleSubmitEmail}
+                value={emailInput}
+                onChange={e => {
+                  setEmailInput(e.target.value);
+                  debouncedValidate(e.target.value);
+                }}
               />
               <MdAddCircle
                 className={classes.addCircleIcon}
+                style={{
+                  color: isEmailValid
+                    ? theme.colorPrimary
+                    : theme.colorPrimaryDisabled,
+                  pointerEvents: isEmailValid ? "auto" : "none"
+                }}
                 onClick={handleSubmitEmail}
               />
             </div>
@@ -448,7 +489,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   className={classes.buttonColor}
                   onClick={() => {
                     setPage(1);
-                    setSelectedEmail("");
+                    setSelectedEmail(null);
                   }}
                   variant="secondary"
                 >
@@ -459,7 +500,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   onClick={() => {
                     deleteProjectShare(selectedEmail);
                     setPage(1);
-                    setSelectedEmail("");
+                    setSelectedEmail(null);
                   }}
                 >
                   Yes
