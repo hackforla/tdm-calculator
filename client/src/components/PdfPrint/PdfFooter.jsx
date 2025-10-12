@@ -35,6 +35,8 @@ const PdfFooter = ({ project }) => {
     formatDatetime(DateTime.now())
   );
 
+  const { firstName, lastName, email } = userContext.account;
+
   useEffect(() => {
     // You would update these dates based on your application logic
     // For instance, you might fetch them from an API when the component mounts
@@ -53,6 +55,9 @@ const PdfFooter = ({ project }) => {
     <section className={classes.pdfFooterContainer}>
       {loginId && (
         <>
+          <div className={classes.pdfTimeText}>
+            Snapshot Owner: {firstName} {lastName}, {email}
+          </div>
           <div className={classes.pdfTimeText}>
             Status:{" "}
             {!formattedDateSnapshotted
