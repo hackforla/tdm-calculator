@@ -6,6 +6,7 @@ import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
 import Popup from "reactjs-popup";
 import { MdClose } from "react-icons/md";
+import { sanitizeHtml } from "helpers/SanitizeRichText";
 
 const useStyles = createUseStyles(theme => ({
   field: {
@@ -209,6 +210,9 @@ const RuleCalculation = ({
     setShowValidationErrors(true);
   };
 
+  // Sanitize DangerouslySetInnerHtml with DomPurify
+  const cleanDescription = sanitizeHtml(description);
+
   return (
     <React.Fragment>
       {dataType === "number" ? (
@@ -372,8 +376,11 @@ const RuleCalculation = ({
                         >
                           <MdClose style={{ height: "20px", width: "20px" }} />
                         </button>
+                        {/* DangerouslySetInnerHtml was clean here with DomPurify.  
+                         Please reference Decision Records for more details: 
+                         https://github.com/hackforla/tdm-calculator/wiki/Decision-Records */}
                         <div
-                          dangerouslySetInnerHTML={{ __html: description }}
+                          dangerouslySetInnerHTML={{ __html: cleanDescription }}
                         />
                       </div>
                     );

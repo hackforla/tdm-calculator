@@ -5,6 +5,7 @@ import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
 import Popup from "reactjs-popup";
 import { MdClose } from "react-icons/md";
+import { sanitizeHtml } from "helpers/SanitizeRichText";
 
 /* 
 See https://css-tricks.com/building-progress-ring-quickly/
@@ -128,6 +129,9 @@ const EarnedPointsProgress = ({ rulesConfig }) => {
   const tipText = `<div><p><strong>Earned Points:</strong> ${rulesConfig.earnedPointsRule.description}</p>
       <p style="margin-top: 0.5rem;"><strong>Target Points:</strong> ${rulesConfig.targetPointsRule.description}</p></div>`;
 
+  // Sanitize DangerouslySetInnerHtml with DomPurify
+  const sanitizeTipText = sanitizeHtml(tipText);
+
   return (
     <div
       className={
@@ -178,7 +182,10 @@ const EarnedPointsProgress = ({ rulesConfig }) => {
                 >
                   <MdClose style={{ height: "20px", width: "20px" }} />
                 </button>
-                <div dangerouslySetInnerHTML={{ __html: tipText }} />
+                {/* DangerouslySetInnerHtml was clean here with DomPurify.  
+                  Please reference Decision Records for more details: 
+                  https://github.com/hackforla/tdm-calculator/wiki/Decision-Records */}
+                <div dangerouslySetInnerHTML={{ __html: sanitizeTipText }} />
               </div>
             );
           }}
