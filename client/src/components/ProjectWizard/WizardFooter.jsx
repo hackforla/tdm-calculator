@@ -77,7 +77,7 @@ const WizardFooter = ({
   const loggedInUserId = userContext.account?.id || null;
 
   const isAdmin = userContext.account?.isAdmin || false;
-  const { firstName, lastName, email } = userContext.account;
+  const { firstName, lastName, email } = project;
 
   return (
     <>

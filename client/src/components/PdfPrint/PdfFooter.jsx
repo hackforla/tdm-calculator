@@ -23,7 +23,15 @@ const useStyles = createUseStyles({
 });
 
 const PdfFooter = ({ project }) => {
-  const { dateModified, dateSubmitted, dateSnapshotted, loginId } = project;
+  const {
+    dateModified,
+    dateSubmitted,
+    dateSnapshotted,
+    loginId,
+    firstName,
+    lastName,
+    email
+  } = project;
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
@@ -35,7 +43,7 @@ const PdfFooter = ({ project }) => {
     formatDatetime(DateTime.now())
   );
 
-  const { firstName, lastName, email, isAdmin = false } = userContext.account;
+  const { isAdmin = false } = userContext.account;
 
   useEffect(() => {
     // You would update these dates based on your application logic
