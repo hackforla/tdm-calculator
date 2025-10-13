@@ -188,6 +188,12 @@ const WizardFooter = ({
             <strong>Snapshot Owner: </strong>
             {firstName} {lastName}, {email}
           </div>
+          {isAdmin && (
+            <div>
+              <strong>Submission Status: </strong>
+              {project.approvalStatusName}
+            </div>
+          )}
           <div className={classes.pdfTimeText}>
             <strong>Status: </strong>
             {!formattedDateSnapshotted
