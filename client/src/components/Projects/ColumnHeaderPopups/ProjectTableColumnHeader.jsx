@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -110,6 +109,18 @@ const ProjectTableColumnHeader = ({
   const theme = useTheme();
   const classes = useStyles(theme);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const columnHeaderRef = useRef(null);
+  const popoverContentRef = useRef(null);
+  const suppressNextOutsideClickRef = useRef(false);
+  const internalInteractionTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (internalInteractionTimeoutRef.current) {
+        clearTimeout(internalInteractionTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Filter is considered Applied if it is not set
   // to the default criteria values.
@@ -157,6 +168,56 @@ const ProjectTableColumnHeader = ({
     setIsPopoverOpen(flag);
   };
 
+  const handleClickOutside = event => {
+    if (suppressNextOutsideClickRef.current) {
+      suppressNextOutsideClickRef.current = false;
+      if (internalInteractionTimeoutRef.current) {
+        clearTimeout(internalInteractionTimeoutRef.current);
+        internalInteractionTimeoutRef.current = null;
+      }
+      return;
+    }
+
+    const target = event?.target;
+
+    if (!target) {
+      handlePopoverToggle(false);
+      return;
+    }
+
+    const isWithinTrigger = columnHeaderRef.current?.contains(target);
+    const isWithinContent = popoverContentRef.current?.contains(target);
+
+    if (isWithinTrigger || isWithinContent) {
+      return;
+    }
+
+    if (target instanceof Element) {
+      const isWithinDatepicker = target.closest(
+        ".react-datepicker, .react-datepicker__portal"
+      );
+
+      if (isWithinDatepicker) {
+        return;
+      }
+    }
+
+    handlePopoverToggle(false);
+  };
+
+  const handleInternalInteraction = () => {
+    suppressNextOutsideClickRef.current = true;
+
+    if (internalInteractionTimeoutRef.current) {
+      clearTimeout(internalInteractionTimeoutRef.current);
+    }
+
+    internalInteractionTimeoutRef.current = setTimeout(() => {
+      suppressNextOutsideClickRef.current = false;
+      internalInteractionTimeoutRef.current = null;
+    }, 150);
+  };
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
       {header.id !== "checkAllProjects" &&
@@ -165,13 +226,18 @@ const ProjectTableColumnHeader = ({
         <Popover
           containerStyle={{ zIndex: 20 }}
           isOpen={isPopoverOpen}
-          onClickOutside={() => handlePopoverToggle(false)}
+          onClickOutside={handleClickOutside}
           clickOutsideCapture={true}
           positions={["bottom", "left", "right", "top"]} // preferred positions by priority
           align="start"
           padding={10}
           content={
-            <div className={classes.popoverContent}>
+            <div
+              ref={popoverContentRef}
+              className={classes.popoverContent}
+              onMouseDownCapture={handleInternalInteraction}
+              onTouchStartCapture={handleInternalInteraction}
+            >
               {!header.popupType ? null : header.popupType === "datetime" ? (
                 <DatePopup
                   close={() => handlePopoverToggle(false)}
@@ -285,6 +351,7 @@ const ProjectTableColumnHeader = ({
           }
         >
           <ColumnHeader
+            ref={columnHeaderRef}
             onClick={() => setIsPopoverOpen(!isPopoverOpen)}
             header={header}
             isFilterApplied={() => isFilterApplied()}
