@@ -38,7 +38,7 @@ We will need to audit all user interactions on the page so that all possible sta
         - [ ] leave `Steps to Reproduce` empty
 <!-- Delete if page has no Form-Elements -->
 - Form-Elements
-    - [ ] For all form elements (e.g. text input, password fields, checkboxes), click on the element and then click away to trigger validation error messages
+    - [ ] For all form elements (e.g. text input, password fields, checkboxes), attempt to trigger validation error messages (e.g. missing input, password complexity, incorrect username or password)
       - [ ] In **2. Audit Log**, create and populate row for every Error, Contrast Error, and Alert on the Details pane
         - [ ] populate `Auditor` with your GitHub handle
         - [ ] populate `Page` with your selected page from **1. Page Log**
@@ -60,6 +60,18 @@ We will need to audit all user interactions on the page so that all possible sta
         - [ ] in a new comment in this issue, write out all steps required to trigger the table control elements
           - [ ] populate `Steps to Reproduce` with the link to this comment
 <!-- end Table-Controls section -->
+<!-- Delete if page has no Interactive-Elements --> 
+- Interactive-Elements
+    - [ ] For all other interactive elements (e.g. search-boxes, custom input-fields, tooltips, info-buttons) attempt to interact with them so they reveal any informational text, popups, or validation errors
+      - [ ] In **2. Audit Log**, create and populate row for every Error, Contrast Error, and Alert on the Details pane
+        - [ ] populate `Auditor` with your GitHub handle
+        - [ ] populate `Page` with your selected page from **1. Page Log**
+        - [ ] populate `Error Title` with the dropdown that matches the subtitle on the Details pane (see **Resource 2.01.02**)
+        - [ ] double check that the `Category` field now matches the title on the Details pane (see **Resource 2.01.01**). If there's not a match, leave a comment with the actual title 
+        - [ ] populate the `DOM snippet` by pasting in the highlighted HTML snippet for the Code panel
+        - [ ] in a new comment in this issue, write out all steps required to trigger the table control elements
+          - [ ] populate `Steps to Reproduce` with the link to this comment
+<!-- end Interactive-Elements section -->
 
 ### Resources/Instructions
 
@@ -87,27 +99,27 @@ We will need to audit all user interactions on the page so that all possible sta
 </p>
 </details> 
 
-<details><summary>Click to see: 📝 Steps to Reproduce</summary>
+<details><summary>2.02 Screenshots of WAVE tool with Register Page, No Interaction</summary>
 <p>
 
-## Example 1: Register Page, No Interaction
+## Register Page, No Interaction
 > - Page URL: https://tdm-dev.azurewebsites.net/register
 > - Steps to Reproduce: n/a
 > - Error: Missing form label
 
-**Screenshot (w/o WAVE Annotations)**
+**2.02.01 Screenshot (w/o WAVE Annotations)**
 <img width="480" alt="Image" src="https://github.com/user-attachments/assets/56a989de-69ec-42d7-a75c-50263519f5a8" />
 
-**Screenshot (w/ WAVE Annotations)**
+**2.02.02 Screenshot (w/ WAVE Annotations)**
 <img width="480" alt="Image" src="https://github.com/user-attachments/assets/4622dd2e-0594-4879-9b98-775aa19a2d77" />
 
-**Screenshot (click on first Missing form label)**
+**2.02.03 Screenshot (click on first Missing form label)**
 <img width="480" alt="Image" src="https://github.com/user-attachments/assets/25887728-4022-4ce9-ad71-f9227d53804c" />
 
-**Screenshot (open Code panel, click on first Missing form label)**
+**2.02.04 Screenshot (open Code panel, click on first Missing form label)**
 <img width="480" alt="Image" src="https://github.com/user-attachments/assets/a50670ce-9c9d-4a98-83a8-9ffc29d66c02" />
 
-**HTML DOM Snippet from firstMissing form label**
+**2.02.5 HTML DOM Snippet from firstMissing form label**
 ```
 <input name="firstName" type="text" placeholder="First Name" class="form-control " value="">
 ```
