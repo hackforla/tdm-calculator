@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-  useLayoutEffect
-} from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import PropTypes from "prop-types";
