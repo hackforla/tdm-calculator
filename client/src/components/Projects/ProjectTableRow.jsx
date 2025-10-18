@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  useLayoutEffect
+} from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import PropTypes from "prop-types";
@@ -169,7 +175,8 @@ const ProjectTableRow = ({
   droOptions,
   onDroChange,
   onAdminNoteUpdate,
-  isActiveProjectsTab
+  isActiveProjectsTab,
+  idx
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -200,6 +207,8 @@ const ProjectTableRow = ({
   const [committedDro, setCommittedDro] = useState(project.droId || "");
   const [droName, setDroName] = useState("N/A");
   const [DROSelectionModalOpen, setDROSelectionModalOpen] = useState(false);
+
+  const ref = useRef(null);
 
   // Download and process rules for PDF rendering
   useEffect(() => {
@@ -278,10 +287,20 @@ const ProjectTableRow = ({
       (1000 * 60 * 60 * 24);
     return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
   };
+
+  useEffect(() => {
+    const el = ref.current?.querySelector("[aria-describedby]");
+    if (el) el.removeAttribute("aria-describedby");
+  }, []);
+
   return (
     <tr key={project.id}>
       <Td align="center">
+        <label htmlFor={project.id + "-checkbox"} className="sr-only">
+          Select project {project.name}
+        </label>
         <input
+          id={project.id + "-checkbox"}
           style={{ height: "15px" }}
           type="checkbox"
           checked={checkedProjectIds.includes(project.id)}
@@ -443,12 +462,15 @@ const ProjectTableRow = ({
       )}
       <td className={classes.actionIcons}>
         {projectRules && (
-          <div>
+          <div ref={ref}>
             <Popup
               className={classes.popover}
               trigger={
                 <button aria-label="context menu button">
-                  <MdMoreVert alt={`Show project context menu`} />
+                  <MdMoreVert
+                    aria-hidden="true"
+                    alt={`Show project context menu`}
+                  />
                 </button>
               }
               position="left center"
@@ -472,7 +494,7 @@ const ProjectTableRow = ({
                 />
               )}
             </Popup>
-            <div style={{ display: "none" }}>
+            <div id={`popup-${idx + 1}`} style={{ display: "none" }}>
               <PdfPrint ref={printRef} rules={projectRules} project={project} />
             </div>
           </div>
@@ -509,7 +531,8 @@ ProjectTableRow.propTypes = {
   ).isRequired,
   onDroChange: PropTypes.func.isRequired,
   onAdminNoteUpdate: PropTypes.func.isRequired,
-  isActiveProjectsTab: PropTypes.bool.isRequired
+  isActiveProjectsTab: PropTypes.bool.isRequired,
+  idx: PropTypes.number
 };
 
 export default ProjectTableRow;
