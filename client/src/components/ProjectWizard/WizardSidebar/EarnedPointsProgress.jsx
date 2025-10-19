@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
@@ -128,6 +128,15 @@ const EarnedPointsProgress = ({ rulesConfig }) => {
   const tipText = `<div><p><strong>Earned Points:</strong> ${rulesConfig.earnedPointsRule.description}</p>
       <p style="margin-top: 0.5rem;"><strong>Target Points:</strong> ${rulesConfig.targetPointsRule.description}</p></div>`;
 
+  useEffect(() => {
+    const element = document.getElementById("project-target-tooltip-trigger");
+
+    if (element) {
+      element.setAttribute("aria-label", "Project Target Information Tooltip");
+      element.removeAttribute("aria-describedby");
+    }
+  }, []);
+
   return (
     <div
       className={
@@ -153,7 +162,10 @@ const EarnedPointsProgress = ({ rulesConfig }) => {
         <Popup
           lockScroll={false}
           trigger={
-            <span style={{ cursor: "pointer" }}>
+            <span
+              id="project-target-tooltip-trigger"
+              style={{ cursor: "pointer" }}
+            >
               <ToolTipIcon />
             </span>
           }
