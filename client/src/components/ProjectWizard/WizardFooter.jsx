@@ -78,40 +78,24 @@ const WizardFooter = ({
 
   const isAdmin = userContext.account?.isAdmin || false;
 
-  // useEffect(() => {
-  //   if (!rules || !rules.length) return;
-
-  //   const cleanup = () => {
-  //     const element = document.getElementById("action-button-wrapper");
-  //     if (element) {
-  //       element.setAttribute("aria-label", "Open Actions Menu");
-  //       element.removeAttribute("aria-describedby");
-  //     }
-  //   };
-
-  //   // Run immediately
-  //   cleanup();
-
-  //   // Also run after a brief delay to catch any late attribute additions
-  //   const timeoutId = setTimeout(cleanup, 100);
-
-  //   return () => clearTimeout(timeoutId);
-  // }, [rules]);
-
   useEffect(() => {
     if (!rules || !rules.length) return;
 
-    const element = document.getElementById("action-button-wrapper");
-    if (!element) return;
+    const cleanup = () => {
+      const element = document.getElementById("action-button-wrapper");
+      if (element) {
+        element.setAttribute("aria-label", "Open Actions Menu");
+        element.removeAttribute("aria-describedby");
+      }
+    };
 
-    element.setAttribute("aria-label", "Open Actions Menu");
+    // Run immediately
+    cleanup();
 
-    const popupId = element.getAttribute("aria-describedby");
-    if (popupId) {
-      element.setAttribute("aria-controls", popupId);
-    }
+    // Run after a brief delay to catch any late attribute additions
+    const timeoutId = setTimeout(cleanup, 100);
 
-    element.removeAttribute("aria-describedby");
+    return () => clearTimeout(timeoutId);
   }, [rules]);
 
   return (
