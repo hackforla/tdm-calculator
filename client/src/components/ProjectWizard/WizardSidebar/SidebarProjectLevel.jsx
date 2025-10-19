@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
@@ -37,6 +37,15 @@ const SidebarProjectLevel = ({ level, rules }) => {
   const classes = useStyles();
   const tipText = `<p>${rules[0]?.description}</p>`;
 
+  useEffect(() => {
+    const element = document.getElementById("project-level-tooltip-trigger");
+
+    if (element) {
+      element.setAttribute("aria-label", "Project Level Information Tooltip");
+      element.removeAttribute("aria-describedby");
+    }
+  }, []);
+
   return (
     <div
       className={clsx(
@@ -52,7 +61,10 @@ const SidebarProjectLevel = ({ level, rules }) => {
         {level > 0 && (
           <Popup
             trigger={
-              <span style={{ cursor: "pointer" }}>
+              <span
+                id="project-level-tooltip-trigger"
+                style={{ cursor: "pointer" }}
+              >
                 <ToolTipIcon />
               </span>
             }
@@ -77,7 +89,10 @@ const SidebarProjectLevel = ({ level, rules }) => {
                   >
                     <MdClose style={{ height: "20px", width: "20px" }} />
                   </button>
-                  <div dangerouslySetInnerHTML={{ __html: tipText }} />
+                  <div
+                    id="project-level-tooltip"
+                    dangerouslySetInnerHTML={{ __html: tipText }}
+                  />
                 </div>
               );
             }}

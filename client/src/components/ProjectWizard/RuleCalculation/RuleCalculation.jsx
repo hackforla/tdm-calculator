@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
@@ -209,6 +209,19 @@ const RuleCalculation = ({
     setShowValidationErrors(true);
   };
 
+  useEffect(() => {
+    const elements = document.getElementsByClassName(
+      "baseline-tooltip-trigger"
+    );
+
+    if (elements) {
+      Array.from(elements).forEach(element => {
+        element.setAttribute("aria-label", "Baseline Information Tooltip");
+        element.removeAttribute("aria-describedby");
+      });
+    }
+  }, []);
+
   return (
     <React.Fragment>
       {dataType === "number" ? (
@@ -347,7 +360,10 @@ const RuleCalculation = ({
               {description ? (
                 <Popup
                   trigger={
-                    <span style={{ cursor: "pointer" }}>
+                    <span
+                      className="baseline-tooltip-trigger"
+                      style={{ cursor: "pointer" }}
+                    >
                       <ToolTipIcon id={id.toString()} />
                     </span>
                   }

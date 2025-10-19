@@ -135,6 +135,7 @@ const RulePackage = ({
         />
         <div>
           <input
+            aria-label={`Select ${name} Package`}
             type="checkbox"
             value={true}
             checked={checked}

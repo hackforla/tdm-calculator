@@ -240,6 +240,7 @@ const RuleStrategy = ({
           />
           <div>
             <input
+              aria-label={`Enter ${name} Value`}
               autoFocus={autoFocus}
               className={
                 validationErrors
@@ -362,6 +363,7 @@ const RuleStrategy = ({
           <div>{`If applicable, please input the details about ${name}.`}</div>
           <div>
             <textarea
+              aria-label={`Enter ${name} Comments`}
               type="textarea"
               value={comment || ""}
               onChange={onCommentChange}

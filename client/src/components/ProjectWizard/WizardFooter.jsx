@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import { createUseStyles } from "react-jss";
@@ -78,6 +78,42 @@ const WizardFooter = ({
 
   const isAdmin = userContext.account?.isAdmin || false;
 
+  // useEffect(() => {
+  //   if (!rules || !rules.length) return;
+
+  //   const cleanup = () => {
+  //     const element = document.getElementById("action-button-wrapper");
+  //     if (element) {
+  //       element.setAttribute("aria-label", "Open Actions Menu");
+  //       element.removeAttribute("aria-describedby");
+  //     }
+  //   };
+
+  //   // Run immediately
+  //   cleanup();
+
+  //   // Also run after a brief delay to catch any late attribute additions
+  //   const timeoutId = setTimeout(cleanup, 100);
+
+  //   return () => clearTimeout(timeoutId);
+  // }, [rules]);
+
+  useEffect(() => {
+    if (!rules || !rules.length) return;
+
+    const element = document.getElementById("action-button-wrapper");
+    if (!element) return;
+
+    element.setAttribute("aria-label", "Open Actions Menu");
+
+    const popupId = element.getAttribute("aria-describedby");
+    if (popupId) {
+      element.setAttribute("aria-controls", popupId);
+    }
+
+    element.removeAttribute("aria-describedby");
+  }, [rules]);
+
   return (
     <>
       <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
@@ -125,7 +161,7 @@ const WizardFooter = ({
                   className={classes.popover}
                   trigger={
                     // needs element wrapped around Button so reactjs-popup has something to anchor on
-                    <div>
+                    <div id="action-button-wrapper">
                       <Button id="action" variant="tertiary">
                         ACTION
                       </Button>
@@ -136,6 +172,7 @@ const WizardFooter = ({
                 >
                   {close => (
                     <ProjectContextMenu
+                      id="project-context-menu"
                       project={project}
                       closeMenu={close}
                       handleCsvModalOpen={handleCsvModalOpen}
