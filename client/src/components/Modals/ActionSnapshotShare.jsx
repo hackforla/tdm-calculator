@@ -26,7 +26,7 @@ const useStyles = createUseStyles(theme => ({
     marginBottom: "0",
     verticalAlign: "middle"
   },
-  unshareIcon: {
+  warningIcon: {
     height: "80px",
     width: "80px",
     color: theme.colorCritical,
@@ -178,6 +178,44 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
     switch (Number(page)) {
       case 1:
         return (
+          <div>
+            <div
+              className={classes.heading1}
+              style={{ marginBottom: "1.5rem" }}
+            >
+              <MdWarning className={classes.warningIcon} />
+            </div>
+            <h1 className={classes.heading1}>Sharing Security</h1>
+            <div className={classes.viewPermissionsList}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                Any information in this snapshot could be copied or re-shared by
+                the party you are sharing with at any time.
+              </div>
+              <div
+                className={classes.buttonFlexBox}
+                style={{ justifyContent: "center" }}
+              >
+                <Button
+                  className={classes.buttonColor}
+                  onClick={onClose}
+                  variant="secondary"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="warning"
+                  onClick={() => {
+                    setPage(2);
+                  }}
+                >
+                  Proceed
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+      case 2:
+        return (
           <div className={classes.modal}>
             <div
               className={classes.heading1}
@@ -212,7 +250,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                       <button
                         className={classes.remove}
                         onClick={() => {
-                          setPage(3);
+                          setPage(4);
                           setSelectedEmail(email);
                         }}
                       >
@@ -234,7 +272,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 <Button
                   className={maybeDisabled}
                   onClick={() => {
-                    setPage(2);
+                    setPage(3);
                   }}
                   disabled={sharedEmails.length ? false : true}
                   variant="contained"
@@ -246,7 +284,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
             </div>
           </div>
         );
-      case 2:
+      case 3:
         return (
           <div className={classes.modal}>
             <div className={classes.viewPermissionsList}>
@@ -327,7 +365,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
               >
                 <Button
                   onClick={() => {
-                    setPage(1);
+                    setPage(2);
                     setIsCopied(false);
                   }}
                   variant="secondary"
@@ -357,14 +395,14 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
             </div>
           </div>
         );
-      case 3:
+      case 4:
         return (
           <div>
             <div
               className={classes.heading1}
               style={{ marginBottom: "1.5rem" }}
             >
-              <MdWarning className={classes.unshareIcon} />
+              <MdWarning className={classes.warningIcon} />
             </div>
             <h1 className={classes.heading1}>Confirm Unsharing</h1>
             <div className={classes.viewPermissionsList}>
@@ -379,7 +417,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 <Button
                   className={classes.buttonColor}
                   onClick={() => {
-                    setPage(1);
+                    setPage(2);
                     setSelectedEmail("");
                   }}
                   variant="secondary"
@@ -390,7 +428,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   variant="warning"
                   onClick={() => {
                     deleteProjectShare(selectedEmail);
-                    setPage(1);
+                    setPage(2);
                     setSelectedEmail("");
                   }}
                 >
