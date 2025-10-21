@@ -1,3 +1,4 @@
+const { sanitizeHtml } = require("../../middleware/sanitize-html");
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
 
@@ -11,6 +12,9 @@ const getByCalculationId = async calculationId => {
     return rules.map(rule => {
       rule.value = JSON.parse(rule.value);
       rule.choices = JSON.parse(rule.choices);
+      //Sanitize rule descriptions that contain HTML. It renders tooltips with dangerouslySetInnerHTML.
+      //Reference Decision Records https://github.com/hackforla/tdm-calculator/wiki/Decision-Records
+      rule.description = sanitizeHtml(rule.description);
       return rule;
     });
   } catch (err) {
