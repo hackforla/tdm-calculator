@@ -49,16 +49,17 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     alignItems: "center",
     padding: "0 2.5rem",
-    margin: "1.5rem"
+    margin: "1.5rem",
+    gap: ".25rem"
   },
   input: {
     borderRadius: "5px"
   },
   addCircleIcon: {
     height: "25px",
-    width: "25px",
-    marginLeft: "-30px",
-    padding: "none"
+    width: "25px"
+    // marginLeft: "-30px",
+    // padding: "none"
   },
   emailWarningText: {
     color: theme.colorCritical,
@@ -229,14 +230,6 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
     }
   };
 
-  let timeout;
-  const debouncedValidate = value => {
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      validateEmail(value);
-    }, 600);
-  };
-
   const handleSubmitEmail = async () => {
     const inputValue = emailInput.trim();
 
@@ -281,7 +274,10 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 value={emailInput}
                 onChange={e => {
                   setEmailInput(e.target.value);
-                  debouncedValidate(e.target.value);
+                  // debouncedValidate(e.target.value);
+                }}
+                onBlur={() => {
+                  validateEmail(emailInput);
                 }}
               />
               <MdAddCircle
