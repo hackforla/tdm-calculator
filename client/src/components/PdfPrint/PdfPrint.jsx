@@ -15,6 +15,7 @@ import ProjectInfoList from "../ProjectWizard/WizardPages/ProjectSummary/Project
 import PdfResult from "./PdfResult";
 import PdfFooter from "./PdfFooter";
 import logo from "../../images/ladot.png";
+import { formatId } from "helpers/util";
 
 const useStyles = createUseStyles({
   Pdf: {
@@ -87,7 +88,7 @@ const useStyles = createUseStyles({
     paddingTop: "20px",
     paddingLeft: "12px",
     display: "grid",
-    gridTemplateColumns: "2.5fr 1fr",
+    gridTemplateColumns: "2fr 1fr",
     gap: "1.1em",
     maxWidth: "100%",
     minHeight: "55px"
@@ -129,6 +130,10 @@ const useStyles = createUseStyles({
     logoContainer: {
       justifySelf: "start"
     }
+  },
+  projectIdRight: {
+    gridColumn: "2",
+    whiteSpace: "nowrap"
   }
 });
 
@@ -154,6 +159,7 @@ export const PdfPrint = forwardRef((props, ref) => {
   const caseNumberPlanning = getRule(rules, "CASE_NO_PLANNING");
   const parcelNumbers = getRule(rules, "APN");
   const versionNumber = getRule(rules, "VERSION_NO");
+  const formattedId = project?.id ? formatId(project.id) : null;
 
   const measureRules =
     rules &&
@@ -244,6 +250,14 @@ export const PdfPrint = forwardRef((props, ref) => {
                       name={caseNumberLADOT.name}
                       rule={caseNumberLADOT}
                     />
+                  )}
+                  {formattedId && (
+                    <div className={classes.projectIdRight}>
+                      <ProjectInfo
+                        name={"Project Id #"}
+                        rule={{ value: formattedId }}
+                      />
+                    </div>
                   )}
                 </div>
               </section>
