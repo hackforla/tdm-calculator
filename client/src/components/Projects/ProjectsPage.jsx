@@ -1146,7 +1146,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
               >
                 <div className={classes.searchBarWrapper}>
                   <label htmlFor="filterText" className="sr-only">
-                    Search the site
+                    Search my projects
                   </label>
                   <input
                     className={classes.searchBar}

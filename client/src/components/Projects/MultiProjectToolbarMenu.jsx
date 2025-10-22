@@ -160,7 +160,7 @@ const MultiProjectToolbarMenu = ({
             onClick={handleCsvModalOpen}
             aria-label="Export to CSV"
           >
-            <FaFileCsv aria-hiddne="true" className={classes.iconSmall} />
+            <FaFileCsv aria-hidden="true" className={classes.iconSmall} />
           </button>
         </li>
         <li>
