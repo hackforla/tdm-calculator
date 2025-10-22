@@ -26,9 +26,12 @@ const updateDescription = async ({ id, loginId, description }) => {
   try {
     await poolConnect;
     const request = pool.request();
+    //Admin could update tooltip description with malicious HTML, Sanitized with DOMpurify
+    //Reference Decision Records https://github.com/hackforla/tdm-calculator/wiki/Decision-Records
+    const sanitizedDescription = sanitizeHtml(description);
     request.input("id", mssql.Int, id);
     request.input("loginId", mssql.Int, loginId);
-    request.input("description", mssql.NVarChar, description);
+    request.input("description", mssql.NVarChar, sanitizedDescription);
     const result = await request.execute("CalculationRule_UpdateDescription");
 
     return result;
