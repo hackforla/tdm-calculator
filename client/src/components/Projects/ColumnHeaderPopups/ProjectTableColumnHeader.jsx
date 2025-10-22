@@ -359,8 +359,10 @@ const ProjectTableColumnHeader = ({
             orderBy={orderBy}
           ></ColumnHeader>
         </Popover>
-      ) : (
+      ) : header.label ? (
         <span>{header.label}</span>
+      ) : (
+        <span className="sr-only">Table Header</span>
       )}
     </div>
   );

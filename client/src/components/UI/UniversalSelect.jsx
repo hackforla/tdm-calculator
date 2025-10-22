@@ -61,6 +61,7 @@ export default function UniversalSelect({
 
   return (
     <Select
+      aria-label={name}
       className={classNames(className)}
       autoFocus={autoFocus}
       onChange={handleSelectChange}
