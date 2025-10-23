@@ -18,3 +18,14 @@ export const formatId = id => {
   const padded = id.toString().padStart(10, "0");
   return padded.substring(0, 5) + "-" + padded.substring(5, 10);
 };
+
+// Intended for use in popup components
+export const selectAllCheckboxes = (filteredOptions, setSelectedListItems) => {
+  // Build an array of objects that contain the name for all the list items in the popup
+  const listItems = filteredOptions.map(item => ({
+    value: item,
+    label: item
+  }));
+
+  setSelectedListItems(listItems);
+};
