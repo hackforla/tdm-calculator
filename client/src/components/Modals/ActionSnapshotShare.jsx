@@ -4,7 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import Button from "../Button/Button";
 import ModalDialog from "../UI/Modal";
 import * as projectShareService from "../../services/projectShare.service";
-import { MdIosShare, MdAddCircle, MdInfo, MdWarning } from "react-icons/md";
+import { MdIosShare, MdAdd, MdInfo, MdWarning } from "react-icons/md";
 import * as Yup from "yup";
 import { useToast } from "../../contexts/Toast";
 
@@ -49,17 +49,17 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     alignItems: "center",
     padding: "0 2.5rem",
-    margin: "1.5rem",
-    gap: ".25rem"
+    margin: "1.5rem"
   },
   input: {
-    borderRadius: "5px"
+    borderRadius: "5px 0 0 5px"
   },
   addCircleIcon: {
     height: "25px",
-    width: "25px"
-    // marginLeft: "-30px",
-    // padding: "none"
+    width: "25px",
+    borderRadius: "0 5px 5px 0",
+    padding: "5px 10px",
+    marginLeft: "-1px"
   },
   emailWarningText: {
     color: theme.colorCritical,
@@ -280,10 +280,11 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   validateEmail(emailInput);
                 }}
               />
-              <MdAddCircle
+              <MdAdd
                 className={classes.addCircleIcon}
                 style={{
-                  color: isEmailValid
+                  color: "white",
+                  backgroundColor: isEmailValid
                     ? theme.colorPrimary
                     : theme.colorPrimaryDisabled,
                   pointerEvents: isEmailValid ? "auto" : "none"
