@@ -43,7 +43,7 @@ const PdfFooter = ({ project }) => {
     formatDatetime(DateTime.now())
   );
 
-  const { isAdmin = false } = userContext.account;
+  const isAdmin = userContext.account?.isAdmin || false;
 
   useEffect(() => {
     // You would update these dates based on your application logic
