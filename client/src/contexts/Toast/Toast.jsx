@@ -36,7 +36,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Toast = ({ children, remove }) => {
+const Toast = ({ children, remove, variant, topOffset }) => {
   const classes = useStyles();
   const removeRef = useRef();
   removeRef.current = remove;
@@ -48,7 +48,21 @@ const Toast = ({ children, remove }) => {
   }, []);
 
   return (
-    <div className={classes.toast}>
+    <div
+      className={classes.toast}
+      style={
+        variant === "modal"
+          ? {
+              top: topOffset || "2.5em",
+              left: "54%",
+              right: "auto",
+              bottom: "auto",
+              transform: "translateX(-50%)",
+              zIndex: 2000
+            }
+          : undefined
+      }
+    >
       <div className={classes.container}>{children}</div>
       <div>
         <button onClick={remove} className={classes.button}>
@@ -61,6 +75,8 @@ const Toast = ({ children, remove }) => {
 Toast.propTypes = {
   children: PropTypes.string,
   remove: PropTypes.func.isRequired,
+  variant: PropTypes.oneOf(["default", "modal"]),
+  topOffset: PropTypes.string,
   sidebarWidth: PropTypes.number
 };
 
