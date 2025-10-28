@@ -463,7 +463,7 @@ const PrivacyPolicy = () => {
             <p className={classes.addressParagraph}>
               Ref: Hack for LA, TDM Calculator
             </p>
-            <p className={classes.addressParagraph}>13157 Mindanao Way, 108</p>
+            <p className={classes.addressParagraph}>13157 Mindanao Way, 106</p>
             <p className={classes.addressParagraph}>Marina Del Rey, CA 90292</p>
           </div>
         </div>
