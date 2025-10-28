@@ -77,6 +77,7 @@ const WizardFooter = ({
   const loggedInUserId = userContext.account?.id || null;
 
   const isAdmin = userContext.account?.isAdmin || false;
+  const { firstName, lastName, email } = project;
 
   return (
     <>
@@ -183,6 +184,16 @@ const WizardFooter = ({
 
       {page === 5 && formattedDateModified && loggedInUserId ? (
         <div className={classes.datesStatus}>
+          <div>
+            <strong>Snapshot Owner: </strong>
+            {firstName} {lastName}, {email}
+          </div>
+          {isAdmin && (
+            <div>
+              <strong>Submission Status: </strong>
+              {project.approvalStatusName}
+            </div>
+          )}
           <div className={classes.pdfTimeText}>
             <strong>Status: </strong>
             {!formattedDateSnapshotted
