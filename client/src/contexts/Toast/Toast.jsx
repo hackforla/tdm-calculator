@@ -36,7 +36,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Toast = ({ children, remove, variant, topOffset }) => {
+const Toast = ({ children, remove, variant }) => {
   const classes = useStyles();
   const removeRef = useRef();
   removeRef.current = remove;
@@ -47,14 +47,17 @@ const Toast = ({ children, remove, variant, topOffset }) => {
     return () => clearTimeout(id);
   }, []);
 
+  const isModal = variant === "modal";
+
   return (
     <div
       className={classes.toast}
       style={
-        variant === "modal"
+        isModal
           ? {
-              top: topOffset || "2.5em",
-              left: "54%",
+              position: "absolute",
+              top: "-2em",
+              left: "50%",
               right: "auto",
               bottom: "auto",
               transform: "translateX(-50%)",
@@ -76,7 +79,6 @@ Toast.propTypes = {
   children: PropTypes.string,
   remove: PropTypes.func.isRequired,
   variant: PropTypes.oneOf(["default", "modal"]),
-  topOffset: PropTypes.string,
   sidebarWidth: PropTypes.number
 };
 

@@ -41,25 +41,25 @@ const withToastProvider = Component => {
     return (
       <ToastContext.Provider value={{ add, remove }}>
         <Component {...props} />
-        {createPortal(
-          <div className={classes.toast}>
-            {toasts.map(t => (
+        {toasts.map(t => {
+          const portalTarget =
+            t.contentContainerRef?.current ||
+            contentContainer ||
+            appContainer ||
+            document.body;
+
+          return createPortal(
+            <div className={classes.toast} key={t.id}>
               <Toast
-                key={t.id}
                 remove={() => remove(t.id)}
                 variant={t.variant || "default"}
-                topOffset={t.topOffset}
               >
                 {t.content}
               </Toast>
-            ))}
-          </div>,
-          contentContainer
-            ? contentContainer
-            : appContainer
-              ? appContainer
-              : document.body
-        )}
+            </div>,
+            portalTarget
+          );
+        })}
       </ToastContext.Provider>
     );
   };

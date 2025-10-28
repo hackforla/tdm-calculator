@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import Button from "../Button/Button";
@@ -154,6 +154,7 @@ const emailSchema = Yup.string()
 export default function ShareSnapshotModal({ mounted, onClose, project }) {
   const theme = useTheme();
   const classes = useStyles({ theme });
+  const modalContentRef = useRef(null);
   const toast = useToast();
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
@@ -237,7 +238,10 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
     if (!valid) return;
 
     await shareProject(inputValue, project);
-    toast.add("Email added.", { variant: "modal", topOffset: "8.3em" });
+    toast.add("Email added.", {
+      variant: "modal",
+      contentContainerRef: modalContentRef
+    });
     setEmailInput("");
     setIsEmailValid(false);
     setError("");
@@ -390,7 +394,8 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                       navigator.clipboard.writeText(copyMessage);
                       setIsCopied(true);
                       toast.add("Link copied to clipboard.", {
-                        variant: "modal"
+                        variant: "modal",
+                        contentContainerRef: modalContentRef
                       });
                     }}
                   >
@@ -425,7 +430,8 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                       navigator.clipboard.writeText(copyLink);
                       setIsCopied(true);
                       toast.add("Link copied to clipboard.", {
-                        variant: "modal"
+                        variant: "modal",
+                        contentContainerRef: modalContentRef
                       });
                     }}
                   >
@@ -512,6 +518,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
   return (
     <div>
       <ModalDialog
+        ref={modalContentRef}
         mounted={mounted}
         onClose={() => {
           closeProject();
