@@ -23,7 +23,15 @@ const useStyles = createUseStyles({
 });
 
 const PdfFooter = ({ project }) => {
-  const { dateModified, dateSubmitted, dateSnapshotted, loginId } = project;
+  const {
+    dateModified,
+    dateSubmitted,
+    dateSnapshotted,
+    loginId,
+    firstName,
+    lastName,
+    email
+  } = project;
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
@@ -34,6 +42,8 @@ const PdfFooter = ({ project }) => {
   const [formattedDatePrinted, setFormattedDatePrinted] = useState(
     formatDatetime(DateTime.now())
   );
+
+  const isAdmin = userContext.account?.isAdmin || false;
 
   useEffect(() => {
     // You would update these dates based on your application logic
@@ -53,6 +63,14 @@ const PdfFooter = ({ project }) => {
     <section className={classes.pdfFooterContainer}>
       {loginId && (
         <>
+          <div className={classes.pdfTimeText}>
+            Snapshot Owner: {firstName} {lastName}, {email}
+          </div>
+          {isAdmin && (
+            <div className={classes.pdfTimeText}>
+              Submission Status: {project.approvalStatusName}
+            </div>
+          )}
           <div className={classes.pdfTimeText}>
             Status:{" "}
             {!formattedDateSnapshotted
