@@ -101,7 +101,7 @@ const TdExpandable = ({ children }) => {
             aria-expanded={isExpanded}
             aria-controls="expand-description"
             id="expand-description"
-            aria-label="Expand description"
+            aria-label={isExpanded ? "Collapse content" : "Expand content"}
             className={classes.expandButton}
             onClick={() => setIsExpanded(!isExpanded)}
           >
