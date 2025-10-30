@@ -172,6 +172,7 @@ const MultiProjectToolbarMenu = ({
             onClick={handlePrintPdf}
             disabled={checkedProjectIds.length !== 1}
             aria-label="Print PDF"
+            aria-disabled={checkedProjectIds.length !== 1}
           >
             <MdPrint
               aria-hidden="true"
@@ -219,7 +220,8 @@ const MultiProjectToolbarMenu = ({
             }`}
             disabled={isHideBtnDisabled}
             onClick={handleHideBoxes}
-            aria-label="Toggle Visibility"
+            aria-label={`Toggle Visibility ${!checkedProjectsStatusData.dateHidden ? "Off" : "On"}`}
+            aria-disabled={isHideBtnDisabled}
           >
             {!checkedProjectsStatusData.dateHidden ? (
               <MdVisibilityOff
@@ -269,6 +271,7 @@ const MultiProjectToolbarMenu = ({
             aria-label={
               isActiveProjectsTab ? "Delete Projects" : "Restore Projects"
             }
+            aria-disabled={isDelBtnDisabled}
           >
             {isActiveProjectsTab ? (
               <MdDelete
