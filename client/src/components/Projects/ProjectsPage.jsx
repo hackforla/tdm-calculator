@@ -1043,7 +1043,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       : []),
     {
       id: "contextMenu",
-      label: "",
+      label: <span className="sr-only">Project Options</span>,
       colWidth: "3rem"
     }
   ];
@@ -1064,17 +1064,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
-  // useLayoutEffect(() => {
-  //   // Hacky way to add sr-only label for a11y purposes because react-select doesn't support it natively
-  //   const selectInput = document.getElementById("react-select-2-input");
-  //   if (selectInput) {
-  //     const label = document.createElement("label");
-  //     label.setAttribute("for", "react-select-2-input");
-  //     label.className = "sr-only";
-  //     label.innerText = "Select number of projects per page";
-  //     selectInput.parentNode.insertBefore(label, selectInput);
-  //   }
-  // })
+  useEffect(() => {
+    // Hacky way to add sr-only label for a11y purposes because react-select doesn't support it natively
+    const selectInput = document.getElementById("react-select-2-input");
+    if (selectInput) {
+      const label = document.createElement("label");
+      label.setAttribute("for", "react-select-2-input");
+      label.className = "sr-only";
+      label.innerText = "Select number of projects per page";
+      selectInput.parentNode.insertBefore(label, selectInput);
+    }
+  });
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
