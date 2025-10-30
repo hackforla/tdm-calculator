@@ -362,7 +362,7 @@ const ProjectTableColumnHeader = ({
       ) : header.label ? (
         <span>{header.label}</span>
       ) : (
-        <span className="sr-only">Table Header</span>
+        <span className="sr-only">{header.id}</span>
       )}
     </div>
   );
