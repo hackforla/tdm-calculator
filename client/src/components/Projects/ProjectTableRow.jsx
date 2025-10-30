@@ -202,8 +202,6 @@ const ProjectTableRow = ({
   const [droName, setDroName] = useState("N/A");
   const [DROSelectionModalOpen, setDROSelectionModalOpen] = useState(false);
 
-  const ref = useRef(null);
-
   // Download and process rules for PDF rendering
   useEffect(() => {
     const fetchRules = async () => {
@@ -281,11 +279,6 @@ const ProjectTableRow = ({
       (1000 * 60 * 60 * 24);
     return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
   };
-
-  useEffect(() => {
-    const el = ref.current?.querySelector("[aria-describedby]");
-    if (el) el.removeAttribute("aria-describedby");
-  }, []);
 
   return (
     <tr key={project.id}>
@@ -456,7 +449,7 @@ const ProjectTableRow = ({
       )}
       <td className={classes.actionIcons}>
         {projectRules && (
-          <div ref={ref}>
+          <div>
             <Popup
               className={classes.popover}
               trigger={
