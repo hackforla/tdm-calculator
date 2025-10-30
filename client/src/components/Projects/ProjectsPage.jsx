@@ -1156,7 +1156,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     placeholder="Search by Name; Address; Description; Alt#"
                     value={filterCriteria.filterText}
                     onChange={e => handleFilterTextChange(e.target.value)}
-                    aria-roledescription="Search for project"
+                    aria-label="Search for project"
                   />
                   <MdOutlineSearch className={classes.searchIcon} />
                 </div>
