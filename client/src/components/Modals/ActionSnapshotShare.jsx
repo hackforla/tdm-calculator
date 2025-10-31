@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import Button from "../Button/Button";
 import ModalDialog from "../UI/Modal";
 import * as projectShareService from "../../services/projectShare.service";
-import { MdCameraAlt, MdWarning } from "react-icons/md";
+import { MdIosShare, MdAdd, MdInfo, MdWarning } from "react-icons/md";
+import * as Yup from "yup";
+import { useToast } from "../../contexts/Toast";
 
 const useStyles = createUseStyles(theme => ({
   buttonFlexBox: {
@@ -16,15 +18,19 @@ const useStyles = createUseStyles(theme => ({
   heading2: theme.typography.heading2,
   subheading: {
     ...theme.typography.subHeading,
-    marginTop: "1rem",
-    marginBottom: "1rem"
+    fontWeight: "bold"
   },
-  icon: {
+  shareIcon: {
     height: "40px",
     width: "40px",
     color: theme.colorBlack,
     marginBottom: "0",
     verticalAlign: "middle"
+  },
+  infoIcon: {
+    height: "75px",
+    width: "75px",
+    color: theme.colorLADOT
   },
   unshareIcon: {
     height: "80px",
@@ -39,9 +45,28 @@ const useStyles = createUseStyles(theme => ({
     width: "40em",
     margin: "0 auto"
   },
+  inputContainer: {
+    display: "flex",
+    alignItems: "center",
+    padding: "0 2.5rem",
+    margin: "1.5rem"
+  },
   input: {
-    padding: "0 5em",
-    margin: "1.5rem 2.5rem 1.5rem 0.75rem"
+    borderRadius: "5px 0 0 5px"
+  },
+  addCircleIcon: {
+    height: "25px",
+    width: "25px",
+    borderRadius: "0 5px 5px 0",
+    padding: "5px 10px",
+    marginLeft: "-1px"
+  },
+  emailWarningText: {
+    color: theme.colorCritical,
+    fontSize: "0.9rem",
+    marginTop: "-1.25rem",
+    marginBottom: "1.5rem",
+    padding: "0 4.5rem"
   },
   emailList: {
     height: "15em",
@@ -51,13 +76,9 @@ const useStyles = createUseStyles(theme => ({
   },
   emptyList: {
     display: "flex",
-    height: "15em",
-    border: "solid black 2px",
     margin: "1em",
-    alignItems: "center",
-    fontSize: "18px",
-    fontWeight: "bold",
-    padding: "0em 2em"
+    justifyContent: "center",
+    fontSize: "18px"
   },
   viewPermissionsList: {
     padding: "0em 4em"
@@ -66,11 +87,21 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: "0px 12px",
     fontSize: "18px",
     "&:hover": {
       backgroundColor: "#f2f2f2"
     }
+  },
+  page2Header: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: ".25em"
+  },
+  sendLinkMessage: {
+    color: theme.colorError,
+    fontSize: "18px",
+    margin: ".75em"
   },
   copyMessageBox: {
     border: "solid 2px",
@@ -116,10 +147,19 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
+const emailSchema = Yup.string()
+  .required("Email is required")
+  .matches(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, "Invalid email address");
+
 export default function ShareSnapshotModal({ mounted, onClose, project }) {
   const theme = useTheme();
   const classes = useStyles({ theme });
+  const modalContentRef = useRef(null);
+  const toast = useToast();
+  const [error, setError] = useState("");
   const [page, setPage] = useState(1);
+  const [emailInput, setEmailInput] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const [sharedEmails, setSharedEmails] = useState([]);
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
@@ -160,11 +200,51 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
     }
   };
 
-  const handleSubmitEmail = e => {
-    switch (e.key) {
-      case "Enter":
-        shareProject(e.target.value, project);
+  const validateEmail = async value => {
+    const email = (value ?? emailInput).trim();
+
+    if (!email) {
+      setError("");
+      setIsEmailValid(false);
+      return false;
     }
+
+    const emailAlreadyShared = sharedEmails.some(
+      shared => shared.email.toLowerCase() === email.toLowerCase()
+    );
+
+    if (emailAlreadyShared) {
+      setError("Email already added");
+      setIsEmailValid(false);
+      return false;
+    }
+
+    try {
+      await emailSchema.validate(email);
+      setError("");
+      setIsEmailValid(true);
+      return true;
+    } catch (err) {
+      setError(err.message);
+      setIsEmailValid(false);
+      return false;
+    }
+  };
+
+  const handleSubmitEmail = async () => {
+    const inputValue = emailInput.trim();
+
+    const valid = await validateEmail();
+    if (!valid) return;
+
+    await shareProject(inputValue, project);
+    toast.add("Email added.", {
+      variant: "modal",
+      contentContainerRef: modalContentRef
+    });
+    setEmailInput("");
+    setIsEmailValid(false);
+    setError("");
   };
 
   const closeProject = () => {
@@ -174,63 +254,92 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
     setIsCopied(false);
   };
 
+  const cancelShare = () => {
+    closeProject();
+    setError("");
+  };
+
   const modalContents = page => {
     switch (Number(page)) {
       case 1:
         return (
           <div className={classes.modal}>
-            <div
-              className={classes.heading1}
-              style={{ marginBottom: "1.5rem" }}
-            >
-              <MdCameraAlt className={classes.icon} />
+            <div className={classes.heading1}>
+              <MdIosShare className={classes.shareIcon} />
               Share &quot;{project ? project.name : ""}&quot; Snapshot
             </div>
-            <div className={classes.input}>
+            <div className={classes.inputContainer}>
               <input
+                className={classes.input}
                 placeholder="Add email addresses"
                 type="text"
                 id="emailAddresses"
                 name="emailAddresses"
-                onKeyDown={e => {
-                  handleSubmitEmail(e);
+                value={emailInput}
+                onChange={e => {
+                  setEmailInput(e.target.value);
+                  // debouncedValidate(e.target.value);
+                }}
+                onBlur={() => {
+                  validateEmail(emailInput);
                 }}
               />
+              <MdAdd
+                className={classes.addCircleIcon}
+                style={{
+                  color: "white",
+                  backgroundColor: isEmailValid
+                    ? theme.colorPrimary
+                    : theme.colorPrimaryDisabled,
+                  pointerEvents: isEmailValid ? "auto" : "none"
+                }}
+                onClick={handleSubmitEmail}
+              />
             </div>
+            {error && <div className={classes.emailWarningText}>{error}</div>}
             <div className={classes.viewPermissionsList}>
-              <div
-                className={classes.heading2}
-                style={{ display: "inline-block", marginLeft: "1em" }}
-              >
-                People with viewing permission
-              </div>
               {sharedEmails.length ? (
-                <div className={classes.emailList}>
-                  {sharedEmails.map(email => (
-                    <div key={email.id} className={classes.email}>
-                      {email.email}
-                      <button
-                        className={classes.remove}
-                        onClick={() => {
-                          setPage(3);
-                          setSelectedEmail(email);
-                        }}
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  ))}
-                </div>
+                <>
+                  <div
+                    className={classes.subheading}
+                    style={{ display: "inline-block", marginLeft: ".4em" }}
+                  >
+                    People with viewing permission
+                  </div>
+                  <div className={classes.emailList}>
+                    {sharedEmails.map(email => (
+                      <div key={email.id} className={classes.email}>
+                        {email.email}
+                        <button
+                          className={classes.remove}
+                          onClick={() => {
+                            setPage(3);
+                            setSelectedEmail(email);
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </>
               ) : (
                 <div className={classes.emptyList}>
-                  No email addresses added. Please include at least one email to
-                  share the project.
+                  Enter at least one email to give access to this snapshot.
                 </div>
               )}
               <div
                 className={classes.buttonFlexBox}
                 style={{ justifyContent: "center" }}
               >
+                <Button
+                  className={maybeDisabled}
+                  onClick={cancelShare}
+                  variant="contained"
+                  color={"colorSecondary"}
+                >
+                  Cancel
+                </Button>
                 <Button
                   className={maybeDisabled}
                   onClick={() => {
@@ -250,16 +359,20 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
         return (
           <div className={classes.modal}>
             <div className={classes.viewPermissionsList}>
-              <div
-                className={classes.heading1}
-                style={{ marginBottom: "1.5rem" }}
-              >
-                <MdCameraAlt className={classes.icon} />
-                Share &quot;{project ? project.name : ""}&quot; Snapshot
+              <div className={classes.page2Header}>
+                <MdInfo className={classes.infoIcon} />
+                <div className={classes.heading1}>
+                  Share &quot;{project ? project.name : ""}&quot; Snapshot
+                </div>
               </div>
+
               <div style={{ display: "flex", flexDirection: "column" }}>
+                <div className={classes.sendLinkMessage}>
+                  Added accounts won&apos;t be notified automatically. Use the
+                  options below to send the link with or without a message.
+                </div>
                 <div
-                  className={classes.heading2}
+                  className={classes.subheading}
                   style={{
                     display: "flex",
                     marginLeft: "1em"
@@ -280,6 +393,10 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     onClick={() => {
                       navigator.clipboard.writeText(copyMessage);
                       setIsCopied(true);
+                      toast.add("Link copied to clipboard.", {
+                        variant: "modal",
+                        contentContainerRef: modalContentRef
+                      });
                     }}
                   >
                     Copy to Clipboard
@@ -298,7 +415,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   </span>
                 </div>
                 <div
-                  className={classes.heading2}
+                  className={classes.subheading}
                   style={{ display: "flex", marginLeft: "1em" }}
                 >
                   Copy link
@@ -312,6 +429,10 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     onClick={() => {
                       navigator.clipboard.writeText(copyLink);
                       setIsCopied(true);
+                      toast.add("Link copied to clipboard.", {
+                        variant: "modal",
+                        contentContainerRef: modalContentRef
+                      });
                     }}
                   >
                     Copy to Clipboard
@@ -345,15 +466,6 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   Done
                 </Button>
               </div>
-              <div
-                style={{
-                  display: isCopied ? "flex" : "none",
-                  justifyContent: "center",
-                  width: "100%"
-                }}
-              >
-                <div className={classes.popupMessage}>Successfully Copied!</div>
-              </div>
             </div>
           </div>
         );
@@ -380,7 +492,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   className={classes.buttonColor}
                   onClick={() => {
                     setPage(1);
-                    setSelectedEmail("");
+                    setSelectedEmail(null);
                   }}
                   variant="secondary"
                 >
@@ -391,7 +503,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                   onClick={() => {
                     deleteProjectShare(selectedEmail);
                     setPage(1);
-                    setSelectedEmail("");
+                    setSelectedEmail(null);
                   }}
                 >
                   Yes
@@ -406,6 +518,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
   return (
     <div>
       <ModalDialog
+        ref={modalContentRef}
         mounted={mounted}
         onClose={() => {
           closeProject();

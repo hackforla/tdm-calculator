@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import Modal from "react-modal";
@@ -48,46 +48,52 @@ const modalStyleDefaultOverrides = {
   }
 };
 
-export default function ModalDialog({
-  mounted,
-  children,
-  onClose,
-  // initialFocus,
-  omitCloseBox = false,
-  underlayClickExits = false,
-  escapeExits = true,
-  title = "Title Text"
-}) {
-  const classes = useStyles();
+const ModalDialog = forwardRef(
+  (
+    {
+      mounted,
+      children,
+      onClose,
+      omitCloseBox = false,
+      underlayClickExits = false,
+      escapeExits = true,
+      title = "Title Text"
+    },
+    ref
+  ) => {
+    const classes = useStyles();
 
-  return (
-    <Modal
-      isOpen={mounted}
-      onRequestClose={() => onClose()}
-      shouldCloseOnOverlayClick={underlayClickExits}
-      shouldCloseOnEscape={escapeExits}
-      contentLabel={title}
-      style={modalStyleDefaultOverrides}
-      appElement={document.getElementById("root") || undefined}
-      // initialFocus={initialFocus || null}
-    >
-      <div>
-        {omitCloseBox ? null : (
-          <div className={classes.buttonFlexBox}>
-            <button
-              onClick={onClose}
-              className={classes.closeButton}
-              aria-label={`Close ${title} modal`}
-            >
-              <MdClose />
-            </button>
-          </div>
-        )}
-        {children}
-      </div>
-    </Modal>
-  );
-}
+    return (
+      <Modal
+        isOpen={mounted}
+        onRequestClose={() => onClose()}
+        shouldCloseOnOverlayClick={underlayClickExits}
+        shouldCloseOnEscape={escapeExits}
+        contentLabel={title}
+        style={modalStyleDefaultOverrides}
+        appElement={document.getElementById("root") || undefined}
+        // initialFocus={initialFocus || null}
+      >
+        <div ref={ref} style={{ position: "relative" }}>
+          {omitCloseBox ? null : (
+            <div className={classes.buttonFlexBox}>
+              <button
+                onClick={onClose}
+                className={classes.closeButton}
+                aria-label={`Close ${title} modal`}
+              >
+                <MdClose />
+              </button>
+            </div>
+          )}
+          {children}
+        </div>
+      </Modal>
+    );
+  }
+);
+
+ModalDialog.displayName = "ModalDialog";
 
 ModalDialog.propTypes = {
   mounted: PropTypes.bool,
@@ -99,3 +105,5 @@ ModalDialog.propTypes = {
   escapeExits: PropTypes.bool,
   title: PropTypes.string
 };
+
+export default ModalDialog;
