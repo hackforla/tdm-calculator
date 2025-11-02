@@ -16,7 +16,7 @@ const useStyles = createUseStyles(theme => ({
     color: "#4A4A4A"
   },
   invalidFeedback: {
-    color: "#ff0418"
+    color: "#990000"
   },
   heading1: { ...theme.typography.heading1, textAlign: "auto" }
 }));
