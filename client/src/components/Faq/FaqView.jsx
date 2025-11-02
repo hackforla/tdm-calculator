@@ -11,7 +11,7 @@ import { createUseStyles } from "react-jss";
 import DeleteFaqModal from "../Modals/WarningFaqDelete";
 import SaveConfirmationModal from "../Modals/WarningFaqSaveEdits";
 import FaqConfirmDialog from "../Modals/WarnngFaqLeave";
-import { matchPath, unstable_useBlocker as useBlocker } from "react-router-dom";
+import { matchPath, useBlocker } from "react-router-dom";
 
 const useStyles = createUseStyles(theme => ({
   headerContainer: {
