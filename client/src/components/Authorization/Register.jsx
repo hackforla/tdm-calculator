@@ -13,7 +13,7 @@ const useStyles = createUseStyles(theme => ({
     float: "right"
   },
   authText: {
-    color: "#979797"
+    color: "#4A4A4A"
   },
   invalidFeedback: {
     color: "#ff0418"
