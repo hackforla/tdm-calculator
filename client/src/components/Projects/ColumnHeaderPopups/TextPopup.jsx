@@ -10,7 +10,13 @@ import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import UserContext from "contexts/UserContext";
 import { selectAllCheckboxes } from "helpers/util";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "25rem",
+    color: theme.colors.secondary.darkNavy
+  },
   searchBarWrapper: {
     width: "100%",
     position: "relative",
@@ -54,9 +60,10 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     textDecoration: "underline",
     display: "flex",
-    fontWeight: "normal"
+    fontWeight: "normal",
+    color: theme.colors.secondary.darkNavy
   }
-});
+}));
 
 const TextPopup = ({
   projects,
@@ -202,9 +209,7 @@ const TextPopup = ({
   };
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", maxWidth: "25rem" }}
-    >
+    <div className={classes.container}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <MdClose
           style={{
