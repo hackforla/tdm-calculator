@@ -27,6 +27,14 @@ if (process.env.NODE_ENV === "production") {
 
 // Set headers & end pre-flight requests
 app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' "
+  );
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -40,7 +48,7 @@ app.use(express.static("public"));
 
 // TODO: Is following line needed for something. Already added above with
 // {extended: true} option.
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
 
 // Web API routes
 app.use("/api", routes);

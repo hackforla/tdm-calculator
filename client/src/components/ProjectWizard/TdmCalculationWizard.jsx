@@ -7,7 +7,7 @@ import {
   useParams,
   useNavigate,
   useLocation,
-  unstable_useBlocker as useBlocker
+  useBlocker as useBlocker
 } from "react-router-dom";
 import WizardFooter from "./WizardFooter";
 import WizardSidebar from "./WizardSidebar/WizardSidebar";
