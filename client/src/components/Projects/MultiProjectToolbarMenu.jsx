@@ -46,7 +46,7 @@ const useStyles = createUseStyles(theme => ({
   },
   multiStatus: {
     ...theme.typography.subHeading,
-    color: theme.colors.primary.navy,
+    color: theme.colors.primary.darkNavy,
     textAlign: "left"
   },
   buttonStyle: {
