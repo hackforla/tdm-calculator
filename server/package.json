@@ -35,6 +35,7 @@
     "express": "^4.21.2",
     "express-json-validator-middleware": "^3.0.1",
     "express-pino-logger": "^7.0.0",
+    "helmet": "^8.1.0",
     "jsdom": "27.0.0",
     "jsonwebtoken": "^9.0.2",
     "mssql": "^11.0.1",
