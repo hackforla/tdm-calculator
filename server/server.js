@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("error-handler");
 const routes = require("./app/routes");
-const helmet = require("helmet");
+// const helmet = require("helmet");
 // const pino = require("express-pino-logger")();
 
 dotenv.config();
@@ -13,25 +13,25 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
-const helmetConfig = {
-  useDefaults: true,
-  contentSecurityPolicy: {
-    useDefaults: true,
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'https://navbar.lacity.org'"],
-      objectSrc: ["'none'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      fontSrc: ["'self'", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:", "https://tdm.ladot.lacity.org"],
-      connectSrc: ["'self'"], // Add other domains as needed
-      upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
-    },
-    reportOnly: false
-  }
-};
+// const helmetConfig = {
+//   useDefaults: true,
+//   contentSecurityPolicy: {
+//     useDefaults: true,
+//     directives: {
+//       defaultSrc: ["'self'"],
+//       scriptSrc: ["'self'", "'https://navbar.lacity.org'"],
+//       objectSrc: ["'none'"],
+//       styleSrc: ["'self'", "'unsafe-inline'"],
+//       fontSrc: ["'self'", "https://fonts.googleapis.com"],
+//       imgSrc: ["'self'", "data:", "https://tdm.ladot.lacity.org"],
+//       connectSrc: ["'self'"], // Add other domains as needed
+//       upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
+//     },
+//     reportOnly: false
+//   }
+// };
 
-app.use(helmet(helmetConfig));
+// app.use(helmet(helmetConfig));
 // app.use(pino);
 
 if (process.env.NODE_ENV === "production") {
