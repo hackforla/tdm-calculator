@@ -23,7 +23,8 @@ const useStyles = createUseStyles(theme => ({
     flexDirection: "column",
     alignItems: "center",
     margin: "0 2rem",
-    width: "80vw"
+    width: "80vw",
+    color: theme.colors.secondary.darkNavy
   },
   columnContainer: {
     display: "flex",
@@ -49,7 +50,10 @@ const useStyles = createUseStyles(theme => ({
     marginTop: "1rem",
     marginBottom: "0"
   },
-  rowLabel: { ...theme.typography.paragraph1 },
+  rowLabel: {
+    ...theme.typography.paragraph1,
+    color: theme.colors.secondary.darkNavy
+  },
   buttonFlexBox: {
     display: "flex",
     flexDirection: "row",
