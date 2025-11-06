@@ -26,4 +26,8 @@
     padding: 1.5rem 0.75rem;
     width: 100%;
   }
+  .form-control::placeholder {
+    color: #939393;
+    opacity: 1;
+  }
 }
