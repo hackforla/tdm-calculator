@@ -926,14 +926,20 @@ const ProjectsPage = ({ contentContainerRef }) => {
     {
       id: "checkAllProjects",
       label: (
-        <input
-          style={{
-            height: "15px"
-          }}
-          type="checkbox"
-          checked={selectAllChecked}
-          onChange={handleHeaderCheckbox}
-        />
+        <>
+          <label htmlFor="SelectAllProject" className="sr-only">
+            Select All Projects on Page
+          </label>
+          <input
+            style={{
+              height: "15px"
+            }}
+            id="SelectAllProject"
+            type="checkbox"
+            checked={selectAllChecked}
+            onChange={handleHeaderCheckbox}
+          />
+        </>
       ),
       colWidth: "3rem"
     },
@@ -1037,7 +1043,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       : []),
     {
       id: "contextMenu",
-      label: "",
+      label: <span className="sr-only">Project Options</span>,
       colWidth: "3rem"
     }
   ];
@@ -1057,6 +1063,18 @@ const ProjectsPage = ({ contentContainerRef }) => {
   );
 
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
+
+  useEffect(() => {
+    // Hacky way to add sr-only label for a11y purposes because react-select doesn't support it natively
+    const selectInput = document.getElementById("react-select-2-input");
+    if (selectInput) {
+      const label = document.createElement("label");
+      label.setAttribute("for", "react-select-2-input");
+      label.className = "sr-only";
+      label.innerText = "Select number of projects per page";
+      selectInput.parentNode.insertBefore(label, selectInput);
+    }
+  });
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
@@ -1127,6 +1145,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 }}
               >
                 <div className={classes.searchBarWrapper}>
+                  <label htmlFor="filterText" className="sr-only">
+                    Search my projects
+                  </label>
                   <input
                     className={classes.searchBar}
                     type="search"
@@ -1135,6 +1156,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     placeholder="Search by Name; Address; Description; Alt#"
                     value={filterCriteria.filterText}
                     onChange={e => handleFilterTextChange(e.target.value)}
+                    aria-label="Search for project"
                   />
                   <MdOutlineSearch className={classes.searchIcon} />
                 </div>
@@ -1218,8 +1240,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 </thead>
                 <tbody className={classes.tbody}>
                   {tabProjects.length ? (
-                    currentProjects.map(project => (
+                    currentProjects.map((project, idx) => (
                       <ProjectTableRow
+                        idx={idx}
                         key={project.id}
                         project={project}
                         handleCsvModalOpen={handleCsvModalOpen}

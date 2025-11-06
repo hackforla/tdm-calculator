@@ -98,13 +98,21 @@ const TdExpandable = ({ children }) => {
         </span>
         {isTruncated && (
           <button
+            aria-expanded={isExpanded}
+            aria-controls="expand-description"
+            id="expand-description"
+            aria-label={isExpanded ? "Collapse content" : "Expand content"}
             className={classes.expandButton}
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? (
-              <MdOutlineKeyboardArrowUp className={classes.expandButtonIcon} />
+              <MdOutlineKeyboardArrowUp
+                aria-hidden="true"
+                className={classes.expandButtonIcon}
+              />
             ) : (
               <MdOutlineKeyboardArrowDown
+                aria-hidden="true"
                 className={classes.expandButtonIcon}
               />
             )}

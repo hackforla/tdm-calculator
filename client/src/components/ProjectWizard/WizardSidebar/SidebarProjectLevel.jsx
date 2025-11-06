@@ -5,6 +5,7 @@ import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
 import Popup from "reactjs-popup";
 import { MdClose } from "react-icons/md";
+import { sanitizeHtml } from "helpers/SanitizeRichText";
 
 const useStyles = createUseStyles({
   projectLevelHeader: {
@@ -36,6 +37,8 @@ const SidebarProjectLevel = ({ level, rules }) => {
   const theme = useTheme();
   const classes = useStyles();
   const tipText = `<p>${rules[0]?.description}</p>`;
+  // Sanitize DangerouslySetInnerHtml with DomPurify
+  const sanitizeTipText = sanitizeHtml(tipText);
 
   return (
     <div
@@ -77,7 +80,10 @@ const SidebarProjectLevel = ({ level, rules }) => {
                   >
                     <MdClose style={{ height: "20px", width: "20px" }} />
                   </button>
-                  <div dangerouslySetInnerHTML={{ __html: tipText }} />
+                  {/* DangerouslySetInnerHtml was clean here with DomPurify.  
+                  Please reference Decision Records for more details: 
+                  https://github.com/hackforla/tdm-calculator/wiki/Decision-Records */}
+                  <div dangerouslySetInnerHTML={{ __html: sanitizeTipText }} />
                 </div>
               );
             }}
