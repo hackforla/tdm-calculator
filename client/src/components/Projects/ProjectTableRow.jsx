@@ -17,8 +17,6 @@ import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import fetchEngineRules from "./fetchEngineRules";
-import * as droService from "../../services/dro.service";
-// import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
@@ -170,7 +168,8 @@ const ProjectTableRow = ({
   onDroChange,
   onAdminNoteUpdate,
   isActiveProjectsTab,
-  idx
+  idx,
+  rawRules
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -199,39 +198,26 @@ const ProjectTableRow = ({
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
   const [committedDro, setCommittedDro] = useState(project.droId || "");
-  const [droName, setDroName] = useState("N/A");
+  // const [droName, setDroName] = useState(
+  //   droOptions.find(o => o.id === project.droId)?.name || "N/A"
+  // );
   const [DROSelectionModalOpen, setDROSelectionModalOpen] = useState(false);
 
   // Download and process rules for PDF rendering
   useEffect(() => {
     const fetchRules = async () => {
-      const result = await fetchEngineRules(project);
+      const result = await fetchEngineRules(project, rawRules);
       setProjectRules(result);
     };
 
     fetchRules()
       // TODO: do we have better reporting than this?
       .catch(console.error);
-  }, [project]);
-
-  useEffect(() => {
-    if (!isAdmin && project.droId) {
-      const fetchDroById = async () => {
-        try {
-          const response = await droService.getById(project.droId);
-          setDroName(response.data.name || "N/A");
-        } catch (error) {
-          console.error("Error fetching DRO by ID", error);
-          setDroName("N/A");
-        }
-      };
-      fetchDroById();
-    }
-  }, [isAdmin, project.droId]);
+  }, [project, rawRules]);
 
   useEffect(() => {
     setSelectedDro(project.droId || "");
-  }, [project.droId]);
+  }, [project.droId, droOptions]);
 
   const handleDROSelectionModalOpen = () => {
     setDROSelectionModalOpen(true);
@@ -376,26 +362,9 @@ const ProjectTableRow = ({
                 onDroChange(project.id, newDroId);
               }}
             />
-            {/* <UniversalSelect
-              value={selectedDro}
-              onChange={e => {
-                const newDroId = e.target.value;
-                setSelectedDro(newDroId);
-                onDroChange(project.id, newDroId);
-              }}
-              options={[
-                { value: "", label: "Select..." },
-                ...droOptions.map(dro => ({
-                  value: dro.id,
-                  label: dro.name
-                }))
-              ]}
-              name="droId"
-              className={classes.selectBox}
-            /> */}
           </div>
         ) : (
-          <span>{droName}</span>
+          <span>{project.droName}</span>
         )}
       </Td>
       {isAdmin && (
@@ -519,7 +488,8 @@ ProjectTableRow.propTypes = {
   onDroChange: PropTypes.func.isRequired,
   onAdminNoteUpdate: PropTypes.func.isRequired,
   isActiveProjectsTab: PropTypes.bool.isRequired,
-  idx: PropTypes.number
+  idx: PropTypes.number,
+  rawRules: PropTypes.any
 };
 
 export default ProjectTableRow;
