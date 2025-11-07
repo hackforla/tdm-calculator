@@ -172,8 +172,10 @@ export default function ShareSnapshotModal({ mounted, onClose, project }) {
 If you don't already have a [TDM Calculator](${tdmLink}) account, please set one up to see the above snapshot link.`;
 
   const fetchProjectShareList = async () => {
-    const response = await projectShareService.getByProjectId(project.id);
-    setSharedEmails(response.data);
+    if (project.id) {
+      const response = await projectShareService.getByProjectId(project.id);
+      setSharedEmails(response.data);
+    }
   };
 
   useEffect(() => {
