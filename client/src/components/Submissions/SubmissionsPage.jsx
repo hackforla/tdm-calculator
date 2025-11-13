@@ -475,6 +475,9 @@ const SubmissionsPage = ({ contentContainerRef }) => {
               }}
             >
               <div className={classes.searchBarWrapper}>
+                <label htmlFor="filterText" className="sr-only">
+                  Search Project By Name, Address, Description, Alt#
+                </label>
                 <input
                   className={classes.searchBar}
                   type="search"
