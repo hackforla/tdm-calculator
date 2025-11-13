@@ -266,6 +266,15 @@ const ProjectTableRow = ({
     return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
   };
 
+  useEffect(() => {
+    const button = document.getElementById(`context-menu-button-${project.id}`);
+
+    if (button) {
+      button.removeAttribute("aria-describedby");
+      button.setAttribute("aria-controls", `popup-menu-${project.id}`);
+    }
+  }, [projectRules, project.id]);
+
   return (
     <tr key={project.id}>
       <Td align="center">
@@ -422,7 +431,11 @@ const ProjectTableRow = ({
             <Popup
               className={classes.popover}
               trigger={
-                <button aria-label="context menu button">
+                <button
+                  aria-label="context menu button"
+                  id={`context-menu-button-${project.id}`}
+                  aria-controls={`popup-menu-${project.id}`}
+                >
                   <MdMoreVert
                     aria-hidden="true"
                     alt={`Show project context menu`}
@@ -450,7 +463,7 @@ const ProjectTableRow = ({
                 />
               )}
             </Popup>
-            <div id={`popup-${idx + 1}`} style={{ display: "none" }}>
+            <div style={{ display: "none" }}>
               <PdfPrint ref={printRef} rules={projectRules} project={project} />
             </div>
           </div>

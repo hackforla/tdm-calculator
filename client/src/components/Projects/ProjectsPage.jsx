@@ -438,7 +438,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
   useEffect(() => {
     // Hacky way to add sr-only label for a11y purposes because react-select doesn't support it natively
     const selectInput = document.getElementById("react-select-2-input");
-    if (selectInput) {
+    if (
+      selectInput &&
+      !selectInput.previousSibling?.classList?.contains("sr-only")
+    ) {
       const label = document.createElement("label");
       label.setAttribute("for", "react-select-2-input");
       label.className = "sr-only";
