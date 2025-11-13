@@ -12,7 +12,13 @@ import { selectAllCheckboxes } from "helpers/util";
 Variant of the TextPopup that gets rid of all the quirky accommodation of dro and author filtering used on the My Projects Page
 */
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "25rem",
+    color: theme.colors.secondary.darkNavy
+  },
   searchBarWrapper: {
     width: "100%",
     position: "relative",
@@ -56,9 +62,10 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     textDecoration: "underline",
     display: "flex",
-    fontWeight: "normal"
+    fontWeight: "normal",
+    color: theme.colors.secondary.darkNavy
   }
-});
+}));
 
 const TextPopup = ({
   projects,
@@ -162,9 +169,7 @@ const TextPopup = ({
   };
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", maxWidth: "25rem" }}
-    >
+    <div className={classes.container}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <MdClose
           style={{
