@@ -58,10 +58,10 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
     <>
       <h1 className={classes.pageTitle}>Send {label} Email</h1>
       <div className={classes.subTitle}>
-        <h3>
+        <h2>
           Please enter the email registered with your account, or if you have
           recently updated your email, provide the new one below.
-        </h3>
+        </h2>
         <h3>An email containing further instructions will be sent to you.</h3>
       </div>
       <Formik
