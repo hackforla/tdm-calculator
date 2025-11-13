@@ -76,10 +76,14 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
           return (
             <Form>
               <div className={classes.fieldGroup}>
+                <label htmlFor="email" className="sr-only">
+                  Enter Registered/Updated Email
+                </label>
                 <Field
                   type="email"
                   innerRef={focusRef}
                   value={values.email}
+                  id="email"
                   name="email"
                   placeholder="Registered/Updated Email"
                   className={clsx(
