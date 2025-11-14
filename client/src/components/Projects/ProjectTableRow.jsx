@@ -22,6 +22,7 @@ import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import { Td, TdExpandable } from "../UI/TableData";
 import DROSelectionModal from "../Modals/DROSelectionModal";
+import { useRemovePopupAriaIssue } from "hooks/useRemovePopupAriaIssue";
 
 const useStyles = createUseStyles(theme => ({
   actionIcons: {
@@ -266,14 +267,11 @@ const ProjectTableRow = ({
     return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
   };
 
-  useEffect(() => {
-    const button = document.getElementById(`context-menu-button-${project.id}`);
-
-    if (button) {
-      button.removeAttribute("aria-describedby");
-      button.setAttribute("aria-controls", `popup-menu-${project.id}`);
-    }
-  }, [projectRules, project.id]);
+  useRemovePopupAriaIssue({
+    elementId: `context-menu-button-${project.id}`,
+    deps: [projectRules],
+    setControls: true
+  });
 
   return (
     <tr key={project.id}>
