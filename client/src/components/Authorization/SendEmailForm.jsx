@@ -38,7 +38,7 @@ export const useStyles = createUseStyles(theme => ({
     color: theme.colorCritical
   },
   authText: {
-    color: theme.colors.secondary.slateGray,
+    color: theme.colors.secondary.darkNavy,
     marginTop: "20px"
   }
 }));

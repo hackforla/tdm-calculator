@@ -67,7 +67,7 @@ const ProjectContextMenu = ({
   };
 
   return (
-    <ul className={classes.list}>
+    <ul className={classes.list} id={`popup-menu-${project.id}`}>
       {project.dateSnapshotted && project.loginId == account?.id ? (
         <li
           className={classes.listItem}

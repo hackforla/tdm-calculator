@@ -13,7 +13,7 @@ const useStyles = createUseStyles(theme => ({
     float: "right"
   },
   authText: {
-    color: theme.colors.secondary.darkGray
+    color: theme.colors.secondary.darkNavy
   },
   invalidFeedback: {
     color: theme.colors.secondary.darkRed

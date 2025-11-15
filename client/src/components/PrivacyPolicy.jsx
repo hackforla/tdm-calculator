@@ -66,10 +66,10 @@ const PrivacyPolicy = () => {
         <h1 className={classes.title}>Privacy Policy</h1>
 
         <div className={classes.privacyPolicyContent}>
-          <h3 className={classes.tdmWizardPageSubtitle}>
+          <h2 className={classes.tdmWizardPageSubtitle}>
             We respect your privacy and recognize that we must maintain and use
             your information responsibly.
-          </h3>
+          </h2>
           <p>
             <a href="https://tdm.ladot.lacity.org">TDM Calculator</a> is a City
             of Los Angeles Review Tool managed by Hack for LA which is a project
