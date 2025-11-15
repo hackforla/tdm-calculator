@@ -54,7 +54,8 @@ const ProjectContextMenu = ({
   handleShareSnapshotModalOpen,
   handleSubmitModalOpen,
   handlePrintPdf,
-  handleHide
+  handleHide,
+  ariaControlsId
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -67,7 +68,7 @@ const ProjectContextMenu = ({
   };
 
   return (
-    <ul className={classes.list} id={`popup-menu-${project.id}`}>
+    <ul className={classes.list} id={ariaControlsId}>
       {project.dateSnapshotted && project.loginId == account?.id ? (
         <li
           className={classes.listItem}
@@ -225,7 +226,8 @@ ProjectContextMenu.propTypes = {
   handleShareSnapshotModalOpen: PropTypes.func,
   handleSubmitModalOpen: PropTypes.func,
   handlePrintPdf: PropTypes.func,
-  handleHide: PropTypes.func
+  handleHide: PropTypes.func,
+  ariaControlsId: PropTypes.string
 };
 
 export default ProjectContextMenu;
