@@ -218,7 +218,10 @@ const RolesArchive = ({ contentContainerRef }) => {
           </Link>
         </div>
         <div className={classes.searchBarWrapper}>
-          <label htmlFor="searchString" className={classes.textInputLabel}>
+          <label
+            htmlFor="searchString"
+            className={`${classes.textInputLabel} + sr-only`}
+          >
             Search for user:
           </label>
           <input
@@ -232,6 +235,7 @@ const RolesArchive = ({ contentContainerRef }) => {
             }}
             data-testid="searchString"
             placeholder="Enter name or email"
+            id="searchString"
           />
           <MdOutlineSearch className={classes.searchIcon} />
         </div>
