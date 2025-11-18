@@ -218,10 +218,7 @@ const RolesArchive = ({ contentContainerRef }) => {
           </Link>
         </div>
         <div className={classes.searchBarWrapper}>
-          <label
-            htmlFor="searchString"
-            className={`${classes.textInputLabel} + sr-only`}
-          >
+          <label htmlFor="searchString" className={`${classes.textInputLabel}`}>
             Search for user:
           </label>
           <input
