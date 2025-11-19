@@ -311,11 +311,11 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 name="emailAddresses"
                 value={emailInput}
                 onChange={e => {
-                  setEmailInput(e.target.value);
-                  // debouncedValidate(e.target.value);
-                }}
-                onBlur={() => {
-                  validateEmail(emailInput);
+                  const value = e.target.value;
+                  setEmailInput(value);
+
+                  const isValid = emailSchema.isValidSync(value.trim());
+                  if (isValid) setError("");
                 }}
               />
               <MdAdd
