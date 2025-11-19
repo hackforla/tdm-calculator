@@ -159,7 +159,6 @@ export default function ShareSnapshotModal({ mounted, onClose, project }) {
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const [emailInput, setEmailInput] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(false);
   const [sharedEmails, setSharedEmails] = useState([]);
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
@@ -207,7 +206,6 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
 
     if (!email) {
       setError("");
-      setIsEmailValid(false);
       return false;
     }
 
@@ -217,18 +215,15 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
 
     if (emailAlreadyShared) {
       setError("Email already added");
-      setIsEmailValid(false);
       return false;
     }
 
     try {
       await emailSchema.validate(email);
       setError("");
-      setIsEmailValid(true);
       return true;
     } catch (err) {
       setError(err.message);
-      setIsEmailValid(false);
       return false;
     }
   };
@@ -245,7 +240,6 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
       contentContainerRef: modalContentRef
     });
     setEmailInput("");
-    setIsEmailValid(false);
     setError("");
   };
 
@@ -328,10 +322,10 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 className={classes.addCircleIcon}
                 style={{
                   color: "white",
-                  backgroundColor: isEmailValid
+                  backgroundColor: emailInput
                     ? theme.colorPrimary
                     : theme.colorPrimaryDisabled,
-                  pointerEvents: isEmailValid ? "auto" : "none"
+                  pointerEvents: emailInput ? "auto" : "none"
                 }}
                 onClick={handleSubmitEmail}
               />
