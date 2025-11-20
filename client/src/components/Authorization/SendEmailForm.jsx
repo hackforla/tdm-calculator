@@ -58,10 +58,10 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
     <>
       <h1 className={classes.pageTitle}>Send {label} Email</h1>
       <div className={classes.subTitle}>
-        <h3>
+        <h2>
           Please enter the email registered with your account, or if you have
           recently updated your email, provide the new one below.
-        </h3>
+        </h2>
         <h3>An email containing further instructions will be sent to you.</h3>
       </div>
       <Formik
@@ -76,10 +76,14 @@ const SendEmailForm = ({ label, submitted, handleSubmit }) => {
           return (
             <Form>
               <div className={classes.fieldGroup}>
+                <label htmlFor="email" className="sr-only">
+                  Enter Registered/Updated Email
+                </label>
                 <Field
                   type="email"
                   innerRef={focusRef}
                   value={values.email}
+                  id="email"
                   name="email"
                   placeholder="Registered/Updated Email"
                   className={clsx(
