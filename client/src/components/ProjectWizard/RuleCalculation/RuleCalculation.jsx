@@ -7,6 +7,7 @@ import clsx from "clsx";
 import Popup from "reactjs-popup";
 import { MdClose } from "react-icons/md";
 import { sanitizeHtml } from "helpers/SanitizeRichText";
+import { useReplaceAriaDescribedBy } from "hooks/useReplaceAriaDescribedBy";
 
 const useStyles = createUseStyles(theme => ({
   field: {
@@ -213,6 +214,13 @@ const RuleCalculation = ({
   // Sanitize DangerouslySetInnerHtml with DomPurify
   const cleanDescription = sanitizeHtml(description);
 
+  const baselineElementId = `baseline-tooltip-trigger-${id}`;
+  const { popupContentId } = useReplaceAriaDescribedBy({
+    elementId: baselineElementId,
+    deps: [id, description],
+    setControls: true
+  });
+
   return (
     <React.Fragment>
       {dataType === "number" ? (
@@ -351,7 +359,7 @@ const RuleCalculation = ({
               {description ? (
                 <Popup
                   trigger={
-                    <span style={{ cursor: "pointer" }}>
+                    <span id={baselineElementId} style={{ cursor: "pointer" }}>
                       <ToolTipIcon id={id.toString()} />
                     </span>
                   }
@@ -361,7 +369,7 @@ const RuleCalculation = ({
                 >
                   {close => {
                     return (
-                      <div style={{ margin: "1rem" }}>
+                      <div id={popupContentId} style={{ margin: "1rem" }}>
                         <button
                           style={{
                             backgroundColor: "transparent",

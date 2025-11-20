@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Popup from "reactjs-popup";
 import { MdClose } from "react-icons/md";
 import { sanitizeHtml } from "helpers/SanitizeRichText";
+import { useReplaceAriaDescribedBy } from "hooks/useReplaceAriaDescribedBy";
 
 const useStyles = createUseStyles({
   projectLevelHeader: {
@@ -40,6 +41,13 @@ const SidebarProjectLevel = ({ level, rules }) => {
   // Sanitize DangerouslySetInnerHtml with DomPurify
   const sanitizeTipText = sanitizeHtml(tipText);
 
+  const projectLevelPopupElementId = `project-level-tooltip-${rules[0].id}`;
+  const { popupContentId } = useReplaceAriaDescribedBy({
+    elementId: projectLevelPopupElementId,
+    deps: [rules[0].id],
+    setControls: true
+  });
+
   return (
     <div
       className={clsx(
@@ -55,7 +63,10 @@ const SidebarProjectLevel = ({ level, rules }) => {
         {level > 0 && (
           <Popup
             trigger={
-              <span style={{ cursor: "pointer" }}>
+              <span
+                id={projectLevelPopupElementId}
+                style={{ cursor: "pointer" }}
+              >
                 <ToolTipIcon />
               </span>
             }
@@ -65,7 +76,7 @@ const SidebarProjectLevel = ({ level, rules }) => {
           >
             {close => {
               return (
-                <div style={{ margin: "1rem" }}>
+                <div id={popupContentId} style={{ margin: "1rem" }}>
                   <button
                     style={{
                       backgroundColor: "transparent",
@@ -98,6 +109,7 @@ SidebarProjectLevel.propTypes = {
   level: PropTypes.number.isRequired,
   rules: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.number,
       description: PropTypes.string.isRequired
     })
   ).isRequired
