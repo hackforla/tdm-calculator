@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Popup from "reactjs-popup";
 import { MdClose } from "react-icons/md";
 import { sanitizeHtml } from "helpers/SanitizeRichText";
+import { useReplaceAriaDescribedBy } from "hooks/useReplaceAriaDescribedBy";
 
 /* 
 See https://css-tricks.com/building-progress-ring-quickly/
@@ -132,6 +133,13 @@ const EarnedPointsProgress = ({ rulesConfig }) => {
   // Sanitize DangerouslySetInnerHtml with DomPurify
   const sanitizeTipText = sanitizeHtml(tipText);
 
+  const elementId = `earned-points-tooltip-${rulesConfig.earnedPointsRule.id}`;
+  const { popupContentId } = useReplaceAriaDescribedBy({
+    elementId,
+    deps: [rulesConfig.earnedPointsRule.id],
+    setControls: true
+  });
+
   return (
     <div
       className={
@@ -157,7 +165,7 @@ const EarnedPointsProgress = ({ rulesConfig }) => {
         <Popup
           lockScroll={false}
           trigger={
-            <span style={{ cursor: "pointer" }}>
+            <span id={elementId} style={{ cursor: "pointer" }}>
               <ToolTipIcon />
             </span>
           }
@@ -167,7 +175,7 @@ const EarnedPointsProgress = ({ rulesConfig }) => {
         >
           {close => {
             return (
-              <div style={{ margin: "1rem" }}>
+              <div id={popupContentId} style={{ margin: "1rem" }}>
                 <button
                   style={{
                     backgroundColor: "transparent",
@@ -247,6 +255,7 @@ EarnedPointsProgress.propTypes = {
       description: PropTypes.string
     }).isRequired,
     earnedPointsRule: PropTypes.shape({
+      id: PropTypes.number,
       value: PropTypes.number,
       code: PropTypes.string,
       description: PropTypes.string
