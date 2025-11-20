@@ -361,6 +361,9 @@ const RuleStrategy = ({
         <div className={clsx(classes.commentContainer, disabledStyle)}>
           <div>{`If applicable, please input the details about ${name}.`}</div>
           <div>
+            <label htmlFor={`${code}_COMMENTS`} className="sr-only">
+              Comments for {name}
+            </label>
             <textarea
               type="textarea"
               value={comment || ""}
