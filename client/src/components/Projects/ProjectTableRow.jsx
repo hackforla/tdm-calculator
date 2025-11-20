@@ -22,7 +22,7 @@ import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import { Td, TdExpandable } from "../UI/TableData";
 import DROSelectionModal from "../Modals/DROSelectionModal";
-import { useReplaceAriaDescribedBy } from "hooks/useRemovePopupAriaIssue";
+import { useReplaceAriaDescribedBy } from "hooks/useReplaceAriaDescribedBy";
 
 const useStyles = createUseStyles(theme => ({
   actionIcons: {
