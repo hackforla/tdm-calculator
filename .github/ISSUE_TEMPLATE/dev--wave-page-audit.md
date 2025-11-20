@@ -78,6 +78,7 @@ We will need to audit all user interactions on the page so that all possible sta
 - 1.01 TDM Wiki Pages
   - 1.01.01 [Accessibility Audits](https://github.com/hackforla/tdm-calculator/wiki/Accessibility-Audits)
     - 1.01.02 [How to run the WAVE browser extension](https://github.com/hackforla/tdm-calculator/wiki/Accessibility-Audits#tdm-wave-audits)
+  - 1.01.03 https://github.com/hackforla/tdm-calculator/wiki/WAVE-Accessibility-Known-Issues-and-Solutions
 - 1.02 _TDM WAVE Accessibility Audit Spreadsheet_
   - 1.02.01 [1. Page Log](https://docs.google.com/spreadsheets/d/1qiAqR9LH-Gd4LO3aOs0yUy174o5LOmnuU6Bz671mKsY/edit?gid=669073341#gid=669073341)
   - 1.02.02 [2. Audit Log](https://docs.google.com/spreadsheets/d/1qiAqR9LH-Gd4LO3aOs0yUy174o5LOmnuU6Bz671mKsY/edit?gid=0#gid=0)
