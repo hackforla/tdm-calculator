@@ -9,6 +9,7 @@ import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
 import ProjectContextMenu from "../Projects/ProjectContextMenu";
+import { useReplaceAriaDescribedBy } from "hooks/useReplaceAriaDescribedBy";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -79,6 +80,13 @@ const WizardFooter = ({
   const isAdmin = userContext.account?.isAdmin || false;
   const { firstName, lastName, email } = project;
 
+  const actionButtonId = "action-button-wrapper";
+  const { popupContentId } = useReplaceAriaDescribedBy({
+    elementId: actionButtonId,
+    deps: [project.id],
+    setControls: false
+  });
+
   return (
     <>
       <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
@@ -126,10 +134,8 @@ const WizardFooter = ({
                   className={classes.popover}
                   trigger={
                     // needs element wrapped around Button so reactjs-popup has something to anchor on
-                    <div>
-                      <Button id="action" variant="tertiary">
-                        ACTION
-                      </Button>
+                    <div id={actionButtonId}>
+                      <Button variant="tertiary">ACTION</Button>
                     </div>
                   }
                   position="left center"
@@ -137,6 +143,7 @@ const WizardFooter = ({
                 >
                   {close => (
                     <ProjectContextMenu
+                      id={popupContentId}
                       project={project}
                       closeMenu={close}
                       handleCsvModalOpen={handleCsvModalOpen}
