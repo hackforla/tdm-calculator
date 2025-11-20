@@ -11,7 +11,7 @@ import { useEffect } from "react";
  * @returns {Object} An object containing the popup content ID.
  */
 
-export const useRemovePopupAriaIssue = ({ elementId, deps, setControls }) => {
+export const useReplaceAriaDescribedBy = ({ elementId, deps, setControls }) => {
   useEffect(() => {
     const element = document.getElementById(elementId);
     if (element) {

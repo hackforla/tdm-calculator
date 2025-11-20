@@ -22,7 +22,7 @@ import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import { Td, TdExpandable } from "../UI/TableData";
 import DROSelectionModal from "../Modals/DROSelectionModal";
-import { useRemovePopupAriaIssue } from "hooks/useRemovePopupAriaIssue";
+import { useReplaceAriaDescribedBy } from "hooks/useRemovePopupAriaIssue";
 
 const useStyles = createUseStyles(theme => ({
   actionIcons: {
@@ -268,7 +268,7 @@ const ProjectTableRow = ({
   };
 
   const elementId = `context-menu-button-${project.id}`;
-  const { popupContentId } = useRemovePopupAriaIssue({
+  const { popupContentId } = useReplaceAriaDescribedBy({
     elementId,
     deps: [projectRules],
     setControls: true
