@@ -5,11 +5,8 @@ import { createUseStyles } from "react-jss";
 import * as accountService from "../services/account.service";
 import { useToast } from "../contexts/Toast";
 import UserContext from "../contexts/UserContext";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
-import { MdCheck, MdMoreVert } from "react-icons/md";
-import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
 import ContentContainerWithTables from "./Layout/ContentContainerWithTables";
+import RolesTableRow from "./Roles/RolesTableRow";
 
 const useStyles = createUseStyles({
   main: {
@@ -260,93 +257,16 @@ const Roles = ({ contentContainerRef }) => {
         <tbody className={classes.tbody}>
           {filteredAccounts &&
             filteredAccounts.map(account => (
-              <tr
+              <RolesTableRow
                 key={JSON.stringify(account)}
-                className={hoveredRow === account.id ? classes.hoveredRow : ""}
-              >
-                <td className={classes.td}>{account.email}</td>
-                <td className={classes.td}>
-                  {`${account.lastName}, ${account.firstName}`}
-                </td>
-                <td className={classes.tdCenter}>
-                  {account?.numberOfProjects || "0"}
-                </td>
-                <td className={classes.tdCenter}>
-                  <input
-                    type="checkbox"
-                    value={true}
-                    checked={account.isAdmin}
-                    onChange={e => onInputChange(e, account)}
-                    name="isAdmin"
-                  />
-                </td>
-                <td className={classes.tdCenter}>
-                  <input
-                    type="checkbox"
-                    value={true}
-                    checked={account.isSecurityAdmin}
-                    onChange={e => onInputChange(e, account)}
-                    name="isSecurityAdmin"
-                  />
-                </td>
-                <td className={classes.tdCenter}>
-                  <input
-                    type="checkbox"
-                    value={true}
-                    checked={account.isDro}
-                    onChange={e => onInputChange(e, account)}
-                    name="isDro"
-                  />
-                </td>
-                <td className={classes.tdCenter}>
-                  {account.emailConfirmed ? (
-                    <MdCheck alt="Email confirmed" />
-                  ) : (
-                    ""
-                  )}
-                </td>
-                <td className={classes.td}>
-                  {new Date(account.dateCreated).toLocaleDateString("en-US", {
-                    month: "numeric",
-                    day: "numeric",
-                    year: "numeric"
-                  })}
-                </td>
-                <td className={classes.tdCenter}>
-                  <Popup
-                    trigger={
-                      <button
-                        className={`${classes.optionsButton} ${
-                          account?.isSecurityAdmin ||
-                          account?.id === loggedInUserId
-                            ? classes.disabledOptionsButton
-                            : ""
-                        }`}
-                        disabled={
-                          account?.isSecurityAdmin ||
-                          account?.id === loggedInUserId
-                        }
-                      >
-                        <MdMoreVert alt={`Options for ${account?.email}`} />
-                      </button>
-                    }
-                    position="bottom center"
-                    offsetX={-100}
-                    on="click"
-                    closeOnDocumentClick
-                    arrow={false}
-                    onOpen={() => setHoveredRow(account?.id)}
-                    onClose={() => setHoveredRow(null)}
-                  >
-                    <div className={classes.popupContent}>
-                      <RolesContextMenu
-                        user={account}
-                        handleArchiveUser={handleArchiveUser}
-                      />
-                    </div>
-                  </Popup>
-                </td>
-              </tr>
+                account={account}
+                classes={classes}
+                loggedInUserId={loggedInUserId}
+                onInputChange={onInputChange}
+                handleArchiveUser={handleArchiveUser}
+                isHovered={hoveredRow === account.id}
+                setHoveredRow={setHoveredRow}
+              />
             ))}
         </tbody>
       </table>
