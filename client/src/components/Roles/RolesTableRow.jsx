@@ -34,6 +34,9 @@ const RolesTableRow = ({
   const optionsDisabled =
     account?.isSecurityAdmin || account?.id === loggedInUserId;
 
+  const userFullName =
+    `${account?.firstName || ""} ${account?.lastName || ""}`.trim();
+
   return (
     <tr className={isHovered ? classes.hoveredRow : ""}>
       <td className={classes.td}>{account.email}</td>
@@ -48,6 +51,7 @@ const RolesTableRow = ({
           checked={account.isAdmin}
           onChange={e => onInputChange(e, account)}
           name="isAdmin"
+          aria-label={`Toggle Admin role for ${userFullName || account?.email}`}
         />
       </td>
       <td className={classes.tdCenter}>
@@ -57,6 +61,9 @@ const RolesTableRow = ({
           checked={account.isSecurityAdmin}
           onChange={e => onInputChange(e, account)}
           name="isSecurityAdmin"
+          aria-label={`Toggle Security Admin role for ${
+            userFullName || account?.email
+          }`}
         />
       </td>
       <td className={classes.tdCenter}>
@@ -66,6 +73,9 @@ const RolesTableRow = ({
           checked={account.isDro}
           onChange={e => onInputChange(e, account)}
           name="isDro"
+          aria-label={`Toggle Development Review Office role for ${
+            userFullName || account?.email
+          }`}
         />
       </td>
       <td className={classes.tdCenter}>

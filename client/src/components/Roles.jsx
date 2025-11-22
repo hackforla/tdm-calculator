@@ -209,6 +209,7 @@ const Roles = ({ contentContainerRef }) => {
           Find:
         </label>
         <input
+          id="searchString"
           className={classes.input}
           name="searchString"
           type="text"
