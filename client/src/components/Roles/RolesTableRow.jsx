@@ -20,7 +20,7 @@ const RolesTableRow = ({
   isHovered,
   setHoveredRow
 }) => {
-  const elementId = `roles-context-menu-button-${account?.id}`;
+  const elementId = `context-menu-button-${account?.id}`;
   const popupContentId = `popup-content-${elementId}`;
 
   useReplaceAriaAttribute({
@@ -110,11 +110,10 @@ const RolesTableRow = ({
           onOpen={() => setHoveredRow(account?.id)}
           onClose={() => setHoveredRow(null)}
         >
-          <div className={classes.popupContent}>
+          <div className={classes.popupContent} id={popupContentId}>
             <RolesContextMenu
               user={account}
               handleArchiveUser={handleArchiveUser}
-              ariaControlsId={popupContentId}
             />
           </div>
         </Popup>
