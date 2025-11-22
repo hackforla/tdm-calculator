@@ -25,7 +25,6 @@ const RolesTableRow = ({
 
   useReplaceAriaAttribute({
     elementId,
-    deps: [account?.id],
     attrToRemove: "aria-describedby",
     attrToAdd: "aria-controls",
     value: popupContentId
