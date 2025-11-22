@@ -15,15 +15,11 @@ const useStyles = createUseStyles({
   listItemIcon: { marginRight: "0.3rem" }
 });
 
-const RolesContextMenu = ({
-  user,
-  handleArchiveUser,
-  ariaControlsId = undefined
-}) => {
+const RolesContextMenu = ({ user, handleArchiveUser }) => {
   const classes = useStyles();
 
   return (
-    <ul className={classes.list} id={ariaControlsId}>
+    <ul className={classes.list}>
       <li
         onClick={() => handleArchiveUser(user)}
         className={classes.listItem}
@@ -42,8 +38,7 @@ const RolesContextMenu = ({
 
 RolesContextMenu.propTypes = {
   user: PropTypes.object,
-  handleArchiveUser: PropTypes.func,
-  ariaControlsId: PropTypes.string
+  handleArchiveUser: PropTypes.func
 };
 
 export default RolesContextMenu;
