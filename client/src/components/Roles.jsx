@@ -230,29 +230,29 @@ const Roles = ({ contentContainerRef }) => {
       <table className={classes.table}>
         <thead className={classes.thead}>
           <tr className={classes.tr}>
-            <td className={`${classes.td} ${classes.tdheadLabel}`}>Email</td>
-            <td className={`${classes.td} ${classes.tdheadLabel}`}>Name</td>
-            <td className={`${classes.td} ${classes.tdheadLabel}`}>
+            <th className={`${classes.td} ${classes.theadLabel}`}>Email</th>
+            <th className={`${classes.td} ${classes.theadLabel}`}>Name</th>
+            <th className={`${classes.td} ${classes.theadLabel}`}>
               # of Projects
-            </td>
-            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+            </th>
+            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Admin
-            </td>
-            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+            </th>
+            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Security Admin
-            </td>
-            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+            </th>
+            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Dev. Review Office
-            </td>
-            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+            </th>
+            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Email Confirmed
-            </td>
-            <td className={`${classes.td} ${classes.tdheadLabel}`}>
+            </th>
+            <th className={`${classes.td} ${classes.theadLabel}`}>
               Registration Date
-            </td>
-            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+            </th>
+            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Options
-            </td>
+            </th>
           </tr>
         </thead>
         <tbody className={classes.tbody}>
