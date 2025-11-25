@@ -31,8 +31,6 @@ export const jssTheme = {
       gray: "#939393",
       mediumGray: "#CFCFCF",
       lightGray: "#EEF1F4",
-      darkGray: "#4A4A4A",
-      slateGray: "#525252",
       darkRed: "#990000",
       green: "#A7C539",
       darkNavy: "#0f2940",
