@@ -22,6 +22,7 @@ import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import { Td, TdExpandable } from "../UI/TableData";
 import DROSelectionModal from "../Modals/DROSelectionModal";
+import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles(theme => ({
   actionIcons: {
@@ -266,14 +267,15 @@ const ProjectTableRow = ({
     return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
   };
 
-  useEffect(() => {
-    const button = document.getElementById(`context-menu-button-${project.id}`);
-
-    if (button) {
-      button.removeAttribute("aria-describedby");
-      button.setAttribute("aria-controls", `popup-menu-${project.id}`);
-    }
-  }, [projectRules, project.id]);
+  const elementId = `context-menu-button-${project.id}`;
+  const popupContentId = `popup-content-${elementId}`;
+  useReplaceAriaAttribute({
+    elementId,
+    deps: [projectRules],
+    attrToRemove: "aria-describedby",
+    attrToAdd: "aria-controls",
+    value: popupContentId
+  });
 
   return (
     <tr key={project.id}>
@@ -431,11 +433,7 @@ const ProjectTableRow = ({
             <Popup
               className={classes.popover}
               trigger={
-                <button
-                  aria-label="context menu button"
-                  id={`context-menu-button-${project.id}`}
-                  aria-controls={`popup-menu-${project.id}`}
-                >
+                <button aria-label="context menu button" id={elementId}>
                   <MdMoreVert
                     aria-hidden="true"
                     alt={`Show project context menu`}
@@ -449,6 +447,7 @@ const ProjectTableRow = ({
             >
               {close => (
                 <ProjectContextMenu
+                  ariaControlsId={popupContentId}
                   project={project}
                   closeMenu={close}
                   handleCsvModalOpen={ev => handleCsvModalOpen(ev, project)}
