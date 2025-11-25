@@ -12,6 +12,7 @@ const getByCalculationId = async calculationId => {
     return rules.map(rule => {
       rule.value = JSON.parse(rule.value);
       rule.choices = JSON.parse(rule.choices);
+      //rule.sideEffects = rule.sideEffects ? JSON.parse(rule.sideEffects) : null;
       //Sanitize rule descriptions that contain HTML. It renders tooltips with dangerouslySetInnerHTML.
       //Reference Decision Records https://github.com/hackforla/tdm-calculator/wiki/Decision-Records
       rule.description = sanitizeHtml(rule.description);

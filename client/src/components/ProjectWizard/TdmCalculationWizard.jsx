@@ -57,14 +57,9 @@ const TdmCalculationWizard = props => {
     onResetProject,
     initializeStrategies,
     filters,
-    onPkgSelect,
     onParkingProvidedChange,
     resultRuleCodes,
     onSave,
-    allowResidentialPackage,
-    allowSchoolPackage,
-    residentialPackageSelected,
-    schoolPackageSelected,
     formIsDirty,
     projectIsValid,
     contentContainerRef,
@@ -334,7 +329,6 @@ const TdmCalculationWizard = props => {
 
   const projectDescriptionRules =
     rules && rules.filter(filters.projectDescriptionRules);
-  const landUseRules = rules && rules.filter(filters.landUseRules);
   const specificationRules = rules && rules.filter(filters.specificationRules);
   const targetPointRules = rules && rules.filter(filters.targetPointRules);
   const strategyRules = rules && rules.filter(filters.strategyRules);
@@ -464,17 +458,11 @@ const TdmCalculationWizard = props => {
           <ProjectMeasures
             projectLevel={projectLevel}
             rules={strategyRules}
-            landUseRules={landUseRules}
             onInputChange={onInputChangeMeasure}
             onCommentChange={onCommentChange}
             initializeStrategies={initializeStrategies}
-            onPkgSelect={onPkgSelect}
             uncheckAll={() => onUncheckAll(filters.strategyRules)}
             resetProject={() => setResetProjectWarningModalOpen(true)}
-            allowResidentialPackage={allowResidentialPackage}
-            allowSchoolPackage={allowSchoolPackage}
-            residentialPackageSelected={residentialPackageSelected}
-            schoolPackageSelected={schoolPackageSelected}
           />
         );
       case 5:
@@ -622,19 +610,13 @@ TdmCalculationWizard.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   onPartialAINChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func,
-  onPkgSelect: PropTypes.func.isRequired,
   onParkingProvidedChange: PropTypes.func.isRequired,
   initializeStrategies: PropTypes.func.isRequired,
   onUncheckAll: PropTypes.func.isRequired,
   onResetProject: PropTypes.func.isRequired,
   filters: PropTypes.object.isRequired,
   resultRuleCodes: PropTypes.array.isRequired,
-  // loginId: PropTypes.number.isRequired,
   onSave: PropTypes.func.isRequired,
-  allowResidentialPackage: PropTypes.bool.isRequired,
-  allowSchoolPackage: PropTypes.bool.isRequired,
-  residentialPackageSelected: PropTypes.func,
-  schoolPackageSelected: PropTypes.func,
   formIsDirty: PropTypes.bool,
   projectIsValid: PropTypes.func,
   inapplicableStrategiesModal: PropTypes.bool,
