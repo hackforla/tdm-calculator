@@ -243,6 +243,9 @@ const RolesArchive = ({ contentContainerRef }) => {
               <td className={`${classes.td} ${classes.tdheadLabel}`}>
                 # of Projects
               </td>
+              <td className={`${classes.td} ${classes.tdheadLabel}`}>
+                # of Submissions
+              </td>
               <td className={classes.td}>Date Archived</td>
               <td className={classes.tdCenter}></td>
             </tr>
@@ -262,6 +265,9 @@ const RolesArchive = ({ contentContainerRef }) => {
                   >{`${account.lastName}, ${account.firstName}`}</td>
                   <td className={classes.tdCenter}>
                     {account?.numberOfProjects || "0"}
+                  </td>
+                  <td className={classes.tdCenter}>
+                    {account?.numberOfSubmissions || "0"}
                   </td>
                   <td className={classes.td}>
                     {new Date(account.archivedAt).toLocaleDateString()}
