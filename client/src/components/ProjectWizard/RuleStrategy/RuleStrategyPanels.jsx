@@ -3,21 +3,34 @@ import PropTypes from "prop-types";
 import RuleStrategyList from "./RuleStrategyList";
 import Loader from "react-loader";
 import { createUseStyles } from "react-jss";
+import { useTheme } from "react-jss";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   panelContainer: {
     margin: "0.5em"
   },
   // below uses same styles as in RuleStrategy.js
-  strategyContainer: {
+  strategies: {
     minWidth: "60vw",
     margin: "0.2em",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#0f2940",
+    backgroundColor: theme.colorText,
     color: "white",
+    padding: ".4em",
+    marginBottom: "0.6em"
+  },
+  packages: {
+    minWidth: "60vw",
+    margin: "0.2em",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: theme.colorPrimary,
+    color: "black",
     padding: ".4em",
     marginBottom: "0.6em"
   },
@@ -40,10 +53,13 @@ const useStyles = createUseStyles({
     display: "flex",
     justifyContent: "center"
   }
-});
+}));
 
 const RuleStrategyPanels = props => {
   const { rules, suppressHeader, projectLevel } = props;
+  const theme = useTheme();
+  const classes = useStyles(theme);
+
   let panelIds = rules.reduce((acc, rule) => {
     if (!acc.includes(rule.calculationPanelId)) {
       acc.push(rule.calculationPanelId);
@@ -51,13 +67,10 @@ const RuleStrategyPanels = props => {
     return acc;
   }, []);
 
-  // Delete Package Bonus section if not project level != 1
-  if (projectLevel !== 1) {
-    panelIds = panelIds.filter(panelId => panelId !== 27);
-  }
-  // Group rules into an array where each element is an array of
-  // rules for a particular panel
-  const classes = useStyles();
+  // // Delete Package Bonus section if not project level != 1
+  // if (projectLevel !== 1) {
+  //   panelIds = panelIds.filter(panelId => panelId !== 27);
+  // }
 
   const panelsRules = panelIds.map(panelId => {
     return rules.filter(rule => rule.calculationPanelId === panelId);
@@ -73,7 +86,7 @@ const RuleStrategyPanels = props => {
               className={classes.panelContainer}
             >
               {!suppressHeader ? (
-                <div className={classes.strategyContainer}>
+                <div className={classes[rules[0].cssClass]}>
                   <h4 className={classes.strategyName}>{rules[0].panelName}</h4>
                   <div className={classes.points}>Possible</div>
                   <div className={classes.points}>Earned</div>
@@ -103,7 +116,8 @@ RuleStrategyPanels.propTypes = {
   rules: PropTypes.arrayOf(
     PropTypes.shape({
       calculationPanelId: PropTypes.number.isRequired,
-      panelName: PropTypes.string.isRequired
+      panelName: PropTypes.string.isRequired,
+      cssClass: PropTypes.string.isRequired
     })
   ).isRequired,
   suppressHeader: PropTypes.bool,

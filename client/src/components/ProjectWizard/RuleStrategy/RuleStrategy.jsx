@@ -173,7 +173,7 @@ const RuleStrategy = ({
     const ruleCode = (e.target && e.target.name) || e.detail.name;
     if (
       ruleCode === "STRATEGY_AFFORDABLE" &&
-      e.target.value == 4 &&
+      e.target.value == "4" &&
       projectLevel <= 1
     ) {
       /* Need to stash the event object to pass to parent if user chooses to proceed.
