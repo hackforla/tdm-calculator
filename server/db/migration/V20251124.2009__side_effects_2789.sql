@@ -1,4 +1,15 @@
 
+IF NOT EXISTS (SELECT 1
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'CalculationRule' AND COLUMN_NAME = 'sideEffects')
+BEGIN
+              
+  ALTER TABLE CalculationRule
+  ADD sideEffects nvarchar(max) null
+
+END
+
+GO
 
 CREATE OR ALTER   PROC [dbo].[CalculationRule_SelectByCalculationId]
 	@calculationId int
@@ -9,7 +20,6 @@ BEGIN
 	EXEC dbo.CalculationRule_SelectByCalculationId 1
 
 */
-
 
 	SELECT
 		cr.id
@@ -52,13 +62,6 @@ END
 GO
 
 
-/*
-
-ALTER TABLE CalculationRule
-ADD sideEffects nvarchar(max) null
-
-GO
-*/
 
 DELETE FROM CalculationRule where code = 'PKG_RESIDENTIAL' and calculationId = 1
 
@@ -465,6 +468,9 @@ where calculationId = 1 and code = 'PTS_PKG_SCHOOL'
 
 UPDATE CalculationPanel SET cssClass = 'packages'
 WHERE id = 27
+
+UPDATE CalculationPanel SET cssClass = 'strategies'
+WHERE id = 32
 
 
 	
