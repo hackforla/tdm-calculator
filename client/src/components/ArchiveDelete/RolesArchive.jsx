@@ -305,12 +305,14 @@ const RolesArchive = ({ contentContainerRef }) => {
                           handleUnarchiveUser={handleUnarchiveUser}
                         />
                       </div>
-                      <div className={classes.popupContent}>
-                        <RolesDeleteContextMenu
-                          user={account}
-                          handleDeleteUser={handleDeleteUser}
-                        />
-                      </div>
+                      {!account?.numberOfSubmissions && (
+                        <div className={classes.popupContent}>
+                          <RolesDeleteContextMenu
+                            user={account}
+                            handleDeleteUser={handleDeleteUser}
+                          />
+                        </div>
+                      )}
                     </Popup>
                   </td>
                 </tr>
