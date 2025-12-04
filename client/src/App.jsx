@@ -26,7 +26,7 @@ import ConfirmEmail from "./components/Authorization/ConfirmEmail";
 import Login from "./components/Authorization/Login";
 import Unauthorized from "./components/Authorization/Unauthorized";
 import Admin from "./components/Admin/Admin";
-import Roles from "./components/Roles";
+import Roles from "./components/Roles/Roles";
 import ProjectsArchive from "./components/ArchiveDelete/ProjectsArchive";
 import RolesArchive from "./components/ArchiveDelete/RolesArchive";
 import FaqView from "./components/Faq/FaqView";
