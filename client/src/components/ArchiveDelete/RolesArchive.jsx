@@ -1,39 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import Popup from "reactjs-popup";
-import { MdDelete, MdUndo } from "react-icons/md";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
 import RolesUnarchiveContextMenu from "./RolesUnarchiveContextMenu";
 import RolesDeleteContextMenu from "./RolesDeleteContextMenu";
+import UserContext from "../../contexts/UserContext";
+import { MdMoreVert, MdOutlineSearch } from "react-icons/md";
+import ContentContainerWithTables from "components/Layout/ContentContainerWithTables";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   main: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "center"
+    alignItems: "center",
+    margin: "auto"
   },
   pageTitle: {
-    marginTop: "2em"
+    margin: 0
   },
   pageSubtitle: {
-    marginTop: "0.5em",
+    marginTop: "1em",
     textAlign: "center",
     fontSize: "20px",
     fontWeight: "normal",
     fontStyle: "normal"
   },
   table: {
-    minWidth: "80%",
+    minWidth: "100%",
     margin: "20px"
   },
   tr: {
     margin: "0.5em"
   },
   td: {
-    padding: "0.2em",
+    padding: "0.2em 2em",
     textAlign: "left"
   },
   tdCenter: {
@@ -42,18 +46,23 @@ const useStyles = createUseStyles({
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: "#0f2940",
-    color: "white",
+    backgroundColor: theme.colors.primary.navy,
+    color: theme.colors.primary.white,
     "& td": {
-      padding: ".4em"
+      padding: "12px"
     }
   },
   tbody: {
+    background: "#F9FAFB",
+    "& tr": {
+      borderBottom: "1px solid #E7EBF0"
+    },
     "& tr td": {
-      padding: ".4em 0"
+      padding: "12px",
+      verticalAlign: "top"
     },
     "& tr:hover": {
-      background: "#f0e300"
+      background: theme.colors.secondary.mediumGray
     }
   },
   link: {
@@ -66,7 +75,7 @@ const useStyles = createUseStyles({
     padding: "0.2em 0.5em",
     borderRadius: "4px",
     "&:hover": {
-      backgroundColor: "#f2f2f2"
+      backgroundColor: theme.colors.secondary.mediumGray
     }
   },
   popupContent: {
@@ -77,15 +86,54 @@ const useStyles = createUseStyles({
     }
   },
   hoveredRow: {
-    backgroundColor: "#f0e300"
+    backgroundColor: "#B2C0D3"
+  },
+  searchBarWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "start",
+    position: "relative",
+    margin: "1em 0 0 0"
+  },
+  textInputLabel: {
+    fontSize: "20px",
+    fontWeight: "normal",
+    fontStyle: "normal",
+    width: "140px",
+    alignSelf: "center"
+  },
+  searchBar: {
+    width: "300px",
+    padding: "12px 12px 12px 40px"
+  },
+  searchIcon: {
+    position: "absolute",
+    left: "150px",
+    top: "10px",
+    height: "24px",
+    width: "24px"
+  },
+  popover: {
+    display: "flex",
+    flexDirection: "column",
+    listStyleType: "none",
+    margin: 0,
+    padding: 0,
+    boxShadow:
+      "10px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
   }
-});
+}));
 
-const RolesArchive = () => {
+const RolesArchive = ({ contentContainerRef }) => {
+  const [searchString, setSearchString] = useState("");
   const [archivedAccounts, setArchivedAccounts] = useState([]);
+  const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const { add } = useToast();
+  const userContext = useContext(UserContext);
+  const loggedInUserId = userContext.account?.id;
 
   useEffect(() => {
     const getArchivedAccounts = async () => {
@@ -93,6 +141,7 @@ const RolesArchive = () => {
         const response = await accountService.getAllArchivedAccounts();
         if (response.status === 200) {
           setArchivedAccounts(response.data);
+          setFilteredAccounts(response.data);
         } else {
           add("Failed to get archived accounts.");
         }
@@ -102,6 +151,20 @@ const RolesArchive = () => {
     };
     getArchivedAccounts();
   }, [add]);
+
+  const filt = (allAccounts, searchString) => {
+    const str = searchString;
+    const filteredAccounts = allAccounts.filter(
+      account =>
+        str === "" ||
+        account.email.toLowerCase().includes(str) ||
+        account.firstName.toLowerCase().includes(str) ||
+        account.lastName.toLowerCase().includes(str)
+    );
+    if (filteredAccounts) {
+      setFilteredAccounts(filteredAccounts);
+    }
+  };
 
   const handleUnarchiveUser = async user => {
     try {
@@ -136,99 +199,134 @@ const RolesArchive = () => {
   };
 
   return (
-    <div className={classes.main}>
-      <h1 className={classes.pageTitle}>Archived Accounts</h1>
-      <div className={classes.pageSubtitle}>
-        <Link to="/roles" className={classes.link}>
-          Return to Active Accounts
-        </Link>
-      </div>
-      <div className={classes.pageSubtitle}>
-        <Link to="/archivedprojects" className={classes.link}>
-          See All Archived Projects
-        </Link>
-      </div>
-
-      <table className={classes.table}>
-        <thead className={classes.thead}>
-          <tr className={classes.tr}>
-            <td className={classes.td}>Email</td>
-            <td className={classes.td}>Name</td>
-            <td className={classes.td}>Archive Date</td>
-            <td className={classes.tdCenter}>Unarchive and Restore</td>
-            <td className={classes.tdCenter}>Delete</td>
-          </tr>
-        </thead>
-        <tbody className={classes.tbody}>
-          {archivedAccounts.map(account => (
-            <tr
-              key={account.id}
-              className={hoveredRow === account.id ? classes.hoveredRow : ""}
-            >
-              <td className={classes.td}>{account.email}</td>
-              <td
-                className={classes.td}
-              >{`${account.lastName}, ${account.firstName}`}</td>
-              <td className={classes.td}>
-                {new Date(account.archivedAt).toLocaleDateString()}
+    <ContentContainerWithTables contentContainerRef={contentContainerRef}>
+      <div className={classes.main}>
+        <h1 className={classes.pageTitle}>Archived Accounts</h1>
+        <div className={classes.pageSubtitle}>
+          Archived accounts don’t have access to project data. If a user with an
+          archived account needs to access this info, you can restore their
+          account.
+        </div>
+        <div className={classes.pageSubtitle}>
+          <Link to="/roles" className={classes.link}>
+            Return to Active Accounts
+          </Link>
+        </div>
+        <div className={classes.pageSubtitle}>
+          <Link to="/archivedprojects" className={classes.link}>
+            See All Archived Projects
+          </Link>
+        </div>
+        <div className={classes.searchBarWrapper}>
+          <label htmlFor="searchString" className={classes.textInputLabel}>
+            Search for user:
+          </label>
+          <input
+            className={classes.searchBar}
+            name="searchString"
+            type="text"
+            value={searchString || ""}
+            onChange={e => {
+              setSearchString(e.target.value);
+              filt(archivedAccounts, e.target.value);
+            }}
+            data-testid="searchString"
+            placeholder="Enter name or email"
+            id="searchString"
+          />
+          <MdOutlineSearch className={classes.searchIcon} />
+        </div>
+        <table className={classes.table}>
+          <thead className={classes.thead}>
+            <tr className={classes.tr}>
+              <td className={classes.td}>Email</td>
+              <td className={classes.td}>Name</td>
+              <td className={`${classes.td} ${classes.tdheadLabel}`}>
+                # of Projects
               </td>
-              {/* Unarchive User */}
-              <td className={classes.tdCenter}>
-                <Popup
-                  trigger={
-                    <button className={`${classes.optionsButton}`}>
-                      <MdUndo alt={`Unarchive ${account.email}`} />
-                    </button>
-                  }
-                  position="bottom center"
-                  offsetX={-100}
-                  on="click"
-                  closeOnDocumentClick
-                  arrow={false}
-                  onOpen={() => setHoveredRow(account.id)}
-                  onClose={() => setHoveredRow(null)}
-                >
-                  <div className={classes.popupContent}>
-                    <RolesUnarchiveContextMenu
-                      user={account}
-                      handleUnarchiveUser={handleUnarchiveUser}
-                    />
-                  </div>
-                </Popup>
+              <td className={`${classes.td} ${classes.tdheadLabel}`}>
+                # of Submissions
               </td>
-              {/* Delete User */}
-              <td className={classes.tdCenter}>
-                <Popup
-                  trigger={
-                    <button
-                      className={`${classes.optionsButton}`}
-                      style={{ color: "red" }}
-                    >
-                      <MdDelete alt={`Permanently Delete ${account.email}`} />
-                    </button>
-                  }
-                  position="bottom center"
-                  offsetX={-100}
-                  on="click"
-                  closeOnDocumentClick
-                  arrow={false}
-                  onOpen={() => setHoveredRow(account.id)}
-                  onClose={() => setHoveredRow(null)}
-                >
-                  <div className={classes.popupContent}>
-                    <RolesDeleteContextMenu
-                      user={account}
-                      handleDeleteUser={handleDeleteUser}
-                    />
-                  </div>
-                </Popup>
-              </td>
+              <td className={classes.td}>Date Archived</td>
+              <td className={classes.tdCenter}></td>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody className={classes.tbody}>
+            {filteredAccounts &&
+              filteredAccounts.map(account => (
+                <tr
+                  key={account.id}
+                  className={
+                    hoveredRow === account.id ? classes.hoveredRow : ""
+                  }
+                >
+                  <td className={classes.td}>{account.email}</td>
+                  <td
+                    className={classes.td}
+                  >{`${account.lastName}, ${account.firstName}`}</td>
+                  <td className={classes.tdCenter}>
+                    {account?.numberOfProjects || "0"}
+                  </td>
+                  <td className={classes.tdCenter}>
+                    {account?.numberOfSubmissions || "0"}
+                  </td>
+                  <td className={classes.td}>
+                    {new Date(account.archivedAt).toLocaleDateString()}
+                  </td>
+                  <td className={classes.tdCenter}>
+                    <Popup
+                      className={classes.popover}
+                      trigger={
+                        <button
+                          className={`${classes.optionsButton} ${
+                            account?.isSecurityAdmin ||
+                            account?.id === loggedInUserId
+                              ? classes.disabledOptionsButton
+                              : ""
+                          }`}
+                          disabled={
+                            account?.isSecurityAdmin ||
+                            account?.id === loggedInUserId
+                          }
+                        >
+                          <MdMoreVert alt={`Options for ${account?.email}`} />
+                        </button>
+                      }
+                      position="left center"
+                      offsetX={-5}
+                      on="click"
+                      closeOnDocumentClick
+                      arrow={true}
+                      onOpen={() => setHoveredRow(account?.id)}
+                      onClose={() => setHoveredRow(null)}
+                    >
+                      <div className={classes.popupContent}>
+                        <RolesUnarchiveContextMenu
+                          user={account}
+                          handleUnarchiveUser={handleUnarchiveUser}
+                        />
+                      </div>
+                      {!account?.numberOfSubmissions && (
+                        <div className={classes.popupContent}>
+                          <RolesDeleteContextMenu
+                            user={account}
+                            handleDeleteUser={handleDeleteUser}
+                          />
+                        </div>
+                      )}
+                    </Popup>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+    </ContentContainerWithTables>
   );
+};
+
+RolesArchive.propTypes = {
+  contentContainerRef: PropTypes.object
 };
 
 export default RolesArchive;

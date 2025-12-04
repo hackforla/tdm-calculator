@@ -14,7 +14,8 @@ const useStyles = createUseStyles(theme => ({
     margin: "0.2em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    height: "27px"
   },
   commentContainer: {
     minWidth: "60vw",
@@ -30,10 +31,12 @@ const useStyles = createUseStyles(theme => ({
     opacity: "0.6"
   },
   points: {
-    marginLeft: "0.5em",
+    flexBasis: "10%",
+    marginLeft: "1em",
     marginRight: "0.5em",
     textAlign: "right",
-    minWidth: "65px"
+    flexGrow: "0",
+    flexShrink: "1"
   },
   numberInput: {
     padding: "0.1em",
@@ -139,6 +142,8 @@ const RuleStrategy = ({
     useState(false);
   const [inputEvent, setInputEvent] = useState({});
   const [previousValue, setPreviousValue] = useState(value);
+  const [localDescription, setLocalDescription] = useState(description);
+  const [isEditing, setIsEditing] = useState(false);
 
   const closeAffordableEdgeCaseModal = () => {
     // Need to modify event to change value back to previous value and
@@ -156,6 +161,11 @@ const RuleStrategy = ({
     setAffordableEdgeCaseModalOpen(false);
   };
 
+  const handleDescriptionUpdate = newDescription => {
+    setLocalDescription(newDescription);
+    setIsEditing(false);
+  };
+
   const onInputChangeIfAllowed = e => {
     // If user changes affordable housing strategy to 100% for a Level 1
     // project, we want to prompt them to confirm the change before
@@ -163,7 +173,7 @@ const RuleStrategy = ({
     const ruleCode = (e.target && e.target.name) || e.detail.name;
     if (
       ruleCode === "STRATEGY_AFFORDABLE" &&
-      e.target.value == 4 &&
+      e.target.value == "4" &&
       projectLevel <= 1
     ) {
       /* Need to stash the event object to pass to parent if user chooses to proceed.
@@ -220,12 +230,13 @@ const RuleStrategy = ({
         <div className={clsx(classes.rowContainer, disabledStyle)}>
           <RuleLabel
             id={id}
-            description={description}
+            description={localDescription}
             code={code}
             display={display}
             link={link}
             name={name}
             setShowDescription={setShowDescription}
+            setIsEditing={setIsEditing}
           />
           <div>
             <input
@@ -250,12 +261,13 @@ const RuleStrategy = ({
         <div className={clsx(classes.rowContainer, disabledStyle)}>
           <RuleLabel
             id={id}
-            description={description}
+            description={localDescription}
             code={code}
             display={display}
             link={link}
             name={name}
             setShowDescription={setShowDescription}
+            setIsEditing={setIsEditing}
           />
           <div>
             <input
@@ -276,12 +288,13 @@ const RuleStrategy = ({
         <div className={clsx(classes.rowContainer, disabledStyle)}>
           <RuleLabel
             id={id}
-            description={description}
+            description={localDescription}
             code={code}
             display={display}
             link={link}
             name={name}
             setShowDescription={setShowDescription}
+            setIsEditing={setIsEditing}
           />
           <div className={classes.choiceSelectContainer}>
             <UniversalSelect
@@ -304,12 +317,13 @@ const RuleStrategy = ({
         <div className={clsx(classes.rowContainer, disabledStyle)}>
           <RuleLabel
             id={id}
-            description={description}
+            description={localDescription}
             code={code}
             display={display}
             link={link}
             name={name}
             setShowDescription={setShowDescription}
+            setIsEditing={setIsEditing}
           />
           <input
             autoFocus={autoFocus}
@@ -331,12 +345,13 @@ const RuleStrategy = ({
         <div className={clsx(classes.rowContainer, disabledStyle)}>
           <RuleLabel
             id={id}
-            description={description}
+            description={localDescription}
             code={code}
             display={display}
             link={link}
             name={name}
             setShowDescription={setShowDescription}
+            setIsEditing={setIsEditing}
           />
           <div className={classes.allElse} name={code} />
           {possibleAndEarnedPointsContainers()}
@@ -367,11 +382,14 @@ const RuleStrategy = ({
           </div>
         </div>
       ) : null}
-      {showDescription && description ? (
+      {(showDescription && localDescription) || isEditing ? (
         <AccordionToolTip
-          description={description}
+          description={localDescription || ""}
           setShowDescription={setShowDescription}
           disabledStyle={disabledStyle}
+          id={id}
+          forceEditMode={isEditing}
+          onEditDescription={handleDescriptionUpdate}
         />
       ) : null}
 

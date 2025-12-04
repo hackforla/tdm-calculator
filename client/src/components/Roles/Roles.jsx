@@ -2,14 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { Navigate, Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-import * as accountService from "../services/account.service";
-import { useToast } from "../contexts/Toast";
-import UserContext from "../contexts/UserContext";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
-import { MdCheck, MdMoreVert } from "react-icons/md";
-import RolesContextMenu from "./ArchiveDelete/RolesContextMenu";
-import ContentContainer from "./Layout/ContentContainer";
+import * as accountService from "../../services/account.service";
+import { useToast } from "../../contexts/Toast";
+import UserContext from "../../contexts/UserContext";
+import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
+import RolesTableRow from "./RolesTableRow";
 
 const useStyles = createUseStyles({
   main: {
@@ -19,7 +16,7 @@ const useStyles = createUseStyles({
     alignItems: "center"
   },
   pageTitle: {
-    marginTop: "2em"
+    marginTop: 0
   },
   pageSubtitle: {
     marginTop: "0.5em",
@@ -154,14 +151,19 @@ const Roles = ({ contentContainerRef }) => {
     filt(newAccounts, searchString);
 
     const msg = `The ${
-      e.target.name === "isAdmin" ? "Admin" : "Security Admin"
+      e.target.name === "isAdmin"
+        ? "Admin"
+        : e.target.name === "isDro"
+          ? "Development Review Office"
+          : "Security Admin"
     } role has been ${e.target.checked ? "granted to" : "revoked from"} ${
       newAccount.firstName
     } ${newAccount.lastName}.`;
     const reqBody = {
       id: newAccount.id,
       isAdmin: newAccount.isAdmin,
-      isSecurityAdmin: newAccount.isSecurityAdmin
+      isSecurityAdmin: newAccount.isSecurityAdmin,
+      isDro: newAccount.isDro
     };
 
     try {
@@ -190,7 +192,7 @@ const Roles = ({ contentContainerRef }) => {
   };
 
   return (
-    <ContentContainer contentContainerRef={contentContainerRef}>
+    <ContentContainerWithTables contentContainerRef={contentContainerRef}>
       {redirectPath ? <Navigate to="{redirectPath}" /> : null}
       <h1 className={classes.pageTitle}>Security Roles</h1>
       <div className={classes.pageSubtitle}>
@@ -207,6 +209,7 @@ const Roles = ({ contentContainerRef }) => {
           Find:
         </label>
         <input
+          id="searchString"
           className={classes.input}
           name="searchString"
           type="text"
@@ -227,107 +230,48 @@ const Roles = ({ contentContainerRef }) => {
       <table className={classes.table}>
         <thead className={classes.thead}>
           <tr className={classes.tr}>
-            <td className={`${classes.td} ${classes.tdheadLabel}`}>Email</td>
-            <td className={`${classes.td} ${classes.tdheadLabel}`}>Name</td>
-            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+            <th className={`${classes.td} ${classes.theadLabel}`}>Email</th>
+            <th className={`${classes.td} ${classes.theadLabel}`}>Name</th>
+            <th className={`${classes.td} ${classes.theadLabel}`}>
+              # of Projects
+            </th>
+            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Admin
-            </td>
-            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+            </th>
+            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Security Admin
-            </td>
-            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+            </th>
+            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
+              Dev. Review Office
+            </th>
+            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Email Confirmed
-            </td>
-            <td className={`${classes.td} ${classes.tdheadLabel}`}>
+            </th>
+            <th className={`${classes.td} ${classes.theadLabel}`}>
               Registration Date
-            </td>
-            <td className={`${classes.tdCenter} ${classes.tdheadLabel}`}>
+            </th>
+            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Options
-            </td>
+            </th>
           </tr>
         </thead>
         <tbody className={classes.tbody}>
           {filteredAccounts &&
             filteredAccounts.map(account => (
-              <tr
+              <RolesTableRow
                 key={JSON.stringify(account)}
-                className={hoveredRow === account.id ? classes.hoveredRow : ""}
-              >
-                <td className={classes.td}>{account.email}</td>
-                <td className={classes.td}>
-                  {`${account.lastName}, ${account.firstName}`}
-                </td>
-                <td className={classes.tdCenter}>
-                  <input
-                    type="checkbox"
-                    value={true}
-                    checked={account.isAdmin}
-                    onChange={e => onInputChange(e, account)}
-                    name="isAdmin"
-                  />
-                </td>
-                <td className={classes.tdCenter}>
-                  <input
-                    type="checkbox"
-                    value={true}
-                    checked={account.isSecurityAdmin}
-                    onChange={e => onInputChange(e, account)}
-                    name="isSecurityAdmin"
-                  />
-                </td>
-                <td className={classes.tdCenter}>
-                  {account.emailConfirmed ? (
-                    <MdCheck alt="Email confirmed" />
-                  ) : (
-                    ""
-                  )}
-                </td>
-                <td className={classes.td}>
-                  {new Date(account.dateCreated).toLocaleDateString("en-US", {
-                    month: "numeric",
-                    day: "numeric",
-                    year: "numeric"
-                  })}
-                </td>
-                <td className={classes.tdCenter}>
-                  <Popup
-                    trigger={
-                      <button
-                        className={`${classes.optionsButton} ${
-                          account?.isSecurityAdmin ||
-                          account?.id === loggedInUserId
-                            ? classes.disabledOptionsButton
-                            : ""
-                        }`}
-                        disabled={
-                          account?.isSecurityAdmin ||
-                          account?.id === loggedInUserId
-                        }
-                      >
-                        <MdMoreVert alt={`Options for ${account?.email}`} />
-                      </button>
-                    }
-                    position="bottom center"
-                    offsetX={-100}
-                    on="click"
-                    closeOnDocumentClick
-                    arrow={false}
-                    onOpen={() => setHoveredRow(account?.id)}
-                    onClose={() => setHoveredRow(null)}
-                  >
-                    <div className={classes.popupContent}>
-                      <RolesContextMenu
-                        user={account}
-                        handleArchiveUser={handleArchiveUser}
-                      />
-                    </div>
-                  </Popup>
-                </td>
-              </tr>
+                account={account}
+                classes={classes}
+                loggedInUserId={loggedInUserId}
+                onInputChange={onInputChange}
+                handleArchiveUser={handleArchiveUser}
+                isHovered={hoveredRow === account.id}
+                setHoveredRow={setHoveredRow}
+              />
             ))}
         </tbody>
       </table>
-    </ContentContainer>
+    </ContentContainerWithTables>
   );
 };
 

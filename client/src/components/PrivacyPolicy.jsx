@@ -12,7 +12,8 @@ const useStyles = createUseStyles({
   title: {
     color: "#0F2940",
     textAlign: "center",
-    marginBottom: ".7em"
+    marginBottom: ".7em",
+    marginTop: 0
   },
   subTitle: {
     color: "grey",
@@ -42,14 +43,18 @@ const useStyles = createUseStyles({
     width: "21.15%"
   },
   addressParagraph: {
-    marginBottom: "0px"
+    marginBottom: "0px",
+    textAlign: "center"
   },
   tdmWizardPageSubtitle: {
     marginTop: "o.5em",
     marginBottom: "1em",
-    textAlign: "center",
+    textAlign: "left",
     fontWeight: "bold",
     fontStyle: "normal"
+  },
+  spacedParagraph: {
+    marginBottom: "1em"
   }
 });
 
@@ -61,11 +66,11 @@ const PrivacyPolicy = () => {
         <h1 className={classes.title}>Privacy Policy</h1>
 
         <div className={classes.privacyPolicyContent}>
-          <h3 className={classes.tdmWizardPageSubtitle}>
+          <h2 className={classes.tdmWizardPageSubtitle}>
             We respect your privacy and recognize that we must maintain and use
             your information responsibly.
-          </h3>
-          <p className={classes.indented}>
+          </h2>
+          <p>
             <a href="https://tdm.ladot.lacity.org">TDM Calculator</a> is a City
             of Los Angeles Review Tool managed by Hack for LA which is a project
             (of Civic Tech Structure, Inc. (&#34;Civic Tech Structure&#34;,
@@ -127,7 +132,7 @@ const PrivacyPolicy = () => {
             </li>
           </div>
           <br />
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             None of the information we collect about you when you visit
             <span> </span>
             <a href="https://tdm.ladot.lacity.org ">
@@ -136,7 +141,7 @@ const PrivacyPolicy = () => {
             is personally identifiable unless you submit your contact
             information in the form on the Contact Us submit page.
           </p>
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             We use this non personally identifiable information to understand
             how the
             <span> </span>
@@ -175,7 +180,7 @@ const PrivacyPolicy = () => {
             </a>{" "}
           </h3>
 
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             All saved projects will be saved with all the inputs filled out as
             well as with name of the user creating it
           </p>
@@ -190,16 +195,21 @@ const PrivacyPolicy = () => {
             Filling in Webforms such as Contact Us
           </h3>
 
-          <p className={classes.indented}>We have a form for feedback.</p>
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
+            We have a form for feedback.
+          </p>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             When you submit the contact us form, your comment, and any other
             data you submit, will be sent to Hack for LA and the City of Los
             Angeles to be stored as part of the public record. The data included
             here is limited to the fields filled out in the form, which includes
-            the user’s name, e-mail address, and comment. No other user data
-            such as logins, passwords, or saved projects will be included.
+            the user’s name, e-mail address, and comment.
           </p>
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
+            No other user data such as logins, passwords, or saved projects will
+            be included.
+          </p>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             Any questions you submit may be displayed in a FAQ document or page.
           </p>
           <p className={classes.indented}>
@@ -245,21 +255,21 @@ const PrivacyPolicy = () => {
 
           <h3 className={classes.sectionSpacingIndented}>Google Analytics</h3>
 
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             We use Google Analytics to understand how visitors use our site and
             to gather aggregate performance metrics.
           </p>
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             We’ve set up Google Analytics so that it doesn’t collect your full
             IP address.
           </p>
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             We don’t collect any personally identifiable information using
             Google Analytics, and we do not combine the information collected
             through Google Analytics with any personally identifiable
             information.
           </p>
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             Google Analytics places a cookie on your web browser to identify you
             as a unique user. This cookie cannot be used by anyone but Google.
             Google&#39;s ability to use and share information collected by
@@ -274,7 +284,7 @@ const PrivacyPolicy = () => {
             .{" "}
           </p>
 
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             Google Analytics, Google has developed the Google Analytics opt-out
             browser add-on for the Google Analytics JavaScript (ga.js,
             analytics.js, dc.js). This add-on instructs the Google Analytics
@@ -294,13 +304,13 @@ const PrivacyPolicy = () => {
             Cookies and Other Tracking Technologies
           </h2>
 
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             Cookies are small text files that websites place on the computers
             and mobile devices of people who visit those websites. Pixel tags
             (also called web beacons) are small blocks of code placed on
             websites and emails.
           </p>
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             We use cookies and other technologies like pixel tags to remember
             your preferences, enhance your online experience, and to gather data
             on how you use our Sites to improve the way we promote our content,
@@ -313,7 +323,7 @@ const PrivacyPolicy = () => {
           <h3 className={classes.sectionSpacingIndented}>
             Third party service providers
           </h3>
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             We use third-party service providers to track and analyze
             statistical usage and volume information from our Site users. These
             third-party service providers use persistent Cookies to help us to
@@ -374,7 +384,7 @@ const PrivacyPolicy = () => {
 
           <h2 className={classes.sectionSpacing}>Children’s Privacy</h2>
 
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             We do not knowingly collect, maintain, or use personal information
             from children under 13 years of age, and no part of our Site is
             directed to children.
@@ -382,15 +392,15 @@ const PrivacyPolicy = () => {
           <p className={classes.indented}>
             If you learn that a child has provided us with personal information
             in violation of this Privacy Policy, then you may alert us at{" "}
-            <a href="mailto:tdm@hackforla.org?subject=TDM Privacy Policy Violation Report">
-              tdm@hackforla.org
+            <a href="mailto:tdm@HackforLA.org?subject=TDM Privacy Policy Violation Report">
+              tdm@HackforLA.org
             </a>
             .
           </p>
 
           <h2 className={classes.sectionSpacing}>Security</h2>
 
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             The City operates &#34;secure data networks&#34; protected by
             industry standard firewalls and password protection systems. Only
             authorized individuals have access to the information provided by
@@ -408,7 +418,7 @@ const PrivacyPolicy = () => {
             Right To Be Forgotten and Rectification
           </h2>
 
-          <p className={classes.indented}>
+          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             Comments that are submitted through the comment form cannot be
             deleted or removed as they are stored as part of the public record
             with the City of Los Angeles.
@@ -419,7 +429,7 @@ const PrivacyPolicy = () => {
             information) at any time. You may request that incomplete data be
             completed or that incorrect data be corrected. Requests can be
             submitted to{" "}
-            <a href="mailto:tdm@hackforLa.org?subject=TDM Privacy Policy Correction Request">
+            <a href="mailto:tdm@HackforLA.org?subject=TDM Privacy Policy Correction Request">
               tdm@HackforLA.org
             </a>
             .
@@ -441,8 +451,8 @@ const PrivacyPolicy = () => {
           <p className={classes.indented}>
             If you have any questions, comments, concerns, or complaints related
             to the TDM Calculator website, please contact us by email at{" "}
-            <a href="mailto:tdm@HackforLa.org?subject=TDM Calculator Question">
-              tdm@hackforla.org
+            <a href="mailto:tdm@HackforLA.org?subject=TDM Calculator Question">
+              tdm@HackforLA.org
             </a>
             , or by mail at:
           </p>
@@ -453,9 +463,7 @@ const PrivacyPolicy = () => {
             <p className={classes.addressParagraph}>
               Ref: Hack for LA, TDM Calculator
             </p>
-            <p className={classes.addressParagraph}>
-              13428 Maxella Avenue, 821
-            </p>
+            <p className={classes.addressParagraph}>13157 Mindanao Way, 106</p>
             <p className={classes.addressParagraph}>Marina Del Rey, CA 90292</p>
           </div>
         </div>

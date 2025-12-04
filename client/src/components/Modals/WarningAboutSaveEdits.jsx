@@ -1,0 +1,68 @@
+import React from "react";
+import PropTypes from "prop-types";
+import ModalDialog from "../UI/Modal";
+import Button from "../Button/Button";
+import { createUseStyles, useTheme } from "react-jss";
+import { MdWarning } from "react-icons/md";
+
+const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  warningIcon: {
+    height: "80px",
+    width: "80px",
+    color: theme.colorCritical,
+    textAlign: "center"
+  },
+  buttonFlexBox: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 0
+  },
+  modalHeader: theme.typography.iconHeading1,
+  subheading: {
+    ...theme.typography.subHeading,
+    width: "30rem",
+    lineHeight: "1.5rem",
+    marginTop: "1rem",
+    marginBottom: "1rem"
+  }
+}));
+
+const SaveAboutEditsConfirmationModal = ({ isOpen, cancel, save }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
+  return (
+    <ModalDialog mounted={isOpen} onClose={cancel} omitCloseBox={true}>
+      <div className={classes.container}>
+        <MdWarning className={classes.warningIcon} alt="Warning" />
+        <div className={classes.modalHeader}>Save Edits</div>
+        <div className={classes.subheading}>
+          {"Are you sure you want to save About page edits?"}
+          <br />
+          <strong>You can not undo this action.</strong>
+        </div>
+        <div className={classes.buttonFlexBox}>
+          <Button onClick={cancel} variant="secondary" id="cancelButton">
+            Cancel
+          </Button>
+          <Button onClick={save} variant="primary" color={"colorPrimary"}>
+            Save
+          </Button>
+        </div>
+      </div>
+    </ModalDialog>
+  );
+};
+
+SaveAboutEditsConfirmationModal.propTypes = {
+  isOpen: PropTypes.bool,
+  cancel: PropTypes.func,
+  save: PropTypes.func
+};
+
+export default SaveAboutEditsConfirmationModal;

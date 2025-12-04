@@ -5,7 +5,7 @@ import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import clsx from "clsx";
 import Button from "./Button";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   navButton: {
     cursor: "pointer",
     padding: "0.35em 0.7em",
@@ -14,10 +14,16 @@ const useStyles = createUseStyles({
     boxShadow: "rgba(0, 46, 109, 0.3) 0px 3px 5px",
     "&:focus": {
       borderRadius: "none"
+    },
+    "&[disabled]:hover": {
+      boxShadow: "none"
     }
   },
   wizardNavButtonDisabled: {
-    cursor: "default"
+    cursor: "default",
+    backgroundColor: theme.colorPrimaryDisabled,
+    color: theme.colorGray,
+    boxShadow: "none"
   },
   hidden: {
     visibility: "hidden"
@@ -27,7 +33,7 @@ const useStyles = createUseStyles({
       display: "none"
     }
   }
-});
+}));
 
 const NavButton = ({
   id,
@@ -50,6 +56,11 @@ const NavButton = ({
       color={color}
       onClick={onClick}
       disabled={isDisabled}
+      ariaLabel={
+        navDirection === "previous"
+          ? "project creation previous page"
+          : "project creation next page"
+      }
     >
       {navDirection === "previous" ? (
         <MdChevronLeft fontSize="2em" />

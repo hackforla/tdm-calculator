@@ -1,0 +1,3 @@
+update [CalculationRule]
+SET description = '<div><p>Fund or construct new or improved facilities in the public right-of-way that enhance access to the project for people that bicycle, walk, and take public transit. The point value is based on the dollar value of the improvement. This strategy has two options: contribute the specified amount to the City’s Mobility Investment Trust Fund or install the improvements as part of the development project. An additional two points will be awarded for a project that installs the improvements.</p></div>'
+WHERE code = 'STRATEGY_MOBILITY_INVESTMENT_1' AND calculationId = 1;

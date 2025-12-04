@@ -22,17 +22,17 @@ const useStyles = createUseStyles({
     "& h4": {
       color: "white"
     },
-    "@media (max-width:900px)": {
+    "@media (max-width:1024px)": {
       paddingRight: 0
     },
-    "@media (max-width:768px)": {
+    "@media (max-width:900px)": {
       paddingLeft: 0,
       flexWrap: "wrap",
       overflow: "hidden",
       maxHeight: 54.4,
       transition: "max-height .5s ease-in-out",
       "&.navbarOpen": {
-        maxHeight: 301.6
+        maxHeight: "fit-content"
       }
     }
   },
@@ -54,7 +54,7 @@ const useStyles = createUseStyles({
     color: "white",
     fontSize: "2em"
   },
-  "@media (max-width: 768px)": {
+  "@media (max-width: 900px)": {
     logoContainer: {
       justifySelf: "start"
     },
@@ -97,8 +97,17 @@ const Header = () => {
       <button
         className={classes.hamburgerButton}
         onClick={handleHamburgerMenuClick}
+        aria-label="Toggle navigation menu"
+        aria-expanded={navbarOpen}
+        aria-controls="navbar"
+        data-testid="hamburger-button"
+        type="button"
+        id="navigation-hamburger-button"
       >
-        <MdMenu className={classes.hamburger} />
+        <MdMenu
+          aria-describedby="navigation-hamburger-button"
+          className={classes.hamburger}
+        />
       </button>
 
       <NavBar navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />

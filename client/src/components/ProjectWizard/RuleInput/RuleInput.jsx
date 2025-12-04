@@ -166,6 +166,14 @@ const RuleInput = ({
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
   const [inputError, setInputError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [localDescription, setLocalDescription] = useState(description);
+
+  // Add callback to handle description updates
+  const handleDescriptionUpdate = newDescription => {
+    setLocalDescription(newDescription);
+    setIsEditing(false); // Close editing mode
+  };
 
   const onInputChange = e => {
     setShowValidationErrors(true);
@@ -187,10 +195,11 @@ const RuleInput = ({
         dataType === "number" ? (
           <div
             className={clsx(classes.rowContainer, classes.numberFieldWrapper)}
+            onBlur={onBlur}
           >
             <RuleLabel
               id={id}
-              description={description}
+              description={localDescription}
               code={code}
               display={display}
               required={required}
@@ -198,6 +207,7 @@ const RuleInput = ({
               name={name}
               setShowDescription={setShowDescription}
               showDescription={showDescription}
+              setIsEditing={setIsEditing}
             />
 
             <div>
@@ -237,18 +247,18 @@ const RuleInput = ({
           <div className={clsx(classes.rowContainer)}>
             <RuleLabel
               id={id}
-              description={description}
+              description={localDescription}
               code={code}
               display={display}
               required={required}
               link={link}
               name={name}
               setShowDescription={setShowDescription}
+              setIsEditing={setIsEditing}
             />
             <input
               type="checkbox"
               autoFocus={autoFocus}
-              className={classes.checkbox}
               value={true}
               checked={!!value}
               onChange={onInputChange}
@@ -256,21 +266,24 @@ const RuleInput = ({
               id={code}
               data-testid={code}
             />
+
             <div className={classes.numberFieldUnits}>{units}</div>
           </div>
         ) : dataType === "choice" ? (
           <div
             className={clsx(classes.rowContainer, classes.selectFieldWrapper)}
+            onBlur={onBlur}
           >
             <RuleLabel
               id={id}
-              description={description}
+              description={localDescription}
               code={code}
               display={display}
               required={required}
               link={link}
               name={name}
               setShowDescription={setShowDescription}
+              setIsEditing={setIsEditing}
             />
             <select
               autoFocus={autoFocus}
@@ -297,7 +310,7 @@ const RuleInput = ({
           >
             <RuleLabel
               id={id}
-              description={description}
+              description={localDescription}
               code={code}
               display={display}
               required={required}
@@ -305,6 +318,7 @@ const RuleInput = ({
               name={name}
               setShowDescription={setShowDescription}
               showDescription={showDescription}
+              setIsEditing={setIsEditing}
             />
 
             {dataType === "string" ? (
@@ -368,13 +382,14 @@ const RuleInput = ({
           <div className={clsx(classes.rowContainer, classes.miscFieldWrapper)}>
             <RuleLabel
               id={id}
-              description={description}
+              description={localDescription}
               code={code}
               display={display}
               required={required}
               link={link}
               name={name}
               setShowDescription={setShowDescription}
+              setIsEditing={setIsEditing}
             />
             <div className={classes.codeWrapper} name={code} id={code} />
             <div className={classes.unitsCaption}>{units}</div>
@@ -396,10 +411,13 @@ const RuleInput = ({
           </div>
         </div>
       ) : null}
-      {showDescription && description ? (
+      {(showDescription && localDescription) || isEditing ? (
         <AccordionToolTip
-          description={description}
+          description={localDescription || ""}
           setShowDescription={setShowDescription}
+          id={id}
+          forceEditMode={isEditing}
+          onEditDescription={handleDescriptionUpdate}
         />
       ) : null}
     </React.Fragment>

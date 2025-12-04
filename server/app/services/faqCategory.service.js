@@ -1,3 +1,4 @@
+const { sanitizeHtml } = require("../../middleware/sanitize-html");
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
 
@@ -22,10 +23,19 @@ const postCategories = async faqCategories => {
     tvp.columns.add("faqs", mssql.NVarChar, mssql.MAX);
 
     faqCategories.forEach(faqCategory => {
+      // FAQ content is admin-created HTML that gets rendered with Interweave
+      // Added for extra safety precaution
+      // Reference Decision Records https://github.com/hackforla/tdm-calculator/wiki/Decision-Records
+      const sanitizedFaq = faqCategory.faqs.map(faq => ({
+        ...faq,
+        question: sanitizeHtml(faq.question || ""),
+        answer: sanitizeHtml(faq.answer || "")
+      }));
+
       tvp.rows.add(
         faqCategory.name,
         faqCategory.displayOrder,
-        JSON.stringify(faqCategory.faqs)
+        JSON.stringify(sanitizedFaq)
       );
     });
 

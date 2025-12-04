@@ -5,6 +5,15 @@ import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import DateRangePicker from "../../UI/DateRangePicker";
 import { MdClose } from "react-icons/md";
+import { createUseStyles, useTheme } from "react-jss";
+
+const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    color: theme.colors.secondary.darkNavy
+  }
+}));
 
 const DatePopup = ({
   close,
@@ -17,6 +26,9 @@ const DatePopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
+
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
@@ -31,8 +43,8 @@ const DatePopup = ({
     setNewStartDate(null);
     setNewEndDate(null);
     setNewOrder(null);
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
@@ -44,13 +56,13 @@ const DatePopup = ({
     if (newOrder) {
       setSort(header.id, newOrder);
     }
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
     close();
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div className={classes.container}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <MdClose
           style={{

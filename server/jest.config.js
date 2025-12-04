@@ -172,12 +172,17 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   // transform: undefined,
+  // Tell Jest to transpile JS files
+  transform: {
+    "^.+\\.js$": "babel-jest"
+  },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  // transformIgnorePatterns: [
-  //   "\\\\node_modules\\\\",
-  //   "\\.pnp\\.[^\\\\]+$"
-  // ],
+  transformIgnorePatterns: [
+    "\\\\node_modules\\\\",
+    "\\.pnp\\.[^\\\\]+$",
+    "!node_modules/(jsdom|parse5)/" //for JSDOM to work
+  ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,

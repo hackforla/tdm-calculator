@@ -37,6 +37,12 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colorBlack,
     marginBottom: "0",
     verticalAlign: "middle"
+  },
+  radioButtonContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.5em",
+    margin: "0.5em"
   }
 }));
 
@@ -70,13 +76,27 @@ const CsvModal = ({
 
   const handleGenerateButton = async () => {
     setLoading(true);
-    const projectSet = project
-      ? [project]
-      : projectCollection === "All"
-        ? projects
-        : projectCollection == "Filtered"
-          ? filteredProjects
-          : checkedProjects;
+    let projectSet;
+
+    if (project) {
+      projectSet = [project];
+    } else {
+      const activeProjects = projects.filter(p => !p.dateTrashed);
+      switch (projectCollection) {
+        case "All":
+          projectSet = projects;
+          break;
+        case "Filtered":
+          projectSet = filteredProjects;
+          break;
+        case "All Active":
+          projectSet = activeProjects;
+          break;
+        default:
+          projectSet = checkedProjects;
+      }
+    }
+
     let csvData = null;
     csvData = await getCsvForProjects(projectSet, progressCallback);
     setLoading(false);
@@ -112,34 +132,33 @@ const CsvModal = ({
             <div style={theme.typography.subHeading}>
               Choose a set of Projects to include
             </div>
-            <div style={{ marginLeft: "10%", width: "35%" }}>
+            <div className={classes.radioButtonContainer}>
               {checkedProjects && checkedProjects.length > 0 && (
-                <div style={{ margin: "0.5em" }}>
-                  <RadioButton
-                    label={"Checked Projects "}
-                    value="Checked"
-                    checked={projectCollection === "Checked"}
-                    onChange={handleOptionChange}
-                  />
-                </div>
+                <RadioButton
+                  label={"Checked Projects"}
+                  value="Checked"
+                  checked={projectCollection === "Checked"}
+                  onChange={handleOptionChange}
+                />
               )}
-
-              <div style={{ margin: "0.5em" }}>
-                <RadioButton
-                  label="Filtered Projects"
-                  value="Filtered"
-                  checked={projectCollection === "Filtered"}
-                  onChange={handleOptionChange}
-                />
-              </div>
-              <div style={{ margin: "0.5em" }}>
-                <RadioButton
-                  label="All Projects"
-                  value="All"
-                  checked={projectCollection === "All"}
-                  onChange={handleOptionChange}
-                />
-              </div>
+              <RadioButton
+                label="Filtered Projects"
+                value="Filtered"
+                checked={projectCollection === "Filtered"}
+                onChange={handleOptionChange}
+              />
+              <RadioButton
+                label="All Projects (Exclude Deleted Projects)"
+                value="All Active"
+                checked={projectCollection === "All Active"}
+                onChange={handleOptionChange}
+              />
+              <RadioButton
+                label="All Projects (Include Deleted Projects)"
+                value="All"
+                checked={projectCollection === "All"}
+                onChange={handleOptionChange}
+              />
             </div>
           </>
         )}

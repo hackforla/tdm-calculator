@@ -2,7 +2,8 @@
   font-family: "Calibri";
   src: url("fonts/calibri.eot");
   /* IE9 Compat Modes */
-  src: url("fonts/calibri.eot?#iefix") format("embedded-opentype"),
+  src:
+    url("fonts/calibri.eot?#iefix") format("embedded-opentype"),
     url("fonts/calibri.woff2") format("woff2"),
     url("fonts/calibri.woff") format("woff"),
     url("fonts/calibri.ttf") format("truetype"),
@@ -15,7 +16,8 @@
   font-weight: 700;
   src: url("fonts/calibriBold.eot");
   /* IE9 Compat Modes */
-  src: url("fonts/calibriBold.eot?#iefix") format("embedded-opentype"),
+  src:
+    url("fonts/calibriBold.eot?#iefix") format("embedded-opentype"),
     url("fonts/calibriBold.woff2") format("woff2"),
     url("fonts/calibriBold.woff") format("woff"),
     url("fonts/calibriBold.ttf") format("truetype"),

@@ -1,6 +1,7 @@
 export const jssTheme = {
   colorDefault: "#fff", //white
   colorPrimary: "#a7c539", //lime green
+  colorPrimaryDisabled: "#D3E29C", //green tint
   colorText: "#0F2940", //dark blue
   colorLADOT: "#002E6D",
   colorGray: "#808080",
@@ -12,6 +13,7 @@ export const jssTheme = {
   colorBlack: "#000000",
   colorError: "#E46247", //e.g. red
   colorCritical: "#C3391D",
+  colorCriticalDisabled: "#D57461",
   colorDeselect: "#EEF1F4", //e.g. red
   colorHighlight: "#F0E300", //yellow
   colorTooltipBackground: "#FFEDEA",
@@ -29,9 +31,12 @@ export const jssTheme = {
       gray: "#939393",
       mediumGray: "#CFCFCF",
       lightGray: "#EEF1F4",
+      darkRed: "#990000",
       green: "#A7C539",
-      darkNavy: "#002E6D",
-      darkBlue: "#00122B"
+      darkNavy: "#0f2940",
+      darkBlue: "#00122B",
+      yellow: "#FFFF00",
+      linkBlue: "#0000FF"
     },
     warning: "#C3391D",
     notice: "#E87D00",
@@ -47,7 +52,7 @@ export const jssTheme = {
       textAlign: "center",
       color: "#000000"
     },
-    heading1: {
+    iconHeading1: {
       fontFamily: "Calibri",
       fontSize: "28px",
       fontWeight: 700,
@@ -55,6 +60,16 @@ export const jssTheme = {
       letterSpacing: "0.01em",
       textAlign: "center",
       color: "#000000"
+    },
+    heading1: {
+      fontFamily: "Calibri",
+      fontSize: "28px",
+      fontWeight: 700,
+      lineHeight: "40px",
+      letterSpacing: "0.01em",
+      textAlign: "center",
+      color: "#000000",
+      marginTop: 0
     },
     heading2: {
       fontFamily: "Calibri",

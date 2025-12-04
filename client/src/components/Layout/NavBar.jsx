@@ -20,26 +20,33 @@ const useStyles = createUseStyles({
     "@media print": {
       display: "none"
     },
-    "@media (max-width:900px)": {
+    "@media (max-width:1024px)": {
       marginLeft: "1em"
     },
-    "@media (max-width:768px)": {
+    "@media (max-width:900px)": {
       marginLeft: 0
     }
   },
   link: {
     color: "#ffffff",
     textDecoration: "none",
-    marginRight: "2em",
+    marginRight: "5px",
+    padding: "0.4em 0.75em",
+    transition: "background-color 0.3s ease-in-out",
     "&:hover": {
-      color: "#a7c539"
+      color: "#0f2940",
+      backgroundColor: "#fff"
     },
-    "@media (max-width:900px)": {
+    "@media (max-width:1024px)": {
       marginRight: "1em"
+    },
+    "&.active": {
+      borderBottom: "1px solid #fff"
+    },
+    "&:focus": {
+      color: "#0f2940",
+      backgroundColor: "#fff"
     }
-  },
-  currentLink: {
-    borderBottom: "2px solid #a7c539"
   },
   linkUnclickable: {
     color: "rgba(255, 255, 255, 0.5)",
@@ -52,7 +59,7 @@ const useStyles = createUseStyles({
     }
   },
   linkBlock: {
-    "@media (max-width:768px)": {
+    "@media (max-width:900px)": {
       borderTop: "2px solid #0f2940",
       width: "100%",
       paddingTop: ".5em",
@@ -69,16 +76,15 @@ const useStyles = createUseStyles({
   },
   lastItem: {
     marginLeft: "2em",
-    paddingRight: 0,
     marginRight: "1em",
-    "@media (max-width:900px)": {
+    "@media (max-width:1024px)": {
       marginLeft: "1em"
     },
-    "@media (max-width:768px)": {
+    "@media (max-width:900px)": {
       marginLeft: 0
     }
   },
-  "@media (max-width:768px)": {
+  "@media (max-width:900px)": {
     navbar: {
       flexDirection: "column",
       minWidth: "100%"
@@ -101,18 +107,18 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
   const account = userContext.account;
 
   const handleHamburgerMenuClick = () => {
-    setNavbarOpen(window.innerWidth < 768 ? !navbarOpen : false);
+    setNavbarOpen(window.innerWidth < 900 ? !navbarOpen : false);
   };
 
   return (
-    <ul className={classes.navbar}>
+    <ul className={classes.navbar} onBlur={() => setNavbarOpen(false)}>
       {account && account.id && (
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
-            // activeClassName={classes.currentLink}
             to="/projects"
             onClick={handleHamburgerMenuClick}
+            onFocus={() => setNavbarOpen(true)}
           >
             My Projects
           </NavLink>
@@ -121,9 +127,9 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
-          // activeClassName={classes.currentLink}
           to="/calculation/1/0"
           onClick={handleHamburgerMenuClick}
+          onFocus={() => setNavbarOpen(true)}
         >
           Create Project
         </NavLink>
@@ -132,20 +138,44 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
-            // activeClassName={classes.currentLink}
             to="/roles"
             onClick={handleHamburgerMenuClick}
+            onFocus={() => setNavbarOpen(true)}
           >
             Security
+          </NavLink>
+        </li>
+      )}
+      {account && !account.isAdmin && (
+        <li className={classes.linkBlock}>
+          <NavLink
+            className={classes.link}
+            to="/submissions"
+            onClick={handleHamburgerMenuClick}
+            onFocus={() => setNavbarOpen(true)}
+          >
+            Submissions
+          </NavLink>
+        </li>
+      )}
+      {account && account.isAdmin && (
+        <li className={classes.linkBlock}>
+          <NavLink
+            className={classes.link}
+            to="/managesubmissions"
+            onClick={handleHamburgerMenuClick}
+            onFocus={() => setNavbarOpen(true)}
+          >
+            Manage Submissions
           </NavLink>
         </li>
       )}
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
-          // activeClassName={classes.currentLink}
           to="/about"
           onClick={handleHamburgerMenuClick}
+          onFocus={() => setNavbarOpen(true)}
         >
           About
         </NavLink>
@@ -153,31 +183,22 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
       <li className={classes.linkBlock}>
         <NavLink
           className={classes.link}
-          // activeClassName={classes.currentLink}
           to="/faqs"
           onClick={handleHamburgerMenuClick}
+          onFocus={() => setNavbarOpen(true)}
         >
           FAQ
         </NavLink>
       </li>
-      <li className={classes.linkBlock}>
-        <NavLink
-          className={classes.link}
-          // activeClassName={classes.currentLink}
-          to="/feedback"
-          onClick={handleHamburgerMenuClick}
-        >
-          Feedback
-        </NavLink>
-      </li>
-      {account && (
+      {account && !account.isAdmin && (
         <li className={classes.linkBlock}>
           <NavLink
             className={classes.link}
-            to="/submit"
+            to="/feedback"
             onClick={handleHamburgerMenuClick}
+            onFocus={() => setNavbarOpen(true)}
           >
-            Submit Snapshot
+            Feedback
           </NavLink>
         </li>
       )}
@@ -186,6 +207,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
         classes={classes}
         navbarOpen={navbarOpen}
         handleHamburgerMenuClick={handleHamburgerMenuClick}
+        setNavbarOpen={setNavbarOpen}
       />
     </ul>
   );

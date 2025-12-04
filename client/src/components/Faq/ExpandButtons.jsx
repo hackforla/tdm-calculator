@@ -15,7 +15,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column"
   },
-  faqCarotIcon: {
+  faqUnfoldIcon: {
     fontSize: "large"
   },
   expandCollapseAll: {
@@ -43,7 +43,7 @@ const ExpandButtons = ({ toggleExpandCollapse }) => {
           className={classes.toggleButton}
           onClick={() => toggleExpandCollapse(true)}
         >
-          <MdUnfoldMore className={classes.faqCarotIcon} />
+          <MdUnfoldMore className={classes.faqUnfoldIcon} />
           <span style={{ marginLeft: "0.2rem", marginBottom: ".1rem" }}>
             Expand All
           </span>
@@ -52,7 +52,7 @@ const ExpandButtons = ({ toggleExpandCollapse }) => {
           className={classes.toggleButton}
           onClick={() => toggleExpandCollapse()}
         >
-          <MdUnfoldLess className={classes.faqCarotIcon} />
+          <MdUnfoldLess className={classes.faqUnfoldIcon} />
           <span style={{ marginLeft: "0.1rem" }}>Collapse All</span>
         </button>
       </div>

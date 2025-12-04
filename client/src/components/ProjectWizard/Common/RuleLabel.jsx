@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { MdLink } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
-import { MdInfo } from "react-icons/md";
+import { MdInfo, MdAddCircle } from "react-icons/md";
+import UserContext from "contexts/UserContext";
 
 const useStyles = createUseStyles(theme => ({
   labelWrapper: {
@@ -13,14 +14,21 @@ const useStyles = createUseStyles(theme => ({
     "&:hover $iconContainer": {
       visibility: "visible"
     },
-    "&:hover": {
-      cursor: "pointer"
-    }
+    cursor: props =>
+      props.isAdmin || props.description ? "pointer" : "default"
+    // "&:hover": {
+    //   cursor: "pointer"
+    // }
   },
   labelWrapperWithoutDesc: {
     flexGrow: "1",
     flexShrink: "1",
-    flexBasis: "50%"
+    flexBasis: "50%",
+    "&:hover $iconContainer": {
+      visibility: "visible"
+    },
+    cursor: props =>
+      props.isAdmin || props.description ? "pointer" : "default"
   },
   tooltipLabel: {
     flexGrow: "1",
@@ -81,16 +89,27 @@ const RuleLabel = ({
   link,
   name,
   setShowDescription,
-  showDescription
+  showDescription,
+  setIsEditing
 }) => {
   const theme = useTheme();
-  const classes = useStyles(theme);
+  const userContext = useContext(UserContext);
+  const isAdmin = !!userContext?.account?.isAdmin;
+  const classes = useStyles({ theme, description, isAdmin });
   const requiredStyle = required && classes.requiredInputLabel;
   const disabledStyle = !display;
 
   const descriptionHandler = e => {
     e.preventDefault();
     setShowDescription(prev => !prev);
+  };
+
+  const addDescriptionHandler = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (setIsEditing) {
+      setIsEditing(prev => !prev);
+    }
   };
 
   // if (code && code.startsWith("UNITS_HABIT")) {
@@ -191,7 +210,16 @@ const RuleLabel = ({
         >
           <MdInfo className={classes.infoIcon} />
         </span>
-      ) : null}
+      ) : (
+        isAdmin && (
+          <span
+            className={clsx("fa-layers fa-fw", classes.iconContainer)}
+            onClick={addDescriptionHandler}
+          >
+            <MdAddCircle className={classes.infoIcon} />
+          </span>
+        )
+      )}
     </div>
   );
 };
@@ -205,6 +233,7 @@ RuleLabel.propTypes = {
   required: PropTypes.bool,
   link: PropTypes.string,
   setShowDescription: PropTypes.func,
-  showDescription: PropTypes.bool
+  showDescription: PropTypes.bool,
+  setIsEditing: PropTypes.func
 };
 export default RuleLabel;

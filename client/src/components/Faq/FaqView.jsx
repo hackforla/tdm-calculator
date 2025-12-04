@@ -3,7 +3,7 @@ import UserContext from "../../contexts/UserContext";
 import FaqCategoryList from "./FaqCategoryList";
 import ExpandButtons from "./ExpandButtons";
 import EditToggleButton from "../Button/EditToggleButton";
-import ContentContainer from "../Layout/ContentContainer";
+import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import { DragDropContext } from "react-beautiful-dnd";
 import * as faqCategoryService from "../../services/faqCategory.service";
 import AddNewCategoryButton from "../Button/AddNewCategory";
@@ -11,7 +11,7 @@ import { createUseStyles } from "react-jss";
 import DeleteFaqModal from "../Modals/WarningFaqDelete";
 import SaveConfirmationModal from "../Modals/WarningFaqSaveEdits";
 import FaqConfirmDialog from "../Modals/WarnngFaqLeave";
-import { matchPath, unstable_useBlocker as useBlocker } from "react-router-dom";
+import { matchPath, useBlocker as useBlocker } from "react-router-dom";
 
 const useStyles = createUseStyles(theme => ({
   headerContainer: {
@@ -135,6 +135,7 @@ const FaqView = () => {
   const fetchFaqData = async () => {
     const faqCategoryListResponse = await faqCategoryService.get();
     const categories = faqCategoryListResponse.data;
+    categories.sort((a, b) => a.displayOrder - b.displayOrder);
 
     let highestFaqId = 0;
     let highestCategoryId = 0;
@@ -157,7 +158,10 @@ const FaqView = () => {
   };
 
   const submitFaqData = useCallback(async () => {
-    const categories = [...faqCategoryList];
+    const categories = faqCategoryList.map((a, index) => ({
+      ...a,
+      displayOrder: index * 10
+    }));
 
     for (let i = 0; i < categories.length; i++) {
       if (categories[i].faqs) {
@@ -393,7 +397,7 @@ const FaqView = () => {
   };
 
   return (
-    <ContentContainer>
+    <ContentContainerWithTables>
       <div style={{ width: "-webkit-fill-available", marginRight: "5%" }}>
         {isAdmin && (
           <EditToggleButton
@@ -447,7 +451,7 @@ const FaqView = () => {
         onYes={handleSaveConfirmationYes}
       />
       {blocker ? <FaqConfirmDialog blocker={blocker} /> : null}
-    </ContentContainer>
+    </ContentContainerWithTables>
   );
 };
 

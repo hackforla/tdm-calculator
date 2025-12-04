@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
-import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import {
@@ -12,31 +12,19 @@ import {
   MdAdd,
   MdOutlineStickyNote2
 } from "react-icons/md";
-import { formatDate } from "../../helpers/util";
+import { formatDate, formatId } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import fetchEngineRules from "./fetchEngineRules";
-import * as droService from "../../services/dro.service";
-import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
+import { Td, TdExpandable } from "../UI/TableData";
+import DROSelectionModal from "../Modals/DROSelectionModal";
+import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles(theme => ({
-  td: {
-    padding: "0.2em",
-    textAlign: "left",
-    width: "5%"
-  },
-  tdRightAlign: {
-    padding: "0.2em",
-    textAlign: "right"
-  },
-  tdCenterAlign: {
-    padding: "0.2em",
-    textAlign: "center"
-  },
   actionIcons: {
     display: "flex",
     justifyContent: "space-around",
@@ -49,7 +37,6 @@ const useStyles = createUseStyles(theme => ({
       }
     }
   },
-
   selectBox: {
     padding: "0.5em",
     border: "1px solid #ccc",
@@ -178,11 +165,18 @@ const ProjectTableRow = ({
   handleHide,
   handleCheckboxChange,
   checkedProjectIds,
-  isAdmin,
   droOptions,
-  onDroChange, // New prop
-  onAdminNoteUpdate // New prop
+  onDroChange,
+  onAdminNoteUpdate,
+  isActiveProjectsTab,
+  idx,
+  rawRules
 }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
+  const userContext = useContext(UserContext);
+  const loginId = userContext?.account?.id;
+  const isAdmin = userContext?.account?.isAdmin || false;
   const {
     showWarningModal,
     setShowWarningModal,
@@ -199,44 +193,53 @@ const ProjectTableRow = ({
     handleDoNotDiscard,
     textUpdated
   } = useAdminNotesModal(project, onAdminNoteUpdate);
-  const theme = useTheme();
-  const classes = useStyles(theme);
+
   const formInputs = JSON.parse(project.formInputs);
   const printRef = useRef();
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
-  const [droName, setDroName] = useState("N/A");
+  const [committedDro, setCommittedDro] = useState(project.droId || "");
+  // const [droName, setDroName] = useState(
+  //   droOptions.find(o => o.id === project.droId)?.name || "N/A"
+  // );
+  const [DROSelectionModalOpen, setDROSelectionModalOpen] = useState(false);
 
   // Download and process rules for PDF rendering
   useEffect(() => {
     const fetchRules = async () => {
-      const result = await fetchEngineRules(project);
+      const result = await fetchEngineRules(project, rawRules);
       setProjectRules(result);
     };
 
     fetchRules()
       // TODO: do we have better reporting than this?
       .catch(console.error);
-  }, [project]);
-
-  useEffect(() => {
-    if (!isAdmin && project.droId) {
-      const fetchDroById = async () => {
-        try {
-          const response = await droService.getById(project.droId);
-          setDroName(response.data.name || "N/A");
-        } catch (error) {
-          console.error("Error fetching DRO by ID", error);
-          setDroName("N/A");
-        }
-      };
-      fetchDroById();
-    }
-  }, [isAdmin, project.droId]);
+  }, [project, rawRules]);
 
   useEffect(() => {
     setSelectedDro(project.droId || "");
-  }, [project.droId]);
+  }, [project.droId, droOptions]);
+
+  const handleDROSelectionModalOpen = () => {
+    setDROSelectionModalOpen(true);
+  };
+
+  const handleDROSelectionModalClose = () => {
+    setSelectedDro(committedDro);
+    setDROSelectionModalOpen(false);
+  };
+
+  const handleDROSelection = action => {
+    if (action === "ok") {
+      setCommittedDro(selectedDro);
+    }
+    setDROSelectionModalOpen(false);
+  };
+
+  const getDroNameById = id => {
+    const dro = droOptions.find(d => String(d.id) === String(id));
+    return dro ? dro.name : "N/A";
+  };
 
   const handlePrintPdf = useReactToPrint({
     content: () => printRef.current,
@@ -255,20 +258,40 @@ const ProjectTableRow = ({
     return <span>{formatDate(project.dateSubmitted)}</span>;
   };
 
+  const daysUntilPermanentDeletion = () => {
+    const diffDays =
+      (new Date(project.dateTrashed).getTime() +
+        90 * 24 * 60 * 60 * 1000 -
+        Date.now()) /
+      (1000 * 60 * 60 * 24);
+    return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
+  };
+
+  const elementId = `context-menu-button-${project.id}`;
+  const popupContentId = `popup-content-${elementId}`;
+  useReplaceAriaAttribute({
+    elementId,
+    deps: [projectRules],
+    attrToRemove: "aria-describedby",
+    attrToAdd: "aria-controls",
+    value: popupContentId
+  });
+
   return (
-    <tr
-      key={project.id}
-      style={{ background: project.dateTrashed ? "#ffdcdc" : "" }}
-    >
-      <td className={classes.tdCenterAlign}>
+    <tr key={project.id}>
+      <Td align="center">
+        <label htmlFor={project.id + "-checkbox"} className="sr-only">
+          Select project {project.name}
+        </label>
         <input
+          id={project.id + "-checkbox"}
           style={{ height: "15px" }}
           type="checkbox"
           checked={checkedProjectIds.includes(project.id)}
           onChange={() => handleCheckboxChange(project.id)}
         />
-      </td>
-      <td className={classes.tdCenterAlign}>
+      </Td>
+      <Td align="center">
         {project.dateHidden ? (
           <MdVisibilityOff
             alt={`Project Is Hidden`}
@@ -282,51 +305,80 @@ const ProjectTableRow = ({
             style={{ width: "2em" }}
           />
         )}
-      </td>
-      <td className={classes.td}>
-        {project.dateSnapshotted ? "Snapshot" : "Draft"}
-        {project.dateTrashed ? <span> (deleted)</span> : null}
-      </td>
-      <td className={classes.td}>
+      </Td>
+      <Td>
+        {project.dateSnapshotted ? "Snapshot" : "Draft"}{" "}
+        {project.dateTrashed ? (
+          <span
+            style={{
+              color: daysUntilPermanentDeletion(project) <= 7 ? "red" : "gray"
+            }}
+          >
+            ({daysUntilPermanentDeletion(project)})
+          </span>
+        ) : null}
+      </Td>
+      <Td className={classes.td}>{formatId(project.id)}</Td>
+      <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
-      </td>
-      <td className={classes.td}>{project.address}</td>
-      <td className={classes.td}>{fallbackToBlank(formInputs.VERSION_NO)}</td>
-      <td className={classes.td}>
-        {`${project.lastName}, ${project.firstName}`}
-      </td>
-      <td className={classes.td}>{formatDate(project.dateCreated)}</td>
-      <td className={classes.td}>
+      </TdExpandable>
+      <TdExpandable>{project.address}</TdExpandable>
+      <TdExpandable>{fallbackToBlank(formInputs.VERSION_NO)}</TdExpandable>
+      <TdExpandable>{`${project.lastName}, ${project.firstName}`}</TdExpandable>
+      <Td>{formatDate(project.dateCreated)}</Td>
+      <Td>
         <span>{formatDate(project.dateModified)}</span>
-      </td>
-      <td className={classes.td}>{dateSubmittedDisplay()}</td>
+      </Td>
+      {!isActiveProjectsTab && (
+        <Td>
+          <span>{formatDate(project.dateTrashed)}</span>
+        </Td>
+      )}
+      <Td>{dateSubmittedDisplay()}</Td>
       {/* DRO Column */}
-      <td className={classes.td}>
-        {isAdmin && droOptions.length > 0 ? (
+      <Td style={{ overflow: "visible" }}>
+        {/* Dro is editable if user is an admin OR user is the author and project is not submitted */}
+        {droOptions.length > 0 &&
+        (isAdmin || (project.loginId === loginId && !project.dateSubmitted)) ? (
           <div style={{ width: "100px" }}>
-            <UniversalSelect
-              value={selectedDro}
+            {!committedDro ? (
+              <MdAdd
+                onClick={handleDROSelectionModalOpen}
+                style={{
+                  cursor: "pointer"
+                }}
+              />
+            ) : (
+              <span
+                onClick={handleDROSelectionModalOpen}
+                style={{
+                  color: "#0000FF",
+                  textDecoration: "underline",
+                  cursor: "pointer"
+                }}
+              >
+                {getDroNameById(committedDro)}
+              </span>
+            )}
+
+            <DROSelectionModal
+              mounted={DROSelectionModalOpen}
+              onClose={handleDROSelectionModalClose}
+              onConfirm={handleDROSelection}
+              selectedDro={selectedDro}
+              droOptions={droOptions}
               onChange={e => {
                 const newDroId = e.target.value;
                 setSelectedDro(newDroId);
                 onDroChange(project.id, newDroId);
               }}
-              options={[
-                { value: "", label: "Select..." },
-                ...droOptions.map(dro => ({
-                  value: dro.id,
-                  label: dro.name
-                }))
-              ]}
-              name="droId"
-              className={classes.selectBox}
             />
           </div>
         ) : (
-          <span>{droName}</span>
+          <span>{project.droName}</span>
         )}
-      </td>
-      {isAdmin && ( // onSave={handleSave}  isEditing={isEditing}
+      </Td>
+      {isAdmin && (
         <div>
           <button
             onClick={handleAdminNotesModalOpen}
@@ -367,13 +419,13 @@ const ProjectTableRow = ({
         />
       )}
       {isAdmin && (
-        <td className={classes.td}>
+        <Td>
           <span>
             {project.dateModifiedAdmin
               ? formatDate(project.dateModifiedAdmin)
               : "N/A"}
           </span>
-        </td>
+        </Td>
       )}
       <td className={classes.actionIcons}>
         {projectRules && (
@@ -381,8 +433,11 @@ const ProjectTableRow = ({
             <Popup
               className={classes.popover}
               trigger={
-                <button aria-label="context menu button">
-                  <MdMoreVert alt={`Show project context menu`} />
+                <button aria-label="context menu button" id={elementId}>
+                  <MdMoreVert
+                    aria-hidden="true"
+                    alt={`Show project context menu`}
+                  />
                 </button>
               }
               position="left center"
@@ -392,6 +447,7 @@ const ProjectTableRow = ({
             >
               {close => (
                 <ProjectContextMenu
+                  ariaControlsId={popupContentId}
                   project={project}
                   closeMenu={close}
                   handleCsvModalOpen={ev => handleCsvModalOpen(ev, project)}
@@ -413,9 +469,9 @@ const ProjectTableRow = ({
         )}
       </td>{" "}
       {ENABLE_UPDATE_TOTALS ? (
-        <td className={classes.td}>
+        <Td>
           <span>{`${project.targetPoints}/${project.earnedPoints}/${project.projectLevel}`}</span>
-        </td>
+        </Td>
       ) : null}
     </tr>
   );
@@ -433,16 +489,19 @@ ProjectTableRow.propTypes = {
   handleSubmitModalOpen: PropTypes.func.isRequired,
   handleHide: PropTypes.func.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
+  handleDROSelectionModalOpen: PropTypes.func,
   checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-  isAdmin: PropTypes.bool.isRequired,
   droOptions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     })
   ).isRequired,
-  onDroChange: PropTypes.func.isRequired, // New propType
-  onAdminNoteUpdate: PropTypes.func.isRequired // New propType
+  onDroChange: PropTypes.func.isRequired,
+  onAdminNoteUpdate: PropTypes.func.isRequired,
+  isActiveProjectsTab: PropTypes.bool.isRequired,
+  idx: PropTypes.number,
+  rawRules: PropTypes.any
 };
 
 export default ProjectTableRow;

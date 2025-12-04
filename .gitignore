@@ -6,6 +6,9 @@
 # Custom ignores
 cypress/screenshots
 cypress/videos
+server/report.json
+server/report.html
+**/db_table_csv/*.csv
 
 ### Linux ###
 *~

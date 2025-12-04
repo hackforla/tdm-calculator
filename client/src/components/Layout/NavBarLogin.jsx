@@ -1,21 +1,20 @@
 import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../../contexts/UserContext";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useLocation } from "react-router";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useTheme } from "react-jss";
 import Popup from "reactjs-popup";
 import { MdClose, MdWarning } from "react-icons/md";
+import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
-const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
+const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
   const theme = useTheme();
   const userContext = useContext(UserContext);
   const account = userContext.account;
 
   const [isCalculation, setIsCalculation] = useState(false);
-  const [tooltipOpen, setTooltipOpen] = useState(true);
-  const closeModal = () => setTooltipOpen(false);
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -28,12 +27,24 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
     }
   }, [pathname]);
 
+  const elementId = `login-link`;
+  const popupContentId = `popup-content-${elementId}`;
+  useReplaceAriaAttribute({
+    elementId,
+    deps: [],
+    attrToRemove: "aria-describedby",
+    attrToAdd: "aria-controls",
+    value: popupContentId
+  });
+
   const loginLink = (
     <Link
       id="cy-login-menu-item"
       className={`${classes.link} ${classes.lastItem}`}
       to="/login"
       onClick={handleHamburgerMenuClick}
+      onFocus={() => setNavbarOpen(true)}
+      onBlur={() => setNavbarOpen(false)}
     >
       Login
     </Link>
@@ -41,15 +52,17 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
 
   const getUserGreeting = account => (
     <li className={classes.userLogin}>
-      <Link
+      <NavLink
         className={`${classes.link} ${classes.lastItem}`}
         to={{
           pathname: `/updateaccount/${(account && account.email) || ""}`,
           state: { prevPath: location.pathname }
         }}
+        onFocus={() => setNavbarOpen(true)}
+        onBlur={() => setNavbarOpen(false)}
       >
         Hello, {`${account.firstName} ${account.lastName} `}
-      </Link>
+      </NavLink>
     </li>
   );
 
@@ -65,6 +78,8 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
           userContext.updateAccount(null);
           handleHamburgerMenuClick;
         }}
+        onFocus={() => setNavbarOpen(true)}
+        onBlur={() => setNavbarOpen(false)}
       >
         Logout
       </Link>
@@ -99,10 +114,12 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
     ) : (
       <li className={clsx(classes.userLogin, classes.linkBlock)}>
         <Popup
-          open={tooltipOpen}
-          onClose={closeModal}
           closeOnDocumentClick={false}
-          trigger={<span style={{ cursor: "pointer" }}>{loginLink}</span>}
+          trigger={
+            <span id={elementId} style={{ cursor: "pointer" }}>
+              {loginLink}
+            </span>
+          }
           position="bottom right"
           arrow={true}
           arrowStyle={{
@@ -165,7 +182,8 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick }) => {
 NavBarLogin.propTypes = {
   account: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  handleHamburgerMenuClick: PropTypes.func
+  handleHamburgerMenuClick: PropTypes.func,
+  setNavbarOpen: PropTypes.func.isRequired
 };
 
 export default NavBarLogin;

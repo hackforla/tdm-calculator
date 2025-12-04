@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
@@ -6,8 +6,17 @@ import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
+import ToggleCheckbox from "components/UI/ToggleCheckbox";
+import UserContext from "contexts/UserContext";
+import { selectAllCheckboxes } from "helpers/util";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "25rem",
+    color: theme.colors.secondary.darkNavy
+  },
   searchBarWrapper: {
     width: "100%",
     position: "relative",
@@ -51,9 +60,10 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     textDecoration: "underline",
     display: "flex",
-    fontWeight: "normal"
+    fontWeight: "normal",
+    color: theme.colors.secondary.darkNavy
   }
-});
+}));
 
 const TextPopup = ({
   projects,
@@ -69,6 +79,7 @@ const TextPopup = ({
   setSelectAllChecked,
   droOptions
 }) => {
+  const userContext = useContext(UserContext);
   const property = header.accessor || header.id;
   const getDisplayValue = value => {
     if (property === "droName" && value === "") {
@@ -106,20 +117,37 @@ const TextPopup = ({
 
   let selectOptions;
 
-  if (property === "droName") {
+  if (property === "droName" && droOptions) {
     selectOptions = droOptions.map(dro => dro.name);
     selectOptions.push("No DRO Assigned");
-  } else if (property === "author") {
+  } else if (property === "author" && droOptions) {
+    const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName} (Me)`;
+    let hasLoggedInUserInList = false;
+
     selectOptions = [
-      ...new Set(filteredProjects.map(p => `${p.lastName}, ${p.firstName}`))
+      ...new Set(
+        filteredProjects.map(p => {
+          const name = `${p.lastName}, ${p.firstName}`;
+          if (name === loggedInUserName) hasLoggedInUserInList = true;
+          return name;
+        })
+      )
     ]
-      .filter(value => value !== null)
+      .filter(value => value !== null && value !== loggedInUserName)
+      .sort((a, b) => {
+        return a.localeCompare(b, "en", { sensitivity: "base" });
+      })
       .sort(
         (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
       );
+
+    if (hasLoggedInUserInList) selectOptions.unshift(loggedInUserName);
   } else {
     selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
       .filter(value => value !== null && value !== "")
+      .sort((a, b) => {
+        return a.localeCompare(b, "en", { sensitivity: "base" });
+      })
       .sort(
         (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
       );
@@ -168,22 +196,20 @@ const TextPopup = ({
     if (newOrder) {
       setSort(header.id, newOrder);
     }
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
     close();
   };
 
   const setDefault = () => {
     setNewOrder(null);
     setSelectedListItems([]);
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", maxWidth: "25rem" }}
-    >
+    <div className={classes.container}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <MdClose
           style={{
@@ -220,12 +246,23 @@ const TextPopup = ({
           alignItems: "baseline"
         }}
       >
-        <button
-          className={classes.toggleButton}
-          onClick={() => setSelectedListItems([])}
-        >
-          clear
-        </button>
+        <div style={{ display: "flex" }}>
+          <button
+            className={classes.toggleButton}
+            onClick={() =>
+              selectAllCheckboxes(filteredOptions, setSelectedListItems)
+            }
+          >
+            Select all {filteredOptions.length}
+          </button>
+          <div style={{ display: "flex", alignItems: "center" }}>-</div>
+          <button
+            className={classes.toggleButton}
+            onClick={() => setSelectedListItems([])}
+          >
+            Clear
+          </button>
+        </div>
         <div>{`${selectedListItems.length}  selected`}</div>
       </div>
       <div className={classes.searchBarWrapper}>
@@ -242,17 +279,26 @@ const TextPopup = ({
         {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
         {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
 
-        {filteredOptions.map(o => (
-          <div key={o} className={classes.listItem}>
-            <input
-              type="checkbox"
-              name={o}
-              checked={isChecked(o)}
-              onChange={handleCheckboxChange}
-            />
-            <span>{o}</span>
-          </div>
-        ))}
+        {filteredOptions.map(o => {
+          const checked = isChecked(o);
+          return (
+            <div key={o} className={classes.listItem}>
+              <ToggleCheckbox
+                checked={checked}
+                onChange={() =>
+                  handleCheckboxChange({
+                    target: {
+                      name: o,
+                      checked: !isChecked(o)
+                    }
+                  })
+                }
+                label={o}
+              />
+              <span>{o}</span>
+            </div>
+          );
+        })}
       </div>
 
       <hr style={{ width: "100%" }} />
@@ -284,7 +330,7 @@ TextPopup.propTypes = {
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
   setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array.isRequired
+  droOptions: PropTypes.array
 };
 
 export default TextPopup;

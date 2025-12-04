@@ -15,7 +15,6 @@ const useStyles = createUseStyles(theme => ({
   },
   heading: {
     ...theme.typography.heading1,
-    marginTop: "0",
     marginBottom: "0"
   },
   subHeader: {
@@ -111,9 +110,9 @@ const AdminNotesModal = ({
             style={{ borderTop: "1px solid #ccc", margin: "8px 0px 0px 0px" }}
           />
           <div className={classes.textareaWrapper}>
-            <h3 className={classes.subHeader} style={{ fontWeight: "normal" }}>
+            <h2 className={classes.subHeader} style={{ fontWeight: "normal" }}>
               Note
-            </h3>
+            </h2>
             <textarea
               style={{
                 border: "1px solid #0075FF",
@@ -170,9 +169,9 @@ const AdminNotesModal = ({
             style={{ borderTop: "1px solid #ccc", margin: "8px 0px 0px 0px" }}
           />
           <div className={classes.textareaWrapper}>
-            <h3 className={classes.subHeader} style={{ fontWeight: "normal" }}>
+            <h2 className={classes.subHeader} style={{ fontWeight: "normal" }}>
               Note
-            </h3>
+            </h2>
             <textarea
               type="text"
               value={adminNotes}

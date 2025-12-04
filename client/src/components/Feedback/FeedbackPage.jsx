@@ -9,7 +9,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import useToast from "../../contexts/Toast/useToast";
-import ContentContainer from "../Layout/ContentContainer";
+import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProjects from "../../hooks/useGetProjects";
 import ProjectList from "./ProjectList";
@@ -20,6 +20,7 @@ const useStyles = createUseStyles(theme => ({
     width: "90%"
   },
   pageTitle: {
+    marginTop: 0,
     marginBottom: "16px",
     textAlign: "center"
   },
@@ -68,6 +69,9 @@ const useStyles = createUseStyles(theme => ({
     marginTop: "0px",
     textAlign: "center",
     padding: 0
+  },
+  asterisk: {
+    color: theme.colors.secondary.darkRed
   }
 }));
 
@@ -140,7 +144,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
   };
 
   return (
-    <ContentContainer contentContainerRef={contentContainerRef}>
+    <ContentContainerWithTables contentContainerRef={contentContainerRef}>
       <div className={classes.feedbackContainer}>
         <h1 className={classes.pageTitle}>TDM Calculator Feedback Form</h1>
         <div className={classes.subtitle}>
@@ -174,7 +178,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
               <div className={classes.formContainer}>
                 <div className={classes.row}>
                   <label htmlFor="name" className={classes.formLabel}>
-                    Name <span style={{ color: "red" }}>*</span>
+                    Project Name <span className={classes.asterisk}>*</span>
                   </label>
 
                   <Field
@@ -218,7 +222,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
 
                 <div className={classes.row}>
                   <label htmlFor="comment" className={classes.formLabel}>
-                    Comment <span style={{ color: "red" }}>*</span>
+                    Comment <span className={classes.asterisk}>*</span>
                   </label>
 
                   <Field
@@ -255,6 +259,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
                   </label>
                 </div>
               </div>
+
               {account && account.id && projects.length !== 0 ? (
                 <ProjectList
                   key={JSON.stringify(projects, null, 2)}
@@ -264,20 +269,21 @@ const FeedbackPage = ({ contentContainerRef }) => {
                 />
               ) : null}
 
-              {/* <div>{JSON.stringify(projects, null, 2)}</div> */}
-              <Button
-                type="submit"
-                className={classes.submitButton}
-                color="colorPrimary"
-                disabled={isSubmitting}
-              >
-                Submit
-              </Button>
+              <div className={classes.formContainer}>
+                <Button
+                  type="submit"
+                  className={classes.submitButton}
+                  color="colorPrimary"
+                  disabled={isSubmitting}
+                >
+                  Submit
+                </Button>
+              </div>
             </Form>
           )}
         </Formik>
       </div>
-    </ContentContainer>
+    </ContentContainerWithTables>
   );
 };
 

@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
-import { formatDatetime } from "../../helpers/util";
+import { createUseStyles, useTheme } from "react-jss";
+import { formatDatetime, formatId } from "../../helpers/util";
 
-const useStyles = createUseStyles({
-  heading3: {
-    fontWeight: "bold",
-    fontSize: "20px",
-    lineHeight: "140%"
-  },
+const useStyles = createUseStyles(theme => ({
+  heading3: { ...theme.heading3, textAlign: "center" },
   table: {
-    overflow: "auto"
+    overflow: "auto",
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   tableHead: {
     textAlign: "left",
@@ -26,7 +24,10 @@ const useStyles = createUseStyles({
     padding: "0em 1em 0.4rem 0em",
     width: "20rem",
     minWidth: "20rem",
-    maxWidth: "25rem"
+    maxWidth: "25rem",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   },
   dateCell: {
     padding: "0em 1em 0.4rem 0em",
@@ -34,10 +35,11 @@ const useStyles = createUseStyles({
     minWidth: "10rem",
     maxWidth: "10rem"
   }
-});
+}));
 
 const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const [augmentedProjects, setAugmentedProjects] = useState(
     projects.map(project => ({
       ...project,
@@ -72,12 +74,13 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
 
   return (
     <div>
-      <h3 className={classes.heading3}>Select Relevant Projects:</h3>
+      <h3 className={classes.heading3}>Select Relevant Projects</h3>
       <table className={classes.table}>
         <thead>
           <tr>
             <th></th>
-            <th className={classes.tableHead}>Name</th>
+            <th className={classes.tableHead}>Id</th>
+            <th className={classes.tableHead}>Project Name</th>
             <th className={classes.tableHead}>Address</th>
             <th className={classes.tableHead}>Date Entered</th>
             <th className={classes.tableHead}>Date Saved</th>
@@ -98,6 +101,7 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
                   id={project.id}
                 />
               </td>
+              <td className={classes.dateCell}>{formatId(project.id)}</td>
               <td className={classes.textCell}>{project.name}</td>
               <td className={classes.textCell}>
                 {JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}

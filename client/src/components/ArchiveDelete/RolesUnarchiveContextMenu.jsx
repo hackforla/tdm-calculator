@@ -1,18 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { MdUndo } from "react-icons/md";
+import { MdRestoreFromTrash } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   list: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyItems: "start",
     listStyleType: "none",
     margin: 0,
     padding: 0
   },
-  listItem: { display: "flex", flexDirection: "row", padding: "0.5rem" },
-  listItemIcon: { marginRight: "0.3rem" }
+  listItem: {
+    padding: "5px",
+    fontSize: "16px",
+    overflow: "hidden",
+    width: "173px"
+  },
+  listItemIcon: { width: "24px" }
 });
 
 const RolesArchiveContextMenu = ({ user, handleUnarchiveUser }) => {
@@ -21,16 +28,16 @@ const RolesArchiveContextMenu = ({ user, handleUnarchiveUser }) => {
   return (
     <ul className={classes.list}>
       {/* Unarchive User */}
+      <MdRestoreFromTrash
+        className={classes.listItemIcon}
+        alt={`Archive User #${user.id} Icon`}
+        style={{ color: "black" }}
+      />
       <li
         onClick={() => handleUnarchiveUser(user)}
         className={classes.listItem}
-        style={{ color: "black" }}
       >
-        <MdUndo
-          className={classes.listItemIcon}
-          alt={`Archive User #${user.id} Icon`}
-        />
-        Unarchive & Restore {user.firstName} {user.lastName}
+        Restore {user.firstName} {user.lastName}
       </li>
     </ul>
   );

@@ -4,6 +4,15 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
+import { createUseStyles, useTheme } from "react-jss";
+
+const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    color: theme.colors.secondary.darkNavy
+  }
+}));
 
 const StatusPopup = ({
   close,
@@ -16,43 +25,41 @@ const StatusPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
+
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
 
   const [typeSetting, setTypeSetting] = useState(criteria.type);
-  const [showDeleted, setShowDeleted] = useState(criteria.status === "all");
 
   const setDefault = () => {
     setTypeSetting("all");
-    setShowDeleted(false);
     setCriteria({
       ...criteria,
-      status: showDeleted ? "all" : "active",
       type: "all"
     });
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
     // Set Criteria for status
     setCriteria({
       ...criteria,
-      status: showDeleted ? "all" : "active",
       type: typeSetting
     });
     if (newOrder) {
       setSort("dateSnapshotted", newOrder, true);
-      // setSort("dateTrashed", newOrder);
     }
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
     close();
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div className={classes.container}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <MdClose
           style={{
@@ -69,13 +76,13 @@ const StatusPopup = ({
       <div style={{ display: "flex", flexDirection: "column" }}>
         {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
         <RadioButton
-          label="Sort A-Z"
+          label="Show Drafts First"
           value="asc"
           checked={newOrder == "asc"}
           onChange={() => setNewOrder("asc")}
         />
         <RadioButton
-          label="Sort Z-A"
+          label="Show Snapshots First"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
@@ -104,19 +111,6 @@ const StatusPopup = ({
         />
         <hr style={{ width: "100%" }} />
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <label style={{ margin: "0.5em" }}>
-          <input
-            style={{ verticalAlign: "middle" }}
-            type="checkbox"
-            checked={showDeleted}
-            value="active"
-            onChange={() => setShowDeleted(!showDeleted)}
-          />
-          <span style={{ verticalAlign: "middle" }}> Show Deleted</span>
-        </label>
-      </div>
-      <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
         <Button onClick={setDefault} variant="outlined">
           Reset

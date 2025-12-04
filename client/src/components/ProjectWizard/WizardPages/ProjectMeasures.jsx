@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import PackagePanel from "../PackagePanel/PackagePanel";
+// import PackagePanel from "../PackagePanel/PackagePanel";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import { createUseStyles, useTheme } from "react-jss";
 import ResetButtons from "./ResetButtons";
@@ -51,14 +51,9 @@ function ProjectMeasure(props) {
     rules,
     onInputChange,
     onCommentChange,
-    onPkgSelect,
     uncheckAll,
     resetProject,
-    initializeStrategies,
-    allowResidentialPackage,
-    allowSchoolPackage,
-    residentialPackageSelected,
-    schoolPackageSelected
+    initializeStrategies
   } = props;
 
   const theme = useTheme();
@@ -68,6 +63,10 @@ function ProjectMeasure(props) {
     initializeStrategies();
   });
 
+  const allowPackages = () => {
+    return rules.some(r => r.calculationPanelId == 27 && !!r.display);
+  };
+
   return (
     <div>
       <h1 style={theme.typography.heading1}>
@@ -76,7 +75,7 @@ function ProjectMeasure(props) {
       <div style={theme.typography.subHeading}>
         Select TDM strategies to earn points to reach the Target (left panel).
       </div>
-      {(allowResidentialPackage || allowSchoolPackage) && (
+      {allowPackages() && (
         <>
           <div className={classes.packageBanner}>
             <MdCheckCircle className={classes.packageBannerIcon} />
@@ -96,19 +95,9 @@ function ProjectMeasure(props) {
           rightAlignStyle={{ marginRight: "0.4em" }}
         />
       </div>
-      {(allowResidentialPackage || allowSchoolPackage) && (
-        <PackagePanel
-          rules={rules.filter(r => r.calculationPanelId == 27)}
-          residentialChecked={residentialPackageSelected()}
-          schoolChecked={schoolPackageSelected()}
-          allowResidentialPackage={allowResidentialPackage}
-          allowSchoolPackage={allowSchoolPackage}
-          onPkgSelect={onPkgSelect}
-        />
-      )}
       <RuleStrategyPanels
         projectLevel={projectLevel}
-        rules={rules.filter(r => r.calculationPanelId != 27)}
+        rules={rules}
         onInputChange={onInputChange}
         onCommentChange={onCommentChange}
       />
@@ -124,17 +113,11 @@ ProjectMeasure.propTypes = {
       calcUnits: PropTypes.string
     })
   ).isRequired,
-  landUseRules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func.isRequired,
-  onPkgSelect: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
   resetProject: PropTypes.func.isRequired,
-  initializeStrategies: PropTypes.func.isRequired,
-  allowResidentialPackage: PropTypes.bool.isRequired,
-  allowSchoolPackage: PropTypes.bool.isRequired,
-  residentialPackageSelected: PropTypes.func,
-  schoolPackageSelected: PropTypes.func
+  initializeStrategies: PropTypes.func.isRequired
 };
 
 export default ProjectMeasure;

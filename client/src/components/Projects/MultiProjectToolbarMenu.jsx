@@ -34,7 +34,7 @@ const useStyles = createUseStyles(theme => ({
     listStyleType: "none",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "6.5em"
+    width: "6em"
   },
   button: {
     border: "none",
@@ -46,7 +46,7 @@ const useStyles = createUseStyles(theme => ({
   },
   multiStatus: {
     ...theme.typography.subHeading,
-    color: theme.colors.primary.navy,
+    color: theme.colors.primary.darkNavy,
     textAlign: "left"
   },
   buttonStyle: {
@@ -60,6 +60,11 @@ const useStyles = createUseStyles(theme => ({
   icon: {
     height: "28px",
     width: "28px"
+  },
+  iconDisabled: {
+    height: "28px",
+    width: "28px",
+    color: theme.colors.lightGray
   }
 }));
 
@@ -70,7 +75,8 @@ const MultiProjectToolbarMenu = ({
   checkedProjectIds,
   criteria,
   checkedProjectsStatusData,
-  pdfProjectData
+  pdfProjectData,
+  isActiveProjectsTab
 }) => {
   const printRef = useRef(null);
   const theme = useTheme();
@@ -102,26 +108,15 @@ const MultiProjectToolbarMenu = ({
     isBtnDisabled("dateHidden", "visibility");
 
   const isDelBtnDisabled =
-    !isProjectOwner || isBtnDisabled("dateTrashed", "status");
+    !isProjectOwner ||
+    isBtnDisabled("dateTrashed", "status") ||
+    !isActiveProjectsTab;
 
-  const tooltipMsg = (criteriaProp, msg, dateProp) => {
+  const tooltipMsg = criteriaProp => {
     if (checkedProjectIds.length === 0) return;
 
     if (!isProjectOwner && criteriaProp !== "visibility") {
       return "You have selected a project that does not belong to you";
-    }
-
-    // show recover message if project is deleted
-    if (checkedProjectsStatusData.dateTrashed && criteriaProp === "status") {
-      return "Restore from Trash";
-    }
-
-    // show message when selecting mixed types (e.g. hide & unhide)
-    if (
-      checkedProjectIds.length > 1 &&
-      checkedProjectsStatusData[dateProp] === false
-    ) {
-      return criteria[criteriaProp] === "all" ? msg : "";
     }
   };
 
@@ -163,8 +158,9 @@ const MultiProjectToolbarMenu = ({
             id="csv-btn"
             className={`${classes.buttonStyle} ${classes.showPointer}`}
             onClick={handleCsvModalOpen}
+            aria-label="Export to CSV"
           >
-            <FaFileCsv className={classes.iconSmall} />
+            <FaFileCsv aria-hidden="true" className={classes.iconSmall} />
           </button>
         </li>
         <li>
@@ -175,8 +171,17 @@ const MultiProjectToolbarMenu = ({
             }`}
             onClick={handlePrintPdf}
             disabled={checkedProjectIds.length !== 1}
+            aria-label="Print PDF"
+            aria-disabled={checkedProjectIds.length !== 1}
           >
-            <MdPrint className={classes.icon} />
+            <MdPrint
+              aria-hidden="true"
+              className={
+                checkedProjectIds.length !== 1
+                  ? classes.iconDisabled
+                  : classes.icon
+              }
+            />
           </button>
           {checkedProjectIds.length !== 1 ? (
             <Tooltip
@@ -215,11 +220,23 @@ const MultiProjectToolbarMenu = ({
             }`}
             disabled={isHideBtnDisabled}
             onClick={handleHideBoxes}
+            aria-label={`Toggle Visibility ${!checkedProjectsStatusData.dateHidden ? "Off" : "On"}`}
+            aria-disabled={isHideBtnDisabled}
           >
             {!checkedProjectsStatusData.dateHidden ? (
-              <MdVisibilityOff className={classes.icon} />
+              <MdVisibilityOff
+                aria-hidden="true"
+                className={
+                  isHideBtnDisabled ? classes.iconDisabled : classes.icon
+                }
+              />
             ) : (
-              <MdVisibility className={classes.icon} />
+              <MdVisibility
+                aria-hidden="true"
+                className={
+                  isHideBtnDisabled ? classes.iconDisabled : classes.icon
+                }
+              />
             )}
 
             <Tooltip
@@ -251,37 +268,26 @@ const MultiProjectToolbarMenu = ({
             }`}
             disabled={isDelBtnDisabled}
             onClick={handleDeleteModalOpen}
+            aria-label={
+              isActiveProjectsTab ? "Delete Projects" : "Restore Projects"
+            }
+            aria-disabled={isDelBtnDisabled}
           >
-            {!checkedProjectsStatusData.dateTrashed ? (
+            {isActiveProjectsTab ? (
               <MdDelete
-                className={classes.icon}
-                color={isDelBtnDisabled ? "#1010104d" : "red"}
+                aria-hidden="true"
+                className={
+                  isDelBtnDisabled ? classes.iconDisabled : classes.icon
+                }
               />
             ) : (
               <MdRestoreFromTrash
-                className={classes.icon}
-                color={isDelBtnDisabled ? "#1010104d" : ""}
+                aria-hidden="true"
+                className={
+                  isDelBtnDisabled ? classes.iconDisabled : classes.icon
+                }
               />
             )}
-            <Tooltip
-              // Cannot use JSS, because Tooltip default styles would overwrite
-              style={{
-                ...theme.typography.paragraph1,
-                backgroundColor: theme.colors.secondary.lightGray,
-                width: "12rem",
-                borderRadius: "5px",
-                textAlign: "center",
-                boxShadow:
-                  "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
-              }}
-              border="1px solid black"
-              anchorSelect="#delete-btn"
-              content={tooltipMsg(
-                "status",
-                "Your selection includes both deleted and active items",
-                "dateTrashed"
-              )}
-            />
           </button>
         </li>
       </ul>
@@ -296,7 +302,8 @@ MultiProjectToolbarMenu.propTypes = {
   checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   criteria: PropTypes.object.isRequired,
   checkedProjectsStatusData: PropTypes.object.isRequired,
-  pdfProjectData: PropTypes.object
+  pdfProjectData: PropTypes.object,
+  isActiveProjectsTab: PropTypes.bool.isRequired
 };
 
 export default MultiProjectToolbarMenu;

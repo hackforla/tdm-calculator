@@ -8,14 +8,15 @@ const useStyles = createUseStyles(theme => ({
     maxWidth: "30rem",
     marginTop: "0px"
   },
-  heading1: { ...theme.typography.heading1, marginTop: "0px" },
+  heading1: theme.typography.heading1,
   mainBullet: {
     ...theme.typography.paragraph1,
     fontWeight: "700",
     marginTop: "1rem",
     marginLeft: "2rem",
     textAlign: "left",
-    lineHeight: "1.5rem"
+    lineHeight: "1.5rem",
+    color: theme.colors.secondary.darkNavy
   },
   bulletIndent: {
     paddingLeft: "100px",

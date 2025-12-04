@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
+import { formatId } from "../../helpers/util";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext";
@@ -12,6 +13,7 @@ import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusDa
 import * as projectService from "../../services/project.service";
 import * as projectResultService from "../../services/projectResult.service";
 import * as droService from "../../services/dro.service";
+import * as ruleService from "../../services/rule.service";
 import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
 import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
@@ -27,14 +29,16 @@ import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
+import {
+  SORT_CRITERIA_STORAGE_TAG,
+  FILTER_CRITERIA_STORAGE_TAG
+} from "../../helpers/Constants";
+import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 
-const SORT_CRITERIA_STORAGE_TAG = "myProjectsSortCriteria";
-const FILTER_CRITERIA_STORAGE_TAG = "myProjectsFilterCriteria";
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   type: "all",
-  status: "active",
   visibility: "visible",
   name: "",
   address: "",
@@ -45,6 +49,11 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateCreated: null,
   startDateModified: null,
   endDateModified: null,
+  startDateTrashed: null,
+  endDateTrashed: null,
+  startDateSubmitted: null,
+  endDateSubmitted: null,
+  idFormattedList: [],
   nameList: [],
   addressList: [],
   alternativeList: [],
@@ -56,18 +65,51 @@ const DEFAULT_FILTER_CRITERIA = {
 };
 
 const useStyles = createUseStyles({
-  outerDiv: {
-    display: "flex",
-    flexDirection: "row-reverse",
-    justifyItems: "flex-start"
+  pageTitle: {
+    marginTop: "20px",
+    marginBottom: "-45px"
   },
-  contentDiv: {
-    flexBasis: "75%",
-    flexShrink: 1,
-    flexGrow: 1,
+  pageTabsDiv: {
+    fontSize: "14pt",
+    fontWeight: "bold",
     display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
+    justifyContent: "right",
+    width: "100%",
+    gap: "7px",
+    borderBottom: "2px solid #e6ebf0"
+  },
+  pageTab: {
+    height: "50px",
+    width: "185px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    boxSizing: "border-box"
+  },
+  activePageTab: {
+    borderTop: "2px solid #e6ebf0",
+    borderLeft: "2px solid #e6ebf0",
+    borderRight: "2px solid #e6ebf0",
+    borderRadius: "2px 2px 0 0",
+    position: "relative",
+    zIndex: 1,
+    boxShadow: "0 2px 0 white"
+  },
+  inactivePageTab: {
+    borderTop: "2px solid transparent",
+    borderLeft: "2px solid transparent",
+    borderRight: "2px solid transparent",
+    borderRadius: "2px 2px 0 0",
+    color: "#808589",
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: "#e6ebf0"
+    }
+  },
+  tabBody: {
+    display: "flex",
+    flexDirection: "row",
+    minHeight: "calc(100% - 50px)"
   },
   filter: {
     overflow: "hidden",
@@ -82,9 +124,6 @@ const useStyles = createUseStyles({
     flexShrink: 0,
     flexGrow: 0,
     transition: "flex-basis 0.5s ease-in-out"
-  },
-  pageTitle: {
-    marginTop: "2em"
   },
   searchBarWrapper: {
     position: "relative",
@@ -108,6 +147,16 @@ const useStyles = createUseStyles({
     width: "100%",
     tableLayout: "fixed"
   },
+  tableDeleted: {
+    minWidth: "127rem",
+    width: "100%",
+    tableLayout: "fixed"
+  },
+  tableAdminDeleted: {
+    minWidth: "152rem",
+    width: "100%",
+    tableLayout: "fixed"
+  },
   table: {
     minWidth: "110rem",
     width: "100%",
@@ -125,7 +174,7 @@ const useStyles = createUseStyles({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: "#002E6D",
+    backgroundColor: "#0F2940",
     color: "white",
     "& td": {
       padding: "12px"
@@ -161,7 +210,7 @@ const useStyles = createUseStyles({
     overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
     width: "calc(100vw - 20px)",
     margin: "20px 0px",
-    height: "calc(100vh - 275px - 11.34em)"
+    height: "calc(100vh - 200px - 11.34em)"
   },
   fixTableHead: {
     overflowY: "auto",
@@ -201,15 +250,43 @@ const ProjectsPage = ({ contentContainerRef }) => {
     DEFAULT_SORT_CRITERIA
   );
 
+  const formatDatesFromCookieStrigify = sessionFilterCriteria => {
+    const newFilterCriteria = { ...sessionFilterCriteria };
+    const dateProperties = [
+      "startDateCreated",
+      "endDateCreated",
+      "startDateModified",
+      "endDateModified",
+      "startDateTrashed",
+      "endDateTrashed",
+      "startDateSubmitted",
+      "endDateSubmitted",
+      "startDateModifiedAdmin",
+      "endDateModifiedAdmin"
+    ];
+    dateProperties.forEach(dateProp => {
+      if (sessionFilterCriteria[dateProp] !== null) {
+        newFilterCriteria[dateProp] = new Date(sessionFilterCriteria[dateProp]);
+      }
+    });
+    return newFilterCriteria;
+  };
+
   const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
-  const [filterCriteria, setFilterCriteria] = useState(sessionFilterCriteria);
+  const [filterCriteria, setFilterCriteria] = useState(
+    formatDatesFromCookieStrigify(sessionFilterCriteria)
+  );
+
   const email = userContext.account ? userContext.account.email : "";
+  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
+  const [rawRules, setRawRules] = useState(null);
   const [projects, setProjects] = useProjects(handleError);
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [successModelOpen, setSuccessModelOpen] = useState(false);
   const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
     useState(false);
   const [renameSnapshotModalOpen, setRenameSnapshotModalOpen] = useState(false);
@@ -223,22 +300,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [droOptions, setDroOptions] = useState([]);
-  const [droNameMap, setDroNameMap] = useState({});
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
-
-  const enhancedProjects = projects
-    ? projects.map(project => {
-        const droName =
-          droOptions.find(dro => dro.id === project.droId)?.name || "";
-        return {
-          ...project,
-          droName: droName,
-          adminNotes: project.adminNotes || ""
-        };
-      })
-    : [];
+  const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
 
   useEffect(() => {
     const fetchDroOptions = async () => {
@@ -253,12 +318,65 @@ const ProjectsPage = ({ contentContainerRef }) => {
   }, []);
 
   useEffect(() => {
-    const droMap = {};
-    droOptions.forEach(dro => {
-      droMap[dro.id] = dro.name;
-    });
-    setDroNameMap(droMap);
-  }, [droOptions]);
+    const fetchRawRules = async () => {
+      const result = await ruleService.getByCalculationId(1);
+      setRawRules(result.data);
+    };
+    fetchRawRules();
+  }, []);
+
+  // const [filterCollapsed, setFilterCollapsed] = useState(true);
+  const checkedProjectsStatusData = useCheckedProjectsStatusData(
+    checkedProjectIds,
+    projects
+  );
+
+  // fetching rules for PDF
+  useEffect(() => {
+    const fetchRules = async rawRules => {
+      let project;
+
+      if (
+        checkedProjectIds.length === 1 &&
+        Object.keys(checkedProjectsStatusData).length > 0
+      ) {
+        project = checkedProjectsStatusData;
+      }
+
+      if (project && project.id && project.calculationId) {
+        const rules = await fetchEngineRules(project, rawRules);
+        setProjectData({ pdf: rules });
+      }
+    };
+    if (rawRules) {
+      fetchRules(rawRules).catch(console.error);
+    }
+  }, [checkedProjectIds, checkedProjectsStatusData, rawRules]);
+
+  const handleTabClick = e => {
+    setIsActiveProjectsTab(e.target.innerText === "Projects");
+  };
+
+  const enhancedProjects = projects
+    ? projects.map(project => {
+        const droName =
+          droOptions.find(dro => dro.id === project.droId)?.name || "N/A";
+        const name = `${project.lastName}, ${project.firstName}`;
+
+        if (name === loggedInUserName) project.firstName += " (Me)";
+
+        return {
+          ...project,
+          droName: droName,
+          adminNotes: project.adminNotes || "",
+          idFormatted: formatId(project.id)
+        };
+      })
+    : [];
+
+  const tabProjects = isActiveProjectsTab
+    ? enhancedProjects.filter(p => !p.dateTrashed)
+    : enhancedProjects.filter(p => p.dateTrashed);
 
   const perPageOptions = [
     { value: projects.length.toString(), label: "All" },
@@ -281,35 +399,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     projects.find(p => p.id === id)
   );
 
-  // const [filterCollapsed, setFilterCollapsed] = useState(true);
-  const checkedProjectsStatusData = useCheckedProjectsStatusData(
-    checkedProjectIds,
-    projects
-  );
-
-  // fetching rules for PDF
-  useEffect(() => {
-    const fetchRules = async () => {
-      let project;
-
-      if (
-        checkedProjectIds.length === 1 &&
-        Object.keys(checkedProjectsStatusData).length > 0
-      ) {
-        project = checkedProjectsStatusData;
-      }
-
-      if (project && project.id && project.calculationId) {
-        const rules = await fetchEngineRules(project);
-        setProjectData({ pdf: rules });
-      }
-    };
-
-    fetchRules().catch(console.error);
-  }, [checkedProjectIds, checkedProjectsStatusData]);
-
-  // const MemoizedMultiProjectToolbar = memo(MultiProjectToolbarMenu);
-
   const selectedProjectName = (() => {
     if (!selectedProject || !selectedProject.formInputs) {
       return "";
@@ -327,9 +416,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (pageNumber === "right" && currentPage < newHighestPage) {
       setCurrentPage(currentPage + 1);
     }
-    // uncheck Projects on page change
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
   };
 
   const handleCopyModalOpen = project => {
@@ -343,6 +429,26 @@ const ProjectsPage = ({ contentContainerRef }) => {
     const updated = await projectService.get();
     setProjects(updated.data);
   };
+
+  useEffect(() => {
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
+  }, [isActiveProjectsTab]);
+
+  useEffect(() => {
+    // Hacky way to add sr-only label for a11y purposes because react-select doesn't support it natively
+    const selectInput = document.getElementById("react-select-2-input");
+    if (
+      selectInput &&
+      !selectInput.previousSibling?.classList?.contains("sr-only")
+    ) {
+      const label = document.createElement("label");
+      label.setAttribute("for", "react-select-2-input");
+      label.className = "sr-only";
+      label.innerText = "Select number of projects per page";
+      selectInput.parentNode.insertBefore(label, selectInput);
+    }
+  });
 
   const handleCopyModalClose = async (action, newProjectName) => {
     let newSelectedProject = { ...selectedProject };
@@ -443,8 +549,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const handleSubmitModalClose = async action => {
     if (action === "ok") {
       await updateProjects();
+      setSuccessModelOpen(true);
     }
     setSubmitModalOpen(false);
+  };
+
+  const handleSuccessModalClose = () => {
+    setSuccessModelOpen(false);
     setSelectedProject(null);
   };
 
@@ -503,16 +614,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleCheckboxChange = projectId => {
-    setCheckedProjectIds(prevCheckedProjectIds => {
-      if (prevCheckedProjectIds.includes(projectId)) {
-        return prevCheckedProjectIds.filter(id => id !== projectId);
-      } else {
-        return [...prevCheckedProjectIds, projectId];
-      }
-    });
+    setCheckedProjectIds(prevChecked => {
+      const updated = prevChecked.includes(projectId)
+        ? prevChecked.filter(id => id !== projectId)
+        : [...prevChecked, projectId];
 
-    // header checkbox status
-    setSelectAllChecked(checkedProjectIds.length === currentProjects.length);
+      setSelectAllChecked(updated.length === currentProjects.length);
+
+      return updated;
+    });
   };
 
   const handleHeaderCheckbox = () => {
@@ -524,12 +634,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
               (filterCriteria.visibility === "visible" && !p.dateHidden) ||
               (filterCriteria.visibility === "hidden" && p.dateHidden) ||
               filterCriteria.visibility === "all"
-          )
-          .filter(
-            p =>
-              (filterCriteria.status === "active" && !p.dateTrashed) ||
-              (filterCriteria.status === "deleted" && p.dateTrashed) ||
-              filterCriteria.status === "all"
           )
           .map(p => p.id)
       );
@@ -560,17 +664,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (orderBy === "author") {
       projectA = `${a["lastName"]} ${a["firstName"]}`;
       projectB = `${b["lastName"]} ${b["firstName"]}`;
-    } else if (
-      orderBy === "dateHidden" ||
-      orderBy === "dateTrashed" ||
-      orderBy === "dateSnapshotted"
-    ) {
+    } else if (orderBy === "dateHidden" || orderBy === "dateSnapshotted") {
       projectA = a[orderBy] ? 1 : 0;
       projectB = b[orderBy] ? 1 : 0;
     } else if (
       orderBy === "dateSubmitted" ||
       orderBy === "dateCreated" ||
-      orderBy === "dateModified"
+      orderBy === "dateModified" ||
+      orderBy === "dateTrashed"
     ) {
       projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
       projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
@@ -580,6 +681,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (orderBy === "adminNotes") {
       projectA = a.adminNotes ? a.adminNotes.toLowerCase() : null;
       projectB = b.adminNotes ? b.adminNotes.toLowerCase() : null;
+    } else if (orderBy === "id") {
+      projectA = a.id !== undefined && a.id !== null ? a.id : null;
+      projectB = b.id !== undefined && b.id !== null ? b.id : null;
     } else {
       projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
       projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";
@@ -623,7 +727,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       newSortCriteria.push({ field: orderBy, direction: order });
     }
 
-    // save to local storagr
+    // save to local storage
     setSessionSortCriteria(newSortCriteria);
     // and update the sortCriteria state.
     setSortCriteria(newSortCriteria);
@@ -639,7 +743,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     try {
       const updatedDroId = newDroId === "" ? null : newDroId;
       await projectService.updateDroId(projectId, updatedDroId);
-      await updateProjects(); // Refresh the project list
+      await updateProjects();
     } catch (error) {
       console.error("Error updating DRO ID:", error);
     }
@@ -648,7 +752,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const handleAdminNoteUpdate = async (projectId, newAdminNote) => {
     try {
       await projectService.updateAdminNotes(projectId, newAdminNote);
-      await updateProjects(); // Refresh the project list
+      await updateProjects();
     } catch (error) {
       console.error("Error updating admin notes:", error);
     }
@@ -669,8 +773,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const filter = (p, criteria) => {
     if (criteria.type === "draft" && p.dateSnapshotted) return false;
     if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
-    if (criteria.status === "active" && p.dateTrashed) return false;
-    if (criteria.status === "deleted" && !p.dateTrashed) return false;
     if (criteria.visibility === "visible" && p.dateHidden) return false;
     if (criteria.visibility === "hidden" && !p.dateHidden) return false;
     if (
@@ -704,6 +806,23 @@ const ProjectsPage = ({ contentContainerRef }) => {
       getDateOnly(p.dateModified) > getDateOnly(criteria.endDateModified)
     )
       return false;
+    if (
+      criteria.startDateTrashed &&
+      getDateOnly(p.dateTrashed) < getDateOnly(criteria.startDateTrashed)
+    )
+      return false;
+    if (
+      criteria.endDateTrashed &&
+      getDateOnly(p.dateTrashed) > getDateOnly(criteria.endDateTrashed)
+    )
+      return false;
+
+    if (
+      criteria.idFormattedList?.length > 0 &&
+      !criteria.idFormattedList.includes(p.idFormatted)
+    ) {
+      return false;
+    }
 
     // fullName attr allows searching by full name, not just by first or last name
     p["fullname"] = `${p["lastName"]}, ${p["firstName"]}`;
@@ -763,6 +882,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
     }
 
+    if (
+      criteria.startDateSubmitted &&
+      getDateOnly(p.dateSubmitted) <= getDateOnly(criteria.startDateSubmitted)
+    )
+      return false;
+    if (
+      criteria.endDateSubmitted &&
+      getDateOnly(p.dateSubmitted) >= getDateOnly(criteria.endDateSubmitted)
+    )
+      return false;
+
     if (criteria.droList.length > 0) {
       const droNames = criteria.droList.map(n => n.toLowerCase());
       const projectDroName = (p.droName || "").toLowerCase();
@@ -820,14 +950,20 @@ const ProjectsPage = ({ contentContainerRef }) => {
     {
       id: "checkAllProjects",
       label: (
-        <input
-          style={{
-            height: "15px"
-          }}
-          type="checkbox"
-          checked={selectAllChecked}
-          onChange={handleHeaderCheckbox}
-        />
+        <>
+          <label htmlFor="SelectAllProject" className="sr-only">
+            Select All Projects on Page
+          </label>
+          <input
+            style={{
+              height: "15px"
+            }}
+            id="SelectAllProject"
+            type="checkbox"
+            checked={selectAllChecked}
+            onChange={handleHeaderCheckbox}
+          />
+        </>
       ),
       colWidth: "3rem"
     },
@@ -841,17 +977,33 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateSnapshotted",
       label: "Status",
       popupType: "status",
-      colWidth: "7rem"
+      colWidth: `${isActiveProjectsTab ? "7rem" : "12rem"}`
     },
-    { id: "name", label: "Name", popupType: "text", colWidth: "20rem" },
-    { id: "address", label: "Address", popupType: "text", colWidth: "20rem" },
+    {
+      id: "idFormatted",
+      label: "ID",
+      popupType: "string",
+      colWidth: "10rem"
+    },
+    {
+      id: "name",
+      label: "Project Name",
+      popupType: "string",
+      colWidth: "20rem"
+    },
+    { id: "address", label: "Address", popupType: "string", colWidth: "20rem" },
     {
       id: "alternative",
       label: "Alt No.",
-      popupType: "text",
+      popupType: "string",
       colWidth: "10rem"
     },
-    { id: "author", label: "Created By", popupType: "text", colWidth: "15rem" },
+    {
+      id: "author",
+      label: "Created By",
+      popupType: "text",
+      colWidth: "15rem"
+    },
     {
       id: "dateCreated",
       label: "Created On",
@@ -868,6 +1020,18 @@ const ProjectsPage = ({ contentContainerRef }) => {
       endDatePropertyName: "endDateModified",
       colWidth: "10rem"
     },
+    ...(!isActiveProjectsTab
+      ? [
+          {
+            id: "dateTrashed",
+            label: "Date Deleted",
+            popupType: "datetime",
+            startDatePropertyName: "startDateTrashed",
+            endDatePropertyName: "endDateTrashed",
+            colWidth: "12rem"
+          }
+        ]
+      : []),
     {
       id: "dateSubmitted",
       label: "Submitted",
@@ -889,7 +1053,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
           {
             id: "adminNotes",
             label: "Admin Notes",
-            popupType: "text",
+            popupType: "string",
             accessor: "adminNotes",
             colWidth: "10rem"
           },
@@ -903,19 +1067,20 @@ const ProjectsPage = ({ contentContainerRef }) => {
       : []),
     {
       id: "contextMenu",
-      label: "",
+      label: <span className="sr-only">Project Options</span>,
       colWidth: "3rem"
     }
   ];
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  let sortedProjects = enhancedProjects.filter(p => filter(p, filterCriteria));
+  let sortedProjects = tabProjects.filter(p => filter(p, filterCriteria));
   for (let i = 0; i < sortCriteria.length; i++) {
     sortedProjects.sort(
       getComparator(sortCriteria[i].direction, sortCriteria[i].field)
     );
   }
+
   const currentProjects = sortedProjects.slice(
     indexOfFirstPost,
     indexOfLastPost
@@ -925,233 +1090,282 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
-      <div className={classes.outerDiv}>
-        <div className={classes.contentDiv}>
-          <h1 className={classes.pageTitle}>Projects</h1>
+      <h1 className={classes.pageTitle}>My Projects</h1>
+      <div className={classes.pageTabsDiv}>
+        <span
+          className={`${classes.pageTab}
+                ${
+                  isActiveProjectsTab
+                    ? classes.activePageTab
+                    : classes.inactivePageTab
+                }
+              `}
+          onClick={handleTabClick}
+        >
+          Projects
+        </span>
+        <span
+          className={`${classes.pageTab}
+                ${
+                  isActiveProjectsTab
+                    ? classes.inactivePageTab
+                    : classes.activePageTab
+                }
+              `}
+          onClick={handleTabClick}
+        >
+          Deleted Projects
+        </span>
+      </div>
+      <div className={classes.tabBody}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start"
+          }}
+        >
           <div
             style={{
               display: "flex",
-              flexDirection: "row"
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "15px"
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-start"
-              }}
-            >
+            <div>
+              <MultiProjectToolbarMenu
+                handleHideBoxes={handleHide}
+                handleCsvModalOpen={handleCsvModalOpen}
+                handleDeleteModalOpen={handleDeleteModalOpen}
+                checkedProjectIds={checkedProjectIds}
+                criteria={filterCriteria}
+                checkedProjectsStatusData={checkedProjectsStatusData}
+                pdfProjectData={projectData}
+                isActiveProjectsTab={isActiveProjectsTab}
+              />
+            </div>
+            <div>
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100vw"
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  flexBasis: "33%"
                 }}
               >
-                <MultiProjectToolbarMenu
-                  handleHideBoxes={handleHide}
-                  handleCsvModalOpen={handleCsvModalOpen}
-                  handleDeleteModalOpen={handleDeleteModalOpen}
-                  checkedProjectIds={checkedProjectIds}
-                  criteria={filterCriteria}
-                  checkedProjectsStatusData={checkedProjectsStatusData}
-                  pdfProjectData={projectData}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    flexBasis: "33%"
-                  }}
-                >
-                  <div className={classes.searchBarWrapper}>
-                    <input
-                      className={classes.searchBar}
-                      type="search"
-                      id="filterText"
-                      name="filterText"
-                      placeholder="Search by Name; Address; Description; Alt#" // redundant with FilterDrawer
-                      value={filterCriteria.filterText}
-                      onChange={e => handleFilterTextChange(e.target.value)}
-                    />
-                    <MdOutlineSearch className={classes.searchIcon} />
-                  </div>
+                <div className={classes.searchBarWrapper}>
+                  <label htmlFor="filterText" className="sr-only">
+                    Search my projects
+                  </label>
+                  <input
+                    className={classes.searchBar}
+                    type="search"
+                    id="filterText"
+                    name="filterText"
+                    placeholder="Search by Name; Address; Description; Alt#"
+                    value={filterCriteria.filterText}
+                    onChange={e => handleFilterTextChange(e.target.value)}
+                    aria-label="Search for project"
+                  />
+                  <MdOutlineSearch className={classes.searchIcon} />
                 </div>
-
-                <div
-                  style={{
-                    paddingRight: "1.5em",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    flexBasis: "33%"
-                  }}
+              </div>
+            </div>
+            <div>
+              <div
+                style={{
+                  paddingRight: "1.5em",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  flexBasis: "33%"
+                }}
+              >
+                <Button
+                  onClick={resetFiltersSort}
+                  isDisplayed={true}
+                  variant="tertiary"
                 >
+                  RESET FILTERS/SORT
+                </Button>
+                {!isActiveProjectsTab && (
                   <Button
-                    onClick={resetFiltersSort}
+                    onClick={handleDeleteModalOpen}
                     isDisplayed={true}
-                    variant="tertiary"
+                    variant="primary"
+                    disabled={!checkedProjectsStatusData.dateTrashed}
                   >
-                    RESET FILTERS/SORT
+                    Restore
                   </Button>
-                </div>
+                )}
               </div>
-              <div>
-                <div className={classes.tableContainer}>
-                  <table
-                    className={
-                      userContext.account?.isAdmin
-                        ? classes.tableAdmin
-                        : classes.table
-                    }
-                  >
-                    <colgroup>
-                      {headerData.map(h => (
-                        <col key={h.id} width={h.colWidth} />
-                      ))}
-                    </colgroup>
-                    <thead className={classes.thead}>
-                      <tr className={classes.tr}>
-                        {headerData.map(header => {
-                          return (
-                            <td key={header.id}>
-                              <th className={classes.stickyTh}>
-                                <ProjectTableColumnHeader
-                                  projects={projects}
-                                  filter={filter}
-                                  header={header}
-                                  criteria={filterCriteria}
-                                  setCriteria={setFilter}
-                                  setSort={setSort}
-                                  orderBy={
-                                    sortCriteria[sortCriteria.length - 1].field
-                                  }
-                                  order={
-                                    sortCriteria[sortCriteria.length - 1]
-                                      .direction
-                                  }
-                                  setCheckedProjectIds={setCheckedProjectIds}
-                                  setSelectAllChecked={setSelectAllChecked}
-                                  droOptions={droOptions}
-                                />
-                              </th>
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody className={classes.tbody}>
-                      {enhancedProjects.length ? (
-                        currentProjects.map(project => (
-                          <ProjectTableRow
-                            key={project.id}
-                            project={project}
-                            handleCsvModalOpen={handleCsvModalOpen}
-                            handleCopyModalOpen={handleCopyModalOpen}
-                            handleDeleteModalOpen={handleDeleteModalOpen}
-                            handleSnapshotModalOpen={handleSnapshotModalOpen}
-                            handleRenameSnapshotModalOpen={
-                              handleRenameSnapshotModalOpen
-                            }
-                            handleShareSnapshotModalOpen={
-                              handleShareSnapshotModalOpen
-                            }
-                            handleSubmitModalOpen={handleSubmitModalOpen}
-                            handleHide={handleHide}
-                            handleCheckboxChange={handleCheckboxChange}
-                            checkedProjectIds={checkedProjectIds}
-                            isAdmin={isAdmin}
-                            droOptions={droOptions}
-                            onDroChange={handleDroChange} // Pass the DRO change handler
-                            onAdminNoteUpdate={handleAdminNoteUpdate} // Pass the admin note update handler
-                            droName={
-                              isAdmin
-                                ? null
-                                : droNameMap[project.droId] || "N/A"
-                            } // Pass the droName
-                          />
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={9} className={classes.tdNoSavedProjects}>
-                            No Saved Projects
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div className={classes.pageContainer}>
-                <Pagination
-                  projectsPerPage={projectsPerPage}
-                  totalProjects={sortedProjects.length}
-                  paginate={paginate}
-                  currentPage={currentPage}
-                  maxNumOfVisiblePages={5}
-                />
-                <UniversalSelect
-                  value={perPage.toString()}
-                  options={perPageOptions}
-                  onChange={e => handlePerPageChange(e.target.value)}
-                  name="perPage"
-                  className={classes.dropContent}
-                />
-                <span className={classes.itemsPerPage}>Items per page</span>
-              </div>
-              {/* <pre>{JSON.stringify(sortCriteria, null, 2)}</pre> */}
-              {/* <pre>{JSON.stringify(filterCriteria, null, 2)}</pre> */}
-              {(selectedProject || checkedProjectsStatusData) && (
-                <>
-                  <CsvModal
-                    mounted={csvModalOpen}
-                    onClose={handleCsvModalClose}
-                    project={selectedProject}
-                    projects={projects}
-                    filteredProjects={sortedProjects}
-                    checkedProjects={getCheckedProjects}
-                  />
-                  <CopyProjectModal
-                    mounted={copyModalOpen}
-                    onClose={handleCopyModalClose}
-                    selectedProjectName={selectedProjectName}
-                  />
-                  <WarningProjectDelete
-                    mounted={deleteModalOpen}
-                    onClose={handleDeleteModalClose}
-                    project={selectedProject || checkedProjectsStatusData}
-                  />
-                  <SnapshotProjectModal
-                    mounted={snapshotModalOpen}
-                    onClose={handleSnapshotModalClose}
-                    selectedProjectName={selectedProjectName}
-                  />
-                  <RenameSnapshotModal
-                    mounted={renameSnapshotModalOpen}
-                    onClose={handleRenameSnapshotModalClose}
-                    selectedProjectName={selectedProjectName}
-                  />
-                  <ShareSnapshotModal
-                    mounted={shareSnapshotModalOpen}
-                    onClose={handleShareSnapshotModalClose}
-                    project={selectedProject}
-                  />
-                  <WarningSnapshotSubmit
-                    mounted={submitModalOpen}
-                    onClose={handleSubmitModalClose}
-                    project={selectedProject}
-                  />
-                  <InfoTargetNotReached
-                    mounted={targetNotReachedModalOpen}
-                    onClose={() => setTargetNotReachedModalOpen(false)}
-                    project={selectedProject}
-                  />
-                </>
-              )}
             </div>
           </div>
+          {!rawRules ? null : (
+            <div>
+              <div className={classes.tableContainer}>
+                <table
+                  className={
+                    userContext.account?.isAdmin
+                      ? isActiveProjectsTab
+                        ? classes.tableAdmin
+                        : classes.tableAdminDeleted
+                      : isActiveProjectsTab
+                        ? classes.table
+                        : classes.tableDeleted
+                  }
+                >
+                  <colgroup>
+                    {headerData.map(h => (
+                      <col key={h.id} width={h.colWidth} />
+                    ))}
+                  </colgroup>
+                  <thead className={classes.thead}>
+                    <tr className={classes.tr}>
+                      {headerData.map(header => {
+                        return (
+                          <td key={header.id}>
+                            <th className={classes.stickyTh}>
+                              <ProjectTableColumnHeader
+                                projects={tabProjects}
+                                filter={filter}
+                                header={header}
+                                criteria={filterCriteria}
+                                setCriteria={setFilter}
+                                setSort={setSort}
+                                orderBy={
+                                  sortCriteria[sortCriteria.length - 1].field
+                                }
+                                order={
+                                  sortCriteria[sortCriteria.length - 1]
+                                    .direction
+                                }
+                                setCheckedProjectIds={setCheckedProjectIds}
+                                setSelectAllChecked={setSelectAllChecked}
+                                droOptions={droOptions}
+                              />
+                            </th>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody className={classes.tbody}>
+                    {tabProjects.length ? (
+                      currentProjects.map((project, idx) => (
+                        <ProjectTableRow
+                          idx={idx}
+                          key={project.id}
+                          project={project}
+                          handleCsvModalOpen={handleCsvModalOpen}
+                          handleCopyModalOpen={handleCopyModalOpen}
+                          handleDeleteModalOpen={handleDeleteModalOpen}
+                          handleSnapshotModalOpen={handleSnapshotModalOpen}
+                          handleRenameSnapshotModalOpen={
+                            handleRenameSnapshotModalOpen
+                          }
+                          handleShareSnapshotModalOpen={
+                            handleShareSnapshotModalOpen
+                          }
+                          handleSubmitModalOpen={handleSubmitModalOpen}
+                          handleHide={handleHide}
+                          handleCheckboxChange={handleCheckboxChange}
+                          checkedProjectIds={checkedProjectIds}
+                          isAdmin={isAdmin}
+                          droOptions={droOptions}
+                          onDroChange={handleDroChange}
+                          onAdminNoteUpdate={handleAdminNoteUpdate}
+                          isActiveProjectsTab={isActiveProjectsTab}
+                          rawRules={rawRules}
+                        />
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={9} className={classes.tdNoSavedProjects}>
+                          No Saved Projects
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          <div className={classes.pageContainer}>
+            <Pagination
+              projectsPerPage={projectsPerPage}
+              totalProjects={sortedProjects.length}
+              paginate={paginate}
+              currentPage={currentPage}
+              maxNumOfVisiblePages={5}
+            />
+            <UniversalSelect
+              value={perPage.toString()}
+              options={perPageOptions}
+              onChange={e => handlePerPageChange(e.target.value)}
+              name="perPage"
+              className={classes.dropContent}
+              maxMenuHeight={"60px"}
+            />
+            <span className={classes.itemsPerPage}>Items per page</span>
+          </div>
+          {/* <pre>{JSON.stringify(sortCriteria, null, 2)}</pre> */}
+          {/* <pre>{JSON.stringify(filterCriteria, null, 2)}</pre> */}
+          {(selectedProject || checkedProjectsStatusData) && (
+            <>
+              <CsvModal
+                mounted={csvModalOpen}
+                onClose={handleCsvModalClose}
+                project={selectedProject}
+                projects={projects}
+                filteredProjects={sortedProjects}
+                checkedProjects={getCheckedProjects}
+              />
+              <CopyProjectModal
+                mounted={copyModalOpen}
+                onClose={handleCopyModalClose}
+                selectedProjectName={selectedProjectName}
+              />
+              <WarningProjectDelete
+                mounted={deleteModalOpen}
+                onClose={handleDeleteModalClose}
+                project={selectedProject || checkedProjectsStatusData}
+              />
+              <SnapshotProjectModal
+                mounted={snapshotModalOpen}
+                onClose={handleSnapshotModalClose}
+                selectedProjectName={selectedProjectName}
+              />
+              <RenameSnapshotModal
+                mounted={renameSnapshotModalOpen}
+                onClose={handleRenameSnapshotModalClose}
+                selectedProjectName={selectedProjectName}
+              />
+              <ShareSnapshotModal
+                mounted={shareSnapshotModalOpen}
+                onClose={handleShareSnapshotModalClose}
+                project={selectedProject}
+              />
+              <WarningSnapshotSubmit
+                mounted={submitModalOpen}
+                onClose={handleSubmitModalClose}
+                project={selectedProject}
+              />
+              <InfoTargetNotReached
+                mounted={targetNotReachedModalOpen}
+                onClose={() => setTargetNotReachedModalOpen(false)}
+                project={selectedProject}
+              />
+              <InfoSnapshotSubmit
+                mounted={successModelOpen}
+                onClose={handleSuccessModalClose}
+                project={selectedProject}
+              />
+            </>
+          )}
         </div>
       </div>
     </ContentContainerNoSidebar>

@@ -29,9 +29,9 @@ const useStyles = createUseStyles({
   }
 });
 
+/* eslint-disable no-unused-vars */
 export const FaqButtonContainer = ({
   admin,
-  isHovered,
   dragHandleProps,
   onDeleteFAQ,
   expandFaq,
@@ -42,7 +42,7 @@ export const FaqButtonContainer = ({
   const theme = useTheme();
   return (
     <div className={classes.buttonContainer} {...dragHandleProps}>
-      {isHovered && (
+      {admin && (
         <MdDelete
           color={theme.colorCritical}
           className={`${classes.faqIcon} ${classes.deleteFaqIcon}`}
@@ -74,10 +74,10 @@ export const FaqButtonContainer = ({
 
 FaqButtonContainer.propTypes = {
   admin: PropTypes.bool,
-  isHovered: PropTypes.bool,
   dragHandleProps: PropTypes.any,
   onDeleteFAQ: PropTypes.func,
   expandFaq: PropTypes.func,
   collapseFaq: PropTypes.func,
   faq: PropTypes.object
 };
+/* eslint-enable no-unused-vars */

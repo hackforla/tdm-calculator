@@ -79,3 +79,43 @@ export function updateAdminNotes(id, adminNotes) {
 export function updateTotals(requestBody) {
   return axios.put(`${baseUrl}/updateTotals/${requestBody.id}`, requestBody);
 }
+
+export function getSubmissions() {
+  try {
+    return axios.get(`${baseUrl}/submissions`);
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}
+
+export function getSubmissionsAdmin() {
+  try {
+    return axios.get(`${baseUrl}/submissionsadmin`);
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}
+
+export function getSubmissionsAdminById(projectId) {
+  try {
+    return axios.get(`${baseUrl}/submissionsadmin/${projectId}`);
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}
+
+export function putSubmission(submission) {
+  try {
+    return axios.put(`${baseUrl}/submissions/${submission.id}`, submission);
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}
+
+export function getSubmissionLogByProjectId(projectId) {
+  try {
+    return axios.get(`${baseUrl}/submissionLog/${projectId}`);
+  } catch (error) {
+    return new Promise.reject(error);
+  }
+}

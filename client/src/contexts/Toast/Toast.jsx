@@ -36,7 +36,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const Toast = ({ children, remove }) => {
+const Toast = ({ children, remove, variant }) => {
   const classes = useStyles();
   const removeRef = useRef();
   removeRef.current = remove;
@@ -47,8 +47,25 @@ const Toast = ({ children, remove }) => {
     return () => clearTimeout(id);
   }, []);
 
+  const isModal = variant === "modal";
+
   return (
-    <div className={classes.toast}>
+    <div
+      className={classes.toast}
+      style={
+        isModal
+          ? {
+              position: "absolute",
+              top: "-2em",
+              left: "50%",
+              right: "auto",
+              bottom: "auto",
+              transform: "translateX(-50%)",
+              zIndex: 2000
+            }
+          : undefined
+      }
+    >
       <div className={classes.container}>{children}</div>
       <div>
         <button onClick={remove} className={classes.button}>
@@ -61,6 +78,7 @@ const Toast = ({ children, remove }) => {
 Toast.propTypes = {
   children: PropTypes.string,
   remove: PropTypes.func.isRequired,
+  variant: PropTypes.oneOf(["default", "modal"]),
   sidebarWidth: PropTypes.number
 };
 

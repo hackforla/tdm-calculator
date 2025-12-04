@@ -16,10 +16,16 @@ const useProjects = handleError => {
             let numberOfDaysSinceTrashed =
               Math.abs(new Date(cur.dateTrashed) - new Date()) /
               (1000 * 60 * 60 * 24);
-            if (numberOfDaysSinceTrashed && numberOfDaysSinceTrashed >= 90) {
-              deleteOverNinety(cur.id, handleError);
-            } else {
+            if (numberOfDaysSinceTrashed && numberOfDaysSinceTrashed < 90) {
               fetchedProjects.push(cur);
+            } else {
+              try {
+                deleteOverNinety(cur.id, handleError);
+              } catch (err) {
+                // if delete fails, we need to still show it
+                fetchedProjects.push(cur);
+                handleError(err);
+              }
             }
           } else {
             fetchedProjects.push(cur);
