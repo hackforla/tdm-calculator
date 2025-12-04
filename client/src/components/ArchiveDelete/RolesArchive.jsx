@@ -232,6 +232,7 @@ const RolesArchive = ({ contentContainerRef }) => {
             }}
             data-testid="searchString"
             placeholder="Enter name or email"
+            id="searchString"
           />
           <MdOutlineSearch className={classes.searchIcon} />
         </div>
