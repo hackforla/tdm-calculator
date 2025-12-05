@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import Button from "../Button/Button";
 import { MdWarning } from "react-icons/md";
@@ -47,6 +47,12 @@ const DeleteArchivedAccountModal = ({ mounted, onClose, user }) => {
   const handleCheckboxChange = () => {
     setIsBoxChecked(!isBoxChecked);
   };
+
+  useEffect(() => {
+    if (!mounted) {
+      setIsBoxChecked(false);
+    }
+  }, [mounted]);
 
   return (
     <ModalDialog
