@@ -1,5 +1,5 @@
 const request = require("supertest");
-const sgMail = require("@sendgrid/mail");
+// const sgMail = require("@sendgrid/mail");
 const smtpMail = require("./smtp.service");
 
 const {
@@ -96,10 +96,9 @@ describe("email API unit tests", () => {
 
     await sendRegistrationConfirmation(email, token);
 
-    expect(sgMail.send).toHaveBeenCalledWith(
+    expect(smtpMail.send).toHaveBeenCalledWith(
       {
         to: email,
-        from: process.env.EMAIL_SENDER,
         subject: "Verify Your Account",
         text: "Verify your account",
         html: expectedHtml
@@ -121,10 +120,9 @@ describe("email API unit tests", () => {
 
     await sendResetPasswordConfirmation(email, token);
 
-    expect(sgMail.send).toHaveBeenCalledWith(
+    expect(smtpMail.send).toHaveBeenCalledWith(
       {
         to: email,
-        from: process.env.EMAIL_SENDER,
         subject: "Confirm Password Reset for TDM Calculator",
         text: "Confirm Password Reset for TDM Calculator",
         html: expectedHtml
@@ -166,10 +164,9 @@ describe("email API unit tests", () => {
 
         await sendSnapshotSubmissionToDRO(projectId, droId);
 
-        expect(sgMail.send).toHaveBeenCalledWith(
+        expect(smtpMail.send).toHaveBeenCalledWith(
           {
             to: droEmail,
-            from: process.env.EMAIL_SENDER,
             subject: `New Snapshot Submission for DRO: ${droName}`,
             text: `New Snapshot Submission for DRO: ${droName}`,
             html: expectedHtml
@@ -196,11 +193,10 @@ describe("email API unit tests", () => {
 
     await sendFeedback(loginId, feedback);
 
-    expect(sgMail.send).toHaveBeenCalledWith(
+    expect(smtpMail.send).toHaveBeenCalledWith(
       expect.objectContaining({
         to: process.env.EMAIL_PUBLIC_COMMENT_LA_CITY,
         cc: process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM,
-        from: process.env.EMAIL_SENDER,
         subject: `TDM Feedback Submission - ${feedback.name}`,
         text: expect.stringContaining(
           `TDM Feedback Submission - ${feedback.name}`
