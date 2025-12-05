@@ -11,7 +11,7 @@
     "precommit": "lint-staged",
     "test": "jest --runInBand --passWithNoTests --forceExit --detectOpenHandles",
     "heroku-postbuild": "cd client && npm i && npm run build",
-    "start": "nodemon --trace-deprecation server.js",
+    "start": "nodemon server.js",
     "release-notes": "gren release --override",
     "lint": "eslint -c .eslintrc.json --ignore-path .eslintignore  \"**/*.{js,jsx}\" ",
     "lint:fix": "eslint -c .eslintrc.json --ignore-path .eslintignore --fix  \"**/*.{js,jsx}\" ",
