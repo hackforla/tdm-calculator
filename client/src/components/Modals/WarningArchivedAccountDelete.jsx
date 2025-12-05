@@ -50,7 +50,6 @@ const DeleteArchivedAccountModal = ({ mounted, onClose, user }) => {
         </div>
         <div className={classes.subheading} style={{ marginBottom: "1.5rem" }}>
           Deleting the archived account {user.firstName} {user.lastName} will
-          {/* Deleting the archived account FIRSTNAME LASTNAME will permanently */}
           remove all associated data, including projects created by the account.
         </div>
       </div>

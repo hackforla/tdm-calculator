@@ -130,6 +130,7 @@ const RolesArchive = ({ contentContainerRef }) => {
   const [archivedAccounts, setArchivedAccounts] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
+  const [currentAccount, setCurrentAccount] = useState({});
   const theme = useTheme();
   const classes = useStyles(theme);
   const { add } = useToast();
@@ -202,7 +203,8 @@ const RolesArchive = ({ contentContainerRef }) => {
   const [deleteArchivedAccountModalOpen, setDeleteArchivedAccountModalOpen] =
     useState(false);
 
-  const handleDeleteAchivedAccountModalOpen = () => {
+  const handleDeleteAchivedAccountModalOpen = account => {
+    setCurrentAccount(account);
     setDeleteArchivedAccountModalOpen(true);
   };
 
@@ -323,25 +325,24 @@ const RolesArchive = ({ contentContainerRef }) => {
                         <div className={classes.popupContent}>
                           <RolesDeleteContextMenu
                             user={account}
-                            // handleDeleteUser={handleDeleteUser}
-                            handleDeleteAchivedAccountModalOpen={
-                              handleDeleteAchivedAccountModalOpen
+                            handleDeleteAchivedAccountModalOpen={() =>
+                              handleDeleteAchivedAccountModalOpen(account)
                             }
                           />
                         </div>
                       )}
                     </Popup>
                   </td>
-                  <DeleteArchivedAccountModal
-                    mounted={deleteArchivedAccountModalOpen}
-                    onClose={handleDeleteAchivedAccountModalClose}
-                    user={account}
-                  />
                 </tr>
               ))}
           </tbody>
         </table>
       </div>
+      <DeleteArchivedAccountModal
+        mounted={deleteArchivedAccountModalOpen}
+        onClose={handleDeleteAchivedAccountModalClose}
+        user={currentAccount}
+      />
     </ContentContainerWithTables>
   );
 };
