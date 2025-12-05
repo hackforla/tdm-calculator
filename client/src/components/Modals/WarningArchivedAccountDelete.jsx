@@ -1,0 +1,79 @@
+import React from "react";
+import { PropTypes } from "prop-types";
+import Button from "../Button/Button";
+import { MdWarning } from "react-icons/md";
+// import { createUseStyles, useTheme } from "react-jss";
+import { createUseStyles } from "react-jss";
+import ModalDialog from "../UI/Modal";
+
+const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  warningIcon: {
+    height: "80px",
+    width: "80px",
+    color: theme.colorCritical,
+    textAlign: "center"
+  },
+  buttonFlexBox: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 0
+  },
+  heading1: theme.typography.iconHeading1,
+  subheading: {
+    ...theme.typography.subHeading,
+    width: "30rem",
+    lineHeight: "1.5rem"
+  }
+}));
+
+const DeleteArchivedAccountModal = ({ mounted, onClose, user }) => {
+  // const theme = useTheme();
+  const classes = useStyles();
+
+  return (
+    <ModalDialog
+      mounted={mounted}
+      onClose={onClose}
+      omitCloseBox={true}
+      initialFocus="#cancelButton"
+    >
+      <div className={classes.container}>
+        <MdWarning alt="Warning" className={classes.warningIcon} />
+        <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
+          Delete Archived Account
+        </div>
+        <div className={classes.subheading} style={{ marginBottom: "1.5rem" }}>
+          Deleting the archived account {user.firstName} {user.lastName} will
+          {/* Deleting the archived account FIRSTNAME LASTNAME will permanently */}
+          remove all associated data, including projects created by the account.
+        </div>
+      </div>
+
+      <div style={{ marginBottom: "1.5rem" }}>
+        I understand this account and its data will be permanently deleted.
+      </div>
+      <div className={classes.buttonFlexBox}>
+        <Button onClick={onClose} variant="secondary" id="cancelButton">
+          Cancel
+        </Button>
+        <Button onClick={() => onClose("ok")} variant="warning">
+          Delete Permanently
+        </Button>
+      </div>
+    </ModalDialog>
+  );
+};
+
+DeleteArchivedAccountModal.propTypes = {
+  mounted: PropTypes.bool,
+  onClose: PropTypes.func,
+  user: PropTypes.obj
+};
+
+export default DeleteArchivedAccountModal;

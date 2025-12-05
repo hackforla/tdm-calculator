@@ -10,6 +10,7 @@ import RolesDeleteContextMenu from "./RolesDeleteContextMenu";
 import UserContext from "../../contexts/UserContext";
 import { MdMoreVert, MdOutlineSearch } from "react-icons/md";
 import ContentContainerWithTables from "components/Layout/ContentContainerWithTables";
+import DeleteArchivedAccountModal from "components/Modals/WarningArchivedAccountDelete";
 
 const useStyles = createUseStyles(theme => ({
   main: {
@@ -198,6 +199,18 @@ const RolesArchive = ({ contentContainerRef }) => {
     }
   };
 
+  const [deleteArchivedAccountModalOpen, setDeleteArchivedAccountModalOpen] =
+    useState(false);
+
+  const handleDeleteAchivedAccountModalOpen = () => {
+    setDeleteArchivedAccountModalOpen(true);
+  };
+
+  const handleDeleteAchivedAccountModalClose = user => {
+    setDeleteArchivedAccountModalOpen(false);
+    handleDeleteUser(user);
+  };
+
   return (
     <ContentContainerWithTables contentContainerRef={contentContainerRef}>
       <div className={classes.main}>
@@ -310,12 +323,20 @@ const RolesArchive = ({ contentContainerRef }) => {
                         <div className={classes.popupContent}>
                           <RolesDeleteContextMenu
                             user={account}
-                            handleDeleteUser={handleDeleteUser}
+                            // handleDeleteUser={handleDeleteUser}
+                            handleDeleteAchivedAccountModalOpen={
+                              handleDeleteAchivedAccountModalOpen
+                            }
                           />
                         </div>
                       )}
                     </Popup>
                   </td>
+                  <DeleteArchivedAccountModal
+                    mounted={deleteArchivedAccountModalOpen}
+                    onClose={handleDeleteAchivedAccountModalClose}
+                    user={account}
+                  />
                 </tr>
               ))}
           </tbody>
