@@ -130,7 +130,7 @@ const RolesArchive = ({ contentContainerRef }) => {
   const [archivedAccounts, setArchivedAccounts] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
-  const [currentAccount, setCurrentAccount] = useState({});
+  const [selectedUser, setSelectedUser] = useState({});
   const theme = useTheme();
   const classes = useStyles(theme);
   const { add } = useToast();
@@ -203,14 +203,16 @@ const RolesArchive = ({ contentContainerRef }) => {
   const [deleteArchivedAccountModalOpen, setDeleteArchivedAccountModalOpen] =
     useState(false);
 
-  const handleDeleteAchivedAccountModalOpen = account => {
-    setCurrentAccount(account);
+  const handleDeleteAchivedAccountModalOpen = user => {
+    setSelectedUser(user);
     setDeleteArchivedAccountModalOpen(true);
   };
 
-  const handleDeleteAchivedAccountModalClose = user => {
+  const handleDeleteAchivedAccountModalClose = clickedButton => {
     setDeleteArchivedAccountModalOpen(false);
-    handleDeleteUser(user);
+    if (clickedButton === "ok") {
+      handleDeleteUser(selectedUser);
+    }
   };
 
   return (
@@ -341,7 +343,7 @@ const RolesArchive = ({ contentContainerRef }) => {
       <DeleteArchivedAccountModal
         mounted={deleteArchivedAccountModalOpen}
         onClose={handleDeleteAchivedAccountModalClose}
-        user={currentAccount}
+        user={selectedUser}
       />
     </ContentContainerWithTables>
   );

@@ -46,7 +46,7 @@ const DeleteArchivedAccountModal = ({ mounted, onClose, user }) => {
       <div className={classes.container}>
         <MdWarning alt="Warning" className={classes.warningIcon} />
         <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-          Delete Archived Account
+          Delete archived account?
         </div>
         <div className={classes.subheading} style={{ marginBottom: "1.5rem" }}>
           Deleting the archived account {user.firstName} {user.lastName} will
