@@ -1,5 +1,6 @@
 const request = require("supertest");
-const sgMail = require("@sendgrid/mail");
+// const sgMail = require("@sendgrid/mail");
+const smtpMail = require("./smtp.service");
 
 const {
   setupServer,
@@ -7,47 +8,46 @@ const {
 } = require("../_jest-setup_/utils/server-setup");
 const {
   sendVerifyUpdateConfirmation
-} = require("../app/services/sendgrid-service");
+} = require("../app/services/email.service");
 const {
   sendRegistrationConfirmation
-} = require("../app/services/sendgrid-service");
+} = require("../app/services/email.service");
 const {
   sendResetPasswordConfirmation
-} = require("../app/services/sendgrid-service");
+} = require("../app/services/email.service");
 const {
   sendSnapshotSubmissionToDRO
-} = require("../app/services/sendgrid-service");
+} = require("../app/services/email.service");
 
-const { sendFeedback } = require("../app/services/sendgrid-service");
+const { sendFeedback } = require("../app/services/email.service");
 
 let server;
-let originalSendgrid;
+let originalSmtpSend;
 
 beforeAll(async () => {
   server = await setupServer();
 
-  originalSendgrid = sgMail.send; // save original state
-  sgMail.send = jest.fn(async () => ({ statusCode: 202 })); // mocks sgMail.send
+  originalSmtpSend = smtpMail.send; // save original state
+  smtpMail.send = jest.fn(async () => ({ statusCode: 202 })); // mocks smtpMail.send
 });
 
 beforeEach(() => {
-  sgMail.send.mockClear(); // Clear mock calls before each test
+  smtpMail.send.mockClear(); // Clear mock calls before each test
 });
 
 afterAll(async () => {
   await teardownServer();
-  sgMail.send = originalSendgrid; // restore state
+  smtpMail.send = originalSmtpSend; // restore state
 });
 
 // POST /email endpoint SUCCESS
-describe("POST /email endpoint with proper body", () => {
+describe("POST /emails endpoint with proper body", () => {
   it("should successfully send an email and return a 200 status", async () => {
     const emailData = {
-      emailTo: "user@example.com",
-      emailFrom: "tdm+sendgrid@hackforla.org",
+      to: "user@example.com",
       subject: "Test Subject",
-      textBody: "This is a test email",
-      htmlBody: "<p>This is a test email</p>"
+      text: "This is a test email",
+      html: "<p>This is a test email</p>"
     };
 
     const response = await request(server).post("/api/emails").send(emailData);
@@ -62,7 +62,7 @@ describe("POST /email endpoint with proper body", () => {
 
 describe("email API unit tests", () => {
   // sendVerifyUpdateConfirmation
-  it("should call sgMail.send with the correct parameters for sendVerifyUpdateConfirmation ", async () => {
+  it("should call smtpMail.send with the correct parameters for sendVerifyUpdateConfirmation ", async () => {
     const email = "user@example.com";
     const token = "dummyToken";
     const expectedHtml = `<p>Hello, your account has been updated.</p>
@@ -73,10 +73,9 @@ describe("email API unit tests", () => {
 
     await sendVerifyUpdateConfirmation(email, token);
 
-    expect(sgMail.send).toHaveBeenCalledWith(
+    expect(smtpMail.send).toHaveBeenCalledWith(
       {
         to: email,
-        from: process.env.EMAIL_SENDER,
         subject: "Verify Your Account Updates",
         text: "Verify Your Account Updates",
         html: expectedHtml
@@ -97,10 +96,9 @@ describe("email API unit tests", () => {
 
     await sendRegistrationConfirmation(email, token);
 
-    expect(sgMail.send).toHaveBeenCalledWith(
+    expect(smtpMail.send).toHaveBeenCalledWith(
       {
         to: email,
-        from: process.env.EMAIL_SENDER,
         subject: "Verify Your Account",
         text: "Verify your account",
         html: expectedHtml
@@ -122,10 +120,9 @@ describe("email API unit tests", () => {
 
     await sendResetPasswordConfirmation(email, token);
 
-    expect(sgMail.send).toHaveBeenCalledWith(
+    expect(smtpMail.send).toHaveBeenCalledWith(
       {
         to: email,
-        from: process.env.EMAIL_SENDER,
         subject: "Confirm Password Reset for TDM Calculator",
         text: "Confirm Password Reset for TDM Calculator",
         html: expectedHtml
@@ -167,10 +164,9 @@ describe("email API unit tests", () => {
 
         await sendSnapshotSubmissionToDRO(projectId, droId);
 
-        expect(sgMail.send).toHaveBeenCalledWith(
+        expect(smtpMail.send).toHaveBeenCalledWith(
           {
             to: droEmail,
-            from: process.env.EMAIL_SENDER,
             subject: `New Snapshot Submission for DRO: ${droName}`,
             text: `New Snapshot Submission for DRO: ${droName}`,
             html: expectedHtml
@@ -197,11 +193,10 @@ describe("email API unit tests", () => {
 
     await sendFeedback(loginId, feedback);
 
-    expect(sgMail.send).toHaveBeenCalledWith(
+    expect(smtpMail.send).toHaveBeenCalledWith(
       expect.objectContaining({
         to: process.env.EMAIL_PUBLIC_COMMENT_LA_CITY,
         cc: process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM,
-        from: process.env.EMAIL_SENDER,
         subject: `TDM Feedback Submission - ${feedback.name}`,
         text: expect.stringContaining(
           `TDM Feedback Submission - ${feedback.name}`

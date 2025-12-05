@@ -1,6 +1,6 @@
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
-const { sendSnapshotSubmissionToDRO } = require("./sendgrid-service");
+const { sendSnapshotSubmissionToDRO } = require("./email.service");
 const { sanitizeHtml } = require("../../middleware/sanitize-html");
 
 const getAll = async loginId => {
