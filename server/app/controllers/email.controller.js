@@ -1,9 +1,9 @@
-const emailService = require("../services/sendgrid-service");
+const smtpService = require("../services/smtp.service");
 
 const send = (req, res) => {
-  const { emailFrom, emailTo, subject, textBody, htmlBody } = req.body;
-  emailService
-    .send(emailTo, emailFrom, subject, textBody, htmlBody || textBody)
+  // const { to, subject, text, html } = req.body;
+  smtpService
+    .send(req.body)
     .then(resp => {
       res.send(resp);
     })

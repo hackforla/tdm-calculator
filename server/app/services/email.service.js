@@ -1,14 +1,15 @@
-const sgMail = require("@sendgrid/mail");
+const smtpService = require("./smtp.service");
 
 const clientUrl = process.env.CLIENT_URL;
-const sendgridKey = process.env.SENDGRID_API_KEY;
-const senderEmail = process.env.EMAIL_SENDER;
 const laCityEmail = process.env.EMAIL_PUBLIC_COMMENT_LA_CITY;
 const webTeamEmail = process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM;
 const droCentralEmail = process.env.DRO_CENTRAL_EMAIL;
 const droValleyEmail = process.env.DRO_VALLEY_EMAIL;
 const droWestsideEmail = process.env.DRO_WESTSIDE_EMAIL;
-sgMail.setApiKey(sendgridKey);
+
+/* 
+  This service formats and sends the various emails from the app 
+*/
 
 const formatDates = date => {
   return new Date(date)
@@ -23,21 +24,9 @@ const formatDates = date => {
     .replace(",", "");
 };
 
-const send = async (emailTo, emailFrom, subject, textBody, htmlBody) => {
-  const msg = {
-    to: emailTo,
-    from: emailFrom,
-    subject: subject,
-    text: textBody,
-    html: htmlBody
-  };
-  return sgMail.send(msg, false);
-};
-
 const sendVerifyUpdateConfirmation = async (email, token) => {
   const msg = {
     to: `${email}`,
-    from: senderEmail,
     subject: "Verify Your Account Updates",
     text: "Verify Your Account Updates",
     html: `<p>Hello, your account has been updated.</p>
@@ -46,13 +35,12 @@ const sendVerifyUpdateConfirmation = async (email, token) => {
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };
-  return sgMail.send(msg, false);
+  return smtpService.send(msg);
 };
 
 const sendRegistrationConfirmation = async (email, token) => {
   const msg = {
     to: `${email}`,
-    from: senderEmail,
     subject: "Verify Your Account",
     text: "Verify your account",
     html: `<p>Hello, please click the following link to verify your account.</p>
@@ -61,13 +49,12 @@ const sendRegistrationConfirmation = async (email, token) => {
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };
-  return sgMail.send(msg, false);
+  return smtpService.send(msg);
 };
 
 const sendResetPasswordConfirmation = async (email, token) => {
   const msg = {
     to: `${email}`,
-    from: senderEmail,
     subject: "Confirm Password Reset for TDM Calculator",
     text: "Confirm Password Reset for TDM Calculator",
     html: `<p>Hello, please click the following link to reset your password for TDM Calculator.</p>
@@ -77,7 +64,7 @@ const sendResetPasswordConfirmation = async (email, token) => {
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };
-  return sgMail.send(msg, false);
+  return smtpService.send(msg);
 };
 
 const sendFeedback = async (loginId, feedback, projects) => {
@@ -122,13 +109,12 @@ const sendFeedback = async (loginId, feedback, projects) => {
     const msg = {
       to: laCityEmail,
       cc: forwardToWebTeam ? webTeamEmail : "",
-      from: senderEmail,
       subject: `TDM Feedback Submission - ${name}`,
       text: `TDM Feedback Submission - ${name}`,
       html: body
     };
 
-    return sgMail.send(msg, false);
+    return smtpService.send(msg);
   } catch (err) {
     console.error(err);
     return Promise.reject("Sending email to LA City or Website team failed.");
@@ -149,7 +135,6 @@ const sendSnapshotSubmissionToDRO = async (projectId, droId) => {
 
   const msg = {
     to: `${droEmail[droId]}`,
-    from: senderEmail,
     subject: `New Snapshot Submission for DRO: ${droName[droId]}`,
     text: `New Snapshot Submission for DRO: ${droName[droId]}`,
     html: `<p>Sample Email For Snapshot Submittal Notification</p>
@@ -161,11 +146,10 @@ const sendSnapshotSubmissionToDRO = async (projectId, droId) => {
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };
-  return sgMail.send(msg, false);
+  return smtpService.send(msg);
 };
 
 module.exports = {
-  send,
   sendVerifyUpdateConfirmation,
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation,

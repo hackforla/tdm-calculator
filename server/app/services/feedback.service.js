@@ -1,5 +1,5 @@
 const { pool, poolConnect } = require("./tedious-pool");
-const { sendFeedback } = require("./sendgrid-service");
+const { sendFeedback } = require("./email.service");
 const projectService = require("../services/project.service");
 const mssql = require("mssql");
 
