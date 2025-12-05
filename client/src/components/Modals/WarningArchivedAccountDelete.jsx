@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import Button from "../Button/Button";
 import { MdWarning } from "react-icons/md";
 // import { createUseStyles, useTheme } from "react-jss";
 import { createUseStyles } from "react-jss";
 import ModalDialog from "../UI/Modal";
+import ToggleCheckbox from "components/UI/ToggleCheckbox";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -17,6 +18,12 @@ const useStyles = createUseStyles(theme => ({
     width: "80px",
     color: theme.colorCritical,
     textAlign: "center"
+  },
+  checkboxStatement: {
+    display: "flex",
+    alignItems: "center",
+    gap: ".25rem",
+    marginBottom: "1.5rem"
   },
   buttonFlexBox: {
     display: "flex",
@@ -35,6 +42,11 @@ const useStyles = createUseStyles(theme => ({
 const DeleteArchivedAccountModal = ({ mounted, onClose, user }) => {
   // const theme = useTheme();
   const classes = useStyles();
+  const [isBoxChecked, setIsBoxChecked] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setIsBoxChecked(!isBoxChecked);
+  };
 
   return (
     <ModalDialog
@@ -52,16 +64,27 @@ const DeleteArchivedAccountModal = ({ mounted, onClose, user }) => {
           Deleting the archived account {user.firstName} {user.lastName} will
           remove all associated data, including projects created by the account.
         </div>
+        <div className={classes.checkboxStatement}>
+          <ToggleCheckbox
+            id="checkbox"
+            name="checkbox"
+            label="delete account confirmation"
+            checked={isBoxChecked}
+            onChange={handleCheckboxChange}
+          />
+          I understand this account and its data will be permanently deleted.
+        </div>
       </div>
 
-      <div style={{ marginBottom: "1.5rem" }}>
-        I understand this account and its data will be permanently deleted.
-      </div>
       <div className={classes.buttonFlexBox}>
         <Button onClick={onClose} variant="secondary" id="cancelButton">
           Cancel
         </Button>
-        <Button onClick={() => onClose("ok")} variant="warning">
+        <Button
+          onClick={() => onClose("ok")}
+          variant="warning"
+          disabled={!isBoxChecked}
+        >
           Delete Permanently
         </Button>
       </div>
