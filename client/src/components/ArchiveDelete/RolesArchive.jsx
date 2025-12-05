@@ -200,16 +200,15 @@ const RolesArchive = ({ contentContainerRef }) => {
     }
   };
 
-  const [deleteArchivedAccountModalOpen, setDeleteArchivedAccountModalOpen] =
-    useState(false);
+  const [deleteWarningModalOpen, setDeleteWarningModalOpen] = useState(false);
 
-  const handleDeleteAchivedAccountModalOpen = user => {
+  const handleDeleteWarningModalOpen = user => {
     setSelectedUser(user);
-    setDeleteArchivedAccountModalOpen(true);
+    setDeleteWarningModalOpen(true);
   };
 
-  const handleDeleteAchivedAccountModalClose = clickedButton => {
-    setDeleteArchivedAccountModalOpen(false);
+  const handleDeleteWarningModalClose = clickedButton => {
+    setDeleteWarningModalOpen(false);
     if (clickedButton === "ok") {
       handleDeleteUser(selectedUser);
     }
@@ -328,7 +327,7 @@ const RolesArchive = ({ contentContainerRef }) => {
                           <RolesDeleteContextMenu
                             user={account}
                             handleDeleteAchivedAccountModalOpen={() =>
-                              handleDeleteAchivedAccountModalOpen(account)
+                              handleDeleteWarningModalOpen(account)
                             }
                           />
                         </div>
@@ -341,8 +340,8 @@ const RolesArchive = ({ contentContainerRef }) => {
         </table>
       </div>
       <DeleteArchivedAccountModal
-        mounted={deleteArchivedAccountModalOpen}
-        onClose={handleDeleteAchivedAccountModalClose}
+        mounted={deleteWarningModalOpen}
+        onClose={handleDeleteWarningModalClose}
         user={selectedUser}
       />
     </ContentContainerWithTables>
