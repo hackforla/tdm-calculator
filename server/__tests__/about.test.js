@@ -1,5 +1,5 @@
 const request = require("supertest");
-const sgMail = require("@sendgrid/mail");
+const smtpMail = require("../app/services/smtp.service");
 const {
   setupServer,
   teardownServer
@@ -22,7 +22,7 @@ describe("tests about editing api", () => {
   let securityAdminToken;
 
   beforeAll(async () => {
-    sgMail.send = jest.fn(async () => {
+    smtpMail.send = jest.fn(async () => {
       return { statusCode: 202 };
     });
 
@@ -35,7 +35,7 @@ describe("tests about editing api", () => {
 
     // captures the token from the mocked sendgird function to be used in registration confirmation
     const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
-    const emailContent = sgMail.send.mock.calls[0][0].html;
+    const emailContent = smtpMail.send.mock.calls[0][0].html;
     const match = emailContent.match(tokenPattern);
     if (match && match[1]) {
       capturedToken = match[1];

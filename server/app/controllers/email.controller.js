@@ -1,4 +1,9 @@
 const smtpService = require("../services/smtp.service");
+const {
+  validate,
+  validationErrorMiddleware
+} = require("../../middleware/validate");
+const emailSchema = require("../schemas/email");
 
 const send = (req, res) => {
   // const { to, subject, text, html } = req.body;
@@ -13,5 +18,5 @@ const send = (req, res) => {
 };
 
 module.exports = {
-  send
+  send: [validate({ body: emailSchema }), send, validationErrorMiddleware]
 };

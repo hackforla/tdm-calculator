@@ -1,5 +1,5 @@
 const request = require("supertest");
-const sgMail = require("@sendgrid/mail");
+const smtpMail = require("../app/services/smtp.service");
 const {
   setupServer,
   teardownServer
@@ -16,14 +16,14 @@ afterAll(async () => {
 });
 
 describe("Account API endpoints for end user accounts", () => {
-  let originalSendgrid = sgMail.send;
+  let originalSendgrid = smtpMail.send;
   // eslint-disable-next-line no-unused-vars
   let userId; // id of the registered user - to be deleted by security admin
   let capturedToken; // confirmation token captured from the mocked sendgrid function
   let userToken; // jwt for registered user - for protected endpoints
 
   beforeAll(async () => {
-    sgMail.send = jest.fn(async () => {
+    smtpMail.send = jest.fn(async () => {
       return { statusCode: 202 };
     });
 
@@ -49,7 +49,7 @@ describe("Account API endpoints for end user accounts", () => {
     });
     // captures the token from the mocked sendgird function to be used in registration confirmation
     const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
-    const emailContent = sgMail.send.mock.calls[0][0].html;
+    const emailContent = smtpMail.send.mock.calls[0][0].html;
     const match = emailContent.match(tokenPattern);
     if (match && match[1]) {
       capturedToken = match[1];
@@ -70,7 +70,7 @@ describe("Account API endpoints for end user accounts", () => {
 
   afterAll(async () => {
     // cleanup state
-    sgMail.send = originalSendgrid;
+    smtpMail.send = originalSendgrid;
     userId = undefined;
     capturedToken = undefined;
     userToken = undefined;
@@ -195,7 +195,7 @@ describe("Account API endpoints for end user accounts", () => {
 });
 
 describe("Account API endpoints for security admin", () => {
-  let originalSendgrid = sgMail.send;
+  let originalSendgrid = smtpMail.send;
   let newUserId; // id of the registered user - to be deleted by security admin
   let archUserId; // id of the archived user - to be unarchived by security admin
   let adminToken; // jwt for security admin - for protected endpoints
@@ -203,7 +203,7 @@ describe("Account API endpoints for security admin", () => {
   let archiveUserWithSubId; // id of the archived user with submission
 
   beforeAll(async () => {
-    sgMail.send = jest.fn(async () => {
+    smtpMail.send = jest.fn(async () => {
       return { statusCode: 202 };
     });
 
@@ -231,7 +231,7 @@ describe("Account API endpoints for security admin", () => {
     });
     // captures the token from the mocked sendgird function to be used in registration confirmation
     const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
-    const emailContent = sgMail.send.mock.calls[0][0].html;
+    const emailContent = smtpMail.send.mock.calls[0][0].html;
     const match = emailContent.match(tokenPattern);
     if (match && match[1]) {
       capturedToken = match[1];
@@ -270,7 +270,7 @@ describe("Account API endpoints for security admin", () => {
     });
 
     const reUseEmailConfirmation =
-      sgMail.send.mock.calls[sgMail.send.mock.calls.length - 1];
+      smtpMail.send.mock.calls[smtpMail.send.mock.calls.length - 1];
 
     const lukaEmailContent = reUseEmailConfirmation[0].html;
     const lukaMatch = lukaEmailContent.match(tokenPattern);
@@ -317,7 +317,7 @@ describe("Account API endpoints for security admin", () => {
 
   afterAll(async () => {
     // cleanup state
-    sgMail.send = originalSendgrid;
+    smtpMail.send = originalSendgrid;
     newUserId = undefined;
     adminToken = undefined;
     capturedToken = undefined;
