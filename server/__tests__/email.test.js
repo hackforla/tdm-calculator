@@ -1,6 +1,5 @@
 const request = require("supertest");
-// const sgMail = require("@sendgrid/mail");
-const smtpMail = require("./smtp.service");
+const smtpMail = require("../app/services/smtp.service");
 
 const {
   setupServer,
@@ -73,15 +72,12 @@ describe("email API unit tests", () => {
 
     await sendVerifyUpdateConfirmation(email, token);
 
-    expect(smtpMail.send).toHaveBeenCalledWith(
-      {
-        to: email,
-        subject: "Verify Your Account Updates",
-        text: "Verify Your Account Updates",
-        html: expectedHtml
-      },
-      false
-    );
+    expect(smtpMail.send).toHaveBeenCalledWith({
+      to: email,
+      subject: "Verify Your Account Updates",
+      text: "Verify Your Account Updates",
+      html: expectedHtml
+    });
   });
 
   // sendRegistrationConfirmation
@@ -96,15 +92,12 @@ describe("email API unit tests", () => {
 
     await sendRegistrationConfirmation(email, token);
 
-    expect(smtpMail.send).toHaveBeenCalledWith(
-      {
-        to: email,
-        subject: "Verify Your Account",
-        text: "Verify your account",
-        html: expectedHtml
-      },
-      false
-    );
+    expect(smtpMail.send).toHaveBeenCalledWith({
+      to: email,
+      subject: "Verify Your Account",
+      text: "Verify your account",
+      html: expectedHtml
+    });
   });
 
   // sendResetPasswordConfirmation
@@ -120,15 +113,12 @@ describe("email API unit tests", () => {
 
     await sendResetPasswordConfirmation(email, token);
 
-    expect(smtpMail.send).toHaveBeenCalledWith(
-      {
-        to: email,
-        subject: "Confirm Password Reset for TDM Calculator",
-        text: "Confirm Password Reset for TDM Calculator",
-        html: expectedHtml
-      },
-      false
-    );
+    expect(smtpMail.send).toHaveBeenCalledWith({
+      to: email,
+      subject: "Confirm Password Reset for TDM Calculator",
+      text: "Confirm Password Reset for TDM Calculator",
+      html: expectedHtml
+    });
   });
 
   // sendSnapshotSubmissionToDRO
@@ -150,7 +140,7 @@ describe("email API unit tests", () => {
         droName: "West Los Angeles Development Review Office"
       }
     ])(
-      "should call sgMail.send with correct parameters for droId $droId",
+      "should call smtpMail.send with correct parameters for droId $droId",
       async ({ droId, droEmail, droName }) => {
         const projectId = 123;
         const expectedHtml = `<p>Sample Email For Snapshot Submittal Notification</p>
@@ -164,15 +154,12 @@ describe("email API unit tests", () => {
 
         await sendSnapshotSubmissionToDRO(projectId, droId);
 
-        expect(smtpMail.send).toHaveBeenCalledWith(
-          {
-            to: droEmail,
-            subject: `New Snapshot Submission for DRO: ${droName}`,
-            text: `New Snapshot Submission for DRO: ${droName}`,
-            html: expectedHtml
-          },
-          false
-        );
+        expect(smtpMail.send).toHaveBeenCalledWith({
+          to: droEmail,
+          subject: `New Snapshot Submission for DRO: ${droName}`,
+          text: `New Snapshot Submission for DRO: ${droName}`,
+          html: expectedHtml
+        });
       }
     );
   });
@@ -202,8 +189,7 @@ describe("email API unit tests", () => {
           `TDM Feedback Submission - ${feedback.name}`
         ),
         html: expect.stringContaining(expectedHtmlStartsWith)
-      }),
-      false
+      })
     );
   });
 });

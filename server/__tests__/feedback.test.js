@@ -1,5 +1,5 @@
 const request = require("supertest");
-const sgMail = require("@sendgrid/mail");
+const smtpMail = require("../app/services/smtp.service");
 const {
   setupServer,
   teardownServer
@@ -16,17 +16,17 @@ afterAll(async () => {
 });
 
 describe("Feedback API endpoints for end user accounts", () => {
-  let originalSendgrid = sgMail.send;
+  let originalSendgrid = smtpMail.send;
 
   beforeAll(async () => {
-    sgMail.send = jest.fn(async () => {
+    smtpMail.send = jest.fn(async () => {
       return { statusCode: 202 };
     });
   });
 
   afterAll(async () => {
     // cleanup state
-    sgMail.send = originalSendgrid;
+    smtpMail.send = originalSendgrid;
   });
 
   // POST "/feedbacks" with a valid request body
