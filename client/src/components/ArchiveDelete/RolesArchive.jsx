@@ -10,6 +10,7 @@ import RolesDeleteContextMenu from "./RolesDeleteContextMenu";
 import UserContext from "../../contexts/UserContext";
 import { MdMoreVert, MdOutlineSearch } from "react-icons/md";
 import ContentContainerWithTables from "components/Layout/ContentContainerWithTables";
+import DeleteArchivedAccountModal from "components/Modals/WarningArchivedAccountDelete";
 
 const useStyles = createUseStyles(theme => ({
   main: {
@@ -129,6 +130,7 @@ const RolesArchive = ({ contentContainerRef }) => {
   const [archivedAccounts, setArchivedAccounts] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
+  const [selectedUser, setSelectedUser] = useState({});
   const theme = useTheme();
   const classes = useStyles(theme);
   const { add } = useToast();
@@ -195,6 +197,20 @@ const RolesArchive = ({ contentContainerRef }) => {
       }
     } catch (err) {
       add("Error - Could not delete User.");
+    }
+  };
+
+  const [deleteWarningModalOpen, setDeleteWarningModalOpen] = useState(false);
+
+  const handleDeleteWarningModalOpen = user => {
+    setSelectedUser(user);
+    setDeleteWarningModalOpen(true);
+  };
+
+  const handleDeleteWarningModalClose = clickedButton => {
+    setDeleteWarningModalOpen(false);
+    if (clickedButton === "ok") {
+      handleDeleteUser(selectedUser);
     }
   };
 
@@ -310,7 +326,9 @@ const RolesArchive = ({ contentContainerRef }) => {
                         <div className={classes.popupContent}>
                           <RolesDeleteContextMenu
                             user={account}
-                            handleDeleteUser={handleDeleteUser}
+                            handleDeleteAchivedAccountModalOpen={() =>
+                              handleDeleteWarningModalOpen(account)
+                            }
                           />
                         </div>
                       )}
@@ -321,6 +339,11 @@ const RolesArchive = ({ contentContainerRef }) => {
           </tbody>
         </table>
       </div>
+      <DeleteArchivedAccountModal
+        mounted={deleteWarningModalOpen}
+        onClose={handleDeleteWarningModalClose}
+        user={selectedUser}
+      />
     </ContentContainerWithTables>
   );
 };

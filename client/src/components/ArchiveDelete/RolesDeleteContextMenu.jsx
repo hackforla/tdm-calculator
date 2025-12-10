@@ -22,7 +22,10 @@ const useStyles = createUseStyles({
   listItemIcon: { width: "24px" }
 });
 
-const RolesDeleteContextMenu = ({ user, handleDeleteUser }) => {
+const RolesDeleteContextMenu = ({
+  user,
+  handleDeleteAchivedAccountModalOpen
+}) => {
   const classes = useStyles();
 
   return (
@@ -34,7 +37,7 @@ const RolesDeleteContextMenu = ({ user, handleDeleteUser }) => {
         style={{ color: "#C3391D" }}
       />
       <li
-        onClick={() => handleDeleteUser(user)}
+        onClick={() => handleDeleteAchivedAccountModalOpen(user)}
         className={classes.listItem}
         style={{ color: "black" }}
       >
@@ -46,7 +49,7 @@ const RolesDeleteContextMenu = ({ user, handleDeleteUser }) => {
 
 RolesDeleteContextMenu.propTypes = {
   user: PropTypes.object,
-  handleDeleteUser: PropTypes.func
+  handleDeleteAchivedAccountModalOpen: PropTypes.func
 };
 
 export default RolesDeleteContextMenu;
