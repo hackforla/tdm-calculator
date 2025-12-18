@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
-import MultiInput from "./MultiInput";
 import AccordionToolTip from "../../ToolTip/AccordionToolTip";
-// import RuleInputLabel from "./RuleInputLabel";
+import MultiMaskedInput from "../../UI/MultiMaskedInput";
 import RuleLabel from "../Common/RuleLabel";
 
 const useStyles = createUseStyles(theme => ({
@@ -144,7 +143,7 @@ const RuleInput = ({
     minStringLength,
     maxStringLength,
     validationErrors,
-    mask,
+    // mask,
     link
   },
   partialMultiInput,
@@ -361,20 +360,18 @@ const RuleInput = ({
                 }
               />
             ) : (
-              <MultiInput
+              <MultiMaskedInput
+                className={classes.textInput}
                 code={code}
                 value={value}
-                partialMultiInput={partialMultiInput}
-                onPartialMultiChange={onPartialMultiChange}
                 validationErrors={validationErrors}
-                mask={mask}
+                mask={"9999-999-999"}
                 onChange={onInputChange}
                 onError={onInputError}
                 setShowValidationErrors={setShowValidationErrors}
                 required={required}
-                placeholder={
-                  showPlaceholder ? (required ? "required" : "optional") : ""
-                }
+                partialValue={partialMultiInput}
+                onPartialValueChange={onPartialMultiChange}
               />
             )}
           </div>

@@ -26,6 +26,15 @@ const send = async msg => {
   };
 
   try {
+    // For Web API unit tests, we do not want to actually send emails
+    // The endpoint test will use an email address ending in "test.com",
+    // ao qw don't want to actually send those.
+    if (
+      mailOptions.to.endsWith("test.com") ||
+      mailOptions.from.endsWith("test.com")
+    ) {
+      return "Test email - not sent";
+    }
     const info = await transporter.sendMail(mailOptions);
     const msg = `Message sent: ${info.messageId}`;
     console.log(msg);

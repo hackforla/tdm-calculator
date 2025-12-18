@@ -17,6 +17,7 @@ import PlainSidebarLayout from "./components/Layout/PlainSidebarLayout";
 import TdmCalculationContainer from "./components/ProjectWizard/TdmCalculationContainer";
 import ProjectsPage from "./components/Projects/ProjectsPage";
 import About from "./components/About/About";
+import Design from "./components/Design/Design";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
 import ChecklistPage from "./components/Checklist/ChecklistPage";
 import PrivacyPolicy from "./components/PrivacyPolicy";
@@ -100,6 +101,7 @@ const App = () => {
             </RequireAuth>
           }
         />
+        <Route path="/design" element={<Design />} />
         <Route path="/offline" element={<Offline />} />
         {/* Layout Route adds plain Sidebar */}
         <Route
