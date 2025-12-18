@@ -362,6 +362,7 @@ const RuleStrategy = ({
           <div>{`If applicable, please input the details about ${name}.`}</div>
           <div>
             <textarea
+              aria-label={`Comment about ${name}`}
               type="textarea"
               value={comment || ""}
               onChange={onCommentChange}
