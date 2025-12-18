@@ -63,7 +63,7 @@ const SidebarProjectLevel = ({ level, rules }) => {
       </p>
       <h3 className={classes.projectLevelHeader}>
         PROJECT LEVEL
-        {level > -1 && (
+        {level > 0 && (
           <Popup
             trigger={
               <span
