@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Popup from "reactjs-popup";
 import { MdClose } from "react-icons/md";
 import { sanitizeHtml } from "helpers/SanitizeRichText";
+import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles({
   projectLevelHeader: {
@@ -40,6 +41,16 @@ const SidebarProjectLevel = ({ level, rules }) => {
   // Sanitize DangerouslySetInnerHtml with DomPurify
   const sanitizeTipText = sanitizeHtml(tipText);
 
+  const elementId = `project-level-tooltip-icon-trigger`;
+  const popupContentId = `popup-content-${elementId}`;
+  useReplaceAriaAttribute({
+    elementId,
+    deps: [level],
+    attrToRemove: "aria-describedby",
+    attrToAdd: "aria-controls",
+    value: popupContentId
+  });
+
   return (
     <div
       className={clsx(
@@ -52,10 +63,14 @@ const SidebarProjectLevel = ({ level, rules }) => {
       </p>
       <h3 className={classes.projectLevelHeader}>
         PROJECT LEVEL
-        {level > 0 && (
+        {level > -1 && (
           <Popup
             trigger={
-              <span style={{ cursor: "pointer" }}>
+              <span
+                id={elementId}
+                className="aosidjoasidj"
+                style={{ cursor: "pointer" }}
+              >
                 <ToolTipIcon />
               </span>
             }
@@ -65,7 +80,7 @@ const SidebarProjectLevel = ({ level, rules }) => {
           >
             {close => {
               return (
-                <div style={{ margin: "1rem" }}>
+                <div id={popupContentId} style={{ margin: "1rem" }}>
                   <button
                     style={{
                       backgroundColor: "transparent",
