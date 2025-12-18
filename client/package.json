@@ -32,7 +32,6 @@
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.26.9",
-    "@code-forge/react-input-mask": "^1.0.7",
     "@react-pdf/renderer": "^3.1.9",
     "axios": "^1.6.1",
     "clsx": "^2.1.1",
