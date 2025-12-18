@@ -19,6 +19,17 @@ let transporter = nodemailer.createTransport({
 /* 
     msg object should have to, subject, text, html fields
 */
+// Helper to extract the domain from an email address, works for "foo@domain" and "Name <foo@domain>"
+function extractDomain(address) {
+  if (!address) return "";
+  // Remove display name if present
+  const match = address.match(/<?([A-Z0-9._%+-]+)@([A-Z0-9.-]+\.[A-Z]{2,})>?/i);
+  if (match) {
+    return match[2].toLowerCase();
+  }
+  return "";
+}
+
 const send = async msg => {
   let mailOptions = {
     ...msg,
@@ -26,6 +37,17 @@ const send = async msg => {
   };
 
   try {
+    // For Web API unit tests, we do not want to actually send emails
+    // The endpoint test will use an email address ending in "test.com",
+    // ao qw don't want to actually send those.
+    const toDomain = extractDomain(mailOptions.to);
+    const fromDomain = extractDomain(mailOptions.from);
+    if (
+      toDomain === "test.com" ||
+      fromDomain === "test.com"
+    ) {
+      return "Test email - not sent";
+    }
     const info = await transporter.sendMail(mailOptions);
     const msg = `Message sent: ${info.messageId}`;
     console.log(msg);

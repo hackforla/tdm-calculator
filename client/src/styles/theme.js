@@ -118,7 +118,7 @@ export const jssTheme = {
     }
   },
   border: {
-    dashedWarning: "1px dashed #B64E38",
-    solidWarning: "1px solid #B64E38"
+    dashedWarning: "1px dashed #C3391D",
+    solidWarning: "1px solid #C3391D"
   }
 };
