@@ -20,7 +20,7 @@ UniversalSelect.propTypes = {
   autoFocus: PropTypes.bool,
   className: PropTypes.string,
   isSearchable: PropTypes.bool,
-  maxMenuHeight: PropTypes.number
+  maxMenuHeight: PropTypes.any
 };
 
 export default function UniversalSelect({

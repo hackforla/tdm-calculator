@@ -1226,28 +1226,25 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     <tr className={classes.tr}>
                       {headerData.map(header => {
                         return (
-                          <td key={header.id}>
-                            <th className={classes.stickyTh}>
-                              <ProjectTableColumnHeader
-                                projects={tabProjects}
-                                filter={filter}
-                                header={header}
-                                criteria={filterCriteria}
-                                setCriteria={setFilter}
-                                setSort={setSort}
-                                orderBy={
-                                  sortCriteria[sortCriteria.length - 1].field
-                                }
-                                order={
-                                  sortCriteria[sortCriteria.length - 1]
-                                    .direction
-                                }
-                                setCheckedProjectIds={setCheckedProjectIds}
-                                setSelectAllChecked={setSelectAllChecked}
-                                droOptions={droOptions}
-                              />
-                            </th>
-                          </td>
+                          <th key={header.id} className={classes.stickyTh}>
+                            <ProjectTableColumnHeader
+                              projects={tabProjects}
+                              filter={filter}
+                              header={header}
+                              criteria={filterCriteria}
+                              setCriteria={setFilter}
+                              setSort={setSort}
+                              orderBy={
+                                sortCriteria[sortCriteria.length - 1].field
+                              }
+                              order={
+                                sortCriteria[sortCriteria.length - 1].direction
+                              }
+                              setCheckedProjectIds={setCheckedProjectIds}
+                              setSelectAllChecked={setSelectAllChecked}
+                              droOptions={droOptions}
+                            />
+                          </th>
                         );
                       })}
                     </tr>
