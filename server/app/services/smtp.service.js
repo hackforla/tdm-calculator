@@ -42,10 +42,7 @@ const send = async msg => {
     // ao qw don't want to actually send those.
     const toDomain = extractDomain(mailOptions.to);
     const fromDomain = extractDomain(mailOptions.from);
-    if (
-      toDomain === "test.com" ||
-      fromDomain === "test.com"
-    ) {
+    if (toDomain === "test.com" || fromDomain === "test.com") {
       return "Test email - not sent";
     }
     const info = await transporter.sendMail(mailOptions);

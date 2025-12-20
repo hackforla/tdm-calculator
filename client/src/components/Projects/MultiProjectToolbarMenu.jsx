@@ -125,7 +125,8 @@ const MultiProjectToolbarMenu = ({
   };
 
   const handlePrintPdf = useReactToPrint({
-    content: () => printRef.current,
+    contentRef: printRef,
+    documentTitle: `Project Summary Report`,
     bodyClass: "printContainer",
     pageStyle: ".printContainer {overflow: hidden;}"
   });

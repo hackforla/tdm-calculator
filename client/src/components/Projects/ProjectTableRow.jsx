@@ -195,7 +195,7 @@ const ProjectTableRow = ({
   } = useAdminNotesModal(project, onAdminNoteUpdate);
 
   const formInputs = JSON.parse(project.formInputs);
-  const printRef = useRef();
+  const printRef = useRef(null);
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
   const [committedDro, setCommittedDro] = useState(project.droId || "");
@@ -242,7 +242,8 @@ const ProjectTableRow = ({
   };
 
   const handlePrintPdf = useReactToPrint({
-    content: () => printRef.current,
+    contentRef: printRef,
+    documentTitle: `Project_${project.name}_Report`,
     bodyClass: "printContainer",
     pageStyle: ".printContainer {overflow: hidden;}"
   });
@@ -467,7 +468,7 @@ const ProjectTableRow = ({
             </div>
           </div>
         )}
-      </td>{" "}
+      </td>
       {ENABLE_UPDATE_TOTALS ? (
         <Td>
           <span>{`${project.targetPoints}/${project.earnedPoints}/${project.projectLevel}`}</span>

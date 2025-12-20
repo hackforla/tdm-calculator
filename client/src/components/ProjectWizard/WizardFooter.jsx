@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import { createUseStyles } from "react-jss";
 import Button from "../Button/Button";
-import ReactToPrint from "react-to-print";
+import { useReactToPrint } from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
@@ -65,8 +65,6 @@ const WizardFooter = ({
   shareView
 }) => {
   const classes = useStyles();
-  const componentRef = useRef();
-  const reactToPrintRef = useRef();
   const projectNameRule = rules && rules.find(r => r.code === "PROJECT_NAME");
   const projectName = projectNameRule
     ? projectNameRule.value
@@ -88,6 +86,15 @@ const WizardFooter = ({
     attrToRemove: "aria-describedby",
     attrToAdd: "aria-controls",
     value: popupContentId
+  });
+
+  const printRef = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    contentRef: printRef,
+    documentTitle: `Project_${projectName}_Report`,
+    bodyClass: "printContainer",
+    pageStyle: ".printContainer {overflow: hidden;}"
   });
 
   return (
@@ -155,9 +162,7 @@ const WizardFooter = ({
                       handleCopyModalOpen={showCopyAndEditSnapshot}
                       handleHide={handleHideModalOpen}
                       handleDeleteModalOpen={handleDeleteModalOpen}
-                      handlePrintPdf={() =>
-                        reactToPrintRef.current.handlePrint()
-                      }
+                      handlePrintPdf={handlePrint}
                       handleSnapshotModalOpen={handleSnapshotModalOpen}
                       handleRenameSnapshotModalOpen={
                         handleRenameSnapshotModalOpen
@@ -171,15 +176,8 @@ const WizardFooter = ({
                 </Popup>
               </div>
             )}
-            <ReactToPrint
-              ref={reactToPrintRef}
-              content={() => componentRef.current}
-              documentTitle={projectName}
-              bodyClass="printContainer"
-              pageStyle=".printContainer {overflow: hidden;}"
-            />
             <div style={{ display: "none" }}>
-              <PdfPrint ref={componentRef} rules={rules} project={project} />
+              <PdfPrint ref={printRef} rules={rules} project={project} />
             </div>
             <Button
               id="saveButton"
