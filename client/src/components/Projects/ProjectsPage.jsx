@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { formatId } from "../../helpers/util";
 import { useNavigate } from "react-router-dom";
@@ -304,6 +304,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
   const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
+  const isSubmittingSnapshot = useRef(false);
 
   useEffect(() => {
     const fetchDroOptions = async () => {
@@ -547,6 +548,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleSubmitModalClose = async action => {
+    isSubmittingSnapshot.current = false;
     if (action === "ok") {
       await updateProjects();
       setSuccessModelOpen(true);
@@ -555,6 +557,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleSuccessModalClose = () => {
+    isSubmittingSnapshot.current = false;
     setSuccessModelOpen(false);
     setSelectedProject(null);
   };
@@ -1276,6 +1279,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           onAdminNoteUpdate={handleAdminNoteUpdate}
                           isActiveProjectsTab={isActiveProjectsTab}
                           rawRules={rawRules}
+                          setTargetNotReachedModalOpen={
+                            setTargetNotReachedModalOpen
+                          }
+                          isSubmittingSnapshot={isSubmittingSnapshot}
                         />
                       ))
                     ) : (
