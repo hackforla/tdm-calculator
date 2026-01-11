@@ -77,6 +77,7 @@ const ProjectContextMenu = ({
     } else {
       handleDROModalOpenWithPreCheck(project);
     }
+    closeMenu();
   };
 
   return (

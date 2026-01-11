@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import UserContext from "../../contexts/UserContext";
 import { useToast } from "../../contexts/Toast";
@@ -36,6 +36,8 @@ import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
 import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
 import useErrorHandler from "../../hooks/useErrorHandler";
+import DROSelectionModal from "components/Modals/DROSelectionModal";
+import { fetchDroOptions } from "helpers/FetchDroOptions";
 
 const useStyles = createUseStyles({
   wizard: {
@@ -98,6 +100,24 @@ const TdmCalculationWizard = props => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
   const [shareSnapshotModalOpen, setShareSnapshotModalOpen] = useState(false);
+  const [droSelectionModalOpen, setDroSelectionModalOpen] = useState(false);
+  const [droOptions, setDroOptions] = useState([]);
+  const [selectedDro, setSelectedDro] = useState(null); // Stores the DRO the user selects from the selection modal
+  const [committedDro, setCommittedDro] = useState(null); // Stores the DRO the user confirms from the selection modal
+  const isSubmittingSnapshot = useRef(false);
+
+  useEffect(() => {
+    fetchDroOptions(setDroOptions);
+  }, []);
+
+  useEffect(() => {
+    if (project.droId !== null && project.droId !== undefined) {
+      setSelectedDro(project.droId);
+      setCommittedDro(project.droId);
+    }
+  }, [project.droId]);
+
+  const isDroCommitted = () => committedDro !== null;
 
   const showSubmitModal = () => {
     if (project.earnedPoints >= project.targetPoints) {
@@ -147,6 +167,15 @@ const TdmCalculationWizard = props => {
     }
   };
 
+  const handleDroChange = async (projectId, newDroId) => {
+    try {
+      const updatedDroId = newDroId === "" ? null : newDroId;
+      await projectService.updateDroId(projectId, updatedDroId);
+    } catch (error) {
+      console.error("Error updating DRO ID:", error);
+    }
+  };
+
   const handleRenameSnapshotModalOpen = () => {
     setRenameSnapshotModalOpen(true);
   };
@@ -172,6 +201,30 @@ const TdmCalculationWizard = props => {
 
   const handleShareSnapshotModalClose = async () => {
     setShareSnapshotModalOpen(false);
+  };
+
+  const handleConfirmButtonClick = () => {
+    handleDroSelection("ok");
+    handleSubmitModalOpen();
+  };
+
+  const handleDroSelection = action => {
+    if (action === "ok") {
+      setCommittedDro(selectedDro);
+    }
+    setDroSelectionModalOpen(false);
+  };
+
+  const handleDROModalOpenWithPreCheck = () => {
+    if (project.earnedPoints >= project.targetPoints) {
+      setDroSelectionModalOpen(true);
+    } else {
+      setTargetNotReachedModalOpen(true);
+    }
+  };
+
+  const handleDroSelectionModalClose = () => {
+    setDroSelectionModalOpen(false);
   };
 
   const handleSubmitModalOpen = () => {
@@ -518,6 +571,9 @@ const TdmCalculationWizard = props => {
           handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
           handleShareSnapshotModalOpen={handleShareSnapshotModalOpen}
           handleSubmitModalOpen={handleSubmitModalOpen}
+          handleDROModalOpenWithPreCheck={handleDROModalOpenWithPreCheck}
+          isDroCommitted={isDroCommitted}
+          isSubmittingSnapshot={isSubmittingSnapshot}
           onSave={onSave}
           project={project}
           shareView={shareView}
@@ -580,6 +636,18 @@ const TdmCalculationWizard = props => {
         mounted={shareSnapshotModalOpen}
         onClose={handleShareSnapshotModalClose}
         project={project}
+      />
+      <DROSelectionModal
+        mounted={droSelectionModalOpen}
+        onClose={handleDroSelectionModalClose}
+        onConfirm={handleConfirmButtonClick}
+        selectedDro={selectedDro}
+        droOptions={droOptions}
+        onChange={e => {
+          const newDroId = Number(e.target.value);
+          setSelectedDro(newDroId);
+          handleDroChange(project.id, newDroId);
+        }}
       />
     </div>
   );
