@@ -61,6 +61,9 @@ const WizardFooter = ({
   handleRenameSnapshotModalOpen,
   handleShareSnapshotModalOpen,
   handleSubmitModalOpen,
+  handleDROModalOpenWithPreCheck,
+  isDroCommitted,
+  isSubmittingSnapshot,
   project,
   shareView
 }) => {
@@ -171,6 +174,11 @@ const WizardFooter = ({
                         handleShareSnapshotModalOpen
                       }
                       handleSubmitModalOpen={handleSubmitModalOpen}
+                      handleDROModalOpenWithPreCheck={
+                        handleDROModalOpenWithPreCheck
+                      }
+                      isDroCommitted={isDroCommitted}
+                      isSubmittingSnapshot={isSubmittingSnapshot}
                     />
                   )}
                 </Popup>
@@ -260,6 +268,9 @@ WizardFooter.propTypes = {
   handleSnapshotModalOpen: PropTypes.func,
   handleRenameSnapshotModalOpen: PropTypes.func,
   handleShareSnapshotModalOpen: PropTypes.func,
+  handleDROModalOpenWithPreCheck: PropTypes.func,
+  isDroCommitted: PropTypes.func,
+  isSubmittingSnapshot: PropTypes.object,
   onDownload: PropTypes.any,
   project: PropTypes.any,
   selectProject: PropTypes.any,

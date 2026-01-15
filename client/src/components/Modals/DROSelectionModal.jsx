@@ -103,10 +103,7 @@ export default function DROSelectionModal({
           <Button onClick={onClose} variant="secondary">
             CANCEL
           </Button>
-          <Button
-            onClick={() => onConfirm("ok", selectedDro)}
-            variant="primary"
-          >
+          <Button onClick={onConfirm} variant="primary">
             CONFIRM
           </Button>
         </div>

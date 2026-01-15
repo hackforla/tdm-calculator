@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { formatId } from "../../helpers/util";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,6 @@ import useProjects from "../../hooks/useGetProjects";
 import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData";
 import * as projectService from "../../services/project.service";
 import * as projectResultService from "../../services/projectResult.service";
-import * as droService from "../../services/dro.service";
 import * as ruleService from "../../services/rule.service";
 import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
@@ -34,6 +33,7 @@ import {
   FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
 import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
+import { fetchDroOptions } from "helpers/FetchDroOptions";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
@@ -304,17 +304,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
   const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
+  const isSubmittingSnapshot = useRef(false);
 
   useEffect(() => {
-    const fetchDroOptions = async () => {
-      try {
-        const result = await droService.get();
-        setDroOptions(result.data); // Adjust based on your API response structure
-      } catch (error) {
-        console.error("Error fetching DRO options:", error);
-      }
-    };
-    fetchDroOptions();
+    fetchDroOptions(setDroOptions);
   }, []);
 
   useEffect(() => {
@@ -547,6 +540,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleSubmitModalClose = async action => {
+    isSubmittingSnapshot.current = false;
     if (action === "ok") {
       await updateProjects();
       setSuccessModelOpen(true);
@@ -555,6 +549,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleSuccessModalClose = () => {
+    isSubmittingSnapshot.current = false;
     setSuccessModelOpen(false);
     setSelectedProject(null);
   };
@@ -1276,6 +1271,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           onAdminNoteUpdate={handleAdminNoteUpdate}
                           isActiveProjectsTab={isActiveProjectsTab}
                           rawRules={rawRules}
+                          setTargetNotReachedModalOpen={
+                            setTargetNotReachedModalOpen
+                          }
+                          isSubmittingSnapshot={isSubmittingSnapshot}
                         />
                       ))
                     ) : (
