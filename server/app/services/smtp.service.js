@@ -9,12 +9,16 @@ const smtpAuthPass = process.env.SMTP_AUTH_PASS;
 let transporter = nodemailer.createTransport({
   host: smtpHost,
   port: smtpPort,
-  secure: smtpSecure, // true for 465, false for other ports
-  auth: {
-    user: smtpAuthUser,
-    pass: smtpAuthPass
-  }
+  secure: smtpSecure // true
 });
+
+// If Google Workspace SMTP Relay is configured to accept requests
+// from a specific IP address, you don't want to incluide the auth
+// user/pass, otherwise, then you need these credentials.
+transporter.auth = {
+  user: smtpAuthUser,
+  pass: smtpAuthPass
+};
 
 /* 
     msg object should have to, subject, text, html fields
