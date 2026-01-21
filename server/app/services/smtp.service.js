@@ -51,6 +51,7 @@ const send = async msg => {
     return msg;
   } catch (err) {
     console.error("Error sending email: %s", err.message);
+    throw err;
   }
 };
 
