@@ -31,7 +31,7 @@ const ConfirmEmail = () => {
     const confirmEmail = async token => {
       const result = await accountService.confirmRegister(token);
       setConfirmResult(result);
-      if (result.success) {
+      if (result.isSuccess) {
         toast.add("Your email has been confirmed. Please log in.");
         navigate(`/login/${encodeURIComponent(result.email)}`);
       }
@@ -41,7 +41,7 @@ const ConfirmEmail = () => {
     }
   }, [token, toast, navigate]);
 
-  return confirmResult.success ? (
+  return confirmResult.isSuccess ? (
     <Navigate to={`/login/${confirmResult.email}`} />
   ) : (
     <ContentContainer>

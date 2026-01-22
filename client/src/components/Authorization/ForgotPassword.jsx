@@ -17,6 +17,8 @@ const ForgotPassword = () => {
         "email",
         "That email address is not associated with any accounts"
       );
+    } else {
+      setFieldError("email", submitResponse.data.message);
     }
   };
 

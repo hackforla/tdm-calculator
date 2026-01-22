@@ -178,7 +178,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
               <div className={classes.formContainer}>
                 <div className={classes.row}>
                   <label htmlFor="name" className={classes.formLabel}>
-                    Project Name <span className={classes.asterisk}>*</span>
+                    Your Name <span className={classes.asterisk}>*</span>
                   </label>
 
                   <Field
