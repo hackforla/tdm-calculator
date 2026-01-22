@@ -20,10 +20,6 @@ const resultRuleCodes = [
 const filters = {
   projectDescriptionRules: rule =>
     rule.category === "input" && rule.calculationPanelId === 31 && rule.display,
-  landUseRules: rule =>
-    rule.category === "calculation" &&
-    rule.calculationPanelId === 5 &&
-    rule.display,
   specificationRules: rule =>
     rule.category === "input" && rule.calculationPanelId !== 31 && rule.used,
   targetPointRules: rule =>
@@ -149,98 +145,35 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     }
   };
 
-  const landUseRules = rules && rules.filter(filters.landUseRules);
-
-  const residentialPackageSelected = () => {
-    // Only enable button if
-    // component strategies are not already selected
-    const strategyBike4 = rules.find(r => r.code === "STRATEGY_BIKE_4");
-    const strategyInfo3 = rules.find(r => r.code === "STRATEGY_INFO_3");
-    const strategyParking1 = rules.find(r => r.code === "STRATEGY_PARKING_1");
-    return (
-      strategyBike4 &&
-      !!strategyBike4.value &&
-      strategyInfo3 &&
-      strategyInfo3.value >= 1 &&
-      strategyParking1 &&
-      strategyParking1.value >= 8
-    );
-  };
-
-  const schoolPackageSelected = () => {
-    // Only enable button if
-    // component strategies are not already selected
-    const strategyBike4 = rules.find(r => r.code === "STRATEGY_BIKE_4");
-    const strategyHov4 = rules.find(r => r.code === "STRATEGY_HOV_4");
-    const strategyInfo3 = rules.find(r => r.code === "STRATEGY_INFO_3");
-    const strategyMobilityInvestment2 = rules.find(
-      r => r.code === "STRATEGY_MOBILITY_INVESTMENT_2"
-    );
-    return (
-      strategyBike4 &&
-      !!strategyBike4.value &&
-      strategyHov4 &&
-      !!strategyHov4.value &&
-      strategyInfo3 &&
-      strategyInfo3.value >= 2 &&
-      strategyMobilityInvestment2 &&
-      strategyMobilityInvestment2.value >= 2
-    );
-  };
-
-  const onPkgSelect = (pkgType, selected = true) => {
-    const modifiedInputs = {};
-    if (pkgType === "Residential") {
-      if (selected) {
-        modifiedInputs["STRATEGY_BIKE_4"] = true;
-        if (rules.find(r => r.code === "STRATEGY_INFO_3").value < 1) {
-          modifiedInputs["STRATEGY_INFO_3"] = 1;
+  const applySideEffects = (inputs, rule, value) => {
+    if (rule?.sideEffects) {
+      const sideEffectsArray = rule.sideEffects
+        ? JSON.parse(rule.sideEffects)
+        : null;
+      const sideEffects =
+        sideEffectsArray.find(s => s.value === value) ||
+        sideEffectsArray.find(s => s.value === "default") ||
+        null;
+      if (!sideEffects) return;
+      sideEffects.effects.forEach(sideEffect => {
+        const type = getRuleByCode(sideEffect.code).dataType;
+        // if sideEffect.value is null, do not alter the value.
+        if (sideEffect.value !== null) {
+          if (type === "boolean" || type === "number") {
+            inputs[sideEffect.code] = sideEffect.value;
+          } else if (
+            type === "choice" &&
+            // if target rule is a choice, and sideEffect.value is > "0",
+            // we only want to set it, if it is greater than the current value.
+            (!inputs[sideEffect.code] || // initial value might be undefined or ""
+              sideEffect.value > inputs[sideEffect.code] ||
+              sideEffect.value === "0")
+          ) {
+            inputs[sideEffect.code] = sideEffect.value;
+          }
         }
-        // De-select Trip-Reduction Program
-        modifiedInputs["STRATEGY_HOV_5"] = false;
-        // Set Pricing/unbundling to 8
-        modifiedInputs["STRATEGY_PARKING_1"] = 8;
-      } else {
-        // Do not alter Bike Parking setting
-        // De-select Encouragement Program, unless
-        // the school package is selected
-        if (!schoolPackageSelected()) {
-          modifiedInputs["STRATEGY_INFO_3"] = 0;
-        }
-        // Set Pricing/Unbundling to 0
-        modifiedInputs["STRATEGY_PARKING_1"] = 0;
-      }
-    } else {
-      // School Pkg
-      if (selected) {
-        modifiedInputs["STRATEGY_BIKE_4"] = true;
-        if (rules.find(r => r.code === "STRATEGY_INFO_3").value <= 1) {
-          modifiedInputs["STRATEGY_INFO_3"] = 2;
-        }
-        modifiedInputs["STRATEGY_MOBILITY_INVESTMENT_2"] = 2;
-        modifiedInputs["STRATEGY_HOV_4"] = true;
-
-        // De-select Trip-Reduction Program
-        //modifiedInputs["STRATEGY_HOV_5"] = false;
-      } else {
-        // Do not alter Bike Parking setting
-        // De-select Encouragement Program, unless
-        // the residential package is selected
-        if (!residentialPackageSelected()) {
-          modifiedInputs["STRATEGY_INFO_3"] = 0;
-        } else {
-          modifiedInputs["STRATEGY_INFO_3"] = 1;
-        }
-        modifiedInputs["STRATEGY_MOBILITY_INVESTMENT_2"] = 0;
-        modifiedInputs["STRATEGY_HOV_4"] = false;
-      }
+      });
     }
-
-    const newFormInputs = {
-      ...formInputs,
-      ...modifiedInputs
-    };
-    recalculate(newFormInputs);
   };
 
   const onParkingProvidedChange = e => {
@@ -276,41 +209,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     rules && rules.find(rule => rule.code === "PROJECT_LEVEL")
       ? rules.find(rule => rule.code === "PROJECT_LEVEL").value
       : 0;
-
-  const allowResidentialPackage = (() => {
-    const applicableLandUse = landUseRules.find(
-      r =>
-        r.code.startsWith("LAND_USE") && r.code !== "LAND_USE_SCHOOL" && r.value
-    );
-    const lowParkRatio = rules.find(
-      r => r.code === "CALC_PARK_RATIO" && r.value < 110
-    );
-    // Must provide some parking, in order for the package to apply, since
-    // one strategy in the package is Pricing/Unbundling, and that can only apply if
-    // some parking is provided
-    const parkingProvided = rules.find(
-      r => r.code === "PARK_SPACES" && r.value > 0
-    );
-    return !!(
-      projectLevel === 1 &&
-      applicableLandUse &&
-      lowParkRatio &&
-      parkingProvided
-    );
-  })();
-
-  const allowSchoolPackage = (() => {
-    const triggerRule = landUseRules.filter(r => r.code === "LAND_USE_SCHOOL");
-    const lowParkRatio = rules.find(
-      r => r.code === "CALC_PARK_RATIO" && r.value < 110
-    );
-    return !!(
-      projectLevel === 1 &&
-      triggerRule[0] &&
-      triggerRule[0].value &&
-      lowParkRatio
-    );
-  })();
 
   const getRuleByCode = ruleCode => {
     const rule = rules.find(rule => rule.code === ruleCode);
@@ -349,59 +247,18 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         value = value === "0" ? "" : value;
       }
     }
-
-    const newFormInputs = {
+    ``;
+    let newFormInputs = {
       ...formInputs,
       [ruleCode]: value
     };
-    applySideEffects(newFormInputs, ruleCode, value);
+    applySideEffects(newFormInputs, rule, value);
 
     recalculate(newFormInputs);
   };
 
   const onPartialAINChange = value => {
     setPartialAIN(value);
-  };
-
-  // If selecting a particular value for a particular rule needs to cause
-  // a change to another input...
-  const applySideEffects = (formInputs, ruleCode, value) => {
-    switch (ruleCode) {
-      case "STRATEGY_CAR_SHARE_3":
-        // When Car Share membership is set to "Blue LA", automatically select
-        // Car Sharing Electric Vehicle Bonus (issue #791)
-        if (value === "2") {
-          formInputs["STRATEGY_CAR_SHARE_ELECTRIC"] = true;
-        } else {
-          formInputs["STRATEGY_CAR_SHARE_ELECTRIC"] = false;
-        }
-        break;
-      case "STRATEGY_AFFORDABLE":
-        // When the Strategy Affordable housing is set to 100% Affordable,
-        // The 100% Affordable Housing Input should be set to true
-        if (value === "4") {
-          formInputs["AFFORDABLE_HOUSING"] = true;
-          // If < 50 residential units and Affordable Housing is changed to 100%,
-          // then page 4 is no longer applicable, redirect to page 3.
-          if (projectLevel <= 1) {
-            const thirdPage =
-              "/calculation/3" + (projectId ? `/${projectId}` : "/0");
-            navigate(thirdPage);
-          }
-        } else {
-          formInputs["AFFORDABLE_HOUSING"] = false;
-        }
-        break;
-      case "AFFORDABLE_HOUSING":
-        if (value === true) {
-          formInputs["STRATEGY_AFFORDABLE"] = "4";
-        } else {
-          if (formInputs["STRATEGY_AFFORDABLE"] === "4") {
-            formInputs["STRATEGY_AFFORDABLE"] = "";
-          }
-        }
-        break;
-    }
   };
 
   const onCommentChange = e => {
@@ -496,11 +353,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         await projectService.put(requestBody);
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
-        let projectResponse = null;
-
-        projectResponse = await projectService.getById(projectId);
-
-        // setDateModified(formatDatetime(projectResponse.data?.dateModified));
+        const projectResponse = await projectService.getById(projectId);
         setProject(projectResponse.data);
       } catch (err) {
         console.error(err);
@@ -565,14 +418,9 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       onResetProject={onResetProject}
       initializeStrategies={initializeStrategies}
       filters={filters}
-      onPkgSelect={onPkgSelect}
       onParkingProvidedChange={onParkingProvidedChange}
       resultRuleCodes={resultRuleCodes}
       onSave={onSave}
-      allowResidentialPackage={allowResidentialPackage}
-      allowSchoolPackage={allowSchoolPackage}
-      residentialPackageSelected={residentialPackageSelected}
-      schoolPackageSelected={schoolPackageSelected}
       formIsDirty={!formHasSaved}
       projectIsValid={projectIsValid}
       contentContainerRef={contentContainerRef}

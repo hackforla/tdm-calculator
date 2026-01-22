@@ -11,11 +11,13 @@ const resultRuleCodes = [
   "PTS_EARNED"
 ];
 
-const fetchEngineRules = async project => {
-  const ruleResponse = await ruleService.getByCalculationId(
-    project.calculationId
-  );
-  const engine = new Engine(ruleResponse.data);
+const fetchEngineRules = async (project, rawRules) => {
+  let ruleResponse;
+  if (!rawRules) {
+    ruleResponse = await ruleService.getByCalculationId(project.calculationId);
+  }
+
+  const engine = new Engine(rawRules || ruleResponse.data);
 
   const inputs = project.formInputs;
   const data = JSON.parse(inputs);

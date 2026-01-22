@@ -1,5 +1,5 @@
 const request = require("supertest");
-const sgMail = require("@sendgrid/mail");
+const smtpMail = require("../app/services/smtp.service");
 const {
   setupServer,
   teardownServer
@@ -16,14 +16,14 @@ afterAll(async () => {
 });
 
 describe("Account API endpoints for end user accounts", () => {
-  let originalSendgrid = sgMail.send;
+  let originalSendgrid = smtpMail.send;
   // eslint-disable-next-line no-unused-vars
   let userId; // id of the registered user - to be deleted by security admin
   let capturedToken; // confirmation token captured from the mocked sendgrid function
   let userToken; // jwt for registered user - for protected endpoints
 
   beforeAll(async () => {
-    sgMail.send = jest.fn(async () => {
+    smtpMail.send = jest.fn(async () => {
       return { statusCode: 202 };
     });
 
@@ -49,7 +49,7 @@ describe("Account API endpoints for end user accounts", () => {
     });
     // captures the token from the mocked sendgird function to be used in registration confirmation
     const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
-    const emailContent = sgMail.send.mock.calls[0][0].html;
+    const emailContent = smtpMail.send.mock.calls[0][0].html;
     const match = emailContent.match(tokenPattern);
     if (match && match[1]) {
       capturedToken = match[1];
@@ -70,7 +70,7 @@ describe("Account API endpoints for end user accounts", () => {
 
   afterAll(async () => {
     // cleanup state
-    sgMail.send = originalSendgrid;
+    smtpMail.send = originalSendgrid;
     userId = undefined;
     capturedToken = undefined;
     userToken = undefined;
@@ -117,7 +117,7 @@ describe("Account API endpoints for end user accounts", () => {
       .post("/api/accounts/confirmRegister")
       .send({ token: capturedToken });
     expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("success", true);
+    expect(res.body).toHaveProperty("isSuccess", true);
   });
 
   // POST "/login" attempt to login with an incorrect password
@@ -195,14 +195,15 @@ describe("Account API endpoints for end user accounts", () => {
 });
 
 describe("Account API endpoints for security admin", () => {
-  let originalSendgrid = sgMail.send;
+  let originalSendgrid = smtpMail.send;
   let newUserId; // id of the registered user - to be deleted by security admin
   let archUserId; // id of the archived user - to be unarchived by security admin
   let adminToken; // jwt for security admin - for protected endpoints
   let capturedToken; // confirmation token captured from the mocked sendgrid function
+  let archiveUserWithSubId; // id of the archived user with submission
 
   beforeAll(async () => {
-    sgMail.send = jest.fn(async () => {
+    smtpMail.send = jest.fn(async () => {
       return { statusCode: 202 };
     });
 
@@ -230,7 +231,7 @@ describe("Account API endpoints for security admin", () => {
     });
     // captures the token from the mocked sendgird function to be used in registration confirmation
     const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
-    const emailContent = sgMail.send.mock.calls[0][0].html;
+    const emailContent = smtpMail.send.mock.calls[0][0].html;
     const match = emailContent.match(tokenPattern);
     if (match && match[1]) {
       capturedToken = match[1];
@@ -253,15 +254,75 @@ describe("Account API endpoints for security admin", () => {
     await request(server)
       .put(`/api/accounts/${archUserId}/archiveaccount`)
       .set("Authorization", `Bearer ${adminToken}`);
+
+    const archiveUserWithSubmission = await request(server)
+      .post("/api/accounts/register")
+      .send({
+        firstName: "Luka",
+        lastName: "Doncic",
+        email: "LukaDoncic@test.com",
+        password: "Password1!!!"
+      });
+    archiveUserWithSubId = archiveUserWithSubmission.body.newId;
+
+    await request(server).post("/api/accounts/resendConfirmationEmail").send({
+      email: "LukaDoncic@test.com"
+    });
+
+    const reUseEmailConfirmation =
+      smtpMail.send.mock.calls[smtpMail.send.mock.calls.length - 1];
+
+    const lukaEmailContent = reUseEmailConfirmation[0].html;
+    const lukaMatch = lukaEmailContent.match(tokenPattern);
+    if (lukaMatch && lukaMatch[1]) {
+      await request(server)
+        .post("/api/accounts/confirmRegister")
+        .send({ token: lukaMatch[1] });
+    }
+    // Login to test user
+    const userLoginRespose = await request(server)
+      .post("/api/accounts/login")
+      .send({
+        email: "LukaDoncic@test.com",
+        password: "Password1!!!"
+      });
+    const userToken = userLoginRespose.body.token;
+
+    // create project with test user
+    const projectResponse = await request(server)
+      .post("/api/projects")
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({
+        name: "Test Project",
+        address: "123 Main St.",
+        description: "Test Project",
+        formInputs: '{"PROJECT_NAME":"Test Project"}',
+        loginId: archiveUserWithSubId,
+        calculationId: 1
+      });
+
+    const projectId = projectResponse.body.id;
+    // submit snapshot
+    await request(server)
+      .put("/api/projects/snapshot")
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({ id: projectId });
+
+    // sumbit project to server as user
+    await request(server)
+      .put("/api/projects/submit")
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({ id: projectId });
   });
 
   afterAll(async () => {
     // cleanup state
-    sgMail.send = originalSendgrid;
+    smtpMail.send = originalSendgrid;
     newUserId = undefined;
     adminToken = undefined;
     capturedToken = undefined;
     archUserId = undefined;
+    undefined;
   });
 
   // POST "/login/:email?" Login as security admin
@@ -338,5 +399,26 @@ describe("Account API endpoints for security admin", () => {
       .delete(`/api/accounts/${newUserId}/deleteaccount`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(res.statusCode).toEqual(200);
+  });
+
+  describe("deleteUser", () => {
+    describe("Security Admin shouldn't delete an accout with submissions", () => {
+      it("Return error, Cannot Delete Account With Submission", async () => {
+        // archive the test user as archive account
+        await request(server)
+          .put(`/api/accounts/${archiveUserWithSubId}/archiveaccount`)
+          .set("Authorization", `Bearer ${adminToken}`);
+
+        // delete account as a security admin
+        const res = await request(server)
+          .delete(`/api/accounts/${archiveUserWithSubId}/deleteaccount`)
+          .set("Authorization", `Bearer ${adminToken}`);
+
+        expect(res.statusCode).toEqual(500);
+        expect(res.text || res.body.message || res.body).toContain(
+          "Cannot delete account with submissions. Account has projects that have been submitted."
+        );
+      });
+    });
   });
 });

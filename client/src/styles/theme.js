@@ -31,8 +31,9 @@ export const jssTheme = {
       gray: "#939393",
       mediumGray: "#CFCFCF",
       lightGray: "#EEF1F4",
+      darkRed: "#990000",
       green: "#A7C539",
-      darkNavy: "#002E6D",
+      darkNavy: "#0f2940",
       darkBlue: "#00122B",
       yellow: "#FFFF00",
       linkBlue: "#0000FF"
@@ -117,7 +118,7 @@ export const jssTheme = {
     }
   },
   border: {
-    dashedWarning: "1px dashed #B64E38",
-    solidWarning: "1px solid #B64E38"
+    dashedWarning: "1px dashed #C3391D",
+    solidWarning: "1px solid #C3391D"
   }
 };

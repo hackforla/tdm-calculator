@@ -173,7 +173,7 @@ const RuleStrategy = ({
     const ruleCode = (e.target && e.target.name) || e.detail.name;
     if (
       ruleCode === "STRATEGY_AFFORDABLE" &&
-      e.target.value == 4 &&
+      e.target.value == "4" &&
       projectLevel <= 1
     ) {
       /* Need to stash the event object to pass to parent if user chooses to proceed.
@@ -362,6 +362,7 @@ const RuleStrategy = ({
           <div>{`If applicable, please input the details about ${name}.`}</div>
           <div>
             <textarea
+              aria-label={`Comment about ${name}`}
               type="textarea"
               value={comment || ""}
               onChange={onCommentChange}

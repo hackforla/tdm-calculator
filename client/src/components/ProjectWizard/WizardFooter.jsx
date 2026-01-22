@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import { createUseStyles } from "react-jss";
 import Button from "../Button/Button";
-import ReactToPrint from "react-to-print";
+import { useReactToPrint } from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
 import ProjectContextMenu from "../Projects/ProjectContextMenu";
+import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -60,12 +61,13 @@ const WizardFooter = ({
   handleRenameSnapshotModalOpen,
   handleShareSnapshotModalOpen,
   handleSubmitModalOpen,
+  handleDROModalOpenWithPreCheck,
+  isDroCommitted,
+  isSubmittingSnapshot,
   project,
   shareView
 }) => {
   const classes = useStyles();
-  const componentRef = useRef();
-  const reactToPrintRef = useRef();
   const projectNameRule = rules && rules.find(r => r.code === "PROJECT_NAME");
   const projectName = projectNameRule
     ? projectNameRule.value
@@ -78,6 +80,25 @@ const WizardFooter = ({
 
   const isAdmin = userContext.account?.isAdmin || false;
   const { firstName, lastName, email } = project;
+
+  const elementId = `wizard-footer-action-button-${project.id}`;
+  const popupContentId = `popup-content-${elementId}`;
+  useReplaceAriaAttribute({
+    elementId,
+    deps: [project],
+    attrToRemove: "aria-describedby",
+    attrToAdd: "aria-controls",
+    value: popupContentId
+  });
+
+  const printRef = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    contentRef: printRef,
+    documentTitle: `Project_${projectName}_Report`,
+    bodyClass: "printContainer",
+    pageStyle: ".printContainer {overflow: hidden;}"
+  });
 
   return (
     <>
@@ -126,7 +147,7 @@ const WizardFooter = ({
                   className={classes.popover}
                   trigger={
                     // needs element wrapped around Button so reactjs-popup has something to anchor on
-                    <div>
+                    <div id={elementId}>
                       <Button id="action" variant="tertiary">
                         ACTION
                       </Button>
@@ -137,15 +158,14 @@ const WizardFooter = ({
                 >
                   {close => (
                     <ProjectContextMenu
+                      id={popupContentId}
                       project={project}
                       closeMenu={close}
                       handleCsvModalOpen={handleCsvModalOpen}
                       handleCopyModalOpen={showCopyAndEditSnapshot}
                       handleHide={handleHideModalOpen}
                       handleDeleteModalOpen={handleDeleteModalOpen}
-                      handlePrintPdf={() =>
-                        reactToPrintRef.current.handlePrint()
-                      }
+                      handlePrintPdf={handlePrint}
                       handleSnapshotModalOpen={handleSnapshotModalOpen}
                       handleRenameSnapshotModalOpen={
                         handleRenameSnapshotModalOpen
@@ -154,20 +174,18 @@ const WizardFooter = ({
                         handleShareSnapshotModalOpen
                       }
                       handleSubmitModalOpen={handleSubmitModalOpen}
+                      handleDROModalOpenWithPreCheck={
+                        handleDROModalOpenWithPreCheck
+                      }
+                      isDroCommitted={isDroCommitted}
+                      isSubmittingSnapshot={isSubmittingSnapshot}
                     />
                   )}
                 </Popup>
               </div>
             )}
-            <ReactToPrint
-              ref={reactToPrintRef}
-              content={() => componentRef.current}
-              documentTitle={projectName}
-              bodyClass="printContainer"
-              pageStyle=".printContainer {overflow: hidden;}"
-            />
             <div style={{ display: "none" }}>
-              <PdfPrint ref={componentRef} rules={rules} project={project} />
+              <PdfPrint ref={printRef} rules={rules} project={project} />
             </div>
             <Button
               id="saveButton"
@@ -250,6 +268,9 @@ WizardFooter.propTypes = {
   handleSnapshotModalOpen: PropTypes.func,
   handleRenameSnapshotModalOpen: PropTypes.func,
   handleShareSnapshotModalOpen: PropTypes.func,
+  handleDROModalOpenWithPreCheck: PropTypes.func,
+  isDroCommitted: PropTypes.func,
+  isSubmittingSnapshot: PropTypes.object,
   onDownload: PropTypes.any,
   project: PropTypes.any,
   selectProject: PropTypes.any,

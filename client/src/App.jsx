@@ -17,6 +17,7 @@ import PlainSidebarLayout from "./components/Layout/PlainSidebarLayout";
 import TdmCalculationContainer from "./components/ProjectWizard/TdmCalculationContainer";
 import ProjectsPage from "./components/Projects/ProjectsPage";
 import About from "./components/About/About";
+import Design from "./components/Design/Design";
 import TermsAndConditionsPage from "./components/TermsAndConditions/TermsAndConditionsPage";
 import ChecklistPage from "./components/Checklist/ChecklistPage";
 import PrivacyPolicy from "./components/PrivacyPolicy";
@@ -26,7 +27,7 @@ import ConfirmEmail from "./components/Authorization/ConfirmEmail";
 import Login from "./components/Authorization/Login";
 import Unauthorized from "./components/Authorization/Unauthorized";
 import Admin from "./components/Admin/Admin";
-import Roles from "./components/Roles";
+import Roles from "./components/Roles/Roles";
 import ProjectsArchive from "./components/ArchiveDelete/ProjectsArchive";
 import RolesArchive from "./components/ArchiveDelete/RolesArchive";
 import FaqView from "./components/Faq/FaqView";
@@ -100,6 +101,7 @@ const App = () => {
             </RequireAuth>
           }
         />
+        <Route path="/design" element={<Design />} />
         <Route path="/offline" element={<Offline />} />
         {/* Layout Route adds plain Sidebar */}
         <Route

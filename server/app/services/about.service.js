@@ -1,3 +1,4 @@
+const { sanitizeHtml } = require("../../middleware/sanitize-html");
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
 
@@ -22,7 +23,15 @@ const postAbout = async about => {
     tvp.columns.add("content", mssql.NVarChar, mssql.MAX);
 
     about.forEach(aboutItem => {
-      tvp.rows.add(aboutItem.title, aboutItem.displayOrder, aboutItem.content);
+      // About page content is admin-created HTML that gets rendered with Interweave
+      // Added for extra safety precaution
+      //Reference Decision Records https://github.com/hackforla/tdm-calculator/wiki/Decision-Records
+      const sanitizeAboutContent = sanitizeHtml(aboutItem.content || "");
+      tvp.rows.add(
+        aboutItem.title,
+        aboutItem.displayOrder,
+        sanitizeAboutContent
+      );
     });
 
     request.input("abouts", tvp);

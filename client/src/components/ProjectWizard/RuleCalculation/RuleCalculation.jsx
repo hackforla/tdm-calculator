@@ -6,6 +6,8 @@ import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
 import Popup from "reactjs-popup";
 import { MdClose } from "react-icons/md";
+import { sanitizeHtml } from "helpers/SanitizeRichText";
+import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles(theme => ({
   field: {
@@ -209,6 +211,19 @@ const RuleCalculation = ({
     setShowValidationErrors(true);
   };
 
+  const elementId = `context-menu-button-${code}`;
+  const popupContentId = `popup-content-${elementId}`;
+  useReplaceAriaAttribute({
+    elementId,
+    deps: [code],
+    attrToRemove: "aria-describedby",
+    attrToAdd: "aria-controls",
+    value: popupContentId
+  });
+
+  // Sanitize DangerouslySetInnerHtml with DomPurify
+  const cleanDescription = sanitizeHtml(description);
+
   return (
     <React.Fragment>
       {dataType === "number" ? (
@@ -347,7 +362,7 @@ const RuleCalculation = ({
               {description ? (
                 <Popup
                   trigger={
-                    <span style={{ cursor: "pointer" }}>
+                    <span id={elementId} style={{ cursor: "pointer" }}>
                       <ToolTipIcon id={id.toString()} />
                     </span>
                   }
@@ -357,7 +372,7 @@ const RuleCalculation = ({
                 >
                   {close => {
                     return (
-                      <div style={{ margin: "1rem" }}>
+                      <div id={popupContentId} style={{ margin: "1rem" }}>
                         <button
                           style={{
                             backgroundColor: "transparent",
@@ -372,8 +387,11 @@ const RuleCalculation = ({
                         >
                           <MdClose style={{ height: "20px", width: "20px" }} />
                         </button>
+                        {/* DangerouslySetInnerHtml was clean here with DomPurify.  
+                         Please reference Decision Records for more details: 
+                         https://github.com/hackforla/tdm-calculator/wiki/Decision-Records */}
                         <div
-                          dangerouslySetInnerHTML={{ __html: description }}
+                          dangerouslySetInnerHTML={{ __html: cleanDescription }}
                         />
                       </div>
                     );

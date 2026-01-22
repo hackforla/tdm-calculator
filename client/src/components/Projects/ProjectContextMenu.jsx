@@ -53,8 +53,12 @@ const ProjectContextMenu = ({
   handleRenameSnapshotModalOpen,
   handleShareSnapshotModalOpen,
   handleSubmitModalOpen,
+  handleDROModalOpenWithPreCheck,
   handlePrintPdf,
-  handleHide
+  handleHide,
+  ariaControlsId,
+  isDroCommitted,
+  isSubmittingSnapshot
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -66,8 +70,18 @@ const ProjectContextMenu = ({
     closeMenu();
   };
 
+  const handleSubmitSnapshotClick = () => {
+    isSubmittingSnapshot.current = true;
+    if (isDroCommitted()) {
+      handleSubmitModalOpen(project);
+    } else {
+      handleDROModalOpenWithPreCheck(project);
+    }
+    closeMenu();
+  };
+
   return (
-    <ul className={classes.list}>
+    <ul className={classes.list} id={ariaControlsId}>
       {project.dateSnapshotted && project.loginId == account?.id ? (
         <li
           className={classes.listItem}
@@ -123,7 +137,7 @@ const ProjectContextMenu = ({
       project.loginId == account?.id ? (
         <li
           className={classes.listItem}
-          onClick={() => handleClick(handleSubmitModalOpen)}
+          onClick={() => handleSubmitSnapshotClick()}
         >
           <TbFileExport
             className={classes.listItemIcon}
@@ -224,8 +238,12 @@ ProjectContextMenu.propTypes = {
   handleRenameSnapshotModalOpen: PropTypes.func,
   handleShareSnapshotModalOpen: PropTypes.func,
   handleSubmitModalOpen: PropTypes.func,
+  handleDROModalOpenWithPreCheck: PropTypes.func,
   handlePrintPdf: PropTypes.func,
-  handleHide: PropTypes.func
+  handleHide: PropTypes.func,
+  ariaControlsId: PropTypes.string,
+  isDroCommitted: PropTypes.func,
+  isSubmittingSnapshot: PropTypes.object
 };
 
 export default ProjectContextMenu;

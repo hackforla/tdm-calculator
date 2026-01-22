@@ -10,6 +10,7 @@ import RolesDeleteContextMenu from "./RolesDeleteContextMenu";
 import UserContext from "../../contexts/UserContext";
 import { MdMoreVert, MdOutlineSearch } from "react-icons/md";
 import ContentContainerWithTables from "components/Layout/ContentContainerWithTables";
+import DeleteArchivedAccountModal from "components/Modals/WarningArchivedAccountDelete";
 
 const useStyles = createUseStyles(theme => ({
   main: {
@@ -129,6 +130,7 @@ const RolesArchive = ({ contentContainerRef }) => {
   const [archivedAccounts, setArchivedAccounts] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
+  const [selectedUser, setSelectedUser] = useState({});
   const theme = useTheme();
   const classes = useStyles(theme);
   const { add } = useToast();
@@ -198,6 +200,20 @@ const RolesArchive = ({ contentContainerRef }) => {
     }
   };
 
+  const [deleteWarningModalOpen, setDeleteWarningModalOpen] = useState(false);
+
+  const handleDeleteWarningModalOpen = user => {
+    setSelectedUser(user);
+    setDeleteWarningModalOpen(true);
+  };
+
+  const handleDeleteWarningModalClose = clickedButton => {
+    setDeleteWarningModalOpen(false);
+    if (clickedButton === "ok") {
+      handleDeleteUser(selectedUser);
+    }
+  };
+
   return (
     <ContentContainerWithTables contentContainerRef={contentContainerRef}>
       <div className={classes.main}>
@@ -232,6 +248,7 @@ const RolesArchive = ({ contentContainerRef }) => {
             }}
             data-testid="searchString"
             placeholder="Enter name or email"
+            id="searchString"
           />
           <MdOutlineSearch className={classes.searchIcon} />
         </div>
@@ -242,6 +259,9 @@ const RolesArchive = ({ contentContainerRef }) => {
               <td className={classes.td}>Name</td>
               <td className={`${classes.td} ${classes.tdheadLabel}`}>
                 # of Projects
+              </td>
+              <td className={`${classes.td} ${classes.tdheadLabel}`}>
+                # of Submissions
               </td>
               <td className={classes.td}>Date Archived</td>
               <td className={classes.tdCenter}></td>
@@ -262,6 +282,9 @@ const RolesArchive = ({ contentContainerRef }) => {
                   >{`${account.lastName}, ${account.firstName}`}</td>
                   <td className={classes.tdCenter}>
                     {account?.numberOfProjects || "0"}
+                  </td>
+                  <td className={classes.tdCenter}>
+                    {account?.numberOfSubmissions || "0"}
                   </td>
                   <td className={classes.td}>
                     {new Date(account.archivedAt).toLocaleDateString()}
@@ -299,12 +322,16 @@ const RolesArchive = ({ contentContainerRef }) => {
                           handleUnarchiveUser={handleUnarchiveUser}
                         />
                       </div>
-                      <div className={classes.popupContent}>
-                        <RolesDeleteContextMenu
-                          user={account}
-                          handleDeleteUser={handleDeleteUser}
-                        />
-                      </div>
+                      {!account?.numberOfSubmissions && (
+                        <div className={classes.popupContent}>
+                          <RolesDeleteContextMenu
+                            user={account}
+                            handleDeleteAchivedAccountModalOpen={() =>
+                              handleDeleteWarningModalOpen(account)
+                            }
+                          />
+                        </div>
+                      )}
                     </Popup>
                   </td>
                 </tr>
@@ -312,6 +339,11 @@ const RolesArchive = ({ contentContainerRef }) => {
           </tbody>
         </table>
       </div>
+      <DeleteArchivedAccountModal
+        mounted={deleteWarningModalOpen}
+        onClose={handleDeleteWarningModalClose}
+        user={selectedUser}
+      />
     </ContentContainerWithTables>
   );
 };

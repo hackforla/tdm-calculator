@@ -165,10 +165,11 @@ const Pagination = props => {
     <div className={classes.paginationContainer}>
       <ul className={classes.pagination}>
         <button
+          aria-label="Previous Page"
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("left")}
         >
-          <MdChevronLeft />
+          <MdChevronLeft aria-hidden="true" />
         </button>
 
         {leftPerimeterLink}
@@ -192,10 +193,11 @@ const Pagination = props => {
         {rightPerimeterLink}
 
         <button
+          aria-label="Next Page"
           className={clsx("hoverPointer", classes.button)}
           onClick={() => paginate("right")}
         >
-          <MdChevronRight />{" "}
+          <MdChevronRight aria-hidden="true" />{" "}
         </button>
       </ul>
     </div>

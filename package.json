@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.2.65",
+  "version": "0.2.66",
   "private": true,
   "scripts": {
     "release-notes": "gren release --override",
@@ -18,9 +18,9 @@
     "concurrently": "^9.1.2",
     "cspell": "^8.19.2",
     "husky": "^9.1.7",
-    "lerna": "^8.2.1"
+    "lerna": "^9.0.3"
   },
   "volta": {
-    "node": "20.10.0"
+    "node": "24.11.0"
   }
 }

@@ -13,10 +13,10 @@ const useStyles = createUseStyles(theme => ({
     float: "right"
   },
   authText: {
-    color: "#979797"
+    color: theme.colors.secondary.darkNavy
   },
   invalidFeedback: {
-    color: "#ff0418"
+    color: theme.colors.secondary.darkRed
   },
   heading1: { ...theme.typography.heading1, textAlign: "auto" }
 }));

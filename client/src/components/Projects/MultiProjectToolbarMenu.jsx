@@ -46,7 +46,7 @@ const useStyles = createUseStyles(theme => ({
   },
   multiStatus: {
     ...theme.typography.subHeading,
-    color: theme.colors.primary.navy,
+    color: theme.colors.primary.darkNavy,
     textAlign: "left"
   },
   buttonStyle: {
@@ -125,7 +125,8 @@ const MultiProjectToolbarMenu = ({
   };
 
   const handlePrintPdf = useReactToPrint({
-    content: () => printRef.current,
+    contentRef: printRef,
+    documentTitle: `Project Summary Report`,
     bodyClass: "printContainer",
     pageStyle: ".printContainer {overflow: hidden;}"
   });
@@ -158,8 +159,9 @@ const MultiProjectToolbarMenu = ({
             id="csv-btn"
             className={`${classes.buttonStyle} ${classes.showPointer}`}
             onClick={handleCsvModalOpen}
+            aria-label="Export to CSV"
           >
-            <FaFileCsv className={classes.iconSmall} />
+            <FaFileCsv aria-hidden="true" className={classes.iconSmall} />
           </button>
         </li>
         <li>
@@ -170,8 +172,11 @@ const MultiProjectToolbarMenu = ({
             }`}
             onClick={handlePrintPdf}
             disabled={checkedProjectIds.length !== 1}
+            aria-label="Print PDF"
+            aria-disabled={checkedProjectIds.length !== 1}
           >
             <MdPrint
+              aria-hidden="true"
               className={
                 checkedProjectIds.length !== 1
                   ? classes.iconDisabled
@@ -216,15 +221,19 @@ const MultiProjectToolbarMenu = ({
             }`}
             disabled={isHideBtnDisabled}
             onClick={handleHideBoxes}
+            aria-label={`Toggle Visibility ${!checkedProjectsStatusData.dateHidden ? "Off" : "On"}`}
+            aria-disabled={isHideBtnDisabled}
           >
             {!checkedProjectsStatusData.dateHidden ? (
               <MdVisibilityOff
+                aria-hidden="true"
                 className={
                   isHideBtnDisabled ? classes.iconDisabled : classes.icon
                 }
               />
             ) : (
               <MdVisibility
+                aria-hidden="true"
                 className={
                   isHideBtnDisabled ? classes.iconDisabled : classes.icon
                 }
@@ -260,15 +269,21 @@ const MultiProjectToolbarMenu = ({
             }`}
             disabled={isDelBtnDisabled}
             onClick={handleDeleteModalOpen}
+            aria-label={
+              isActiveProjectsTab ? "Delete Projects" : "Restore Projects"
+            }
+            aria-disabled={isDelBtnDisabled}
           >
             {isActiveProjectsTab ? (
               <MdDelete
+                aria-hidden="true"
                 className={
                   isDelBtnDisabled ? classes.iconDisabled : classes.icon
                 }
               />
             ) : (
               <MdRestoreFromTrash
+                aria-hidden="true"
                 className={
                   isDelBtnDisabled ? classes.iconDisabled : classes.icon
                 }

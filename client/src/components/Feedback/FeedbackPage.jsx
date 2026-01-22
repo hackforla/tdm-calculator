@@ -69,6 +69,9 @@ const useStyles = createUseStyles(theme => ({
     marginTop: "0px",
     textAlign: "center",
     padding: 0
+  },
+  asterisk: {
+    color: theme.colors.secondary.darkRed
   }
 }));
 
@@ -175,7 +178,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
               <div className={classes.formContainer}>
                 <div className={classes.row}>
                   <label htmlFor="name" className={classes.formLabel}>
-                    Project Name <span style={{ color: "red" }}>*</span>
+                    Your Name <span className={classes.asterisk}>*</span>
                   </label>
 
                   <Field
@@ -219,7 +222,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
 
                 <div className={classes.row}>
                   <label htmlFor="comment" className={classes.formLabel}>
-                    Comment <span style={{ color: "red" }}>*</span>
+                    Comment <span className={classes.asterisk}>*</span>
                   </label>
 
                   <Field

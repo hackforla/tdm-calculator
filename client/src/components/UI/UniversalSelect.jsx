@@ -20,7 +20,7 @@ UniversalSelect.propTypes = {
   autoFocus: PropTypes.bool,
   className: PropTypes.string,
   isSearchable: PropTypes.bool,
-  maxMenuHeight: PropTypes.number
+  maxMenuHeight: PropTypes.any
 };
 
 export default function UniversalSelect({
@@ -61,6 +61,7 @@ export default function UniversalSelect({
 
   return (
     <Select
+      aria-label={name}
       className={classNames(className)}
       autoFocus={autoFocus}
       onChange={handleSelectChange}

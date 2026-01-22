@@ -1,9 +1,14 @@
-const emailService = require("../services/sendgrid-service");
+const smtpService = require("../services/smtp.service");
+const {
+  validate,
+  validationErrorMiddleware
+} = require("../../middleware/validate");
+const emailSchema = require("../schemas/email");
 
 const send = (req, res) => {
-  const { emailFrom, emailTo, subject, textBody, htmlBody } = req.body;
-  emailService
-    .send(emailTo, emailFrom, subject, textBody, htmlBody || textBody)
+  // const { to, subject, text, html } = req.body;
+  smtpService
+    .send(req.body)
     .then(resp => {
       res.send(resp);
     })
@@ -13,5 +18,5 @@ const send = (req, res) => {
 };
 
 module.exports = {
-  send
+  send: [validate({ body: emailSchema }), send, validationErrorMiddleware]
 };

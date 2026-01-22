@@ -15,7 +15,8 @@ const useStyles = createUseStyles(theme => ({
     marginTop: "1rem",
     marginLeft: "2rem",
     textAlign: "left",
-    lineHeight: "1.5rem"
+    lineHeight: "1.5rem",
+    color: theme.colors.secondary.darkNavy
   },
   bulletIndent: {
     paddingLeft: "100px",

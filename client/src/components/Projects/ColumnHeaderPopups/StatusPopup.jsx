@@ -4,6 +4,15 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdClose } from "react-icons/md";
+import { createUseStyles, useTheme } from "react-jss";
+
+const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    color: theme.colors.secondary.darkNavy
+  }
+}));
 
 const StatusPopup = ({
   close,
@@ -16,6 +25,9 @@ const StatusPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
+
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
@@ -47,7 +59,7 @@ const StatusPopup = ({
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div className={classes.container}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <MdClose
           style={{

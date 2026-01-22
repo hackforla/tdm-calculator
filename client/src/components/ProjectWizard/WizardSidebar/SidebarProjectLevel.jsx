@@ -5,6 +5,8 @@ import ToolTipIcon from "../../ToolTip/ToolTipIcon";
 import clsx from "clsx";
 import Popup from "reactjs-popup";
 import { MdClose } from "react-icons/md";
+import { sanitizeHtml } from "helpers/SanitizeRichText";
+import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles({
   projectLevelHeader: {
@@ -36,6 +38,18 @@ const SidebarProjectLevel = ({ level, rules }) => {
   const theme = useTheme();
   const classes = useStyles();
   const tipText = `<p>${rules[0]?.description}</p>`;
+  // Sanitize DangerouslySetInnerHtml with DomPurify
+  const sanitizeTipText = sanitizeHtml(tipText);
+
+  const elementId = `project-level-tooltip-icon-trigger`;
+  const popupContentId = `popup-content-${elementId}`;
+  useReplaceAriaAttribute({
+    elementId,
+    deps: [level],
+    attrToRemove: "aria-describedby",
+    attrToAdd: "aria-controls",
+    value: popupContentId
+  });
 
   return (
     <div
@@ -52,7 +66,11 @@ const SidebarProjectLevel = ({ level, rules }) => {
         {level > 0 && (
           <Popup
             trigger={
-              <span style={{ cursor: "pointer" }}>
+              <span
+                id={elementId}
+                className="aosidjoasidj"
+                style={{ cursor: "pointer" }}
+              >
                 <ToolTipIcon />
               </span>
             }
@@ -62,7 +80,7 @@ const SidebarProjectLevel = ({ level, rules }) => {
           >
             {close => {
               return (
-                <div style={{ margin: "1rem" }}>
+                <div id={popupContentId} style={{ margin: "1rem" }}>
                   <button
                     style={{
                       backgroundColor: "transparent",
@@ -77,7 +95,10 @@ const SidebarProjectLevel = ({ level, rules }) => {
                   >
                     <MdClose style={{ height: "20px", width: "20px" }} />
                   </button>
-                  <div dangerouslySetInnerHTML={{ __html: tipText }} />
+                  {/* DangerouslySetInnerHtml was clean here with DomPurify.  
+                  Please reference Decision Records for more details: 
+                  https://github.com/hackforla/tdm-calculator/wiki/Decision-Records */}
+                  <div dangerouslySetInnerHTML={{ __html: sanitizeTipText }} />
                 </div>
               );
             }}

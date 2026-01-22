@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { useTheme } from "react-jss";
 import Popup from "reactjs-popup";
 import { MdClose, MdWarning } from "react-icons/md";
+import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
 const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
   const theme = useTheme();
@@ -14,12 +15,6 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
   const account = userContext.account;
 
   const [isCalculation, setIsCalculation] = useState(false);
-  const [tooltipOpen, setTooltipOpen] = useState(true);
-  const closeModal = () => {
-    const loginLink = document.getElementById("login-link");
-    loginLink.removeAttribute("aria-describedby");
-    setTooltipOpen(false);
-  };
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -31,6 +26,16 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
       setIsCalculation(false);
     }
   }, [pathname]);
+
+  const elementId = `login-link`;
+  const popupContentId = `popup-content-${elementId}`;
+  useReplaceAriaAttribute({
+    elementId,
+    deps: [],
+    attrToRemove: "aria-describedby",
+    attrToAdd: "aria-controls",
+    value: popupContentId
+  });
 
   const loginLink = (
     <Link
@@ -109,11 +114,9 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
     ) : (
       <li className={clsx(classes.userLogin, classes.linkBlock)}>
         <Popup
-          open={tooltipOpen}
-          onClose={closeModal}
           closeOnDocumentClick={false}
           trigger={
-            <span id="login-link" style={{ cursor: "pointer" }}>
+            <span id={elementId} style={{ cursor: "pointer" }}>
               {loginLink}
             </span>
           }

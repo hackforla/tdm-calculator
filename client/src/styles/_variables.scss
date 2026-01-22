@@ -1,4 +1,4 @@
-@import "./_variables_ladot.scss";
+@use "_variables_ladot.scss";
 @font-face {
   font-family: "Calibri";
   src: url("fonts/calibri.eot"); /* IE9 Compat Modes */
@@ -39,6 +39,6 @@ $color-form-lightgrey: $color-lightgrey;
 
 // using temp color variables until we get feedback/wireframes from ui/ux designers:
 // $color-link: $color-express-park-1 ;
-$color-button: $color-express-park-9;
+$color-button: variables_ladot.$color-express-park-9;
 
 $color-highlight: #a7c539; // Color for Prev/Next  buttons

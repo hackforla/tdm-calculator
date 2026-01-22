@@ -17,13 +17,12 @@ import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import fetchEngineRules from "./fetchEngineRules";
-import * as droService from "../../services/dro.service";
-// import UniversalSelect from "../UI/UniversalSelect";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import { Td, TdExpandable } from "../UI/TableData";
 import DROSelectionModal from "../Modals/DROSelectionModal";
+import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles(theme => ({
   actionIcons: {
@@ -169,7 +168,11 @@ const ProjectTableRow = ({
   droOptions,
   onDroChange,
   onAdminNoteUpdate,
-  isActiveProjectsTab
+  isActiveProjectsTab,
+  idx,
+  rawRules,
+  setTargetNotReachedModalOpen,
+  isSubmittingSnapshot
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -194,49 +197,58 @@ const ProjectTableRow = ({
   } = useAdminNotesModal(project, onAdminNoteUpdate);
 
   const formInputs = JSON.parse(project.formInputs);
-  const printRef = useRef();
+  const printRef = useRef(null);
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
   const [committedDro, setCommittedDro] = useState(project.droId || "");
-  const [droName, setDroName] = useState("N/A");
+  // const [droName, setDroName] = useState(
+  //   droOptions.find(o => o.id === project.droId)?.name || "N/A"
+  // );
   const [DROSelectionModalOpen, setDROSelectionModalOpen] = useState(false);
+
+  const isDroCommitted = () => {
+    return committedDro ? true : false;
+  };
 
   // Download and process rules for PDF rendering
   useEffect(() => {
     const fetchRules = async () => {
-      const result = await fetchEngineRules(project);
+      const result = await fetchEngineRules(project, rawRules);
       setProjectRules(result);
     };
 
     fetchRules()
       // TODO: do we have better reporting than this?
       .catch(console.error);
-  }, [project]);
-
-  useEffect(() => {
-    if (!isAdmin && project.droId) {
-      const fetchDroById = async () => {
-        try {
-          const response = await droService.getById(project.droId);
-          setDroName(response.data.name || "N/A");
-        } catch (error) {
-          console.error("Error fetching DRO by ID", error);
-          setDroName("N/A");
-        }
-      };
-      fetchDroById();
-    }
-  }, [isAdmin, project.droId]);
+  }, [project, rawRules]);
 
   useEffect(() => {
     setSelectedDro(project.droId || "");
-  }, [project.droId]);
+  }, [project.droId, droOptions]);
+
+  const handleConfirmButtonClick = () => {
+    if (isSubmittingSnapshot.current) {
+      handleDROSelection("ok");
+      handleSubmitModalOpen(project);
+    } else {
+      handleDROSelection("ok");
+    }
+  };
 
   const handleDROSelectionModalOpen = () => {
     setDROSelectionModalOpen(true);
   };
 
+  const handleDROModalOpenWithPreCheck = project => {
+    if (project.earnedPoints >= project.targetPoints) {
+      setDROSelectionModalOpen(true);
+    } else {
+      setTargetNotReachedModalOpen(true);
+    }
+  };
+
   const handleDROSelectionModalClose = () => {
+    isSubmittingSnapshot.current = false;
     setSelectedDro(committedDro);
     setDROSelectionModalOpen(false);
   };
@@ -254,7 +266,8 @@ const ProjectTableRow = ({
   };
 
   const handlePrintPdf = useReactToPrint({
-    content: () => printRef.current,
+    contentRef: printRef,
+    documentTitle: `Project_${project.name}_Report`,
     bodyClass: "printContainer",
     pageStyle: ".printContainer {overflow: hidden;}"
   });
@@ -278,10 +291,25 @@ const ProjectTableRow = ({
       (1000 * 60 * 60 * 24);
     return diffDays >= 1 ? `${Math.floor(diffDays)} days` : "<1 day";
   };
+
+  const elementId = `context-menu-button-${project.id}`;
+  const popupContentId = `popup-content-${elementId}`;
+  useReplaceAriaAttribute({
+    elementId,
+    deps: [projectRules],
+    attrToRemove: "aria-describedby",
+    attrToAdd: "aria-controls",
+    value: popupContentId
+  });
+
   return (
     <tr key={project.id}>
       <Td align="center">
+        <label htmlFor={project.id + "-checkbox"} className="sr-only">
+          Select project {project.name}
+        </label>
         <input
+          id={project.id + "-checkbox"}
           style={{ height: "15px" }}
           type="checkbox"
           checked={checkedProjectIds.includes(project.id)}
@@ -361,7 +389,7 @@ const ProjectTableRow = ({
             <DROSelectionModal
               mounted={DROSelectionModalOpen}
               onClose={handleDROSelectionModalClose}
-              onConfirm={handleDROSelection}
+              onConfirm={handleConfirmButtonClick}
               selectedDro={selectedDro}
               droOptions={droOptions}
               onChange={e => {
@@ -370,26 +398,9 @@ const ProjectTableRow = ({
                 onDroChange(project.id, newDroId);
               }}
             />
-            {/* <UniversalSelect
-              value={selectedDro}
-              onChange={e => {
-                const newDroId = e.target.value;
-                setSelectedDro(newDroId);
-                onDroChange(project.id, newDroId);
-              }}
-              options={[
-                { value: "", label: "Select..." },
-                ...droOptions.map(dro => ({
-                  value: dro.id,
-                  label: dro.name
-                }))
-              ]}
-              name="droId"
-              className={classes.selectBox}
-            /> */}
           </div>
         ) : (
-          <span>{droName}</span>
+          <span>{project.droName}</span>
         )}
       </Td>
       {isAdmin && (
@@ -447,8 +458,11 @@ const ProjectTableRow = ({
             <Popup
               className={classes.popover}
               trigger={
-                <button aria-label="context menu button">
-                  <MdMoreVert alt={`Show project context menu`} />
+                <button aria-label="context menu button" id={elementId}>
+                  <MdMoreVert
+                    aria-hidden="true"
+                    alt={`Show project context menu`}
+                  />
                 </button>
               }
               position="left center"
@@ -458,6 +472,7 @@ const ProjectTableRow = ({
             >
               {close => (
                 <ProjectContextMenu
+                  ariaControlsId={popupContentId}
                   project={project}
                   closeMenu={close}
                   handleCsvModalOpen={ev => handleCsvModalOpen(ev, project)}
@@ -468,7 +483,12 @@ const ProjectTableRow = ({
                   handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
                   handleShareSnapshotModalOpen={handleShareSnapshotModalOpen}
                   handleSubmitModalOpen={handleSubmitModalOpen}
+                  handleDROModalOpenWithPreCheck={
+                    handleDROModalOpenWithPreCheck
+                  }
                   handleHide={handleHide}
+                  isDroCommitted={isDroCommitted}
+                  isSubmittingSnapshot={isSubmittingSnapshot}
                 />
               )}
             </Popup>
@@ -477,7 +497,7 @@ const ProjectTableRow = ({
             </div>
           </div>
         )}
-      </td>{" "}
+      </td>
       {ENABLE_UPDATE_TOTALS ? (
         <Td>
           <span>{`${project.targetPoints}/${project.earnedPoints}/${project.projectLevel}`}</span>
@@ -509,7 +529,11 @@ ProjectTableRow.propTypes = {
   ).isRequired,
   onDroChange: PropTypes.func.isRequired,
   onAdminNoteUpdate: PropTypes.func.isRequired,
-  isActiveProjectsTab: PropTypes.bool.isRequired
+  isActiveProjectsTab: PropTypes.bool.isRequired,
+  idx: PropTypes.number,
+  rawRules: PropTypes.any,
+  setTargetNotReachedModalOpen: PropTypes.func.isRequired,
+  isSubmittingSnapshot: PropTypes.object.isRequired
 };
 
 export default ProjectTableRow;
