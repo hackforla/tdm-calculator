@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.2.66",
+  "version": "0.2.67",
   "private": true,
   "scripts": {
     "release-notes": "gren release --override",
