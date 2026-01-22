@@ -274,7 +274,7 @@ const requestResetPasswordConfirmation = async (email, result) => {
     return {
       isSuccess: false,
       code: "FORGOT_PASSWORD_EMAIL_FAILED",
-      message: `Sending registration confirmation email to ${email} failed due to: ${explanation}.`
+      message: `Sending reset password confirmation email to ${email} failed due to: ${explanation}.`
     };
   }
 };
