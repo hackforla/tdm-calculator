@@ -158,10 +158,11 @@ const requestRegistrationConfirmation = async (email, result) => {
       message: result.message + " Sending confirmation email succeeded."
     };
   } catch (err) {
+    const explanation = JSON.stringify(err, null, 2);
     return {
       isSuccess: false,
       code: "REG_EMAIL_FAILED",
-      message: `Sending registration confirmation email to ${email} failed due to: ${err.message}`
+      message: `Sending registration confirmation email to ${email} failed due to: ${explanation}`
     };
   }
 };
@@ -269,10 +270,11 @@ const requestResetPasswordConfirmation = async (email, result) => {
     result = await sendResetPasswordConfirmation(email, token);
     return result;
   } catch (err) {
+    const explanation = JSON.stringify(err, null, 2);
     return {
       isSuccess: false,
       code: "FORGOT_PASSWORD_EMAIL_FAILED",
-      message: `Sending registration confirmation email to ${email} failed due to: ${err.message}.`
+      message: `Sending reset password confirmation email to ${email} failed due to: ${explanation}.`
     };
   }
 };
