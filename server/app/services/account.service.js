@@ -151,10 +151,11 @@ const requestRegistrationConfirmation = async (email, result) => {
     request.input("email", mssql.NVarChar, email);
     await request.execute("SecurityToken_Insert");
 
-    result = await sendRegistrationConfirmation(email, token);
+    const emailResult = await sendRegistrationConfirmation(email, token);
 
     return {
       ...result,
+      ...emailResult,
       message: result.message + " Sending confirmation email succeeded."
     };
   } catch (err) {
@@ -242,7 +243,7 @@ const forgotPassword = async model => {
       result
     );
     if (tokenInsertResult) {
-      return tokenInsertResult;
+      return result;
     } else {
       return {
         isSuccess: false,
