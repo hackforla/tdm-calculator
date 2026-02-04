@@ -69,7 +69,7 @@ ValidationIcon.propTypes = {
   }).isRequired
 };
 
-const Register = () => {
+const Register = props => {
   const focusRef = useRef(null);
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -90,13 +90,13 @@ const Register = () => {
     firstName: Yup.string()
       .matches(
         /^[a-zA-Z' .-]*$/,
-        "Your first name can only contain letters and basic punctuation"
+        "You can use letters, apostrophe, hyphen, period and space only"
       )
       .required("First Name is required"),
     lastName: Yup.string()
       .matches(
         /^[a-zA-Z' .-]*$/,
-        "Your last name can only contain letters and basic punctuation"
+        "You can use letters, apostrophe, hyphen, period and space only"
       )
       .required("Last Name is required"),
     email: Yup.string()
@@ -129,17 +129,16 @@ const Register = () => {
       if (response.isSuccess) {
         setSubmitted(true);
       } else if (response.code === "REG_DUPLICATE_EMAIL") {
-        setErrorMsg(
-          `The email ${email} is already registered. Please log in or reset your password.`
-        );
+        setErrorMsg(`The email ${email} is already registered. Please
+          login or use the Forgot Password feature if you have
+          forgotten your password.`);
       } else {
-        setErrorMsg(
-          `An error occurred sending the confirmation email to ${email}.`
-        );
+        setErrorMsg(`An error occurred in sending the confirmation
+          message to ${email}. Try to log in, and follow the
+          instructions for re-sending the confirmation email.`);
       }
     } catch (err) {
       setErrorMsg(err.message);
-    } finally {
       setSubmitting(false);
     }
   };
@@ -156,7 +155,9 @@ const Register = () => {
             <Formik
               initialValues={initialValues}
               validationSchema={registerSchema}
-              onSubmit={handleSubmit}
+              onSubmit={(values, actions) =>
+                handleSubmit(values, actions, props)
+              }
               validateOnChange={false}
               validateOnBlur={true}
             >
@@ -278,15 +279,18 @@ const Register = () => {
       ) : (
         <>
           <h1 className={classes.heading1}>
-            Registration instructions have been sent to your email.
+            Registration instructions have been sent to the email you provided.
           </h1>
-          <h2>Please allow a few minutes for delivery.</h2>
+          <h2>
+            Please allow a few minutes for the email to arrive in your inbox.
+          </h2>
         </>
       )}
 
       {!submitted && (
         <div className={classes.authText}>
-          Already have an account? <Link to="/login">Log In</Link>
+          Already have an account? &nbsp;{" "}
+          <Link to={{ pathname: "/login" }}>Log In</Link>
         </div>
       )}
     </ContentContainer>
