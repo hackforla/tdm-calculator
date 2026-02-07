@@ -6,6 +6,6 @@ module.exports = router;
 
 router.get("/", jwtSession.validateUser, droController.getAll);
 router.get("/:id", jwtSession.validateUser, droController.getById);
-router.post("/", jwtSession.validateUser, droController.post);
-router.put("/:id", jwtSession.validateUser, droController.put);
-router.delete("/:id", jwtSession.validateUser, droController.del);
+router.post("/", jwtSession.validateRoles(["isAdmin"]), droController.post);
+router.put("/:id", jwtSession.validateRoles(["isAdmin"]), droController.put);
+router.delete("/:id", jwtSession.validateRoles(["isAdmin"]), droController.del);
