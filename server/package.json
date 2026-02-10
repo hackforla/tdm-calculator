@@ -34,6 +34,7 @@
     "express": "^4.22.1",
     "express-json-validator-middleware": "^3.0.1",
     "express-pino-logger": "^7.0.0",
+    "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
     "jsdom": "27.0.0",
     "jsonwebtoken": "^9.0.2",

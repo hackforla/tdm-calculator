@@ -1,31 +1,44 @@
 const router = require("express").Router();
 const accountController = require("../controllers/account.controller");
 const jwtSession = require("../../middleware/jwt-session");
+const { loginLimiter, writeLimiter } = require("../../middleware/rateLimiter");
 
 // router.get("/:id", jwtSession.validateUser, accountController.getById);
 router.get(
   "/",
+  writeLimiter,
   jwtSession.validateRoles(["isSecurityAdmin"]),
   accountController.getAll
 );
 
 router.put(
   "/:id/roles",
+  writeLimiter,
   jwtSession.validateRoles(["isSecurityAdmin"]),
   accountController.putRoles
 );
 
-router.post("/register", accountController.register);
+router.post("/register", writeLimiter, accountController.register);
 router.post(
   "/resendConfirmationEmail",
+  writeLimiter,
   accountController.resendConfirmationEmail
 );
-router.post("/confirmRegister", accountController.confirmRegister);
+router.post(
+  "/confirmRegister",
+  writeLimiter,
+  accountController.confirmRegister
+);
 
-router.post("/forgotPassword", accountController.forgotPassword);
-router.post("/resetPassword", accountController.resetPassword);
+router.post("/forgotPassword", writeLimiter, accountController.forgotPassword);
+router.post("/resetPassword", writeLimiter, accountController.resetPassword);
 
-router.post("/login/:email?", accountController.login, jwtSession.login);
+router.post(
+  "/login/:email?",
+  loginLimiter,
+  accountController.login,
+  jwtSession.login
+);
 router.get("/logout", (req, res) => {
   // Clear the "jwt" cookie
   res.clearCookie("jwt", { httpOnly: true });
@@ -39,18 +52,21 @@ router.get("/logout", (req, res) => {
 
 router.put(
   "/updateaccount",
+  writeLimiter,
   jwtSession.validateUser,
   accountController.updateAccount
 );
 
 router.put(
   "/:id/archiveaccount",
+  writeLimiter,
   jwtSession.validateRoles(["isSecurityAdmin"]),
   accountController.archiveById
 );
 
 router.put(
   "/:id/unarchiveaccount",
+  writeLimiter,
   jwtSession.validateRoles(["isSecurityAdmin"]),
   accountController.unarchiveById
 );
@@ -69,6 +85,7 @@ router.get(
 
 router.delete(
   "/:id/deleteaccount",
+  writeLimiter,
   jwtSession.validateRoles(["isSecurityAdmin"]),
   accountController.deleteById
 );
