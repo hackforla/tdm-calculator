@@ -4,10 +4,9 @@ import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import { Interweave } from "interweave";
 import { MdLaunch, MdClose, MdEdit } from "react-icons/md";
-import Quill from "../UI/Quill";
+import { QuillEditor } from "../UI/QuillEditor";
 import Button from "../Button/Button";
 import ModalDialog from "../UI/Modal";
-import "react-quill/dist/quill.snow.css";
 import "../../styles/AdminQuill.scss";
 import WarningAdminNotesUnsavedChanges from "../Modals/WarningAdminNotesUnsavedChanges";
 import useTooltipEditor from "../../hooks/useTooltipEditor";
@@ -188,7 +187,7 @@ const AccordionToolTip = ({
       >
         <div className={clsx(classes.modalContent)}>
           <h3 className={clsx(classes.modalTitle)}>Edit tooltip</h3>
-          <Quill value={newDescription} onChange={setNewDescription} />
+          <QuillEditor value={newDescription} onChange={setNewDescription} />
           <div className={clsx(classes.modalButtons)}>
             <Button variant="secondary" onClick={handleCancel}>
               CANCEL
