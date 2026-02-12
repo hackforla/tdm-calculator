@@ -21,6 +21,7 @@ import { useTheme } from "react-jss";
 const useStyles = createUseStyles(theme => ({
   iconFilter: {
     color: theme.colorWhite,
+    flexShrink: 0,
     fontSize: "1.2rem",
     marginLeft: "1rem",
     "&.active": {
@@ -35,7 +36,8 @@ const useStyles = createUseStyles(theme => ({
   },
   sortIcon: {
     fontSize: "1.2rem",
-    transform: "rotate(90deg)"
+    transform: "rotate(90deg)",
+    flexShrink: 0
   },
   reactTinyPopoverContainer: {
     color: "orange"
