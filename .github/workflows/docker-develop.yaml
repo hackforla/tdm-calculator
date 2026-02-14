@@ -1,4 +1,4 @@
-# build and push a docker image from the latest push to "develop" branch
+# Build and push a docker image from the latest merge to "develop" branch
 on:
   push:
     branches:
