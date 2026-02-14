@@ -1,10 +1,9 @@
 # build and push a docker image from the latest push to "develop" branch
+# This is the version that worked until about 2/10/26, but no longer works.
 on:
   push:
     branches:
       - uat
-      - develop
-      - main
   release:
     types:
       - published

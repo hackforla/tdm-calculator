@@ -2,7 +2,7 @@
 on:
   push:
     branches:
-      - develop
+      - main
 jobs:
   tdmapp:
     runs-on: ubuntu-latest
@@ -23,7 +23,7 @@ jobs:
         with:
           images: tdmcalc/tdmapp
           tags: |
-            develop
+            main
             ${{ github.sha }}
 
       - name: Build and push Docker image
