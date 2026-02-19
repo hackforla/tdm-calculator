@@ -4,6 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import * as projectService from "../../services/project.service";
 import { useToast } from "../../contexts/Toast";
 import ContentContainerWithTables from "components/Layout/ContentContainerWithTables";
+import { formatDate } from "helpers/util";
 
 const useStyles = createUseStyles(theme => ({
   main: {
@@ -112,14 +113,12 @@ const ProjectsArchive = () => {
                   className={classes.td}
                 >{`${project.lastName}, ${project.firstName}`}</td>
                 <td className={classes.td}>
-                  {new Date(project.dateCreated).toLocaleDateString()}
+                  {formatDate(project.dateCreated)}
                 </td>
                 <td className={classes.td}>
-                  {new Date(project.dateModified).toLocaleDateString()}
+                  {formatDate(project.dateModified)}
                 </td>
-                <td className={classes.td}>
-                  {new Date(project.archivedAt).toLocaleDateString()}
-                </td>
+                <td className={classes.td}>{formatDate(project.archivedAt)}</td>
               </tr>
             ))}
           </tbody>
