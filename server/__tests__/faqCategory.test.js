@@ -33,7 +33,7 @@ describe("tests for faqcategories api", () => {
       password: "Password1!!!"
     });
 
-    // captures the token from the mocked sendgird function to be used in registration confirmation
+    // captures the token from the mocked smtp function to be used in registration confirmation
     const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
     const emailContent = smtpMail.send.mock.calls[0][0].html;
     const match = emailContent.match(tokenPattern);

@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-api",
-  "version": "0.2.67",
+  "version": "0.2.68",
   "description": "Transportation Demand Management Calculator",
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
     "express": "^4.22.1",
     "express-json-validator-middleware": "^3.0.1",
     "express-pino-logger": "^7.0.0",
+    "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
     "jsdom": "27.0.0",
     "jsonwebtoken": "^9.0.2",
@@ -47,6 +48,7 @@
     "@babel/preset-env": "^7.28.5",
     "@testcontainers/mssqlserver": "^10.23.0",
     "babel-jest": "^30.2.0",
+    "baseline-browser-mapping": "^2.9.18",
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-jest": "^27.6.0",

@@ -3,12 +3,12 @@ import { createUseStyles } from "react-jss";
 import { MdDelete, MdLaunch } from "react-icons/md";
 import PropTypes from "prop-types";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import Quill from "../UI/Quill";
 import Button from "components/Button/Button";
 import { MdEdit, MdViewModule, MdCheck, MdAdd } from "react-icons/md";
 import { jssTheme as theme } from "styles/theme";
 import { Interweave } from "interweave";
 import DeleteAboutItemModal from "components/Modals/WarningAboutDelete";
+import { QuillEditor } from "components/UI/QuillEditor";
 
 const useStyles = createUseStyles({
   aboutContent: {
@@ -286,7 +286,7 @@ const AdminView = ({ aboutList, setAboutList }) => {
                         {/* Content Section */}
                         {editingItems[`${about.id}-content`] ? (
                           <div className={classes.quillContainer}>
-                            <Quill
+                            <QuillEditor
                               value={about.content}
                               onChange={value =>
                                 updateAboutItem(about.id, "content", value)

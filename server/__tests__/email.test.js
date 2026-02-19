@@ -41,6 +41,24 @@ afterAll(async () => {
 
 // POST /email endpoint SUCCESS
 describe("POST /emails endpoint with proper body", () => {
+  let adminToken; // jwt for security admin - for protected endpoints
+
+  beforeAll(async () => {
+    // login as security admin
+    const adminTokenResponse = await request(server)
+      .post("/api/accounts/login")
+      .send({
+        email: process.env.ADMIN_EMAIL,
+        password: process.env.ADMIN_PASSWORD
+      });
+    adminToken = adminTokenResponse.body.token;
+  });
+
+  afterAll(async () => {
+    // cleanup state
+    adminToken = undefined;
+  });
+
   it("should successfully send an email and return a 200 status", async () => {
     const emailData = {
       to: "user@example.com",
@@ -49,13 +67,12 @@ describe("POST /emails endpoint with proper body", () => {
       html: "<p>This is a test email</p>"
     };
 
-    const response = await request(server).post("/api/emails").send(emailData);
+    const response = await request(server)
+      .post("/api/emails")
+      .send(emailData)
+      .set("Authorization", `Bearer ${adminToken}`);
 
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        statusCode: 202
-      })
-    );
+    expect(response.statusCode).toEqual(202);
   });
 });
 

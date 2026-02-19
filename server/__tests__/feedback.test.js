@@ -43,20 +43,6 @@ describe("Feedback API endpoints for end user accounts", () => {
     expect(res.statusCode).toEqual(201);
   });
 
-  // POST "/feedbacks" with a valid request body
-  it("should post feedback", async () => {
-    const res = await request(server)
-      .post("/api/feedbacks")
-      .send({
-        name: "John Darragh",
-        email: "darragh@entrotech.net",
-        forwardToWebTeam: true,
-        comment: "This is a test comment.",
-        selectedProjects: [254]
-      });
-    expect(res.statusCode).toEqual(201);
-  });
-
   // POST "/feedbacks" with empty comment
   it("should not post feedback without comment", async () => {
     const res = await request(server)

@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const projectController = require("../controllers/project.controller");
 const jwtSession = require("../../middleware/jwt-session");
+const { writeLimiter } = require("../../middleware/rateLimiter");
 
 module.exports = router;
 
@@ -36,35 +37,70 @@ router.get(
   jwtSession.validateUser,
   projectController.getByIdWithEmail
 );
-router.post("/", jwtSession.validateUser, projectController.post);
-router.put("/hide", jwtSession.validateUser, projectController.hide);
-router.put("/trash", jwtSession.validateUser, projectController.trash);
-router.put("/snapshot", jwtSession.validateUser, projectController.snapshot);
-router.put("/submit", jwtSession.validateUser, projectController.submit);
+router.post("/", writeLimiter, jwtSession.validateUser, projectController.post);
+router.put(
+  "/hide",
+  writeLimiter,
+  jwtSession.validateUser,
+  projectController.hide
+);
+router.put(
+  "/trash",
+  writeLimiter,
+  jwtSession.validateUser,
+  projectController.trash
+);
+router.put(
+  "/snapshot",
+  writeLimiter,
+  jwtSession.validateUser,
+  projectController.snapshot
+);
+router.put(
+  "/submit",
+  writeLimiter,
+  jwtSession.validateUser,
+  projectController.submit
+);
 router.put(
   "/renameSnapshot",
+  writeLimiter,
   jwtSession.validateUser,
   projectController.renameSnapshot
 );
-router.put("/:id", jwtSession.validateUser, projectController.put);
+router.put(
+  "/:id",
+  writeLimiter,
+  jwtSession.validateUser,
+  projectController.put
+);
 router.put(
   "/updateDroId/:id",
+  writeLimiter,
   jwtSession.validateUser,
   projectController.updateDroId
 );
 router.put(
   "/updateAdminNotes/:id",
+  writeLimiter,
   jwtSession.validateUser,
   projectController.updateAdminNotes
 );
-router.delete("/:id", jwtSession.validateUser, projectController.del);
+router.delete(
+  "/:id",
+  writeLimiter,
+  jwtSession.validateUser,
+  projectController.del
+);
 router.put(
   "/updateTotals/:id",
+  writeLimiter,
   jwtSession.validateUser,
   projectController.updateTotals
 );
 router.put(
   "/submissions/:id",
+  writeLimiter,
   jwtSession.validateUser,
   projectController.putSubmission
 );
