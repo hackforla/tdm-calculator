@@ -5,12 +5,15 @@ const smtpPort = Number(process.env.SMTP_PORT);
 const smtpSecure = process.env.SMTP_SECURE === "true";
 const smtpAuthUser = process.env.SMTP_AUTH_USER;
 const smtpAuthPass = process.env.SMTP_AUTH_PASS;
+const smtpAuthDomainName = process.env.SMTP_AUTH_DOMAIN;
 
 const smtpConfig = {
   // service: "Gmail"
   host: smtpHost,
   port: smtpPort,
-  secure: smtpSecure // true
+  secure: smtpSecure, // true
+  name: smtpAuthDomainName, // Used in EHLO/HELO command, defaults to os.hostname(), so we set environment variable.
+  tls: { rejectUnauthorized: false }
 };
 
 // If Google Workspace SMTP Relay is configured to accept requests
