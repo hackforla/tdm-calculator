@@ -5,8 +5,8 @@ import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
   projectInfoDetailsSubContainer: {
     display: "flex",
+    flexDirection: "column",
     alignItems: "baseline",
-    maxHeight: "20px",
     width: "50%"
   },
   projectInfoCategory: {
