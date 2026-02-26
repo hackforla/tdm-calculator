@@ -400,7 +400,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       id: "invoiceStatusName",
       label: "Invoice Status",
       popupType: "stringList",
-      colWidth: "7rem"
+      colWidth: "10rem"
     },
     {
       id: "dateInvoicePaid",
@@ -408,7 +408,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateInvoicePaid",
       endDatePropertyName: "endDateInvoicePaid",
-      colWidth: "10rem"
+      colWidth: "7rem"
     },
     { id: "onHold", label: "On Hold", popupType: "boolean", colWidth: "8rem" },
     {

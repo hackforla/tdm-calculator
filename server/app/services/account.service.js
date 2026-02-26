@@ -130,7 +130,7 @@ const resendConfirmationEmail = async email => {
     const selectByEmailResponse = await request.execute("Login_SelectByEmail");
 
     result = {
-      success: true,
+      isSuccess: true,
       code: "REG_SUCCESS",
       newId: selectByEmailResponse.recordset[0].id,
       message: "Account found."
@@ -141,7 +141,7 @@ const resendConfirmationEmail = async email => {
     // Assume any error is an email that does not correspond to
     // an account.
     return {
-      success: false,
+      isSuccess: false,
       code: "REG_ACCOUNT_NOT_FOUND",
       message: `Resending confirmation email to ${email} failed due to: ${err.message}`
     };
@@ -159,17 +159,19 @@ const requestRegistrationConfirmation = async (email, result) => {
     request.input("email", mssql.NVarChar, email);
     await request.execute("SecurityToken_Insert");
 
-    await sendRegistrationConfirmation(email, token);
+    const emailResult = await sendRegistrationConfirmation(email, token);
 
     return {
       ...result,
+      ...emailResult,
       message: result.message + " Sending confirmation email succeeded."
     };
   } catch (err) {
+    const explanation = JSON.stringify(err, null, 2);
     return {
-      success: false,
+      isSuccess: false,
       code: "REG_EMAIL_FAILED",
-      message: `Sending registration confirmation email to ${email} failed due to: ${err.message}`
+      message: `Sending registration confirmation email to ${email} failed due to: ${explanation}`
     };
   }
 };
@@ -187,7 +189,7 @@ const confirmRegistration = async token => {
 
     if (resultSet.length !== 1) {
       return {
-        success: false,
+        isSuccess: false,
         code: "REG_CONFIRM_TOKEN_INVALID",
         message:
           "Email confirmation failed. Invalid security token. Re-send confirmation email."
@@ -197,7 +199,7 @@ const confirmRegistration = async token => {
       24
     ) {
       return {
-        success: false,
+        isSuccess: false,
         code: "REG_CONFIRM_TOKEN_EXPIRED",
         message:
           "Email confirmation failed. Security token expired. Re-send confirmation email."
@@ -211,7 +213,7 @@ const confirmRegistration = async token => {
     await updateRequest.execute("Login_ConfirmEmail");
 
     return {
-      success: true,
+      isSuccess: true,
       code: "REG_CONFIRM_SUCCESS",
       message: "Email confirmed.",
       email
@@ -277,10 +279,11 @@ const requestResetPasswordConfirmation = async (email, result) => {
     result = await sendResetPasswordConfirmation(email, token);
     return result;
   } catch (err) {
+    const explanation = JSON.stringify(err, null, 2);
     return {
-      success: false,
+      isSuccess: false,
       code: "FORGOT_PASSWORD_EMAIL_FAILED",
-      message: `Sending registration confirmation email to ${email} failed.`
+      message: `Sending reset password confirmation email to ${email} failed due to: ${explanation}.`
     };
   }
 };

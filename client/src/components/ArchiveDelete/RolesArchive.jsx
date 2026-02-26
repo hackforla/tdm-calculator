@@ -11,6 +11,7 @@ import UserContext from "../../contexts/UserContext";
 import { MdMoreVert, MdOutlineSearch } from "react-icons/md";
 import ContentContainerWithTables from "components/Layout/ContentContainerWithTables";
 import DeleteArchivedAccountModal from "components/Modals/WarningArchivedAccountDelete";
+import { formatDate } from "../../helpers/util";
 
 const useStyles = createUseStyles(theme => ({
   main: {
@@ -287,7 +288,7 @@ const RolesArchive = ({ contentContainerRef }) => {
                     {account?.numberOfSubmissions || "0"}
                   </td>
                   <td className={classes.td}>
-                    {new Date(account.archivedAt).toLocaleDateString()}
+                    {formatDate(account.archivedAt)}
                   </td>
                   <td className={classes.tdCenter}>
                     <Popup

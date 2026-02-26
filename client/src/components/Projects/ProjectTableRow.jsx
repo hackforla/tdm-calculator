@@ -173,7 +173,9 @@ const ProjectTableRow = ({
   isActiveProjectsTab,
   handleProjectUpdate,
   idx,
-  rawRules
+  rawRules,
+  setTargetNotReachedModalOpen,
+  isSubmittingSnapshot
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -207,17 +209,9 @@ const ProjectTableRow = ({
   const [changeVersionModalOpen, setChangeVersionModalOpen] = useState(false);
   const calculations = useContext(CalculationsContext);
 
-  // Download and process rules for PDF rendering
-  // useEffect(() => {
-  //   const fetchRules = async () => {
-  //     const result = await fetchEngineRules(project, rawRules);
-  //     setProjectRules(result);
-  //   };
-
-  //   fetchRules()
-  //     // TODO: do we have better reporting than this?
-  //     .catch(console.error);
-  // }, [project, rawRules]);
+  const isDroCommitted = () => {
+    return committedDro ? true : false;
+  };
 
   useEffect(() => {
     const fetchCalculatedRules = async () => {
@@ -237,22 +231,32 @@ const ProjectTableRow = ({
     setSelectedDro(project.droId || "");
   }, [project.droId, droOptions]);
 
+  const handleConfirmButtonClick = () => {
+    if (isSubmittingSnapshot.current) {
+      handleDROSelection("ok");
+      handleSubmitModalOpen(project);
+    } else {
+      handleDROSelection("ok");
+    }
+  };
+
   const handleDROSelectionModalOpen = () => {
     setDROSelectionModalOpen(true);
   };
 
+  const handleDROModalOpenWithPreCheck = project => {
+    if (project.earnedPoints >= project.targetPoints) {
+      setDROSelectionModalOpen(true);
+    } else {
+      setTargetNotReachedModalOpen(true);
+    }
+  };
+
   const handleDROSelectionModalClose = () => {
+    isSubmittingSnapshot.current = false;
     setSelectedDro(committedDro);
     setDROSelectionModalOpen(false);
   };
-
-  // const handleChangeVersionModalOpen = () => {
-  //   setChangeVersionModalOpen(true);
-  // };
-
-  // const handleChangeVersionModalClose = () => {
-  //   setChangeVersionModalOpen(false);
-  // };
 
   const handleDROSelection = action => {
     if (action === "ok") {
@@ -390,7 +394,7 @@ const ProjectTableRow = ({
             <DROSelectionModal
               mounted={DROSelectionModalOpen}
               onClose={handleDROSelectionModalClose}
-              onConfirm={handleDROSelection}
+              onConfirm={handleConfirmButtonClick}
               selectedDro={selectedDro}
               droOptions={droOptions}
               onChange={e => {
@@ -515,7 +519,12 @@ const ProjectTableRow = ({
                   handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
                   handleShareSnapshotModalOpen={handleShareSnapshotModalOpen}
                   handleSubmitModalOpen={handleSubmitModalOpen}
+                  handleDROModalOpenWithPreCheck={
+                    handleDROModalOpenWithPreCheck
+                  }
                   handleHide={handleHide}
+                  isDroCommitted={isDroCommitted}
+                  isSubmittingSnapshot={isSubmittingSnapshot}
                 />
               )}
             </Popup>
@@ -559,7 +568,9 @@ ProjectTableRow.propTypes = {
   isActiveProjectsTab: PropTypes.bool.isRequired,
   handleProjectUpdate: PropTypes.func.isRequired,
   idx: PropTypes.number,
-  rawRules: PropTypes.any
+  rawRules: PropTypes.any,
+  setTargetNotReachedModalOpen: PropTypes.func.isRequired,
+  isSubmittingSnapshot: PropTypes.object.isRequired
 };
 
 export default ProjectTableRow;
