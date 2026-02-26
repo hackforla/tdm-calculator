@@ -40,6 +40,7 @@ import Logout from "./components/Authorization/Logout";
 import SubmissionsPage from "./components/Submissions/SubmissionsPage";
 import ManageSubmissionsPage from "./components/Submissions/ManageSubmissionsPage";
 import { getConfigs } from "./helpers/Config";
+import { getCalculations } from "./helpers/Calculations";
 
 const calculationPath = "/calculation/:page/:projectId?/*";
 const sharedProjectPath = "/projects/:projectId?";
@@ -59,7 +60,8 @@ const App = () => {
         }
         loader={async () => {
           const configs = await getConfigs();
-          return { configs };
+          const calculations = await getCalculations(true);
+          return { configs, calculations };
         }}
       >
         {/* These routes either have no sidebar or use a custom sidebar */}

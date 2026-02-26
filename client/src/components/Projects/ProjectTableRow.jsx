@@ -16,13 +16,15 @@ import { formatDate, formatId } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
-import fetchEngineRules from "./fetchEngineRules";
+import useCalculator from "../../hooks/useCalculator";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import { Td, TdExpandable } from "../UI/TableData";
 import DROSelectionModal from "../Modals/DROSelectionModal";
+import ChangeVersionModal from "../Modals/WarningChangeVersion";
 import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
+import CalculationsContext from "../../contexts/CalculationsContext";
 
 const useStyles = createUseStyles(theme => ({
   actionIcons: {
@@ -169,6 +171,7 @@ const ProjectTableRow = ({
   onDroChange,
   onAdminNoteUpdate,
   isActiveProjectsTab,
+  handleProjectUpdate,
   idx,
   rawRules
 }) => {
@@ -177,6 +180,7 @@ const ProjectTableRow = ({
   const userContext = useContext(UserContext);
   const loginId = userContext?.account?.id;
   const isAdmin = userContext?.account?.isAdmin || false;
+  const [calculate] = useCalculator();
   const {
     showWarningModal,
     setShowWarningModal,
@@ -199,22 +203,35 @@ const ProjectTableRow = ({
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
   const [committedDro, setCommittedDro] = useState(project.droId || "");
-  // const [droName, setDroName] = useState(
-  //   droOptions.find(o => o.id === project.droId)?.name || "N/A"
-  // );
   const [DROSelectionModalOpen, setDROSelectionModalOpen] = useState(false);
+  const [changeVersionModalOpen, setChangeVersionModalOpen] = useState(false);
+  const calculations = useContext(CalculationsContext);
 
   // Download and process rules for PDF rendering
+  // useEffect(() => {
+  //   const fetchRules = async () => {
+  //     const result = await fetchEngineRules(project, rawRules);
+  //     setProjectRules(result);
+  //   };
+
+  //   fetchRules()
+  //     // TODO: do we have better reporting than this?
+  //     .catch(console.error);
+  // }, [project, rawRules]);
+
   useEffect(() => {
-    const fetchRules = async () => {
-      const result = await fetchEngineRules(project, rawRules);
-      setProjectRules(result);
+    const fetchCalculatedRules = async () => {
+      try {
+        const calculatedRules = await calculate(project);
+        setProjectRules(calculatedRules);
+      } catch (error) {
+        console.error("Error calculating rules for project:", error);
+      }
     };
 
-    fetchRules()
-      // TODO: do we have better reporting than this?
-      .catch(console.error);
-  }, [project, rawRules]);
+    fetchCalculatedRules();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project]);
 
   useEffect(() => {
     setSelectedDro(project.droId || "");
@@ -228,6 +245,14 @@ const ProjectTableRow = ({
     setSelectedDro(committedDro);
     setDROSelectionModalOpen(false);
   };
+
+  // const handleChangeVersionModalOpen = () => {
+  //   setChangeVersionModalOpen(true);
+  // };
+
+  // const handleChangeVersionModalClose = () => {
+  //   setChangeVersionModalOpen(false);
+  // };
 
   const handleDROSelection = action => {
     if (action === "ok") {
@@ -380,7 +405,7 @@ const ProjectTableRow = ({
         )}
       </Td>
       {isAdmin && (
-        <div>
+        <Td>
           <button
             onClick={handleAdminNotesModalOpen}
             style={{
@@ -409,7 +434,7 @@ const ProjectTableRow = ({
             isNewNote={isNewNote}
             textUpdated={textUpdated}
           />
-        </div>
+        </Td>
       )}
       {isAdmin && (
         <WarningModal
@@ -426,6 +451,37 @@ const ProjectTableRow = ({
               ? formatDate(project.dateModifiedAdmin)
               : "N/A"}
           </span>
+        </Td>
+      )}
+      {isAdmin && (
+        <Td>
+          <span
+            onClick={() => {
+              if (!project.dateSubmitted) {
+                setChangeVersionModalOpen(true);
+              }
+            }}
+            style={
+              !project.dateSubmitted
+                ? {
+                    color: "#0000FF",
+                    textDecoration: "underline",
+                    cursor: "pointer"
+                  }
+                : {}
+            }
+          >
+            {calculations[project.calculationId].version || "Beta"}
+          </span>
+          <ChangeVersionModal
+            isModalOpen={changeVersionModalOpen}
+            cancel={() => setChangeVersionModalOpen(false)}
+            close={() => {
+              setChangeVersionModalOpen(false);
+              handleProjectUpdate();
+            }}
+            project={project}
+          />
         </Td>
       )}
       <td className={classes.actionIcons}>
@@ -501,6 +557,7 @@ ProjectTableRow.propTypes = {
   onDroChange: PropTypes.func.isRequired,
   onAdminNoteUpdate: PropTypes.func.isRequired,
   isActiveProjectsTab: PropTypes.bool.isRequired,
+  handleProjectUpdate: PropTypes.func.isRequired,
   idx: PropTypes.number,
   rawRules: PropTypes.any
 };

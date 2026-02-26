@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { PropTypes } from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/Modal";
@@ -34,45 +34,45 @@ const WarningModal = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
-  const [initialFocusId, setInitialFocusId] = useState("");
+  // const [initialFocusId, setInitialFocusId] = useState("");
 
-  const handleInitialFocusRef = node => {
-    if (node) {
-      setInitialFocusId(node.id); // Assign the button node as the initial focus target
-    }
-  };
+  // const handleInitialFocusRef = node => {
+  //   if (node) {
+  //     setInitialFocusId(node.id); // Assign the button node as the initial focus target
+  //   }
+  // };
 
-  // Cleanup on unmount to prevent issues with stale selector
-  useEffect(() => {
-    /* eslint-disable no-console */
-    console.log("useEffect in warning modal");
-    return () => {
-      console.log("WM unmounting, resetting initial focus id");
-      setInitialFocusId(""); // Reset the id when the component unmounts
-    };
-  }, []);
+  // // Cleanup on unmount to prevent issues with stale selector
+  // useEffect(() => {
+  //   /* eslint-disable no-console */
+  //   console.log("useEffect in warning modal");
+  //   return () => {
+  //     console.log("WM unmounting, resetting initial focus id");
+  //     setInitialFocusId(""); // Reset the id when the component unmounts
+  //   };
+  // }, []);
 
-  // Log the mounted prop to see if it controls rendering
-  useEffect(() => {
-    console.log("WM Mounted prop value:", mounted);
-  }, [mounted]);
+  // // Log the mounted prop to see if it controls rendering
+  // useEffect(() => {
+  //   console.log("WM Mounted prop value:", mounted);
+  // }, [mounted]);
 
-  if (!mounted) {
-    console.log("WM is not mounted, returning null");
-    return null; // Ensure the component is properly unmounted when `mounted` is false
-  }
+  // if (!mounted) {
+  //   console.log("WM is not mounted, returning null");
+  //   return null; // Ensure the component is properly unmounted when `mounted` is false
+  // }
 
-  // Check if initialFocusNodeId refers to a valid node
-  const validInitialFocusId = document.getElementById(initialFocusId)
-    ? initialFocusId
-    : null;
+  // // Check if initialFocusNodeId refers to a valid node
+  // const validInitialFocusId = document.getElementById(initialFocusId)
+  //   ? initialFocusId
+  //   : null;
 
   return (
     <ModalDialog
       mounted={mounted}
       escapeExits={false}
       omitCloseBox={true}
-      initialFocus={validInitialFocusId || undefined}
+      // initialFocus={validInitialFocusId || undefined}
     >
       <div className={classes.container}>
         <MdWarning className={classes.warningIcon} />
@@ -85,7 +85,7 @@ const WarningModal = ({
             variant="secondary"
             onClick={handleDoNotDiscard}
             className={clsx(classes.button, classes.keepEditingButton)}
-            ref={handleInitialFocusRef} //callback function to set the initial focus node
+            // ref={handleInitialFocusRef} //callback function to set the initial focus node
             id="keepEditing"
           >
             Keep Editing

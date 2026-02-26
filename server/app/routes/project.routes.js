@@ -48,6 +48,11 @@ router.put(
 );
 router.put("/:id", jwtSession.validateUser, projectController.put);
 router.put(
+  "/updateCalculationId/:id",
+  jwtSession.validateRoles(["isAdmin"]),
+  projectController.updateCalculationId
+);
+router.put(
   "/updateDroId/:id",
   jwtSession.validateUser,
   projectController.updateDroId

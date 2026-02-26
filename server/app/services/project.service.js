@@ -217,6 +217,39 @@ const getAllArchivedProjects = async () => {
   }
 };
 
+const updateCalculationId = async (
+  id,
+  calculationId,
+  isCalculationIdOverride,
+  loginId,
+  targetPoints,
+  earnedPoints,
+  projectLevel
+) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("id", mssql.Int, id);
+    request.input("calculationId", mssql.Int, calculationId);
+    request.input(
+      "isCalculationIdOverride",
+      mssql.Bit,
+      isCalculationIdOverride
+    );
+    request.input("targetPoints", mssql.Int, targetPoints);
+    request.input("earnedPoints", mssql.Int, earnedPoints);
+    request.input("projectLevel", mssql.Int, projectLevel);
+    request.input("loginId", mssql.Int, loginId);
+
+    const response = await request.execute("Project_UpdateCalculationId");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
 const updateDroId = async (id, droId, loginId) => {
   try {
     await poolConnect;
@@ -362,6 +395,7 @@ module.exports = {
   submit,
   snapshot,
   updateDroId,
+  updateCalculationId,
   updateAdminNotes,
   renameSnapshot,
   getAllArchivedProjects,

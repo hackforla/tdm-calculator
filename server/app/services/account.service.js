@@ -69,14 +69,22 @@ const register = async model => {
     const insertResult = await request.execute("Login_Insert");
 
     if (insertResult) {
-      result = {
-        isSuccess: true,
-        code: "REG_SUCCESS",
-        newId: insertResult.output["id"],
-        message: "Registration successful."
-      };
-      result = await requestRegistrationConfirmation(email, result);
-      return result;
+      try {
+        result = {
+          isSuccess: true,
+          code: "REG_SUCCESS",
+          newId: insertResult.output["id"],
+          message: "Registration successful."
+        };
+        result = await requestRegistrationConfirmation(email, result);
+        return result;
+      } catch (err) {
+        return {
+          isSuccess: false,
+          code: err.code,
+          message: err.message
+        };
+      }
     }
   } catch (err) {
     return {

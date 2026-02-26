@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
@@ -14,6 +14,7 @@ import { Tooltip } from "react-tooltip";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import { useReactToPrint } from "react-to-print";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
+import useCalculator from "../../hooks/useCalculator";
 
 import * as projectResultService from "../../services/projectResult.service";
 
@@ -75,7 +76,6 @@ const MultiProjectToolbarMenu = ({
   checkedProjectIds,
   criteria,
   checkedProjectsStatusData,
-  pdfProjectData,
   isActiveProjectsTab
 }) => {
   const printRef = useRef(null);
@@ -83,6 +83,9 @@ const MultiProjectToolbarMenu = ({
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const account = userContext.account;
+  const [calculate] = useCalculator();
+  const [projectData, setProjectData] = useState();
+
   let project = null;
   if (
     checkedProjectIds.length === 1 &&
@@ -120,8 +123,30 @@ const MultiProjectToolbarMenu = ({
     }
   };
 
+  // fetching rules for PDF
+  useEffect(() => {
+    const fetchRules = async () => {
+      let project;
+
+      if (
+        checkedProjectIds.length === 1 &&
+        Object.keys(checkedProjectsStatusData).length > 0
+      ) {
+        project = checkedProjectsStatusData;
+      }
+
+      if (project && project.id && project.calculationId) {
+        const rules = await calculate(project);
+        setProjectData({ pdf: rules });
+      }
+    };
+
+    fetchRules().catch(console.error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkedProjectIds, checkedProjectsStatusData]);
+
   const hasPdfData = () => {
-    return pdfProjectData && !!pdfProjectData.pdf;
+    return projectData && !!projectData.pdf;
   };
 
   const handlePrintPdf = useReactToPrint({
@@ -207,7 +232,7 @@ const MultiProjectToolbarMenu = ({
             <div style={{ display: "none" }}>
               <PdfPrint
                 ref={printRef}
-                rules={pdfProjectData.pdf}
+                rules={projectData.pdf}
                 project={project}
               />
             </div>
@@ -303,7 +328,7 @@ MultiProjectToolbarMenu.propTypes = {
   checkedProjectIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   criteria: PropTypes.object.isRequired,
   checkedProjectsStatusData: PropTypes.object.isRequired,
-  pdfProjectData: PropTypes.object,
+  // pdfProjectData: PropTypes.object,
   isActiveProjectsTab: PropTypes.bool.isRequired
 };
 
