@@ -23,7 +23,6 @@ import CopyProjectModal from "../Modals/ActionProjectCopy";
 import CsvModal from "../Modals/ActionProjectsCsv";
 import ProjectTableRow from "./ProjectTableRow";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
-import fetchEngineRules from "./fetchEngineRules";
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
@@ -296,7 +295,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const [projectData, setProjectData] = useState();
+  // const [projectData, setProjectData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [droOptions, setDroOptions] = useState([]);
@@ -323,28 +322,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     checkedProjectIds,
     projects
   );
-
-  // fetching rules for PDF
-  useEffect(() => {
-    const fetchRules = async rawRules => {
-      let project;
-
-      if (
-        checkedProjectIds.length === 1 &&
-        Object.keys(checkedProjectsStatusData).length > 0
-      ) {
-        project = checkedProjectsStatusData;
-      }
-
-      if (project && project.id && project.calculationId) {
-        const rules = await fetchEngineRules(project, rawRules);
-        setProjectData({ pdf: rules });
-      }
-    };
-    if (rawRules) {
-      fetchRules(rawRules).catch(console.error);
-    }
-  }, [checkedProjectIds, checkedProjectsStatusData, rawRules]);
 
   const handleTabClick = e => {
     setIsActiveProjectsTab(e.target.innerText === "Projects");
@@ -1057,9 +1034,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
             label: "Admin Saved",
             popupType: "datetime",
             colWidth: "10rem"
+          },
+          {
+            id: "calculationId",
+            label: "Guidelines Version",
+            popupType: "text",
+            accessor: "calculationId",
+            colWidth: "10rem"
           }
         ]
       : []),
+
     {
       id: "contextMenu",
       label: <span className="sr-only">Project Options</span>,
@@ -1137,7 +1122,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 checkedProjectIds={checkedProjectIds}
                 criteria={filterCriteria}
                 checkedProjectsStatusData={checkedProjectsStatusData}
-                pdfProjectData={projectData}
+                // pdfProjectData={projectData}
                 isActiveProjectsTab={isActiveProjectsTab}
               />
             </div>
@@ -1271,6 +1256,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                           onAdminNoteUpdate={handleAdminNoteUpdate}
                           isActiveProjectsTab={isActiveProjectsTab}
                           rawRules={rawRules}
+                          handleProjectUpdate={updateProjects}
                           setTargetNotReachedModalOpen={
                             setTargetNotReachedModalOpen
                           }

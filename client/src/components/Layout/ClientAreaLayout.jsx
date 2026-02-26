@@ -10,6 +10,7 @@ import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsMod
 import ChecklistModal from "../Checklist/ChecklistModal";
 import TdmAuthProvider from "./TdmAuthProvider";
 import ConfigContext from "../../contexts/ConfigContext";
+import CalculationsContext from "../../contexts/CalculationsContext";
 
 const useStyles = createUseStyles({
   app: {
@@ -26,7 +27,7 @@ const ClientAreaLayout = ({ appContainerRef }) => {
     const accepted = localStorage.getItem("termsAndConditions");
     return accepted === "Accepted";
   });
-  const { configs } = useLoaderData();
+  const { configs, calculations } = useLoaderData();
 
   const toggleChecklistModal = () => {
     setChecklistModalOpen(!checklistModalOpen);
@@ -46,19 +47,21 @@ const ClientAreaLayout = ({ appContainerRef }) => {
   return (
     <div className={classes.app} id="app-container" ref={appContainerRef}>
       <ConfigContext.Provider value={configs}>
-        <TdmAuthProvider>
-          <TermsAndConditionsModal
-            hasAcceptedTerms={hasAcceptedTerms}
-            onAcceptTerms={onAcceptTerms}
-          />
-          <ChecklistModal
-            checklistModalOpen={checklistModalOpen}
-            toggleChecklistModal={toggleChecklistModal}
-          />
-          <Header />
-          <Outlet />
-          <Footer toggleChecklistModal={toggleChecklistModal} />
-        </TdmAuthProvider>
+        <CalculationsContext.Provider value={calculations}>
+          <TdmAuthProvider>
+            <TermsAndConditionsModal
+              hasAcceptedTerms={hasAcceptedTerms}
+              onAcceptTerms={onAcceptTerms}
+            />
+            <ChecklistModal
+              checklistModalOpen={checklistModalOpen}
+              toggleChecklistModal={toggleChecklistModal}
+            />
+            <Header />
+            <Outlet />
+            <Footer toggleChecklistModal={toggleChecklistModal} />
+          </TdmAuthProvider>
+        </CalculationsContext.Provider>
       </ConfigContext.Provider>
     </div>
   );
