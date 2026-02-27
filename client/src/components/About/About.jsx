@@ -76,12 +76,7 @@ const About = () => {
     const [reorderedItem] = newAboutList.splice(source.index, 1);
     newAboutList.splice(destination.index, 0, reorderedItem);
 
-    const updatedAboutList = newAboutList.map((item, index) => ({
-      ...item,
-      displayOrder: (index + 1) * 10
-    }));
-
-    setAboutList(updatedAboutList);
+    setAboutList(newAboutList);
   };
 
   useEffect(() => {

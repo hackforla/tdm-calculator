@@ -48,14 +48,12 @@ const useStyles = createUseStyles({
     borderRadius: "12px",
     backgroundColor: "white",
     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-    border: "1px solid #e0e0e0",
-    transition: "all 0.2s ease-in-out"
+    border: "1px solid #e0e0e0"
   },
   aboutItemDragging: {
     border: "2px solid #a6c439",
     backgroundColor: "#f9f9f9",
-    boxShadow: "0 6px 12px rgba(0,0,0,0.2)",
-    transform: "scale(1.02)"
+    boxShadow: "0 6px 12px rgba(0,0,0,0.2)"
   },
   controlButtons: {
     display: "flex",
@@ -71,7 +69,6 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: "8px",
-    transition: "all 0.2s ease-in-out",
     "&:hover": {
       transform: "translateY(-1px)",
       boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
@@ -83,7 +80,6 @@ const useStyles = createUseStyles({
     borderRadius: "8px",
     border: "1px solid #ddd",
     backgroundColor: "#f9f9f9",
-    transition: "all 0.2s ease-in-out",
     minWidth: "48px",
     minHeight: "48px",
     display: "flex",
@@ -112,7 +108,6 @@ const useStyles = createUseStyles({
     padding: "0.75rem 1.5rem",
     fontSize: "1rem",
     fontWeight: "bold",
-    transition: "all 0.2s ease-in-out",
     "&:hover": {
       transform: "translateY(-1px)",
       boxShadow: "0 4px 8px rgba(0,0,0,0.1)"
@@ -123,7 +118,6 @@ const useStyles = createUseStyles({
     minHeight: "3rem",
     padding: "0.75rem",
     borderRadius: "6px",
-    transition: "background-color 0.2s ease-in-out",
     border: "2px solid transparent",
     "&:hover": {
       backgroundColor: "#f8f9fa",
@@ -135,7 +129,6 @@ const useStyles = createUseStyles({
     marginBottom: "1rem",
     padding: "0.5rem",
     borderRadius: "6px",
-    transition: "background-color 0.2s ease-in-out",
     border: "2px solid transparent",
     "&:hover": {
       backgroundColor: "#f8f9fa",
@@ -152,7 +145,6 @@ const useStyles = createUseStyles({
     borderRadius: "6px",
     backgroundColor: "#fff",
     outline: "none",
-    transition: "border-color 0.2s ease-in-out",
     "&:focus": {
       borderColor: "#8bc34a",
       boxShadow: "0 0 0 3px rgba(166, 196, 57, 0.1)"
