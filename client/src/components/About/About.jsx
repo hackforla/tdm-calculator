@@ -3,7 +3,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "contexts/UserContext";
 import ContentContainer from "../Layout/ContentContainer";
 import * as aboutService from "../../services/about.service";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext } from "@hello-pangea/dnd";
 import Button from "components/Button/Button";
 import { MdCancel } from "react-icons/md";
 import AdminView from "./AdminView";
@@ -36,7 +36,7 @@ const About = () => {
       const response = await aboutService.get();
       const abouts = response.data;
       setAboutList(abouts);
-      setOriginalAboutList([...abouts]); // Store original for cancel functionality
+      setOriginalAboutList([...abouts]);
     } catch (error) {
       console.error("Error fetching about data:", error);
     }
@@ -53,7 +53,7 @@ const About = () => {
   };
 
   const cancelEdits = () => {
-    setAboutList([...originalAboutList]); // Restore original data
+    setAboutList([...originalAboutList]);
     setEditMode(false);
   };
 
@@ -76,7 +76,6 @@ const About = () => {
     const [reorderedItem] = newAboutList.splice(source.index, 1);
     newAboutList.splice(destination.index, 0, reorderedItem);
 
-    // Recalculate displayOrder values after reordering
     const updatedAboutList = newAboutList.map((item, index) => ({
       ...item,
       displayOrder: (index + 1) * 10
