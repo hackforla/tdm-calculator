@@ -414,6 +414,5 @@ BEGIN
 END
 GO
 
-// Update all projects to use the current calculation.
 UPDATE Project SET 
 	calculationId = (SELECT MAX(Calculation.id) FROM Calculation)
