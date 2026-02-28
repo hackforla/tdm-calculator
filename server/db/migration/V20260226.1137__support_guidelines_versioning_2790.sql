@@ -1,5 +1,3 @@
-/*
-
 ALTER TABLE Calculation ADD
 	dateStart date null,
 	dateEnd date null,
@@ -22,11 +20,6 @@ ALTER TABLE Project ADD
 	isCalculationIdOverride bit null
 GO
 
-
-
-
-
-/*
 
 CREATE OR ALTER   PROC [dbo].[Calculation_SelectAll]
 AS
@@ -421,6 +414,5 @@ BEGIN
 END
 GO
 
-// Update all projects to use the current calculation.
 UPDATE Project SET 
 	calculationId = (SELECT MAX(Calculation.id) FROM Calculation)
