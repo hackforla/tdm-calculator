@@ -1,4 +1,4 @@
-import fetchEngineRules from "../Projects/fetchEngineRules";
+// Helper functions for formatting CSV
 
 // This method gets properties from the project object and converts them to
 // an array of objects that look enough like rules to concatenate with an
@@ -66,7 +66,7 @@ const getProjectProperties = project => {
   ];
 };
 
-// Used to determine which rules (and project properties) to include as collumns in the CSV,
+// Used to determine which rules (and project properties) to include as columns in the CSV,
 // in the order they should appear in the CSV file.
 const orderedCodes = [
   "PROJECT_NAME",
@@ -243,19 +243,4 @@ const getFileHeading = () => {
   ];
 };
 
-const getCsvForProjects = async (projects, progressCallback) => {
-  let data = getFileHeading();
-  if (projects.length != 0) {
-    for (let i = 0; i < projects.length; i++) {
-      const rules = await fetchEngineRules(projects[i]);
-      if (i == 0) {
-        data.push(getColumnNames(projects[i], rules));
-      }
-      data.push(getColumnValues(projects[i], rules));
-      if (progressCallback) progressCallback((i + 1) / projects.length);
-    }
-  }
-  return data;
-};
-
-export { getCsvForProjects };
+export { getFileHeading, getColumnNames, getColumnValues };

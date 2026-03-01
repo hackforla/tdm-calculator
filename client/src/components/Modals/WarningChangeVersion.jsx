@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
@@ -9,7 +9,6 @@ import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import ConfigContext from "../../contexts/ConfigContext";
 import CalculationsContext from "../../contexts/CalculationsContext";
 import { formatDate } from "../../helpers/util";
-import * as droService from "../../services/dro.service";
 import * as projectService from "../../services/project.service";
 import useCalculator from "../../hooks/useCalculator";
 
@@ -44,7 +43,13 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const ChangeVersionModal = ({ isModalOpen, close, cancel, project }) => {
+const ChangeVersionModal = ({
+  isModalOpen,
+  close,
+  cancel,
+  project,
+  droOptions
+}) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const configContext = useContext(ConfigContext);
@@ -54,20 +59,10 @@ const ChangeVersionModal = ({ isModalOpen, close, cancel, project }) => {
   const [newCalculationId, setNewCalculationId] = useState(
     project?.calculationId
   );
-  const [droList, setDroList] = useState([]);
   const defaultCalculationId = Number(configContext.CURRENT_CALCULATION_ID);
   const calculations = useContext(CalculationsContext);
   const formInputs = JSON.parse(project.formInputs);
   const alternateNumber = formInputs.VERSION_NO;
-
-  useEffect(() => {
-    const fetchDros = async () => {
-      const response = await droService.get();
-      const dros = response.data;
-      setDroList(dros);
-    };
-    fetchDros();
-  }, []);
 
   const handleUpdate = async () => {
     const isCalculationIdOverride =
@@ -280,7 +275,7 @@ const ChangeVersionModal = ({ isModalOpen, close, cancel, project }) => {
             <div className={classes.labelText}>
               {"DRO: " +
                 (project.droId
-                  ? droList.find(d => d.id === project.droId)?.name
+                  ? droOptions.find(d => d.id === project.droId)?.name
                   : "(unassigned)")}
             </div>
             <div className={classes.labelText}>
@@ -362,7 +357,7 @@ const ChangeVersionModal = ({ isModalOpen, close, cancel, project }) => {
             <div className={classes.labelText}>
               {"DRO: " +
                 (project.droId
-                  ? droList.find(d => d.id === project.droId)?.name
+                  ? droOptions.find(d => d.id === project.droId)?.name
                   : "(unassigned)")}
             </div>
             <div className={classes.labelText}>
@@ -409,7 +404,8 @@ ChangeVersionModal.propTypes = {
   isModalOpen: PropTypes.bool,
   cancel: PropTypes.func,
   close: PropTypes.func,
-  project: PropTypes.object
+  project: PropTypes.object,
+  droOptions: PropTypes.array
 };
 
 export default ChangeVersionModal;
