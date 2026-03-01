@@ -173,7 +173,7 @@ const ProjectTableRow = ({
   isActiveProjectsTab,
   handleProjectUpdate,
   idx,
-  rawRules,
+  // rawRules,
   setTargetNotReachedModalOpen,
   isSubmittingSnapshot
 }) => {
@@ -485,6 +485,7 @@ const ProjectTableRow = ({
               handleProjectUpdate();
             }}
             project={project}
+            droOptions={droOptions}
           />
         </Td>
       )}
@@ -568,7 +569,7 @@ ProjectTableRow.propTypes = {
   isActiveProjectsTab: PropTypes.bool.isRequired,
   handleProjectUpdate: PropTypes.func.isRequired,
   idx: PropTypes.number,
-  rawRules: PropTypes.any,
+  // rawRules: PropTypes.any,
   setTargetNotReachedModalOpen: PropTypes.func.isRequired,
   isSubmittingSnapshot: PropTypes.object.isRequired
 };

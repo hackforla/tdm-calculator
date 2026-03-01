@@ -12,7 +12,6 @@ import useProjects from "../../hooks/useGetProjects";
 import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData";
 import * as projectService from "../../services/project.service";
 import * as projectResultService from "../../services/projectResult.service";
-import * as ruleService from "../../services/rule.service";
 import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
 import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
@@ -280,7 +279,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
-  const [rawRules, setRawRules] = useState(null);
   const [projects, setProjects] = useProjects(handleError);
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
@@ -307,14 +305,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   useEffect(() => {
     fetchDroOptions(setDroOptions);
-  }, []);
-
-  useEffect(() => {
-    const fetchRawRules = async () => {
-      const result = await ruleService.getByCalculationId(1);
-      setRawRules(result.data);
-    };
-    fetchRawRules();
   }, []);
 
   // const [filterCollapsed, setFilterCollapsed] = useState(true);
@@ -1183,98 +1173,95 @@ const ProjectsPage = ({ contentContainerRef }) => {
               </div>
             </div>
           </div>
-          {!rawRules ? null : (
-            <div>
-              <div className={classes.tableContainer}>
-                <table
-                  className={
-                    userContext.account?.isAdmin
-                      ? isActiveProjectsTab
-                        ? classes.tableAdmin
-                        : classes.tableAdminDeleted
-                      : isActiveProjectsTab
-                        ? classes.table
-                        : classes.tableDeleted
-                  }
-                >
-                  <colgroup>
-                    {headerData.map(h => (
-                      <col key={h.id} width={h.colWidth} />
-                    ))}
-                  </colgroup>
-                  <thead className={classes.thead}>
-                    <tr className={classes.tr}>
-                      {headerData.map(header => {
-                        return (
-                          <th key={header.id} className={classes.stickyTh}>
-                            <ProjectTableColumnHeader
-                              projects={tabProjects}
-                              filter={filter}
-                              header={header}
-                              criteria={filterCriteria}
-                              setCriteria={setFilter}
-                              setSort={setSort}
-                              orderBy={
-                                sortCriteria[sortCriteria.length - 1].field
-                              }
-                              order={
-                                sortCriteria[sortCriteria.length - 1].direction
-                              }
-                              setCheckedProjectIds={setCheckedProjectIds}
-                              setSelectAllChecked={setSelectAllChecked}
-                              droOptions={droOptions}
-                            />
-                          </th>
-                        );
-                      })}
+          <div>
+            <div className={classes.tableContainer}>
+              <table
+                className={
+                  userContext.account?.isAdmin
+                    ? isActiveProjectsTab
+                      ? classes.tableAdmin
+                      : classes.tableAdminDeleted
+                    : isActiveProjectsTab
+                      ? classes.table
+                      : classes.tableDeleted
+                }
+              >
+                <colgroup>
+                  {headerData.map(h => (
+                    <col key={h.id} width={h.colWidth} />
+                  ))}
+                </colgroup>
+                <thead className={classes.thead}>
+                  <tr className={classes.tr}>
+                    {headerData.map(header => {
+                      return (
+                        <th key={header.id} className={classes.stickyTh}>
+                          <ProjectTableColumnHeader
+                            projects={tabProjects}
+                            filter={filter}
+                            header={header}
+                            criteria={filterCriteria}
+                            setCriteria={setFilter}
+                            setSort={setSort}
+                            orderBy={
+                              sortCriteria[sortCriteria.length - 1].field
+                            }
+                            order={
+                              sortCriteria[sortCriteria.length - 1].direction
+                            }
+                            setCheckedProjectIds={setCheckedProjectIds}
+                            setSelectAllChecked={setSelectAllChecked}
+                            droOptions={droOptions}
+                          />
+                        </th>
+                      );
+                    })}
+                  </tr>
+                </thead>
+                <tbody className={classes.tbody}>
+                  {tabProjects.length ? (
+                    currentProjects.map((project, idx) => (
+                      <ProjectTableRow
+                        idx={idx}
+                        key={project.id}
+                        project={project}
+                        handleCsvModalOpen={handleCsvModalOpen}
+                        handleCopyModalOpen={handleCopyModalOpen}
+                        handleDeleteModalOpen={handleDeleteModalOpen}
+                        handleSnapshotModalOpen={handleSnapshotModalOpen}
+                        handleRenameSnapshotModalOpen={
+                          handleRenameSnapshotModalOpen
+                        }
+                        handleShareSnapshotModalOpen={
+                          handleShareSnapshotModalOpen
+                        }
+                        handleSubmitModalOpen={handleSubmitModalOpen}
+                        handleHide={handleHide}
+                        handleCheckboxChange={handleCheckboxChange}
+                        checkedProjectIds={checkedProjectIds}
+                        isAdmin={isAdmin}
+                        droOptions={droOptions}
+                        onDroChange={handleDroChange}
+                        onAdminNoteUpdate={handleAdminNoteUpdate}
+                        isActiveProjectsTab={isActiveProjectsTab}
+                        handleProjectUpdate={updateProjects}
+                        setTargetNotReachedModalOpen={
+                          setTargetNotReachedModalOpen
+                        }
+                        isSubmittingSnapshot={isSubmittingSnapshot}
+                      />
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={9} className={classes.tdNoSavedProjects}>
+                        No Saved Projects
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className={classes.tbody}>
-                    {tabProjects.length ? (
-                      currentProjects.map((project, idx) => (
-                        <ProjectTableRow
-                          idx={idx}
-                          key={project.id}
-                          project={project}
-                          handleCsvModalOpen={handleCsvModalOpen}
-                          handleCopyModalOpen={handleCopyModalOpen}
-                          handleDeleteModalOpen={handleDeleteModalOpen}
-                          handleSnapshotModalOpen={handleSnapshotModalOpen}
-                          handleRenameSnapshotModalOpen={
-                            handleRenameSnapshotModalOpen
-                          }
-                          handleShareSnapshotModalOpen={
-                            handleShareSnapshotModalOpen
-                          }
-                          handleSubmitModalOpen={handleSubmitModalOpen}
-                          handleHide={handleHide}
-                          handleCheckboxChange={handleCheckboxChange}
-                          checkedProjectIds={checkedProjectIds}
-                          isAdmin={isAdmin}
-                          droOptions={droOptions}
-                          onDroChange={handleDroChange}
-                          onAdminNoteUpdate={handleAdminNoteUpdate}
-                          isActiveProjectsTab={isActiveProjectsTab}
-                          rawRules={rawRules}
-                          handleProjectUpdate={updateProjects}
-                          setTargetNotReachedModalOpen={
-                            setTargetNotReachedModalOpen
-                          }
-                          isSubmittingSnapshot={isSubmittingSnapshot}
-                        />
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={9} className={classes.tdNoSavedProjects}>
-                          No Saved Projects
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                  )}
+                </tbody>
+              </table>
             </div>
-          )}
+          </div>
 
           <div className={classes.pageContainer}>
             <Pagination

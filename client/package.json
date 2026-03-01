@@ -45,7 +45,6 @@
     "luxon": "^3.6.0",
     "quill": "^2.0.3",
     "react": "^19.2.3",
-    "react-beautiful-dnd": "^13.1.1",
     "react-csv": "^2.2.2",
     "react-csv-downloader": "^3.3.0",
     "react-datepicker": "^4.24.0",

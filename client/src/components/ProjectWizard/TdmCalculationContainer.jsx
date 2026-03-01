@@ -73,31 +73,11 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   // Initialize Engine and (if existing project), perform initial calculation.
   const initializeEngine = useCallback(async () => {
     let calculationId = defaultCalculationId;
-    console.error(calculations[defaultCalculationId].rules);
-    // if (!engine) {
-    //   setEngine(new Engine(calculations[defaultCalculationId].rules));
-    // }
     try {
       let projectResponse = null;
       let inputs = {};
       ``;
       if (Number(projectId) > 0 && accountId) {
-        // if (locationPathSegment1 == "projects") {
-        //   try {
-        //     projectResponse = await projectService.getByIdWithEmail(projectId);
-        //   } catch (err) {
-        //     if (err.response.status == 404) {
-        //       navigate(
-        //         `/login?url=${locationPathSegment1}/${locationPathSegment2}`
-        //       );
-        //     } else {
-        //       console.error(JSON.stringify(err, null, 2));
-        //       throw new Error(JSON.stringify(err, null, 2));
-        //     }
-        //   }
-        // } else {
-        //   projectResponse = await projectService.getById(projectId);
-        // }
         projectResponse = await projectService.getById(projectId);
         if (projectResponse) {
           let project = projectResponse.data;
@@ -128,14 +108,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       console.error(JSON.stringify(err, null, 2));
       throw new Error(JSON.stringify(err, null, 2));
     }
-  }, [
-    calculations,
-    defaultCalculationId,
-    projectId,
-    accountId,
-    // navigate,
-    isAdmin
-  ]);
+  }, [calculations, defaultCalculationId, projectId, accountId, isAdmin]);
 
   // Initialize the engine with saved project data, as appropriate.
   // Should run only when projectId changes.
@@ -158,8 +131,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     // console.log(showWork);
     // update state with modified updatedFormInputs and rules
     setFormInputs(updatedFormInputs);
-    // eslint-disable-next-line no-console
-    console.log("recalculate rules");
+    // console.log("recalculate rules");
     setRules(rules);
     setFormHasSaved(false);
     if (strategiesDeselected) {
