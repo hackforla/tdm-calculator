@@ -64,8 +64,7 @@ const ColumnHeader = React.forwardRef((props, ref) => {
     <div
       ref={ref}
       style={{
-        display: "flex",
-        justifyContent: "space-between"
+        display: "flex"
       }}
       onClick={props.onClick}
     >
