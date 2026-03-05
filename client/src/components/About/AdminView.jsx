@@ -169,24 +169,6 @@ const AdminView = ({ aboutList, setAboutList }) => {
     useState(false);
   const classes = useStyles();
 
-  if (!aboutList || aboutList?.length === 0) {
-    return (
-      <div className={classes.addButtonContainer}>
-        <Button
-          variant="contained"
-          color="colorPrimary"
-          onClick={addNewAboutItem}
-          id="add-about-item"
-          data-testid="add-about-item"
-          className={classes.addButton}
-        >
-          <MdAdd style={{ marginRight: "0.5rem" }} />
-          Add New About Block
-        </Button>
-      </div>
-    );
-  }
-
   const updateAboutItem = (id, field, value) => {
     setAboutList(prevList =>
       prevList.map(item =>
@@ -229,6 +211,24 @@ const AdminView = ({ aboutList, setAboutList }) => {
       [`${tempId}-content`]: true
     }));
   };
+
+  if (!aboutList || aboutList?.length === 0) {
+    return (
+      <div className={classes.addButtonContainer}>
+        <Button
+          variant="contained"
+          color="colorPrimary"
+          onClick={addNewAboutItem}
+          id="add-about-item"
+          data-testid="add-about-item"
+          className={classes.addButton}
+        >
+          <MdAdd style={{ marginRight: "0.5rem" }} />
+          Add New About Block
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <>
