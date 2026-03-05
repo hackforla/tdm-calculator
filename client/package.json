@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-client",
-  "version": "0.2.68",
+  "version": "0.2.69",
   "private": true,
   "proxy": "http://localhost:5001",
   "type": "module",
@@ -32,6 +32,7 @@
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.26.9",
+    "@hello-pangea/dnd": "^18.0.1",
     "@react-pdf/renderer": "^3.1.9",
     "axios": "^1.6.1",
     "clsx": "^2.1.1",
@@ -44,7 +45,6 @@
     "luxon": "^3.6.0",
     "quill": "^2.0.3",
     "react": "^19.2.3",
-    "react-beautiful-dnd": "^13.1.1",
     "react-csv": "^2.2.2",
     "react-csv-downloader": "^3.3.0",
     "react-datepicker": "^4.24.0",

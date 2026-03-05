@@ -12,7 +12,6 @@ import useProjects from "../../hooks/useGetProjects";
 import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData";
 import * as projectService from "../../services/project.service";
 import * as projectResultService from "../../services/projectResult.service";
-import * as ruleService from "../../services/rule.service";
 import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
 import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
@@ -23,7 +22,6 @@ import CopyProjectModal from "../Modals/ActionProjectCopy";
 import CsvModal from "../Modals/ActionProjectsCsv";
 import ProjectTableRow from "./ProjectTableRow";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
-import fetchEngineRules from "./fetchEngineRules";
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
@@ -281,7 +279,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
-  const [rawRules, setRawRules] = useState(null);
   const [projects, setProjects] = useProjects(handleError);
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
@@ -296,7 +293,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const [projectData, setProjectData] = useState();
+  // const [projectData, setProjectData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [droOptions, setDroOptions] = useState([]);
@@ -310,41 +307,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
     fetchDroOptions(setDroOptions);
   }, []);
 
-  useEffect(() => {
-    const fetchRawRules = async () => {
-      const result = await ruleService.getByCalculationId(1);
-      setRawRules(result.data);
-    };
-    fetchRawRules();
-  }, []);
-
   // const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
     checkedProjectIds,
     projects
   );
-
-  // fetching rules for PDF
-  useEffect(() => {
-    const fetchRules = async rawRules => {
-      let project;
-
-      if (
-        checkedProjectIds.length === 1 &&
-        Object.keys(checkedProjectsStatusData).length > 0
-      ) {
-        project = checkedProjectsStatusData;
-      }
-
-      if (project && project.id && project.calculationId) {
-        const rules = await fetchEngineRules(project, rawRules);
-        setProjectData({ pdf: rules });
-      }
-    };
-    if (rawRules) {
-      fetchRules(rawRules).catch(console.error);
-    }
-  }, [checkedProjectIds, checkedProjectsStatusData, rawRules]);
 
   const handleTabClick = e => {
     setIsActiveProjectsTab(e.target.innerText === "Projects");
@@ -1057,9 +1024,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
             label: "Admin Saved",
             popupType: "datetime",
             colWidth: "10rem"
+          },
+          {
+            id: "calculationId",
+            label: "Guidelines Version",
+            popupType: "text",
+            accessor: "calculationId",
+            colWidth: "10rem"
           }
         ]
       : []),
+
     {
       id: "contextMenu",
       label: <span className="sr-only">Project Options</span>,
@@ -1137,7 +1112,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 checkedProjectIds={checkedProjectIds}
                 criteria={filterCriteria}
                 checkedProjectsStatusData={checkedProjectsStatusData}
-                pdfProjectData={projectData}
+                // pdfProjectData={projectData}
                 isActiveProjectsTab={isActiveProjectsTab}
               />
             </div>
@@ -1198,97 +1173,95 @@ const ProjectsPage = ({ contentContainerRef }) => {
               </div>
             </div>
           </div>
-          {!rawRules ? null : (
-            <div>
-              <div className={classes.tableContainer}>
-                <table
-                  className={
-                    userContext.account?.isAdmin
-                      ? isActiveProjectsTab
-                        ? classes.tableAdmin
-                        : classes.tableAdminDeleted
-                      : isActiveProjectsTab
-                        ? classes.table
-                        : classes.tableDeleted
-                  }
-                >
-                  <colgroup>
-                    {headerData.map(h => (
-                      <col key={h.id} width={h.colWidth} />
-                    ))}
-                  </colgroup>
-                  <thead className={classes.thead}>
-                    <tr className={classes.tr}>
-                      {headerData.map(header => {
-                        return (
-                          <th key={header.id} className={classes.stickyTh}>
-                            <ProjectTableColumnHeader
-                              projects={tabProjects}
-                              filter={filter}
-                              header={header}
-                              criteria={filterCriteria}
-                              setCriteria={setFilter}
-                              setSort={setSort}
-                              orderBy={
-                                sortCriteria[sortCriteria.length - 1].field
-                              }
-                              order={
-                                sortCriteria[sortCriteria.length - 1].direction
-                              }
-                              setCheckedProjectIds={setCheckedProjectIds}
-                              setSelectAllChecked={setSelectAllChecked}
-                              droOptions={droOptions}
-                            />
-                          </th>
-                        );
-                      })}
+          <div>
+            <div className={classes.tableContainer}>
+              <table
+                className={
+                  userContext.account?.isAdmin
+                    ? isActiveProjectsTab
+                      ? classes.tableAdmin
+                      : classes.tableAdminDeleted
+                    : isActiveProjectsTab
+                      ? classes.table
+                      : classes.tableDeleted
+                }
+              >
+                <colgroup>
+                  {headerData.map(h => (
+                    <col key={h.id} width={h.colWidth} />
+                  ))}
+                </colgroup>
+                <thead className={classes.thead}>
+                  <tr className={classes.tr}>
+                    {headerData.map(header => {
+                      return (
+                        <th key={header.id} className={classes.stickyTh}>
+                          <ProjectTableColumnHeader
+                            projects={tabProjects}
+                            filter={filter}
+                            header={header}
+                            criteria={filterCriteria}
+                            setCriteria={setFilter}
+                            setSort={setSort}
+                            orderBy={
+                              sortCriteria[sortCriteria.length - 1].field
+                            }
+                            order={
+                              sortCriteria[sortCriteria.length - 1].direction
+                            }
+                            setCheckedProjectIds={setCheckedProjectIds}
+                            setSelectAllChecked={setSelectAllChecked}
+                            droOptions={droOptions}
+                          />
+                        </th>
+                      );
+                    })}
+                  </tr>
+                </thead>
+                <tbody className={classes.tbody}>
+                  {tabProjects.length ? (
+                    currentProjects.map((project, idx) => (
+                      <ProjectTableRow
+                        idx={idx}
+                        key={project.id}
+                        project={project}
+                        handleCsvModalOpen={handleCsvModalOpen}
+                        handleCopyModalOpen={handleCopyModalOpen}
+                        handleDeleteModalOpen={handleDeleteModalOpen}
+                        handleSnapshotModalOpen={handleSnapshotModalOpen}
+                        handleRenameSnapshotModalOpen={
+                          handleRenameSnapshotModalOpen
+                        }
+                        handleShareSnapshotModalOpen={
+                          handleShareSnapshotModalOpen
+                        }
+                        handleSubmitModalOpen={handleSubmitModalOpen}
+                        handleHide={handleHide}
+                        handleCheckboxChange={handleCheckboxChange}
+                        checkedProjectIds={checkedProjectIds}
+                        isAdmin={isAdmin}
+                        droOptions={droOptions}
+                        onDroChange={handleDroChange}
+                        onAdminNoteUpdate={handleAdminNoteUpdate}
+                        isActiveProjectsTab={isActiveProjectsTab}
+                        handleProjectUpdate={updateProjects}
+                        setTargetNotReachedModalOpen={
+                          setTargetNotReachedModalOpen
+                        }
+                        isSubmittingSnapshot={isSubmittingSnapshot}
+                      />
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={9} className={classes.tdNoSavedProjects}>
+                        No Saved Projects
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className={classes.tbody}>
-                    {tabProjects.length ? (
-                      currentProjects.map((project, idx) => (
-                        <ProjectTableRow
-                          idx={idx}
-                          key={project.id}
-                          project={project}
-                          handleCsvModalOpen={handleCsvModalOpen}
-                          handleCopyModalOpen={handleCopyModalOpen}
-                          handleDeleteModalOpen={handleDeleteModalOpen}
-                          handleSnapshotModalOpen={handleSnapshotModalOpen}
-                          handleRenameSnapshotModalOpen={
-                            handleRenameSnapshotModalOpen
-                          }
-                          handleShareSnapshotModalOpen={
-                            handleShareSnapshotModalOpen
-                          }
-                          handleSubmitModalOpen={handleSubmitModalOpen}
-                          handleHide={handleHide}
-                          handleCheckboxChange={handleCheckboxChange}
-                          checkedProjectIds={checkedProjectIds}
-                          isAdmin={isAdmin}
-                          droOptions={droOptions}
-                          onDroChange={handleDroChange}
-                          onAdminNoteUpdate={handleAdminNoteUpdate}
-                          isActiveProjectsTab={isActiveProjectsTab}
-                          rawRules={rawRules}
-                          setTargetNotReachedModalOpen={
-                            setTargetNotReachedModalOpen
-                          }
-                          isSubmittingSnapshot={isSubmittingSnapshot}
-                        />
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={9} className={classes.tdNoSavedProjects}>
-                          No Saved Projects
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                  )}
+                </tbody>
+              </table>
             </div>
-          )}
+          </div>
 
           <div className={classes.pageContainer}>
             <Pagination

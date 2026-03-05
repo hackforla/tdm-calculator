@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
 import { MdDelete, MdLaunch } from "react-icons/md";
 import PropTypes from "prop-types";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "@hello-pangea/dnd";
 import Button from "components/Button/Button";
 import { MdEdit, MdViewModule, MdCheck, MdAdd } from "react-icons/md";
 import { jssTheme as theme } from "styles/theme";
@@ -12,7 +12,7 @@ import { QuillEditor } from "components/UI/QuillEditor";
 
 const useStyles = createUseStyles({
   aboutContent: {
-    maxWidth: "1200px", // Increased width for better layout
+    maxWidth: "1200px",
     margin: "0 auto"
   },
   linklist: {
@@ -40,28 +40,26 @@ const useStyles = createUseStyles({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    gap: "3rem" // Increased gap for better spacing
+    gap: "3rem"
   },
   aboutItem: {
-    marginBottom: "2.5rem", // Increased margin
-    padding: "2rem", // Increased padding
-    borderRadius: "12px", // Slightly more rounded corners
+    marginBottom: "2.5rem",
+    padding: "2rem",
+    borderRadius: "12px",
     backgroundColor: "white",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.1)", // Enhanced shadow
-    border: "1px solid #e0e0e0",
-    transition: "all 0.2s ease-in-out"
+    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+    border: "1px solid #e0e0e0"
   },
   aboutItemDragging: {
     border: "2px solid #a6c439",
     backgroundColor: "#f9f9f9",
-    boxShadow: "0 6px 12px rgba(0,0,0,0.2)", // Enhanced shadow when dragging
-    transform: "scale(1.02)" // Slight scale effect when dragging
+    boxShadow: "0 6px 12px rgba(0,0,0,0.2)"
   },
   controlButtons: {
     display: "flex",
     flexDirection: "column",
-    gap: "0.75rem", // Increased gap between buttons
-    minWidth: "140px", // Slightly wider for better appearance
+    gap: "0.75rem",
+    minWidth: "140px",
     alignItems: "center"
   },
   controlButton: {
@@ -71,7 +69,6 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: "8px",
-    transition: "all 0.2s ease-in-out",
     "&:hover": {
       transform: "translateY(-1px)",
       boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
@@ -83,7 +80,6 @@ const useStyles = createUseStyles({
     borderRadius: "8px",
     border: "1px solid #ddd",
     backgroundColor: "#f9f9f9",
-    transition: "all 0.2s ease-in-out",
     minWidth: "48px",
     minHeight: "48px",
     display: "flex",
@@ -112,7 +108,6 @@ const useStyles = createUseStyles({
     padding: "0.75rem 1.5rem",
     fontSize: "1rem",
     fontWeight: "bold",
-    transition: "all 0.2s ease-in-out",
     "&:hover": {
       transform: "translateY(-1px)",
       boxShadow: "0 4px 8px rgba(0,0,0,0.1)"
@@ -123,7 +118,6 @@ const useStyles = createUseStyles({
     minHeight: "3rem",
     padding: "0.75rem",
     borderRadius: "6px",
-    transition: "background-color 0.2s ease-in-out",
     border: "2px solid transparent",
     "&:hover": {
       backgroundColor: "#f8f9fa",
@@ -135,7 +129,6 @@ const useStyles = createUseStyles({
     marginBottom: "1rem",
     padding: "0.5rem",
     borderRadius: "6px",
-    transition: "background-color 0.2s ease-in-out",
     border: "2px solid transparent",
     "&:hover": {
       backgroundColor: "#f8f9fa",
@@ -152,7 +145,6 @@ const useStyles = createUseStyles({
     borderRadius: "6px",
     backgroundColor: "#fff",
     outline: "none",
-    transition: "border-color 0.2s ease-in-out",
     "&:focus": {
       borderColor: "#8bc34a",
       boxShadow: "0 0 0 3px rgba(166, 196, 57, 0.1)"
@@ -215,13 +207,11 @@ const AdminView = ({ aboutList, setAboutList }) => {
   };
 
   const addNewAboutItem = () => {
-    // Calculate the next display order by finding the highest existing displayOrder and adding 10
     const maxDisplayOrder =
       aboutList.length > 0
         ? Math.max(...aboutList.map(item => item.displayOrder || 0))
         : 0;
 
-    // Generate a temporary negative ID for new items (database will assign real IDs)
     const tempId = -Date.now();
 
     const newItem = {
@@ -233,7 +223,6 @@ const AdminView = ({ aboutList, setAboutList }) => {
 
     setAboutList(prevList => [...prevList, newItem]);
 
-    // Automatically start editing both title and content for the new item
     setEditingItems(prev => ({
       ...prev,
       [`${tempId}-title`]: true,
@@ -262,7 +251,6 @@ const AdminView = ({ aboutList, setAboutList }) => {
                   >
                     <div className={classes.contentWithOptions}>
                       <div style={{ flex: 1 }}>
-                        {/* Title Section */}
                         {editingItems[`${about.id}-title`] ? (
                           <input
                             type="text"
@@ -283,7 +271,6 @@ const AdminView = ({ aboutList, setAboutList }) => {
                           </h3>
                         )}
 
-                        {/* Content Section */}
                         {editingItems[`${about.id}-content`] ? (
                           <div className={classes.quillContainer}>
                             <QuillEditor
@@ -308,7 +295,6 @@ const AdminView = ({ aboutList, setAboutList }) => {
                         )}
                       </div>
 
-                      {/* Control Buttons */}
                       <div className={classes.controlButtons}>
                         <Button
                           variant="outlined"
@@ -383,7 +369,6 @@ const AdminView = ({ aboutList, setAboutList }) => {
                           }}
                         />
 
-                        {/* Drag Handle */}
                         <div
                           {...provided.dragHandleProps}
                           className={classes.dragHandle}

@@ -4,7 +4,7 @@ import FaqCategoryList from "./FaqCategoryList";
 import ExpandButtons from "./ExpandButtons";
 import EditToggleButton from "../Button/EditToggleButton";
 import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext } from "@hello-pangea/dnd";
 import * as faqCategoryService from "../../services/faqCategory.service";
 import AddNewCategoryButton from "../Button/AddNewCategory";
 import { createUseStyles } from "react-jss";
@@ -166,22 +166,13 @@ const FaqView = () => {
     for (let i = 0; i < categories.length; i++) {
       if (categories[i].faqs) {
         categories[i].faqs = categories[i].faqs.map(faq => {
-          /**
-           * Iterate over the categories and removes the expand property
-           * from each faq using object destructuring. This step ensures that
-           * only the necessary data is included in the POST request payload.
-           */
-
           // eslint-disable-next-line no-unused-vars
           const { expand, ...rest } = faq;
           return rest;
         });
       }
     }
-    // await faqService.post(categories.flatMap(category => category.faqs));
     await faqCategoryService.post(categories);
-
-    // Handle the responses if needed
   }, [faqCategoryList]);
 
   const handleAddCategory = () => {

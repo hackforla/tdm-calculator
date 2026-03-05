@@ -77,14 +77,34 @@ const put = async (req, res) => {
   }
 };
 
+const updateCalculationId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      calculationId,
+      isCalculationIdOverride,
+      targetPoints,
+      earnedPoints,
+      projectLevel
+    } = req.body;
+
+    await projectService.updateCalculationId(
+      id,
+      calculationId,
+      isCalculationIdOverride,
+      req.user.id,
+      targetPoints,
+      earnedPoints,
+      projectLevel
+    );
+    res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const updateDroId = async (req, res) => {
   try {
-    // if (!req.user.isAdmin && req.user.id != req.params.id) {
-    //   return res
-    //     .status(403)
-    //     .json({ error: "You do not have permission to update the droId." });
-    // }
-
     const { id } = req.params;
     const { droId } = req.body;
 
@@ -320,6 +340,7 @@ module.exports = {
   submit,
   snapshot,
   updateDroId,
+  updateCalculationId,
   updateAdminNotes,
   renameSnapshot,
   getAllArchivedProjects,

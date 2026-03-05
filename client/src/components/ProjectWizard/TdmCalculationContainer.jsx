@@ -3,10 +3,12 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import UserContext from "../../contexts/UserContext";
 import TdmCalculationWizard from "./TdmCalculationWizard";
-import * as ruleService from "../../services/rule.service";
+// import * as ruleService from "../../services/rule.service";
 import * as projectService from "../../services/project.service";
 import Engine from "../../services/tdm-engine";
 import { useToast } from "../../contexts/Toast";
+import ConfigContext from "../../contexts/ConfigContext";
+import CalculationsContext from "../../contexts/CalculationsContext";
 
 // These are the calculation results we want to calculate
 // and display on the main page.
@@ -35,9 +37,15 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const params = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const locationPath = location.pathname;
   const userContext = useContext(UserContext);
   const account = userContext ? userContext.account : null;
+  const accountId = account?.id;
   const isAdmin = !!account?.isAdmin;
+  const configContext = useContext(ConfigContext);
+  const defaultCalculationId = Number(configContext.CURRENT_CALCULATION_ID);
+  const [calculationId, setCalculationId] = useState(defaultCalculationId);
+  const calculations = useContext(CalculationsContext);
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
   const [partialAIN, setPartialAIN] = useState("");
@@ -53,45 +61,36 @@ export function TdmCalculationContainer({ contentContainerRef }) {
 
   const toast = useToast();
 
-  const fetchRules = useCallback(async () => {
-    const ruleResponse = await ruleService.getByCalculationId(
-      TdmCalculationContainer.calculationId
-    );
-    // console.log(ruleResponse.data);
-    setEngine(new Engine(ruleResponse.data));
-  }, []);
-
-  // Get the rules for the calculation once when component is loaded.
   useEffect(() => {
-    fetchRules();
-  }, [fetchRules]);
+    // If user is not logged in and attempting to access an existing project,
+    // redirect to login page. This is most commonly when a user is pasting
+    // a link to an existing project into their browser.
+    if (Number(projectId) > 0 && !accountId) {
+      navigate(`/login?url=${locationPath}`);
+    }
+  }, [navigate, projectId, accountId, locationPath]);
 
   // Initialize Engine and (if existing project), perform initial calculation.
   const initializeEngine = useCallback(async () => {
-    // Only run if engine has been instantiated
-    if (!engine) return;
+    let calculationId = defaultCalculationId;
     try {
       let projectResponse = null;
       let inputs = {};
-      if (Number(projectId) > 0 && account?.id) {
-        let locationPath = location.pathname.split("/");
-        if (locationPath[1] == "projects") {
-          try {
-            projectResponse = await projectService.getByIdWithEmail(projectId);
-          } catch (err) {
-            if (err.response.status == 404) {
-              navigate(`/login?url=${locationPath[1]}/${locationPath[2]}`);
-            } else {
-              console.error(JSON.stringify(err, null, 2));
-              throw new Error(JSON.stringify(err, null, 2));
-            }
-          }
-        } else {
-          projectResponse = await projectService.getById(projectId);
-        }
+      ``;
+      if (Number(projectId) > 0 && accountId) {
+        projectResponse = await projectService.getById(projectId);
         if (projectResponse) {
+          let project = projectResponse.data;
+          // We use the default calculationId unless the project is already submitted or
+          // it has been explicitly set to something other that tne default.
+          if (
+            project.isCalculationIdOverride ||
+            projectResponse.dateSubmitted
+          ) {
+            calculationId = project.calculationId;
+          }
           setProject(projectResponse.data);
-          setShareView(projectResponse.data.loginId !== account.id && !isAdmin);
+          setShareView(projectResponse.data.loginId !== accountId && !isAdmin);
           inputs = JSON.parse(projectResponse.data.formInputs);
           setStrategiesInitialized(true);
         }
@@ -99,14 +98,17 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         setShareView(false);
         setStrategiesInitialized(false);
       }
+      const engine = new Engine(calculations[calculationId].rules);
       engine.run(inputs, resultRuleCodes);
+      setEngine(engine);
+      setCalculationId(calculationId);
       setFormInputs(inputs);
       setRules(engine.showRulesArray());
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));
       throw new Error(JSON.stringify(err, null, 2));
     }
-  }, [engine, projectId, account, setRules, setProject]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [calculations, defaultCalculationId, projectId, accountId, isAdmin]);
 
   // Initialize the engine with saved project data, as appropriate.
   // Should run only when projectId changes.
@@ -129,8 +131,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     // console.log(showWork);
     // update state with modified updatedFormInputs and rules
     setFormInputs(updatedFormInputs);
-    // eslint-disable-next-line no-console
-    console.log("recalculate rules");
+    // console.log("recalculate rules");
     setRules(rules);
     setFormHasSaved(false);
     if (strategiesDeselected) {
@@ -308,7 +309,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   // In either case, navigate to first page
   const onResetProject = async () => {
     setPartialAIN(""); // In case there is a partial AIN entered, clear it
-    await fetchRules();
     await initializeEngine();
     const firstPage = "/calculation/1" + (projectId ? `/${projectId}` : "/0");
     navigate(firstPage);
@@ -341,7 +341,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       earnedPoints: getRuleByCode("PTS_EARNED").value,
       projectLevel: getRuleByCode("PROJECT_LEVEL").value,
       loginId: account.id,
-      calculationId: TdmCalculationContainer.calculationId
+      calculationId: calculationId
     };
     if (!requestBody.name) {
       toast.add("You must give the project a name before saving.");
@@ -432,8 +432,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     />
   );
 }
-
-TdmCalculationContainer.calculationId = 1;
 
 TdmCalculationContainer.propTypes = {
   contentContainerRef: PropTypes.object
