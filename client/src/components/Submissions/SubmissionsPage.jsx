@@ -483,7 +483,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                   type="search"
                   id="filterText"
                   name="filterText"
-                  placeholder="Search by Name; Address; Description; Alt#"
+                  placeholder="Search by Project Name; Address; Staff Assigned"
                   value={filterCriteria.filterText}
                   onChange={e => handleFilterTextChange(e.target.value)}
                 />
