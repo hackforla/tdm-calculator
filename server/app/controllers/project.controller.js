@@ -70,7 +70,11 @@ const put = async (req, res) => {
       return;
     }
 
-    await projectService.put(req.body);
+    const result = await projectService.put(req.body);
+    if (result === 1) {
+      // Stored Proc rejected the update because project is a snapshot
+      res.sendStatus(403);
+    }
     res.sendStatus(204);
   } catch (err) {
     res.status(500).send(err);
