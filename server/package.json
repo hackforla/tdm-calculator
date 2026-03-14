@@ -46,7 +46,7 @@
   "devDependencies": {
     "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.5",
-    "@testcontainers/mssqlserver": "^10.23.0",
+    "@testcontainers/mssqlserver": "^11.12.0",
     "babel-jest": "^30.2.0",
     "baseline-browser-mapping": "^2.9.18",
     "eslint": "^8.53.0",
@@ -59,7 +59,7 @@
     "nodemon": "^3.1.9",
     "prettier": "^3.5.3",
     "supertest": "^7.1.0",
-    "testcontainers": "^10.23.0"
+    "testcontainers": "^11.12.0"
   },
   "lint-staged": {
     "*.{js,md}": "prettier --write",
