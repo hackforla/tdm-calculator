@@ -376,7 +376,8 @@ const TdmCalculationWizard = props => {
       (!(account.isAdmin || account.id === loginId) ||
         !!project.dateSnapshotted)
     ) {
-      navigate(`/calculation/5/${projectId}`);
+      // {replace: true} used to prevent user from going back to the page they don't have access to with the back button
+      navigate(`/calculation/5/${projectId}`, { replace: true });
     } // eslint-disable-next-line
   }, [projectId, account, loginId, navigate]);
 
@@ -417,8 +418,10 @@ const TdmCalculationWizard = props => {
     const loggedIn = !!account && !!account.id;
     const notASavedProject = !projectId;
     const projectBelongsToUser = account && account.id === loginId;
+    const isDraft = !project.dateSnapshotted;
     const setDisabled = !(
       loggedIn &&
+      isDraft &&
       (notASavedProject || projectBelongsToUser) &&
       formIsDirty &&
       projectIsValid()
