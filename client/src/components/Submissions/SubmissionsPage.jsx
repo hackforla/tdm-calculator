@@ -111,10 +111,10 @@ const useStyles = createUseStyles(theme => ({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: "#002E6D",
-    color: "white",
-    "& td": {
-      padding: "12px"
+    backgroundColor: theme.colors.secondary.darkNavy,
+    color: theme.colors.primary.white,
+    "& th": {
+      padding: "4px 12px"
     }
   },
   theadLabel: {
@@ -133,6 +133,10 @@ const useStyles = createUseStyles(theme => ({
       borderBottom: "1px solid #E7EBF0"
     },
     "& tr td": {
+      padding: "12px",
+      verticalAlign: "top"
+    },
+    "& tr th": {
       padding: "12px",
       verticalAlign: "top"
     },
@@ -165,7 +169,7 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "center"
   },
   optionItems: {
-    backgroundColor: "white",
+    backgroundColor: theme.colors.primary.white,
     "&:hover": {
       backgroundColor: "silver"
     }
@@ -526,27 +530,25 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                   <tr className={classes.tr}>
                     {headerData.map(header => {
                       return (
-                        <td key={header.id}>
-                          <th className={classes.stickyTh}>
-                            <ProjectTableColumnHeader
-                              projects={projects}
-                              filter={filter}
-                              header={header}
-                              criteria={filterCriteria}
-                              setCriteria={setFilter}
-                              setSort={setSort}
-                              orderBy={
-                                sortCriteria[sortCriteria.length - 1].field
-                              }
-                              order={
-                                sortCriteria[sortCriteria.length - 1].direction
-                              }
-                              setCheckedProjectIds={null}
-                              setSelectAllChecked={null}
-                              droOptions={null}
-                            />
-                          </th>
-                        </td>
+                        <th key={header.id} className={classes.stickyTh}>
+                          <ProjectTableColumnHeader
+                            projects={projects}
+                            filter={filter}
+                            header={header}
+                            criteria={filterCriteria}
+                            setCriteria={setFilter}
+                            setSort={setSort}
+                            orderBy={
+                              sortCriteria[sortCriteria.length - 1].field
+                            }
+                            order={
+                              sortCriteria[sortCriteria.length - 1].direction
+                            }
+                            setCheckedProjectIds={null}
+                            setSelectAllChecked={null}
+                            droOptions={null}
+                          />
+                        </th>
                       );
                     })}
                   </tr>
@@ -560,7 +562,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                           background: project.dateTrashed ? "#ffdcdc" : ""
                         }}
                       >
-                        <Td align="right">{formatId(project.id)}</Td>
+                        <Td>{formatId(project.id)}</Td>
                         <TdExpandable>
                           <Link to={`/calculation/1/${project.id}`}>
                             {project.name}
