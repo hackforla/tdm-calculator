@@ -71,7 +71,6 @@ const useStyles = createUseStyles(theme => ({
   },
   subheading: {
     ...theme.typography.subHeading,
-    // width: "100%",
     lineHeight: "1.2rem",
     marginTop: "0rem",
     marginBottom: "0rem"
@@ -84,7 +83,6 @@ const useStyles = createUseStyles(theme => ({
     maxWidth: "100%",
     width: "27rem",
     padding: "12px 12px 12px 48px"
-    // marginRight: "0.5rem"
   },
   searchIcon: {
     position: "absolute",

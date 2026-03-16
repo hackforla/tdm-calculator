@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { Navigate, Link } from "react-router-dom";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
 import UserContext from "../../contexts/UserContext";
 import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import RolesTableRow from "./RolesTableRow";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   main: {
     display: "flex",
     flexDirection: "column",
@@ -47,8 +47,8 @@ const useStyles = createUseStyles({
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: "#0f2940",
-    color: "white",
+    backgroundColor: theme.colors.primary.navy,
+    color: theme.colors.primary.white,
     position: "sticky",
     top: "0",
     "& td": {
@@ -93,15 +93,16 @@ const useStyles = createUseStyles({
     cursor: "not-allowed",
     opacity: 0.5
   }
-});
+}));
 
 const Roles = ({ contentContainerRef }) => {
+  const theme = useTheme();
   const [accounts, setAccounts] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [redirectPath, setRedirectPath] = useState("");
   const [hoveredRow, setHoveredRow] = useState(null);
-  const classes = useStyles();
+  const classes = useStyles(theme);
   const toast = useToast();
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
