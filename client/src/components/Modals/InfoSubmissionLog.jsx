@@ -31,7 +31,7 @@ const useStyles = createUseStyles(theme => ({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: theme.colors.primary.darkNavy,
+    backgroundColor: theme.colors.primary.navy,
     color: theme.colors.primary.white,
     "& td": {
       padding: "12px"

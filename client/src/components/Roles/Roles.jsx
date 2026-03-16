@@ -47,7 +47,7 @@ const useStyles = createUseStyles(theme => ({
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: theme.colors.primary.navy,
+    backgroundColor: theme.colors.primary.darkNavy,
     color: theme.colors.primary.white,
     position: "sticky",
     top: "0",
