@@ -226,7 +226,7 @@ const ProjectContextMenu = ({
                 style={{ color: theme.colorCritical }}
                 alt={`Delete Project Icon`}
               />
-              Delete
+              <p style={{ color: theme.colorCritical, fontSize: 20 }}>Delete</p>
             </>
           )}
         </li>
