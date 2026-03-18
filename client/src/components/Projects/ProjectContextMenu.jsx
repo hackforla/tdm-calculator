@@ -21,9 +21,8 @@ const useStyles = createUseStyles(theme => ({
   list: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start",
     listStyleType: "none",
-    fontSize: "18px",
+    fontSize: "20px",
     margin: 0,
     padding: 0
   },
