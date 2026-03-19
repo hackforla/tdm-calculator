@@ -51,7 +51,7 @@ const DEFAULT_FILTER_CRITERIA = {
   onHold: null
 };
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   filter: {
     overflow: "hidden",
     flexBasis: "18rem",
@@ -102,10 +102,10 @@ const useStyles = createUseStyles({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: "#002E6D",
-    color: "white",
-    "& td": {
-      padding: "12px"
+    backgroundColor: theme.colors.secondary.darkNavy,
+    color: theme.colors.primary.white,
+    "& th": {
+      padding: "4px 12px"
     }
   },
   theadLabel: {
@@ -119,15 +119,6 @@ const useStyles = createUseStyles({
     textAlign: "left",
     width: "5%"
   },
-  tdRightAlign: {
-    padding: "0.2em",
-    textAlign: "right"
-  },
-  tdCenterAlign: {
-    padding: "0.2em",
-    textAlign: "center"
-  },
-
   labelSpan: {
     display: "inline-flex" // fix arrow
   },
@@ -141,6 +132,10 @@ const useStyles = createUseStyles({
       borderBottom: "1px solid #E7EBF0"
     },
     "& tr td": {
+      padding: "12px",
+      verticalAlign: "top"
+    },
+    "& tr th": {
       padding: "12px",
       verticalAlign: "top"
     },
@@ -182,7 +177,7 @@ const useStyles = createUseStyles({
   itemsPerPage: {
     marginLeft: "5px"
   }
-});
+}));
 
 const ManageSubmissions = ({ contentContainerRef }) => {
   const classes = useStyles();

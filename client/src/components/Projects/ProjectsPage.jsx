@@ -62,7 +62,7 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateModifiedAdmin: null
 };
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   pageTitle: {
     marginTop: "20px",
     marginBottom: "-45px"
@@ -172,10 +172,10 @@ const useStyles = createUseStyles({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: "#0F2940",
+    backgroundColor: theme.colors.secondary.darkNavy,
     color: "white",
-    "& td": {
-      padding: "12px"
+    "& th": {
+      padding: "4px 12px"
     }
   },
   theadLabel: {
@@ -189,7 +189,7 @@ const useStyles = createUseStyles({
     verticalAlign: "baseline"
   },
   tbody: {
-    background: "#F9FAFB",
+    background: theme.colors.primary.white,
     "& tr": {
       borderBottom: "1px solid #E7EBF0"
     },
@@ -234,7 +234,7 @@ const useStyles = createUseStyles({
   itemsPerPage: {
     marginLeft: "5px"
   }
-});
+}));
 
 const ProjectsPage = ({ contentContainerRef }) => {
   const classes = useStyles();

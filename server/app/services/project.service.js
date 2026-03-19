@@ -85,7 +85,8 @@ const put = async item => {
     request.input("loginId", mssql.Int, item.loginId);
     request.input("calculationId", mssql.Int, item.calculationId);
     request.input("id", mssql.Int, item.id);
-    await request.execute("Project_Update");
+    const response = await request.execute("Project_Update");
+    return response.returnValue;
   } catch (err) {
     return Promise.reject(err);
   }
