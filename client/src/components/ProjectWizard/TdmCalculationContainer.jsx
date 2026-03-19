@@ -83,10 +83,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
           let project = projectResponse.data;
           // We use the default calculationId unless the project is already submitted or
           // it has been explicitly set to something other that tne default.
-          if (
-            project.isCalculationIdOverride ||
-            projectResponse.dateSubmitted
-          ) {
+          if (project.isCalculationIdOverride || project.dateSubmitted) {
             calculationId = project.calculationId;
           }
           setProject(projectResponse.data);
