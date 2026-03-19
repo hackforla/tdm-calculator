@@ -294,7 +294,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  // const [projectData, setProjectData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [droOptions, setDroOptions] = useState([]);
@@ -308,7 +307,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     fetchDroOptions(setDroOptions);
   }, []);
 
-  // const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
     checkedProjectIds,
     projects
@@ -1113,7 +1111,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 checkedProjectIds={checkedProjectIds}
                 criteria={filterCriteria}
                 checkedProjectsStatusData={checkedProjectsStatusData}
-                // pdfProjectData={projectData}
                 isActiveProjectsTab={isActiveProjectsTab}
               />
             </div>
@@ -1136,7 +1133,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     type="search"
                     id="filterText"
                     name="filterText"
-                    placeholder="Search by Name; Address; Description; Alt#"
+                    placeholder="Search by Project Name, Address, Alt No., Description"
                     value={filterCriteria.filterText}
                     onChange={e => handleFilterTextChange(e.target.value)}
                     aria-label="Search for project"
