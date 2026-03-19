@@ -20,7 +20,7 @@ const DefaultView = ({ aboutList }) => {
     <>
       {aboutList.map(about => (
         <div key={about.id}>
-          <h3>{about.title}</h3>
+          <h2>{about.title}</h2>
           <Interweave
             transform={TransformExternalLink}
             content={about.content}
