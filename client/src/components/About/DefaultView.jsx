@@ -10,7 +10,7 @@ const useStyles = createUseStyles({
     padding: " 0 0.4em",
     color: "#00F"
   },
-  subHeaders: {
+  subheading: {
     fontSize: "20px"
   }
 });
@@ -24,7 +24,7 @@ const DefaultView = ({ aboutList }) => {
     <>
       {aboutList.map(about => (
         <div key={about.id}>
-          <h2 className={classes.subHeaders}>{about.title}</h2>
+          <h2 className={classes.subheading}>{about.title}</h2>
           <Interweave
             transform={TransformExternalLink}
             content={about.content}
