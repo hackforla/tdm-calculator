@@ -11,7 +11,8 @@ const useStyles = createUseStyles({
     color: "#00F"
   },
   subheading: {
-    fontSize: "20px"
+    fontSize: "20px",
+    margin: "1em 0"
   }
 });
 
