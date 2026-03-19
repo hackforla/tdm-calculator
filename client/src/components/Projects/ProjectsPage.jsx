@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { formatId } from "../../helpers/util";
 import { useNavigate } from "react-router-dom";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "../../contexts/UserContext";
 import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
@@ -173,7 +173,7 @@ const useStyles = createUseStyles(theme => ({
     zIndex: 1,
     fontWeight: "bold",
     backgroundColor: theme.colors.secondary.darkNavy,
-    color: "white",
+    color: theme.colors.primary.white,
     "& th": {
       padding: "4px 12px"
     }
@@ -237,7 +237,8 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const ProjectsPage = ({ contentContainerRef }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
     FILTER_CRITERIA_STORAGE_TAG,

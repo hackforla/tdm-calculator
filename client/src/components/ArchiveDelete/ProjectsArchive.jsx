@@ -36,8 +36,8 @@ const useStyles = createUseStyles(theme => ({
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: theme.colorText,
-    color: "white",
+    backgroundColor: theme.colors.primary.darkNavy,
+    color: theme.colors.primary.white,
     "& td": {
       padding: ".4em"
     }
@@ -59,7 +59,6 @@ const ProjectsArchive = () => {
   const [archivedProjects, setArchivedProjects] = useState([]);
   const theme = useTheme();
   const classes = useStyles(theme);
-  // const toast = useToast();
   const { add } = useToast();
 
   useEffect(() => {
