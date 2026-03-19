@@ -493,6 +493,7 @@ const ProjectTableRow = ({
         {projectRules && (
           <div>
             <Popup
+              contentStyle={{ width: "238px" }}
               className={classes.popover}
               trigger={
                 <button aria-label="context menu button" id={elementId}>
