@@ -71,6 +71,19 @@ const ProjectContextMenu = ({
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const account = userContext.account;
+  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
+
+  const name = `${project.lastName}, ${project.firstName}`;
+  const isLoggedInUser = name === loggedInUserName;
+  const projectStatus = project.dateSnapshotted ? "snapshot" : "draft";
+  const isSnapshotSubmitted =
+    project.dateSnapshotted === "snapshot" && Boolean(project.dateSubmitted);
+
+  const isDeleteValid =
+    (isLoggedInUser && projectStatus === "draft") ||
+    (isLoggedInUser && isSnapshotSubmitted);
+
+  console.log(project, "project");
 
   const handleClick = callback => {
     callback(project);
@@ -209,7 +222,7 @@ const ProjectContextMenu = ({
         <li
           onClick={() => handleClick(handleDeleteModalOpen)}
           className={classes.listItem}
-          style={{ borderTop: "1px solid #B3B3B3" }}
+          style={{ borderTop: isDeleteValid ? "1px solid #B3B3B3" : "none" }}
         >
           {project.dateTrashed ? (
             <>
@@ -220,14 +233,18 @@ const ProjectContextMenu = ({
               Restore from Trash
             </>
           ) : (
-            <>
-              <MdDelete
-                className={classes.listItemIcon}
-                style={{ color: theme.colorCritical }}
-                alt={`Delete Project Icon`}
-              />
-              <p style={{ color: theme.colorCritical, fontSize: 20 }}>Delete</p>
-            </>
+            isDeleteValid && (
+              <>
+                <MdDelete
+                  className={classes.listItemIcon}
+                  style={{ color: theme.colorCritical }}
+                  alt={`Delete Project Icon`}
+                />
+                <p style={{ color: theme.colorCritical, fontSize: 20 }}>
+                  Delete
+                </p>
+              </>
+            )
           )}
         </li>
       )}
