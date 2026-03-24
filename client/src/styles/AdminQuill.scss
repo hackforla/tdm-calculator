@@ -67,6 +67,14 @@ ol li[data-list="ordered"].ql-indent-2::before {
   content: none;
 }
 
+.ql-editor li[data-list="ordered"].ql-indent-1::before {
+  content: none;
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-2::before {
+  content: none;
+}
+
 .ql-editor li[data-list="ordered"].ql-indent-1 > .ql-ui:before {
   content: counter(list-1, lower-roman) ". " !important;
 }
