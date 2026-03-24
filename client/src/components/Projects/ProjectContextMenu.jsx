@@ -277,7 +277,7 @@ ProjectContextMenu.propTypes = {
   handleHide: PropTypes.func,
   ariaControlsId: PropTypes.string,
   isDroCommitted: PropTypes.func,
-  isProjectOwnerAndUser: PropTypes.bool,
+  isProjectOwnerAndUser: PropTypes.bool.isRequired,
   isSubmittingSnapshot: PropTypes.object
 };
 
