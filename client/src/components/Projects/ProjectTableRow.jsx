@@ -208,6 +208,12 @@ const ProjectTableRow = ({
   const [DROSelectionModalOpen, setDROSelectionModalOpen] = useState(false);
   const [changeVersionModalOpen, setChangeVersionModalOpen] = useState(false);
   const calculations = useContext(CalculationsContext);
+  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
+  const name = `${project.lastName}, ${project.firstName}`;
+  const isProjectOwnerAndUser = name === loggedInUserName;
+  const projectFirstNameLabel = isProjectOwnerAndUser
+    ? project.firstName + " (Me)"
+    : project.firstName;
 
   const isDroCommitted = () => {
     return committedDro ? true : false;
@@ -354,7 +360,7 @@ const ProjectTableRow = ({
       </TdExpandable>
       <TdExpandable>{project.address}</TdExpandable>
       <TdExpandable>{fallbackToBlank(formInputs.VERSION_NO)}</TdExpandable>
-      <TdExpandable>{`${project.lastName}, ${project.firstName}`}</TdExpandable>
+      <TdExpandable>{`${project.lastName}, ${projectFirstNameLabel}`}</TdExpandable>
       <Td>{formatDate(project.dateCreated)}</Td>
       <Td>
         <span>{formatDate(project.dateModified)}</span>
@@ -526,6 +532,7 @@ const ProjectTableRow = ({
                   }
                   handleHide={handleHide}
                   isDroCommitted={isDroCommitted}
+                  isProjectOwnerAndUser={isProjectOwnerAndUser}
                   isSubmittingSnapshot={isSubmittingSnapshot}
                 />
               )}

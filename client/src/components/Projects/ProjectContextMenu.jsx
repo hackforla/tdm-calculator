@@ -65,25 +65,20 @@ const ProjectContextMenu = ({
   handleHide,
   ariaControlsId,
   isDroCommitted,
+  isProjectOwnerAndUser,
   isSubmittingSnapshot
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const account = userContext.account;
-  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
-
-  const name = `${project.lastName}, ${project.firstName}`;
-  const isLoggedInUser = name === loggedInUserName;
   const projectStatus = project.dateSnapshotted ? "snapshot" : "draft";
   const isSnapshotSubmitted =
     project.dateSnapshotted === "snapshot" && Boolean(project.dateSubmitted);
 
   const isDeleteValid =
-    (isLoggedInUser && projectStatus === "draft") ||
-    (isLoggedInUser && isSnapshotSubmitted);
-
-  console.log(project, "project");
+    (isProjectOwnerAndUser && projectStatus === "draft") ||
+    (isProjectOwnerAndUser && isSnapshotSubmitted);
 
   const handleClick = callback => {
     callback(project);
@@ -267,6 +262,7 @@ ProjectContextMenu.propTypes = {
   handleHide: PropTypes.func,
   ariaControlsId: PropTypes.string,
   isDroCommitted: PropTypes.func,
+  isProjectOwnerAndUser: PropTypes.bool,
   isSubmittingSnapshot: PropTypes.object
 };
 
