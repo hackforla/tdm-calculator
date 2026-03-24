@@ -73,12 +73,26 @@ const ProjectContextMenu = ({
   const userContext = useContext(UserContext);
   const account = userContext.account;
   const projectStatus = project.dateSnapshotted ? "snapshot" : "draft";
-  const isSnapshotSubmitted =
-    project.dateSnapshotted === "snapshot" && Boolean(project.dateSubmitted);
+  const isSnapshotSubmitted = Boolean(project.dateSubmitted);
+  const getIsDeleteActionValid = () => {
+    if (isProjectOwnerAndUser && projectStatus === "draft") {
+      return true;
+    }
 
-  const isDeleteValid =
-    (isProjectOwnerAndUser && projectStatus === "draft") ||
-    (isProjectOwnerAndUser && isSnapshotSubmitted);
+    if (
+      isProjectOwnerAndUser &&
+      project.dateSnapshotted === "snapshot" &&
+      !isSnapshotSubmitted
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const isDeleteActionValid = getIsDeleteActionValid();
+
+  console.log(project.dateSubmitted, "date submitted");
 
   const handleClick = callback => {
     callback(project);
@@ -213,36 +227,37 @@ const ProjectContextMenu = ({
         )}
       </li>
 
-      {project.loginId !== account?.id ? null : (
-        <li
-          onClick={() => handleClick(handleDeleteModalOpen)}
-          className={classes.listItem}
-          style={{ borderTop: isDeleteValid ? "1px solid #B3B3B3" : "none" }}
-        >
-          {project.dateTrashed ? (
-            <>
-              <MdRestoreFromTrash
-                className={classes.listItemIcon}
-                alt={`Restore Project from Trash Icon`}
-              />
-              Restore from Trash
-            </>
-          ) : (
-            isDeleteValid && (
+      {project.loginId === account?.id &&
+        (project.dateTrashed || isDeleteActionValid) && (
+          <li
+            onClick={() => handleClick(handleDeleteModalOpen)}
+            className={classes.listItem}
+            style={{
+              borderTop: isDeleteActionValid ? "1px solid #B3B3B3" : "none"
+            }}
+          >
+            {project.dateTrashed ? (
+              <>
+                <MdRestoreFromTrash
+                  className={classes.listItemIcon}
+                  alt="Restore Project from Trash Icon"
+                />
+                Restore from Trash
+              </>
+            ) : (
               <>
                 <MdDelete
                   className={classes.listItemIcon}
                   style={{ color: theme.colorCritical }}
-                  alt={`Delete Project Icon`}
+                  alt="Delete Project Icon"
                 />
                 <p style={{ color: theme.colorCritical, fontSize: 20 }}>
                   Delete
                 </p>
               </>
-            )
-          )}
-        </li>
-      )}
+            )}
+          </li>
+        )}
     </ul>
   );
 };
