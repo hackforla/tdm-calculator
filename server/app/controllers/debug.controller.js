@@ -12,26 +12,26 @@ const memory = async (req, res) => {
   });
 };
 
-const heapDump = (req, res) => {
-  const heapdump = require("heapdump");
-  const os = require("os");
-  const path = require("path");
+// const heapDump = (req, res) => {
+//   const heapdump = require("heapdump");
+//   const os = require("os");
+//   const path = require("path");
 
-  const filename = path.join(os.tmpdir(), `heap-${Date.now()}.heapsnapshot`);
+//   const filename = path.join(os.tmpdir(), `heap-${Date.now()}.heapsnapshot`);
 
-  heapdump.writeSnapshot(filename, err => {
-    if (err) {
-      return res.status(500).send("Failed to generate heap snapshot");
-    }
+//   heapdump.writeSnapshot(filename, err => {
+//     if (err) {
+//       return res.status(500).send("Failed to generate heap snapshot");
+//     }
 
-    res.download(filename, () => {
-      // Delete file after download
-      require("fs").unlink(filename, () => {});
-    });
-  });
-};
+//     res.download(filename, () => {
+//       // Delete file after download
+//       require("fs").unlink(filename, () => {});
+//     });
+//   });
+// };
 
 module.exports = {
-  memory,
-  heapDump
+  memory
+  // heapDump
 };
