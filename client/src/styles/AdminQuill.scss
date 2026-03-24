@@ -27,3 +27,50 @@
 .ql-tooltip {
   display: none !important;
 }
+
+ol li[data-list="bullet"] {
+  list-style-type: disc;
+}
+
+ol {
+  counter-reset: ql-list-0 ql-list-1 ql-list-2;
+}
+
+ol li[data-list="ordered"] {
+  list-style: none;
+  counter-increment: ql-list-0;
+  counter-reset: ql-list-1 ql-list-2;
+}
+
+ol li[data-list="ordered"]::before {
+  content: counter(ql-list-0, decimal) ". ";
+}
+
+ol li[data-list="ordered"].ql-indent-1 {
+  counter-increment: ql-list-1;
+  counter-reset: ql-list-2;
+}
+
+ol li[data-list="ordered"].ql-indent-1::before {
+  content: counter(ql-list-1, lower-roman) ". ";
+}
+
+ol li[data-list="ordered"].ql-indent-2 {
+  counter-increment: ql-list-2;
+}
+
+ol li[data-list="ordered"].ql-indent-2::before {
+  content: counter(ql-list-2, lower-alpha) ". ";
+}
+
+.ql-editor li[data-list="ordered"]::before {
+  content: none;
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-1 > .ql-ui:before {
+  content: counter(list-1, lower-roman) ". " !important;
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-2 > .ql-ui:before {
+  content: counter(list-2, lower-alpha) ". " !important;
+}
