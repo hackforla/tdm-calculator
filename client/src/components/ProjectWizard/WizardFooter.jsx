@@ -78,6 +78,10 @@ const WizardFooter = ({
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id || null;
 
+  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
+  const name = `${project.lastName}, ${project.firstName}`;
+  const isProjectOwnerAndUser = name === loggedInUserName;
+
   const isAdmin = userContext.account?.isAdmin || false;
   const { firstName, lastName, email } = project;
 
@@ -178,6 +182,7 @@ const WizardFooter = ({
                         handleDROModalOpenWithPreCheck
                       }
                       isDroCommitted={isDroCommitted}
+                      isProjectOwnerAndUser={isProjectOwnerAndUser}
                       isSubmittingSnapshot={isSubmittingSnapshot}
                     />
                   )}
