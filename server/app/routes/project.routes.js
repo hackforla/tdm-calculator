@@ -76,6 +76,7 @@ router.put(
 );
 router.put(
   "/updateCalculationId/:id",
+  writeLimiter,
   jwtSession.validateRoles(["isAdmin"]),
   projectController.updateCalculationId
 );

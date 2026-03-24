@@ -22,12 +22,15 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     listStyleType: "none",
+    fontSize: "20px",
     margin: 0,
     padding: 0
   },
   listItem: {
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
+    color: theme.colors.secondary.darkNavy,
     padding: "0.5rem",
     "&:hover": {
       background: "#B2C0D3",
@@ -37,10 +40,14 @@ const useStyles = createUseStyles(theme => ({
   listItemDisabled: {
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
     padding: "0.5rem",
     color: theme.colors.secondary.mediumGray
   },
-  listItemIcon: { marginRight: "0.3rem" }
+  listItemIcon: {
+    fontSize: "28px",
+    marginRight: "0.5rem"
+  }
 }));
 
 const ProjectContextMenu = ({
@@ -202,7 +209,7 @@ const ProjectContextMenu = ({
         <li
           onClick={() => handleClick(handleDeleteModalOpen)}
           className={classes.listItem}
-          style={{ borderTop: "1px solid black" }}
+          style={{ borderTop: "1px solid #B3B3B3" }}
         >
           {project.dateTrashed ? (
             <>
@@ -219,7 +226,7 @@ const ProjectContextMenu = ({
                 style={{ color: theme.colorCritical }}
                 alt={`Delete Project Icon`}
               />
-              Delete
+              <p style={{ color: theme.colorCritical, fontSize: 20 }}>Delete</p>
             </>
           )}
         </li>

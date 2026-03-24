@@ -309,7 +309,7 @@ const ProjectTableRow = ({
 
   return (
     <tr key={project.id}>
-      <Td align="center">
+      <Td>
         <label htmlFor={project.id + "-checkbox"} className="sr-only">
           Select project {project.name}
         </label>
@@ -326,13 +326,13 @@ const ProjectTableRow = ({
           <MdVisibilityOff
             alt={`Project Is Hidden`}
             title={`Project is hidden`}
-            style={{ width: "2em" }}
+            style={{ width: "1em" }}
           />
         ) : (
           <MdVisibility
             alt={`Project Is Visible`}
             title={`Project is visible`}
-            style={{ width: "2em" }}
+            style={{ width: "1em" }}
           />
         )}
       </Td>
@@ -493,6 +493,7 @@ const ProjectTableRow = ({
         {projectRules && (
           <div>
             <Popup
+              contentStyle={{ width: "238px" }}
               className={classes.popover}
               trigger={
                 <button aria-label="context menu button" id={elementId}>

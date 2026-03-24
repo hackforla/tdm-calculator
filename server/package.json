@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-api",
-  "version": "0.2.70",
+  "version": "0.2.71",
   "description": "Transportation Demand Management Calculator",
   "repository": {
     "type": "git",
@@ -28,13 +28,13 @@
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dompurify": "^3.3.0",
+    "dompurify": "^3.3.2",
     "dotenv": "^16.4.7",
     "error-handler": "^1.0.0",
     "express": "^4.22.1",
     "express-json-validator-middleware": "^3.0.1",
     "express-pino-logger": "^7.0.0",
-    "express-rate-limit": "^8.2.1",
+    "express-rate-limit": "^8.2.2",
     "heapdump": "^0.3.15",
     "helmet": "^8.1.0",
     "jsdom": "27.0.0",
