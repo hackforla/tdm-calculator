@@ -81,7 +81,7 @@ const ProjectContextMenu = ({
 
     if (
       isProjectOwnerAndUser &&
-      project.dateSnapshotted === "snapshot" &&
+      projectStatus === "snapshot" &&
       !isSnapshotSubmitted
     ) {
       return true;
@@ -91,8 +91,6 @@ const ProjectContextMenu = ({
   };
 
   const isDeleteActionValid = getIsDeleteActionValid();
-
-  console.log(project.dateSubmitted, "date submitted");
 
   const handleClick = callback => {
     callback(project);
