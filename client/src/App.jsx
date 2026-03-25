@@ -8,9 +8,11 @@ import {
   Navigate
 } from "react-router-dom";
 import RequireAuth from "./components/Authorization/RequireAuth";
+import Loader from "react-loader";
 
 // Layout Routes
 import ClientAreaLayout from "./components/Layout/ClientAreaLayout";
+import CalculationContextLayout from "./components/Layout/CalculationContextLayout";
 import PlainSidebarLayout from "./components/Layout/PlainSidebarLayout";
 
 // Path Routes
@@ -58,51 +60,83 @@ const App = () => {
             <ClientAreaLayout appContainerRef={appContainerRef} />
           </div>
         }
-        loader={async () => {
-          const configs = await getConfigs();
-          const calculations = await getCalculations(true);
-          return { configs, calculations };
-        }}
+        // loader={async () => {
+        //   const configs = await getConfigs();
+        //   const calculations = await getCalculations(true);
+        //   return { configs, calculations };
+        // }}
+        // HydrateFallback={() => {
+        //   return <div>Loading...</div>;
+        // }}
       >
-        {/* These routes either have no sidebar or use a custom sidebar */}
+        {/* These routes depend on ConfigContext and CalculationContext */}
         <Route
-          path="/projects"
           element={
-            <RequireAuth>
-              <ProjectsPage contentContainerRef={contentContainerRef} />
-            </RequireAuth>
+            <div>
+              <CalculationContextLayout />
+            </div>
           }
-        />
-        <Route
-          path={sharedProjectPath}
-          element={
-            <TdmCalculationContainer
-              contentContainerRef={contentContainerRef}
-            />
-          }
-        />
-        <Route
-          path={calculationPath}
-          element={
-            <TdmCalculationContainer
-              contentContainerRef={contentContainerRef}
-            />
-          }
-        />
-        <Route
-          path="/calculation"
-          element={<Navigate to="/calculation/1/0" />}
-        />
+          loader={async () => {
+            const configs = await getConfigs();
+            const calculations = await getCalculations(true);
+            return { configs, calculations };
+          }}
+          HydrateFallback={() => {
+            return (
+              <div
+                style={{
+                  width: "100%",
+                  height: "80vh",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Loader loaded={false} className="spinner" left="auto" />
+              </div>
+            );
+          }}
+        >
+          <Route
+            path="/projects"
+            element={
+              <RequireAuth>
+                <ProjectsPage contentContainerRef={contentContainerRef} />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={sharedProjectPath}
+            element={
+              <TdmCalculationContainer
+                contentContainerRef={contentContainerRef}
+              />
+            }
+          />
+          <Route
+            path={calculationPath}
+            element={
+              <TdmCalculationContainer
+                contentContainerRef={contentContainerRef}
+              />
+            }
+          />
+          <Route
+            path="/calculation"
+            element={<Navigate to="/calculation/1/0" />}
+          />
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth roles={["isAdmin"]}>
+                <Admin />
+              </RequireAuth>
+            }
+          />
+        </Route>
 
+        {/* These routes either have no sidebar or use a custom sidebar */}
         <Route path="/" element={<Navigate to={"/calculation/1/0"} />} />
-        <Route
-          path="/admin"
-          element={
-            <RequireAuth roles={["isAdmin"]}>
-              <Admin />
-            </RequireAuth>
-          }
-        />
         <Route path="/design" element={<Design />} />
         <Route path="/offline" element={<Offline />} />
         {/* Layout Route adds plain Sidebar */}
