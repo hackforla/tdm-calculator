@@ -149,6 +149,7 @@ const WizardFooter = ({
               <div>
                 <Popup
                   className={classes.popover}
+                  contentStyle={{ width: "238px" }}
                   trigger={
                     // needs element wrapped around Button so reactjs-popup has something to anchor on
                     <div id={elementId}>
