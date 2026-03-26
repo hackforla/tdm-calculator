@@ -92,8 +92,9 @@ const EmailRules = ({ value, touched, classes }) => {
       valid: /^[a-zA-Z0-9].*[a-zA-Z0-9]$/.test(value)
     },
     {
-      label: "You can use letters, numbers, apostrophe, hyphen and period only",
-      valid: /^[a-zA-Z0-9@.'-]+$/.test(value)
+      label:
+        "You can use letters, numbers, apostrophe, hyphen, period and a plus sign only",
+      valid: /^[a-zA-Z0-9@.'+-]+$/.test(value)
     }
   ];
 
