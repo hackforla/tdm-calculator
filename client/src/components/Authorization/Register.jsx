@@ -25,9 +25,6 @@ const useStyles = createUseStyles(theme => ({
     ...theme.typography.heading1,
     textAlign: "auto"
   },
-  formGroup: {
-    marginBottom: 16
-  },
   inputRow: {
     display: "flex",
     alignItems: "center",
@@ -359,7 +356,7 @@ const Register = props => {
                   </div>
 
                   {/* Last Name */}
-                  <div className={`form-group ${classes.formGroup}`}>
+                  <div className={"form-group"}>
                     <div className={classes.inputRow}>
                       <Field
                         type="text"
@@ -391,11 +388,13 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    <EmailRules
-                      value={values.email}
-                      touched={touched.email}
-                      classes={classes}
-                    />
+                    {touched.email && (
+                      <EmailRules
+                        value={values.email}
+                        touched={touched.email}
+                        classes={classes}
+                      />
+                    )}
                   </div>
 
                   {/* Password */}
@@ -418,11 +417,13 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    <PasswordRules
-                      value={values.password}
-                      touched={touched.password}
-                      classes={classes}
-                    />
+                    {touched.password && (
+                      <PasswordRules
+                        value={values.password}
+                        touched={touched.password}
+                        classes={classes}
+                      />
+                    )}
                   </div>
 
                   {/* Confirm Password */}
