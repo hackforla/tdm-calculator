@@ -4,7 +4,11 @@ import * as accountService from "../../services/account.service";
 import { createUseStyles, useTheme } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaExclamationCircle
+} from "react-icons/fa";
 import PropTypes from "prop-types";
 
 import Button from "../Button/Button";
@@ -74,8 +78,6 @@ ValidationIcon.propTypes = {
 };
 
 const EmailRules = ({ value, touched, classes }) => {
-  if (!touched) return null;
-
   const rules = [
     {
       label:
@@ -96,15 +98,19 @@ const EmailRules = ({ value, touched, classes }) => {
     <div>
       {rules.map((rule, index) => (
         <div key={index} className={classes.multiRowFeedback}>
-          {rule.valid ? (
-            <FaCheckCircle
-              className={`${classes.fieldIcon} ${classes.validIcon}`}
-            />
-          ) : (
-            <FaTimesCircle
-              className={`${classes.fieldIcon} ${classes.invalidIcon}`}
-            />
-          )}
+          {/* Only show the icon if the user has entered something */}
+          {value &&
+            value.trim() !== "" &&
+            touched &&
+            (rule.valid ? (
+              <FaCheckCircle
+                className={`${classes.fieldIcon} ${classes.validIcon}`}
+              />
+            ) : (
+              <FaTimesCircle
+                className={`${classes.fieldIcon} ${classes.invalidIcon}`}
+              />
+            ))}
           <span>{rule.label}</span>
         </div>
       ))}
@@ -125,8 +131,6 @@ EmailRules.propTypes = {
 };
 
 const PasswordRules = ({ value, touched, classes }) => {
-  if (!touched) return null;
-
   const rules = [
     {
       label: "Password must contain at least 12 characters",
@@ -155,15 +159,19 @@ const PasswordRules = ({ value, touched, classes }) => {
     <div>
       {rules.map((rule, index) => (
         <div key={index} className={classes.multiRowFeedback}>
-          {rule.valid ? (
-            <FaCheckCircle
-              className={`${classes.fieldIcon} ${classes.validIcon}`}
-            />
-          ) : (
-            <FaTimesCircle
-              className={`${classes.fieldIcon} ${classes.invalidIcon}`}
-            />
-          )}
+          {/* Only show the icon if user has entered something */}
+          {value &&
+            value.trim() !== "" &&
+            touched &&
+            (rule.valid ? (
+              <FaCheckCircle
+                className={`${classes.fieldIcon} ${classes.validIcon}`}
+              />
+            ) : (
+              <FaTimesCircle
+                className={`${classes.fieldIcon} ${classes.invalidIcon}`}
+              />
+            ))}
           <span>{rule.label}</span>
         </div>
       ))}
@@ -200,7 +208,7 @@ const ConfirmPasswordRule = ({
           className={`${classes.fieldIcon} ${classes.validIcon}`}
         />
       ) : (
-        <FaTimesCircle
+        <FaExclamationCircle
           className={`${classes.fieldIcon} ${classes.invalidIcon}`}
         />
       )}
