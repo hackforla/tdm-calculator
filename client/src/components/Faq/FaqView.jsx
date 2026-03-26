@@ -166,8 +166,7 @@ const FaqView = () => {
     for (let i = 0; i < categories.length; i++) {
       if (categories[i].faqs) {
         categories[i].faqs = categories[i].faqs.map(faq => {
-          // eslint-disable-next-line no-unused-vars
-          const { expand, ...rest } = faq;
+          const { ...rest } = faq;
           return rest;
         });
       }

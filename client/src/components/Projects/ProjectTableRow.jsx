@@ -154,7 +154,7 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
     textUpdated
   };
 }
-/* eslint-disable no-unused-vars */
+
 const ProjectTableRow = ({
   project,
   handleCsvModalOpen,
@@ -172,8 +172,6 @@ const ProjectTableRow = ({
   onAdminNoteUpdate,
   isActiveProjectsTab,
   handleProjectUpdate,
-  idx,
-  // rawRules,
   setTargetNotReachedModalOpen,
   isSubmittingSnapshot
 }) => {
@@ -185,7 +183,6 @@ const ProjectTableRow = ({
   const [calculate] = useCalculator();
   const {
     showWarningModal,
-    setShowWarningModal,
     isEditing,
     isNewNote,
     adminNotes,
@@ -544,7 +541,6 @@ const ProjectTableRow = ({
     </tr>
   );
 };
-/* eslint-enable no-unused-vars */
 
 ProjectTableRow.propTypes = {
   project: PropTypes.any,
@@ -570,7 +566,6 @@ ProjectTableRow.propTypes = {
   isActiveProjectsTab: PropTypes.bool.isRequired,
   handleProjectUpdate: PropTypes.func.isRequired,
   idx: PropTypes.number,
-  // rawRules: PropTypes.any,
   setTargetNotReachedModalOpen: PropTypes.func.isRequired,
   isSubmittingSnapshot: PropTypes.object.isRequired
 };

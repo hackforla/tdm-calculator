@@ -25,7 +25,7 @@
   "plugins": ["react", "jest", "prettier", "eslint-plugin-react"],
   "rules": {
     "prettier/prettier": "error",
-    "no-console": ["warn", { "allow": ["error"] }],
+    "no-console": ["error", { "allow": ["error"] }],
     "no-alert": "error"
   },
   "settings": {

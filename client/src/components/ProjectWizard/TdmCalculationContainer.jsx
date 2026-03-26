@@ -3,7 +3,6 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import UserContext from "../../contexts/UserContext";
 import TdmCalculationWizard from "./TdmCalculationWizard";
-// import * as ruleService from "../../services/rule.service";
 import * as projectService from "../../services/project.service";
 import Engine from "../../services/tdm-engine";
 import { useToast } from "../../contexts/Toast";
@@ -107,8 +106,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     }
   }, [calculations, defaultCalculationId, projectId, accountId, isAdmin]);
 
-  // Initialize the engine with saved project data, as appropriate.
-  // Should run only when projectId changes.
   useEffect(() => {
     initializeEngine();
   }, [projectId, initializeEngine]);
@@ -120,15 +117,8 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const recalculate = updatedFormInputs => {
     const strategiesDeselected = engine.run(updatedFormInputs, resultRuleCodes); //TODO cannot read property 'run' on null when switching from calculation to public form to create project
     const rules = engine.showRulesArray();
-    //The following several lines can be uncommented for debugging
-    // console.log("Updated Rules:");
-    // console.log(rules);
-    // const showWork = engine.showWork("PARK_REQUIREMENT");
-    // console.log("Show Work:");
-    // console.log(showWork);
-    // update state with modified updatedFormInputs and rules
+
     setFormInputs(updatedFormInputs);
-    // console.log("recalculate rules");
     setRules(rules);
     setFormHasSaved(false);
     if (strategiesDeselected) {
