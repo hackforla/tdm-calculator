@@ -124,7 +124,7 @@ const useStyles = createUseStyles({
     border: "1px solid #E7EBF0"
   },
   footerSpace: {
-    height: "100px"
+    height: "115px"
   },
   "@media (max-width: 768px)": {
     logoContainer: {

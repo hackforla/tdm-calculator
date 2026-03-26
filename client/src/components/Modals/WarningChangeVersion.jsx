@@ -11,6 +11,7 @@ import CalculationsContext from "../../contexts/CalculationsContext";
 import { formatDate } from "../../helpers/util";
 import * as projectService from "../../services/project.service";
 import useCalculator from "../../hooks/useCalculator";
+import { formatCalculation } from "../../helpers/Calculations";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -88,19 +89,6 @@ const ChangeVersionModal = ({
       proj.projectLevel
     );
     setPage(2);
-  };
-
-  const formatCalculation = calculation => {
-    const dateStart = calculation.dateStart
-      ? formatDate(calculation.dateStart)
-      : "";
-    const dateEnd = calculation.dateEnd
-      ? formatDate(calculation.dateEnd)
-      : "Present";
-    const dateRange = calculation.dateStart
-      ? `(${dateStart} - ${dateEnd})`
-      : "";
-    return `Version ${calculation.version} ${dateRange}`;
   };
 
   const calculationList = Object.values(calculations)
