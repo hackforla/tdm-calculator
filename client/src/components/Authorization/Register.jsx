@@ -41,7 +41,7 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colorPrimary
   },
   invalidIcon: {
-    color: theme.colors.secondary.darkRed
+    color: theme.colorCritical
   },
   multiRowFeedback: {
     display: "flex",
