@@ -69,6 +69,173 @@ ValidationIcon.propTypes = {
   }).isRequired
 };
 
+const EmailRules = ({ value, touched, classes }) => {
+  if (!touched) return null;
+
+  const rules = [
+    {
+      label:
+        "Your email must have at least one character before and after the @ symbol",
+      valid: /^[^@]+@[^@]+$/.test(value)
+    },
+    {
+      label: "Your email must begin and end with either a letter or a number",
+      valid: /^[a-zA-Z0-9].*[a-zA-Z0-9]$/.test(value)
+    },
+    {
+      label: "You can use letters, numbers, apostrophe, hyphen and period only",
+      valid: /^[a-zA-Z0-9@.'-]+$/.test(value)
+    }
+  ];
+
+  return (
+    <div>
+      {rules.map((rule, index) => (
+        <div key={index} className={classes.inputRow}>
+          {rule.valid ? (
+            <FaCheckCircle
+              className={`${classes.fieldIcon} ${classes.validIcon}`}
+            />
+          ) : (
+            <FaTimesCircle
+              className={`${classes.fieldIcon} ${classes.invalidIcon}`}
+            />
+          )}
+          <span>{rule.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+EmailRules.propTypes = {
+  touched: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  value: PropTypes.string.isRequired,
+  classes: PropTypes.shape({
+    fieldIcon: PropTypes.string.isRequired,
+    validIcon: PropTypes.string.isRequired,
+    invalidIcon: PropTypes.string.isRequired,
+    inputRow: PropTypes.string.isRequired,
+    invalidFeedback: PropTypes.string.isRequired
+  }).isRequired
+};
+
+const PasswordRules = ({ value, touched, classes }) => {
+  if (!touched) return null;
+
+  const rules = [
+    {
+      label: "Password must contain at least 12 characters",
+      valid: value.length >= 12
+    },
+    {
+      label: "Password must contain at least one number",
+      valid: /[0-9]/.test(value)
+    },
+    {
+      label: "Password must contain at least one capital letter",
+      valid: /[A-Z]/.test(value)
+    },
+    {
+      label:
+        "Password must contain one special character from the following list: !@#$%&*?",
+      valid: /[!@#$%&*?]/.test(value)
+    },
+    {
+      label: "Password must not contain any other special characters",
+      valid: value.length > 0 && /^[A-Za-z0-9!@#$%&*?]*$/.test(value)
+    }
+  ];
+
+  return (
+    <div>
+      {rules.map((rule, index) => (
+        <div key={index} className={classes.inputRow}>
+          {rule.valid ? (
+            <FaCheckCircle
+              className={`${classes.fieldIcon} ${classes.validIcon}`}
+            />
+          ) : (
+            <FaTimesCircle
+              className={`${classes.fieldIcon} ${classes.invalidIcon}`}
+            />
+          )}
+          <span>{rule.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+PasswordRules.propTypes = {
+  touched: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  value: PropTypes.string.isRequired,
+  classes: PropTypes.shape({
+    fieldIcon: PropTypes.string.isRequired,
+    validIcon: PropTypes.string.isRequired,
+    invalidIcon: PropTypes.string.isRequired,
+    inputRow: PropTypes.string.isRequired,
+    invalidFeedback: PropTypes.string.isRequired
+  }).isRequired
+};
+
+const ConfirmPasswordRule = ({
+  password,
+  confirmPassword,
+  touched,
+  classes
+}) => {
+  if (!touched) return null;
+
+  const hasValue = confirmPassword.length > 0;
+
+  return (
+    <div className={classes.inputRow}>
+      {hasValue && password === confirmPassword ? (
+        <FaCheckCircle
+          className={`${classes.fieldIcon} ${classes.validIcon}`}
+        />
+      ) : (
+        <FaTimesCircle
+          className={`${classes.fieldIcon} ${classes.invalidIcon}`}
+        />
+      )}
+
+      <span
+        className={
+          hasValue && password === confirmPassword
+            ? classes.validIcon
+            : classes.invalidFeedback
+        }
+      >
+        {!hasValue
+          ? "Confirm your password"
+          : password === confirmPassword
+            ? "Passwords match"
+            : "Passwords do not match"}
+      </span>
+    </div>
+  );
+};
+
+ConfirmPasswordRule.propTypes = {
+  password: PropTypes.string,
+  confirmPassword: PropTypes.string,
+  touched: PropTypes.bool,
+  length: PropTypes.number,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  value: PropTypes.string.isRequired,
+  classes: PropTypes.shape({
+    fieldIcon: PropTypes.string.isRequired,
+    validIcon: PropTypes.string.isRequired,
+    invalidIcon: PropTypes.string.isRequired,
+    inputRow: PropTypes.string.isRequired,
+    invalidFeedback: PropTypes.string.isRequired
+  }).isRequired
+};
+
 const Register = props => {
   const focusRef = useRef(null);
   const theme = useTheme();
@@ -158,10 +325,10 @@ const Register = props => {
               onSubmit={(values, actions) =>
                 handleSubmit(values, actions, props)
               }
-              validateOnChange={false}
+              validateOnChange={true}
               validateOnBlur={true}
             >
-              {({ touched, errors, isSubmitting }) => (
+              {({ touched, errors, values, isSubmitting }) => (
                 <Form>
                   {/* First Name */}
                   <div className={`form-group ${classes.formGroup}`}>
@@ -215,7 +382,11 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    <ErrorMessage name="email" component="div" />
+                    <EmailRules
+                      value={values.email}
+                      touched={touched.email}
+                      classes={classes}
+                    />
                   </div>
 
                   {/* Password */}
@@ -234,7 +405,11 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    <ErrorMessage name="password" component="div" />
+                    <PasswordRules
+                      value={values.password}
+                      touched={touched.password}
+                      classes={classes}
+                    />
                   </div>
 
                   {/* Confirm Password */}
@@ -253,7 +428,12 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    <ErrorMessage name="passwordConfirm" component="div" />
+                    <ConfirmPasswordRule
+                      password={values.password}
+                      confirmPassword={values.passwordConfirm}
+                      touched={touched.passwordConfirm}
+                      classes={classes}
+                    />
                   </div>
 
                   <Button
