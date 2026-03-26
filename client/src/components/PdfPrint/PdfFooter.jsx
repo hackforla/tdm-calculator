@@ -70,7 +70,8 @@ const PdfFooter = ({ project }) => {
             Snapshot Owner: {firstName} {lastName}, {email}
           </div>
           <div className={classes.pdfTimeText}>
-            Guidelines Version: {formatCalculation(calculations[project.calculationId])}
+            Guidelines Version:
+            {formatCalculation(calculations[project.calculationId])}
           </div>
           {isAdmin && (
             <div className={classes.pdfTimeText}>

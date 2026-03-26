@@ -26,7 +26,8 @@ export const getCalculations = async () => {
 };
 
 /*
-  Formats calculation
+  Formats calculation to string
+  Format: Version {version number} {date range (if applicable)}
 */
 export const formatCalculation = calculation => {
   const dateStart = calculation.dateStart
@@ -35,8 +36,6 @@ export const formatCalculation = calculation => {
   const dateEnd = calculation.dateEnd
     ? formatDate(calculation.dateEnd)
     : "Present";
-  const dateRange = calculation.dateStart
-    ? `(${dateStart} - ${dateEnd})`
-    : "";
+  const dateRange = calculation.dateStart ? `(${dateStart} - ${dateEnd})` : "";
   return `Version ${calculation.version} ${dateRange}`;
 };
