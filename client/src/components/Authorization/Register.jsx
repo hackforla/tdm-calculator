@@ -35,7 +35,8 @@ const useStyles = createUseStyles(theme => ({
   },
   fieldIcon: {
     fontSize: 18,
-    flexShrink: 0
+    flexShrink: 0,
+    width: 18
   },
   validIcon: {
     color: theme.colorPrimary
@@ -53,7 +54,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const ValidationIcon = ({ touched, error, classes }) => {
-  if (!touched) return null;
+  if (!touched) return <span className={classes.fieldIcon} />;
 
   return error ? (
     <FaTimesCircle className={`${classes.fieldIcon} ${classes.invalidIcon}`} />
