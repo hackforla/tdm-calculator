@@ -37,6 +37,12 @@ const useStyles = createUseStyles(theme => ({
     flex: 1,
     minWidth: 0
   },
+  inputInvalid: {
+    outline: `1px solid ${theme.colorCritical}`,
+    "&:focus": {
+      outline: `1px solid ${theme.colorCritical}`
+    }
+  },
   fieldIcon: {
     fontSize: 18,
     flexShrink: 0,
@@ -400,7 +406,11 @@ const Register = props => {
                         name="password"
                         placeholder="Password"
                         autoComplete="new-password"
-                        className="form-control"
+                        className={`form-control ${
+                          touched.password && values.password && errors.password
+                            ? classes.inputInvalid
+                            : ""
+                        }`}
                       />
                       <ValidationIcon
                         touched={touched.password}
@@ -423,7 +433,13 @@ const Register = props => {
                         name="passwordConfirm"
                         placeholder="Retype Password"
                         autoComplete="new-password"
-                        className="form-control"
+                        className={`form-control ${
+                          touched.passwordConfirm &&
+                          values.passwordConfirm &&
+                          errors.passwordConfirm
+                            ? classes.inputInvalid
+                            : ""
+                        }`}
                       />
                       <ValidationIcon
                         touched={touched.passwordConfirm}
