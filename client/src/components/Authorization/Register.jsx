@@ -21,7 +21,6 @@ const useStyles = createUseStyles(theme => ({
     ...theme.typography.heading1,
     textAlign: "auto"
   },
-
   formGroup: {
     marginBottom: 16
   },
@@ -39,13 +38,17 @@ const useStyles = createUseStyles(theme => ({
     flexShrink: 0
   },
   validIcon: {
-    color: "green"
+    color: theme.colorPrimary
   },
   invalidIcon: {
     color: theme.colors.secondary.darkRed
   },
-  invalidFeedback: {
-    color: theme.colors.secondary.darkRed
+  multiRowFeedback: {
+    display: "flex",
+    alignItems: "flex-start",
+    gap: 8,
+    marginTop: 4,
+    marginBottom: 6
   }
 }));
 
@@ -91,7 +94,7 @@ const EmailRules = ({ value, touched, classes }) => {
   return (
     <div>
       {rules.map((rule, index) => (
-        <div key={index} className={classes.inputRow}>
+        <div key={index} className={classes.multiRowFeedback}>
           {rule.valid ? (
             <FaCheckCircle
               className={`${classes.fieldIcon} ${classes.validIcon}`}
@@ -116,8 +119,7 @@ EmailRules.propTypes = {
     fieldIcon: PropTypes.string.isRequired,
     validIcon: PropTypes.string.isRequired,
     invalidIcon: PropTypes.string.isRequired,
-    inputRow: PropTypes.string.isRequired,
-    invalidFeedback: PropTypes.string.isRequired
+    multiRowFeedback: PropTypes.string.isRequired
   }).isRequired
 };
 
@@ -151,7 +153,7 @@ const PasswordRules = ({ value, touched, classes }) => {
   return (
     <div>
       {rules.map((rule, index) => (
-        <div key={index} className={classes.inputRow}>
+        <div key={index} className={classes.multiRowFeedback}>
           {rule.valid ? (
             <FaCheckCircle
               className={`${classes.fieldIcon} ${classes.validIcon}`}
@@ -176,8 +178,7 @@ PasswordRules.propTypes = {
     fieldIcon: PropTypes.string.isRequired,
     validIcon: PropTypes.string.isRequired,
     invalidIcon: PropTypes.string.isRequired,
-    inputRow: PropTypes.string.isRequired,
-    invalidFeedback: PropTypes.string.isRequired
+    multiRowFeedback: PropTypes.string.isRequired
   }).isRequired
 };
 
@@ -192,7 +193,7 @@ const ConfirmPasswordRule = ({
   const hasValue = confirmPassword.length > 0;
 
   return (
-    <div className={classes.inputRow}>
+    <div className={classes.multiRowFeedback}>
       {hasValue && password === confirmPassword ? (
         <FaCheckCircle
           className={`${classes.fieldIcon} ${classes.validIcon}`}
@@ -203,13 +204,7 @@ const ConfirmPasswordRule = ({
         />
       )}
 
-      <span
-        className={
-          hasValue && password === confirmPassword
-            ? classes.validIcon
-            : classes.invalidFeedback
-        }
-      >
+      <span>
         {!hasValue
           ? "Confirm your password"
           : password === confirmPassword
@@ -231,8 +226,7 @@ ConfirmPasswordRule.propTypes = {
     fieldIcon: PropTypes.string.isRequired,
     validIcon: PropTypes.string.isRequired,
     invalidIcon: PropTypes.string.isRequired,
-    inputRow: PropTypes.string.isRequired,
-    invalidFeedback: PropTypes.string.isRequired
+    multiRowFeedback: PropTypes.string.isRequired
   }).isRequired
 };
 
