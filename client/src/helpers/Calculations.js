@@ -1,4 +1,5 @@
 import * as calculationService from "../services/calculation.service";
+import { formatDate } from "./util";
 
 /*
   Gets all calculations from the database, and returns a dictionary with the 
@@ -22,4 +23,19 @@ export const getCalculations = async () => {
   } catch (err) {
     return [err];
   }
+};
+
+/*
+  Formats calculation to string
+  Format: Version {version number} {date range (if applicable)}
+*/
+export const formatCalculation = calculation => {
+  const dateStart = calculation.dateStart
+    ? formatDate(calculation.dateStart)
+    : "";
+  const dateEnd = calculation.dateEnd
+    ? formatDate(calculation.dateEnd)
+    : "Present";
+  const dateRange = calculation.dateStart ? `(${dateStart} - ${dateEnd})` : "";
+  return `Version ${calculation.version} ${dateRange}`;
 };
