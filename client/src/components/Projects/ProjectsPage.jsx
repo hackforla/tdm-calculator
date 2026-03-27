@@ -198,7 +198,7 @@ const useStyles = createUseStyles(theme => ({
       verticalAlign: "top"
     },
     "& tr:hover": {
-      background: "#B2C0D3"
+      background: theme.colorRowHighlight
     }
   },
   tdNoSavedProjects: {

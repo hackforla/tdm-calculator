@@ -16,6 +16,7 @@ export const jssTheme = {
   colorCriticalDisabled: "#D57461",
   colorDeselect: "#EEF1F4", //e.g. red
   colorHighlight: "#F0E300", //yellow
+  colorRowHighlight: "#B2C0D3", //light blue - for Highlighting selected row in a grid
   colorTooltipBackground: "#FFEDEA",
   // Drop Shadow Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
   colorDropShadow: "#00000040",
