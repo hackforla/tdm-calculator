@@ -111,9 +111,7 @@ const MultiProjectToolbarMenu = ({
     isBtnDisabled("dateHidden", "visibility");
 
   const isDelBtnDisabled =
-    !isProjectOwner ||
-    isBtnDisabled("dateTrashed", "status") ||
-    !isActiveProjectsTab;
+    !isProjectOwner || isBtnDisabled("dateTrashed", "status");
 
   const tooltipMsg = criteriaProp => {
     if (checkedProjectIds.length === 0) return;
