@@ -326,9 +326,6 @@ const Register = props => {
       {!submitted ? (
         <>
           <h1 className={classes.heading1}>Create a New Account</h1>
-          <h3>Save your project information.</h3>
-          <br />
-
           <div className="auth-form">
             <Formik
               initialValues={initialValues}
@@ -349,6 +346,7 @@ const Register = props => {
                         innerRef={focusRef}
                         name="firstName"
                         placeholder="First Name"
+                        aria-label="First Name"
                         className="form-control"
                       />
                       <ValidationIcon
@@ -367,6 +365,7 @@ const Register = props => {
                         type="text"
                         name="lastName"
                         placeholder="Last Name"
+                        aria-label="Last Name"
                         className="form-control"
                       />
                       <ValidationIcon
@@ -385,6 +384,7 @@ const Register = props => {
                         type="email"
                         name="email"
                         placeholder="Email"
+                        aria-label="Email"
                         className="form-control"
                       />
                       <ValidationIcon
@@ -410,6 +410,7 @@ const Register = props => {
                         name="password"
                         placeholder="Password"
                         autoComplete="new-password"
+                        aria-label="Password"
                         className={`form-control ${
                           touched.password && values.password && errors.password
                             ? classes.inputInvalid
@@ -439,6 +440,7 @@ const Register = props => {
                         name="passwordConfirm"
                         placeholder="Retype Password"
                         autoComplete="new-password"
+                        aria-label="Confirm Password"
                         className={`form-control ${
                           touched.passwordConfirm &&
                           values.passwordConfirm &&
