@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import FaqCategory from "./FaqCategory";
 
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Droppable, Draggable } from "@hello-pangea/dnd";
 
 const FaqCategoryList = props => {
   const {

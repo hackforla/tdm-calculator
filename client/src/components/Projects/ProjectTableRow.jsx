@@ -16,13 +16,15 @@ import { formatDate, formatId } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
-import fetchEngineRules from "./fetchEngineRules";
+import useCalculator from "../../hooks/useCalculator";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import { Td, TdExpandable } from "../UI/TableData";
 import DROSelectionModal from "../Modals/DROSelectionModal";
+import ChangeVersionModal from "../Modals/WarningChangeVersion";
 import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
+import CalculationsContext from "../../contexts/CalculationsContext";
 
 const useStyles = createUseStyles(theme => ({
   actionIcons: {
@@ -169,8 +171,9 @@ const ProjectTableRow = ({
   onDroChange,
   onAdminNoteUpdate,
   isActiveProjectsTab,
+  handleProjectUpdate,
   idx,
-  rawRules,
+  // rawRules,
   setTargetNotReachedModalOpen,
   isSubmittingSnapshot
 }) => {
@@ -179,6 +182,7 @@ const ProjectTableRow = ({
   const userContext = useContext(UserContext);
   const loginId = userContext?.account?.id;
   const isAdmin = userContext?.account?.isAdmin || false;
+  const [calculate] = useCalculator();
   const {
     showWarningModal,
     setShowWarningModal,
@@ -201,26 +205,27 @@ const ProjectTableRow = ({
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
   const [committedDro, setCommittedDro] = useState(project.droId || "");
-  // const [droName, setDroName] = useState(
-  //   droOptions.find(o => o.id === project.droId)?.name || "N/A"
-  // );
   const [DROSelectionModalOpen, setDROSelectionModalOpen] = useState(false);
+  const [changeVersionModalOpen, setChangeVersionModalOpen] = useState(false);
+  const calculations = useContext(CalculationsContext);
 
   const isDroCommitted = () => {
     return committedDro ? true : false;
   };
 
-  // Download and process rules for PDF rendering
   useEffect(() => {
-    const fetchRules = async () => {
-      const result = await fetchEngineRules(project, rawRules);
-      setProjectRules(result);
+    const fetchCalculatedRules = async () => {
+      try {
+        const calculatedRules = await calculate(project);
+        setProjectRules(calculatedRules);
+      } catch (error) {
+        console.error("Error calculating rules for project:", error);
+      }
     };
 
-    fetchRules()
-      // TODO: do we have better reporting than this?
-      .catch(console.error);
-  }, [project, rawRules]);
+    fetchCalculatedRules();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project]);
 
   useEffect(() => {
     setSelectedDro(project.droId || "");
@@ -304,7 +309,7 @@ const ProjectTableRow = ({
 
   return (
     <tr key={project.id}>
-      <Td align="center">
+      <Td>
         <label htmlFor={project.id + "-checkbox"} className="sr-only">
           Select project {project.name}
         </label>
@@ -321,13 +326,13 @@ const ProjectTableRow = ({
           <MdVisibilityOff
             alt={`Project Is Hidden`}
             title={`Project is hidden`}
-            style={{ width: "2em" }}
+            style={{ width: "1em" }}
           />
         ) : (
           <MdVisibility
             alt={`Project Is Visible`}
             title={`Project is visible`}
-            style={{ width: "2em" }}
+            style={{ width: "1em" }}
           />
         )}
       </Td>
@@ -404,7 +409,7 @@ const ProjectTableRow = ({
         )}
       </Td>
       {isAdmin && (
-        <div>
+        <Td>
           <button
             onClick={handleAdminNotesModalOpen}
             style={{
@@ -433,7 +438,7 @@ const ProjectTableRow = ({
             isNewNote={isNewNote}
             textUpdated={textUpdated}
           />
-        </div>
+        </Td>
       )}
       {isAdmin && (
         <WarningModal
@@ -452,10 +457,43 @@ const ProjectTableRow = ({
           </span>
         </Td>
       )}
+      {isAdmin && (
+        <Td>
+          <span
+            onClick={() => {
+              if (!project.dateSubmitted) {
+                setChangeVersionModalOpen(true);
+              }
+            }}
+            style={
+              !project.dateSubmitted
+                ? {
+                    color: "#0000FF",
+                    textDecoration: "underline",
+                    cursor: "pointer"
+                  }
+                : {}
+            }
+          >
+            {calculations[project.calculationId].version || "Beta"}
+          </span>
+          <ChangeVersionModal
+            isModalOpen={changeVersionModalOpen}
+            cancel={() => setChangeVersionModalOpen(false)}
+            close={() => {
+              setChangeVersionModalOpen(false);
+              handleProjectUpdate();
+            }}
+            project={project}
+            droOptions={droOptions}
+          />
+        </Td>
+      )}
       <td className={classes.actionIcons}>
         {projectRules && (
           <div>
             <Popup
+              contentStyle={{ width: "238px" }}
               className={classes.popover}
               trigger={
                 <button aria-label="context menu button" id={elementId}>
@@ -530,8 +568,9 @@ ProjectTableRow.propTypes = {
   onDroChange: PropTypes.func.isRequired,
   onAdminNoteUpdate: PropTypes.func.isRequired,
   isActiveProjectsTab: PropTypes.bool.isRequired,
+  handleProjectUpdate: PropTypes.func.isRequired,
   idx: PropTypes.number,
-  rawRules: PropTypes.any,
+  // rawRules: PropTypes.any,
   setTargetNotReachedModalOpen: PropTypes.func.isRequired,
   isSubmittingSnapshot: PropTypes.object.isRequired
 };

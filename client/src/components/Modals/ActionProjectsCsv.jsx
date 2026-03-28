@@ -5,8 +5,9 @@ import Button from "../Button/Button";
 import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/Modal";
 import { CSVLink } from "react-csv";
-import { getCsvForProjects } from "./csvData";
+import { getFileHeading, getColumnNames, getColumnValues } from "./csvData";
 import RadioButton from "../UI/RadioButton";
+import useCalculator from "../../hooks/useCalculator";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -56,6 +57,7 @@ const CsvModal = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles();
+  const [calculate] = useCalculator();
   const [csvData, setCsvData] = useState(null);
   const [projectCollection, setProjectCollection] = useState("");
   const [loading, setLoading] = useState(false);
@@ -72,6 +74,22 @@ const CsvModal = ({
 
   const handleFilenameChange = changeEvent => {
     setFilename(changeEvent.target.value);
+  };
+
+  const getCsvForProjects = async (projects, progressCallback) => {
+    let data = getFileHeading();
+    if (projects.length != 0) {
+      for (let i = 0; i < projects.length; i++) {
+        const project = projects[i];
+        const rules = await calculate(project);
+        if (i == 0) {
+          data.push(getColumnNames(project, rules));
+        }
+        data.push(getColumnValues(project, rules));
+        if (progressCallback) progressCallback((i + 1) / projects.length);
+      }
+    }
+    return data;
   };
 
   const handleGenerateButton = async () => {

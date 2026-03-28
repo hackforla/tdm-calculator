@@ -39,7 +39,7 @@ The city will benefit by having more time to review edge cases for building deve
 
 - Join the team on the Hack For LA Slack channel (#tdm-calculator), or at our weekly hack night on Tuesdays in [Hack For LA](https://www.hackforla.org/)!
 
-- To help with user research, find other cities' TDM calculators. For example, check out [SF's TDM Tool](http://www.sftdmtool.org/)
+- To help with user research, find other cities' TDM calculators. For example, check out [SF's TDM Tool](https://sfplanninggis.org/tdm_v3/)
 
 - To contribute to the code, see [Contributing](https://github.com/hackforla/tdm-calculator/wiki/Contributing-Code)
 

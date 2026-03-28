@@ -4,6 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import * as projectService from "../../services/project.service";
 import { useToast } from "../../contexts/Toast";
 import ContentContainerWithTables from "components/Layout/ContentContainerWithTables";
+import { formatDate } from "helpers/util";
 
 const useStyles = createUseStyles(theme => ({
   main: {
@@ -30,23 +31,22 @@ const useStyles = createUseStyles(theme => ({
     margin: "0.5em"
   },
   td: {
-    padding: "0.2em",
     textAlign: "left"
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: theme.colorText,
-    color: "white",
-    "& td": {
+    backgroundColor: theme.colors.secondary.darkNavy,
+    color: theme.colors.primary.white,
+    "& tr th": {
       padding: ".4em"
     }
   },
   tbody: {
     "& tr td": {
-      padding: ".4em 0"
+      padding: ".4em"
     },
     "& tr:hover": {
-      background: "#f0e300"
+      background: theme.colorRowHighlight
     }
   },
   link: {
@@ -58,7 +58,6 @@ const ProjectsArchive = () => {
   const [archivedProjects, setArchivedProjects] = useState([]);
   const theme = useTheme();
   const classes = useStyles(theme);
-  // const toast = useToast();
   const { add } = useToast();
 
   useEffect(() => {
@@ -88,19 +87,19 @@ const ProjectsArchive = () => {
         </div>
         <div className={classes.pageSubtitle}>
           <Link to="/archivedaccounts" className={classes.link}>
-            See Archived Users
+            Return to Archived Accounts
           </Link>
         </div>
 
         <table className={classes.table}>
           <thead className={classes.thead}>
             <tr className={classes.tr}>
-              <td className={classes.td}>Name</td>
-              <td className={classes.td}>Address</td>
-              <td className={classes.td}>Created By</td>
-              <td className={classes.td}>Created On</td>
-              <td className={classes.td}>Last Saved</td>
-              <td className={classes.td}>Archive Date</td>
+              <th className={classes.td}>Name</th>
+              <th className={classes.td}>Address</th>
+              <th className={classes.td}>Created By</th>
+              <th className={classes.td}>Created On</th>
+              <th className={classes.td}>Last Saved</th>
+              <th className={classes.td}>Archive Date</th>
             </tr>
           </thead>
           <tbody className={classes.tbody}>
@@ -112,14 +111,12 @@ const ProjectsArchive = () => {
                   className={classes.td}
                 >{`${project.lastName}, ${project.firstName}`}</td>
                 <td className={classes.td}>
-                  {new Date(project.dateCreated).toLocaleDateString()}
+                  {formatDate(project.dateCreated)}
                 </td>
                 <td className={classes.td}>
-                  {new Date(project.dateModified).toLocaleDateString()}
+                  {formatDate(project.dateModified)}
                 </td>
-                <td className={classes.td}>
-                  {new Date(project.archivedAt).toLocaleDateString()}
-                </td>
+                <td className={classes.td}>{formatDate(project.archivedAt)}</td>
               </tr>
             ))}
           </tbody>

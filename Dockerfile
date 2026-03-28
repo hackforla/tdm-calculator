@@ -1,4 +1,4 @@
-FROM node:lts-alpine as clientBuilder
+FROM node:lts-alpine AS clientbuilder
 
 RUN mkdir /app
 WORKDIR /app
@@ -7,14 +7,14 @@ COPY /client/package-lock.json .
 RUN npm ci --legacy-peer-deps 
 COPY /client .
 
-ENV NODE_ENV "production"
+ENV NODE_ENV="production"
 RUN npm run build
 RUN echo package.json
 
 FROM node:lts-alpine
 WORKDIR /
 
-COPY --from=clientBuilder /app/dist /client/build
+COPY --from=clientbuilder /app/dist /client/build
 COPY ./server/package.json ./
 COPY ./server/package-lock.json ./
 

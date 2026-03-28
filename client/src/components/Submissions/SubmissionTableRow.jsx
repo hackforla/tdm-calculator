@@ -133,7 +133,7 @@ const SubmissionTableRow = ({
       <Td>
         <MdList onClick={() => setInfoSubmissionLogOpen(true)} />
       </Td>
-      <Td align="right">{formatId(project.id)}</Td>
+      <Td>{formatId(project.id)}</Td>
       <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
       </TdExpandable>

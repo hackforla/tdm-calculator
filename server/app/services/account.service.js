@@ -56,7 +56,6 @@ const selectByEmail = async email => {
 
 const register = async model => {
   const { firstName, lastName, email } = model;
-  let result = null;
   await hashPassword(model);
   try {
     await poolConnect;
@@ -69,16 +68,24 @@ const register = async model => {
     const insertResult = await request.execute("Login_Insert");
 
     if (insertResult) {
-      result = {
-        isSuccess: true,
-        code: "REG_SUCCESS",
-        newId: insertResult.output["id"],
-        message: "Registration successful."
-      };
-      result = await requestRegistrationConfirmation(email, result);
-      return result;
+      try {
+        let result = {
+          isSuccess: true,
+          code: "REG_SUCCESS",
+          newId: insertResult.output["id"],
+          message: "Registration successful."
+        };
+        result = await requestRegistrationConfirmation(email, result);
+        return result;
+      } catch (err) {
+        return {
+          isSuccess: false,
+          code: err.code,
+          message: err.message
+        };
+      }
     }
-  } catch (err) {
+  } catch {
     return {
       isSuccess: false,
       code: "REG_DUPLICATE_EMAIL",
@@ -114,14 +121,13 @@ const updateAccount = async model => {
 
 // Re-transmit confirmation email
 const resendConfirmationEmail = async email => {
-  let result = null;
   try {
     await poolConnect;
     const request = pool.request();
     request.input("email", mssql.NVarChar, email);
     const selectByEmailResponse = await request.execute("Login_SelectByEmail");
 
-    result = {
+    let result = {
       isSuccess: true,
       code: "REG_SUCCESS",
       newId: selectByEmailResponse.recordset[0].id,
@@ -219,23 +225,22 @@ const confirmRegistration = async token => {
 // send password reset confirmation email.
 const forgotPassword = async model => {
   const { email } = model;
-  let result = null;
+
   try {
     const checkAccountResult = await selectByEmail(email);
-    if (checkAccountResult) {
-      result = {
-        isSuccess: true,
-        code: "FORGOT_PASSWORD_SUCCESS",
-        newId: checkAccountResult.id,
-        message: "Account found."
-      };
-    } else {
+    if (!checkAccountResult) {
       return {
         isSuccess: false,
         code: "FORGOT_PASSWORD_ACCOUNT_NOT_FOUND",
         message: `Email ${email} is not registered. `
       };
     }
+    let result = {
+      isSuccess: true,
+      code: "FORGOT_PASSWORD_SUCCESS",
+      newId: checkAccountResult.id,
+      message: "Account found."
+    };
     // Replace the success result if there is a prob
     // sending email.
     let tokenInsertResult = await requestResetPasswordConfirmation(

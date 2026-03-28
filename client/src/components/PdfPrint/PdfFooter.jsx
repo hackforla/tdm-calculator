@@ -4,6 +4,8 @@ import { createUseStyles } from "react-jss";
 import UserContext from "../../contexts/UserContext";
 import { DateTime } from "luxon";
 import { formatDatetime } from "../../helpers/util";
+import { formatCalculation } from "../../helpers/Calculations";
+import CalculationsContext from "../../contexts/CalculationsContext";
 
 const useStyles = createUseStyles({
   pdfTimeText: {
@@ -34,6 +36,7 @@ const PdfFooter = ({ project }) => {
   } = project;
   const classes = useStyles();
   const userContext = useContext(UserContext);
+  const calculations = useContext(CalculationsContext);
   const loggedInUserId = userContext.account?.id;
   const formattedDateModified = formatDatetime(dateModified);
   const formattedDateSnapshotted = formatDatetime(dateSnapshotted);
@@ -65,6 +68,10 @@ const PdfFooter = ({ project }) => {
         <>
           <div className={classes.pdfTimeText}>
             Snapshot Owner: {firstName} {lastName}, {email}
+          </div>
+          <div className={classes.pdfTimeText}>
+            Guidelines Version:
+            {formatCalculation(calculations[project.calculationId])}
           </div>
           {isAdmin && (
             <div className={classes.pdfTimeText}>

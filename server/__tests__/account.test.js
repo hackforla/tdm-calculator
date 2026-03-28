@@ -16,7 +16,7 @@ afterAll(async () => {
 });
 
 describe("Account API endpoints for end user accounts", () => {
-  let originalSendgrid = smtpMail.send;
+  let originalSmtp = smtpMail.send;
   // eslint-disable-next-line no-unused-vars
   let userId; // id of the registered user - to be deleted by security admin
   let capturedToken; // confirmation token captured from the mocked sendgrid function
@@ -70,7 +70,7 @@ describe("Account API endpoints for end user accounts", () => {
 
   afterAll(async () => {
     // cleanup state
-    smtpMail.send = originalSendgrid;
+    smtpMail.send = originalSmtp;
     userId = undefined;
     capturedToken = undefined;
     userToken = undefined;
@@ -195,11 +195,11 @@ describe("Account API endpoints for end user accounts", () => {
 });
 
 describe("Account API endpoints for security admin", () => {
-  let originalSendgrid = smtpMail.send;
+  let originalSmtp = smtpMail.send;
   let newUserId; // id of the registered user - to be deleted by security admin
   let archUserId; // id of the archived user - to be unarchived by security admin
   let adminToken; // jwt for security admin - for protected endpoints
-  let capturedToken; // confirmation token captured from the mocked sendgrid function
+  let capturedToken; // confirmation token captured from the mocked smtp function
   let archiveUserWithSubId; // id of the archived user with submission
 
   beforeAll(async () => {
@@ -317,7 +317,7 @@ describe("Account API endpoints for security admin", () => {
 
   afterAll(async () => {
     // cleanup state
-    smtpMail.send = originalSendgrid;
+    smtpMail.send = originalSmtp;
     newUserId = undefined;
     adminToken = undefined;
     capturedToken = undefined;
@@ -402,7 +402,7 @@ describe("Account API endpoints for security admin", () => {
   });
 
   describe("deleteUser", () => {
-    describe("Security Admin shouldn't delete an accout with submissions", () => {
+    describe("Security Admin shouldn't delete an account with submissions", () => {
       it("Return error, Cannot Delete Account With Submission", async () => {
         // archive the test user as archive account
         await request(server)

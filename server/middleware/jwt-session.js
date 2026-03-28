@@ -41,7 +41,7 @@ async function validateUser(req, res, next) {
       req.user = payload;
       return next();
     }
-  } catch (er) {
+  } catch {
     res.status(401).send("Unauthenticated User");
   }
 }
@@ -58,7 +58,7 @@ async function optionalUser(req, res, next) {
       req.user = payload;
       return next();
     }
-  } catch (er) {
+  } catch {
     return next();
   }
 }
@@ -91,7 +91,7 @@ const validateRoles = authorizedRoles =>
         }
         res.status(403).send("Unauthorized request");
       }
-    } catch (er) {
+    } catch {
       res.status(401).send("Unauthenticated User");
     }
   };

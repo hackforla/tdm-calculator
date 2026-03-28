@@ -302,6 +302,10 @@ const Register = props => {
 
       if (response.isSuccess) {
         setSubmitted(true);
+      } else if (response.code === "REG_EMAIL_FAILED") {
+        setErrorMsg(
+          `Sending the confirmation email failed. Please contact techincal support.  The error message is:  "${response.message}"`
+        );
       } else if (response.code === "REG_DUPLICATE_EMAIL") {
         setErrorMsg(`The email ${email} is already registered. Please
           login or use the Forgot Password feature if you have

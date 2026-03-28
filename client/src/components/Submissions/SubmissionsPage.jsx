@@ -71,7 +71,6 @@ const useStyles = createUseStyles(theme => ({
   },
   subheading: {
     ...theme.typography.subHeading,
-    // width: "100%",
     lineHeight: "1.2rem",
     marginTop: "0rem",
     marginBottom: "0rem"
@@ -84,7 +83,6 @@ const useStyles = createUseStyles(theme => ({
     maxWidth: "100%",
     width: "27rem",
     padding: "12px 12px 12px 48px"
-    // marginRight: "0.5rem"
   },
   searchIcon: {
     position: "absolute",
@@ -111,10 +109,10 @@ const useStyles = createUseStyles(theme => ({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: "#002E6D",
-    color: "white",
-    "& td": {
-      padding: "12px"
+    backgroundColor: theme.colors.secondary.darkNavy,
+    color: theme.colors.primary.white,
+    "& th": {
+      padding: "4px 12px"
     }
   },
   theadLabel: {
@@ -136,8 +134,12 @@ const useStyles = createUseStyles(theme => ({
       padding: "12px",
       verticalAlign: "top"
     },
+    "& tr th": {
+      padding: "12px",
+      verticalAlign: "top"
+    },
     "& tr:hover": {
-      background: "#B2C0D3"
+      background: theme.colorRowHighlight
     }
   },
   tdNoSavedProjects: {
@@ -165,7 +167,7 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "center"
   },
   optionItems: {
-    backgroundColor: "white",
+    backgroundColor: theme.colors.primary.white,
     "&:hover": {
       backgroundColor: "silver"
     }
@@ -483,7 +485,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                   type="search"
                   id="filterText"
                   name="filterText"
-                  placeholder="Search by Name; Address; Description; Alt#"
+                  placeholder="Search by Project Name; Address; Staff Assigned"
                   value={filterCriteria.filterText}
                   onChange={e => handleFilterTextChange(e.target.value)}
                 />
@@ -526,27 +528,25 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                   <tr className={classes.tr}>
                     {headerData.map(header => {
                       return (
-                        <td key={header.id}>
-                          <th className={classes.stickyTh}>
-                            <ProjectTableColumnHeader
-                              projects={projects}
-                              filter={filter}
-                              header={header}
-                              criteria={filterCriteria}
-                              setCriteria={setFilter}
-                              setSort={setSort}
-                              orderBy={
-                                sortCriteria[sortCriteria.length - 1].field
-                              }
-                              order={
-                                sortCriteria[sortCriteria.length - 1].direction
-                              }
-                              setCheckedProjectIds={null}
-                              setSelectAllChecked={null}
-                              droOptions={null}
-                            />
-                          </th>
-                        </td>
+                        <th key={header.id} className={classes.stickyTh}>
+                          <ProjectTableColumnHeader
+                            projects={projects}
+                            filter={filter}
+                            header={header}
+                            criteria={filterCriteria}
+                            setCriteria={setFilter}
+                            setSort={setSort}
+                            orderBy={
+                              sortCriteria[sortCriteria.length - 1].field
+                            }
+                            order={
+                              sortCriteria[sortCriteria.length - 1].direction
+                            }
+                            setCheckedProjectIds={null}
+                            setSelectAllChecked={null}
+                            droOptions={null}
+                          />
+                        </th>
                       );
                     })}
                   </tr>
@@ -560,7 +560,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                           background: project.dateTrashed ? "#ffdcdc" : ""
                         }}
                       >
-                        <Td align="right">{formatId(project.id)}</Td>
+                        <Td>{formatId(project.id)}</Td>
                         <TdExpandable>
                           <Link to={`/calculation/1/${project.id}`}>
                             {project.name}

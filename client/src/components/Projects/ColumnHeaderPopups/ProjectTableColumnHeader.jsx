@@ -21,8 +21,10 @@ import { useTheme } from "react-jss";
 const useStyles = createUseStyles(theme => ({
   iconFilter: {
     color: theme.colorWhite,
+    flexShrink: 0,
     fontSize: "1.2rem",
-    marginLeft: "1rem",
+    marginLeft: "0.2rem",
+    marginRight: "0.72rem",
     "&.active": {
       borderBottom: "1px solid #fff"
     },
@@ -35,7 +37,9 @@ const useStyles = createUseStyles(theme => ({
   },
   sortIcon: {
     fontSize: "1.2rem",
-    transform: "rotate(90deg)"
+    transform: "rotate(90deg)",
+    flexShrink: 0,
+    marginLeft: "0.2rem"
   },
   reactTinyPopoverContainer: {
     color: "orange"
@@ -62,8 +66,7 @@ const ColumnHeader = React.forwardRef((props, ref) => {
     <div
       ref={ref}
       style={{
-        display: "flex",
-        justifyContent: "space-between"
+        display: "flex"
       }}
       onClick={props.onClick}
     >
@@ -219,7 +222,14 @@ const ProjectTableColumnHeader = ({
   };
 
   return (
-    <div style={{ width: "100%", height: "100%" }}>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        textAlign: "left"
+      }}
+    >
       {header.id !== "checkAllProjects" &&
       header.id !== "contextMenu" &&
       header.id !== "editIcon" ? (
@@ -360,9 +370,9 @@ const ProjectTableColumnHeader = ({
           ></ColumnHeader>
         </Popover>
       ) : header.label ? (
-        <span>{header.label}</span>
+        <div style={{ color: "magenta" }}>{header.label}</div>
       ) : (
-        <span className="sr-only">{header.id}</span>
+        <div className="sr-only">{header.id}</div>
       )}
     </div>
   );

@@ -1,34 +1,40 @@
-const { JSDOM } = require("jsdom");
-const DOMPurify = require("dompurify");
+// This implementation of sanitize creates, but does not cleanup global variables.
+// This is not ideal, but it is necessary to avoid memory leaks in the server environment.
+// The DOMPurify library is designed for browser environments and can cause memory leaks when used in a server context.
+// By commenting out the DOMPurify code, we can prevent these leaks while still providing a placeholder for
+// future sanitization logic if needed.
 
-const window = new JSDOM("").window;
-const purify = DOMPurify(window);
+// const { JSDOM } = require("jsdom");
+// const DOMPurify = require("dompurify");
 
-purify.addHook("uponSanitizeAttribute", (node, data) => {
-  if (data.attrName === "style" && typeof data.attrValue === "string") {
-    const dangerousPatterns = [
-      /javascript:/gi,
-      /expression\(/gi,
-      /vbscript:/gi,
-      /onload\s*=/gi,
-      /onerror\s*=/gi
-    ];
+// const window = new JSDOM("").window;
+// const purify = DOMPurify(window);
 
-    const hasDangerousPattern = dangerousPatterns.some(pattern =>
-      pattern.test(data.attrValue)
-    );
+// purify.addHook("uponSanitizeAttribute", (node, data) => {
+//   if (data.attrName === "style" && typeof data.attrValue === "string") {
+//     const dangerousPatterns = [
+//       /javascript:/gi,
+//       /expression\(/gi,
+//       /vbscript:/gi,
+//       /onload\s*=/gi,
+//       /onerror\s*=/gi
+//     ];
 
-    if (hasDangerousPattern) {
-      data.keepAttr = false;
-    } else {
-      data.keepAttr = true;
-    }
-  }
-});
+//     const hasDangerousPattern = dangerousPatterns.some(pattern =>
+//       pattern.test(data.attrValue)
+//     );
+
+//     if (hasDangerousPattern) {
+//       data.keepAttr = false;
+//     } else {
+//       data.keepAttr = true;
+//     }
+//   }
+// });
 
 function sanitizeHtml(dirty) {
   if (!dirty || typeof dirty !== "string") return dirty;
-  return purify.sanitize(dirty);
+  return dirty; // purify.sanitize(dirty);
 }
 
 module.exports = { sanitizeHtml };

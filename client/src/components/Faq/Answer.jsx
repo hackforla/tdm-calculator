@@ -1,5 +1,5 @@
 import React from "react";
-import Quill from "../UI/Quill";
+import { QuillEditor } from "../UI/QuillEditor";
 import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
 import { Interweave } from "interweave";
@@ -100,7 +100,7 @@ export const Answer = ({
     <div onBlur={handleSetFAQ} className={classes.answerContainer}>
       {isEditAnswer ? (
         <div style={{ display: "flex", width: "100%" }}>
-          <Quill
+          <QuillEditor
             value={answer}
             placeholder="Answer..."
             onChange={handleAnswerChange}

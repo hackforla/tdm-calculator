@@ -9,10 +9,15 @@ const useStyles = createUseStyles({
     fontSize: "14px",
     padding: " 0 0.4em",
     color: "#00F"
+  },
+  subheading: {
+    fontSize: "20px",
+    margin: "1em 0"
   }
 });
 
 const DefaultView = ({ aboutList }) => {
+  const classes = useStyles();
   if (!aboutList || aboutList?.length === 0) {
     return null;
   }
@@ -20,7 +25,7 @@ const DefaultView = ({ aboutList }) => {
     <>
       {aboutList.map(about => (
         <div key={about.id}>
-          <h3>{about.title}</h3>
+          <h2 className={classes.subheading}>{about.title}</h2>
           <Interweave
             transform={TransformExternalLink}
             content={about.content}

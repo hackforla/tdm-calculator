@@ -1,5 +1,5 @@
 import React from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "@hello-pangea/dnd";
 import Faq from "./Faq";
 import PropTypes from "prop-types";
 import { NewFaqContainer } from "./NewFaqContainer";

@@ -63,7 +63,7 @@ const Login = () => {
         if (projectId) {
           navigate(`/calculation/5/${projectId}`);
         } else if (redirectUrl) {
-          navigate(`/${redirectUrl}`);
+          navigate(`${redirectUrl}`);
         } else {
           navigate("/calculation/1/0");
         }

@@ -71,9 +71,12 @@ const ProjectInfoContainer = props => {
         {projectAddress && (
           <ProjectInfo name={projectAddress.name} rule={projectAddress} />
         )}
-        <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
         {buildingPermit && (
           <ProjectInfo name={buildingPermit.name} rule={buildingPermit} />
+        )}
+        <ProjectInfoList name={"PARCEL # (AIN)"} rule={parcelNumbers} />
+        {caseNumberLADOT && (
+          <ProjectInfo name={caseNumberLADOT.name} rule={caseNumberLADOT} />
         )}
         {versionNumber && (
           <ProjectInfo name={versionNumber.name} rule={versionNumber} />
@@ -84,10 +87,6 @@ const ProjectInfoContainer = props => {
             rule={caseNumberPlanning}
           />
         )}
-        {caseNumberLADOT && (
-          <ProjectInfo name={caseNumberLADOT.name} rule={caseNumberLADOT} />
-        )}
-
         {projectID && (
           <div className={classes.projectIdRight}>
             <ProjectInfo name="Project ID #" rule={{ value: projectID }} />

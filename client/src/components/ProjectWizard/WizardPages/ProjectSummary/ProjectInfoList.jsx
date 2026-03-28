@@ -5,8 +5,8 @@ import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
   projectInfoDetailsSubContainer: {
     display: "flex",
-    alignItems: "baseline",
-    maxHeight: "20px"
+    flexDirection: "column",
+    alignItems: "baseline"
   },
   projectInfoCategory: {
     fontWeight: "600",
@@ -23,7 +23,8 @@ const useStyles = createUseStyles({
     display: "flex",
     flexWrap: "wrap",
     flexDirection: "row",
-    gap: ".3em"
+    gap: ".3em",
+    fontWeight: 400
   },
   AINValues: {
     minWidth: "100px",

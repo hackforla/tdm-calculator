@@ -67,7 +67,23 @@ export function trash(projectIds, trash) {
   }
 }
 
-// New function to update the DRO ID
+export function updateCalculationId(
+  projectId,
+  calculationId,
+  isCalculationIdOverride,
+  targetPoints,
+  earnedPoints,
+  projectLevel
+) {
+  return axios.put(`${baseUrl}/updateCalculationId/${projectId}`, {
+    calculationId,
+    isCalculationIdOverride,
+    targetPoints,
+    earnedPoints,
+    projectLevel
+  });
+}
+
 export function updateDroId(projectId, droId, loginId) {
   return axios.put(`${baseUrl}/updateDroId/${projectId}`, { droId, loginId });
 }
