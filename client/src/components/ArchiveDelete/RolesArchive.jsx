@@ -246,7 +246,7 @@ const RolesArchive = ({ contentContainerRef }) => {
               filt(archivedAccounts, e.target.value);
             }}
             data-testid="searchString"
-            placeholder="Enter name or email"
+            placeholder="Search by Email or Name"
             id="searchString"
           />
           <MdOutlineSearch className={classes.searchIcon} />

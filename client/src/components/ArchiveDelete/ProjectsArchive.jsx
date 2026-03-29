@@ -110,13 +110,15 @@ const ProjectsArchive = () => {
                 <td
                   className={classes.td}
                 >{`${project.lastName}, ${project.firstName}`}</td>
-                <td className={classes.td}>
+                <td className={classes.td} style={{ minWidth: "5rem" }}>
                   {formatDate(project.dateCreated)}
                 </td>
-                <td className={classes.td}>
+                <td className={classes.td} style={{ minWidth: "5rem" }}>
                   {formatDate(project.dateModified)}
                 </td>
-                <td className={classes.td}>{formatDate(project.archivedAt)}</td>
+                <td className={classes.td} style={{ minWidth: "5rem" }}>
+                  {formatDate(project.archivedAt)}
+                </td>
               </tr>
             ))}
           </tbody>
