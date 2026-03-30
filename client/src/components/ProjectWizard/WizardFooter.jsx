@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import { createUseStyles } from "react-jss";
@@ -106,6 +106,20 @@ const WizardFooter = ({
 
   const printRef = useRef(null);
 
+  const [highestPage, setHighestPage] = useState(Number(page));
+
+  useEffect(() => {
+    setHighestPage(prev => Math.max(prev, Number(page)));
+  }, [page]);
+
+  const prevProjectId = useRef(project?.id);
+  useEffect(() => {
+    if (project?.id !== prevProjectId.current) {
+      setHighestPage(Number(page));
+      prevProjectId.current = project?.id;
+    }
+  }, [project?.id, page]);
+
   const handlePrint = useReactToPrint({
     contentRef: printRef,
     documentTitle: `Project_${projectName}_Report`,
@@ -139,24 +153,28 @@ const WizardFooter = ({
                   }}
                 />
 
-                {page > 1 &&
+                {highestPage > 1 &&
                   !project.dateSnapshotted &&
                   (!shareView || isAdmin) &&
-                  Array.from({ length: page - 1 }, (_, i) => i + 1).map(p => (
-                    <Button
-                      key={`nav-page-${p}`}
-                      id={`nav-page-${p}`}
-                      variant="secondary"
-                      className={classes.numberedNavButton}
-                      onClick={() => onPageChange(p)}
-                      disabled={
-                        (shareView && !isAdmin) || !!project.dateSnapshotted
-                      }
-                      ariaLabel={`go to page ${p}`}
-                    >
-                      {p}
-                    </Button>
-                  ))}
+                  Array.from({ length: highestPage }, (_, i) => i + 1)
+                    .filter(p => p !== Number(page))
+                    .map(p => (
+                      <Button
+                        key={`nav-page-${p}`}
+                        id={`nav-page-${p}`}
+                        variant="secondary"
+                        className={classes.numberedNavButton}
+                        onClick={() => onPageChange(p)}
+                        disabled={
+                          (shareView && !isAdmin) ||
+                          !!project.dateSnapshotted ||
+                          (p > Number(page) && setDisabledForNextNavButton())
+                        }
+                        ariaLabel={`go to page ${p}`}
+                      >
+                        {p}
+                      </Button>
+                    ))}
               </div>
 
               {(!shareView || isAdmin) && !project.dateSnapshotted ? (
