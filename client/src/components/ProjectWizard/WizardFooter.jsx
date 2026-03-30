@@ -42,6 +42,16 @@ const useStyles = createUseStyles({
     padding: 0,
     boxShadow:
       "10px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
+  },
+  navButtonGroup: {
+    display: "flex",
+    alignItems: "center"
+  },
+  numberedNavButton: {
+    padding: "0.35em 0.7em",
+    margin: "0.5em",
+    minHeight: "min-content",
+    fontSize: "1.5rem"
   }
 });
 
@@ -109,24 +119,46 @@ const WizardFooter = ({
         {rules && rules.length ? ( //navigation disabled until rules have loaded
           <>
             <div id="nav-container" className="space-between">
-              <NavButton
-                id="leftNavArrow"
-                navDirection="previous"
-                color="colorPrimary"
-                isVisible={
-                  page !== 1 &&
+              <div className={classes.navButtonGroup}>
+                <NavButton
+                  id="leftNavArrow"
+                  navDirection="previous"
+                  color="colorPrimary"
+                  isVisible={
+                    page !== 1 &&
+                    !project.dateSnapshotted &&
+                    (!shareView || isAdmin)
+                  }
+                  isDisabled={
+                    (shareView && !isAdmin) ||
+                    !!project.dateSnapshotted ||
+                    Number(page) === 1
+                  }
+                  onClick={() => {
+                    onPageChange(Number(page) - 1);
+                  }}
+                />
+
+                {page > 1 &&
                   !project.dateSnapshotted &&
-                  (!shareView || isAdmin)
-                }
-                isDisabled={
-                  (shareView && !isAdmin) ||
-                  !!project.dateSnapshotted ||
-                  Number(page) === 1
-                }
-                onClick={() => {
-                  onPageChange(Number(page) - 1);
-                }}
-              />
+                  (!shareView || isAdmin) &&
+                  Array.from({ length: page - 1 }, (_, i) => i + 1).map(p => (
+                    <Button
+                      key={`nav-page-${p}`}
+                      id={`nav-page-${p}`}
+                      variant="secondary"
+                      className={classes.numberedNavButton}
+                      onClick={() => onPageChange(p)}
+                      disabled={
+                        (shareView && !isAdmin) || !!project.dateSnapshotted
+                      }
+                      ariaLabel={`go to page ${p}`}
+                    >
+                      {p}
+                    </Button>
+                  ))}
+              </div>
+
               {(!shareView || isAdmin) && !project.dateSnapshotted ? (
                 <div className={classes.pageNumberCounter}>
                   Page {pageNumber}/5
