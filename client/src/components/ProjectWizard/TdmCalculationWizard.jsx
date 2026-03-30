@@ -459,10 +459,12 @@ const TdmCalculationWizard = props => {
     const projectIdParam = projectId ? `/${projectId}` : "/0";
     if (Number(pageNo) > Number(page)) {
       if (handleValidate()) {
-        navigate(`/calculation/${pageNo}${projectIdParam}`);
+        const nextPage = Number(page) + 1;
+        navigate(`/calculation/${nextPage}${projectIdParam}`);
       }
     } else {
-      navigate(`/calculation/${pageNo}${projectIdParam}`);
+      const prevPage = Number(page) - 1;
+      navigate(`/calculation/${prevPage}${projectIdParam}`);
     }
   };
 
