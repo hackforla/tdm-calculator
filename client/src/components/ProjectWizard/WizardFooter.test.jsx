@@ -21,6 +21,7 @@ describe('WizardFooter Navigation Buttons', () => {
       { code: 'PTS_EARNED', value: 0 }
     ],
     page: 1,
+    highestPage: 1,
     onPageChange: mockOnPageChange,
     pageNumber: 1,
     isFinalPage: false,
@@ -28,7 +29,7 @@ describe('WizardFooter Navigation Buttons', () => {
     setDisabledSaveButton: jest.fn(() => false),
     setDisplaySaveButton: jest.fn(() => true),
     onSave: jest.fn(),
-    project: { id: 1 },
+    project: { id: 1, loginId: 1 },
     shareView: false
   };
 
@@ -49,8 +50,8 @@ describe('WizardFooter Navigation Buttons', () => {
     expect(screen.getByText('Save Project')).toBeInTheDocument();
   });
 
-  it('keeps track of the highest page the user progressed to and renders numbered buttons', () => {
-    const { rerender } = renderComponent({ page: 4 });
+  it('renders numbered buttons based on the highestPage prop', () => {
+    const { rerender } = renderComponent({ page: 4, highestPage: 4 });
     // User is on page 4, so highestPage is 4. Numbered buttons for 1, 2, 3 should be displayed.
     expect(
       screen.getByRole('button', { name: /go to page 1/i })
@@ -69,7 +70,7 @@ describe('WizardFooter Navigation Buttons', () => {
     rerender(
       <UserContext.Provider value={defaultUserContext}>
         <CalculationsContext.Provider value={{}}>
-          <WizardFooter {...defaultProps} page={2} />
+          <WizardFooter {...defaultProps} page={2} highestPage={4} />
         </CalculationsContext.Provider>
       </UserContext.Provider>
     );

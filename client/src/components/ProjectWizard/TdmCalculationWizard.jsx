@@ -81,6 +81,20 @@ const TdmCalculationWizard = props => {
   const page = Number(params.page || 1);
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
+
+  const [highestPage, setHighestPage] = useState(page);
+
+  useEffect(() => {
+    setHighestPage(prev => Math.max(prev, page));
+  }, [page]);
+
+  const prevProjectId = useRef(project?.id);
+  useEffect(() => {
+    if (project?.id !== prevProjectId.current) {
+      setHighestPage(page);
+      prevProjectId.current = project?.id;
+    }
+  }, [project?.id, page]);
   const [ainInputError, setAINInputError] = useState("");
   const loginId = project.loginId;
   const [copyAndEditSnapshotModalOpen, setCopyAndEditSnapshotModalOpen] =
@@ -483,6 +497,7 @@ const TdmCalculationWizard = props => {
             uncheckAll={() => onUncheckAll(filters.projectDescriptionRules)}
             resetProject={() => setResetProjectWarningModalOpen(true)}
             page={Number(page)}
+            highestPage={highestPage}
           />
         );
       case 2:
@@ -557,6 +572,7 @@ const TdmCalculationWizard = props => {
         <WizardFooter
           rules={rules}
           page={page}
+          highestPage={highestPage}
           onPageChange={onPageChange}
           pageNumber={page}
           isFinalPage={isFinalPage}
