@@ -26,7 +26,8 @@ function ProjectDescriptions(props) {
     onAINInputError,
     uncheckAll,
     resetProject,
-    page
+    page,
+    highestPage
   } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -61,7 +62,7 @@ function ProjectDescriptions(props) {
         />
       </form>
       <div className={classes.disclaimer}>
-        <DiscoverTooltips />
+        {(!highestPage || highestPage <= 1) && <DiscoverTooltips />}
         <span className={classes.asterisk}>*</span> designates required fields
       </div>
     </div>
@@ -75,7 +76,8 @@ ProjectDescriptions.propTypes = {
   onAINInputError: PropTypes.func.isRequired,
   uncheckAll: PropTypes.func.isRequired,
   resetProject: PropTypes.func.isRequired,
-  page: PropTypes.number
+  page: PropTypes.number,
+  highestPage: PropTypes.number
 };
 
 export default ProjectDescriptions;

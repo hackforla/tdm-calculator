@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState, useEffect } from "react";
+import React, { useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import NavButton from "../Button/NavButton";
 import { createUseStyles } from "react-jss";
@@ -58,6 +58,7 @@ const useStyles = createUseStyles({
 const WizardFooter = ({
   rules,
   page,
+  highestPage,
   onPageChange,
   pageNumber,
   isFinalPage,
@@ -84,6 +85,8 @@ const WizardFooter = ({
   const projectName = projectNameRule
     ? projectNameRule.value
     : "TDM Calculation Summary";
+  const projectLevelRule = rules && rules.find(r => r.code === "PROJECT_LEVEL");
+  const projectLevel = projectLevelRule ? projectLevelRule.value : 0;
   const formattedDateSnapshotted = formatDatetime(project.dateSnapshotted);
   const formattedDateSubmitted = formatDatetime(project.dateSubmitted);
   const formattedDateModified = formatDatetime(project.dateModified);
@@ -106,26 +109,18 @@ const WizardFooter = ({
 
   const printRef = useRef(null);
 
-  const [highestPage, setHighestPage] = useState(Number(page));
-
-  useEffect(() => {
-    setHighestPage(prev => Math.max(prev, Number(page)));
-  }, [page]);
-
-  const prevProjectId = useRef(project?.id);
-  useEffect(() => {
-    if (project?.id !== prevProjectId.current) {
-      setHighestPage(Number(page));
-      prevProjectId.current = project?.id;
-    }
-  }, [project?.id, page]);
-
   const handlePrint = useReactToPrint({
     contentRef: printRef,
     documentTitle: `Project_${projectName}_Report`,
     bodyClass: "printContainer",
     pageStyle: ".printContainer {overflow: hidden;}"
   });
+
+  const showNumberedLinks =
+    highestPage > 1 &&
+    !!project?.id &&
+    project?.loginId === loggedInUserId &&
+    !project.dateSnapshotted;
 
   return (
     <>
@@ -153,9 +148,7 @@ const WizardFooter = ({
                   }}
                 />
 
-                {highestPage > 1 &&
-                  !project.dateSnapshotted &&
-                  (!shareView || isAdmin) &&
+                {showNumberedLinks &&
                   Array.from({ length: highestPage }, (_, i) => i + 1)
                     .filter(p => p !== Number(page))
                     .map(p => (
@@ -168,6 +161,7 @@ const WizardFooter = ({
                         disabled={
                           (shareView && !isAdmin) ||
                           !!project.dateSnapshotted ||
+                          (p === 4 && projectLevel === 0) ||
                           (p > Number(page) && setDisabledForNextNavButton())
                         }
                         ariaLabel={`go to page ${p}`}
@@ -305,6 +299,7 @@ WizardFooter.propTypes = {
   classes: PropTypes.any,
   rules: PropTypes.any,
   page: PropTypes.any,
+  highestPage: PropTypes.number,
   onPageChange: PropTypes.any,
   pageNumber: PropTypes.any,
   isFinalPage: PropTypes.bool,
