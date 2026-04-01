@@ -210,8 +210,8 @@ const ProjectTableRow = ({
   const calculations = useContext(CalculationsContext);
   const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
   const name = `${project.lastName}, ${project.firstName}`;
-  const isProjectOwnerAndUser = name === loggedInUserName;
-  const projectFirstNameLabel = isProjectOwnerAndUser
+  const isProjectNameAndUserName = name === loggedInUserName;
+  const projectFirstNameLabel = isProjectNameAndUserName
     ? project.firstName + " (Me)"
     : project.firstName;
 
@@ -532,7 +532,6 @@ const ProjectTableRow = ({
                   }
                   handleHide={handleHide}
                   isDroCommitted={isDroCommitted}
-                  isProjectOwnerAndUser={isProjectOwnerAndUser}
                   isSubmittingSnapshot={isSubmittingSnapshot}
                 />
               )}

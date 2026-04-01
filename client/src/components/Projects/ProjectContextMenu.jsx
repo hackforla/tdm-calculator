@@ -65,29 +65,18 @@ const ProjectContextMenu = ({
   handleHide,
   ariaControlsId,
   isDroCommitted,
-  isProjectOwnerAndUser,
   isSubmittingSnapshot
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const account = userContext.account;
-  const projectStatus = project.dateSnapshotted ? "snapshot" : "draft";
+  const isProjectOwnerAndUser = userContext.account.id === project.loginId;
+
   const isSnapshotSubmitted = Boolean(project.dateSubmitted);
+
   const getIsDeleteActionValid = () => {
-    if (isProjectOwnerAndUser && projectStatus === "draft") {
-      return true;
-    }
-
-    if (
-      isProjectOwnerAndUser &&
-      projectStatus === "snapshot" &&
-      !isSnapshotSubmitted
-    ) {
-      return true;
-    }
-
-    return false;
+    return isProjectOwnerAndUser && !isSnapshotSubmitted;
   };
 
   const isDeleteActionValid = getIsDeleteActionValid();
@@ -275,7 +264,6 @@ ProjectContextMenu.propTypes = {
   handleHide: PropTypes.func,
   ariaControlsId: PropTypes.string,
   isDroCommitted: PropTypes.func,
-  isProjectOwnerAndUser: PropTypes.bool.isRequired,
   isSubmittingSnapshot: PropTypes.object
 };
 
