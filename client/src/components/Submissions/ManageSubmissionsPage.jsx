@@ -379,6 +379,14 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     },
     { id: "droName", label: "DRO", popupType: "stringList", colWidth: "10rem" },
     {
+      id: "dateSubmitted",
+      label: "Submitted",
+      popupType: "datetime",
+      startDatePropertyName: "startDateSubmitted",
+      endDatePropertyName: "endDateSubmitted",
+      colWidth: "10rem"
+    },
+    {
       id: "assignee",
       label: "Assignee",
       popupType: "string",
