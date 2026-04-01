@@ -150,7 +150,7 @@ const PasswordRules = ({ value, touched, classes }) => {
     },
     {
       label:
-        "Password must contain one special character from the following list: !@#$%&*?",
+        "Password must contain at least one special character from the following list: !@#$%&*?",
       valid: /[!@#$%&*?]/.test(value)
     },
     {
