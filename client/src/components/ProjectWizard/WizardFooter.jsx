@@ -10,6 +10,8 @@ import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
 import ProjectContextMenu from "../Projects/ProjectContextMenu";
 import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
+import { formatCalculation } from "../../helpers/Calculations";
+import CalculationsContext from "../../contexts/CalculationsContext";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -76,6 +78,7 @@ const WizardFooter = ({
   const formattedDateSubmitted = formatDatetime(project.dateSubmitted);
   const formattedDateModified = formatDatetime(project.dateModified);
   const userContext = useContext(UserContext);
+  const calculations = useContext(CalculationsContext);
   const loggedInUserId = userContext.account?.id || null;
 
   const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
@@ -211,6 +214,10 @@ const WizardFooter = ({
           <div>
             <strong>Snapshot Owner: </strong>
             {firstName} {lastName}, {email}
+          </div>
+          <div>
+            <strong>Guidelines Version: </strong>
+            {formatCalculation(calculations[projectNameRule.calculationId])}
           </div>
           {isAdmin && (
             <div>

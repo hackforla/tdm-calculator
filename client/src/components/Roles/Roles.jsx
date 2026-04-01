@@ -47,12 +47,12 @@ const useStyles = createUseStyles(theme => ({
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: theme.colors.primary.darkNavy,
+    backgroundColor: theme.colors.secondary.darkNavy,
     color: theme.colors.primary.white,
     position: "sticky",
     top: "0",
-    "& td": {
-      padding: ".4em"
+    "& th": {
+      padding: "0.4em"
     }
   },
   theadLabel: {
@@ -60,10 +60,10 @@ const useStyles = createUseStyles(theme => ({
   },
   tbody: {
     "& tr td": {
-      padding: ".4em 0"
+      padding: ".4em"
     },
     "& tr:hover": {
-      background: "#f0e300"
+      background: theme.colorRowHighlight
     }
   },
   link: {

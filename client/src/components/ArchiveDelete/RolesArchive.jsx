@@ -36,22 +36,20 @@ const useStyles = createUseStyles(theme => ({
     margin: "20px"
   },
   tr: {
-    margin: "0.5em"
+    margin: "0"
   },
   td: {
-    padding: "0.2em 2em",
     textAlign: "left"
   },
   tdCenter: {
-    padding: "0.2em",
     textAlign: "center"
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: theme.colors.primary.darkNavy,
+    backgroundColor: theme.colors.secondary.darkNavy,
     color: theme.colors.primary.white,
-    "& td": {
-      padding: "12px"
+    "& th": {
+      padding: "0.4em"
     }
   },
   tbody: {
@@ -60,11 +58,11 @@ const useStyles = createUseStyles(theme => ({
       borderBottom: "1px solid #E7EBF0"
     },
     "& tr td": {
-      padding: "12px",
+      padding: "0.4em",
       verticalAlign: "top"
     },
     "& tr:hover": {
-      background: theme.colors.secondary.mediumGray
+      background: theme.colorRowHighlight
     }
   },
   link: {
@@ -248,24 +246,24 @@ const RolesArchive = ({ contentContainerRef }) => {
               filt(archivedAccounts, e.target.value);
             }}
             data-testid="searchString"
-            placeholder="Enter name or email"
+            placeholder="Search by Email or Name"
             id="searchString"
           />
           <MdOutlineSearch className={classes.searchIcon} />
         </div>
         <table className={classes.table}>
           <thead className={classes.thead}>
-            <tr className={classes.tr}>
-              <td className={classes.td}>Email</td>
-              <td className={classes.td}>Name</td>
-              <td className={`${classes.td} ${classes.tdheadLabel}`}>
+            <tr className={classes.td}>
+              <th className={classes.td}>Email</th>
+              <th className={classes.td}>Name</th>
+              <th className={`${classes.td} ${classes.thheadLabel}`}>
                 # of Projects
-              </td>
-              <td className={`${classes.td} ${classes.tdheadLabel}`}>
+              </th>
+              <th className={`${classes.td} ${classes.thheadLabel}`}>
                 # of Submissions
-              </td>
-              <td className={classes.td}>Date Archived</td>
-              <td className={classes.tdCenter}></td>
+              </th>
+              <th className={classes.td}>Date Archived</th>
+              <th className={classes.tdCenter}></th>
             </tr>
           </thead>
           <tbody className={classes.tbody}>
