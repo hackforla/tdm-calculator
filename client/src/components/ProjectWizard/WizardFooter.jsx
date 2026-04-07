@@ -5,6 +5,7 @@ import { createUseStyles } from "react-jss";
 import Button from "../Button/Button";
 import { useReactToPrint } from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
+import Link from "../Link/Link";
 import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
@@ -58,7 +59,6 @@ const useStyles = createUseStyles({
 const WizardFooter = ({
   rules,
   page,
-  highestPage,
   onPageChange,
   pageNumber,
   isFinalPage,
@@ -116,11 +116,10 @@ const WizardFooter = ({
     pageStyle: ".printContainer {overflow: hidden;}"
   });
 
-  const showNumberedLinks =
-    highestPage > 1 &&
-    !!project?.id &&
-    project?.loginId === loggedInUserId &&
-    !project.dateSnapshotted;
+  const isDraft = !project.dateSnapshotted;
+
+  // If the project exists and has been saved, AND a user is currently logged in
+  const showNumberedLinks = !!project?.id && !!loggedInUserId;
 
   return (
     <>
@@ -135,12 +134,12 @@ const WizardFooter = ({
                   color="colorPrimary"
                   isVisible={
                     page !== 1 &&
-                    !project.dateSnapshotted &&
+                    isDraft &&
                     (!shareView || isAdmin)
                   }
                   isDisabled={
                     (shareView && !isAdmin) ||
-                    !!project.dateSnapshotted ||
+                    !isDraft ||
                     Number(page) === 1
                   }
                   onClick={() => {
@@ -149,31 +148,30 @@ const WizardFooter = ({
                 />
 
                 {showNumberedLinks &&
-                  Array.from({ length: highestPage }, (_, i) => i + 1)
-                    .filter(p => p !== Number(page))
-                    .map(p => (
-                      <Button
-                        key={`nav-page-${p}`}
-                        id={`nav-page-${p}`}
-                        variant="secondary"
-                        className={classes.numberedNavButton}
-                        onClick={() => onPageChange(p)}
-                        disabled={
-                          (shareView && !isAdmin) ||
-                          !!project.dateSnapshotted ||
-                          (p === 4 && projectLevel === 0) ||
-                          (p > Number(page) && setDisabledForNextNavButton())
-                        }
-                        ariaLabel={`go to page ${p}`}
-                      >
-                        {p}
-                      </Button>
-                    ))}
+                  Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
+                    <Link
+                      key={`nav-page-${p}`}
+                      id={`nav-page-${p}`}
+                      className={classes.numberedNavButton}
+                      onClick={() => onPageChange(p)}
+                      isActive={p === Number(page)}
+                      disabled={
+                        (shareView && !isAdmin) ||
+                        (p === 4 && projectLevel === 0) ||
+                        (isDraft &&
+                          p > Number(page) &&
+                          setDisabledForNextNavButton())
+                      }
+                      ariaLabel={`go to page ${p}`}
+                    >
+                      {p}
+                    </Link>
+                  ))}
               </div>
 
-              {(!shareView || isAdmin) && !project.dateSnapshotted ? (
+              {(!shareView || isAdmin) && !project?.id ? (
                 <div className={classes.pageNumberCounter}>
-                  Page {pageNumber}/5
+                  Page {Number.isNaN(pageNumber) ? 1 : pageNumber}/5
                 </div>
               ) : null}
               {/* Page {pageNumber}/5 */}
@@ -299,7 +297,6 @@ WizardFooter.propTypes = {
   classes: PropTypes.any,
   rules: PropTypes.any,
   page: PropTypes.any,
-  highestPage: PropTypes.number,
   onPageChange: PropTypes.any,
   pageNumber: PropTypes.any,
   isFinalPage: PropTypes.bool,

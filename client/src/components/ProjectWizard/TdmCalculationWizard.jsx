@@ -82,19 +82,13 @@ const TdmCalculationWizard = props => {
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
 
-  const [highestPage, setHighestPage] = useState(page);
-
   useEffect(() => {
-    setHighestPage(prev => Math.max(prev, page));
-  }, [page]);
-
-  const prevProjectId = useRef(project?.id);
-  useEffect(() => {
-    if (project?.id !== prevProjectId.current) {
-      setHighestPage(page);
-      prevProjectId.current = project?.id;
+    if (contentContainerRef && contentContainerRef.current) {
+      contentContainerRef.current.scrollTo(0, 0);
+    } else {
+      window.scrollTo(0, 0);
     }
-  }, [project?.id, page]);
+  }, [page, contentContainerRef]);
   const [ainInputError, setAINInputError] = useState("");
   const loginId = project.loginId;
   const [copyAndEditSnapshotModalOpen, setCopyAndEditSnapshotModalOpen] =
@@ -387,8 +381,7 @@ const TdmCalculationWizard = props => {
       // is properly set.
       projectId &&
       loginId &&
-      (!(account.isAdmin || account.id === loginId) ||
-        !!project.dateSnapshotted)
+      !(account.isAdmin || account.id === loginId)
     ) {
       // {replace: true} used to prevent user from going back to the page they don't have access to with the back button
       navigate(`/calculation/5/${projectId}`, { replace: true });
@@ -497,7 +490,6 @@ const TdmCalculationWizard = props => {
             uncheckAll={() => onUncheckAll(filters.projectDescriptionRules)}
             resetProject={() => setResetProjectWarningModalOpen(true)}
             page={Number(page)}
-            highestPage={highestPage}
           />
         );
       case 2:
@@ -572,7 +564,6 @@ const TdmCalculationWizard = props => {
         <WizardFooter
           rules={rules}
           page={page}
-          highestPage={highestPage}
           onPageChange={onPageChange}
           pageNumber={page}
           isFinalPage={isFinalPage}
