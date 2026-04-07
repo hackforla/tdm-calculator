@@ -10,6 +10,7 @@ const emailRoutes = require("./email.routes");
 const configRoutes = require("./config.routes");
 const droRoutes = require("./dro.routes");
 const projectShare = require("./projectShare.routes");
+const debugRoutes = require("./debug.routes");
 
 module.exports = router;
 
@@ -23,3 +24,4 @@ router.use("/emails", emailRoutes);
 router.use("/configs", configRoutes);
 router.use("/dro", droRoutes);
 router.use("/projectShare", projectShare);
+router.use("/debug", debugRoutes);

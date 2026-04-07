@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import PropTypes from "prop-types";
 import { formatId } from "../../helpers/util";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 
 import UserContext from "../../contexts/UserContext";
 import { MdOutlineSearch } from "react-icons/md";
@@ -140,7 +140,7 @@ const useStyles = createUseStyles(theme => ({
       verticalAlign: "top"
     },
     "& tr:hover": {
-      background: "#B2C0D3"
+      background: theme.colorRowHighlight
     }
   },
   tdNoSavedProjects: {
@@ -180,7 +180,8 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const ManageSubmissions = ({ contentContainerRef }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const [projects, setProjects] = useState([]);
   const [assigneeList, setAssigneeList] = useState([]);

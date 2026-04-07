@@ -2,8 +2,8 @@ export const jssTheme = {
   colorDefault: "#fff", //white
   colorPrimary: "#a7c539", //lime green
   colorPrimaryDisabled: "#D3E29C", //green tint
-  colorText: "#0F2940", //dark blue
-  colorLADOT: "#002E6D",
+  colorText: "#0F2940", //dark navy
+  colorLADOT: "#002E6D", //navy
   colorGray: "#808080",
   colorLightGray: "#A0A0A0",
   colorEarnedPoints: "rgb(255, 168, 4)", //orange
@@ -16,6 +16,7 @@ export const jssTheme = {
   colorCriticalDisabled: "#D57461",
   colorDeselect: "#EEF1F4", //e.g. red
   colorHighlight: "#F0E300", //yellow
+  colorRowHighlight: "#B2C0D3", //light blue - for Highlighting selected row in a grid
   colorTooltipBackground: "#FFEDEA",
   // Drop Shadow Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
   colorDropShadow: "#00000040",

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { formatId } from "../../helpers/util";
 import { useNavigate } from "react-router-dom";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "../../contexts/UserContext";
 import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
@@ -173,7 +173,7 @@ const useStyles = createUseStyles(theme => ({
     zIndex: 1,
     fontWeight: "bold",
     backgroundColor: theme.colors.secondary.darkNavy,
-    color: "white",
+    color: theme.colors.primary.white,
     "& th": {
       padding: "4px 12px"
     }
@@ -198,7 +198,7 @@ const useStyles = createUseStyles(theme => ({
       verticalAlign: "top"
     },
     "& tr:hover": {
-      background: "#B2C0D3"
+      background: theme.colorRowHighlight
     }
   },
   tdNoSavedProjects: {
@@ -237,7 +237,8 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const ProjectsPage = ({ contentContainerRef }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
     FILTER_CRITERIA_STORAGE_TAG,
@@ -293,7 +294,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  // const [projectData, setProjectData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [droOptions, setDroOptions] = useState([]);
@@ -307,7 +307,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     fetchDroOptions(setDroOptions);
   }, []);
 
-  // const [filterCollapsed, setFilterCollapsed] = useState(true);
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
     checkedProjectIds,
     projects
@@ -1112,7 +1111,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 checkedProjectIds={checkedProjectIds}
                 criteria={filterCriteria}
                 checkedProjectsStatusData={checkedProjectsStatusData}
-                // pdfProjectData={projectData}
                 isActiveProjectsTab={isActiveProjectsTab}
               />
             </div>
@@ -1135,7 +1133,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     type="search"
                     id="filterText"
                     name="filterText"
-                    placeholder="Search by Name; Address; Description; Alt#"
+                    placeholder="Search by Project Name, Address, Alt No., Description"
                     value={filterCriteria.filterText}
                     onChange={e => handleFilterTextChange(e.target.value)}
                     aria-label="Search for project"

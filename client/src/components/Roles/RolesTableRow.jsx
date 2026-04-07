@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { MdCheck, MdMoreVert } from "react-icons/md";
+import { formatDate } from "helpers/util";
 
 // Internal hooks
 import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
@@ -80,13 +81,7 @@ const RolesTableRow = ({
       <td className={classes.tdCenter}>
         {account.emailConfirmed ? <MdCheck alt="Email confirmed" /> : ""}
       </td>
-      <td className={classes.td}>
-        {new Date(account.dateCreated).toLocaleDateString("en-US", {
-          month: "numeric",
-          day: "numeric",
-          year: "numeric"
-        })}
-      </td>
+      <td className={classes.td}>{formatDate(account.dateCreated)}</td>
       <td className={classes.tdCenter}>
         <Popup
           trigger={
