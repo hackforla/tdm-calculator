@@ -80,14 +80,8 @@ const WizardFooter = ({
   const userContext = useContext(UserContext);
   const calculations = useContext(CalculationsContext);
   const loggedInUserId = userContext.account?.id || null;
-
-  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
-  const name = `${project.lastName}, ${project.firstName}`;
-  const isProjectOwnerAndUser = name === loggedInUserName;
-
   const isAdmin = userContext.account?.isAdmin || false;
   const { firstName, lastName, email } = project;
-
   const elementId = `wizard-footer-action-button-${project.id}`;
   const popupContentId = `popup-content-${elementId}`;
   useReplaceAriaAttribute({
@@ -186,7 +180,6 @@ const WizardFooter = ({
                         handleDROModalOpenWithPreCheck
                       }
                       isDroCommitted={isDroCommitted}
-                      isProjectOwnerAndUser={isProjectOwnerAndUser}
                       isSubmittingSnapshot={isSubmittingSnapshot}
                     />
                   )}

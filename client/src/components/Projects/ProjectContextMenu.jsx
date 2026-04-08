@@ -71,14 +71,9 @@ const ProjectContextMenu = ({
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const account = userContext.account;
-  const isProjectOwnerAndUser = userContext.account.id === project.loginId;
-
+  const isProjectOwner = userContext.account.id === project.loginId;
   const isSnapshotSubmitted = Boolean(project.dateSubmitted);
-
-  const getIsDeleteActionValid = () => {
-    return isProjectOwnerAndUser && !isSnapshotSubmitted;
-  };
-
+  const getIsDeleteActionValid = () => isProjectOwner && !isSnapshotSubmitted;
   const isDeleteActionValid = getIsDeleteActionValid();
 
   const handleClick = callback => {
