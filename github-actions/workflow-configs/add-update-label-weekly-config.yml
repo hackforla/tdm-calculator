@@ -104,7 +104,7 @@ labels:
 
 timeframes:
   recentlyUpdatedByDays: 3
-  needsUpdatingByDays: 7
+  needsUpdatingByDays: 6
   isInactiveByDays: 14
   unassignedByDays: 21 
   upperLimitDays: 35
