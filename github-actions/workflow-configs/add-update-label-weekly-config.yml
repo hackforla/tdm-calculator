@@ -139,7 +139,7 @@ timeframes:
 
 projectBoard:
   targetStatus: "In progress (actively working)" # <-- confirm default value
-  questionsStatus: "Questions / In Review" # <-- confirm default value
+  questionsStatus: "Questions/Clarifications" # <-- changed from default value
 
 
 
