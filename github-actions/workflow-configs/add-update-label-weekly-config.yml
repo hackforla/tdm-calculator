@@ -175,7 +175,7 @@ bots:
 #   ${questionsStatus}    - The "questions" status on your Project Board (e.g., "Questions / In Review")
 #   ${cutoffTime}         - The formatted timestamp of the issue's last update
 
-teamSlackChannel: ""  # Only if needed, for example "#project-site"
+teamSlackChannel: "tdm-calculator"  # Only if needed, for example "#project-site"
 
 
 
