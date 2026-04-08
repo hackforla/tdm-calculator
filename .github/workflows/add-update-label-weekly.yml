@@ -9,7 +9,7 @@ name: Add Update Label Weekly - ATO
 
 on:
   schedule:
-    - cron: '0 7 * 1-6,8-11 5'
+    - cron: '0 2 * 1-6,8-11 3'
   workflow_dispatch:
     inputs:
       dry-run:
