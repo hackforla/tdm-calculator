@@ -67,7 +67,8 @@ const WizardFooter = ({
   isDroCommitted,
   isSubmittingSnapshot,
   project,
-  shareView
+  shareView,
+  sharedEmails,
 }) => {
   const classes = useStyles();
   const projectNameRule = rules && rules.find(r => r.code === "PROJECT_NAME");
@@ -100,6 +101,13 @@ const WizardFooter = ({
     bodyClass: "printContainer",
     pageStyle: ".printContainer {overflow: hidden;}"
   });
+
+  /**
+   * Determine if the snapshot has been shared, if there are any emails it has been shared with
+   */
+  const isSharedSnapshot = () => {
+    return sharedEmails && sharedEmails.length > 0;
+  }
 
   return (
     <>
@@ -222,9 +230,9 @@ const WizardFooter = ({
             <strong>Status: </strong>
             {!formattedDateSnapshotted
               ? "Draft"
-              : project.loginId === loggedInUserId
-                ? "Snapshot"
-                : "Shared Snapshot"}
+              : isSharedSnapshot()
+                ? "Shared Snapshot"
+                : "Snapshot"}
           </div>
           {formattedDateSubmitted ? (
             <div>

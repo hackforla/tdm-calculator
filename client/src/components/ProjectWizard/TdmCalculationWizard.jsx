@@ -105,6 +105,7 @@ const TdmCalculationWizard = props => {
   const [selectedDro, setSelectedDro] = useState(null); // Stores the DRO the user selects from the selection modal
   const [committedDro, setCommittedDro] = useState(null); // Stores the DRO the user confirms from the selection modal
   const isSubmittingSnapshot = useRef(false);
+  const [sharedEmails, setSharedEmails] = useState([]);
 
   useEffect(() => {
     fetchDroOptions(setDroOptions);
@@ -298,6 +299,10 @@ const TdmCalculationWizard = props => {
     }
     setDeleteModalOpen(false);
   };
+
+  const updateSharedEmails = (emails) => {
+    setSharedEmails(emails);
+  }
 
   /*
     shouldBlock determines if user should be blocked from navigating away
@@ -580,6 +585,7 @@ const TdmCalculationWizard = props => {
           onSave={onSave}
           project={project}
           shareView={shareView}
+          sharedEmails={sharedEmails}
         />
       </ContentContainerWithTables>
       <CopyAndEditSnapshotModal
@@ -639,6 +645,7 @@ const TdmCalculationWizard = props => {
         mounted={shareSnapshotModalOpen}
         onClose={handleShareSnapshotModalClose}
         project={project}
+        onSharedEmailsChange={updateSharedEmails}
       />
       <DROSelectionModal
         mounted={droSelectionModalOpen}
