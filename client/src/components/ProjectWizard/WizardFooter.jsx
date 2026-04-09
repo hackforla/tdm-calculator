@@ -107,7 +107,7 @@ const WizardFooter = ({
    */
   const isSharedSnapshot = () => {
     return sharedEmails && sharedEmails.length > 0;
-  }
+  };
 
   return (
     <>
@@ -288,7 +288,8 @@ WizardFooter.propTypes = {
   onDownload: PropTypes.any,
   project: PropTypes.any,
   selectProject: PropTypes.any,
-  shareView: PropTypes.bool
+  shareView: PropTypes.bool,
+  sharedEmails: PropTypes.array,
 };
 
 export default WizardFooter;

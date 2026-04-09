@@ -300,9 +300,9 @@ const TdmCalculationWizard = props => {
     setDeleteModalOpen(false);
   };
 
-  const updateSharedEmails = (emails) => {
+  const updateSharedEmails = emails => {
     setSharedEmails(emails);
-  }
+  };
 
   /*
     shouldBlock determines if user should be blocked from navigating away

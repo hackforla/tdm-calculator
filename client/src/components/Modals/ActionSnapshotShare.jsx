@@ -151,7 +151,12 @@ const emailSchema = Yup.string()
   .required("Email is required")
   .matches(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, "Invalid email address");
 
-export default function ShareSnapshotModal({ mounted, onClose, project, onSharedEmailsChange }) {
+export default function ShareSnapshotModal({
+  mounted,
+  onClose,
+  project,
+  onSharedEmailsChange
+}) {
   const theme = useTheme();
   const classes = useStyles({ theme });
   const modalContentRef = useRef(null);
@@ -569,5 +574,6 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
 ShareSnapshotModal.propTypes = {
   mounted: PropTypes.bool,
   onClose: PropTypes.func,
-  project: PropTypes.any
+  project: PropTypes.any,
+  sharedEmails: PropTypes.array,
 };
