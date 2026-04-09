@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import { MdLaunch } from "react-icons/md";
 import { MdWarning } from "react-icons/md";
-import ResetButtons from "./ResetButtons";
 
 const useStyles = createUseStyles(theme => ({
   level0NavButtons: {
@@ -28,7 +27,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const Level0Page = ({ isLevel0, resetProject }) => {
+const Level0Page = ({ isLevel0 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
 
@@ -36,12 +35,6 @@ const Level0Page = ({ isLevel0, resetProject }) => {
     <>
       {isLevel0 && (
         <div className={classes.level0NavButtons}>
-          <div>
-            <ResetButtons
-              rightAlignStyle={{ marginRight: "1.1em" }}
-              resetProject={resetProject}
-            />
-          </div>
           <div className={classes.level0Container}>
             <MdWarning className={classes.warningIcon} alt="Warning" />
             <h1 style={theme.typography.iconHeading1}>
@@ -76,8 +69,7 @@ const Level0Page = ({ isLevel0, resetProject }) => {
 };
 
 Level0Page.propTypes = {
-  isLevel0: PropTypes.bool.isRequired,
-  resetProject: PropTypes.func.isRequired
+  isLevel0: PropTypes.bool.isRequired
 };
 
 export default Level0Page;
