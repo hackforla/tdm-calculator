@@ -68,7 +68,7 @@ const WizardFooter = ({
   isSubmittingSnapshot,
   project,
   shareView,
-  sharedEmails,
+  sharedEmails
 }) => {
   const classes = useStyles();
   const projectNameRule = rules && rules.find(r => r.code === "PROJECT_NAME");
@@ -289,7 +289,7 @@ WizardFooter.propTypes = {
   project: PropTypes.any,
   selectProject: PropTypes.any,
   shareView: PropTypes.bool,
-  sharedEmails: PropTypes.array,
+  sharedEmails: PropTypes.array
 };
 
 export default WizardFooter;
