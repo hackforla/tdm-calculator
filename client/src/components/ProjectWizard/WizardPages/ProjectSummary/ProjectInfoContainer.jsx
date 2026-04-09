@@ -9,7 +9,7 @@ import { formatId } from "helpers/util";
 
 const useStyles = createUseStyles({
   projectInfoContainer: {
-    margin: "70px auto 0",
+    margin: "24px auto 0",
     width: "100%",
     minHeight: "100px"
   },
@@ -66,7 +66,6 @@ const ProjectInfoContainer = props => {
 
   return (
     <div className={classes.projectInfoContainer}>
-      <hr className={classes.line} />
       <div className={classes.projectInfoDetailsContainer}>
         {projectAddress && (
           <ProjectInfo name={projectAddress.name} rule={projectAddress} />

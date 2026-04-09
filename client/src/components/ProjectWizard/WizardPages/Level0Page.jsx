@@ -11,12 +11,17 @@ const useStyles = createUseStyles(theme => ({
     }
   },
   level0Container: {
-    textAlign: "center"
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: "26px"
   },
   level0Message: {
     ...theme.typography.paragraph1,
-    marginTop: "20px",
-    maxWidth: "800px",
+    marginTop: "6px",
+    maxWidth: "602px",
     backgroundColor: theme.colorTooltipBackground,
     padding: "48px",
     textAlign: "initial"
@@ -34,33 +39,29 @@ const Level0Page = ({ isLevel0 }) => {
   return (
     <>
       {isLevel0 && (
-        <div className={classes.level0NavButtons}>
-          <div className={classes.level0Container}>
-            <MdWarning className={classes.warningIcon} alt="Warning" />
-            <h1 style={theme.typography.iconHeading1}>
-              Your project level is 0
-            </h1>
-            <div className={classes.level0Message}>
-              <p>
-                Based on the information you provided, the Transportation Demand
-                Management (TDM) Ordinance <strong>may</strong> not apply to
-                your project due to its smaller size. Please check LAMC Section
-                12.26 J.3(c) of the{" "}
-                <a
-                  href="https://planning.lacity.org/odocument/bb9114b3-29e3-423f-8b91-027afb242e63/Revised_DRAFT_TDMOrdinance_June2022.pdf"
-                  target="external"
-                >
-                  Draft Revised TDM Ordinance{" "}
-                  <MdLaunch className={classes.externalLinkIcon} />
-                </a>{" "}
-                for applicability and exemption details.
-              </p>
-              <p style={{ marginTop: "2em" }}>
-                Final determination of the TDM Ordinance applicability will be
-                made by the Department of Building and Safety upon review of
-                your project application.
-              </p>
-            </div>
+        <div className={classes.level0Container}>
+          <MdWarning className={classes.warningIcon} alt="Warning" />
+          <h1 style={theme.typography.iconHeading1}>Your project level is 0</h1>
+          <div className={classes.level0Message}>
+            <p>
+              Based on the information you provided, the Transportation Demand
+              Management (TDM) Ordinance <strong>may</strong> not apply to your
+              project due to its smaller size. Please check LAMC Section 12.26
+              J.3(c) of the{" "}
+              <a
+                href="https://planning.lacity.org/odocument/bb9114b3-29e3-423f-8b91-027afb242e63/Revised_DRAFT_TDMOrdinance_June2022.pdf"
+                target="external"
+              >
+                Draft Revised TDM Ordinance{" "}
+                <MdLaunch className={classes.externalLinkIcon} />
+              </a>{" "}
+              for applicability and exemption details.
+            </p>
+            <p style={{ marginTop: "2em" }}>
+              Final determination of the TDM Ordinance applicability will be
+              made by the Department of Building and Safety upon review of your
+              project application.
+            </p>
           </div>
         </div>
       )}

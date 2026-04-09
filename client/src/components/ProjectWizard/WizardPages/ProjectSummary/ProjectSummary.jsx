@@ -189,20 +189,29 @@ const ProjectSummary = props => {
                 RESULTS FOR PROJECT: {projectName.value}
               </span>
             </div>
-            <Level0Page isLevel0={isLevel0} />
-            <div className={clsx("space-between", classes.resultsContainer)}>
-              <Result
-                rule={earnedPoints}
-                borderStyle={earnedPointsBorderStyle}
-                valueTestId={"summary-earned-points-value"}
-              />
-              <Result
-                rule={targetPoints}
-                borderStyle={classes.normalBorder}
-                valueTestId={"summary-target-points-value"}
-              />
-            </div>
-            <PointsEarnedMessage targetPointsReached={targetPointsReached} />
+            {isLevel0 ? (
+              <Level0Page isLevel0={isLevel0} />
+            ) : (
+              <>
+                <div
+                  className={clsx("space-between", classes.resultsContainer)}
+                >
+                  <Result
+                    rule={earnedPoints}
+                    borderStyle={earnedPointsBorderStyle}
+                    valueTestId={"summary-earned-points-value"}
+                  />
+                  <Result
+                    rule={targetPoints}
+                    borderStyle={classes.normalBorder}
+                    valueTestId={"summary-target-points-value"}
+                  />
+                </div>
+                <PointsEarnedMessage
+                  targetPointsReached={targetPointsReached}
+                />
+              </>
+            )}
           </div>
 
           {rules ? <ProjectInfoContainer rules={rules} /> : null}
