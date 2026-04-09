@@ -575,5 +575,5 @@ ShareSnapshotModal.propTypes = {
   mounted: PropTypes.bool,
   onClose: PropTypes.func,
   project: PropTypes.any,
-  onSharedEmailsChange: PropTypes.func,
+  onSharedEmailsChange: PropTypes.func
 };
