@@ -277,7 +277,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
   );
 
   const email = userContext.account ? userContext.account.email : "";
-  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useProjects(handleError);
@@ -320,9 +319,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     ? projects.map(project => {
         const droName =
           droOptions.find(dro => dro.id === project.droId)?.name || "N/A";
-        const name = `${project.lastName}, ${project.firstName}`;
-
-        if (name === loggedInUserName) project.firstName += " (Me)";
 
         return {
           ...project,
@@ -1279,8 +1275,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
             />
             <span className={classes.itemsPerPage}>Items per page</span>
           </div>
-          {/* <pre>{JSON.stringify(sortCriteria, null, 2)}</pre> */}
-          {/* <pre>{JSON.stringify(filterCriteria, null, 2)}</pre> */}
+
           {(selectedProject || checkedProjectsStatusData) && (
             <>
               <CsvModal

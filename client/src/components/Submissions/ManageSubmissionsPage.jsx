@@ -379,6 +379,14 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     },
     { id: "droName", label: "DRO", popupType: "stringList", colWidth: "10rem" },
     {
+      id: "dateSubmitted",
+      label: "Submitted",
+      popupType: "datetime",
+      startDatePropertyName: "startDateSubmitted",
+      endDatePropertyName: "endDateSubmitted",
+      colWidth: "10rem"
+    },
+    {
       id: "assignee",
       label: "Assignee",
       popupType: "string",
@@ -503,7 +511,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                   type="search"
                   id="filterText"
                   name="filterText"
-                  placeholder="Search by Name; Address; Description; Alt#"
+                  placeholder="Search by Project Name, Created By, Assignee"
                   value={filterCriteria.filterText}
                   onChange={e => handleFilterTextChange(e.target.value)}
                 />
