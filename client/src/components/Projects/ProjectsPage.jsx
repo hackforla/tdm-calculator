@@ -1248,7 +1248,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                   ) : (
                     <tr>
                       <td colSpan={9} className={classes.tdNoSavedProjects}>
-                        No Saved Projects
+                        {isActiveProjectsTab ? "No Saved Projects" : "No Submitted Projects"}
                       </td>
                     </tr>
                   )}
