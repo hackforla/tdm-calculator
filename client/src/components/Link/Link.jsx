@@ -9,11 +9,11 @@ const useStyles = createUseStyles(theme => ({
     fontWeight: 700,
     letterSpacing: "0.05em",
     fontSize: "20px",
-    color: theme.colorPrimary,
+    color: theme.colors.secondary.linkBlue,
     textDecoration: "none",
     cursor: "pointer",
     margin: "0.2em", // adding some margin for spacing like the button had
-    padding: "8px 10px",
+    padding: "0.1em 0.3em",
     "&[aria-disabled='true'], &[disabled]": {
       color: theme.colorGray,
       cursor: "default",
@@ -22,7 +22,7 @@ const useStyles = createUseStyles(theme => ({
   },
   activeLink: {
     backgroundColor: theme.colorPrimary,
-    color: theme.colorWhite,
+    color: theme.colorBlack,
     padding: "8px 12px",
     textDecoration: "none",
     cursor: "default"

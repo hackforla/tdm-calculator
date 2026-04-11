@@ -49,8 +49,8 @@ const useStyles = createUseStyles({
     alignItems: "center"
   },
   numberedNavButton: {
-    padding: "0.35em 0.7em",
-    margin: "0.5em",
+    margin: "0.2em",
+    padding: "0.1em 0.3em",
     minHeight: "min-content",
     fontSize: "1.5rem"
   }
