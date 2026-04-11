@@ -30,6 +30,7 @@ export const getCalculations = async () => {
   Format: Version {version number} {date range (if applicable)}
 */
 export const formatCalculation = calculation => {
+  if (!calculation) return "Reference to non-existent calculation";
   const dateStart = calculation.dateStart
     ? formatDate(calculation.dateStart)
     : "";
