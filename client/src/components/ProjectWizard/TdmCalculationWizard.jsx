@@ -81,14 +81,6 @@ const TdmCalculationWizard = props => {
   const page = Number(params.page || 1);
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    if (contentContainerRef && contentContainerRef.current) {
-      contentContainerRef.current.scrollTo(0, 0);
-    } else {
-      window.scrollTo(0, 0);
-    }
-  }, [page, contentContainerRef]);
   const [ainInputError, setAINInputError] = useState("");
   const loginId = project.loginId;
   const [copyAndEditSnapshotModalOpen, setCopyAndEditSnapshotModalOpen] =
@@ -466,9 +458,17 @@ const TdmCalculationWizard = props => {
     const projectIdParam = projectId ? `/${projectId}` : "/0";
     if (Number(pageNo) > Number(page)) {
       if (handleValidate()) {
+        const nextPage = Number(page) + 1;
+        // navigate(`/calculation/${nextPage}${projectIdParam}`);
+        console.log(`old calc: /calculation/${nextPage}${projectIdParam}`);
+        console.log(`new calc: /calculation/${pageNo}${projectIdParam}`);
         navigate(`/calculation/${pageNo}${projectIdParam}`);
       }
     } else {
+      const prevPage = Number(page) - 1;
+      // navigate(`/calculation/${prevPage}${projectIdParam}`);
+      console.log(`old calc: /calculation/${prevPage}${projectIdParam}`);
+      console.log(`new calc: /calculation/${pageNo}${projectIdParam}`);
       navigate(`/calculation/${pageNo}${projectIdParam}`);
     }
   };
