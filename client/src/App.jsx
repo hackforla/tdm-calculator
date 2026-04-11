@@ -37,6 +37,7 @@ import ResetPassword from "./components/Authorization/ResetPassword";
 import ForgotPassword from "./components/Authorization/ForgotPassword";
 import Feedback from "./components/Feedback/FeedbackPage";
 import ErrorPage from "./components/ErrorPage";
+import RouteErrorBoundary from "./components/ErrorBoundary";
 import Offline from "./components/Offline";
 import Logout from "./components/Authorization/Logout";
 import SubmissionsPage from "./components/Submissions/SubmissionsPage";
@@ -60,6 +61,7 @@ const App = () => {
             <ClientAreaLayout appContainerRef={appContainerRef} />
           </div>
         }
+        errorElement={<RouteErrorBoundary />}
         // loader={async () => {
         //   const configs = await getConfigs();
         //   const calculations = await getCalculations(true);
