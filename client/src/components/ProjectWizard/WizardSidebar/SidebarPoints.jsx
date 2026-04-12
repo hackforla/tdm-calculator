@@ -96,7 +96,7 @@ const SidebarPoints = props => {
   return (
     <div className={clsx(classes.metricsPanelItem, opacityTest)}>
       <div id={rule.code} className={earnedPointsColor || targetPointsColor}>
-        {Number.isNaN(Number(rule.value)) ? 0 : rule.value}
+        {rule.value}
       </div>
       <h3 className={classes.ruleName}>
         {rule.name}

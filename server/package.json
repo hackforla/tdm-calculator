@@ -41,8 +41,7 @@
     "mssql": "^11.0.1",
     "node-flywaydb": "^3.0.7",
     "nodemailer": "^8.0.5",
-    "path": "^0.12.7",
-    "uuid": "^11.1.0"
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",

@@ -59,7 +59,7 @@ const SidebarProjectLevel = ({ level, rules }) => {
       )}
     >
       <p id="PROJECT_LEVEL" className={classes.projectLevelValue}>
-        {Number.isNaN(Number(level)) ? 0 : level}
+        {level}
       </p>
       <h3 className={classes.projectLevelHeader}>
         PROJECT LEVEL

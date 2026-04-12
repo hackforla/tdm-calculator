@@ -5,7 +5,7 @@ import { createUseStyles } from "react-jss";
 import Button from "../Button/Button";
 import { useReactToPrint } from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
-import Link from "../Link/Link";
+import NumberedLink from "./NumberedLink";
 import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
@@ -114,8 +114,6 @@ const WizardFooter = ({
     pageStyle: ".printContainer {overflow: hidden;}"
   });
 
-  const isDraft = !project.dateSnapshotted;
-
   // If the project exists and has been saved, AND a user is currently logged in
   const showNumberedLinks = !!project?.id && !!loggedInUserId;
 
@@ -126,46 +124,45 @@ const WizardFooter = ({
           <>
             <div id="nav-container" className="space-between">
               <div className={classes.navButtonGroup}>
-                <NavButton
-                  id="leftNavArrow"
-                  navDirection="previous"
-                  color="colorPrimary"
-                  isVisible={
-                    page !== 1 &&
-                    isDraft &&
-                    (!shareView || isAdmin)
-                  }
-                  isDisabled={
-                    (shareView && !isAdmin) ||
-                    !isDraft ||
-                    Number(page) === 1
-                  }
-                  onClick={() => {
-                    onPageChange(Number(page) - 1);
-                  }}
-                />
+              <NavButton
+                id="leftNavArrow"
+                navDirection="previous"
+                color="colorPrimary"
+                isVisible={
+                  page !== 1 &&
+                  !project.dateSnapshotted &&
+                  (!shareView || isAdmin)
+                }
+                isDisabled={
+                  (shareView && !isAdmin) ||
+                  !!project.dateSnapshotted ||
+                  Number(page) === 1
+                }
+                onClick={() => {
+                  onPageChange(Number(page) - 1);
+                }}
+              />
 
-                {showNumberedLinks &&
-                  Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
-                    <Link
-                      key={`nav-page-${p}`}
-                      id={`nav-page-${p}`}
-                      className={classes.numberedNavButton}
-                      onClick={() => onPageChange(p)}
-                      isActive={p === Number(page)}
-                      disabled={
-                        (shareView && !isAdmin) ||
-                        (p === 4 && projectLevel === 0) ||
-                        (isDraft &&
-                          p > Number(page) &&
-                          setDisabledForNextNavButton())
-                      }
-                      ariaLabel={`go to page ${p}`}
-                    >
-                      {p}
-                    </Link>
-                  ))}
-              </div>
+              {showNumberedLinks &&
+               Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
+                 <NumberedLink
+                   key={`nav-page-${p}`}
+                   id={`nav-page-${p}`}
+                   className={classes.numberedNavButton}
+                   onClick={() => onPageChange(p)}
+                   isActive={p === Number(page)}
+                   disabled={
+                     (shareView && !isAdmin) ||
+                       (p === 4 && projectLevel === 0) ||
+                       (!project.dateSnapshotted &&
+                        p > Number(page) &&
+                        setDisabledForNextNavButton())
+                   }
+                   ariaLabel={`go to page ${p}`}
+                 >
+                   {p}
+                 </NumberedLink>
+               ))}
 
               {(!shareView || isAdmin) && !project?.id ? (
                 <div className={classes.pageNumberCounter}>
@@ -183,6 +180,7 @@ const WizardFooter = ({
                   onPageChange(Number(page) + 1);
                 }}
               />
+            </div>
             </div>
             {isFinalPage && (
               <div>
