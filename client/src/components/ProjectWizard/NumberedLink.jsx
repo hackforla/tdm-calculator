@@ -29,7 +29,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const Link = ({
+const NumberedLink = ({
   children,
   className,
   isDisplayed = true,
@@ -48,11 +48,13 @@ const Link = ({
     <a
       className={clsx(classes.link, isActive && classes.activeLink, className)}
       onClick={e => {
+        e.preventDefault();
         if (disabled || isActive) {
-          e.preventDefault();
           return;
         }
-        if (onClick) onClick(e);
+        if (onClick) {
+          onClick(e);
+        }
       }}
       href={disabled ? undefined : href}
       aria-label={ariaLabel}
@@ -65,7 +67,7 @@ const Link = ({
   );
 };
 
-Link.propTypes = {
+NumberedLink.propTypes = {
   onClick: PropTypes.func,
   children: PropTypes.any,
   isDisplayed: PropTypes.bool,
@@ -77,4 +79,4 @@ Link.propTypes = {
   isActive: PropTypes.bool
 };
 
-export default Link;
+export default NumberedLink;

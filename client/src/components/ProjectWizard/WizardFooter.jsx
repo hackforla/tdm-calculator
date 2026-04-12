@@ -5,7 +5,7 @@ import { createUseStyles } from "react-jss";
 import Button from "../Button/Button";
 import { useReactToPrint } from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
-import Link from "../Link/Link";
+import NumberedLink from "./NumberedLink";
 import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
@@ -147,7 +147,7 @@ const WizardFooter = ({
 
                 {showNumberedLinks &&
                   Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
-                    <Link
+                    <NumberedLink
                       key={`nav-page-${p}`}
                       id={`nav-page-${p}`}
                       className={classes.numberedNavButton}
@@ -163,7 +163,7 @@ const WizardFooter = ({
                       ariaLabel={`go to page ${p}`}
                     >
                       {p}
-                    </Link>
+                    </NumberedLink>
                   ))}
               </div>
 
