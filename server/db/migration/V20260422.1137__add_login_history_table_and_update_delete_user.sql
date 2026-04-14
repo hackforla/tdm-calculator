@@ -1,5 +1,7 @@
 /* Flyway Migration
-   Description: Add Login_History table and Update DeleteUserAndProjects procedure to delete loginId references on User deletes.
+   Description: 
+    - Add Login_History table
+    - Update DeleteUserAndProjects proc to delete loginId references in `Login History` table on User deletes.
 */
 
 
@@ -36,12 +38,15 @@ BEGIN
     END;
 
    
-    DELETE FROM [dbo].[Project] WHERE [loginId] = @id; 
+    DELETE FROM [dbo].[Project] 
+    WHERE [loginId] = @id; 
     
 
-    DELETE FROM [dbo].[LoginHistory] WHERE [loginId] = @id; 
+    DELETE FROM [dbo].[LoginHistory] 
+    WHERE [loginId] = @id; 
 
    
-    DELETE FROM [dbo].[Login] WHERE [id] = @id;
+    DELETE FROM [dbo].[Login] 
+    WHERE [id] = @id;
 END;
 GO
