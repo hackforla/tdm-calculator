@@ -3,6 +3,7 @@
     - Add Login_History table
     - Create Insert proc for Login_History table to insert login date
     - Update DeleteUserAndProjects proc to delete loginId references in `Login History` table
+    - Update select all procedures to get user's last login
 */
 
 
@@ -52,16 +53,79 @@ BEGIN
         RETURN;
     END;
 
-   
-    DELETE FROM [dbo].[Project] 
-    WHERE [loginId] = @id; 
-    
-
-    DELETE FROM [dbo].[LoginHistory] 
-    WHERE [loginId] = @id; 
-
-   
-    DELETE FROM [dbo].[Login] 
-    WHERE [id] = @id;
+   -- Ensure delete operation across tables is atomic
+   BEGIN TRANSACTION;
+    BEGIN TRY
+        DELETE FROM [dbo].[Project] WHERE [loginId] = @id;
+        DELETE FROM [dbo].[LoginHistory] WHERE [loginId] = @id;
+        DELETE FROM [dbo].[Login] WHERE [id] = @id;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH
 END;
+GO
+
+-- Update get accounts procedures to add last login
+CREATE OR ALTER PROCEDURE Login_SelectAll
+AS
+BEGIN
+
+    SELECT 
+        w.id, 
+        w.firstName, 
+        w.lastName, 
+        w.email, 
+        w.dateCreated,
+		w.emailConfirmed, 
+        w.isAdmin, 
+        w.isSecurityAdmin,
+		w.isDro, 
+        p.numberOfProjects,
+        (SELECT MAX(loginDatetime)
+        FROM LoginHistory lh
+        WHERE w.id = lh.loginId) AS lastLogin
+    FROM login w
+    LEFT JOIN (
+        SELECT loginId, COUNT(*) AS numberOfProjects
+        FROM Project
+        GROUP BY loginId
+    ) p ON w.id = p.loginId
+    WHERE w.archivedAt IS NULL
+    ORDER BY w.lastName, w.firstName, w.dateCreated
+
+END
+GO
+
+CREATE OR ALTER  PROCEDURE Login_SelectAllArchived
+AS
+BEGIN
+
+    SELECT 
+        w.id, 
+        w.firstName, 
+        w.lastName, 
+        w.email, 
+        w.dateCreated,
+		w.emailConfirmed, 
+        w.isAdmin, 
+        w.isSecurityAdmin, 
+        w.archivedAt,
+		w.isDro, 
+        p.numberOfProjects,
+        (SELECT MAX(loginDatetime)
+        FROM LoginHistory lh
+        WHERE w.id = lh.loginId) AS lastLogin
+    FROM login w
+    LEFT JOIN (
+        SELECT loginId, COUNT(*) AS numberOfProjects
+        FROM Project
+        GROUP BY loginId
+    ) p ON w.id = p.loginId
+    WHERE w.archivedAt IS NOT NULL
+    ORDER BY w.lastName, w.firstName, w.dateCreated
+
+END
 GO
