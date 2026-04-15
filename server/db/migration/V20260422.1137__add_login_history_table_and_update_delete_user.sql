@@ -1,11 +1,12 @@
 /* Flyway Migration
    Description: 
     - Add Login_History table
-    - Update DeleteUserAndProjects proc to delete loginId references in `Login History` table on User deletes.
+    - Create Insert proc for Login_History table to insert login date
+    - Update DeleteUserAndProjects proc to delete loginId references in `Login History` table
 */
 
 
-
+-- Add login_history table
 IF OBJECT_ID(N'dbo.LoginHistory', N'U') IS NULL
 BEGIN
     CREATE TABLE [dbo].[LoginHistory] (
@@ -19,7 +20,19 @@ BEGIN
 END
 GO
 
+-- Add procedure to insert login dates
+CREATE OR ALTER PROCEDURE [dbo].[LoginHistory_Insert]
+    @loginId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO [dbo].[LoginHistory] (loginId, loginDatetime)
+    VALUES (@loginId, GETUTCDATE());
+END
+GO
 
+
+-- Update delete user procedure to delete login_history references to a deleted user 
 CREATE OR ALTER PROCEDURE [dbo].[DeleteUserAndProjects]
     @id INT
 AS

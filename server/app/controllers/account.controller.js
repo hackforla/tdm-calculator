@@ -117,6 +117,8 @@ const login = async (req, res, next) => {
     const resp = await accountService.authenticate(email, password);
     if (resp.isSuccess) {
       req.user = resp.user;
+
+      await accountService.addLastLoginDate(req.user.id);
       next();
     } else {
       res.json(resp);
