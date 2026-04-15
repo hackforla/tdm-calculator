@@ -17,6 +17,8 @@ BEGIN
         CONSTRAINT [PK_LoginHistory] PRIMARY KEY ([id]),
         CONSTRAINT [FK_LoginHistory_Login] FOREIGN KEY ([loginId]) REFERENCES [dbo].[Login]([id])
     );
+
+    CREATE INDEX IX_LoginHistory_LoginId ON [dbo].[LoginHistory](loginId);
 END
 GO
 
