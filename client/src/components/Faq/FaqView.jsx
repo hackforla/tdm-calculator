@@ -11,7 +11,7 @@ import { createUseStyles } from "react-jss";
 import DeleteFaqModal from "../Modals/WarningFaqDelete";
 import SaveConfirmationModal from "../Modals/WarningFaqSaveEdits";
 import FaqConfirmDialog from "../Modals/WarnngFaqLeave";
-import { matchPath, useBlocker as useBlocker } from "react-router-dom";
+import { matchPath, useBlocker } from "react-router-dom";
 
 const useStyles = createUseStyles(theme => ({
   headerContainer: {
@@ -73,9 +73,9 @@ const FaqView = () => {
         return currentMatch && nextMatch;
       };
 
-      return formHasSaved && !isSamePage(currentLocation, nextLocation);
+      return admin && formHasSaved && !isSamePage(currentLocation, nextLocation);
     },
-    [formHasSaved]
+    [admin, formHasSaved]
   );
 
   const blocker = useBlocker(shouldBlock);
