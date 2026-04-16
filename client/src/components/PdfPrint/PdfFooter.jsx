@@ -71,7 +71,10 @@ const PdfFooter = ({ project }) => {
           </div>
           <div className={classes.pdfTimeText}>
             Guidelines Version:
-            {formatCalculation(calculations[project.calculationId])}
+            {calculations &&
+              project.calculationId &&
+              calculations[project.calculationId] &&
+              formatCalculation(calculations[project.calculationId])}
           </div>
           {isAdmin && (
             <div className={classes.pdfTimeText}>

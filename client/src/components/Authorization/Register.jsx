@@ -95,6 +95,11 @@ const EmailRules = ({ value, touched, classes }) => {
       label:
         "You can use letters, numbers, apostrophe, hyphen, period and a plus sign only",
       valid: /^[a-zA-Z0-9@.'+-]+$/.test(value)
+    },
+    {
+      label:
+        "Your email must end with a valid top-level domain such as .com, .org, .net, etc. (at least 2 letters after the last period)",
+      valid: /^[a-zA-Z0-9@.'+-]*\.[a-zA-Z0-9.'+-]{2,}$/.test(value)
     }
   ];
 
