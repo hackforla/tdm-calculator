@@ -53,7 +53,7 @@ BEGIN
         RETURN;
     END;
 
-   -- Ensure delete operation across tables is atomic
+   -- Ensure delete user operation across tables is atomic
    BEGIN TRANSACTION;
     BEGIN TRY
         DELETE FROM [dbo].[Project] WHERE [loginId] = @id;
@@ -86,7 +86,7 @@ BEGIN
         p.numberOfProjects,
         (SELECT MAX(loginDatetime)
         FROM LoginHistory lh
-        WHERE w.id = lh.loginId) AS lastLogin
+        WHERE w.id = lh.loginId) AS lastLoginDate
     FROM login w
     LEFT JOIN (
         SELECT loginId, COUNT(*) AS numberOfProjects
@@ -99,7 +99,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER  PROCEDURE Login_SelectAllArchived
+CREATE OR ALTER PROCEDURE Login_SelectAllArchived
 AS
 BEGIN
 
@@ -117,7 +117,7 @@ BEGIN
         p.numberOfProjects,
         (SELECT MAX(loginDatetime)
         FROM LoginHistory lh
-        WHERE w.id = lh.loginId) AS lastLogin
+        WHERE w.id = lh.loginId) AS lastLoginDate
     FROM login w
     LEFT JOIN (
         SELECT loginId, COUNT(*) AS numberOfProjects
