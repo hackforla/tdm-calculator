@@ -64,7 +64,6 @@ labels:
 
   filtering:
     - "draft" # <-- confirm default label name
-    - "er" # <-- confirm default label name
     - "epic" # <-- confirm default label name
     - "dependency" # <-- confirm default label name
     # - "" # <-- Uncomment and add label name if needed.
