@@ -5,6 +5,7 @@ import { createUseStyles } from "react-jss";
 import Button from "../Button/Button";
 import { useReactToPrint } from "react-to-print";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
+import NumberedLink from "./NumberedLink";
 import { formatDatetime } from "../../helpers/util";
 import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
@@ -42,6 +43,16 @@ const useStyles = createUseStyles({
     padding: 0,
     boxShadow:
       "10px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
+  },
+  navButtonGroup: {
+    display: "flex",
+    alignItems: "center"
+  },
+  numberedNavButton: {
+    margin: "0.2em",
+    padding: "0.1em 0.3em",
+    minHeight: "min-content",
+    fontSize: "1.5rem"
   }
 });
 
@@ -74,6 +85,8 @@ const WizardFooter = ({
   const projectName = projectNameRule
     ? projectNameRule.value
     : "TDM Calculation Summary";
+  const projectLevelRule = rules && rules.find(r => r.code === "PROJECT_LEVEL");
+  const projectLevel = projectLevelRule ? projectLevelRule.value : 0;
   const formattedDateSnapshotted = formatDatetime(project.dateSnapshotted);
   const formattedDateSubmitted = formatDatetime(project.dateSubmitted);
   const formattedDateModified = formatDatetime(project.dateModified);
@@ -101,33 +114,62 @@ const WizardFooter = ({
     pageStyle: ".printContainer {overflow: hidden;}"
   });
 
+  const isDraft = !project.dateSnapshotted;
+
+  // If the project exists and has been saved, AND a user is currently logged in
+  const showNumberedLinks = !!project?.id && !!loggedInUserId;
+
   return (
     <>
       <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
         {rules && rules.length ? ( //navigation disabled until rules have loaded
           <>
             <div id="nav-container" className="space-between">
-              <NavButton
-                id="leftNavArrow"
-                navDirection="previous"
-                color="colorPrimary"
-                isVisible={
-                  page !== 1 &&
-                  !project.dateSnapshotted &&
-                  (!shareView || isAdmin)
-                }
-                isDisabled={
-                  (shareView && !isAdmin) ||
-                  !!project.dateSnapshotted ||
-                  Number(page) === 1
-                }
-                onClick={() => {
-                  onPageChange(Number(page) - 1);
-                }}
-              />
-              {(!shareView || isAdmin) && !project.dateSnapshotted ? (
+              <div className={classes.navButtonGroup}>
+                <NavButton
+                  id="leftNavArrow"
+                  navDirection="previous"
+                  color="colorPrimary"
+                  isVisible={
+                    page !== 1 &&
+                    isDraft &&
+                    (!shareView || isAdmin)
+                  }
+                  isDisabled={
+                    (shareView && !isAdmin) ||
+                    !isDraft ||
+                    Number(page) === 1
+                  }
+                  onClick={() => {
+                    onPageChange(Number(page) - 1);
+                  }}
+                />
+
+                {showNumberedLinks &&
+                  Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
+                    <NumberedLink
+                      key={`nav-page-${p}`}
+                      id={`nav-page-${p}`}
+                      className={classes.numberedNavButton}
+                      onClick={() => onPageChange(p)}
+                      isActive={p === Number(page)}
+                      disabled={
+                        (shareView && !isAdmin) ||
+                        (p === 4 && projectLevel === 0) ||
+                        (isDraft &&
+                          p > Number(page) &&
+                          setDisabledForNextNavButton())
+                      }
+                      ariaLabel={`go to page ${p}`}
+                    >
+                      {p}
+                    </NumberedLink>
+                  ))}
+              </div>
+
+              {(!shareView || isAdmin) && !project?.id ? (
                 <div className={classes.pageNumberCounter}>
-                  Page {pageNumber}/5
+                  Page {Number.isNaN(pageNumber) ? 1 : pageNumber}/5
                 </div>
               ) : null}
               {/* Page {pageNumber}/5 */}
