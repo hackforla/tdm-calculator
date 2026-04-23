@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-client",
-  "version": "0.2.72",
+  "version": "0.2.73",
   "private": true,
   "proxy": "http://localhost:5001",
   "type": "module",
@@ -36,7 +36,7 @@
     "@react-pdf/renderer": "^3.1.9",
     "axios": "^1.6.1",
     "clsx": "^2.1.1",
-    "dompurify": "^3.3.2",
+    "dompurify": "^3.4.0",
     "formik": "^2.4.6",
     "identity-obj-proxy": "^3.0.0",
     "interweave": "^13.1.1",
@@ -85,7 +85,7 @@
     "require-context.macro": "^1.2.2",
     "sass": "^1.51.0",
     "typescript": "^5.8.2",
-    "vite": "^6.4.1",
+    "vite": "^6.4.2",
     "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.1.4"
   },

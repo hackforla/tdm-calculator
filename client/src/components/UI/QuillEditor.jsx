@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
+import "../../styles/AdminQuill.scss";
 import PropTypes from "prop-types";
 import Button from "../Button/Button";
 import UniversalSelect from "../UI/UniversalSelect.jsx";

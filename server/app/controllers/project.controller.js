@@ -183,7 +183,9 @@ const trash = async (req, res) => {
   try {
     const result = await projectService.trash(ids, trash, req.user.id);
     if (result === 1) {
-      res.sendStatus(403);
+      res.sendStatus(403); // rejected if at least 1 project is not owned by user
+    } else if (result === 2) {
+      res.sendStatus(409); // rejected if at least 1 project has been submitted
     } else {
       res.sendStatus(204);
     }

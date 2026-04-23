@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-api",
-  "version": "0.2.72",
+  "version": "0.2.73",
   "description": "Transportation Demand Management Calculator",
   "repository": {
     "type": "git",
@@ -40,7 +40,7 @@
     "jsonwebtoken": "^9.0.2",
     "mssql": "^11.0.1",
     "node-flywaydb": "^3.0.7",
-    "nodemailer": "^8.0.4",
+    "nodemailer": "^8.0.5",
     "path": "^0.12.7"
   },
   "devDependencies": {

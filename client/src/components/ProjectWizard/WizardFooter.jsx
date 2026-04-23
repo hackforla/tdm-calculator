@@ -80,10 +80,8 @@ const WizardFooter = ({
   const userContext = useContext(UserContext);
   const calculations = useContext(CalculationsContext);
   const loggedInUserId = userContext.account?.id || null;
-
   const isAdmin = userContext.account?.isAdmin || false;
   const { firstName, lastName, email } = project;
-
   const elementId = `wizard-footer-action-button-${project.id}`;
   const popupContentId = `popup-content-${elementId}`;
   useReplaceAriaAttribute({
@@ -148,6 +146,7 @@ const WizardFooter = ({
               <div>
                 <Popup
                   className={classes.popover}
+                  contentStyle={{ width: "238px" }}
                   trigger={
                     // needs element wrapped around Button so reactjs-popup has something to anchor on
                     <div id={elementId}>
