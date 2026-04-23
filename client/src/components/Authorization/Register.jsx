@@ -292,10 +292,10 @@ const Register = props => {
       // for consistency with the EmailRules component.
       // Ulitimately, the only real way to validate an email it to send to it and
       // see if it is received.
-      .matches(emailRules[0].label, emailRules[0].regex)
-      .matches(emailRules[1].label, emailRules[1].regex)
-      .matches(emailRules[2].label, emailRules[2].regex)
-      .matches(emailRules[3].label, emailRules[3].regex)
+      .matches(emailRules[0].regex, emailRules[0].label)
+      .matches(emailRules[1].regex, emailRules[1].label)
+      .matches(emailRules[2].regex, emailRules[2].label)
+      .matches(emailRules[3].regex, emailRules[3].label)
       .required("Email is required"),
     password: Yup.string()
       .min(12, "Password must be at least 12 characters")
