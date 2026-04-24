@@ -390,6 +390,25 @@ const authenticate = async (email, password) => {
   };
 };
 
+/**
+ * Adds a row to the LoginHistory table using the current UTC time.
+ * @param {number} loginId
+ */
+const addLastLoginDate = async loginId => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    return await request
+      .input("loginId", mssql.Int, loginId)
+      .execute("LoginHistory_Insert");
+  } catch (err) {
+    // Non-blocking error: allow the login to proceed
+    console.error(
+      `[Audit Log Failure] Could not record login for ID: ${loginId}. Error: ${err.message}`
+    );
+    return null;
+  }
+};
 const updateRoles = async model => {
   try {
     await poolConnect;
@@ -589,19 +608,20 @@ async function hashPassword(user) {
 }
 
 module.exports = {
-  selectAll,
-  // selectById,
-  register,
-  updateAccount,
-  confirmRegistration,
-  resendConfirmationEmail,
-  forgotPassword,
-  resetPassword,
-  authenticate,
-  updateRoles,
+  addLastLoginDate,
   archiveUser,
-  unarchiveUser,
+  authenticate,
+  confirmRegistration,
+  deleteUser,
+  forgotPassword,
   getAllArchivedUsers,
   getAllDROfficeUsers,
-  deleteUser
+  register,
+  resendConfirmationEmail,
+  resetPassword,
+  selectAll,
+  // selectById,
+  unarchiveUser,
+  updateAccount,
+  updateRoles
 };
