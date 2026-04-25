@@ -5,7 +5,8 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("error-handler");
 const routes = require("./app/routes");
-// const helmet = require("helmet");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 // const pino = require("express-pino-logger")();
 
 dotenv.config();
@@ -31,7 +32,11 @@ const app = express();
 //   }
 // };
 
-// app.use(helmet(helmetConfig));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  }),
+);
 // app.use(pino);
 
 if (process.env.NODE_ENV === "production") {
@@ -67,16 +72,21 @@ app.use(express.static(".well-known"));
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(express.static("public"));
 
-// TODO: Is following line needed for something. Already added above with
-// {extended: true} option.
-app.use(express.urlencoded({ extended: false }));
+// General limiter for /api
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
 
-// Web API routes
-app.use("/api", routes);
+// Stricter limiter for /api/accounts
+const accountsLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // limit each IP to 10 requests per windowMs
+});
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "client/build")));
-app.use(express.static("public"));
+// Apply API rate limiting
+app.use("/api/accounts", accountsLimiter);
+app.use("/api", apiLimiter, routes);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
