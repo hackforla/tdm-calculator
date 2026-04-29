@@ -281,6 +281,8 @@ const TextPopup = ({
 
         {filteredOptions.map(o => {
           const checked = isChecked(o);
+          const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
+
           return (
             <div key={o} className={classes.listItem}>
               <ToggleCheckbox
@@ -295,7 +297,7 @@ const TextPopup = ({
                 }
                 label={o}
               />
-              <span>{o}</span>
+              <span>{o === loggedInUserName ? `${o} (Me)` : o}</span>
             </div>
           );
         })}
