@@ -73,7 +73,9 @@ const FaqView = () => {
         return currentMatch && nextMatch;
       };
 
-      return admin && formHasSaved && !isSamePage(currentLocation, nextLocation);
+      return (
+        admin && formHasSaved && !isSamePage(currentLocation, nextLocation)
+      );
     },
     [admin, formHasSaved]
   );

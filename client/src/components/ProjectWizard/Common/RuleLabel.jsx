@@ -98,6 +98,10 @@ const RuleLabel = ({
   const classes = useStyles({ theme, description, isAdmin });
   const requiredStyle = required && classes.requiredInputLabel;
   const disabledStyle = !display;
+  const labelWithoutFormControlSet = new Set([
+    "STRATEGY_BIKE_BONUS",
+    "STRATEGY_CAR_SHARE_BONUS"
+  ]);
 
   const descriptionHandler = e => {
     e.preventDefault();
@@ -111,6 +115,18 @@ const RuleLabel = ({
       setIsEditing(prev => !prev);
     }
   };
+
+  /**
+   * For certain labels that don't have associated form controls, returns null, else returns the code
+   * @param code string
+   * @returns code (string) or null
+   */
+  const getLabelTarget = code => {
+    return labelWithoutFormControlSet.has(code) ? null : code;
+  };
+
+  // use a span for labels without associated form controls to avoid WAVE error
+  const LabelTag = getLabelTarget(code) ? "label" : "span";
 
   // if (code && code.startsWith("UNITS_HABIT")) {
   //   return (
@@ -173,8 +189,8 @@ const RuleLabel = ({
       }
       onClick={descriptionHandler}
     >
-      <label
-        htmlFor={code || null}
+      <LabelTag
+        htmlFor={getLabelTarget(code)}
         className={
           showDescription
             ? description
@@ -202,7 +218,7 @@ const RuleLabel = ({
         ) : (
           name
         )}
-      </label>
+      </LabelTag>
       {description ? (
         <span
           className={clsx("fa-layers fa-fw", classes.iconContainer)}
