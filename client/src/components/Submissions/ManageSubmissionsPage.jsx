@@ -368,7 +368,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "author",
       label: "Created By",
-      popupType: "string",
+      popupType: "text",
       colWidth: "15rem"
     },
     {
@@ -389,7 +389,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "assignee",
       label: "Assignee",
-      popupType: "string",
+      popupType: "text",
       colWidth: "10rem"
     },
     {
