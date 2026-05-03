@@ -67,7 +67,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const TextPopup = ({
+const StringPopup = ({
   projects,
   filter,
   close,
@@ -278,7 +278,7 @@ const TextPopup = ({
   );
 };
 
-TextPopup.propTypes = {
+StringPopup.propTypes = {
   projects: PropTypes.any,
   filter: PropTypes.func,
   close: PropTypes.func,
@@ -289,8 +289,7 @@ TextPopup.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array
+  setSelectAllChecked: PropTypes.func
 };
 
-export default TextPopup;
+export default StringPopup;
