@@ -99,10 +99,6 @@ const RuleLabel = ({
   const classes = useStyles({ theme, description, isAdmin });
   const requiredStyle = required && classes.requiredInputLabel;
   const disabledStyle = !display;
-  // const labelWithoutFormControlSet = new Set([
-  //   "STRATEGY_BIKE_BONUS",
-  //   "STRATEGY_CAR_SHARE_BONUS"
-  // ]);
 
   const descriptionHandler = e => {
     e.preventDefault();
