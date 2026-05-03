@@ -121,6 +121,7 @@ const MultiMaskedInput = ({
         value={partialValue}
         name={`code ${code}`}
         code={code}
+        id={code}
         onChange={handleInputChange}
         className={
           inputError || validationErrors
