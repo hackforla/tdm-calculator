@@ -78,10 +78,10 @@ const RolesTableRow = ({
           }`}
         />
       </td>
+      <td className={classes.td}>{formatDate(account.dateCreated)}</td>
       <td className={classes.tdCenter}>
         {account.emailConfirmed ? <MdCheck alt="Email confirmed" /> : ""}
       </td>
-      <td className={classes.td}>{formatDate(account.dateCreated)}</td>
       <td className={classes.tdCenter}>
         <Popup
           trigger={
