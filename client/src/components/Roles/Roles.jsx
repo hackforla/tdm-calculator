@@ -245,11 +245,14 @@ const Roles = ({ contentContainerRef }) => {
             <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Dev. Review Office
             </th>
+            <th className={`${classes.td} ${classes.theadLabel}`}>
+              Registration Date
+            </th>
             <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Email Confirmed
             </th>
             <th className={`${classes.td} ${classes.theadLabel}`}>
-              Registration Date
+              Last Active Date
             </th>
             <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
               Options
