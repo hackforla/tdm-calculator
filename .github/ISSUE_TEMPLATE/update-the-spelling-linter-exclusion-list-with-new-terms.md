@@ -1,5 +1,5 @@
 ---
-name: Update the spelling linter exclusion list with new terms
+name: 'Dev: Update the spelling linter exclusion list with new terms'
 about: to prevent the spelling linter from reporting misspellings
 title: 'Dev: Update the spelling linter exclusion list with new terms'
 labels: 'deck: add to staging, feature: spelling, good first issue, priority: MUST
