@@ -373,8 +373,7 @@ const TdmCalculationWizard = props => {
       // is properly set.
       projectId &&
       loginId &&
-      (!(account.isAdmin || account.id === loginId) ||
-        !!project.dateSnapshotted)
+      !(account.isAdmin || account.id === loginId)
     ) {
       // {replace: true} used to prevent user from going back to the page they don't have access to with the back button
       navigate(`/calculation/5/${projectId}`, { replace: true });
