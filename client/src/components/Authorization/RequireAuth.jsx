@@ -18,14 +18,16 @@ import UserContext from "../../contexts/UserContext";
 */
 function RequireAuth({ children, roles }) {
   const userContext = useContext(UserContext);
-  let allow = true;
+
   if (!userContext.account) {
-    allow = true;
-  } else if (!roles || roles.length === 0) {
-    allow = true;
-  } else {
-    allow = roles.some(role => userContext.account[role]);
+    return <Navigate to="/login" replace />;
   }
+
+  if (!roles || roles.length === 0) {
+    return children;
+  }
+
+  const allow = roles.some(role => userContext.account[role]);
 
   return allow ? children : <Navigate to={"/unauthorized"} />;
 }
