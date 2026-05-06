@@ -217,7 +217,7 @@ const App = () => {
           <Route
             path="/managesubmissions"
             element={
-              <RequireAuth>
+              <RequireAuth roles={["isAdmin"]}>
                 <ManageSubmissionsPage
                   contentContainerRef={contentContainerRef}
                 />
