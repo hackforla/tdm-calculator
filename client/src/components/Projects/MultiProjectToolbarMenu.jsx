@@ -136,6 +136,7 @@ const MultiProjectToolbarMenu = ({
         return null;
       },
       visibility: () => {
+        // false indicates mixed statuses
         if (checkedProjectsStatusData.dateHidden === false) {
           return "Your selection includes both hidden and visible items";
         }
