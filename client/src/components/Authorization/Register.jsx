@@ -80,28 +80,35 @@ ValidationIcon.propTypes = {
   }).isRequired
 };
 
+// These are the specific email validation rules that the designers specified.
+// If they prove to be too strict, they may need to be relaxed.
+const emailRules = [
+  {
+    label:
+      "Your email must have at least one character before and after the @ symbol",
+    regex: /^[^@]+@[^@]+$/
+  },
+  {
+    label: "Your email must begin and end with either a letter or a number",
+    regex: /^[a-zA-Z0-9].*[a-zA-Z0-9]$/
+  },
+  {
+    label:
+      "You can use letters, numbers, apostrophe, hyphen, period and a plus sign only",
+    regex: /^[a-zA-Z0-9@.'+-]+$/
+  },
+  {
+    label:
+      "Your email must end with a valid top-level domain such as .com, .org, .net, etc. (at least 2 letters after the last period)",
+    regex: /^[a-zA-Z0-9@.'+-]*\.[a-zA-Z0-9.'+-]{2,}$/
+  }
+];
+
 const EmailRules = ({ value, touched, classes }) => {
-  const rules = [
-    {
-      label:
-        "Your email must have at least one character before and after the @ symbol",
-      valid: /^[^@]+@[^@]+$/.test(value)
-    },
-    {
-      label: "Your email must begin and end with either a letter or a number",
-      valid: /^[a-zA-Z0-9].*[a-zA-Z0-9]$/.test(value)
-    },
-    {
-      label:
-        "You can use letters, numbers, apostrophe, hyphen, period and a plus sign only",
-      valid: /^[a-zA-Z0-9@.'+-]+$/.test(value)
-    },
-    {
-      label:
-        "Your email must end with a valid top-level domain such as .com, .org, .net, etc. (at least 2 letters after the last period)",
-      valid: /^[a-zA-Z0-9@.'+-]*\.[a-zA-Z0-9.'+-]{2,}$/.test(value)
-    }
-  ];
+  const rules = emailRules.map(rule => ({
+    label: rule.label,
+    valid: rule.regex.test(value)
+  }));
 
   return (
     <div>
@@ -279,7 +286,16 @@ const Register = props => {
       )
       .required("Last Name is required"),
     email: Yup.string()
-      .email("Invalid email address")
+      // Since the TDM designers specified the specific validation rules they
+      // wanted, it won't match up with the Yup standard email validation,
+      // so we apply the same specific regex rules as the EmailRules component
+      // for consistency with the EmailRules component.
+      // Ulitimately, the only real way to validate an email it to send to it and
+      // see if it is received.
+      .matches(emailRules[0].regex, emailRules[0].label)
+      .matches(emailRules[1].regex, emailRules[1].label)
+      .matches(emailRules[2].regex, emailRules[2].label)
+      .matches(emailRules[3].regex, emailRules[3].label)
       .required("Email is required"),
     password: Yup.string()
       .min(12, "Password must be at least 12 characters")

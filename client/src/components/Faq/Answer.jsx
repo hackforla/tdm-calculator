@@ -71,6 +71,8 @@ export const Answer = ({
   const classes = useStyles(admin);
 
   const handleSetFAQ = event => {
+    if (!isEditAnswer) return;
+
     // TODO: the early returns look like hackery.
     // not sure what it's trying to do, but handleSetFAQ is called on blur,
     // which means it's called when opening links in a new tab.

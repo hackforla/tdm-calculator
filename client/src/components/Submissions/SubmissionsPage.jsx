@@ -181,6 +181,8 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
+  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
+
   const [projects, setProjects] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -367,7 +369,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     {
       id: "assignee",
       label: "Staff Assigned",
-      popupType: "string",
+      popupType: "text",
       colWidth: "224px"
     },
     {
@@ -571,7 +573,11 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                         <Td>{formatDate(project.dateStatus)}</Td>
                         <Td align="center">{project.projectLevel}</Td>
                         <Td>{project.droName}</Td>
-                        <TdExpandable>{project.assignee}</TdExpandable>
+                        <TdExpandable>
+                          {project.assignee === loggedInUserName
+                            ? `${project.assignee} (Me)`
+                            : project.assignee}
+                        </TdExpandable>
                         <Td>{formatDate(project.dateAssigned)}</Td>
                         <Td>{project.invoiceStatusName}</Td>
                         <Td>{formatDate(project.dateInvoicePaid)}</Td>

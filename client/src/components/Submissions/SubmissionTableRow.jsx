@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import UserContext from "../../contexts/UserContext";
 import "reactjs-popup/dist/index.css";
 import {
   MdAdd,
@@ -95,6 +96,9 @@ const SubmissionTableRow = ({
   assigneeList,
   onStatusUpdate
 }) => {
+  const userContext = useContext(UserContext);
+  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
+
   const {
     showWarningModal,
     isEditing,
@@ -137,11 +141,19 @@ const SubmissionTableRow = ({
       <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
       </TdExpandable>
-      <Td>{project.author}</Td>
+      <Td>
+        {project.author === loggedInUserName
+          ? `${project.author} (Me)`
+          : project.author}
+      </Td>
       <Td align="center">{project.projectLevel}</Td>
       <Td>{project.droName}</Td>
       <Td>{formatDate(project.dateSubmitted)}</Td>
-      <TdExpandable>{project.assignee}</TdExpandable>
+      <TdExpandable>
+        {project.assignee === loggedInUserName
+          ? `${project.assignee} (Me)`
+          : project.assignee}
+      </TdExpandable>
       <Td>{formatDate(project.dateAssigned)}</Td>
       <Td>{project.invoiceStatusName}</Td>
       <Td>{formatDate(project.dateInvoicePaid)}</Td>

@@ -117,7 +117,7 @@ const Roles = ({ contentContainerRef }) => {
         } else if (response.status === 401) {
           setRedirectPath("/login");
         } else if (response.status === 403) {
-          setRedirectPath("/uauthorized");
+          setRedirectPath("/unauthorized");
         } else {
           setAccounts([]);
         }
