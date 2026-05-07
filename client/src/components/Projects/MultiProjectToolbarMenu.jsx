@@ -121,10 +121,10 @@ const MultiProjectToolbarMenu = ({
   const getTooltipMsg = actionType => {
     const hasNoSelection = checkedProjectIds.length === 0;
 
+    if (!actionType || hasNoSelection) return null;
+
     if (actionType === "print" && hasNoSelection)
       return "Please select one project";
-
-    if (!actionType || hasNoSelection) return null;
 
     const contentRules = {
       delete: () => {
@@ -141,6 +141,11 @@ const MultiProjectToolbarMenu = ({
           return "Your selection includes both hidden and visible items";
         }
         return null;
+      },
+      print: () => {
+        if (checkedProjectIds.length !== 1) {
+          return "Please select one project";
+        }
       }
     };
 
