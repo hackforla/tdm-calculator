@@ -98,6 +98,9 @@ const MultiProjectToolbarMenu = ({
       account.id === checkedProjectsStatusData.loginId
     : false;
 
+  const checkedProjectsSubmittedStatus =
+    checkedProjectsStatusData.dateSubmitted;
+
   const isBtnDisabled = (projProp, criteriaProp) => {
     const sameDateVals = checkedProjectsStatusData[projProp] !== false;
     const criteriaFilter = criteria[criteriaProp] === "all";
@@ -111,14 +114,36 @@ const MultiProjectToolbarMenu = ({
     isBtnDisabled("dateHidden", "visibility");
 
   const isDelBtnDisabled =
-    !isProjectOwner || isBtnDisabled("dateTrashed", "status");
+    !isProjectOwner ||
+    checkedProjectsSubmittedStatus !== null ||
+    isBtnDisabled("dateTrashed", "status");
 
-  const tooltipMsg = criteriaProp => {
-    if (checkedProjectIds.length === 0) return;
+  const getTooltipMsg = actionType => {
+    const hasNoSelection = checkedProjectIds.length === 0;
 
-    if (!isProjectOwner && criteriaProp !== "visibility") {
-      return "You have selected a project that does not belong to you";
-    }
+    if (actionType === "print" && hasNoSelection)
+      return "Please select one project";
+
+    if (!actionType || hasNoSelection) return null;
+
+    const contentRules = {
+      delete: () => {
+        // first priority check is ownership, if both are selected prioritize ownership msg
+        if (!isProjectOwner)
+          return "You have selected a project that does not belong to you";
+        if (checkedProjectsSubmittedStatus !== null)
+          return "One or more selected projects have already been submitted";
+        return null;
+      },
+      visibility: () => {
+        if (checkedProjectsStatusData.dateHidden === false) {
+          return "Your selection includes both hidden and visible items";
+        }
+        return null;
+      }
+    };
+
+    return contentRules[actionType]?.() ?? null;
   };
 
   // fetching rules for PDF
@@ -207,25 +232,22 @@ const MultiProjectToolbarMenu = ({
               }
             />
           </button>
-          {checkedProjectIds.length !== 1 ? (
-            <Tooltip
-              // Cannot use JSS, because Tooltip default styles would overwrite
-              style={{
-                ...theme.typography.paragraph1,
-                backgroundColor: theme.colors.secondary.lightGray,
-                width: "12rem",
-                borderRadius: "5px",
-                textAlign: "center",
-                boxShadow:
-                  "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
-              }}
-              border="1px solid black"
-              anchorSelect="#print-btn"
-              content="Please select one project"
-            />
-          ) : (
-            ""
-          )}
+
+          <Tooltip
+            // Cannot use JSS, because Tooltip default styles would overwrite
+            style={{
+              ...theme.typography.paragraph1,
+              backgroundColor: theme.colors.secondary.lightGray,
+              width: "12rem",
+              borderRadius: "5px",
+              textAlign: "center",
+              boxShadow:
+                "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
+            }}
+            border="1px solid black"
+            anchorSelect="#print-btn"
+            content={getTooltipMsg("print")}
+          />
           {project && hasPdfData() && (
             <div style={{ display: "none" }}>
               <PdfPrint
@@ -276,11 +298,7 @@ const MultiProjectToolbarMenu = ({
               }}
               border="1px solid black"
               anchorSelect="#hide-btn"
-              content={tooltipMsg(
-                "visibility",
-                "Your selection includes both hidden and visible items",
-                "dateHidden"
-              )}
+              content={getTooltipMsg("visibility")}
             />
           </button>
         </li>
@@ -312,6 +330,22 @@ const MultiProjectToolbarMenu = ({
                 }
               />
             )}
+
+            <Tooltip
+              // Cannot use JSS, because Tooltip default styles would overwrite
+              style={{
+                ...theme.typography.paragraph1,
+                backgroundColor: theme.colors.secondary.lightGray,
+                width: "12rem",
+                borderRadius: "5px",
+                textAlign: "center",
+                boxShadow:
+                  "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
+              }}
+              border="1px solid black"
+              anchorSelect="#delete-btn"
+              content={getTooltipMsg("delete")}
+            />
           </button>
         </li>
       </ul>
