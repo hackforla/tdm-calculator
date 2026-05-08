@@ -135,6 +135,28 @@ const App = () => {
               </RequireAuth>
             }
           />
+          <Route
+            path="/feedback"
+            element={<Feedback contentContainerRef={contentContainerRef} />}
+          />
+          <Route
+            path="/submissions"
+            element={
+              <RequireAuth>
+                <SubmissionsPage contentContainerRef={contentContainerRef} />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/managesubmissions"
+            element={
+              <RequireAuth>
+                <ManageSubmissionsPage
+                  contentContainerRef={contentContainerRef}
+                />
+              </RequireAuth>
+            }
+          />
         </Route>
 
         {/* These routes either have no sidebar or use a custom sidebar */}
@@ -191,28 +213,7 @@ const App = () => {
             }
           />
           <Route path="/faqs" element={<FaqView />} />
-          <Route
-            path="/feedback"
-            element={<Feedback contentContainerRef={contentContainerRef} />}
-          />
-          <Route
-            path="/submissions"
-            element={
-              <RequireAuth>
-                <SubmissionsPage contentContainerRef={contentContainerRef} />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/managesubmissions"
-            element={
-              <RequireAuth>
-                <ManageSubmissionsPage
-                  contentContainerRef={contentContainerRef}
-                />
-              </RequireAuth>
-            }
-          />
+
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Route>

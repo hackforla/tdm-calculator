@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useContext } from "react";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import * as feedbackService from "../../services/feedback.service";
 import { createUseStyles, useTheme } from "react-jss";
@@ -10,8 +10,7 @@ import * as Yup from "yup";
 import Button from "../Button/Button";
 import useToast from "../../contexts/Toast/useToast";
 import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
-import useErrorHandler from "../../hooks/useErrorHandler";
-import useProjects from "../../hooks/useGetProjects";
+import useProject from "../../hooks/useProject";
 import ProjectList from "./ProjectList";
 
 const useStyles = createUseStyles(theme => ({
@@ -75,13 +74,6 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const GetUserProjects = email => {
-  const navigate = useNavigate();
-  const handleError = useErrorHandler(email, navigate);
-  const [projects] = useProjects(handleError);
-  return projects;
-};
-
 const FeedbackPage = ({ contentContainerRef }) => {
   const userContext = useContext(UserContext);
   const theme = useTheme();
@@ -89,12 +81,19 @@ const FeedbackPage = ({ contentContainerRef }) => {
   const focusRef = useRef(null);
   const toast = useToast();
   const account = userContext.account;
-  const projects = !account
-    ? null
-    : account.email
-      ? GetUserProjects(account.email)
-      : [];
+  const [projects, setProjects] = useState([]);
+  const { getProjects } = useProject();
   const [selectedProjects, setSelectedProjects] = useState([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const projects = await getProjects();
+      setProjects(projects);
+    };
+    if (account) {
+      fetchProjects();
+    }
+  }, [getProjects, account]);
 
   useEffect(() => {
     focusRef.current.focus();

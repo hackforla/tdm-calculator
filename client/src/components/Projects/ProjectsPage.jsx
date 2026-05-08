@@ -8,7 +8,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
-import useProjects from "../../hooks/useGetProjects";
+import useProject from "../../hooks/useProject";
 import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData";
 import * as projectService from "../../services/project.service";
 import * as projectResultService from "../../services/projectResult.service";
@@ -279,7 +279,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
-  const [projects, setProjects] = useProjects(handleError);
+  const [projects, setProjects] = useState([]);
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
@@ -296,15 +296,24 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [droOptions, setDroOptions] = useState([]);
+  const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
+  const { getProjects } = useProject();
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
-  const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
   const isSubmittingSnapshot = useRef(false);
 
   useEffect(() => {
     fetchDroOptions(setDroOptions);
   }, []);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const projects = await getProjects();
+      setProjects(projects);
+    };
+    fetchProjects();
+  }, [getProjects]);
 
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
     checkedProjectIds,
@@ -381,8 +390,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const updateProjects = async () => {
-    const updated = await projectService.get();
-    setProjects(updated.data);
+    const projects = await getProjects();
+    setProjects(projects);
   };
 
   useEffect(() => {
