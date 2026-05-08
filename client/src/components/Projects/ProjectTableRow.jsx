@@ -11,7 +11,8 @@ import {
   MdMoreVert,
   MdAdd,
   MdOutlineStickyNote2,
-  MdLockOutline
+  MdLockOutline,
+  MdOutlinePeopleAlt
 } from "react-icons/md";
 import { formatDate, formatId } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
@@ -344,16 +345,23 @@ const ProjectTableRow = ({
         )}
       </Td>
       <Td>
-        {project.dateSnapshotted ? "Snapshot" : "Draft"}{" "}
-        {project.dateTrashed ? (
-          <span
-            style={{
-              color: daysUntilPermanentDeletion(project) <= 7 ? "red" : "gray"
-            }}
-          >
-            ({daysUntilPermanentDeletion(project)})
-          </span>
-        ) : null}
+        <span style={{ display: "flex" }}>
+          {project.dateSnapshotted ? "Snapshot" : "Draft"}{" "}
+          {project.dateTrashed ? (
+            <span
+              style={{
+                color: daysUntilPermanentDeletion(project) <= 7 ? "red" : "gray"
+              }}
+            >
+              ({daysUntilPermanentDeletion(project)})
+            </span>
+          ) : null}
+          {project.shareCount > 0 && (
+            <span title={`shared`}>
+              <MdOutlinePeopleAlt style={{ width: "1em", marginLeft: "4px" }} />
+            </span>
+          )}
+        </span>
       </Td>
       <Td className={classes.td}>{formatId(project.id)}</Td>
       <TdExpandable>
