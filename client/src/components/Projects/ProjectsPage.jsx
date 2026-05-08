@@ -943,7 +943,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateSnapshotted",
       label: "Status",
       popupType: "status",
-      colWidth: `${isActiveProjectsTab ? "7rem" : "12rem"}`
+      colWidth: `${isActiveProjectsTab ? "9rem" : "14rem"}`
     },
     {
       id: "idFormatted",
