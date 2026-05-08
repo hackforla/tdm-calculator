@@ -2,8 +2,8 @@
 name: 'Content: FAQ database: Revise content'
 about: To make it easy to create new issues for FAQ content needing revision
 title: 'FAQ database: Revise content: [Replace with NAME OF ITEM]'
-labels: 'deck: add to staging, level: missing, milestone: missing, p-feature: FAQ
-  screen, priority: missing, role: ux content writing'
+labels: 'deck: add to staging, level: missing, milestone: missing, priority: missing,
+  role: ux content writing'
 assignees: ''
 
 ---
