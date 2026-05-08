@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { Route } from "react-router-dom";
 import ProjectTableRow from "./ProjectTableRow";
 import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -111,7 +111,7 @@ describe("ProjectTableRow", () => {
     fetchEngineRules.mockImplementation(() => Promise.resolve(projectRules));
 
     render(
-      <BrowserRouter>
+      <Route>
         <table>
           <tbody>
             <ProjectTableRow
@@ -131,7 +131,7 @@ describe("ProjectTableRow", () => {
             />
           </tbody>
         </table>
-      </BrowserRouter>
+      </Route>
     );
 
     expect(screen.getByText(project.name)).toBeInTheDocument();
@@ -160,7 +160,7 @@ describe("ProjectTableRow", () => {
     fetchEngineRules.mockImplementation(() => Promise.resolve(projectRules));
 
     render(
-      <BrowserRouter>
+      <Route>
         <table>
           <tbody>
             <ProjectTableRow
@@ -180,7 +180,7 @@ describe("ProjectTableRow", () => {
             />
           </tbody>
         </table>
-      </BrowserRouter>
+      </Route>
     );
 
     expect(screen.getByText(formInputs.VERSION_NO)).toBeInTheDocument();
@@ -202,7 +202,7 @@ describe("ProjectTableRow", () => {
     fetchEngineRules.mockImplementation(() => Promise.resolve(projectRules));
 
     render(
-      <BrowserRouter>
+      <Route>
         <TdmAuthProvider>
           <table>
             <tbody>
@@ -224,7 +224,7 @@ describe("ProjectTableRow", () => {
             </tbody>
           </table>
         </TdmAuthProvider>
-      </BrowserRouter>
+      </Route>
     );
 
     expect(screen.getByText("2023-10-02")).toBeInTheDocument();
@@ -246,7 +246,7 @@ describe("ProjectTableRow", () => {
     fetchEngineRules.mockImplementation(() => Promise.resolve(projectRules));
 
     render(
-      <BrowserRouter>
+      <Route>
         <table>
           <tbody>
             <ProjectTableRow
@@ -266,7 +266,7 @@ describe("ProjectTableRow", () => {
             />
           </tbody>
         </table>
-      </BrowserRouter>
+      </Route>
     );
 
     expect(
@@ -289,7 +289,7 @@ describe("ProjectTableRow", () => {
     const fetchEngineRules = require("./fetchEngineRules");
     fetchEngineRules.mockImplementation(() => Promise.resolve(projectRules));
     render(
-      <BrowserRouter>
+      <Route>
         <table>
           <tbody>
             <ProjectTableRow
@@ -309,7 +309,7 @@ describe("ProjectTableRow", () => {
             />
           </tbody>
         </table>
-      </BrowserRouter>
+      </Route>
     );
     expect(fetchEngineRules).toHaveBeenCalledTimes(1);
     expect(screen.queryByRole("button")).toBeNull();
