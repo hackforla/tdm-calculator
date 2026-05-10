@@ -275,16 +275,16 @@ const Roles = ({ contentContainerRef }) => {
                 Dev. Review Office
               </th>
               <th
-                className={`${classes.td} ${classes.theadLabel}`}
-                style={{ width: "7em" }}
-              >
-                Registered
-              </th>
-              <th
                 className={`${classes.tdCenter} ${classes.theadLabel}`}
                 style={{ width: "4em" }}
               >
                 Email Confirmed
+              </th>
+              <th
+                className={`${classes.td} ${classes.theadLabel}`}
+                style={{ width: "7em" }}
+              >
+                Registered
               </th>
               <th
                 className={`${classes.td} ${classes.theadLabel}`}
