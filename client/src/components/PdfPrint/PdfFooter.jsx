@@ -16,8 +16,7 @@ const useStyles = createUseStyles({
     margin: "24px 0 0",
     width: "100%",
     position: "fixed",
-    bottom: "0",
-    height: "100px",
+    bottom: "8px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-end"
@@ -32,12 +31,12 @@ const PdfFooter = ({ project }) => {
     loginId,
     firstName,
     lastName,
-    email
+    email,
+    shareCount
   } = project;
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const calculations = useContext(CalculationsContext);
-  const loggedInUserId = userContext.account?.id;
   const formattedDateModified = formatDatetime(dateModified);
   const formattedDateSnapshotted = formatDatetime(dateSnapshotted);
   const formattedDateSubmitted = formatDatetime(dateSubmitted);
@@ -85,9 +84,9 @@ const PdfFooter = ({ project }) => {
             Status:{" "}
             {!formattedDateSnapshotted
               ? "Draft"
-              : loginId === loggedInUserId
-                ? "Snapshot"
-                : "Shared Snapshot"}
+              : shareCount
+                ? "Shared Snapshot"
+                : "Snapshot"}
           </div>
           {formattedDateSubmitted && (
             <div className={classes.pdfTimeText}>
