@@ -25,6 +25,9 @@ const useStyles = createUseStyles(theme => ({
     fontWeight: "normal",
     fontStyle: "normal"
   },
+  input: {
+    width: "20rem"
+  },
   archiveTitle: {
     marginTop: "0.5em",
     textAlign: "center",
@@ -118,7 +121,14 @@ const Roles = ({ contentContainerRef }) => {
       try {
         const response = await accountService.search();
         if (response.status === 200) {
-          setAccounts(response.data);
+          setAccounts(
+            response.data.map(account => {
+              return {
+                ...account,
+                name: `${account.lastName}, ${account.firstName}`
+              };
+            })
+          );
           setFilteredAccounts(response.data);
         } else if (response.status === 401) {
           setRedirectPath("/login");
@@ -135,13 +145,14 @@ const Roles = ({ contentContainerRef }) => {
   }, []);
 
   const filt = (allAccounts, searchString) => {
-    const str = searchString;
+    const str = searchString.toLowerCase();
     const filteredAccounts = allAccounts.filter(
       account =>
         str === "" ||
         account.email.toLowerCase().includes(str) ||
         account.firstName.toLowerCase().includes(str) ||
-        account.lastName.toLowerCase().includes(str)
+        account.lastName.toLowerCase().includes(str) ||
+        account.name.toLowerCase().includes(str)
     );
     if (filteredAccounts) {
       setFilteredAccounts(filteredAccounts);
@@ -220,6 +231,7 @@ const Roles = ({ contentContainerRef }) => {
           className={classes.input}
           name="searchString"
           type="text"
+          placeholder="Search by Email, First or Last Name"
           value={searchString || ""}
           onChange={e => {
             setSearchString(e.target.value);
