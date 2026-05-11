@@ -124,63 +124,63 @@ const WizardFooter = ({
           <>
             <div id="nav-container" className="space-between">
               <div className={classes.navButtonGroup}>
-              <NavButton
-                id="leftNavArrow"
-                navDirection="previous"
-                color="colorPrimary"
-                isVisible={
-                  page !== 1 &&
-                  !project.dateSnapshotted &&
-                  (!shareView || isAdmin)
-                }
-                isDisabled={
-                  (shareView && !isAdmin) ||
-                  !!project.dateSnapshotted ||
-                  Number(page) === 1
-                }
-                onClick={() => {
-                  onPageChange(Number(page) - 1);
-                }}
-              />
+                <NavButton
+                  id="leftNavArrow"
+                  navDirection="previous"
+                  color="colorPrimary"
+                  isVisible={
+                    page !== 1 &&
+                    !project.dateSnapshotted &&
+                    (!shareView || isAdmin)
+                  }
+                  isDisabled={
+                    (shareView && !isAdmin) ||
+                    !!project.dateSnapshotted ||
+                    Number(page) === 1
+                  }
+                  onClick={() => {
+                    onPageChange(Number(page) - 1);
+                  }}
+                />
 
-              {showNumberedLinks &&
-               Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
-                 <NumberedLink
-                   key={`nav-page-${p}`}
-                   id={`nav-page-${p}`}
-                   className={classes.numberedNavButton}
-                   onClick={() => onPageChange(p)}
-                   isActive={p === Number(page)}
-                   disabled={
-                     (shareView && !isAdmin) ||
-                       (p === 4 && projectLevel === 0) ||
-                       (!project.dateSnapshotted &&
-                        p > Number(page) &&
-                        setDisabledForNextNavButton())
-                   }
-                   ariaLabel={`go to page ${p}`}
-                 >
-                   {p}
-                 </NumberedLink>
-               ))}
+                {showNumberedLinks &&
+                  Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
+                    <NumberedLink
+                      key={`nav-page-${p}`}
+                      id={`nav-page-${p}`}
+                      className={classes.numberedNavButton}
+                      onClick={() => onPageChange(p)}
+                      isActive={p === Number(page)}
+                      disabled={
+                        (shareView && !isAdmin) ||
+                        (p === 4 && projectLevel === 0) ||
+                        (!project.dateSnapshotted &&
+                          p > Number(page) &&
+                          setDisabledForNextNavButton())
+                      }
+                      ariaLabel={`go to page ${p}`}
+                    >
+                      {p}
+                    </NumberedLink>
+                  ))}
 
-              {(!shareView || isAdmin) && !project?.id ? (
-                <div className={classes.pageNumberCounter}>
-                  Page {Number.isNaN(pageNumber) ? 1 : pageNumber}/5
-                </div>
-              ) : null}
-              {/* Page {pageNumber}/5 */}
-              <NavButton
-                id="rightNavArrow"
-                navDirection="next"
-                color="colorPrimary"
-                isVisible={page !== 5}
-                isDisabled={setDisabledForNextNavButton()}
-                onClick={() => {
-                  onPageChange(Number(page) + 1);
-                }}
-              />
-            </div>
+                {(!shareView || isAdmin) && !project?.id ? (
+                  <div className={classes.pageNumberCounter}>
+                    Page {Number.isNaN(pageNumber) ? 1 : pageNumber}/5
+                  </div>
+                ) : null}
+                {/* Page {pageNumber}/5 */}
+                <NavButton
+                  id="rightNavArrow"
+                  navDirection="next"
+                  color="colorPrimary"
+                  isVisible={page !== 5}
+                  isDisabled={setDisabledForNextNavButton()}
+                  onClick={() => {
+                    onPageChange(Number(page) + 1);
+                  }}
+                />
+              </div>
             </div>
             {isFinalPage && (
               <div>
