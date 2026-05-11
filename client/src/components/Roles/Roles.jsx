@@ -231,7 +231,7 @@ const Roles = ({ contentContainerRef }) => {
           className={classes.input}
           name="searchString"
           type="text"
-          placeholder="Search by Email, First or Last Name"
+          placeholder="Search by Email or Name"
           value={searchString || ""}
           onChange={e => {
             setSearchString(e.target.value);
