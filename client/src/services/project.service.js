@@ -2,6 +2,8 @@ import axios from "axios";
 
 const baseUrl = "/api/projects";
 
+// To get all the projects for the user for use by the client, use the useProject hook getProjects
+// function instead of this, since it has additional logic to update the Program Guidelines version as well.
 export function get() {
   try {
     return axios.get(baseUrl);
@@ -10,12 +12,11 @@ export function get() {
   }
 }
 
+// To get a project by Id for use by the client, use the useProject hook getProjectById
+// function instead of this, since it has additional logic to update the Program Guidelines
+// version as well.
 export function getById(id) {
   return axios.get(`${baseUrl}/${id}`);
-}
-
-export function getByIdWithEmail(id) {
-  return axios.get(`${baseUrl}/projectShare/${id}`);
 }
 
 export function post(project) {
@@ -96,6 +97,8 @@ export function updateTotals(requestBody) {
   return axios.put(`${baseUrl}/updateTotals/${requestBody.id}`, requestBody);
 }
 
+// Client should not use this directly, but use the useProject hook's getSubmissions
+// function instead, since it has additional logic to update the Program Guidelines version as well.
 export function getSubmissions() {
   try {
     return axios.get(`${baseUrl}/submissions`);
@@ -104,6 +107,8 @@ export function getSubmissions() {
   }
 }
 
+// Client should not use this directly, but use the useProject hook's getSubmissions
+// function instead, since it has additional logic to update the Program Guidelines version as well.
 export function getSubmissionsAdmin() {
   try {
     return axios.get(`${baseUrl}/submissionsadmin`);
