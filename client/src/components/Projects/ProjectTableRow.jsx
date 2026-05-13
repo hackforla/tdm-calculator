@@ -10,7 +10,9 @@ import {
   MdVisibilityOff,
   MdMoreVert,
   MdAdd,
-  MdOutlineStickyNote2
+  MdOutlineStickyNote2,
+  MdLockOutline,
+  MdOutlinePeopleAlt
 } from "react-icons/md";
 import { formatDate, formatId } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
@@ -343,16 +345,23 @@ const ProjectTableRow = ({
         )}
       </Td>
       <Td>
-        {project.dateSnapshotted ? "Snapshot" : "Draft"}{" "}
-        {project.dateTrashed ? (
-          <span
-            style={{
-              color: daysUntilPermanentDeletion(project) <= 7 ? "red" : "gray"
-            }}
-          >
-            ({daysUntilPermanentDeletion(project)})
-          </span>
-        ) : null}
+        <span style={{ display: "flex" }}>
+          {project.dateSnapshotted ? "Snapshot" : "Draft"}{" "}
+          {project.dateTrashed ? (
+            <span
+              style={{
+                color: daysUntilPermanentDeletion(project) <= 7 ? "red" : "gray"
+              }}
+            >
+              ({daysUntilPermanentDeletion(project)})
+            </span>
+          ) : null}
+          {project.shareCount > 0 && (
+            <span title={`shared`}>
+              <MdOutlinePeopleAlt style={{ width: "1em", marginLeft: "4px" }} />
+            </span>
+          )}
+        </span>
       </Td>
       <Td className={classes.td}>{formatId(project.id)}</Td>
       <TdExpandable>
@@ -467,21 +476,31 @@ const ProjectTableRow = ({
         <Td>
           <span
             onClick={() => {
-              if (!project.dateSubmitted) {
+              if (!project.dateInvoicePaid) {
                 setChangeVersionModalOpen(true);
               }
             }}
             style={
-              !project.dateSubmitted
+              !project.dateInvoicePaid
                 ? {
                     color: "#0000FF",
                     textDecoration: "underline",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    display: "flex"
                   }
                 : {}
             }
           >
-            {calculations[project.calculationId].version || "Beta"}
+            {calculations[project.calculationId].version || "Beta"}{" "}
+            {project.dateInvoicePaid || project.isCalculationIdOverride ? (
+              <MdLockOutline
+                alt={`Program Guidelines Version is Locked`}
+                title={`Program Guidelines Version is Locked`}
+                style={{ width: "1em" }}
+              />
+            ) : (
+              ""
+            )}
           </span>
           <ChangeVersionModal
             isModalOpen={changeVersionModalOpen}

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useCallback } from "react";
 import Engine from "../services/tdm-engine";
 import ConfigContext from "../contexts/ConfigContext";
 import CalculationsContext from "../contexts/CalculationsContext";
@@ -12,25 +12,28 @@ const useCalculator = () => {
   const defaultCalculationId = Number(configContext.CURRENT_CALCULATION_ID);
   const calculations = useContext(CalculationsContext);
 
-  const calculate = async project => {
-    // If the project.isCalculationIdOverride is true, the project is locked to the
-    // specific calculationId from the project record. Otherwise, it should use
-    // the current default calculationId from config.
-    const calculationId =
-      project.isCalculationIdOverride || project.dateSubmitted
-        ? project.calculationId
-        : defaultCalculationId;
+  const calculate = useCallback(
+    async project => {
+      // If the project.isCalculationIdOverride is true, the project is locked to the
+      // specific calculationId from the project record. Otherwise, it should use
+      // the current default calculationId from config.
+      const calculationId =
+        project.isCalculationIdOverride || project.dateSubmitted
+          ? project.calculationId
+          : defaultCalculationId;
 
-    const calculation = calculations[calculationId];
-    const engine = new Engine(calculation.rules);
+      const calculation = calculations[calculationId];
+      const engine = new Engine(calculation.rules);
 
-    const inputs = project.formInputs;
-    const data = JSON.parse(inputs);
+      const inputs = project.formInputs;
+      const data = JSON.parse(inputs);
 
-    engine.run(data, resultRuleCodes);
-    const rules = engine.showRulesArray();
-    return rules;
-  };
+      engine.run(data, resultRuleCodes);
+      const rules = engine.showRulesArray();
+      return rules;
+    },
+    [calculations, defaultCalculationId]
+  );
 
   return [calculate];
 };

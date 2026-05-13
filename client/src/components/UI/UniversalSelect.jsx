@@ -2,7 +2,7 @@ import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { jssTheme } from "styles/theme";
+import { jssTheme } from "../../styles/theme";
 
 UniversalSelect.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
