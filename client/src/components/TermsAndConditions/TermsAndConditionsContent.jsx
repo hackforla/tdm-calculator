@@ -136,8 +136,8 @@ const TermsAndConditionsContent = () => {
       <p className={classes.para}>
         Before making decisions using the information provided in this
         application, contact City LADOT staff at{" "}
-        <a href="mailto:ladot.tdm@lacity.org">ladot.tdm@lacity.org</a> to confirm
-        the validity of the data provided.
+        <a href="mailto:ladot.tdm@lacity.org">ladot.tdm@lacity.org</a> to
+        confirm the validity of the data provided.
       </p>
     </div>
   );

@@ -3,7 +3,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import UserContext from "../../contexts/UserContext";
 import TdmCalculationWizard from "./TdmCalculationWizard";
-// import * as ruleService from "../../services/rule.service";
+import useProject from "../../hooks/useProject";
 import * as projectService from "../../services/project.service";
 import Engine from "../../services/tdm-engine";
 import { useToast } from "../../contexts/Toast";
@@ -43,8 +43,8 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const accountId = account?.id;
   const isAdmin = !!account?.isAdmin;
   const configContext = useContext(ConfigContext);
+  const { getProjectById } = useProject();
   const defaultCalculationId = Number(configContext.CURRENT_CALCULATION_ID);
-  const [calculationId, setCalculationId] = useState(defaultCalculationId);
   const calculations = useContext(CalculationsContext);
   const [engine, setEngine] = useState(null);
   const [formInputs, setFormInputs] = useState({});
@@ -74,21 +74,16 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const initializeEngine = useCallback(async () => {
     let calculationId = defaultCalculationId;
     try {
-      let projectResponse = null;
+      let project = null;
       let inputs = {};
       ``;
       if (Number(projectId) > 0 && accountId) {
-        projectResponse = await projectService.getById(projectId);
-        if (projectResponse) {
-          let project = projectResponse.data;
-          // We use the default calculationId unless the project is already submitted or
-          // it has been explicitly set to something other that tne default.
-          if (project.isCalculationIdOverride || project.dateSubmitted) {
-            calculationId = project.calculationId;
-          }
-          setProject(projectResponse.data);
-          setShareView(projectResponse.data.loginId !== accountId && !isAdmin);
-          inputs = JSON.parse(projectResponse.data.formInputs);
+        project = await getProjectById(projectId);
+        if (project) {
+          calculationId = project.calculationId;
+          setProject(project);
+          setShareView(project.loginId !== accountId && !isAdmin);
+          inputs = JSON.parse(project.formInputs);
           setStrategiesInitialized(true);
         }
       } else {
@@ -98,14 +93,20 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       const engine = new Engine(calculations[calculationId].rules);
       engine.run(inputs, resultRuleCodes);
       setEngine(engine);
-      setCalculationId(calculationId);
       setFormInputs(inputs);
       setRules(engine.showRulesArray());
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));
       throw new Error(JSON.stringify(err, null, 2));
     }
-  }, [calculations, defaultCalculationId, projectId, accountId, isAdmin]);
+  }, [
+    calculations,
+    defaultCalculationId,
+    projectId,
+    accountId,
+    isAdmin,
+    getProjectById
+  ]);
 
   // Initialize the engine with saved project data, as appropriate.
   // Should run only when projectId changes.
@@ -338,7 +339,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       earnedPoints: getRuleByCode("PTS_EARNED").value,
       projectLevel: getRuleByCode("PROJECT_LEVEL").value,
       loginId: account.id,
-      calculationId: calculationId
+      calculationId: project.calculationId || defaultCalculationId
     };
     if (!requestBody.name) {
       toast.add("You must give the project a name before saving.");
@@ -350,7 +351,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         await projectService.put(requestBody);
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
-        const projectResponse = await projectService.getById(projectId);
+        const projectResponse = await getProjectById(projectId);
         setProject(projectResponse.data);
       } catch (err) {
         console.error(err);

@@ -45,7 +45,11 @@ const useCheckedProjectsStatusData = (checkedProjects, projects) => {
     const isSameVal = property => {
       const firstVal = getProjects[0][property];
 
-      if (property === "dateTrashed" || property === "dateHidden") {
+      if (
+        property === "dateTrashed" ||
+        property === "dateHidden" ||
+        property === "dateSubmitted"
+      ) {
         const allNull = getProjects.every(p => p[property] === null);
         const allString = getProjects.every(
           p => typeof p[property] === "string"
@@ -61,6 +65,7 @@ const useCheckedProjectsStatusData = (checkedProjects, projects) => {
       name: getProjects.map(p => p.name),
       dateTrashed: isSameVal("dateTrashed"),
       dateHidden: isSameVal("dateHidden"),
+      dateSubmitted: isSameVal("dateSubmitted"),
       loginId: isSameVal("loginId")
     };
 
