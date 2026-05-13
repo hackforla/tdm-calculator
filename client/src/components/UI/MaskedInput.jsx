@@ -2,7 +2,7 @@ import React, { useRef, useState, useLayoutEffect } from "react";
 import PropTypes from "prop-types";
 
 const MaskedInput = props => {
-  const { onChange, mask, placeholder, className, code } = props;
+  const { onChange, mask, placeholder, className, code, autoFocus } = props;
   const inputRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState(0);
 
@@ -10,9 +10,11 @@ const MaskedInput = props => {
   useLayoutEffect(() => {
     // Ensure the input element is focused and the method is applicable
     if (inputRef.current) {
-      inputRef.current.focus();
       // Set the selection range: select "Hello" (indices 0 to 5)
       inputRef.current.setSelectionRange(cursorPosition, cursorPosition);
+    }
+    if (autoFocus) {
+      inputRef.current.focus();
     }
   }, [cursorPosition]); // Re-run when the selection state changes
 
@@ -62,7 +64,8 @@ MaskedInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   mask: PropTypes.string.isRequired,
   className: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  autoFocus: PropTypes.bool
 };
 
 export default MaskedInput;
