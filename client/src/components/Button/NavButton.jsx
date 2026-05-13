@@ -41,6 +41,7 @@ const NavButton = ({
   navDirection,
   isVisible,
   isDisabled,
+  className,
   color
 }) => {
   const theme = useTheme();
@@ -51,7 +52,7 @@ const NavButton = ({
   return (
     <Button
       id={id}
-      className={clsx(classes.navButton, maybeDisabled, maybeHiddenVisibility)}
+      className={clsx(classes.navButton, maybeDisabled, maybeHiddenVisibility, className)}
       data-testid={id}
       color={color}
       onClick={onClick}
@@ -78,7 +79,8 @@ NavButton.propTypes = {
   navDirection: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-  color: PropTypes.string
+  color: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default NavButton;

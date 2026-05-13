@@ -46,14 +46,21 @@ const useStyles = createUseStyles({
   },
   navButtonGroup: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
-  numberedNavButton: {
-    margin: "0.2em",
-    padding: "0.1em 0.3em",
-    minHeight: "min-content",
-    fontSize: "1.5rem"
-  }
+  navButton: {
+    margin: "0.5em",
+    padding: "0.3em 0.4em .05em"
+  },
+  numberedLinksGroup: {
+    display: "flex",
+    alignItems: "center",
+    margin: "0.1em 0 0"
+  },
+  submitButton: {
+    margin: "0.5em",
+    padding: "0.8em 1em",
+  },
 });
 
 const WizardFooter = ({
@@ -128,6 +135,7 @@ const WizardFooter = ({
                 id="leftNavArrow"
                 navDirection="previous"
                 color="colorPrimary"
+                className={classes.navButton}
                 isVisible={
                   page !== 1 &&
                   !project.dateSnapshotted &&
@@ -143,26 +151,28 @@ const WizardFooter = ({
                 }}
               />
 
-              {showNumberedLinks &&
-               Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
-                 <NumberedLink
-                   key={`nav-page-${p}`}
-                   id={`nav-page-${p}`}
-                   className={classes.numberedNavButton}
-                   onClick={() => onPageChange(p)}
-                   isActive={p === Number(page)}
-                   disabled={
-                     (shareView && !isAdmin) ||
-                       (p === 4 && projectLevel === 0) ||
-                       (!project.dateSnapshotted &&
-                        p > Number(page) &&
-                        setDisabledForNextNavButton())
-                   }
-                   ariaLabel={`go to page ${p}`}
-                 >
-                   {p}
-                 </NumberedLink>
-               ))}
+                {showNumberedLinks && (
+                  <div className={classes.numberedLinksGroup}>
+                    {Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
+                    <NumberedLink
+                      key={`nav-page-${p}`}
+                      id={`nav-page-${p}`}
+                      onClick={() => onPageChange(p)}
+                      isActive={p === Number(page)}
+                      disabled={
+                        (shareView && !isAdmin) ||
+                          (p === 4 && projectLevel === 0) ||
+                          (!project.dateSnapshotted &&
+                           p > Number(page) &&
+                           setDisabledForNextNavButton())
+                      }
+                      ariaLabel={`go to page ${p}`}
+                    >
+                      {p}
+                    </NumberedLink>
+                    ))}
+                  </div>
+                )}
 
               {(!shareView || isAdmin) && !project?.id ? (
                 <div className={classes.pageNumberCounter}>
@@ -174,6 +184,7 @@ const WizardFooter = ({
                 id="rightNavArrow"
                 navDirection="next"
                 color="colorPrimary"
+                className={classes.navButton}
                 isVisible={page !== 5}
                 isDisabled={setDisabledForNextNavButton()}
                 onClick={() => {
@@ -232,6 +243,7 @@ const WizardFooter = ({
             <Button
               id="saveButton"
               variant="primary"
+              className={classes.submitButton}
               disabled={setDisabledSaveButton()}
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
