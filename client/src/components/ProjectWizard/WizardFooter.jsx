@@ -87,6 +87,7 @@ const WizardFooter = ({
     : "TDM Calculation Summary";
   const projectLevelRule = rules && rules.find(r => r.code === "PROJECT_LEVEL");
   const projectLevel = projectLevelRule ? projectLevelRule.value : 0;
+  const isProjectLevelZero = projectLevel === 0;
   const formattedDateSnapshotted = formatDatetime(project.dateSnapshotted);
   const formattedDateSubmitted = formatDatetime(project.dateSubmitted);
   const formattedDateModified = formatDatetime(project.dateModified);
@@ -139,7 +140,11 @@ const WizardFooter = ({
                     Number(page) === 1
                   }
                   onClick={() => {
-                    onPageChange(Number(page) - 1);
+                    onPageChange(
+                      isProjectLevelZero && Number(page) === 5
+                        ? 2
+                        : Number(page) - 1
+                    );
                   }}
                 />
 
@@ -153,7 +158,7 @@ const WizardFooter = ({
                       isActive={p === Number(page)}
                       disabled={
                         (shareView && !isAdmin) ||
-                        (p === 4 && projectLevel === 0) ||
+                        ((p === 3 || p === 4) && projectLevel === 0) ||
                         (!project.dateSnapshotted &&
                           p > Number(page) &&
                           setDisabledForNextNavButton())
@@ -177,7 +182,11 @@ const WizardFooter = ({
                   isVisible={page !== 5}
                   isDisabled={setDisabledForNextNavButton()}
                   onClick={() => {
-                    onPageChange(Number(page) + 1);
+                    onPageChange(
+                      isProjectLevelZero && Number(page) === 2
+                        ? 5
+                        : Number(page) + 1
+                    );
                   }}
                 />
               </div>
