@@ -28,7 +28,7 @@
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dompurify": "^3.3.2",
+    "dompurify": "^3.4.0",
     "dotenv": "^16.4.7",
     "error-handler": "^1.0.0",
     "express": "^4.22.1",
