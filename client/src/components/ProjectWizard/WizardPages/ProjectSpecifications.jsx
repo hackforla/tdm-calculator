@@ -19,13 +19,9 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "flex-end"
   },
   subtitle: {
+    ...theme.typography.subHeading,
     marginTop: "0.5em",
-    marginBottom: "1em",
-    textAlign: "center",
-    fontWeight: "normal",
-    fontStyle: "normal",
-    fontSize: "20px",
-    lineHeight: "140%"
+    marginBottom: "1em"
   }
 }));
 
@@ -34,11 +30,11 @@ function ProjectSpecifications(props) {
   const { rules, onInputChange, uncheckAll, resetProject, page } = props;
   return (
     <div>
-      <div className={classes.header}>Determine Project Level</div>
-      <h3 className={classes.subtitle}>
+      <h1 className={classes.header}>Determine Project Level</h1>
+      <h2 className={classes.subtitle}>
         Project Level (left panel) and Citywide Parking Baseline (next page) are
         determined by the use specifications entered below.
-      </h3>
+      </h2>
       <div className={classes.resetContainer}>
         <ResetButtons
           rightAlignStyle={{ marginRight: "0.3em" }}

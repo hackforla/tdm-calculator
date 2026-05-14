@@ -4,7 +4,6 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx",
     "module": "ESNext",
-    "baseUrl": "./src",
     "isolatedModules": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -12,11 +11,14 @@
     "skipLibCheck": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["vite/client", "vite-plugin-svgr/client", "node"]
+    "types": ["vite/client", "vite-plugin-svgr/client", "node"],
+    "paths": {
+      "@/*": ["./src*"]
+    }
   },
   "include": ["src", "setupTests.ts", "jest.environment.js"],
   "exclude": ["node_modules"]
