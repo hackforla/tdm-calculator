@@ -190,7 +190,7 @@ const ProjectSummary = props => {
               </span>
             </div>
             {isLevel0 ? (
-              <Level0Page isLevel0={isLevel0} />
+              <Level0Page />
             ) : (
               <>
                 <div
