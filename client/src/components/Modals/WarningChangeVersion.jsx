@@ -23,19 +23,20 @@ const useStyles = createUseStyles(theme => ({
     height: "80px",
     width: "80px",
     color: theme.colorCritical,
-    textAlign: "center"
+    textAlign: "center",
+    margin: "1rem"
   },
   buttonFlexBox: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: "1rem"
+    marginTop: "2rem"
   },
   modalHeader: { ...theme.typography.iconHeading1, marginBottom: "2rem" },
   modalSubHeader: {
     ...theme.typography.subHeading,
-    marginTop: "1rem",
-    marginBottom: "1rem"
+    marginTop: "2rem",
+    marginBottom: "2rem"
   },
   labelText: {
     ...theme.typography.paragraph1,
@@ -43,6 +44,36 @@ const useStyles = createUseStyles(theme => ({
     marginRight: "0.5rem"
   }
 }));
+
+const modalStyleDefaultOverrides = {
+  overlay: {
+    zIndex: "999",
+    position: "fixed",
+    width: "100vw",
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    fontSize: "1rem",
+    fontWeight: "normal"
+  },
+  content: {
+    width: "700px",
+    inset: "auto",
+    padding: "1rem",
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    border: "1px solid #d8dce3",
+    borderRadius: "0",
+    boxSizing: "border-box",
+    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.5)",
+    backgroundColor: "rgba(255, 255, 255, 1)"
+  }
+};
 
 const ChangeVersionModal = ({
   isModalOpen,
@@ -110,82 +141,124 @@ const ChangeVersionModal = ({
   };
 
   return (
-    <ModalDialog mounted={isModalOpen} onClose={cancel} omitCloseBox={true}>
+    <ModalDialog
+      mounted={isModalOpen}
+      onClose={cancel}
+      omitCloseBox={true}
+      style={modalStyleDefaultOverrides}
+    >
       {page === 0 ? (
         <div className={classes.container}>
           <MdWarning alt="Warning" className={classes.warningIcon} />
-          <div
-            className={classes.modalHeader}
-          >{` Change Program Guidelines Version`}</div>
-          <div
+          <header className={classes.modalHeader}>
+            {` Change Program Guidelines Version`}
+          </header>
+
+          <section
             style={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "flex-start",
-              gap: "1rem",
+              gap: "2rem",
               maxWidth: "80%"
             }}
           >
-            <div
+            <dl
               style={{
                 display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
+                flexDirection: "column",
+                gap: "1rem"
               }}
             >
-              <div className={classes.labelText}>Date Draft Created:</div>
-              <div style={{ ...theme.typography.paragraph1 }}>
-                {formatDate(project.dateCreated)}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center"
+                }}
+              >
+                <dt className={classes.labelText}>Date Draft Created:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {formatDate(project.dateCreated)}
+                </dd>
               </div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
-              <div className={classes.labelText}>
-                Date Program Guidelines Last Updated:
-              </div>
-              <div style={{ ...theme.typography.paragraph1 }}>
-                {formatDate(calculations[defaultCalculationId].dateStart)}
-              </div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
-              <div className={classes.labelText}>
-                Current Program Guidelines Version:
-              </div>
-              <div style={{ ...theme.typography.paragraph1 }}>
-                {calculations[defaultCalculationId].version}
-              </div>
-            </div>
 
-            <div>
-              <p>
-                Select a Program Guidelines Version from the dropdown below. The
-                selected version&apos;s rules will be applied to this draft
-              </p>
-            </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center"
+                }}
+              >
+                <dt className={classes.labelText}>
+                  Date Program Guidelines Last Updated:
+                </dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {formatDate(calculations[defaultCalculationId].dateStart)}
+                </dd>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center"
+                }}
+              >
+                <dt className={classes.labelText}>
+                  This Project's Current Program Guidelines Version:
+                </dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {calculations[defaultCalculationId].version}
+                </dd>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center"
+                }}
+              >
+                <dt className={classes.labelText}>
+                  Current Published Program Guidelines Version:
+                </dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {calculations[defaultCalculationId].version}
+                </dd>
+              </div>
+            </dl>
+
+            <p
+              style={{ textAlign: "center", maxWidth: "90%", fontSize: "18px" }}
+            >
+              Select a Program Guidelines Version from the dropdown below. The
+              selected version&apos;s rules will be applied to this draft.
+            </p>
 
             <div
               style={{
                 display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%"
               }}
             >
-              <div className={classes.labelText}>
-                Program Guidelines Version:
-              </div>
-              <div style={{ minWidth: "20rem" }}>
+              <label
+                htmlFor="guideline-select"
+                className={classes.labelText}
+                style={{
+                  textAlign: "left",
+                  height: "2.5rem",
+                  display: "flex",
+                  alignItems: "center"
+                }}
+              >
+                Change This Project's Program Guidelines Version To:
+              </label>
+              <div
+                style={{
+                  minWidth: "20rem",
+                  height: "2.5rem"
+                }}
+              >
                 <UniversalSelect
+                  id="guideline-select"
                   onChange={e => setNewCalculationId(Number(e.target.value))}
                   className={classes.select}
                   options={calculationList}
@@ -199,7 +272,8 @@ const ChangeVersionModal = ({
               style={{
                 display: "flex",
                 flexDirection: "row",
-                alignItems: "center"
+                alignItems: "center",
+                maxWidth: "80%"
               }}
             >
               <ToggleCheckbox
@@ -209,13 +283,14 @@ const ChangeVersionModal = ({
                 checked={confirm}
                 onChange={handleCheckboxChange}
               />
-              <div>
+              <div style={{ fontSize: "18px", marginLeft: "10px" }}>
                 I want to proceed with changing the applicable Program
                 Guidelines version.
               </div>
             </div>
-          </div>
-          <div className={classes.buttonFlexBox}>
+          </section>
+
+          <section className={classes.buttonFlexBox}>
             <Button
               onClick={() => {
                 setConfirm(false);
@@ -235,7 +310,7 @@ const ChangeVersionModal = ({
             >
               Submit
             </Button>
-          </div>
+          </section>
         </div>
       ) : null}
 
