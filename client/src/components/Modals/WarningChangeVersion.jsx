@@ -26,22 +26,60 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "center",
     margin: "1rem"
   },
-  buttonFlexBox: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: "2rem"
-  },
   modalHeader: { ...theme.typography.iconHeading1, marginBottom: "2rem" },
   modalSubHeader: {
     ...theme.typography.subHeading,
     marginTop: "2rem",
     marginBottom: "2rem"
   },
+  modalContentSection: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "2rem",
+    maxWidth: "80%"
+  },
+  modalDescriptionList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem"
+  },
+  descriptionContainer: {
+    display: "flex",
+    alignItems: "center"
+  },
+  modalButtonSection: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: "2rem"
+  },
   labelText: {
     ...theme.typography.paragraph1,
     fontWeight: 700,
     marginRight: "0.5rem"
+  },
+  buttonText: {
+    fontSize: "16px !important",
+    fontWeight: "bold",
+    width: "118px",
+    boxShadow: "0 4 4 0" + theme.colorDropShadow
+  },
+  selectContainer: {
+    display: "flex",
+    gap: ".5rem",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%"
+  },
+  toggleContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    maxWidth: "90%"
+  },
+  toggleText: {
+    fontSize: "18px",
+    marginLeft: "10px"
   }
 }));
 
@@ -154,39 +192,16 @@ const ChangeVersionModal = ({
             {` Change Program Guidelines Version`}
           </header>
 
-          <section
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "2rem",
-              maxWidth: "80%"
-            }}
-          >
-            <dl
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1rem"
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center"
-                }}
-              >
+          <section className={classes.modalContentSection}>
+            <dl className={classes.modalDescriptionList}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>Date Draft Created:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {formatDate(project.dateCreated)}
                 </dd>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center"
-                }}
-              >
+              <div div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>
                   Date Program Guidelines Last Updated:
                 </dt>
@@ -195,12 +210,7 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center"
-                }}
-              >
+              <div div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>
                   This Project's Current Program Guidelines Version:
                 </dt>
@@ -209,12 +219,7 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center"
-                }}
-              >
+              <div div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>
                   Current Published Program Guidelines Version:
                 </dt>
@@ -231,18 +236,12 @@ const ChangeVersionModal = ({
               selected version&apos;s rules will be applied to this draft.
             </p>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "100%"
-              }}
-            >
+            <div className={classes.selectContainer}>
               <label
                 htmlFor="guideline-select"
                 className={classes.labelText}
                 style={{
+                  flex: 1,
                   textAlign: "left",
                   height: "2.5rem",
                   display: "flex",
@@ -253,8 +252,7 @@ const ChangeVersionModal = ({
               </label>
               <div
                 style={{
-                  minWidth: "20rem",
-                  height: "2.5rem"
+                  flex: 1.3
                 }}
               >
                 <UniversalSelect
@@ -268,14 +266,7 @@ const ChangeVersionModal = ({
               </div>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                maxWidth: "80%"
-              }}
-            >
+            <div className={classes.toggleContainer}>
               <ToggleCheckbox
                 id="checkbox"
                 name="checkbox"
@@ -283,14 +274,14 @@ const ChangeVersionModal = ({
                 checked={confirm}
                 onChange={handleCheckboxChange}
               />
-              <div style={{ fontSize: "18px", marginLeft: "10px" }}>
+              <div className={classes.toggleText}>
                 I want to proceed with changing the applicable Program
                 Guidelines version.
               </div>
             </div>
           </section>
 
-          <section className={classes.buttonFlexBox}>
+          <section className={classes.modalButtonSection}>
             <Button
               onClick={() => {
                 setConfirm(false);
@@ -300,6 +291,7 @@ const ChangeVersionModal = ({
               }}
               variant="secondary"
               id="cancelButton"
+              className={classes.buttonText}
             >
               Cancel
             </Button>
@@ -307,6 +299,7 @@ const ChangeVersionModal = ({
               onClick={() => setPage(1)}
               variant="primary"
               disabled={!confirm || project.calculationId == newCalculationId}
+              className={classes.buttonText}
             >
               Submit
             </Button>
@@ -366,7 +359,7 @@ const ChangeVersionModal = ({
             </p>
           </div>
 
-          <div className={classes.buttonFlexBox}>
+          <div className={classes.modalButtonSection}>
             <Button
               onClick={() => {
                 setPage(0);
@@ -376,6 +369,7 @@ const ChangeVersionModal = ({
               }}
               variant="secondary"
               id="cancelButton"
+              className={classes.buttonText}
             >
               Cancel
             </Button>
@@ -383,6 +377,7 @@ const ChangeVersionModal = ({
               onClick={handleUpdate}
               variant="primary"
               disabled={!confirm}
+              className={classes.buttonText}
             >
               Confirm
             </Button>
@@ -444,7 +439,7 @@ const ChangeVersionModal = ({
             </p>
           </div>
 
-          <div className={classes.buttonFlexBox}>
+          <div className={classes.modalButtonSection}>
             <Button
               onClick={() => {
                 setPage(0);
@@ -453,6 +448,7 @@ const ChangeVersionModal = ({
               }}
               variant="primary"
               id="closeButton"
+              className={classes.buttonText}
             >
               Close
             </Button>
