@@ -90,6 +90,7 @@ const RuleLabel = ({
   name,
   setShowDescription,
   showDescription,
+  dataType,
   setIsEditing
 }) => {
   const theme = useTheme();
@@ -112,57 +113,19 @@ const RuleLabel = ({
     }
   };
 
-  // if (code && code.startsWith("UNITS_HABIT")) {
-  //   return (
-  //     <div
-  //       className={
-  //         description
-  //           ? clsx(classes.labelWrapper)
-  //           : clsx(classes.labelWrapperWithoutDesc)
-  //       }
-  //       onClick={descriptionHandler}
-  //     >
-  //       <label
-  //         htmlFor={code}
-  //         className={
-  //           showDescription
-  //             ? description
-  //               ? clsx(
-  //                   classes.accordionLabelClicked,
-  //                   requiredStyle,
-  //                   disabledStyle
-  //                 )
-  //               : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
-  //             : description
-  //             ? clsx(classes.accordionLabel, requiredStyle, disabledStyle)
-  //             : clsx(classes.tooltipLabel, requiredStyle, disabledStyle)
-  //         }
-  //       >
-  //         {link ? (
-  //           <a
-  //             href={link}
-  //             target="_blank"
-  //             rel="noopener noreferrer"
-  //             tabIndex="-1"
-  //           >
-  //             {name}
-  //             <MdLink color="black" transform="shrink-5" />
-  //           </a>
-  //         ) : (
-  //           name
-  //         )}
-  //       </label>
-  //       {description ? (
-  //         <span
-  //           className={clsx("fa-layers fa-fw", classes.iconContainer)}
-  //           style={showDescription ? { visibility: "visible" } : {}}
-  //         >
-  //           <MdInfo className={classes.infoIcon} />
-  //         </span>
-  //       ) : null}
-  //     </div>
-  //   );
-  // }
+  /**
+   * dataType === "none" indicates that the rule does not have an input, and thereform no htmlFor target for the label.
+   * In this case, return null to avoid WAVE error about label without associated form control.
+   * For rules with inputs, return the code to associate the label with the input.
+   * @param code string
+   * @returns code (string) or null
+   */
+  const getLabelTarget = code => {
+    return dataType === "none" ? null : code;
+  };
+
+  // use a span for labels without associated form controls to avoid WAVE error
+  const LabelTag = getLabelTarget(code) ? "label" : "span";
 
   return (
     <div
@@ -173,8 +136,8 @@ const RuleLabel = ({
       }
       onClick={descriptionHandler}
     >
-      <label
-        htmlFor={code || null}
+      <LabelTag
+        htmlFor={getLabelTarget(code)}
         className={
           showDescription
             ? description
@@ -202,7 +165,7 @@ const RuleLabel = ({
         ) : (
           name
         )}
-      </label>
+      </LabelTag>
       {description ? (
         <span
           className={clsx("fa-layers fa-fw", classes.iconContainer)}
@@ -234,6 +197,7 @@ RuleLabel.propTypes = {
   link: PropTypes.string,
   setShowDescription: PropTypes.func,
   showDescription: PropTypes.bool,
+  dataType: PropTypes.string,
   setIsEditing: PropTypes.func
 };
 export default RuleLabel;

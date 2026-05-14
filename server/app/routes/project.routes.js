@@ -76,7 +76,7 @@ router.put(
 );
 router.put(
   "/updateCalculationId/:id",
-  writeLimiter,
+  // writeLimiter,  Do not want a rate limiter on this endpoint
   jwtSession.validateRoles(["isAdmin"]),
   projectController.updateCalculationId
 );

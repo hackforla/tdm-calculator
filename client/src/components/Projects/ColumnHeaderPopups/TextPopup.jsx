@@ -81,6 +81,8 @@ const TextPopup = ({
 }) => {
   const userContext = useContext(UserContext);
   const property = header.accessor || header.id;
+  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
+
   const getDisplayValue = value => {
     if (property === "droName" && value === "") {
       return "No DRO Assigned";
@@ -121,14 +123,15 @@ const TextPopup = ({
     selectOptions = droOptions.map(dro => dro.name);
     selectOptions.push("No DRO Assigned");
   } else if (property === "author" && droOptions) {
-    const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName} (Me)`;
     let hasLoggedInUserInList = false;
 
     selectOptions = [
       ...new Set(
         filteredProjects.map(p => {
           const name = `${p.lastName}, ${p.firstName}`;
-          if (name === loggedInUserName) hasLoggedInUserInList = true;
+          if (p.loginId === userContext?.account?.id) {
+            hasLoggedInUserInList = true;
+          }
           return name;
         })
       )
@@ -281,6 +284,7 @@ const TextPopup = ({
 
         {filteredOptions.map(o => {
           const checked = isChecked(o);
+
           return (
             <div key={o} className={classes.listItem}>
               <ToggleCheckbox
@@ -295,7 +299,7 @@ const TextPopup = ({
                 }
                 label={o}
               />
-              <span>{o}</span>
+              <span>{o === loggedInUserName ? `${o} (Me)` : o}</span>
             </div>
           );
         })}

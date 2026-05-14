@@ -25,14 +25,23 @@ const useStyles = createUseStyles(theme => ({
     fontWeight: "normal",
     fontStyle: "normal"
   },
+  input: {
+    width: "20rem"
+  },
   archiveTitle: {
     marginTop: "0.5em",
     textAlign: "center",
     fontSize: "16px"
   },
+  tableContainer: {
+    overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
+    width: "calc(90vw - 20px)",
+    margin: "20px 0px",
+    height: "calc(90vh - 300px)"
+  },
   table: {
-    minWidth: "80%",
-    margin: "20px"
+    minWidth: "100%",
+    tableLayout: "fixed"
   },
   tr: {
     margin: "0.5em"
@@ -112,12 +121,19 @@ const Roles = ({ contentContainerRef }) => {
       try {
         const response = await accountService.search();
         if (response.status === 200) {
-          setAccounts(response.data);
+          setAccounts(
+            response.data.map(account => {
+              return {
+                ...account,
+                name: `${account.lastName}, ${account.firstName}`
+              };
+            })
+          );
           setFilteredAccounts(response.data);
         } else if (response.status === 401) {
           setRedirectPath("/login");
         } else if (response.status === 403) {
-          setRedirectPath("/uauthorized");
+          setRedirectPath("/unauthorized");
         } else {
           setAccounts([]);
         }
@@ -129,13 +145,14 @@ const Roles = ({ contentContainerRef }) => {
   }, []);
 
   const filt = (allAccounts, searchString) => {
-    const str = searchString;
+    const str = searchString.toLowerCase();
     const filteredAccounts = allAccounts.filter(
       account =>
         str === "" ||
         account.email.toLowerCase().includes(str) ||
         account.firstName.toLowerCase().includes(str) ||
-        account.lastName.toLowerCase().includes(str)
+        account.lastName.toLowerCase().includes(str) ||
+        account.name.toLowerCase().includes(str)
     );
     if (filteredAccounts) {
       setFilteredAccounts(filteredAccounts);
@@ -214,6 +231,7 @@ const Roles = ({ contentContainerRef }) => {
           className={classes.input}
           name="searchString"
           type="text"
+          placeholder="Search by Email or Name"
           value={searchString || ""}
           onChange={e => {
             setSearchString(e.target.value);
@@ -228,50 +246,89 @@ const Roles = ({ contentContainerRef }) => {
         </Link>
       </div>
 
-      <table className={classes.table}>
-        <thead className={classes.thead}>
-          <tr className={classes.tr}>
-            <th className={`${classes.td} ${classes.theadLabel}`}>Email</th>
-            <th className={`${classes.td} ${classes.theadLabel}`}>Name</th>
-            <th className={`${classes.td} ${classes.theadLabel}`}>
-              # of Projects
-            </th>
-            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
-              Admin
-            </th>
-            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
-              Security Admin
-            </th>
-            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
-              Dev. Review Office
-            </th>
-            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
-              Email Confirmed
-            </th>
-            <th className={`${classes.td} ${classes.theadLabel}`}>
-              Registration Date
-            </th>
-            <th className={`${classes.tdCenter} ${classes.theadLabel}`}>
-              Options
-            </th>
-          </tr>
-        </thead>
-        <tbody className={classes.tbody}>
-          {filteredAccounts &&
-            filteredAccounts.map(account => (
-              <RolesTableRow
-                key={JSON.stringify(account)}
-                account={account}
-                classes={classes}
-                loggedInUserId={loggedInUserId}
-                onInputChange={onInputChange}
-                handleArchiveUser={handleArchiveUser}
-                isHovered={hoveredRow === account.id}
-                setHoveredRow={setHoveredRow}
-              />
-            ))}
-        </tbody>
-      </table>
+      <div className={classes.tableContainer}>
+        <table className={classes.table}>
+          <thead className={classes.thead}>
+            <tr className={classes.tr}>
+              <th
+                className={`${classes.td} ${classes.theadLabel}`}
+                style={{ width: "auto" }}
+              >
+                Email
+              </th>
+              <th
+                className={`${classes.td} ${classes.theadLabel}`}
+                style={{ width: "auto" }}
+              >
+                Name
+              </th>
+              <th
+                className={`${classes.td} ${classes.theadLabel}`}
+                style={{ width: "4em" }}
+              >
+                # of Projects
+              </th>
+              <th
+                className={`${classes.tdCenter} ${classes.theadLabel}`}
+                style={{ width: "4em" }}
+              >
+                Admin
+              </th>
+              <th
+                className={`${classes.tdCenter} ${classes.theadLabel}`}
+                style={{ width: "4em" }}
+              >
+                Security Admin
+              </th>
+              <th
+                className={`${classes.tdCenter} ${classes.theadLabel}`}
+                style={{ width: "4em" }}
+              >
+                Dev. Review Office
+              </th>
+              <th
+                className={`${classes.tdCenter} ${classes.theadLabel}`}
+                style={{ width: "4em" }}
+              >
+                Email Confirmed
+              </th>
+              <th
+                className={`${classes.td} ${classes.theadLabel}`}
+                style={{ width: "7em" }}
+              >
+                Registered
+              </th>
+              <th
+                className={`${classes.td} ${classes.theadLabel}`}
+                style={{ width: "7em" }}
+              >
+                Last Active
+              </th>
+              <th
+                className={`${classes.tdCenter} ${classes.theadLabel}`}
+                style={{ width: "4em" }}
+              >
+                Options
+              </th>
+            </tr>
+          </thead>
+          <tbody className={classes.tbody}>
+            {filteredAccounts &&
+              filteredAccounts.map(account => (
+                <RolesTableRow
+                  key={JSON.stringify(account)}
+                  account={account}
+                  classes={classes}
+                  loggedInUserId={loggedInUserId}
+                  onInputChange={onInputChange}
+                  handleArchiveUser={handleArchiveUser}
+                  isHovered={hoveredRow === account.id}
+                  setHoveredRow={setHoveredRow}
+                />
+              ))}
+          </tbody>
+        </table>
+      </div>
     </ContentContainerWithTables>
   );
 };

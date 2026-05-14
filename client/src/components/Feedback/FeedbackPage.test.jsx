@@ -1,6 +1,6 @@
 /* eslint-disable jest/no-disabled-tests */
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+// import { Route } from "react-router-dom";
 import FeedbackPage from "./FeedbackPage";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -8,6 +8,7 @@ import ToastContext from "../../contexts/Toast/ToastContext";
 import { ThemeProvider } from "react-jss";
 import { jssTheme } from "../../styles/theme";
 import TdmAuthProvider from "../Layout/TdmAuthProvider";
+import ConfigContext from "../../contexts/ConfigContext";
 
 const add = jest.fn();
 const remove = jest.fn();
@@ -19,8 +20,7 @@ const account = {
 };
 
 describe("FeedbackPage", () => {
-  let nameTextBox;
-  let emailTextBox;
+  let commentLabel;
   let commentTextBox;
   let forwardToWebTeamCheckBox;
   let submitButton;
@@ -32,18 +32,17 @@ describe("FeedbackPage", () => {
   beforeAll(() => {
     render(
       <ThemeProvider theme={jssTheme}>
-        <BrowserRouter>
+        <ConfigContext.Provider value={{ CURRENT_CALCULATION_ID: 1 }}>
           <TdmAuthProvider>
             <ToastContext.Provider value={{ add, remove }}>
               <FeedbackPage account={account} />
             </ToastContext.Provider>
           </TdmAuthProvider>
-        </BrowserRouter>
+        </ConfigContext.Provider>
       </ThemeProvider>
     );
 
-    nameTextBox = screen.getByLabelText(/^Name/i);
-    emailTextBox = screen.getByLabelText(/^Email Address/);
+    commentLabel = screen.getByLabelText(/^Comment/i);
     commentTextBox = screen.getByLabelText(/^Would you like your comment/i);
     forwardToWebTeamCheckBox = screen.getByLabelText(
       /^Would you like your comment/i
@@ -52,8 +51,7 @@ describe("FeedbackPage", () => {
   });
 
   it("has fields for Feedback form", async () => {
-    expect(nameTextBox).toBeVisible();
-    expect(emailTextBox).toBeVisible();
+    expect(commentLabel).toBeVisible();
     expect(commentTextBox).toBeVisible();
     expect(forwardToWebTeamCheckBox).toBeVisible();
     expect(submitButton).toBeVisible();
