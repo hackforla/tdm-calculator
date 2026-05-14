@@ -191,7 +191,7 @@ const WizardFooter = ({
                 />
               </div>
             </div>
-            {isFinalPage && (
+            {isFinalPage && loggedInUserId && (
               <div>
                 <Popup
                   className={classes.popover}
