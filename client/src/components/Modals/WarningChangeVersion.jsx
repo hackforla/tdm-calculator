@@ -52,11 +52,12 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     alignItems: "center"
   },
-  modalButtonSection: {
+  mainActionButtonSection: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: "1.5rem"
+    marginTop: "1rem",
+    marginBottom: "1rem"
   },
   labelText: {
     ...theme.typography.paragraph1,
@@ -66,8 +67,7 @@ const useStyles = createUseStyles(theme => ({
   buttonText: {
     fontSize: "16px !important",
     fontWeight: "bold",
-    width: "118px",
-    boxShadow: "0 4 4 0" + theme.colorDropShadow
+    width: "118px"
   },
   selectContainer: {
     display: "flex",
@@ -83,11 +83,10 @@ const useStyles = createUseStyles(theme => ({
     maxWidth: "90%"
   },
   toggleText: {
-    fontSize: "18px",
-    lineHeight: "22px",
-    marginLeft: "10px"
-  },
-  paragraphContainer: { textAlign: "center" }
+    ...theme.typography.subHeading,
+    marginLeft: "10px",
+    textAlign: "left"
+  }
 }));
 
 const modalStyleDefaultOverrides = {
@@ -105,7 +104,7 @@ const modalStyleDefaultOverrides = {
     fontWeight: "normal"
   },
   content: {
-    width: "700px",
+    width: "min(700px, 90%)",
     inset: "auto",
     padding: "1rem",
     position: "relative",
@@ -236,12 +235,10 @@ const ChangeVersionModal = ({
               </div>
             </dl>
 
-            <div className={classes.paragraphContainer}>
-              <p className={classes.modalSubHeader}>
-                Select a Program Guidelines Version from the dropdown below. The
-                selected version&apos;s rules will be applied to this draft.
-              </p>
-            </div>
+            <p className={classes.modalSubHeader}>
+              Select a Program Guidelines Version from the dropdown below. The
+              selected version&apos;s rules will be applied to this draft.
+            </p>
 
             <div className={classes.selectContainer}>
               <label
@@ -288,7 +285,7 @@ const ChangeVersionModal = ({
             </div>
           </section>
 
-          <section className={classes.modalButtonSection}>
+          <section className={classes.mainActionButtonSection}>
             <Button
               onClick={() => {
                 setConfirm(false);
@@ -383,18 +380,7 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
             </dl>
-          </section>
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              width: "80%",
-              marginTop: "2rem",
-              gap: "1rem"
-            }}
-          >
             <p className={classes.modalSubHeader}>
               The selected version&apos;s rules will be applied to this draft
               after you confirm. This will affect project compliance
@@ -403,9 +389,9 @@ const ChangeVersionModal = ({
             <p className={classes.modalSubHeader}>
               Are you sure you want to proceed?
             </p>
-          </div>
+          </section>
 
-          <div className={classes.modalButtonSection}>
+          <div className={classes.mainActionButtonSection}>
             <Button
               onClick={() => {
                 setPage(0);
@@ -500,13 +486,14 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
             </dl>
+
             <p className={classes.modalSubHeader}>
               Please notify the applicant that the Program Guidelines version
               that applies to this project has been changed.
             </p>
           </section>
 
-          <div className={classes.modalButtonSection}>
+          <div className={classes.mainActionButtonSection}>
             <Button
               onClick={() => {
                 setPage(0);
