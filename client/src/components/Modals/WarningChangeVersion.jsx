@@ -93,6 +93,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
+// default style from modal dialog component
 const modalStyleDefaultOverrides = {
   overlay: {
     zIndex: "999",
