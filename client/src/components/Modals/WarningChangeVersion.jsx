@@ -33,7 +33,7 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "center",
     margin: "1rem"
   },
-  modalHeader: { ...theme.typography.iconHeading1, marginBottom: "2rem" },
+  modalHeader: { ...theme.typography.iconHeading1, marginBottom: "1rem" },
   modalSubHeader: {
     ...theme.typography.subHeading
   },
@@ -41,7 +41,9 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     gap: "2rem",
-    maxWidth: "80%"
+    maxWidth: "80%",
+    marginTop: "1rem",
+    marginBottom: "1rem"
   },
   modalDescriptionList: {
     display: "flex",
@@ -79,11 +81,13 @@ const useStyles = createUseStyles(theme => ({
   toggleContainer: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    maxWidth: "90%"
+    alignItems: "flex-start"
   },
   toggleText: {
     ...theme.typography.subHeading,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
     marginLeft: "10px",
     textAlign: "left"
   }
@@ -207,7 +211,7 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>
                   Date Program Guidelines Last Updated:
                 </dt>
@@ -216,7 +220,7 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>
                   This Project's Current Program Guidelines Version:
                 </dt>
@@ -225,7 +229,7 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>
                   Current Published Program Guidelines Version:
                 </dt>
@@ -325,28 +329,28 @@ const ChangeVersionModal = ({
             </header>
 
             <dl className={classes.modalDescriptionList}>
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>Name:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {project.name}
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>Address:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {project.address}
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>Alternative Number:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {alternateNumber ? alternateNumber : "(none)"}
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>DRO:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {project.droId
@@ -355,14 +359,14 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}> Date Draft Created:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {formatDate(project.dateCreated)}
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>
                   Change Program Guidelines Version From:
                 </dt>
@@ -371,7 +375,7 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>
                   Change Program Guidelines Version To:
                 </dt>
@@ -431,28 +435,28 @@ const ChangeVersionModal = ({
             </header>
 
             <dl className={classes.modalDescriptionList}>
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>Name:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {project.name}
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>Address:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {project.address}
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>Alternative Number:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {alternateNumber ? alternateNumber : "(none)"}
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>DRO:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {project.droId
@@ -461,14 +465,14 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}> Date Draft Created:</dt>
                 <dd style={{ ...theme.typography.paragraph1 }}>
                   {formatDate(project.dateCreated)}
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>
                   Changed Program Guidelines Version From:
                 </dt>
@@ -477,7 +481,7 @@ const ChangeVersionModal = ({
                 </dd>
               </div>
 
-              <div div className={classes.descriptionContainer}>
+              <div className={classes.descriptionContainer}>
                 <dt className={classes.labelText}>
                   Changed Program Guidelines Version To:
                 </dt>
