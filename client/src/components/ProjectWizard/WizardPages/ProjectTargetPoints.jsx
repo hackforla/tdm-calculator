@@ -71,15 +71,15 @@ function ProjectTargetPoints(props) {
 
       {projectLevel && projectLevel.calcValue > 0 && (
         <div>
-          <div style={theme.typography.heading1}>
+          <h1 style={theme.typography.heading1}>
             <span>Calculate Project TDM Target Points</span>
-          </div>
-          <div style={theme.typography.subHeading}>
+          </h1>
+          <h2 style={theme.typography.subHeading}>
             <span>
               Target Points (left panel) may be adjusted based on parking spaces
               entered below.
             </span>
-          </div>
+          </h2>
           {parkingProvidedRuleOnly && (
             <ParkingProvidedRuleInput
               rule={parkingProvidedRuleOnly}

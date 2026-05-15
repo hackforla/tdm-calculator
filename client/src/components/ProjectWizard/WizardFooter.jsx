@@ -1,18 +1,19 @@
-import React, { useRef, useContext } from "react";
-import PropTypes from "prop-types";
-import NavButton from "../Button/NavButton";
-import { createUseStyles } from "react-jss";
-import Button from "../Button/Button";
-import { useReactToPrint } from "react-to-print";
-import { PdfPrint } from "../PdfPrint/PdfPrint";
-import NumberedLink from "./NumberedLink";
-import { formatDatetime } from "../../helpers/util";
-import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
-import ProjectContextMenu from "../Projects/ProjectContextMenu";
-import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
-import { formatCalculation } from "../../helpers/Calculations";
+import PropTypes from "prop-types";
+import { createUseStyles } from "react-jss";
+import { useReactToPrint } from "react-to-print";
+import { useRef, useContext } from "react";
+
+import Button from "../Button/Button";
 import CalculationsContext from "../../contexts/CalculationsContext";
+import NavButton from "../Button/NavButton";
+import NumberedLink from "./NumberedLink";
+import ProjectContextMenu from "../Projects/ProjectContextMenu";
+import UserContext from "../../contexts/UserContext";
+import { PdfPrint } from "../PdfPrint/PdfPrint";
+import { formatCalculation } from "../../helpers/Calculations";
+import { formatDatetime } from "../../helpers/util";
+import { useReplaceAriaAttribute } from "../../hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -46,14 +47,21 @@ const useStyles = createUseStyles({
   },
   navButtonGroup: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
-  numberedNavButton: {
-    margin: "0.2em",
-    padding: "0.1em 0.3em",
-    minHeight: "min-content",
-    fontSize: "1.5rem"
-  }
+  navButton: {
+    margin: "0.5em",
+    padding: "0.3em 0.4em .05em"
+  },
+  numberedLinksGroup: {
+    display: "flex",
+    alignItems: "center",
+    margin: "0.1em 0 0"
+  },
+  callToActionButton: {
+    margin: "0.5em",
+    padding: "0.8em 1em",
+  },
 });
 
 const WizardFooter = ({
@@ -128,41 +136,44 @@ const WizardFooter = ({
                   id="leftNavArrow"
                   navDirection="previous"
                   color="colorPrimary"
+                  className={classes.navButton}
                   isVisible={
                     page !== 1 &&
-                    !project.dateSnapshotted &&
-                    (!shareView || isAdmin)
+                      !project.dateSnapshotted &&
+                      (!shareView || isAdmin)
                   }
                   isDisabled={
                     (shareView && !isAdmin) ||
-                    !!project.dateSnapshotted ||
-                    Number(page) === 1
+                      !!project.dateSnapshotted ||
+                      Number(page) === 1
                   }
                   onClick={() => {
                     onPageChange(Number(page) - 1);
                   }}
                 />
 
-                {showNumberedLinks &&
-                  Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
-                    <NumberedLink
-                      key={`nav-page-${p}`}
-                      id={`nav-page-${p}`}
-                      className={classes.numberedNavButton}
-                      onClick={() => onPageChange(p)}
-                      isActive={p === Number(page)}
-                      disabled={
-                        (shareView && !isAdmin) ||
-                        (p === 4 && projectLevel === 0) ||
-                        (!project.dateSnapshotted &&
-                          p > Number(page) &&
-                          setDisabledForNextNavButton())
-                      }
-                      ariaLabel={`go to page ${p}`}
-                    >
-                      {p}
-                    </NumberedLink>
-                  ))}
+                {showNumberedLinks && (
+                  <div className={classes.numberedLinksGroup}>
+                    {Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
+                      <NumberedLink
+                        key={`nav-page-${p}`}
+                        id={`nav-page-${p}`}
+                        onClick={() => onPageChange(p)}
+                        isActive={p === Number(page)}
+                        disabled={
+                          (shareView && !isAdmin) ||
+                            (p === 4 && projectLevel === 0) ||
+                            (!project.dateSnapshotted &&
+                             p > Number(page) &&
+                             setDisabledForNextNavButton())
+                        }
+                        ariaLabel={`go to page ${p}`}
+                      >
+                        {p}
+                      </NumberedLink>
+                    ))}
+                  </div>
+                )}
 
                 {(!shareView || isAdmin) && !project?.id ? (
                   <div className={classes.pageNumberCounter}>
@@ -174,6 +185,7 @@ const WizardFooter = ({
                   id="rightNavArrow"
                   navDirection="next"
                   color="colorPrimary"
+                  className={classes.navButton}
                   isVisible={page !== 5}
                   isDisabled={setDisabledForNextNavButton()}
                   onClick={() => {
@@ -190,7 +202,11 @@ const WizardFooter = ({
                   trigger={
                     // needs element wrapped around Button so reactjs-popup has something to anchor on
                     <div id={elementId}>
-                      <Button id="action" variant="tertiary">
+                      <Button
+                        id="action"
+                        variant="tertiary"
+                        className={classes.callToActionButton}
+                      >
                         ACTION
                       </Button>
                     </div>
@@ -232,6 +248,7 @@ const WizardFooter = ({
             <Button
               id="saveButton"
               variant="primary"
+              className={classes.callToActionButton}
               disabled={setDisabledSaveButton()}
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
@@ -262,9 +279,9 @@ const WizardFooter = ({
             <strong>Status: </strong>
             {!formattedDateSnapshotted
               ? "Draft"
-              : project.shareCount
-                ? "Shared Snapshot"
-                : "Snapshot"}
+              : project.loginId === loggedInUserId
+                ? "Snapshot"
+                : "Shared Snapshot"}
           </div>
           {formattedDateSubmitted ? (
             <div>
@@ -292,35 +309,35 @@ const WizardFooter = ({
 
 WizardFooter.propTypes = {
   classes: PropTypes.any,
-  rules: PropTypes.any,
-  page: PropTypes.any,
-  onPageChange: PropTypes.any,
-  pageNumber: PropTypes.any,
+  handleCsvModalOpen: PropTypes.func,
+  handleDROModalOpenWithPreCheck: PropTypes.func,
+  handleDeleteModalOpen: PropTypes.func,
+  handleHideModalOpen: PropTypes.func,
+  handlePrintPdf: PropTypes.func,
+  handleRenameSnapshotModalOpen: PropTypes.func,
+  handleShareSnapshotModalOpen: PropTypes.func,
+  handleSnapshotModalOpen: PropTypes.func,
+  handleSubmitModalClose: PropTypes.any,
+  handleSubmitModalOpen: PropTypes.any,
+  isDroCommitted: PropTypes.func,
   isFinalPage: PropTypes.bool,
+  isSubmittingSnapshot: PropTypes.object,
+  onDownload: PropTypes.any,
+  onPageChange: PropTypes.any,
+  onSave: PropTypes.any,
+  page: PropTypes.any,
+  pageNumber: PropTypes.any,
+  project: PropTypes.any,
+  rules: PropTypes.any,
+  selectProject: PropTypes.any,
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
-  onSave: PropTypes.any,
-  submitModalOpen: PropTypes.any,
-  handleSubmitModalOpen: PropTypes.any,
-  handleSubmitModalClose: PropTypes.any,
-  targetNotReachedModalOpen: PropTypes.any,
+  shareView: PropTypes.bool,
   showCopyAndEditSnapshot: PropTypes.func,
   showSubmitModal: PropTypes.func,
-  handleCsvModalOpen: PropTypes.func,
-  handleHideModalOpen: PropTypes.func,
-  handleDeleteModalOpen: PropTypes.func,
-  handlePrintPdf: PropTypes.func,
-  handleSnapshotModalOpen: PropTypes.func,
-  handleRenameSnapshotModalOpen: PropTypes.func,
-  handleShareSnapshotModalOpen: PropTypes.func,
-  handleDROModalOpenWithPreCheck: PropTypes.func,
-  isDroCommitted: PropTypes.func,
-  isSubmittingSnapshot: PropTypes.object,
-  onDownload: PropTypes.any,
-  project: PropTypes.any,
-  selectProject: PropTypes.any,
-  shareView: PropTypes.bool
+  submitModalOpen: PropTypes.any,
+  targetNotReachedModalOpen: PropTypes.any,
 };
 
 export default WizardFooter;

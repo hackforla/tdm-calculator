@@ -45,6 +45,7 @@ const MultiMaskedInput = ({
   onError,
   required,
   className,
+  autoFocus,
   partialValue,
   onPartialValueChange
 }) => {
@@ -117,6 +118,7 @@ const MultiMaskedInput = ({
             ))}
       </div>
       <MaskedInput
+        autoFocus={autoFocus}
         mask={mask}
         value={partialValue}
         name={`code ${code}`}
@@ -146,7 +148,8 @@ MultiMaskedInput.propTypes = {
   required: PropTypes.bool,
   className: PropTypes.string,
   partialValue: PropTypes.string,
-  onPartialValueChange: PropTypes.func
+  onPartialValueChange: PropTypes.func,
+  autoFocus: PropTypes.bool
 };
 
 export default MultiMaskedInput;
