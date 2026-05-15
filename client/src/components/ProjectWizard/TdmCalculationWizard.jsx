@@ -455,14 +455,16 @@ const TdmCalculationWizard = props => {
   };
 
   const onPageChange = pageNo => {
-    const { page, projectId } = params;
+    const MIN_PAGE = 0;
+    const MAX_PAGE = 5;
+    const { projectId } = params;
     const projectIdParam = projectId ? `/${projectId}` : "/0";
-    if (Number(pageNo) > Number(page)) {
-      if (handleValidate()) {
+
+    if ((typeof pageNo === 'number') &&
+        (pageNo > MIN_PAGE) &&
+        (pageNo <= MAX_PAGE) &&
+        handleValidate()) {
         navigate(`/calculation/${pageNo}${projectIdParam}`);
-      }
-    } else {
-      navigate(`/calculation/${pageNo}${projectIdParam}`);
     }
   };
 
