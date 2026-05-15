@@ -72,9 +72,9 @@ function ProjectMeasure(props) {
       <h1 style={theme.typography.heading1}>
         <span>Select TDM Strategies</span>
       </h1>
-      <div style={theme.typography.subHeading}>
+      <h2 style={theme.typography.subHeading}>
         Select TDM strategies to earn points to reach the Target (left panel).
-      </div>
+      </h2>
       {allowPackages() && (
         <>
           <div className={classes.packageBanner}>
