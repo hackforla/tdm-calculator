@@ -58,7 +58,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
     margin: "0.1em 0 0"
   },
-  submitButton: {
+  callToActionButton: {
     margin: "0.5em",
     padding: "0.8em 1em",
   },
@@ -202,7 +202,11 @@ const WizardFooter = ({
                   trigger={
                     // needs element wrapped around Button so reactjs-popup has something to anchor on
                     <div id={elementId}>
-                      <Button id="action" variant="tertiary">
+                      <Button
+                        id="action"
+                        variant="tertiary"
+                        className={classes.callToActionButton}
+                      >
                         ACTION
                       </Button>
                     </div>
@@ -244,7 +248,7 @@ const WizardFooter = ({
             <Button
               id="saveButton"
               variant="primary"
-              className={classes.submitButton}
+              className={classes.callToActionButton}
               disabled={setDisabledSaveButton()}
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
