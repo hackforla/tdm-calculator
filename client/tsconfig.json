@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
