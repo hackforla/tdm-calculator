@@ -1,18 +1,19 @@
-import React, { useRef, useContext } from "react";
-import PropTypes from "prop-types";
-import NavButton from "../Button/NavButton";
-import { createUseStyles } from "react-jss";
-import Button from "../Button/Button";
-import { useReactToPrint } from "react-to-print";
-import { PdfPrint } from "../PdfPrint/PdfPrint";
-import NumberedLink from "./NumberedLink";
-import { formatDatetime } from "../../helpers/util";
-import UserContext from "../../contexts/UserContext";
 import Popup from "reactjs-popup";
-import ProjectContextMenu from "../Projects/ProjectContextMenu";
-import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
-import { formatCalculation } from "../../helpers/Calculations";
+import PropTypes from "prop-types";
+import { createUseStyles } from "react-jss";
+import { useReactToPrint } from "react-to-print";
+import { useRef, useContext } from "react";
+
+import Button from "../Button/Button";
 import CalculationsContext from "../../contexts/CalculationsContext";
+import NavButton from "../Button/NavButton";
+import NumberedLink from "./NumberedLink";
+import ProjectContextMenu from "../Projects/ProjectContextMenu";
+import UserContext from "../../contexts/UserContext";
+import { PdfPrint } from "../PdfPrint/PdfPrint";
+import { formatCalculation } from "../../helpers/Calculations";
+import { formatDatetime } from "../../helpers/util";
+import { useReplaceAriaAttribute } from "../../hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -304,35 +305,35 @@ const WizardFooter = ({
 
 WizardFooter.propTypes = {
   classes: PropTypes.any,
-  rules: PropTypes.any,
-  page: PropTypes.any,
-  onPageChange: PropTypes.any,
-  pageNumber: PropTypes.any,
+  handleCsvModalOpen: PropTypes.func,
+  handleDROModalOpenWithPreCheck: PropTypes.func,
+  handleDeleteModalOpen: PropTypes.func,
+  handleHideModalOpen: PropTypes.func,
+  handlePrintPdf: PropTypes.func,
+  handleRenameSnapshotModalOpen: PropTypes.func,
+  handleShareSnapshotModalOpen: PropTypes.func,
+  handleSnapshotModalOpen: PropTypes.func,
+  handleSubmitModalClose: PropTypes.any,
+  handleSubmitModalOpen: PropTypes.any,
+  isDroCommitted: PropTypes.func,
   isFinalPage: PropTypes.bool,
+  isSubmittingSnapshot: PropTypes.object,
+  onDownload: PropTypes.any,
+  onPageChange: PropTypes.any,
+  onSave: PropTypes.any,
+  page: PropTypes.any,
+  pageNumber: PropTypes.any,
+  project: PropTypes.any,
+  rules: PropTypes.any,
+  selectProject: PropTypes.any,
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
-  onSave: PropTypes.any,
-  submitModalOpen: PropTypes.any,
-  handleSubmitModalOpen: PropTypes.any,
-  handleSubmitModalClose: PropTypes.any,
-  targetNotReachedModalOpen: PropTypes.any,
+  shareView: PropTypes.bool,
   showCopyAndEditSnapshot: PropTypes.func,
   showSubmitModal: PropTypes.func,
-  handleCsvModalOpen: PropTypes.func,
-  handleHideModalOpen: PropTypes.func,
-  handleDeleteModalOpen: PropTypes.func,
-  handlePrintPdf: PropTypes.func,
-  handleSnapshotModalOpen: PropTypes.func,
-  handleRenameSnapshotModalOpen: PropTypes.func,
-  handleShareSnapshotModalOpen: PropTypes.func,
-  handleDROModalOpenWithPreCheck: PropTypes.func,
-  isDroCommitted: PropTypes.func,
-  isSubmittingSnapshot: PropTypes.object,
-  onDownload: PropTypes.any,
-  project: PropTypes.any,
-  selectProject: PropTypes.any,
-  shareView: PropTypes.bool
+  submitModalOpen: PropTypes.any,
+  targetNotReachedModalOpen: PropTypes.any,
 };
 
 export default WizardFooter;
