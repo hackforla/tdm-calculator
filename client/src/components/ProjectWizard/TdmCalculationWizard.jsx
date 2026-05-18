@@ -530,6 +530,7 @@ const TdmCalculationWizard = props => {
             loginId={!shareView ? loginId : account?.id}
             onSave={!shareView ? onSave : null}
             dateModified={project.dateModified}
+            isLevel0={isLevel0}
           />
         );
       default:

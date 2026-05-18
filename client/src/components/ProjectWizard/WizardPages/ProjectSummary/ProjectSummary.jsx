@@ -8,6 +8,7 @@ import ProjectDetail from "./ProjectDetail";
 import MeasureSelected from "./MeasureSelected";
 import PointsEarnedMessage from "./PointsEarnedMessage";
 import LandUses from "./LandUses";
+import Level0Page from "../Level0Page";
 import Result from "./Result";
 import { createUseStyles, useTheme } from "react-jss";
 
@@ -114,7 +115,7 @@ const useStyles = createUseStyles({
 const ProjectSummary = props => {
   const classes = useStyles();
   const theme = useTheme();
-  const { rules } = props;
+  const { rules, isLevel0 } = props;
 
   const parkingRequired = getRule(rules, "PARK_REQUIREMENT");
   const parkingProvided = getRule(rules, "PARK_SPACES");
@@ -188,19 +189,29 @@ const ProjectSummary = props => {
                 RESULTS FOR PROJECT: {projectName.value}
               </span>
             </div>
-            <div className={clsx("space-between", classes.resultsContainer)}>
-              <Result
-                rule={earnedPoints}
-                borderStyle={earnedPointsBorderStyle}
-                valueTestId={"summary-earned-points-value"}
-              />
-              <Result
-                rule={targetPoints}
-                borderStyle={classes.normalBorder}
-                valueTestId={"summary-target-points-value"}
-              />
-            </div>
-            <PointsEarnedMessage targetPointsReached={targetPointsReached} />
+            {isLevel0 ? (
+              <Level0Page />
+            ) : (
+              <>
+                <div
+                  className={clsx("space-between", classes.resultsContainer)}
+                >
+                  <Result
+                    rule={earnedPoints}
+                    borderStyle={earnedPointsBorderStyle}
+                    valueTestId={"summary-earned-points-value"}
+                  />
+                  <Result
+                    rule={targetPoints}
+                    borderStyle={classes.normalBorder}
+                    valueTestId={"summary-target-points-value"}
+                  />
+                </div>
+                <PointsEarnedMessage
+                  targetPointsReached={targetPointsReached}
+                />
+              </>
+            )}
           </div>
 
           {rules ? <ProjectInfoContainer rules={rules} /> : null}
@@ -309,7 +320,8 @@ const ProjectSummary = props => {
   );
 };
 ProjectSummary.propTypes = {
-  rules: PropTypes.array.isRequired
+  rules: PropTypes.array.isRequired,
+  isLevel0: PropTypes.bool.isRequired
 };
 
 export default ProjectSummary;
