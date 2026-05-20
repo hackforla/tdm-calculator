@@ -301,6 +301,7 @@ const AdminView = ({ aboutList, setAboutList }) => {
                           onClick={() => toggleEditing(about.id, "title")}
                           id={`edit-about-title-${about.id}`}
                           data-testid={`edit-about-title-${about.id}`}
+                          ariaLabel={`edit title of about item ${about.id}`}
                           title={
                             editingItems[`${about.id}-title`]
                               ? "Finish editing title"
@@ -328,6 +329,7 @@ const AdminView = ({ aboutList, setAboutList }) => {
                           onClick={() => toggleEditing(about.id, "content")}
                           id={`edit-about-content-${about.id}`}
                           data-testid={`edit-about-content-${about.id}`}
+                          ariaLabel={`edit content of about item ${about.id}`}
                           title={
                             editingItems[`${about.id}-content`]
                               ? "Finish editing content"
@@ -355,6 +357,7 @@ const AdminView = ({ aboutList, setAboutList }) => {
                           onClick={() => setShowDeleteAboutItemModal(true)}
                           id={`delete-about-${about.id}`}
                           data-testid={`delete-about-${about.id}`}
+                          ariaLabel={`delete about item ${about.id}`}
                           title="Delete item"
                           className={classes.controlButton}
                         >
