@@ -1,7 +1,7 @@
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
 const { sendSnapshotSubmissionToDRO } = require("./email.service");
-const { sanitizeHtml } = require("../../middleware/sanitize-html");
+const { sanitize } = require("../utils/sanitize-html");
 
 const getAll = async loginId => {
   try {
@@ -276,9 +276,9 @@ const updateAdminNotes = async (id, adminNotes, loginId) => {
   try {
     await poolConnect;
     const request = pool.request();
-    //Admin notes are rich text content that can contain HTML. Sanitized with DomPurify
+    //Admin notes are rich text content that can contain HTML.
     // Reference Decision Records https://github.com/hackforla/tdm-calculator/wiki/Decision-Records
-    const sanitizedAdminNotes = sanitizeHtml(adminNotes);
+    const sanitizedAdminNotes = sanitize(adminNotes);
     request.input("id", mssql.Int, id);
     request.input("adminNotes", mssql.NVarChar(mssql.MAX), sanitizedAdminNotes);
     request.input("LoginId", mssql.Int, loginId);
