@@ -57,7 +57,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
   const [rules, setRules] = useState([]);
 
   const [project, setProject] = useState({});
-  const [shareView, setShareView] = useState(false);
+  const [readOnly, setReadOnly] = useState(false);
 
   const toast = useToast();
 
@@ -82,12 +82,15 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         if (project) {
           calculationId = project.calculationId;
           setProject(project);
-          setShareView(project.loginId !== accountId && !isAdmin);
+          setReadOnly(
+            !!project.dateSnapshotted ||
+              (project.loginId !== accountId && !isAdmin)
+          );
           inputs = JSON.parse(project.formInputs);
           setStrategiesInitialized(true);
         }
       } else {
-        setShareView(false);
+        setReadOnly(false);
         setStrategiesInitialized(false);
       }
       const engine = new Engine(calculations[calculationId].rules);
@@ -425,7 +428,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       inapplicableStrategiesModal={inapplicableStrategiesModal}
       closeStrategiesModal={closeStrategiesModal}
       project={project}
-      shareView={shareView}
+      readOnly={readOnly}
       initializeEngine={initializeEngine}
     />
   );

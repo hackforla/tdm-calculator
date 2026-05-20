@@ -47,7 +47,7 @@ const useStyles = createUseStyles({
   },
   navButtonGroup: {
     display: "flex",
-    alignItems: "center",
+    alignItems: "center"
   },
   navButton: {
     margin: "0.5em",
@@ -60,8 +60,8 @@ const useStyles = createUseStyles({
   },
   callToActionButton: {
     margin: "0.5em",
-    padding: "0.8em 1em",
-  },
+    padding: "0.8em 1em"
+  }
 });
 
 const WizardFooter = ({
@@ -86,7 +86,7 @@ const WizardFooter = ({
   isDroCommitted,
   isSubmittingSnapshot,
   project,
-  shareView
+  readOnly
 }) => {
   const classes = useStyles();
   const projectNameRule = rules && rules.find(r => r.code === "PROJECT_NAME");
@@ -124,7 +124,7 @@ const WizardFooter = ({
   });
 
   // If the project exists and has been saved, AND a user is currently logged in
-  const showNumberedLinks = !!project?.id && !!loggedInUserId;
+  const showNumberedLinks = !!project?.id && !!loggedInUserId && !readOnly;
 
   return (
     <>
@@ -140,13 +140,13 @@ const WizardFooter = ({
                   className={classes.navButton}
                   isVisible={
                     page !== 1 &&
-                      !project.dateSnapshotted &&
-                      (!shareView || isAdmin)
+                    !project.dateSnapshotted &&
+                    (!readOnly || isAdmin)
                   }
                   isDisabled={
-                    (shareView && !isAdmin) ||
-                      !!project.dateSnapshotted ||
-                      Number(page) === 1
+                    (readOnly && !isAdmin) ||
+                    !!project.dateSnapshotted ||
+                    Number(page) === 1
                   }
                   onClick={() => {
                     onPageChange(
@@ -166,11 +166,11 @@ const WizardFooter = ({
                         onClick={() => onPageChange(p)}
                         isActive={p === Number(page)}
                         disabled={
-                          (shareView && !isAdmin) ||
-                            ((p ===3 || p === 4) && projectLevel === 0) ||
-                            (!project.dateSnapshotted &&
-                             p > Number(page) &&
-                             setDisabledForNextNavButton())
+                          (readOnly && !isAdmin) ||
+                          ((p === 3 || p === 4) && projectLevel === 0) ||
+                          (!project.dateSnapshotted &&
+                            p > Number(page) &&
+                            setDisabledForNextNavButton())
                         }
                         ariaLabel={`go to page ${p}`}
                       >
@@ -180,7 +180,7 @@ const WizardFooter = ({
                   </div>
                 )}
 
-                {(!shareView || isAdmin) && !project?.id ? (
+                {(!readOnly || isAdmin) && !project?.id ? (
                   <div className={classes.pageNumberCounter}>
                     Page {Number.isNaN(pageNumber) ? 1 : pageNumber}/5
                   </div>
@@ -342,11 +342,11 @@ WizardFooter.propTypes = {
   setDisabledForNextNavButton: PropTypes.any,
   setDisabledSaveButton: PropTypes.any,
   setDisplaySaveButton: PropTypes.any,
-  shareView: PropTypes.bool,
+  readOnly: PropTypes.bool,
   showCopyAndEditSnapshot: PropTypes.func,
   showSubmitModal: PropTypes.func,
   submitModalOpen: PropTypes.any,
-  targetNotReachedModalOpen: PropTypes.any,
+  targetNotReachedModalOpen: PropTypes.any
 };
 
 export default WizardFooter;
