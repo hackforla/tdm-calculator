@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-// import PackagePanel from "../PackagePanel/PackagePanel";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import { createUseStyles, useTheme } from "react-jss";
 import ResetButtons from "./ResetButtons";

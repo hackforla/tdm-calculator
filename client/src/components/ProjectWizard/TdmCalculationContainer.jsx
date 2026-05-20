@@ -352,7 +352,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
         setFormHasSaved(true);
         toast.add("Saved Project Changes");
         const projectResponse = await getProjectById(projectId);
-        setProject(projectResponse.data);
+        setProject(projectResponse);
       } catch (err) {
         console.error(err);
         if (err.response) {

@@ -7,7 +7,7 @@ import ParkingProvidedRuleInput from "../RuleInput/ParkingProvidedRuleInput";
 const useStyles = createUseStyles(theme => ({
   projectBox: {
     backgroundColor: "#E5EAF0",
-    "& h4": {
+    "& .top": {
       backgroundColor: "#002E6D",
       padding: "12px 0",
       display: "flex",
@@ -19,8 +19,8 @@ const useStyles = createUseStyles(theme => ({
         paddingBottom: 30
       }
     },
-    "& > div": {
-      paddingBottom: 20,
+    "& .bottom": {
+      paddingBottom: "0.5rem",
       fontFamily: "Arial",
       fontWeight: "bold",
       fontSize: 22
@@ -29,7 +29,7 @@ const useStyles = createUseStyles(theme => ({
   PLValue: {
     ...theme.typography.largeText,
     color: theme.colors.primary.white,
-    marginLeft: "1.2em",
+    marginLeft: "0.4em",
     fontSize: 40,
     fontWeight: "bold",
     width: "2em",
@@ -60,15 +60,15 @@ function ProjectTargetPoints(props) {
 
   return (
     <div>
-      <div style={theme.typography.heading1}>
+      <h1 style={theme.typography.heading1}>
         <span>Calculate Project TDM Target Points</span>
-      </div>
-      <div style={theme.typography.subHeading}>
+      </h1>
+      <h2 style={theme.typography.subHeading}>
         <span>
           Target Points (left panel) may be adjusted based on parking spaces
           entered below.
         </span>
-      </div>
+      </h2>
       {parkingProvidedRuleOnly && (
         <ParkingProvidedRuleInput
           rule={parkingProvidedRuleOnly}
@@ -77,23 +77,25 @@ function ProjectTargetPoints(props) {
         />
       )}
       <div className={classes.projectBox}>
-        <h4>
+        <div className="top">
           <span className={classes.PLLabel}>Your project level </span>
           <span className={classes.PLValue}>
             {(projectLevel && projectLevel.calcValue) || ""}
           </span>
-        </h4>
-        <h4>
+        </div>
+        <div className="top">
           <span className={classes.PLLabel}>Your target points </span>
           <span className={classes.PLValue}>
             {(targetValue && targetValue.calcValue) || ""}
           </span>
-        </h4>
-        <RuleCalculationPanels
-          rules={rulesInBox}
-          onInputChange={onInputChange}
-          suppressHeader
-        />
+        </div>
+        <div className="bottom">
+          <RuleCalculationPanels
+            rules={rulesInBox}
+            onInputChange={onInputChange}
+            suppressHeader
+          />
+        </div>
       </div>
     </div>
   );
