@@ -1,4 +1,4 @@
-const { sanitizeHtml } = require("../../middleware/sanitize-html");
+const { sanitize } = require("../utils/sanitize-html");
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
 
@@ -28,8 +28,8 @@ const postCategories = async faqCategories => {
       // Reference Decision Records https://github.com/hackforla/tdm-calculator/wiki/Decision-Records
       const sanitizedFaq = faqCategory.faqs.map(faq => ({
         ...faq,
-        question: sanitizeHtml(faq.question || ""),
-        answer: sanitizeHtml(faq.answer || "")
+        question: sanitize(faq.question || ""),
+        answer: sanitize(faq.answer || "")
       }));
 
       tvp.rows.add(
