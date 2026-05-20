@@ -91,6 +91,15 @@ export const jssTheme = {
       textAlign: "center",
       color: "#000000"
     },
+    heading4: {
+      fontFamily: "Calibri",
+      fontSize: "16px",
+      fontWeight: 700,
+      lineHeight: "16px",
+      letterSpacing: "0.01em",
+      textAlign: "center",
+      color: "#000000"
+    },
     subHeading: {
       fontFamily: "Calibri",
       fontSize: "20px",
