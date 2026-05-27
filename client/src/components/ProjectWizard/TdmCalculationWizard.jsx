@@ -68,7 +68,7 @@ const TdmCalculationWizard = props => {
     inapplicableStrategiesModal,
     closeStrategiesModal,
     project,
-    shareView,
+    readOnly,
     initializeEngine
   } = props;
   const classes = useStyles();
@@ -335,12 +335,12 @@ const TdmCalculationWizard = props => {
         );
       };
       return (
-        !shareView &&
+        !readOnly &&
         formIsDirty &&
         !isSameProject(currentLocation, nextLocation)
       );
     },
-    [formIsDirty, projectId, shareView]
+    [formIsDirty, projectId, readOnly]
   );
   const blocker = useBlocker(shouldBlock);
 
@@ -455,13 +455,17 @@ const TdmCalculationWizard = props => {
   };
 
   const onPageChange = pageNo => {
-    const { page, projectId } = params;
+    const MIN_PAGE = 0;
+    const MAX_PAGE = 5;
+    const { projectId } = params;
     const projectIdParam = projectId ? `/${projectId}` : "/0";
-    if (Number(pageNo) > Number(page)) {
-      if (handleValidate()) {
-        navigate(`/calculation/${pageNo}${projectIdParam}`);
-      }
-    } else {
+
+    if (
+      typeof pageNo === "number" &&
+      pageNo > MIN_PAGE &&
+      pageNo <= MAX_PAGE &&
+      handleValidate()
+    ) {
       navigate(`/calculation/${pageNo}${projectIdParam}`);
     }
   };
@@ -525,9 +529,10 @@ const TdmCalculationWizard = props => {
             rules={rules}
             account={account}
             projectId={projectId}
-            loginId={!shareView ? loginId : account?.id}
-            onSave={!shareView ? onSave : null}
+            loginId={!readOnly ? loginId : account?.id}
+            onSave={!readOnly ? onSave : null}
             dateModified={project.dateModified}
+            isLevel0={isLevel0}
           />
         );
       default:
@@ -577,7 +582,7 @@ const TdmCalculationWizard = props => {
           isSubmittingSnapshot={isSubmittingSnapshot}
           onSave={onSave}
           project={project}
-          shareView={shareView}
+          readOnly={readOnly}
         />
       </ContentContainerWithTables>
       <CopyAndEditSnapshotModal
@@ -691,7 +696,7 @@ TdmCalculationWizard.propTypes = {
   inapplicableStrategiesModal: PropTypes.bool,
   closeStrategiesModal: PropTypes.func,
   project: PropTypes.any,
-  shareView: PropTypes.bool,
+  readOnly: PropTypes.bool,
   initializeEngine: PropTypes.func
 };
 

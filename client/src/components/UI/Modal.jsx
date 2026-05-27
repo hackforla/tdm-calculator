@@ -57,11 +57,23 @@ const ModalDialog = forwardRef(
       omitCloseBox = false,
       underlayClickExits = false,
       escapeExits = true,
-      title = "Title Text"
+      title = "Title Text",
+      style = {}
     },
     ref
   ) => {
     const classes = useStyles();
+
+    const modalOverrideStyle = {
+      overlay: {
+        ...modalStyleDefaultOverrides.overlay,
+        ...style.overlay
+      },
+      content: {
+        ...modalStyleDefaultOverrides.content,
+        ...style.content
+      }
+    };
 
     return (
       <Modal
@@ -70,7 +82,7 @@ const ModalDialog = forwardRef(
         shouldCloseOnOverlayClick={underlayClickExits}
         shouldCloseOnEscape={escapeExits}
         contentLabel={title}
-        style={modalStyleDefaultOverrides}
+        style={modalOverrideStyle}
         appElement={document.getElementById("root") || undefined}
         // initialFocus={initialFocus || null}
       >
@@ -103,7 +115,8 @@ ModalDialog.propTypes = {
   omitCloseBox: PropTypes.bool,
   underlayClickExits: PropTypes.bool,
   escapeExits: PropTypes.bool,
-  title: PropTypes.string
+  title: PropTypes.string,
+  style: PropTypes.object
 };
 
 export default ModalDialog;

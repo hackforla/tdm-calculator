@@ -6,14 +6,14 @@ import clsx from "clsx";
 const useStyles = createUseStyles(theme => ({
   link: {
     fontFamily: "Calibri",
-    fontWeight: 700,
-    letterSpacing: "0.05em",
-    fontSize: "20px",
-    color: theme.colors.secondary.linkBlue,
+    fontWeight: 600,
+    letterSpacing: "0.1em",
+    fontSize: "23px",
+    color: theme.colorLADOTBlack,
     textDecoration: "none",
     cursor: "pointer",
-    margin: "0.2em", // adding some margin for spacing like the button had
-    padding: "0.1em 0.3em",
+    margin: "0.2em 0.1em",
+    padding: "0.6em 0.8em",
     "&[aria-disabled='true'], &[disabled]": {
       color: theme.colorGray,
       cursor: "default",
@@ -22,9 +22,9 @@ const useStyles = createUseStyles(theme => ({
   },
   activeLink: {
     backgroundColor: theme.colorPrimary,
-    color: theme.colorBlack,
-    padding: "8px 12px",
-    textDecoration: "none",
+    fontWeight: 700,
+    fontSize: "25px",
+    color: theme.colorLADOTBlack,
     cursor: "default"
   }
 }));

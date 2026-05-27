@@ -12,6 +12,7 @@ import MeasureSelected from "../ProjectWizard/WizardPages/ProjectSummary/Measure
 import LandUses from "../ProjectWizard/WizardPages/ProjectSummary/LandUses";
 import ProjectInfo from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfo";
 import ProjectInfoList from "../ProjectWizard/WizardPages/ProjectSummary/ProjectInfoList";
+import Level0Page from "../ProjectWizard/WizardPages/Level0Page";
 import PdfResult from "./PdfResult";
 import PdfFooter from "./PdfFooter";
 import logo from "../../images/ladot.png";
@@ -123,6 +124,9 @@ const useStyles = createUseStyles({
     marginLeft: "12px",
     border: "1px solid #E7EBF0"
   },
+  level0Container: {
+    padding: "0 55px"
+  },
   footerSpace: {
     height: "150px"
   },
@@ -159,6 +163,7 @@ export const PdfPrint = forwardRef((props, ref) => {
   const caseNumberPlanning = getRule(rules, "CASE_NO_PLANNING");
   const parcelNumbers = getRule(rules, "APN");
   const versionNumber = getRule(rules, "VERSION_NO");
+  const isProjectLevelZero = level && level.value === 0;
   const formattedId = project?.id ? formatId(project.id) : null;
 
   const measureRules =
@@ -214,6 +219,11 @@ export const PdfPrint = forwardRef((props, ref) => {
                     </span>
                   ) : null}
                 </div>
+                {isProjectLevelZero && (
+                  <div className={classes.level0Container}>
+                    <Level0Page />
+                  </div>
+                )}
                 <div className={classes.projectInfoDetailsContainer}>
                   {projectAddress && projectAddress.value && (
                     <ProjectInfo

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
-import { MdWarning } from "react-icons/md";
+import { MdWarning, MdCheckCircle } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import UniversalSelect from "../UI/UniversalSelect";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
@@ -23,17 +23,41 @@ const useStyles = createUseStyles(theme => ({
     height: "80px",
     width: "80px",
     color: theme.colorCritical,
-    textAlign: "center"
+    textAlign: "center",
+    margin: "1rem"
   },
-  buttonFlexBox: {
+  checkCircleIcon: {
+    height: "80px",
+    width: "80px",
+    color: theme.colorPrimary,
+    textAlign: "center",
+    margin: "1rem"
+  },
+  modalHeader: { ...theme.typography.iconHeading1, marginBottom: "1rem" },
+  modalSubHeader: {
+    ...theme.typography.subHeading
+  },
+  modalContentSection: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "2rem",
+    maxWidth: "80%",
+    marginTop: "1rem",
+    marginBottom: "1rem"
+  },
+  modalDescriptionList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem"
+  },
+  descriptionContainer: {
+    display: "flex",
+    alignItems: "center"
+  },
+  mainActionButtonSection: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: "1rem"
-  },
-  modalHeader: { ...theme.typography.iconHeading1, marginBottom: "2rem" },
-  modalSubHeader: {
-    ...theme.typography.subHeading,
     marginTop: "1rem",
     marginBottom: "1rem"
   },
@@ -41,8 +65,64 @@ const useStyles = createUseStyles(theme => ({
     ...theme.typography.paragraph1,
     fontWeight: 700,
     marginRight: "0.5rem"
+  },
+  buttonText: {
+    fontSize: "16px !important",
+    fontWeight: "bold",
+    width: "118px"
+  },
+  selectContainer: {
+    display: "flex",
+    gap: ".5rem",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%"
+  },
+  toggleContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start"
+  },
+  toggleText: {
+    ...theme.typography.subHeading,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    marginLeft: "10px",
+    textAlign: "left"
   }
 }));
+
+// default style from modal dialog component
+const modalStyleDefaultOverrides = {
+  overlay: {
+    zIndex: "999",
+    position: "fixed",
+    width: "100vw",
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    fontSize: "1rem",
+    fontWeight: "normal"
+  },
+  content: {
+    width: "min(700px, 90%)",
+    inset: "auto",
+    padding: "1rem",
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    border: "1px solid #d8dce3",
+    borderRadius: "0",
+    boxSizing: "border-box",
+    boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.5)",
+    backgroundColor: "rgba(255, 255, 255, 1)"
+  }
+};
 
 const ChangeVersionModal = ({
   isModalOpen,
@@ -110,82 +190,82 @@ const ChangeVersionModal = ({
   };
 
   return (
-    <ModalDialog mounted={isModalOpen} onClose={cancel} omitCloseBox={true}>
+    <ModalDialog
+      mounted={isModalOpen}
+      onClose={cancel}
+      omitCloseBox={true}
+      style={modalStyleDefaultOverrides}
+    >
       {page === 0 ? (
         <div className={classes.container}>
           <MdWarning alt="Warning" className={classes.warningIcon} />
-          <div
-            className={classes.modalHeader}
-          >{` Change Program Guidelines Version`}</div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              gap: "1rem",
-              maxWidth: "80%"
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
-              <div className={classes.labelText}>Date Draft Created:</div>
-              <div style={{ ...theme.typography.paragraph1 }}>
-                {formatDate(project.dateCreated)}
-              </div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
-              <div className={classes.labelText}>
-                Date Program Guidelines Last Updated:
-              </div>
-              <div style={{ ...theme.typography.paragraph1 }}>
-                {formatDate(calculations[defaultCalculationId].dateStart)}
-              </div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
-              <div className={classes.labelText}>
-                Current Program Guidelines Version:
-              </div>
-              <div style={{ ...theme.typography.paragraph1 }}>
-                {calculations[defaultCalculationId].version}
-              </div>
-            </div>
+          <header className={classes.modalHeader}>
+            {` Change Program Guidelines Version`}
+          </header>
 
-            <div>
-              <p>
-                Select a Program Guidelines Version from the dropdown below. The
-                selected version&apos;s rules will be applied to this draft
-              </p>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
-              <div className={classes.labelText}>
-                Program Guidelines Version:
+          <section className={classes.modalContentSection}>
+            <dl className={classes.modalDescriptionList}>
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>Date Draft Created:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {formatDate(project.dateCreated)}
+                </dd>
               </div>
-              <div style={{ minWidth: "20rem" }}>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>
+                  Date Program Guidelines Last Updated:
+                </dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {formatDate(calculations[defaultCalculationId].dateStart)}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>
+                  This Project's Current Program Guidelines Version:
+                </dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {calculations[newCalculationId]?.version}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>
+                  Current Published Program Guidelines Version:
+                </dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {calculations[defaultCalculationId].version}
+                </dd>
+              </div>
+            </dl>
+
+            <p className={classes.modalSubHeader}>
+              Select a Program Guidelines Version from the dropdown below. The
+              selected version&apos;s rules will be applied to this draft.
+            </p>
+
+            <div className={classes.selectContainer}>
+              <label
+                htmlFor="guideline-select"
+                className={classes.labelText}
+                style={{
+                  flex: 1,
+                  textAlign: "left",
+                  height: "2.5rem",
+                  display: "flex",
+                  alignItems: "center"
+                }}
+              >
+                Change This Project's Program Guidelines Version To:
+              </label>
+              <div
+                style={{
+                  flex: 1.3
+                }}
+              >
                 <UniversalSelect
+                  id="guideline-select"
                   onChange={e => setNewCalculationId(Number(e.target.value))}
                   className={classes.select}
                   options={calculationList}
@@ -195,13 +275,7 @@ const ChangeVersionModal = ({
               </div>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
+            <div className={classes.toggleContainer}>
               <ToggleCheckbox
                 id="checkbox"
                 name="checkbox"
@@ -209,13 +283,14 @@ const ChangeVersionModal = ({
                 checked={confirm}
                 onChange={handleCheckboxChange}
               />
-              <div>
+              <div className={classes.toggleText}>
                 I want to proceed with changing the applicable Program
                 Guidelines version.
               </div>
             </div>
-          </div>
-          <div className={classes.buttonFlexBox}>
+          </section>
+
+          <section className={classes.mainActionButtonSection}>
             <Button
               onClick={() => {
                 setConfirm(false);
@@ -225,6 +300,7 @@ const ChangeVersionModal = ({
               }}
               variant="secondary"
               id="cancelButton"
+              className={classes.buttonText}
             >
               Cancel
             </Button>
@@ -232,66 +308,95 @@ const ChangeVersionModal = ({
               onClick={() => setPage(1)}
               variant="primary"
               disabled={!confirm || project.calculationId == newCalculationId}
+              className={classes.buttonText}
             >
               Submit
             </Button>
-          </div>
+          </section>
         </div>
       ) : null}
 
       {page === 1 ? (
         <div className={classes.container}>
           <MdWarning alt="Warning" className={classes.warningIcon} />
-          <div
-            className={classes.modalHeader}
-          >{` Change Program Guidelines Version`}</div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              gap: "0.75rem",
-              width: "80%"
-            }}
-          >
-            <div className={classes.labelText}>{project.name}</div>
-            <div className={classes.labelText}>{project.address}</div>
-            <div className={classes.labelText}>
-              {"Alternate Number: " +
-                (alternateNumber ? alternateNumber : "(none)")}
-            </div>
-            <div className={classes.labelText}>
-              {"DRO: " +
-                (project.droId
-                  ? droOptions.find(d => d.id === project.droId)?.name
-                  : "(unassigned)")}
-            </div>
-            <div className={classes.labelText}>
-              Date Draft Created: &nbsp;
-              {formatDate(project.dateCreated)}
-            </div>
+          <header className={classes.modalHeader}>
+            {` Change Program Guidelines Version`}
+          </header>
 
-            <div className={classes.labelText}>
-              Previous Program Guidelines Version: &nbsp;
-              {calculations[project.calculationId]?.version}
-            </div>
-            <div className={classes.labelText}>
-              New Program Guidelines Version: &nbsp;
-              {calculations[newCalculationId]?.version}
-            </div>
-          </div>
-          <div style={{ width: "80%", marginTop: "1rem" }}>
-            <p>
+          <section className={classes.modalContentSection}>
+            <header className={classes.modalSubHeader}>
+              You are about to change the Program Guidelines version for this
+              project.
+            </header>
+
+            <dl className={classes.modalDescriptionList}>
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>Name:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {project.name}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>Address:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {project.address}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>Alternative Number:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {alternateNumber ? alternateNumber : "(none)"}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>DRO:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {project.droId
+                    ? droOptions.find(d => d.id === project.droId)?.name
+                    : "(unassigned)"}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}> Date Draft Created:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {formatDate(project.dateCreated)}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>
+                  Change Program Guidelines Version From:
+                </dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {calculations[project.calculationId]?.version}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>
+                  Change Program Guidelines Version To:
+                </dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {calculations[newCalculationId]?.version}
+                </dd>
+              </div>
+            </dl>
+
+            <p className={classes.modalSubHeader}>
               The selected version&apos;s rules will be applied to this draft
               after you confirm. This will affect project compliance
               requirements.
             </p>
-            <p style={{ marginTop: "1rem" }}>
+            <p className={classes.modalSubHeader}>
               Are you sure you want to proceed?
             </p>
-          </div>
+          </section>
 
-          <div className={classes.buttonFlexBox}>
+          <div className={classes.mainActionButtonSection}>
             <Button
               onClick={() => {
                 setPage(0);
@@ -301,6 +406,7 @@ const ChangeVersionModal = ({
               }}
               variant="secondary"
               id="cancelButton"
+              className={classes.buttonText}
             >
               Cancel
             </Button>
@@ -308,6 +414,7 @@ const ChangeVersionModal = ({
               onClick={handleUpdate}
               variant="primary"
               disabled={!confirm}
+              className={classes.buttonText}
             >
               Confirm
             </Button>
@@ -316,60 +423,82 @@ const ChangeVersionModal = ({
       ) : null}
       {page === 2 ? (
         <div className={classes.container}>
-          <MdWarning alt="Warning" className={classes.warningIcon} />
-          <div
-            className={classes.modalHeader}
-          >{` Program Guidelines Version Updated`}</div>
-          <div style={{ width: "80%", marginTop: "1rem" }}>
-            <p>
+          <MdCheckCircle alt="Check" className={classes.checkCircleIcon} />
+          <header className={classes.modalHeader}>
+            {` Program Guidelines Version Updated`}
+          </header>
+
+          <section className={classes.modalContentSection}>
+            <header className={classes.modalSubHeader}>
               The Program Guidelines version for the project has been updated.
               The rules corresponding to the selected version will now apply to
               the project.
-            </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              gap: "0.75rem",
-              width: "80%"
-            }}
-          >
-            <div className={classes.labelText}>{project.name}</div>
-            <div className={classes.labelText}>{project.address}</div>
-            <div className={classes.labelText}>
-              {"Alternate Number: " +
-                (alternateNumber ? alternateNumber : "(none)")}
-            </div>
-            <div className={classes.labelText}>
-              {"DRO: " +
-                (project.droId
-                  ? droOptions.find(d => d.id === project.droId)?.name
-                  : "(unassigned)")}
-            </div>
-            <div className={classes.labelText}>
-              Date Draft Created: &nbsp;
-              {formatDate(project.dateCreated)}
-            </div>
+            </header>
 
-            <div className={classes.labelText}>
-              Previous Program Guidelines Version: &nbsp;
-              {calculations[project.calculationId]?.version}
-            </div>
-            <div className={classes.labelText}>
-              New Program Guidelines Version: &nbsp;
-              {calculations[newCalculationId]?.version}
-            </div>
-          </div>
-          <div style={{ width: "80%", marginTop: "1rem" }}>
-            <p>
+            <dl className={classes.modalDescriptionList}>
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>Name:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {project.name}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>Address:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {project.address}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>Alternative Number:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {alternateNumber ? alternateNumber : "(none)"}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>DRO:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {project.droId
+                    ? droOptions.find(d => d.id === project.droId)?.name
+                    : "(unassigned)"}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}> Date Draft Created:</dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {formatDate(project.dateCreated)}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>
+                  Changed Program Guidelines Version From:
+                </dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {calculations[project.calculationId]?.version}
+                </dd>
+              </div>
+
+              <div className={classes.descriptionContainer}>
+                <dt className={classes.labelText}>
+                  Changed Program Guidelines Version To:
+                </dt>
+                <dd style={{ ...theme.typography.paragraph1 }}>
+                  {calculations[newCalculationId]?.version}
+                </dd>
+              </div>
+            </dl>
+
+            <p className={classes.modalSubHeader}>
               Please notify the applicant that the Program Guidelines version
               that applies to this project has been changed.
             </p>
-          </div>
+          </section>
 
-          <div className={classes.buttonFlexBox}>
+          <div className={classes.mainActionButtonSection}>
             <Button
               onClick={() => {
                 setPage(0);
@@ -378,6 +507,7 @@ const ChangeVersionModal = ({
               }}
               variant="primary"
               id="closeButton"
+              className={classes.buttonText}
             >
               Close
             </Button>
