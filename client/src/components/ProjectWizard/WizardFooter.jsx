@@ -123,9 +123,6 @@ const WizardFooter = ({
     pageStyle: ".printContainer {overflow: hidden;}"
   });
 
-  // If the project exists and has been saved, AND a user is currently logged in
-  const showNumberedLinks = !!project?.id && !!loggedInUserId && !readOnly;
-
   return (
     <>
       <div id="all-buttons-wrapper" className={classes.allButtonsWrapper}>
@@ -157,7 +154,7 @@ const WizardFooter = ({
                   }}
                 />
 
-                {showNumberedLinks && (
+                {!readOnly && (
                   <div className={classes.numberedLinksGroup}>
                     {Array.from({ length: 5 }, (_, i) => i + 1).map(p => (
                       <NumberedLink
@@ -173,6 +170,7 @@ const WizardFooter = ({
                             setDisabledForNextNavButton())
                         }
                         ariaLabel={`go to page ${p}`}
+                        styleSmall={p > 1 && p < 5}
                       >
                         {p}
                       </NumberedLink>
@@ -180,11 +178,11 @@ const WizardFooter = ({
                   </div>
                 )}
 
-                {(!readOnly || isAdmin) && !project?.id ? (
+                {/* {(!readOnly || isAdmin) && !project?.id ? (
                   <div className={classes.pageNumberCounter}>
                     Page {Number.isNaN(pageNumber) ? 1 : pageNumber}/5
                   </div>
-                ) : null}
+                ) : null} */}
                 {/* Page {pageNumber}/5 */}
                 <NavButton
                   id="rightNavArrow"
