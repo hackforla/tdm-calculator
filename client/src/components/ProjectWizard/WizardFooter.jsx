@@ -178,11 +178,11 @@ const WizardFooter = ({
                   </div>
                 )}
 
-                {(!readOnly || isAdmin) && !project?.id ? (
+                {/* {(!readOnly || isAdmin) && !project?.id ? (
                   <div className={classes.pageNumberCounter}>
                     Page {Number.isNaN(pageNumber) ? 1 : pageNumber}/5
                   </div>
-                ) : null}
+                ) : null} */}
                 {/* Page {pageNumber}/5 */}
                 <NavButton
                   id="rightNavArrow"
