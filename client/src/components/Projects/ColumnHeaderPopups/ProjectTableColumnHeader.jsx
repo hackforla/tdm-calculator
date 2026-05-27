@@ -156,7 +156,7 @@ const ProjectTableColumnHeader = ({
       return criteria.visibility !== "visible";
     }
     if (header.id === "dateSnapshotted") {
-      return criteria.type !== "all" || criteria.status !== "active";
+      return criteria.type !== "all";
     }
     if (header.id === "dro") {
       return criteria.droList?.length > 0; // Use optional chaining

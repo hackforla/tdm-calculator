@@ -30,7 +30,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "error-handler": "^1.0.0",
-    "express": "^4.22.1",
+    "express": "^4.22.2",
     "express-json-validator-middleware": "^3.0.1",
     "express-pino-logger": "^7.0.0",
     "express-rate-limit": "^8.2.2",
