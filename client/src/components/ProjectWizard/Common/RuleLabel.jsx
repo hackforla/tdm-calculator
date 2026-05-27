@@ -114,7 +114,7 @@ const RuleLabel = ({
   };
 
   /**
-   * dataType === "none" indicates that the rule does not have an input, and thereform no htmlFor target for the label.
+   * dataType === "none" indicates that the rule does not have an input, and therefore no htmlFor target for the label.
    * In this case, return null to avoid WAVE error about label without associated form control.
    * For rules with inputs, return the code to associate the label with the input.
    * @param code string
