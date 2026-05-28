@@ -7,7 +7,6 @@ const {
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation
 } = require("./email.service");
-const { v4: uuid4 } = require("uuid");
 
 const SALT_ROUNDS = 10;
 
@@ -95,7 +94,7 @@ const register = async model => {
 };
 
 const updateAccount = async model => {
-  const token = uuid4();
+  const token = crypto.randomUUID();
   try {
     await poolConnect;
     const request = pool.request();
@@ -149,7 +148,7 @@ const resendConfirmationEmail = async email => {
 // Generate security token and transmit registration
 // confirmation email
 const requestRegistrationConfirmation = async (email, result) => {
-  const token = uuid4();
+  const token = crypto.randomUUID();
   try {
     await poolConnect;
     const request = pool.request();
@@ -265,7 +264,7 @@ const forgotPassword = async model => {
 // Generate security token and transmit password reset
 // confirmation email
 const requestResetPasswordConfirmation = async (email, result) => {
-  const token = uuid4();
+  const token = crypto.randomUUID();
   try {
     await poolConnect;
     const request = pool.request();
