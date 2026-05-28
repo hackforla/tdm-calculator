@@ -101,7 +101,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-export default function InfoSubmissonLog({ mounted, onClose, project }) {
+export default function InfoSubmissionLog({ mounted, onClose, project }) {
   const theme = useTheme();
   const classes = useStyles(theme);
   const [projectLog, setProjectLog] = useState();
@@ -279,7 +279,7 @@ export default function InfoSubmissonLog({ mounted, onClose, project }) {
               ) : (
                 <tr>
                   <td colSpan={9} className={classes.tdNoSavedProjects}>
-                    No Log Resords to Show
+                    No Log Records to Show
                   </td>
                 </tr>
               )}
@@ -296,7 +296,7 @@ export default function InfoSubmissonLog({ mounted, onClose, project }) {
   );
 }
 
-InfoSubmissonLog.propTypes = {
+InfoSubmissionLog.propTypes = {
   mounted: PropTypes.bool,
   onClose: PropTypes.func,
   project: PropTypes.any
