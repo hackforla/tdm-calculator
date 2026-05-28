@@ -4,6 +4,7 @@ export const jssTheme = {
   colorPrimaryDisabled: "#D3E29C", //green tint
   colorText: "#0F2940", //dark navy
   colorLADOT: "#002E6D", //navy
+  colorLADOTBlack: "#231F20", //Medium Black
   colorGray: "#808080",
   colorLightGray: "#A0A0A0",
   colorEarnedPoints: "rgb(255, 168, 4)", //orange
@@ -86,6 +87,15 @@ export const jssTheme = {
       fontSize: "20px",
       fontWeight: 700,
       lineHeight: "28px",
+      letterSpacing: "0.01em",
+      textAlign: "center",
+      color: "#000000"
+    },
+    heading4: {
+      fontFamily: "Calibri",
+      fontSize: "16px",
+      fontWeight: 700,
+      lineHeight: "16px",
       letterSpacing: "0.01em",
       textAlign: "center",
       color: "#000000"

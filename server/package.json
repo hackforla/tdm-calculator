@@ -1,6 +1,6 @@
 {
   "name": "tdm-calculator-api",
-  "version": "0.2.73",
+  "version": "0.2.75",
   "description": "Transportation Demand Management Calculator",
   "repository": {
     "type": "git",
@@ -28,10 +28,9 @@
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dompurify": "^3.3.2",
     "dotenv": "^16.4.7",
     "error-handler": "^1.0.0",
-    "express": "^4.22.1",
+    "express": "^4.22.2",
     "express-json-validator-middleware": "^3.0.1",
     "express-pino-logger": "^7.0.0",
     "express-rate-limit": "^8.2.2",
@@ -41,14 +40,15 @@
     "mssql": "^11.0.1",
     "node-flywaydb": "^3.0.7",
     "nodemailer": "^8.0.5",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "sanitize-html": "^2.17.4"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.5",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
-    "@testcontainers/mssqlserver": "^10.23.0",
+    "@testcontainers/mssqlserver": "^12.0.0",
     "babel-jest": "^30.2.0",
     "baseline-browser-mapping": "^2.9.18",
     "eslint": "^10.1.0",
@@ -62,7 +62,7 @@
     "nodemon": "^3.1.9",
     "prettier": "^3.5.3",
     "supertest": "^7.1.0",
-    "testcontainers": "^10.23.0"
+    "testcontainers": "^12.0.0"
   },
   "lint-staged": {
     "*.{js,md}": "prettier --write",

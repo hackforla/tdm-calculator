@@ -18,7 +18,7 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: theme.colorText,
-    color: "white",
+    color: theme.colorWhite,
     padding: ".4em",
     marginBottom: "0.6em"
   },
@@ -30,11 +30,14 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: theme.colorPrimary,
-    color: "black",
+    color: theme.colorBlack,
     padding: ".4em",
     marginBottom: "0.6em"
   },
   strategyName: {
+    ...theme.typography.heading4,
+    textAlign: "left",
+    color: "inherit",
     flexGrow: "1",
     flexShrink: "1",
     margin: "0"
@@ -45,7 +48,8 @@ const useStyles = createUseStyles(theme => ({
     marginRight: "0.5em",
     textAlign: "right",
     flexGrow: "0",
-    flexShrink: "1"
+    flexShrink: "1",
+    fontWeight: "700"
   },
   loaderContainer: {
     width: "100%",
@@ -87,7 +91,7 @@ const RuleStrategyPanels = props => {
             >
               {!suppressHeader ? (
                 <div className={classes[rules[0].cssClass]}>
-                  <h4 className={classes.strategyName}>{rules[0].panelName}</h4>
+                  <h3 className={classes.strategyName}>{rules[0].panelName}</h3>
                   <div className={classes.points}>Possible</div>
                   <div className={classes.points}>Earned</div>
                 </div>

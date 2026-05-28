@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-// import PackagePanel from "../PackagePanel/PackagePanel";
 import RuleStrategyPanels from "../RuleStrategy/RuleStrategyPanels";
 import { createUseStyles, useTheme } from "react-jss";
 import ResetButtons from "./ResetButtons";
@@ -72,9 +71,9 @@ function ProjectMeasure(props) {
       <h1 style={theme.typography.heading1}>
         <span>Select TDM Strategies</span>
       </h1>
-      <div style={theme.typography.subHeading}>
+      <h2 style={theme.typography.subHeading}>
         Select TDM strategies to earn points to reach the Target (left panel).
-      </div>
+      </h2>
       {allowPackages() && (
         <>
           <div className={classes.packageBanner}>

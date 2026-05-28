@@ -2,13 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import RuleCalculationPanels from "../RuleCalculation/RuleCalculationPanels";
-import Level0Page from "./Level0Page";
 import ParkingProvidedRuleInput from "../RuleInput/ParkingProvidedRuleInput";
 
 const useStyles = createUseStyles(theme => ({
   projectBox: {
     backgroundColor: "#E5EAF0",
-    "& h4": {
+    "& .top": {
       backgroundColor: "#002E6D",
       padding: "12px 0",
       display: "flex",
@@ -20,8 +19,8 @@ const useStyles = createUseStyles(theme => ({
         paddingBottom: 30
       }
     },
-    "& > div": {
-      paddingBottom: 20,
+    "& .bottom": {
+      paddingBottom: "0.5rem",
       fontFamily: "Arial",
       fontWeight: "bold",
       fontSize: 22
@@ -30,7 +29,7 @@ const useStyles = createUseStyles(theme => ({
   PLValue: {
     ...theme.typography.largeText,
     color: theme.colors.primary.white,
-    marginLeft: "1.2em",
+    marginLeft: "0.4em",
     fontSize: 40,
     fontWeight: "bold",
     width: "2em",
@@ -50,13 +49,7 @@ const useStyles = createUseStyles(theme => ({
 function ProjectTargetPoints(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const {
-    rules,
-    onInputChange,
-    isLevel0,
-    onParkingProvidedChange,
-    resetProject
-  } = props;
+  const { rules, onInputChange, onParkingProvidedChange, resetProject } = props;
   const projectLevel = rules.find(e => e.code === "LEVEL");
   const targetValue = rules.find(e => e.code === "INPUT_TARGET_POINTS_PARK");
 
@@ -66,56 +59,51 @@ function ProjectTargetPoints(props) {
   );
 
   return (
-    <>
-      <Level0Page isLevel0={isLevel0} resetProject={resetProject} />
-
-      {projectLevel && projectLevel.calcValue > 0 && (
-        <div>
-          <div style={theme.typography.heading1}>
-            <span>Calculate Project TDM Target Points</span>
-          </div>
-          <div style={theme.typography.subHeading}>
-            <span>
-              Target Points (left panel) may be adjusted based on parking spaces
-              entered below.
-            </span>
-          </div>
-          {parkingProvidedRuleOnly && (
-            <ParkingProvidedRuleInput
-              rule={parkingProvidedRuleOnly}
-              onInputChange={onParkingProvidedChange}
-              resetProject={resetProject}
-            />
-          )}
-          <div className={classes.projectBox}>
-            <h4>
-              <span className={classes.PLLabel}>Your project level </span>
-              <span className={classes.PLValue}>
-                {(projectLevel && projectLevel.calcValue) || ""}
-              </span>
-            </h4>
-            <h4>
-              <span className={classes.PLLabel}>Your target points </span>
-              <span className={classes.PLValue}>
-                {(targetValue && targetValue.calcValue) || ""}
-              </span>
-            </h4>
-            <RuleCalculationPanels
-              rules={rulesInBox}
-              onInputChange={onInputChange}
-              suppressHeader
-            />
-          </div>
-        </div>
+    <div>
+      <h1 style={theme.typography.heading1}>
+        <span>Calculate Project TDM Target Points</span>
+      </h1>
+      <h2 style={theme.typography.subHeading}>
+        <span>
+          Target Points (left panel) may be adjusted based on parking spaces
+          entered below.
+        </span>
+      </h2>
+      {parkingProvidedRuleOnly && (
+        <ParkingProvidedRuleInput
+          rule={parkingProvidedRuleOnly}
+          onInputChange={onParkingProvidedChange}
+          resetProject={resetProject}
+        />
       )}
-    </>
+      <div className={classes.projectBox}>
+        <div className="top">
+          <span className={classes.PLLabel}>Your project level </span>
+          <span className={classes.PLValue}>
+            {(projectLevel && projectLevel.calcValue) || ""}
+          </span>
+        </div>
+        <div className="top">
+          <span className={classes.PLLabel}>Your target points </span>
+          <span className={classes.PLValue}>
+            {(targetValue && targetValue.calcValue) || ""}
+          </span>
+        </div>
+        <div className="bottom">
+          <RuleCalculationPanels
+            rules={rulesInBox}
+            onInputChange={onInputChange}
+            suppressHeader
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 ProjectTargetPoints.propTypes = {
   rules: PropTypes.array.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onParkingProvidedChange: PropTypes.func.isRequired,
-  isLevel0: PropTypes.bool.isRequired,
   resetProject: PropTypes.func.isRequired
 };
 

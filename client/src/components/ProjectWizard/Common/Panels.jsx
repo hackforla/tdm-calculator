@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import Loader from "react-loader";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   panelContainer: {
     margin: "0.5em"
   },
@@ -12,16 +12,18 @@ const useStyles = createUseStyles({
     margin: "0.2em",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#0f2940",
-    color: "white",
     padding: ".4em"
   },
   strategyName: {
+    ...theme.typography.heading4,
     flexGrow: "1",
     flexShrink: "1",
-    margin: "0"
+    margin: "0",
+    color: theme.colorWhite,
+    textAlign: "left"
   },
   points: {
     flexBasis: "10%",
@@ -37,10 +39,11 @@ const useStyles = createUseStyles({
     display: "flex",
     justifyContent: "center"
   }
-});
+}));
 
 const Panels = ({ rules, suppressHeader, children }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme });
   const hasLoaded = rules && rules.length > 0;
 
   return (
@@ -52,7 +55,7 @@ const Panels = ({ rules, suppressHeader, children }) => {
         >
           {!suppressHeader ? (
             <div className={classes.strategyContainer}>
-              <h4 className={classes.strategyName}>{rules[0].panelName}</h4>
+              <h3 className={classes.strategyName}>{rules[0].panelName}</h3>
             </div>
           ) : null}
           {children}

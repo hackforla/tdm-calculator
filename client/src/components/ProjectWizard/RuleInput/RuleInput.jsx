@@ -361,6 +361,7 @@ const RuleInput = ({
               />
             ) : (
               <MultiMaskedInput
+                autoFocus={autoFocus}
                 className={classes.textInput}
                 code={code}
                 value={value}

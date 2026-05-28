@@ -9,7 +9,7 @@ describe("Level0Page", () => {
   it("displays information that the project level is 0", () => {
     render(
       <ThemeProvider theme={jssTheme}>
-        <Level0Page resetProject={() => {}} isLevel0={true} />
+        <Level0Page />
       </ThemeProvider>
     );
     expect(screen.getByText("Your project level is 0")).toBeVisible();

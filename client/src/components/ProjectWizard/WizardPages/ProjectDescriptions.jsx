@@ -32,15 +32,13 @@ function ProjectDescriptions(props) {
   const theme = useTheme();
   return (
     <div>
-      <div style={theme.typography.heading1}>
-        <span>
-          Welcome to Los Angeles&rsquo; Transportation Demand Management (TDM)
-          Calculator
-        </span>
-      </div>
-      <h3 style={theme.typography.subHeading}>
+      <h1 style={theme.typography.heading1}>
+        Welcome to Los Angeles&rsquo; Transportation Demand Management (TDM)
+        Calculator
+      </h1>
+      <h2 style={theme.typography.subHeading}>
         First, let&rsquo;s get some information about your project
-      </h3>
+      </h2>
       <div style={{ marginBottom: "1em" }}>
         <ResetButtons
           rightAlignStyle={{ marginRight: "1.1em" }}

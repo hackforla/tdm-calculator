@@ -106,8 +106,9 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
   const userContext = useContext(UserContext);
   const account = userContext.account;
 
-  const handleHamburgerMenuClick = () => {
+  const handleHamburgerMenuClick = e => {
     setNavbarOpen(window.innerWidth < 900 ? !navbarOpen : false);
+    e.target.blur();
   };
 
   return (

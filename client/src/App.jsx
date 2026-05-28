@@ -62,14 +62,6 @@ const App = () => {
           </div>
         }
         errorElement={<RouteErrorBoundary />}
-        // loader={async () => {
-        //   const configs = await getConfigs();
-        //   const calculations = await getCalculations(true);
-        //   return { configs, calculations };
-        // }}
-        // HydrateFallback={() => {
-        //   return <div>Loading...</div>;
-        // }}
       >
         {/* These routes depend on ConfigContext and CalculationContext */}
         <Route
@@ -137,7 +129,11 @@ const App = () => {
           />
           <Route
             path="/feedback"
-            element={<Feedback contentContainerRef={contentContainerRef} />}
+            element={
+              <RequireAuth>
+                <Feedback contentContainerRef={contentContainerRef} />
+              </RequireAuth>
+            }
           />
           <Route
             path="/submissions"
@@ -150,7 +146,7 @@ const App = () => {
           <Route
             path="/managesubmissions"
             element={
-              <RequireAuth>
+              <RequireAuth roles={["isAdmin"]}>
                 <ManageSubmissionsPage
                   contentContainerRef={contentContainerRef}
                 />
@@ -182,7 +178,14 @@ const App = () => {
           <Route path="/privacypolicy" element={<PrivacyPolicy />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/register/:email?" element={<Register />} />
-          <Route path="/updateaccount/:email?" element={<UpdateAccount />} />
+          <Route
+            path="/updateaccount/:email?"
+            element={
+              <RequireAuth>
+                <UpdateAccount />
+              </RequireAuth>
+            }
+          />
           <Route path="/confirm/:token?" element={<ConfirmEmail />} />
           <Route path="/login/:email?" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
@@ -213,7 +216,6 @@ const App = () => {
             }
           />
           <Route path="/faqs" element={<FaqView />} />
-
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Route>
