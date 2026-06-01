@@ -256,10 +256,10 @@ const RolesArchive = ({ contentContainerRef }) => {
             <tr className={classes.td}>
               <th className={classes.td}>Email</th>
               <th className={classes.td}>Name</th>
-              <th className={`${classes.td} ${classes.thheadLabel}`}>
+              <th className={`${classes.td} ${classes.theadLabel}`}>
                 # of Projects
               </th>
-              <th className={`${classes.td} ${classes.thheadLabel}`}>
+              <th className={`${classes.td} ${classes.theadLabel}`}>
                 # of Submissions
               </th>
               <th className={classes.td}>Date Archived</th>
@@ -325,7 +325,7 @@ const RolesArchive = ({ contentContainerRef }) => {
                         <div className={classes.popupContent}>
                           <RolesDeleteContextMenu
                             user={account}
-                            handleDeleteAchivedAccountModalOpen={() =>
+                            handleDeleteArchivedAccountModalOpen={() =>
                               handleDeleteWarningModalOpen(account)
                             }
                           />
