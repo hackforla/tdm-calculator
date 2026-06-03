@@ -110,8 +110,7 @@ const MultiProjectToolbarMenu = ({
   };
 
   const isHideBtnDisabled =
-    !checkedProjectsStatusData.loginId ||
-    isBtnDisabled("dateHidden", "visibility");
+    !checkedProjectIds.length || isBtnDisabled("dateHidden", "visibility");
 
   const isDelBtnDisabled =
     !isProjectOwner ||
