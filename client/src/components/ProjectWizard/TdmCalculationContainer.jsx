@@ -84,6 +84,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
           setProject(project);
           setReadOnly(
             !!project.dateSnapshotted ||
+              !!project.dateTrashed ||
               (project.loginId !== accountId && !isAdmin)
           );
           inputs = JSON.parse(project.formInputs);
@@ -303,6 +304,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     if (filterRules === filters.projectDescriptionRules) {
       setPartialAIN(""); // Clear incomplete AIN input
     }
+    f;
     recalculate(updateInputs);
   };
 
