@@ -107,12 +107,12 @@ const updateAccount = async model => {
     return {
       isSuccess: true,
       code: "ACCOUNT_UPDATE_SUCCESS",
-      message: "Account Updates."
+      message: "Account updates succeeded."
     };
   } catch (err) {
     return {
       isSuccess: false,
-      code: "ACCOUNT_UPDATE_SUCCESS",
+      code: "ACCOUNT_UPDATE_FAILED",
       message: `Account updates failed. ${err.message}`
     };
   }
