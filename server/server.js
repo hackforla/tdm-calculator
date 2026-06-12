@@ -21,7 +21,12 @@ const helmetConfig = {
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-eval'", "https://navbar.lacity.org"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com/* "
+      ],
+      imgSrc: ["'self'", "data:"],
       fontSrc: ["'self'", "https://fonts.googleapis.com/* "],
       upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
     },
