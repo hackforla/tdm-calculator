@@ -13,28 +13,28 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
-const helmetConfig = {
-  useDefaults: true,
-  contentSecurityPolicy: {
-    useDefaults: true,
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: null,
-      objectSrc: ["'none'"],
-      styleSrc: null,
-      fontSrc: ["'self'", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:", "https://tdm.ladot.lacity.org"],
-      connectSrc: ["'self'"], // Add other domains as needed
-      upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
-    },
-    reportOnly: false
-  }
-};
-
 // const helmetConfig = {
 //   useDefaults: true,
-//   contentSecurityPolicy: false
+//   contentSecurityPolicy: {
+//     useDefaults: true,
+//     directives: {
+//       defaultSrc: ["'self'"],
+//       scriptSrc: null,
+//       objectSrc: ["'none'"],
+//       styleSrc: null,
+//       fontSrc: ["'self'", "https://fonts.googleapis.com"],
+//       imgSrc: ["'self'", "data:", "https://tdm.ladot.lacity.org"],
+//       connectSrc: ["'self'"], // Add other domains as needed
+//       upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
+//     },
+//     reportOnly: false
+//   }
 // };
+
+const helmetConfig = {
+  useDefaults: true,
+  contentSecurityPolicy: false
+};
 
 app.use(helmet(helmetConfig));
 // app.use(pino);
