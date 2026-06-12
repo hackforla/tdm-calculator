@@ -28,7 +28,11 @@ const helmetConfig = {
       ],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       imgSrc: ["'self'", "data:"],
-      fontSrc: ["'self'", "https://fonts.googleapis.com/* "],
+      fontSrc: [
+        "'self'",
+        "https://fonts.googleapis.com",
+        "https://fonts.gstatic.com"
+      ],
       upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
     },
     reportOnly: false
