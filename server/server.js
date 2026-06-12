@@ -29,7 +29,7 @@ const helmetConfig = {
       ],
       objectSrc: ["'none'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:"],
+      imgSrc: ["'self'", "data:", "https://www.googletagmanager.com"],
       fontSrc: [
         "'self'",
         "https://fonts.googleapis.com",
