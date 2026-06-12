@@ -24,7 +24,8 @@ const helmetConfig = {
         "'self'",
         "'unsafe-eval'",
         "'unsafe-inline'",
-        "https://navbar.lacity.org"
+        "https://navbar.lacity.org",
+        "https://www.googletagmanager.com"
       ],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       imgSrc: ["'self'", "data:"],
