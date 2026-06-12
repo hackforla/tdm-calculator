@@ -19,13 +19,7 @@ const helmetConfig = {
   contentSecurityPolicy: {
     useDefaults: false,
     directives: {
-      defaultSrc: helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc,
-      scriptSrc: ["'self'", "unsafe-eval"], // Add other domains as needed
-      objectSrc: ["'none'"],
-      styleSrc: null,
-      fontSrc: null,
-      imgSrc: null,
-      connectSrc: ["'self'"], // Add other domains as needed
+      scriptSrc: ["'self'", "'unsafe-eval'"],
       upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
     },
     reportOnly: false
