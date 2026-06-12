@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const errorHandler = require("error-handler");
 const routes = require("./app/routes");
 const helmet = require("helmet");
+const { truncate } = require("fs");
 // const pino = require("express-pino-logger")();
 
 dotenv.config();
@@ -13,28 +14,28 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
+const helmetConfig = {
+  useDefaults: truncate,
+  contentSecurityPolicy: {
+    useDefaults: false,
+    directives: {
+      defaultSrc: helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc,
+      scriptSrc: ["'self'", "unsafe-eval"], // Add other domains as needed
+      objectSrc: ["'none'"],
+      styleSrc: null,
+      fontSrc: null,
+      imgSrc: null,
+      connectSrc: ["'self'"], // Add other domains as needed
+      upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
+    },
+    reportOnly: false
+  }
+};
+
 // const helmetConfig = {
 //   useDefaults: true,
-//   contentSecurityPolicy: {
-//     useDefaults: true,
-//     directives: {
-//       defaultSrc: ["'self'"],
-//       scriptSrc: null,
-//       objectSrc: ["'none'"],
-//       styleSrc: null,
-//       fontSrc: ["'self'", "https://fonts.googleapis.com"],
-//       imgSrc: ["'self'", "data:", "https://tdm.ladot.lacity.org"],
-//       connectSrc: ["'self'"], // Add other domains as needed
-//       upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
-//     },
-//     reportOnly: false
-//   }
+//   contentSecurityPolicy: false
 // };
-
-const helmetConfig = {
-  useDefaults: true,
-  contentSecurityPolicy: false
-};
 
 app.use(helmet(helmetConfig));
 // app.use(pino);
