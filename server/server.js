@@ -27,6 +27,7 @@ const helmetConfig = {
         "https://navbar.lacity.org",
         "https://www.googletagmanager.com"
       ],
+      objectSrc: ["'none'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       imgSrc: ["'self'", "data:"],
       fontSrc: [
