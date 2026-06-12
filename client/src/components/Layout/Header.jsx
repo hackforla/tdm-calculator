@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { MdMenu } from "react-icons/md";
 import logo from "../../images/ladot_white.png";
 import NavBar from "./NavBar";
-import { Environment } from "../../helpers/Environment";
+import ConfigContext from "../../contexts/ConfigContext";
 
 const useStyles = createUseStyles({
   header: {
@@ -74,12 +74,15 @@ const useStyles = createUseStyles({
 
 const Header = () => {
   const classes = useStyles();
+  const configContext = useContext(ConfigContext);
+  const environment = configContext.ENVIRONMENT || "";
+
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   const handleHamburgerMenuClick = () => setNavbarOpen(!navbarOpen);
 
-  const environmentBadge = Environment ? (
-    <div className={classes.environmentBadge}>{Environment}</div>
+  const environmentBadge = environment ? (
+    <div className={classes.environmentBadge}>{environment}</div>
   ) : null;
 
   return (
@@ -93,7 +96,7 @@ const Header = () => {
           />
         </a>
       </div>
-      {Environment !== "PROD" ? environmentBadge : null}
+      {environment !== "PROD" ? environmentBadge : null}
       <button
         className={classes.hamburgerButton}
         onClick={handleHamburgerMenuClick}
