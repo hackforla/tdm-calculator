@@ -19,6 +19,7 @@ const helmetConfig = {
   contentSecurityPolicy: {
     useDefaults: false,
     directives: {
+      defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-eval'"],
       upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
     },
