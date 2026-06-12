@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("error-handler");
 const routes = require("./app/routes");
-// const helmet = require("helmet");
+const helmet = require("helmet");
 // const pino = require("express-pino-logger")();
 
 dotenv.config();
@@ -31,7 +31,12 @@ const app = express();
 //   }
 // };
 
-// app.use(helmet(helmetConfig));
+const helmetConfig = {
+  useDefaults: true,
+  contentSecurityPolicy: false
+};
+
+app.use(helmet(helmetConfig));
 // app.use(pino);
 
 if (process.env.NODE_ENV === "production") {
