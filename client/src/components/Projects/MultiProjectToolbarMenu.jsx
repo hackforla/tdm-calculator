@@ -130,9 +130,9 @@ const MultiProjectToolbarMenu = ({
       delete: () => {
         // first priority check is ownership, if both are selected prioritize ownership msg
         if (!isProjectOwner)
-          return "You have selected a project that does not belong to you";
+          return "TDM Plans shared with you cannot be deleted. Use hide function.";
         if (checkedProjectsSubmittedStatus !== null)
-          return "One or more selected projects have already been submitted";
+          return "Submitted TDM Plans cannot be deleted. Use hide function.";
         return null;
       },
       visibility: () => {
