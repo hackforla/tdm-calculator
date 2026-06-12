@@ -19,9 +19,9 @@ const helmetConfig = {
     useDefaults: true,
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'https://navbar.lacity.org'"],
+      scriptSrc: null,
       objectSrc: ["'none'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: null,
       fontSrc: ["'self'", "https://fonts.googleapis.com"],
       imgSrc: ["'self'", "data:", "https://tdm.ladot.lacity.org"],
       connectSrc: ["'self'"], // Add other domains as needed
