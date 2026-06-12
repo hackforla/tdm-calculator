@@ -61,6 +61,10 @@ const App = () => {
             <ClientAreaLayout appContainerRef={appContainerRef} />
           </div>
         }
+        loader={async () => {
+          const configs = await getConfigs();
+          return { configs };
+        }}
         errorElement={<RouteErrorBoundary />}
       >
         {/* These routes depend on ConfigContext and CalculationContext */}
@@ -71,9 +75,8 @@ const App = () => {
             </div>
           }
           loader={async () => {
-            const configs = await getConfigs();
             const calculations = await getCalculations(true);
-            return { configs, calculations };
+            return { calculations };
           }}
           HydrateFallback={() => {
             return (

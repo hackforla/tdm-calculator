@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLoaderData } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withToastProvider } from "../../contexts/Toast";
 import { createUseStyles } from "react-jss";
@@ -8,6 +9,7 @@ import Footer from "./Footer";
 import TermsAndConditionsModal from "../TermsAndConditions/TermsAndConditionsModal";
 import ChecklistModal from "../Checklist/ChecklistModal";
 import TdmAuthProvider from "./TdmAuthProvider";
+import ConfigContext from "../../contexts/ConfigContext";
 
 const useStyles = createUseStyles({
   app: {
@@ -18,6 +20,7 @@ const useStyles = createUseStyles({
 });
 
 const ClientAreaLayout = ({ appContainerRef }) => {
+  const { configs } = useLoaderData();
   const classes = useStyles();
   const [checklistModalOpen, setChecklistModalOpen] = useState(false);
   const [hasAcceptedTerms, setAcceptedTerms] = useState(() => {
@@ -42,19 +45,21 @@ const ClientAreaLayout = ({ appContainerRef }) => {
 
   return (
     <div className={classes.app} id="app-container" ref={appContainerRef}>
-      <TdmAuthProvider>
-        <TermsAndConditionsModal
-          hasAcceptedTerms={hasAcceptedTerms}
-          onAcceptTerms={onAcceptTerms}
-        />
-        <ChecklistModal
-          checklistModalOpen={checklistModalOpen}
-          toggleChecklistModal={toggleChecklistModal}
-        />
-        <Header />
-        <Outlet />
-        <Footer toggleChecklistModal={toggleChecklistModal} />
-      </TdmAuthProvider>
+      <ConfigContext.Provider value={configs}>
+        <TdmAuthProvider>
+          <TermsAndConditionsModal
+            hasAcceptedTerms={hasAcceptedTerms}
+            onAcceptTerms={onAcceptTerms}
+          />
+          <ChecklistModal
+            checklistModalOpen={checklistModalOpen}
+            toggleChecklistModal={toggleChecklistModal}
+          />
+          <Header />
+          <Outlet />
+          <Footer toggleChecklistModal={toggleChecklistModal} />
+        </TdmAuthProvider>
+      </ConfigContext.Provider>
     </div>
   );
 };
