@@ -10,6 +10,26 @@ const {
 
 const SALT_ROUNDS = 10;
 
+const ALLOWED_ADMIN_EMAIL_DOMAINS = [
+  "lacity.org",
+  "ladot.lacity.org",
+  "hackforla.org"
+];
+
+const ALLOWED_DEV_EMAIL_DOMAINS = ["dispostable.com", "test.com"];
+
+const selectById = async id => {
+  await poolConnect;
+  const request = pool.request();
+  request.input("id", mssql.Int, id);
+  const response = await request.execute("Login_SelectById");
+
+  if (response.recordset && response.recordset.length > 0) {
+    return response.recordset[0];
+  }
+  return null;
+};
+
 const selectAll = async () => {
   try {
     await poolConnect;
@@ -20,22 +40,6 @@ const selectAll = async () => {
     return Promise.reject(err);
   }
 };
-
-// const selectById = async id => {
-//   try {
-//     await poolConnect;
-//     const request = pool.request();
-//     request.input("Id", mssql.Int, id);
-
-//     const response = await request.execute("Login_SelectById");
-//     if (response.recordset && response.recordset.length > 0) {
-//       return response.recordset[0];
-//     }
-//     return null;
-//   } catch (err) {
-//     return Promise.reject(err);
-//   }
-// };
 
 const selectByEmail = async email => {
   try {
@@ -96,14 +100,41 @@ const register = async model => {
 const updateAccount = async model => {
   const token = crypto.randomUUID();
   try {
+    const allowDomainList =
+      process.env.NODE_ENV === "production"
+        ? ALLOWED_ADMIN_EMAIL_DOMAINS
+        : [...ALLOWED_ADMIN_EMAIL_DOMAINS, ...ALLOWED_DEV_EMAIL_DOMAINS];
+
+    const user = await selectById(model.id);
+
+    if (!user) {
+      const error = new Error("User record not found.");
+      error.code = "USER_NOT_FOUND";
+      throw error;
+    }
+
+    const isPrivilegedUser = user.isAdmin || user.isSecurityAdmin;
+    const email = model.email.toLowerCase().trim();
+    const emailDomain = email.split("@")[1];
+
+    if (isPrivilegedUser && !allowDomainList.includes(emailDomain)) {
+      const error = new Error(
+        "Invalid email domain. Personal or unverified domains are restricted."
+      );
+      error.code = "ERR_INVALID_ADMIN_DOMAIN";
+      throw error;
+    }
+
     await poolConnect;
     const request = pool.request();
     request.input("id", mssql.Int, model.id);
     request.input("FirstName", mssql.NVarChar, model.firstName);
     request.input("LastName", mssql.NVarChar, model.lastName);
     request.input("Email", mssql.NVarChar, model.email);
+
     await request.execute("Login_Update");
     await sendVerifyUpdateConfirmation(model.email, token);
+
     return {
       isSuccess: true,
       code: "ACCOUNT_UPDATE_SUCCESS",
@@ -112,7 +143,7 @@ const updateAccount = async model => {
   } catch (err) {
     return {
       isSuccess: false,
-      code: "ACCOUNT_UPDATE_FAILED",
+      code: err.code || "ACCOUNT_UPDATE_FAILED",
       message: `Account updates failed. ${err.message}`
     };
   }
@@ -408,6 +439,7 @@ const addLastLoginDate = async loginId => {
     return null;
   }
 };
+
 const updateRoles = async model => {
   try {
     await poolConnect;

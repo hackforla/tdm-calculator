@@ -52,24 +52,31 @@ const UpdateAccount = props => {
     { setSubmitting }
   ) => {
     try {
-      const response = await accountService.updateAccount(
+      const response = await accountService.updateAccount({
+        id: userContext.user.id,
         firstName,
         lastName,
         email
-      );
+      });
+
       if (response.isSuccess) {
         setSubmitted(true);
         userContext.updateAccount({});
-      } else if (response.code === "REG_DUPLICATE_EMAIL") {
-        setErrorMsg(`The email ${email} is already registered. Please
-          login or use the Forgot Password feature if you have
-          forgotten your password.`);
+        return;
+      }
+
+      if (response.code === "REG_DUPLICATE_EMAIL") {
+        setErrorMsg(
+          `The email ${email} is already registered. Please login or use the Forgot Password feature.`
+        );
+      } else if (response.code === "ERR_INVALID_ADMIN_DOMAIN") {
+        setErrorMsg(response.message);
       } else {
-        setErrorMsg(`An error occurred in updating the account
-          for ${email}.`);
+        setErrorMsg(`An error occurred in updating the account for ${email}.`);
       }
     } catch (err) {
       setErrorMsg(err.message);
+    } finally {
       setSubmitting(false);
     }
   };
