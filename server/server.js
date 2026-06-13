@@ -35,7 +35,11 @@ const helmetConfig = {
         "https://fonts.googleapis.com",
         "https://fonts.gstatic.com"
       ],
-      connectSrc: ["'self'", "https://www.google-analytics.com"],
+      connectSrc: [
+        "'self'",
+        "https://www.google-analytics.com",
+        "https://google.com"
+      ],
       upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
     },
     reportOnly: false
