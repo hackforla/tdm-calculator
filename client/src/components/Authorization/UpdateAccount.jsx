@@ -52,12 +52,11 @@ const UpdateAccount = props => {
     { setSubmitting }
   ) => {
     try {
-      const response = await accountService.updateAccount({
-        id: userContext.user.id,
+      const response = await accountService.updateAccount(
         firstName,
         lastName,
         email
-      });
+      );
 
       if (response.isSuccess) {
         setSubmitted(true);
