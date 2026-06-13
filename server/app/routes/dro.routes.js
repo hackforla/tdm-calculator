@@ -5,8 +5,8 @@ const { writeLimiter } = require("../../middleware/rateLimiter");
 
 module.exports = router;
 
-router.get("/", jwtSession.validateUser, droController.getAll);
-router.get("/:id", jwtSession.validateUser, droController.getById);
+router.get("/", droController.getAll);
+router.get("/:id", droController.getById);
 router.post(
   "/",
   writeLimiter,
