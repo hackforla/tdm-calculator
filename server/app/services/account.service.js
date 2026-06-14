@@ -125,9 +125,9 @@ const updateAccount = async model => {
       throw error;
     }
 
-    const duplicateCheck = await selectByEmail(email);
+    const existingEmailCheck = await selectByEmail(email);
 
-    if (duplicateCheck && duplicateCheck.id !== model.id) {
+    if (existingEmailCheck && existingEmailCheck.id !== model.id) {
       return {
         isSuccess: false,
         code: "REG_DUPLICATE_EMAIL",
