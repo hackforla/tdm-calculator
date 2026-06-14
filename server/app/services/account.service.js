@@ -125,6 +125,16 @@ const updateAccount = async model => {
       throw error;
     }
 
+    const duplicateCheck = await selectByEmail(email);
+
+    if (duplicateCheck && duplicateCheck.id !== model.id) {
+      return {
+        isSuccess: false,
+        code: "REG_DUPLICATE_EMAIL",
+        message: `The email ${model.email} is already in use by another account.`
+      };
+    }
+
     await poolConnect;
     const request = pool.request();
     request.input("id", mssql.Int, model.id);
@@ -142,14 +152,12 @@ const updateAccount = async model => {
     };
   } catch (err) {
     // Native SQL Server duplicate violation codes
-    const UNIQUE_KEY_VIOLATION = 2627;
-    const UNIQUE_INDEX_VIOLATION = 2601;
+    const SQL_SERVER_UNIQUE_KEY_VIOLATION = 2627;
+    const SQL_SERVER_UNIQUE_INDEX_VIOLATION = 2601;
 
-    // err.number is where the mssql driver stores raw SQL Server engine error codes
-    console.log(err.number, "error number");
     if (
-      err.number === UNIQUE_KEY_VIOLATION ||
-      err.number === UNIQUE_INDEX_VIOLATION
+      err.number === SQL_SERVER_UNIQUE_KEY_VIOLATION ||
+      err.number === SQL_SERVER_UNIQUE_INDEX_VIOLATION
     ) {
       return {
         isSuccess: false,
