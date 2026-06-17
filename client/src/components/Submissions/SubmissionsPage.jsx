@@ -397,7 +397,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     { id: "onHold", label: "On Hold", popupType: "boolean", colWidth: "113px" },
     {
       id: "approvalStatusName",
-      label: "Approval Status",
+      label: "Submission Status",
       popupType: "stringList",
       colWidth: "240px"
     },

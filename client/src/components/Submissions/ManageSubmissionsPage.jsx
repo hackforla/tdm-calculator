@@ -417,7 +417,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     { id: "onHold", label: "On Hold", popupType: "boolean", colWidth: "8rem" },
     {
       id: "approvalStatusName",
-      label: "Approval Status",
+      label: "Submission Status",
       popupType: "stringList",
       colWidth: "12rem"
     },
