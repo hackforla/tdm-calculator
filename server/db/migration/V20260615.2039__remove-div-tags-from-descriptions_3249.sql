@@ -1,1 +1,0 @@
-update CalculationRule set description = replace(replace(description, '<div>', ''),'</div>','')
