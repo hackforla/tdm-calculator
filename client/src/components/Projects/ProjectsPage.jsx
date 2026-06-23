@@ -4,6 +4,7 @@ import { formatId } from "../../helpers/util";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "../../contexts/UserContext";
+import CalculationsContext from "../../contexts/CalculationsContext";
 import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
@@ -302,6 +303,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
   const isSubmittingSnapshot = useRef(false);
+  const calculations = useContext(CalculationsContext);
 
   useEffect(() => {
     fetchDroOptions(setDroOptions);
@@ -650,6 +652,33 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (orderBy === "id") {
       projectA = a.id !== undefined && a.id !== null ? a.id : null;
       projectB = b.id !== undefined && b.id !== null ? b.id : null;
+    } else if (orderBy === "calculationId") {
+      const aVal = a.calculationId ?? null;
+      const bVal = b.calculationId ?? null;
+
+      const isBetaA = aVal === "Beta";
+      const isBetaB = bVal === "Beta";
+
+      // Beta always last (ASC)
+      if (isBetaA && isBetaB) return 0;
+      if (isBetaA) return 1;
+      if (isBetaB) return -1;
+
+      const aParts = String(aVal).split(".").map(Number);
+      const bParts = String(bVal).split(".").map(Number);
+
+      const len = Math.max(aParts.length, bParts.length);
+
+      for (let i = 0; i < len; i++) {
+        const aNum = aParts[i] ?? 0;
+        const bNum = bParts[i] ?? 0;
+
+        if (aNum !== bNum) {
+          return aNum - bNum;
+        }
+      }
+
+      return 0;
     } else {
       projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
       projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";
@@ -1032,7 +1061,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
           {
             id: "calculationId",
             label: "Guidelines Version",
-            popupType: "text",
+            popupType: "version",
             accessor: "calculationId",
             colWidth: "10rem"
           }
@@ -1215,6 +1244,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             setCheckedProjectIds={setCheckedProjectIds}
                             setSelectAllChecked={setSelectAllChecked}
                             droOptions={droOptions}
+                            calculations={calculations}
                           />
                         </th>
                       );
