@@ -16,7 +16,11 @@ const ALLOWED_ADMIN_EMAIL_DOMAINS = [
   "hackforla.org"
 ];
 
-const ALLOWED_DEV_EMAIL_DOMAINS = ["dispostable.com", "test.com"];
+const ALLOWED_DEV_EMAIL_DOMAINS = [
+  ...ALLOWED_ADMIN_EMAIL_DOMAINS,
+  "dispostable.com",
+  "test.com"
+];
 
 const selectById = async id => {
   await poolConnect;
@@ -97,43 +101,52 @@ const register = async model => {
   }
 };
 
+const validateAuthorizedEmail = (email, user) => {
+  const isPrivilegedUser = user.isAdmin || user.isSecurityAdmin;
+  if (!isPrivilegedUser) return;
+
+  const allowDomainList =
+    process.env.NODE_ENV === "production"
+      ? ALLOWED_ADMIN_EMAIL_DOMAINS
+      : ALLOWED_DEV_EMAIL_DOMAINS;
+
+  const emailDomain = email.toLowerCase().trim().split("@")[1];
+
+  if (!allowDomainList.includes(emailDomain)) {
+    const error = new Error(
+      "Invalid email domain. Personal or unverified domains are restricted."
+    );
+    error.code = "ERR_INVALID_ADMIN_DOMAIN";
+    throw error;
+  }
+};
+
+const validateUniqueEmail = async (email, currentUserId) => {
+  const trimmedEmail = email.toLowerCase().trim();
+  const existingEmailCheck = await selectByEmail(trimmedEmail);
+
+  if (existingEmailCheck && existingEmailCheck.id !== currentUserId) {
+    const error = new Error(
+      `The email ${email} is already in use by another account.`
+    );
+    error.code = "REG_DUPLICATE_EMAIL";
+    throw error;
+  }
+};
+
 const updateAccount = async model => {
   const token = crypto.randomUUID();
   try {
-    const allowDomainList =
-      process.env.NODE_ENV === "production"
-        ? ALLOWED_ADMIN_EMAIL_DOMAINS
-        : [...ALLOWED_ADMIN_EMAIL_DOMAINS, ...ALLOWED_DEV_EMAIL_DOMAINS];
-
     const user = await selectById(model.id);
-
     if (!user) {
       const error = new Error("User record not found.");
       error.code = "USER_NOT_FOUND";
       throw error;
     }
 
-    const isPrivilegedUser = user.isAdmin || user.isSecurityAdmin;
-    const email = model.email.toLowerCase().trim();
-    const emailDomain = email.split("@")[1];
+    validateAuthorizedEmail(model.email, user);
 
-    if (isPrivilegedUser && !allowDomainList.includes(emailDomain)) {
-      const error = new Error(
-        "Invalid email domain. Personal or unverified domains are restricted."
-      );
-      error.code = "ERR_INVALID_ADMIN_DOMAIN";
-      throw error;
-    }
-
-    const existingEmailCheck = await selectByEmail(email);
-
-    if (existingEmailCheck && existingEmailCheck.id !== model.id) {
-      return {
-        isSuccess: false,
-        code: "REG_DUPLICATE_EMAIL",
-        message: `The email ${model.email} is already in use by another account.`
-      };
-    }
+    await validateUniqueEmail(model.email, model.id);
 
     await poolConnect;
     const request = pool.request();
@@ -151,7 +164,7 @@ const updateAccount = async model => {
       message: "Account updates succeeded."
     };
   } catch (err) {
-    // Native SQL Server duplicate violation codes
+    // Native SQL Server errors
     const SQL_SERVER_UNIQUE_KEY_VIOLATION = 2627;
     const SQL_SERVER_UNIQUE_INDEX_VIOLATION = 2601;
 
