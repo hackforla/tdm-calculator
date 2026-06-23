@@ -145,6 +145,7 @@ const VersionPopup = ({
 
   filteredOptions = [...new Set(filteredProjects.map(getValue))]
     .filter(value => value !== null && value !== "")
+    .filter(value => value.toLowerCase().includes(searchString.toLowerCase()))
     .sort(compareVersions);
 
   const onChangeSearchString = e => {
