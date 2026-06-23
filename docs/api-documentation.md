@@ -17,13 +17,13 @@ ENABLE_API_DOCS=true npm start
 The interactive Swagger UI is available at:
 
 ```text
-http://localhost:5000/api-docs
+http://localhost:PORT/api-docs
 ```
 
 The raw OpenAPI JSON is available at:
 
 ```text
-http://localhost:5000/api-docs.json
+http://localhost:PORT/api-docs.json
 ```
 
 Both routes require an authenticated `isAdmin` user. The API accepts JWT auth
