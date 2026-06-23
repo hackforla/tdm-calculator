@@ -7,6 +7,35 @@ module.exports = router;
 
 router.get("/", droController.getAll);
 router.get("/:id", droController.getById);
+/**
+ * @openapi
+ * /dro:
+ *   post:
+ *     tags:
+ *       - DRO
+ *     summary: Create a Development Review Office entry.
+ *     description: Requires an admin session.
+ *     security:
+ *       - bearerAuth: []
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Dro'
+ *     responses:
+ *       200:
+ *         description: DRO entry was created.
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 router.post(
   "/",
   writeLimiter,
