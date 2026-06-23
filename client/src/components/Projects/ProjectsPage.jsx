@@ -60,7 +60,8 @@ const DEFAULT_FILTER_CRITERIA = {
   droList: [],
   adminNotesList: [],
   startDateModifiedAdmin: null,
-  endDateModifiedAdmin: null
+  endDateModifiedAdmin: null,
+  calculationIdList: []
 };
 
 const useStyles = createUseStyles(theme => ({
@@ -612,6 +613,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setSelectAllChecked(!selectAllChecked);
   };
 
+  const getCalculationVersion = (p, calculations) =>
+    calculations?.[p.calculationId]?.version ?? "Beta";
+
   const ascCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
 
@@ -653,16 +657,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
       projectA = a.id !== undefined && a.id !== null ? a.id : null;
       projectB = b.id !== undefined && b.id !== null ? b.id : null;
     } else if (orderBy === "calculationId") {
-      const aVal = a.calculationId ?? null;
-      const bVal = b.calculationId ?? null;
+      const aVal = getCalculationVersion(a, calculations);
+      const bVal = getCalculationVersion(b, calculations);
 
-      const isBetaA = aVal === "Beta";
-      const isBetaB = bVal === "Beta";
+      if (aVal === bVal) return 0;
 
-      // Beta always last (ASC)
-      if (isBetaA && isBetaB) return 0;
-      if (isBetaA) return 1;
-      if (isBetaB) return -1;
+      // natural version compare (old → new)
+      if (aVal === "Beta") return 1;
+      if (bVal === "Beta") return -1;
 
       const aParts = String(aVal).split(".").map(Number);
       const bParts = String(bVal).split(".").map(Number);
@@ -670,12 +672,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
       const len = Math.max(aParts.length, bParts.length);
 
       for (let i = 0; i < len; i++) {
-        const aNum = aParts[i] ?? 0;
-        const bNum = bParts[i] ?? 0;
-
-        if (aNum !== bNum) {
-          return aNum - bNum;
-        }
+        const diff = (aParts[i] ?? 0) - (bParts[i] ?? 0);
+        if (diff !== 0) return diff;
       }
 
       return 0;
@@ -702,9 +700,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const getComparator = (order, orderBy) => {
-    return order === "asc"
-      ? (a, b) => ascCompareBy(a, b, orderBy)
-      : (a, b) => -ascCompareBy(a, b, orderBy);
+    return (a, b) => {
+      const result = ascCompareBy(a, b, orderBy);
+
+      if (orderBy === "calculationId") {
+        return order === "asc" ? -result : result;
+      }
+
+      return order === "asc" ? result : -result;
+    };
   };
 
   const setSort = (orderBy, order, isStatus = false) => {

@@ -78,7 +78,7 @@ const VersionPopup = ({
   setSelectAllChecked,
   calculations
 }) => {
-  const property = header.accessor || header.id;
+  const property = header.id;
 
   const classes = useStyles();
 
@@ -100,11 +100,12 @@ const VersionPopup = ({
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
 
+  const isCalculationColumn = property === "calculationId";
+
   const getValue = p => {
     if (property === "calculationId") {
-      return calculations[p.calculationId]?.version || "Beta";
+      return calculations?.[p.calculationId]?.version ?? "Beta";
     }
-
     return p[property];
   };
 
@@ -264,9 +265,6 @@ const VersionPopup = ({
       </div>
 
       <div style={{ overflow: "auto", maxHeight: "12rem" }}>
-        {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
-        {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
-
         {filteredOptions.map(o => {
           const checked = isChecked(o);
 
