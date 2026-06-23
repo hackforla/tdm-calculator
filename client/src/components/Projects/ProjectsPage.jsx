@@ -823,6 +823,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
       return false;
     }
 
+    if (
+      criteria.calculationIdList?.length > 0 &&
+      !criteria.calculationIdList.includes(
+        calculations?.[p.calculationId]?.version ?? "Beta"
+      )
+    ) {
+      return false;
+    }
+
     // fullName attr allows searching by full name, not just by first or last name
     p["fullname"] = `${p["lastName"]}, ${p["firstName"]}`;
     if (
