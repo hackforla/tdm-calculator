@@ -95,12 +95,8 @@ const VersionPopup = ({
 
   const initiallyChecked = o => criteria[header.id + "List"].includes(o);
 
-  // To build the drop-down list, we want to apply all the criteria that
-  // are currently selected EXCEPT the criteria we are currently editing.
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
-
-  const isCalculationColumn = property === "calculationId";
 
   const getValue = p => {
     if (property === "calculationId") {
@@ -135,7 +131,6 @@ const VersionPopup = ({
       const bPart = bParts[i] ?? 0;
 
       if (aPart !== bPart) {
-        // 🔥 REVERSED ORDER (THIS IS THE KEY FIX)
         return bPart - aPart;
       }
     }

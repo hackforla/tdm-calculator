@@ -662,7 +662,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
       if (aVal === bVal) return 0;
 
-      // natural version compare (old → new)
       if (aVal === "Beta") return 1;
       if (bVal === "Beta") return -1;
 
