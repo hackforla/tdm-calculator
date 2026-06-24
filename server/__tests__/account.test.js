@@ -178,19 +178,19 @@ describe("Account API endpoints for end user accounts", () => {
         token: userToken
       });
     expect(res.statusCode).toEqual(200);
+  });
 
-    // PUT "/updateaccount" Update account
-    it("should update a user", async () => {
-      const res = await request(server)
-        .put(`/api/accounts/updateaccount`)
-        .set("Authorization", `Bearer ${userToken}`)
-        .send({
-          firstName: "Jose",
-          lastName: "Garcia",
-          email: "newEmail@test.com"
-        });
-      expect(res.statusCode).toEqual(200);
-    });
+  // PUT "/updateaccount" Update account
+  it("should update a user", async () => {
+    const res = await request(server)
+      .put(`/api/accounts/updateaccount`)
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({
+        firstName: "Jose",
+        lastName: "Garcia",
+        email: "newEmail@test.com"
+      });
+    expect(res.statusCode).toEqual(200);
   });
 
   it("should reject an account update if the target email is already occupied", async () => {
