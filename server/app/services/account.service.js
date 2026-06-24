@@ -10,12 +10,14 @@ const {
 
 const SALT_ROUNDS = 10;
 
+// TODO: Move to .env + config file
 const ALLOWED_ADMIN_EMAIL_DOMAINS = [
   "lacity.org",
   "ladot.lacity.org",
   "hackforla.org"
 ];
 
+// TODO: Move to .env + config file
 const ALLOWED_DEV_EMAIL_DOMAINS = [
   ...ALLOWED_ADMIN_EMAIL_DOMAINS,
   "dispostable.com",
