@@ -7,7 +7,9 @@ import * as Yup from "yup";
 import {
   FaCheckCircle,
   FaTimesCircle,
-  FaExclamationCircle
+  FaExclamationCircle,
+  FaEye,
+  FaEyeSlash
 } from "react-icons/fa";
 import PropTypes from "prop-types";
 
