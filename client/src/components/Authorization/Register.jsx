@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import * as accountService from "../../services/account.service";
 import { createUseStyles, useTheme } from "react-jss";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
   FaCheckCircle,
@@ -77,6 +77,36 @@ ValidationIcon.propTypes = {
     fieldIcon: PropTypes.string.isRequired,
     validIcon: PropTypes.string.isRequired,
     invalidIcon: PropTypes.string.isRequired
+  }).isRequired
+};
+
+const NameRules = ({ value, error, touched, classes }) => {
+  if (!touched) return null;
+  if (!value) return null;
+
+  return (
+    <div className={classes.multiRowFeedback}>
+      {error ? (
+        <FaTimesCircle className={`${classes.fieldIcon} ${classes.invalidIcon}`} />
+      ) : (
+        <FaCheckCircle className={`${classes.fieldIcon} ${classes.validIcon}`} />
+      )}
+      <span>
+        {error || "You can use letters, apostrophe, hyphen, period and space only"}
+      </span>
+    </div>
+  );
+};
+
+NameRules.propTypes = {
+  value: PropTypes.string.isRequired,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  touched: PropTypes.bool,
+  classes: PropTypes.shape({
+    fieldIcon: PropTypes.string.isRequired,
+    validIcon: PropTypes.string.isRequired,
+    invalidIcon: PropTypes.string.isRequired,
+    multiRowFeedback: PropTypes.string.isRequired
   }).isRequired
 };
 
@@ -376,7 +406,12 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    <ErrorMessage name="firstName" component="div" />
+                    <NameRules
+                      value={values.firstName}
+                      error={errors.firstName}
+                      touched={touched.firstName}
+                      classes={classes}
+                    />
                   </div>
 
                   {/* Last Name */}
@@ -395,7 +430,12 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    <ErrorMessage name="lastName" component="div" />
+                    <NameRules
+                      value={values.lastName}
+                      error={errors.lastName}
+                      touched={touched.lastName}
+                      classes={classes}
+                    />
                   </div>
 
                   {/* Email */}
