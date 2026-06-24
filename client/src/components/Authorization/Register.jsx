@@ -80,17 +80,16 @@ ValidationIcon.propTypes = {
   }).isRequired
 };
 
-const NameRules = ({ value, error, touched, classes }) => {
-  if (!touched) return null;
-  if (!value) return null;
+const NameRules = ({ value, error, touched, focused, classes }) => {
+  if (!focused && !(touched && error)) return null;
 
   return (
     <div className={classes.multiRowFeedback}>
-      {error ? (
+      {value && (error ? (
         <FaTimesCircle className={`${classes.fieldIcon} ${classes.invalidIcon}`} />
       ) : (
         <FaCheckCircle className={`${classes.fieldIcon} ${classes.validIcon}`} />
-      )}
+      ))}
       <span>
         {error || "You can use letters, apostrophe, hyphen, period and space only"}
       </span>
@@ -102,6 +101,7 @@ NameRules.propTypes = {
   value: PropTypes.string.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   touched: PropTypes.bool,
+  focused: PropTypes.bool,
   classes: PropTypes.shape({
     fieldIcon: PropTypes.string.isRequired,
     validIcon: PropTypes.string.isRequired,
@@ -176,7 +176,7 @@ EmailRules.propTypes = {
   }).isRequired
 };
 
-const PasswordRules = ({ value, touched, classes }) => {
+const PasswordRules = ({ value, touched, focused, classes }) => {
   const rules = [
     {
       label: "Password must contain at least 12 characters",
@@ -208,7 +208,7 @@ const PasswordRules = ({ value, touched, classes }) => {
           {/* Only show the icon if user has entered something */}
           {value &&
             value.trim() !== "" &&
-            touched &&
+            (touched || focused) &&
             (rule.valid ? (
               <FaCheckCircle
                 className={`${classes.fieldIcon} ${classes.validIcon}`}
@@ -227,7 +227,7 @@ const PasswordRules = ({ value, touched, classes }) => {
 
 PasswordRules.propTypes = {
   touched: PropTypes.bool,
-  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  focused: PropTypes.bool,
   value: PropTypes.string.isRequired,
   classes: PropTypes.shape({
     fieldIcon: PropTypes.string.isRequired,
@@ -293,6 +293,7 @@ const Register = props => {
 
   const [errorMsg, setErrorMsg] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [focusField, setFocusField] = useState(null);
 
   const initialValues = {
     firstName: "",
@@ -387,7 +388,7 @@ const Register = props => {
               validateOnChange={true}
               validateOnBlur={true}
             >
-              {({ touched, errors, values, isSubmitting }) => (
+              {({ touched, errors, values, isSubmitting, handleBlur }) => (
                 <Form>
                   {/* First Name */}
                   <div className={`form-group ${classes.formGroup}`}>
@@ -399,6 +400,8 @@ const Register = props => {
                         placeholder="First Name"
                         aria-label="First Name"
                         className="form-control"
+                        onFocus={() => setFocusField("firstName")}
+                        onBlur={e => { handleBlur(e); setFocusField(null); }}
                       />
                       <ValidationIcon
                         touched={touched.firstName}
@@ -410,6 +413,7 @@ const Register = props => {
                       value={values.firstName}
                       error={errors.firstName}
                       touched={touched.firstName}
+                      focused={focusField === "firstName"}
                       classes={classes}
                     />
                   </div>
@@ -423,6 +427,8 @@ const Register = props => {
                         placeholder="Last Name"
                         aria-label="Last Name"
                         className="form-control"
+                        onFocus={() => setFocusField("lastName")}
+                        onBlur={e => { handleBlur(e); setFocusField(null); }}
                       />
                       <ValidationIcon
                         touched={touched.lastName}
@@ -434,6 +440,7 @@ const Register = props => {
                       value={values.lastName}
                       error={errors.lastName}
                       touched={touched.lastName}
+                      focused={focusField === "lastName"}
                       classes={classes}
                     />
                   </div>
@@ -447,6 +454,8 @@ const Register = props => {
                         placeholder="Email"
                         aria-label="Email"
                         className="form-control"
+                        onFocus={() => setFocusField("email")}
+                        onBlur={e => { handleBlur(e); setFocusField(null); }}
                       />
                       <ValidationIcon
                         touched={touched.email}
@@ -477,6 +486,8 @@ const Register = props => {
                             ? classes.inputInvalid
                             : ""
                         }`}
+                        onFocus={() => setFocusField("password")}
+                        onBlur={e => { handleBlur(e); setFocusField(null); }}
                       />
                       <ValidationIcon
                         touched={touched.password}
@@ -484,10 +495,11 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    {touched.password && (
+                    {(focusField === "password" || (touched.password && errors.password)) && (
                       <PasswordRules
                         value={values.password}
                         touched={touched.password}
+                        focused={focusField === "password"}
                         classes={classes}
                       />
                     )}
@@ -509,6 +521,8 @@ const Register = props => {
                             ? classes.inputInvalid
                             : ""
                         }`}
+                        onFocus={() => setFocusField("passwordConfirm")}
+                        onBlur={e => { handleBlur(e); setFocusField(null); }}
                       />
                       <ValidationIcon
                         touched={touched.passwordConfirm}
