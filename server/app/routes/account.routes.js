@@ -84,6 +84,13 @@ router.get(
 );
 
 router.delete(
+  "/cleanup-inactive",
+  writeLimiter,
+  jwtSession.validateRoles(["isSecurityAdmin"]),
+  accountController.cleanupInactive
+);
+
+router.delete(
   "/:id/deleteaccount",
   writeLimiter,
   jwtSession.validateRoles(["isSecurityAdmin"]),

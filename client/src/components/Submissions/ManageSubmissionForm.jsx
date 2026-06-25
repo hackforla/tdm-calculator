@@ -289,7 +289,7 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
               />
             </div>
             <div className={classes.rowFlexBox}>
-              <span className={classes.rowLabel}>Approval Status</span>
+              <span className={classes.rowLabel}>Submission Status</span>
               <UniversalSelect
                 id="approvalStatusId"
                 name="approvalStatusId"
@@ -297,10 +297,6 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
                 onChange={formik.handleChange}
                 options={approvalStatuses}
                 className={classes.formInput}
-                // className={clsx(
-                //   classes.formInput,
-                //   errors.name && touched.name && classes.formErrorBorder
-                // )}
               />
             </div>
             <div className={classes.rowFlexBox}>

@@ -71,13 +71,13 @@ export default function DROSelectionModal({
           the location of your project
         </div>
         <div className={classes.heading2}>
-          Map of Development Review Offices
           <a
             href="https://ladot.lacity.gov/sites/default/files/documents/ladot-development-review-counter-info.pdf"
             target="_blank"
             className={classes.glossaryLink}
             rel="noreferrer"
           >
+            <span>Map of Development Review Offices</span>
             <MdLaunch className={classes.externalLinkIcon} />
           </a>
         </div>
