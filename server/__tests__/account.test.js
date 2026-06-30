@@ -193,7 +193,7 @@ describe("Account API endpoints for end user accounts", () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  it("should reject an account update if the target email is already occupied", async () => {
+  it("should reject an account update if the target email is already registered", async () => {
     const res = await request(server)
       .put(`/api/accounts/updateaccount`)
       .set("Authorization", `Bearer ${userToken}`)
@@ -203,7 +203,7 @@ describe("Account API endpoints for end user accounts", () => {
         email: "JohnGarcia@test.com"
       });
 
-    expect(res.body).toHaveProperty("code", "REG_DUPLICATE_EMAIL");
+    expect(res.body).toHaveProperty("code", "ERR_DUPLICATE_EMAIL");
   });
 });
 

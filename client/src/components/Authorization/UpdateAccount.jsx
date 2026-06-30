@@ -64,14 +64,16 @@ const UpdateAccount = props => {
         return;
       }
 
-      if (response.code === "REG_DUPLICATE_EMAIL") {
+      if (response.code === "ERR_DUPLICATE_EMAIL") {
         setErrorMsg(
           `The email ${email} is already registered. Please login or use the Forgot Password feature.`
         );
       } else if (response.code === "ERR_INVALID_ADMIN_DOMAIN") {
         setErrorMsg(response.message);
       } else {
-        setErrorMsg(`An error occurred in updating the account for ${email}.`);
+        setErrorMsg(
+          `An error occurred in updating the account for ${email}: ${response.message}`
+        );
       }
     } catch (err) {
       setErrorMsg(err.message);

@@ -7,22 +7,9 @@ const {
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation
 } = require("./email.service");
+const { allowedAdminDomains } = require("../config/allowedAdminDomains");
 
 const SALT_ROUNDS = 10;
-
-// TODO: Move to .env + config file
-const ALLOWED_ADMIN_EMAIL_DOMAINS = [
-  "lacity.org",
-  "ladot.lacity.org",
-  "hackforla.org"
-];
-
-// TODO: Move to .env + config file
-const ALLOWED_DEV_EMAIL_DOMAINS = [
-  ...ALLOWED_ADMIN_EMAIL_DOMAINS,
-  "dispostable.com",
-  "test.com"
-];
 
 const selectById = async id => {
   await poolConnect;
@@ -107,14 +94,9 @@ const validateAuthorizedEmail = (email, user) => {
   const isPrivilegedUser = user.isAdmin || user.isSecurityAdmin;
   if (!isPrivilegedUser) return;
 
-  const allowDomainList =
-    process.env.NODE_ENV === "production"
-      ? ALLOWED_ADMIN_EMAIL_DOMAINS
-      : ALLOWED_DEV_EMAIL_DOMAINS;
-
   const emailDomain = email.toLowerCase().trim().split("@")[1];
 
-  if (!allowDomainList.includes(emailDomain)) {
+  if (!allowedAdminDomains.includes(emailDomain)) {
     const error = new Error(
       "Invalid email domain. Personal or unverified domains are restricted."
     );
@@ -131,7 +113,7 @@ const validateUniqueEmail = async (email, currentUserId) => {
     const error = new Error(
       `The email ${email} is already in use by another account.`
     );
-    error.code = "REG_DUPLICATE_EMAIL";
+    error.code = "ERR_DUPLICATE_EMAIL";
     throw error;
   }
 };
@@ -176,7 +158,7 @@ const updateAccount = async model => {
     ) {
       return {
         isSuccess: false,
-        code: "REG_DUPLICATE_EMAIL",
+        code: "ERR_DUPLICATE_EMAIL",
         message: `The email ${model.email} is already in use by another account.`
       };
     }
