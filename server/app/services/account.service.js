@@ -118,8 +118,19 @@ const validateUniqueEmail = async (email, currentUserId) => {
   }
 };
 
+const handleVerifyUpdateConfirmation = async (email, token) => {
+  try {
+    await sendVerifyUpdateConfirmation(email, token);
+  } catch (err) {
+    const error = new Error(
+      `Failed to send verification email: ${err.message}`
+    );
+    error.code = "EMAIL_CONFIRMATION_FAILED";
+    throw error;
+  }
+};
+
 const updateAccount = async model => {
-  const token = crypto.randomUUID();
   try {
     const user = await selectById(model.id);
     if (!user) {
@@ -129,7 +140,6 @@ const updateAccount = async model => {
     }
 
     validateAuthorizedEmail(model.email, user);
-
     await validateUniqueEmail(model.email, model.id);
 
     await poolConnect;
@@ -138,9 +148,10 @@ const updateAccount = async model => {
     request.input("FirstName", mssql.NVarChar, model.firstName);
     request.input("LastName", mssql.NVarChar, model.lastName);
     request.input("Email", mssql.NVarChar, model.email);
-
     await request.execute("Login_Update");
-    await sendVerifyUpdateConfirmation(model.email, token);
+
+    const token = crypto.randomUUID();
+    await handleVerifyUpdateConfirmation(model.email, token);
 
     return {
       isSuccess: true,
@@ -148,21 +159,6 @@ const updateAccount = async model => {
       message: "Account updates succeeded."
     };
   } catch (err) {
-    // Native SQL Server errors
-    const SQL_SERVER_UNIQUE_KEY_VIOLATION = 2627;
-    const SQL_SERVER_UNIQUE_INDEX_VIOLATION = 2601;
-
-    if (
-      err.number === SQL_SERVER_UNIQUE_KEY_VIOLATION ||
-      err.number === SQL_SERVER_UNIQUE_INDEX_VIOLATION
-    ) {
-      return {
-        isSuccess: false,
-        code: "ERR_DUPLICATE_EMAIL",
-        message: `The email ${model.email} is already in use by another account.`
-      };
-    }
-
     return {
       isSuccess: false,
       code: err.code || "ACCOUNT_UPDATE_FAILED",
