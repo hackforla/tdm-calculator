@@ -125,7 +125,7 @@ const handleVerifyUpdateConfirmation = async (email, token) => {
     const error = new Error(
       `Failed to send verification email: ${err.message}`
     );
-    error.code = "EMAIL_CONFIRMATION_FAILED";
+    error.code = "ERR_VERIFICATION_EMAIL_FAILED";
     throw error;
   }
 };

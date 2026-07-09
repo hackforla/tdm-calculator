@@ -75,9 +75,9 @@ const UpdateAccount = props => {
           );
           break;
 
-        case "EMAIL_CONFIRMATION_FAILED":
+        case "ERR_VERIFICATION_EMAIL_FAILED":
           setErrorMsg(
-            `Sending the confirmation email failed. Please contact technical support. The error message is:  "${response.message}"`
+            `Sending verification email failed. Please contact technical support. Error:  "${response.message}"`
           );
           break;
 
