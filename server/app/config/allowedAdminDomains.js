@@ -12,7 +12,7 @@
 
   In `config`, parse process.env variables:
     const getDomainList = (domain) => {
-    return domain ? domain.split(",").map(domainList => domainList.trim()) : [];
+    return domain ? domain.split(",").map(domainList => domainList.trim()) : ["lacity.org"]; // default to strictest 
   };  
 
 */
