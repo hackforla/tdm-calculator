@@ -1,3 +1,22 @@
+/* 
+
+  TODO: The domains might get moved into the `.env` file.
+
+  In `.env` file:
+  # Admin domains allowed in all environments
+    ALLOWED_ADMIN_EMAIL_DOMAINS=lacity.org,hackforla.org
+
+  # Additional domains specifically for non-production environments
+    ALLOWED_DEV_EMAIL_DOMAINS=dispostable.com,test.com
+
+
+  In `config`, parse process.env variables:
+    const getDomainList = (domain) => {
+    return domain ? domain.split(",").map(domainList => domainList.trim()) : [];
+  };  
+
+*/
+
 const environment = process.env.NODE_ENV || "development";
 const ALLOWED_ADMIN_EMAIL_DOMAINS = ["lacity.org", "hackforla.org"];
 
