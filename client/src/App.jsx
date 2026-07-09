@@ -65,6 +65,21 @@ const App = () => {
           const configs = await getConfigs();
           return { configs };
         }}
+        HydrateFallback={() => {
+          return (
+            <div
+              style={{
+                width: "100%",
+                height: "80vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <Loader loaded={false} className="spinner" left="auto" />
+            </div>
+          );
+        }}
         errorElement={<RouteErrorBoundary />}
       >
         {/* These routes depend on ConfigContext and CalculationContext */}

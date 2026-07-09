@@ -39,12 +39,12 @@
     "jsonwebtoken": "^9.0.2",
     "mssql": "^11.0.1",
     "node-flywaydb": "^3.0.7",
-    "nodemailer": "^8.0.5",
+    "nodemailer": "^9.0.1",
     "path": "^0.12.7",
     "sanitize-html": "^2.17.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.5",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.28.5",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",

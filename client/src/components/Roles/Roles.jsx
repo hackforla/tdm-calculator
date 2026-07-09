@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate, Link as NavLink } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
 import UserContext from "../../contexts/UserContext";
 import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import RolesTableRow from "./RolesTableRow";
+import Link from "../Link/Link";
 
 const useStyles = createUseStyles(theme => ({
   main: {
@@ -115,6 +116,37 @@ const Roles = ({ contentContainerRef }) => {
   const toast = useToast();
   const userContext = useContext(UserContext);
   const loggedInUserId = userContext.account?.id;
+
+  const handleCleanupInactive = async () => {
+    try {
+      const response = await accountService.cleanupInactiveAccounts();
+      if (response.status === 200 && response.data.isSuccess) {
+        const deletedCount = response.data.deletedCount;
+        toast.add(
+          `Cleanup completed! Removed ${deletedCount} inactive accounts.`
+        );
+
+        // Refresh accounts list
+        const searchResponse = await accountService.search();
+        if (searchResponse.status === 200) {
+          setAccounts(
+            searchResponse.data.map(account => {
+              return {
+                ...account,
+                name: `${account.lastName}, ${account.firstName}`
+              };
+            })
+          );
+          setFilteredAccounts(searchResponse.data);
+        }
+      } else {
+        toast.add("Cleanup failed to complete successfully.");
+      }
+    } catch (cleanupErr) {
+      console.error("Cleanup of inactive accounts failed", cleanupErr);
+      toast.add("An error occurred during inactive account cleanup.");
+    }
+  };
 
   useEffect(() => {
     const getAccounts = async () => {
@@ -240,9 +272,25 @@ const Roles = ({ contentContainerRef }) => {
           data-testid="searchString"
         />
       </div>
-      <div className={classes.archiveTitle}>
-        <Link to="/archivedaccounts" className={classes.link}>
+      <div
+        className={classes.archiveTitle}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "1.5rem"
+        }}
+      >
+        <NavLink to="/archivedaccounts" className={classes.link}>
           View Archived Accounts
+        </NavLink>
+        <span style={{ color: "#808589" }}>|</span>
+        <Link
+          onClick={handleCleanupInactive}
+          ariaLabel="Cleanup inactive accounts"
+        >
+          Cleanup Inactive Accounts
         </Link>
       </div>
 

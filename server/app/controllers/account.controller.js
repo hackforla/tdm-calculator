@@ -225,6 +225,15 @@ const deleteById = async (req, res) => {
   }
 };
 
+const cleanupInactive = async (req, res) => {
+  try {
+    const response = await accountService.cleanupInactive();
+    res.send(response);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 module.exports = {
   getAll,
   // getById,
@@ -274,5 +283,6 @@ module.exports = {
   unarchiveById,
   getAllArchivedUsers,
   getAllDROUsers,
-  deleteById
+  deleteById,
+  cleanupInactive
 };
