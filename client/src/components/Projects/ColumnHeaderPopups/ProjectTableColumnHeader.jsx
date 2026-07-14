@@ -16,6 +16,7 @@ import NumberPopup from "./NumberPopup";
 import BooleanPopup from "./BooleanPopup";
 import VisibilityPopup from "./VisibilityPopup";
 import StatusPopup from "./StatusPopup";
+import VersionPopup from "./VersionPopup";
 import { useTheme } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({
@@ -107,7 +108,8 @@ const ProjectTableColumnHeader = ({
   setSort,
   setCheckedProjectIds,
   setSelectAllChecked,
-  droOptions
+  droOptions,
+  calculations
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -133,7 +135,8 @@ const ProjectTableColumnHeader = ({
       header.popupType === "text" ||
       header.popupType === "string" ||
       header.popupType === "number" ||
-      header.popupType === "stringList"
+      header.popupType === "stringList" ||
+      header.popupType === "version"
     ) {
       const listPropertyName = propertyName + "List";
       const listValue = criteria[listPropertyName];
@@ -355,6 +358,21 @@ const ProjectTableColumnHeader = ({
                   setSort={setSort}
                   setCheckedProjectIds={setCheckedProjectIds}
                   setSelectAllChecked={setSelectAllChecked}
+                />
+              ) : header.popupType === "version" ? (
+                <VersionPopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
+                  projects={projects}
+                  filter={filter}
+                  calculations={calculations}
                 />
               ) : null}
             </div>
