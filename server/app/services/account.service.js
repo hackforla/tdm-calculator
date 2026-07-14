@@ -598,6 +598,53 @@ const deleteUser = async id => {
   }
 };
 
+const cleanupInactive = async () => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    const selectResult = await request.execute(
+      "Login_SelectInactiveForCleanup"
+    );
+    const inactiveAccounts = selectResult.recordset;
+
+    let deletedCount = 0;
+    let failedCount = 0;
+    const errors = [];
+
+    for (const account of inactiveAccounts) {
+      try {
+        const delResult = await deleteUser(account.id);
+        if (delResult.isSuccess) {
+          deletedCount++;
+        } else {
+          failedCount++;
+          errors.push({
+            id: account.id,
+            email: account.email,
+            message: delResult.message
+          });
+        }
+      } catch (err) {
+        failedCount++;
+        errors.push({
+          id: account.id,
+          email: account.email,
+          message: err.message || err.toString()
+        });
+      }
+    }
+
+    return {
+      isSuccess: true,
+      deletedCount,
+      failedCount,
+      errors
+    };
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 async function hashPassword(user) {
   if (!user.password) throw user.invalidate("password", "password is required");
   if (user.password.length < 8)
@@ -610,6 +657,7 @@ module.exports = {
   addLastLoginDate,
   archiveUser,
   authenticate,
+  cleanupInactive,
   confirmRegistration,
   deleteUser,
   forgotPassword,

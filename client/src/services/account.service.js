@@ -110,6 +110,11 @@ export const deleteAccount = async id => {
   return response;
 };
 
+export const cleanupInactiveAccounts = async () => {
+  const response = await axios.delete(`${baseUrl}/cleanup-inactive`);
+  return response;
+};
+
 export const getAuthorization = async ({
   email,
   firstName,
