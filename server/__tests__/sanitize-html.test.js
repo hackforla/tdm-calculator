@@ -21,7 +21,9 @@ describe("sanitize-html helper", () => {
     const result = sanitize(dirty);
 
     expect(sanitizeHtml).toHaveBeenCalledTimes(1);
-    expect(sanitizeHtml).toHaveBeenCalledWith(dirty);
+    expect(sanitizeHtml).toHaveBeenCalledWith(dirty, {
+      allowedAttributes: { a: [], img: [], li: ["data-list", "class"] }
+    });
     expect(result).toBe(sanitized);
   });
 });
