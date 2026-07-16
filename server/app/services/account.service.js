@@ -7,7 +7,7 @@ const {
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation
 } = require("./email.service");
-const { allowedAdminDomains } = require("../config/allowedAdminDomains");
+const allowedAdminDomains = process.env.ALLOWED_ADMIN_EMAIL_DOMAINS;
 
 const SALT_ROUNDS = 10;
 
