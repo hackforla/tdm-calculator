@@ -9,6 +9,8 @@ process.env.JWT_SECRET_KEY = "testingSecretKey";
 process.env.CLIENT_URL = "http://localhost:3001";
 process.env.SERVER_URL = "http://localhost:5002";
 
+process.env.ALLOWED_ADMIN_EMAIL_DOMAINS = "dispostable.com,hackforla.org";
+
 process.env.SENDGRID_API_KEY = "SG.testAPIkey";
 process.env.EMAIL_SENDER = "tdm+sendgrid@test.org";
 process.env.EMAIL_PUBLIC_COMMENT_LA_CITY =
