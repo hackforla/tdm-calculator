@@ -1,4 +1,4 @@
-name: 'Check spelling'
+name: "Check spelling"
 on: # rebuild any PRs and main branch changes
   pull_request:
   push:
@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
       - name: Install node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "22"
+          cache: "npm"
       - name: Install CSpell
         run: npm install -g cspell
       - name: Check spelling
