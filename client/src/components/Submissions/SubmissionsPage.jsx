@@ -20,7 +20,7 @@ import {
 } from "../../helpers/Constants";
 import { Td, TdExpandable } from "../UI/TableData";
 
-const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
+const DEFAULT_SORT_CRITERIA = [{ field: "dateStatus", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   idFormattedList: [],
