@@ -10,6 +10,24 @@ router.get(
   jwtSession.validateUser,
   projectController.getAllArchivedProjects
 );
+/**
+ * @openapi
+ * /projects:
+ *   get:
+ *     tags:
+ *       - Projects
+ *     summary: List projects for the authenticated user.
+ *     security:
+ *       - bearerAuth: []
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Projects were returned.
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 router.get("/", jwtSession.validateUser, projectController.getAll);
 router.get(
   "/submissions",
@@ -37,6 +55,34 @@ router.get(
   jwtSession.validateUser,
   projectController.getByIdWithEmail
 );
+/**
+ * @openapi
+ * /projects:
+ *   post:
+ *     tags:
+ *       - Projects
+ *     summary: Create a project for the authenticated user.
+ *     security:
+ *       - bearerAuth: []
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Project'
+ *     responses:
+ *       201:
+ *         description: Project was created.
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 router.post("/", writeLimiter, jwtSession.validateUser, projectController.post);
 router.put(
   "/hide",
@@ -44,6 +90,38 @@ router.put(
   jwtSession.validateUser,
   projectController.hide
 );
+/**
+ * @openapi
+ * /projects/trash:
+ *   put:
+ *     tags:
+ *       - Projects
+ *     summary: Move projects to or from trash.
+ *     security:
+ *       - bearerAuth: []
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             allOf:
+ *               - $ref: '#/components/schemas/ProjectStateChange'
+ *               - type: object
+ *                 required:
+ *                   - trash
+ *     responses:
+ *       204:
+ *         description: Project trash state was updated.
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       409:
+ *         $ref: '#/components/responses/Conflict'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 router.put(
   "/trash",
   writeLimiter,

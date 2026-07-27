@@ -5,8 +5,11 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("error-handler");
 const routes = require("./app/routes");
+const jwtSession = require("./middleware/jwt-session");
 const helmet = require("helmet");
 const { truncate } = require("fs");
+const swaggerUi = require("swagger-ui-express");
+const { openapiSpec, swaggerUiOptions } = require("./app/docs/openapi");
 // const pino = require("express-pino-logger")();
 
 dotenv.config();
@@ -93,6 +96,20 @@ app.use(express.urlencoded({ extended: false }));
 
 // Web API routes
 app.use("/api", routes);
+
+if (process.env.ENABLE_API_DOCS === "true") {
+  app.get(
+    "/api-docs.json",
+    jwtSession.validateRoles(["isAdmin"]),
+    (_req, res) => res.json(openapiSpec)
+  );
+  app.use(
+    "/api-docs",
+    jwtSession.validateRoles(["isAdmin"]),
+    swaggerUi.serve,
+    swaggerUi.setup(openapiSpec, swaggerUiOptions)
+  );
+}
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));

@@ -41,7 +41,9 @@
     "node-flywaydb": "^3.0.7",
     "nodemailer": "^9.0.1",
     "path": "^0.12.7",
-    "sanitize-html": "^2.17.4"
+    "sanitize-html": "^2.17.4",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.29.6",
