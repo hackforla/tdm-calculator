@@ -132,7 +132,7 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
         droId: Number(droId),
         adminNotes,
         dateModifiedAdmin,
-        loginIdAssigned,
+        loginIdAssigned: loginIdAssigned ? Number(loginIdAssigned) : null, // UI may set to 0, make null for db
         dateAssigned,
         invoiceStatusId,
         dateInvoicePaid,
