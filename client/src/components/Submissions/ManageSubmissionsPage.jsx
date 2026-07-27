@@ -21,7 +21,7 @@ import {
   MANAGE_SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
 
-const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
+const DEFAULT_SORT_CRITERIA = [{ field: "dateSubmitted", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   idFormattedList: [],
