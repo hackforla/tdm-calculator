@@ -35,7 +35,11 @@ const useStyles = createUseStyles(theme => ({
     fontSize: "20px",
     "&:hover": {
       cursor: "pointer"
-    }
+    },
+    height: "24px",
+    width: "24px",
+    fontSize: "24px",
+    padding: "0"
   },
   triangle: {
     position: "relative",
@@ -192,7 +196,14 @@ const AccordionToolTip = ({
             className={clsx(classes.closeButton)}
             onClick={() => setShowDescription(prev => !prev)}
           >
-            <MdClose />
+            <MdClose
+              style={{
+                height: "24px",
+                width: "24px",
+                margin: "0",
+                backgroundColor: "orange"
+              }}
+            />
           </div>
           <div className={classes.richText}>
             <Interweave

@@ -195,7 +195,13 @@ const VersionPopup = ({
 
   return (
     <div className={classes.container}>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          fontSize: "24px"
+        }}
+      >
         <MdClose
           style={{
             backgroundColor: "transparent",
