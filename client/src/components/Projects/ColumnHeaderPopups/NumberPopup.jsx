@@ -161,7 +161,8 @@ const NumberPopup = ({
             color: "black",
             position: "absolute",
             top: "0.5rem",
-            right: "0.5rem"
+            right: "0.5rem",
+            fontSize: "24px"
           }}
           alt={`Close popup`}
           onClick={close}

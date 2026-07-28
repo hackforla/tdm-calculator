@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import { MdClose } from "react-icons/md";
 
 const useStyles = createUseStyles({
   toast: {
@@ -29,10 +30,10 @@ const useStyles = createUseStyles({
     border: "none",
     backgroundColor: "transparent",
     color: "#0F2940",
-    fontSize: "16px",
-    marginTop: "8px",
-    marginRight: "8px",
-    cursor: "pointer"
+    marginTop: "0px",
+    marginRight: "0px",
+    cursor: "pointer",
+    fontSize: "24px"
   }
 });
 
@@ -69,7 +70,7 @@ const Toast = ({ children, remove, variant }) => {
       <div className={classes.container}>{children}</div>
       <div>
         <button onClick={remove} className={classes.button}>
-          X
+          <MdClose />
         </button>
       </div>
     </div>

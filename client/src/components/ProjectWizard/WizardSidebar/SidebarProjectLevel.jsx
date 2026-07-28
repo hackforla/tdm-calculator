@@ -89,11 +89,12 @@ const SidebarProjectLevel = ({ level, rules }) => {
                       position: "absolute",
                       top: "0",
                       right: "0",
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      fontSize: "24px"
                     }}
                     onClick={close}
                   >
-                    <MdClose style={{ height: "20px", width: "20px" }} />
+                    <MdClose />
                   </button>
                   {/* DangerouslySetInnerHtml was clean here with DomPurify.  
                   Please reference Decision Records for more details: 

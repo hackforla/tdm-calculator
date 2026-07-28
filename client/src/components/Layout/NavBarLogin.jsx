@@ -137,7 +137,10 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
         >
           {close => {
             return (
-              <div style={{ margin: "1rem" }}>
+              <div
+                style={{ margin: "1rem", fontSize: "24px" }}
+                id={popupContentId}
+              >
                 <MdClose
                   style={{
                     backgroundColor: "transparent",

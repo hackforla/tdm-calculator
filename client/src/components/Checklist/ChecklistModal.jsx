@@ -69,7 +69,7 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
       className={classes.modal}
     >
       <div className={classes.close} onClick={toggleChecklistModal}>
-        <MdClose />
+        <MdClose style={{ fontSize: "24px" }} />
       </div>
       <ChecklistContent />
     </Modal>
