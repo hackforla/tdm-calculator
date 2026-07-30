@@ -32,7 +32,6 @@ const useStyles = createUseStyles(theme => ({
     float: "right",
     marginTop: "-0.75rem",
     marginRight: "-0.750rem",
-    fontSize: "20px",
     "&:hover": {
       cursor: "pointer"
     },
