@@ -20,7 +20,7 @@ import {
 } from "../../helpers/Constants";
 import { Td, TdExpandable } from "../UI/TableData";
 
-const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
+const DEFAULT_SORT_CRITERIA = [{ field: "dateStatus", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   idFormattedList: [],
@@ -397,7 +397,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     { id: "onHold", label: "On Hold", popupType: "boolean", colWidth: "113px" },
     {
       id: "approvalStatusName",
-      label: "Approval Status",
+      label: "Submission Status",
       popupType: "stringList",
       colWidth: "240px"
     },

@@ -16,7 +16,10 @@ const useStyles = createUseStyles({
     backgroundColor: "transparent",
     "&:hover": {
       cursor: "pointer"
-    }
+    },
+    height: "24px",
+    width: "24px",
+    fontSize: "24px"
   }
 });
 

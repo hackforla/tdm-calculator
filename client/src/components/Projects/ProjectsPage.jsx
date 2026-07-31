@@ -4,6 +4,7 @@ import { formatId } from "../../helpers/util";
 import { useNavigate } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "../../contexts/UserContext";
+import CalculationsContext from "../../contexts/CalculationsContext";
 import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
@@ -59,7 +60,8 @@ const DEFAULT_FILTER_CRITERIA = {
   droList: [],
   adminNotesList: [],
   startDateModifiedAdmin: null,
-  endDateModifiedAdmin: null
+  endDateModifiedAdmin: null,
+  calculationIdList: []
 };
 
 const useStyles = createUseStyles(theme => ({
@@ -302,6 +304,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
   const isSubmittingSnapshot = useRef(false);
+  const calculations = useContext(CalculationsContext);
 
   useEffect(() => {
     fetchDroOptions(setDroOptions);
@@ -610,6 +613,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setSelectAllChecked(!selectAllChecked);
   };
 
+  const getCalculationVersion = (p, calculations) =>
+    calculations?.[p.calculationId]?.version ?? "Beta";
+
   const ascCompareBy = (a, b, orderBy) => {
     let projectA, projectB;
 
@@ -650,6 +656,26 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else if (orderBy === "id") {
       projectA = a.id !== undefined && a.id !== null ? a.id : null;
       projectB = b.id !== undefined && b.id !== null ? b.id : null;
+    } else if (orderBy === "calculationId") {
+      const aVal = getCalculationVersion(a, calculations);
+      const bVal = getCalculationVersion(b, calculations);
+
+      if (aVal === bVal) return 0;
+
+      if (aVal === "Beta") return 1;
+      if (bVal === "Beta") return -1;
+
+      const aParts = String(aVal).split(".").map(Number);
+      const bParts = String(bVal).split(".").map(Number);
+
+      const len = Math.max(aParts.length, bParts.length);
+
+      for (let i = 0; i < len; i++) {
+        const diff = (aParts[i] ?? 0) - (bParts[i] ?? 0);
+        if (diff !== 0) return diff;
+      }
+
+      return 0;
     } else {
       projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
       projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";
@@ -673,9 +699,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const getComparator = (order, orderBy) => {
-    return order === "asc"
-      ? (a, b) => ascCompareBy(a, b, orderBy)
-      : (a, b) => -ascCompareBy(a, b, orderBy);
+    return (a, b) => {
+      const result = ascCompareBy(a, b, orderBy);
+
+      if (orderBy === "calculationId") {
+        return order === "asc" ? -result : result;
+      }
+
+      return order === "asc" ? result : -result;
+    };
   };
 
   const setSort = (orderBy, order, isStatus = false) => {
@@ -786,6 +818,15 @@ const ProjectsPage = ({ contentContainerRef }) => {
     if (
       criteria.idFormattedList?.length > 0 &&
       !criteria.idFormattedList.includes(p.idFormatted)
+    ) {
+      return false;
+    }
+
+    if (
+      criteria.calculationIdList?.length > 0 &&
+      !criteria.calculationIdList.includes(
+        calculations?.[p.calculationId]?.version ?? "Beta"
+      )
     ) {
       return false;
     }
@@ -1032,7 +1073,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
           {
             id: "calculationId",
             label: "Guidelines Version",
-            popupType: "text",
+            popupType: "version",
             accessor: "calculationId",
             colWidth: "10rem"
           }
@@ -1215,6 +1256,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             setCheckedProjectIds={setCheckedProjectIds}
                             setSelectAllChecked={setSelectAllChecked}
                             droOptions={droOptions}
+                            calculations={calculations}
                           />
                         </th>
                       );

@@ -3,10 +3,18 @@ const getDateOnly = date => {
   return new Date(dateOnly);
 };
 
-export const ascCompareBy = (a, b, orderBy) => {
+export const ascCompareBy = (a, b, orderBy, calculations) => {
   let projectA, projectB;
 
-  if (orderBy === "projectLevel" || orderBy === "id" || orderBy === "onHold") {
+  const getCalculationVersion = (p, calculations) =>
+    calculations?.[p.calculationId]?.version ?? "Beta";
+
+  if (
+    orderBy === "projectLevel" ||
+    orderBy === "id" ||
+    orderBy === "onHold" ||
+    orderBy === "targetPointsMet"
+  ) {
     projectA = a[orderBy];
     projectB = b[orderBy];
   } else if (
@@ -24,6 +32,26 @@ export const ascCompareBy = (a, b, orderBy) => {
   } else if (orderBy === "adminNotes") {
     projectA = a.adminNotes ? a.adminNotes.toLowerCase() : null;
     projectB = b.adminNotes ? b.adminNotes.toLowerCase() : null;
+  } else if (orderBy === "calculationId") {
+    const aVal = getCalculationVersion(a, calculations);
+    const bVal = getCalculationVersion(b, calculations);
+
+    if (aVal === bVal) return 0;
+
+    if (aVal === "Beta") return 1;
+    if (bVal === "Beta") return -1;
+
+    const aParts = String(aVal).split(".").map(Number);
+    const bParts = String(bVal).split(".").map(Number);
+
+    const len = Math.max(aParts.length, bParts.length);
+
+    for (let i = 0; i < len; i++) {
+      const diff = (aParts[i] ?? 0) - (bParts[i] ?? 0);
+      if (diff !== 0) return diff;
+    }
+
+    return 0;
   } else {
     projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
     projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";

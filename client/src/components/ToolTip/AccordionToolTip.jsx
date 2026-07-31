@@ -15,10 +15,10 @@ import UserContext from "contexts/UserContext";
 const useStyles = createUseStyles(theme => ({
   accordionTooltipLabel: {
     ...theme.typography.paragraph1,
+    padding: "1rem",
     color: theme.colorText,
     textAlign: "left",
     border: "1px solid " + theme.colors.secondary.gray,
-    padding: "1rem",
     borderRadius: "5px",
     width: "min-content",
     minWidth: "97%",
@@ -32,10 +32,13 @@ const useStyles = createUseStyles(theme => ({
     float: "right",
     marginTop: "-0.75rem",
     marginRight: "-0.750rem",
-    fontSize: "20px",
     "&:hover": {
       cursor: "pointer"
-    }
+    },
+    height: "24px",
+    width: "24px",
+    fontSize: "24px",
+    padding: "0"
   },
   triangle: {
     position: "relative",
@@ -96,6 +99,52 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "flex-end",
     gap: "0.5rem",
     marginTop: "1rem"
+  },
+  richText: {
+    fontSize: "16px",
+    width: "100%",
+    margin: 0,
+    "& p": {
+      margin: "0.25rem 0 0.25rem 0 !important",
+      padding: "0"
+    },
+    "& .ql-indent-1": {
+      marginLeft: "3em"
+    },
+    "& .ql-indent-2": {
+      marginLeft: "6em"
+    },
+    "& .ql-editor ol, & .ql-editor ul": {
+      fontSize: "16px",
+      margin: "0 !important",
+      padding: "0",
+      listStylePosition: "inside"
+    },
+    "& .ql-editor li": {
+      margin: "0 !important",
+      padding: "0"
+    }
+  },
+  quillInput: {
+    // width: "80%",
+    display: "flex",
+    fontSize: "16px",
+    fontFamily: "Calibri",
+    flexDirection: "column",
+    "& p": {
+      margin: "0.4rem 0 0.4rem 0 !important",
+      padding: "0"
+    },
+    "& .ql-ui ol, & .ql-ui ul": {
+      fontSize: "32px",
+      margin: "0 !important",
+      padding: "2em",
+      listStylePosition: "inside"
+    },
+    "& .ql-ui li": {
+      margin: "2em !important",
+      padding: "0"
+    }
   }
 }));
 
@@ -146,14 +195,23 @@ const AccordionToolTip = ({
             className={clsx(classes.closeButton)}
             onClick={() => setShowDescription(prev => !prev)}
           >
-            <MdClose />
+            <MdClose
+              style={{
+                height: "24px",
+                width: "24px",
+                margin: "0",
+                backgroundColor: "orange"
+              }}
+            />
           </div>
-          <Interweave
-            transform={(node, children) =>
-              TransformExternalLink(node, children, classes)
-            }
-            content={newDescription}
-          />
+          <div className={classes.richText}>
+            <Interweave
+              transform={(node, children) =>
+                TransformExternalLink(node, children, classes)
+              }
+              content={newDescription}
+            />
+          </div>
           <div className={clsx(classes.editButton)} onClick={startEditing}>
             {isAdmin ? <MdEdit /> : null}
           </div>
@@ -166,12 +224,14 @@ const AccordionToolTip = ({
           >
             <MdClose />
           </div>
-          <Interweave
-            transform={(node, children) =>
-              TransformExternalLink(node, children, classes)
-            }
-            content={newDescription}
-          />
+          <div className={classes.richText}>
+            <Interweave
+              transform={(node, children) =>
+                TransformExternalLink(node, children, classes)
+              }
+              content={newDescription}
+            />
+          </div>
           <div className={clsx(classes.editButton)} onClick={startEditing}>
             {isAdmin ? <MdEdit /> : null}
           </div>
@@ -187,7 +247,11 @@ const AccordionToolTip = ({
       >
         <div className={clsx(classes.modalContent)}>
           <h3 className={clsx(classes.modalTitle)}>Edit tooltip</h3>
-          <QuillEditor value={newDescription} onChange={setNewDescription} />
+          <QuillEditor
+            value={newDescription}
+            onChange={setNewDescription}
+            className={classes.quillInput}
+          />
           <div className={clsx(classes.modalButtons)}>
             <Button variant="secondary" onClick={handleCancel}>
               CANCEL
