@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import "react-datepicker/dist/react-datepicker.css";
 import {
   MdOutlineFilterAlt,
   MdOutlineSwitchRight,
