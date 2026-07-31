@@ -7,7 +7,7 @@ COPY /client/package-lock.json .
 RUN npm ci --legacy-peer-deps 
 COPY /client .
 
-ENV NODE_ENV="production"
+ENV NODE_ENV="development"
 RUN npm run build
 RUN echo package.json
 

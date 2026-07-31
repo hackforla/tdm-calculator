@@ -330,7 +330,7 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
               name="adminNotes"
               rows="26.5"
               id="adminNotes"
-              value={formik.values.adminNotes}
+              value={formik.values.adminNotes || ""}
               onChange={formik.handleChange}
               style={{ resize: "none", padding: "0.2rem" }}
             />
