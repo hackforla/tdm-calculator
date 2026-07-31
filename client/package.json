@@ -32,6 +32,7 @@
     "@hello-pangea/dnd": "^18.0.1",
     "@react-pdf/renderer": "^3.1.9",
     "axios": "^1.15.1",
+    "brace-expansion": "^5.0.8",
     "clsx": "^2.1.1",
     "dompurify": "^3.4.12",
     "formik": "^2.4.6",
@@ -63,11 +64,11 @@
   "devDependencies": {
     "@babel/core": "^7.29.6",
     "@babel/preset-react": "^7.26.3",
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^9.0.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^14.1.0",
     "@testing-library/user-event": "^14.6.1",
-    "@eslint/eslintrc": "^3.3.5",
-    "@eslint/js": "^9.0.0",
     "@vitejs/plugin-react": "^6.0.2",
     "babel-jest": "^29.7.0",
     "eslint": "^9.0.0",
@@ -103,5 +104,8 @@
   },
   "volta": {
     "node": "24.11.0"
+  },
+  "overrides": {
+    "brace-expansion": "5.0.8"
   }
 }
