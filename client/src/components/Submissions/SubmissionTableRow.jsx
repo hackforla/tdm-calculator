@@ -206,7 +206,7 @@ const SubmissionTableRow = ({
         />
       </Td>
       <Td>{formatDate(project.dateCoO)}</Td>
-      <Td>
+      <Td align="center">
         <span
           onClick={() => {
             if (!project.dateInvoicePaid) {
@@ -246,7 +246,7 @@ const SubmissionTableRow = ({
           droOptions={dros}
         />
       </Td>
-      <Td>
+      <Td align="center">
         <span>
           {project.targetPointsMet ? (
             <MdCheckCircle className={classes.targetPointsMet} />
