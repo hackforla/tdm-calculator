@@ -153,9 +153,9 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
   const formik = useFormik({
     initialValues: {
       ...project,
-      dateAssigned: toDate(project.dateAssigned),
-      dateInvoicePaid: toDate(project.dateInvoicePaid),
-      dateCoO: toDate(project.dateCoO)
+      dateAssigned: project.dateAssigned,
+      dateInvoicePaid: project.dateInvoicePaid,
+      dateCoO: project.dateCoO
     },
     validationSchema: validationSchema,
     onSubmit: values => {
