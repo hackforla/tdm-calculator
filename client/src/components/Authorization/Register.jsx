@@ -21,7 +21,7 @@ const useStyles = createUseStyles(theme => ({
     float: "right"
   },
   authText: {
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
   },
   heading1: {
     ...theme.typography.heading1,
@@ -82,7 +82,7 @@ const useStyles = createUseStyles(theme => ({
     border: "none",
     borderLeft: "1px solid lightgrey",
     cursor: "pointer",
-    color: theme.colors.secondary.darkNavy,
+    color: theme.colorDarkNavy,
     "& svg": {
       width: 24,
       height: 24

@@ -11,7 +11,7 @@ const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorText
   }
 }));
 
@@ -67,7 +67,7 @@ const DatePopup = ({
         <MdClose
           style={{
             backgroundColor: "transparent",
-            color: "black",
+            color: theme.colorLADOTBlack,
             position: "absolute",
             top: "0.5rem",
             right: "0.5rem",

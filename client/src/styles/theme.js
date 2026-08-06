@@ -2,20 +2,23 @@ export const jssTheme = {
   colorDefault: "#fff", //white
   colorPrimary: "#a7c539", //lime green
   colorPrimaryDisabled: "#D3E29C", //green tint
-  colorText: "#0F2940", //dark navy
+  colorText: "#0F2940", //dark navy for text
+  colorDarkNavy: "#0F2940", //dark navy`for non-text elements
   colorLADOT: "#002E6D", //navy
   colorLADOTBlack: "#231F20", //Medium Black
+  colorPrintBlack: "#000000", //black for printing
   colorGray: "#808080",
   colorLightGray: "#A0A0A0",
+  colorMediumGray: "#CFCFCF",
   colorEarnedPoints: "rgb(255, 168, 4)", //orange
+  colorWhite: "#FFFFFF", //white
   colorDisabled: "rgba(0, 0, 0, .05)", //lightest grey transparent
   colorCancel: "rgba(0, 0, 0, 0.5)", //light grey, e.g. cancel button
-  colorWhite: "#FFFFFF", //white
-  colorBlack: "#000000",
-  colorError: "#E46247", //e.g. red
+  colorError: "#E46247",
+  colorDrakRed: "#990000",
   colorCritical: "#C3391D",
   colorCriticalDisabled: "#D57461",
-  colorDeselect: "#EEF1F4", //e.g. red
+  colorDeselect: "#EEF1F4",
   colorHighlight: "#F0E300", //yellow
   colorRowHighlight: "#B2C0D3", //light blue - for Highlighting selected row in a grid
   colorTooltipBackground: "#FFEDEA",
@@ -23,26 +26,14 @@ export const jssTheme = {
   colorDropShadow: "#00000040",
   colorDropShadowHover: "#AAB5CA",
   colorDropShadowDisabled: "#BBBBBBFF",
+  colorNotice: "#E87D00",
+  colorLinkBlue: "#0000FF",
   colors: {
-    primary: {
-      navy: "#002E6D",
-      white: "#FFFFFF",
-      black: "#000000"
-    },
     secondary: {
-      gray: "#939393",
-      mediumGray: "#CFCFCF",
-      lightGray: "#EEF1F4",
-      darkRed: "#990000",
-      green: "#A7C539",
-      darkNavy: "#0f2940",
-      darkBlue: "#00122B",
-      yellow: "#FFFF00",
-      linkBlue: "#0000FF"
-    },
-    warning: "#C3391D",
-    notice: "#E87D00",
-    tooltip: "#F9DFDA"
+      gray: "#808080", // Same as theme.colorGray
+      lightGray: "#EEF1F4", // Same as theme.colorDeselect
+      mediumGray: "#CFCFCF" // Same as theme.colorMediumGray
+    }
   },
   typography: {
     largeText: {
@@ -52,7 +43,7 @@ export const jssTheme = {
       lineHeight: "40px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#000000"
+      color: "#231F20"
     },
     iconHeading1: {
       fontFamily: "Calibri",
@@ -61,7 +52,7 @@ export const jssTheme = {
       lineHeight: "40px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#000000"
+      color: "#231F20"
     },
     heading1: {
       fontFamily: "Calibri",
@@ -70,7 +61,7 @@ export const jssTheme = {
       lineHeight: "40px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#000000",
+      color: "#231F20",
       marginTop: 0
     },
     heading2: {
@@ -80,7 +71,7 @@ export const jssTheme = {
       lineHeight: "32px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#000000"
+      color: "#231F20"
     },
     heading3: {
       fontFamily: "Calibri",
@@ -89,7 +80,7 @@ export const jssTheme = {
       lineHeight: "28px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#000000"
+      color: "#231F20"
     },
     heading4: {
       fontFamily: "Calibri",
@@ -98,7 +89,7 @@ export const jssTheme = {
       lineHeight: "16px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#000000"
+      color: "#231F20"
     },
     subHeading: {
       fontFamily: "Calibri",
@@ -107,7 +98,7 @@ export const jssTheme = {
       lineHeight: "28px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#000000"
+      color: "#231F20"
     },
     paragraph1: {
       fontFamily: "Calibri",
@@ -116,7 +107,7 @@ export const jssTheme = {
       lineHeight: "20px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#000000"
+      color: "#231F20"
     },
     button: {
       fontFamily: "Calibri",
@@ -125,7 +116,7 @@ export const jssTheme = {
       lineHeight: "20px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#000000"
+      color: "#231F20"
     }
   },
   border: {
