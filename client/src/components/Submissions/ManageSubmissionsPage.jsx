@@ -425,7 +425,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateInvoicePaid",
       endDatePropertyName: "endDateInvoicePaid",
-      colWidth: "7rem"
+      colWidth: "10rem"
     },
     { id: "onHold", label: "On Hold", popupType: "boolean", colWidth: "8rem" },
     {
@@ -467,7 +467,9 @@ const ManageSubmissions = ({ contentContainerRef }) => {
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  let sortedProjects = projects.filter(p => filter(p, filterCriteria));
+  let sortedProjects = projects.filter(p =>
+    filter(p, filterCriteria, calculations)
+  );
   for (let i = 0; i < sortCriteria.length; i++) {
     sortedProjects.sort(
       getComparator(sortCriteria[i].direction, sortCriteria[i].field)
@@ -598,6 +600,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                             setCheckedProjectIds={null}
                             setSelectAllChecked={null}
                             droOptions={null}
+                            calculations={calculations}
                           />
                         </th>
                       );

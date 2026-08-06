@@ -4,7 +4,7 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import { MdClose } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import { selectAllCheckboxes } from "helpers/util";
 
@@ -78,8 +78,9 @@ const VersionPopup = ({
   calculations
 }) => {
   const property = header.id;
+  const theme = useTheme();
 
-  const classes = useStyles();
+  const classes = useStyles(theme);
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order

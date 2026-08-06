@@ -206,7 +206,7 @@ const SubmissionTableRow = ({
         />
       </Td>
       <Td>{formatDate(project.dateCoO)}</Td>
-      <Td align="center">
+      <Td>
         <span
           onClick={() => {
             if (!project.dateInvoicePaid) {
@@ -219,9 +219,9 @@ const SubmissionTableRow = ({
                   color: "#0000FF",
                   textDecoration: "underline",
                   cursor: "pointer",
-                  display: "flex"
+                  marginLeft: "2rem"
                 }
-              : {}
+              : { marginLeft: "2rem" }
           }
         >
           {calculations[project.calculationId].version || "Beta"}{" "}

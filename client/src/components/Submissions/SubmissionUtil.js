@@ -74,7 +74,7 @@ export const ascCompareBy = (a, b, orderBy, calculations) => {
   }
 };
 
-export const filter = (p, criteria) => {
+export const filter = (p, criteria, calculations) => {
   if (
     criteria.nameList.length > 0 &&
     !criteria.nameList.map(n => n.toLowerCase()).includes(p.name.toLowerCase())
@@ -218,6 +218,15 @@ export const filter = (p, criteria) => {
     if (!droNames.includes(projectDroName)) {
       return false;
     }
+  }
+
+  if (
+    criteria.calculationIdList?.length > 0 &&
+    !criteria.calculationIdList.includes(
+      calculations?.[p.calculationId]?.version ?? "Beta"
+    )
+  ) {
+    return false;
   }
 
   if (
