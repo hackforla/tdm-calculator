@@ -9,7 +9,7 @@ const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
   }
 }));
 
@@ -69,7 +69,7 @@ const StatusPopup = ({
         <MdClose
           style={{
             backgroundColor: "transparent",
-            color: "black",
+            color: theme.colorLADOTBlack,
             position: "absolute",
             top: "0.5rem",
             right: "0.5rem"
@@ -81,13 +81,13 @@ const StatusPopup = ({
       <div style={{ display: "flex", flexDirection: "column" }}>
         {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
         <RadioButton
-          label="Show Drafts First"
+          label="Sort Drafts First"
           value="asc"
           checked={newOrder == "asc"}
           onChange={() => setNewOrder("asc")}
         />
         <RadioButton
-          label="Show Snapshots First"
+          label="Sort Snapshots First"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}

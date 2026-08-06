@@ -22,7 +22,7 @@ const useStyles = createUseStyles(theme => ({
   icon: {
     height: "40px",
     width: "40px",
-    color: theme.colorBlack,
+    color: theme.colorLADOTBlack,
     marginBottom: "0",
     verticalAlign: "middle"
   }

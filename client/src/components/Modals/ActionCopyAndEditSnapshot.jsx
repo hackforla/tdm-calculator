@@ -26,7 +26,7 @@ const useStyles = createUseStyles(theme => ({
   icon: {
     height: "40px",
     width: "40px",
-    color: theme.colorBlack
+    color: theme.colorLADOTBlack
     // verticalAlign: "middle"
   },
   input: {

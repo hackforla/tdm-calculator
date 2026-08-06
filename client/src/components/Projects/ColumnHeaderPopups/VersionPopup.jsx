@@ -13,7 +13,7 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     maxWidth: "25rem",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
   },
   searchBarWrapper: {
     width: "100%",
@@ -59,7 +59,7 @@ const useStyles = createUseStyles(theme => ({
     textDecoration: "underline",
     display: "flex",
     fontWeight: "normal",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
   }
 }));
 
@@ -204,7 +204,7 @@ const VersionPopup = ({
         <MdClose
           style={{
             backgroundColor: "transparent",
-            color: "black",
+            color: theme.colorLADOTBlack,
             position: "absolute",
             top: "0.5rem",
             right: "0.5rem"

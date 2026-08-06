@@ -8,7 +8,7 @@ body {
   background: variables.$color-background;
   font-family: variables.$font;
   -webkit-text-size-adjust: 100%;
-  color: #474747;
+  color: variables.$color-black;
   overflow-y: scroll;
 }
 
@@ -43,7 +43,7 @@ cite {
 blockquote {
   font-weight: 700;
   background-color: #92cc4e;
-  color: #474747;
+  color: #231f20;
   padding: 1em 2em;
   margin-bottom: 1em;
   font-size: 1.25em;
@@ -137,7 +137,7 @@ input[type="checkbox"] {
   }
 
   &:hover {
-    border-color: #000000;
+    border-color: #231f20;
   }
 
   &:disabled {
@@ -149,7 +149,7 @@ input[type="checkbox"] {
 // default styles for  links, buttons, etc here?
 // import individual scss files below
 #root {
-  color: variables.$color-primary;
+  color: variables.$color-black;
   background-color: variables.$color-background;
 }
 

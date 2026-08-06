@@ -30,7 +30,7 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    color: theme.colors.secondary.darkNavy,
+    color: theme.colorDarkNavy,
     padding: "0.5rem",
     "&:hover": {
       background: "#B2C0D3",

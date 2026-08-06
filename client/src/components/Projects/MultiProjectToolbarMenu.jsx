@@ -47,7 +47,7 @@ const useStyles = createUseStyles(theme => ({
   },
   multiStatus: {
     ...theme.typography.subHeading,
-    color: theme.colors.primary.darkNavy,
+    color: theme.colorDarkNavy,
     textAlign: "left"
   },
   buttonStyle: {
@@ -65,7 +65,7 @@ const useStyles = createUseStyles(theme => ({
   iconDisabled: {
     height: "28px",
     width: "28px",
-    color: theme.colors.lightGray
+    color: theme.colorLightGray
   }
 }));
 
@@ -245,7 +245,7 @@ const MultiProjectToolbarMenu = ({
               boxShadow:
                 "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
             }}
-            border="1px solid black"
+            border={`1px solid ${theme.colorLADOTBlack}`}
             anchorSelect="#print-btn"
             content={getTooltipMsg("print")}
           />
@@ -297,7 +297,7 @@ const MultiProjectToolbarMenu = ({
                 boxShadow:
                   "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
               }}
-              border="1px solid black"
+              border={`1px solid ${theme.colorLADOTBlack}`}
               anchorSelect="#hide-btn"
               content={getTooltipMsg("visibility")}
             />
@@ -343,7 +343,7 @@ const MultiProjectToolbarMenu = ({
                 boxShadow:
                   "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
               }}
-              border="1px solid black"
+              border={`1px solid ${theme.colorLADOTBlack}`}
               anchorSelect="#delete-btn"
               content={getTooltipMsg("delete")}
             />
