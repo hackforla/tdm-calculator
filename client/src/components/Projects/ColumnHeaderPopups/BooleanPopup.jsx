@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useTheme } from "react-jss";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import { MdClose } from "react-icons/md";
@@ -15,6 +16,7 @@ const BooleanPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
+  const theme = useTheme();
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
@@ -50,7 +52,7 @@ const BooleanPopup = ({
         <MdClose
           style={{
             backgroundColor: "transparent",
-            color: "black",
+            color: theme.colorLADOTBlack,
             position: "absolute",
             top: "0.5rem",
             right: "0.5rem",
