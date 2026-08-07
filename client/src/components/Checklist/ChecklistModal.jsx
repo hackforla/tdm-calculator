@@ -18,10 +18,7 @@ const useStyles = createUseStyles({
     justifyContent: "flex-end",
     marginBottom: "0",
     border: "0 solid white",
-    backgroundColor: "transparent",
-    "&:hover": {
-      cursor: "pointer"
-    }
+    backgroundColor: "transparent"
   }
 });
 
@@ -68,8 +65,11 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
       style={modalStyleDefaultOverrides}
       className={classes.modal}
     >
-      <div className={classes.close} onClick={toggleChecklistModal}>
-        <MdClose style={{ fontSize: "24px" }} />
+      <div className={classes.close}>
+        <MdClose
+          onClick={toggleChecklistModal}
+          style={{ cursor: "pointer", fontSize: "24px" }}
+        />
       </div>
       <ChecklistContent />
     </Modal>

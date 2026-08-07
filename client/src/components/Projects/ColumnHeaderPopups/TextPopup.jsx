@@ -224,6 +224,7 @@ const TextPopup = ({
           style={{
             backgroundColor: "transparent",
             color: theme.colorLADOTBlack,
+            cursor: "pointer",
             position: "absolute",
             top: "0.5rem",
             right: "0.5rem"

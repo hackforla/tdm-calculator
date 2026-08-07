@@ -44,7 +44,7 @@ const useStyles = createUseStyles(theme => ({
     height: "2rem",
     gap: "0.2em",
     "&:hover": {
-      backgroundColor: "lightblue"
+      backgroundColor: themeRowHighlight
     },
     "& span": {
       maxWidth: "25ch",
@@ -176,6 +176,7 @@ const StringPopup = ({
           style={{
             backgroundColor: "transparent",
             color: theme.colorLADOTBlack,
+            cursor: "pointer",
             position: "absolute",
             top: "0.5rem",
             right: "0.5rem",
