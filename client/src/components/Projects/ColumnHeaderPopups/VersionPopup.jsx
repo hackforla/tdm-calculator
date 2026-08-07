@@ -206,6 +206,7 @@ const VersionPopup = ({
           style={{
             backgroundColor: "transparent",
             color: theme.colorLADOTBlack,
+            cursor: "pointer",
             position: "absolute",
             top: "0.5rem",
             right: "0.5rem"
@@ -246,7 +247,7 @@ const VersionPopup = ({
           >
             Select all {filteredOptions.length}
           </button>
-          <div style={{ display: "flex", alignItems: "center" }}>-</div>
+          <div style={{ display: "flex", alignItems: "center" }}>|</div>
           <button
             className={classes.toggleButton}
             onClick={() => setSelectedListItems([])}

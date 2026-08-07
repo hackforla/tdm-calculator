@@ -4,7 +4,7 @@ import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import { MdClose } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import { selectAllCheckboxes } from "helpers/util";
 
@@ -44,7 +44,7 @@ const useStyles = createUseStyles(theme => ({
     height: "2rem",
     gap: "0.2em",
     "&:hover": {
-      backgroundColor: "lightblue"
+      backgroundColor: themeRowHighlight
     },
     "& span": {
       maxWidth: "25ch",
@@ -81,7 +81,8 @@ const StringPopup = ({
   setSelectAllChecked
 }) => {
   const property = header.accessor || header.id;
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
@@ -175,6 +176,7 @@ const StringPopup = ({
           style={{
             backgroundColor: "transparent",
             color: theme.colorLADOTBlack,
+            cursor: "pointer",
             position: "absolute",
             top: "0.5rem",
             right: "0.5rem",
@@ -216,7 +218,7 @@ const StringPopup = ({
           >
             Select all {filteredOptions.length}
           </button>
-          <div style={{ display: "flex", alignItems: "center" }}>-</div>
+          <div style={{ display: "flex", alignItems: "center" }}>|</div>
           <button
             className={classes.toggleButton}
             onClick={() => setSelectedListItems([])}

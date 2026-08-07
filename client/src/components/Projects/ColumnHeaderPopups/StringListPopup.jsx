@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
 import { MdClose } from "react-icons/md";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import { selectAllCheckboxes } from "helpers/util";
 
@@ -11,7 +11,7 @@ import { selectAllCheckboxes } from "helpers/util";
 Variant of the StringPopup that is for text columns with a small number of choices that do not need the search box feature
 */
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   searchBarWrapper: {
     width: "100%",
     position: "relative",
@@ -37,7 +37,7 @@ const useStyles = createUseStyles({
     height: "2rem",
     gap: "0.2em",
     "&:hover": {
-      backgroundColor: "lightblue"
+      backgroundColor: theme.colorRowHighlight
     },
     "& span": {
       maxWidth: "25ch",
@@ -57,7 +57,7 @@ const useStyles = createUseStyles({
     display: "flex",
     fontWeight: "normal"
   }
-});
+}));
 
 const TextPopup = ({
   projects,
@@ -73,7 +73,8 @@ const TextPopup = ({
   setSelectAllChecked
 }) => {
   const property = header.accessor || header.id;
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
@@ -154,7 +155,8 @@ const TextPopup = ({
         <MdClose
           style={{
             backgroundColor: "transparent",
-            color: "black",
+            color: theme.colorLADOTBlack,
+            cursor: "pointer",
             position: "absolute",
             top: "0.5rem",
             right: "0.5rem",
@@ -196,7 +198,7 @@ const TextPopup = ({
           >
             Select all {filteredOptions.length}
           </button>
-          <div style={{ display: "flex", alignItems: "center" }}>-</div>
+          <div style={{ display: "flex", alignItems: "center" }}>|</div>
           <button
             className={classes.toggleButton}
             onClick={() => setSelectedListItems([])}
