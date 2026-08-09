@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const jwtSecret = process.env.JWT_SECRET || "mark it zero";
+const jwtSecret = process.env.JWT_SECRET;
 // JWT timeout set to 12 hours
 const jwtOpts = { algorithm: "HS256", expiresIn: "12h" };
 
