@@ -1,6 +1,11 @@
 const jwt = require("jsonwebtoken");
 
-const jwtSecret = process.env.JWT_SECRET || process.env.JWT_SECRET_KEY;
+const getJwtSecret = () => {
+  return process.env.JWT_SECRET
+    ? process.env.JWT_SECRET
+    : process.env.JWT_SECRET_KEY;
+};
+
 // JWT timeout set to 12 hours
 const jwtOpts = { algorithm: "HS256", expiresIn: "12h" };
 
@@ -98,14 +103,24 @@ const validateRoles = authorizedRoles =>
 
 // Helper function to create JWT token
 async function sign(payload) {
-  const token = await jwt.sign(payload, jwtSecret, jwtOpts);
-  return token;
+  try {
+    const jwtSecret = getJwtSecret();
+    const token = await jwt.sign(payload, jwtSecret, jwtOpts);
+    return token;
+  } catch (err) {
+    console.error("Error signing JWT:", err);
+  }
 }
 
 // Helper function to validate the JWT token
 async function verify(jwtString = "") {
-  jwtString = jwtString.replace(/^Bearer /i, "");
-  return jwt.verify(jwtString, jwtSecret);
+  try {
+    const jwtSecret = getJwtSecret();
+    jwtString = jwtString.replace(/^Bearer /i, "");
+    return await jwt.verify(jwtString, jwtSecret);
+  } catch (err) {
+    console.error("Error verifying JWT:", err);
+  }
 }
 
 module.exports = {
