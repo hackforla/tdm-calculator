@@ -461,7 +461,9 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       label: "Target Points",
       popupType: "boolean",
       accessor: "targetPointsMet",
-      colWidth: "10rem"
+      colWidth: "10rem",
+      trueLabel: "Target Points Met",
+      falseLabel: "Target Points Not Met"
     }
   ];
 
