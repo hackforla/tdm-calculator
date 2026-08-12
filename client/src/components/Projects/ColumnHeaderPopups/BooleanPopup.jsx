@@ -65,13 +65,15 @@ const BooleanPopup = ({
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <RadioButton
-          label={header.label + " First"}
+          label={"Sort " + (header.trueLabel || header.label) + " First"}
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
         />
         <RadioButton
-          label={"Not " + header.label + " First"}
+          label={
+            "Sort " + (header.falseLabel || " Not " + header.label) + " First"
+          }
           value="asc"
           checked={newOrder === "asc"}
           onChange={() => setNewOrder("asc")}
@@ -81,7 +83,7 @@ const BooleanPopup = ({
       <div style={{ display: "flex", flexDirection: "column" }}>
         {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
         <RadioButton
-          label={header.label}
+          label={header.trueLabel || header.label}
           value={true}
           checked={criterionSetting == true}
           onChange={() => {
@@ -89,7 +91,7 @@ const BooleanPopup = ({
           }}
         />
         <RadioButton
-          label={"Not " + header.label}
+          label={header.falseLabel || "Not " + header.label}
           value={false}
           checked={criterionSetting === false}
           onChange={() => setCriterionSetting(false)}
