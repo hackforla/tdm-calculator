@@ -36,12 +36,7 @@ const HideProjectModal = ({ mounted, onClose, project }) => {
   const classes = useStyles();
 
   return (
-    <ModalDialog
-      mounted={mounted}
-      onClose={onClose}
-      omitCloseBox={true}
-      initialFocus="#cancelButton"
-    >
+    <ModalDialog mounted={mounted} onClose={onClose} omitCloseBox={true}>
       {project.dateHidden ? (
         <div className={classes.container}>
           <MdWarning alt="Warning" className={classes.warningIcon} />

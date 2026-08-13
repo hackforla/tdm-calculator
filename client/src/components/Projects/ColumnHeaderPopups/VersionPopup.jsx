@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
-import { MdClose } from "react-icons/md";
+import CloseBox from "../../UI/CloseBox";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
@@ -14,6 +14,11 @@ const useStyles = createUseStyles(theme => ({
     flexDirection: "column",
     maxWidth: "25rem",
     color: theme.colorDarkNavy
+  },
+  closeBox: {
+    position: "absolute",
+    top: "0",
+    right: "0"
   },
   searchBarWrapper: {
     width: "100%",
@@ -198,21 +203,13 @@ const VersionPopup = ({
       <div
         style={{
           display: "flex",
-          justifyContent: "flex-end",
-          fontSize: "24px"
+          justifyContent: "flex-end"
         }}
       >
-        <MdClose
-          style={{
-            backgroundColor: "transparent",
-            color: theme.colorLADOTBlack,
-            cursor: "pointer",
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem"
-          }}
-          alt={`Close popup`}
+        <CloseBox
           onClick={close}
+          aria-label="Close popup"
+          className={classes.closeBox}
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>

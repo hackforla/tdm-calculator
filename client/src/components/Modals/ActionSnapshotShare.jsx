@@ -558,6 +558,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
           closeProject();
         }}
         initialFocus="#emailAddresses"
+        omitCloseBox={true}
       >
         {modalContents(page)}
       </ModalDialog>

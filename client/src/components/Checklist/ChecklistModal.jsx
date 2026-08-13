@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { createUseStyles } from "react-jss";
 import PropTypes from "prop-types";
 import ChecklistContent from "./ChecklistContent";
-import { MdClose } from "react-icons/md";
+import CloseBox from "../UI/CloseBox";
 
 import "./ChecklistModal.css";
 
@@ -37,8 +37,6 @@ const modalStyleDefaultOverrides = {
     fontWeight: "normal"
   },
   content: {
-    // maxWidth: "90vw",
-    // minWidth: "40vw",
     padding: "0.5rem",
     position: "relative",
     display: "flex",
@@ -66,9 +64,9 @@ const ChecklistModal = ({ checklistModalOpen, toggleChecklistModal }) => {
       className={classes.modal}
     >
       <div className={classes.close}>
-        <MdClose
+        <CloseBox
+          style={{ position: "absolute", top: "0", right: "0" }}
           onClick={toggleChecklistModal}
-          style={{ cursor: "pointer", fontSize: "24px" }}
         />
       </div>
       <ChecklistContent />

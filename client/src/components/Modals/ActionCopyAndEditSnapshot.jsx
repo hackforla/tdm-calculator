@@ -70,7 +70,12 @@ export default function CopyAndEditSnapshotModal({
   };
 
   return (
-    <ModalDialog mounted={mounted} onClose={handleClose}>
+    <ModalDialog
+      mounted={mounted}
+      onClose={handleClose}
+      omitCloseBox={true}
+      title="Copy and Edit Snapshot"
+    >
       {!hasSubmitted ? (
         <CreateCopyOfSnapshot {...props} />
       ) : (

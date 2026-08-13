@@ -146,7 +146,6 @@ export default function InfoSubmissionLog({ mounted, onClose, project }) {
       onClose={onClose}
       omitCloseBox={true}
       escapeExits={false}
-      initialFocus="#cancelButton"
       underlayClickExits={false}
     >
       <div className={classes.container}>
