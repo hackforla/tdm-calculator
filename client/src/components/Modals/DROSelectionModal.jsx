@@ -60,6 +60,7 @@ export default function DROSelectionModal({
       onClose={onClose}
       onConfirm={onConfirm}
       onChange={onChange}
+      omitCloseBox={true}
     >
       <div className={classes.container}>
         <div className={classes.heading1}>

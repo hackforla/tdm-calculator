@@ -43,7 +43,7 @@ export const jssTheme = {
       lineHeight: "40px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#231F20"
+      color: "#0F2940"
     },
     iconHeading1: {
       fontFamily: "Calibri",
@@ -52,7 +52,7 @@ export const jssTheme = {
       lineHeight: "40px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#231F20"
+      color: "#0F2940"
     },
     heading1: {
       fontFamily: "Calibri",
@@ -61,7 +61,7 @@ export const jssTheme = {
       lineHeight: "40px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#231F20",
+      color: "#0F2940",
       marginTop: 0
     },
     heading2: {
@@ -71,7 +71,7 @@ export const jssTheme = {
       lineHeight: "32px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#231F20"
+      color: "#0F2940"
     },
     heading3: {
       fontFamily: "Calibri",
@@ -80,7 +80,7 @@ export const jssTheme = {
       lineHeight: "28px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#231F20"
+      color: "#0F2940"
     },
     heading4: {
       fontFamily: "Calibri",
@@ -89,7 +89,7 @@ export const jssTheme = {
       lineHeight: "16px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#231F20"
+      color: "#0F2940"
     },
     subHeading: {
       fontFamily: "Calibri",
@@ -98,7 +98,7 @@ export const jssTheme = {
       lineHeight: "28px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#231F20"
+      color: "#0F2940"
     },
     paragraph1: {
       fontFamily: "Calibri",
@@ -107,7 +107,7 @@ export const jssTheme = {
       lineHeight: "20px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#231F20"
+      color: "#0F2940"
     },
     button: {
       fontFamily: "Calibri",
@@ -116,7 +116,7 @@ export const jssTheme = {
       lineHeight: "20px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#231F20"
+      color: "#0F2940"
     }
   },
   border: {

@@ -55,12 +55,7 @@ const DeleteArchivedAccountModal = ({ mounted, onClose, user }) => {
   }, [mounted]);
 
   return (
-    <ModalDialog
-      mounted={mounted}
-      onClose={onClose}
-      omitCloseBox={true}
-      initialFocus="#cancelButton"
-    >
+    <ModalDialog mounted={mounted} onClose={onClose} omitCloseBox={true}>
       <div className={classes.container}>
         <MdWarning alt="Warning" className={classes.warningIcon} />
         <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
