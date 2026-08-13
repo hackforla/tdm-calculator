@@ -49,6 +49,7 @@ export default function RenameSnapshotModal({
       mounted={mounted}
       onClose={onClose}
       initialFocus="#duplicateName"
+      omitCloseBox={true}
     >
       <div className={classes.container}>
         <div className={classes.heading1}>

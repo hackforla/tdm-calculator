@@ -135,6 +135,7 @@ const CsvModal = ({
         setFilename("dummy");
       }}
       initialFocus="#filename"
+      omitCloseBox={true}
     >
       <div className={classes.container}>
         <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>

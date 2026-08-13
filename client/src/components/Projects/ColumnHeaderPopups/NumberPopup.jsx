@@ -2,13 +2,24 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
-import { MdClose } from "react-icons/md";
+import CloseBox from "../../UI/CloseBox";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import { selectAllCheckboxes } from "helpers/util";
 
 const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "25rem",
+    color: theme.colorDarkNavy
+  },
+  closeBox: {
+    position: "absolute",
+    top: "0",
+    right: "0"
+  },
   searchBarWrapper: {
     width: "100%",
     position: "relative",
@@ -152,22 +163,12 @@ const NumberPopup = ({
   };
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", maxWidth: "25rem" }}
-    >
+    <div className={classes.container}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <MdClose
-          style={{
-            backgroundColor: "transparent",
-            color: theme.colorLADOTBlack,
-            cursor: "pointer",
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem",
-            fontSize: "24px"
-          }}
-          alt={`Close popup`}
+        <CloseBox
           onClick={close}
+          aria-label="Close popup"
+          className={classes.closeBox}
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
