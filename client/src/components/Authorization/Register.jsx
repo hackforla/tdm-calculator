@@ -18,7 +18,8 @@ import ContentContainer from "../Layout/ContentContainer";
 
 const useStyles = createUseStyles(theme => ({
   submitButton: {
-    float: "right"
+    display: "block",
+    justifySelf: "center"
   },
   authText: {
     color: theme.colorDarkNavy
@@ -61,26 +62,25 @@ const useStyles = createUseStyles(theme => ({
     marginBottom: 6
   },
   passwordWrapper: {
-    position: "relative",
+    display: "flex",
+    alignItems: "stretch",
     flex: 1,
     minWidth: 0,
     margin: "1rem 0"
   },
   passwordInput: {
-    paddingRight: "2.75rem !important",
+    flex: 1,
+    minWidth: 0,
+    width: "auto !important",
     margin: "0 !important"
   },
   eyeButton: {
-    position: "absolute",
-    right: 1,
-    top: 1,
-    bottom: 1,
     display: "flex",
     alignItems: "center",
     padding: "0 8px",
-    background: "white",
-    border: "none",
-    borderLeft: "1px solid lightgrey",
+    background: "transparent",
+    border: "1px solid lightgrey",
+    borderLeft: "none",
     cursor: "pointer",
     color: theme.colorDarkNavy,
     "& svg": {
@@ -126,7 +126,7 @@ const NameRules = ({ value, error, touched, focused, classes }) => {
           />
         ))}
       <span>
-        {error ||
+        {error &&
           "You can use letters, apostrophe, hyphen, period and space only"}
       </span>
     </div>
@@ -426,7 +426,14 @@ const Register = props => {
               validateOnChange={true}
               validateOnBlur={true}
             >
-              {({ touched, errors, values, isSubmitting, handleBlur }) => (
+              {({
+                touched,
+                errors,
+                values,
+                isSubmitting,
+                handleBlur,
+                isValid
+              }) => (
                 <Form>
                   {/* First Name */}
                   <div className={`form-group ${classes.formGroup}`}>
@@ -549,7 +556,6 @@ const Register = props => {
                           aria-label={
                             showPassword ? "Hide password" : "Show password"
                           }
-                          tabIndex={-1}
                         >
                           {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
@@ -603,7 +609,6 @@ const Register = props => {
                               ? "Hide password"
                               : "Show password"
                           }
-                          tabIndex={-1}
                         >
                           {showPasswordConfirm ? <FaEyeSlash /> : <FaEye />}
                         </button>
@@ -624,7 +629,7 @@ const Register = props => {
 
                   <Button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={!isValid || isSubmitting}
                     color="colorPrimary"
                     className={classes.submitButton}
                   >
