@@ -957,20 +957,26 @@ const ProjectsPage = ({ contentContainerRef }) => {
     {
       id: "checkAllProjects",
       label: (
-        <>
+        <div style={{ overflow: "visible" }}>
           <label htmlFor="SelectAllProject" className="sr-only">
             Select All Projects on Page
           </label>
           <input
             style={{
-              height: "15px"
+              position: "relative",
+              top: "0.2rem",
+              padding: "0",
+              height: "15px",
+              color: "white",
+              backgroundColor: "transparent",
+              border: "1px solid white"
             }}
             id="SelectAllProject"
             type="checkbox"
             checked={selectAllChecked}
             onChange={handleHeaderCheckbox}
           />
-        </>
+        </div>
       ),
       colWidth: "3rem"
     },
