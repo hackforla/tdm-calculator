@@ -43,7 +43,7 @@ cite {
 blockquote {
   font-weight: 700;
   background-color: #92cc4e;
-  color: #231f20;
+  color: #0f2980;
   padding: 1em 2em;
   margin-bottom: 1em;
   font-size: 1.25em;
@@ -149,7 +149,7 @@ input[type="checkbox"] {
 // default styles for  links, buttons, etc here?
 // import individual scss files below
 #root {
-  color: variables.$color-black;
+  color: variables.$color-primary;
   background-color: variables.$color-background;
 }
 
