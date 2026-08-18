@@ -130,7 +130,9 @@ app.use((err, req, res) => {
 app.use(errorHandler);
 
 if (process.env.TEST_ENV !== "true") {
-  app.listen(port, () => console.log(`Server running on port ${port}`));
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 }
 
 module.exports = app;
