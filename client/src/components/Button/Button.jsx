@@ -44,14 +44,14 @@ const useStyles = createUseStyles(theme => ({
     }
   },
   secondary: {
-    color: theme.colors.primary.black,
+    color: theme.colorLADOTBlack,
     backgroundColor: theme.colorDefault,
-    border: "1px solid " + theme.colors.primary.black,
+    border: "1px solid " + theme.colorLADOTBlack,
     boxShadow: "0px 4px 4px 0px" + theme.colorDropShadow,
     // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
     "&[disabled]": {
       color: theme.colorGray,
-      border: "1px solid " + theme.colors.secondary.mediumGray,
+      border: "1px solid " + theme.colors.secondary.gray,
       boxShadow: "none"
     },
     "&[disabled]:hover": {
@@ -63,7 +63,7 @@ const useStyles = createUseStyles(theme => ({
     }
   },
   tertiary: {
-    color: theme.colors.primary.black,
+    color: theme.colorLADOTBlack,
     // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
     boxShadow: "0px 4px 4px 0px" + theme.colorDropShadow,
     border: "none",

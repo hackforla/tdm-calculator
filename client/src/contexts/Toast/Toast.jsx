@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
+import CloseBox from "../../components/UI/CloseBox";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   toast: {
     border: "2px solid transparent",
     backgroundColor: "#a7c539",
@@ -25,19 +26,18 @@ const useStyles = createUseStyles({
     padding: "16px 24px",
     lineHeight: "1.4"
   },
-  button: {
-    border: "none",
+  closeBox: {
     backgroundColor: "transparent",
-    color: "#0F2940",
-    fontSize: "16px",
-    marginTop: "8px",
-    marginRight: "8px",
-    cursor: "pointer"
+    color: theme.colorLADOTBlack,
+    position: "absolute",
+    top: "0",
+    right: "0"
   }
-});
+}));
 
 const Toast = ({ children, remove, variant }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const removeRef = useRef();
   removeRef.current = remove;
 
@@ -68,9 +68,11 @@ const Toast = ({ children, remove, variant }) => {
     >
       <div className={classes.container}>{children}</div>
       <div>
-        <button onClick={remove} className={classes.button}>
-          X
-        </button>
+        <CloseBox
+          onClick={remove}
+          aria-label="Close popup"
+          className={classes.closeBox}
+        />
       </div>
     </div>
   );

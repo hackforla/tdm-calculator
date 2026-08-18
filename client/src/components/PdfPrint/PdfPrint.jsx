@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import {
   numberWithCommas,
@@ -18,11 +18,12 @@ import PdfFooter from "./PdfFooter";
 import logo from "../../images/ladot.png";
 import { formatId } from "helpers/util";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   Pdf: {
     margin: "1em !important",
     padding: "0 !important",
-    overflow: "hidden"
+    overflow: "hidden",
+    color: theme.colorPrintBlack
   },
   rule: {
     display: "flex",
@@ -66,7 +67,7 @@ const useStyles = createUseStyles({
   earnedPoints: {
     fontWeight: "600",
     fontSize: "14px",
-    color: "#000000",
+    color: theme.colorLADOT,
     paddingTop: "5px",
     alignItems: "baseline",
     width: "50%",
@@ -83,7 +84,7 @@ const useStyles = createUseStyles({
     height: "1.5em",
     marginBottom: "-.25em",
     padding: 0,
-    backgroundColor: "#FFFFFF"
+    backgroundColor: theme.colorLADOTBlack
   },
   projectInfoDetailsContainer: {
     paddingTop: "20px",
@@ -139,11 +140,12 @@ const useStyles = createUseStyles({
     gridColumn: "2",
     whiteSpace: "nowrap"
   }
-});
+}));
 
 // eslint-disable-next-line react/display-name
 export const PdfPrint = forwardRef((props, ref) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
 
   const { rules, project } = props;
 

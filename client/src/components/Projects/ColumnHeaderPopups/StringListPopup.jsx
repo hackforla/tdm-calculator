@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
-import { MdClose } from "react-icons/md";
-import { createUseStyles } from "react-jss";
+import CloseBox from "../../UI/CloseBox";
+import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import { selectAllCheckboxes } from "helpers/util";
 
@@ -11,7 +11,18 @@ import { selectAllCheckboxes } from "helpers/util";
 Variant of the StringPopup that is for text columns with a small number of choices that do not need the search box feature
 */
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "25rem",
+    color: theme.colorDarkNavy
+  },
+  closeBox: {
+    position: "absolute",
+    top: "0",
+    right: "0"
+  },
   searchBarWrapper: {
     width: "100%",
     position: "relative",
@@ -37,7 +48,7 @@ const useStyles = createUseStyles({
     height: "2rem",
     gap: "0.2em",
     "&:hover": {
-      backgroundColor: "lightblue"
+      backgroundColor: theme.colorRowHighlight
     },
     "& span": {
       maxWidth: "25ch",
@@ -57,7 +68,7 @@ const useStyles = createUseStyles({
     display: "flex",
     fontWeight: "normal"
   }
-});
+}));
 
 const TextPopup = ({
   projects,
@@ -73,7 +84,8 @@ const TextPopup = ({
   setSelectAllChecked
 }) => {
   const property = header.accessor || header.id;
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
@@ -147,20 +159,12 @@ const TextPopup = ({
   };
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", maxWidth: "25rem" }}
-    >
+    <div className={classes.container}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <MdClose
-          style={{
-            backgroundColor: "transparent",
-            color: "black",
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem"
-          }}
-          alt={`Close popup`}
+        <CloseBox
           onClick={close}
+          aria-label="Close popup"
+          className={classes.closeBox}
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -195,7 +199,7 @@ const TextPopup = ({
           >
             Select all {filteredOptions.length}
           </button>
-          <div style={{ display: "flex", alignItems: "center" }}>-</div>
+          <div style={{ display: "flex", alignItems: "center" }}>|</div>
           <button
             className={classes.toggleButton}
             onClick={() => setSelectedListItems([])}

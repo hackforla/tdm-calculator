@@ -20,7 +20,7 @@ import {
 } from "../../helpers/Constants";
 import { Td, TdExpandable } from "../UI/TableData";
 
-const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
+const DEFAULT_SORT_CRITERIA = [{ field: "dateStatus", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   idFormattedList: [],
@@ -109,8 +109,8 @@ const useStyles = createUseStyles(theme => ({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: theme.colors.secondary.darkNavy,
-    color: theme.colors.primary.white,
+    backgroundColor: theme.colorDarkNavy,
+    color: theme.colorWhite,
     "& th": {
       padding: "4px 12px"
     }
@@ -167,7 +167,7 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "center"
   },
   optionItems: {
-    backgroundColor: theme.colors.primary.white,
+    backgroundColor: theme.colorWhite,
     "&:hover": {
       backgroundColor: "silver"
     }
@@ -397,7 +397,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     { id: "onHold", label: "On Hold", popupType: "boolean", colWidth: "113px" },
     {
       id: "approvalStatusName",
-      label: "Approval Status",
+      label: "Submission Status",
       popupType: "stringList",
       colWidth: "240px"
     },
