@@ -26,8 +26,29 @@ The raw OpenAPI JSON is available at:
 http://localhost:PORT/api-docs.json
 ```
 
+When running the app through the Vite frontend on port `3000`, the frontend dev
+server proxies these docs routes to the backend:
+
+```text
+http://localhost:3000/api-docs
+http://localhost:3000/api-docs.json
+```
+
+When opening the backend directly, use the backend port. The default local
+backend port is `5001`:
+
+```text
+http://localhost:5001/api-docs
+http://localhost:5001/api-docs.json
+```
+
 Both routes require an authenticated `isAdmin` user. The API accepts JWT auth
 from either the `jwt` cookie or an `Authorization: Bearer <token>` header.
+API docs are never mounted when `NODE_ENV=production`; `/api-docs` and
+`/api-docs.json` return `404` in production.
+
+Swagger UI only enables "Try it out" for `GET` operations. Non-GET operations
+are documented for reference, but cannot be executed from the docs UI.
 
 ## Adding Endpoint Docs
 
