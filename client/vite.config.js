@@ -37,6 +37,16 @@ export default defineConfig({
         target: "http://localhost:5001",
         changeOrigin: true,
         secure: false
+      },
+      "/api-docs": {
+        target: "http://localhost:5001",
+        changeOrigin: true,
+        secure: false
+      },
+      "/api-docs.json": {
+        target: "http://localhost:5001",
+        changeOrigin: true,
+        secure: false
       }
     }
   }
