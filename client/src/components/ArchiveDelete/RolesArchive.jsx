@@ -263,7 +263,7 @@ const RolesArchive = ({ contentContainerRef }) => {
                 # of Submissions
               </th>
               <th className={classes.td}>Date Archived</th>
-              <td className={classes.tdCenter}></td>
+              <th aria-label="Options" className={classes.tdCenter}></th>
             </tr>
           </thead>
           <tbody className={classes.tbody}>
