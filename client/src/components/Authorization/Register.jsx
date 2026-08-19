@@ -19,7 +19,7 @@ import ContentContainer from "../Layout/ContentContainer";
 const useStyles = createUseStyles(theme => ({
   submitButton: {
     display: "block",
-    justifySelf: "center"
+    margin: "10px auto"
   },
   authText: {
     color: theme.colorDarkNavy
