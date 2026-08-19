@@ -5,8 +5,9 @@ import { useLocation } from "react-router";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useTheme } from "react-jss";
+import CloseBox from "../UI/CloseBox";
 import Popup from "reactjs-popup";
-import { MdClose, MdWarning } from "react-icons/md";
+import { MdWarning } from "react-icons/md";
 import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
 const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
@@ -137,8 +138,11 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
         >
           {close => {
             return (
-              <div style={{ margin: "1rem" }}>
-                <MdClose
+              <div
+                style={{ margin: "1rem", fontSize: "24px" }}
+                id={popupContentId}
+              >
+                <CloseBox
                   style={{
                     backgroundColor: "transparent",
                     color: theme.colors.secondary.gray,
@@ -150,7 +154,6 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
                   }}
                   onClick={close}
                 />
-                {/* </button> */}
                 <div style={{ display: "flex", margin: "0" }}>
                   <MdWarning
                     style={{

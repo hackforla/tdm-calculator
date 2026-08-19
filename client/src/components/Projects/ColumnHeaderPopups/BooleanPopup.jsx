@@ -1,9 +1,23 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { createUseStyles, useTheme } from "react-jss";
+
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
-import "react-datepicker/dist/react-datepicker.css";
-import { MdClose } from "react-icons/md";
+import CloseBox from "../../UI/CloseBox";
+
+const useStyles = createUseStyles(theme => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    color: theme.colorDarkNavy
+  },
+  closeBox: {
+    position: "absolute",
+    top: "0",
+    right: "0"
+  }
+}));
 
 const BooleanPopup = ({
   close,
@@ -16,6 +30,8 @@ const BooleanPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
@@ -46,29 +62,25 @@ const BooleanPopup = ({
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div className={classes.container}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <MdClose
-          style={{
-            backgroundColor: "transparent",
-            color: "black",
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem"
-          }}
-          alt={`Close popup`}
+        <CloseBox
           onClick={close}
+          aria-label="Close popup"
+          className={classes.closeBox}
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <RadioButton
-          label={header.label + " First"}
+          label={"Sort " + (header.trueLabel || header.label) + " First"}
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
         />
         <RadioButton
-          label={"Not " + header.label + " First"}
+          label={
+            "Sort " + (header.falseLabel || " Not " + header.label) + " First"
+          }
           value="asc"
           checked={newOrder === "asc"}
           onChange={() => setNewOrder("asc")}
@@ -78,7 +90,7 @@ const BooleanPopup = ({
       <div style={{ display: "flex", flexDirection: "column" }}>
         {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
         <RadioButton
-          label={header.label}
+          label={header.trueLabel || header.label}
           value={true}
           checked={criterionSetting == true}
           onChange={() => {
@@ -86,7 +98,7 @@ const BooleanPopup = ({
           }}
         />
         <RadioButton
-          label={"Not " + header.label}
+          label={header.falseLabel || "Not " + header.label}
           value={false}
           checked={criterionSetting === false}
           onChange={() => setCriterionSetting(false)}

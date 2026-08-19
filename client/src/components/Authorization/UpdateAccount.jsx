@@ -57,19 +57,39 @@ const UpdateAccount = props => {
         lastName,
         email
       );
+
       if (response.isSuccess) {
         setSubmitted(true);
         userContext.updateAccount({});
-      } else if (response.code === "REG_DUPLICATE_EMAIL") {
-        setErrorMsg(`The email ${email} is already registered. Please
-          login or use the Forgot Password feature if you have
-          forgotten your password.`);
-      } else {
-        setErrorMsg(`An error occurred in updating the account
-          for ${email}.`);
+        return;
+      }
+
+      switch (response.code) {
+        case "ERR_INVALID_ADMIN_DOMAIN":
+          setErrorMsg(response.message);
+          break;
+
+        case "ERR_DUPLICATE_EMAIL":
+          setErrorMsg(
+            `The email ${email} is already registered. Please login or use the Forgot Password feature.`
+          );
+          break;
+
+        case "ERR_VERIFICATION_EMAIL_FAILED":
+          setErrorMsg(
+            `Sending the verification email to your email address failed. Please contact technical support.`
+          );
+          break;
+
+        default:
+          setErrorMsg(
+            `An error occurred in updating the account for ${email}: ${response.message}`
+          );
+          break;
       }
     } catch (err) {
       setErrorMsg(err.message);
+    } finally {
       setSubmitting(false);
     }
   };

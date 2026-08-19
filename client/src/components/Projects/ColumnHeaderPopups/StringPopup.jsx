@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
-import { MdClose } from "react-icons/md";
+import CloseBox from "../../UI/CloseBox";
 import { MdOutlineSearch } from "react-icons/md";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import { selectAllCheckboxes } from "helpers/util";
 
@@ -17,7 +17,12 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     maxWidth: "25rem",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
+  },
+  closeBox: {
+    position: "absolute",
+    top: "0",
+    right: "0"
   },
   searchBarWrapper: {
     width: "100%",
@@ -44,7 +49,7 @@ const useStyles = createUseStyles(theme => ({
     height: "2rem",
     gap: "0.2em",
     "&:hover": {
-      backgroundColor: "lightblue"
+      backgroundColor: theme.colorRowHighlight
     },
     "& span": {
       maxWidth: "25ch",
@@ -63,7 +68,7 @@ const useStyles = createUseStyles(theme => ({
     textDecoration: "underline",
     display: "flex",
     fontWeight: "normal",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
   }
 }));
 
@@ -81,7 +86,8 @@ const StringPopup = ({
   setSelectAllChecked
 }) => {
   const property = header.accessor || header.id;
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
@@ -171,16 +177,10 @@ const StringPopup = ({
   return (
     <div className={classes.container}>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <MdClose
-          style={{
-            backgroundColor: "transparent",
-            color: "black",
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem"
-          }}
-          alt={`Close popup`}
+        <CloseBox
           onClick={close}
+          aria-label="Close popup"
+          className={classes.closeBox}
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -215,7 +215,7 @@ const StringPopup = ({
           >
             Select all {filteredOptions.length}
           </button>
-          <div style={{ display: "flex", alignItems: "center" }}>-</div>
+          <div style={{ display: "flex", alignItems: "center" }}>|</div>
           <button
             className={classes.toggleButton}
             onClick={() => setSelectedListItems([])}

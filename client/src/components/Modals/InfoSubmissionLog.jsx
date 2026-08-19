@@ -14,7 +14,7 @@ const useStyles = createUseStyles(theme => ({
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
   },
   tableContainer: {
     overflow: "auto",
@@ -31,8 +31,8 @@ const useStyles = createUseStyles(theme => ({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: theme.colors.primary.navy,
-    color: theme.colors.primary.white,
+    backgroundColor: theme.colorLADOT,
+    color: theme.colorWhite,
     "& td": {
       padding: "12px"
     }
@@ -52,7 +52,7 @@ const useStyles = createUseStyles(theme => ({
     marginBottom: "0.5rem"
   },
   tr: {
-    borderBottom: "1px solid " + theme.colors.secondary.mediumGray
+    borderBottom: "1px solid " + theme.colorMediumGray
   },
   thLeft: {
     color: theme.colorDefault,
@@ -101,7 +101,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-export default function InfoSubmissonLog({ mounted, onClose, project }) {
+export default function InfoSubmissionLog({ mounted, onClose, project }) {
   const theme = useTheme();
   const classes = useStyles(theme);
   const [projectLog, setProjectLog] = useState();
@@ -146,7 +146,6 @@ export default function InfoSubmissonLog({ mounted, onClose, project }) {
       onClose={onClose}
       omitCloseBox={true}
       escapeExits={false}
-      initialFocus="#cancelButton"
       underlayClickExits={false}
     >
       <div className={classes.container}>
@@ -279,7 +278,7 @@ export default function InfoSubmissonLog({ mounted, onClose, project }) {
               ) : (
                 <tr>
                   <td colSpan={9} className={classes.tdNoSavedProjects}>
-                    No Log Resords to Show
+                    No Log Records to Show
                   </td>
                 </tr>
               )}
@@ -296,7 +295,7 @@ export default function InfoSubmissonLog({ mounted, onClose, project }) {
   );
 }
 
-InfoSubmissonLog.propTypes = {
+InfoSubmissionLog.propTypes = {
   mounted: PropTypes.bool,
   onClose: PropTypes.func,
   project: PropTypes.any

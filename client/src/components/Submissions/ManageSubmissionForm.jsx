@@ -24,7 +24,7 @@ const useStyles = createUseStyles(theme => ({
     alignItems: "center",
     margin: "0 2rem",
     width: "80vw",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorText
   },
   columnContainer: {
     display: "flex",
@@ -52,7 +52,7 @@ const useStyles = createUseStyles(theme => ({
   },
   rowLabel: {
     ...theme.typography.paragraph1,
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
   },
   buttonFlexBox: {
     display: "flex",
@@ -132,7 +132,7 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
         droId: Number(droId),
         adminNotes,
         dateModifiedAdmin,
-        loginIdAssigned,
+        loginIdAssigned: loginIdAssigned ? Number(loginIdAssigned) : null, // UI may set to 0, make null for db
         dateAssigned,
         invoiceStatusId,
         dateInvoicePaid,
@@ -153,9 +153,9 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
   const formik = useFormik({
     initialValues: {
       ...project,
-      dateAssigned: toDate(project.dateAssigned),
-      dateInvoicePaid: toDate(project.dateInvoicePaid),
-      dateCoO: toDate(project.dateCoO)
+      dateAssigned: project.dateAssigned,
+      dateInvoicePaid: project.dateInvoicePaid,
+      dateCoO: project.dateCoO
     },
     validationSchema: validationSchema,
     onSubmit: values => {
@@ -289,7 +289,7 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
               />
             </div>
             <div className={classes.rowFlexBox}>
-              <span className={classes.rowLabel}>Approval Status</span>
+              <span className={classes.rowLabel}>Submission Status</span>
               <UniversalSelect
                 id="approvalStatusId"
                 name="approvalStatusId"
@@ -297,10 +297,6 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
                 onChange={formik.handleChange}
                 options={approvalStatuses}
                 className={classes.formInput}
-                // className={clsx(
-                //   classes.formInput,
-                //   errors.name && touched.name && classes.formErrorBorder
-                // )}
               />
             </div>
             <div className={classes.rowFlexBox}>
@@ -334,7 +330,7 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
               name="adminNotes"
               rows="26.5"
               id="adminNotes"
-              value={formik.values.adminNotes}
+              value={formik.values.adminNotes || ""}
               onChange={formik.handleChange}
               style={{ resize: "none", padding: "0.2rem" }}
             />

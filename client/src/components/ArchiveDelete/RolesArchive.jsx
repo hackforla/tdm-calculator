@@ -46,8 +46,8 @@ const useStyles = createUseStyles(theme => ({
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: theme.colors.secondary.darkNavy,
-    color: theme.colors.primary.white,
+    backgroundColor: theme.colorDarkNavy,
+    color: theme.colorWhite,
     "& th": {
       padding: "0.4em"
     }
@@ -75,7 +75,7 @@ const useStyles = createUseStyles(theme => ({
     padding: "0.2em 0.5em",
     borderRadius: "4px",
     "&:hover": {
-      backgroundColor: theme.colors.secondary.mediumGray
+      backgroundColor: theme.colorMediumGray
     }
   },
   popupContent: {
@@ -256,10 +256,10 @@ const RolesArchive = ({ contentContainerRef }) => {
             <tr className={classes.td}>
               <th className={classes.td}>Email</th>
               <th className={classes.td}>Name</th>
-              <th className={`${classes.td} ${classes.thheadLabel}`}>
+              <th className={`${classes.td} ${classes.theadLabel}`}>
                 # of Projects
               </th>
-              <th className={`${classes.td} ${classes.thheadLabel}`}>
+              <th className={`${classes.td} ${classes.theadLabel}`}>
                 # of Submissions
               </th>
               <th className={classes.td}>Date Archived</th>
@@ -325,7 +325,7 @@ const RolesArchive = ({ contentContainerRef }) => {
                         <div className={classes.popupContent}>
                           <RolesDeleteContextMenu
                             user={account}
-                            handleDeleteAchivedAccountModalOpen={() =>
+                            handleDeleteArchivedAccountModalOpen={() =>
                               handleDeleteWarningModalOpen(account)
                             }
                           />

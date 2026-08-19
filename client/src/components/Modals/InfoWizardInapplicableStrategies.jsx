@@ -40,7 +40,7 @@ const InapplicableStrategiesModal = props => {
     <ModalDialog
       mounted={inapplicableStrategiesModal}
       onClose={closeStrategiesModal}
-      showCloseBox={true}
+      omitCloseBox={true}
       escapeExits={false}
       underlayClickExits={false}
     >

@@ -7,9 +7,21 @@ const {
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation
 } = require("./email.service");
-const { v4: uuid4 } = require("uuid");
+const allowedAdminDomains = process.env.ALLOWED_ADMIN_EMAIL_DOMAINS.split(",");
 
 const SALT_ROUNDS = 10;
+
+const selectById = async id => {
+  await poolConnect;
+  const request = pool.request();
+  request.input("id", mssql.Int, id);
+  const response = await request.execute("Login_SelectById");
+
+  if (response.recordset && response.recordset.length > 0) {
+    return response.recordset[0];
+  }
+  return null;
+};
 
 const selectAll = async () => {
   try {
@@ -21,22 +33,6 @@ const selectAll = async () => {
     return Promise.reject(err);
   }
 };
-
-// const selectById = async id => {
-//   try {
-//     await poolConnect;
-//     const request = pool.request();
-//     request.input("Id", mssql.Int, id);
-
-//     const response = await request.execute("Login_SelectById");
-//     if (response.recordset && response.recordset.length > 0) {
-//       return response.recordset[0];
-//     }
-//     return null;
-//   } catch (err) {
-//     return Promise.reject(err);
-//   }
-// };
 
 const selectByEmail = async email => {
   try {
@@ -94,9 +90,58 @@ const register = async model => {
   }
 };
 
-const updateAccount = async model => {
-  const token = uuid4();
+const validateAuthorizedEmail = (email, user) => {
+  const isPrivilegedUser = user.isAdmin || user.isSecurityAdmin;
+  if (!isPrivilegedUser) return;
+
+  const emailDomain = email.toLowerCase().trim().split("@")[1];
+
+  if (!allowedAdminDomains.includes(emailDomain)) {
+    const error = new Error(
+      "Invalid email domain. Personal or unverified domains are restricted."
+    );
+    error.code = "ERR_INVALID_ADMIN_DOMAIN";
+    throw error;
+  }
+};
+
+const validateUniqueEmail = async (email, currentUserId) => {
+  const trimmedEmail = email.toLowerCase().trim();
+  const existingEmailCheck = await selectByEmail(trimmedEmail);
+
+  if (existingEmailCheck && existingEmailCheck.id !== currentUserId) {
+    const error = new Error(
+      `The email ${email} is already in use by another account.`
+    );
+    error.code = "ERR_DUPLICATE_EMAIL";
+    throw error;
+  }
+};
+
+const handleVerifyUpdateConfirmation = async (email, token) => {
   try {
+    await sendVerifyUpdateConfirmation(email, token);
+  } catch (err) {
+    const error = new Error(
+      `Failed to send verification email: ${err.message}`
+    );
+    error.code = "ERR_VERIFICATION_EMAIL_FAILED";
+    throw error;
+  }
+};
+
+const updateAccount = async model => {
+  try {
+    const user = await selectById(model.id);
+    if (!user) {
+      const error = new Error("User record not found.");
+      error.code = "USER_NOT_FOUND";
+      throw error;
+    }
+
+    validateAuthorizedEmail(model.email, user);
+    await validateUniqueEmail(model.email, model.id);
+
     await poolConnect;
     const request = pool.request();
     request.input("id", mssql.Int, model.id);
@@ -104,16 +149,19 @@ const updateAccount = async model => {
     request.input("LastName", mssql.NVarChar, model.lastName);
     request.input("Email", mssql.NVarChar, model.email);
     await request.execute("Login_Update");
-    await sendVerifyUpdateConfirmation(model.email, token);
+
+    const token = crypto.randomUUID();
+    await handleVerifyUpdateConfirmation(model.email, token);
+
     return {
       isSuccess: true,
       code: "ACCOUNT_UPDATE_SUCCESS",
-      message: "Account Updates."
+      message: "Account updates succeeded."
     };
   } catch (err) {
     return {
       isSuccess: false,
-      code: "ACCOUNT_UPDATE_SUCCESS",
+      code: err.code || "ACCOUNT_UPDATE_FAILED",
       message: `Account updates failed. ${err.message}`
     };
   }
@@ -149,7 +197,7 @@ const resendConfirmationEmail = async email => {
 // Generate security token and transmit registration
 // confirmation email
 const requestRegistrationConfirmation = async (email, result) => {
-  const token = uuid4();
+  const token = crypto.randomUUID();
   try {
     await poolConnect;
     const request = pool.request();
@@ -265,7 +313,7 @@ const forgotPassword = async model => {
 // Generate security token and transmit password reset
 // confirmation email
 const requestResetPasswordConfirmation = async (email, result) => {
-  const token = uuid4();
+  const token = crypto.randomUUID();
   try {
     await poolConnect;
     const request = pool.request();
@@ -409,6 +457,7 @@ const addLastLoginDate = async loginId => {
     return null;
   }
 };
+
 const updateRoles = async model => {
   try {
     await poolConnect;
@@ -599,6 +648,53 @@ const deleteUser = async id => {
   }
 };
 
+const cleanupInactive = async () => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    const selectResult = await request.execute(
+      "Login_SelectInactiveForCleanup"
+    );
+    const inactiveAccounts = selectResult.recordset;
+
+    let deletedCount = 0;
+    let failedCount = 0;
+    const errors = [];
+
+    for (const account of inactiveAccounts) {
+      try {
+        const delResult = await deleteUser(account.id);
+        if (delResult.isSuccess) {
+          deletedCount++;
+        } else {
+          failedCount++;
+          errors.push({
+            id: account.id,
+            email: account.email,
+            message: delResult.message
+          });
+        }
+      } catch (err) {
+        failedCount++;
+        errors.push({
+          id: account.id,
+          email: account.email,
+          message: err.message || err.toString()
+        });
+      }
+    }
+
+    return {
+      isSuccess: true,
+      deletedCount,
+      failedCount,
+      errors
+    };
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 async function hashPassword(user) {
   if (!user.password) throw user.invalidate("password", "password is required");
   if (user.password.length < 8)
@@ -611,6 +707,7 @@ module.exports = {
   addLastLoginDate,
   archiveUser,
   authenticate,
+  cleanupInactive,
   confirmRegistration,
   deleteUser,
   forgotPassword,

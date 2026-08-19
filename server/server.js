@@ -5,7 +5,11 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("error-handler");
 const routes = require("./app/routes");
-// const helmet = require("helmet");
+const jwtSession = require("./middleware/jwt-session");
+const helmet = require("helmet");
+const { truncate } = require("fs");
+const swaggerUi = require("swagger-ui-express");
+const { openapiSpec, swaggerUiOptions } = require("./app/docs/openapi");
 // const pino = require("express-pino-logger")();
 
 dotenv.config();
@@ -13,25 +17,44 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
+const helmetConfig = {
+  useDefaults: truncate,
+  contentSecurityPolicy: {
+    useDefaults: false,
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-eval'",
+        "'unsafe-inline'",
+        "https://navbar.lacity.org",
+        "https://www.googletagmanager.com"
+      ],
+      objectSrc: ["'none'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "https://www.googletagmanager.com"],
+      fontSrc: [
+        "'self'",
+        "https://fonts.googleapis.com",
+        "https://fonts.gstatic.com"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://www.google-analytics.com",
+        "https://google.com"
+      ],
+      upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
+    },
+    reportOnly: false
+  }
+};
+
 // const helmetConfig = {
 //   useDefaults: true,
-//   contentSecurityPolicy: {
-//     useDefaults: true,
-//     directives: {
-//       defaultSrc: ["'self'"],
-//       scriptSrc: ["'self'", "'https://navbar.lacity.org'"],
-//       objectSrc: ["'none'"],
-//       styleSrc: ["'self'", "'unsafe-inline'"],
-//       fontSrc: ["'self'", "https://fonts.googleapis.com"],
-//       imgSrc: ["'self'", "data:", "https://tdm.ladot.lacity.org"],
-//       connectSrc: ["'self'"], // Add other domains as needed
-//       upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null
-//     },
-//     reportOnly: false
-//   }
+//   contentSecurityPolicy: false
 // };
 
-// app.use(helmet(helmetConfig));
+app.use(helmet(helmetConfig));
 // app.use(pino);
 
 if (process.env.NODE_ENV === "production") {
@@ -71,8 +94,29 @@ app.use(express.static("public"));
 // {extended: true} option.
 app.use(express.urlencoded({ extended: false }));
 
+const apiDocsEnabled =
+  process.env.ENABLE_API_DOCS === "true" &&
+  process.env.NODE_ENV !== "production";
+
 // Web API routes
 app.use("/api", routes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use("/api-docs", (_req, res) => res.sendStatus(404));
+  app.all("/api-docs.json", (_req, res) => res.sendStatus(404));
+} else if (apiDocsEnabled) {
+  app.get(
+    "/api-docs.json",
+    jwtSession.validateRoles(["isAdmin"]),
+    (_req, res) => res.json(openapiSpec)
+  );
+  app.use(
+    "/api-docs",
+    jwtSession.validateRoles(["isAdmin"]),
+    swaggerUi.serve,
+    swaggerUi.setup(openapiSpec, swaggerUiOptions)
+  );
+}
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
@@ -93,7 +137,9 @@ app.use((err, req, res) => {
 app.use(errorHandler);
 
 if (process.env.TEST_ENV !== "true") {
-  app.listen(port, () => console.log(`Server running on port ${port}`));
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 }
 
 module.exports = app;

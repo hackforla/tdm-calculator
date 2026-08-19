@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import "react-datepicker/dist/react-datepicker.css";
 import {
   MdOutlineFilterAlt,
   MdOutlineSwitchRight,
@@ -16,6 +15,7 @@ import NumberPopup from "./NumberPopup";
 import BooleanPopup from "./BooleanPopup";
 import VisibilityPopup from "./VisibilityPopup";
 import StatusPopup from "./StatusPopup";
+import VersionPopup from "./VersionPopup";
 import { useTheme } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({
@@ -46,7 +46,7 @@ const useStyles = createUseStyles(theme => ({
   },
   popoverContent: {
     ...theme.typography.paragraph1,
-    color: theme.colorBlack,
+    color: theme.colorLADOTBlack,
     textAlign: "left",
     backgroundColor: theme.colorWhite,
     borderWidth: "1px",
@@ -54,7 +54,8 @@ const useStyles = createUseStyles(theme => ({
     borderRadius: "5px",
     padding: "20px",
     boxShadow:
-      "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
+      "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)",
+    overflow: "auto"
   }
 }));
 
@@ -107,7 +108,8 @@ const ProjectTableColumnHeader = ({
   setSort,
   setCheckedProjectIds,
   setSelectAllChecked,
-  droOptions
+  droOptions,
+  calculations
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -133,7 +135,8 @@ const ProjectTableColumnHeader = ({
       header.popupType === "text" ||
       header.popupType === "string" ||
       header.popupType === "number" ||
-      header.popupType === "stringList"
+      header.popupType === "stringList" ||
+      header.popupType === "version"
     ) {
       const listPropertyName = propertyName + "List";
       const listValue = criteria[listPropertyName];
@@ -156,7 +159,7 @@ const ProjectTableColumnHeader = ({
       return criteria.visibility !== "visible";
     }
     if (header.id === "dateSnapshotted") {
-      return criteria.type !== "all" || criteria.status !== "active";
+      return criteria.type !== "all";
     }
     if (header.id === "dro") {
       return criteria.droList?.length > 0; // Use optional chaining
@@ -355,6 +358,21 @@ const ProjectTableColumnHeader = ({
                   setSort={setSort}
                   setCheckedProjectIds={setCheckedProjectIds}
                   setSelectAllChecked={setSelectAllChecked}
+                />
+              ) : header.popupType === "version" ? (
+                <VersionPopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
+                  projects={projects}
+                  filter={filter}
+                  calculations={calculations}
                 />
               ) : null}
             </div>

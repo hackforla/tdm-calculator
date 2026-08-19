@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
-import "react-datepicker/dist/react-datepicker.css";
-import { MdClose } from "react-icons/md";
+import CloseBox from "../../UI/CloseBox";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
+  },
+  closeBox: {
+    position: "absolute",
+    top: "0",
+    right: "0"
   }
 }));
 
@@ -61,17 +65,16 @@ const VisibilityPopup = ({
 
   return (
     <div className={classes.container}>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <MdClose
-          style={{
-            backgroundColor: "transparent",
-            color: "black",
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem"
-          }}
-          alt={`Close popup`}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+      >
+        <CloseBox
           onClick={close}
+          aria-label="Close popup"
+          className={classes.closeBox}
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>

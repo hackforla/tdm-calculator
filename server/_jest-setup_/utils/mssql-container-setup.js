@@ -15,7 +15,9 @@ let connection;
 const setupContainer = async () => {
   try {
     console.log("Starting the MS SQL Server container...");
-    container = await new MSSQLServerContainer()
+    container = await new MSSQLServerContainer(
+      "mcr.microsoft.com/mssql/server:2022-CU13-ubuntu-22.04"
+    )
       .withWaitForMessage(/.*Attribute synchronization manager initialized*/)
       .acceptLicense()
       .withPassword(DB_PASSWORD)

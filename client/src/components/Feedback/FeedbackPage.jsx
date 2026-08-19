@@ -70,7 +70,7 @@ const useStyles = createUseStyles(theme => ({
     padding: 0
   },
   asterisk: {
-    color: theme.colors.secondary.darkRed
+    color: theme.colorDarkRed
   }
 }));
 

@@ -2,10 +2,9 @@ import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
-import "react-datepicker/dist/react-datepicker.css";
-import { MdClose } from "react-icons/md";
+import CloseBox from "../../UI/CloseBox";
 import { MdOutlineSearch } from "react-icons/md";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import UserContext from "contexts/UserContext";
 import { selectAllCheckboxes } from "helpers/util";
@@ -15,7 +14,12 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     maxWidth: "25rem",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
+  },
+  closeBox: {
+    position: "absolute",
+    top: "0",
+    right: "0"
   },
   searchBarWrapper: {
     width: "100%",
@@ -42,7 +46,7 @@ const useStyles = createUseStyles(theme => ({
     height: "2rem",
     gap: "0.2em",
     "&:hover": {
-      backgroundColor: "lightblue"
+      backgroundColor: theme.color
     },
     "& span": {
       maxWidth: "25ch",
@@ -61,7 +65,7 @@ const useStyles = createUseStyles(theme => ({
     textDecoration: "underline",
     display: "flex",
     fontWeight: "normal",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
   }
 }));
 
@@ -79,6 +83,8 @@ const TextPopup = ({
   setSelectAllChecked,
   droOptions
 }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const property = header.accessor || header.id;
   const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
@@ -96,7 +102,6 @@ const TextPopup = ({
     }
     return displayValue;
   };
-  const classes = useStyles();
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
@@ -213,17 +218,16 @@ const TextPopup = ({
 
   return (
     <div className={classes.container}>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <MdClose
-          style={{
-            backgroundColor: "transparent",
-            color: "black",
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem"
-          }}
-          alt={`Close popup`}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+      >
+        <CloseBox
           onClick={close}
+          aria-label="Close popup"
+          className={classes.closeBox}
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -258,7 +262,7 @@ const TextPopup = ({
           >
             Select all {filteredOptions.length}
           </button>
-          <div style={{ display: "flex", alignItems: "center" }}>-</div>
+          <div style={{ display: "flex", alignItems: "center" }}>|</div>
           <button
             className={classes.toggleButton}
             onClick={() => setSelectedListItems([])}

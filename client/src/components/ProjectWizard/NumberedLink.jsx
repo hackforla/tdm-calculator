@@ -12,7 +12,7 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colorLADOTBlack,
     textDecoration: "none",
     cursor: "pointer",
-    margin: "0.2em 0.1em",
+    // margin: "0.2em 0.1em",
     padding: "0.6em 0.8em",
     "&[aria-disabled='true'], &[disabled]": {
       color: theme.colorGray,
@@ -25,7 +25,11 @@ const useStyles = createUseStyles(theme => ({
     fontWeight: 700,
     fontSize: "25px",
     color: theme.colorLADOTBlack,
-    cursor: "default"
+    cursor: "default",
+    textAlign: "center"
+  },
+  styleSmall: {
+    padding: "0.3em 0.4em"
   }
 }));
 
@@ -38,7 +42,8 @@ const NumberedLink = ({
   ariaLabel = undefined,
   id,
   href = "#",
-  isActive = false
+  isActive = false,
+  styleSmall = false
 }) => {
   const classes = useStyles();
 
@@ -46,7 +51,12 @@ const NumberedLink = ({
 
   return (
     <a
-      className={clsx(classes.link, isActive && classes.activeLink, className)}
+      className={clsx(
+        classes.link,
+        isActive && classes.activeLink,
+        isActive && styleSmall && classes.styleSmall,
+        className
+      )}
       onClick={e => {
         e.preventDefault();
         if (disabled || isActive) {
@@ -76,7 +86,8 @@ NumberedLink.propTypes = {
   ariaLabel: PropTypes.string,
   id: PropTypes.string,
   href: PropTypes.string,
-  isActive: PropTypes.bool
+  isActive: PropTypes.bool,
+  styleSmall: PropTypes.bool
 };
 
 export default NumberedLink;
