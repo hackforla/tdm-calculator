@@ -109,6 +109,7 @@ export const jssTheme = {
       textAlign: "center",
       color: "#0F2940"
     },
+    // Button text should be medium black
     button: {
       fontFamily: "Calibri",
       fontSize: "16px",
@@ -116,7 +117,7 @@ export const jssTheme = {
       lineHeight: "20px",
       letterSpacing: "0.01em",
       textAlign: "center",
-      color: "#0F2940"
+      color: "#231F20"
     }
   },
   border: {

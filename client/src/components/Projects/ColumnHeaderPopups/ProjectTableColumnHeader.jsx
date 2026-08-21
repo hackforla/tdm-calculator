@@ -46,7 +46,7 @@ const useStyles = createUseStyles(theme => ({
   },
   popoverContent: {
     ...theme.typography.paragraph1,
-    color: theme.colorLADOTBlack,
+    color: theme.colorText,
     textAlign: "left",
     backgroundColor: theme.colorWhite,
     borderWidth: "1px",
