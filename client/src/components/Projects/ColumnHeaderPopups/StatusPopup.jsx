@@ -8,8 +8,7 @@ import { createUseStyles, useTheme } from "react-jss";
 const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
-    flexDirection: "column",
-    color: theme.colorDarkNavy
+    flexDirection: "column"
   },
   closeBox: {
     position: "absolute",
