@@ -263,7 +263,7 @@ const RolesArchive = ({ contentContainerRef }) => {
                 # of Submissions
               </th>
               <th className={classes.td}>Date Archived</th>
-              <th className={classes.tdCenter}></th>
+              <th aria-label="Options" className={classes.tdCenter}></th>
             </tr>
           </thead>
           <tbody className={classes.tbody}>
@@ -303,6 +303,7 @@ const RolesArchive = ({ contentContainerRef }) => {
                             account?.isSecurityAdmin ||
                             account?.id === loggedInUserId
                           }
+                          aria-label={`Options for ${account?.email}`}
                         >
                           <MdMoreVert alt={`Options for ${account?.email}`} />
                         </button>

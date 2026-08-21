@@ -419,13 +419,19 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleCopyModalClose = async (action, newProjectName) => {
     if (action === "ok") {
-      if (isAdmin && !selectedProject.targetPoints) {
+      // When the pre-computed columns (targetPoints, earnedPoints and projectLevell)
+      // have not actually been pre-computed, we need to force their computation
+      // and
+      // store the result to the db  before proceeding.
+      if (!selectedProject.targetPoints && selectedProject.targetPoints !== 0) {
         await projectResultService.populateTargetPoints(selectedProject.id);
       }
       const projectFormInputsAsJson = {
         ...JSON.parse(selectedProject.formInputs),
         PROJECT_NAME: newProjectName
       };
+      // Re-fetch project data, in case changes were made between the time the db
+      // was queried for projects and the execution of this operation.
       const { data } = await projectService.getById(selectedProject.id);
       const newProject = {
         ...data,
