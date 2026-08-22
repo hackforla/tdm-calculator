@@ -5,6 +5,8 @@ import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 
+// Appears to be obsolete
+
 const useStyles = createUseStyles({
   searchBarWrapper: {
     position: "relative",
