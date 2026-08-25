@@ -7,7 +7,9 @@ const {
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation
 } = require("./email.service");
-const allowedAdminDomains = process.env.ALLOWED_ADMIN_EMAIL_DOMAINS.split(",");
+const allowedAdminDomains = process.env.ALLOWED_ADMIN_EMAIL_DOMAINS
+  ? process.env.ALLOWED_ADMIN_EMAIL_DOMAINS.split(",")
+  : ["dispostable.com"];
 
 const SALT_ROUNDS = 10;
 
@@ -148,15 +150,34 @@ const updateAccount = async model => {
     request.input("FirstName", mssql.NVarChar, model.firstName);
     request.input("LastName", mssql.NVarChar, model.lastName);
     request.input("Email", mssql.NVarChar, model.email);
-    await request.execute("Login_Update");
 
-    const token = crypto.randomUUID();
-    await handleVerifyUpdateConfirmation(model.email, token);
+    await request.execute("Login_Update");
+    const updatedUser = await selectByEmail(model.email);
+
+    if (user.email !== model.email) {
+      const token = crypto.randomUUID();
+      await handleVerifyUpdateConfirmation(model.email, token);
+
+      return {
+        isSuccess: true,
+        code: "ACCOUNT_EMAIL_UPDATE_SUCCESS",
+        message: "Account updates succeeded."
+      };
+    }
 
     return {
       isSuccess: true,
       code: "ACCOUNT_UPDATE_SUCCESS",
-      message: "Account updates succeeded."
+      message: "Account updates succeeded.",
+      user: {
+        id: updatedUser.id,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        emailConfirmed: updatedUser.emailConfirmed,
+        isSecurityAdmin: updatedUser.isSecurityAdmin
+      }
     };
   } catch (err) {
     return {
