@@ -7,9 +7,7 @@ const {
   sendRegistrationConfirmation,
   sendResetPasswordConfirmation
 } = require("./email.service");
-const allowedAdminDomains = process.env.ALLOWED_ADMIN_EMAIL_DOMAINS
-  ? process.env.ALLOWED_ADMIN_EMAIL_DOMAINS.split(",")
-  : ["dispostable.com"];
+const allowedAdminDomains = process.env.ALLOWED_ADMIN_EMAIL_DOMAINS.split(",");
 
 const SALT_ROUNDS = 10;
 
