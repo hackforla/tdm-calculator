@@ -279,14 +279,7 @@ PasswordRules.propTypes = {
   }).isRequired
 };
 
-const ConfirmPasswordRule = ({
-  password,
-  confirmPassword,
-  touched,
-  classes
-}) => {
-  if (!touched) return null;
-
+const ConfirmPasswordRule = ({ password, confirmPassword, classes }) => {
   const hasValue = confirmPassword.length > 0;
 
   return (
@@ -315,10 +308,6 @@ const ConfirmPasswordRule = ({
 ConfirmPasswordRule.propTypes = {
   password: PropTypes.string,
   confirmPassword: PropTypes.string,
-  touched: PropTypes.bool,
-  length: PropTypes.number,
-  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  value: PropTypes.string.isRequired,
   classes: PropTypes.shape({
     fieldIcon: PropTypes.string.isRequired,
     validIcon: PropTypes.string.isRequired,
@@ -627,12 +616,16 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    <ConfirmPasswordRule
-                      password={values.password}
-                      confirmPassword={values.passwordConfirm}
-                      touched={touched.passwordConfirm}
-                      classes={classes}
-                    />
+                    {(focusField === "passwordConfirm" ||
+                      (touched.passwordConfirm && errors.passwordConfirm)) && (
+                      <ConfirmPasswordRule
+                        password={values.password}
+                        confirmPassword={values.passwordConfirm}
+                        touched={touched.passwordConfirm}
+                        focused={focusField === "passwordConfirm"}
+                        classes={classes}
+                      />
+                    )}
                   </div>
 
                   <Button
