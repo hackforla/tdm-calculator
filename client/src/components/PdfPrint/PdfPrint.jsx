@@ -23,7 +23,7 @@ const useStyles = createUseStyles(theme => ({
     margin: "1em !important",
     padding: "0 !important",
     overflow: "hidden",
-    color: theme.colorLADOTBlack
+    color: theme.colorPrintBlack
   },
   rule: {
     display: "flex",
