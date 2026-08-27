@@ -23,11 +23,11 @@ GO
 
 
 
-CREATE TABLE [dbo].[LoginUpdateHistory]
+CREATE TABLE [dbo].[LoginEmailChangeHistory]
 (
     [id] [int] IDENTITY(1,1) NOT NULL,
-    [userId] [int] NOT NULL INDEX IX_LoginUpdateHistory_UserId NONCLUSTERED,
-    [requestedEmail] [nvarchar](100) NOT NULL INDEX IX_LoginUpdateHistory_RequestedEmail NONCLUSTERED,
+    [userId] [int] NOT NULL INDEX IX_LoginEmailChangeHistory_UserId NONCLUSTERED,
+    [requestedEmail] [nvarchar](100) NOT NULL INDEX IX_LoginEmailChangeHistory_RequestedEmail NONCLUSTERED,
     [activeEmail] [nvarchar](100) NULL,
     [lastActiveEmail] [nvarchar](100) NULL,
     [dateRequested] [datetime2](7) NOT NULL DEFAULT (SYSUTCDATETIME()),
@@ -50,7 +50,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE OR ALTER PROCEDURE [dbo].[LoginUpdateHistory_Insert]
+CREATE OR ALTER PROCEDURE [dbo].[LoginEmailChangeHistory_Insert]
     @userId INT,
     @requestedEmail NVARCHAR(100),
     @currentEmail NVARCHAR(100)
@@ -62,12 +62,12 @@ BEGIN
         BEGIN TRANSACTION;
 
         -- Invalidate any prior pending change requests for this user
-        DELETE FROM [dbo].[LoginUpdateHistory]
+        DELETE FROM [dbo].[LoginEmailChangeHistory]
         WHERE [userId] = @userId
           AND [dateChanged] IS NULL;
 
     
-        INSERT INTO [dbo].[LoginUpdateHistory]
+        INSERT INTO [dbo].[LoginEmailChangeHistory]
         (
             [userId],
             [requestedEmail],
@@ -111,7 +111,7 @@ BEGIN
         -- Find the user ID for most recent change request 
         SELECT TOP (1) 
             @userId = [userId]
-        FROM [dbo].[LoginUpdateHistory]
+        FROM [dbo].[LoginEmailChangeHistory]
         WHERE [requestedEmail] = @email
           AND [dateChanged] IS NULL
         ORDER BY [dateRequested] DESC;
@@ -133,8 +133,8 @@ BEGIN
                 [emailConfirmed] = 1
             WHERE [id] = @userId;
 
-            -- Update history record in LoginUpdateHistory table
-            UPDATE [dbo].[LoginUpdateHistory]
+            -- Update history record in LoginEmailChangeHistory table
+            UPDATE [dbo].[LoginEmailChangeHistory]
             SET 
                 [lastActiveEmail] = [activeEmail],
                 [activeEmail] = @email,
@@ -162,7 +162,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE OR ALTER PROCEDURE [dbo].[LoginUpdateHistory_SelectByRecentRequestedEmail]
+CREATE OR ALTER PROCEDURE [dbo].[LoginEmailChangeHistory_SelectByRecentPendingEmail]
     @requestedEmail NVARCHAR(100)
 AS
 BEGIN
@@ -176,9 +176,73 @@ BEGIN
         [lastActiveEmail],
         [dateRequested],
         [dateChanged]
-    FROM [dbo].[LoginUpdateHistory]
+    FROM [dbo].[LoginEmailChangeHistory]
     WHERE [requestedEmail] = @requestedEmail
     ORDER BY [dateRequested] DESC;
+END;
+GO
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[Login_SelectByEmailAndPendingEmail]
+    @email NVARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Check active account in Login table
+    IF EXISTS (SELECT 1 FROM [dbo].[Login] WHERE [email] = @email)
+    BEGIN
+        SELECT 
+            [id], 
+            [firstName], 
+            [lastName], 
+            [email], 
+            [dateCreated],
+            [emailConfirmed], 
+            [isAdmin], 
+            [passwordHash], 
+            [isSecurityAdmin],
+            [archivedAt], 
+            [isDro]
+        FROM [dbo].[Login]
+        WHERE [email] = @email;
+
+        RETURN;
+    END;
+
+    -- Check if pending change request in LoginEmailChangeHistory
+    DECLARE @userId INT;
+
+    SELECT TOP (1) 
+        @userId = [userId]
+    FROM [dbo].[LoginEmailChangeHistory]
+    WHERE [requestedEmail] = @email
+      AND [dateChanged] IS NULL
+    ORDER BY [dateRequested] DESC;
+
+    -- If found as a pending request, return the user record using userId
+    IF @userId IS NOT NULL
+    BEGIN
+        SELECT 
+            [id], 
+            [firstName], 
+            [lastName], 
+            [email], 
+            [dateCreated],
+            [emailConfirmed], 
+            [isAdmin], 
+            [passwordHash], 
+            [isSecurityAdmin],
+            [archivedAt], 
+            [isDro]
+        FROM [dbo].[Login]
+        WHERE [id] = @userId;
+    END;
 END;
 GO
 
@@ -206,7 +270,7 @@ BEGIN
 
         DELETE FROM [dbo].[Project] WHERE [loginId] = @id;
         DELETE FROM [dbo].[LoginHistory] WHERE [loginId] = @id;
-        DELETE FROM [dbo].[LoginUpdateHistory] WHERE [userId] = @id;
+        DELETE FROM [dbo].[LoginEmailChangeHistory] WHERE [userId] = @id;
 
         -- Delete the parent user record
         DELETE FROM [dbo].[Login] WHERE [id] = @id;

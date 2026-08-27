@@ -152,7 +152,7 @@ const updateAccount = async model => {
 
     const updatedUser = await selectByEmail(model.email); // get updated user data
 
-    // if requesting email change, send verification request
+    // if requesting email change, upddate change history log send email verification request
     if (user.email !== model.email) {
       const token = crypto.randomUUID();
 
@@ -161,7 +161,7 @@ const updateAccount = async model => {
       emailChangeRequest.input("RequestedEmail", mssql.NVarChar, model.email);
       emailChangeRequest.input("ActiveEmail", mssql.NVarChar, user.email);
 
-      await request.execute("LoginUpdateHistory_Insert");
+      await request.execute("LoginEmailChangeHistory_Insert");
       await handleVerifyUpdateConfirmation(model.email, token);
 
       return {
@@ -198,24 +198,13 @@ const updateAccount = async model => {
 const resendConfirmationEmail = async email => {
   try {
     await poolConnect;
-
-    const pendingEmailRequest = pool.request();
-    pendingEmailRequest.input("email", mssql.NVarChar(100), email);
-    const pendingEmailResponse = await pendingEmailRequest.execute(
-      "LoginUpdateHistory_SelectByRecentRequestedEmail"
+    const emailRequest = pool.request();
+    emailRequest.input("email", mssql.NVarChar(100), email);
+    const emailResponse = await emailRequest.execute(
+      "Login_SelectByEmailAndPendingEmail"
     );
+    const userRecord = emailResponse.recordset[0];
 
-    let userRecord = pendingEmailResponse.recordset[0];
-
-    // check login table if no pending requests for email change
-    if (!userRecord) {
-      const loginRequest = pool.request();
-      loginRequest.input("email", mssql.NVarChar(100), email);
-      const loginResponse = await loginRequest.execute("Login_SelectByEmail");
-      userRecord = loginResponse.recordset[0];
-    }
-
-    // if no record in either table, user not found
     if (!userRecord) {
       return {
         isSuccess: false,
@@ -227,7 +216,7 @@ const resendConfirmationEmail = async email => {
     const result = {
       isSuccess: true,
       code: "REG_SUCCESS",
-      newId: userRecord.userId || userRecord.id,
+      newId: userRecord.id,
       message: "Account found."
     };
 
@@ -305,14 +294,18 @@ const confirmRegistration = async token => {
     const loginChangeHistoryRequest = pool.request();
     loginChangeHistoryRequest.input("email", mssql.NVarChar(100), email);
     const loginChangeHistoryResult = await loginChangeHistoryRequest.execute(
-      "LoginUpdateHistory_SelectByRecentRequestedEmail"
+      "LoginEmailChangeHistory_SelectByRecentPendingEmail"
     );
-    const pendingLoginEmailChange = loginChangeHistoryResult.recordset[0];
+    const pendingEmailChangeResult = loginChangeHistoryResult.recordset[0];
+
+    const userId = pendingEmailChangeResult && pendingEmailChangeResult.userId;
+
     const confirmEmailRequest = pool.request();
     confirmEmailRequest.input("email", mssql.NVarChar(100), email);
 
-    if (pendingLoginEmailChange) {
-      await confirmEmailRequest.execute("Login_ConfirmEmailUpdate");
+    if (pendingEmailChangeResult) {
+      await validateUniqueEmail(email, userId);
+      await confirmEmailRequest.execute("Login_ConfirmUpdateEmail");
 
       return {
         isSuccess: true,
