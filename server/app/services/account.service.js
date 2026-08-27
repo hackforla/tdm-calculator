@@ -258,7 +258,6 @@ const confirmRegistration = async token => {
     const request = pool.request();
     request.input("token", mssql.NVarChar(200), token);
 
-    // 1. Untouched token lookup
     const sqlResult = await request.execute("SecurityToken_SelectByToken");
     const resultSet = sqlResult.recordset;
     const now = new Date();
