@@ -23,7 +23,7 @@ const useStyles = createUseStyles(theme => ({
     margin: "1em !important",
     padding: "0 !important",
     overflow: "hidden",
-    color: theme.colorPrintBlack
+    color: theme.colorLADOTBlack
   },
   rule: {
     display: "flex",
@@ -67,7 +67,6 @@ const useStyles = createUseStyles(theme => ({
   earnedPoints: {
     fontWeight: "600",
     fontSize: "14px",
-    color: theme.colorLADOT,
     paddingTop: "5px",
     alignItems: "baseline",
     width: "50%",
@@ -105,7 +104,8 @@ const useStyles = createUseStyles(theme => ({
     paddingInline: "50px"
   },
   textProjectInfoHeaderAddress: {
-    color: "rgba(15, 41, 64, .5)",
+    // color: "rgba(15, 41, 64, .5)",
+    // color: theme.colorDarkNavy,
     fontSize: "16px",
     padding: "0 0 0 8px",
     fontFamily: "Calibri",
