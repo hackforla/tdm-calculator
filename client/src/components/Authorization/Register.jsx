@@ -18,7 +18,8 @@ import ContentContainer from "../Layout/ContentContainer";
 
 const useStyles = createUseStyles(theme => ({
   submitButton: {
-    float: "right"
+    display: "block",
+    margin: "10px auto"
   },
   authText: {
     color: theme.colorDarkNavy
@@ -60,27 +61,31 @@ const useStyles = createUseStyles(theme => ({
     marginTop: 4,
     marginBottom: 6
   },
+  ruleList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 8
+  },
   passwordWrapper: {
-    position: "relative",
+    display: "flex",
+    alignItems: "stretch",
     flex: 1,
     minWidth: 0,
     margin: "1rem 0"
   },
   passwordInput: {
-    paddingRight: "2.75rem !important",
+    flex: 1,
+    minWidth: 0,
+    width: "auto !important",
     margin: "0 !important"
   },
   eyeButton: {
-    position: "absolute",
-    right: 1,
-    top: 1,
-    bottom: 1,
     display: "flex",
     alignItems: "center",
     padding: "0 8px",
-    background: "white",
-    border: "none",
-    borderLeft: "1px solid lightgrey",
+    background: "transparent",
+    border: "1px solid lightgrey",
+    borderLeft: "none",
     cursor: "pointer",
     color: theme.colorDarkNavy,
     "& svg": {
@@ -126,8 +131,7 @@ const NameRules = ({ value, error, touched, focused, classes }) => {
           />
         ))}
       <span>
-        {error ||
-          "You can use letters, apostrophe, hyphen, period and space only"}
+        You can use letters, apostrophe, hyphen, period and space only
       </span>
     </div>
   );
@@ -177,7 +181,7 @@ const EmailRules = ({ value, touched, classes }) => {
   }));
 
   return (
-    <div>
+    <div className={classes.ruleList}>
       {rules.map((rule, index) => (
         <div key={index} className={classes.multiRowFeedback}>
           {/* Only show the icon if the user has entered something */}
@@ -208,7 +212,8 @@ EmailRules.propTypes = {
     fieldIcon: PropTypes.string.isRequired,
     validIcon: PropTypes.string.isRequired,
     invalidIcon: PropTypes.string.isRequired,
-    multiRowFeedback: PropTypes.string.isRequired
+    multiRowFeedback: PropTypes.string.isRequired,
+    ruleList: PropTypes.string.isRequired
   }).isRequired
 };
 
@@ -238,7 +243,7 @@ const PasswordRules = ({ value, touched, focused, classes }) => {
   ];
 
   return (
-    <div>
+    <div className={classes.ruleList}>
       {rules.map((rule, index) => (
         <div key={index} className={classes.multiRowFeedback}>
           {/* Only show the icon if user has entered something */}
@@ -269,18 +274,12 @@ PasswordRules.propTypes = {
     fieldIcon: PropTypes.string.isRequired,
     validIcon: PropTypes.string.isRequired,
     invalidIcon: PropTypes.string.isRequired,
-    multiRowFeedback: PropTypes.string.isRequired
+    multiRowFeedback: PropTypes.string.isRequired,
+    ruleList: PropTypes.string.isRequired
   }).isRequired
 };
 
-const ConfirmPasswordRule = ({
-  password,
-  confirmPassword,
-  touched,
-  classes
-}) => {
-  if (!touched) return null;
-
+const ConfirmPasswordRule = ({ password, confirmPassword, classes }) => {
   const hasValue = confirmPassword.length > 0;
 
   return (
@@ -309,10 +308,6 @@ const ConfirmPasswordRule = ({
 ConfirmPasswordRule.propTypes = {
   password: PropTypes.string,
   confirmPassword: PropTypes.string,
-  touched: PropTypes.bool,
-  length: PropTypes.number,
-  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  value: PropTypes.string.isRequired,
   classes: PropTypes.shape({
     fieldIcon: PropTypes.string.isRequired,
     validIcon: PropTypes.string.isRequired,
@@ -426,7 +421,14 @@ const Register = props => {
               validateOnChange={true}
               validateOnBlur={true}
             >
-              {({ touched, errors, values, isSubmitting, handleBlur }) => (
+              {({
+                touched,
+                errors,
+                values,
+                isSubmitting,
+                handleBlur,
+                isValid
+              }) => (
                 <Form>
                   {/* First Name */}
                   <div className={`form-group ${classes.formGroup}`}>
@@ -510,7 +512,9 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    {touched.email && (
+
+                    {(focusField === "email" ||
+                      (touched.email && errors.email)) && (
                       <EmailRules
                         value={values.email}
                         touched={touched.email}
@@ -549,7 +553,6 @@ const Register = props => {
                           aria-label={
                             showPassword ? "Hide password" : "Show password"
                           }
-                          tabIndex={-1}
                         >
                           {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
@@ -603,7 +606,6 @@ const Register = props => {
                               ? "Hide password"
                               : "Show password"
                           }
-                          tabIndex={-1}
                         >
                           {showPasswordConfirm ? <FaEyeSlash /> : <FaEye />}
                         </button>
@@ -614,17 +616,21 @@ const Register = props => {
                         classes={classes}
                       />
                     </div>
-                    <ConfirmPasswordRule
-                      password={values.password}
-                      confirmPassword={values.passwordConfirm}
-                      touched={touched.passwordConfirm}
-                      classes={classes}
-                    />
+                    {(focusField === "passwordConfirm" ||
+                      (touched.passwordConfirm && errors.passwordConfirm)) && (
+                      <ConfirmPasswordRule
+                        password={values.password}
+                        confirmPassword={values.passwordConfirm}
+                        touched={touched.passwordConfirm}
+                        focused={focusField === "passwordConfirm"}
+                        classes={classes}
+                      />
+                    )}
                   </div>
 
                   <Button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={!isValid || isSubmitting}
                     color="colorPrimary"
                     className={classes.submitButton}
                   >
