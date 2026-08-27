@@ -104,8 +104,6 @@ const useStyles = createUseStyles(theme => ({
     paddingInline: "50px"
   },
   textProjectInfoHeaderAddress: {
-    // color: "rgba(15, 41, 64, .5)",
-    // color: theme.colorDarkNavy,
     fontSize: "16px",
     padding: "0 0 0 8px",
     fontFamily: "Calibri",
