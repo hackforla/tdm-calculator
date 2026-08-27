@@ -157,11 +157,8 @@ const updateAccount = async model => {
       const token = crypto.randomUUID();
 
       const emailChangeRequest = pool.request();
-
       emailChangeRequest.input("id", mssql.Int, model.id);
-
       emailChangeRequest.input("RequestedEmail", mssql.NVarChar, model.email);
-
       emailChangeRequest.input("ActiveEmail", mssql.NVarChar, user.email);
 
       await request.execute("LoginUpdateHistory_Insert");
@@ -201,24 +198,44 @@ const updateAccount = async model => {
 const resendConfirmationEmail = async email => {
   try {
     await poolConnect;
-    const request = pool.request();
-    request.input("email", mssql.NVarChar, email);
-    const selectByEmailResponse = await request.execute("Login_SelectByEmail");
 
-    let result = {
+    const pendingEmailRequest = pool.request();
+    pendingEmailRequest.input("email", mssql.NVarChar(100), email);
+    const pendingEmailResponse = await pendingEmailRequest.execute(
+      "LoginUpdateHistory_SelectByRecentRequestedEmail"
+    );
+
+    let userRecord = pendingEmailResponse.recordset[0];
+
+    // check login table if no pending requests for email change
+    if (!userRecord) {
+      const loginRequest = pool.request();
+      loginRequest.input("email", mssql.NVarChar(100), email);
+      const loginResponse = await loginRequest.execute("Login_SelectByEmail");
+      userRecord = loginResponse.recordset[0];
+    }
+
+    // if no record in either table, user not found
+    if (!userRecord) {
+      return {
+        isSuccess: false,
+        code: "REG_ACCOUNT_NOT_FOUND",
+        message: `Account not found for email: ${email}`
+      };
+    }
+
+    const result = {
       isSuccess: true,
       code: "REG_SUCCESS",
-      newId: selectByEmailResponse.recordset[0].id,
+      newId: userRecord.userId || userRecord.id,
       message: "Account found."
     };
-    result = await requestRegistrationConfirmation(email, result);
-    return result;
+
+    return await requestRegistrationConfirmation(email, result);
   } catch (err) {
-    // Assume any error is an email that does not correspond to
-    // an account.
     return {
       isSuccess: false,
-      code: "REG_ACCOUNT_NOT_FOUND",
+      code: "RESEND_FAILED",
       message: `Resending confirmation email to ${email} failed due to: ${err.message}`
     };
   }
@@ -287,13 +304,10 @@ const confirmRegistration = async token => {
     // Check for an active pending change request
     const loginChangeHistoryRequest = pool.request();
     loginChangeHistoryRequest.input("email", mssql.NVarChar(100), email);
-
     const loginChangeHistoryResult = await loginChangeHistoryRequest.execute(
       "LoginUpdateHistory_SelectByRecentRequestedEmail"
     );
-
     const pendingLoginEmailChange = loginChangeHistoryResult.recordset[0];
-
     const confirmEmailRequest = pool.request();
     confirmEmailRequest.input("email", mssql.NVarChar(100), email);
 

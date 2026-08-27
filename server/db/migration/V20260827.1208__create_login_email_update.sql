@@ -163,7 +163,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE OR ALTER PROCEDURE [dbo].[LoginUpdateHistory_SelectByRecentRequestedEmail]
-    @activeEmail NVARCHAR(100)
+    @requestedEmail NVARCHAR(100)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -177,7 +177,7 @@ BEGIN
         [dateRequested],
         [dateChanged]
     FROM [dbo].[LoginUpdateHistory]
-    WHERE [activeEmail] = @activeEmail
+    WHERE [requestedEmail] = @requestedEmail
     ORDER BY [dateRequested] DESC;
 END;
 GO
