@@ -19,7 +19,7 @@
     "concurrently": "^9.1.2",
     "cspell": "^8.19.2",
     "husky": "^9.1.7",
-    "lerna": "^9.0.3"
+    "lerna": "^10.0.1"
   },
   "volta": {
     "node": "24.11.0"
