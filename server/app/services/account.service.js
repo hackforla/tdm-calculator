@@ -147,16 +147,42 @@ const updateAccount = async model => {
     request.input("id", mssql.Int, model.id);
     request.input("FirstName", mssql.NVarChar, model.firstName);
     request.input("LastName", mssql.NVarChar, model.lastName);
-    request.input("Email", mssql.NVarChar, model.email);
-    await request.execute("Login_Update");
 
-    const token = crypto.randomUUID();
-    await handleVerifyUpdateConfirmation(model.email, token);
+    await request.execute("Login_Update"); // update user profile (name)
+    const updatedUser = await selectByEmail(model.email); // get updated user data
+
+    // if requesting email change, upddate change history log send email verification request
+    if (user.email !== model.email) {
+      const token = crypto.randomUUID();
+      const emailChangeRequest = pool.request();
+
+      emailChangeRequest.input("id", mssql.Int, model.id);
+      emailChangeRequest.input("RequestedEmail", mssql.NVarChar, model.email);
+      emailChangeRequest.input("ActiveEmail", mssql.NVarChar, user.email);
+
+      await request.execute("LoginEmailChangeHistory_Insert");
+      await handleVerifyUpdateConfirmation(model.email, token);
+
+      return {
+        isSuccess: true,
+        code: "ACCOUNT_EMAIL_UPDATE_SUCCESS",
+        message: "Account updates succeeded."
+      };
+    }
 
     return {
       isSuccess: true,
       code: "ACCOUNT_UPDATE_SUCCESS",
-      message: "Account updates succeeded."
+      message: "Account updates succeeded.",
+      user: {
+        id: updatedUser.id,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        emailConfirmed: updatedUser.emailConfirmed,
+        isSecurityAdmin: updatedUser.isSecurityAdmin
+      }
     };
   } catch (err) {
     return {
@@ -171,24 +197,33 @@ const updateAccount = async model => {
 const resendConfirmationEmail = async email => {
   try {
     await poolConnect;
-    const request = pool.request();
-    request.input("email", mssql.NVarChar, email);
-    const selectByEmailResponse = await request.execute("Login_SelectByEmail");
+    const emailRequest = pool.request();
+    emailRequest.input("email", mssql.NVarChar(100), email);
+    const emailResponse = await emailRequest.execute(
+      "Login_SelectByEmailAndPendingEmail"
+    );
+    const userRecord = emailResponse.recordset[0];
 
-    let result = {
+    if (!userRecord) {
+      return {
+        isSuccess: false,
+        code: "REG_ACCOUNT_NOT_FOUND",
+        message: `Account not found for email: ${email}`
+      };
+    }
+
+    const result = {
       isSuccess: true,
       code: "REG_SUCCESS",
-      newId: selectByEmailResponse.recordset[0].id,
+      newId: userRecord.id,
       message: "Account found."
     };
-    result = await requestRegistrationConfirmation(email, result);
-    return result;
+
+    return await requestRegistrationConfirmation(email, result);
   } catch (err) {
-    // Assume any error is an email that does not correspond to
-    // an account.
     return {
       isSuccess: false,
-      code: "REG_ACCOUNT_NOT_FOUND",
+      code: "RESEND_FAILED",
       message: `Resending confirmation email to ${email} failed due to: ${err.message}`
     };
   }
@@ -226,8 +261,7 @@ const confirmRegistration = async token => {
   try {
     await poolConnect;
     const request = pool.request();
-
-    request.input("token", mssql.NVarChar, token);
+    request.input("token", mssql.NVarChar(200), token);
 
     const sqlResult = await request.execute("SecurityToken_SelectByToken");
     const resultSet = sqlResult.recordset;
@@ -241,7 +275,8 @@ const confirmRegistration = async token => {
           "Email confirmation failed. Invalid security token. Re-send confirmation email."
       };
     } else if (
-      (now.getTime() - resultSet[0].dateCreated.getTime()) / (60 * 60 * 1000) >=
+      (now.getTime() - new Date(resultSet[0].dateCreated).getTime()) /
+        (60 * 60 * 1000) >=
       24
     ) {
       return {
@@ -252,20 +287,47 @@ const confirmRegistration = async token => {
       };
     }
 
-    // If we get this far, we can update the login.email_confirmed flag
     const email = resultSet[0].email;
-    const updateRequest = await pool.request();
-    updateRequest.input("email", mssql.NVarChar, email);
-    await updateRequest.execute("Login_ConfirmEmail");
+
+    // Check for an active pending change request
+    const historyRequest = pool.request();
+    historyRequest.input("email", mssql.NVarChar(100), email);
+
+    const historyResult = await historyRequest.execute(
+      "LoginEmailChangeHistory_SelectByRecentPendingEmail"
+    );
+    const pendingEmailChange = historyResult.recordset[0];
+
+    const confirmRequest = pool.request();
+    confirmRequest.input("email", mssql.NVarChar(100), email);
+
+    if (pendingEmailChange) {
+      const userId = pendingEmailChange.userId;
+      await validateUniqueEmail(email, userId);
+      await confirmRequest.execute("Login_ConfirmUpdateEmail");
+
+      return {
+        isSuccess: true,
+        code: "REG_CONFIRM_SUCCESS",
+        message: "Email change confirmed successfully.",
+        email
+      };
+    }
+    // First-time registration
+    await confirmRequest.execute("Login_ConfirmEmail");
 
     return {
       isSuccess: true,
       code: "REG_CONFIRM_SUCCESS",
-      message: "Email confirmed.",
+      message: "Email confirmed successfully.",
       email
     };
   } catch (err) {
-    return { message: err.message };
+    return {
+      isSuccess: false,
+      code: "CONFIRM_FAILED",
+      message: err.message
+    };
   }
 };
 

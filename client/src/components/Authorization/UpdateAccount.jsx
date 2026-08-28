@@ -37,6 +37,7 @@ const UpdateAccount = props => {
   };
 
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const updateAccountSchema = Yup.object().shape({
@@ -51,6 +52,9 @@ const UpdateAccount = props => {
     { firstName, lastName, email },
     { setSubmitting }
   ) => {
+    setErrorMsg("");
+    setSuccessMsg("");
+
     try {
       const response = await accountService.updateAccount(
         firstName,
@@ -58,13 +62,18 @@ const UpdateAccount = props => {
         email
       );
 
-      if (response.isSuccess) {
+      if (response.code === "ACCOUNT_EMAIL_UPDATE_SUCCESS") {
         setSubmitted(true);
         userContext.updateAccount({});
         return;
       }
 
       switch (response.code) {
+        case "ACCOUNT_UPDATE_SUCCESS":
+          setSuccessMsg(response.message);
+          userContext.updateAccount(response.user);
+          break;
+
         case "ERR_INVALID_ADMIN_DOMAIN":
           setErrorMsg(response.message);
           break;
@@ -181,7 +190,7 @@ const UpdateAccount = props => {
                   </Button>
                   <div className="warning">
                     <br />
-                    {errorMsg}
+                    {successMsg || errorMsg}
                   </div>
                 </Form>
               )}
