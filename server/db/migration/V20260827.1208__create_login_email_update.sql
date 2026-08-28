@@ -53,7 +53,7 @@ GO
 CREATE OR ALTER PROCEDURE [dbo].[LoginEmailChangeHistory_Insert]
     @userId INT,
     @requestedEmail NVARCHAR(100),
-    @currentEmail NVARCHAR(100)
+    @activeEmail NVARCHAR(100)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -80,11 +80,18 @@ BEGIN
         (
             @userId,
             @requestedEmail,
-            @currentEmail,      -- Active at time of request
+            @activeEmail,      -- Active at time of request
             NULL,               -- NULL until updated
             SYSUTCDATETIME(),
             NULL
         );
+
+
+        -- Reset confirmation status in Login table
+        UPDATE [dbo].[Login]
+        SET [emailConfirmed] = 0
+        WHERE [email] = @activeEmail
+          AND [id] = @userId;
 
         COMMIT TRANSACTION;
     END TRY
