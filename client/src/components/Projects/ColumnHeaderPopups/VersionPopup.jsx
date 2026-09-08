@@ -12,8 +12,7 @@ const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    maxWidth: "25rem",
-    color: theme.colorDarkNavy
+    maxWidth: "25rem"
   },
   closeBox: {
     position: "absolute",
