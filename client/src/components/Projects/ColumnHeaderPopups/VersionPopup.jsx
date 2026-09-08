@@ -2,10 +2,9 @@ import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
 import RadioButton from "../../UI/RadioButton";
-import "react-datepicker/dist/react-datepicker.css";
-import { MdClose } from "react-icons/md";
+import CloseBox from "../../UI/CloseBox";
 import { MdOutlineSearch } from "react-icons/md";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import { selectAllCheckboxes } from "helpers/util";
 
@@ -13,8 +12,12 @@ const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    maxWidth: "25rem",
-    color: theme.colors.secondary.darkNavy
+    maxWidth: "25rem"
+  },
+  closeBox: {
+    position: "absolute",
+    top: "0",
+    right: "0"
   },
   searchBarWrapper: {
     width: "100%",
@@ -60,7 +63,7 @@ const useStyles = createUseStyles(theme => ({
     textDecoration: "underline",
     display: "flex",
     fontWeight: "normal",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
   }
 }));
 
@@ -79,8 +82,9 @@ const VersionPopup = ({
   calculations
 }) => {
   const property = header.id;
+  const theme = useTheme();
 
-  const classes = useStyles();
+  const classes = useStyles(theme);
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
@@ -198,20 +202,13 @@ const VersionPopup = ({
       <div
         style={{
           display: "flex",
-          justifyContent: "flex-end",
-          fontSize: "24px"
+          justifyContent: "flex-end"
         }}
       >
-        <MdClose
-          style={{
-            backgroundColor: "transparent",
-            color: "black",
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem"
-          }}
-          alt={`Close popup`}
+        <CloseBox
           onClick={close}
+          aria-label="Close popup"
+          className={classes.closeBox}
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -246,7 +243,7 @@ const VersionPopup = ({
           >
             Select all {filteredOptions.length}
           </button>
-          <div style={{ display: "flex", alignItems: "center" }}>-</div>
+          <div style={{ display: "flex", alignItems: "center" }}>|</div>
           <button
             className={classes.toggleButton}
             onClick={() => setSelectedListItems([])}

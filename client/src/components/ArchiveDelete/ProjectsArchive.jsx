@@ -35,8 +35,8 @@ const useStyles = createUseStyles(theme => ({
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: theme.colors.secondary.darkNavy,
-    color: theme.colors.primary.white,
+    backgroundColor: theme.colorDarkNavy,
+    color: theme.colorWhite,
     "& tr th": {
       padding: ".4em"
     }

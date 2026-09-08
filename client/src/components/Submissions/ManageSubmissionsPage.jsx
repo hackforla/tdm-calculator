@@ -104,8 +104,8 @@ const useStyles = createUseStyles(theme => ({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: theme.colors.secondary.darkNavy,
-    color: theme.colors.primary.white,
+    backgroundColor: theme.colorDarkNavy,
+    color: theme.colorWhite,
     "& th": {
       padding: "4px 12px"
     }
@@ -425,7 +425,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateInvoicePaid",
       endDatePropertyName: "endDateInvoicePaid",
-      colWidth: "7rem"
+      colWidth: "10rem"
     },
     { id: "onHold", label: "On Hold", popupType: "boolean", colWidth: "8rem" },
     {
@@ -461,13 +461,17 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       label: "Target Points",
       popupType: "boolean",
       accessor: "targetPointsMet",
-      colWidth: "10rem"
+      colWidth: "10rem",
+      trueLabel: "Target Points Met",
+      falseLabel: "Target Points Not Met"
     }
   ];
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  let sortedProjects = projects.filter(p => filter(p, filterCriteria));
+  let sortedProjects = projects.filter(p =>
+    filter(p, filterCriteria, calculations)
+  );
   for (let i = 0; i < sortCriteria.length; i++) {
     sortedProjects.sort(
       getComparator(sortCriteria[i].direction, sortCriteria[i].field)
@@ -598,6 +602,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                             setCheckedProjectIds={null}
                             setSelectAllChecked={null}
                             droOptions={null}
+                            calculations={calculations}
                           />
                         </th>
                       );

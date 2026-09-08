@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import ToolTipIcon from "../../ToolTip/ToolTipIcon";
-// import ToolTip from "../../ToolTip/ToolTip";
 import clsx from "clsx";
 import Popup from "reactjs-popup";
-import { MdClose } from "react-icons/md";
+import CloseBox from "../../UI/CloseBox";
 import { sanitizeHtml } from "helpers/SanitizeRichText";
 import { useReplaceAriaAttribute } from "hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles(theme => ({
+  closeBox: {
+    position: "absolute",
+    top: "0",
+    right: "0"
+  },
   field: {
     margin: "1em",
     display: "flex",
@@ -373,20 +377,25 @@ const RuleCalculation = ({
                   {close => {
                     return (
                       <div id={popupContentId} style={{ margin: "1rem" }}>
-                        <button
-                          style={{
-                            backgroundColor: "transparent",
-                            color: theme.colors.secondary.gray,
-                            border: "none",
-                            position: "absolute",
-                            top: "0",
-                            right: "0",
-                            cursor: "pointer"
-                          }}
+                        <CloseBox
                           onClick={close}
-                        >
-                          <MdClose style={{ height: "20px", width: "20px" }} />
-                        </button>
+                          aria-label="Close popup"
+                          className={classes.closeBox}
+                        />
+                        {/* <div
+                        // style={{
+                        //   backgroundColor: "transparent",
+                        //   color: theme.colors.secondary.gray,
+                        //   border: "none",
+                        //   position: "absolute",
+                        //   top: "0",
+                        //   right: "0",
+                        //   width: "24px",
+                        //   height: "24px",
+                        //   cursor: "pointer",
+                        //   padding: "0"
+                        // }}
+                        ></div> */}
                         {/* DangerouslySetInnerHtml was clean here with DomPurify.  
                          Please reference Decision Records for more details: 
                          https://github.com/hackforla/tdm-calculator/wiki/Decision-Records */}

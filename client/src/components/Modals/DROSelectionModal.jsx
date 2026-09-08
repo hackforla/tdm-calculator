@@ -36,7 +36,7 @@ const useStyles = createUseStyles(theme => ({
   icon: {
     height: "40px",
     width: "40px",
-    color: theme.colorBlack,
+    color: theme.colorLADOTBlack,
     marginBottom: "0",
     verticalAlign: "middle",
     marginRight: "1rem"
@@ -60,6 +60,7 @@ export default function DROSelectionModal({
       onClose={onClose}
       onConfirm={onConfirm}
       onChange={onChange}
+      omitCloseBox={true}
     >
       <div className={classes.container}>
         <div className={classes.heading1}>

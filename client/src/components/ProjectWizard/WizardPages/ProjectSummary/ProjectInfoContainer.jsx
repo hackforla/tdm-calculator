@@ -14,7 +14,7 @@ const useStyles = createUseStyles({
     minHeight: "100px"
   },
   textProjectInfoHeader: {
-    color: "#000000",
+    color: "theme.colorLADOTBlack",
     fontSize: "24px",
     fontFamily: "Calibri",
     fontWeight: 700,

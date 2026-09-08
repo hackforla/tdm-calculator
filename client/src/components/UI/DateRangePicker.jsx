@@ -31,18 +31,12 @@ const DateRangePicker = ({
 }) => {
   const [calendarDivHeight, setCalendarDivHeight] = useState(false);
   const classes = useStyles();
-
-  const handleCalendarOpen = () => {
-    setCalendarDivHeight(true);
-  };
-
-  const handleCalendarClose = () => {
-    setCalendarDivHeight(false);
-  };
+  let calendarRef = React.createRef();
 
   return (
     <>
       <div
+        id="calendarPortal"
         style={{
           display: "flex",
           flexDirection: "row",
@@ -63,24 +57,12 @@ const DateRangePicker = ({
           endDate={endDate}
           dateFormat="yyyy-MM-dd"
           placeholderText={startDatePlaceholder || ""}
-          popperPlacement="bottom-start"
-          popperModifiers={[
-            {
-              name: "flip",
-              enabled: false
-            },
-            {
-              name: "hide",
-              enabled: false
-            }
-          ]}
-          onCalendarOpen={handleCalendarOpen}
-          onCalendarClose={handleCalendarClose}
+          popperPlacement="left-start"
+          showPopperArrow={false}
           onClick={e => {
             // We don't want a click event to bubble up to the parent container
             e.stopPropagation();
           }}
-          // withPortal
         />
         <div
           style={{ margin: "auto 0", minWidth: "2.5rem", textAlign: "center" }}
@@ -96,25 +78,10 @@ const DateRangePicker = ({
           endDate={endDate}
           dateFormat="yyyy-MM-dd"
           placeholderText={endDatePlaceholder || ""}
-          popperPlacement="bottom-end"
-          popperModifiers={[
-            {
-              name: "flip",
-              enabled: false
-            },
-            {
-              name: "hide",
-              enabled: false
-            }
-          ]}
-          onCalendarOpen={handleCalendarOpen}
-          onCalendarClose={handleCalendarClose}
-          // withPortal
+          popperPlacement="right-start"
+          showPopperArrow={false}
         />
       </div>
-      {calendarDivHeight ? (
-        <div style={{ height: "15rem" }}>{calendarDivHeight}</div>
-      ) : null}
     </>
   );
 };

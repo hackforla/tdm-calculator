@@ -10,11 +10,7 @@ const ActionManageSubmission = ({
   assigneeList
 }) => {
   return (
-    <ModalDialog
-      mounted={mounted}
-      onClose={onClose}
-      initialFocus="#duplicateName"
-    >
+    <ModalDialog mounted={mounted} onClose={onClose} omitCloseBox={true}>
       <ManageSubmissionForm
         onClose={onClose}
         project={project}

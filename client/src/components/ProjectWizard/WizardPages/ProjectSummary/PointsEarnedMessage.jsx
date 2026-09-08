@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
     color: ({ theme }) => theme.colorPrimary
   },
   failure: {
-    color: ({ theme }) => theme.colors.notice
+    color: ({ theme }) => theme.colorNotice
   },
   targetPointsReachedContainer: {
     display: "flex"

@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import { Interweave } from "interweave";
-import { MdLaunch, MdClose, MdEdit } from "react-icons/md";
+import { MdLaunch, MdEdit } from "react-icons/md";
+import CloseBox from "../UI/CloseBox";
 import { QuillEditor } from "../UI/QuillEditor";
 import Button from "../Button/Button";
 import ModalDialog from "../UI/Modal";
@@ -26,6 +27,11 @@ const useStyles = createUseStyles(theme => ({
       "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)",
     marginBottom: "10px",
     position: "relative"
+  },
+  closeBox: {
+    position: "absolute",
+    top: "0",
+    right: "0"
   },
   closeButton: {
     color: theme.colors.secondary.gray,
@@ -191,17 +197,11 @@ const AccordionToolTip = ({
             classes.disabledDescription
           )}
         >
-          <div
-            className={clsx(classes.closeButton)}
-            onClick={() => setShowDescription(prev => !prev)}
-          >
-            <MdClose
-              style={{
-                height: "24px",
-                width: "24px",
-                margin: "0",
-                backgroundColor: "orange"
-              }}
+          <div className={clsx(classes.closeButton)}>
+            <CloseBox
+              onClick={() => setShowDescription(prev => !prev)}
+              aria-label="Close popup"
+              className={classes.closeBox}
             />
           </div>
           <div className={classes.richText}>
@@ -218,11 +218,12 @@ const AccordionToolTip = ({
         </div>
       ) : (
         <div className={clsx(classes.accordionTooltipLabel)}>
-          <div
-            className={clsx(classes.closeButton)}
-            onClick={() => setShowDescription(prev => !prev)}
-          >
-            <MdClose />
+          <div className={clsx(classes.closeButton)}>
+            <CloseBox
+              onClick={() => setShowDescription(prev => !prev)}
+              aria-label="Close popup"
+              className={classes.closeBox}
+            />
           </div>
           <div className={classes.richText}>
             <Interweave

@@ -391,7 +391,8 @@ openapiSpec.paths = mergePaths(openapiSpec.paths, additionalPaths);
 const swaggerUiOptions = {
   explorer: true,
   swaggerOptions: {
-    persistAuthorization: true
+    persistAuthorization: true,
+    supportedSubmitMethods: ["get"]
   }
 };
 

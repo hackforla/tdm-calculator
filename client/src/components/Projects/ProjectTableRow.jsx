@@ -486,9 +486,9 @@ const ProjectTableRow = ({
                     color: "#0000FF",
                     textDecoration: "underline",
                     cursor: "pointer",
-                    display: "flex"
+                    marginLeft: "2rem"
                   }
-                : {}
+                : { marginLeft: "2rem" }
             }
           >
             {calculations[project.calculationId].version || "Beta"}{" "}

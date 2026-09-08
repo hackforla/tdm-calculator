@@ -30,7 +30,7 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: theme.colorPrimary,
-    color: theme.colorBlack,
+    color: theme.colorLADOTBlack,
     padding: ".4em",
     marginBottom: "0.6em"
   },

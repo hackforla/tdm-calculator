@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import "react-datepicker/dist/react-datepicker.css";
 import {
   MdOutlineFilterAlt,
   MdOutlineSwitchRight,
@@ -47,7 +46,7 @@ const useStyles = createUseStyles(theme => ({
   },
   popoverContent: {
     ...theme.typography.paragraph1,
-    color: theme.colorBlack,
+    color: theme.colorText,
     textAlign: "left",
     backgroundColor: theme.colorWhite,
     borderWidth: "1px",
@@ -55,7 +54,8 @@ const useStyles = createUseStyles(theme => ({
     borderRadius: "5px",
     padding: "20px",
     boxShadow:
-      "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
+      "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)",
+    overflow: "auto"
   }
 }));
 

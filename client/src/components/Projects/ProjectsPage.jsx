@@ -174,8 +174,8 @@ const useStyles = createUseStyles(theme => ({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: theme.colors.secondary.darkNavy,
-    color: theme.colors.primary.white,
+    backgroundColor: theme.colorDarkNavy,
+    color: theme.colorWhite,
     "& th": {
       padding: "4px 12px"
     }
@@ -191,7 +191,7 @@ const useStyles = createUseStyles(theme => ({
     verticalAlign: "baseline"
   },
   tbody: {
-    background: theme.colors.primary.white,
+    background: theme.colorWhite,
     "& tr": {
       borderBottom: "1px solid #E7EBF0"
     },
@@ -418,23 +418,28 @@ const ProjectsPage = ({ contentContainerRef }) => {
   });
 
   const handleCopyModalClose = async (action, newProjectName) => {
-    let newSelectedProject = { ...selectedProject };
     if (action === "ok") {
-      const projectFormInputsAsJson = JSON.parse(selectedProject.formInputs);
-      projectFormInputsAsJson.PROJECT_NAME = newProjectName;
-      if (!selectedProject.targetPoints) {
-        await projectResultService.populateTargetPoints(selectedProject);
-        newSelectedProject = await projectService.getById(selectedProject.id);
+      // When the pre-computed columns (targetPoints, earnedPoints and projectLevell)
+      // have not actually been pre-computed, we need to force their computation
+      // and
+      // store the result to the db  before proceeding.
+      if (!selectedProject.targetPoints && selectedProject.targetPoints !== 0) {
+        await projectResultService.populateTargetPoints(selectedProject.id);
       }
-      let newProject = {
-        ...newSelectedProject,
+      const projectFormInputsAsJson = {
+        ...JSON.parse(selectedProject.formInputs),
+        PROJECT_NAME: newProjectName
+      };
+      // Re-fetch project data, in case changes were made between the time the db
+      // was queried for projects and the execution of this operation.
+      const { data } = await projectService.getById(selectedProject.id);
+      const newProject = {
+        ...data,
         loginId: loginId,
         name: newProjectName,
+        description: data.description ?? "",
         formInputs: JSON.stringify(projectFormInputsAsJson)
       };
-      if (!newProject.description) {
-        newProject.description = "";
-      }
       try {
         await projectService.post(newProject);
         await updateProjects();
@@ -957,20 +962,26 @@ const ProjectsPage = ({ contentContainerRef }) => {
     {
       id: "checkAllProjects",
       label: (
-        <>
+        <div style={{ overflow: "visible" }}>
           <label htmlFor="SelectAllProject" className="sr-only">
             Select All Projects on Page
           </label>
           <input
             style={{
-              height: "15px"
+              position: "relative",
+              top: "0.2rem",
+              padding: "0",
+              height: "15px",
+              color: "white",
+              backgroundColor: "transparent",
+              border: "1px solid white"
             }}
             id="SelectAllProject"
             type="checkbox"
             checked={selectAllChecked}
             onChange={handleHeaderCheckbox}
           />
-        </>
+        </div>
       ),
       colWidth: "3rem"
     },

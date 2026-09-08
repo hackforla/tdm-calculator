@@ -24,7 +24,7 @@ const useStyles = createUseStyles(theme => ({
     alignItems: "top",
     minHeight: "2em",
     padding: 4,
-    border: `2px solid ${theme.colors.secondary.linkBlue}`
+    border: `2px solid ${theme.colorLinkBlue}`
   },
   faqPlusMinusIcons: {
     display: "flex",

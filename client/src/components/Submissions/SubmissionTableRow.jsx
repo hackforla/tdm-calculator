@@ -219,9 +219,9 @@ const SubmissionTableRow = ({
                   color: "#0000FF",
                   textDecoration: "underline",
                   cursor: "pointer",
-                  display: "flex"
+                  marginLeft: "2rem"
                 }
-              : {}
+              : { marginLeft: "2rem" }
           }
         >
           {calculations[project.calculationId].version || "Beta"}{" "}
@@ -246,7 +246,7 @@ const SubmissionTableRow = ({
           droOptions={dros}
         />
       </Td>
-      <Td>
+      <Td align="center">
         <span>
           {project.targetPointsMet ? (
             <MdCheckCircle className={classes.targetPointsMet} />

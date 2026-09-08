@@ -23,7 +23,7 @@ const useStyles = createUseStyles(theme => ({
   shareIcon: {
     height: "40px",
     width: "40px",
-    color: theme.colorBlack,
+    color: theme.colorLADOTBlack,
     marginBottom: "0",
     verticalAlign: "middle"
   },
@@ -558,6 +558,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
           closeProject();
         }}
         initialFocus="#emailAddresses"
+        omitCloseBox={true}
       >
         {modalContents(page)}
       </ModalDialog>

@@ -24,7 +24,7 @@ const useStyles = createUseStyles(theme => ({
     alignItems: "center",
     margin: "0 2rem",
     width: "80vw",
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorText
   },
   columnContainer: {
     display: "flex",
@@ -52,7 +52,7 @@ const useStyles = createUseStyles(theme => ({
   },
   rowLabel: {
     ...theme.typography.paragraph1,
-    color: theme.colors.secondary.darkNavy
+    color: theme.colorDarkNavy
   },
   buttonFlexBox: {
     display: "flex",
@@ -153,9 +153,9 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
   const formik = useFormik({
     initialValues: {
       ...project,
-      dateAssigned: toDate(project.dateAssigned),
-      dateInvoicePaid: toDate(project.dateInvoicePaid),
-      dateCoO: toDate(project.dateCoO)
+      dateAssigned: project.dateAssigned,
+      dateInvoicePaid: project.dateInvoicePaid,
+      dateCoO: project.dateCoO
     },
     validationSchema: validationSchema,
     onSubmit: values => {
@@ -330,7 +330,7 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
               name="adminNotes"
               rows="26.5"
               id="adminNotes"
-              value={formik.values.adminNotes}
+              value={formik.values.adminNotes || ""}
               onChange={formik.handleChange}
               style={{ resize: "none", padding: "0.2rem" }}
             />

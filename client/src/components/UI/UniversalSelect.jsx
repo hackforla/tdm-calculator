@@ -1,8 +1,8 @@
 import React from "react";
+import { useTheme } from "react-jss";
 import Select from "react-select";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { jssTheme } from "../../styles/theme";
 
 UniversalSelect.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -36,6 +36,8 @@ export default function UniversalSelect({
   isSearchable = false,
   maxMenuHeight
 }) {
+  const theme = useTheme();
+
   // To make UniversalSelect compatible with a standard react <select> component, the onChange method should be passed
   // an object that at least looks like an event object.
   const handleSelectChange = selectedOption => {
@@ -51,10 +53,10 @@ export default function UniversalSelect({
     return state.isFocused || state.menuIsOpen
       ? {
           border: `none`,
-          outline: `2px solid ${jssTheme.colors.secondary.linkBlue}`
+          outline: `2px solid ${theme.colorLinkBlue}`
         }
       : {
-          border: `1px solid gray`,
+          border: `1px solid " + ${theme.colorGray}`,
           outline: "none"
         };
   };
@@ -91,8 +93,8 @@ export default function UniversalSelect({
           backgroundColor: state.isSelected
             ? "#1967D2"
             : state.isFocused
-              ? "#EEF1F4"
-              : "white", // Change background color based on state
+              ? theme.colorDeselect
+              : theme.colorWhite, // Change background color based on state
           color: state.isSelected ? "white" : "black", // Ensure text is readable on dark background,
           boxShadow: "10px"
         }),
@@ -104,7 +106,7 @@ export default function UniversalSelect({
         menu: provided => ({
           ...provided,
           padding: "0", // Set padding of the dropdown menu to 0
-          border: "1px solid black",
+          border: "1px solid " + theme.colorLADOTBlack,
           boxShadow: "none",
           marginTop: "1px",
           borderRadius: "0"

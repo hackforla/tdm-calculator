@@ -94,10 +94,17 @@ app.use(express.static("public"));
 // {extended: true} option.
 app.use(express.urlencoded({ extended: false }));
 
+const apiDocsEnabled =
+  process.env.ENABLE_API_DOCS === "true" &&
+  process.env.NODE_ENV !== "production";
+
 // Web API routes
 app.use("/api", routes);
 
-if (process.env.ENABLE_API_DOCS === "true") {
+if (process.env.NODE_ENV === "production") {
+  app.use("/api-docs", (_req, res) => res.sendStatus(404));
+  app.all("/api-docs.json", (_req, res) => res.sendStatus(404));
+} else if (apiDocsEnabled) {
   app.get(
     "/api-docs.json",
     jwtSession.validateRoles(["isAdmin"]),
@@ -130,7 +137,9 @@ app.use((err, req, res) => {
 app.use(errorHandler);
 
 if (process.env.TEST_ENV !== "true") {
-  app.listen(port, () => console.log(`Server running on port ${port}`));
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 }
 
 module.exports = app;

@@ -53,12 +53,7 @@ const ResetProjectModal = ({ mounted, onClose, project, resetProject }) => {
   };
 
   return (
-    <ModalDialog
-      mounted={mounted}
-      onClose={onClose}
-      omitCloseBox={true}
-      initialFocus="#cancelButton"
-    >
+    <ModalDialog mounted={mounted} onClose={onClose} omitCloseBox={true}>
       {project.dateModified ? (
         <div className={classes.container}>
           <MdWarning alt="Warning" className={classes.warningIcon} />

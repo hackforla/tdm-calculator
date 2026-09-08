@@ -8,7 +8,7 @@ const useStyles = createUseStyles(theme => ({
     fontFamily: "Calibri",
     fontWeight: 400,
     fontSize: "16px",
-    color: theme.colors.secondary.linkBlue,
+    color: theme.colorLinkBlue,
     textDecoration: "underline",
     cursor: "pointer",
     margin: "0",
@@ -21,7 +21,7 @@ const useStyles = createUseStyles(theme => ({
   },
   activeLink: {
     backgroundColor: theme.colorDefault,
-    color: theme.colors.secondary.linkBlue,
+    color: theme.colorLinkBlue,
     padding: "0",
     textDecoration: "none",
     cursor: "default"

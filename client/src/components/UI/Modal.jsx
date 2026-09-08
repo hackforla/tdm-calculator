@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import Modal from "react-modal";
-import { MdClose } from "react-icons/md";
+import CloseBox from "../UI/CloseBox";
 
 const useStyles = createUseStyles({
   buttonFlexBox: {
@@ -10,16 +10,6 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     justifyContent: "flex-end",
     margin: 0
-  },
-  closeButton: {
-    border: "0 solid white",
-    backgroundColor: "transparent",
-    "&:hover": {
-      cursor: "pointer"
-    },
-    height: "24px",
-    width: "24px",
-    fontSize: "24px"
   }
 });
 
@@ -92,13 +82,7 @@ const ModalDialog = forwardRef(
         <div ref={ref} style={{ position: "relative" }}>
           {omitCloseBox ? null : (
             <div className={classes.buttonFlexBox}>
-              <button
-                onClick={onClose}
-                className={classes.closeButton}
-                aria-label={`Close ${title} modal`}
-              >
-                <MdClose />
-              </button>
+              <CloseBox onClick={onClose} aria-label={`Close ${title} modal`} />
             </div>
           )}
           {children}
@@ -114,7 +98,6 @@ ModalDialog.propTypes = {
   mounted: PropTypes.bool,
   children: PropTypes.any,
   onClose: PropTypes.func,
-  // initialFocus: PropTypes.string,
   omitCloseBox: PropTypes.bool,
   underlayClickExits: PropTypes.bool,
   escapeExits: PropTypes.bool,

@@ -4,7 +4,7 @@ process.env.TEST_ENV = "true";
 process.env.PORT = "5002";
 process.env.NODE_OPTIONS = "--trace-deprecation";
 
-process.env.JWT_SECRET_KEY = "testingSecretKey";
+process.env.JWT_SECRET = "testingSecretKey";
 
 process.env.CLIENT_URL = "http://localhost:3001";
 process.env.SERVER_URL = "http://localhost:5002";
