@@ -24,14 +24,14 @@ const formatDates = date => {
     .replace(",", "");
 };
 
-const sendVerifyUpdateConfirmation = async (email, token) => {
+const sendVerifyUpdateConfirmation = async email => {
   const msg = {
     to: `${email}`,
     subject: "Verify Your Account Updates",
     text: "Verify Your Account Updates",
     html: `<p>Hello, your account has been updated.</p>
               <p>If you did not update your account please notify <a href = "mailto: ladot@lacity.org">ladot@lacity.org</a>.</p>
-              <p><a href="${clientUrl}/confirm/${token}">Verify Account Updates</a></p>
+              <p><a href="${clientUrl}/accountupdated">Verify Account Updates</a></p>
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`
   };

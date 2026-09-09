@@ -80,14 +80,13 @@ describe("email API unit tests", () => {
   // sendVerifyUpdateConfirmation
   it("should call smtpMail.send with the correct parameters for sendVerifyUpdateConfirmation ", async () => {
     const email = "user@example.com";
-    const token = "dummyToken";
     const expectedHtml = `<p>Hello, your account has been updated.</p>
               <p>If you did not update your account please notify <a href = "mailto: ladot@lacity.org">ladot@lacity.org</a>.</p>
-              <p><a href="${process.env.CLIENT_URL}/confirm/${token}">Verify Account Updates</a></p>
+              <p><a href="${process.env.CLIENT_URL}/accountupdated">Verify Account Updates</a></p>
               <p>Thanks,</p>
               <p>TDM Calculator Team</p>`;
 
-    await sendVerifyUpdateConfirmation(email, token);
+    await sendVerifyUpdateConfirmation(email);
 
     expect(smtpMail.send).toHaveBeenCalledWith({
       to: email,

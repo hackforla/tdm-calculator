@@ -118,9 +118,9 @@ const validateUniqueEmail = async (email, currentUserId) => {
   }
 };
 
-const handleVerifyUpdateConfirmation = async (email, token) => {
+const handleVerifyUpdateConfirmation = async email => {
   try {
-    await sendVerifyUpdateConfirmation(email, token);
+    await sendVerifyUpdateConfirmation(email);
   } catch (err) {
     const error = new Error(
       `Failed to send verification email: ${err.message}`
@@ -150,8 +150,7 @@ const updateAccount = async model => {
     request.input("Email", mssql.NVarChar, model.email);
     await request.execute("Login_Update");
 
-    const token = crypto.randomUUID();
-    await handleVerifyUpdateConfirmation(model.email, token);
+    await handleVerifyUpdateConfirmation(model.email);
 
     return {
       isSuccess: true,
