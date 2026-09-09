@@ -151,29 +151,29 @@ const updateAccount = async model => {
     await request.execute("Login_Update"); // update user profile (name)
     const updatedUser = await selectByEmail(model.email); // get updated user data
 
-    // if requesting email change, upddate change history log send email verification request
+    // if requesting email change, update email change history
     if (user.email !== model.email) {
       const token = crypto.randomUUID();
       const emailChangeRequest = pool.request();
 
-      emailChangeRequest.input("id", mssql.Int, model.id);
+      emailChangeRequest.input("UserId", mssql.Int, model.id);
       emailChangeRequest.input("RequestedEmail", mssql.NVarChar, model.email);
       emailChangeRequest.input("ActiveEmail", mssql.NVarChar, user.email);
 
-      await request.execute("LoginEmailChangeHistory_Insert");
+      await emailChangeRequest.execute("LoginEmailChangeHistory_Insert");
       await handleVerifyUpdateConfirmation(model.email, token);
 
       return {
         isSuccess: true,
         code: "ACCOUNT_EMAIL_UPDATE_SUCCESS",
-        message: "Account updates succeeded."
+        message: "Account updates successful."
       };
     }
 
     return {
       isSuccess: true,
       code: "ACCOUNT_UPDATE_SUCCESS",
-      message: "Account updates succeeded.",
+      message: "Account updates successful.",
       user: {
         id: updatedUser.id,
         firstName: updatedUser.firstName,
@@ -291,7 +291,7 @@ const confirmRegistration = async token => {
 
     // Check for an active pending change request
     const historyRequest = pool.request();
-    historyRequest.input("email", mssql.NVarChar(100), email);
+    historyRequest.input("RequestedEmail", mssql.NVarChar(100), email);
 
     const historyResult = await historyRequest.execute(
       "LoginEmailChangeHistory_SelectByRecentPendingEmail"
