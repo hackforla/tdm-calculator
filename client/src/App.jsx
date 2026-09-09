@@ -26,6 +26,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import Register from "./components/Authorization/Register";
 import UpdateAccount from "./components/Authorization/UpdateAccount";
 import ConfirmEmail from "./components/Authorization/ConfirmEmail";
+import AccountUpdateConfirmation from "./components/Authorization/AccountUpdateConfirmation";
 import Login from "./components/Authorization/Login";
 import Unauthorized from "./components/Authorization/Unauthorized";
 import Admin from "./components/Admin/Admin";
@@ -205,6 +206,10 @@ const App = () => {
             }
           />
           <Route path="/confirm/:token?" element={<ConfirmEmail />} />
+          <Route
+            path="/accountupdated"
+            element={<AccountUpdateConfirmation />}
+          />
           <Route path="/login/:email?" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
