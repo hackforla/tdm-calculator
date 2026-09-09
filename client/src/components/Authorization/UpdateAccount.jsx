@@ -3,11 +3,10 @@ import UserContext from "../../contexts/UserContext";
 import * as accountService from "../../services/account.service";
 import { createUseStyles, useTheme } from "react-jss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
-import { useToast } from "../../contexts/Toast";
 
 const useStyles = createUseStyles(theme => ({
   submitButton: {
@@ -31,8 +30,6 @@ const UpdateAccount = props => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const params = useParams();
-  const navigate = useNavigate();
-  const toast = useToast();
   const initialValues = {
     firstName: account?.firstName || "",
     lastName: account?.lastName || "",
@@ -40,6 +37,7 @@ const UpdateAccount = props => {
   };
 
   const [errorMsg, setErrorMsg] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const updateAccountSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -61,9 +59,8 @@ const UpdateAccount = props => {
       );
 
       if (response.isSuccess) {
+        setSubmitted(true);
         userContext.updateAccount({});
-        toast.add("Your account has been updated. Please log in.");
-        navigate(`/login/${encodeURIComponent(email)}`);
         return;
       }
 
@@ -99,91 +96,109 @@ const UpdateAccount = props => {
 
   return (
     <ContentContainer>
-      <h1 className={classes.heading1}>Update Your Account</h1>
-      <br />
-      <div className="auth-form">
-        <Formik
-          initialValues={initialValues}
-          validationSchema={updateAccountSchema}
-          onSubmit={(values, actions) => handleSubmit(values, actions, props)}
-        >
-          {({ touched, errors, isSubmitting }) => (
-            <Form>
-              <div className="form-group">
-                <label htmlFor="firstName" className="sr-only">
-                  First Name
-                </label>
-                <Field
-                  type="text"
-                  innerRef={focusRef}
-                  id="firstName"
-                  name="firstName"
-                  placeholder="First Name"
-                  className={`form-control ${
-                    touched.firstName && errors.firstName ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="firstName"
-                  component="div"
-                  className={classes.warningText}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="lastName" className="sr-only">
-                  Last Name
-                </label>
-                <Field
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  placeholder="Last Name"
-                  className={`form-control ${
-                    touched.lastName && errors.lastName ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="lastName"
-                  component="div"
-                  className={classes.warningText}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email" className="sr-only">
-                  Email
-                </label>
-                <Field
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                  className={`form-control ${
-                    touched.email && errors.email ? "is-invalid" : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className={classes.warningText}
-                />
-              </div>
+      {!submitted ? (
+        <>
+          <h1 className={classes.heading1}>Update Your Account</h1>
+          <br />
+          <div className="auth-form">
+            <Formik
+              initialValues={initialValues}
+              validationSchema={updateAccountSchema}
+              onSubmit={(values, actions) =>
+                handleSubmit(values, actions, props)
+              }
+            >
+              {({ touched, errors, isSubmitting }) => (
+                <Form>
+                  <div className="form-group">
+                    <label htmlFor="firstName" className="sr-only">
+                      First Name
+                    </label>
+                    <Field
+                      type="text"
+                      innerRef={focusRef}
+                      id="firstName"
+                      name="firstName"
+                      placeholder="First Name"
+                      className={`form-control ${
+                        touched.firstName && errors.firstName
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      name="firstName"
+                      component="div"
+                      className={classes.warningText}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="lastName" className="sr-only">
+                      Last Name
+                    </label>
+                    <Field
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      placeholder="Last Name"
+                      className={`form-control ${
+                        touched.lastName && errors.lastName ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      name="lastName"
+                      component="div"
+                      className={classes.warningText}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email" className="sr-only">
+                      Email
+                    </label>
+                    <Field
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Email"
+                      className={`form-control ${
+                        touched.email && errors.email ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className={classes.warningText}
+                    />
+                  </div>
 
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                color="colorPrimary"
-                className={classes.submitButton}
-              >
-                {isSubmitting ? "Please wait..." : "Update Account"}
-              </Button>
-              <div className="warning">
-                <br />
-                {errorMsg}
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    color="colorPrimary"
+                    className={classes.submitButton}
+                  >
+                    {isSubmitting ? "Please wait..." : "Update Account"}
+                  </Button>
+                  <div className="warning">
+                    <br />
+                    {errorMsg}
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </>
+      ) : (
+        <>
+          <h1 className={classes.heading1}>
+            Instructions have been sent to the email you provided in order to
+            confirm account updates.
+          </h1>
+          <h2>
+            Please allow a few minutes for the email to arrive in your inbox.
+          </h2>
+        </>
+      )}
       <br />
     </ContentContainer>
   );
