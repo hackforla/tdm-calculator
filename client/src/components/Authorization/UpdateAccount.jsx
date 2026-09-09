@@ -63,17 +63,12 @@ const UpdateAccount = props => {
       );
 
       if (response.code === "ACCOUNT_EMAIL_UPDATE_SUCCESS") {
-        setSubmitted(true);
         userContext.updateAccount(response.user);
+        setSubmitted(true);
         return;
       }
 
       switch (response.code) {
-        case "ACCOUNT_EMAIL_UPDATE_SUCCESS":
-          setSuccessMsg(response.message);
-          userContext.updateAccount(response.user);
-          break;
-
         case "ACCOUNT_UPDATE_SUCCESS":
           setSuccessMsg(response.message);
           userContext.updateAccount(response.user);

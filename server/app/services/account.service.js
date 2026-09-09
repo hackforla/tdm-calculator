@@ -148,17 +148,18 @@ const updateAccount = async model => {
     request.input("FirstName", mssql.NVarChar, model.firstName);
     request.input("LastName", mssql.NVarChar, model.lastName);
 
-    await request.execute("Login_Update"); // update user profile (name)
-    const updatedUser = await selectByEmail(model.email); // get updated user data
+    await request.execute("Login_Update");
 
-    // if requesting email change, update email change history
+    const updatedUser = await selectById(model.id);
+
+    // If requesting email change, record history
     if (user.email !== model.email) {
       const token = crypto.randomUUID();
       const emailChangeRequest = pool.request();
 
-      emailChangeRequest.input("UserId", mssql.Int, model.id);
-      emailChangeRequest.input("RequestedEmail", mssql.NVarChar, model.email);
-      emailChangeRequest.input("ActiveEmail", mssql.NVarChar, user.email);
+      emailChangeRequest.input("userId", mssql.Int, model.id);
+      emailChangeRequest.input("requestedEmail", mssql.NVarChar, model.email);
+      emailChangeRequest.input("activeEmail", mssql.NVarChar, user.email);
 
       await emailChangeRequest.execute("LoginEmailChangeHistory_Insert");
       await handleVerifyUpdateConfirmation(model.email, token);
@@ -166,7 +167,16 @@ const updateAccount = async model => {
       return {
         isSuccess: true,
         code: "ACCOUNT_EMAIL_UPDATE_SUCCESS",
-        message: "Account updates successful."
+        message: "Account updates successful.",
+        user: {
+          id: updatedUser.id,
+          firstName: updatedUser.firstName,
+          lastName: updatedUser.lastName,
+          email: updatedUser.email, // Note: this is still the active/old email until verified
+          isAdmin: updatedUser.isAdmin,
+          emailConfirmed: updatedUser.emailConfirmed,
+          isSecurityAdmin: updatedUser.isSecurityAdmin
+        }
       };
     }
 
