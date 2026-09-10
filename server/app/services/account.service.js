@@ -130,6 +130,38 @@ const handleVerifyUpdateConfirmation = async (email, token) => {
   }
 };
 
+const handleEmailAccountUpdate = async (model, user) => {
+  const token = crypto.randomUUID();
+
+  const tokenRequest = pool.request();
+  tokenRequest.input("token", mssql.NVarChar, token);
+  tokenRequest.input("email", mssql.NVarChar, model.email);
+  await tokenRequest.execute("SecurityToken_Insert");
+
+  const emailChangeRequest = pool.request();
+  emailChangeRequest.input("userId", mssql.Int, model.id);
+  emailChangeRequest.input("requestedEmail", mssql.NVarChar, model.email);
+  emailChangeRequest.input("activeEmail", mssql.NVarChar, user.email);
+  await emailChangeRequest.execute("LoginEmailChangeHistory_Insert");
+
+  await handleVerifyUpdateConfirmation(model.email, token);
+
+  return {
+    isSuccess: true,
+    code: "ACCOUNT_EMAIL_UPDATE_SUCCESS",
+    message: "Account updates successful.",
+    user: {
+      id: user.id,
+      firstName: model.firstName,
+      lastName: model.lastName,
+      email: user.email, // remains current email until verified
+      isAdmin: user.isAdmin,
+      emailConfirmed: user.emailConfirmed, // reset to false by the stored procedure
+      isSecurityAdmin: user.isSecurityAdmin
+    }
+  };
+};
+
 const updateAccount = async model => {
   try {
     const user = await selectById(model.id);
@@ -143,55 +175,32 @@ const updateAccount = async model => {
     await validateUniqueEmail(model.email, model.id);
 
     await poolConnect;
+
+    // Update names
     const request = pool.request();
     request.input("id", mssql.Int, model.id);
     request.input("FirstName", mssql.NVarChar, model.firstName);
     request.input("LastName", mssql.NVarChar, model.lastName);
-
     await request.execute("Login_Update");
 
-    const updatedUser = await selectById(model.id);
-
-    // If requesting email change, record history
+    // Email change flow
     if (user.email !== model.email) {
-      const token = crypto.randomUUID();
-      const emailChangeRequest = pool.request();
-
-      emailChangeRequest.input("userId", mssql.Int, model.id);
-      emailChangeRequest.input("requestedEmail", mssql.NVarChar, model.email);
-      emailChangeRequest.input("activeEmail", mssql.NVarChar, user.email);
-
-      await emailChangeRequest.execute("LoginEmailChangeHistory_Insert");
-      await handleVerifyUpdateConfirmation(model.email, token);
-
-      return {
-        isSuccess: true,
-        code: "ACCOUNT_EMAIL_UPDATE_SUCCESS",
-        message: "Account updates successful.",
-        user: {
-          id: updatedUser.id,
-          firstName: updatedUser.firstName,
-          lastName: updatedUser.lastName,
-          email: updatedUser.email, // Note: this is still the active/old email until verified
-          isAdmin: updatedUser.isAdmin,
-          emailConfirmed: updatedUser.emailConfirmed,
-          isSecurityAdmin: updatedUser.isSecurityAdmin
-        }
-      };
+      return await handleEmailAccountUpdate(model, user);
     }
 
+    // Name-only update flow
     return {
       isSuccess: true,
       code: "ACCOUNT_UPDATE_SUCCESS",
       message: "Account updates successful.",
       user: {
-        id: updatedUser.id,
-        firstName: updatedUser.firstName,
-        lastName: updatedUser.lastName,
-        email: updatedUser.email,
-        isAdmin: updatedUser.isAdmin,
-        emailConfirmed: updatedUser.emailConfirmed,
-        isSecurityAdmin: updatedUser.isSecurityAdmin
+        id: user.id,
+        firstName: model.firstName,
+        lastName: model.lastName,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        emailConfirmed: user.emailConfirmed,
+        isSecurityAdmin: user.isSecurityAdmin
       }
     };
   } catch (err) {
