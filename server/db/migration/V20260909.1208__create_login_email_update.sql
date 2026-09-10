@@ -22,7 +22,10 @@ END
 GO
 
 
-
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [dbo].[LoginEmailChangeHistory]
 (
     [id] [int] IDENTITY(1,1) NOT NULL,
@@ -36,13 +39,6 @@ CREATE TABLE [dbo].[LoginEmailChangeHistory]
     FOREIGN KEY ([userId]) REFERENCES [dbo].[Login] ([id])
 );
 GO
-
-
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
 
 
 SET ANSI_NULLS ON
@@ -87,11 +83,6 @@ BEGIN
         );
 
 
-        -- Reset confirmation status in Login table
-        UPDATE [dbo].[Login]
-        SET [emailConfirmed] = 0
-        WHERE [email] = @activeEmail
-          AND [id] = @userId;
 
         COMMIT TRANSACTION;
     END TRY
@@ -104,6 +95,11 @@ BEGIN
 END;
 GO
 
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE OR ALTER PROCEDURE [dbo].[Login_ConfirmUpdateEmail]
     @email NVARCHAR(100)
 AS
@@ -115,7 +111,7 @@ BEGIN
 
         DECLARE @userId INT;
 
-        -- Find the user ID for most recent change request 
+        -- Find the user ID for the most recent pending change request 
         SELECT TOP (1) 
             @userId = [userId]
         FROM [dbo].[LoginEmailChangeHistory]
@@ -123,33 +119,25 @@ BEGIN
           AND [dateChanged] IS NULL
         ORDER BY [dateRequested] DESC;
 
-      
-
         IF @userId IS NULL
         BEGIN
-            RAISERROR('No pending email update request found for this email.', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+            ;THROW 50001, 'No pending email update request found for this email.', 1;
         END;
 
-        
-        BEGIN
-            -- Update the target user record in Login table
-            UPDATE [dbo].[Login]
-            SET [email] = @email,
-                [emailConfirmed] = 1
-            WHERE [id] = @userId;
+       -- Update Login table with verified email
+        UPDATE [dbo].[Login]
+        SET [email] = @email
+        WHERE [id] = @userId;
 
-            -- Update history record in LoginEmailChangeHistory table
-            UPDATE [dbo].[LoginEmailChangeHistory]
-            SET 
-                [lastActiveEmail] = [activeEmail],
-                [activeEmail] = @email,
-                [dateChanged] = SYSUTCDATETIME()
-            WHERE [requestedEmail] = @email
-                AND [userId] = @userId
-                AND [dateChanged] IS NULL;
-        END
+        -- Mark history record as completed
+        UPDATE [dbo].[LoginEmailChangeHistory]
+        SET 
+            [lastActiveEmail] = [activeEmail],
+            [activeEmail] = @email,
+            [dateChanged] = SYSUTCDATETIME()
+        WHERE [requestedEmail] = @email
+          AND [userId] = @userId
+          AND [dateChanged] IS NULL;
 
         COMMIT TRANSACTION;
 

@@ -156,7 +156,7 @@ const handleEmailAccountUpdate = async (model, user) => {
       lastName: model.lastName,
       email: user.email, // remains current email until verified
       isAdmin: user.isAdmin,
-      emailConfirmed: user.emailConfirmed, // reset to false by the stored procedure
+      emailConfirmed: user.emailConfirmed, // remains confirmed to allow authorized login on current email
       isSecurityAdmin: user.isSecurityAdmin
     }
   };
