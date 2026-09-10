@@ -68,7 +68,9 @@ const Login = () => {
           navigate("/calculation/1/0");
         }
       } else if (loginResponse.code === "USER_ARCHIVED") {
-        setErrorMsg(`Login Failed - This account has been archived.`);
+        setErrorMsg(
+          `Login Failed - This account has been archived. Please contact ladot.tdm@lacity.org for support.`
+        );
         setSubmitting(false);
       } else if (loginResponse.code === "AUTH_NOT_CONFIRMED") {
         try {
