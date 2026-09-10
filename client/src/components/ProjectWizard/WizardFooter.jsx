@@ -308,7 +308,20 @@ const WizardFooter = ({
           </div>
         </div>
       ) : (
-        ""
+        <div className={classes.datesStatus}>
+          <div>
+            <strong>Guidelines Version: </strong>
+            {formatCalculation(calculations[projectNameRule.calculationId])}
+          </div>
+          <div className={classes.pdfTimeText}>
+            <strong>Status: </strong>
+            Draft
+          </div>
+          <div>
+            <strong>Date Last Saved: </strong>
+            Unsaved
+          </div>
+        </div>
       )}
     </>
   );
