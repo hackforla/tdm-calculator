@@ -266,62 +266,66 @@ const WizardFooter = ({
         ) : null}
       </div>
 
-      {page === 5 && formattedDateModified && loggedInUserId ? (
-        <div className={classes.datesStatus}>
-          <div>
-            <strong>Snapshot Owner: </strong>
-            {firstName} {lastName}, {email}
-          </div>
-          <div>
-            <strong>Guidelines Version: </strong>
-            {formatCalculation(calculations[projectNameRule.calculationId])}
-          </div>
-          {isAdmin && (
+      {page === 5 ? (
+        formattedDateModified && loggedInUserId ? (
+          <div className={classes.datesStatus}>
             <div>
-              <strong>Submission Status: </strong>
-              {project.approvalStatusName}
+              <strong>Snapshot Owner: </strong>
+              {firstName} {lastName}, {email}
             </div>
-          )}
-          <div className={classes.pdfTimeText}>
-            <strong>Status: </strong>
-            {!formattedDateSnapshotted
-              ? "Draft"
-              : project.shareCount
-                ? "Shared Snapshot"
-                : "Snapshot"}
-          </div>
-          {formattedDateSubmitted ? (
             <div>
-              <strong>Snapshot Submitted: </strong>
-              {formattedDateSubmitted} Pacific Time
+              <strong>Guidelines Version: </strong>
+              {formatCalculation(calculations[projectNameRule.calculationId])}
             </div>
-          ) : null}
-          {formattedDateSnapshotted ? (
+            {isAdmin && (
+              <div>
+                <strong>Submission Status: </strong>
+                {project.approvalStatusName}
+              </div>
+            )}
+            <div className={classes.pdfTimeText}>
+              <strong>Status: </strong>
+              {!formattedDateSnapshotted
+                ? "Draft"
+                : project.shareCount
+                  ? "Shared Snapshot"
+                  : "Snapshot"}
+            </div>
+            {formattedDateSubmitted ? (
+              <div>
+                <strong>Snapshot Submitted: </strong>
+                {formattedDateSubmitted} Pacific Time
+              </div>
+            ) : null}
+            {formattedDateSnapshotted ? (
+              <div>
+                <strong>Snapshot Created: </strong>
+                {formattedDateSnapshotted} Pacific Time
+              </div>
+            ) : null}
             <div>
-              <strong>Snapshot Created: </strong>
-              {formattedDateSnapshotted} Pacific Time
+              <strong>Date Last Saved: </strong>
+              {formattedDateModified} Pacific Time
             </div>
-          ) : null}
-          <div>
-            <strong>Date Last Saved: </strong>
-            {formattedDateModified} Pacific Time
           </div>
-        </div>
+        ) : (
+          <div className={classes.datesStatus}>
+            <div>
+              <strong>Guidelines Version: </strong>
+              {formatCalculation(calculations[projectNameRule.calculationId])}
+            </div>
+            <div className={classes.pdfTimeText}>
+              <strong>Status: </strong>
+              Draft
+            </div>
+            <div>
+              <strong>Date Last Saved: </strong>
+              Unsaved
+            </div>
+          </div>
+        )
       ) : (
-        <div className={classes.datesStatus}>
-          <div>
-            <strong>Guidelines Version: </strong>
-            {formatCalculation(calculations[projectNameRule.calculationId])}
-          </div>
-          <div className={classes.pdfTimeText}>
-            <strong>Status: </strong>
-            Draft
-          </div>
-          <div>
-            <strong>Date Last Saved: </strong>
-            Unsaved
-          </div>
-        </div>
+        ""
       )}
     </>
   );
