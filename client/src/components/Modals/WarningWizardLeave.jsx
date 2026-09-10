@@ -43,7 +43,7 @@ const NavConfirmDialog = ({ blocker }) => {
         </h2>
         <div>
           Leaving this page will permanently delete any unsaved changes to the
-          project.
+          TDM Plan.
         </div>
         <div className={classes.modalActions}>
           <Button

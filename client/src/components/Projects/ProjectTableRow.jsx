@@ -319,7 +319,7 @@ const ProjectTableRow = ({
     <tr key={project.id}>
       <Td>
         <label htmlFor={project.id + "-checkbox"} className="sr-only">
-          Select project {project.name}
+          Select TDM Plan {project.name}
         </label>
         <input
           id={project.id + "-checkbox"}
@@ -332,14 +332,14 @@ const ProjectTableRow = ({
       <Td align="center">
         {project.dateHidden ? (
           <MdVisibilityOff
-            alt={`Project Is Hidden`}
-            title={`Project is hidden`}
+            alt={`TDM Plan Is Hidden`}
+            title={`TDM Plan is hidden`}
             style={{ width: "1em" }}
           />
         ) : (
           <MdVisibility
-            alt={`Project Is Visible`}
-            title={`Project is visible`}
+            alt={`TDM Plan Is Visible`}
+            title={`TDM Plan is visible`}
             style={{ width: "1em" }}
           />
         )}
@@ -367,6 +367,7 @@ const ProjectTableRow = ({
       <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
       </TdExpandable>
+      <TdExpandable>{project.projectName}</TdExpandable>
       <TdExpandable>{project.address}</TdExpandable>
       <TdExpandable>{fallbackToBlank(formInputs.VERSION_NO)}</TdExpandable>
       <TdExpandable>{`${project.lastName}, ${projectFirstNameLabel}`}</TdExpandable>

@@ -260,7 +260,7 @@ const WizardFooter = ({
               isDisplayed={setDisplaySaveButton()}
               onClick={onSave}
             >
-              Save Project
+              Save TDM Plan
             </Button>
           </>
         ) : null}

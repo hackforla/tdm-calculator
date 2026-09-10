@@ -54,6 +54,7 @@ const DEFAULT_FILTER_CRITERIA = {
   endDateSubmitted: null,
   idFormattedList: [],
   nameList: [],
+  projectNameList: [],
   addressList: [],
   alternativeList: [],
   authorList: [],
@@ -324,7 +325,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   );
 
   const handleTabClick = e => {
-    setIsActiveProjectsTab(e.target.innerText === "Projects");
+    setIsActiveProjectsTab(e.target.innerText === "TDM Plans");
   };
 
   const enhancedProjects = projects
@@ -784,6 +785,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
     )
       return false;
     if (
+      criteria.projectName &&
+      !p.projectName.toLowerCase().includes(criteria.projectName.toLowerCase())
+    )
+      return false;
+    if (
       criteria.address &&
       !p.address.toLowerCase().includes(criteria.address.toLowerCase())
     )
@@ -868,10 +874,19 @@ const ProjectsPage = ({ contentContainerRef }) => {
     }
 
     if (
+      criteria.projectNameList.length > 0 &&
+      !criteria.projectNameList
+        .map(n => n.toLowerCase())
+        .includes(p.projectName?.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (
       criteria.addressList.length > 0 &&
       !criteria.addressList
         .map(n => n.toLowerCase())
-        .includes(p.address.toLowerCase())
+        .includes(p.address?.toLowerCase())
     ) {
       return false;
     }
@@ -1005,6 +1020,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
     },
     {
       id: "name",
+      label: "TDM Plan Name",
+      popupType: "string",
+      colWidth: "20rem"
+    },
+    {
+      id: "projectName",
       label: "Project Name",
       popupType: "string",
       colWidth: "20rem"
@@ -1116,7 +1137,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
-      <h1 className={classes.pageTitle}>My Projects</h1>
+      <h1 className={classes.pageTitle}>My TDM Plans</h1>
       <div className={classes.pageTabsDiv}>
         <span
           className={`${classes.pageTab}
@@ -1128,7 +1149,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
               `}
           onClick={handleTabClick}
         >
-          Projects
+          TDM Plans
         </span>
         <span
           className={`${classes.pageTab}
@@ -1140,7 +1161,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
               `}
           onClick={handleTabClick}
         >
-          Deleted Projects
+          Deleted TDM Plans
         </span>
       </div>
       <div className={classes.tabBody}>
