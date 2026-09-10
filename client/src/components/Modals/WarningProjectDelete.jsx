@@ -50,7 +50,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
             className={classes.heading1}
             style={{ marginBottom: "1.5rem", color: "" }}
           >
-            Restore Project from Trash
+            Restore TDM Plan from Trash
           </div>
           <div className={classes.subheading}>
             Are you sure you want to restore the following from the trash?
@@ -60,7 +60,7 @@ const DeleteProjectModal = ({ mounted, onClose, project }) => {
         <div className={classes.container}>
           <MdWarning alt="Warning" className={classes.warningIcon} />
           <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>
-            Delete Project
+            Delete TDM Plan
           </div>
           <div className={classes.subheading}>
             Are you sure you want to delete the following? (It will remain in

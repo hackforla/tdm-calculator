@@ -54,6 +54,7 @@ const post = async item => {
     await poolConnect;
     const request = pool.request();
     request.input("name", mssql.NVarChar, item.name); // 200
+    request.input("projectName", mssql.NVarChar, item.projectName); // 200
     request.input("address", mssql.NVarChar, item.address); // 200
     request.input("description", mssql.NVarChar, item.description); // max
     request.input("formInputs", mssql.NVarChar, item.formInputs); // max
@@ -74,8 +75,8 @@ const put = async item => {
   try {
     await poolConnect;
     const request = pool.request();
-
     request.input("name", mssql.NVarChar, item.name); // 200
+    request.input("projectName", mssql.NVarChar, item.projectName); // 200
     request.input("address", mssql.NVarChar, item.address); // 200
     request.input("description", mssql.NVarChar, item.description); // max
     request.input("formInputs", mssql.NVarChar, item.formInputs); // max

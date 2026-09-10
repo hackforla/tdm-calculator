@@ -121,7 +121,7 @@ const MultiProjectToolbarMenu = ({
     const hasNoSelection = checkedProjectIds.length === 0;
 
     if (actionType === "print" && checkedProjectIds.length !== 1) {
-      return "Please select one project";
+      return "Please select one TDM Plan";
     }
 
     if (!actionType || hasNoSelection) return null;
@@ -189,7 +189,7 @@ const MultiProjectToolbarMenu = ({
   return (
     <div className={classes.container}>
       <div className={classes.multiStatus}>
-        {checkedProjectIds.length} Projects Selected
+        {checkedProjectIds.length} TDM Plans Selected
       </div>
       <ul className={classes.list}>
         {ENABLE_UPDATE_TOTALS ? (
