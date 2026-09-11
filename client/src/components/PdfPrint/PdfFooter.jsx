@@ -63,7 +63,7 @@ const PdfFooter = ({ project }) => {
 
   return (
     <section className={classes.pdfFooterContainer}>
-      {loginId && (
+      {dateModified && loginId ? (
         <>
           <div className={classes.pdfTimeText}>
             Snapshot Owner: {firstName} {lastName}, {email}
@@ -103,6 +103,23 @@ const PdfFooter = ({ project }) => {
               Date Last Saved: {formattedDateModified} Pacific Time
             </div>
           )}
+        </>
+      ) : (
+        <>
+          <div className={classes.pdfTimeText}>
+            Guidelines Version:
+            {calculations &&
+              project.calculationId &&
+              calculations[project.calculationId] &&
+              formatCalculation(calculations[project.calculationId])}
+          </div>
+          {isAdmin && (
+            <div className={classes.pdfTimeText}>
+              Submission Status: {project.approvalStatusName}
+            </div>
+          )}
+          <div className={classes.pdfTimeText}>Status: Draft</div>
+          <div className={classes.pdfTimeText}>Date Last Saved: Unsaved</div>
         </>
       )}
 
