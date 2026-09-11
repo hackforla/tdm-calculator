@@ -88,7 +88,7 @@ const ProjectInfoContainer = props => {
         )}
         {projectID && (
           <div className={classes.projectIdRight}>
-            <ProjectInfo name="Project ID #" rule={{ value: projectID }} />
+            <ProjectInfo name="TDM Plan ID #" rule={{ value: projectID }} />
           </div>
         )}
       </div>
