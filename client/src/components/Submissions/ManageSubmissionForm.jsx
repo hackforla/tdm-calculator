@@ -176,11 +176,11 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
         <div className={classes.columnContainer}>
           <div className={classes.column1}>
             <div className={classes.rowFlexBox}>
-              <span className={classes.rowLabel}>Project ID</span>
+              <span className={classes.rowLabel}>TDM Plan ID</span>
               <span>{formatId(project.id)}</span>
             </div>
             <div className={classes.rowFlexBox}>
-              <span className={classes.rowLabel}>Project Name</span>
+              <span className={classes.rowLabel}>TDM Name</span>
               <span>{project.name}</span>
             </div>
             <div className={classes.rowFlexBox}>
