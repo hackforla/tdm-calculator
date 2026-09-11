@@ -130,6 +130,38 @@ const handleVerifyUpdateConfirmation = async (email, token) => {
   }
 };
 
+const handleEmailAccountUpdate = async (model, user) => {
+  const token = crypto.randomUUID();
+
+  const tokenRequest = pool.request();
+  tokenRequest.input("token", mssql.NVarChar, token);
+  tokenRequest.input("email", mssql.NVarChar, model.email);
+  await tokenRequest.execute("SecurityToken_Insert");
+
+  const emailChangeRequest = pool.request();
+  emailChangeRequest.input("userId", mssql.Int, model.id);
+  emailChangeRequest.input("requestedEmail", mssql.NVarChar, model.email);
+  emailChangeRequest.input("activeEmail", mssql.NVarChar, user.email);
+  await emailChangeRequest.execute("LoginEmailChangeHistory_Insert");
+
+  await handleVerifyUpdateConfirmation(model.email, token);
+
+  return {
+    isSuccess: true,
+    code: "ACCOUNT_EMAIL_UPDATE_SUCCESS",
+    message: "Account updates successful.",
+    user: {
+      id: user.id,
+      firstName: model.firstName,
+      lastName: model.lastName,
+      email: user.email, // remains current email until verified
+      isAdmin: user.isAdmin,
+      emailConfirmed: user.emailConfirmed, // remains confirmed to allow authorized login on current email
+      isSecurityAdmin: user.isSecurityAdmin
+    }
+  };
+};
+
 const updateAccount = async model => {
   try {
     const user = await selectById(model.id);
@@ -139,24 +171,41 @@ const updateAccount = async model => {
       throw error;
     }
 
-    validateAuthorizedEmail(model.email, user);
-    await validateUniqueEmail(model.email, model.id);
+    const isEmailChanging = model.email && model.email !== user.email;
+
+    if (isEmailChanging) {
+      validateAuthorizedEmail(model.email, user);
+      await validateUniqueEmail(model.email, model.id);
+    }
 
     await poolConnect;
+
+    // Update names
     const request = pool.request();
     request.input("id", mssql.Int, model.id);
     request.input("FirstName", mssql.NVarChar, model.firstName);
     request.input("LastName", mssql.NVarChar, model.lastName);
-    request.input("Email", mssql.NVarChar, model.email);
     await request.execute("Login_Update");
 
-    const token = crypto.randomUUID();
-    await handleVerifyUpdateConfirmation(model.email, token);
+    // Email change flow
+    if (isEmailChanging) {
+      return await handleEmailAccountUpdate(model, user);
+    }
 
+    // Name-only update flow
     return {
       isSuccess: true,
       code: "ACCOUNT_UPDATE_SUCCESS",
-      message: "Account updates succeeded."
+      message: "Account updates successful.",
+      user: {
+        id: user.id,
+        firstName: model.firstName,
+        lastName: model.lastName,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        emailConfirmed: user.emailConfirmed,
+        isSecurityAdmin: user.isSecurityAdmin
+      }
     };
   } catch (err) {
     return {
@@ -171,24 +220,33 @@ const updateAccount = async model => {
 const resendConfirmationEmail = async email => {
   try {
     await poolConnect;
-    const request = pool.request();
-    request.input("email", mssql.NVarChar, email);
-    const selectByEmailResponse = await request.execute("Login_SelectByEmail");
+    const emailRequest = pool.request();
+    emailRequest.input("email", mssql.NVarChar(100), email);
+    const emailResponse = await emailRequest.execute(
+      "Login_SelectByEmailAndPendingEmail"
+    );
+    const userRecord = emailResponse.recordset[0];
 
-    let result = {
+    if (!userRecord) {
+      return {
+        isSuccess: false,
+        code: "REG_ACCOUNT_NOT_FOUND",
+        message: `Account not found for email: ${email}`
+      };
+    }
+
+    const result = {
       isSuccess: true,
       code: "REG_SUCCESS",
-      newId: selectByEmailResponse.recordset[0].id,
+      newId: userRecord.id,
       message: "Account found."
     };
-    result = await requestRegistrationConfirmation(email, result);
-    return result;
+
+    return await requestRegistrationConfirmation(email, result);
   } catch (err) {
-    // Assume any error is an email that does not correspond to
-    // an account.
     return {
       isSuccess: false,
-      code: "REG_ACCOUNT_NOT_FOUND",
+      code: "RESEND_FAILED",
       message: `Resending confirmation email to ${email} failed due to: ${err.message}`
     };
   }
@@ -226,8 +284,7 @@ const confirmRegistration = async token => {
   try {
     await poolConnect;
     const request = pool.request();
-
-    request.input("token", mssql.NVarChar, token);
+    request.input("token", mssql.NVarChar(200), token);
 
     const sqlResult = await request.execute("SecurityToken_SelectByToken");
     const resultSet = sqlResult.recordset;
@@ -241,7 +298,8 @@ const confirmRegistration = async token => {
           "Email confirmation failed. Invalid security token. Re-send confirmation email."
       };
     } else if (
-      (now.getTime() - resultSet[0].dateCreated.getTime()) / (60 * 60 * 1000) >=
+      (now.getTime() - new Date(resultSet[0].dateCreated).getTime()) /
+        (60 * 60 * 1000) >=
       24
     ) {
       return {
@@ -252,20 +310,47 @@ const confirmRegistration = async token => {
       };
     }
 
-    // If we get this far, we can update the login.email_confirmed flag
     const email = resultSet[0].email;
-    const updateRequest = await pool.request();
-    updateRequest.input("email", mssql.NVarChar, email);
-    await updateRequest.execute("Login_ConfirmEmail");
+
+    // Check for an active pending change request
+    const historyRequest = pool.request();
+    historyRequest.input("RequestedEmail", mssql.NVarChar(100), email);
+
+    const historyResult = await historyRequest.execute(
+      "LoginEmailChangeHistory_SelectByRecentPendingEmail"
+    );
+    const pendingEmailChange = historyResult.recordset[0];
+
+    const confirmRequest = pool.request();
+    confirmRequest.input("email", mssql.NVarChar(100), email);
+
+    if (pendingEmailChange) {
+      const userId = pendingEmailChange.userId;
+      await validateUniqueEmail(email, userId);
+      await confirmRequest.execute("Login_ConfirmUpdateEmail");
+
+      return {
+        isSuccess: true,
+        code: "REG_CONFIRM_SUCCESS",
+        message: "Email change confirmed successfully.",
+        email
+      };
+    }
+    // First-time registration
+    await confirmRequest.execute("Login_ConfirmEmail");
 
     return {
       isSuccess: true,
       code: "REG_CONFIRM_SUCCESS",
-      message: "Email confirmed.",
+      message: "Email confirmed successfully.",
       email
     };
   } catch (err) {
-    return { message: err.message };
+    return {
+      isSuccess: false,
+      code: "CONFIRM_FAILED",
+      message: err.message
+    };
   }
 };
 
