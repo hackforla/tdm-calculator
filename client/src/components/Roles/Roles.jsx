@@ -314,7 +314,7 @@ const Roles = ({ contentContainerRef }) => {
                 className={`${classes.td} ${classes.theadLabel}`}
                 style={{ width: "4em" }}
               >
-                # of Projects
+                # of TDM Plans
               </th>
               <th
                 className={`${classes.tdCenter} ${classes.theadLabel}`}
