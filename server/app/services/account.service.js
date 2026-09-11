@@ -171,8 +171,12 @@ const updateAccount = async model => {
       throw error;
     }
 
-    validateAuthorizedEmail(model.email, user);
-    await validateUniqueEmail(model.email, model.id);
+    const isEmailChanging = model.email && model.email !== user.email;
+
+    if (isEmailChanging) {
+      validateAuthorizedEmail(model.email, user);
+      await validateUniqueEmail(model.email, model.id);
+    }
 
     await poolConnect;
 
@@ -184,7 +188,7 @@ const updateAccount = async model => {
     await request.execute("Login_Update");
 
     // Email change flow
-    if (user.email !== model.email) {
+    if (isEmailChanging) {
       return await handleEmailAccountUpdate(model, user);
     }
 

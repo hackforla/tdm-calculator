@@ -34,7 +34,7 @@ CREATE TABLE [dbo].[LoginEmailChangeHistory]
     [activeEmail] [nvarchar](100) NULL,
     [lastActiveEmail] [nvarchar](100) NULL,
     [dateRequested] [datetime2](7) NOT NULL DEFAULT (SYSUTCDATETIME()),
-    [dateChanged] [datetime2](7) NULL,
+    [dateConfirmed] [datetime2](7) NULL,
     PRIMARY KEY ([id]),
     FOREIGN KEY ([userId]) REFERENCES [dbo].[Login] ([id])
 );
@@ -60,7 +60,7 @@ BEGIN
         -- Invalidate any prior pending change requests for this user
         DELETE FROM [dbo].[LoginEmailChangeHistory]
         WHERE [userId] = @userId
-          AND [dateChanged] IS NULL;
+          AND [dateConfirmed] IS NULL;
 
     
         INSERT INTO [dbo].[LoginEmailChangeHistory]
@@ -70,7 +70,7 @@ BEGIN
             [activeEmail],
             [lastActiveEmail],
             [dateRequested],
-            [dateChanged]
+            [dateConfirmed]
         )
         VALUES
         (
@@ -116,7 +116,7 @@ BEGIN
             @userId = [userId]
         FROM [dbo].[LoginEmailChangeHistory]
         WHERE [requestedEmail] = @email
-          AND [dateChanged] IS NULL
+          AND [dateConfirmed] IS NULL
         ORDER BY [dateRequested] DESC;
 
         IF @userId IS NULL
@@ -126,7 +126,9 @@ BEGIN
 
        -- Update Login table with verified email
         UPDATE [dbo].[Login]
-        SET [email] = @email
+        SET 
+        [email] = @email,
+        [emailConfirmed] = 1
         WHERE [id] = @userId;
 
         -- Mark history record as completed
@@ -134,10 +136,10 @@ BEGIN
         SET 
             [lastActiveEmail] = [activeEmail],
             [activeEmail] = @email,
-            [dateChanged] = SYSUTCDATETIME()
+            [dateConfirmed] = SYSUTCDATETIME()
         WHERE [requestedEmail] = @email
           AND [userId] = @userId
-          AND [dateChanged] IS NULL;
+          AND [dateConfirmed] IS NULL;
 
         COMMIT TRANSACTION;
 
@@ -170,7 +172,7 @@ BEGIN
         [activeEmail],
         [lastActiveEmail],
         [dateRequested],
-        [dateChanged]
+        [dateConfirmed]
     FROM [dbo].[LoginEmailChangeHistory]
     WHERE [requestedEmail] = @requestedEmail
     ORDER BY [dateRequested] DESC;
@@ -217,7 +219,7 @@ BEGIN
         @userId = [userId]
     FROM [dbo].[LoginEmailChangeHistory]
     WHERE [requestedEmail] = @email
-      AND [dateChanged] IS NULL
+      AND [dateConfirmed] IS NULL
     ORDER BY [dateRequested] DESC;
 
     -- If found as a pending request, return the user record using userId
