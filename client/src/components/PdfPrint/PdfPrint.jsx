@@ -396,7 +396,7 @@ export const PdfPrint = forwardRef((props, ref) => {
         </tfoot>
       </table>
 
-      <PdfFooter project={project} />
+      <PdfFooter project={project} rules={rules} />
     </div>
   );
 });
