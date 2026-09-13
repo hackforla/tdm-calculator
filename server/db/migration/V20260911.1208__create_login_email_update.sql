@@ -45,7 +45,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE OR ALTER PROCEDURE [dbo].[LoginEmailChangeHistory_Insert]
     @userId INT,
     @requestedEmail NVARCHAR(100),
@@ -82,8 +81,6 @@ BEGIN
             NULL
         );
 
-
-
         COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH
@@ -109,10 +106,12 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
+        DECLARE @historyId INT;
         DECLARE @userId INT;
 
         -- Find the user ID for the most recent pending change request 
         SELECT TOP (1) 
+            @historyId = [id],  
             @userId = [userId]
         FROM [dbo].[LoginEmailChangeHistory]
         WHERE [requestedEmail] = @email
@@ -137,9 +136,7 @@ BEGIN
             [lastActiveEmail] = [activeEmail],
             [activeEmail] = @email,
             [dateConfirmed] = SYSUTCDATETIME()
-        WHERE [requestedEmail] = @email
-          AND [userId] = @userId
-          AND [dateConfirmed] IS NULL;
+        WHERE [id] = @historyId;
 
         COMMIT TRANSACTION;
 
@@ -158,7 +155,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE OR ALTER PROCEDURE [dbo].[LoginEmailChangeHistory_SelectByRecentPendingEmail]
     @requestedEmail NVARCHAR(100)
 AS
@@ -175,6 +171,7 @@ BEGIN
         [dateConfirmed]
     FROM [dbo].[LoginEmailChangeHistory]
     WHERE [requestedEmail] = @requestedEmail
+    AND [dateConfirmed] IS NULL
     ORDER BY [dateRequested] DESC;
 END;
 GO
@@ -184,7 +181,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE OR ALTER PROCEDURE [dbo].[Login_SelectByEmailAndPendingEmail]
     @email NVARCHAR(100)
 AS
