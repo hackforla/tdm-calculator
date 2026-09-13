@@ -40,6 +40,10 @@ CREATE TABLE [dbo].[LoginEmailChangeHistory]
 );
 GO
 
+CREATE UNIQUE NONCLUSTERED INDEX [UQ_LoginEmailChangeHistory_OnePendingPerUser]
+ON [dbo].[LoginEmailChangeHistory] ([userId])
+WHERE [dateConfirmed] IS NULL;
+
 
 SET ANSI_NULLS ON
 GO
@@ -181,7 +185,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE OR ALTER PROCEDURE [dbo].[Login_SelectByEmailAndPendingEmail]
+CREATE OR ALTER PROCEDURE [dbo].[Login_SelectByActiveOrPendingEmail]
     @email NVARCHAR(100)
 AS
 BEGIN
@@ -218,7 +222,6 @@ BEGIN
       AND [dateConfirmed] IS NULL
     ORDER BY [dateRequested] DESC;
 
-    -- If found as a pending request, return the user record using userId
     IF @userId IS NOT NULL
     BEGIN
         SELECT 
@@ -236,6 +239,46 @@ BEGIN
         FROM [dbo].[Login]
         WHERE [id] = @userId;
     END;
+END;
+GO
+
+
+CREATE OR ALTER PROCEDURE [dbo].[LoginEmailChangeHistory_SelectByUserId]
+    @userId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT TOP (1)
+        [id],
+        [userId],
+        [requestedEmail],
+        [activeEmail],
+        [lastActiveEmail],
+        [dateRequested],
+        [dateConfirmed]
+    FROM [dbo].[LoginEmailChangeHistory]
+    WHERE [userId] = @userId
+      AND [dateConfirmed] IS NULL
+    ORDER BY [dateRequested] DESC;
+END;
+GO
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[LoginEmailChangeHistory_DeleteByUserId]
+    @userId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DELETE FROM [dbo].[LoginEmailChangeHistory]
+    WHERE [userId] = @userId
+      AND [dateConfirmed] IS NULL;
 END;
 GO
 

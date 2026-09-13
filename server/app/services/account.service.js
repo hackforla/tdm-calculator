@@ -223,7 +223,7 @@ const resendConfirmationEmail = async email => {
     const emailRequest = pool.request();
     emailRequest.input("email", mssql.NVarChar(100), email);
     const emailResponse = await emailRequest.execute(
-      "Login_SelectByEmailAndPendingEmail"
+      "Login_SelectByActiveOrPendingEmail"
     );
     const userRecord = emailResponse.recordset[0];
 
