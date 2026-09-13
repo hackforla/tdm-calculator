@@ -142,6 +142,12 @@ router.get(
 );
 
 router.get(
+  "/getpendingemail",
+  jwtSession.validateUser,
+  accountController.getPendingEmail
+);
+
+router.get(
   "/droLogins",
   jwtSession.validateRoles(["isAdmin"]),
   accountController.getAllDROUsers

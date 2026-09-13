@@ -69,6 +69,17 @@ const updateAccount = async (req, res) => {
   }
 };
 
+const getPendingEmail = async (req, res) => {
+  try {
+    const loggedInUser = req.user.id;
+    const updatedFields = { ...req.body, id: loggedInUser };
+    const response = await accountService.getPendingEmail(updatedFields);
+    res.send(response);
+  } catch (err) {
+    res.status(err.code || 500).json({ error: err.toString() });
+  }
+};
+
 const resendConfirmationEmail = async (req, res) => {
   try {
     const response = await accountService.resendConfirmationEmail(
@@ -284,5 +295,6 @@ module.exports = {
   getAllArchivedUsers,
   getAllDROUsers,
   deleteById,
-  cleanupInactive
+  cleanupInactive,
+  getPendingEmail
 };

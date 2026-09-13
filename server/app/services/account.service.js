@@ -216,6 +216,37 @@ const updateAccount = async model => {
   }
 };
 
+const getPendingEmail = async userId => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("userId", mssql.Int, userId);
+
+    const result = await request.execute(
+      "LoginEmailChangeHistory_SelectByUserId"
+    );
+
+    if (result.recordset && result.recordset.length > 0) {
+      const record = result.recordset[0];
+      return {
+        id: record.id,
+        userId: record.userId,
+        requestedEmail: record.requestedEmail,
+        dateRequested: record.dateRequested
+      };
+    }
+
+    return null;
+  } catch (err) {
+    const error = new Error(
+      `Failed to retrieve pending email request: ${err.message}`,
+      { cause: err }
+    );
+    error.code = "ERR_RETRIEVE_PENDING_EMAIL_FAILED";
+    throw error;
+  }
+};
+
 // Re-transmit confirmation email
 const resendConfirmationEmail = async email => {
   try {
@@ -798,6 +829,7 @@ module.exports = {
   forgotPassword,
   getAllArchivedUsers,
   getAllDROfficeUsers,
+  getPendingEmail,
   register,
   resendConfirmationEmail,
   resetPassword,
