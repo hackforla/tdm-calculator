@@ -72,19 +72,19 @@ const updateAccount = async (req, res) => {
 const getPendingEmail = async (req, res) => {
   try {
     const loggedInUser = req.user.id;
-    const updatedFields = { ...req.body, id: loggedInUser };
-    const response = await accountService.getPendingEmail(updatedFields);
+    const response = await accountService.getPendingEmail({ id: loggedInUser });
     res.send(response);
   } catch (err) {
-    res.status(err.code || 500).json({ error: err.toString() });
+    res.status(500).json({ error: err.toString() });
   }
 };
 
 const deletePendingEmail = async (req, res) => {
   try {
     const loggedInUser = req.user.id;
-    const updatedFields = { ...req.body, id: loggedInUser };
-    const response = await accountService.deletePendingEmail(updatedFields);
+    const response = await accountService.deletePendingEmail({
+      id: loggedInUser
+    });
     res.send(response);
   } catch (err) {
     res.status(err.code || 500).json({ error: err.toString() });

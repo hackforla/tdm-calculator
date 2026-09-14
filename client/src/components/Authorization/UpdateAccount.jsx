@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import UserContext from "../../contexts/UserContext";
 import * as accountService from "../../services/account.service";
 import { createUseStyles, useTheme } from "react-jss";
@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../Button/Button";
 import ContentContainer from "../Layout/ContentContainer";
+import Link from "components/Link/Link";
 
 const useStyles = createUseStyles(theme => ({
   submitButton: {
@@ -20,7 +21,20 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colorCritical,
     textAlign: "left"
   },
-  heading1: { ...theme.typography.heading1, textAlign: "auto" }
+  heading1: { ...theme.typography.heading1, textAlign: "auto" },
+  pendingBanner: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "1rem"
+  },
+  pendingText: {
+    margin: 0,
+    ...theme.typography.paragraph1
+  },
+  cancelButton: {
+    marginLeft: ".5rem"
+  }
 }));
 
 const UpdateAccount = props => {
@@ -39,6 +53,35 @@ const UpdateAccount = props => {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState(null);
+  const [isCancelling, setIsCancelling] = useState(false);
+
+  useEffect(() => {
+    const fetchPendingEmail = async () => {
+      try {
+        const response = await accountService.getPendingEmail();
+        if (response && response.requestedEmail) {
+          setPendingEmail(response.requestedEmail);
+        }
+      } catch (err) {
+        console.error("Failed to load pending email change:", err);
+      }
+    };
+
+    fetchPendingEmail();
+  }, []);
+
+  const handleDeletePending = async () => {
+    try {
+      setIsCancelling(true);
+      await accountService.deletePendingEmail();
+      setPendingEmail(null);
+    } catch (err) {
+      console.error("Failed to cancel pending email:", err);
+    } finally {
+      setIsCancelling(false);
+    }
+  };
 
   const updateAccountSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -109,6 +152,24 @@ const UpdateAccount = props => {
         <>
           <h1 className={classes.heading1}>Update Your Account</h1>
           <br />
+
+          {pendingEmail && (
+            <div className={classes.pendingBanner}>
+              <p className={classes.pendingText}>
+                <strong>Pending Change Email:</strong> Email verification link
+                sent to <strong>{pendingEmail}</strong>.
+              </p>
+              <Link
+                onClick={handleDeletePending}
+                disabled={isCancelling}
+                color="colorSecondary"
+                className={classes.cancelButton}
+              >
+                {isCancelling ? "Cancelling..." : "Cancel Request"}
+              </Link>
+            </div>
+          )}
+
           <div className="auth-form">
             <Formik
               initialValues={initialValues}
