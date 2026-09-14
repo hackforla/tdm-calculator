@@ -216,11 +216,11 @@ const updateAccount = async model => {
   }
 };
 
-const getPendingEmail = async userId => {
+const getPendingEmail = async model => {
   try {
     await poolConnect;
     const request = pool.request();
-    request.input("userId", mssql.Int, userId);
+    request.input("userId", mssql.Int, model.id);
 
     const result = await request.execute(
       "LoginEmailChangeHistory_SelectByUserId"
@@ -243,6 +243,24 @@ const getPendingEmail = async userId => {
       { cause: err }
     );
     error.code = "ERR_RETRIEVE_PENDING_EMAIL_FAILED";
+    throw error;
+  }
+};
+
+const deletePendingEmail = async model => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+    request.input("userId", mssql.Int, model.id);
+
+    await request.execute("LoginEmailChangeHistory_DeleteByUserId");
+    return true;
+  } catch (err) {
+    const error = new Error(
+      `Failed to delete pending email request: ${err.message}`,
+      { cause: err }
+    );
+    error.code = "ERR_DELETE_PENDING_EMAIL_FAILED";
     throw error;
   }
 };
@@ -826,6 +844,7 @@ module.exports = {
   cleanupInactive,
   confirmRegistration,
   deleteUser,
+  deletePendingEmail,
   forgotPassword,
   getAllArchivedUsers,
   getAllDROfficeUsers,

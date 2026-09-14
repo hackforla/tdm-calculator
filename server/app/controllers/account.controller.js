@@ -80,6 +80,17 @@ const getPendingEmail = async (req, res) => {
   }
 };
 
+const deletePendingEmail = async (req, res) => {
+  try {
+    const loggedInUser = req.user.id;
+    const updatedFields = { ...req.body, id: loggedInUser };
+    const response = await accountService.deletePendingEmail(updatedFields);
+    res.send(response);
+  } catch (err) {
+    res.status(err.code || 500).json({ error: err.toString() });
+  }
+};
+
 const resendConfirmationEmail = async (req, res) => {
   try {
     const response = await accountService.resendConfirmationEmail(
@@ -296,5 +307,6 @@ module.exports = {
   getAllDROUsers,
   deleteById,
   cleanupInactive,
-  getPendingEmail
+  getPendingEmail,
+  deletePendingEmail
 };
