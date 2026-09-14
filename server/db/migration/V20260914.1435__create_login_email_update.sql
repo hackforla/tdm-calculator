@@ -269,13 +269,27 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE OR ALTER PROCEDURE [dbo].[LoginEmailChangeHistory_DeleteByUserId]
     @userId INT
 AS
 BEGIN
     SET NOCOUNT ON;
+    DECLARE @requestedEmail NVARCHAR(255);
 
+    SELECT TOP 1 @requestedEmail = [requestedEmail]
+    FROM [dbo].[LoginEmailChangeHistory]
+    WHERE [userId] = @userId
+      AND [dateConfirmed] IS NULL
+    ORDER BY [dateRequested] DESC;
+
+    -- Delete the associated token from SecurityToken
+    IF @requestedEmail IS NOT NULL
+    BEGIN
+        DELETE FROM [dbo].[SecurityToken]
+        WHERE [email] = @requestedEmail;
+    END
+
+    -- Delete the pending history record
     DELETE FROM [dbo].[LoginEmailChangeHistory]
     WHERE [userId] = @userId
       AND [dateConfirmed] IS NULL;
