@@ -193,7 +193,6 @@ describe("Account API endpoints for end user accounts", () => {
         token: passwordResetToken
       });
 
-    console.log("resetPassword response body:", res.body);
     expect(res.statusCode).toEqual(200);
   });
 
