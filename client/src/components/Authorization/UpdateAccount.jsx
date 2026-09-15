@@ -156,7 +156,7 @@ const UpdateAccount = props => {
           {pendingEmail && (
             <div className={classes.pendingBanner}>
               <p className={classes.pendingText}>
-                <strong>Pending Change Email:</strong> Email verification link
+                <strong>Pending Email Update:</strong> Email verification link
                 sent to <strong>{pendingEmail}</strong>.
               </p>
               <Link
