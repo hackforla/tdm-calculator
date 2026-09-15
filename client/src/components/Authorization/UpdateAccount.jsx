@@ -262,7 +262,7 @@ const UpdateAccount = props => {
         <>
           <h1 className={classes.heading1}>
             Instructions have been sent to the email you provided in order to
-            confirm account updates.
+            confirm email account updates.
           </h1>
           <h2>
             Please allow a few minutes for the email to arrive in your inbox.
