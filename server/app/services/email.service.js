@@ -69,9 +69,9 @@ const sendResetPasswordConfirmation = async (email, token) => {
 
 const sendFeedback = async (loginId, feedback, projects) => {
   try {
-    const { name, email, comment, forwardToWebTeam } = feedback;
+    const { subject, email, comment, forwardToWebTeam } = feedback;
 
-    let body = ` <p><strong>Name:</strong> ${name}</p>
+    let body = ` <p><strong>Subject:</strong> ${subject}</p>
               <p><strong>Email</strong>: ${email ? email : "Anonymous"}</p>
               <p><strong>Comment</strong>: ${comment}</p>
               <p><strong>Forward To Website Team</strong>: ${
@@ -85,7 +85,7 @@ const sendFeedback = async (loginId, feedback, projects) => {
         open the project.</p>
         <table style="list-style-type:none">
         <tr>
-          <th style="text-align:left;">Name</th>
+          <th style="text-align:left;">Subject</th>
           <th style="text-align:left;">Address</th>
           <th style="text-align:left;">Date Saved</th>
           <th style="text-align:left;">Date Created</th>
@@ -94,7 +94,7 @@ const sendFeedback = async (loginId, feedback, projects) => {
         projects.map(project => {
           // console.log(project);
           return `<tr>
-            <td>${project.name}</td>
+            <td>${project.subject}</td>
             <td >
               ${JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
             </td>
@@ -109,8 +109,8 @@ const sendFeedback = async (loginId, feedback, projects) => {
     const msg = {
       to: laCityEmail,
       cc: forwardToWebTeam ? webTeamEmail : "",
-      subject: `TDM Feedback Submission - ${name}`,
-      text: `TDM Feedback Submission - ${name}`,
+      subject: `TDM Feedback Submission - ${subject}`,
+      text: `TDM Feedback Submission - ${subject}`,
       html: body
     };
 

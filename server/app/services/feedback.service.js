@@ -16,7 +16,7 @@ const post = async (loginId, feedback) => {
     // TODO: add selectedProjectIds to feedback table and stored proc.
     await poolConnect;
     const request = pool.request();
-    request.input("name", mssql.VarChar, feedback.name);
+    request.input("subject", mssql.VarChar, feedback.subject);
     request.input("email", mssql.VarChar, feedback.email);
     request.input("comment", mssql.VarChar, feedback.comment);
     request.input("forwardToWebTeam", mssql.Bit, feedback.forwardToWebTeam);
