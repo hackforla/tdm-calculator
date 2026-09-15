@@ -121,7 +121,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
             onClick={handleHamburgerMenuClick}
             onFocus={() => setNavbarOpen(true)}
           >
-            My Projects
+            My TDM Plans
           </NavLink>
         </li>
       )}
@@ -132,7 +132,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           onClick={handleHamburgerMenuClick}
           onFocus={() => setNavbarOpen(true)}
         >
-          Create Project
+          Create TDM Plan
         </NavLink>
       </li>
       {account && account.isSecurityAdmin && (
