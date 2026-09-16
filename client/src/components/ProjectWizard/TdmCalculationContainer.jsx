@@ -337,6 +337,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
 
     const requestBody = {
       name: formInputs.PROJECT_NAME,
+      projectName: formInputs.DEVELOPMENT_PROJECT || "",
       address: formInputs.PROJECT_ADDRESS,
       description: formInputs.PROJECT_DESCRIPTION,
       formInputs: JSON.stringify(inputsToSave),
@@ -347,7 +348,7 @@ export function TdmCalculationContainer({ contentContainerRef }) {
       calculationId: project.calculationId || defaultCalculationId
     };
     if (!requestBody.name) {
-      toast.add("You must give the project a name before saving.");
+      toast.add("You must give the TDM Plan a name before saving.");
       return;
     }
     if (projectId) {

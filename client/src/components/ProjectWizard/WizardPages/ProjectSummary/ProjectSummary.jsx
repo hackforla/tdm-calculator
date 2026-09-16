@@ -186,7 +186,7 @@ const ProjectSummary = props => {
               className={clsx("space-between", classes.categoryHeaderContainer)}
             >
               <span className={classes.categoryHeader}>
-                RESULTS FOR PROJECT: {projectName.value}
+                RESULTS FOR TDM Plan: {projectName.value}
               </span>
             </div>
             {isLevel0 ? (
@@ -219,7 +219,9 @@ const ProjectSummary = props => {
             <div
               className={clsx("space-between", classes.categoryHeaderContainer)}
             >
-              <span className={classes.categoryHeader}>PROJECT DETAILS</span>
+              <span className={classes.categoryHeader}>
+                DEVELOPMENT PROJECT DETAILS
+              </span>
             </div>
             <div className={classes.measuresContainer}>
               <ProjectDetail

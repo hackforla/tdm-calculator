@@ -7,9 +7,12 @@ export const jssTheme = {
   colorLADOT: "#002E6D", //navy
   colorLADOTBlack: "#231F20", //Medium Black
   colorPrintBlack: "#000000", //black for printing
+  colorDisabledGray: "989898", //gray for disabled elements
+  colorPlaceholderGray: "#757575", //gray for placeholder text
   colorGray: "#808080",
   colorLightGray: "#A0A0A0",
   colorMediumGray: "#CFCFCF",
+  colorDarkGray: "#5E5E5E",
   colorEarnedPoints: "rgb(255, 168, 4)", //orange
   colorWhite: "#FFFFFF", //white
   colorDisabled: "rgba(0, 0, 0, .05)", //lightest grey transparent
