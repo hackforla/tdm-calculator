@@ -12,6 +12,7 @@ import useErrorHandler from "../../hooks/useErrorHandler";
 import useProject from "../../hooks/useProject";
 import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData";
 import * as projectService from "../../services/project.service";
+import * as projectShareService from "../../services/projectShare.service";
 import * as projectResultService from "../../services/projectResult.service";
 import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
@@ -456,7 +457,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setDeleteModalOpen(true);
   };
 
-  const handleDeleteModalClose = async action => {
+  const handleDeleteModalClose = async (action, projectShares = []) => {
     if (action === "ok") {
       const projectIDs = selectedProject
         ? [selectedProject.id]
@@ -466,6 +467,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
         : !checkedProjectsStatusData.dateTrashed;
 
       try {
+        if (dateTrashed) {
+          await Promise.all(
+            projectShares.map(projectShare =>
+              projectShareService.del(projectShare.id)
+            )
+          );
+        }
         await projectService.trash(projectIDs, dateTrashed);
         await updateProjects();
       } catch (err) {
@@ -1378,6 +1386,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 mounted={deleteModalOpen}
                 onClose={handleDeleteModalClose}
                 project={selectedProject || checkedProjectsStatusData}
+                projects={selectedProject ? [selectedProject] : getCheckedProjects}
               />
               <SnapshotProjectModal
                 mounted={snapshotModalOpen}
