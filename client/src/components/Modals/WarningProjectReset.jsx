@@ -74,11 +74,11 @@ const ResetProjectModal = ({ mounted, onClose, project, resetProject }) => {
         <div className={classes.container}>
           <MdWarning alt="Warning" className={classes.warningIcon} />
           <div>
-            <p className={classes.heading1}>Delete Project</p>
+            <p className={classes.heading1}>Delete TDM Plan</p>
           </div>
           <div>
             <p className={classes.subheading}>
-              All data from this project will be lost.
+              All data from this TDM Plan will be lost.
             </p>
           </div>
         </div>

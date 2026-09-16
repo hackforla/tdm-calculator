@@ -74,13 +74,13 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
 
   return (
     <div>
-      <h3 className={classes.heading3}>Select Relevant Projects</h3>
+      <h3 className={classes.heading3}>Select Relevant TDM Plans</h3>
       <table className={classes.table}>
         <thead>
           <tr>
             <th></th>
             <th className={classes.tableHead}>Id</th>
-            <th className={classes.tableHead}>Project Name</th>
+            <th className={classes.tableHead}>TDM Plan Name</th>
             <th className={classes.tableHead}>Address</th>
             <th className={classes.tableHead}>Date Entered</th>
             <th className={classes.tableHead}>Date Saved</th>

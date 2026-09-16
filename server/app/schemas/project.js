@@ -5,6 +5,9 @@ module.exports = {
     name: {
       type: "string"
     },
+    projectName: {
+      type: "string"
+    },
     address: {
       type: "string"
     },

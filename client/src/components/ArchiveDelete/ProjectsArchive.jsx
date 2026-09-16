@@ -79,7 +79,7 @@ const ProjectsArchive = () => {
   return (
     <ContentContainerWithTables>
       <div className={classes.main}>
-        <h1 className={classes.pageTitle}>Archived Projects</h1>
+        <h1 className={classes.pageTitle}>Archived TDM Plans</h1>
         <div className={classes.pageSubtitle}>
           <Link to="/roles" className={classes.link}>
             Return to Active Accounts
@@ -94,7 +94,7 @@ const ProjectsArchive = () => {
         <table className={classes.table}>
           <thead className={classes.thead}>
             <tr className={classes.tr}>
-              <th className={classes.td}>Name</th>
+              <th className={classes.td}>TDM PlanName</th>
               <th className={classes.td}>Address</th>
               <th className={classes.td}>Created By</th>
               <th className={classes.td}>Created On</th>
