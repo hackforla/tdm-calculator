@@ -44,6 +44,10 @@ CREATE UNIQUE NONCLUSTERED INDEX [UQ_LoginEmailChangeHistory_OnePendingPerUser]
 ON [dbo].[LoginEmailChangeHistory] ([userId])
 WHERE [dateConfirmed] IS NULL;
 
+CREATE UNIQUE NONCLUSTERED INDEX UQ_LoginEmailChangeHistory_OnePendingRequestedEmail
+ON [dbo].[LoginEmailChangeHistory] ([requestedEmail])
+WHERE [dateConfirmed] IS NULL;
+
 
 SET ANSI_NULLS ON
 GO

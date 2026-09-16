@@ -344,13 +344,13 @@ const confirmRegistration = async token => {
     const email = resultSet[0].email;
 
     // Check for an active pending change request
-    const historyRequest = pool.request();
-    historyRequest.input("RequestedEmail", mssql.NVarChar(100), email);
+    const pendingRequest = pool.request();
+    pendingRequest.input("RequestedEmail", mssql.NVarChar(100), email);
 
-    const historyResult = await historyRequest.execute(
+    const pendingResult = await pendingRequest.execute(
       "LoginEmailChangeHistory_SelectByRecentPendingEmail"
     );
-    const pendingEmailChange = historyResult.recordset[0];
+    const pendingEmailChange = pendingResult.recordset[0];
 
     const confirmRequest = pool.request();
     confirmRequest.input("email", mssql.NVarChar(100), email);
