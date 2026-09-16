@@ -105,19 +105,6 @@ const validateAuthorizedEmail = (email, user) => {
   }
 };
 
-const validateUniqueEmail = async (email, currentUserId) => {
-  const trimmedEmail = email.toLowerCase().trim();
-  const existingEmailCheck = await selectByEmail(trimmedEmail);
-
-  if (existingEmailCheck && existingEmailCheck.id !== currentUserId) {
-    const error = new Error(
-      `The email ${email} is already in use by another account.`
-    );
-    error.code = "ERR_DUPLICATE_EMAIL";
-    throw error;
-  }
-};
-
 const handleVerifyUpdateConfirmation = async (email, token) => {
   try {
     await sendVerifyUpdateConfirmation(email, token);
@@ -131,18 +118,17 @@ const handleVerifyUpdateConfirmation = async (email, token) => {
 };
 
 const handleEmailAccountUpdate = async (model, user) => {
-  const token = crypto.randomUUID();
-
-  const tokenRequest = pool.request();
-  tokenRequest.input("token", mssql.NVarChar, token);
-  tokenRequest.input("email", mssql.NVarChar, model.email);
-  await tokenRequest.execute("SecurityToken_Insert");
-
   const emailChangeRequest = pool.request();
   emailChangeRequest.input("userId", mssql.Int, model.id);
   emailChangeRequest.input("requestedEmail", mssql.NVarChar, model.email);
   emailChangeRequest.input("activeEmail", mssql.NVarChar, user.email);
   await emailChangeRequest.execute("LoginEmailChangeHistory_Insert");
+
+  const token = crypto.randomUUID();
+  const tokenRequest = pool.request();
+  tokenRequest.input("token", mssql.NVarChar, token);
+  tokenRequest.input("email", mssql.NVarChar, model.email);
+  await tokenRequest.execute("SecurityToken_Insert");
 
   await handleVerifyUpdateConfirmation(model.email, token);
 };
@@ -160,12 +146,6 @@ const updateAccount = async model => {
 
     if (isEmailChanging) {
       validateAuthorizedEmail(model.email, user);
-      await validateUniqueEmail(model.email, model.id);
-    }
-
-    await poolConnect;
-
-    if (isEmailChanging) {
       await handleEmailAccountUpdate(model, user);
     }
 
@@ -193,6 +173,14 @@ const updateAccount = async model => {
       }
     };
   } catch (err) {
+    // Catch duplicate in login or pending active request
+    if (err.number === 50003 || err.number === 2601 || err.number === 2627) {
+      return {
+        isSuccess: false,
+        code: "EMAIL_UNAVAILABLE",
+        message: "This email address is not available, please try another."
+      };
+    }
     return {
       isSuccess: false,
       code: err.code || "ACCOUNT_UPDATE_FAILED",

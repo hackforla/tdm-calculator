@@ -64,6 +64,11 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
+        IF EXISTS (SELECT 1 FROM [dbo].[Login] WHERE [email] = @requestedEmail AND [id] <> @userId)
+        BEGIN
+            THROW 50003, 'The requested email is already in use by another account.', 1;
+        END;
+
         -- Invalidate any prior pending change requests for this user
         DELETE FROM [dbo].[LoginEmailChangeHistory]
         WHERE [userId] = @userId

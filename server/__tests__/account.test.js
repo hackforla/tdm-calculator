@@ -304,7 +304,7 @@ describe("Account API endpoints for end user accounts", () => {
         email: existingEmail
       });
 
-    expect(res.body).toHaveProperty("code", "ERR_DUPLICATE_EMAIL");
+    expect(res.body).toHaveProperty("code", "EMAIL_UNAVAILABLE");
   });
 });
 

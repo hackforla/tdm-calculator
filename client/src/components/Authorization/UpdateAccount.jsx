@@ -121,9 +121,9 @@ const UpdateAccount = props => {
           setErrorMsg(response.message);
           break;
 
-        case "ERR_DUPLICATE_EMAIL":
+        case "EMAIL_UNAVAILABLE":
           setErrorMsg(
-            `The email ${email} is already registered. Please login or use the Forgot Password feature.`
+            `The email ${email} is unavailable. Please try another email.`
           );
           break;
 
