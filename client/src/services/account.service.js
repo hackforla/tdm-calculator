@@ -64,6 +64,29 @@ export const login = async (email, password) => {
   }
 };
 
+export const getSession = async () => {
+  try {
+    const response = await axios.get(baseUrl + "/session");
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const startAngelenoLogin = redirectPath => {
+  const redirect = redirectPath || "/calculation/1/0";
+  window.location.assign(
+    `${baseUrl}/angeleno/login?redirect=${encodeURIComponent(redirect)}`
+  );
+};
+
+export const startGoogleLogin = redirectPath => {
+  const redirect = redirectPath || "/calculation/1/0";
+  window.location.assign(
+    `${baseUrl}/google/login?redirect=${encodeURIComponent(redirect)}`
+  );
+};
+
 export const logout = async () => {
   const response = await axios.get(`${baseUrl}/logout`);
   return response;
