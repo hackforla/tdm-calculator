@@ -36,7 +36,7 @@ const useStyles = createUseStyles(theme => ({
   icon: {
     height: "40px",
     width: "40px",
-    color: theme.colorBlack,
+    color: theme.colorLADOTBlack,
     marginBottom: "0",
     verticalAlign: "middle",
     marginRight: "1rem"
@@ -60,6 +60,7 @@ export default function DROSelectionModal({
       onClose={onClose}
       onConfirm={onConfirm}
       onChange={onChange}
+      omitCloseBox={true}
     >
       <div className={classes.container}>
         <div className={classes.heading1}>
@@ -71,13 +72,13 @@ export default function DROSelectionModal({
           the location of your project
         </div>
         <div className={classes.heading2}>
-          Map of Development Review Offices
           <a
             href="https://ladot.lacity.gov/sites/default/files/documents/ladot-development-review-counter-info.pdf"
             target="_blank"
             className={classes.glossaryLink}
             rel="noreferrer"
           >
+            <span>Map of Development Review Offices</span>
             <MdLaunch className={classes.externalLinkIcon} />
           </a>
         </div>

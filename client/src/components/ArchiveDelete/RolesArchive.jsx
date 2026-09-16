@@ -46,8 +46,8 @@ const useStyles = createUseStyles(theme => ({
   },
   thead: {
     fontWeight: "bold",
-    backgroundColor: theme.colors.secondary.darkNavy,
-    color: theme.colors.primary.white,
+    backgroundColor: theme.colorDarkNavy,
+    color: theme.colorWhite,
     "& th": {
       padding: "0.4em"
     }
@@ -75,7 +75,7 @@ const useStyles = createUseStyles(theme => ({
     padding: "0.2em 0.5em",
     borderRadius: "4px",
     "&:hover": {
-      backgroundColor: theme.colors.secondary.mediumGray
+      backgroundColor: theme.colorMediumGray
     }
   },
   popupContent: {
@@ -218,8 +218,8 @@ const RolesArchive = ({ contentContainerRef }) => {
       <div className={classes.main}>
         <h1 className={classes.pageTitle}>Archived Accounts</h1>
         <div className={classes.pageSubtitle}>
-          Archived accounts don’t have access to project data. If a user with an
-          archived account needs to access this info, you can restore their
+          Archived accounts don’t have access to TDM Plan data. If a user with
+          an archived account needs to access this info, you can restore their
           account.
         </div>
         <div className={classes.pageSubtitle}>
@@ -229,7 +229,7 @@ const RolesArchive = ({ contentContainerRef }) => {
         </div>
         <div className={classes.pageSubtitle}>
           <Link to="/archivedprojects" className={classes.link}>
-            See All Archived Projects
+            See All Archived TDM Plans
           </Link>
         </div>
         <div className={classes.searchBarWrapper}>
@@ -257,13 +257,13 @@ const RolesArchive = ({ contentContainerRef }) => {
               <th className={classes.td}>Email</th>
               <th className={classes.td}>Name</th>
               <th className={`${classes.td} ${classes.theadLabel}`}>
-                # of Projects
+                # of TDM Plans
               </th>
               <th className={`${classes.td} ${classes.theadLabel}`}>
                 # of Submissions
               </th>
               <th className={classes.td}>Date Archived</th>
-              <th className={classes.tdCenter}></th>
+              <th aria-label="Options" className={classes.tdCenter}></th>
             </tr>
           </thead>
           <tbody className={classes.tbody}>
@@ -303,6 +303,7 @@ const RolesArchive = ({ contentContainerRef }) => {
                             account?.isSecurityAdmin ||
                             account?.id === loggedInUserId
                           }
+                          aria-label={`Options for ${account?.email}`}
                         >
                           <MdMoreVert alt={`Options for ${account?.email}`} />
                         </button>

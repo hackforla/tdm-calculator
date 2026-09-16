@@ -44,7 +44,6 @@ export default function WarningTargetNotReached({ mounted, onClose }) {
       onClose={onClose}
       omitCloseBox={true}
       escapeExits={false}
-      initialFocus="#cancelButton"
       underlayClickExits={false}
     >
       <div className={classes.container}>

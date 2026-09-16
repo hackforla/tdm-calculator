@@ -1,12 +1,24 @@
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const getAll = async () => {
   try {
     await poolConnect;
     const request = pool.request();
     const response = await request.execute("Config_SelectAll");
-    return response.recordset;
+    let result = response.recordset;
+    result.push({
+      code: "NODE_ENV",
+      value: process.env.NODE_ENV || "Not Set"
+    });
+    result.push({
+      code: "ALLOWED_ADMIN_EMAIL_DOMAINS",
+      value: process.env.ALLOWED_ADMIN_EMAIL_DOMAINS || "Not Set"
+    });
+    return result;
   } catch (err) {
     console.log(err);
   }
@@ -19,7 +31,8 @@ const getByCode = async code => {
     request.input("code", mssql.Int, code);
     const response = await request.execute("Config_Select");
     if (response.recordset && response.recordset.length > 0) {
-      return response.recordset[0];
+      let result = response.recordset[0];
+      return result;
     } else {
       return null;
     }

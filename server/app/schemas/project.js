@@ -1,8 +1,11 @@
 module.exports = {
   type: "object",
-  required: ["name", "address", "formInputs", "loginId", "calculationId"],
+  required: ["name", "formInputs", "loginId", "calculationId"],
   properties: {
     name: {
+      type: "string"
+    },
+    projectName: {
       type: "string"
     },
     address: {

@@ -16,7 +16,7 @@ const useStyles = createUseStyles(theme => ({
     ...theme.typography.heading3,
     fontSize: 24,
     textAlign: "inherit",
-    color: theme.colors.primary.white,
+    color: theme.colorWhite,
     cursor: admin => (admin ? "pointer" : "default"),
     "&:hover": {
       textDecoration: admin => admin && "underline"

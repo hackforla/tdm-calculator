@@ -4,6 +4,7 @@ import { formatId } from "../../helpers/util";
 import { createUseStyles, useTheme } from "react-jss";
 
 import UserContext from "../../contexts/UserContext";
+import CalculationsContext from "../../contexts/CalculationsContext";
 import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
@@ -21,7 +22,7 @@ import {
   MANAGE_SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
 
-const DEFAULT_SORT_CRITERIA = [{ field: "name", direction: "asc" }];
+const DEFAULT_SORT_CRITERIA = [{ field: "dateSubmitted", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   idFormattedList: [],
@@ -48,7 +49,8 @@ const DEFAULT_FILTER_CRITERIA = {
   adminNotesList: [],
   startDateModifiedAdmin: null,
   endDateModifiedAdmin: null,
-  onHold: null
+  onHold: null,
+  calculationIdList: []
 };
 
 const useStyles = createUseStyles(theme => ({
@@ -102,8 +104,8 @@ const useStyles = createUseStyles(theme => ({
     top: 0,
     zIndex: 1,
     fontWeight: "bold",
-    backgroundColor: theme.colors.secondary.darkNavy,
-    color: theme.colors.primary.white,
+    backgroundColor: theme.colorDarkNavy,
+    color: theme.colorWhite,
     "& th": {
       padding: "4px 12px"
     }
@@ -196,6 +198,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     MANAGE_SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG,
     DEFAULT_SORT_CRITERIA
   );
+  const calculations = useContext(CalculationsContext);
 
   const getProjects = useCallback(async () => {
     const response = await projectService.getSubmissionsAdmin();
@@ -212,7 +215,8 @@ const ManageSubmissions = ({ contentContainerRef }) => {
           ? `${d.statuserLastName}, ${d.statuserFirstName}`
           : "",
         droName: d.droName || "-",
-        idFormatted: formatId(d.id)
+        idFormatted: formatId(d.id),
+        targetPointsMet: d.earnedPoints >= d.targetPoints
       };
     });
     setProjects(projects);
@@ -297,10 +301,19 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     }
   };
 
+  const getCalculationVersion = (p, calculations) =>
+    calculations?.[p.calculationId]?.version ?? "Beta";
+
   const getComparator = (order, orderBy) => {
-    return order === "asc"
-      ? (a, b) => ascCompareBy(a, b, orderBy)
-      : (a, b) => -ascCompareBy(a, b, orderBy);
+    return (a, b) => {
+      const result = ascCompareBy(a, b, orderBy, calculations);
+
+      if (orderBy === "calculationId") {
+        return order === "asc" ? -result : result;
+      }
+
+      return order === "asc" ? result : -result;
+    };
   };
 
   const setSort = (orderBy, order, isStatus = false) => {
@@ -412,12 +425,12 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateInvoicePaid",
       endDatePropertyName: "endDateInvoicePaid",
-      colWidth: "7rem"
+      colWidth: "10rem"
     },
     { id: "onHold", label: "On Hold", popupType: "boolean", colWidth: "8rem" },
     {
       id: "approvalStatusName",
-      label: "Approval Status",
+      label: "Submission Status",
       popupType: "stringList",
       colWidth: "12rem"
     },
@@ -435,12 +448,30 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       startDatePropertyName: "startDateCoO",
       endDatePropertyName: "endDateCoO",
       colWidth: "10rem"
+    },
+    {
+      id: "calculationId",
+      label: "Guidelines Version",
+      popupType: "version",
+      accessor: "calculationId",
+      colWidth: "10rem"
+    },
+    {
+      id: "targetPointsMet",
+      label: "Target Points",
+      popupType: "boolean",
+      accessor: "targetPointsMet",
+      colWidth: "10rem",
+      trueLabel: "Target Points Met",
+      falseLabel: "Target Points Not Met"
     }
   ];
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  let sortedProjects = projects.filter(p => filter(p, filterCriteria));
+  let sortedProjects = projects.filter(p =>
+    filter(p, filterCriteria, calculations)
+  );
   for (let i = 0; i < sortCriteria.length; i++) {
     sortedProjects.sort(
       getComparator(sortCriteria[i].direction, sortCriteria[i].field)
@@ -554,27 +585,26 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                   <tr className={classes.tr}>
                     {headerData.map(header => {
                       return (
-                        <td key={header.id}>
-                          <th className={classes.stickyTh}>
-                            <ProjectTableColumnHeader
-                              projects={projects}
-                              filter={filter}
-                              header={header}
-                              criteria={filterCriteria}
-                              setCriteria={setFilter}
-                              setSort={setSort}
-                              orderBy={
-                                sortCriteria[sortCriteria.length - 1].field
-                              }
-                              order={
-                                sortCriteria[sortCriteria.length - 1].direction
-                              }
-                              setCheckedProjectIds={null}
-                              setSelectAllChecked={null}
-                              droOptions={null}
-                            />
-                          </th>
-                        </td>
+                        <th className={classes.stickyTh} key={header.id}>
+                          <ProjectTableColumnHeader
+                            projects={projects}
+                            filter={filter}
+                            header={header}
+                            criteria={filterCriteria}
+                            setCriteria={setFilter}
+                            setSort={setSort}
+                            orderBy={
+                              sortCriteria[sortCriteria.length - 1].field
+                            }
+                            order={
+                              sortCriteria[sortCriteria.length - 1].direction
+                            }
+                            setCheckedProjectIds={null}
+                            setSelectAllChecked={null}
+                            droOptions={null}
+                            calculations={calculations}
+                          />
+                        </th>
                       );
                     })}
                   </tr>

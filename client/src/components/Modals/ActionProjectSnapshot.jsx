@@ -30,7 +30,7 @@ const useStyles = createUseStyles(theme => ({
   icon: {
     height: "40px",
     width: "40px",
-    color: theme.colorBlack,
+    color: theme.colorLADOTBlack,
     marginBottom: "0",
     verticalAlign: "middle"
   }
@@ -50,6 +50,7 @@ export default function SnapshotProjectModal({
       mounted={mounted}
       onClose={onClose}
       initialFocus="#duplicateName"
+      omitCloseBox={true}
     >
       <div className={classes.container}>
         <div className={classes.heading1} style={{ marginBottom: "1.5rem" }}>

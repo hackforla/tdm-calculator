@@ -1,5 +1,6 @@
 import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
+import { MdInfo } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -15,7 +16,10 @@ const useStyles = createUseStyles(theme => ({
     flexShrink: "1",
     fontFamily: "Calibri",
     fontWeight: 700
-  }
+  },
+  infoIcon: {
+    color: theme.colorLADOT
+  },
 }));
 const DiscoverTooltips = () => {
   const theme = useTheme();
@@ -23,9 +27,7 @@ const DiscoverTooltips = () => {
   return (
     <div className={classes.container}>
       <p className={classes.title}>
-        Try hovering over a term you want more information on. If the words
-        become underlined and bold, you can click for a description. Hovering
-        over a green question mark will also provide more information.
+        If you want to know more about a term, hover over it and click the icon<MdInfo className={classes.infoIcon} /> for more information.
       </p>
     </div>
   );

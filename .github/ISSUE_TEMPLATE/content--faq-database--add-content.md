@@ -24,13 +24,10 @@ The below text provides a general outline for the question and answer. Use it as
 - [ ] Assign yourself to this issue.
 - [ ] Move the issue from Prioritized Backlog to In Progress.
 - [ ] Make sure there is a slide linked under resources.  It not, make one in the staging deck
-- [ ] Create a document in the [TDM Google Drive, FAQ content folder](https://drive.google.com/drive/folders/1W3Pk6TTq1lVYreTHipc5H-jCvyvByrnS), called FAQ Question: [Replace with NAME OF ITEM  - ISSUE #]
 - [ ] Write a draft of the category, question, and answer that would appear on the FAQ page
-- [ ] Review proposed content with the design lead. Implement feedback as necessary.
-- [ ] Review proposed content with the design director. Implement feedback as necessary.
 - [ ] Review proposed content with the product, development, and research teams. Implement feedback as necessary.
 - Receive content approval from stakeholders by 
-   - [ ] adding a link to the document onto the related slide (see resources below for staging slide).
+   - [ ] adding a the draft onto the slide
    - [ ] add a comment on the slide with the text
       ```
       add to stakeholder release deck

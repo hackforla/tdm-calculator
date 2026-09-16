@@ -28,7 +28,7 @@ const useStyles = createUseStyles(theme => ({
   },
   PLValue: {
     ...theme.typography.largeText,
-    color: theme.colors.primary.white,
+    color: theme.colorWhite,
     marginLeft: "0.4em",
     fontSize: 40,
     fontWeight: "bold",
@@ -39,7 +39,7 @@ const useStyles = createUseStyles(theme => ({
   },
   PLLabel: {
     ...theme.typography.heading2,
-    color: theme.colors.primary.white,
+    color: theme.colorWhite,
     flex: 2,
     maxWidth: "55%",
     textAlign: "right"

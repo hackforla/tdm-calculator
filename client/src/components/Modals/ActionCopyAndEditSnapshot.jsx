@@ -26,7 +26,7 @@ const useStyles = createUseStyles(theme => ({
   icon: {
     height: "40px",
     width: "40px",
-    color: theme.colorBlack
+    color: theme.colorLADOTBlack
     // verticalAlign: "middle"
   },
   input: {
@@ -70,7 +70,12 @@ export default function CopyAndEditSnapshotModal({
   };
 
   return (
-    <ModalDialog mounted={mounted} onClose={handleClose}>
+    <ModalDialog
+      mounted={mounted}
+      onClose={handleClose}
+      omitCloseBox={true}
+      title="Copy and Edit Snapshot"
+    >
       {!hasSubmitted ? (
         <CreateCopyOfSnapshot {...props} />
       ) : (

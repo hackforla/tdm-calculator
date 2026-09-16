@@ -1,15 +1,20 @@
 import React, { useContext } from "react";
+import { createUseStyles, useTheme } from "react-jss";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import UserContext from "../../contexts/UserContext";
+import CalculationsContext from "../../contexts/CalculationsContext";
 import "reactjs-popup/dist/index.css";
 import {
   MdAdd,
   MdOutlineStickyNote2,
+  MdCancel,
   MdCheck,
+  MdCheckCircle,
   MdEdit,
-  MdList
+  MdList,
+  MdLockOutline
 } from "react-icons/md";
 import { formatDate, formatId } from "../../helpers/util";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
@@ -17,6 +22,8 @@ import ActionManageSubmission from "../Modals/ActionManageSubmission";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
 import InfoSubmissionLog from "../Modals/InfoSubmissionLog";
 import { Td, TdExpandable } from "../UI/TableData";
+import ChangeVersionModal from "../Modals/WarningChangeVersion";
+import { dros } from "../../helpers/Constants";
 
 function useAdminNotesModal(project, onAdminNoteUpdate) {
   const [showWarningModal, setShowWarningModal] = useState(false);
@@ -90,14 +97,23 @@ function useAdminNotesModal(project, onAdminNoteUpdate) {
   };
 }
 
+const useStyles = createUseStyles(theme => ({
+  targetPointsNotMet: { color: theme.colorError },
+  targetPointsMet: { color: theme.colorPrimary }
+}));
+
 const SubmissionTableRow = ({
   project,
   onAdminNoteUpdate,
   assigneeList,
   onStatusUpdate
 }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const userContext = useContext(UserContext);
   const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
+  const calculations = useContext(CalculationsContext);
+  const [changeVersionModalOpen, setChangeVersionModalOpen] = useState(false);
 
   const {
     showWarningModal,
@@ -190,6 +206,55 @@ const SubmissionTableRow = ({
         />
       </Td>
       <Td>{formatDate(project.dateCoO)}</Td>
+      <Td>
+        <span
+          onClick={() => {
+            if (!project.dateInvoicePaid) {
+              setChangeVersionModalOpen(true);
+            }
+          }}
+          style={
+            !project.dateInvoicePaid
+              ? {
+                  color: "#0000FF",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                  marginLeft: "2rem"
+                }
+              : { marginLeft: "2rem" }
+          }
+        >
+          {calculations[project.calculationId].version || "Beta"}{" "}
+          {project.dateInvoicePaid || project.isCalculationIdOverride ? (
+            <MdLockOutline
+              alt={`Program Guidelines Version is Locked`}
+              title={`Program Guidelines Version is Locked`}
+              style={{ width: "1em" }}
+            />
+          ) : (
+            ""
+          )}
+        </span>
+        <ChangeVersionModal
+          isModalOpen={changeVersionModalOpen}
+          cancel={() => setChangeVersionModalOpen(false)}
+          close={() => {
+            setChangeVersionModalOpen(false);
+            handleProjectUpdate();
+          }}
+          project={project}
+          droOptions={dros}
+        />
+      </Td>
+      <Td align="center">
+        <span>
+          {project.targetPointsMet ? (
+            <MdCheckCircle className={classes.targetPointsMet} />
+          ) : (
+            <MdCancel className={classes.targetPointsNotMet} />
+          )}
+        </span>
+      </Td>
       <WarningModal
         key="warning-modal"
         mounted={showWarningModal}
@@ -197,14 +262,14 @@ const SubmissionTableRow = ({
         handleDoNotDiscard={handleDoNotDiscard}
       />
       <ActionManageSubmission
-        key={project.id}
+        key="action-manage-submission"
         mounted={actionManageSubmissionOpen}
         onClose={handleActionManageSubmissionClose}
         project={project}
         assigneeList={assigneeList}
       />
       <InfoSubmissionLog
-        key={project.id}
+        key="info-submission-log"
         mounted={infoSubmissionLogOpen}
         onClose={() => setInfoSubmissionLogOpen(false)}
         project={project}

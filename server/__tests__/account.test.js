@@ -192,6 +192,19 @@ describe("Account API endpoints for end user accounts", () => {
       });
     expect(res.statusCode).toEqual(200);
   });
+
+  it("should reject an account update if the target email is already registered", async () => {
+    const res = await request(server)
+      .put(`/api/accounts/updateaccount`)
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({
+        firstName: "John",
+        lastName: "Garcia",
+        email: "JohnGarcia@test.com"
+      });
+
+    expect(res.body).toHaveProperty("code", "ERR_DUPLICATE_EMAIL");
+  });
 });
 
 describe("Account API endpoints for security admin", () => {
@@ -391,6 +404,34 @@ describe("Account API endpoints for security admin", () => {
       .get("/api/accounts/archivedaccounts")
       .set("Authorization", `Bearer ${adminToken}`);
     expect(res.statusCode).toEqual(200);
+  });
+
+  it("should allow admin account update if target email is an approved domain", async () => {
+    const allowedDomain = "hackforla.org";
+
+    const res = await request(server)
+      .put(`/api/accounts/updateaccount`)
+      .set("Authorization", `Bearer ${adminToken}`)
+      .send({
+        firstName: "Jack",
+        lastName: "Jones",
+        email: `admin-updated@${allowedDomain}`
+      });
+
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it("should reject admin account update if target email is not an approved domain", async () => {
+    const res = await request(server)
+      .put(`/api/accounts/updateaccount`)
+      .set("Authorization", `Bearer ${adminToken}`)
+      .send({
+        firstName: "John",
+        lastName: "Garcia",
+        email: "JohnGarcia@personalemail.com"
+      });
+
+    expect(res.body).toHaveProperty("code", "ERR_INVALID_ADMIN_DOMAIN");
   });
 
   // DELETE "/:id/deleteaccount" Delete a user's account (Security Admin only)

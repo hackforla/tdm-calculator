@@ -3,6 +3,9 @@
 # Edit at https://www.gitignore.io/?templates=vim,linux,macos,windows,visualstudiocode,python
 
 
+# vscode
+.devcontainer
+
 # Custom ignores
 cypress/screenshots
 cypress/videos

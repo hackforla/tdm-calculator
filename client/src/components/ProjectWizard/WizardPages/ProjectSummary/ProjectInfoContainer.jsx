@@ -14,7 +14,7 @@ const useStyles = createUseStyles({
     minHeight: "100px"
   },
   textProjectInfoHeader: {
-    color: "#000000",
+    color: "theme.colorLADOTBlack",
     fontSize: "24px",
     fontFamily: "Calibri",
     fontWeight: 700,
@@ -88,7 +88,7 @@ const ProjectInfoContainer = props => {
         )}
         {projectID && (
           <div className={classes.projectIdRight}>
-            <ProjectInfo name="Project ID #" rule={{ value: projectID }} />
+            <ProjectInfo name="TDM Plan ID #" rule={{ value: projectID }} />
           </div>
         )}
       </div>

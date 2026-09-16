@@ -68,12 +68,7 @@ const WarningModal = ({
   //   : null;
 
   return (
-    <ModalDialog
-      mounted={mounted}
-      escapeExits={false}
-      omitCloseBox={true}
-      // initialFocus={validInitialFocusId || undefined}
-    >
+    <ModalDialog mounted={mounted} escapeExits={false} omitCloseBox={true}>
       <div className={classes.container}>
         <MdWarning className={classes.warningIcon} />
         <h1 className={classes.heading1}>You have unsaved changes</h1>
