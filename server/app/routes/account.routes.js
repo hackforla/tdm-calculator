@@ -142,6 +142,18 @@ router.get(
 );
 
 router.get(
+  "/getpendingemail",
+  jwtSession.validateUser,
+  accountController.getPendingEmail
+);
+
+router.delete(
+  "/deletependingemail",
+  jwtSession.validateUser,
+  accountController.deletePendingEmail
+);
+
+router.get(
   "/droLogins",
   jwtSession.validateRoles(["isAdmin"]),
   accountController.getAllDROUsers

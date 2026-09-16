@@ -21,6 +21,12 @@ describe("Account API endpoints for end user accounts", () => {
   let userId; // id of the registered user - to be deleted by security admin
   let capturedToken; // confirmation token captured from the mocked sendgrid function
   let userToken; // jwt for registered user - for protected endpoints
+  let passwordResetToken; // token for password reset
+  let emailChangeToken; // token for login account email update
+
+  beforeEach(() => {
+    smtpMail.send.mockClear();
+  });
 
   beforeAll(async () => {
     smtpMail.send = jest.fn(async () => {
@@ -47,7 +53,7 @@ describe("Account API endpoints for end user accounts", () => {
     await request(server).post("/api/accounts/resendConfirmationEmail").send({
       email: "josegarcia@test.com"
     });
-    // captures the token from the mocked sendgird function to be used in registration confirmation
+    // captures the token from the mocked sendgrid function to be used in registration confirmation
     const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
     const emailContent = smtpMail.send.mock.calls[0][0].html;
     const match = emailContent.match(tokenPattern);
@@ -166,6 +172,15 @@ describe("Account API endpoints for end user accounts", () => {
         email: "josegarcia@test.com"
       });
     expect(res.statusCode).toEqual(200);
+
+    expect(smtpMail.send).toHaveBeenCalledTimes(1);
+    const emailContent = smtpMail.send.mock.calls[0][0].html;
+
+    const tokenPattern = /\/resetPassword\/([a-zA-Z0-9-]+)/;
+    const match = emailContent.match(tokenPattern);
+    passwordResetToken = match ? match[1] : null;
+
+    expect(passwordResetToken).toBeTruthy();
   });
 
   // POST "/resetPassword" Reset password
@@ -175,35 +190,121 @@ describe("Account API endpoints for end user accounts", () => {
       .set("Authorization", `Bearer ${userToken}`)
       .send({
         password: "NewPassword1!!!",
-        token: userToken
+        token: passwordResetToken
       });
+
     expect(res.statusCode).toEqual(200);
   });
 
-  // PUT "/updateaccount" Update account
-  it("should update a user", async () => {
+  // POST "/updateaccount" update account - email change
+  it("should request an email change before updating the account email", async () => {
+    smtpMail.send.mockClear();
+
     const res = await request(server)
-      .put(`/api/accounts/updateaccount`)
+      .put("/api/accounts/updateaccount")
       .set("Authorization", `Bearer ${userToken}`)
       .send({
         firstName: "Jose",
         lastName: "Garcia",
         email: "newEmail@test.com"
       });
+
     expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty("isSuccess", true);
+
+    // Verify confirmation email was queued
+    expect(smtpMail.send).toHaveBeenCalledTimes(1);
+    expect(smtpMail.send.mock.calls[0][0].to).toEqual("newEmail@test.com");
+
+    // Extract token for the subsequent confirmation test
+    const emailContent = smtpMail.send.mock.calls[0][0].html;
+    const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
+    const match = emailContent.match(tokenPattern);
+    emailChangeToken = match ? match[1] : null;
+    expect(emailChangeToken).toBeTruthy();
+
+    // Verify old credentials still work while pending
+    const loginRes = await request(server).post("/api/accounts/login").send({
+      email: "josegarcia@test.com",
+      password: "NewPassword1!!!"
+    });
+    expect(loginRes.statusCode).toEqual(200);
+  });
+
+  // GET /getpendingemail
+  it("should get the pending email change request for the logged-in user", async () => {
+    const res = await request(server)
+      .get("/api/accounts/getpendingemail")
+      .set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty("requestedEmail", "newEmail@test.com");
+    expect(res.body).toHaveProperty("userId");
+  });
+
+  // Tests the confirmRegister and login update for pending email updates
+  // PUT /confirmRegister
+  it("should confirm an email change and update login credentials", async () => {
+    const confirmRes = await request(server)
+      .post("/api/accounts/confirmRegister")
+      .send({ token: emailChangeToken });
+
+    expect(confirmRes.statusCode).toEqual(200);
+    expect(confirmRes.body).toHaveProperty("isSuccess", true);
+
+    // Verify new email logs in successfully
+    const newLoginRes = await request(server).post("/api/accounts/login").send({
+      email: "newEmail@test.com",
+      password: "NewPassword1!!!"
+    });
+    expect(newLoginRes.statusCode).toEqual(200);
+    expect(newLoginRes.body).toHaveProperty("token");
+
+    // Verify old email is no longer recognized
+    const oldLoginRes = await request(server).post("/api/accounts/login").send({
+      email: "josegarcia@test.com",
+      password: "NewPassword1!!!"
+    });
+    expect(oldLoginRes.body).toHaveProperty("code", "AUTH_NO_ACCOUNT");
+  });
+
+  // PUT "/updateaccount" Name-only update
+  it("should update account names immeditately without triggering email confirmation flow", async () => {
+    smtpMail.send.mockClear();
+    const currentEmail = "newEmail@test.com";
+
+    const res = await request(server)
+      .put("/api/accounts/updateaccount")
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({
+        firstName: "Joseph",
+        lastName: "Garcia-Updated",
+        email: currentEmail
+      });
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty("isSuccess", true);
+    expect(res.body).toHaveProperty("code", "ACCOUNT_UPDATE_SUCCESS");
+
+    expect(res.body.user).toHaveProperty("firstName", "Joseph");
+    expect(res.body.user).toHaveProperty("lastName", "Garcia-Updated");
+
+    // 2. Verify no verification email was dispatched
+    expect(smtpMail.send).not.toHaveBeenCalled();
   });
 
   it("should reject an account update if the target email is already registered", async () => {
+    const existingEmail = "JohnGarcia@test.com";
     const res = await request(server)
       .put(`/api/accounts/updateaccount`)
       .set("Authorization", `Bearer ${userToken}`)
       .send({
         firstName: "John",
         lastName: "Garcia",
-        email: "JohnGarcia@test.com"
+        email: existingEmail
       });
 
-    expect(res.body).toHaveProperty("code", "ERR_DUPLICATE_EMAIL");
+    expect(res.body).toHaveProperty("code", "EMAIL_UNAVAILABLE");
   });
 });
 
@@ -242,7 +343,7 @@ describe("Account API endpoints for security admin", () => {
     await request(server).post("/api/accounts/resendConfirmationEmail").send({
       email: "AlexJohnson@test.com"
     });
-    // captures the token from the mocked sendgird function to be used in registration confirmation
+    // captures the token from the mocked sendgrid function to be used in registration confirmation
     const tokenPattern = /\/confirm\/([a-zA-Z0-9-]+)/;
     const emailContent = smtpMail.send.mock.calls[0][0].html;
     const match = emailContent.match(tokenPattern);
