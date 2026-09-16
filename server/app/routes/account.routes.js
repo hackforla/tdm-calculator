@@ -75,15 +75,6 @@ router.post(
 router.post("/forgotPassword", writeLimiter, accountController.forgotPassword);
 router.post("/resetPassword", writeLimiter, accountController.resetPassword);
 
-router.get("/session", jwtSession.validateUser, accountController.getSession);
-router.get("/angeleno/login", accountController.angelenoLogin);
-router.get("/angeleno/demo", accountController.angelenoDemo);
-router.post("/angeleno/demo/continue", accountController.angelenoDemoContinue);
-router.get("/angeleno/callback", accountController.angelenoCallback);
-router.get("/google/login", accountController.googleLogin);
-router.get("/google/demo", accountController.googleDemo);
-router.post("/google/demo/continue", accountController.googleDemoContinue);
-router.get("/google/callback", accountController.googleCallback);
 /**
  * @openapi
  * /accounts/login:

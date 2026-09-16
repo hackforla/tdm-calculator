@@ -268,4 +268,3 @@ yarn.lock
 .mssql.json
 server/.env-ale
 server/.env-alpha
-*.crt

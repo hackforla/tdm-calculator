@@ -50,141 +50,6 @@ const selectByEmail = async email => {
   }
 };
 
-const selectByExternalIdentity = async (
-  externalAuthProvider,
-  externalSubject
-) => {
-  try {
-    await poolConnect;
-    const request = pool.request();
-    request.input("externalAuthProvider", mssql.NVarChar, externalAuthProvider);
-    request.input("externalSubject", mssql.NVarChar, externalSubject);
-    const response = await request.execute("Login_SelectByExternalIdentity");
-
-    if (response.recordset && response.recordset.length > 0) {
-      return response.recordset[0];
-    }
-    return null;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
-
-const formatAuthenticatedUser = user => ({
-  id: user.id,
-  firstName: user.firstName,
-  lastName: user.lastName,
-  email: user.email,
-  isAdmin: user.isAdmin,
-  emailConfirmed: user.emailConfirmed,
-  isSecurityAdmin: user.isSecurityAdmin,
-  isDro: user.isDro
-});
-
-const ensureActiveUser = user => {
-  if (!user) {
-    return {
-      isSuccess: false,
-      code: "AUTH_NO_ACCOUNT",
-      reason: "No account found"
-    };
-  }
-  if (user.archivedAt !== null) {
-    return {
-      isSuccess: false,
-      code: "USER_ARCHIVED",
-      reason: `Account for email ${user.email} has been archived`
-    };
-  }
-  return null;
-};
-
-const linkExternalIdentity = async (
-  id,
-  externalAuthProvider,
-  externalSubject
-) => {
-  await poolConnect;
-  const request = pool.request();
-  request.input("id", mssql.Int, id);
-  request.input("externalAuthProvider", mssql.NVarChar, externalAuthProvider);
-  request.input("externalSubject", mssql.NVarChar, externalSubject);
-  await request.execute("Login_LinkExternalIdentity");
-};
-
-const insertExternalUser = async ({
-  firstName,
-  lastName,
-  email,
-  externalAuthProvider,
-  externalSubject
-}) => {
-  await poolConnect;
-  const request = pool.request();
-  request.input("firstName", mssql.NVarChar, firstName);
-  request.input("lastName", mssql.NVarChar, lastName);
-  request.input("email", mssql.NVarChar, email);
-  request.input("externalAuthProvider", mssql.NVarChar, externalAuthProvider);
-  request.input("externalSubject", mssql.NVarChar, externalSubject);
-  request.output("id", mssql.Int, null);
-  const insertResult = await request.execute("Login_InsertExternal");
-  return insertResult.output["id"];
-};
-
-const authenticateExternal = async ({
-  externalAuthProvider,
-  externalSubject,
-  email,
-  firstName,
-  lastName
-}) => {
-  let user = await selectByExternalIdentity(
-    externalAuthProvider,
-    externalSubject
-  );
-
-  if (!user) {
-    user = await selectByEmail(email);
-
-    if (user) {
-      const inactiveResult = ensureActiveUser(user);
-      if (inactiveResult) return inactiveResult;
-
-      await linkExternalIdentity(
-        user.id,
-        externalAuthProvider,
-        externalSubject
-      );
-      user = await selectByExternalIdentity(
-        externalAuthProvider,
-        externalSubject
-      );
-    } else {
-      const newId = await insertExternalUser({
-        firstName,
-        lastName,
-        email,
-        externalAuthProvider,
-        externalSubject
-      });
-      user = await selectByExternalIdentity(
-        externalAuthProvider,
-        externalSubject
-      );
-      user.id = newId;
-    }
-  }
-
-  const inactiveResult = ensureActiveUser(user);
-  if (inactiveResult) return inactiveResult;
-
-  return {
-    isSuccess: true,
-    code: "AUTH_SUCCESS",
-    user: formatAuthenticatedUser(user)
-  };
-};
-
 const register = async model => {
   const { firstName, lastName, email } = model;
   await hashPassword(model);
@@ -529,8 +394,20 @@ const resetPassword = async ({ token, password }) => {
 
 const authenticate = async (email, password) => {
   const user = await selectByEmail(email);
-  const inactiveResult = ensureActiveUser(user);
-  if (inactiveResult) return inactiveResult;
+  if (!user) {
+    return {
+      isSuccess: false,
+      code: "AUTH_NO_ACCOUNT",
+      reason: `No account found for email ${email}`
+    };
+  }
+  if (user.archivedAt !== null) {
+    return {
+      isSuccess: false,
+      code: "USER_ARCHIVED",
+      reason: `Account for email ${email} has been archived`
+    };
+  }
   if (!user.emailConfirmed) {
     return {
       isSuccess: false,
@@ -538,19 +415,20 @@ const authenticate = async (email, password) => {
       reason: `Email ${email} not confirmed`
     };
   }
-  if (!user.passwordHash) {
-    return {
-      isSuccess: false,
-      code: "AUTH_EXTERNAL_ACCOUNT",
-      reason: `Account for email ${email} uses external sign-in`
-    };
-  }
   const isUser = await bcrypt.compare(password, user.passwordHash);
   if (isUser) {
     return {
       isSuccess: true,
       code: "AUTH_SUCCESS",
-      user: formatAuthenticatedUser(user)
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        emailConfirmed: user.emailConfirmed,
+        isSecurityAdmin: user.isSecurityAdmin
+      }
     };
   }
   return {
@@ -829,7 +707,6 @@ module.exports = {
   addLastLoginDate,
   archiveUser,
   authenticate,
-  authenticateExternal,
   cleanupInactive,
   confirmRegistration,
   deleteUser,
