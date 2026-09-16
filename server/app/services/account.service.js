@@ -145,21 +145,6 @@ const handleEmailAccountUpdate = async (model, user) => {
   await emailChangeRequest.execute("LoginEmailChangeHistory_Insert");
 
   await handleVerifyUpdateConfirmation(model.email, token);
-
-  return {
-    isSuccess: true,
-    code: "ACCOUNT_EMAIL_UPDATE_SUCCESS",
-    message: "Account updates successful.",
-    user: {
-      id: user.id,
-      firstName: model.firstName,
-      lastName: model.lastName,
-      email: user.email, // remains current email until verified
-      isAdmin: user.isAdmin,
-      emailConfirmed: user.emailConfirmed, // remains confirmed to allow authorized login on current email
-      isSecurityAdmin: user.isSecurityAdmin
-    }
-  };
 };
 
 const updateAccount = async model => {
@@ -180,6 +165,10 @@ const updateAccount = async model => {
 
     await poolConnect;
 
+    if (isEmailChanging) {
+      await handleEmailAccountUpdate(model, user);
+    }
+
     // Update names
     const request = pool.request();
     request.input("id", mssql.Int, model.id);
@@ -187,15 +176,11 @@ const updateAccount = async model => {
     request.input("LastName", mssql.NVarChar, model.lastName);
     await request.execute("Login_Update");
 
-    // Email change flow
-    if (isEmailChanging) {
-      return await handleEmailAccountUpdate(model, user);
-    }
-
-    // Name-only update flow
     return {
       isSuccess: true,
-      code: "ACCOUNT_UPDATE_SUCCESS",
+      code: isEmailChanging
+        ? "ACCOUNT_EMAIL_UPDATE_SUCCESS"
+        : "ACCOUNT_UPDATE_SUCCESS",
       message: "Account updates successful.",
       user: {
         id: user.id,
@@ -203,7 +188,7 @@ const updateAccount = async model => {
         lastName: model.lastName,
         email: user.email,
         isAdmin: user.isAdmin,
-        emailConfirmed: user.emailConfirmed,
+        emailConfirmed: user.emailConfirmed, // remains confirmed to allow authorized login on current email
         isSecurityAdmin: user.isSecurityAdmin
       }
     };

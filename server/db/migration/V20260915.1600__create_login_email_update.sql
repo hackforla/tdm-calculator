@@ -122,9 +122,16 @@ BEGIN
           AND [dateConfirmed] IS NULL
         ORDER BY [dateRequested] DESC;
 
-        IF @userId IS NULL
+       IF @userId IS NULL
         BEGIN
-            ;THROW 50001, 'No pending email update request found for this email.', 1;
+            ROLLBACK TRANSACTION;
+            THROW 50001, 'No pending email change request found for this address.', 1;
+        END;
+
+        IF EXISTS (SELECT 1 FROM Login WHERE email = @email AND id <> @userId)
+        BEGIN
+            ROLLBACK TRANSACTION;
+            THROW 50002, 'The email is already in use by another account.', 1;
         END;
 
        -- Update Login table with verified email
