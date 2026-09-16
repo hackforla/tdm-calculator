@@ -356,8 +356,6 @@ const confirmRegistration = async token => {
     confirmRequest.input("email", mssql.NVarChar(100), email);
 
     if (pendingEmailChange) {
-      const userId = pendingEmailChange.userId;
-      await validateUniqueEmail(email, userId);
       await confirmRequest.execute("Login_ConfirmUpdateEmail");
 
       return {
