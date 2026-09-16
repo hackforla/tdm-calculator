@@ -1,3 +1,4 @@
+-- Update table dbo.Feedback
 DELETE FROM [dbo].[Feedback];
 GO
 
@@ -16,6 +17,19 @@ ADD [loginId] INT NULL
 CONSTRAINT [FK_Feedback_Login] FOREIGN KEY REFERENCES [dbo].[Login]([id]);
 GO
 
+ALTER TABLE [dbo].[Feedback] 
+ADD [dateCreated] datetime2(7) NOT NULL 
+CONSTRAINT [DF_Feedback_dateCreated] DEFAULT (getutcdate());
+GO
+
+CREATE TABLE [dbo].[FeedbackProjects] (
+    [id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [feedbackId] INT NOT NULL CONSTRAINT [FK_FeedbackProjects_Feedback] FOREIGN KEY REFERENCES [dbo].[Feedback]([id]) ON DELETE CASCADE,
+    [projectId] INT NOT NULL CONSTRAINT [FK_FeedbackProjects_Project] FOREIGN KEY REFERENCES [dbo].[Project]([id])
+);
+GO
+
+-- Recreate Feedback_Insert procedure
 DROP PROCEDURE IF EXISTS [dbo].[Feedback_Insert];
 GO
 
@@ -27,8 +41,20 @@ CREATE PROC [dbo].[Feedback_Insert]
 	@forwardToWebTeam bit
 AS
 BEGIN
-	INSERT INTO [dbo].[Feedback] (loginId, subject, comment, forwardToWebTeam)
-	VALUES (@loginId, @subject, @comment, @forwardToWebTeam);
+	INSERT INTO [dbo].[Feedback] (
+		loginId, 
+		subject, 
+		comment, 
+		forwardToWebTeam, 
+		dateCreated
+	)
+	VALUES (
+		@loginId, 
+		@subject, 
+		@comment, 
+		@forwardToWebTeam, 
+		GETUTCDATE()
+	);
 
 	SET @id = SCOPE_IDENTITY();
 END
