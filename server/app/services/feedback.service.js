@@ -17,16 +17,16 @@ const post = async (loginId, feedback) => {
     await poolConnect;
     const request = pool.request();
     request.input("subject", mssql.VarChar, feedback.subject);
-    request.input("email", mssql.VarChar, feedback.email);
     request.input("comment", mssql.VarChar, feedback.comment);
     request.input("forwardToWebTeam", mssql.Bit, feedback.forwardToWebTeam);
+    request.input("loginId", mssql.Int, loginId);
     request.output("id", mssql.Int, null);
 
     const response = await request.execute("Feedback_Insert");
 
     await sendFeedback(loginId, feedback, projects);
 
-    return response.returnValue;
+    return response.output.id;
   } catch (err) {
     return Promise.reject(err);
   }

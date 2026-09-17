@@ -1,13 +1,8 @@
 module.exports = {
   type: "object",
-  required: ["name", "email", "forwardToWebTeam", "comment"],
+  required: ["subject", "forwardToWebTeam", "comment", "loginId"],
   properties: {
-    email: {
-      type: "string",
-      minLength: 3,
-      pattern: "\\S+@\\S+"
-    },
-    name: {
+    subject: {
       type: "string",
       minLength: 1
     },
@@ -18,8 +13,8 @@ module.exports = {
     forwardToWebTeam: {
       type: "boolean"
     },
-    selectedProjects: {
-      type: "array"
+    loginId: {
+      type: "integer"
     }
   }
 };

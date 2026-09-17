@@ -8,6 +8,9 @@ const feedbackPostSchema = require("../schemas/feedback.post");
 const post = async (req, res) => {
   try {
     const userId = req.user ? req.user.id : null;
+    if (!userId) {
+      throw new Error("User must be logged in to submit feedback");
+    }
     await feedbackService.post(userId, req.body);
     res.sendStatus(201);
   } catch (err) {
