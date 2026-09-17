@@ -1,6 +1,6 @@
 module.exports = {
   type: "object",
-  required: ["subject", "forwardToWebTeam", "comment", "loginId"],
+  required: ["subject", "forwardToWebTeam", "comment"],
   properties: {
     subject: {
       type: "string",
@@ -15,6 +15,12 @@ module.exports = {
     },
     loginId: {
       type: "integer"
+    },
+    selectedProjectIds: {
+      type: "array",
+      items: {
+        type: "integer"
+      }
     }
   }
 };

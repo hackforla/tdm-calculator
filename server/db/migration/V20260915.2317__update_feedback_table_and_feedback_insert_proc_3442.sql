@@ -38,9 +38,13 @@ CREATE PROC [dbo].[Feedback_Insert]
 	@loginId int = NULL,
 	@subject nvarchar(250),
 	@comment nvarchar(max),
-	@forwardToWebTeam bit
+	@forwardToWebTeam bit,
+	@projectIds AS dbo.IdList READONLY
 AS
 BEGIN
+	SET NOCOUNT ON;
+
+	-- Insert feedback record
 	INSERT INTO [dbo].[Feedback] (
 		loginId, 
 		subject, 
@@ -57,5 +61,15 @@ BEGIN
 	);
 
 	SET @id = SCOPE_IDENTITY();
+
+	-- Insert associated project IDs
+	INSERT INTO [dbo].[FeedbackProjects] (
+		feedbackId, 
+		projectId
+	)
+	SELECT 
+		@id, 
+		id
+	FROM @projectIds;
 END
 GO
