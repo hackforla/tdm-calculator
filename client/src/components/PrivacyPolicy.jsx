@@ -1,5 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import { MdLaunch } from "react-icons/md";
 import ContentContainer from "./Layout/ContentContainer";
 
 const useStyles = createUseStyles({
@@ -55,8 +57,28 @@ const useStyles = createUseStyles({
   },
   spacedParagraph: {
     marginBottom: "1em"
+  },
+  externalLinkIcon: {
+    fontSize: "14px",
+    padding: " 0 0.4em",
+    color: "#00F"
   }
 });
+
+const ExternalWebLink = ({ href, children }) => {
+  const classes = useStyles();
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      {children}
+      <MdLaunch className={classes.externalLinkIcon} />
+    </a>
+  );
+};
+
+ExternalWebLink.propTypes = {
+  href: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired
+};
 
 const PrivacyPolicy = () => {
   const classes = useStyles();
@@ -71,15 +93,17 @@ const PrivacyPolicy = () => {
             your information responsibly.
           </h2>
           <p>
-            <a href="https://tdm.ladot.lacity.org">TDM Calculator</a> is a City
-            of Los Angeles Review Tool managed by Hack for LA which is a project
-            (of Civic Tech Structure, Inc. (&#34;Civic Tech Structure&#34;,
-            &#34;we&#34;, &#34;us&#34;, &#34;our&#34;). This Privacy Policy
-            describes how we collect, use, and protect your personal information
-            on the TDM Calculator review tool Website. By submitting your
-            personal information on our websites, you agree to the terms in this
-            Privacy Policy. If you do not agree with these terms, please do not
-            use our websites.
+            <ExternalWebLink href="https://tdm.ladot.lacity.org">
+              TDM Calculator
+            </ExternalWebLink>{" "}
+            is a City of Los Angeles Review Tool managed by Hack for LA which is
+            a project (of Civic Tech Structure, Inc. (&#34;Civic Tech
+            Structure&#34;, &#34;we&#34;, &#34;us&#34;, &#34;our&#34;). This
+            Privacy Policy describes how we collect, use, and protect your
+            personal information on the TDM Calculator review tool Website. By
+            submitting your personal information on our websites, you agree to
+            the terms in this Privacy Policy. If you do not agree with these
+            terms, please do not use our websites.
           </p>
 
           <h2 style={{ fontWeight: "bold" }}>Overview</h2>
@@ -101,17 +125,17 @@ const PrivacyPolicy = () => {
           </h2>
           <h3 className={classes.headerIndented}>
             Visiting{" "}
-            <a href="https://tdm.ladot.lacity.org">
+            <ExternalWebLink href="https://tdm.ladot.lacity.org">
               https://tdm.ladot.lacity.org
-            </a>{" "}
+            </ExternalWebLink>{" "}
           </h3>
 
           <div className={classes.indented}>
             We may automatically collect and store data about your visit to
             <span> </span>
-            <a href="https://tdm.ladot.lacity.org">
+            <ExternalWebLink href="https://tdm.ladot.lacity.org">
               https://tdm.ladot.lacity.org:
-            </a>{" "}
+            </ExternalWebLink>{" "}
             <li className={classes.bulletIndented}>
               Domain from which you access the Internet
             </li>
@@ -135,9 +159,9 @@ const PrivacyPolicy = () => {
           <p className={`${classes.indented} ${classes.spacedParagraph}`}>
             None of the information we collect about you when you visit
             <span> </span>
-            <a href="https://tdm.ladot.lacity.org ">
+            <ExternalWebLink href="https://tdm.ladot.lacity.org ">
               https://tdm.ladot.lacity.org
-            </a>{" "}
+            </ExternalWebLink>{" "}
             is personally identifiable unless you submit your contact
             information in the form on the Contact Us submit page.
           </p>
@@ -145,9 +169,9 @@ const PrivacyPolicy = () => {
             We use this non personally identifiable information to understand
             how the
             <span> </span>
-            <a href="https://tdm.ladot.lacity.org ">
+            <ExternalWebLink href="https://tdm.ladot.lacity.org ">
               https://tdm.ladot.lacity.org
-            </a>{" "}
+            </ExternalWebLink>{" "}
             website is used, to improve the website, and to monitor usage for
             security purposes.
           </p>
@@ -158,9 +182,9 @@ const PrivacyPolicy = () => {
           </p>
           <h3 className={classes.sectionSpacingIndented}>
             Creating an account at{" "}
-            <a href="https://tdm.ladot.lacity.org ">
+            <ExternalWebLink href="https://tdm.ladot.lacity.org ">
               https://tdm.ladot.lacity.org
-            </a>{" "}
+            </ExternalWebLink>{" "}
           </h3>
 
           <div className={classes.indented}>
@@ -175,9 +199,9 @@ const PrivacyPolicy = () => {
 
           <h3 className={classes.sectionSpacingIndented}>
             Saving projects account at <span> </span>
-            <a href="https://tdm.ladot.lacity.org ">
+            <ExternalWebLink href="https://tdm.ladot.lacity.org ">
               https://tdm.ladot.lacity.org
-            </a>{" "}
+            </ExternalWebLink>{" "}
           </h3>
 
           <p className={`${classes.indented} ${classes.spacedParagraph}`}>
@@ -274,13 +298,13 @@ const PrivacyPolicy = () => {
             as a unique user. This cookie cannot be used by anyone but Google.
             Google&#39;s ability to use and share information collected by
             Google Analytics about your visits to this site is restricted by the{" "}
-            <a href="https://marketingplatform.google.com/about/analytics/terms/us/">
+            <ExternalWebLink href="https://marketingplatform.google.com/about/analytics/terms/us/">
               Google Analytics Terms of Use
-            </a>{" "}
+            </ExternalWebLink>{" "}
             and the{" "}
-            <a href="https://policies.google.com/privacy">
+            <ExternalWebLink href="https://policies.google.com/privacy">
               Google Privacy Policy
-            </a>
+            </ExternalWebLink>
             .{" "}
           </p>
 
@@ -295,9 +319,9 @@ const PrivacyPolicy = () => {
           </p>
           <p className={classes.indented}>
             Visit{" "}
-            <a href="https://tools.google.com/dlpage/gaoptout/">
+            <ExternalWebLink href="https://tools.google.com/dlpage/gaoptout/">
               https://tools.google.com/dlpage/gaoptout/
-            </a>
+            </ExternalWebLink>
             <span> </span>for more info on how to opt out.
           </p>
           <h2 className={classes.sectionSpacing}>
@@ -332,9 +356,18 @@ const PrivacyPolicy = () => {
           </p>
           <p className={classes.indented}>
             Third-party service providers we may use include{" "}
-            <a href="https://analytics.google.com/">Google Analytics</a>,{" "}
-            <a href="https://mixpanel.com/">Mixpanel</a>,{" "}
-            <a href="https://www.hotjar.com/">Hotjar</a>.
+            <ExternalWebLink href="https://analytics.google.com/">
+              Google Analytics
+            </ExternalWebLink>
+            ,{" "}
+            <ExternalWebLink href="https://mixpanel.com/">
+              Mixpanel
+            </ExternalWebLink>
+            ,{" "}
+            <ExternalWebLink href="https://www.hotjar.com/">
+              Hotjar
+            </ExternalWebLink>
+            .
           </p>
           <h3 className={classes.sectionSpacingIndented}>
             How to opt-out of the use of cookies
@@ -345,10 +378,12 @@ const PrivacyPolicy = () => {
             any other site, you can do so through your browser setting. The
             ‘Help’ function in your browser should explain how. Alternatively,
             you can visit{" "}
-            <a href="http://www.aboutcookies.org">www.aboutcookies.org</a>,
-            which contains comprehensive information on how to do this on a wide
-            variety of browsers. You will find general information about cookies
-            and details on how to delete cookies from your machine.
+            <ExternalWebLink href="http://www.aboutcookies.org">
+              www.aboutcookies.org
+            </ExternalWebLink>
+            , which contains comprehensive information on how to do this on a
+            wide variety of browsers. You will find general information about
+            cookies and details on how to delete cookies from your machine.
           </p>
 
           <h2 className={classes.sectionSpacing}>
