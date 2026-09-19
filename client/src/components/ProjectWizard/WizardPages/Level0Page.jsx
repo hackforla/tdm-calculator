@@ -49,7 +49,8 @@ const Level0Page = () => {
           J.3(c) of the{" "}
           <a
             href="https://planning.lacity.org/odocument/bb9114b3-29e3-423f-8b91-027afb242e63/Revised_DRAFT_TDMOrdinance_June2022.pdf"
-            target="external"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Draft Revised TDM Ordinance{" "}
             <MdLaunch className={classes.externalLinkIcon} />
