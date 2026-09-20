@@ -26,6 +26,7 @@ import { createUseStyles } from "react-jss";
 import { matchPath } from "react-router-dom";
 import CopyAndEditSnapshotModal from "../Modals/ActionCopyAndEditSnapshot";
 import * as projectService from "../../services/project.service";
+import * as projectShareService from "../../services/projectShare.service";
 import WarningProjectReset from "../Modals/WarningProjectReset";
 import InfoTargetNotReached from "../Modals/InfoTargetNotReached";
 import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
@@ -285,11 +286,18 @@ const TdmCalculationWizard = props => {
     setDeleteModalOpen(true);
   };
 
-  const handleDeleteModalClose = async action => {
+  const handleDeleteModalClose = async (action, projectShares = []) => {
     if (action === "ok") {
       const projectIDs = [project.id];
       const dateTrashed = !project.dateTrashed;
       try {
+        if (dateTrashed) {
+          await Promise.all(
+            projectShares.map(projectShare =>
+              projectShareService.del(projectShare.id)
+            )
+          );
+        }
         await projectService.trash(projectIDs, dateTrashed);
       } catch (err) {
         handleError(err);
