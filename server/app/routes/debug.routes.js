@@ -11,10 +11,3 @@ router.get(
   jwtSession.validateRoles(["isAdmin"]),
   debugController.memory
 );
-
-router.get(
-  "/heapdump",
-  writeLimiter,
-  jwtSession.validateRoles(["isAdmin"]),
-  debugController.heapDump
-);
