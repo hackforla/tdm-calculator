@@ -45,9 +45,6 @@
     "swagger-jsdoc": "^6.3.0",
     "swagger-ui-express": "^5.0.1"
   },
-  "overrides": {
-    "htmlparser2": "9.1.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.28.5",
