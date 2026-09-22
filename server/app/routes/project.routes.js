@@ -185,6 +185,6 @@ router.put(
 router.put(
   "/submissions/:id",
   writeLimiter,
-  jwtSession.validateUser,
+  jwtSession.validateRoles(["isAdmin"]),
   projectController.putSubmission
 );
