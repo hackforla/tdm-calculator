@@ -35,6 +35,6 @@ module.exports = router;
 router.post(
   "/",
   writeLimiter,
-  jwtSession.optionalUser,
+  jwtSession.validateUser,
   feedbackController.post
 );
