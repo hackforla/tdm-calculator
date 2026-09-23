@@ -2,6 +2,11 @@
 DELETE FROM [dbo].[Feedback];
 GO
 
+-- Add Primary Key to Feedback table
+ALTER TABLE [dbo].[Feedback]
+ADD CONSTRAINT [PK_Feedback] PRIMARY KEY ([id]);
+GO
+
 ALTER TABLE [dbo].[Feedback] DROP COLUMN [name];
 GO
 
