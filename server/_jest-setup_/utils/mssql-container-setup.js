@@ -18,7 +18,7 @@ const setupContainer = async () => {
     container = await new MSSQLServerContainer(
       "mcr.microsoft.com/mssql/server:2022-CU13-ubuntu-22.04"
     )
-      .withWaitForMessage(/.*Attribute synchronization manager initialized*/)
+      .withWaitForMessage(/.*SQL Server is now ready for client connections.*/)
       .acceptLicense()
       .withPassword(DB_PASSWORD)
       .withEnvironment({ MSSQL_PID: "Express" })
@@ -37,6 +37,7 @@ const setupContainer = async () => {
         idleTimeoutMillis: 30000
       },
       options: {
+        encrypt: process.env.SQL_ENCRYPT === "false" ? false : true,
         trustServerCertificate: true
       }
     };
