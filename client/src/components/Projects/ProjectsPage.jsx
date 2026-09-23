@@ -44,7 +44,6 @@ const DEFAULT_FILTER_CRITERIA = {
   address: "",
   author: "",
   alternative: "",
-  dro: "",
   startDateCreated: null,
   endDateCreated: null,
   startDateModified: null,
@@ -59,7 +58,7 @@ const DEFAULT_FILTER_CRITERIA = {
   addressList: [],
   alternativeList: [],
   authorList: [],
-  droList: [],
+  droNameList: [],
   adminNotesList: [],
   startDateModifiedAdmin: null,
   endDateModifiedAdmin: null,
@@ -332,7 +331,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const enhancedProjects = projects
     ? projects.map(project => {
         const droName =
-          droOptions.find(dro => dro.id === project.droId)?.name || "N/A";
+          droOptions.find(dro => dro.id === project.droId)?.name || "-";
 
         return {
           ...project,
@@ -928,9 +927,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
     )
       return false;
 
-    if (criteria.droList.length > 0) {
-      const droNames = criteria.droList.map(n => n.toLowerCase());
-      const projectDroName = (p.droName || "").toLowerCase();
+    if (criteria.droNameList.length > 0) {
+      const droNames = criteria.droNameList.map(n => n.toLowerCase());
+      const projectDroName = (p.droName || "-").toLowerCase();
 
       if (!droNames.includes(projectDroName)) {
         return false;
@@ -1048,7 +1047,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     {
       id: "author",
       label: "Created By",
-      popupType: "text",
+      popupType: "user",
       colWidth: "15rem"
     },
     {
@@ -1088,10 +1087,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
       colWidth: "10rem"
     },
     {
-      id: "dro",
+      id: "droName",
       label: "DRO",
-      popupType: "text",
-      accessor: "droName",
+      popupType: "stringList",
       colWidth: "10rem"
     },
 
@@ -1101,7 +1099,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
             id: "adminNotes",
             label: "Admin Notes",
             popupType: "string",
-            accessor: "adminNotes",
             colWidth: "10rem"
           },
           {
@@ -1114,7 +1111,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
             id: "calculationId",
             label: "Guidelines Version",
             popupType: "version",
-            accessor: "calculationId",
             colWidth: "10rem"
           }
         ]
@@ -1386,7 +1382,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 mounted={deleteModalOpen}
                 onClose={handleDeleteModalClose}
                 project={selectedProject || checkedProjectsStatusData}
-                projects={selectedProject ? [selectedProject] : getCheckedProjects}
+                projects={
+                  selectedProject ? [selectedProject] : getCheckedProjects
+                }
               />
               <SnapshotProjectModal
                 mounted={snapshotModalOpen}

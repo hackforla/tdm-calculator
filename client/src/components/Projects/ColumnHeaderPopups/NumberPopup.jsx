@@ -79,7 +79,7 @@ const NumberPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
-  const property = header.accessor || header.id;
+  const property = header.id;
   const theme = useTheme();
   const classes = useStyles(theme);
 

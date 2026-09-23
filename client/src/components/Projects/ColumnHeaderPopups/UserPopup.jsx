@@ -9,6 +9,10 @@ import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import UserContext from "contexts/UserContext";
 import { selectAllCheckboxes } from "helpers/util";
 
+/* This ColunHeaderPopup is almost the samse as StringPopup, except that it has a few
+special features that apply specifically to people, like checking to see if the name
+matches the logged in user, and displaying "(Me)" next to the name. */
+
 const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",
@@ -68,7 +72,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const TextPopup = ({
+const UserPopup = ({
   projects,
   filter,
   close,
@@ -79,36 +83,22 @@ const TextPopup = ({
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked,
-  droOptions
+  setSelectAllChecked
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
-  const property = header.accessor || header.id;
+  const property = header.id;
   const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
-
-  const getDisplayValue = value => {
-    if (property === "droName" && value === "") {
-      return "No DRO Assigned";
-    }
-    return value;
-  };
-
-  const getInternalValue = displayValue => {
-    if (property === "droName" && displayValue === "No DRO Assigned") {
-      return "";
-    }
-    return displayValue;
-  };
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
+
   const [selectedListItems, setSelectedListItems] = useState(
     (criteria[header.id + "List"] || []).map(s => ({
-      value: getDisplayValue(s),
-      label: getDisplayValue(s)
+      value: s,
+      label: s
     }))
   );
   const [searchString, setSearchString] = useState("");
@@ -122,43 +112,28 @@ const TextPopup = ({
   // const property = header.id == "author" ? "fullname" : header.id;
 
   let selectOptions;
-
-  if (property === "droName" && droOptions) {
-    selectOptions = droOptions.map(dro => dro.name);
-    selectOptions.push("No DRO Assigned");
-  } else if (property === "author" && droOptions) {
-    let hasLoggedInUserInList = false;
-
-    selectOptions = [
-      ...new Set(
-        filteredProjects.map(p => {
-          const name = `${p.lastName}, ${p.firstName}`;
-          if (p.loginId === userContext?.account?.id) {
-            hasLoggedInUserInList = true;
-          }
-          return name;
-        })
-      )
-    ]
-      .filter(value => value !== null && value !== loggedInUserName)
-      .sort((a, b) => {
-        return a.localeCompare(b, "en", { sensitivity: "base" });
+  let hasLoggedInUserInList = false;
+  selectOptions = [
+    ...new Set(
+      filteredProjects.map(p => {
+        const name = p[property];
+        if (name === loggedInUserName) {
+          hasLoggedInUserInList = true;
+        }
+        return name;
       })
-      .sort(
-        (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
-      );
+    )
+  ]
+    .filter(value => value !== null && value !== loggedInUserName)
+    .sort((a, b) => {
+      return a.localeCompare(b, "en", { sensitivity: "base" });
+    })
+    .sort(
+      (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
+    );
 
-    if (hasLoggedInUserInList) selectOptions.unshift(loggedInUserName);
-  } else {
-    selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
-      .filter(value => value !== null && value !== "")
-      .sort((a, b) => {
-        return a.localeCompare(b, "en", { sensitivity: "base" });
-      })
-      .sort(
-        (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
-      );
-  }
+  if (hasLoggedInUserInList) selectOptions.unshift(loggedInUserName);
+
   const filteredOptions = selectOptions
     .filter(o => !!o)
     .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
@@ -191,9 +166,7 @@ const TextPopup = ({
   };
 
   const applyChanges = () => {
-    let selectedValues = selectedListItems.map(sli =>
-      getInternalValue(sli.value)
-    );
+    let selectedValues = selectedListItems.map(sli => sli.value);
 
     setCriteria({
       ...criteria,
@@ -325,7 +298,7 @@ const TextPopup = ({
   );
 };
 
-TextPopup.propTypes = {
+UserPopup.propTypes = {
   projects: PropTypes.any,
   filter: PropTypes.func,
   close: PropTypes.func,
@@ -336,8 +309,7 @@ TextPopup.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array
+  setSelectAllChecked: PropTypes.func
 };
 
-export default TextPopup;
+export default UserPopup;

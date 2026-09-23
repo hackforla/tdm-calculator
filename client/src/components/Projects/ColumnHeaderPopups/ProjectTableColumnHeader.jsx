@@ -8,7 +8,7 @@ import {
 import { createUseStyles } from "react-jss";
 import { Popover } from "react-tiny-popover";
 import DatePopup from "./DatePopup";
-import TextPopup from "./TextPopup";
+import UserPopup from "./UserPopup";
 import StringPopup from "./StringPopup";
 import StringListPopup from "./StringListPopup";
 import NumberPopup from "./NumberPopup";
@@ -108,7 +108,6 @@ const ProjectTableColumnHeader = ({
   setSort,
   setCheckedProjectIds,
   setSelectAllChecked,
-  droOptions,
   calculations
 }) => {
   const theme = useTheme();
@@ -130,9 +129,9 @@ const ProjectTableColumnHeader = ({
   // Filter is considered Applied if it is not set
   // to the default criteria values.
   const isFilterApplied = () => {
-    let propertyName = header.accessor || header.id;
+    let propertyName = header.id;
     if (
-      header.popupType === "text" ||
+      header.popupType === "user" ||
       header.popupType === "string" ||
       header.popupType === "number" ||
       header.popupType === "stringList" ||
@@ -276,10 +275,9 @@ const ProjectTableColumnHeader = ({
                   setSelectAllChecked={setSelectAllChecked}
                   projects={projects}
                   filter={filter}
-                  droOptions={droOptions}
                 />
-              ) : header.popupType === "text" ? (
-                <TextPopup
+              ) : header.popupType === "user" ? (
+                <UserPopup
                   close={() => handlePopoverToggle(false)}
                   header={header}
                   criteria={criteria}
@@ -291,7 +289,6 @@ const ProjectTableColumnHeader = ({
                   setSelectAllChecked={setSelectAllChecked}
                   projects={projects}
                   filter={filter}
-                  droOptions={droOptions}
                 />
               ) : header.popupType === "string" ? (
                 <StringPopup
@@ -406,8 +403,7 @@ ProjectTableColumnHeader.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array
+  setSelectAllChecked: PropTypes.func
 };
 
 export default ProjectTableColumnHeader;
