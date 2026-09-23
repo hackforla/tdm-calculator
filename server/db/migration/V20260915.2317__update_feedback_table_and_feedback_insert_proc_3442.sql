@@ -13,17 +13,17 @@ GO
 ALTER TABLE [dbo].[Feedback] DROP COLUMN [email];
 GO
 
-ALTER TABLE [dbo].[Feedback] 
+ALTER TABLE [dbo].[Feedback]
 ADD [subject] nvarchar(250) NOT NULL;
 GO
 
-ALTER TABLE [dbo].[Feedback] 
-ADD [loginId] INT NULL 
+ALTER TABLE [dbo].[Feedback]
+ADD [loginId] INT NULL
 CONSTRAINT [FK_Feedback_Login] FOREIGN KEY REFERENCES [dbo].[Login]([id]);
 GO
 
-ALTER TABLE [dbo].[Feedback] 
-ADD [dateCreated] datetime2(7) NOT NULL 
+ALTER TABLE [dbo].[Feedback]
+ADD [dateCreated] datetime2(7) NOT NULL
 CONSTRAINT [DF_Feedback_dateCreated] DEFAULT (getutcdate());
 GO
 
@@ -39,42 +39,42 @@ DROP PROCEDURE IF EXISTS [dbo].[Feedback_Insert];
 GO
 
 CREATE PROC [dbo].[Feedback_Insert]
-	@id int OUTPUT,
-	@loginId int = NULL,
-	@subject nvarchar(250),
-	@comment nvarchar(max),
-	@forwardToWebTeam bit,
-	@projectIds AS dbo.IdList READONLY
+    @id int OUTPUT,
+    @loginId int = NULL,
+    @subject nvarchar(250),
+    @comment nvarchar(max),
+    @forwardToWebTeam bit,
+    @projectIds AS dbo.IdList READONLY
 AS
 BEGIN
-	SET NOCOUNT ON;
+    SET NOCOUNT ON;
 
-	-- Insert feedback record
-	INSERT INTO [dbo].[Feedback] (
-		loginId, 
-		subject, 
-		comment, 
-		forwardToWebTeam, 
-		dateCreated
-	)
-	VALUES (
-		@loginId, 
-		@subject, 
-		@comment, 
-		@forwardToWebTeam, 
-		GETUTCDATE()
-	);
+    -- Insert feedback record
+    INSERT INTO [dbo].[Feedback] (
+        loginId,
+        subject,
+        comment,
+        forwardToWebTeam,
+        dateCreated
+    )
+    VALUES (
+        @loginId,
+        @subject,
+        @comment,
+        @forwardToWebTeam,
+        GETUTCDATE()
+    );
 
-	SET @id = SCOPE_IDENTITY();
+    SET @id = SCOPE_IDENTITY();
 
-	-- Insert associated project IDs
-	INSERT INTO [dbo].[FeedbackProjects] (
-		feedbackId, 
-		projectId
-	)
-	SELECT 
-		@id, 
-		id
-	FROM @projectIds;
+    -- Insert associated project IDs
+    INSERT INTO [dbo].[FeedbackProjects] (
+        feedbackId,
+        projectId
+    )
+    SELECT
+        @id,
+        id
+    FROM @projectIds;
 END
 GO
