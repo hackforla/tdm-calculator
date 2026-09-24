@@ -83,7 +83,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
   const account = userContext.account;
   const [projects, setProjects] = useState([]);
   const { getProjects } = useProject();
-  const [selectedProjects, setSelectedProjects] = useState([]);
+  const [selectedProjectIds, setSelectedProjectIds] = useState([]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -100,33 +100,29 @@ const FeedbackPage = ({ contentContainerRef }) => {
   }, []);
 
   const initialValues = {
-    name: "",
-    email: "",
+    subject: "",
     comment: "",
     forwardToWebTeam: false,
-    selectedProjects: []
+    selectedProjectIds: []
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string()
+    subject: Yup.string()
       .min(2, "Must be 2 characters or more")
       .required("Required"),
-    email: Yup.string().email("Invalid email address"),
     comment: Yup.string().required("Required")
   });
 
   const handleSubmit = async (
-    { name, email, comment, forwardToWebTeam },
+    { subject, comment, forwardToWebTeam },
     { setSubmitting, resetForm }
   ) => {
-    // await new Promise(r => setTimeout(r, 500));
     try {
       const response = await feedbackService.post({
-        name,
-        email,
+        subject,
         comment,
         forwardToWebTeam,
-        selectedProjects
+        selectedProjectIds
       });
 
       if (response.status === 201) {
@@ -172,48 +168,29 @@ const FeedbackPage = ({ contentContainerRef }) => {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ errors, touched, isSubmitting }) => (
+          {({ errors, touched, isSubmitting, isValid }) => (
             <Form>
               <div className={classes.formContainer}>
                 <div className={classes.row}>
-                  <label htmlFor="name" className={classes.formLabel}>
-                    Your Name <span className={classes.asterisk}>*</span>
+                  <label htmlFor="subject" className={classes.formLabel}>
+                    Subject <span className={classes.asterisk}>*</span>
                   </label>
 
                   <Field
-                    id="name"
-                    name="name"
+                    id="subject"
+                    name="subject"
                     innerRef={focusRef}
                     type="text"
                     placeholder="required"
                     className={clsx(
                       classes.formInput,
-                      errors.name && touched.name && classes.formErrorBorder
+                      errors.subject &&
+                        touched.subject &&
+                        classes.formErrorBorder
                     )}
                   />
                   <ErrorMessage
-                    name="name"
-                    component="span"
-                    className={classes.errorMessage}
-                  />
-                </div>
-
-                <div className={classes.row}>
-                  <label htmlFor="email" className={classes.formLabel}>
-                    Email Address &nbsp;
-                  </label>
-
-                  <Field
-                    id="email"
-                    name="email"
-                    type="email"
-                    className={clsx(
-                      classes.formInput,
-                      errors.email && touched.email && classes.formErrorBorder
-                    )}
-                  />
-                  <ErrorMessage
-                    name="email"
+                    name="subject"
                     component="span"
                     className={classes.errorMessage}
                   />
@@ -263,8 +240,8 @@ const FeedbackPage = ({ contentContainerRef }) => {
                 <ProjectList
                   key={JSON.stringify(projects, null, 2)}
                   projects={projects}
-                  selectedProjects={selectedProjects}
-                  setSelectedProjects={setSelectedProjects}
+                  selectedProjectIds={selectedProjectIds}
+                  setSelectedProjectIds={setSelectedProjectIds}
                 />
               ) : null}
 
@@ -273,7 +250,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
                   type="submit"
                   className={classes.submitButton}
                   color="colorPrimary"
-                  disabled={isSubmitting}
+                  disabled={!isValid || isSubmitting}
                 >
                   Submit
                 </Button>
