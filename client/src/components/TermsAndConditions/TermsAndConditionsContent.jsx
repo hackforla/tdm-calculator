@@ -12,7 +12,7 @@ const useStyles = createUseStyles(theme => ({
   externalLinkIcon: {
     fontSize: "14px",
     padding: " 0 0.4em",
-    color: "#00F"
+    color: theme.colorLinkBlue
   }
 }));
 

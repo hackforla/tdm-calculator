@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 import { MdLaunch } from "react-icons/md";
 import ContentContainer from "./Layout/ContentContainer";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   privacyContent: {
     padding: "0 2em 1em 2em"
   },
@@ -61,9 +61,9 @@ const useStyles = createUseStyles({
   externalLinkIcon: {
     fontSize: "14px",
     padding: " 0 0.4em",
-    color: "#00F"
+    color: theme.colorLinkBlue
   }
-});
+}));
 
 const ExternalWebLink = ({ href, children }) => {
   const classes = useStyles();
