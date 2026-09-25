@@ -101,10 +101,10 @@ const sendFeedback = async (loginId, feedback, projects) => {
     if (projects && projects.length > 0) {
       body +=
         `<p><strong>Referenced Project(s)</strong></p>
-        <p>Clicking on a link to one of the projects will allow you to log in to TDM, then, once login is successful, it will open the project.</p>
+        <p>Clicking on a link to one of the TDM Plans will allow you to log in to TDM, then, once login is successful, it will open the TDM Plan.</p>
         <table style="list-style-type:none">
         <tr>
-          <th style="text-align:left;">Project Name</th>
+          <th style="text-align:left;">TDM Plan Name</th>
           <th style="text-align:left;">Address</th>
           <th style="text-align:left;">Date Saved</th>
           <th style="text-align:left;">Date Created</th>
