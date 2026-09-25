@@ -1,4 +1,6 @@
 const smtpService = require("./smtp.service");
+const { pool, poolConnect } = require("./tedious-pool");
+const mssql = require("mssql");
 
 const clientUrl = process.env.CLIENT_URL;
 const laCityEmail = process.env.EMAIL_PUBLIC_COMMENT_LA_CITY;
@@ -69,48 +71,78 @@ const sendResetPasswordConfirmation = async (email, token) => {
 
 const sendFeedback = async (loginId, feedback, projects) => {
   try {
-    const { name, email, comment, forwardToWebTeam } = feedback;
+    const { subject, comment, forwardToWebTeam } = feedback;
 
-    let body = ` <p><strong>Name:</strong> ${name}</p>
-              <p><strong>Email</strong>: ${email ? email : "Anonymous"}</p>
-              <p><strong>Comment</strong>: ${comment}</p>
-              <p><strong>Forward To Website Team</strong>: ${
+    // Resolve email from Login record
+    let userEmail = "Anonymous";
+    if (loginId) {
+      await poolConnect;
+      const request = pool.request();
+      request.input("id", mssql.Int, loginId);
+      const response = await request.execute("Login_SelectById");
+
+      if (response.recordset && response.recordset.length > 0) {
+        userEmail = response.recordset[0].email || "Anonymous";
+      }
+    } else if (feedback.email) {
+      userEmail = feedback.email;
+    }
+
+    // Build email body
+    let body = ` <p><strong>Subject:</strong> ${subject}</p>
+              <p><strong>Email:</strong> ${userEmail}</p>
+              <p><strong>Comment:</strong> ${comment}</p>
+              <p><strong>Forward To Website Team:</strong> ${
                 forwardToWebTeam ? "Yes" : "No"
-              } </p>
+              }</p>
               `;
+
+    // Format projects table if any exist
     if (projects && projects.length > 0) {
       body +=
         `<p><strong>Referenced Project(s)</strong></p>
-        <p>Clicking on a link to one of the projects will allow you to log in to TDM, then, once login is successful, it will
-        open the project.</p>
+        <p>Clicking on a link to one of the TDM Plans will allow you to log in to TDM, then, once login is successful, it will open the TDM Plan.</p>
         <table style="list-style-type:none">
         <tr>
-          <th style="text-align:left;">Name</th>
+          <th style="text-align:left;">TDM Plan Name</th>
           <th style="text-align:left;">Address</th>
           <th style="text-align:left;">Date Saved</th>
           <th style="text-align:left;">Date Created</th>
           <th style="text-align:left;">Link</th>
         </tr>` +
-        projects.map(project => {
-          // console.log(project);
-          return `<tr>
-            <td>${project.name}</td>
-            <td >
-              ${JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
-            </td>
-            <td>${formatDates(project.dateModified)}</td>
-            <td>${formatDates(project.dateCreated)}</td>
-            <td> ${clientUrl}/login?projectId=${project.id}</td>
-          </tr>`;
-        }) +
+        projects
+          .map(project => {
+            let address = "N/A";
+            try {
+              const formInputs =
+                typeof project.formInputs === "string"
+                  ? JSON.parse(project.formInputs)
+                  : project.formInputs;
+              if (formInputs && formInputs.PROJECT_ADDRESS) {
+                address = formInputs.PROJECT_ADDRESS;
+              }
+            } catch {
+              address = "N/A";
+            }
+
+            return `<tr>
+              <td>${project.name || project.projectName || "N/A"}</td>
+              <td>${address}</td>
+              <td>${formatDates(project.dateModified)}</td>
+              <td>${formatDates(project.dateCreated)}</td>
+              <td><a href="${clientUrl}/login?projectId=${project.id}">${clientUrl}/login?projectId=${project.id}</a></td>
+            </tr>`;
+          })
+          .join("") +
         "</table></div>";
     }
 
+    // Send email via smtpService
     const msg = {
       to: laCityEmail,
       cc: forwardToWebTeam ? webTeamEmail : "",
-      subject: `TDM Feedback Submission - ${name}`,
-      text: `TDM Feedback Submission - ${name}`,
+      subject: `TDM Feedback Submission - ${subject}`,
+      text: `TDM Feedback Submission - ${subject}`,
       html: body
     };
 

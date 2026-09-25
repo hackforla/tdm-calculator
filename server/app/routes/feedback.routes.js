@@ -11,8 +11,11 @@ module.exports = router;
  *   post:
  *     tags:
  *       - Feedback
- *     summary: Submit public feedback.
- *     description: Accepts feedback with or without a valid user session.
+ *     summary: Submit feedback.
+ *     description: Submits user feedback and optional associated project IDs. Requires an authenticated user session.
+ *     security:
+ *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -20,16 +23,18 @@ module.exports = router;
  *           schema:
  *             $ref: '#/components/schemas/FeedbackPost'
  *     responses:
- *       200:
+ *       201:
  *         description: Feedback was submitted.
  *       400:
  *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
 router.post(
   "/",
   writeLimiter,
-  jwtSession.optionalUser,
+  jwtSession.validateUser,
   feedbackController.post
 );

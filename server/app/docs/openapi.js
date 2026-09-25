@@ -150,11 +150,10 @@ const openapiSpec = swaggerJsdoc({
         },
         FaqCategory: faqCategorySchema,
         FeedbackPost: schemaWithExample(feedbackPostSchema, {
-          name: "Jane Planner",
-          email: "jane.planner@example.com",
+          subject: "Question regarding calculation rules",
           forwardToWebTeam: false,
           comment: "I have a question about my submitted project.",
-          selectedProjects: [101, 102]
+          selectedProjectIds: [101, 102]
         }),
         Project: schemaWithExample(projectSchema, {
           name: "Downtown Mixed Use Project",

@@ -181,32 +181,64 @@ describe("email API unit tests", () => {
     );
   });
   // sendFeedback
-  it("sendFeedback", async () => {
-    const loginId = 99;
-    const feedback = {
-      name: "Doe, John",
-      email: "user@example.com",
-      comment: "some comment",
-      forwardToWebTeam: true,
-      selectedProjectIds: []
-    };
-    const expectedHtmlStartsWith = `<p><strong>Name:</strong> ${feedback.name}</p>
-              <p><strong>Email</strong>: ${feedback.email}</p>
-              <p><strong>Comment</strong>: ${feedback.comment}</p>
-              <p><strong>Forward To Website Team</strong>: Yes </p>`;
+  describe("sendFeedback", () => {
+    it("should call smtpMail.send with the correct parameters for sendFeedback", async () => {
+      const loginId = null;
+      const feedback = {
+        subject: "General Feedback Subject",
+        comment: "This is a test comment",
+        forwardToWebTeam: true,
+        email: "user@example.com",
+        selectedProjectIds: []
+      };
+      const expectedHtmlStartsWith = `<p><strong>Subject:</strong> ${feedback.subject}</p>
+              <p><strong>Email:</strong> ${feedback.email}</p>
+              <p><strong>Comment:</strong> ${feedback.comment}</p>
+              <p><strong>Forward To Website Team:</strong> Yes</p>`;
 
-    await sendFeedback(loginId, feedback);
+      await sendFeedback(loginId, feedback);
 
-    expect(smtpMail.send).toHaveBeenCalledWith(
-      expect.objectContaining({
-        to: process.env.EMAIL_PUBLIC_COMMENT_LA_CITY,
-        cc: process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM,
-        subject: `TDM Feedback Submission - ${feedback.name}`,
-        text: expect.stringContaining(
-          `TDM Feedback Submission - ${feedback.name}`
-        ),
-        html: expect.stringContaining(expectedHtmlStartsWith)
-      })
-    );
+      expect(smtpMail.send).toHaveBeenCalledWith(
+        expect.objectContaining({
+          to: process.env.EMAIL_PUBLIC_COMMENT_LA_CITY,
+          cc: process.env.EMAIL_PUBLIC_COMMENT_WEB_TEAM,
+          subject: `TDM Feedback Submission - ${feedback.subject}`,
+          text: expect.stringContaining(
+            `TDM Feedback Submission - ${feedback.subject}`
+          ),
+          html: expect.stringContaining(expectedHtmlStartsWith)
+        })
+      );
+    });
+
+    it("should format referenced projects in sendFeedback", async () => {
+      const loginId = null;
+      const feedback = {
+        subject: "Feedback with Project",
+        comment: "Referenced project comment",
+        forwardToWebTeam: false,
+        email: "user@example.com"
+      };
+      const projects = [
+        {
+          id: 101,
+          name: "Sample Project",
+          formInputs: JSON.stringify({ PROJECT_ADDRESS: "123 Main St" }),
+          dateCreated: new Date("2026-01-01T00:00:00Z"),
+          dateModified: new Date("2026-01-02T00:00:00Z")
+        }
+      ];
+
+      await sendFeedback(loginId, feedback, projects);
+
+      expect(smtpMail.send).toHaveBeenCalledWith(
+        expect.objectContaining({
+          to: process.env.EMAIL_PUBLIC_COMMENT_LA_CITY,
+          cc: "",
+          subject: `TDM Feedback Submission - ${feedback.subject}`,
+          html: expect.stringContaining("Sample Project")
+        })
+      );
+    });
   });
 });
