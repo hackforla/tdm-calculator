@@ -9,7 +9,7 @@
   "main": "server.js",
   "scripts": {
     "precommit": "lint-staged",
-    "test": "jest --runInBand --passWithNoTests --forceExit --detectOpenHandles",
+    "test": "jest --no-cache --runInBand --passWithNoTests --forceExit --detectOpenHandles",
     "heroku-postbuild": "cd client && npm i && npm run build",
     "start": "nodemon server.js",
     "release-notes": "gren release --override",

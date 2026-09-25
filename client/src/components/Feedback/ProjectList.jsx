@@ -37,13 +37,17 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
+const ProjectsList = ({
+  projects,
+  setSelectedProjectIds,
+  selectedProjectIds
+}) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const [augmentedProjects, setAugmentedProjects] = useState(
     projects.map(project => ({
       ...project,
-      isSelected: selectedProjects.includes(project.id)
+      isSelected: selectedProjectIds.includes(project.id)
     }))
   );
 
@@ -64,7 +68,7 @@ const ProjectsList = ({ projects, setSelectedProjects, selectedProjects }) => {
         });
     });
 
-    setSelectedProjects(prev => {
+    setSelectedProjectIds(prev => {
       if (value) {
         return [...prev, id];
       }
@@ -140,8 +144,8 @@ ProjectsList.propTypes = {
       name: PropTypes.string
     })
   ),
-  selectedProjects: PropTypes.array.isRequired,
-  setSelectedProjects: PropTypes.func.isRequired
+  selectedProjectIds: PropTypes.array.isRequired,
+  setSelectedProjectIds: PropTypes.func.isRequired
 };
 
 export default ProjectsList;
