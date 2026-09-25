@@ -7,6 +7,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { MdLaunch } from "react-icons/md";
 import Button from "../Button/Button";
 import useToast from "../../contexts/Toast/useToast";
 import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
@@ -47,6 +48,11 @@ const useStyles = createUseStyles(theme => ({
     marginBottom: "1em",
     width: "100%",
     height: "100px"
+  },
+  externalLinkIcon: {
+    fontSize: "14px",
+    padding: " 0 0.4em",
+    color: theme.colorLinkBlue
   },
   formErrorBorder: {
     border: "2px dotted red "
@@ -148,17 +154,21 @@ const FeedbackPage = ({ contentContainerRef }) => {
             Calculator website. <br />
             To submit a public comment on the proposed TDM Program (
             <a
-              target="external"
+              target="_blank"
+              rel="noopener noreferrer"
               href=" https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=15-0719-S19"
             >
               Council File 15-0719-S19
+              <MdLaunch className={classes.externalLinkIcon} />
             </a>
             ), use the{" "}
             <a
-              target="external"
+              target="_blank"
+              rel="noopener noreferrer"
               href="https://cityclerk.lacity.org/Feedback/?cfnumber=15-0719-S19"
             >
               City Clerk&apos;s comment form
+              <MdLaunch className={classes.externalLinkIcon} />
             </a>
             .
           </p>

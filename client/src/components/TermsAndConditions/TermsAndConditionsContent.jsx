@@ -1,5 +1,6 @@
 import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
+import { MdLaunch } from "react-icons/md";
 
 const useStyles = createUseStyles(theme => ({
   title: theme.typography.heading1,
@@ -7,7 +8,12 @@ const useStyles = createUseStyles(theme => ({
     color: "grey"
   },
   section: { ...theme.typography.heading3, textAlign: "left" },
-  para: { marginTop: "0.5rem", marginBottom: "0.5rem" }
+  para: { marginTop: "0.5rem", marginBottom: "0.5rem" },
+  externalLinkIcon: {
+    fontSize: "14px",
+    padding: " 0 0.4em",
+    color: theme.colorLinkBlue
+  }
 }));
 
 const TermsAndConditionsContent = () => {
@@ -33,9 +39,14 @@ const TermsAndConditionsContent = () => {
         public with an understanding of the TDM Ordinance. Currently available
         for review: Council File 15-0719-S19 / the Los Angeles Department of
         City Planning website:
-        <a href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility">
+        <a
+          href="https://planning.lacity.org/plans-policies/initiatives-policies/mobility"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {" "}
           planning4la.org/mobility
+          <MdLaunch className={classes.externalLinkIcon} />
         </a>
         . The TDM Ordinance proposes to revise regulations that require eligible
         land use development projects to adopt TDM strategies with the goal to

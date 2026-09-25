@@ -1,8 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
+import { MdLaunch } from "react-icons/md";
 import ContentContainer from "./Layout/ContentContainer";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   privacyContent: {
     padding: "0 2em 1em 2em"
   },
@@ -55,8 +57,28 @@ const useStyles = createUseStyles({
   },
   spacedParagraph: {
     marginBottom: "1em"
+  },
+  externalLinkIcon: {
+    fontSize: "14px",
+    padding: " 0 0.4em",
+    color: theme.colorLinkBlue
   }
-});
+}));
+
+const ExternalWebLink = ({ href, children }) => {
+  const classes = useStyles();
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      {children}
+      <MdLaunch className={classes.externalLinkIcon} />
+    </a>
+  );
+};
+
+ExternalWebLink.propTypes = {
+  href: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired
+};
 
 const PrivacyPolicy = () => {
   const classes = useStyles();
@@ -274,13 +296,13 @@ const PrivacyPolicy = () => {
             as a unique user. This cookie cannot be used by anyone but Google.
             Google&#39;s ability to use and share information collected by
             Google Analytics about your visits to this site is restricted by the{" "}
-            <a href="https://marketingplatform.google.com/about/analytics/terms/us/">
+            <ExternalWebLink href="https://marketingplatform.google.com/about/analytics/terms/us/">
               Google Analytics Terms of Use
-            </a>{" "}
+            </ExternalWebLink>{" "}
             and the{" "}
-            <a href="https://policies.google.com/privacy">
+            <ExternalWebLink href="https://policies.google.com/privacy">
               Google Privacy Policy
-            </a>
+            </ExternalWebLink>
             .{" "}
           </p>
 
@@ -295,9 +317,9 @@ const PrivacyPolicy = () => {
           </p>
           <p className={classes.indented}>
             Visit{" "}
-            <a href="https://tools.google.com/dlpage/gaoptout/">
+            <ExternalWebLink href="https://tools.google.com/dlpage/gaoptout/">
               https://tools.google.com/dlpage/gaoptout/
-            </a>
+            </ExternalWebLink>
             <span> </span>for more info on how to opt out.
           </p>
           <h2 className={classes.sectionSpacing}>
@@ -332,9 +354,18 @@ const PrivacyPolicy = () => {
           </p>
           <p className={classes.indented}>
             Third-party service providers we may use include{" "}
-            <a href="https://analytics.google.com/">Google Analytics</a>,{" "}
-            <a href="https://mixpanel.com/">Mixpanel</a>,{" "}
-            <a href="https://www.hotjar.com/">Hotjar</a>.
+            <ExternalWebLink href="https://analytics.google.com/">
+              Google Analytics
+            </ExternalWebLink>
+            ,{" "}
+            <ExternalWebLink href="https://mixpanel.com/">
+              Mixpanel
+            </ExternalWebLink>
+            ,{" "}
+            <ExternalWebLink href="https://www.hotjar.com/">
+              Hotjar
+            </ExternalWebLink>
+            .
           </p>
           <h3 className={classes.sectionSpacingIndented}>
             How to opt-out of the use of cookies
@@ -345,10 +376,12 @@ const PrivacyPolicy = () => {
             any other site, you can do so through your browser setting. The
             ‘Help’ function in your browser should explain how. Alternatively,
             you can visit{" "}
-            <a href="http://www.aboutcookies.org">www.aboutcookies.org</a>,
-            which contains comprehensive information on how to do this on a wide
-            variety of browsers. You will find general information about cookies
-            and details on how to delete cookies from your machine.
+            <ExternalWebLink href="http://www.aboutcookies.org">
+              www.aboutcookies.org
+            </ExternalWebLink>
+            , which contains comprehensive information on how to do this on a
+            wide variety of browsers. You will find general information about
+            cookies and details on how to delete cookies from your machine.
           </p>
 
           <h2 className={classes.sectionSpacing}>
