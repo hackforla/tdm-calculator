@@ -134,12 +134,15 @@ Answer.propTypes = {
 
 function TransformExternalLink(node, children) {
   const classes = useStyles();
-  if (node.tagName == "A" && !node.getAttribute("href").startsWith("/")) {
-    node.setAttribute("target", "_blank");
-    node.setAttribute("rel", "noopener noreferrer");
+  const href = node.getAttribute("href") || "";
+  if (
+    node.tagName == "A" &&
+    !href.startsWith("/") &&
+    !href.toLowerCase().startsWith("mailto:")
+  ) {
     return (
       <span>
-        <a href={node.getAttribute("href")} target="external">
+        <a href={href} target="_blank" rel="noopener noreferrer">
           {children}
           <MdLaunch className={classes.externalLinkIcon} />
         </a>

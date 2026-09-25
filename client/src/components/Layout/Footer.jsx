@@ -67,7 +67,8 @@ const Footer = ({ toggleChecklistModal }) => {
         <div className={classes.glossaryDiv}>
           <a
             href="https://planning.lacity.org/odocument/c3c9b320-4431-49ff-99d2-15b479c06074/Revised_DRAFT_TDMProgramGuidelines_June2022.pdf/#page=48"
-            target="external"
+            target="_blank"
+            rel="noopener noreferrer"
             className={classes.glossaryLink}
           >
             Glossary
