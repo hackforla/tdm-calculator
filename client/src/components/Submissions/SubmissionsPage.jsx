@@ -659,7 +659,12 @@ const SubmissionsPage = ({ contentContainerRef }) => {
           <div className={classes.pageContainer}>
             <Pagination
               projectsPerPage={projectsPerPage}
-              totalProjects={sortedProjects.length}
+              // True-empty only: shared Pagination renders "1 … 0" when
+              // totalProjects===0 (pre-existing). Pass one visual page so Figma
+              // shows ‹ 1 ›. Do not change Pagination.jsx under #3459.
+              totalProjects={
+                hasNoSubmissions ? 1 : sortedProjects.length
+              }
               paginate={paginate}
               currentPage={currentPage}
               maxNumOfVisiblePages={5}
