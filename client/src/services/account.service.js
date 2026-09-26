@@ -41,6 +41,24 @@ export const updateAccount = async (firstName, lastName, email) => {
   }
 };
 
+export const getPendingEmail = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}/getpendingemail`);
+    return response.data;
+  } catch (err) {
+    throw Error("Getting pending email change request failed.");
+  }
+};
+
+export const deletePendingEmail = async () => {
+  try {
+    const response = await axios.delete(`${baseUrl}/deletependingemail`);
+    return response.data;
+  } catch (err) {
+    throw Error("Deleting pending email change request failed.");
+  }
+};
+
 export const resendConfirmationEmail = async email => {
   const body = { email };
   try {

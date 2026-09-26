@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Navigate, useParams, useNavigate } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
 import * as accountService from "../../services/account.service";
 import { useToast } from "../../contexts/Toast";
 import SendEmailForm from "./SendEmailForm";
 import ContentContainer from "../Layout/ContentContainer";
 
 const ConfirmEmail = () => {
+  const userContext = useContext(UserContext);
   const params = useParams();
   const navigate = useNavigate();
   const token = params.token;
@@ -33,6 +35,7 @@ const ConfirmEmail = () => {
       setConfirmResult(result);
       if (result.isSuccess) {
         toast.add("Your email has been confirmed. Please log in.");
+        userContext.updateAccount({});
         navigate(`/login/${encodeURIComponent(result.email)}`);
       }
     };

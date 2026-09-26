@@ -69,6 +69,28 @@ const updateAccount = async (req, res) => {
   }
 };
 
+const getPendingEmail = async (req, res) => {
+  try {
+    const loggedInUser = req.user.id;
+    const response = await accountService.getPendingEmail({ id: loggedInUser });
+    res.send(response);
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
+};
+
+const deletePendingEmail = async (req, res) => {
+  try {
+    const loggedInUser = req.user.id;
+    const response = await accountService.deletePendingEmail({
+      id: loggedInUser
+    });
+    res.send(response);
+  } catch (err) {
+    res.status(err.code || 500).json({ error: err.toString() });
+  }
+};
+
 const resendConfirmationEmail = async (req, res) => {
   try {
     const response = await accountService.resendConfirmationEmail(
@@ -284,5 +306,7 @@ module.exports = {
   getAllArchivedUsers,
   getAllDROUsers,
   deleteById,
-  cleanupInactive
+  cleanupInactive,
+  getPendingEmail,
+  deletePendingEmail
 };
