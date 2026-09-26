@@ -186,7 +186,11 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    // ManageSubmissionsPage house pattern + 6px to reach Figma's 16px
+    // pagination→footer (ContentContainerNoSidebar already pads 10px).
+    marginTop: "auto",
+    marginBottom: "6px"
   },
   dropContent: {
     borderRadius: "4px",
@@ -470,7 +474,10 @@ const SubmissionsPage = ({ contentContainerRef }) => {
       <div
         style={{
           display: "flex",
-          flexDirection: "row"
+          flexDirection: "row",
+          flex: "1 1 auto",
+          width: "100%",
+          minHeight: 0
         }}
       >
         <div
