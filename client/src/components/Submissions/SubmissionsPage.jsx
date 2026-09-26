@@ -66,14 +66,37 @@ const useStyles = createUseStyles(theme => ({
     transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
+    ...theme.typography.heading1,
     marginTop: 0,
-    marginBottom: "0rem"
+    marginBottom: "8px"
   },
   subheading: {
     ...theme.typography.subHeading,
-    lineHeight: "1.2rem",
-    marginTop: "0rem",
-    marginBottom: "0rem"
+    marginTop: 0,
+    marginBottom: 0
+  },
+  subheadingTrueEmpty: {
+    marginBottom: "21px"
+  },
+  emptyStateRegion: {
+    boxSizing: "border-box",
+    width: "100%",
+    padding: "250px 4px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "16px"
+  },
+  emptyStatePrimary: {
+    ...theme.typography.heading3,
+    lineHeight: "23px",
+    color: theme.colorPrintBlack,
+    margin: 0
+  },
+  emptyStateSupporting: {
+    ...theme.typography.subHeading,
+    color: theme.colorPrintBlack,
+    margin: 0
   },
   searchBarWrapper: {
     position: "relative",
@@ -150,6 +173,10 @@ const useStyles = createUseStyles(theme => ({
     width: "calc(100vw - 20px)",
     margin: "0px 1rem",
     height: "calc(100vh - 175px - 11.34em)"
+  },
+  tableContainerTrueEmpty: {
+    display: "flex",
+    flexDirection: "column"
   },
   fixTableHead: {
     overflowY: "auto",
@@ -430,7 +457,13 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <h1 className={classes.pageTitle}>Submissions</h1>
-      <h2 className={classes.subheading}>
+      <h2
+        className={
+          hasNoSubmissions
+            ? `${classes.subheading} ${classes.subheadingTrueEmpty}`
+            : classes.subheading
+        }
+      >
         Snapshots that have been submitted to LADOT for review appear on this
         page.
       </h2>
@@ -510,7 +543,13 @@ const SubmissionsPage = ({ contentContainerRef }) => {
             </div>
           )}
           <div>
-            <div className={classes.tableContainer}>
+            <div
+              className={
+                hasNoSubmissions
+                  ? `${classes.tableContainer} ${classes.tableContainerTrueEmpty}`
+                  : classes.tableContainer
+              }
+            >
               <table
                 className={
                   userContext.account?.isAdmin
@@ -550,63 +589,64 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                     })}
                   </tr>
                 </thead>
-                <tbody className={classes.tbody}>
-                  {currentProjects.length ? (
-                    currentProjects.map(project => (
-                      <tr
-                        key={project.id}
-                        style={{
-                          background: project.dateTrashed ? "#ffdcdc" : ""
-                        }}
-                      >
-                        <Td>{formatId(project.id)}</Td>
-                        <TdExpandable>
-                          <Link to={`/calculation/1/${project.id}`}>
-                            {project.name}
-                          </Link>
-                        </TdExpandable>
-                        <TdExpandable>{project.address}</TdExpandable>
-                        <Td>{formatDate(project.dateSubmitted)}</Td>
-                        <Td>{formatDate(project.dateStatus)}</Td>
-                        <Td align="center">{project.projectLevel}</Td>
-                        <Td>{project.droName}</Td>
-                        <TdExpandable>
-                          {project.assignee === loggedInUserName
-                            ? `${project.assignee} (Me)`
-                            : project.assignee}
-                        </TdExpandable>
-                        <Td>{formatDate(project.dateAssigned)}</Td>
-                        <Td>{project.invoiceStatusName}</Td>
-                        <Td>{formatDate(project.dateInvoicePaid)}</Td>
-                        <Td align="center">
-                          {project.onHold ? <MdCheck /> : ""}
-                        </Td>
-                        <Td>{project.approvalStatusName}</Td>
-                        <Td>{formatDate(project.dateCoO)}</Td>
+                {!hasNoSubmissions && (
+                  <tbody className={classes.tbody}>
+                    {currentProjects.length ? (
+                      currentProjects.map(project => (
+                        <tr
+                          key={project.id}
+                          style={{
+                            background: project.dateTrashed ? "#ffdcdc" : ""
+                          }}
+                        >
+                          <Td>{formatId(project.id)}</Td>
+                          <TdExpandable>
+                            <Link to={`/calculation/1/${project.id}`}>
+                              {project.name}
+                            </Link>
+                          </TdExpandable>
+                          <TdExpandable>{project.address}</TdExpandable>
+                          <Td>{formatDate(project.dateSubmitted)}</Td>
+                          <Td>{formatDate(project.dateStatus)}</Td>
+                          <Td align="center">{project.projectLevel}</Td>
+                          <Td>{project.droName}</Td>
+                          <TdExpandable>
+                            {project.assignee === loggedInUserName
+                              ? `${project.assignee} (Me)`
+                              : project.assignee}
+                          </TdExpandable>
+                          <Td>{formatDate(project.dateAssigned)}</Td>
+                          <Td>{project.invoiceStatusName}</Td>
+                          <Td>{formatDate(project.dateInvoicePaid)}</Td>
+                          <Td align="center">
+                            {project.onHold ? <MdCheck /> : ""}
+                          </Td>
+                          <Td>{project.approvalStatusName}</Td>
+                          <Td>{formatDate(project.dateCoO)}</Td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={9} className={classes.tdNoSavedProjects}>
+                          No Saved Projects
+                        </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={9} className={classes.tdNoSavedProjects}>
-                        {hasNoSubmissions ? (
-                          <>
-                            <div>
-                              There are no TDM Plan submissions on this account.
-                            </div>
-                            <div>
-                              Please see &quot;How to Submit a Snapshot?&quot;
-                              on the <Link to="/faqs">FAQ</Link> to learn how to
-                              make a submission.
-                            </div>
-                          </>
-                        ) : (
-                          "No Saved Projects"
-                        )}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
+                    )}
+                  </tbody>
+                )}
               </table>
+              {hasNoSubmissions && (
+                <div className={classes.emptyStateRegion}>
+                  <div className={classes.emptyStatePrimary}>
+                    There are no TDM Plan submissions on this account.
+                  </div>
+                  <div className={classes.emptyStateSupporting}>
+                    Please see &quot;How to Submit a Snapshot?&quot; on the{" "}
+                    <Link to="/faqs">FAQ</Link> to learn how to make a
+                    submission.
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           <div className={classes.pageContainer}>
