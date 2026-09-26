@@ -81,11 +81,14 @@ const useStyles = createUseStyles(theme => ({
   emptyStateRegion: {
     boxSizing: "border-box",
     width: "100%",
-    padding: "250px 4px",
+    flex: "1 1 auto",
+    minHeight: 0,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "16px"
+    justifyContent: "center",
+    gap: "16px",
+    padding: "16px 4px"
   },
   emptyStatePrimary: {
     ...theme.typography.heading3,
@@ -176,7 +179,10 @@ const useStyles = createUseStyles(theme => ({
   },
   tableContainerTrueEmpty: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    "& > table": {
+      flexShrink: 0
+    }
   },
   fixTableHead: {
     overflowY: "auto",
@@ -187,8 +193,8 @@ const useStyles = createUseStyles(theme => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    // ManageSubmissionsPage house pattern + 6px to reach Figma's 16px
-    // pagination→footer (ContentContainerNoSidebar already pads 10px).
+    // Keep pagination visually 16px above the footer when the shared
+    // content container pads 10px at the bottom.
     marginTop: "auto",
     marginBottom: "6px"
   },
@@ -215,9 +221,11 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
 
   const [projects, setProjects] = useState([]);
+  const [submissionsStatus, setSubmissionsStatus] = useState("loading");
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const projectsPerPage = perPage;
+  // Page size must stay finite so Pagination never divides by zero.
+  const projectsPerPage = Math.max(Number(perPage) || 1, 1);
   const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
     SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
     DEFAULT_FILTER_CRITERIA
@@ -229,24 +237,31 @@ const SubmissionsPage = ({ contentContainerRef }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await projectService.getSubmissions();
-      const projects = response.data.map(d => {
-        return {
-          ...d,
-          author: d.authorLastName
-            ? `${d.authorLastName}, ${d.authorFirstName}`
-            : "",
-          assignee: d.assignedLastName
-            ? `${d.assignedLastName}, ${d.assignedFirstName}`
-            : "",
-          statuser: d.statuserLastName
-            ? `${d.statuserLastName}, ${d.statuserFirstName}`
-            : "",
-          droName: d.droName || "-",
-          idFormatted: formatId(d.id)
-        };
-      });
-      setProjects(projects);
+      setSubmissionsStatus("loading");
+      try {
+        const response = await projectService.getSubmissions();
+        const projects = response.data.map(d => {
+          return {
+            ...d,
+            author: d.authorLastName
+              ? `${d.authorLastName}, ${d.authorFirstName}`
+              : "",
+            assignee: d.assignedLastName
+              ? `${d.assignedLastName}, ${d.assignedFirstName}`
+              : "",
+            statuser: d.statuserLastName
+              ? `${d.statuserLastName}, ${d.statuserFirstName}`
+              : "",
+            droName: d.droName || "-",
+            idFormatted: formatId(d.id)
+          };
+        });
+        setProjects(projects);
+        setSubmissionsStatus("success");
+      } catch (err) {
+        setProjects([]);
+        setSubmissionsStatus("error");
+      }
     }
     fetchData();
   }, [setProjects]);
@@ -283,7 +298,8 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   );
 
   const perPageOptions = [
-    { value: projects.length.toString(), label: "All" },
+    // "All" must never be "0" — a zero page size makes Pagination non-finite.
+    { value: Math.max(projects.length, 1).toString(), label: "All" },
     { value: "100", label: "100" },
     { value: "50", label: "50" },
     { value: "25", label: "25" },
@@ -291,8 +307,9 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   ];
 
   const handlePerPageChange = newPerPage => {
-    setPerPage(newPerPage);
-    const newHighestPage = Math.ceil(sortedProjects.length / newPerPage);
+    const safePerPage = Math.max(Number(newPerPage) || 1, 1);
+    setPerPage(safePerPage);
+    const newHighestPage = Math.ceil(sortedProjects.length / safePerPage);
 
     if (currentPage > newHighestPage) {
       setCurrentPage(1);
@@ -300,7 +317,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   };
 
   const paginate = pageNumber => {
-    const newHighestPage = Math.ceil(sortedProjects.length / perPage);
+    const newHighestPage = Math.ceil(sortedProjects.length / projectsPerPage);
     if (typeof pageNumber === "number") {
       setCurrentPage(pageNumber);
     } else if (pageNumber === "left" && currentPage !== 1) {
@@ -454,7 +471,14 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     indexOfFirstPost,
     indexOfLastPost
   );
-  const hasNoSubmissions = projects.length === 0;
+  // Account-empty UI only after a successful response with zero rows.
+  const hasNoSubmissions =
+    submissionsStatus === "success" && projects.length === 0;
+  // One visual page for a loaded-empty account (avoids shared 0-page UI).
+  const TRUE_EMPTY_VISUAL_PAGE_COUNT = 1;
+  const paginationTotalProjects = hasNoSubmissions
+    ? TRUE_EMPTY_VISUAL_PAGE_COUNT
+    : sortedProjects.length;
 
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
@@ -487,7 +511,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
             justifyContent: "flex-start"
           }}
         >
-          {!hasNoSubmissions && (
+          {projects.length > 0 && (
             <div
               style={{
                 display: "flex",
@@ -632,13 +656,13 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                           <Td>{formatDate(project.dateCoO)}</Td>
                         </tr>
                       ))
-                    ) : (
+                    ) : submissionsStatus === "success" ? (
                       <tr>
                         <td colSpan={9} className={classes.tdNoSavedProjects}>
                           No Saved Projects
                         </td>
                       </tr>
-                    )}
+                    ) : null}
                   </tbody>
                 )}
               </table>
@@ -659,12 +683,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
           <div className={classes.pageContainer}>
             <Pagination
               projectsPerPage={projectsPerPage}
-              // True-empty only: shared Pagination renders "1 … 0" when
-              // totalProjects===0 (pre-existing). Pass one visual page so Figma
-              // shows ‹ 1 ›. Do not change Pagination.jsx under #3459.
-              totalProjects={
-                hasNoSubmissions ? 1 : sortedProjects.length
-              }
+              totalProjects={paginationTotalProjects}
               paginate={paginate}
               currentPage={currentPage}
               maxNumOfVisiblePages={5}
