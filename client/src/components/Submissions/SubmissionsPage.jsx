@@ -680,23 +680,25 @@ const SubmissionsPage = ({ contentContainerRef }) => {
               )}
             </div>
           </div>
-          <div className={classes.pageContainer}>
-            <Pagination
-              projectsPerPage={projectsPerPage}
-              totalProjects={paginationTotalProjects}
-              paginate={paginate}
-              currentPage={currentPage}
-              maxNumOfVisiblePages={5}
-            />
-            <UniversalSelect
-              value={perPage.toString()}
-              options={perPageOptions}
-              onChange={e => handlePerPageChange(e.target.value)}
-              name="perPage"
-              className={classes.dropContent}
-            />
-            <span className={classes.itemsPerPage}>Items per page</span>
-          </div>
+          {submissionsStatus === "success" && (
+            <div className={classes.pageContainer}>
+              <Pagination
+                projectsPerPage={projectsPerPage}
+                totalProjects={paginationTotalProjects}
+                paginate={paginate}
+                currentPage={currentPage}
+                maxNumOfVisiblePages={5}
+              />
+              <UniversalSelect
+                value={perPage.toString()}
+                options={perPageOptions}
+                onChange={e => handlePerPageChange(e.target.value)}
+                name="perPage"
+                className={classes.dropContent}
+              />
+              <span className={classes.itemsPerPage}>Items per page</span>
+            </div>
+          )}
         </div>
       </div>
       {/* <pre>{JSON.stringify(sortCriteria, null, 2)}</pre> */}

@@ -114,6 +114,8 @@ describe("SubmissionsPage empty-state hardening", () => {
         /Search Project By Name, Address, Description, Alt#/i
       )
     ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Previous Page")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("perPage")).not.toBeInTheDocument();
 
     resolveFetch({ data: [] });
 
@@ -122,6 +124,8 @@ describe("SubmissionsPage empty-state hardening", () => {
         "There are no TDM Plan submissions on this account."
       )
     ).toBeInTheDocument();
+    expect(screen.getByLabelText("Previous Page")).toBeInTheDocument();
+    expect(screen.getByLabelText("perPage")).toBeInTheDocument();
   });
 
   test("shows empty-state copy after a successful empty fetch", async () => {
@@ -171,6 +175,8 @@ describe("SubmissionsPage empty-state hardening", () => {
       )
     ).toBeInTheDocument();
     expect(screen.getByText("RESET FILTERS/SORT")).toBeInTheDocument();
+    expect(screen.getByLabelText("Previous Page")).toBeInTheDocument();
+    expect(screen.getByLabelText("perPage")).toBeInTheDocument();
   });
 
   test("does not show empty-state copy when the submissions fetch rejects", async () => {
@@ -193,7 +199,8 @@ describe("SubmissionsPage empty-state hardening", () => {
         /Search Project By Name, Address, Description, Alt#/i
       )
     ).not.toBeInTheDocument();
-    expect(screen.getByLabelText("Previous Page")).toBeInTheDocument();
+    expect(screen.queryByLabelText("Previous Page")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("perPage")).not.toBeInTheDocument();
   });
 
   test("All option stays finite when the successful fetch returns zero projects", async () => {
