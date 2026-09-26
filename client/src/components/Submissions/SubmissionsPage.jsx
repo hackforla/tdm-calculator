@@ -423,6 +423,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     indexOfFirstPost,
     indexOfLastPost
   );
+  const hasNoSubmissions = projects.length === 0;
 
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
@@ -430,14 +431,8 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <h1 className={classes.pageTitle}>Submissions</h1>
       <h2 className={classes.subheading}>
-        These snapshots have been submitted to LADOT for review.
-      </h2>
-      <h2 className={classes.subheading}>
-        For more advanced filtering, go to <a href="/projects">My Projects</a>.
-      </h2>
-      <h2 className={classes.subheading}>
-        To submit a snapshot, go to <a href="/projects">My Projects</a> or page
-        5 of your project.
+        Snapshots that have been submitted to LADOT for review appear on this
+        page.
       </h2>
       <div
         style={{
@@ -452,66 +447,68 @@ const SubmissionsPage = ({ contentContainerRef }) => {
             justifyContent: "flex-start"
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100vw"
-            }}
-          >
+          {!hasNoSubmissions && (
             <div
               style={{
                 display: "flex",
                 flexDirection: "row",
-                alignSelf: "center",
-                justifyContent: "center",
-                flexBasis: "33%"
-              }}
-            ></div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignSelf: "center",
-                justifyContent: "center",
-                flexBasis: "33%"
+                justifyContent: "space-between",
+                width: "100vw"
               }}
             >
-              <div className={classes.searchBarWrapper}>
-                <label htmlFor="filterText" className="sr-only">
-                  Search Project By Name, Address, Description, Alt#
-                </label>
-                <input
-                  className={classes.searchBar}
-                  type="search"
-                  id="filterText"
-                  name="filterText"
-                  placeholder="Search by Project Name; Address; Staff Assigned"
-                  value={filterCriteria.filterText}
-                  onChange={e => handleFilterTextChange(e.target.value)}
-                />
-                <MdOutlineSearch className={classes.searchIcon} />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  flexBasis: "33%"
+                }}
+              ></div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  flexBasis: "33%"
+                }}
+              >
+                <div className={classes.searchBarWrapper}>
+                  <label htmlFor="filterText" className="sr-only">
+                    Search Project By Name, Address, Description, Alt#
+                  </label>
+                  <input
+                    className={classes.searchBar}
+                    type="search"
+                    id="filterText"
+                    name="filterText"
+                    placeholder="Search by Project Name; Address; Staff Assigned"
+                    value={filterCriteria.filterText}
+                    onChange={e => handleFilterTextChange(e.target.value)}
+                  />
+                  <MdOutlineSearch className={classes.searchIcon} />
+                </div>
+              </div>
+
+              <div
+                style={{
+                  paddingRight: "1rem",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  flexBasis: "33%"
+                }}
+              >
+                <Button
+                  onClick={resetFiltersSort}
+                  isDisplayed={true}
+                  variant="tertiary"
+                >
+                  RESET FILTERS/SORT
+                </Button>
               </div>
             </div>
-
-            <div
-              style={{
-                paddingRight: "1rem",
-                display: "flex",
-                justifyContent: "flex-end",
-                flexBasis: "33%"
-              }}
-            >
-              <Button
-                onClick={resetFiltersSort}
-                isDisplayed={true}
-                variant="tertiary"
-              >
-                RESET FILTERS/SORT
-              </Button>
-            </div>
-          </div>
+          )}
           <div>
             <div className={classes.tableContainer}>
               <table
@@ -591,7 +588,20 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                   ) : (
                     <tr>
                       <td colSpan={9} className={classes.tdNoSavedProjects}>
-                        No Saved Projects
+                        {hasNoSubmissions ? (
+                          <>
+                            <div>
+                              There are no TDM Plan submissions on this account.
+                            </div>
+                            <div>
+                              Please see &quot;How to Submit a Snapshot?&quot;
+                              on the <Link to="/faqs">FAQ</Link> to learn how to
+                              make a submission.
+                            </div>
+                          </>
+                        ) : (
+                          "No Saved Projects"
+                        )}
                       </td>
                     </tr>
                   )}
