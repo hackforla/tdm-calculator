@@ -18,28 +18,20 @@ const jwtOpts = { algorithm: "HS256", expiresIn: "12h" };
 // the client. The token is returned as both an authorization cookie,
 // as as a JSON response body (for clients that may not be able to
 // work with cookies).
-async function createSession(res, user) {
+async function login(req, res) {
   const token = await sign({
-    email: user.email,
-    firstName: user.firstName,
-    id: user.id,
-    isAdmin: user.isAdmin,
-    isDro: user.isDro,
-    emailConfirmed: user.emailConfirmed,
-    lastName: user.lastName,
-    isSecurityAdmin: user.isSecurityAdmin
+    email: req.user.email,
+    id: req.user.id,
+    isAdmin: req.user.isAdmin,
+    isSecurityAdmin: req.user.isSecurityAdmin
   });
   const expirationDateTime = new Date(Date.now() + 43200000); // 12 hours
   res.cookie("jwt", token, {
     httpOnly: true,
     expires: expirationDateTime
   });
-  return { token, user: { ...user, expiration: expirationDateTime } };
-}
-
-async function login(req, res) {
-  const session = await createSession(res, req.user);
-  res.json({ isSuccess: true, token: session.token, user: session.user });
+  const user = { ...req.user, expiration: expirationDateTime };
+  res.json({ isSuccess: true, token: token, user });
 }
 
 // When a request is received for a route that requires an
@@ -132,7 +124,6 @@ async function verify(jwtString = "") {
 }
 
 module.exports = {
-  createSession,
   login,
   validateUser,
   optionalUser,
