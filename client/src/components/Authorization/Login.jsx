@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
@@ -18,6 +18,25 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     justifyContent: "flex-end",
     margin: "16px auto"
+  },
+  ssoButtonContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+    justifyContent: "center",
+    margin: "16px auto"
+  },
+  divider: {
+    alignItems: "center",
+    display: "flex",
+    gap: "12px",
+    margin: "24px 0",
+    "&::before, &::after": {
+      background: "#d8d8d8",
+      content: "''",
+      flex: 1,
+      height: "1px"
+    }
   },
   warning: {
     color: "red",
@@ -44,6 +63,35 @@ const Login = () => {
     email: params.email ? decodeURIComponent(params.email) : "",
     password: ""
   };
+
+  const getPostLoginPath = () => {
+    if (projectId) return `/calculation/5/${projectId}`;
+    if (redirectUrl) return `/${redirectUrl}`;
+    return "/calculation/1/0";
+  };
+
+  useEffect(() => {
+    const completeSsoLogin = async () => {
+      if (
+        searchParams.get("angeleno") !== "success" &&
+        searchParams.get("google") !== "success"
+      ) {
+        return;
+      }
+
+      const sessionResponse = await accountService.getSession();
+      if (sessionResponse?.isSuccess) {
+        userContext.updateAccount(sessionResponse.user);
+        navigate(searchParams.get("next") || getPostLoginPath());
+      } else {
+        setErrorMsg(
+          "SSO sign-in succeeded, but the TDM session could not be loaded."
+        );
+      }
+    };
+
+    completeSsoLogin();
+  }, []);
 
   const loginSchema = Yup.object().shape({
     email: Yup.string()
@@ -109,6 +157,14 @@ const Login = () => {
     }
   };
 
+  const handleAngelenoLogin = () => {
+    accountService.startAngelenoLogin(getPostLoginPath());
+  };
+
+  const handleGoogleLogin = () => {
+    accountService.startGoogleLogin(getPostLoginPath());
+  };
+
   return (
     <ContentContainer>
       <div style={theme.typography.heading1}>
@@ -119,6 +175,25 @@ const Login = () => {
       </div>
       <br />
       <div className="auth-form">
+        <div className={classes.ssoButtonContainer}>
+          <Button
+            id="cy-login-google"
+            type="button"
+            variant="primary"
+            onClick={handleGoogleLogin}
+          >
+            Sign in with Google SSO (City staff)
+          </Button>
+          <Button
+            id="cy-login-angeleno"
+            type="button"
+            variant="primary"
+            onClick={handleAngelenoLogin}
+          >
+            Sign in with Angeleno Account (external users)
+          </Button>
+        </div>
+        <div className={classes.divider}>or sign in with TDM credentials</div>
         <Formik
           initialValues={initialValues}
           validationSchema={loginSchema}

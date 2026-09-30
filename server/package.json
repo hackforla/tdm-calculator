@@ -35,6 +35,7 @@
     "express-pino-logger": "^7.0.0",
     "express-rate-limit": "^8.6.2",
     "helmet": "^8.1.0",
+    "jose": "^6.2.3",
     "jsdom": "27.0.0",
     "jsonwebtoken": "^9.0.2",
     "mssql": "^11.0.1",
