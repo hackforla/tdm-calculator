@@ -369,8 +369,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                 <Button
                   className={maybeDisabled}
                   onClick={cancelShare}
-                  variant="contained"
-                  color={"colorSecondary"}
+                  variant="secondary"
                 >
                   Cancel
                 </Button>
@@ -380,8 +379,7 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
                     setPage(3);
                   }}
                   disabled={sharedEmails.length ? false : true}
-                  variant="contained"
-                  color={"colorPrimary"}
+                  variant="primary"
                 >
                   Next
                 </Button>

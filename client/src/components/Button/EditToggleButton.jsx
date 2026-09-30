@@ -6,8 +6,8 @@ import { MdEdit } from "react-icons/md";
 const EditToggleButton = ({ id, onClick, editMode }) => {
   return (
     <Button
-      color={!editMode ? "colorDisabled" : "colorPrimary"}
-      variant="contained"
+      // color={!editMode ? "colorDisabled" : "colorPrimary"}
+      variant={editMode ? "primary" : "tertiary"}
       onClick={onClick}
       id={id}
       data-testid={id}

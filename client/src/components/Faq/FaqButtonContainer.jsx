@@ -65,7 +65,7 @@ export const FaqButtonContainer = ({
       {admin && (
         <MdViewModule
           className={classes.faqGripIcon}
-          color={theme.colors.secondary.gray}
+          color={theme.colorGSray}
         />
       )}
     </div>
