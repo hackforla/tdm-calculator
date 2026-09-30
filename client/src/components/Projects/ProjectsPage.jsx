@@ -335,6 +335,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
         return {
           ...project,
+          author: project.lastName
+            ? `${project.lastName}, ${project.firstName}`
+            : "",
           droName: droName,
           adminNotes: project.adminNotes || "",
           idFormatted: formatId(project.id)
@@ -646,9 +649,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
       projectB = JSON.parse(b.formInputs).BUILDING_PERMIT
         ? JSON.parse(b.formInputs).BUILDING_PERMIT
         : "undefined";
-    } else if (orderBy === "author") {
-      projectA = `${a["lastName"]} ${a["firstName"]}`;
-      projectB = `${b["lastName"]} ${b["firstName"]}`;
+      // } else if (orderBy === "author") {
+      //   projectA = `${a["lastName"]} ${a["firstName"]}`;
+      //   projectB = `${b["lastName"]} ${b["firstName"]}`;
     } else if (orderBy === "dateHidden" || orderBy === "dateSnapshotted") {
       projectA = a[orderBy] ? 1 : 0;
       projectB = b[orderBy] ? 1 : 0;
@@ -850,10 +853,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
     }
 
     // fullName attr allows searching by full name, not just by first or last name
-    p["fullname"] = `${p["lastName"]}, ${p["firstName"]}`;
     if (
       criteria.author &&
-      !p.fullname.toLowerCase().includes(criteria.author.toLowerCase())
+      !p.author.toLowerCase().includes(criteria.author.toLowerCase())
     )
       return false;
     try {
@@ -911,7 +913,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       criteria.authorList.length > 0 &&
       !criteria.authorList
         .map(n => n.toLowerCase())
-        .includes(p.fullname.toLowerCase())
+        .includes(p.author.toLowerCase())
     ) {
       return false;
     }
