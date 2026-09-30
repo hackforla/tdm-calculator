@@ -193,10 +193,8 @@ const useStyles = createUseStyles(theme => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    // Keep pagination visually 16px above the footer when the shared
-    // content container pads 10px at the bottom.
     marginTop: "auto",
-    marginBottom: "6px"
+    marginBottom: "6px" // 10px container pad + 6px = 16px above the footer
   },
   dropContent: {
     borderRadius: "4px",
@@ -224,7 +222,6 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   const [submissionsStatus, setSubmissionsStatus] = useState("loading");
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  // Page size must stay finite so Pagination never divides by zero.
   const projectsPerPage = Math.max(Number(perPage) || 1, 1);
   const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
     SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
@@ -298,7 +295,6 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   );
 
   const perPageOptions = [
-    // "All" must never be "0" — a zero page size makes Pagination non-finite.
     { value: Math.max(projects.length, 1).toString(), label: "All" },
     { value: "100", label: "100" },
     { value: "50", label: "50" },
@@ -471,14 +467,9 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     indexOfFirstPost,
     indexOfLastPost
   );
-  // Account-empty UI only after a successful response with zero rows.
   const hasNoSubmissions =
     submissionsStatus === "success" && projects.length === 0;
-  // One visual page for a loaded-empty account (avoids shared 0-page UI).
-  const TRUE_EMPTY_VISUAL_PAGE_COUNT = 1;
-  const paginationTotalProjects = hasNoSubmissions
-    ? TRUE_EMPTY_VISUAL_PAGE_COUNT
-    : sortedProjects.length;
+  const paginationTotalProjects = hasNoSubmissions ? 1 : sortedProjects.length;
 
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
@@ -511,68 +502,66 @@ const SubmissionsPage = ({ contentContainerRef }) => {
             justifyContent: "flex-start"
           }}
         >
-          {projects.length > 0 && (
+          <div
+            style={{
+              display: projects.length > 0 ? "flex" : "none",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100vw"
+            }}
+          >
             <div
               style={{
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "space-between",
-                width: "100vw"
+                alignSelf: "center",
+                justifyContent: "center",
+                flexBasis: "33%"
+              }}
+            ></div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignSelf: "center",
+                justifyContent: "center",
+                flexBasis: "33%"
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignSelf: "center",
-                  justifyContent: "center",
-                  flexBasis: "33%"
-                }}
-              ></div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignSelf: "center",
-                  justifyContent: "center",
-                  flexBasis: "33%"
-                }}
-              >
-                <div className={classes.searchBarWrapper}>
-                  <label htmlFor="filterText" className="sr-only">
-                    Search Project By Name, Address, Description, Alt#
-                  </label>
-                  <input
-                    className={classes.searchBar}
-                    type="search"
-                    id="filterText"
-                    name="filterText"
-                    placeholder="Search by Project Name; Address; Staff Assigned"
-                    value={filterCriteria.filterText}
-                    onChange={e => handleFilterTextChange(e.target.value)}
-                  />
-                  <MdOutlineSearch className={classes.searchIcon} />
-                </div>
-              </div>
-
-              <div
-                style={{
-                  paddingRight: "1rem",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  flexBasis: "33%"
-                }}
-              >
-                <Button
-                  onClick={resetFiltersSort}
-                  isDisplayed={true}
-                  variant="tertiary"
-                >
-                  RESET FILTERS/SORT
-                </Button>
+              <div className={classes.searchBarWrapper}>
+                <label htmlFor="filterText" className="sr-only">
+                  Search Project By Name, Address, Description, Alt#
+                </label>
+                <input
+                  className={classes.searchBar}
+                  type="search"
+                  id="filterText"
+                  name="filterText"
+                  placeholder="Search by Project Name; Address; Staff Assigned"
+                  value={filterCriteria.filterText}
+                  onChange={e => handleFilterTextChange(e.target.value)}
+                />
+                <MdOutlineSearch className={classes.searchIcon} />
               </div>
             </div>
-          )}
+
+            <div
+              style={{
+                paddingRight: "1rem",
+                display: "flex",
+                justifyContent: "flex-end",
+                flexBasis: "33%"
+              }}
+            >
+              <Button
+                onClick={resetFiltersSort}
+                isDisplayed={true}
+                variant="tertiary"
+              >
+                RESET FILTERS/SORT
+              </Button>
+            </div>
+          </div>
           <div>
             <div
               className={
@@ -620,51 +609,49 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                     })}
                   </tr>
                 </thead>
-                {!hasNoSubmissions && (
-                  <tbody className={classes.tbody}>
-                    {currentProjects.length ? (
-                      currentProjects.map(project => (
-                        <tr
-                          key={project.id}
-                          style={{
-                            background: project.dateTrashed ? "#ffdcdc" : ""
-                          }}
-                        >
-                          <Td>{formatId(project.id)}</Td>
-                          <TdExpandable>
-                            <Link to={`/calculation/1/${project.id}`}>
-                              {project.name}
-                            </Link>
-                          </TdExpandable>
-                          <TdExpandable>{project.address}</TdExpandable>
-                          <Td>{formatDate(project.dateSubmitted)}</Td>
-                          <Td>{formatDate(project.dateStatus)}</Td>
-                          <Td align="center">{project.projectLevel}</Td>
-                          <Td>{project.droName}</Td>
-                          <TdExpandable>
-                            {project.assignee === loggedInUserName
-                              ? `${project.assignee} (Me)`
-                              : project.assignee}
-                          </TdExpandable>
-                          <Td>{formatDate(project.dateAssigned)}</Td>
-                          <Td>{project.invoiceStatusName}</Td>
-                          <Td>{formatDate(project.dateInvoicePaid)}</Td>
-                          <Td align="center">
-                            {project.onHold ? <MdCheck /> : ""}
-                          </Td>
-                          <Td>{project.approvalStatusName}</Td>
-                          <Td>{formatDate(project.dateCoO)}</Td>
-                        </tr>
-                      ))
-                    ) : submissionsStatus === "success" ? (
-                      <tr>
-                        <td colSpan={9} className={classes.tdNoSavedProjects}>
-                          No Saved Projects
-                        </td>
+                <tbody className={classes.tbody}>
+                  {currentProjects.length ? (
+                    currentProjects.map(project => (
+                      <tr
+                        key={project.id}
+                        style={{
+                          background: project.dateTrashed ? "#ffdcdc" : ""
+                        }}
+                      >
+                        <Td>{formatId(project.id)}</Td>
+                        <TdExpandable>
+                          <Link to={`/calculation/1/${project.id}`}>
+                            {project.name}
+                          </Link>
+                        </TdExpandable>
+                        <TdExpandable>{project.address}</TdExpandable>
+                        <Td>{formatDate(project.dateSubmitted)}</Td>
+                        <Td>{formatDate(project.dateStatus)}</Td>
+                        <Td align="center">{project.projectLevel}</Td>
+                        <Td>{project.droName}</Td>
+                        <TdExpandable>
+                          {project.assignee === loggedInUserName
+                            ? `${project.assignee} (Me)`
+                            : project.assignee}
+                        </TdExpandable>
+                        <Td>{formatDate(project.dateAssigned)}</Td>
+                        <Td>{project.invoiceStatusName}</Td>
+                        <Td>{formatDate(project.dateInvoicePaid)}</Td>
+                        <Td align="center">
+                          {project.onHold ? <MdCheck /> : ""}
+                        </Td>
+                        <Td>{project.approvalStatusName}</Td>
+                        <Td>{formatDate(project.dateCoO)}</Td>
                       </tr>
-                    ) : null}
-                  </tbody>
-                )}
+                    ))
+                  ) : submissionsStatus === "success" && !hasNoSubmissions ? (
+                    <tr>
+                      <td colSpan={9} className={classes.tdNoSavedProjects}>
+                        No Saved Projects
+                      </td>
+                    </tr>
+                  ) : null}
+                </tbody>
               </table>
               {hasNoSubmissions && (
                 <div className={classes.emptyStateRegion}>

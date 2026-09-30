@@ -113,7 +113,8 @@ describe("SubmissionsPage empty-state hardening", () => {
       screen.queryByLabelText(
         /Search Project By Name, Address, Description, Alt#/i
       )
-    ).not.toBeInTheDocument();
+    ).not.toBeVisible();
+    expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
     expect(screen.queryByLabelText("Previous Page")).not.toBeInTheDocument();
     expect(screen.queryByLabelText("perPage")).not.toBeInTheDocument();
 
@@ -145,13 +146,13 @@ describe("SubmissionsPage empty-state hardening", () => {
       "href",
       "/faqs"
     );
-    // Table fallback row is for filter-empty only; true-empty hides tbody.
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
     expect(
       screen.queryByLabelText(
         /Search Project By Name, Address, Description, Alt#/i
       )
-    ).not.toBeInTheDocument();
+    ).not.toBeVisible();
+    expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
     expect(screen.getByLabelText("Previous Page")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "1" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "0" })).not.toBeInTheDocument();
@@ -198,7 +199,8 @@ describe("SubmissionsPage empty-state hardening", () => {
       screen.queryByLabelText(
         /Search Project By Name, Address, Description, Alt#/i
       )
-    ).not.toBeInTheDocument();
+    ).not.toBeVisible();
+    expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
     expect(screen.queryByLabelText("Previous Page")).not.toBeInTheDocument();
     expect(screen.queryByLabelText("perPage")).not.toBeInTheDocument();
   });
