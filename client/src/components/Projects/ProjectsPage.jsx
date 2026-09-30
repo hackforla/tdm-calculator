@@ -12,6 +12,7 @@ import useErrorHandler from "../../hooks/useErrorHandler";
 import useProject from "../../hooks/useProject";
 import useCheckedProjectsStatusData from "../../hooks/useCheckedProjectsStatusData";
 import * as projectService from "../../services/project.service";
+import * as projectShareService from "../../services/projectShare.service";
 import * as projectResultService from "../../services/projectResult.service";
 import SnapshotProjectModal from "../Modals/ActionProjectSnapshot";
 import RenameSnapshotModal from "../Modals/ActionSnapshotRename";
@@ -43,7 +44,6 @@ const DEFAULT_FILTER_CRITERIA = {
   address: "",
   author: "",
   alternative: "",
-  dro: "",
   startDateCreated: null,
   endDateCreated: null,
   startDateModified: null,
@@ -58,7 +58,7 @@ const DEFAULT_FILTER_CRITERIA = {
   addressList: [],
   alternativeList: [],
   authorList: [],
-  droList: [],
+  droNameList: [],
   adminNotesList: [],
   startDateModifiedAdmin: null,
   endDateModifiedAdmin: null,
@@ -331,10 +331,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const enhancedProjects = projects
     ? projects.map(project => {
         const droName =
-          droOptions.find(dro => dro.id === project.droId)?.name || "N/A";
+          droOptions.find(dro => dro.id === project.droId)?.name || "-";
 
         return {
           ...project,
+          author: project.lastName
+            ? `${project.lastName}, ${project.firstName}`
+            : "",
           droName: droName,
           adminNotes: project.adminNotes || "",
           idFormatted: formatId(project.id)
@@ -456,7 +459,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setDeleteModalOpen(true);
   };
 
-  const handleDeleteModalClose = async action => {
+  const handleDeleteModalClose = async (action, projectShares = []) => {
     if (action === "ok") {
       const projectIDs = selectedProject
         ? [selectedProject.id]
@@ -466,6 +469,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
         : !checkedProjectsStatusData.dateTrashed;
 
       try {
+        if (dateTrashed) {
+          await Promise.all(
+            projectShares.map(projectShare =>
+              projectShareService.del(projectShare.id)
+            )
+          );
+        }
         await projectService.trash(projectIDs, dateTrashed);
         await updateProjects();
       } catch (err) {
@@ -639,9 +649,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
       projectB = JSON.parse(b.formInputs).BUILDING_PERMIT
         ? JSON.parse(b.formInputs).BUILDING_PERMIT
         : "undefined";
-    } else if (orderBy === "author") {
-      projectA = `${a["lastName"]} ${a["firstName"]}`;
-      projectB = `${b["lastName"]} ${b["firstName"]}`;
+      // } else if (orderBy === "author") {
+      //   projectA = `${a["lastName"]} ${a["firstName"]}`;
+      //   projectB = `${b["lastName"]} ${b["firstName"]}`;
     } else if (orderBy === "dateHidden" || orderBy === "dateSnapshotted") {
       projectA = a[orderBy] ? 1 : 0;
       projectB = b[orderBy] ? 1 : 0;
@@ -843,10 +853,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
     }
 
     // fullName attr allows searching by full name, not just by first or last name
-    p["fullname"] = `${p["lastName"]}, ${p["firstName"]}`;
     if (
       criteria.author &&
-      !p.fullname.toLowerCase().includes(criteria.author.toLowerCase())
+      !p.author.toLowerCase().includes(criteria.author.toLowerCase())
     )
       return false;
     try {
@@ -904,7 +913,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       criteria.authorList.length > 0 &&
       !criteria.authorList
         .map(n => n.toLowerCase())
-        .includes(p.fullname.toLowerCase())
+        .includes(p.author.toLowerCase())
     ) {
       return false;
     }
@@ -920,9 +929,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
     )
       return false;
 
-    if (criteria.droList.length > 0) {
-      const droNames = criteria.droList.map(n => n.toLowerCase());
-      const projectDroName = (p.droName || "").toLowerCase();
+    if (criteria.droNameList.length > 0) {
+      const droNames = criteria.droNameList.map(n => n.toLowerCase());
+      const projectDroName = (p.droName || "-").toLowerCase();
 
       if (!droNames.includes(projectDroName)) {
         return false;
@@ -1040,7 +1049,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     {
       id: "author",
       label: "Created By",
-      popupType: "text",
+      popupType: "user",
       colWidth: "15rem"
     },
     {
@@ -1080,10 +1089,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
       colWidth: "10rem"
     },
     {
-      id: "dro",
+      id: "droName",
       label: "DRO",
-      popupType: "text",
-      accessor: "droName",
+      popupType: "stringList",
       colWidth: "10rem"
     },
 
@@ -1093,7 +1101,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
             id: "adminNotes",
             label: "Admin Notes",
             popupType: "string",
-            accessor: "adminNotes",
             colWidth: "10rem"
           },
           {
@@ -1106,7 +1113,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
             id: "calculationId",
             label: "Guidelines Version",
             popupType: "version",
-            accessor: "calculationId",
             colWidth: "10rem"
           }
         ]
@@ -1378,6 +1384,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 mounted={deleteModalOpen}
                 onClose={handleDeleteModalClose}
                 project={selectedProject || checkedProjectsStatusData}
+                projects={
+                  selectedProject ? [selectedProject] : getCheckedProjects
+                }
               />
               <SnapshotProjectModal
                 mounted={snapshotModalOpen}

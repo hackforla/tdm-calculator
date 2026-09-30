@@ -7,6 +7,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import clsx from "clsx";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { MdLaunch } from "react-icons/md";
 import Button from "../Button/Button";
 import useToast from "../../contexts/Toast/useToast";
 import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
@@ -48,6 +49,11 @@ const useStyles = createUseStyles(theme => ({
     width: "100%",
     height: "100px"
   },
+  externalLinkIcon: {
+    fontSize: "14px",
+    padding: " 0 0.4em",
+    color: theme.colorLinkBlue
+  },
   formErrorBorder: {
     border: "2px dotted red "
   },
@@ -83,7 +89,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
   const account = userContext.account;
   const [projects, setProjects] = useState([]);
   const { getProjects } = useProject();
-  const [selectedProjects, setSelectedProjects] = useState([]);
+  const [selectedProjectIds, setSelectedProjectIds] = useState([]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -100,33 +106,29 @@ const FeedbackPage = ({ contentContainerRef }) => {
   }, []);
 
   const initialValues = {
-    name: "",
-    email: "",
+    subject: "",
     comment: "",
     forwardToWebTeam: false,
-    selectedProjects: []
+    selectedProjectIds: []
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string()
+    subject: Yup.string()
       .min(2, "Must be 2 characters or more")
       .required("Required"),
-    email: Yup.string().email("Invalid email address"),
     comment: Yup.string().required("Required")
   });
 
   const handleSubmit = async (
-    { name, email, comment, forwardToWebTeam },
+    { subject, comment, forwardToWebTeam },
     { setSubmitting, resetForm }
   ) => {
-    // await new Promise(r => setTimeout(r, 500));
     try {
       const response = await feedbackService.post({
-        name,
-        email,
+        subject,
         comment,
         forwardToWebTeam,
-        selectedProjects
+        selectedProjectIds
       });
 
       if (response.status === 201) {
@@ -152,17 +154,21 @@ const FeedbackPage = ({ contentContainerRef }) => {
             Calculator website. <br />
             To submit a public comment on the proposed TDM Program (
             <a
-              target="external"
+              target="_blank"
+              rel="noopener noreferrer"
               href=" https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=15-0719-S19"
             >
               Council File 15-0719-S19
+              <MdLaunch className={classes.externalLinkIcon} />
             </a>
             ), use the{" "}
             <a
-              target="external"
+              target="_blank"
+              rel="noopener noreferrer"
               href="https://cityclerk.lacity.org/Feedback/?cfnumber=15-0719-S19"
             >
               City Clerk&apos;s comment form
+              <MdLaunch className={classes.externalLinkIcon} />
             </a>
             .
           </p>
@@ -172,48 +178,29 @@ const FeedbackPage = ({ contentContainerRef }) => {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ errors, touched, isSubmitting }) => (
+          {({ errors, touched, isSubmitting, isValid }) => (
             <Form>
               <div className={classes.formContainer}>
                 <div className={classes.row}>
-                  <label htmlFor="name" className={classes.formLabel}>
-                    Your Name <span className={classes.asterisk}>*</span>
+                  <label htmlFor="subject" className={classes.formLabel}>
+                    Subject <span className={classes.asterisk}>*</span>
                   </label>
 
                   <Field
-                    id="name"
-                    name="name"
+                    id="subject"
+                    name="subject"
                     innerRef={focusRef}
                     type="text"
                     placeholder="required"
                     className={clsx(
                       classes.formInput,
-                      errors.name && touched.name && classes.formErrorBorder
+                      errors.subject &&
+                        touched.subject &&
+                        classes.formErrorBorder
                     )}
                   />
                   <ErrorMessage
-                    name="name"
-                    component="span"
-                    className={classes.errorMessage}
-                  />
-                </div>
-
-                <div className={classes.row}>
-                  <label htmlFor="email" className={classes.formLabel}>
-                    Email Address &nbsp;
-                  </label>
-
-                  <Field
-                    id="email"
-                    name="email"
-                    type="email"
-                    className={clsx(
-                      classes.formInput,
-                      errors.email && touched.email && classes.formErrorBorder
-                    )}
-                  />
-                  <ErrorMessage
-                    name="email"
+                    name="subject"
                     component="span"
                     className={classes.errorMessage}
                   />
@@ -263,8 +250,8 @@ const FeedbackPage = ({ contentContainerRef }) => {
                 <ProjectList
                   key={JSON.stringify(projects, null, 2)}
                   projects={projects}
-                  selectedProjects={selectedProjects}
-                  setSelectedProjects={setSelectedProjects}
+                  selectedProjectIds={selectedProjectIds}
+                  setSelectedProjectIds={setSelectedProjectIds}
                 />
               ) : null}
 
@@ -273,7 +260,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
                   type="submit"
                   className={classes.submitButton}
                   color="colorPrimary"
-                  disabled={isSubmitting}
+                  disabled={!isValid || isSubmitting}
                 >
                   Submit
                 </Button>

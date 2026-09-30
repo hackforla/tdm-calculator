@@ -381,7 +381,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "author",
       label: "Created By",
-      popupType: "text",
+      popupType: "user",
       colWidth: "15rem"
     },
     {
@@ -402,8 +402,8 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "assignee",
       label: "Assignee",
-      popupType: "text",
-      colWidth: "10rem"
+      popupType: "user",
+      colWidth: "16rem"
     },
     {
       id: "dateAssigned",
@@ -437,8 +437,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "adminNotes",
       label: "Admin Notes",
-      popupType: "text",
-      accessor: "adminNotes",
+      popupType: "string",
       colWidth: "10rem"
     },
     {
@@ -453,14 +452,12 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       id: "calculationId",
       label: "Guidelines Version",
       popupType: "version",
-      accessor: "calculationId",
       colWidth: "10rem"
     },
     {
       id: "targetPointsMet",
       label: "Target Points",
       popupType: "boolean",
-      accessor: "targetPointsMet",
       colWidth: "10rem",
       trueLabel: "Target Points Met",
       falseLabel: "Target Points Not Met"

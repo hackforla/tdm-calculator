@@ -5,18 +5,23 @@ const { writeLimiter } = require("../../middleware/rateLimiter");
 
 module.exports = router;
 
-router.get("/", configController.getAll);
-router.get("/:code", configController.getByCode);
-router.post("/", writeLimiter, jwtSession.validateUser, configController.post);
+router.get("/", writeLimiter, configController.getAll);
+router.get("/:code", writeLimiter, configController.getByCode);
+router.post(
+  "/",
+  writeLimiter,
+  jwtSession.validateRoles(["isAdmin"]),
+  configController.post
+);
 router.put(
   "/:code",
   writeLimiter,
-  jwtSession.validateUser,
+  jwtSession.validateRoles(["isAdmin"]),
   configController.put
 );
 router.delete(
   "/:code",
   writeLimiter,
-  jwtSession.validateUser,
+  jwtSession.validateRoles(["isAdmin"]),
   configController.del
 );

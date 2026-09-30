@@ -23,7 +23,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const PdfFooter = ({ project }) => {
+const PdfFooter = ({ project, rules }) => {
   const {
     dateModified,
     dateSubmitted,
@@ -35,6 +35,13 @@ const PdfFooter = ({ project }) => {
     shareCount
   } = project;
   const classes = useStyles();
+  const projectNameRule = rules && rules.find(r => r.code === "PROJECT_NAME");
+  const projectName = projectNameRule
+    ? projectNameRule.value
+    : "TDM Calculation Summary";
+  const projectLevelRule = rules && rules.find(r => r.code === "PROJECT_LEVEL");
+  const projectLevel = projectLevelRule ? projectLevelRule.value : 0;
+  const isProjectLevelZero = projectLevel === 0;
   const userContext = useContext(UserContext);
   const calculations = useContext(CalculationsContext);
   const formattedDateModified = formatDatetime(dateModified);
@@ -63,17 +70,14 @@ const PdfFooter = ({ project }) => {
 
   return (
     <section className={classes.pdfFooterContainer}>
-      {loginId && (
+      {dateModified && loginId ? (
         <>
           <div className={classes.pdfTimeText}>
             Snapshot Owner: {firstName} {lastName}, {email}
           </div>
           <div className={classes.pdfTimeText}>
             Guidelines Version:
-            {calculations &&
-              project.calculationId &&
-              calculations[project.calculationId] &&
-              formatCalculation(calculations[project.calculationId])}
+            {formatCalculation(calculations[projectNameRule.calculationId])}
           </div>
           {isAdmin && (
             <div className={classes.pdfTimeText}>
@@ -103,6 +107,20 @@ const PdfFooter = ({ project }) => {
               Date Last Saved: {formattedDateModified} Pacific Time
             </div>
           )}
+        </>
+      ) : (
+        <>
+          <div className={classes.pdfTimeText}>
+            Guidelines Version:
+            {formatCalculation(calculations[projectNameRule.calculationId])}
+          </div>
+          {isAdmin && (
+            <div className={classes.pdfTimeText}>
+              Submission Status: {project.approvalStatusName}
+            </div>
+          )}
+          <div className={classes.pdfTimeText}>Status: Draft</div>
+          <div className={classes.pdfTimeText}>Date Last Saved: Unsaved</div>
         </>
       )}
 

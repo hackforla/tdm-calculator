@@ -369,7 +369,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     {
       id: "assignee",
       label: "Staff Assigned",
-      popupType: "text",
+      popupType: "user",
       colWidth: "224px"
     },
     {

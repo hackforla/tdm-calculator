@@ -82,7 +82,7 @@ const TextPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
-  const property = header.accessor || header.id;
+  const property = header.id;
   const theme = useTheme();
   const classes = useStyles(theme);
 
@@ -105,6 +105,9 @@ const TextPopup = ({
 
   const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
     .filter(value => value !== null && value !== "")
+    .sort((a, b) => {
+      return a.localeCompare(b, "en", { sensitivity: "base" });
+    })
     .sort(
       (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
     );

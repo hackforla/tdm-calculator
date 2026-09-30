@@ -313,6 +313,12 @@ const getSubmissionsAdminByProjectId = async (req, res) => {
 };
 
 const putSubmission = async (req, res) => {
+  if (Number(req.params.id) !== req.body.id) {
+    res
+      .status(400)
+      .send("Project ID in the request body does not match the URL parameter.");
+    return;
+  }
   try {
     await projectService.putSubmission(req.user.id, req.body);
     res.sendStatus(204);
