@@ -50,7 +50,7 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "left",
     backgroundColor: theme.colorWhite,
     borderWidth: "1px",
-    borderColor: theme.colors.secondary.gray,
+    borderColor: theme.colorGSray,
     borderRadius: "5px",
     padding: "20px",
     boxShadow:

@@ -5,6 +5,7 @@ import clsx from "clsx";
 
 const useStyles = createUseStyles(theme => ({
   button: {
+    color: theme.colorLADOTBlack,
     cursor: "pointer",
     fontFamily: "Calibri",
     fontWeight: 700,
@@ -46,12 +47,12 @@ const useStyles = createUseStyles(theme => ({
   secondary: {
     color: theme.colorLADOTBlack,
     backgroundColor: theme.colorDefault,
-    border: "1px solid " + theme.colorLADOTBlack,
+    border: "1px solid " + theme.colorDarkGray,
     boxShadow: "0px 4px 4px 0px" + theme.colorDropShadow,
     // Following Colors are from https://www.figma.com/design/nD9QK56Mzq7xNSaSUoeGx0/TDM-Calculator?node-id=16061-4518&t=8f3dn1oKCVqu00uc-4
     "&[disabled]": {
       color: theme.colorGray,
-      border: "1px solid " + theme.colors.secondary.gray,
+      border: "1px solid " + theme.colorGray,
       boxShadow: "none"
     },
     "&[disabled]:hover": {
@@ -98,34 +99,6 @@ const useStyles = createUseStyles(theme => ({
       boxShadow: "3px 3px 4px 0px" + theme.colorDropShadowHover
     }
   },
-  contained: {
-    backgroundColor: ({ color }) => theme[color],
-    borderColor: "rgba(0, 0, 0, .05)", //lightest grey
-    boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px",
-    "&[disabled]:hover": {
-      boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px"
-    },
-    "&:hover": {
-      boxShadow: "rgba(0, 46, 109, 0.6) 2px 4px 6px" // Heavier box shadow on hover
-    }
-  },
-  download: {
-    backgroundColor: ({ color }) => theme[color],
-    borderColor: "rgb(167, 197, 57)", //site standard green
-    boxShadow: "rgb(167, 197, 57) 1px 2px 3px",
-    marginLeft: "auto",
-    "&:hover": {
-      boxShadow: "rgb(167, 197, 57) 2px 4px 6px" // Heavier box shadow on hover
-    }
-  },
-  outlined: {
-    backgroundColor: theme.colorWhite,
-    borderColor: "rgba(0, 46, 109, .2)", //medium grey
-    borderWidth: "thin",
-    "&:hover": {
-      boxShadow: "rgba(0, 46, 109, 0.4) 2px 4px 6px" // Heavier box shadow on hover
-    }
-  },
   text: {
     backgroundColor: "transparent",
     borderColor: "rgba(0, 0, 0, 0)", //transparent
@@ -133,18 +106,6 @@ const useStyles = createUseStyles(theme => ({
     marginRight: 0,
     "&:hover": {
       boxShadow: "rgba(0, 0, 0, 0.1) 2px 4px 6px" // Heavier box shadow on hover
-    }
-  },
-  error: {
-    backgroundColor: theme.colorError,
-    color: "white",
-    borderColor: "rgba(0, 0, 0, .05)", //lightest grey
-    boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px",
-    "&[disabled]:hover": {
-      boxShadow: "rgba(0, 46, 109, 0.3) 1px 2px 3px"
-    },
-    "&:hover": {
-      boxShadow: "rgba(0, 46, 109, 0.6) 2px 4px 6px" // Heavier box shadow on hover
     }
   }
 }));
@@ -154,7 +115,7 @@ const Button = ({
   className,
   isDisplayed = true,
   onClick,
-  variant = "contained",
+  variant = "primary",
   color = "colorDefault",
   type = "button",
   disabled = false,

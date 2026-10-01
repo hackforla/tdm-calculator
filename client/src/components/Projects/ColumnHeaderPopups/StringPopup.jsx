@@ -262,14 +262,10 @@ const StringPopup = ({
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button onClick={setDefault} variant="outlined">
+        <Button onClick={setDefault} variant="secondary">
           Reset
         </Button>
-        <Button
-          onClick={applyChanges}
-          variant="contained"
-          color={"colorPrimary"}
-        >
+        <Button onClick={applyChanges} variant="primary">
           Apply
         </Button>
       </div>
