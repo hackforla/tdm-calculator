@@ -25,6 +25,7 @@ const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   idFormattedList: [],
   nameList: [],
+  projectNameList: [],
   addressList: [],
   projectLevelList: [],
   startDateSubmitted: null,
@@ -333,7 +334,13 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     },
     {
       id: "name",
-      label: "Project Name",
+      label: "TDM Plan Name",
+      popupType: "string",
+      colWidth: "206px"
+    },
+    {
+      id: "projectName",
+      label: "Development Project Name",
       popupType: "string",
       colWidth: "206px"
     },
@@ -568,6 +575,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                             {project.name}
                           </Link>
                         </TdExpandable>
+                        <TdExpandable>{project.projectName}</TdExpandable>
                         <TdExpandable>{project.address}</TdExpandable>
                         <Td>{formatDate(project.dateSubmitted)}</Td>
                         <Td>{formatDate(project.dateStatus)}</Td>

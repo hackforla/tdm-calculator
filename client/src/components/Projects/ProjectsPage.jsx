@@ -331,7 +331,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const enhancedProjects = projects
     ? projects.map(project => {
         const droName =
-          droOptions.find(dro => dro.id === project.droId)?.name || "-";
+          droOptions.find(dro => dro.id === project?.droId)?.name || "-";
 
         return {
           ...project,
@@ -441,6 +441,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
         ...data,
         loginId: loginId,
         name: newProjectName,
+        projectName: data.projectName || "",
         description: data.description ?? "",
         formInputs: JSON.stringify(projectFormInputsAsJson)
       };
@@ -1035,7 +1036,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
     },
     {
       id: "projectName",
-      label: "Project Name",
+      label: "Development Project Name",
       popupType: "string",
       colWidth: "20rem"
     },

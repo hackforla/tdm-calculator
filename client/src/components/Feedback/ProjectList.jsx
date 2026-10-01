@@ -85,6 +85,7 @@ const ProjectsList = ({
             <th></th>
             <th className={classes.tableHead}>Id</th>
             <th className={classes.tableHead}>TDM Plan Name</th>
+            <th className={classes.tableHead}>Development Project Name</th>
             <th className={classes.tableHead}>Address</th>
             <th className={classes.tableHead}>Date Entered</th>
             <th className={classes.tableHead}>Date Saved</th>
@@ -107,6 +108,7 @@ const ProjectsList = ({
               </td>
               <td className={classes.dateCell}>{formatId(project.id)}</td>
               <td className={classes.textCell}>{project.name}</td>
+              <td className={classes.textCell}>{project.projectName}</td>
               <td className={classes.textCell}>
                 {JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
               </td>

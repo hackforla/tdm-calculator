@@ -27,6 +27,7 @@ const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   idFormattedList: [],
   nameList: [],
+  projectNameList: [],
   addressList: [],
   projectLevelList: [],
   startDateSubmitted: null,
@@ -194,6 +195,10 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     MANAGE_SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
     DEFAULT_FILTER_CRITERIA
   );
+  //  const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
+  //    MANAGE_SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
+  //    DEFAULT_FILTER_CRITERIA
+  //  );
   const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
     MANAGE_SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG,
     DEFAULT_SORT_CRITERIA
@@ -374,7 +379,13 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     },
     {
       id: "name",
-      label: "Project Name",
+      label: "TDM Plan Name",
+      popupType: "string",
+      colWidth: "22rem"
+    },
+    {
+      id: "projectName",
+      label: "Development Project Name",
       popupType: "string",
       colWidth: "22rem"
     },

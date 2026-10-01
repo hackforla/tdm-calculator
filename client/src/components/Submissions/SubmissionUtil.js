@@ -76,23 +76,32 @@ export const ascCompareBy = (a, b, orderBy, calculations) => {
 
 export const filter = (p, criteria, calculations) => {
   if (
-    criteria.nameList.length > 0 &&
+    criteria.nameList?.length > 0 &&
     !criteria.nameList.map(n => n.toLowerCase()).includes(p.name.toLowerCase())
   ) {
     return false;
   }
 
   if (
-    criteria.addressList.length > 0 &&
-    !criteria.addressList
+    criteria.projectNameList?.length > 0 &&
+    !criteria.projectNameList
       .map(n => n.toLowerCase())
-      .includes(p.address.toLowerCase())
+      .includes((p.projectName || "").toLowerCase())
   ) {
     return false;
   }
 
   if (
-    criteria.authorList.length > 0 &&
+    criteria.addressList?.length > 0 &&
+    !criteria.addressList
+      .map(n => n.toLowerCase())
+      .includes((p.address || "").toLowerCase())
+  ) {
+    return false;
+  }
+
+  if (
+    criteria.authorList?.length > 0 &&
     !criteria.authorList
       .map(n => n.toLowerCase())
       .includes(p.author.toLowerCase())
@@ -101,10 +110,10 @@ export const filter = (p, criteria, calculations) => {
   }
 
   if (
-    criteria.assigneeList.length > 0 &&
+    criteria.assigneeList?.length > 0 &&
     !criteria.assigneeList
       .map(n => n.toLowerCase())
-      .includes(p.assignee.toLowerCase())
+      .includes((p.assignee || "").toLowerCase())
   ) {
     return false;
   }

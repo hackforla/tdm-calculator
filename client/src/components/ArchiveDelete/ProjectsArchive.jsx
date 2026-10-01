@@ -94,7 +94,8 @@ const ProjectsArchive = () => {
         <table className={classes.table}>
           <thead className={classes.thead}>
             <tr className={classes.tr}>
-              <th className={classes.td}>TDM PlanName</th>
+              <th className={classes.td}>TDM Plan Name</th>
+              <th className={classes.td}>Development Project Name</th>
               <th className={classes.td}>Address</th>
               <th className={classes.td}>Created By</th>
               <th className={classes.td}>Created On</th>
@@ -106,6 +107,7 @@ const ProjectsArchive = () => {
             {archivedProjects.map(project => (
               <tr key={project.id}>
                 <td className={classes.td}>{project.name}</td>
+                <td className={classes.td}>{project.projectName}</td>
                 <td className={classes.td}>{project.address}</td>
                 <td
                   className={classes.td}
