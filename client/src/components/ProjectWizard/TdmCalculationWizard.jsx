@@ -154,6 +154,9 @@ const TdmCalculationWizard = props => {
     const requestBody = {
       ...project,
       name: nameOfCopy,
+      projectName: project.projectName || "",
+      address: project.address || "",
+      description: project.description || "",
       loginId: account.id,
       formInputs: JSON.stringify(inputsToSave),
       description
