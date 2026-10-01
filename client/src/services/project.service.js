@@ -20,7 +20,14 @@ export function getById(id) {
 }
 
 export function post(project) {
-  return axios.post(baseUrl, project);
+  // Make sure certain fields have non-null values
+  const prj = {
+    ...project,
+    projectName: project.projectName || "",
+    address: project.address || "",
+    description: project.description || ""
+  };
+  return axios.post(baseUrl, prj);
 }
 
 export function put(project) {

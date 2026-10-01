@@ -439,10 +439,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
       const { data } = await projectService.getById(selectedProject.id);
       const newProject = {
         ...data,
-        loginId: loginId,
         name: newProjectName,
         projectName: data.projectName || "",
-        description: data.description ?? "",
+        address: data.address || "",
+        description: data.description || "",
+        loginId: loginId,
+        name: newProjectName,
         formInputs: JSON.stringify(projectFormInputsAsJson)
       };
       try {

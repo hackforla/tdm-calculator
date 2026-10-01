@@ -52,10 +52,10 @@ export default function CopyProjectModal({
     >
       <div className={classes.container}>
         <div className={classes.heading1}>
-          <MdFileCopy className={classes.icon} /> Duplicate Project
+          <MdFileCopy className={classes.icon} /> Duplicate TDM Plan
         </div>
         <div style={theme.typography.subHeading}>
-          Type a new name to duplicate the project
+          Type a new name to duplicate the TDM Plan
         </div>
         <div style={theme.typography.heading3}>{selectedProjectName}</div>
         <div
