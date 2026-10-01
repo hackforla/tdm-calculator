@@ -157,6 +157,9 @@ const SubmissionTableRow = ({
       <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>
       </TdExpandable>
+      <TdExpandable>
+        <Link to={`/calculation/1/${project.id}`}>{project.projectName}</Link>
+      </TdExpandable>
       <Td>
         {project.author === loggedInUserName
           ? `${project.author} (Me)`

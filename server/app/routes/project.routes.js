@@ -152,10 +152,10 @@ router.put(
   jwtSession.validateUser,
   projectController.put
 );
+// Update calculation ID endpoint (no rate limiter). Can be called by admin or TDM Plan author.
 router.put(
   "/updateCalculationId/:id",
-  // writeLimiter,  Do not want a rate limiter on this endpoint
-  jwtSession.validateRoles(["isAdmin"]),
+  jwtSession.validateUser,
   projectController.updateCalculationId
 );
 router.put(
