@@ -145,7 +145,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
                 <CloseBox
                   style={{
                     backgroundColor: "transparent",
-                    color: theme.colors.secondary.gray,
+                    color: theme.colorGSray,
                     border: "none",
                     position: "absolute",
                     top: "0.25rem",

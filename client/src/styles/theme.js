@@ -31,13 +31,6 @@ export const jssTheme = {
   colorDropShadowDisabled: "#BBBBBBFF",
   colorNotice: "#E87D00",
   colorLinkBlue: "#0000FF",
-  colors: {
-    secondary: {
-      gray: "#808080", // Same as theme.colorGray
-      lightGray: "#EEF1F4", // Same as theme.colorDeselect
-      mediumGray: "#CFCFCF" // Same as theme.colorMediumGray
-    }
-  },
   typography: {
     largeText: {
       fontFamily: "Calibri",

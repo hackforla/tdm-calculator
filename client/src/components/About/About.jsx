@@ -89,8 +89,7 @@ const About = () => {
         <div style={{ display: "flex", gap: "1rem" }}>
           {isAdmin && (
             <Button
-              color={!editMode ? "colorDisabled" : "colorPrimary"}
-              variant="contained"
+              variant={editMode ? "primary" : "tertiary"}
               onClick={toggleEditMode}
               id="edit-about-toggle"
               data-testid="edit-about-toggle"
@@ -101,8 +100,7 @@ const About = () => {
           )}
           {isAdmin && editMode && (
             <Button
-              color="colorDisabled"
-              variant="outlined"
+              variant="secondary"
               onClick={cancelEdits}
               id="cancel-about-edits"
               data-testid="cancel-about-edits"
