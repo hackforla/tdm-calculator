@@ -108,72 +108,7 @@ const NavBarLogin = ({ classes, handleHamburgerMenuClick, setNavbarOpen }) => {
   }, []);
 
   return !account || !account.email ? (
-    !isCalculation ? (
-      <li className={clsx(classes.userLogin, classes.linkBlock)}>
-        {loginLink}
-      </li>
-    ) : (
-      <li className={clsx(classes.userLogin, classes.linkBlock)}>
-        <Popup
-          closeOnDocumentClick={false}
-          trigger={
-            <span id={elementId} style={{ cursor: "pointer" }}>
-              {loginLink}
-            </span>
-          }
-          position="bottom right"
-          arrow={true}
-          arrowStyle={{
-            borderColor: theme.colorCritical,
-            color: theme.colorTooltipBackground
-          }}
-          contentStyle={{
-            borderRadius: "5px",
-            border: "1px solid " + theme.colorCritical,
-            width: "25rem",
-            backgroundColor: theme.colorTooltipBackground,
-            boxShadow:
-              "0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)"
-          }}
-        >
-          {close => {
-            return (
-              <div
-                style={{ margin: "1rem", fontSize: "24px" }}
-                id={popupContentId}
-              >
-                <CloseBox
-                  style={{
-                    backgroundColor: "transparent",
-                    color: theme.colorGSray,
-                    border: "none",
-                    position: "absolute",
-                    top: "0.25rem",
-                    right: "0.25rem",
-                    cursor: "pointer"
-                  }}
-                  onClick={close}
-                />
-                <div style={{ display: "flex", margin: "0" }}>
-                  <MdWarning
-                    style={{
-                      color: theme.colorCritical,
-                      width: "20px",
-                      height: "20px",
-                      margin: "0"
-                    }}
-                  />
-                  <div style={{ marginLeft: "0.5rem" }}>
-                    Only projects created after logging in can be saved
-                  </div>
-                </div>
-              </div>
-            );
-          }}
-        </Popup>
-        {/* <NavBarToolTip /> */}
-      </li>
-    )
+    <li className={clsx(classes.userLogin, classes.linkBlock)}>{loginLink}</li>
   ) : (
     <>
       {getUserGreeting(account)}

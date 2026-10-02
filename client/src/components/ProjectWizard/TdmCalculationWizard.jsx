@@ -39,6 +39,7 @@ import ShareSnapshotModal from "../Modals/ActionSnapshotShare";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import DROSelectionModal from "components/Modals/DROSelectionModal";
 import { fetchDroOptions } from "helpers/FetchDroOptions";
+import UnregisteredUserWarning from "./UnregisteredUserWarning";
 
 const useStyles = createUseStyles({
   wizard: {
@@ -82,6 +83,8 @@ const TdmCalculationWizard = props => {
   const page = Number(params.page || 1);
   const projectId = Number(params.projectId);
   const { pathname } = useLocation();
+  const [showUnregisteredUserWarning, setShowUnregisteredUserWarning] =
+    useState(true);
   const [ainInputError, setAINInputError] = useState("");
   const loginId = project.loginId;
   const [copyAndEditSnapshotModalOpen, setCopyAndEditSnapshotModalOpen] =
@@ -568,6 +571,11 @@ const TdmCalculationWizard = props => {
         )}
         contentContainerRef={contentContainerRef}
       >
+        {showUnregisteredUserWarning && !email && (
+          <UnregisteredUserWarning
+            onClose={() => setShowUnregisteredUserWarning(false)}
+          />
+        )}
         {pageContents(page)}
         <WizardFooter
           rules={rules}
