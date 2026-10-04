@@ -98,6 +98,7 @@ const TdExpandable = ({ children }) => {
         </span>
         {isTruncated && (
           <button
+            type="button"
             aria-expanded={isExpanded}
             aria-controls="expand-description"
             id="expand-description"
