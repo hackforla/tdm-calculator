@@ -203,7 +203,7 @@ const ProjectsList = ({
     },
     {
       id: "name",
-      label: "Project Name",
+      label: "TDM Plan",
       popupType: "string",
       colWidth: "16rem"
     },
