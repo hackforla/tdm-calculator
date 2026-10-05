@@ -39,6 +39,9 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colorWhite,
     "& th": {
       padding: "4px 12px"
+    },
+    "& th:first-child > div": {
+      justifyContent: "center"
     }
   },
   tbody: {
