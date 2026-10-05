@@ -58,11 +58,11 @@ const ResetProjectModal = ({ mounted, onClose, project, resetProject }) => {
         <div className={classes.container}>
           <MdWarning alt="Warning" className={classes.warningIcon} />
           <div>
-            <p className={classes.heading1}>Reset project</p>
+            <p className={classes.heading1}>Reset TDM Plan</p>
           </div>
           <div style={{ marginBottom: "1rem" }}>
             <p className={classes.subheading}>
-              All unsaved data from this project will be lost.
+              All unsaved data from this TDM Plan will be lost.
             </p>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
