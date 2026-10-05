@@ -36,7 +36,7 @@ const ResetButtons = props => {
         data-testid="resetProject"
         onClick={resetProject}
       >
-        Reset Project
+        Reset TDM Plan
       </button>
       {uncheckAll && (
         <button

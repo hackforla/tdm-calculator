@@ -304,7 +304,6 @@ export function TdmCalculationContainer({ contentContainerRef }) {
     if (filterRules === filters.projectDescriptionRules) {
       setPartialAIN(""); // Clear incomplete AIN input
     }
-    f;
     recalculate(updateInputs);
   };
 
