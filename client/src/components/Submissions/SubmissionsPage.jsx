@@ -67,14 +67,40 @@ const useStyles = createUseStyles(theme => ({
     transition: "flex-basis 0.5s ease-in-out"
   },
   pageTitle: {
+    ...theme.typography.heading1,
     marginTop: 0,
-    marginBottom: "0rem"
+    marginBottom: "8px"
   },
   subheading: {
     ...theme.typography.subHeading,
-    lineHeight: "1.2rem",
-    marginTop: "0rem",
-    marginBottom: "0rem"
+    marginTop: 0,
+    marginBottom: 0
+  },
+  subheadingTrueEmpty: {
+    marginBottom: "21px"
+  },
+  emptyStateRegion: {
+    boxSizing: "border-box",
+    width: "100%",
+    flex: "1 1 auto",
+    minHeight: 0,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "16px",
+    padding: "16px 4px"
+  },
+  emptyStatePrimary: {
+    ...theme.typography.heading3,
+    lineHeight: "23px",
+    color: theme.colorPrintBlack,
+    margin: 0
+  },
+  emptyStateSupporting: {
+    ...theme.typography.subHeading,
+    color: theme.colorPrintBlack,
+    margin: 0
   },
   searchBarWrapper: {
     position: "relative",
@@ -152,6 +178,13 @@ const useStyles = createUseStyles(theme => ({
     margin: "0px 1rem",
     height: "calc(100vh - 175px - 11.34em)"
   },
+  tableContainerTrueEmpty: {
+    display: "flex",
+    flexDirection: "column",
+    "& > table": {
+      flexShrink: 0
+    }
+  },
   fixTableHead: {
     overflowY: "auto",
     height: "4em"
@@ -160,7 +193,9 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: "auto",
+    marginBottom: "6px" // 10px container pad + 6px = 16px above the footer
   },
   dropContent: {
     borderRadius: "4px",
@@ -185,9 +220,10 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
 
   const [projects, setProjects] = useState([]);
+  const [submissionsStatus, setSubmissionsStatus] = useState("loading");
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const projectsPerPage = perPage;
+  const projectsPerPage = Math.max(Number(perPage) || 1, 1);
   const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
     SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
     DEFAULT_FILTER_CRITERIA
@@ -199,24 +235,31 @@ const SubmissionsPage = ({ contentContainerRef }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await projectService.getSubmissions();
-      const projects = response.data.map(d => {
-        return {
-          ...d,
-          author: d.authorLastName
-            ? `${d.authorLastName}, ${d.authorFirstName}`
-            : "",
-          assignee: d.assignedLastName
-            ? `${d.assignedLastName}, ${d.assignedFirstName}`
-            : "",
-          statuser: d.statuserLastName
-            ? `${d.statuserLastName}, ${d.statuserFirstName}`
-            : "",
-          droName: d.droName || "-",
-          idFormatted: formatId(d.id)
-        };
-      });
-      setProjects(projects);
+      setSubmissionsStatus("loading");
+      try {
+        const response = await projectService.getSubmissions();
+        const projects = response.data.map(d => {
+          return {
+            ...d,
+            author: d.authorLastName
+              ? `${d.authorLastName}, ${d.authorFirstName}`
+              : "",
+            assignee: d.assignedLastName
+              ? `${d.assignedLastName}, ${d.assignedFirstName}`
+              : "",
+            statuser: d.statuserLastName
+              ? `${d.statuserLastName}, ${d.statuserFirstName}`
+              : "",
+            droName: d.droName || "-",
+            idFormatted: formatId(d.id)
+          };
+        });
+        setProjects(projects);
+        setSubmissionsStatus("success");
+      } catch (err) {
+        setProjects([]);
+        setSubmissionsStatus("error");
+      }
     }
     fetchData();
   }, [setProjects]);
@@ -253,7 +296,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   );
 
   const perPageOptions = [
-    { value: projects.length.toString(), label: "All" },
+    { value: Math.max(projects.length, 1).toString(), label: "All" },
     { value: "100", label: "100" },
     { value: "50", label: "50" },
     { value: "25", label: "25" },
@@ -261,8 +304,9 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   ];
 
   const handlePerPageChange = newPerPage => {
-    setPerPage(newPerPage);
-    const newHighestPage = Math.ceil(sortedProjects.length / newPerPage);
+    const safePerPage = Math.max(Number(newPerPage) || 1, 1);
+    setPerPage(safePerPage);
+    const newHighestPage = Math.ceil(sortedProjects.length / safePerPage);
 
     if (currentPage > newHighestPage) {
       setCurrentPage(1);
@@ -270,7 +314,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   };
 
   const paginate = pageNumber => {
-    const newHighestPage = Math.ceil(sortedProjects.length / perPage);
+    const newHighestPage = Math.ceil(sortedProjects.length / projectsPerPage);
     if (typeof pageNumber === "number") {
       setCurrentPage(pageNumber);
     } else if (pageNumber === "left" && currentPage !== 1) {
@@ -430,26 +474,32 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     indexOfFirstPost,
     indexOfLastPost
   );
+  const hasNoSubmissions =
+    submissionsStatus === "success" && projects.length === 0;
+  const paginationTotalProjects = hasNoSubmissions ? 1 : sortedProjects.length;
 
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
   return (
     <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
       <h1 className={classes.pageTitle}>Submissions</h1>
-      <h2 className={classes.subheading}>
-        These snapshots have been submitted to LADOT for review.
-      </h2>
-      <h2 className={classes.subheading}>
-        For more advanced filtering, go to <a href="/projects">My Projects</a>.
-      </h2>
-      <h2 className={classes.subheading}>
-        To submit a snapshot, go to <a href="/projects">My Projects</a> or page
-        5 of your project.
+      <h2
+        className={
+          hasNoSubmissions
+            ? `${classes.subheading} ${classes.subheadingTrueEmpty}`
+            : classes.subheading
+        }
+      >
+        Snapshots that have been submitted to LADOT for review appear on this
+        page.
       </h2>
       <div
         style={{
           display: "flex",
-          flexDirection: "row"
+          flexDirection: "row",
+          flex: "1 1 auto",
+          width: "100%",
+          minHeight: 0
         }}
       >
         <div
@@ -461,7 +511,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
         >
           <div
             style={{
-              display: "flex",
+              display: projects.length > 0 ? "flex" : "none",
               flexDirection: "row",
               justifyContent: "space-between",
               width: "100vw"
@@ -520,7 +570,13 @@ const SubmissionsPage = ({ contentContainerRef }) => {
             </div>
           </div>
           <div>
-            <div className={classes.tableContainer}>
+            <div
+              className={
+                hasNoSubmissions
+                  ? `${classes.tableContainer} ${classes.tableContainerTrueEmpty}`
+                  : classes.tableContainer
+              }
+            >
               <table
                 className={
                   userContext.account?.isAdmin
@@ -596,34 +652,48 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                         <Td>{formatDate(project.dateCoO)}</Td>
                       </tr>
                     ))
-                  ) : (
+                  ) : submissionsStatus === "success" && !hasNoSubmissions ? (
                     <tr>
                       <td colSpan={9} className={classes.tdNoSavedProjects}>
                         No Saved Projects
                       </td>
                     </tr>
-                  )}
+                  ) : null}
                 </tbody>
               </table>
+              {hasNoSubmissions && (
+                <div className={classes.emptyStateRegion}>
+                  <div className={classes.emptyStatePrimary}>
+                    There are no TDM Plan submissions on this account.
+                  </div>
+                  <div className={classes.emptyStateSupporting}>
+                    Please see &quot;How to Submit a Snapshot?&quot; on the{" "}
+                    <Link to="/faqs">FAQ</Link> to learn how to make a
+                    submission.
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          <div className={classes.pageContainer}>
-            <Pagination
-              projectsPerPage={projectsPerPage}
-              totalProjects={sortedProjects.length}
-              paginate={paginate}
-              currentPage={currentPage}
-              maxNumOfVisiblePages={5}
-            />
-            <UniversalSelect
-              value={perPage.toString()}
-              options={perPageOptions}
-              onChange={e => handlePerPageChange(e.target.value)}
-              name="perPage"
-              className={classes.dropContent}
-            />
-            <span className={classes.itemsPerPage}>Items per page</span>
-          </div>
+          {submissionsStatus === "success" && (
+            <div className={classes.pageContainer}>
+              <Pagination
+                projectsPerPage={projectsPerPage}
+                totalProjects={paginationTotalProjects}
+                paginate={paginate}
+                currentPage={currentPage}
+                maxNumOfVisiblePages={5}
+              />
+              <UniversalSelect
+                value={perPage.toString()}
+                options={perPageOptions}
+                onChange={e => handlePerPageChange(e.target.value)}
+                name="perPage"
+                className={classes.dropContent}
+              />
+              <span className={classes.itemsPerPage}>Items per page</span>
+            </div>
+          )}
         </div>
       </div>
       {/* <pre>{JSON.stringify(sortCriteria, null, 2)}</pre> */}
