@@ -49,7 +49,7 @@ const useStyles = createUseStyles(theme => ({
     height: "2rem",
     gap: "0.2em",
     "&:hover": {
-      backgroundColor: theme.color
+      backgroundColor: theme.colorRowHighlight
     },
     "& span": {
       maxWidth: "25ch",
