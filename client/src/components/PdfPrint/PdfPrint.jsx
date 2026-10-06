@@ -204,7 +204,7 @@ export const PdfPrint = forwardRef((props, ref) => {
                   src={logo}
                   alt="LA Department of Transportation Logo"
                 />
-                {""} | TDM Calculation Project Summary
+                {""} | TDM Calculation TDM Plan Summary
               </h1>
               <section className={classes.categoryContainer}>
                 <div
@@ -212,7 +212,7 @@ export const PdfPrint = forwardRef((props, ref) => {
                     clsx("space-between", classes.categoryHeaderContainer)
                   ]}
                 >
-                  <span className={classes.categoryHeader}>PROJECT NAME:</span>
+                  <span className={classes.categoryHeader}>TDM PLAN NAME:</span>
                   {projectName && projectName.value ? (
                     <span className={classes.textProjectInfoHeaderAddress}>
                       {projectName.value}
@@ -264,7 +264,7 @@ export const PdfPrint = forwardRef((props, ref) => {
                   {formattedId && (
                     <div className={classes.projectIdRight}>
                       <ProjectInfo
-                        name={"Project Id #"}
+                        name={"TDM Plan ID#"}
                         rule={{ value: formattedId }}
                       />
                     </div>
@@ -299,7 +299,7 @@ export const PdfPrint = forwardRef((props, ref) => {
                   )}
                 >
                   <span className={classes.categoryHeader}>
-                    PROJECT DETAILS
+                    TDM PLAN DETAILS
                   </span>
                 </div>
                 <div className={classes.measuresContainer}>
