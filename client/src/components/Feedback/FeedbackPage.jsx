@@ -165,7 +165,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://cityclerk.lacity.org/Feedback/?cfnumber=15-0719-S19"
+              href="https://cityclerk.lacity.org/publiccomment/?cfnumber=15-0719-S19"
             >
               City Clerk&apos;s comment form
               <MdLaunch className={classes.externalLinkIcon} />
