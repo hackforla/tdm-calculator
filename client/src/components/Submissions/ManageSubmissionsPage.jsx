@@ -398,7 +398,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     {
       id: "projectLevel",
       label: "Level",
-      popupType: "stringList",
+      popupType: "number",
       colWidth: "8rem"
     },
     { id: "droName", label: "DRO", popupType: "stringList", colWidth: "10rem" },

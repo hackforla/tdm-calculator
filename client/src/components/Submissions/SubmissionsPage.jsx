@@ -413,7 +413,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     {
       id: "projectLevel",
       label: "Level",
-      popupType: "stringList",
+      popupType: "number",
       colWidth: "96px"
     },
     { id: "droName", label: "DRO", popupType: "stringList", colWidth: "160px" },
