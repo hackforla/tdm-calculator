@@ -106,7 +106,7 @@ const StatusPopup = ({
           onChange={() => setTypeSetting("snapshot")}
         />
         <RadioButton
-          label="Drafts and Snapshots"
+          label="All"
           value="all"
           checked={typeSetting === "all"}
           onChange={() => setTypeSetting("all")}
