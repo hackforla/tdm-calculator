@@ -412,7 +412,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     },
     {
       id: "assignee",
-      label: "Assignee",
+      label: "Staff Assigned",
       popupType: "user",
       colWidth: "16rem"
     },
