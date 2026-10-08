@@ -10,7 +10,10 @@ import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
 import * as accountService from "../../services/account.service";
-import { ascCompareBy, filter } from "./SubmissionUtil";
+import {
+  ascCompareBy,
+  filter as filterProjects
+} from "../Projects/ColumnHeaderPopups/Helpers";
 
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
@@ -355,6 +358,11 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     setCurrentPage(1);
   };
 
+  const fullTextHeaders = ["name", "author", "assignee"];
+
+  const filter = (p, criteria) =>
+    filterProjects(p, criteria, calculations, fullTextHeaders);
+
   const resetFiltersSort = () => {
     setFilter(DEFAULT_FILTER_CRITERIA);
     setSortCriteria(DEFAULT_SORT_CRITERIA);
@@ -550,7 +558,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                   type="search"
                   id="filterText"
                   name="filterText"
-                  placeholder="Search by Project Name, Created By, Assignee"
+                  placeholder="Search by TDM Plan Name, Created By, Staff Assigned"
                   value={filterCriteria.filterText}
                   onChange={e => handleFilterTextChange(e.target.value)}
                 />
