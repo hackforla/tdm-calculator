@@ -101,7 +101,9 @@ const useStyles = createUseStyles(theme => ({
     ...theme.typography.heading3,
     lineHeight: "23px",
     color: theme.colorPrintBlack,
-    margin: 0,
+    margin: 0
+  },
+  emptyStateNoMatch: {
     textAlign: "center",
     maxWidth: "100%"
   },
@@ -691,7 +693,9 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                     className={classes.emptyStateIcon}
                     aria-hidden="true"
                   />
-                  <div className={classes.emptyStatePrimary}>
+                  <div
+                    className={`${classes.emptyStatePrimary} ${classes.emptyStateNoMatch}`}
+                  >
                     No TDM Plans with that search/filter/sort criteria
                   </div>
                 </div>
