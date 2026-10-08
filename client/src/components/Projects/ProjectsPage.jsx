@@ -655,20 +655,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const setSort = (orderBy, order, isStatus = false) => {
     // If already sorted by the orderBy field, remove that entry from the
     // sort array first
-    let newSortCriteria = [];
-    if (isStatus) {
-      newSortCriteria = sortCriteria.filter(
-        c => c.field != "dateSnapshotted" && c.field != "dateTrashed"
-      );
-      newSortCriteria.push({ field: "dateTrashed", direction: order });
-      newSortCriteria.push({ field: "dateSnapshotted", direction: order });
-    } else {
-      newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
-      if (order !== null) {
-        // if order === null, removing this property from sort criteria,
-        // otherwise, adding the new sort criteria
-        newSortCriteria.push({ field: orderBy, direction: order });
-      }
+    const newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
+    if (order !== null) {
+      // if order === null, removing this property from sort criteria,
+      // otherwise, adding the new sort criteria
+      newSortCriteria.push({ field: orderBy, direction: order });
     }
 
     // save to local storage
