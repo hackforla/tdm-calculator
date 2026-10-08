@@ -186,6 +186,13 @@ const useStyles = createUseStyles(theme => ({
   tableContainerTrueEmpty: {
     display: "flex",
     flexDirection: "column",
+    "& > table": {
+      flexShrink: 0
+    }
+  },
+  tableContainerNoMatch: {
+    display: "flex",
+    flexDirection: "column",
     overflow: "hidden"
   },
   tableHeaderScroller: {
@@ -490,6 +497,12 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     projects.length > 0 &&
     sortedProjects.length === 0;
   const paginationTotalProjects = hasNoSubmissions ? 1 : sortedProjects.length;
+  const withNoMatchHeaderScroller = table =>
+    hasNoMatchingSubmissions ? (
+      <div className={classes.tableHeaderScroller}>{table}</div>
+    ) : (
+      table
+    );
 
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
@@ -585,16 +598,14 @@ const SubmissionsPage = ({ contentContainerRef }) => {
           <div>
             <div
               className={
-                hasNoSubmissions || hasNoMatchingSubmissions
-                  ? `${classes.tableContainer} ${classes.tableContainerTrueEmpty}`
-                  : classes.tableContainer
+                hasNoMatchingSubmissions
+                  ? `${classes.tableContainer} ${classes.tableContainerNoMatch}`
+                  : hasNoSubmissions
+                    ? `${classes.tableContainer} ${classes.tableContainerTrueEmpty}`
+                    : classes.tableContainer
               }
             >
-              {(hasNoSubmissions || hasNoMatchingSubmissions
-                ? table => (
-                    <div className={classes.tableHeaderScroller}>{table}</div>
-                  )
-                : table => table)(
+              {withNoMatchHeaderScroller(
                 <table
                   className={
                     userContext.account?.isAdmin
