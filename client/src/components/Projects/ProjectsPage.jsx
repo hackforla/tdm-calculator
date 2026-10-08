@@ -25,7 +25,7 @@ import CsvModal from "../Modals/ActionProjectsCsv";
 import ProjectTableRow from "./ProjectTableRow";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import UniversalSelect from "../UI/UniversalSelect";
-import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
+import ProjectTableColumnHeader from "../UI/ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
 import {
@@ -34,6 +34,11 @@ import {
 } from "../../helpers/Constants";
 import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 import { fetchDroOptions } from "helpers/FetchDroOptions";
+import {
+  ascCompareBy,
+  filter as filterProjects,
+  getSortOrdinal
+} from "../UI/ColumnHeaderPopups/Helpers";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
@@ -340,7 +345,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
             : "",
           droName: droName,
           adminNotes: project.adminNotes || "",
-          idFormatted: formatId(project.id)
+          idFormatted: formatId(project.id),
+          alternative: JSON.parse(project.formInputs).VERSION_NO
+            ? JSON.parse(project.formInputs).VERSION_NO
+            : ""
         };
       })
     : [];
@@ -632,94 +640,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setSelectAllChecked(!selectAllChecked);
   };
 
-  const getCalculationVersion = (p, calculations) =>
-    calculations?.[p.calculationId]?.version ?? "Beta";
-
-  const ascCompareBy = (a, b, orderBy) => {
-    let projectA, projectB;
-
-    if (orderBy === "VERSION_NO") {
-      projectA = JSON.parse(a.formInputs).VERSION_NO
-        ? JSON.parse(a.formInputs).VERSION_NO
-        : "undefined";
-      projectB = JSON.parse(b.formInputs).VERSION_NO
-        ? JSON.parse(b.formInputs).VERSION_NO
-        : "undefined";
-    } else if (orderBy === "BUILDING_PERMIT") {
-      projectA = JSON.parse(a.formInputs).BUILDING_PERMIT
-        ? JSON.parse(a.formInputs).BUILDING_PERMIT
-        : "undefined";
-      projectB = JSON.parse(b.formInputs).BUILDING_PERMIT
-        ? JSON.parse(b.formInputs).BUILDING_PERMIT
-        : "undefined";
-      // } else if (orderBy === "author") {
-      //   projectA = `${a["lastName"]} ${a["firstName"]}`;
-      //   projectB = `${b["lastName"]} ${b["firstName"]}`;
-    } else if (orderBy === "dateHidden" || orderBy === "dateSnapshotted") {
-      projectA = a[orderBy] ? 1 : 0;
-      projectB = b[orderBy] ? 1 : 0;
-    } else if (
-      orderBy === "dateSubmitted" ||
-      orderBy === "dateCreated" ||
-      orderBy === "dateModified" ||
-      orderBy === "dateTrashed"
-    ) {
-      projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
-      projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
-    } else if (orderBy === "dro") {
-      projectA = a.droName ? a.droName.toLowerCase() : null;
-      projectB = b.droName ? b.droName.toLowerCase() : null;
-    } else if (orderBy === "adminNotes") {
-      projectA = a.adminNotes ? a.adminNotes.toLowerCase() : null;
-      projectB = b.adminNotes ? b.adminNotes.toLowerCase() : null;
-    } else if (orderBy === "id") {
-      projectA = a.id !== undefined && a.id !== null ? a.id : null;
-      projectB = b.id !== undefined && b.id !== null ? b.id : null;
-    } else if (orderBy === "calculationId") {
-      const aVal = getCalculationVersion(a, calculations);
-      const bVal = getCalculationVersion(b, calculations);
-
-      if (aVal === bVal) return 0;
-
-      if (aVal === "Beta") return 1;
-      if (bVal === "Beta") return -1;
-
-      const aParts = String(aVal).split(".").map(Number);
-      const bParts = String(bVal).split(".").map(Number);
-
-      const len = Math.max(aParts.length, bParts.length);
-
-      for (let i = 0; i < len; i++) {
-        const diff = (aParts[i] ?? 0) - (bParts[i] ?? 0);
-        if (diff !== 0) return diff;
-      }
-
-      return 0;
-    } else {
-      projectA = a[orderBy] ? a[orderBy].toLowerCase() : "";
-      projectB = b[orderBy] ? b[orderBy].toLowerCase() : "";
-    }
-
-    if (projectA === null && projectB === null) {
-      return 0;
-    } else if (projectA === null) {
-      return 1; // null values are greater
-    } else if (projectB === null) {
-      return -1;
-    } else {
-      if (projectA < projectB) {
-        return -1;
-      } else if (projectA > projectB) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
-  };
-
   const getComparator = (order, orderBy) => {
     return (a, b) => {
-      const result = ascCompareBy(a, b, orderBy);
+      const result = ascCompareBy(a, b, orderBy, calculations);
 
       if (orderBy === "calculationId") {
         return order === "asc" ? -result : result;
@@ -741,7 +664,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
       newSortCriteria.push({ field: "dateSnapshotted", direction: order });
     } else {
       newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
-      newSortCriteria.push({ field: orderBy, direction: order });
+      if (order !== null) {
+        // if order === null, removing this property from sort criteria
+        newSortCriteria.push({ field: orderBy, direction: order });
+      }
     }
 
     // save to local storage
@@ -782,201 +708,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setCurrentPage(1);
   };
 
-  const getDateOnly = date => {
-    const dateOnly = new Date(date).toDateString();
-    return new Date(dateOnly);
-  };
-
-  const filter = (p, criteria) => {
-    if (criteria.type === "draft" && p.dateSnapshotted) return false;
-    if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
-    if (criteria.visibility === "visible" && p.dateHidden) return false;
-    if (criteria.visibility === "hidden" && !p.dateHidden) return false;
-    if (
-      criteria.name &&
-      !p.name.toLowerCase().includes(criteria.name.toLowerCase())
-    )
-      return false;
-    if (
-      criteria.projectName &&
-      !p.projectName.toLowerCase().includes(criteria.projectName.toLowerCase())
-    )
-      return false;
-    if (
-      criteria.address &&
-      !p.address.toLowerCase().includes(criteria.address.toLowerCase())
-    )
-      return false;
-
-    if (
-      criteria.startDateCreated &&
-      getDateOnly(p.dateCreated) < getDateOnly(criteria.startDateCreated)
-    )
-      return false;
-    if (
-      criteria.endDateCreated &&
-      getDateOnly(p.dateCreated) > getDateOnly(criteria.endDateCreated)
-    )
-      return false;
-    if (
-      criteria.startDateModified &&
-      getDateOnly(p.dateModified) < getDateOnly(criteria.startDateModified)
-    )
-      return false;
-    if (
-      criteria.endDateModified &&
-      getDateOnly(p.dateModified) > getDateOnly(criteria.endDateModified)
-    )
-      return false;
-    if (
-      criteria.startDateTrashed &&
-      getDateOnly(p.dateTrashed) < getDateOnly(criteria.startDateTrashed)
-    )
-      return false;
-    if (
-      criteria.endDateTrashed &&
-      getDateOnly(p.dateTrashed) > getDateOnly(criteria.endDateTrashed)
-    )
-      return false;
-
-    if (
-      criteria.idFormattedList?.length > 0 &&
-      !criteria.idFormattedList.includes(p.idFormatted)
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.calculationIdList?.length > 0 &&
-      !criteria.calculationIdList.includes(
-        calculations?.[p.calculationId]?.version ?? "Beta"
-      )
-    ) {
-      return false;
-    }
-
-    // fullName attr allows searching by full name, not just by first or last name
-    if (
-      criteria.author &&
-      !p.author.toLowerCase().includes(criteria.author.toLowerCase())
-    )
-      return false;
-    try {
-      p.alternative = JSON.parse(p["formInputs"]).VERSION_NO
-        ? JSON.parse(p["formInputs"]).VERSION_NO
-        : "";
-    } catch (err) {
-      p.alternative = JSON.stringify(err, null, 2);
-    }
-
-    if (
-      criteria.alternative &&
-      !p.alternative.toLowerCase().includes(criteria.alternative.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.nameList.length > 0 &&
-      !criteria.nameList
-        .map(n => n.toLowerCase())
-        .includes(p.name.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.projectNameList.length > 0 &&
-      !criteria.projectNameList
-        .map(n => n.toLowerCase())
-        .includes(p.projectName?.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.addressList.length > 0 &&
-      !criteria.addressList
-        .map(n => n.toLowerCase())
-        .includes(p.address?.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.alternativeList.length > 0 &&
-      !criteria.alternativeList
-        .map(n => n.toLowerCase())
-        .includes(p.alternative.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.authorList.length > 0 &&
-      !criteria.authorList
-        .map(n => n.toLowerCase())
-        .includes(p.author.toLowerCase())
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.startDateSubmitted &&
-      getDateOnly(p.dateSubmitted) <= getDateOnly(criteria.startDateSubmitted)
-    )
-      return false;
-    if (
-      criteria.endDateSubmitted &&
-      getDateOnly(p.dateSubmitted) >= getDateOnly(criteria.endDateSubmitted)
-    )
-      return false;
-
-    if (criteria.droNameList.length > 0) {
-      const droNames = criteria.droNameList.map(n => n.toLowerCase());
-      const projectDroName = (p.droName || "-").toLowerCase();
-
-      if (!droNames.includes(projectDroName)) {
-        return false;
-      }
-    }
-
-    if (
-      criteria.adminNotesList.length > 0 &&
-      !criteria.adminNotesList
-        .map(n => n.toLowerCase())
-        .includes(
-          p.adminNotes ? p.adminNotes.toLowerCase() : "eowurqoieuroiwutposi"
-        )
-    ) {
-      return false;
-    }
-
-    if (
-      criteria.startDateModifiedAdmin &&
-      getDateOnly(p.dateModifiedAdmin) <
-        getDateOnly(criteria.startDateModifiedAdmin)
-    )
-      return false;
-
-    if (
-      criteria.endDateModifiedAdmin &&
-      getDateOnly(p.dateModifiedAdmin) >
-        getDateOnly(criteria.endDateModifiedAdmin)
-    )
-      return false;
-
-    if (criteria.filterText && criteria.filterText !== "") {
-      let ids = ["name", "address", "fullName", "alternative", "description"];
-
-      return ids.some(id => {
-        let colValue = String(p[id]).toLowerCase();
-        return colValue.includes(criteria.filterText.toLowerCase());
-      });
-    }
-
-    return true;
-  };
+  const filter = (p, criteria) =>
+    filterProjects(p, criteria, calculations, fullTextHeaders);
 
   const resetFiltersSort = () => {
     setFilter(DEFAULT_FILTER_CRITERIA);
@@ -984,6 +717,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
+
+  const fullTextHeaders = [
+    "name",
+    "address",
+    "fullName",
+    "alternative",
+    "description"
+  ];
 
   const headerData = [
     {
@@ -1016,7 +757,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateHidden",
       label: "Visibility",
       popupType: "visibility",
-      colWidth: "8rem"
+      colWidth: "10rem"
     },
     {
       id: "dateSnapshotted",
@@ -1294,6 +1035,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             order={
                               sortCriteria[sortCriteria.length - 1].direction
                             }
+                            orderByOrdinal={getSortOrdinal(
+                              header,
+                              sortCriteria
+                            )}
                             setCheckedProjectIds={setCheckedProjectIds}
                             setSelectAllChecked={setSelectAllChecked}
                             droOptions={droOptions}

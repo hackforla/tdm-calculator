@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
@@ -62,11 +62,12 @@ const useStyles = createUseStyles(theme => ({
     cursor: "pointer",
     textDecoration: "underline",
     display: "flex",
-    fontWeight: "normal"
+    fontWeight: "normal",
+    color: theme.colorDarkNavy
   }
 }));
 
-const NumberPopup = ({
+const StringPopup = ({
   projects,
   filter,
   close,
@@ -94,29 +95,36 @@ const NumberPopup = ({
   );
   const [searchString, setSearchString] = useState("");
 
-  const initiallyChecked = o => criteria[header.id + "List"].includes(o);
+  const initiallyChecked = o =>
+    criteria[header.id + "List"]
+      ? criteria[header.id + "List"].includes(o)
+      : false;
+
   // To build the drop-down list, we want to apply all the criteria that
   // are currently selected EXCEPT the criteria we are currently editing.
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
+  // const property = header.id == "author" ? "fullname" : header.id;
 
   const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
     .filter(value => value !== null && value !== "")
-    .toSorted()
+    .sort((a, b) => {
+      return a.localeCompare(b, "en", { sensitivity: "base" });
+    })
     .sort(
       (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
     );
 
   const filteredOptions = selectOptions
     .filter(o => !!o)
-    .filter(opt => opt.toString().includes(searchString));
+    .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
 
   const onChangeSearchString = e => {
     setSearchString(e.target.value);
   };
 
   const handleCheckboxChange = e => {
-    const optionValue = Number(e.target.name);
+    const optionValue = e.target.name;
     if (!e.target.checked) {
       const newSelectedListItems = selectedListItems.filter(
         selectedOption => selectedOption.value !== optionValue
@@ -172,13 +180,13 @@ const NumberPopup = ({
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <RadioButton
-          label="Sort Ascending"
+          label="Sort A-Z"
           value="asc"
           checked={newOrder === "asc"}
           onChange={() => setNewOrder("asc")}
         />
         <RadioButton
-          label="Sort Descending"
+          label="Sort Z-A"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
@@ -221,6 +229,7 @@ const NumberPopup = ({
         />
         <MdOutlineSearch className={classes.searchIcon} alt="Search Icon" />
       </div>
+
       <div style={{ overflow: "auto", maxHeight: "12rem" }}>
         {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
         {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
@@ -260,7 +269,7 @@ const NumberPopup = ({
   );
 };
 
-NumberPopup.propTypes = {
+StringPopup.propTypes = {
   projects: PropTypes.any,
   filter: PropTypes.func,
   close: PropTypes.func,
@@ -271,8 +280,7 @@ NumberPopup.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array
+  setSelectAllChecked: PropTypes.func
 };
 
-export default NumberPopup;
+export default StringPopup;

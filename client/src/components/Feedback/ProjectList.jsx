@@ -2,8 +2,12 @@ import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import { formatDatetime, formatId } from "../../helpers/util";
-import { ascCompareBy } from "../Submissions/SubmissionUtil";
-import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
+import {
+  ascCompareBy,
+  filter,
+  getSortOrdinal
+} from "../UI/ColumnHeaderPopups/Helpers";
+import ProjectTableColumnHeader from "../UI/ColumnHeaderPopups/ProjectTableColumnHeader";
 import { Td, TdExpandable } from "../UI/TableData";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
@@ -78,38 +82,6 @@ const getAddress = formInputs => {
     return "";
   }
 };
-
-const matchesList = (list, value) =>
-  !list?.length ||
-  list.map(n => n.toLowerCase()).includes((value || "").toLowerCase());
-
-const matchesDateRange = (value, start, end) => {
-  if (start && (!value || getDateOnly(value) < getDateOnly(start)))
-    return false;
-  if (end && (!value || getDateOnly(value) > getDateOnly(end))) return false;
-  return true;
-};
-
-const filter = (p, criteria) =>
-  matchesList(criteria.idFormattedList, p.idFormatted) &&
-  matchesList(criteria.nameList, p.name) &&
-  matchesList(criteria.projectNameList, p.projectName) &&
-  matchesList(criteria.addressList, p.address) &&
-  matchesDateRange(
-    p.dateCreated,
-    criteria.startDateCreated,
-    criteria.endDateCreated
-  ) &&
-  matchesDateRange(
-    p.dateModified,
-    criteria.startDateModified,
-    criteria.endDateModified
-  ) &&
-  matchesDateRange(
-    p.dateSubmitted,
-    criteria.startDateSubmitted,
-    criteria.endDateSubmitted
-  );
 
 const getComparator = (order, orderBy) => {
   return order === "asc"
@@ -266,6 +238,7 @@ const ProjectsList = ({
                     criteria={filterCriteria}
                     setCriteria={setFilterCriteria}
                     setSort={setSort}
+                    orderByOrdinal={getSortOrdinal(header, sortCriteria)}
                     orderBy={sortCriteria[sortCriteria.length - 1].field}
                     order={sortCriteria[sortCriteria.length - 1].direction}
                     setCheckedProjectIds={null}
