@@ -54,9 +54,8 @@ const VisibilityPopup = ({
       ...criteria,
       visibility: visibilitySetting
     });
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
+    setSort(header.id, newOrder);
+
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
     close();

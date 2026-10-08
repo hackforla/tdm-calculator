@@ -665,7 +665,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
     } else {
       newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
       if (order !== null) {
-        // if order === null, removing this property from sort criteria
+        // if order === null, removing this property from sort criteria,
+        // otherwise, adding the new sort criteria
         newSortCriteria.push({ field: orderBy, direction: order });
       }
     }

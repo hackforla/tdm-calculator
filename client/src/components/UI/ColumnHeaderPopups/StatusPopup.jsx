@@ -53,9 +53,8 @@ const StatusPopup = ({
       ...criteria,
       type: typeSetting
     });
-    if (newOrder) {
-      setSort("dateSnapshotted", newOrder, true);
-    }
+    setSort("dateSnapshotted", newOrder, true);
+
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
     close();
