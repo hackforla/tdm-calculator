@@ -1,3 +1,13 @@
+// Helper functions that implement application-wide sortign and filtering
+// for TDM Plan and/or login account properties throughout the application.
+
+// Utilty functions used by exported ascCompareBy and filter functions
+
+export const getSortOrdinal = (header, sortCriteria) => {
+  const position = sortCriteria.findIndex(sc => sc.field === header.id);
+  return position === -1 ? null : sortCriteria.length - position;
+};
+
 const getCalculationVersion = (p, calculations) =>
   calculations?.[p.calculationId]?.version ?? "Beta";
 
@@ -6,12 +16,23 @@ const getDateOnly = date => {
   return new Date(dateOnly);
 };
 
+const matchesList = (list, value) =>
+  !list?.length ||
+  list.map(n => n.toLowerCase()).includes((value || "").toLowerCase());
+
+const matchesDateRange = (value, start, end) => {
+  if (start && (!value || getDateOnly(value) < getDateOnly(start)))
+    return false;
+  if (end && (!value || getDateOnly(value) > getDateOnly(end))) return false;
+  return true;
+};
+
 // Intended to be a comparison function for sorting objects based on any of the
-// properties used  by any of the grids in the application.
+// properties used by any of the grids in the application.
 // a, b are references to the two obejcts to be  compared.
 // orderBy is the string-valued property name of the column to sort by
 // calculations is the array of Program Guideline versions, needed for
-// sortign by Program Guidelines version.
+//   sorting by Program Guidelines version, (optional, if you don't need to sort by calculationId)
 // Returns a negative number if a should come before b, positive if b should come before a, or 0 if they are equal.
 export const ascCompareBy = (a, b, orderBy, calculations) => {
   let projectA, projectB;
@@ -51,15 +72,6 @@ export const ascCompareBy = (a, b, orderBy, calculations) => {
     // they can be sorted lexicographically like strings.
     projectA = a[orderBy] ? a[orderBy] : "2000-01-01";
     projectB = b[orderBy] ? b[orderBy] : "2000-01-01";
-    // } else if (orderBy === "dro") {
-    //   projectA = a.droName ? a.droName.toLowerCase() : null;
-    //   projectB = b.droName ? b.droName.toLowerCase() : null;
-    // } else if (orderBy === "adminNotes") {
-    //   projectA = a.adminNotes ? a.adminNotes.toLowerCase() : null;
-    //   projectB = b.adminNotes ? b.adminNotes.toLowerCase() : null;
-    // } else if (orderBy === "id") {
-    //   projectA = a.id !== undefined && a.id !== null ? a.id : null;
-    //   projectB = b.id !== undefined && b.id !== null ? b.id : null;
   } else if (orderBy === "calculationId") {
     const aVal = getCalculationVersion(a, calculations);
     const bVal = getCalculationVersion(b, calculations);
@@ -82,7 +94,6 @@ export const ascCompareBy = (a, b, orderBy, calculations) => {
     return 0;
   } else if (
     orderBy === "projectLevel" ||
-    orderBy === "id" ||
     orderBy === "onHold" ||
     orderBy === "targetPointsMet"
   ) {
@@ -125,71 +136,88 @@ export const filter = (p, criteria, calculations, fullTextHeaders) => {
   if (criteria.visibility === "visible" && p.dateHidden) return false;
   if (criteria.visibility === "hidden" && !p.dateHidden) return false;
 
-  // String properties that use a Popup allowing multi-selection from a list
-
+  // String properties that use a Popup allowing multi-selection from a list of strings
+  // (i.e., headerData dataType property = "string" or "stringList")
   if (
-    criteria.addressList?.length > 0 &&
-    !criteria.addressList
-      .map(n => n.toLowerCase())
-      .includes((p.address || "").toLowerCase())
+    !matchesList(criteria.addressList, p.address) ||
+    !matchesList(criteria.adminNotesList, p.adminNotes) ||
+    !matchesList(criteria.alternativeList, p.alternative) ||
+    !matchesList(criteria.approvalStatusNameList, p.approvalStatusName) ||
+    !matchesList(criteria.assigneeList, p.assignee) ||
+    !matchesList(criteria.authorList, p.author) ||
+    !matchesList(criteria.droNameList, p.droName) ||
+    !matchesList(criteria.idFormattedList, p.idFormatted) ||
+    !matchesList(criteria.invoiceStatusNameList, p.invoiceStatusName) ||
+    !matchesList(criteria.nameList, p.name) ||
+    !matchesList(criteria.projectNameList, p.projectName)
   ) {
     return false;
   }
 
+  // Normal Date Range Filtering
   if (
-    criteria.adminNotesList.length > 0 &&
-    !criteria.adminNotesList
-      .map(n => n.toLowerCase())
-      .includes(
-        p.adminNotes ? p.adminNotes.toLowerCase() : "eowurqoieuroiwutposi"
-      )
+    !matchesDateRange(
+      p.dateCreated,
+      criteria.startDateCreated,
+      criteria.endDateCreated
+    ) ||
+    !matchesDateRange(p.dateCoO, criteria.startDateCoO, criteria.endDateCoO) ||
+    !matchesDateRange(
+      p.dateInvoice,
+      criteria.startDateInvoice,
+      criteria.endDateInvoice
+    ) ||
+    !matchesDateRange(
+      p.dateModified,
+      criteria.startDateModified,
+      criteria.endDateModified
+    ) ||
+    !matchesDateRange(
+      p.dateModifiedAdmin,
+      criteria.startDateModifiedAdmin,
+      criteria.endDateModifiedAdmin
+    ) ||
+    !matchesDateRange(
+      p.dateSnapshotted,
+      criteria.startDateSnapshotted,
+      criteria.endDateSnapshotted
+    ) ||
+    !matchesDateRange(
+      p.dateStatus,
+      criteria.startDateStatus,
+      criteria.endDateStatus
+    ) ||
+    !matchesDateRange(
+      p.dateSubmitted,
+      criteria.startDateSubmitted,
+      criteria.endDateSubmitted
+    ) ||
+    !matchesDateRange(
+      p.dateTrasheds,
+      criteria.startDateTrashed,
+      criteria.endDateTrashed
+    )
   ) {
     return false;
   }
 
-  try {
-    p.alternative = JSON.parse(p["formInputs"]).VERSION_NO
-      ? JSON.parse(p["formInputs"]).VERSION_NO
-      : "";
-  } catch (err) {
-    p.alternative = JSON.stringify(err, null, 2);
-  }
+  // Numeric Properties
   if (
-    criteria.alternativeList?.length > 0 &&
-    !criteria.alternativeList
-      .map(n => n.toLowerCase())
-      .includes(p.alternative.toLowerCase())
+    criteria.projectLevelList?.length > 0 &&
+    !criteria.projectLevelList.includes(p.projectLevel)
   ) {
     return false;
   }
 
+  // Boolean Properties
+  if (criteria.onHold !== null && p.onHold != criteria.onHold) return false;
   if (
-    criteria.approvalStatusNameList?.length > 0 &&
-    !criteria.approvalStatusNameList
-      .map(n => n.toLowerCase())
-      .includes(p.approvalStatusName.toLowerCase())
-  ) {
+    criteria.targetPointsMet !== null &&
+    p.targetPointsMet != criteria.targetPointsMet
+  )
     return false;
-  }
 
-  if (
-    criteria.assigneeList?.length > 0 &&
-    !criteria.assigneeList
-      .map(n => n.toLowerCase())
-      .includes((p.assignee || "").toLowerCase())
-  ) {
-    return false;
-  }
-
-  if (
-    criteria.authorList?.length > 0 &&
-    !criteria.authorList
-      .map(n => n.toLowerCase())
-      .includes(p.author.toLowerCase())
-  ) {
-    return false;
-  }
-
+  // Special Case of Program Guidelines Version
   if (
     criteria.calculationIdList?.length > 0 &&
     !criteria.calculationIdList.includes(
@@ -199,163 +227,7 @@ export const filter = (p, criteria, calculations, fullTextHeaders) => {
     return false;
   }
 
-  if (criteria.droNameList.length > 0) {
-    const droNames = criteria.droNameList.map(n => n.toLowerCase());
-    const projectDroName = (p.droName || "-").toLowerCase();
-
-    if (!droNames.includes(projectDroName)) {
-      return false;
-    }
-  }
-
-  if (criteria.idList?.length > 0 && !criteria.idList.includes(p.id)) {
-    return false;
-  }
-
-  if (
-    criteria.idFormattedList?.length > 0 &&
-    !criteria.idFormattedList.includes(p.idFormatted)
-  ) {
-    return false;
-  }
-
-  if (
-    criteria.invoiceStatusNameList?.length > 0 &&
-    !criteria.invoiceStatusNameList
-      .map(n => n.toLowerCase())
-      .includes(p.invoiceStatusName.toLowerCase())
-  ) {
-    return false;
-  }
-
-  if (
-    criteria.nameList?.length > 0 &&
-    !criteria.nameList.map(n => n.toLowerCase()).includes(p.name.toLowerCase())
-  ) {
-    return false;
-  }
-
-  if (
-    criteria.projectLevelList?.length > 0 &&
-    !criteria.projectLevelList.includes(p.projectLevel)
-  ) {
-    return false;
-  }
-
-  if (
-    criteria.projectNameList?.length > 0 &&
-    !criteria.projectNameList
-      .map(n => n.toLowerCase())
-      .includes((p.projectName || "").toLowerCase())
-  ) {
-    return false;
-  }
-
-  // Normal date range filtering
-  if (
-    criteria.startDateCreated &&
-    getDateOnly(p.dateCreated) < getDateOnly(criteria.startDateCreated)
-  )
-    return false;
-  if (
-    criteria.endDateCreated &&
-    getDateOnly(p.dateCreated) > getDateOnly(criteria.endDateCreated)
-  )
-    return false;
-
-  if (
-    criteria.startDateCoO &&
-    getDateOnly(p.dateCoO) < getDateOnly(criteria.startDateCoO)
-  )
-    return false;
-  if (
-    criteria.endDateCoO &&
-    getDateOnly(p.dateCoO) > getDateOnly(criteria.endDateCoO)
-  )
-    return false;
-
-  if (
-    criteria.startDateInvoice &&
-    getDateOnly(p.dateInvoice) < getDateOnly(criteria.startDateInvoice)
-  )
-    return false;
-  if (
-    criteria.endDateInvoice &&
-    getDateOnly(p.dateInvoice) > getDateOnly(criteria.endDateInvoice)
-  )
-    return false;
-
-  if (
-    criteria.startDateModified &&
-    getDateOnly(p.dateModified) < getDateOnly(criteria.startDateModified)
-  )
-    return false;
-  if (
-    criteria.endDateModified &&
-    getDateOnly(p.dateModified) > getDateOnly(criteria.endDateModified)
-  )
-    return false;
-
-  if (
-    criteria.startDateModifiedAdmin &&
-    getDateOnly(p.dateModifiedAdmin) <
-      getDateOnly(criteria.startDateModifiedAdmin)
-  )
-    return false;
-
-  if (
-    criteria.endDateModifiedAdmin &&
-    getDateOnly(p.dateModifiedAdmin) >
-      getDateOnly(criteria.endDateModifiedAdmin)
-  )
-    return false;
-
-  if (
-    criteria.startDateSnapshotted &&
-    getDateOnly(p.dateSnapshotted) < getDateOnly(criteria.startDateSnapshotted)
-  )
-    return false;
-  if (
-    criteria.endDateSnapshotted &&
-    getDateOnly(p.dateSnapshotted) > getDateOnly(criteria.endDateSnapshotted)
-  )
-    return false;
-
-  if (
-    criteria.startDateStatus &&
-    getDateOnly(p.dateStatus) < getDateOnly(criteria.startDateStatus)
-  )
-    return false;
-  if (
-    criteria.endDateStatus &&
-    getDateOnly(p.dateStatus) > getDateOnly(criteria.endDateStatus)
-  )
-    return false;
-  if (
-    criteria.startDateSubmitted &&
-    getDateOnly(p.dateSubmitted) < getDateOnly(criteria.startDateSubmitted)
-  )
-    return false;
-  if (
-    criteria.endDateSubmitted &&
-    getDateOnly(p.dateSubmitted) > getDateOnly(criteria.endDateSubmitted)
-  )
-    return false;
-  if (
-    criteria.startDateTrashed &&
-    getDateOnly(p.dateTrashed) < getDateOnly(criteria.startDateTrashed)
-  )
-    return false;
-  if (
-    criteria.endDateTrashed &&
-    getDateOnly(p.dateTrashed) > getDateOnly(criteria.endDateTrashed)
-  )
-    return false;
-
-  // Boolean Properties
-  if (criteria.onHold !== null && p.onHold != criteria.onHold) return false;
-
-  // Full Text Filter - fullTextHeaders are header id strings of propertied to
+  // Full Text Filter - fullTextHeaders are header id strings of properties to
   // include, which should be strng-valued properties.
   if (criteria.filterText && criteria.filterText !== "") {
     return fullTextHeaders.some(id => {

@@ -36,7 +36,8 @@ import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 import { fetchDroOptions } from "helpers/FetchDroOptions";
 import {
   ascCompareBy,
-  filter as filterProjects
+  filter as filterProjects,
+  getSortOrdinal
 } from "./ColumnHeaderPopups/Helpers";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
@@ -344,7 +345,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
             : "",
           droName: droName,
           adminNotes: project.adminNotes || "",
-          idFormatted: formatId(project.id)
+          idFormatted: formatId(project.id),
+          alternative: JSON.parse(project.formInputs).VERSION_NO
+            ? JSON.parse(project.formInputs).VERSION_NO
+            : ""
         };
       })
     : [];
@@ -660,7 +664,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
       newSortCriteria.push({ field: "dateSnapshotted", direction: order });
     } else {
       newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
-      newSortCriteria.push({ field: orderBy, direction: order });
+      if (order !== null) {
+        // if order === null, removing this property from sort criteria
+        newSortCriteria.push({ field: orderBy, direction: order });
+      }
     }
 
     // save to local storage
@@ -750,7 +757,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       id: "dateHidden",
       label: "Visibility",
       popupType: "visibility",
-      colWidth: "8rem"
+      colWidth: "10rem"
     },
     {
       id: "dateSnapshotted",
@@ -1028,6 +1035,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             order={
                               sortCriteria[sortCriteria.length - 1].direction
                             }
+                            orderByOrdinal={getSortOrdinal(
+                              header,
+                              sortCriteria
+                            )}
                             setCheckedProjectIds={setCheckedProjectIds}
                             setSelectAllChecked={setSelectAllChecked}
                             droOptions={droOptions}

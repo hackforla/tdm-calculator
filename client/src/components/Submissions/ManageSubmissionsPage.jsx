@@ -12,7 +12,8 @@ import * as projectService from "../../services/project.service";
 import * as accountService from "../../services/account.service";
 import {
   ascCompareBy,
-  filter as filterProjects
+  filter as filterProjects,
+  getSortOrdinal
 } from "../Projects/ColumnHeaderPopups/Helpers";
 
 import UniversalSelect from "../UI/UniversalSelect";
@@ -54,6 +55,7 @@ const DEFAULT_FILTER_CRITERIA = {
   startDateModifiedAdmin: null,
   endDateModifiedAdmin: null,
   onHold: null,
+  targetPointsMet: null,
   calculationIdList: []
 };
 
@@ -198,10 +200,6 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     MANAGE_SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
     DEFAULT_FILTER_CRITERIA
   );
-  //  const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
-  //    MANAGE_SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
-  //    DEFAULT_FILTER_CRITERIA
-  //  );
   const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
     MANAGE_SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG,
     DEFAULT_SORT_CRITERIA
@@ -407,7 +405,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       id: "projectLevel",
       label: "Level",
       popupType: "number",
-      colWidth: "8rem"
+      colWidth: "9rem"
     },
     { id: "droName", label: "DRO", popupType: "stringList", colWidth: "10rem" },
     {
@@ -416,7 +414,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateSubmitted",
       endDatePropertyName: "endDateSubmitted",
-      colWidth: "10rem"
+      colWidth: "12rem"
     },
     {
       id: "assignee",
@@ -465,13 +463,13 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateCoO",
       endDatePropertyName: "endDateCoO",
-      colWidth: "10rem"
+      colWidth: "12rem"
     },
     {
       id: "calculationId",
       label: "Guidelines Version",
       popupType: "version",
-      colWidth: "10rem"
+      colWidth: "12rem"
     },
     {
       id: "targetPointsMet",
@@ -615,6 +613,10 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                             order={
                               sortCriteria[sortCriteria.length - 1].direction
                             }
+                            orderByOrdinal={getSortOrdinal(
+                              header,
+                              sortCriteria
+                            )}
                             setCheckedProjectIds={null}
                             setSelectAllChecked={null}
                             droOptions={null}

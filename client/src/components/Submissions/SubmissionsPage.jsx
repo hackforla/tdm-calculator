@@ -5,7 +5,8 @@ import UserContext from "../../contexts/UserContext";
 import CalculationsContext from "../../contexts/CalculationsContext";
 import {
   ascCompareBy,
-  filter as filterProjects
+  filter as filterProjects,
+  getSortOrdinal
 } from "../Projects/ColumnHeaderPopups/Helpers";
 import { Link } from "react-router-dom";
 import { MdOutlineSearch, MdCheck } from "react-icons/md";
@@ -630,6 +631,10 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                             order={
                               sortCriteria[sortCriteria.length - 1].direction
                             }
+                            orderByOrdinal={getSortOrdinal(
+                              header,
+                              sortCriteria
+                            )}
                             setCheckedProjectIds={null}
                             setSelectAllChecked={null}
                             droOptions={null}

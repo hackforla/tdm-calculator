@@ -8,10 +8,6 @@ import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import { selectAllCheckboxes } from "helpers/util";
 
-/*
-Variant of the TextPopup that gets rid of all the quirky accommodation of dro and author filtering used on the My Projects Page
-*/
-
 const useStyles = createUseStyles(theme => ({
   container: {
     display: "flex",

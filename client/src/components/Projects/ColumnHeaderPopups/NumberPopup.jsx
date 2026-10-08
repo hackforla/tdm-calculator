@@ -108,7 +108,7 @@ const NumberPopup = ({
     );
 
   const filteredOptions = selectOptions
-    .filter(o => !!o)
+    .filter(o => o !== null)
     .filter(opt => opt.toString().includes(searchString));
 
   const onChangeSearchString = e => {
