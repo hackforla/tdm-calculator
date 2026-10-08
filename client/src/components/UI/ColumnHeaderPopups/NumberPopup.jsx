@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
@@ -44,7 +44,7 @@ const useStyles = createUseStyles(theme => ({
     height: "2rem",
     gap: "0.2em",
     "&:hover": {
-      backgroundColor: "lightblue"
+      backgroundColor: theme.colorRowHighlight
     },
     "& span": {
       maxWidth: "25ch",
@@ -62,12 +62,11 @@ const useStyles = createUseStyles(theme => ({
     cursor: "pointer",
     textDecoration: "underline",
     display: "flex",
-    fontWeight: "normal",
-    color: theme.colorDarkNavy
+    fontWeight: "normal"
   }
 }));
 
-const VersionPopup = ({
+const NumberPopup = ({
   projects,
   filter,
   close,
@@ -78,12 +77,10 @@ const VersionPopup = ({
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked,
-  calculations
+  setSelectAllChecked
 }) => {
   const property = header.id;
   const theme = useTheme();
-
   const classes = useStyles(theme);
 
   const [newOrder, setNewOrder] = useState(
@@ -98,61 +95,28 @@ const VersionPopup = ({
   const [searchString, setSearchString] = useState("");
 
   const initiallyChecked = o => criteria[header.id + "List"].includes(o);
-
+  // To build the drop-down list, we want to apply all the criteria that
+  // are currently selected EXCEPT the criteria we are currently editing.
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
 
-  const getValue = p => {
-    if (property === "calculationId") {
-      return calculations?.[p.calculationId]?.version ?? "Beta";
-    }
-    return p[property];
-  };
-
-  let filteredOptions;
-
-  const compareVersions = (a, b) => {
-    const aChecked = initiallyChecked(a);
-    const bChecked = initiallyChecked(b);
-
-    // Keep checked items at the top
-    if (aChecked !== bChecked) {
-      return bChecked - aChecked;
-    }
-
-    // Beta is newest → always FIRST
-    if (a === "Beta" && b === "Beta") return 0;
-    if (a === "Beta") return -1;
-    if (b === "Beta") return 1;
-
-    const aParts = String(a).split(".").map(Number);
-    const bParts = String(b).split(".").map(Number);
-
-    const maxLength = Math.max(aParts.length, bParts.length);
-
-    for (let i = 0; i < maxLength; i++) {
-      const aPart = aParts[i] ?? 0;
-      const bPart = bParts[i] ?? 0;
-
-      if (aPart !== bPart) {
-        return bPart - aPart;
-      }
-    }
-
-    return 0;
-  };
-
-  filteredOptions = [...new Set(filteredProjects.map(getValue))]
+  const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
     .filter(value => value !== null && value !== "")
-    .filter(value => value.toLowerCase().includes(searchString.toLowerCase()))
-    .sort(compareVersions);
+    .toSorted()
+    .sort(
+      (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
+    );
+
+  const filteredOptions = selectOptions
+    .filter(o => o !== null)
+    .filter(opt => opt.toString().includes(searchString));
 
   const onChangeSearchString = e => {
     setSearchString(e.target.value);
   };
 
   const handleCheckboxChange = e => {
-    const optionValue = e.target.name;
+    const optionValue = Number(e.target.name);
     if (!e.target.checked) {
       const newSelectedListItems = selectedListItems.filter(
         selectedOption => selectedOption.value !== optionValue
@@ -199,12 +163,7 @@ const VersionPopup = ({
 
   return (
     <div className={classes.container}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end"
-        }}
-      >
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <CloseBox
           onClick={close}
           aria-label="Close popup"
@@ -213,13 +172,13 @@ const VersionPopup = ({
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <RadioButton
-          label="Sort Newest to Oldest"
+          label="Sort Ascending"
           value="asc"
           checked={newOrder === "asc"}
           onChange={() => setNewOrder("asc")}
         />
         <RadioButton
-          label="Sort Oldest to Newest"
+          label="Sort Descending"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
@@ -262,11 +221,12 @@ const VersionPopup = ({
         />
         <MdOutlineSearch className={classes.searchIcon} alt="Search Icon" />
       </div>
-
       <div style={{ overflow: "auto", maxHeight: "12rem" }}>
+        {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
+        {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
+
         {filteredOptions.map(o => {
           const checked = isChecked(o);
-
           return (
             <div key={o} className={classes.listItem}>
               <ToggleCheckbox
@@ -300,7 +260,7 @@ const VersionPopup = ({
   );
 };
 
-VersionPopup.propTypes = {
+NumberPopup.propTypes = {
   projects: PropTypes.any,
   filter: PropTypes.func,
   close: PropTypes.func,
@@ -315,4 +275,4 @@ VersionPopup.propTypes = {
   droOptions: PropTypes.array
 };
 
-export default VersionPopup;
+export default NumberPopup;

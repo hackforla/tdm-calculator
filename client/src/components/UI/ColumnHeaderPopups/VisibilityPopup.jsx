@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({

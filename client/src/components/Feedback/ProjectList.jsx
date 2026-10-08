@@ -6,8 +6,8 @@ import {
   ascCompareBy,
   filter,
   getSortOrdinal
-} from "../Projects/ColumnHeaderPopups/Helpers";
-import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
+} from "../UI/ColumnHeaderPopups/Helpers";
+import ProjectTableColumnHeader from "../UI/ColumnHeaderPopups/ProjectTableColumnHeader";
 import { Td, TdExpandable } from "../UI/TableData";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];

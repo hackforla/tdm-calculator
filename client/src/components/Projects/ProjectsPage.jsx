@@ -25,7 +25,7 @@ import CsvModal from "../Modals/ActionProjectsCsv";
 import ProjectTableRow from "./ProjectTableRow";
 import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import UniversalSelect from "../UI/UniversalSelect";
-import ProjectTableColumnHeader from "./ColumnHeaderPopups/ProjectTableColumnHeader";
+import ProjectTableColumnHeader from "../UI/ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
 import {
@@ -38,7 +38,7 @@ import {
   ascCompareBy,
   filter as filterProjects,
   getSortOrdinal
-} from "./ColumnHeaderPopups/Helpers";
+} from "../UI/ColumnHeaderPopups/Helpers";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {

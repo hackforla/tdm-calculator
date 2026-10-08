@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles, useTheme } from "react-jss";
-
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
+import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -18,7 +17,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const BooleanPopup = ({
+const StatusPopup = ({
   close,
   header,
   criteria,
@@ -31,29 +30,31 @@ const BooleanPopup = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
+
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
 
-  const [criterionSetting, setCriterionSetting] = useState(criteria[header.id]);
+  const [typeSetting, setTypeSetting] = useState(criteria.type);
 
   const setDefault = () => {
-    setCriterionSetting(null);
+    setTypeSetting("all");
     setCriteria({
       ...criteria,
-      [header.id]: null
+      type: "all"
     });
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
+    // Set Criteria for status
     setCriteria({
       ...criteria,
-      [header.id]: criterionSetting
+      type: typeSetting
     });
     if (newOrder) {
-      setSort(header.id, newOrder);
+      setSort("dateSnapshotted", newOrder, true);
     }
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
@@ -62,7 +63,12 @@ const BooleanPopup = ({
 
   return (
     <div className={classes.container}>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+      >
         <CloseBox
           onClick={close}
           aria-label="Close popup"
@@ -70,47 +76,43 @@ const BooleanPopup = ({
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
+        {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
         <RadioButton
-          label={"Sort " + (header.trueLabel || header.label) + " First"}
+          label="Sort Drafts First"
+          value="asc"
+          checked={newOrder == "asc"}
+          onChange={() => setNewOrder("asc")}
+        />
+        <RadioButton
+          label="Sort Snapshots First"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
-        />
-        <RadioButton
-          label={
-            "Sort " + (header.falseLabel || " Not " + header.label) + " First"
-          }
-          value="asc"
-          checked={newOrder === "asc"}
-          onChange={() => setNewOrder("asc")}
         />
         <hr style={{ width: "100%" }} />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
         <RadioButton
-          label={header.trueLabel || header.label}
-          value={true}
-          checked={criterionSetting == true}
-          onChange={() => {
-            setCriterionSetting(true);
-          }}
+          label="Drafts"
+          value="draft"
+          checked={typeSetting == "draft"}
+          onChange={() => setTypeSetting("draft")}
         />
         <RadioButton
-          label={header.falseLabel || "Not " + header.label}
-          value={false}
-          checked={criterionSetting === false}
-          onChange={() => setCriterionSetting(false)}
+          label="Snapshots"
+          value="snapshot"
+          checked={typeSetting === "snapshot"}
+          onChange={() => setTypeSetting("snapshot")}
         />
         <RadioButton
           label="All"
-          value={null}
-          checked={criterionSetting === null}
-          onChange={() => setCriterionSetting(null)}
+          value="all"
+          checked={typeSetting === "all"}
+          onChange={() => setTypeSetting("all")}
         />
+        <hr style={{ width: "100%" }} />
       </div>
-
-      <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
         <Button onClick={setDefault} variant="secondary">
           Reset
@@ -123,7 +125,7 @@ const BooleanPopup = ({
   );
 };
 
-BooleanPopup.propTypes = {
+StatusPopup.propTypes = {
   close: PropTypes.func,
   header: PropTypes.any,
   criteria: PropTypes.any,
@@ -135,4 +137,4 @@ BooleanPopup.propTypes = {
   setSelectAllChecked: PropTypes.func
 };
 
-export default BooleanPopup;
+export default StatusPopup;

@@ -14,10 +14,10 @@ import {
   ascCompareBy,
   filter as filterProjects,
   getSortOrdinal
-} from "../Projects/ColumnHeaderPopups/Helpers";
+} from "../UI/ColumnHeaderPopups/Helpers";
 
 import UniversalSelect from "../UI/UniversalSelect";
-import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
+import ProjectTableColumnHeader from "../UI/ColumnHeaderPopups/ProjectTableColumnHeader";
 import SubmissionTableRow from "./SubmissionTableRow";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";

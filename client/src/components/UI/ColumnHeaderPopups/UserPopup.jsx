@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
+import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
+import UserContext from "contexts/UserContext";
 import { selectAllCheckboxes } from "helpers/util";
 
-/*
-Variant of the StringPopup that is for text columns with a small number of choices that do not need the search box feature
-*/
+/* This ColunHeaderPopup is almost the samse as StringPopup, except that it has a few
+special features that apply specifically to people, like checking to see if the name
+matches the logged in user, and displaying "(Me)" next to the name. */
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -65,11 +67,12 @@ const useStyles = createUseStyles(theme => ({
     cursor: "pointer",
     textDecoration: "underline",
     display: "flex",
-    fontWeight: "normal"
+    fontWeight: "normal",
+    color: theme.colorDarkNavy
   }
 }));
 
-const TextPopup = ({
+const UserPopup = ({
   projects,
   filter,
   close,
@@ -82,19 +85,23 @@ const TextPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
-  const property = header.id;
   const theme = useTheme();
   const classes = useStyles(theme);
+  const userContext = useContext(UserContext);
+  const property = header.id;
+  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
+
   const [selectedListItems, setSelectedListItems] = useState(
     (criteria[header.id + "List"] || []).map(s => ({
       value: s,
       label: s
     }))
   );
+  const [searchString, setSearchString] = useState("");
 
   const initiallyChecked = o => criteria[header.id + "List"].includes(o);
 
@@ -102,9 +109,22 @@ const TextPopup = ({
   // are currently selected EXCEPT the criteria we are currently editing.
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
+  // const property = header.id == "author" ? "fullname" : header.id;
 
-  const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
-    .filter(value => value !== null && value !== "")
+  let selectOptions;
+  let hasLoggedInUserInList = false;
+  selectOptions = [
+    ...new Set(
+      filteredProjects.map(p => {
+        const name = p[property];
+        if (name === loggedInUserName) {
+          hasLoggedInUserInList = true;
+        }
+        return name;
+      })
+    )
+  ]
+    .filter(value => value !== null && value !== loggedInUserName)
     .sort((a, b) => {
       return a.localeCompare(b, "en", { sensitivity: "base" });
     })
@@ -112,7 +132,15 @@ const TextPopup = ({
       (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
     );
 
-  const filteredOptions = selectOptions.filter(o => !!o);
+  if (hasLoggedInUserInList) selectOptions.unshift(loggedInUserName);
+
+  const filteredOptions = selectOptions
+    .filter(o => !!o)
+    .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
+
+  const onChangeSearchString = e => {
+    setSearchString(e.target.value);
+  };
 
   const handleCheckboxChange = e => {
     const optionValue = e.target.name;
@@ -162,7 +190,12 @@ const TextPopup = ({
 
   return (
     <div className={classes.container}>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+      >
         <CloseBox
           onClick={close}
           aria-label="Close popup"
@@ -211,6 +244,15 @@ const TextPopup = ({
         </div>
         <div>{`${selectedListItems.length}  selected`}</div>
       </div>
+      <div className={classes.searchBarWrapper}>
+        <input
+          type="text"
+          value={searchString}
+          onChange={onChangeSearchString}
+          className={classes.searchBar}
+        />
+        <MdOutlineSearch className={classes.searchIcon} alt="Search Icon" />
+      </div>
 
       <div style={{ overflow: "auto", maxHeight: "12rem" }}>
         {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
@@ -218,6 +260,7 @@ const TextPopup = ({
 
         {filteredOptions.map(o => {
           const checked = isChecked(o);
+
           return (
             <div key={o} className={classes.listItem}>
               <ToggleCheckbox
@@ -232,7 +275,7 @@ const TextPopup = ({
                 }
                 label={o}
               />
-              <span>{o}</span>
+              <span>{o === loggedInUserName ? `${o} (Me)` : o}</span>
             </div>
           );
         })}
@@ -251,7 +294,7 @@ const TextPopup = ({
   );
 };
 
-TextPopup.propTypes = {
+UserPopup.propTypes = {
   projects: PropTypes.any,
   filter: PropTypes.func,
   close: PropTypes.func,
@@ -262,8 +305,7 @@ TextPopup.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array
+  setSelectAllChecked: PropTypes.func
 };
 
-export default TextPopup;
+export default UserPopup;

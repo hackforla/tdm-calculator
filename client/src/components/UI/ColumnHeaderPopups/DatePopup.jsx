@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
+import RadioButton from "../RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
-import DateRangePicker from "../../UI/DateRangePicker";
-import CloseBox from "../../UI/CloseBox";
+import DateRangePicker from "../DateRangePicker";
+import CloseBox from "../CloseBox";
 
 const useStyles = createUseStyles(theme => ({
   container: {

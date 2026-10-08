@@ -7,7 +7,7 @@ import {
   ascCompareBy,
   filter as filterProjects,
   getSortOrdinal
-} from "../Projects/ColumnHeaderPopups/Helpers";
+} from "../UI/ColumnHeaderPopups/Helpers";
 import { Link } from "react-router-dom";
 import { MdOutlineSearch, MdCheck } from "react-icons/md";
 import Pagination from "../UI/Pagination";
@@ -16,7 +16,7 @@ import * as projectService from "../../services/project.service";
 import { formatDate, formatId } from "../../helpers/util";
 
 import UniversalSelect from "../UI/UniversalSelect";
-import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
+import ProjectTableColumnHeader from "../UI/ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
 import {
