@@ -268,6 +268,7 @@ describe("SubmissionsPage empty-state hardening", () => {
       screen.queryByText("There are no TDM Plan submissions on this account.")
     ).not.toBeInTheDocument();
     expect(screen.getByText(NO_MATCH_MESSAGE)).toBeInTheDocument();
+    expect(screen.getByText(NO_MATCH_MESSAGE).closest("td")).toBeNull();
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
     expect(
       screen.queryByText("There are no TDM Plan submissions on this account.")
@@ -305,6 +306,7 @@ describe("SubmissionsPage empty-state hardening", () => {
     });
 
     expect(screen.getByText(NO_MATCH_MESSAGE)).toBeInTheDocument();
+    expect(screen.getByText(NO_MATCH_MESSAGE).closest("td")).toBeNull();
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
     expect(
       screen.queryByText("There are no TDM Plan submissions on this account.")

@@ -4,7 +4,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "../../contexts/UserContext";
 import { ascCompareBy, filter } from "./SubmissionUtil";
 import { Link } from "react-router-dom";
-import { MdOutlineSearch, MdCheck } from "react-icons/md";
+import { MdOutlineSearch, MdOutlineSearchOff, MdCheck } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
@@ -91,11 +91,19 @@ const useStyles = createUseStyles(theme => ({
     gap: "16px",
     padding: "16px 4px"
   },
+  emptyStateIcon: {
+    width: "28px",
+    height: "28px",
+    color: theme.colorPrintBlack,
+    flexShrink: 0
+  },
   emptyStatePrimary: {
     ...theme.typography.heading3,
     lineHeight: "23px",
     color: theme.colorPrintBlack,
-    margin: 0
+    margin: 0,
+    textAlign: "center",
+    maxWidth: "100%"
   },
   emptyStateSupporting: {
     ...theme.typography.subHeading,
@@ -169,9 +177,6 @@ const useStyles = createUseStyles(theme => ({
       background: theme.colorRowHighlight
     }
   },
-  tdNoSavedProjects: {
-    textAlign: "center"
-  },
   tableContainer: {
     overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
     width: "calc(100vw - 20px)",
@@ -181,9 +186,12 @@ const useStyles = createUseStyles(theme => ({
   tableContainerTrueEmpty: {
     display: "flex",
     flexDirection: "column",
-    "& > table": {
-      flexShrink: 0
-    }
+    overflow: "hidden"
+  },
+  tableHeaderScroller: {
+    overflow: "auto",
+    flex: "0 0 auto",
+    width: "100%"
   },
   fixTableHead: {
     overflowY: "auto",
@@ -476,6 +484,11 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   );
   const hasNoSubmissions =
     submissionsStatus === "success" && projects.length === 0;
+  // Filtered set is empty. This is not an empty account, a failed fetch, or an empty page slice.
+  const hasNoMatchingSubmissions =
+    submissionsStatus === "success" &&
+    projects.length > 0 &&
+    sortedProjects.length === 0;
   const paginationTotalProjects = hasNoSubmissions ? 1 : sortedProjects.length;
 
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
@@ -572,18 +585,23 @@ const SubmissionsPage = ({ contentContainerRef }) => {
           <div>
             <div
               className={
-                hasNoSubmissions
+                hasNoSubmissions || hasNoMatchingSubmissions
                   ? `${classes.tableContainer} ${classes.tableContainerTrueEmpty}`
                   : classes.tableContainer
               }
             >
-              <table
-                className={
-                  userContext.account?.isAdmin
-                    ? classes.tableAdmin
-                    : classes.table
-                }
-              >
+              {(hasNoSubmissions || hasNoMatchingSubmissions
+                ? table => (
+                    <div className={classes.tableHeaderScroller}>{table}</div>
+                  )
+                : table => table)(
+                <table
+                  className={
+                    userContext.account?.isAdmin
+                      ? classes.tableAdmin
+                      : classes.table
+                  }
+                >
                 <colgroup>
                   {headerData.map(h => (
                     <col key={h.id} width={h.colWidth} />
@@ -652,16 +670,21 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                         <Td>{formatDate(project.dateCoO)}</Td>
                       </tr>
                     ))
-                  ) : submissionsStatus === "success" && !hasNoSubmissions ? (
-                    // The account still has submissions. Search or a column filter hid every row.
-                    <tr>
-                      <td colSpan={9} className={classes.tdNoSavedProjects}>
-                        No TDM Plans with that search/filter/sort criteria
-                      </td>
-                    </tr>
                   ) : null}
                 </tbody>
               </table>
+              )}
+              {hasNoMatchingSubmissions && (
+                <div className={classes.emptyStateRegion}>
+                  <MdOutlineSearchOff
+                    className={classes.emptyStateIcon}
+                    aria-hidden="true"
+                  />
+                  <div className={classes.emptyStatePrimary}>
+                    No TDM Plans with that search/filter/sort criteria
+                  </div>
+                </div>
+              )}
               {hasNoSubmissions && (
                 <div className={classes.emptyStateRegion}>
                   <div className={classes.emptyStatePrimary}>
