@@ -334,7 +334,11 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       newSortCriteria.push({ field: "dateSnapshotted", direction: order });
     } else {
       newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
-      newSortCriteria.push({ field: orderBy, direction: order });
+      if (order !== null) {
+        // if order === null, removing this property from sort criteria,
+        // otherwise, adding the new sort criteria
+        newSortCriteria.push({ field: orderBy, direction: order });
+      }
     }
 
     // save to local storagr

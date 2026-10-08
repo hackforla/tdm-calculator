@@ -57,9 +57,9 @@ const DatePopup = ({
       [header.startDatePropertyName]: newStartDate,
       [header.endDatePropertyName]: newEndDate
     });
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
+
+    setSort(header.id, newOrder);
+
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
     close();
