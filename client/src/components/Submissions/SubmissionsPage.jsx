@@ -653,9 +653,10 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                       </tr>
                     ))
                   ) : submissionsStatus === "success" && !hasNoSubmissions ? (
+                    // The account still has submissions. Search or a column filter hid every row.
                     <tr>
                       <td colSpan={9} className={classes.tdNoSavedProjects}>
-                        No Saved Projects
+                        No TDM Plans with that search/filter/sort criteria
                       </td>
                     </tr>
                   ) : null}
