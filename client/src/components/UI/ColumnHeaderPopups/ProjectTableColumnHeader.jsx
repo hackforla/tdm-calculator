@@ -77,11 +77,11 @@ const ColumnHeader = React.forwardRef((props, ref) => {
       <span style={{ marginRight: "0.5rem" }}>{header.label}</span>
       {orderByOrdinal ? <span>{orderByOrdinal}</span> : null}
 
-      {order === "asc" ? (
+      {order === "asc" && orderByOrdinal ? (
         <MdOutlineSwitchRight className={classes.sortIcon} />
-      ) : (
+      ) : orderByOrdinal ? (
         <MdOutlineSwitchLeft className={classes.sortIcon} />
-      )}
+      ) : null}
 
       <MdOutlineFilterAlt
         className={`${classes.iconFilter} ${isFilterApplied() ? "active" : ""}`}
