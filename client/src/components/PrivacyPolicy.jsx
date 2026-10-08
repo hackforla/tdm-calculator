@@ -106,8 +106,8 @@ const PrivacyPolicy = () => {
 
           <h2 style={{ fontWeight: "bold" }}>Overview</h2>
           <p className={classes.indented}>
-            We allow for users to Create accounts and to save projects and save
-            that information within our databases. We may collect information
+            We allow for users to create accounts and to save TDM Plans and
+            project information within our databases. We may collect information
             from you when you visit and take actions on our website. We use this
             information to provide the services you&#39;ve requested. We utilize
             cookies (such as those stored by Google Analytics) to provide a
@@ -196,43 +196,38 @@ const PrivacyPolicy = () => {
           </div>
 
           <h3 className={classes.sectionSpacingIndented}>
-            Saving projects account at <span> </span>
+            Saving TDM Plans account at <span> </span>
             <a href="https://tdm.ladot.lacity.org ">
               https://tdm.ladot.lacity.org
             </a>{" "}
           </h3>
 
           <p className={`${classes.indented} ${classes.spacedParagraph}`}>
-            All saved projects will be saved with all the inputs filled out as
+            All saved TDM Plans will be saved with all the inputs filled out as
             well as with name of the user creating it
           </p>
 
           <p className={classes.indented}>
-            Approve “admin accounts” will be able to view but not edit user
-            projects, and will be able to see the name of the user who created
-            the account. No other account information will be viewable
+            Admin accounts will be able to view but not edit user TDM Plans, and
+            will be able to see the name of the user who created the account. No
+            other account information will be viewable
           </p>
 
           <h3 className={classes.sectionSpacingIndented}>
-            Filling in Webforms such as Contact Us
+            Filling in Webforms such as Feedback.
           </h3>
-
           <p className={`${classes.indented} ${classes.spacedParagraph}`}>
-            We have a form for feedback.
+            When you submit the Feedback form, your Username, email address,
+            subject line, comment, and any TDM Plan IDs you select will be sent
+            to will be sent to the Los Angeles Department of Transportation
+            staff.
           </p>
           <p className={`${classes.indented} ${classes.spacedParagraph}`}>
-            When you submit the contact us form, your comment, and any other
-            data you submit, will be sent to Hack for LA and the City of Los
-            Angeles to be stored as part of the public record. The data included
-            here is limited to the fields filled out in the form, which includes
-            the user’s name, e-mail address, and comment.
+            No other user data such as passwords will be included.
           </p>
           <p className={`${classes.indented} ${classes.spacedParagraph}`}>
-            No other user data such as logins, passwords, or saved projects will
-            be included.
-          </p>
-          <p className={`${classes.indented} ${classes.spacedParagraph}`}>
-            Any questions you submit may be displayed in a FAQ document or page.
+            Any questions you submit may be displayed in a FAQ document or page
+            after they are anonymized.
           </p>
           <p className={classes.indented}>
             We use the personal data we collect to understand how people ask us
