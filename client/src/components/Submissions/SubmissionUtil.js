@@ -20,6 +20,7 @@ export const ascCompareBy = (a, b, orderBy, calculations) => {
   } else if (
     orderBy === "dateSubmitted" ||
     orderBy === "dateCreated" ||
+    orderBy === "dateModified" ||
     orderBy === "dateStatus" ||
     orderBy === "dateAssigned" ||
     orderBy === "dateInvoicePaid" ||

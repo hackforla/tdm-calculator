@@ -1,41 +1,121 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import { formatDatetime, formatId } from "../../helpers/util";
+import { ascCompareBy } from "../Submissions/SubmissionUtil";
+import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
+import { Td, TdExpandable } from "../UI/TableData";
+
+const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
+const DEFAULT_FILTER_CRITERIA = {
+  idFormattedList: [],
+  nameList: [],
+  projectNameList: [],
+  addressList: [],
+  startDateCreated: null,
+  endDateCreated: null,
+  startDateModified: null,
+  endDateModified: null,
+  startDateSubmitted: null,
+  endDateSubmitted: null
+};
 
 const useStyles = createUseStyles(theme => ({
   heading3: { ...theme.heading3, textAlign: "center" },
   table: {
+    minWidth: "81rem",
+    width: "100%",
+    tableLayout: "fixed"
+  },
+  tr: {
+    margin: "0.5em"
+  },
+  thead: {
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
+    fontWeight: "bold",
+    backgroundColor: theme.colorDarkNavy,
+    color: theme.colorWhite,
+    "& th": {
+      padding: "4px 12px"
+    },
+    "& th:first-child > div": {
+      justifyContent: "center"
+    }
+  },
+  tbody: {
+    background: "#F9FAFB",
+    "& tr": {
+      borderBottom: "1px solid #E7EBF0"
+    },
+    "& tr td": {
+      padding: "12px",
+      verticalAlign: "top"
+    },
+    "& tr:hover": {
+      background: theme.colorRowHighlight
+    }
+  },
+  tdNoProjects: {
+    textAlign: "center"
+  },
+  tableContainer: {
     overflow: "auto",
-    marginLeft: "auto",
-    marginRight: "auto"
-  },
-  tableHead: {
-    textAlign: "left",
-    fontWeight: "600"
-  },
-  checkboxCell: {
-    padding: "0em 1em 0.4rem 0em",
-    width: "1rem",
-    minWidth: "1rem",
-    maxWidth: "1rem"
-  },
-  textCell: {
-    padding: "0em 1em 0.4rem 0em",
-    width: "20rem",
-    minWidth: "20rem",
-    maxWidth: "25rem",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
-  },
-  dateCell: {
-    padding: "0em 1em 0.4rem 0em",
-    width: "10rem",
-    minWidth: "10rem",
-    maxWidth: "10rem"
+    maxHeight: "30rem"
   }
 }));
+
+const getDateOnly = date => {
+  const dateOnly = new Date(date).toDateString();
+  return new Date(dateOnly);
+};
+
+const getAddress = formInputs => {
+  try {
+    return JSON.parse(formInputs)["PROJECT_ADDRESS"] || "";
+  } catch {
+    return "";
+  }
+};
+
+const matchesList = (list, value) =>
+  !list?.length ||
+  list.map(n => n.toLowerCase()).includes((value || "").toLowerCase());
+
+const matchesDateRange = (value, start, end) => {
+  if (start && (!value || getDateOnly(value) < getDateOnly(start)))
+    return false;
+  if (end && (!value || getDateOnly(value) > getDateOnly(end))) return false;
+  return true;
+};
+
+const filter = (p, criteria) =>
+  matchesList(criteria.idFormattedList, p.idFormatted) &&
+  matchesList(criteria.nameList, p.name) &&
+  matchesList(criteria.projectNameList, p.projectName) &&
+  matchesList(criteria.addressList, p.address) &&
+  matchesDateRange(
+    p.dateCreated,
+    criteria.startDateCreated,
+    criteria.endDateCreated
+  ) &&
+  matchesDateRange(
+    p.dateModified,
+    criteria.startDateModified,
+    criteria.endDateModified
+  ) &&
+  matchesDateRange(
+    p.dateSubmitted,
+    criteria.startDateSubmitted,
+    criteria.endDateSubmitted
+  );
+
+const getComparator = (order, orderBy) => {
+  return order === "asc"
+    ? (a, b) => ascCompareBy(a, b, orderBy)
+    : (a, b) => -ascCompareBy(a, b, orderBy);
+};
 
 const ProjectsList = ({
   projects,
@@ -44,87 +124,197 @@ const ProjectsList = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
-  const [augmentedProjects, setAugmentedProjects] = useState(
-    projects.map(project => ({
-      ...project,
-      isSelected: selectedProjectIds.includes(project.id)
-    }))
+  const [sortCriteria, setSortCriteria] = useState(DEFAULT_SORT_CRITERIA);
+  const [filterCriteria, setFilterCriteria] = useState(DEFAULT_FILTER_CRITERIA);
+
+  const augmentedProjects = useMemo(
+    () =>
+      projects.map(project => ({
+        ...project,
+        idFormatted: formatId(project.id),
+        address: getAddress(project.formInputs)
+      })),
+    [projects]
   );
 
-  const onSelect = event => {
-    const value = event.target.checked;
-    const id = Number(event.target.name);
+  const sortedProjects = augmentedProjects.filter(p =>
+    filter(p, filterCriteria)
+  );
+  for (let i = 0; i < sortCriteria.length; i++) {
+    sortedProjects.sort(
+      getComparator(sortCriteria[i].direction, sortCriteria[i].field)
+    );
+  }
 
-    setAugmentedProjects(prev => {
-      return prev
-        .map(p => {
-          if (p.id === id) {
-            return { ...p, isSelected: value };
-          }
-          return p;
-        })
-        .sort((a, b) => {
-          return a.dateModified > b.dateModified ? 1 : -1;
-        });
-    });
-
-    setSelectedProjectIds(prev => {
-      if (value) {
-        return [...prev, id];
-      }
-      return prev.filter(p => p != id);
-    });
+  const setSort = (orderBy, order) => {
+    const newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
+    newSortCriteria.push({ field: orderBy, direction: order });
+    setSortCriteria(newSortCriteria);
   };
+
+  const filteredIds = sortedProjects.map(p => p.id);
+  const allFilteredSelected =
+    filteredIds.length > 0 &&
+    filteredIds.every(id => selectedProjectIds.includes(id));
+
+  const handleCheckboxChange = id => {
+    setSelectedProjectIds(prev =>
+      prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
+    );
+  };
+
+  const handleHeaderCheckbox = () => {
+    setSelectedProjectIds(prev =>
+      allFilteredSelected
+        ? prev.filter(id => !filteredIds.includes(id))
+        : [...new Set([...prev, ...filteredIds])]
+    );
+  };
+
+  const headerData = [
+    {
+      id: "checkAllProjects",
+      label: (
+        <div style={{ overflow: "visible" }}>
+          <label htmlFor="SelectAllFeedbackProjects" className="sr-only">
+            Select All TDM Plans
+          </label>
+          <input
+            style={{
+              position: "relative",
+              top: "0.2rem",
+              padding: "0",
+              height: "15px"
+            }}
+            id="SelectAllFeedbackProjects"
+            type="checkbox"
+            checked={allFilteredSelected}
+            onChange={handleHeaderCheckbox}
+          />
+        </div>
+      ),
+      colWidth: "3rem"
+    },
+    {
+      id: "idFormatted",
+      label: "ID",
+      popupType: "string",
+      colWidth: "8rem"
+    },
+    {
+      id: "name",
+      label: "TDM Plan",
+      popupType: "string",
+      colWidth: "16rem"
+    },
+    {
+      id: "projectName",
+      label: "Development Project Name",
+      popupType: "string",
+      colWidth: "16rem"
+    },
+    {
+      id: "address",
+      label: "Address",
+      popupType: "string",
+      colWidth: "18rem"
+    },
+    {
+      id: "dateCreated",
+      label: "Created On",
+      popupType: "datetime",
+      startDatePropertyName: "startDateCreated",
+      endDatePropertyName: "endDateCreated",
+      colWidth: "12rem"
+    },
+    {
+      id: "dateModified",
+      label: "Last Saved",
+      popupType: "datetime",
+      startDatePropertyName: "startDateModified",
+      endDatePropertyName: "endDateModified",
+      colWidth: "12rem"
+    },
+    {
+      id: "dateSubmitted",
+      label: "Submitted",
+      popupType: "datetime",
+      startDatePropertyName: "startDateSubmitted",
+      endDatePropertyName: "endDateSubmitted",
+      colWidth: "12rem"
+    }
+  ];
 
   return (
     <div>
       <h3 className={classes.heading3}>Select Relevant TDM Plans</h3>
-      <table className={classes.table}>
-        <thead>
-          <tr>
-            <th></th>
-            <th className={classes.tableHead}>Id</th>
-            <th className={classes.tableHead}>TDM Plan Name</th>
-            <th className={classes.tableHead}>Development Project Name</th>
-            <th className={classes.tableHead}>Address</th>
-            <th className={classes.tableHead}>Date Entered</th>
-            <th className={classes.tableHead}>Date Saved</th>
-            <th className={classes.tableHead}>Date Submitted</th>
-          </tr>
-        </thead>
-        <tbody>
-          {augmentedProjects.map(project => (
-            <tr key={project.id}>
-              <td className={classes.checkboxCell}>
-                <input
-                  type="checkbox"
-                  style={{ verticalAlign: "bottom" }}
-                  value={false}
-                  checked={project.isSelected}
-                  onChange={onSelect}
-                  name={project.id}
-                  id={project.id}
-                />
-              </td>
-              <td className={classes.dateCell}>{formatId(project.id)}</td>
-              <td className={classes.textCell}>{project.name}</td>
-              <td className={classes.textCell}>{project.projectName}</td>
-              <td className={classes.textCell}>
-                {JSON.parse(project.formInputs)["PROJECT_ADDRESS"]}
-              </td>
-              <td className={classes.dateCell}>
-                {formatDatetime(project.dateCreated)}
-              </td>
-              <td className={classes.dateCell}>
-                {formatDatetime(project.dateModified)}
-              </td>
-              <td className={classes.dateCell}>
-                {formatDatetime(project.dateSubmitted)}
-              </td>
+      <div className={classes.tableContainer}>
+        <table className={classes.table}>
+          <colgroup>
+            {headerData.map(h => (
+              <col key={h.id} width={h.colWidth} />
+            ))}
+          </colgroup>
+          <thead className={classes.thead}>
+            <tr className={classes.tr}>
+              {headerData.map(header => (
+                <th key={header.id}>
+                  <ProjectTableColumnHeader
+                    projects={augmentedProjects}
+                    filter={filter}
+                    header={header}
+                    criteria={filterCriteria}
+                    setCriteria={setFilterCriteria}
+                    setSort={setSort}
+                    orderBy={sortCriteria[sortCriteria.length - 1].field}
+                    order={sortCriteria[sortCriteria.length - 1].direction}
+                    setCheckedProjectIds={null}
+                    setSelectAllChecked={null}
+                  />
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className={classes.tbody}>
+            {sortedProjects.length ? (
+              sortedProjects.map(project => (
+                <tr key={project.id}>
+                  <Td align="center">
+                    <label
+                      htmlFor={`feedbackProject-${project.id}`}
+                      className="sr-only"
+                    >
+                      Select {project.name}
+                    </label>
+                    <input
+                      type="checkbox"
+                      id={`feedbackProject-${project.id}`}
+                      checked={selectedProjectIds.includes(project.id)}
+                      onChange={() => handleCheckboxChange(project.id)}
+                    />
+                  </Td>
+                  <Td>{project.idFormatted}</Td>
+                  <TdExpandable>{project.name}</TdExpandable>
+                  <TdExpandable>{project.projectName}</TdExpandable>
+                  <TdExpandable>{project.address}</TdExpandable>
+                  <Td>{formatDatetime(project.dateCreated)}</Td>
+                  <Td>{formatDatetime(project.dateModified)}</Td>
+                  <Td>{formatDatetime(project.dateSubmitted)}</Td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={headerData.length}
+                  className={classes.tdNoProjects}
+                >
+                  No TDM Plans match the current filters
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
@@ -143,7 +333,8 @@ ProjectsList.propTypes = {
       id: PropTypes.number,
       lastName: PropTypes.string,
       loginId: PropTypes.number,
-      name: PropTypes.string
+      name: PropTypes.string,
+      projectName: PropTypes.string
     })
   ),
   selectedProjectIds: PropTypes.array.isRequired,

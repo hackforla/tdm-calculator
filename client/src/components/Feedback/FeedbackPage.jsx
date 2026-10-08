@@ -134,6 +134,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
       if (response.status === 201) {
         toast.add("Comment delivered successfully");
         resetForm({});
+        setSelectedProjectIds([]);
       }
     } catch (err) {
       toast.add(
@@ -248,7 +249,6 @@ const FeedbackPage = ({ contentContainerRef }) => {
 
               {account && account.id && projects.length !== 0 ? (
                 <ProjectList
-                  key={JSON.stringify(projects, null, 2)}
                   projects={projects}
                   selectedProjectIds={selectedProjectIds}
                   setSelectedProjectIds={setSelectedProjectIds}
