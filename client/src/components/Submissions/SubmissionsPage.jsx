@@ -2,7 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "../../contexts/UserContext";
-import { ascCompareBy, filter } from "./SubmissionUtil";
+import CalculationsContext from "../../contexts/CalculationsContext";
+import {
+  ascCompareBy,
+  filter as filterProjects
+} from "../Projects/ColumnHeaderPopups/Helpers";
 import { Link } from "react-router-dom";
 import { MdOutlineSearch, MdCheck } from "react-icons/md";
 import Pagination from "../UI/Pagination";
@@ -217,6 +221,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
+  const calculations = useContext(CalculationsContext);
   const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
 
   const [projects, setProjects] = useState([]);
@@ -325,9 +330,15 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   };
 
   const getComparator = (order, orderBy) => {
-    return order === "asc"
-      ? (a, b) => ascCompareBy(a, b, orderBy)
-      : (a, b) => -ascCompareBy(a, b, orderBy);
+    return (a, b) => {
+      const result = ascCompareBy(a, b, orderBy, calculations);
+
+      if (orderBy === "calculationId") {
+        return order === "asc" ? -result : result;
+      }
+
+      return order === "asc" ? result : -result;
+    };
   };
 
   const setSort = (orderBy, order, isStatus = false) => {
@@ -363,6 +374,17 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     });
     setCurrentPage(1);
   };
+
+  const fullTextHeaders = [
+    "name",
+    "address",
+    "assignee",
+    "description",
+    "alternative"
+  ];
+
+  const filter = (p, criteria) =>
+    filterProjects(p, criteria, calculations, fullTextHeaders);
 
   const resetFiltersSort = () => {
     setFilter(DEFAULT_FILTER_CRITERIA);
@@ -537,14 +559,15 @@ const SubmissionsPage = ({ contentContainerRef }) => {
             >
               <div className={classes.searchBarWrapper}>
                 <label htmlFor="filterText" className="sr-only">
-                  Search Project By Name, Address, Description, Alt#
+                  Search Project By TDM Plan Name, Address, Description, Staff
+                  Assigned
                 </label>
                 <input
                   className={classes.searchBar}
                   type="search"
                   id="filterText"
                   name="filterText"
-                  placeholder="Search by Project Name; Address; Staff Assigned"
+                  placeholder="Search by TDM Plan Name; Address; Description; Staff Assigned"
                   value={filterCriteria.filterText}
                   onChange={e => handleFilterTextChange(e.target.value)}
                 />
