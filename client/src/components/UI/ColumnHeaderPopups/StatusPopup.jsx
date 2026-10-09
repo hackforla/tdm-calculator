@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({
@@ -17,7 +17,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const VisibilityPopup = ({
+const StatusPopup = ({
   close,
   header,
   criteria,
@@ -35,30 +35,28 @@ const VisibilityPopup = ({
     header.id !== orderBy ? null : order
   );
 
-  const [visibilitySetting, setVisibilitySetting] = useState(
-    criteria.visibility
-  );
+  const [typeSetting, setTypeSetting] = useState(criteria.type);
 
   const setDefault = () => {
-    setVisibilitySetting("visible");
+    setTypeSetting("all");
     setCriteria({
       ...criteria,
-      visibility: "visible"
+      type: "all"
     });
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
   };
 
   const applyChanges = () => {
+    // Set Criteria for status
     setCriteria({
       ...criteria,
-      visibility: visibilitySetting
+      type: typeSetting
     });
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
-    setCheckedProjectIds([]);
-    setSelectAllChecked(false);
+    setSort("dateSnapshotted", newOrder, true);
+
+    if (setCheckedProjectIds) setCheckedProjectIds([]);
+    if (setSelectAllChecked) setSelectAllChecked(false);
     close();
   };
 
@@ -77,15 +75,15 @@ const VisibilityPopup = ({
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        {/* If there is a dateHidden, property value is 1 */}
+        {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
         <RadioButton
-          label="Sort Visible First"
+          label="Sort Drafts First"
           value="asc"
-          checked={newOrder === "asc"}
+          checked={newOrder == "asc"}
           onChange={() => setNewOrder("asc")}
         />
         <RadioButton
-          label="Sort Hidden First"
+          label="Sort Snapshots First"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
@@ -95,26 +93,25 @@ const VisibilityPopup = ({
       <div style={{ display: "flex", flexDirection: "column" }}>
         {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
         <RadioButton
-          label="Visible"
-          value="visible"
-          checked={visibilitySetting == "visible"}
-          onChange={() => setVisibilitySetting("visible")}
+          label="Drafts"
+          value="draft"
+          checked={typeSetting == "draft"}
+          onChange={() => setTypeSetting("draft")}
         />
         <RadioButton
-          label="Hidden"
-          value="hidden"
-          checked={visibilitySetting === "hidden"}
-          onChange={() => setVisibilitySetting("hidden")}
+          label="Snapshots"
+          value="snapshot"
+          checked={typeSetting === "snapshot"}
+          onChange={() => setTypeSetting("snapshot")}
         />
         <RadioButton
           label="All"
           value="all"
-          checked={visibilitySetting === "all"}
-          onChange={() => setVisibilitySetting("all")}
+          checked={typeSetting === "all"}
+          onChange={() => setTypeSetting("all")}
         />
+        <hr style={{ width: "100%" }} />
       </div>
-
-      <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
         <Button onClick={setDefault} variant="secondary">
           Reset
@@ -127,7 +124,7 @@ const VisibilityPopup = ({
   );
 };
 
-VisibilityPopup.propTypes = {
+StatusPopup.propTypes = {
   close: PropTypes.func,
   header: PropTypes.any,
   criteria: PropTypes.any,
@@ -139,4 +136,4 @@ VisibilityPopup.propTypes = {
   setSelectAllChecked: PropTypes.func
 };
 
-export default VisibilityPopup;
+export default StatusPopup;

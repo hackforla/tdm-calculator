@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import { selectAllCheckboxes } from "helpers/util";
-
-/*
-Variant of the TextPopup that gets rid of all the quirky accommodation of dro and author filtering used on the My Projects Page
-*/
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -157,10 +153,7 @@ const StringPopup = ({
       ...criteria,
       [header.id + "List"]: selectedValues
     });
-
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
+    setSort(header.id, newOrder);
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
     close();

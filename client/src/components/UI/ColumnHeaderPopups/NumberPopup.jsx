@@ -1,17 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
-import UserContext from "contexts/UserContext";
 import { selectAllCheckboxes } from "helpers/util";
-
-/* This ColunHeaderPopup is almost the samse as StringPopup, except that it has a few
-special features that apply specifically to people, like checking to see if the name
-matches the logged in user, and displaying "(Me)" next to the name. */
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -67,12 +62,11 @@ const useStyles = createUseStyles(theme => ({
     cursor: "pointer",
     textDecoration: "underline",
     display: "flex",
-    fontWeight: "normal",
-    color: theme.colorDarkNavy
+    fontWeight: "normal"
   }
 }));
 
-const UserPopup = ({
+const NumberPopup = ({
   projects,
   filter,
   close,
@@ -85,16 +79,13 @@ const UserPopup = ({
   setCheckedProjectIds,
   setSelectAllChecked
 }) => {
+  const property = header.id;
   const theme = useTheme();
   const classes = useStyles(theme);
-  const userContext = useContext(UserContext);
-  const property = header.id;
-  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
-
   const [selectedListItems, setSelectedListItems] = useState(
     (criteria[header.id + "List"] || []).map(s => ({
       value: s,
@@ -104,46 +95,28 @@ const UserPopup = ({
   const [searchString, setSearchString] = useState("");
 
   const initiallyChecked = o => criteria[header.id + "List"].includes(o);
-
   // To build the drop-down list, we want to apply all the criteria that
   // are currently selected EXCEPT the criteria we are currently editing.
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
-  // const property = header.id == "author" ? "fullname" : header.id;
 
-  let selectOptions;
-  let hasLoggedInUserInList = false;
-  selectOptions = [
-    ...new Set(
-      filteredProjects.map(p => {
-        const name = p[property];
-        if (name === loggedInUserName) {
-          hasLoggedInUserInList = true;
-        }
-        return name;
-      })
-    )
-  ]
-    .filter(value => value !== null && value !== loggedInUserName)
-    .sort((a, b) => {
-      return a.localeCompare(b, "en", { sensitivity: "base" });
-    })
+  const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
+    .filter(value => value !== null && value !== "")
+    .toSorted()
     .sort(
       (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
     );
 
-  if (hasLoggedInUserInList) selectOptions.unshift(loggedInUserName);
-
   const filteredOptions = selectOptions
-    .filter(o => !!o)
-    .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
+    .filter(o => o !== null)
+    .filter(opt => opt.toString().includes(searchString));
 
   const onChangeSearchString = e => {
     setSearchString(e.target.value);
   };
 
   const handleCheckboxChange = e => {
-    const optionValue = e.target.name;
+    const optionValue = Number(e.target.name);
     if (!e.target.checked) {
       const newSelectedListItems = selectedListItems.filter(
         selectedOption => selectedOption.value !== optionValue
@@ -172,10 +145,7 @@ const UserPopup = ({
       ...criteria,
       [header.id + "List"]: selectedValues
     });
-
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
+    setSort(header.id, newOrder);
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
     close();
@@ -190,12 +160,7 @@ const UserPopup = ({
 
   return (
     <div className={classes.container}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end"
-        }}
-      >
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <CloseBox
           onClick={close}
           aria-label="Close popup"
@@ -204,13 +169,13 @@ const UserPopup = ({
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <RadioButton
-          label="Sort A-Z"
+          label="Sort Ascending"
           value="asc"
           checked={newOrder === "asc"}
           onChange={() => setNewOrder("asc")}
         />
         <RadioButton
-          label="Sort Z-A"
+          label="Sort Descending"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
@@ -253,14 +218,12 @@ const UserPopup = ({
         />
         <MdOutlineSearch className={classes.searchIcon} alt="Search Icon" />
       </div>
-
       <div style={{ overflow: "auto", maxHeight: "12rem" }}>
         {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
         {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
 
         {filteredOptions.map(o => {
           const checked = isChecked(o);
-
           return (
             <div key={o} className={classes.listItem}>
               <ToggleCheckbox
@@ -275,7 +238,7 @@ const UserPopup = ({
                 }
                 label={o}
               />
-              <span>{o === loggedInUserName ? `${o} (Me)` : o}</span>
+              <span>{o}</span>
             </div>
           );
         })}
@@ -294,7 +257,7 @@ const UserPopup = ({
   );
 };
 
-UserPopup.propTypes = {
+NumberPopup.propTypes = {
   projects: PropTypes.any,
   filter: PropTypes.func,
   close: PropTypes.func,
@@ -305,7 +268,8 @@ UserPopup.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func
+  setSelectAllChecked: PropTypes.func,
+  droOptions: PropTypes.array
 };
 
-export default UserPopup;
+export default NumberPopup;

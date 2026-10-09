@@ -10,10 +10,14 @@ import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
 import * as accountService from "../../services/account.service";
-import { ascCompareBy, filter } from "./SubmissionUtil";
+import {
+  ascCompareBy,
+  filter as filterProjects,
+  getSortOrdinal
+} from "../UI/ColumnHeaderPopups/Helpers";
 
 import UniversalSelect from "../UI/UniversalSelect";
-import ProjectTableColumnHeader from "../Projects/ColumnHeaderPopups/ProjectTableColumnHeader";
+import ProjectTableColumnHeader from "../UI/ColumnHeaderPopups/ProjectTableColumnHeader";
 import SubmissionTableRow from "./SubmissionTableRow";
 import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
@@ -51,6 +55,7 @@ const DEFAULT_FILTER_CRITERIA = {
   startDateModifiedAdmin: null,
   endDateModifiedAdmin: null,
   onHold: null,
+  targetPointsMet: null,
   calculationIdList: []
 };
 
@@ -195,10 +200,6 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     MANAGE_SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
     DEFAULT_FILTER_CRITERIA
   );
-  //  const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
-  //    MANAGE_SUBMISSIONS_FILTER_CRITERIA_STORAGE_TAG,
-  //    DEFAULT_FILTER_CRITERIA
-  //  );
   const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
     MANAGE_SUBMISSIONS_SORT_CRITERIA_STORAGE_TAG,
     DEFAULT_SORT_CRITERIA
@@ -333,7 +334,11 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       newSortCriteria.push({ field: "dateSnapshotted", direction: order });
     } else {
       newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
-      newSortCriteria.push({ field: orderBy, direction: order });
+      if (order !== null) {
+        // if order === null, removing this property from sort criteria,
+        // otherwise, adding the new sort criteria
+        newSortCriteria.push({ field: orderBy, direction: order });
+      }
     }
 
     // save to local storagr
@@ -354,6 +359,11 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     });
     setCurrentPage(1);
   };
+
+  const fullTextHeaders = ["name", "author", "assignee"];
+
+  const filter = (p, criteria) =>
+    filterProjects(p, criteria, calculations, fullTextHeaders);
 
   const resetFiltersSort = () => {
     setFilter(DEFAULT_FILTER_CRITERIA);
@@ -399,7 +409,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       id: "projectLevel",
       label: "Level",
       popupType: "number",
-      colWidth: "8rem"
+      colWidth: "9rem"
     },
     { id: "droName", label: "DRO", popupType: "stringList", colWidth: "10rem" },
     {
@@ -408,7 +418,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateSubmitted",
       endDatePropertyName: "endDateSubmitted",
-      colWidth: "10rem"
+      colWidth: "12rem"
     },
     {
       id: "assignee",
@@ -457,13 +467,13 @@ const ManageSubmissions = ({ contentContainerRef }) => {
       popupType: "datetime",
       startDatePropertyName: "startDateCoO",
       endDatePropertyName: "endDateCoO",
-      colWidth: "10rem"
+      colWidth: "12rem"
     },
     {
       id: "calculationId",
       label: "Guidelines Version",
       popupType: "version",
-      colWidth: "10rem"
+      colWidth: "12rem"
     },
     {
       id: "targetPointsMet",
@@ -550,7 +560,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                   type="search"
                   id="filterText"
                   name="filterText"
-                  placeholder="Search by Project Name, Created By, Assignee"
+                  placeholder="Search by TDM Plan Name, Created By, Staff Assigned"
                   value={filterCriteria.filterText}
                   onChange={e => handleFilterTextChange(e.target.value)}
                 />
@@ -607,6 +617,10 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                             order={
                               sortCriteria[sortCriteria.length - 1].direction
                             }
+                            orderByOrdinal={getSortOrdinal(
+                              header,
+                              sortCriteria
+                            )}
                             setCheckedProjectIds={null}
                             setSelectAllChecked={null}
                             droOptions={null}

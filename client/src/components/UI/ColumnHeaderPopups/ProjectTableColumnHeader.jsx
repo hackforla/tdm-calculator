@@ -23,7 +23,7 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colorWhite,
     flexShrink: 0,
     fontSize: "1.2rem",
-    marginLeft: "0.2rem",
+    marginLeft: "0rem",
     marginRight: "0.72rem",
     "&.active": {
       borderBottom: "1px solid #fff"
@@ -39,7 +39,8 @@ const useStyles = createUseStyles(theme => ({
     fontSize: "1.2rem",
     transform: "rotate(90deg)",
     flexShrink: 0,
-    marginLeft: "0.2rem"
+    marginLeft: "-0.1rem",
+    marginRight: "-0.2rem"
   },
   reactTinyPopoverContainer: {
     color: "orange"
@@ -60,6 +61,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const ColumnHeader = React.forwardRef((props, ref) => {
+  const { header, order, orderByOrdinal, isFilterApplied, onClick } = props;
   const theme = useTheme();
   const classes = useStyles(theme);
 
@@ -67,20 +69,22 @@ const ColumnHeader = React.forwardRef((props, ref) => {
     <div
       ref={ref}
       style={{
-        display: "flex"
+        display: "flex",
+        alignItems: "top"
       }}
-      onClick={props.onClick}
+      onClick={onClick}
     >
-      <span>{props.header.label}</span>
-      {props.orderBy === props.header.id ? (
-        props.order === "asc" ? (
-          <MdOutlineSwitchRight className={classes.sortIcon} />
-        ) : (
-          <MdOutlineSwitchLeft className={classes.sortIcon} />
-        )
+      <span style={{ marginRight: "0.5rem" }}>{header.label}</span>
+      {orderByOrdinal ? <span>{orderByOrdinal}</span> : null}
+
+      {order === "asc" && orderByOrdinal ? (
+        <MdOutlineSwitchRight className={classes.sortIcon} />
+      ) : orderByOrdinal ? (
+        <MdOutlineSwitchLeft className={classes.sortIcon} />
       ) : null}
+
       <MdOutlineFilterAlt
-        className={`${classes.iconFilter} ${props.isFilterApplied() ? "active" : ""}`}
+        className={`${classes.iconFilter} ${isFilterApplied() ? "active" : ""}`}
         alt={`Show column filter and sort popup`}
       />
     </div>
@@ -94,7 +98,8 @@ ColumnHeader.propTypes = {
   header: PropTypes.any,
   isFilterApplied: PropTypes.func,
   order: PropTypes.string,
-  orderBy: PropTypes.string
+  orderBy: PropTypes.string,
+  orderByOrdinal: PropTypes.number
 };
 
 const ProjectTableColumnHeader = ({
@@ -105,6 +110,7 @@ const ProjectTableColumnHeader = ({
   setCriteria,
   order,
   orderBy,
+  orderByOrdinal,
   setSort,
   setCheckedProjectIds,
   setSelectAllChecked,
@@ -382,6 +388,7 @@ const ProjectTableColumnHeader = ({
             isFilterApplied={() => isFilterApplied()}
             order={order}
             orderBy={orderBy}
+            orderByOrdinal={orderByOrdinal}
           ></ColumnHeader>
         </Popover>
       ) : header.label ? (
@@ -401,6 +408,7 @@ ProjectTableColumnHeader.propTypes = {
   setCriteria: PropTypes.func,
   order: PropTypes.string,
   orderBy: PropTypes.string,
+  orderByOrdinal: PropTypes.number,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
   setSelectAllChecked: PropTypes.func

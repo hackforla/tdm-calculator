@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { createUseStyles, useTheme } from "react-jss";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import "react-datepicker/dist/react-datepicker.css";
-import DateRangePicker from "../../UI/DateRangePicker";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
+import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -19,7 +17,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const DatePopup = ({
+const VisibilityPopup = ({
   close,
   header,
   criteria,
@@ -36,17 +34,17 @@ const DatePopup = ({
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
-  const [newStartDate, setNewStartDate] = useState(
-    criteria[header.startDatePropertyName]
-  );
-  const [newEndDate, setNewEndDate] = useState(
-    criteria[header.endDatePropertyName]
+
+  const [visibilitySetting, setVisibilitySetting] = useState(
+    criteria.visibility
   );
 
   const setDefault = () => {
-    setNewStartDate(null);
-    setNewEndDate(null);
-    setNewOrder(null);
+    setVisibilitySetting("visible");
+    setCriteria({
+      ...criteria,
+      visibility: "visible"
+    });
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
   };
@@ -54,20 +52,23 @@ const DatePopup = ({
   const applyChanges = () => {
     setCriteria({
       ...criteria,
-      [header.startDatePropertyName]: newStartDate,
-      [header.endDatePropertyName]: newEndDate
+      visibility: visibilitySetting
     });
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
-    if (setCheckedProjectIds) setCheckedProjectIds([]);
-    if (setSelectAllChecked) setSelectAllChecked(false);
+    setSort(header.id, newOrder);
+
+    setCheckedProjectIds([]);
+    setSelectAllChecked(false);
     close();
   };
 
   return (
     <div className={classes.container}>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+      >
         <CloseBox
           onClick={close}
           aria-label="Close popup"
@@ -75,32 +76,40 @@ const DatePopup = ({
         />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
+        {/* If there is a dateHidden, property value is 1 */}
         <RadioButton
-          label="Sort Newest to Oldest"
-          value="desc"
-          checked={newOrder === "desc"}
-          onChange={() => setNewOrder("desc")}
-        />
-        <RadioButton
-          label="Sort Oldest to Newest"
+          label="Sort Visible First"
           value="asc"
           checked={newOrder === "asc"}
           onChange={() => setNewOrder("asc")}
         />
+        <RadioButton
+          label="Sort Hidden First"
+          value="desc"
+          checked={newOrder === "desc"}
+          onChange={() => setNewOrder("desc")}
+        />
         <hr style={{ width: "100%" }} />
       </div>
-      <div id="calendarPortal">
-        <DateRangePicker
-          startDate={newStartDate}
-          endDate={newEndDate}
-          setStartDate={date => {
-            setNewStartDate(date);
-          }}
-          setEndDate={date => {
-            setNewEndDate(date);
-          }}
-          startDatePlaceholder="Start Date"
-          endDatePlaceholder="End Date"
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
+        <RadioButton
+          label="Visible"
+          value="visible"
+          checked={visibilitySetting == "visible"}
+          onChange={() => setVisibilitySetting("visible")}
+        />
+        <RadioButton
+          label="Hidden"
+          value="hidden"
+          checked={visibilitySetting === "hidden"}
+          onChange={() => setVisibilitySetting("hidden")}
+        />
+        <RadioButton
+          label="All"
+          value="all"
+          checked={visibilitySetting === "all"}
+          onChange={() => setVisibilitySetting("all")}
         />
       </div>
 
@@ -117,7 +126,7 @@ const DatePopup = ({
   );
 };
 
-DatePopup.propTypes = {
+VisibilityPopup.propTypes = {
   close: PropTypes.func,
   header: PropTypes.any,
   criteria: PropTypes.any,
@@ -129,4 +138,4 @@ DatePopup.propTypes = {
   setSelectAllChecked: PropTypes.func
 };
 
-export default DatePopup;
+export default VisibilityPopup;

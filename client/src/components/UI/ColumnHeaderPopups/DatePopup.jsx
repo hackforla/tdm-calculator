@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
-
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import "react-datepicker/dist/react-datepicker.css";
+import DateRangePicker from "../DateRangePicker";
+import CloseBox from "../CloseBox";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -18,7 +19,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const BooleanPopup = ({
+const DatePopup = ({
   close,
   header,
   criteria,
@@ -31,18 +32,21 @@ const BooleanPopup = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
+
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
-
-  const [criterionSetting, setCriterionSetting] = useState(criteria[header.id]);
+  const [newStartDate, setNewStartDate] = useState(
+    criteria[header.startDatePropertyName]
+  );
+  const [newEndDate, setNewEndDate] = useState(
+    criteria[header.endDatePropertyName]
+  );
 
   const setDefault = () => {
-    setCriterionSetting(null);
-    setCriteria({
-      ...criteria,
-      [header.id]: null
-    });
+    setNewStartDate(null);
+    setNewEndDate(null);
+    setNewOrder(null);
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
   };
@@ -50,11 +54,12 @@ const BooleanPopup = ({
   const applyChanges = () => {
     setCriteria({
       ...criteria,
-      [header.id]: criterionSetting
+      [header.startDatePropertyName]: newStartDate,
+      [header.endDatePropertyName]: newEndDate
     });
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
+
+    setSort(header.id, newOrder);
+
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
     close();
@@ -71,42 +76,31 @@ const BooleanPopup = ({
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <RadioButton
-          label={"Sort " + (header.trueLabel || header.label) + " First"}
+          label="Sort Newest to Oldest"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
         />
         <RadioButton
-          label={
-            "Sort " + (header.falseLabel || " Not " + header.label) + " First"
-          }
+          label="Sort Oldest to Newest"
           value="asc"
           checked={newOrder === "asc"}
           onChange={() => setNewOrder("asc")}
         />
         <hr style={{ width: "100%" }} />
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        {/* If there is a dateSnapshotted (i.e., project is snapshot), property value is 1 */}
-        <RadioButton
-          label={header.trueLabel || header.label}
-          value={true}
-          checked={criterionSetting == true}
-          onChange={() => {
-            setCriterionSetting(true);
+      <div id="calendarPortal">
+        <DateRangePicker
+          startDate={newStartDate}
+          endDate={newEndDate}
+          setStartDate={date => {
+            setNewStartDate(date);
           }}
-        />
-        <RadioButton
-          label={header.falseLabel || "Not " + header.label}
-          value={false}
-          checked={criterionSetting === false}
-          onChange={() => setCriterionSetting(false)}
-        />
-        <RadioButton
-          label="All"
-          value={null}
-          checked={criterionSetting === null}
-          onChange={() => setCriterionSetting(null)}
+          setEndDate={date => {
+            setNewEndDate(date);
+          }}
+          startDatePlaceholder="Start Date"
+          endDatePlaceholder="End Date"
         />
       </div>
 
@@ -123,7 +117,7 @@ const BooleanPopup = ({
   );
 };
 
-BooleanPopup.propTypes = {
+DatePopup.propTypes = {
   close: PropTypes.func,
   header: PropTypes.any,
   criteria: PropTypes.any,
@@ -135,4 +129,4 @@ BooleanPopup.propTypes = {
   setSelectAllChecked: PropTypes.func
 };
 
-export default BooleanPopup;
+export default DatePopup;
