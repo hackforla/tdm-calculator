@@ -123,7 +123,7 @@ describe("SubmissionsPage empty-state hardening", () => {
     expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
     expect(
       screen.queryByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       )
     ).not.toBeVisible();
     expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
@@ -162,7 +162,7 @@ describe("SubmissionsPage empty-state hardening", () => {
     expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
     expect(
       screen.queryByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       )
     ).not.toBeVisible();
     expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
@@ -187,7 +187,7 @@ describe("SubmissionsPage empty-state hardening", () => {
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
     expect(
       screen.getByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       )
     ).toBeInTheDocument();
     expect(screen.getByText("RESET FILTERS/SORT")).toBeInTheDocument();
@@ -213,7 +213,7 @@ describe("SubmissionsPage empty-state hardening", () => {
     expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
     expect(
       screen.queryByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       )
     ).not.toBeVisible();
     expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
@@ -255,7 +255,7 @@ describe("SubmissionsPage empty-state hardening", () => {
 
     await user.type(
       screen.getByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       ),
       "zzz-no-match"
     );
@@ -272,7 +272,7 @@ describe("SubmissionsPage empty-state hardening", () => {
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
     expect(
       screen.getByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       )
     ).toBeInTheDocument();
     expect(screen.getByText("RESET FILTERS/SORT")).toBeInTheDocument();
