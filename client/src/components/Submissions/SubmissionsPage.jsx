@@ -123,15 +123,10 @@ const useStyles = createUseStyles(theme => ({
     height: "28px",
     width: "28px"
   },
-  tableAdmin: {
-    minWidth: "135rem",
-    width: "100%",
-    tableLayout: "fixed"
-  },
   table: {
-    minWidth: "110rem",
-    width: "100%",
-    tableLayout: "fixed"
+    // minWidth: "150rem",
+    width: "100%"
+    // tableLayout: "fixed"
   },
   tr: {
     margin: "0.5em"
@@ -257,7 +252,10 @@ const SubmissionsPage = ({ contentContainerRef }) => {
               ? `${d.statuserLastName}, ${d.statuserFirstName}`
               : "",
             droName: d.droName || "-",
-            idFormatted: formatId(d.id)
+            idFormatted: formatId(d.id),
+            alternative: JSON.parse(d.formInputs).VERSION_NO
+              ? JSON.parse(d.formInputs).VERSION_NO
+              : ""
           };
         });
         setProjects(projects);
@@ -420,6 +418,28 @@ const SubmissionsPage = ({ contentContainerRef }) => {
       label: "Address",
       popupType: "string",
       colWidth: "250px"
+    },
+    {
+      id: "alternative",
+      label: "Alt No.",
+      popupType: "string",
+      colWidth: "10rem"
+    },
+    {
+      id: "dateCreated",
+      label: "Created On",
+      popupType: "datetime",
+      startDatePropertyName: "startDateCreated",
+      endDatePropertyName: "endDateCreated",
+      colWidth: "10rem"
+    },
+    {
+      id: "dateModified",
+      label: "Last Saved",
+      popupType: "datetime",
+      startDatePropertyName: "startDateModified",
+      endDatePropertyName: "endDateModified",
+      colWidth: "10rem"
     },
     {
       id: "dateSubmitted",
@@ -605,13 +625,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                   : classes.tableContainer
               }
             >
-              <table
-                className={
-                  userContext.account?.isAdmin
-                    ? classes.tableAdmin
-                    : classes.table
-                }
-              >
+              <table className={classes.table}>
                 <colgroup>
                   {headerData.map(h => (
                     <col key={h.id} width={h.colWidth} />
@@ -665,6 +679,9 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                         </TdExpandable>
                         <TdExpandable>{project.projectName}</TdExpandable>
                         <TdExpandable>{project.address}</TdExpandable>
+                        <TdExpandable>{project.alternative}</TdExpandable>
+                        <Td>{formatDate(project.dateCreated)}</Td>
+                        <Td>{formatDate(project.dateModified)}</Td>
                         <Td>{formatDate(project.dateSubmitted)}</Td>
                         <Td>{formatDate(project.dateStatus)}</Td>
                         <Td align="center">{project.projectLevel}</Td>
