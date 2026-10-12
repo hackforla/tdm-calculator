@@ -299,7 +299,7 @@ export const PdfPrint = forwardRef((props, ref) => {
                   )}
                 >
                   <span className={classes.categoryHeader}>
-                    TDM PLAN DETAILS
+                    DEVELOPMENT PROJECT DETAILS
                   </span>
                 </div>
                 <div className={classes.measuresContainer}>
