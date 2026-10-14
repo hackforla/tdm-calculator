@@ -81,7 +81,7 @@ const useStyles = createUseStyles(theme => ({
   popupContent: {
     cursor: "pointer",
     "&:hover": {
-      backgroundColor: "#E9E9E9",
+      backgroundColor: theme.colorDeselect,
       borderRadius: "4px"
     }
   },
