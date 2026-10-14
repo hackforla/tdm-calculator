@@ -269,8 +269,8 @@ If you don't already have a [TDM Calculator](${tdmLink}) account, please set one
             <h1 className={classes.heading1}>Sharing Security</h1>
             <div className={classes.viewPermissionsList}>
               <div style={{ display: "flex", justifyContent: "center" }}>
-                Any information in this snapshot could be copied or re-shared by
-                the party you are sharing with at any time.
+                Any information in this snapshot can be copied and then shared
+                by the party you are sharing with at any time.
               </div>
               <div
                 className={classes.buttonFlexBox}
