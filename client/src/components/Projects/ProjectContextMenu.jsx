@@ -42,7 +42,7 @@ const useStyles = createUseStyles(theme => ({
     flexDirection: "row",
     alignItems: "center",
     padding: "0.5rem",
-    color: theme.colors.secondary.mediumGray
+    color: theme.colorMediumGray
   },
   listItemIcon: {
     fontSize: "28px",

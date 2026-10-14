@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles(theme => ({
@@ -54,9 +54,8 @@ const VisibilityPopup = ({
       ...criteria,
       visibility: visibilitySetting
     });
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
+    setSort(header.id, newOrder);
+
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
     close();
@@ -116,14 +115,10 @@ const VisibilityPopup = ({
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
-        <Button onClick={setDefault} variant="outlined">
+        <Button onClick={setDefault} variant="secondary">
           Reset
         </Button>
-        <Button
-          onClick={applyChanges}
-          variant="contained"
-          color={"colorPrimary"}
-        >
+        <Button onClick={applyChanges} variant="primary">
           Apply
         </Button>
       </div>

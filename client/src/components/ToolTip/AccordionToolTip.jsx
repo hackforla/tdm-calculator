@@ -19,7 +19,7 @@ const useStyles = createUseStyles(theme => ({
     padding: "1rem",
     color: theme.colorText,
     textAlign: "left",
-    border: "1px solid " + theme.colors.secondary.gray,
+    border: "1px solid " + theme.colorGray,
     borderRadius: "5px",
     width: "min-content",
     minWidth: "97%",
@@ -34,7 +34,7 @@ const useStyles = createUseStyles(theme => ({
     right: "0"
   },
   closeButton: {
-    color: theme.colors.secondary.gray,
+    color: theme.colorGray,
     float: "right",
     marginTop: "-0.75rem",
     marginRight: "-0.750rem",
@@ -52,7 +52,7 @@ const useStyles = createUseStyles(theme => ({
     left: "20px",
     width: "0",
     height: "0",
-    borderBottom: "6px solid " + theme.colors.secondary.gray,
+    borderBottom: "6px solid " + theme.colorGray,
     borderLeft: "6px solid transparent",
     borderRight: "6px solid transparent"
   },
@@ -74,7 +74,7 @@ const useStyles = createUseStyles(theme => ({
     bottom: "0.01rem",
     right: "0.40rem",
     fontSize: "20px",
-    color: theme.colors.secondary.gray,
+    color: theme.colorGray,
     "&:hover": {
       cursor: "pointer"
     }

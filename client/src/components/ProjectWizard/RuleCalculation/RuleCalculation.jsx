@@ -382,20 +382,6 @@ const RuleCalculation = ({
                           aria-label="Close popup"
                           className={classes.closeBox}
                         />
-                        {/* <div
-                        // style={{
-                        //   backgroundColor: "transparent",
-                        //   color: theme.colors.secondary.gray,
-                        //   border: "none",
-                        //   position: "absolute",
-                        //   top: "0",
-                        //   right: "0",
-                        //   width: "24px",
-                        //   height: "24px",
-                        //   cursor: "pointer",
-                        //   padding: "0"
-                        // }}
-                        ></div> */}
                         {/* DangerouslySetInnerHtml was clean here with DomPurify.  
                          Please reference Decision Records for more details: 
                          https://github.com/hackforla/tdm-calculator/wiki/Decision-Records */}

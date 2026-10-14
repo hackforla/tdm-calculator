@@ -184,6 +184,10 @@ const ManageSubmissionForm = ({ onClose, project, assigneeList }) => {
               <span>{project.name}</span>
             </div>
             <div className={classes.rowFlexBox}>
+              <span className={classes.rowLabel}>Development Project Name</span>
+              <span>{project.projectName}</span>
+            </div>
+            <div className={classes.rowFlexBox}>
               <span className={classes.rowLabel}>Created By</span>
               <span>{project.author}</span>
             </div>

@@ -5,7 +5,7 @@ import { MdInfo } from "react-icons/md";
 const useStyles = createUseStyles(theme => ({
   container: {
     width: "calc((100% / 14.5) * 3);",
-    background: theme.colors.secondary.lightGray,
+    background: theme.colorDeselect,
     padding: "1em",
     position: "absolute",
     textAlign: "initial"
@@ -19,7 +19,7 @@ const useStyles = createUseStyles(theme => ({
   },
   infoIcon: {
     color: theme.colorLADOT
-  },
+  }
 }));
 const DiscoverTooltips = () => {
   const theme = useTheme();
@@ -27,7 +27,8 @@ const DiscoverTooltips = () => {
   return (
     <div className={classes.container}>
       <p className={classes.title}>
-        If you want to know more about a term, hover over it and click the icon<MdInfo className={classes.infoIcon} /> for more information.
+        If you want to know more about a term, hover over it and click the icon
+        <MdInfo className={classes.infoIcon} /> for more information.
       </p>
     </div>
   );

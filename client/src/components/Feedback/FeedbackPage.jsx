@@ -134,6 +134,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
       if (response.status === 201) {
         toast.add("Comment delivered successfully");
         resetForm({});
+        setSelectedProjectIds([]);
       }
     } catch (err) {
       toast.add(
@@ -165,7 +166,7 @@ const FeedbackPage = ({ contentContainerRef }) => {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://cityclerk.lacity.org/Feedback/?cfnumber=15-0719-S19"
+              href="https://cityclerk.lacity.org/publiccomment/?cfnumber=15-0719-S19"
             >
               City Clerk&apos;s comment form
               <MdLaunch className={classes.externalLinkIcon} />
@@ -248,7 +249,6 @@ const FeedbackPage = ({ contentContainerRef }) => {
 
               {account && account.id && projects.length !== 0 ? (
                 <ProjectList
-                  key={JSON.stringify(projects, null, 2)}
                   projects={projects}
                   selectedProjectIds={selectedProjectIds}
                   setSelectedProjectIds={setSelectedProjectIds}

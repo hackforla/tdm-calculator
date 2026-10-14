@@ -238,7 +238,7 @@ const MultiProjectToolbarMenu = ({
             // Cannot use JSS, because Tooltip default styles would overwrite
             style={{
               ...theme.typography.paragraph1,
-              backgroundColor: theme.colors.secondary.lightGray,
+              backgroundColor: theme.colorDeselect,
               width: "12rem",
               borderRadius: "5px",
               textAlign: "center",
@@ -290,7 +290,7 @@ const MultiProjectToolbarMenu = ({
               // Cannot use JSS, because Tooltip default styles would overwrite
               style={{
                 ...theme.typography.paragraph1,
-                backgroundColor: theme.colors.secondary.lightGray,
+                backgroundColor: theme.colorDeselect,
                 width: "12rem",
                 borderRadius: "5px",
                 textAlign: "center",
@@ -336,7 +336,7 @@ const MultiProjectToolbarMenu = ({
               // Cannot use JSS, because Tooltip default styles would overwrite
               style={{
                 ...theme.typography.paragraph1,
-                backgroundColor: theme.colors.secondary.lightGray,
+                backgroundColor: theme.colorDeselect,
                 width: "12rem",
                 borderRadius: "5px",
                 textAlign: "center",

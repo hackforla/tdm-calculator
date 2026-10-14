@@ -1,17 +1,12 @@
 import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
 import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
-import UserContext from "contexts/UserContext";
 import { selectAllCheckboxes } from "helpers/util";
-
-/* This ColunHeaderPopup is almost the samse as StringPopup, except that it has a few
-special features that apply specifically to people, like checking to see if the name
-matches the logged in user, and displaying "(Me)" next to the name. */
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -49,7 +44,7 @@ const useStyles = createUseStyles(theme => ({
     height: "2rem",
     gap: "0.2em",
     "&:hover": {
-      backgroundColor: theme.color
+      backgroundColor: "lightblue"
     },
     "& span": {
       maxWidth: "25ch",
@@ -72,7 +67,7 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const UserPopup = ({
+const VersionPopup = ({
   projects,
   filter,
   close,
@@ -83,18 +78,17 @@ const UserPopup = ({
   orderBy,
   setSort,
   setCheckedProjectIds,
-  setSelectAllChecked
+  setSelectAllChecked,
+  calculations
 }) => {
-  const theme = useTheme();
-  const classes = useStyles(theme);
-  const userContext = useContext(UserContext);
   const property = header.id;
-  const loggedInUserName = `${userContext?.account?.lastName}, ${userContext?.account?.firstName}`;
+  const theme = useTheme();
+
+  const classes = useStyles(theme);
 
   const [newOrder, setNewOrder] = useState(
     header.id !== orderBy ? null : order
   );
-
   const [selectedListItems, setSelectedListItems] = useState(
     (criteria[header.id + "List"] || []).map(s => ({
       value: s,
@@ -105,38 +99,53 @@ const UserPopup = ({
 
   const initiallyChecked = o => criteria[header.id + "List"].includes(o);
 
-  // To build the drop-down list, we want to apply all the criteria that
-  // are currently selected EXCEPT the criteria we are currently editing.
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
-  // const property = header.id == "author" ? "fullname" : header.id;
 
-  let selectOptions;
-  let hasLoggedInUserInList = false;
-  selectOptions = [
-    ...new Set(
-      filteredProjects.map(p => {
-        const name = p[property];
-        if (name === loggedInUserName) {
-          hasLoggedInUserInList = true;
-        }
-        return name;
-      })
-    )
-  ]
-    .filter(value => value !== null && value !== loggedInUserName)
-    .sort((a, b) => {
-      return a.localeCompare(b, "en", { sensitivity: "base" });
-    })
-    .sort(
-      (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
-    );
+  const getValue = p => {
+    if (property === "calculationId") {
+      return calculations?.[p.calculationId]?.version ?? "Beta";
+    }
+    return p[property];
+  };
 
-  if (hasLoggedInUserInList) selectOptions.unshift(loggedInUserName);
+  let filteredOptions;
 
-  const filteredOptions = selectOptions
-    .filter(o => !!o)
-    .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
+  const compareVersions = (a, b) => {
+    const aChecked = initiallyChecked(a);
+    const bChecked = initiallyChecked(b);
+
+    // Keep checked items at the top
+    if (aChecked !== bChecked) {
+      return bChecked - aChecked;
+    }
+
+    // Beta is newest → always FIRST
+    if (a === "Beta" && b === "Beta") return 0;
+    if (a === "Beta") return -1;
+    if (b === "Beta") return 1;
+
+    const aParts = String(a).split(".").map(Number);
+    const bParts = String(b).split(".").map(Number);
+
+    const maxLength = Math.max(aParts.length, bParts.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      const aPart = aParts[i] ?? 0;
+      const bPart = bParts[i] ?? 0;
+
+      if (aPart !== bPart) {
+        return bPart - aPart;
+      }
+    }
+
+    return 0;
+  };
+
+  filteredOptions = [...new Set(filteredProjects.map(getValue))]
+    .filter(value => value !== null && value !== "")
+    .filter(value => value.toLowerCase().includes(searchString.toLowerCase()))
+    .sort(compareVersions);
 
   const onChangeSearchString = e => {
     setSearchString(e.target.value);
@@ -172,10 +181,7 @@ const UserPopup = ({
       ...criteria,
       [header.id + "List"]: selectedValues
     });
-
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
+    setSort(header.id, newOrder);
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
     close();
@@ -204,13 +210,13 @@ const UserPopup = ({
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <RadioButton
-          label="Sort A-Z"
+          label="Sort Newest to Oldest"
           value="asc"
           checked={newOrder === "asc"}
           onChange={() => setNewOrder("asc")}
         />
         <RadioButton
-          label="Sort Z-A"
+          label="Sort Oldest to Newest"
           value="desc"
           checked={newOrder === "desc"}
           onChange={() => setNewOrder("desc")}
@@ -255,9 +261,6 @@ const UserPopup = ({
       </div>
 
       <div style={{ overflow: "auto", maxHeight: "12rem" }}>
-        {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
-        {/*  <pre>{JSON.stringify(options, null, 2)}</pre> */}
-
         {filteredOptions.map(o => {
           const checked = isChecked(o);
 
@@ -275,7 +278,7 @@ const UserPopup = ({
                 }
                 label={o}
               />
-              <span>{o === loggedInUserName ? `${o} (Me)` : o}</span>
+              <span>{o}</span>
             </div>
           );
         })}
@@ -283,14 +286,10 @@ const UserPopup = ({
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button onClick={setDefault} variant="outlined">
+        <Button onClick={setDefault} variant="secondary">
           Reset
         </Button>
-        <Button
-          onClick={applyChanges}
-          variant="contained"
-          color={"colorPrimary"}
-        >
+        <Button onClick={applyChanges} variant="primary">
           Apply
         </Button>
       </div>
@@ -298,7 +297,7 @@ const UserPopup = ({
   );
 };
 
-UserPopup.propTypes = {
+VersionPopup.propTypes = {
   projects: PropTypes.any,
   filter: PropTypes.func,
   close: PropTypes.func,
@@ -309,7 +308,8 @@ UserPopup.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func
+  setSelectAllChecked: PropTypes.func,
+  droOptions: PropTypes.array
 };
 
-export default UserPopup;
+export default VersionPopup;

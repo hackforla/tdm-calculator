@@ -94,7 +94,7 @@ function CreateCopyOfSnapshot({
   setNewProjectId
 }) {
   const [newSnapshotName, setNewSnapshotName] = useState(
-    `Copy of ${projectName}`
+    `${projectName} (COPY)`
   );
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -111,7 +111,7 @@ function CreateCopyOfSnapshot({
         <MdFileCopy className={classes.icon} />
         <h1 className={classes.heading1}>
           {isSnapshotOwner
-            ? "Copy and Edit Project"
+            ? "Copy and Edit TDM Plan"
             : "Create Editable Copy"}{" "}
         </h1>
       </div>
@@ -120,13 +120,13 @@ function CreateCopyOfSnapshot({
           display: "flex",
           flexDirection: "column",
           gap: "1rem",
-          alignItems: "flaex-start"
+          alignItems: "flex-start"
         }}
       >
         <p className={classes.description} style={{ marginTop: "0" }}>
           {isSnapshotOwner
-            ? `This snapshot cannot be edited. Create a copy of the project to edit.`
-            : `You are looking at a project snapshot that has been shared with you. To save it to your "My Projects" page, create a copy of this project, which you can view and edit.`}
+            ? `This snapshot cannot be edited. Create a copy of the TDM Plan to edit.`
+            : `You are looking at a TDM Plan snapshot that has been shared with you. To save it to your "My TDM Plans" page, create a copy of this TDM Plan, which you can view and edit.`}
         </p>
         <div>
           <label
@@ -184,21 +184,21 @@ function ProjectRedirect({ onClose, setHasSubmitted, newProjectId }) {
     <div className={classes.container} style={{ maxWidth: "30rem" }}>
       <div style={{ display: "flex", alignItems: "center" }}>
         <MdFileCopy className={classes.icon} />
-        <h2 className={classes.heading1}>Edit Project</h2>
+        <h2 className={classes.heading1}>Edit TDM Plan</h2>
       </div>
       <div>
-        <p>View the “My Project” dashboard or edit the new copy</p>
+        <p>View the “My TDM Plans” dashboard or edit the new copy</p>
       </div>
       <div className={classes.buttonFlexBox}>
         <Button onClick={() => handleClose("myProjects")} variant="tertiary">
-          My Projects
+          My TDM Plans
         </Button>
         <Button
           onClick={() => handleClose("editProject")}
           variant="primary"
           style={{ marginRight: "1rem" }}
         >
-          Edit Project Copy
+          Edit TDM Plan Copy
         </Button>
       </div>
     </div>

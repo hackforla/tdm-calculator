@@ -6,6 +6,10 @@
 # vscode
 .devcontainer
 
+# claude
+.claude
+AGENTS.md
+
 # Custom ignores
 cypress/screenshots
 cypress/videos

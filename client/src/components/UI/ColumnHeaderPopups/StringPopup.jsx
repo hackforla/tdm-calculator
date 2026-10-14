@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
-import CloseBox from "../../UI/CloseBox";
+import RadioButton from "../RadioButton";
+import CloseBox from "../CloseBox";
+import { MdOutlineSearch } from "react-icons/md";
 import { createUseStyles, useTheme } from "react-jss";
 import ToggleCheckbox from "components/UI/ToggleCheckbox";
 import { selectAllCheckboxes } from "helpers/util";
-
-/*
-Variant of the StringPopup that is for text columns with a small number of choices that do not need the search box feature
-*/
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -65,11 +62,12 @@ const useStyles = createUseStyles(theme => ({
     cursor: "pointer",
     textDecoration: "underline",
     display: "flex",
-    fontWeight: "normal"
+    fontWeight: "normal",
+    color: theme.colorDarkNavy
   }
 }));
 
-const TextPopup = ({
+const StringPopup = ({
   projects,
   filter,
   close,
@@ -95,13 +93,18 @@ const TextPopup = ({
       label: s
     }))
   );
+  const [searchString, setSearchString] = useState("");
 
-  const initiallyChecked = o => criteria[header.id + "List"].includes(o);
+  const initiallyChecked = o =>
+    criteria[header.id + "List"]
+      ? criteria[header.id + "List"].includes(o)
+      : false;
 
   // To build the drop-down list, we want to apply all the criteria that
   // are currently selected EXCEPT the criteria we are currently editing.
   const listCriteria = { ...criteria, [header.id + "List"]: [] };
   const filteredProjects = projects.filter(p => filter(p, listCriteria));
+  // const property = header.id == "author" ? "fullname" : header.id;
 
   const selectOptions = [...new Set(filteredProjects.map(p => p[property]))]
     .filter(value => value !== null && value !== "")
@@ -112,7 +115,13 @@ const TextPopup = ({
       (a, b) => (initiallyChecked(b) ? 1 : 0) - (initiallyChecked(a) ? 1 : 0)
     );
 
-  const filteredOptions = selectOptions.filter(o => !!o);
+  const filteredOptions = selectOptions
+    .filter(o => !!o)
+    .filter(opt => opt.toLowerCase().includes(searchString.toLowerCase()));
+
+  const onChangeSearchString = e => {
+    setSearchString(e.target.value);
+  };
 
   const handleCheckboxChange = e => {
     const optionValue = e.target.name;
@@ -144,10 +153,7 @@ const TextPopup = ({
       ...criteria,
       [header.id + "List"]: selectedValues
     });
-
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
+    setSort(header.id, newOrder);
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
     close();
@@ -211,6 +217,15 @@ const TextPopup = ({
         </div>
         <div>{`${selectedListItems.length}  selected`}</div>
       </div>
+      <div className={classes.searchBarWrapper}>
+        <input
+          type="text"
+          value={searchString}
+          onChange={onChangeSearchString}
+          className={classes.searchBar}
+        />
+        <MdOutlineSearch className={classes.searchIcon} alt="Search Icon" />
+      </div>
 
       <div style={{ overflow: "auto", maxHeight: "12rem" }}>
         {/* <pre>{JSON.stringify(selectedListItems, null, 2)}</pre> */}
@@ -240,14 +255,10 @@ const TextPopup = ({
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button onClick={setDefault} variant="outlined">
+        <Button onClick={setDefault} variant="secondary">
           Reset
         </Button>
-        <Button
-          onClick={applyChanges}
-          variant="contained"
-          color={"colorPrimary"}
-        >
+        <Button onClick={applyChanges} variant="primary">
           Apply
         </Button>
       </div>
@@ -255,7 +266,7 @@ const TextPopup = ({
   );
 };
 
-TextPopup.propTypes = {
+StringPopup.propTypes = {
   projects: PropTypes.any,
   filter: PropTypes.func,
   close: PropTypes.func,
@@ -266,8 +277,7 @@ TextPopup.propTypes = {
   orderBy: PropTypes.string,
   setSort: PropTypes.func,
   setCheckedProjectIds: PropTypes.func,
-  setSelectAllChecked: PropTypes.func,
-  droOptions: PropTypes.array
+  setSelectAllChecked: PropTypes.func
 };
 
-export default TextPopup;
+export default StringPopup;

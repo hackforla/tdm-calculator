@@ -53,6 +53,7 @@ The below text provides a general outline for the question and answer. Use it as
 - [ ] Close this issue.
 
 ### Resources
+- Guide: [Update FAQ Items in TDM Calculator](https://docs.google.com/document/d/1P4VUFZ-t6phbZ1CFUuHD8FLwQSP3dGmGOBofmhEm244)
 
 #### GitHub
 - Updating Terms and Conditions: #2253 

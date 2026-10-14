@@ -144,7 +144,7 @@ const CsvModal = ({
         </div>
         {project ? (
           <div style={theme.typography.subHeading}>
-            Create a CSV for the project &quot;{project.name}&quot;
+            Create a CSV for the TDM Plan &quot;{project.name}&quot;
           </div>
         ) : (
           <>

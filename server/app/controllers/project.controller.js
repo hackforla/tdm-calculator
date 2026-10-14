@@ -83,6 +83,8 @@ const put = async (req, res) => {
 
 const updateCalculationId = async (req, res) => {
   try {
+    /* User needs to be admin or author of project,
+    though this is not enforced here. */
     const { id } = req.params;
     const {
       calculationId,

@@ -216,8 +216,7 @@ const AdminView = ({ aboutList, setAboutList }) => {
     return (
       <div className={classes.addButtonContainer}>
         <Button
-          variant="contained"
-          color="colorPrimary"
+          variant="primary"
           onClick={addNewAboutItem}
           id="add-about-item"
           data-testid="add-about-item"
@@ -377,7 +376,7 @@ const AdminView = ({ aboutList, setAboutList }) => {
                           className={classes.dragHandle}
                           title="Drag to reorder"
                         >
-                          <MdViewModule color={theme.colors.secondary.gray} />
+                          <MdViewModule color={theme.colorGSray} />
                         </div>
                       </div>
                     </div>
@@ -391,8 +390,7 @@ const AdminView = ({ aboutList, setAboutList }) => {
       </Droppable>
       <div className={classes.addButtonContainer}>
         <Button
-          variant="contained"
-          color="colorPrimary"
+          variant="primary"
           onClick={addNewAboutItem}
           id="add-about-item"
           data-testid="add-about-item"

@@ -61,7 +61,7 @@ export default function RenameSnapshotModal({
         </div>
         <div className={classes.subheading} style={{ width: "75%" }}>
           <input
-            placeholder="New project name for snapshot"
+            placeholder="New TDM Plan name for snapshot"
             type="text"
             id="duplicateName"
             name="duplicateName"

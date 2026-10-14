@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
 import Button from "../../Button/Button";
-import RadioButton from "../../UI/RadioButton";
+import RadioButton from "../RadioButton";
 import "react-datepicker/dist/react-datepicker.css";
-import DateRangePicker from "../../UI/DateRangePicker";
-import CloseBox from "../../UI/CloseBox";
+import DateRangePicker from "../DateRangePicker";
+import CloseBox from "../CloseBox";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -57,9 +57,9 @@ const DatePopup = ({
       [header.startDatePropertyName]: newStartDate,
       [header.endDatePropertyName]: newEndDate
     });
-    if (newOrder) {
-      setSort(header.id, newOrder);
-    }
+
+    setSort(header.id, newOrder);
+
     if (setCheckedProjectIds) setCheckedProjectIds([]);
     if (setSelectAllChecked) setSelectAllChecked(false);
     close();
@@ -106,14 +106,10 @@ const DatePopup = ({
 
       <hr style={{ width: "100%" }} />
       <div style={{ display: "flex" }}>
-        <Button onClick={setDefault} variant="outlined">
+        <Button onClick={setDefault} variant="secondary">
           Reset
         </Button>
-        <Button
-          onClick={applyChanges}
-          variant="contained"
-          color={"colorPrimary"}
-        >
+        <Button onClick={applyChanges} variant="primary">
           Apply
         </Button>
       </div>
