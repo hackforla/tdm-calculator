@@ -33,7 +33,7 @@ const useStyles = createUseStyles(theme => ({
     color: theme.colorDarkNavy,
     padding: "0.5rem",
     "&:hover": {
-      background: "#B2C0D3",
+      background: theme.colorDeselect,
       cursor: "pointer"
     }
   },
