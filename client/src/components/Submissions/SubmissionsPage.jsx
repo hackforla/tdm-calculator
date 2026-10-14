@@ -133,15 +133,10 @@ const useStyles = createUseStyles(theme => ({
     height: "28px",
     width: "28px"
   },
-  tableAdmin: {
-    minWidth: "135rem",
-    width: "100%",
-    tableLayout: "fixed"
-  },
   table: {
-    minWidth: "110rem",
-    width: "100%",
-    tableLayout: "fixed"
+    // minWidth: "150rem",
+    width: "100%"
+    // tableLayout: "fixed"
   },
   tr: {
     margin: "0.5em"
@@ -274,7 +269,10 @@ const SubmissionsPage = ({ contentContainerRef }) => {
               ? `${d.statuserLastName}, ${d.statuserFirstName}`
               : "",
             droName: d.droName || "-",
-            idFormatted: formatId(d.id)
+            idFormatted: formatId(d.id),
+            alternative: JSON.parse(d.formInputs).VERSION_NO
+              ? JSON.parse(d.formInputs).VERSION_NO
+              : ""
           };
         });
         setProjects(projects);
@@ -437,6 +435,28 @@ const SubmissionsPage = ({ contentContainerRef }) => {
       label: "Address",
       popupType: "string",
       colWidth: "250px"
+    },
+    {
+      id: "alternative",
+      label: "Alt No.",
+      popupType: "string",
+      colWidth: "10rem"
+    },
+    {
+      id: "dateCreated",
+      label: "Created On",
+      popupType: "datetime",
+      startDatePropertyName: "startDateCreated",
+      endDatePropertyName: "endDateCreated",
+      colWidth: "10rem"
+    },
+    {
+      id: "dateModified",
+      label: "Last Saved",
+      popupType: "datetime",
+      startDatePropertyName: "startDateModified",
+      endDatePropertyName: "endDateModified",
+      colWidth: "10rem"
     },
     {
       id: "dateSubmitted",
@@ -643,81 +663,84 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                       : classes.table
                   }
                 >
-                <colgroup>
-                  {headerData.map(h => (
-                    <col key={h.id} width={h.colWidth} />
-                  ))}
-                </colgroup>
-                <thead className={classes.thead}>
-                  <tr className={classes.tr}>
-                    {headerData.map(header => {
-                      return (
-                        <th key={header.id} className={classes.stickyTh}>
-                          <ProjectTableColumnHeader
-                            projects={projects}
-                            filter={filter}
-                            header={header}
-                            criteria={filterCriteria}
-                            setCriteria={setFilter}
-                            setSort={setSort}
-                            orderBy={
-                              sortCriteria[sortCriteria.length - 1].field
-                            }
-                            order={
-                              sortCriteria[sortCriteria.length - 1].direction
-                            }
-                            orderByOrdinal={getSortOrdinal(
-                              header,
-                              sortCriteria
-                            )}
-                            setCheckedProjectIds={null}
-                            setSelectAllChecked={null}
-                            droOptions={null}
-                          />
-                        </th>
-                      );
-                    })}
-                  </tr>
-                </thead>
-                <tbody className={classes.tbody}>
-                  {currentProjects.length ? (
-                    currentProjects.map(project => (
-                      <tr
-                        key={project.id}
-                        style={{
-                          background: project.dateTrashed ? "#ffdcdc" : ""
-                        }}
-                      >
-                        <Td>{formatId(project.id)}</Td>
-                        <TdExpandable>
-                          <Link to={`/calculation/1/${project.id}`}>
-                            {project.name}
-                          </Link>
-                        </TdExpandable>
-                        <TdExpandable>{project.projectName}</TdExpandable>
-                        <TdExpandable>{project.address}</TdExpandable>
-                        <Td>{formatDate(project.dateSubmitted)}</Td>
-                        <Td>{formatDate(project.dateStatus)}</Td>
-                        <Td align="center">{project.projectLevel}</Td>
-                        <Td>{project.droName}</Td>
-                        <TdExpandable>
-                          {project.assignee === loggedInUserName
-                            ? `${project.assignee} (Me)`
-                            : project.assignee}
-                        </TdExpandable>
-                        <Td>{formatDate(project.dateAssigned)}</Td>
-                        <Td>{project.invoiceStatusName}</Td>
-                        <Td>{formatDate(project.dateInvoicePaid)}</Td>
-                        <Td align="center">
-                          {project.onHold ? <MdCheck /> : ""}
-                        </Td>
-                        <Td>{project.approvalStatusName}</Td>
-                        <Td>{formatDate(project.dateCoO)}</Td>
-                      </tr>
-                    ))
-                  ) : null}
-                </tbody>
-              </table>
+                  <colgroup>
+                    {headerData.map(h => (
+                      <col key={h.id} width={h.colWidth} />
+                    ))}
+                  </colgroup>
+                  <thead className={classes.thead}>
+                    <tr className={classes.tr}>
+                      {headerData.map(header => {
+                        return (
+                          <th key={header.id} className={classes.stickyTh}>
+                            <ProjectTableColumnHeader
+                              projects={projects}
+                              filter={filter}
+                              header={header}
+                              criteria={filterCriteria}
+                              setCriteria={setFilter}
+                              setSort={setSort}
+                              orderBy={
+                                sortCriteria[sortCriteria.length - 1].field
+                              }
+                              order={
+                                sortCriteria[sortCriteria.length - 1].direction
+                              }
+                              orderByOrdinal={getSortOrdinal(
+                                header,
+                                sortCriteria
+                              )}
+                              setCheckedProjectIds={null}
+                              setSelectAllChecked={null}
+                              droOptions={null}
+                            />
+                          </th>
+                        );
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody className={classes.tbody}>
+                    {currentProjects.length
+                      ? currentProjects.map(project => (
+                          <tr
+                            key={project.id}
+                            style={{
+                              background: project.dateTrashed ? "#ffdcdc" : ""
+                            }}
+                          >
+                            <Td>{formatId(project.id)}</Td>
+                            <TdExpandable>
+                              <Link to={`/calculation/1/${project.id}`}>
+                                {project.name}
+                              </Link>
+                            </TdExpandable>
+                            <TdExpandable>{project.projectName}</TdExpandable>
+                            <TdExpandable>{project.address}</TdExpandable>
+                            <TdExpandable>{project.alternative}</TdExpandable>
+                            <Td>{formatDate(project.dateCreated)}</Td>
+                            <Td>{formatDate(project.dateModified)}</Td>
+                            <Td>{formatDate(project.dateSubmitted)}</Td>
+                            <Td>{formatDate(project.dateStatus)}</Td>
+                            <Td align="center">{project.projectLevel}</Td>
+                            <Td>{project.droName}</Td>
+                            <TdExpandable>
+                              {project.assignee === loggedInUserName
+                                ? `${project.assignee} (Me)`
+                                : project.assignee}
+                            </TdExpandable>
+                            <Td>{formatDate(project.dateAssigned)}</Td>
+                            <Td>{project.invoiceStatusName}</Td>
+                            <Td>{formatDate(project.dateInvoicePaid)}</Td>
+                            <Td align="center">
+                              {project.onHold ? <MdCheck /> : ""}
+                            </Td>
+                            <Td>{project.approvalStatusName}</Td>
+                            <Td>{formatDate(project.dateCoO)}</Td>
+                          </tr>
+                        ))
+                      : null}
+                  </tbody>
+                </table>
               )}
               {hasNoMatchingSubmissions && (
                 <div className={classes.emptyStateRegion}>
