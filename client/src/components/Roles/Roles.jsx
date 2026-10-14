@@ -73,7 +73,7 @@ const useStyles = createUseStyles(theme => ({
       padding: ".4em"
     },
     "& tr:hover": {
-      background: theme.colorRowHighlight
+      background: theme.colorDeselect
     }
   },
   link: {
