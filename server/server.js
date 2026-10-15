@@ -140,6 +140,7 @@ if (process.env.TEST_ENV !== "true") {
   app.listen(port, () => {
     console.log(`Server running on port ${port}`);
   });
+  require("./app/jobs/scheduler").start();
 }
 
 module.exports = app;
