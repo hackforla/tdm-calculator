@@ -11,8 +11,7 @@ import {
   MdMoreVert,
   MdAdd,
   MdOutlineStickyNote2,
-  MdLockOutline,
-  MdOutlinePeopleAlt
+  MdLockOutline
 } from "react-icons/md";
 import { formatDate, formatId } from "../../helpers/util";
 import { useReactToPrint } from "react-to-print";
@@ -356,11 +355,6 @@ const ProjectTableRow = ({
               ({daysUntilPermanentDeletion(project)})
             </span>
           ) : null}
-          {project.shareCount > 0 && (
-            <span title={`shared`}>
-              <MdOutlinePeopleAlt style={{ width: "1em", marginLeft: "4px" }} />
-            </span>
-          )}
         </span>
       </Td>
       <Td className={classes.td}>{formatId(project.id)}</Td>
