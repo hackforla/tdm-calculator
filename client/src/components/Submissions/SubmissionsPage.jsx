@@ -395,13 +395,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     setCurrentPage(1);
   };
 
-  const fullTextHeaders = [
-    "name",
-    "address",
-    "assignee",
-    "description",
-    "alternative"
-  ];
+  const fullTextHeaders = ["name", "projectName", "address", "assignee"];
 
   const filter = (p, criteria) =>
     filterProjects(p, criteria, calculations, fullTextHeaders);

@@ -712,8 +712,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const fullTextHeaders = [
     "name",
+    "projectName",
     "address",
-    "fullName",
+    "author",
     "alternative",
     "description"
   ];

@@ -360,7 +360,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     setCurrentPage(1);
   };
 
-  const fullTextHeaders = ["name", "author", "assignee"];
+  const fullTextHeaders = ["name", "projectName", "author", "assignee"];
 
   const filter = (p, criteria) =>
     filterProjects(p, criteria, calculations, fullTextHeaders);
