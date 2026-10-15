@@ -190,7 +190,7 @@ const Login = () => {
                         navigate("/calculation/1/0");
                       }}
                     >
-                      Continue without saving
+                      Continue as guest
                     </Button>
                   </div>
                   <Button
