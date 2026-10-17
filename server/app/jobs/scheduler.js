@@ -1,18 +1,22 @@
 const cron = require("node-cron");
 const accountService = require("../services/account.service");
 
-// Nightly at 03:00 Pacific by default; override with CLEANUP_INACTIVE_CRON
-const DEFAULT_SCHEDULE = "0 3 * * *";
-
 const start = () => {
   if (process.env.CLEANUP_INACTIVE_ENABLED === "false") return;
+  if (!process.env.CLEANUP_INACTIVE_CRON) {
+    console.log(
+      "Missing environment variable CLEANUP_INACTIVE_CRON. Batch job will not run."
+    );
+    return;
+  }
+  console.log("Scheduler started.");
   cron.schedule(
-    process.env.CLEANUP_INACTIVE_CRON || DEFAULT_SCHEDULE,
+    process.env.CLEANUP_INACTIVE_CRON,
     async () => {
       try {
         const result = await accountService.cleanupInactive();
         console.log(
-          `Inactive account cleanup: deleted ${result.deletedCount}, failed ${result.failedCount}`
+          `Scheduler: ${new Date().toString()} Inactive account cleanup: deleted ${result.deletedCount}, failed ${result.failedCount}`
         );
         if (result.failedCount) {
           console.error(
@@ -21,7 +25,10 @@ const start = () => {
           );
         }
       } catch (err) {
-        console.error("Inactive account cleanup failed", err);
+        console.error(
+          `Scheduler: ${new Date().toString()} Inactive account cleanup failed`,
+          err
+        );
       }
     },
     {
