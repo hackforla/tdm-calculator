@@ -270,7 +270,7 @@ const WizardFooter = ({
         formattedDateModified && loggedInUserId ? (
           <div className={classes.datesStatus}>
             <div>
-              <strong>Snapshot Owner: </strong>
+              <strong>Snapshot Created By: </strong>
               {firstName} {lastName}, {email}
             </div>
             <div>

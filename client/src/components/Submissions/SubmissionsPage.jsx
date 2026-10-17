@@ -123,7 +123,7 @@ const useStyles = createUseStyles(theme => ({
   },
   searchBar: {
     maxWidth: "100%",
-    width: "27rem",
+    width: "38rem",
     padding: "12px 12px 12px 48px"
   },
   searchIcon: {
@@ -395,13 +395,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     setCurrentPage(1);
   };
 
-  const fullTextHeaders = [
-    "name",
-    "address",
-    "assignee",
-    "description",
-    "alternative"
-  ];
+  const fullTextHeaders = ["name", "projectName", "address", "assignee"];
 
   const filter = (p, criteria) =>
     filterProjects(p, criteria, calculations, fullTextHeaders);
@@ -620,7 +614,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                   type="search"
                   id="filterText"
                   name="filterText"
-                  placeholder="Search by TDM Plan Name; Address; Description; Staff Assigned"
+                  placeholder="Search by TDM Plan Name, Development Project Name, Address, Staff Assigned"
                   value={filterCriteria.filterText}
                   onChange={e => handleFilterTextChange(e.target.value)}
                 />
