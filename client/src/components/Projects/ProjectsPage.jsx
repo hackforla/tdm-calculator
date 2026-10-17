@@ -137,7 +137,7 @@ const useStyles = createUseStyles(theme => ({
   },
   searchBar: {
     maxWidth: "100%",
-    width: "27em",
+    width: "40em",
     padding: "12px 12px 12px 48px",
     marginRight: "0.5rem"
   },
@@ -954,7 +954,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     type="search"
                     id="filterText"
                     name="filterText"
-                    placeholder="Search by Project Name, Address, Alt No., Description"
+                    placeholder="Search by TDM Plan Name, Development Project Name, Address, Alt No., Description"
                     value={filterCriteria.filterText}
                     onChange={e => handleFilterTextChange(e.target.value)}
                     aria-label="Search for project"

@@ -73,7 +73,7 @@ const PdfFooter = ({ project, rules }) => {
       {dateModified && loginId ? (
         <>
           <div className={classes.pdfTimeText}>
-            Snapshot Owner: {firstName} {lastName}, {email}
+            Snapshot Created By: {firstName} {lastName}, {email}
           </div>
           <div className={classes.pdfTimeText}>
             Guidelines Version:

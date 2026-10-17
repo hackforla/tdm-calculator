@@ -79,6 +79,17 @@ const sampleProject = {
   onHold: false
 };
 
+const regularAccount = {
+  email: "user@example.com",
+  firstName: "Regular",
+  lastName: "User",
+  isAdmin: false,
+  isSecurityAdmin: false
+};
+
+const NO_MATCH_MESSAGE =
+  "No TDM Plans with that search/filter/sort criteria";
+
 const renderPage = (account = adminAccount) =>
   render(
     <MemoryRouter>
@@ -109,9 +120,10 @@ describe("SubmissionsPage empty-state hardening", () => {
       screen.queryByText("There are no TDM Plan submissions on this account.")
     ).not.toBeInTheDocument();
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
+    expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
     expect(
       screen.queryByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       )
     ).not.toBeVisible();
     expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
@@ -147,9 +159,10 @@ describe("SubmissionsPage empty-state hardening", () => {
       "/faqs"
     );
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
+    expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
     expect(
       screen.queryByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       )
     ).not.toBeVisible();
     expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
@@ -170,9 +183,11 @@ describe("SubmissionsPage empty-state hardening", () => {
     expect(
       screen.queryByText("There are no TDM Plan submissions on this account.")
     ).not.toBeInTheDocument();
+    expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
+    expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
     expect(
       screen.getByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       )
     ).toBeInTheDocument();
     expect(screen.getByText("RESET FILTERS/SORT")).toBeInTheDocument();
@@ -195,9 +210,10 @@ describe("SubmissionsPage empty-state hardening", () => {
       screen.queryByText("There are no TDM Plan submissions on this account.")
     ).not.toBeInTheDocument();
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
+    expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
     expect(
       screen.queryByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       )
     ).not.toBeVisible();
     expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
@@ -239,7 +255,7 @@ describe("SubmissionsPage empty-state hardening", () => {
 
     await user.type(
       screen.getByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       ),
       "zzz-no-match"
     );
@@ -251,12 +267,52 @@ describe("SubmissionsPage empty-state hardening", () => {
     expect(
       screen.queryByText("There are no TDM Plan submissions on this account.")
     ).not.toBeInTheDocument();
-    expect(screen.getByText("No Saved Projects")).toBeInTheDocument();
+    expect(screen.getByText(NO_MATCH_MESSAGE)).toBeInTheDocument();
+    expect(screen.getByText(NO_MATCH_MESSAGE).closest("td")).toBeNull();
+    expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
     expect(
       screen.getByLabelText(
-        /Search Project By Name, Address, Description, Alt#/i
+        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
       )
     ).toBeInTheDocument();
     expect(screen.getByText("RESET FILTERS/SORT")).toBeInTheDocument();
+
+    await user.click(screen.getByText("RESET FILTERS/SORT"));
+
+    expect(await screen.findByText("Sample Project")).toBeInTheDocument();
+    expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
+  });
+
+  test("shows no-match feedback when a column filter hides every row, then restores rows on reset", async () => {
+    projectService.getSubmissions.mockResolvedValue({
+      data: [sampleProject]
+    });
+    const user = userEvent.setup();
+
+    renderPage(regularAccount);
+
+    expect(await screen.findByText("Sample Project")).toBeInTheDocument();
+    expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
+
+    await user.click(screen.getByText("On Hold"));
+    await user.click(screen.getByRole("radio", { name: "Not selected On Hold" }));
+    await user.click(screen.getByRole("button", { name: "Apply" }));
+
+    await waitFor(() => {
+      expect(screen.queryByText("Sample Project")).not.toBeInTheDocument();
+    });
+
+    expect(screen.getByText(NO_MATCH_MESSAGE)).toBeInTheDocument();
+    expect(screen.getByText(NO_MATCH_MESSAGE).closest("td")).toBeNull();
+    expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("There are no TDM Plan submissions on this account.")
+    ).not.toBeInTheDocument();
+    expect(screen.getByText("RESET FILTERS/SORT")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "RESET FILTERS/SORT" }));
+
+    expect(await screen.findByText("Sample Project")).toBeInTheDocument();
+    expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
   });
 });

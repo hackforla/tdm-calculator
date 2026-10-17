@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createUseStyles } from "react-jss";
 import TermsAndConditionsContent from "./TermsAndConditionsContent";
 import ContentContainer from "../Layout/ContentContainer";
@@ -10,6 +10,11 @@ const useStyles = createUseStyles({
 });
 
 const TermsAndConditionsPage = () => {
+  useEffect(() => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }, []);
+
   const classes = useStyles();
   return (
     <ContentContainer>

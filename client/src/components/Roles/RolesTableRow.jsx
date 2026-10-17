@@ -14,6 +14,7 @@ import RolesContextMenu from "../ArchiveDelete/RolesContextMenu";
 
 const RolesTableRow = ({
   account,
+  index,
   classes,
   loggedInUserId,
   onInputChange,
@@ -37,6 +38,8 @@ const RolesTableRow = ({
   const userFullName =
     `${account?.firstName || ""} ${account?.lastName || ""}`.trim();
 
+  const row = `row ${index + 1}`
+
   return (
     <tr className={isHovered ? classes.hoveredRow : ""}>
       <td className={classes.td}>{account.email}</td>
@@ -49,8 +52,8 @@ const RolesTableRow = ({
           type="checkbox"
           value={true}
           checked={account.isAdmin}
-          onChange={e => onInputChange(e, account)}
-          name="isAdmin"
+          onChange={e => onInputChange(e, account, "isAdmin")}
+          name={`isAdmin ${row} ${account.lastName}, ${account.firstName}`}
           aria-label={`Toggle Admin role for ${userFullName || account?.email}`}
         />
       </td>
@@ -59,8 +62,8 @@ const RolesTableRow = ({
           type="checkbox"
           value={true}
           checked={account.isSecurityAdmin}
-          onChange={e => onInputChange(e, account)}
-          name="isSecurityAdmin"
+          onChange={e => onInputChange(e, account, "isSecurityAdmin")}
+          name={`isSecurityAdmin ${row} ${account.lastName}, ${account.firstName}`}
           aria-label={`Toggle Security Admin role for ${
             userFullName || account?.email
           }`}
@@ -71,8 +74,8 @@ const RolesTableRow = ({
           type="checkbox"
           value={true}
           checked={account.isDro}
-          onChange={e => onInputChange(e, account)}
-          name="isDro"
+          onChange={e => onInputChange(e, account, "isDro")}
+          name={`isDro ${row} ${account.lastName}, ${account.firstName}`}
           aria-label={`Toggle Development Review Office role for ${
             userFullName || account?.email
           }`}
@@ -119,6 +122,7 @@ const RolesTableRow = ({
 
 RolesTableRow.propTypes = {
   account: PropTypes.object.isRequired,
+  index: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   loggedInUserId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onInputChange: PropTypes.func.isRequired,
