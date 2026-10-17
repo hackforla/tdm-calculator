@@ -532,16 +532,12 @@ const ManageSubmissions = ({ contentContainerRef }) => {
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "flex-start",
               width: "100vw"
             }}
           >
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                alignSelf: "center",
-                justifyContent: "center",
                 flexBasis: "33%"
               }}
             ></div>
@@ -568,20 +564,13 @@ const ManageSubmissions = ({ contentContainerRef }) => {
               </div>
             </div>
 
-            <div
-              style={{
-                paddingRight: "1rem",
-                display: "flex",
-                justifyContent: "flex-end",
-                flexBasis: "33%"
-              }}
-            >
+            <div>
               <Button
                 onClick={resetFiltersSort}
                 isDisplayed={true}
                 variant="tertiary"
               >
-                RESET FILTERS/SORT
+                RESET SEARCH / FILTER / SORT
               </Button>
             </div>
           </div>

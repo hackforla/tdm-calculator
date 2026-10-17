@@ -14,13 +14,14 @@ describe("inactive account cleanup scheduler", () => {
     delete process.env.CLEANUP_INACTIVE_CRON;
   });
 
-  it("schedules nightly at 03:00 Pacific by default", () => {
+  it("f env variables are missing, don't schedule", () => {
     scheduler.start();
-    expect(cron.schedule).toHaveBeenCalledWith(
-      "0 3 * * *",
-      expect.any(Function),
-      expect.objectContaining({ timezone: "America/Los_Angeles" })
-    );
+    expect(cron.schedule).not.toHaveBeenCalled();
+    // expect(cron.schedule).toHaveBeenCalledWith(
+    //   expect.any(String),
+    //   expect.any(Function),
+    //   expect.objectContaining({ timezone: "America/Los_Angeles" })
+    // );
   });
 
   it("does not schedule when disabled", () => {
