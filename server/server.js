@@ -1,5 +1,4 @@
 const express = require("express");
-// const cors = require("cors");
 const path = require("path");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
@@ -10,7 +9,7 @@ const helmet = require("helmet");
 const { truncate } = require("fs");
 const swaggerUi = require("swagger-ui-express");
 const { openapiSpec, swaggerUiOptions } = require("./app/docs/openapi");
-// const pino = require("express-pino-logger")();
+const scheduler = require("./app/jobs/scheduler");
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -137,9 +136,12 @@ app.use((err, req, res) => {
 app.use(errorHandler);
 
 if (process.env.TEST_ENV !== "true") {
+  // Start Web API server
   app.listen(port, () => {
     console.log(`Server running on port ${port}`);
   });
+  // Start scheduler
+  scheduler.start();
 }
 
 module.exports = app;
