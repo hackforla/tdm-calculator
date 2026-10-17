@@ -61,7 +61,7 @@ function ProjectTargetPoints(props) {
   return (
     <div>
       <h1 style={theme.typography.heading1}>
-        <span>Calculate Project TDM Target Points</span>
+        <span>Calculate TDM Plan Target Points</span>
       </h1>
       <h2 style={theme.typography.subHeading}>
         <span>
