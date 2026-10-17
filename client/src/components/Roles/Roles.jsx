@@ -191,9 +191,9 @@ const Roles = ({ contentContainerRef }) => {
     }
   };
 
-  const onInputChange = async (e, account) => {
+  const onInputChange = async (e, account, role) => {
     const newAccount = { ...account };
-    newAccount[e.target.name] = e.target.checked;
+    newAccount[role] = e.target.checked;
     const newAccounts = [...accounts];
     const index = newAccounts.findIndex(a => a.id === newAccount.id);
     newAccounts[index] = newAccount;
@@ -201,9 +201,9 @@ const Roles = ({ contentContainerRef }) => {
     filt(newAccounts, searchString);
 
     const msg = `The ${
-      e.target.name === "isAdmin"
+      role === "isAdmin"
         ? "Admin"
-        : e.target.name === "isDro"
+        : role === "isDro"
           ? "Development Review Office"
           : "Security Admin"
     } role has been ${e.target.checked ? "granted to" : "revoked from"} ${
@@ -362,10 +362,11 @@ const Roles = ({ contentContainerRef }) => {
           </thead>
           <tbody className={classes.tbody}>
             {filteredAccounts &&
-              filteredAccounts.map(account => (
+              filteredAccounts.map((account, index) => (
                 <RolesTableRow
                   key={JSON.stringify(account)}
                   account={account}
+                  index={index}
                   classes={classes}
                   loggedInUserId={loggedInUserId}
                   onInputChange={onInputChange}

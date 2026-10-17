@@ -5,11 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      // The client must be running on the terminal to debug the client from vscode
+      "name": "Client - Chrome",
       "request": "launch",
-      "name": "Launch Web API Server",
-      "program": "${workspaceFolder}\\server\\server.js",
-      "envFile": "${workspaceFolder}\\server\\.env"
+      "type": "chrome",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/client"
+    },
+    {
+      "name": "Server",
+      "request": "launch",
+      "type": "node",
+      "program": "${workspaceFolder}/server/server.js",
+      "envFile": "${workspaceFolder}/server/.env"
     }
   ]
 }
