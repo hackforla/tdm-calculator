@@ -582,7 +582,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
             style={{
               display: projects.length > 0 ? "flex" : "none",
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "flex-start",
               width: "100vw"
             }}
           >
@@ -622,20 +622,13 @@ const SubmissionsPage = ({ contentContainerRef }) => {
               </div>
             </div>
 
-            <div
-              style={{
-                paddingRight: "1rem",
-                display: "flex",
-                justifyContent: "flex-end",
-                flexBasis: "33%"
-              }}
-            >
+            <div>
               <Button
                 onClick={resetFiltersSort}
                 isDisplayed={true}
                 variant="tertiary"
               >
-                RESET FILTERS/SORT
+                RESET SEARCH / FILTER / SORT
               </Button>
             </div>
           </div>
