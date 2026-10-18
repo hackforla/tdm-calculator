@@ -14,7 +14,7 @@ describe("inactive account cleanup scheduler", () => {
     delete process.env.CLEANUP_INACTIVE_CRON;
   });
 
-  it("f env variables are missing, don't schedule", () => {
+  it("If env variables are missing, don't schedule", () => {
     scheduler.start();
     expect(cron.schedule).not.toHaveBeenCalled();
     // expect(cron.schedule).toHaveBeenCalledWith(
@@ -31,6 +31,8 @@ describe("inactive account cleanup scheduler", () => {
   });
 
   it("runs cleanup and logs failures without emails", async () => {
+    process.env.CLEANUP_INACTIVE_ENABLED = "true";
+    process.env.CLEANUP_INACTIVE_CRON = "* * * * *";
     accountService.cleanupInactive.mockResolvedValue({
       deletedCount: 1,
       failedCount: 1,
