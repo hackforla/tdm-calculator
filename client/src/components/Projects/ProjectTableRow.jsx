@@ -15,6 +15,7 @@ import {
 } from "react-icons/md";
 import { formatDate, formatId } from "../../helpers/util";
 import ProjectContextMenu from "./ProjectContextMenu";
+import ProjectSharingStatus from "./ProjectSharingStatus";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import useCalculator from "../../hooks/useCalculator";
 import usePrintOnDemand from "../../hooks/usePrintOnDemand";
@@ -362,6 +363,15 @@ const ProjectTableRow = ({
           ) : null}
         </span>
       </Td>
+      {isActiveProjectsTab && (
+        <Td align="center">
+          <ProjectSharingStatus
+            project={project}
+            loginId={loginId}
+            onShare={handleShareSnapshotModalOpen}
+          />
+        </Td>
+      )}
       <Td className={classes.td}>{formatId(project.id)}</Td>
       <TdExpandable>
         <Link to={`/calculation/1/${project.id}`}>{project.name}</Link>

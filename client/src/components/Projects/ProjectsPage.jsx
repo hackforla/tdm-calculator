@@ -38,11 +38,16 @@ import {
   filter as filterProjects,
   getSortOrdinal
 } from "../UI/ColumnHeaderPopups/Helpers";
+import {
+  getProjectShareStatus,
+  getCriteriaForProjectTab
+} from "./projectHelpers";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   type: "all",
+  sharedList: [],
   visibility: "visible",
   name: "",
   address: "",
@@ -373,6 +378,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
         return {
           ...project,
+          shared: getProjectShareStatus(project, loginId),
           author: project.lastName
             ? `${project.lastName}, ${project.firstName}`
             : "",
@@ -623,6 +629,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleShareSnapshotModalClose = async () => {
     setShareSnapshotModalOpen(false);
+    try {
+      await updateProjects();
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   const handleHide = async project => {
@@ -740,8 +751,26 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setFilter({ ...filterCriteria, filterText: text });
   };
 
-  const filter = (p, criteria) =>
-    filterProjects(p, criteria, calculations, fullTextHeaders);
+  const {
+    filterCriteria: tabFilterCriteria,
+    sortCriteria: tabSortCriteria,
+    inactiveFilterCriteria
+  } = getCriteriaForProjectTab(
+    { filterCriteria, sortCriteria },
+    isActiveProjectsTab
+  );
+
+  // Popups supply modified criteria to build their choices. Reuse the same
+  // hidden-column defaults while preserving those popup-specific changes.
+  const matchesTabCriteria = (project, columnCriteria) =>
+    filterProjects(
+      project,
+      columnCriteria
+        ? { ...columnCriteria, ...inactiveFilterCriteria }
+        : tabFilterCriteria,
+      calculations,
+      fullTextHeaders
+    );
 
   const resetFiltersSort = () => {
     updateViewPreferences({
@@ -801,6 +830,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "status",
       colWidth: `${isActiveProjectsTab ? "9rem" : "14rem"}`
     },
+    ...(isActiveProjectsTab
+      ? [
+          {
+            id: "shared",
+            label: "Shared",
+            popupType: "shared",
+            colWidth: "10rem"
+          }
+        ]
+      : []),
     {
       id: "idFormatted",
       label: "ID",
@@ -907,10 +946,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  let sortedProjects = tabProjects.filter(p => filter(p, filterCriteria));
-  for (let i = 0; i < sortCriteria.length; i++) {
+  let sortedProjects = tabProjects.filter(project =>
+    matchesTabCriteria(project)
+  );
+  for (let i = 0; i < tabSortCriteria.length; i++) {
     sortedProjects.sort(
-      getComparator(sortCriteria[i].direction, sortCriteria[i].field)
+      getComparator(tabSortCriteria[i].direction, tabSortCriteria[i].field)
     );
   }
 
@@ -1036,7 +1077,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         <th key={header.id} className={classes.stickyTh}>
                           <ProjectTableColumnHeader
                             projects={tabProjects}
-                            filter={filter}
+                            filter={matchesTabCriteria}
                             header={header}
                             criteria={filterCriteria}
                             setCriteria={setFilter}
@@ -1045,7 +1086,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             order={columnSort?.direction}
                             orderByOrdinal={getSortOrdinal(
                               header,
-                              sortCriteria
+                              tabSortCriteria
                             )}
                             setCheckedProjectIds={setCheckedProjectIds}
                             setSelectAllChecked={setSelectAllChecked}
