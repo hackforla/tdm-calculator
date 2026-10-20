@@ -10,8 +10,8 @@ const getAll = async loginId => {
     request.input("LoginId", mssql.Int, loginId);
     const response = await request.execute("Project_SelectAll");
 
-    // The total share count doesn't tell us whether the current account is a
-    // recipient. Admins can see projects that were shared only with others.
+    // Admins can see all projects, so a positive share count doesn't mean
+    // the current account is a recipient. Look up its shares explicitly.
     const sharingRequest = pool.request();
     sharingRequest.input("LoginId", mssql.Int, loginId);
     const sharingResponse = await sharingRequest.query(`
