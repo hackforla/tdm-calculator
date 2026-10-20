@@ -57,7 +57,7 @@ const useStyles = createUseStyles({
     marginTop: "25px"
   },
   categoryHeaderContainer: {
-    background: "#E7EBF0",
+    background: "#EEF1F4",
     paddingLeft: "12px",
     paddingRight: "3rem",
     paddingTop: "4px"
@@ -67,8 +67,7 @@ const useStyles = createUseStyles({
     fontFamily: "Calibri",
     fontWeight: "700",
     fontStyle: "normal",
-    lineHeight: "32px",
-    background: "#E7EBF0"
+    lineHeight: "32px"
     // fontSmoothing: "antialiased"
   },
   resultsContainer: {
