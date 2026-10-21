@@ -30,7 +30,7 @@ import Button from "../Button/Button";
 import useSessionStorage from "../../hooks/useSessionStorage";
 import {
   SORT_CRITERIA_STORAGE_TAG,
-  FILTER_CRITERIA_STORAGE_TAG
+  TAB_FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
 import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 import { fetchDroOptions } from "helpers/FetchDroOptions";
@@ -248,17 +248,20 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
-  const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
-    FILTER_CRITERIA_STORAGE_TAG,
-    DEFAULT_FILTER_CRITERIA
+  const [filtersByTab, setFiltersByTab] = useSessionStorage(
+    TAB_FILTER_CRITERIA_STORAGE_TAG,
+    {
+      active: DEFAULT_FILTER_CRITERIA,
+      deleted: DEFAULT_FILTER_CRITERIA
+    }
   );
   const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
     SORT_CRITERIA_STORAGE_TAG,
     DEFAULT_SORT_CRITERIA
   );
 
-  const formatDatesFromCookieStrigify = sessionFilterCriteria => {
-    const newFilterCriteria = { ...sessionFilterCriteria };
+  const restoreFilterDates = storedCriteria => {
+    const newFilterCriteria = { ...DEFAULT_FILTER_CRITERIA, ...storedCriteria };
     const dateProperties = [
       "startDateCreated",
       "endDateCreated",
@@ -272,17 +275,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
       "endDateModifiedAdmin"
     ];
     dateProperties.forEach(dateProp => {
-      if (sessionFilterCriteria[dateProp] !== null) {
-        newFilterCriteria[dateProp] = new Date(sessionFilterCriteria[dateProp]);
+      if (newFilterCriteria[dateProp] != null) {
+        newFilterCriteria[dateProp] = new Date(newFilterCriteria[dateProp]);
       }
     });
     return newFilterCriteria;
   };
 
   const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
-  const [filterCriteria, setFilterCriteria] = useState(
-    formatDatesFromCookieStrigify(sessionFilterCriteria)
-  );
 
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
@@ -305,6 +305,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [perPage, setPerPage] = useState(10);
   const [droOptions, setDroOptions] = useState([]);
   const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
+  const activeTab = isActiveProjectsTab ? "active" : "deleted";
+  const filterCriteria = restoreFilterDates(filtersByTab[activeTab]);
   const { getProjects } = useProject();
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
@@ -328,10 +330,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     checkedProjectIds,
     projects
   );
-
-  const handleTabClick = e => {
-    setIsActiveProjectsTab(e.target.innerText === "TDM Plans");
-  };
 
   const enhancedProjects = projects
     ? projects.map(project => {
@@ -410,6 +408,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   useEffect(() => {
+    setCurrentPage(1);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   }, [isActiveProjectsTab]);
@@ -669,8 +668,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const setFilter = newFilterCriteria => {
-    setSessionFilterCriteria(newFilterCriteria);
-    setFilterCriteria(newFilterCriteria);
+    setFiltersByTab(previous => ({
+      ...previous,
+      [activeTab]: newFilterCriteria
+    }));
     setCurrentPage(1);
   };
 
@@ -694,10 +695,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleFilterTextChange = text => {
-    setFilterCriteria(crit => {
-      return { ...crit, filterText: text };
-    });
-    setCurrentPage(1);
+    setFilter({ ...filterCriteria, filterText: text });
   };
 
   const filter = (p, criteria) =>
@@ -705,6 +703,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const resetFiltersSort = () => {
     setFilter(DEFAULT_FILTER_CRITERIA);
+    setSessionSortCriteria(DEFAULT_SORT_CRITERIA);
     setSortCriteria(DEFAULT_SORT_CRITERIA);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
@@ -889,7 +888,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     : classes.inactivePageTab
                 }
               `}
-          onClick={handleTabClick}
+          onClick={() => setIsActiveProjectsTab(true)}
         >
           TDM Plans
         </span>
@@ -901,7 +900,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     : classes.activePageTab
                 }
               `}
-          onClick={handleTabClick}
+          onClick={() => setIsActiveProjectsTab(false)}
         >
           Deleted TDM Plans
         </span>
