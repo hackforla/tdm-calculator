@@ -1,19 +1,19 @@
-import Popup from "reactjs-popup";
 import PropTypes from "prop-types";
+import { useContext, useRef } from "react";
 import { createUseStyles } from "react-jss";
 import { useReactToPrint } from "react-to-print";
-import { useRef, useContext } from "react";
+import Popup from "reactjs-popup";
 
-import Button from "../Button/Button";
 import CalculationsContext from "../../contexts/CalculationsContext";
-import NavButton from "../Button/NavButton";
-import NumberedLink from "./NumberedLink";
-import ProjectContextMenu from "../Projects/ProjectContextMenu";
 import UserContext from "../../contexts/UserContext";
-import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { formatCalculation } from "../../helpers/Calculations";
-import { formatDatetime } from "../../helpers/util";
+import { formatDate, formatDatetime } from "../../helpers/util";
 import { useReplaceAriaAttribute } from "../../hooks/useReplaceAriaAttribute";
+import Button from "../Button/Button";
+import NavButton from "../Button/NavButton";
+import { PdfPrint } from "../PdfPrint/PdfPrint";
+import ProjectContextMenu from "../Projects/ProjectContextMenu";
+import NumberedLink from "./NumberedLink";
 
 const useStyles = createUseStyles({
   allButtonsWrapper: {
@@ -99,6 +99,9 @@ const WizardFooter = ({
   const formattedDateSnapshotted = formatDatetime(project.dateSnapshotted);
   const formattedDateSubmitted = formatDatetime(project.dateSubmitted);
   const formattedDateModified = formatDatetime(project.dateModified);
+  const deletedStatus = project.dateTrashed
+    ? `Deleted${project.dateSnapshotted ? " Snapshot" : ""} ${formatDate(project.dateTrashed)}`
+    : null;
   const userContext = useContext(UserContext);
   const calculations = useContext(CalculationsContext);
   const loggedInUserId = userContext.account?.id || null;
@@ -285,11 +288,13 @@ const WizardFooter = ({
             )}
             <div className={classes.pdfTimeText}>
               <strong>Status: </strong>
-              {!formattedDateSnapshotted
-                ? "Draft"
-                : project.shareCount
-                  ? "Shared Snapshot"
-                  : "Snapshot"}
+              {deletedStatus
+                ? deletedStatus
+                : !formattedDateSnapshotted
+                  ? "Draft"
+                  : project.shareCount
+                    ? "Shared Snapshot"
+                    : "Snapshot"}
             </div>
             {formattedDateSubmitted ? (
               <div>
@@ -316,7 +321,7 @@ const WizardFooter = ({
             </div>
             <div className={classes.pdfTimeText}>
               <strong>Status: </strong>
-              Draft
+              {deletedStatus || "Draft"}
             </div>
             <div>
               <strong>Date Last Saved: </strong>

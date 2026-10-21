@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
-import { createUseStyles } from "react-jss";
-import UserContext from "../../contexts/UserContext";
 import { DateTime } from "luxon";
-import { formatDatetime } from "../../helpers/util";
-import { formatCalculation } from "../../helpers/Calculations";
+import PropTypes from "prop-types";
+import { useContext, useEffect, useState } from "react";
+import { createUseStyles } from "react-jss";
 import CalculationsContext from "../../contexts/CalculationsContext";
+import UserContext from "../../contexts/UserContext";
+import { formatCalculation } from "../../helpers/Calculations";
+import { formatDate, formatDatetime } from "../../helpers/util";
 
 const useStyles = createUseStyles({
   pdfTimeText: {
@@ -47,6 +47,9 @@ const PdfFooter = ({ project, rules }) => {
   const formattedDateModified = formatDatetime(dateModified);
   const formattedDateSnapshotted = formatDatetime(dateSnapshotted);
   const formattedDateSubmitted = formatDatetime(dateSubmitted);
+  const deletedStatus = project.dateTrashed
+    ? `Deleted${dateSnapshotted ? " Snapshot" : ""} ${formatDate(project.dateTrashed)}`
+    : null;
 
   const [formattedDatePrinted, setFormattedDatePrinted] = useState(
     formatDatetime(DateTime.now())
@@ -86,11 +89,13 @@ const PdfFooter = ({ project, rules }) => {
           )}
           <div className={classes.pdfTimeText}>
             Status:{" "}
-            {!formattedDateSnapshotted
-              ? "Draft"
-              : shareCount
-                ? "Shared Snapshot"
-                : "Snapshot"}
+            {deletedStatus
+              ? deletedStatus
+              : !formattedDateSnapshotted
+                ? "Draft"
+                : shareCount
+                  ? "Shared Snapshot"
+                  : "Snapshot"}
           </div>
           {formattedDateSubmitted && (
             <div className={classes.pdfTimeText}>
@@ -119,7 +124,9 @@ const PdfFooter = ({ project, rules }) => {
               Submission Status: {project.approvalStatusName}
             </div>
           )}
-          <div className={classes.pdfTimeText}>Status: Draft</div>
+          <div className={classes.pdfTimeText}>
+            Status: {deletedStatus || "Draft"}
+          </div>
           <div className={classes.pdfTimeText}>Date Last Saved: Unsaved</div>
         </>
       )}
