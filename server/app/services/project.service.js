@@ -9,7 +9,25 @@ const getAll = async loginId => {
     const request = pool.request();
     request.input("LoginId", mssql.Int, loginId);
     const response = await request.execute("Project_SelectAll");
-    return response.recordset;
+
+    // Admins can see all projects, so a positive share count doesn't mean
+    // the current account is a recipient. Look up its shares explicitly.
+    const sharingRequest = pool.request();
+    sharingRequest.input("LoginId", mssql.Int, loginId);
+    const sharingResponse = await sharingRequest.query(`
+      SELECT DISTINCT ps.projectId
+      FROM dbo.ProjectShare ps
+      INNER JOIN dbo.Login recipient ON recipient.email = ps.email
+      WHERE recipient.id = @LoginId
+    `);
+    const sharedProjectIds = sharingResponse.recordset.map(
+      row => row.projectId
+    );
+
+    return response.recordset.map(project => ({
+      ...project,
+      isSharedWithMe: sharedProjectIds.includes(project.id)
+    }));
   } catch (err) {
     console.log(err);
   }
