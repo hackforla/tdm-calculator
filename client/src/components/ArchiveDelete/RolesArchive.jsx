@@ -8,8 +8,9 @@ import { useToast } from "../../contexts/Toast";
 import RolesUnarchiveContextMenu from "./RolesUnarchiveContextMenu";
 import RolesDeleteContextMenu from "./RolesDeleteContextMenu";
 import UserContext from "../../contexts/UserContext";
-import { MdMoreVert, MdOutlineSearch } from "react-icons/md";
+import { MdMoreVert } from "react-icons/md";
 import ContentContainerWithTables from "components/Layout/ContentContainerWithTables";
+import TableSearchField from "components/UI/TableSearchField";
 import DeleteArchivedAccountModal from "components/Modals/WarningArchivedAccountDelete";
 import { formatDate } from "../../helpers/util";
 
@@ -89,29 +90,8 @@ const useStyles = createUseStyles(theme => ({
     backgroundColor: "#B2C0D3"
   },
   searchBarWrapper: {
-    display: "flex",
-    flexDirection: "row",
     alignSelf: "start",
-    position: "relative",
     margin: "1em 0 0 0"
-  },
-  textInputLabel: {
-    fontSize: "20px",
-    fontWeight: "normal",
-    fontStyle: "normal",
-    width: "140px",
-    alignSelf: "center"
-  },
-  searchBar: {
-    width: "300px",
-    padding: "12px 12px 12px 40px"
-  },
-  searchIcon: {
-    position: "absolute",
-    left: "150px",
-    top: "10px",
-    height: "24px",
-    width: "24px"
   },
   popover: {
     display: "flex",
@@ -232,25 +212,19 @@ const RolesArchive = ({ contentContainerRef }) => {
             See All Archived TDM Plans
           </Link>
         </div>
-        <div className={classes.searchBarWrapper}>
-          <label htmlFor="searchString" className={classes.textInputLabel}>
-            Search for user:
-          </label>
-          <input
-            className={classes.searchBar}
-            name="searchString"
-            type="text"
-            value={searchString || ""}
-            onChange={e => {
-              setSearchString(e.target.value);
-              filt(archivedAccounts, e.target.value);
-            }}
-            data-testid="searchString"
-            placeholder="Search by Email or Name"
-            id="searchString"
-          />
-          <MdOutlineSearch className={classes.searchIcon} />
-        </div>
+        <TableSearchField
+          id="searchString"
+          label="Search archived accounts"
+          placeholder="Search by Email or Name"
+          value={searchString || ""}
+          onChange={e => {
+            setSearchString(e.target.value);
+            filt(archivedAccounts, e.target.value);
+          }}
+          width="20rem"
+          className={classes.searchBarWrapper}
+          dataTestId="searchString"
+        />
         <table className={classes.table}>
           <thead className={classes.thead}>
             <tr className={classes.td}>

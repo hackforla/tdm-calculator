@@ -8,6 +8,7 @@ import UserContext from "../../contexts/UserContext";
 import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import RolesTableRow from "./RolesTableRow";
 import Link from "../Link/Link";
+import TableSearchField from "../UI/TableSearchField";
 
 const useStyles = createUseStyles(theme => ({
   main: {
@@ -25,9 +26,6 @@ const useStyles = createUseStyles(theme => ({
     fontSize: "20px",
     fontWeight: "normal",
     fontStyle: "normal"
-  },
-  input: {
-    width: "20rem"
   },
   archiveTitle: {
     marginTop: "0.5em",
@@ -255,21 +253,17 @@ const Roles = ({ contentContainerRef }) => {
           alignItems: "center"
         }}
       >
-        <label htmlFor="searchString" className={classes.textInputLabel}>
-          Find:
-        </label>
-        <input
+        <TableSearchField
           id="searchString"
-          className={classes.input}
-          name="searchString"
-          type="text"
+          label="Search accounts"
           placeholder="Search by Email or Name"
           value={searchString || ""}
           onChange={e => {
             setSearchString(e.target.value);
             filt(accounts, e.target.value);
           }}
-          data-testid="searchString"
+          width="20rem"
+          dataTestId="searchString"
         />
       </div>
       <div
