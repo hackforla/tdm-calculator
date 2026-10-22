@@ -61,7 +61,7 @@ const openapiSpec = swaggerJsdoc({
       { name: "DRO" },
       { name: "Emails" },
       { name: "FAQ Categories" },
-      { name: "Feedback" },
+      { name: "Feedbacks" },
       { name: "Projects" },
       { name: "Project Share" }
     ],
@@ -382,7 +382,7 @@ const openapiSpec = swaggerJsdoc({
       }
     }
   },
-  apis: [path.join(__dirname, "../routes/*.routes.js")]
+  apis: [path.join(__dirname, "../routes/*.routes.js").replace(/\\/g, "/")]
 });
 
 openapiSpec.paths = mergePaths(openapiSpec.paths, additionalPaths);
