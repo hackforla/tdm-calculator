@@ -12,7 +12,7 @@ import Level0Page from "../Level0Page";
 import Result from "./Result";
 import { createUseStyles, useTheme } from "react-jss";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   projectSummary: {
     display: "flex",
     flexDirection: "column",
@@ -57,7 +57,7 @@ const useStyles = createUseStyles({
     marginTop: "25px"
   },
   categoryHeaderContainer: {
-    background: "#EEF1F4",
+    background: theme.colorDeselect,
     paddingLeft: "12px",
     paddingRight: "3rem",
     paddingTop: "4px"
@@ -109,7 +109,7 @@ const useStyles = createUseStyles({
     fontStyle: "italic",
     color: "#C35302"
   }
-});
+}));
 
 const ProjectSummary = props => {
   const classes = useStyles();
