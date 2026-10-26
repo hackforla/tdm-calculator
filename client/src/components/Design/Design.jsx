@@ -4,8 +4,8 @@ import ContentContainer from "../Layout/ContentContainer";
 import MaskedInput from "../UI/MaskedInput";
 import MultiMaskedInput from "../UI/MultiMaskedInput";
 
-import { useReactToPrint } from "react-to-print";
 import { ComponentToPrint } from "./ComponentToPrint";
+import usePrintOnDemand from "../../hooks/usePrintOnDemand";
 
 const useStyles = createUseStyles(theme => ({
   inputGroup: {
@@ -49,10 +49,11 @@ const Design = () => {
     setMaskedInputValue(e.target.value);
   };
 
-  const componentRef = React.useRef(null);
-
-  const printFn = useReactToPrint({
+  const {
     contentRef: componentRef,
+    isPrinting,
+    handlePrint: printFn
+  } = usePrintOnDemand({
     documentTitle: "AwesomeFileName"
   });
 
@@ -101,9 +102,11 @@ const Design = () => {
         <div>
           <label htmlFor="printButton">Print</label>
           <button onClick={printFn}>Print</button>
-          <div style={{ display: "none" }}>
-            <ComponentToPrint ref={componentRef} />
-          </div>
+          {isPrinting && (
+            <div style={{ display: "none" }}>
+              <ComponentToPrint ref={componentRef} />
+            </div>
+          )}
         </div>
       </section>
     </ContentContainer>
