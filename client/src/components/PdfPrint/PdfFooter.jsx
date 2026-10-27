@@ -47,8 +47,9 @@ const PdfFooter = ({ project, rules }) => {
   const formattedDateModified = formatDatetime(dateModified);
   const formattedDateSnapshotted = formatDatetime(dateSnapshotted);
   const formattedDateSubmitted = formatDatetime(dateSubmitted);
+  const projectType = project.dateSnapshotted ? "Snapshot" : "Draft";
   const deletedStatus = project.dateTrashed
-    ? `Deleted${dateSnapshotted ? " Snapshot" : ""} ${formatDate(project.dateTrashed)}`
+    ? `${projectType} Deleted ${formatDate(project.dateTrashed)}`
     : null;
 
   const [formattedDatePrinted, setFormattedDatePrinted] = useState(

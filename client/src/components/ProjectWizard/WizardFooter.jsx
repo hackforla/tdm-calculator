@@ -99,8 +99,9 @@ const WizardFooter = ({
   const formattedDateSnapshotted = formatDatetime(project.dateSnapshotted);
   const formattedDateSubmitted = formatDatetime(project.dateSubmitted);
   const formattedDateModified = formatDatetime(project.dateModified);
+  const projectType = project.dateSnapshotted ? "Snapshot" : "Draft";
   const deletedStatus = project.dateTrashed
-    ? `Deleted${project.dateSnapshotted ? " Snapshot" : ""} ${formatDate(project.dateTrashed)}`
+    ? `${projectType} Deleted ${formatDate(project.dateTrashed)}`
     : null;
   const userContext = useContext(UserContext);
   const calculations = useContext(CalculationsContext);
