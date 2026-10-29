@@ -109,6 +109,29 @@ const TdmCalculationWizard = props => {
   const [selectedDro, setSelectedDro] = useState(null); // Stores the DRO the user selects from the selection modal
   const [committedDro, setCommittedDro] = useState(null); // Stores the DRO the user confirms from the selection modal
   const isSubmittingSnapshot = useRef(false);
+  const deletedPlanToastProjectId = useRef(null);
+  const projectType = project.dateSnapshotted ? "snapshot" : "draft";
+
+  useEffect(() => {
+    if (page !== 5 || !project.dateTrashed || !account?.id || account.isAdmin) {
+      deletedPlanToastProjectId.current = null;
+      return;
+    }
+
+    if (deletedPlanToastProjectId.current === project.id) return;
+    deletedPlanToastProjectId.current = project.id;
+    toast.add(
+      `This TDM Plan ${projectType} is deleted. To edit, restore via "My TDM Plans."`
+    );
+  }, [
+    page,
+    project.id,
+    project.dateTrashed,
+    projectType,
+    account?.id,
+    account?.isAdmin,
+    toast
+  ]);
 
   useEffect(() => {
     fetchDroOptions(setDroOptions);
