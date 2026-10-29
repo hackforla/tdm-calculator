@@ -1,8 +1,7 @@
 import Popup from "reactjs-popup";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
-import { useReactToPrint } from "react-to-print";
-import { useRef, useContext } from "react";
+import { useContext } from "react";
 
 import Button from "../Button/Button";
 import CalculationsContext from "../../contexts/CalculationsContext";
@@ -13,6 +12,7 @@ import UserContext from "../../contexts/UserContext";
 import { PdfPrint } from "../PdfPrint/PdfPrint";
 import { formatCalculation } from "../../helpers/Calculations";
 import { formatDatetime } from "../../helpers/util";
+import usePrintOnDemand from "../../hooks/usePrintOnDemand";
 import { useReplaceAriaAttribute } from "../../hooks/useReplaceAriaAttribute";
 
 const useStyles = createUseStyles({
@@ -114,14 +114,18 @@ const WizardFooter = ({
     value: popupContentId
   });
 
-  const printRef = useRef(null);
-
-  const handlePrint = useReactToPrint({
+  const {
     contentRef: printRef,
-    documentTitle: `Project_${projectName}_Report`,
-    bodyClass: "printContainer",
-    pageStyle: ".printContainer {overflow: hidden;}"
-  });
+    isPrinting,
+    handlePrint
+  } = usePrintOnDemand(
+    {
+      documentTitle: `Project_${projectName}_Report`,
+      bodyClass: "printContainer",
+      pageStyle: ".printContainer {overflow: hidden;}"
+    },
+    !!rules?.length
+  );
 
   return (
     <>
@@ -249,9 +253,11 @@ const WizardFooter = ({
                 </Popup>
               </div>
             )}
-            <div style={{ display: "none" }}>
-              <PdfPrint ref={printRef} rules={rules} project={project} />
-            </div>
+            {isPrinting && (
+              <div style={{ display: "none" }}>
+                <PdfPrint ref={printRef} rules={rules} project={project} />
+              </div>
+            )}
             <Button
               id="saveButton"
               variant="primary"
