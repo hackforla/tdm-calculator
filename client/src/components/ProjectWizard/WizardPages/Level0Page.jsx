@@ -59,8 +59,8 @@ const Level0Page = () => {
         </p>
         <p style={{ marginTop: "2em" }}>
           Final determination of the TDM Ordinance applicability will be made by
-          the Department of Building and Safety upon review of your project
-          application.
+          the Department of Building and Safety upon review of your development
+          project application.
         </p>
       </div>
     </div>

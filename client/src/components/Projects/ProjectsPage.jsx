@@ -131,15 +131,31 @@ const useStyles = createUseStyles(theme => ({
     flexGrow: 0,
     transition: "flex-basis 0.5s ease-in-out"
   },
+  toolbarRow: {
+    display: "flex",
+    width: "100vw",
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  toolBarRowLeftSection: { paddingRight: "0rem" },
+  toolBarRowCenterSection: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "center",
+    justifyContent: "center"
+  },
   searchBarWrapper: {
     position: "relative",
-    alignSelf: "center"
+    alignSelf: "center",
+    flexShrink: 1
   },
   searchBar: {
     maxWidth: "100%",
-    width: "27em",
+    minWidth: "20rem",
+    width: "40rem",
     padding: "12px 12px 12px 48px",
-    marginRight: "0.5rem"
+    marginRight: "0.5rem",
+    flexShrink: 1
   },
   searchIcon: {
     position: "absolute",
@@ -215,7 +231,7 @@ const useStyles = createUseStyles(theme => ({
   tableContainer: {
     overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
     width: "calc(100vw - 20px)",
-    margin: "20px 0px",
+    margin: "10px 0px",
     height: "calc(100vh - 200px - 11.34em)"
   },
   fixTableHead: {
@@ -712,8 +728,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const fullTextHeaders = [
     "name",
+    "projectName",
     "address",
-    "fullName",
+    "author",
     "alternative",
     "description"
   ];
@@ -914,16 +931,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
             justifyContent: "flex-start"
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: "15px"
-            }}
-          >
-            <div>
+          <div className={classes.toolbarRow}>
+            <div style={{ flexBasis: "33%" }}>
               <MultiProjectToolbarMenu
                 handleHideBoxes={handleHide}
                 handleCsvModalOpen={handleCsvModalOpen}
@@ -934,61 +943,41 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 isActiveProjectsTab={isActiveProjectsTab}
               />
             </div>
-            <div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignSelf: "center",
-                  justifyContent: "center",
-                  flexBasis: "33%"
-                }}
-              >
-                <div className={classes.searchBarWrapper}>
-                  <label htmlFor="filterText" className="sr-only">
-                    Search my projects
-                  </label>
-                  <input
-                    className={classes.searchBar}
-                    type="search"
-                    id="filterText"
-                    name="filterText"
-                    placeholder="Search by Project Name, Address, Alt No., Description"
-                    value={filterCriteria.filterText}
-                    onChange={e => handleFilterTextChange(e.target.value)}
-                    aria-label="Search for project"
-                  />
-                  <MdOutlineSearch className={classes.searchIcon} />
-                </div>
-              </div>
+
+            <div className={classes.searchBarWrapper}>
+              <label htmlFor="filterText" className="sr-only">
+                Search my projects
+              </label>
+              <input
+                className={classes.searchBar}
+                type="search"
+                id="filterText"
+                name="filterText"
+                placeholder="Search by TDM Plan Name, Development Project Name, Address, Alt No., Description"
+                value={filterCriteria.filterText}
+                onChange={e => handleFilterTextChange(e.target.value)}
+                aria-label="Search for project"
+              />
+              <MdOutlineSearch className={classes.searchIcon} />
             </div>
             <div>
-              <div
-                style={{
-                  paddingRight: "1.5em",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  flexBasis: "33%"
-                }}
+              <Button
+                onClick={resetFiltersSort}
+                isDisplayed={true}
+                variant="tertiary"
               >
+                RESET SEARCH / FILTER / SORT
+              </Button>
+              {!isActiveProjectsTab && (
                 <Button
-                  onClick={resetFiltersSort}
+                  onClick={handleDeleteModalOpen}
                   isDisplayed={true}
-                  variant="tertiary"
+                  variant="primary"
+                  disabled={!checkedProjectsStatusData.dateTrashed}
                 >
-                  RESET FILTERS/SORT
+                  Restore
                 </Button>
-                {!isActiveProjectsTab && (
-                  <Button
-                    onClick={handleDeleteModalOpen}
-                    isDisplayed={true}
-                    variant="primary"
-                    disabled={!checkedProjectsStatusData.dateTrashed}
-                  >
-                    Restore
-                  </Button>
-                )}
-              </div>
+              )}
             </div>
           </div>
           <div>

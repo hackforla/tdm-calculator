@@ -84,7 +84,7 @@ const useStyles = createUseStyles(theme => ({
   },
   searchBar: {
     maxWidth: "100%",
-    width: "27rem",
+    width: "32rem",
     padding: "12px 12px 12px 48px"
     // marginRight: "0.5rem"
   },
@@ -360,7 +360,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
     setCurrentPage(1);
   };
 
-  const fullTextHeaders = ["name", "author", "assignee"];
+  const fullTextHeaders = ["name", "projectName", "author", "assignee"];
 
   const filter = (p, criteria) =>
     filterProjects(p, criteria, calculations, fullTextHeaders);
@@ -532,16 +532,12 @@ const ManageSubmissions = ({ contentContainerRef }) => {
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "flex-start",
               width: "100vw"
             }}
           >
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                alignSelf: "center",
-                justifyContent: "center",
                 flexBasis: "33%"
               }}
             ></div>
@@ -560,7 +556,7 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                   type="search"
                   id="filterText"
                   name="filterText"
-                  placeholder="Search by TDM Plan Name, Created By, Staff Assigned"
+                  placeholder="TDM Plan Name, Development Project Name, Created By, Assignee"
                   value={filterCriteria.filterText}
                   onChange={e => handleFilterTextChange(e.target.value)}
                 />
@@ -568,20 +564,13 @@ const ManageSubmissions = ({ contentContainerRef }) => {
               </div>
             </div>
 
-            <div
-              style={{
-                paddingRight: "1rem",
-                display: "flex",
-                justifyContent: "flex-end",
-                flexBasis: "33%"
-              }}
-            >
+            <div>
               <Button
                 onClick={resetFiltersSort}
                 isDisplayed={true}
                 variant="tertiary"
               >
-                RESET FILTERS/SORT
+                RESET SEARCH / FILTER / SORT
               </Button>
             </div>
           </div>

@@ -9,7 +9,7 @@ import {
   getSortOrdinal
 } from "../UI/ColumnHeaderPopups/Helpers";
 import { Link } from "react-router-dom";
-import { MdOutlineSearch, MdCheck } from "react-icons/md";
+import { MdOutlineSearch, MdOutlineSearchOff, MdCheck } from "react-icons/md";
 import Pagination from "../UI/Pagination";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
@@ -96,11 +96,21 @@ const useStyles = createUseStyles(theme => ({
     gap: "16px",
     padding: "16px 4px"
   },
+  emptyStateIcon: {
+    width: "28px",
+    height: "28px",
+    color: theme.colorPrintBlack,
+    flexShrink: 0
+  },
   emptyStatePrimary: {
     ...theme.typography.heading3,
     lineHeight: "23px",
     color: theme.colorPrintBlack,
     margin: 0
+  },
+  emptyStateNoMatch: {
+    textAlign: "center",
+    maxWidth: "100%"
   },
   emptyStateSupporting: {
     ...theme.typography.subHeading,
@@ -113,7 +123,7 @@ const useStyles = createUseStyles(theme => ({
   },
   searchBar: {
     maxWidth: "100%",
-    width: "27rem",
+    width: "38rem",
     padding: "12px 12px 12px 48px"
   },
   searchIcon: {
@@ -169,9 +179,6 @@ const useStyles = createUseStyles(theme => ({
       background: theme.colorRowHighlight
     }
   },
-  tdNoSavedProjects: {
-    textAlign: "center"
-  },
   tableContainer: {
     overflow: "auto", // changed to allow Universal Select to show above the page container when expanded
     width: "calc(100vw - 20px)",
@@ -184,6 +191,16 @@ const useStyles = createUseStyles(theme => ({
     "& > table": {
       flexShrink: 0
     }
+  },
+  tableContainerNoMatch: {
+    display: "flex",
+    flexDirection: "column",
+    overflow: "hidden"
+  },
+  tableHeaderScroller: {
+    overflow: "auto",
+    flex: "0 0 auto",
+    width: "100%"
   },
   fixTableHead: {
     overflowY: "auto",
@@ -378,13 +395,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     setCurrentPage(1);
   };
 
-  const fullTextHeaders = [
-    "name",
-    "address",
-    "assignee",
-    "description",
-    "alternative"
-  ];
+  const fullTextHeaders = ["name", "projectName", "address", "assignee"];
 
   const filter = (p, criteria) =>
     filterProjects(p, criteria, calculations, fullTextHeaders);
@@ -523,7 +534,18 @@ const SubmissionsPage = ({ contentContainerRef }) => {
   );
   const hasNoSubmissions =
     submissionsStatus === "success" && projects.length === 0;
+  // Filtered set is empty. This is not an empty account, a failed fetch, or an empty page slice.
+  const hasNoMatchingSubmissions =
+    submissionsStatus === "success" &&
+    projects.length > 0 &&
+    sortedProjects.length === 0;
   const paginationTotalProjects = hasNoSubmissions ? 1 : sortedProjects.length;
+  const withNoMatchHeaderScroller = table =>
+    hasNoMatchingSubmissions ? (
+      <div className={classes.tableHeaderScroller}>{table}</div>
+    ) : (
+      table
+    );
 
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
@@ -560,7 +582,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
             style={{
               display: projects.length > 0 ? "flex" : "none",
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "flex-start",
               width: "100vw"
             }}
           >
@@ -592,7 +614,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                   type="search"
                   id="filterText"
                   name="filterText"
-                  placeholder="Search by TDM Plan Name; Address; Description; Staff Assigned"
+                  placeholder="Search by TDM Plan Name, Development Project Name, Address, Staff Assigned"
                   value={filterCriteria.filterText}
                   onChange={e => handleFilterTextChange(e.target.value)}
                 />
@@ -600,116 +622,126 @@ const SubmissionsPage = ({ contentContainerRef }) => {
               </div>
             </div>
 
-            <div
-              style={{
-                paddingRight: "1rem",
-                display: "flex",
-                justifyContent: "flex-end",
-                flexBasis: "33%"
-              }}
-            >
+            <div>
               <Button
                 onClick={resetFiltersSort}
                 isDisplayed={true}
                 variant="tertiary"
               >
-                RESET FILTERS/SORT
+                RESET SEARCH / FILTER / SORT
               </Button>
             </div>
           </div>
           <div>
             <div
               className={
-                hasNoSubmissions
-                  ? `${classes.tableContainer} ${classes.tableContainerTrueEmpty}`
-                  : classes.tableContainer
+                hasNoMatchingSubmissions
+                  ? `${classes.tableContainer} ${classes.tableContainerNoMatch}`
+                  : hasNoSubmissions
+                    ? `${classes.tableContainer} ${classes.tableContainerTrueEmpty}`
+                    : classes.tableContainer
               }
             >
-              <table className={classes.table}>
-                <colgroup>
-                  {headerData.map(h => (
-                    <col key={h.id} width={h.colWidth} />
-                  ))}
-                </colgroup>
-                <thead className={classes.thead}>
-                  <tr className={classes.tr}>
-                    {headerData.map(header => {
-                      return (
-                        <th key={header.id} className={classes.stickyTh}>
-                          <ProjectTableColumnHeader
-                            projects={projects}
-                            filter={filter}
-                            header={header}
-                            criteria={filterCriteria}
-                            setCriteria={setFilter}
-                            setSort={setSort}
-                            orderBy={
-                              sortCriteria[sortCriteria.length - 1].field
-                            }
-                            order={
-                              sortCriteria[sortCriteria.length - 1].direction
-                            }
-                            orderByOrdinal={getSortOrdinal(
-                              header,
-                              sortCriteria
-                            )}
-                            setCheckedProjectIds={null}
-                            setSelectAllChecked={null}
-                            droOptions={null}
-                          />
-                        </th>
-                      );
-                    })}
-                  </tr>
-                </thead>
-                <tbody className={classes.tbody}>
-                  {currentProjects.length ? (
-                    currentProjects.map(project => (
-                      <tr
-                        key={project.id}
-                        style={{
-                          background: project.dateTrashed ? "#ffdcdc" : ""
-                        }}
-                      >
-                        <Td>{formatId(project.id)}</Td>
-                        <TdExpandable>
-                          <Link to={`/calculation/1/${project.id}`}>
-                            {project.name}
-                          </Link>
-                        </TdExpandable>
-                        <TdExpandable>{project.projectName}</TdExpandable>
-                        <TdExpandable>{project.address}</TdExpandable>
-                        <TdExpandable>{project.alternative}</TdExpandable>
-                        <Td>{formatDate(project.dateCreated)}</Td>
-                        <Td>{formatDate(project.dateModified)}</Td>
-                        <Td>{formatDate(project.dateSubmitted)}</Td>
-                        <Td>{formatDate(project.dateStatus)}</Td>
-                        <Td align="center">{project.projectLevel}</Td>
-                        <Td>{project.droName}</Td>
-                        <TdExpandable>
-                          {project.assignee === loggedInUserName
-                            ? `${project.assignee} (Me)`
-                            : project.assignee}
-                        </TdExpandable>
-                        <Td>{formatDate(project.dateAssigned)}</Td>
-                        <Td>{project.invoiceStatusName}</Td>
-                        <Td>{formatDate(project.dateInvoicePaid)}</Td>
-                        <Td align="center">
-                          {project.onHold ? <MdCheck /> : ""}
-                        </Td>
-                        <Td>{project.approvalStatusName}</Td>
-                        <Td>{formatDate(project.dateCoO)}</Td>
-                      </tr>
-                    ))
-                  ) : submissionsStatus === "success" && !hasNoSubmissions ? (
-                    <tr>
-                      <td colSpan={9} className={classes.tdNoSavedProjects}>
-                        No Saved Projects
-                      </td>
+              {withNoMatchHeaderScroller(
+                <table
+                  className={
+                    userContext.account?.isAdmin
+                      ? classes.tableAdmin
+                      : classes.table
+                  }
+                >
+                  <colgroup>
+                    {headerData.map(h => (
+                      <col key={h.id} width={h.colWidth} />
+                    ))}
+                  </colgroup>
+                  <thead className={classes.thead}>
+                    <tr className={classes.tr}>
+                      {headerData.map(header => {
+                        return (
+                          <th key={header.id} className={classes.stickyTh}>
+                            <ProjectTableColumnHeader
+                              projects={projects}
+                              filter={filter}
+                              header={header}
+                              criteria={filterCriteria}
+                              setCriteria={setFilter}
+                              setSort={setSort}
+                              orderBy={
+                                sortCriteria[sortCriteria.length - 1].field
+                              }
+                              order={
+                                sortCriteria[sortCriteria.length - 1].direction
+                              }
+                              orderByOrdinal={getSortOrdinal(
+                                header,
+                                sortCriteria
+                              )}
+                              setCheckedProjectIds={null}
+                              setSelectAllChecked={null}
+                              droOptions={null}
+                            />
+                          </th>
+                        );
+                      })}
                     </tr>
-                  ) : null}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className={classes.tbody}>
+                    {currentProjects.length
+                      ? currentProjects.map(project => (
+                          <tr
+                            key={project.id}
+                            style={{
+                              background: project.dateTrashed ? "#ffdcdc" : ""
+                            }}
+                          >
+                            <Td>{formatId(project.id)}</Td>
+                            <TdExpandable>
+                              <Link to={`/calculation/1/${project.id}`}>
+                                {project.name}
+                              </Link>
+                            </TdExpandable>
+                            <TdExpandable>{project.projectName}</TdExpandable>
+                            <TdExpandable>{project.address}</TdExpandable>
+                            <TdExpandable>{project.alternative}</TdExpandable>
+                            <Td>{formatDate(project.dateCreated)}</Td>
+                            <Td>{formatDate(project.dateModified)}</Td>
+                            <Td>{formatDate(project.dateSubmitted)}</Td>
+                            <Td>{formatDate(project.dateStatus)}</Td>
+                            <Td align="center">{project.projectLevel}</Td>
+                            <Td>{project.droName}</Td>
+                            <TdExpandable>
+                              {project.assignee === loggedInUserName
+                                ? `${project.assignee} (Me)`
+                                : project.assignee}
+                            </TdExpandable>
+                            <Td>{formatDate(project.dateAssigned)}</Td>
+                            <Td>{project.invoiceStatusName}</Td>
+                            <Td>{formatDate(project.dateInvoicePaid)}</Td>
+                            <Td align="center">
+                              {project.onHold ? <MdCheck /> : ""}
+                            </Td>
+                            <Td>{project.approvalStatusName}</Td>
+                            <Td>{formatDate(project.dateCoO)}</Td>
+                          </tr>
+                        ))
+                      : null}
+                  </tbody>
+                </table>
+              )}
+              {hasNoMatchingSubmissions && (
+                <div className={classes.emptyStateRegion}>
+                  <MdOutlineSearchOff
+                    className={classes.emptyStateIcon}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className={`${classes.emptyStatePrimary} ${classes.emptyStateNoMatch}`}
+                  >
+                    No TDM Plans with that search/filter/sort criteria
+                  </div>
+                </div>
+              )}
               {hasNoSubmissions && (
                 <div className={classes.emptyStateRegion}>
                   <div className={classes.emptyStatePrimary}>

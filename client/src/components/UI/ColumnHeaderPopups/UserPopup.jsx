@@ -33,14 +33,19 @@ const useStyles = createUseStyles(theme => ({
   searchBar: {
     maxWidth: "100%",
     width: "100%",
-    padding: "12px 12px 12px 12px",
-    boxSizing: "border-box"
+    padding: "8px 10px 8px 42px",
+    boxSizing: "border-box",
+    minHeight: "40px"
     // marginRight: "0.5rem"
   },
   searchIcon: {
     position: "absolute",
-    right: "16px",
-    top: "14px"
+    left: "10px",
+    top: "8px",
+    width: "24px",
+    height: "24px",
+    fontSize: "24px",
+    pointerEvents: "none"
   },
   listItem: {
     display: "flex",

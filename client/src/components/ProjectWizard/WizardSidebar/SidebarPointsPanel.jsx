@@ -9,7 +9,7 @@ import ToolTip from "../../ToolTip/ToolTip";
 import { createUseStyles } from "react-jss";
 import ConfigContext from "../../../contexts/ConfigContext";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   resultsPanel: {
     display: "flex",
     flexDirection: "row-reverse",
@@ -21,7 +21,7 @@ const useStyles = createUseStyles({
   },
   divider: {
     border: "none",
-    borderTop: "3px dotted #e7ebf0",
+    borderTop: `3px dotted ${theme.colorMediumGray}`,
     width: "100%"
   },
   calculationProgress: {
@@ -42,7 +42,7 @@ const useStyles = createUseStyles({
     color: "#0f2940",
     overflowY: "scroll"
   }
-});
+}));
 
 //const USE_PROGRESS_DIAL = false;
 

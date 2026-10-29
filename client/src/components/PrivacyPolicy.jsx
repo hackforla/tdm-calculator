@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import { MdLaunch } from "react-icons/md";
@@ -81,7 +81,13 @@ ExternalWebLink.propTypes = {
 };
 
 const PrivacyPolicy = () => {
+  useEffect(() => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }, []);
+
   const classes = useStyles();
+
   return (
     <ContentContainer>
       <div className={classes.privacyContent}>

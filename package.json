@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.2.80",
+  "version": "0.2.81",
   "private": true,
   "scripts": {
     "lint": "lerna run lint",
