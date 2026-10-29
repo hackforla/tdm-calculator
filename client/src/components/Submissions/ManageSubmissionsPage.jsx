@@ -539,10 +539,10 @@ const ManageSubmissions = ({ contentContainerRef }) => {
               <TableSearchField
                 id="filterText"
                 label="Search submissions"
-                placeholder="TDM Plan Name, Development Project Name, Created By, Assignee"
+                placeholder="TDM Plan Name, Development Project Name, Created By, Staff Assigned"
                 value={filterCriteria.filterText}
                 onChange={e => handleFilterTextChange(e.target.value)}
-                width="32rem"
+                width="35rem"
                 className={classes.searchBarWrapper}
               />
             </div>
