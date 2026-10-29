@@ -9,8 +9,9 @@ import {
   getSortOrdinal
 } from "../UI/ColumnHeaderPopups/Helpers";
 import { Link } from "react-router-dom";
-import { MdOutlineSearch, MdOutlineSearchOff, MdCheck } from "react-icons/md";
+import { MdOutlineSearchOff, MdCheck } from "react-icons/md";
 import Pagination from "../UI/Pagination";
+import TableSearchField from "../UI/TableSearchField";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
 import { formatDate, formatId } from "../../helpers/util";
@@ -118,20 +119,7 @@ const useStyles = createUseStyles(theme => ({
     margin: 0
   },
   searchBarWrapper: {
-    position: "relative",
     alignSelf: "center"
-  },
-  searchBar: {
-    maxWidth: "100%",
-    width: "38rem",
-    padding: "12px 12px 12px 48px"
-  },
-  searchIcon: {
-    position: "absolute",
-    left: "14px",
-    top: "10px",
-    height: "28px",
-    width: "28px"
   },
   table: {
     // minWidth: "150rem",
@@ -604,22 +592,15 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                 flexBasis: "33%"
               }}
             >
-              <div className={classes.searchBarWrapper}>
-                <label htmlFor="filterText" className="sr-only">
-                  Search Project By TDM Plan Name, Address, Description, Staff
-                  Assigned
-                </label>
-                <input
-                  className={classes.searchBar}
-                  type="search"
-                  id="filterText"
-                  name="filterText"
-                  placeholder="Search by TDM Plan Name, Development Project Name, Address, Staff Assigned"
-                  value={filterCriteria.filterText}
-                  onChange={e => handleFilterTextChange(e.target.value)}
-                />
-                <MdOutlineSearch className={classes.searchIcon} />
-              </div>
+              <TableSearchField
+                id="filterText"
+                label="Search submissions"
+                placeholder="Search by TDM Plan Name, Development Project Name, Address, Staff Assigned"
+                value={filterCriteria.filterText}
+                onChange={e => handleFilterTextChange(e.target.value)}
+                width="38rem"
+                className={classes.searchBarWrapper}
+              />
             </div>
 
             <div>

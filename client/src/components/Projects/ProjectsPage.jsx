@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "../../contexts/UserContext";
 import CalculationsContext from "../../contexts/CalculationsContext";
-import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
+import TableSearchField from "../UI/TableSearchField";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProject from "../../hooks/useProject";
@@ -145,24 +145,9 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "center"
   },
   searchBarWrapper: {
-    position: "relative",
     alignSelf: "center",
-    flexShrink: 1
-  },
-  searchBar: {
-    maxWidth: "100%",
-    minWidth: "20rem",
-    width: "40rem",
-    padding: "12px 12px 12px 48px",
-    marginRight: "0.5rem",
-    flexShrink: 1
-  },
-  searchIcon: {
-    position: "absolute",
-    left: "14px",
-    top: "10px",
-    height: "28px",
-    width: "28px"
+    flexShrink: 1,
+    marginRight: "0.5rem"
   },
   tableAdmin: {
     minWidth: "135rem",
@@ -944,22 +929,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
               />
             </div>
 
-            <div className={classes.searchBarWrapper}>
-              <label htmlFor="filterText" className="sr-only">
-                Search my projects
-              </label>
-              <input
-                className={classes.searchBar}
-                type="search"
-                id="filterText"
-                name="filterText"
-                placeholder="Search by TDM Plan Name, Development Project Name, Address, Alt No., Description"
-                value={filterCriteria.filterText}
-                onChange={e => handleFilterTextChange(e.target.value)}
-                aria-label="Search for project"
-              />
-              <MdOutlineSearch className={classes.searchIcon} />
-            </div>
+            <TableSearchField
+              id="filterText"
+              label="Search TDM Plans"
+              placeholder="Search by TDM Plan Name, Development Project Name, Address, Alt No., Description"
+              value={filterCriteria.filterText}
+              onChange={e => handleFilterTextChange(e.target.value)}
+              width="40rem"
+              minWidth="20rem"
+              className={classes.searchBarWrapper}
+            />
             <div>
               <Button
                 onClick={resetFiltersSort}
