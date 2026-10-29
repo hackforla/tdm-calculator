@@ -40,7 +40,7 @@
     "mssql": "^11.0.1",
     "node-cron": "^4.6.0",
     "node-flywaydb": "^3.0.7",
-    "nodemailer": "^10.0.9",
+    "nodemailer": "^10.1.4",
     "path": "^0.12.7",
     "sanitize-html": "^2.18.1",
     "swagger-jsdoc": "^6.3.0",
