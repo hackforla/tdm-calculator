@@ -26,7 +26,7 @@ export const useStyles = createUseStyles(theme => ({
   inputField: {
     width: "403px",
     height: "30px",
-    border: "1px solid" + theme.colorGray,
+    border: `1px solid ${theme.colorDarkGray}`,
     marginTop: "8px"
   },
   error: {
