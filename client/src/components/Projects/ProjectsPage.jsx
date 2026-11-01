@@ -187,7 +187,7 @@ const useStyles = createUseStyles(theme => ({
     marginRight: "0.5rem"
   },
   tableAdmin: {
-    minWidth: "135rem",
+    minWidth: "145rem",
     width: "100%",
     tableLayout: "fixed"
   },
@@ -202,7 +202,7 @@ const useStyles = createUseStyles(theme => ({
     tableLayout: "fixed"
   },
   table: {
-    minWidth: "110rem",
+    minWidth: "120rem",
     width: "100%",
     tableLayout: "fixed"
   },
