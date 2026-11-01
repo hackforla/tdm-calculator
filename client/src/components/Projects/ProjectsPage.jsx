@@ -245,50 +245,26 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-const ProjectsPage = ({ contentContainerRef }) => {
+// Only transient tab UI lives here. Shared data and criteria stay in ProjectsPage
+// so remounting the view does not change the existing preference behavior.
+const ProjectsView = ({
+  isActiveProjectsTab,
+  projects,
+  droOptions,
+  updateProjects,
+  filterCriteria,
+  setFilterCriteria,
+  sortCriteria,
+  setSortCriteria,
+  setSessionFilterCriteria,
+  setSessionSortCriteria
+}) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
-  const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
-    FILTER_CRITERIA_STORAGE_TAG,
-    DEFAULT_FILTER_CRITERIA
-  );
-  const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
-    SORT_CRITERIA_STORAGE_TAG,
-    DEFAULT_SORT_CRITERIA
-  );
-
-  const formatDatesFromCookieStrigify = sessionFilterCriteria => {
-    const newFilterCriteria = { ...sessionFilterCriteria };
-    const dateProperties = [
-      "startDateCreated",
-      "endDateCreated",
-      "startDateModified",
-      "endDateModified",
-      "startDateTrashed",
-      "endDateTrashed",
-      "startDateSubmitted",
-      "endDateSubmitted",
-      "startDateModifiedAdmin",
-      "endDateModifiedAdmin"
-    ];
-    dateProperties.forEach(dateProp => {
-      if (sessionFilterCriteria[dateProp] !== null) {
-        newFilterCriteria[dateProp] = new Date(sessionFilterCriteria[dateProp]);
-      }
-    });
-    return newFilterCriteria;
-  };
-
-  const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
-  const [filterCriteria, setFilterCriteria] = useState(
-    formatDatesFromCookieStrigify(sessionFilterCriteria)
-  );
-
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
   const handleError = useErrorHandler(email, navigate);
-  const [projects, setProjects] = useState([]);
   const [copyModalOpen, setCopyModalOpen] = useState(false);
   const [snapshotModalOpen, setSnapshotModalOpen] = useState(false);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
@@ -304,35 +280,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [droOptions, setDroOptions] = useState([]);
-  const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
-  const { getProjects } = useProject();
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
   const loginId = userContext.account?.id || null;
   const isSubmittingSnapshot = useRef(false);
   const calculations = useContext(CalculationsContext);
 
-  useEffect(() => {
-    fetchDroOptions(setDroOptions);
-  }, []);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      const projects = await getProjects();
-      setProjects(projects);
-    };
-    fetchProjects();
-  }, [getProjects]);
-
   const checkedProjectsStatusData = useCheckedProjectsStatusData(
     checkedProjectIds,
     projects
   );
-
-  const handleTabClick = e => {
-    setIsActiveProjectsTab(e.target.innerText === "TDM Plans");
-  };
 
   const enhancedProjects = projects
     ? projects.map(project => {
@@ -405,25 +362,23 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setCopyModalOpen(true);
   };
 
-  const updateProjects = async () => {
-    const projects = await getProjects();
-    setProjects(projects);
-  };
-
   useEffect(() => {
+    // Redundant after keyed remounts: the initial state already clears selection.
+    // Retained to keep this lifecycle-only change focused; safe to remove later.
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   }, [isActiveProjectsTab]);
 
   useEffect(() => {
     // Hacky way to add sr-only label for a11y purposes because react-select doesn't support it natively
-    const selectInput = document.getElementById("react-select-2-input");
+    // Remounts change react-select's generated IDs; use the stable input ID below.
+    const selectInput = document.getElementById("projects-per-page");
     if (
       selectInput &&
       !selectInput.previousSibling?.classList?.contains("sr-only")
     ) {
       const label = document.createElement("label");
-      label.setAttribute("for", "react-select-2-input");
+      label.setAttribute("for", "projects-per-page");
       label.className = "sr-only";
       label.innerText = "Select number of projects per page";
       selectInput.parentNode.insertBefore(label, selectInput);
@@ -880,34 +835,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   document.body.style.overflowX = "hidden"; // prevent page level scrolling, because the table is scrollable
 
   return (
-    <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
-      <h1 className={classes.pageTitle}>My TDM Plans</h1>
-      <div className={classes.pageTabsDiv}>
-        <span
-          className={`${classes.pageTab}
-                ${
-                  isActiveProjectsTab
-                    ? classes.activePageTab
-                    : classes.inactivePageTab
-                }
-              `}
-          onClick={handleTabClick}
-        >
-          TDM Plans
-        </span>
-        <span
-          className={`${classes.pageTab}
-                ${
-                  isActiveProjectsTab
-                    ? classes.inactivePageTab
-                    : classes.activePageTab
-                }
-              `}
-          onClick={handleTabClick}
-        >
-          Deleted TDM Plans
-        </span>
-      </div>
+    <>
+      {/* The page owns the layout and tab controls; this subtree remounts per tab. */}
       <div className={classes.tabBody}>
         <div
           style={{
@@ -1062,7 +991,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
               currentPage={currentPage}
               maxNumOfVisiblePages={5}
             />
+            {/* A stable input ID keeps the existing label effect working after remounts. */}
             <UniversalSelect
+              id="projects-per-page"
               value={perPage.toString()}
               options={perPageOptions}
               onChange={e => handlePerPageChange(e.target.value)}
@@ -1130,6 +1061,134 @@ const ProjectsPage = ({ contentContainerRef }) => {
           )}
         </div>
       </div>
+    </>
+  );
+};
+
+ProjectsView.propTypes = {
+  isActiveProjectsTab: PropTypes.bool.isRequired,
+  projects: PropTypes.array.isRequired,
+  droOptions: PropTypes.array.isRequired,
+  updateProjects: PropTypes.func.isRequired,
+  filterCriteria: PropTypes.object.isRequired,
+  setFilterCriteria: PropTypes.func.isRequired,
+  sortCriteria: PropTypes.array.isRequired,
+  setSortCriteria: PropTypes.func.isRequired,
+  setSessionFilterCriteria: PropTypes.func.isRequired,
+  setSessionSortCriteria: PropTypes.func.isRequired
+};
+
+const ProjectsPage = ({ contentContainerRef }) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
+  // Keep existing shared criteria (including search) alive across tab remounts.
+  // Independent preferences and changes to persistence are separate decisions.
+  const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
+    FILTER_CRITERIA_STORAGE_TAG,
+    DEFAULT_FILTER_CRITERIA
+  );
+  const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
+    SORT_CRITERIA_STORAGE_TAG,
+    DEFAULT_SORT_CRITERIA
+  );
+
+  const formatDatesFromCookieStrigify = sessionFilterCriteria => {
+    const newFilterCriteria = { ...sessionFilterCriteria };
+    const dateProperties = [
+      "startDateCreated",
+      "endDateCreated",
+      "startDateModified",
+      "endDateModified",
+      "startDateTrashed",
+      "endDateTrashed",
+      "startDateSubmitted",
+      "endDateSubmitted",
+      "startDateModifiedAdmin",
+      "endDateModifiedAdmin"
+    ];
+    dateProperties.forEach(dateProp => {
+      if (sessionFilterCriteria[dateProp] !== null) {
+        newFilterCriteria[dateProp] = new Date(sessionFilterCriteria[dateProp]);
+      }
+    });
+    return newFilterCriteria;
+  };
+
+  const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
+  const [filterCriteria, setFilterCriteria] = useState(
+    formatDatesFromCookieStrigify(sessionFilterCriteria)
+  );
+
+  const [projects, setProjects] = useState([]);
+  const [droOptions, setDroOptions] = useState([]);
+  const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
+  const { getProjects } = useProject();
+
+  // Fetching stays above the keyed view: changing tabs must not refetch data.
+  useEffect(() => {
+    fetchDroOptions(setDroOptions);
+  }, []);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const projects = await getProjects();
+      setProjects(projects);
+    };
+    fetchProjects();
+  }, [getProjects]);
+
+  const updateProjects = async () => {
+    const projects = await getProjects();
+    setProjects(projects);
+  };
+
+  const handleTabClick = e => {
+    setIsActiveProjectsTab(e.target.innerText === "TDM Plans");
+  };
+
+  return (
+    <ContentContainerNoSidebar contentContainerRef={contentContainerRef}>
+      <h1 className={classes.pageTitle}>My TDM Plans</h1>
+      <div className={classes.pageTabsDiv}>
+        <span
+          className={`${classes.pageTab}
+                ${
+                  isActiveProjectsTab
+                    ? classes.activePageTab
+                    : classes.inactivePageTab
+                }
+              `}
+          onClick={handleTabClick}
+        >
+          TDM Plans
+        </span>
+        <span
+          className={`${classes.pageTab}
+                ${
+                  isActiveProjectsTab
+                    ? classes.inactivePageTab
+                    : classes.activePageTab
+                }
+              `}
+          onClick={handleTabClick}
+        >
+          Deleted TDM Plans
+        </span>
+      </div>
+      {/* Changing the key resets view/descendant state, not shared data or criteria. */}
+      <ProjectsView
+        key={isActiveProjectsTab ? "active" : "deleted"}
+        isActiveProjectsTab={isActiveProjectsTab}
+        projects={projects}
+        droOptions={droOptions}
+        updateProjects={updateProjects}
+        filterCriteria={filterCriteria}
+        setFilterCriteria={setFilterCriteria}
+        sortCriteria={sortCriteria}
+        setSortCriteria={setSortCriteria}
+        setSessionFilterCriteria={setSessionFilterCriteria}
+        setSessionSortCriteria={setSessionSortCriteria}
+      />
     </ContentContainerNoSidebar>
   );
 };
