@@ -383,7 +383,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     setCurrentPage(1);
   };
 
-  const fullTextHeaders = ["name", "projectName", "address", "assignee"];
+  const fullTextHeaders = ["name", "projectName", "address", "alternative"];
 
   const filter = (p, criteria) =>
     filterProjects(p, criteria, calculations, fullTextHeaders);
@@ -595,7 +595,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
               <TableSearchField
                 id="filterText"
                 label="Search submissions"
-                placeholder="Search by TDM Plan Name, Development Project Name, Address, Staff Assigned"
+                placeholder="Search by TDM Plan Name, Development Project Name, Address, Alt No."
                 value={filterCriteria.filterText}
                 onChange={e => handleFilterTextChange(e.target.value)}
                 width="38rem"
