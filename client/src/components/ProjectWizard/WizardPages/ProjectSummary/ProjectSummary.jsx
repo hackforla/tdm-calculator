@@ -218,9 +218,7 @@ const ProjectSummary = props => {
             <div
               className={clsx("space-between", classes.categoryHeaderContainer)}
             >
-              <span className={classes.categoryHeader}>
-                DEVELOPMENT PROJECT DETAILS
-              </span>
+              <span className={classes.categoryHeader}>PROJECT DETAILS</span>
             </div>
             <div className={classes.measuresContainer}>
               <ProjectDetail
