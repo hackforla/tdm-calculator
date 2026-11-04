@@ -112,10 +112,20 @@ const MultiProjectToolbarMenu = ({
   const isHideBtnDisabled =
     !checkedProjectIds.length || isBtnDisabled("dateHidden", "visibility");
 
+  /**
+   * Shared TDM Plans must be deleted one at a time (kebab menu or single selection),
+   * so block bulk delete when any selected plan is shared.
+   */
+  const hasMultipleWithShared =
+    isActiveProjectsTab &&
+    checkedProjectIds.length > 1 &&
+    checkedProjectsStatusData.hasSharedProject;
+
   const isDelBtnDisabled =
     !isProjectOwner ||
     checkedProjectsSubmittedStatus !== null ||
-    isBtnDisabled("dateTrashed", "status");
+    isBtnDisabled("dateTrashed", "status") ||
+    hasMultipleWithShared;
 
   const getTooltipMsg = actionType => {
     const hasNoSelection = checkedProjectIds.length === 0;
@@ -133,6 +143,8 @@ const MultiProjectToolbarMenu = ({
           return "TDM Plans shared with you cannot be deleted. Use hide function.";
         if (checkedProjectsSubmittedStatus !== null)
           return "Submitted TDM Plans cannot be deleted. Use hide function.";
+        if (hasMultipleWithShared)
+          return "One or more selected TDM Plans are shared. Delete shared TDM Plans individually.";
         return null;
       },
       visibility: () => {
