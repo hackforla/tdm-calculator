@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import PropTypes from "prop-types";
@@ -15,10 +15,10 @@ import {
   MdOutlinePeopleAlt
 } from "react-icons/md";
 import { formatDate, formatId } from "../../helpers/util";
-import { useReactToPrint } from "react-to-print";
 import ProjectContextMenu from "./ProjectContextMenu";
 import PdfPrint from "../PdfPrint/PdfPrint";
 import useCalculator from "../../hooks/useCalculator";
+import usePrintOnDemand from "../../hooks/usePrintOnDemand";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import AdminNotesModal from "../Modals/ActionProjectAdminNotes";
 import WarningModal from "../Modals/WarningAdminNotesUnsavedChanges";
@@ -203,7 +203,6 @@ const ProjectTableRow = ({
   } = useAdminNotesModal(project, onAdminNoteUpdate);
 
   const formInputs = JSON.parse(project.formInputs);
-  const printRef = useRef(null);
   const [projectRules, setProjectRules] = useState(null);
   const [selectedDro, setSelectedDro] = useState(project.droId || "");
   const [committedDro, setCommittedDro] = useState(project.droId || "");
@@ -278,12 +277,18 @@ const ProjectTableRow = ({
     return dro ? dro.name : "N/A";
   };
 
-  const handlePrintPdf = useReactToPrint({
+  const {
     contentRef: printRef,
-    documentTitle: `Project_${project.name}_Report`,
-    bodyClass: "printContainer",
-    pageStyle: ".printContainer {overflow: hidden;}"
-  });
+    isPrinting,
+    handlePrint: handlePrintPdf
+  } = usePrintOnDemand(
+    {
+      documentTitle: `Project_${project.name}_Report`,
+      bodyClass: "printContainer",
+      pageStyle: ".printContainer {overflow: hidden;}"
+    },
+    !!projectRules
+  );
 
   const fallbackToBlank = value => {
     return value !== "undefined" ? value : "";
@@ -556,9 +561,15 @@ const ProjectTableRow = ({
                 />
               )}
             </Popup>
-            <div style={{ display: "none" }}>
-              <PdfPrint ref={printRef} rules={projectRules} project={project} />
-            </div>
+            {isPrinting && (
+              <div style={{ display: "none" }}>
+                <PdfPrint
+                  ref={printRef}
+                  rules={projectRules}
+                  project={project}
+                />
+              </div>
+            )}
           </div>
         )}
       </td>
