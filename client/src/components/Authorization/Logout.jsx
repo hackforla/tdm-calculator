@@ -4,7 +4,8 @@ import * as accountService from "../../services/account.service";
 import {
   SORT_CRITERIA_STORAGE_TAG,
   FILTER_CRITERIA_STORAGE_TAG,
-  TAB_FILTER_CRITERIA_STORAGE_TAG
+  TAB_FILTER_CRITERIA_STORAGE_TAG,
+  PROJECT_VIEW_PREFERENCES_STORAGE_TAG
 } from "../../helpers/Constants";
 
 const Logout = () => {
@@ -16,6 +17,7 @@ const Logout = () => {
     sessionStorage.removeItem(SORT_CRITERIA_STORAGE_TAG);
     sessionStorage.removeItem(FILTER_CRITERIA_STORAGE_TAG);
     sessionStorage.removeItem(TAB_FILTER_CRITERIA_STORAGE_TAG);
+    sessionStorage.removeItem(PROJECT_VIEW_PREFERENCES_STORAGE_TAG);
 
     // Redirect to the "/login" page after the logout
     navigate("/login");

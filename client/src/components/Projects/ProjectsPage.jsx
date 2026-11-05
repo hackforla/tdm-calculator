@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { formatId } from "../../helpers/util";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "../../contexts/UserContext";
 import CalculationsContext from "../../contexts/CalculationsContext";
@@ -27,9 +27,8 @@ import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "../UI/ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
-import useSessionStorage from "../../hooks/useSessionStorage";
 import {
-  SORT_CRITERIA_STORAGE_TAG,
+  PROJECT_VIEW_PREFERENCES_STORAGE_TAG,
   TAB_FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
 import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
@@ -68,6 +67,39 @@ const DEFAULT_FILTER_CRITERIA = {
   startDateModifiedAdmin: null,
   endDateModifiedAdmin: null,
   calculationIdList: []
+};
+
+const loadViewPreferences = () => {
+  let savedPreferences;
+  let previousFilters;
+  try {
+    const saved = sessionStorage.getItem(PROJECT_VIEW_PREFERENCES_STORAGE_TAG);
+    if (saved) {
+      savedPreferences = JSON.parse(saved);
+    } else {
+      // Preserve the previous per-tab filters, but not the ambiguous shared sort.
+      previousFilters = JSON.parse(
+        sessionStorage.getItem(TAB_FILTER_CRITERIA_STORAGE_TAG)
+      );
+    }
+  } catch (error) {
+    console.error("Error restoring TDM plan preferences:", error);
+  }
+
+  return Object.fromEntries(
+    ["active", "deleted"].map(tab => [
+      tab,
+      {
+        filters: {
+          ...DEFAULT_FILTER_CRITERIA,
+          ...(savedPreferences?.[tab]?.filters ?? previousFilters?.[tab])
+        },
+        sort: Array.isArray(savedPreferences?.[tab]?.sort)
+          ? savedPreferences[tab].sort
+          : DEFAULT_SORT_CRITERIA
+      }
+    ])
+  );
 };
 
 const useStyles = createUseStyles(theme => ({
@@ -248,17 +280,18 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
-  const [filtersByTab, setFiltersByTab] = useSessionStorage(
-    TAB_FILTER_CRITERIA_STORAGE_TAG,
-    {
-      active: DEFAULT_FILTER_CRITERIA,
-      deleted: DEFAULT_FILTER_CRITERIA
+  const [viewPreferences, setViewPreferences] = useState(loadViewPreferences);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(
+        PROJECT_VIEW_PREFERENCES_STORAGE_TAG,
+        JSON.stringify(viewPreferences)
+      );
+    } catch (error) {
+      console.error("Error saving TDM plan preferences:", error);
     }
-  );
-  const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
-    SORT_CRITERIA_STORAGE_TAG,
-    DEFAULT_SORT_CRITERIA
-  );
+  }, [viewPreferences]);
 
   const restoreFilterDates = storedCriteria => {
     const newFilterCriteria = { ...DEFAULT_FILTER_CRITERIA, ...storedCriteria };
@@ -282,10 +315,10 @@ const ProjectsPage = ({ contentContainerRef }) => {
     return newFilterCriteria;
   };
 
-  const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
-
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
+  const location = useLocation();
+  const resetProjectTab = location.state?.resetProjectTab;
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useState([]);
   const [copyModalOpen, setCopyModalOpen] = useState(false);
@@ -306,7 +339,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [droOptions, setDroOptions] = useState([]);
   const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
   const activeTab = isActiveProjectsTab ? "active" : "deleted";
-  const filterCriteria = restoreFilterDates(filtersByTab[activeTab]);
+  const filterCriteria = restoreFilterDates(viewPreferences[activeTab].filters);
+  const sortCriteria = viewPreferences[activeTab].sort;
   const { getProjects } = useProject();
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
@@ -406,6 +440,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
     const projects = await getProjects();
     setProjects(projects);
   };
+
+  useEffect(() => {
+    if (resetProjectTab) {
+      setIsActiveProjectsTab(true);
+    }
+  }, [location.key, resetProjectTab]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -651,7 +691,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
     };
   };
 
-  const setSort = (orderBy, order, isStatus = false) => {
+  const updateViewPreferences = changes => {
+    setViewPreferences(previous => ({
+      ...previous,
+      [activeTab]: { ...previous[activeTab], ...changes }
+    }));
+  };
+
+  const setSort = (orderBy, order) => {
     // If already sorted by the orderBy field, remove that entry from the
     // sort array first
     const newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
@@ -661,17 +708,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
       newSortCriteria.push({ field: orderBy, direction: order });
     }
 
-    // save to local storage
-    setSessionSortCriteria(newSortCriteria);
-    // and update the sortCriteria state.
-    setSortCriteria(newSortCriteria);
+    updateViewPreferences({ sort: newSortCriteria });
   };
 
   const setFilter = newFilterCriteria => {
-    setFiltersByTab(previous => ({
-      ...previous,
-      [activeTab]: newFilterCriteria
-    }));
+    updateViewPreferences({ filters: newFilterCriteria });
     setCurrentPage(1);
   };
 
@@ -702,9 +743,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
     filterProjects(p, criteria, calculations, fullTextHeaders);
 
   const resetFiltersSort = () => {
-    setFilter(DEFAULT_FILTER_CRITERIA);
-    setSessionSortCriteria(DEFAULT_SORT_CRITERIA);
-    setSortCriteria(DEFAULT_SORT_CRITERIA);
+    updateViewPreferences({
+      filters: DEFAULT_FILTER_CRITERIA,
+      sort: DEFAULT_SORT_CRITERIA
+    });
+    setCurrentPage(1);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
@@ -869,6 +912,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
     );
   }
 
+  const highestPage = Math.max(1, Math.ceil(sortedProjects.length / perPage));
+  useEffect(() => {
+    if (currentPage > highestPage) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, highestPage]);
+
   const currentProjects = sortedProjects.slice(
     indexOfFirstPost,
     indexOfLastPost
@@ -1011,6 +1061,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 <thead className={classes.thead}>
                   <tr className={classes.tr}>
                     {headerData.map(header => {
+                      const columnSort = sortCriteria.find(
+                        criterion => criterion.field === header.id
+                      );
                       return (
                         <th key={header.id} className={classes.stickyTh}>
                           <ProjectTableColumnHeader
@@ -1020,12 +1073,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             criteria={filterCriteria}
                             setCriteria={setFilter}
                             setSort={setSort}
-                            orderBy={
-                              sortCriteria[sortCriteria.length - 1].field
-                            }
-                            order={
-                              sortCriteria[sortCriteria.length - 1].direction
-                            }
+                            orderBy={columnSort?.field}
+                            order={columnSort?.direction}
                             orderByOrdinal={getSortOrdinal(
                               header,
                               sortCriteria
