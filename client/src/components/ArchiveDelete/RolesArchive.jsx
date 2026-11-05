@@ -90,7 +90,7 @@ const useStyles = createUseStyles(theme => ({
     backgroundColor: "#B2C0D3"
   },
   searchBarWrapper: {
-    alignSelf: "start",
+    alignSelf: "center",
     margin: "1em 0 0 0"
   },
   popover: {
