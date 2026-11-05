@@ -38,10 +38,7 @@ import {
   filter as filterProjects,
   getSortOrdinal
 } from "../UI/ColumnHeaderPopups/Helpers";
-import {
-  getProjectShareStatus,
-  getCriteriaForProjectTab
-} from "./projectHelpers";
+import { getProjectShareStatus } from "./projectHelpers";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
@@ -751,26 +748,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setFilter({ ...filterCriteria, filterText: text });
   };
 
-  const {
-    filterCriteria: tabFilterCriteria,
-    sortCriteria: tabSortCriteria,
-    inactiveFilterCriteria
-  } = getCriteriaForProjectTab(
-    { filterCriteria, sortCriteria },
-    isActiveProjectsTab
-  );
-
-  // Popups supply modified criteria to build their choices. Reuse the same
-  // hidden-column defaults while preserving those popup-specific changes.
-  const matchesTabCriteria = (project, columnCriteria) =>
-    filterProjects(
-      project,
-      columnCriteria
-        ? { ...columnCriteria, ...inactiveFilterCriteria }
-        : tabFilterCriteria,
-      calculations,
-      fullTextHeaders
-    );
+  const matchesProjectCriteria = (project, criteria) =>
+    filterProjects(project, criteria, calculations, fullTextHeaders);
 
   const resetFiltersSort = () => {
     updateViewPreferences({
@@ -947,11 +926,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
   let sortedProjects = tabProjects.filter(project =>
-    matchesTabCriteria(project)
+    matchesProjectCriteria(project, filterCriteria)
   );
-  for (let i = 0; i < tabSortCriteria.length; i++) {
+  for (let i = 0; i < sortCriteria.length; i++) {
     sortedProjects.sort(
-      getComparator(tabSortCriteria[i].direction, tabSortCriteria[i].field)
+      getComparator(sortCriteria[i].direction, sortCriteria[i].field)
     );
   }
 
@@ -1077,7 +1056,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         <th key={header.id} className={classes.stickyTh}>
                           <ProjectTableColumnHeader
                             projects={tabProjects}
-                            filter={matchesTabCriteria}
+                            filter={matchesProjectCriteria}
                             header={header}
                             criteria={filterCriteria}
                             setCriteria={setFilter}
@@ -1086,7 +1065,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             order={columnSort?.direction}
                             orderByOrdinal={getSortOrdinal(
                               header,
-                              tabSortCriteria
+                              sortCriteria
                             )}
                             setCheckedProjectIds={setCheckedProjectIds}
                             setSelectAllChecked={setSelectAllChecked}
