@@ -14,11 +14,19 @@ const useStyles = createUseStyles(theme => ({
     alignItems: "center",
     padding: "40px"
   },
+  userContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "start",
+    margin: "0 4rem 0",
+    maxWidth: "518px"
+  },
   submittedIcon: {
     height: "80px",
     width: "80px",
     color: theme.colorPrimary,
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: "1.4rem"
   },
   buttonFlexBox: {
     display: "flex",
@@ -27,24 +35,28 @@ const useStyles = createUseStyles(theme => ({
     margin: 0
   },
   heading1: theme.typography.heading1,
-  heading3: {
-    ...theme.typography.heading3,
-    marginRight: "1rem",
-    lineHeight: "2rem",
-    wordBreak: "break-all",
-    textAlign: "left"
-  },
-  userContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "start"
-  },
   subheading: {
     ...theme.typography.subHeading,
-    textAlign: "left",
+    textAlign: "center",
     width: "30rem",
     lineHeight: "1.5rem",
     marginTop: "1.6rem"
+  },
+  field: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginBottom: "1rem"
+  },
+  fieldName: {
+    ...theme.typography.heading4,
+    textAlign: "left",
+    marginRight: ".5rem"
+  },
+  fieldValue: {
+    ...theme.typography.paragraph1,
+    overflowWrap: "break-word"
   }
 }));
 
@@ -113,31 +125,43 @@ export default function InfoSnapshotSubmit({ mounted, onClose, project }) {
           Your TDM Plan submission to LADOT was successful.
         </div>
         <div className={classes.userContainer}>
-          <div className={classes.subheading} style={{ fontWeight: "700" }}>
-            Submitted: {dateSubmitted}
-          </div>
+          <div className={classes.subheading}></div>
 
-          <div className={classes.subheading}>
+          <div className={classes.subheading} style={{ fontWeight: "bold" }}>
             See the <Link to="/faqs">FAQ</Link> page for more information about
             the application process and payment.
           </div>
 
-          <div
-            className={classes.heading3}
-            style={{ marginTop: "1.6rem", maxWidth: "425px" }}
-          >
-            {project?.name}
+          <div className={classes.field} style={{ marginTop: "1.6rem" }}>
+            <div className={classes.fieldName}>Name:</div>
+            <div className={classes.fieldValue}>{project?.name}</div>
           </div>
-          <div className={classes.heading3}>{project?.address}</div>
-          <div className={classes.heading3}>{apnDroData?.apn || ""}</div>
-          <div className={classes.heading3}>
-            {`DRO: ${apnDroData?.dro}` || null}
+
+          <div className={classes.field}>
+            <div className={classes.fieldName}>Address:</div>
+            <div className={classes.fieldValue}>{project?.address}</div>
           </div>
-          <div className={classes.heading3}>
-            {`Date Last Saved: ${dateLastSaved}` || null}
+
+          <div className={classes.field}>
+            <div className={classes.fieldName}>
+              Assessor Parcel Number (APN/AIN):
+            </div>
+            <div className={classes.fieldValue}>{apnDroData?.apn || ""}</div>
           </div>
-          <div className={classes.heading3}>
-            {`Date Snapshot Created: ${dateSnapShot}` || null}
+
+          <div className={classes.field}>
+            <div className={classes.fieldName}>DRO:</div>
+            <div className={classes.fieldValue}>{apnDroData?.dro}</div>
+          </div>
+
+          <div className={classes.field}>
+            <div className={classes.fieldName}>Date Snapshot Created:</div>
+            <div className={classes.fieldValue}>{dateSnapShot}</div>
+          </div>
+
+          <div className={classes.field} style={{ margin: "0" }}>
+            <div className={classes.fieldName}>Date Last Saved:</div>
+            <div className={classes.fieldValue}>{dateLastSaved}</div>
           </div>
         </div>
         <div className={classes.buttonFlexBox} style={{ marginTop: "1.5rem" }}>
