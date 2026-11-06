@@ -14,6 +14,7 @@ import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import InapplicableStrategiesModal from "../Modals/InfoWizardInapplicableStrategies";
 import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
+import SpecifySubmissionType from "../Modals/SpecifySubmissionType";
 import NavConfirmDialog from "../Modals/WarningWizardLeave";
 import {
   ProjectDescriptions,
@@ -92,7 +93,8 @@ const TdmCalculationWizard = props => {
   const [resetProjectWarningModalOpen, setResetProjectWarningModalOpen] =
     useState(false);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
-  const [successModelOpen, setSuccessModelOpen] = useState(false);
+  const [submissionTypeModalOpen, setSubmissionTypeModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
     useState(false);
   const isSnapshotOwner = project?.loginId === account?.id;
@@ -154,16 +156,25 @@ const TdmCalculationWizard = props => {
     }
   };
 
-  const handleSubmitModalClose = async action => {
+  const handleSubmitModalClose = action => {
     if (action === "ok") {
-      initializeEngine();
-      setSuccessModelOpen(true);
+      // initializeEngine();
+      // setSuccessModalOpen(true);
+      setSubmissionTypeModalOpen(true);
     }
     setSubmitModalOpen(false);
   };
 
+  const handleSubmissionTypeModalClose = action => {
+    if (action === "ok") {
+      initializeEngine();
+      setSuccessModalOpen(true);
+    }
+    setSubmissionTypeModalOpen(false);
+  };
+
   const handleSuccessModalClose = () => {
-    setSuccessModelOpen(false);
+    setSuccessModalOpen(false);
   };
 
   const copyAndEditSnapshot = async nameOfCopy => {
@@ -644,13 +655,18 @@ const TdmCalculationWizard = props => {
         onClose={handleSubmitModalClose}
         project={project}
       />
+      <SpecifySubmissionType
+        mounted={submissionTypeModalOpen}
+        onClose={handleSubmissionTypeModalClose}
+        project={project}
+      />
       <InfoTargetNotReached
         mounted={targetNotReachedModalOpen}
         onClose={() => setTargetNotReachedModalOpen(false)}
         project={project}
       />
       <InfoSnapshotSubmit
-        mounted={successModelOpen}
+        mounted={successModalOpen}
         onClose={handleSuccessModalClose}
         project={project}
       />
