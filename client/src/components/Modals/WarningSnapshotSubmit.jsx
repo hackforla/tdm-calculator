@@ -13,13 +13,44 @@ const useStyles = createUseStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "40px"
+    padding: "16px"
+  },
+  userContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "start",
+    margin: "0 4rem 0",
+    maxWidth: "518px"
   },
   warningIcon: {
     height: "80px",
     width: "80px",
     color: theme.colorCritical,
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: "1.4rem"
+  },
+  heading1: theme.typography.iconHeading1,
+  subheading: {
+    ...theme.typography.subHeading,
+    textAlign: "center",
+    lineHeight: "1.5rem",
+    marginTop: "2rem"
+  },
+  field: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginBottom: "1rem"
+  },
+  fieldName: {
+    ...theme.typography.heading4,
+    textAlign: "left",
+    marginRight: ".5rem"
+  },
+  fieldValue: {
+    ...theme.typography.paragraph1,
+    overflowWrap: "break-word"
   },
   buttonFlexBox: {
     display: "flex",
@@ -27,27 +58,6 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "center",
     textAlign: "center",
     margin: 0
-  },
-  heading1: theme.typography.iconHeading1,
-  heading3: {
-    ...theme.typography.heading3,
-    marginRight: "1rem",
-    lineHeight: "2rem",
-    wordBreak: "break-all",
-    textAlign: "left"
-  },
-  userContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "start",
-    maxWidth: "560px"
-  },
-  subheading: {
-    ...theme.typography.subHeading,
-    textAlign: "left",
-    width: "30rem",
-    lineHeight: "1.5rem",
-    marginTop: "1.6rem"
   }
 }));
 
@@ -86,11 +96,11 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
   }, [project]);
 
   const handleClose = async () => {
-    try {
-      await projectService.submit({ id: project.id });
-    } catch (err) {
-      console.error(err);
-    }
+    // try {
+    //   await projectService.submit({ id: project.id });
+    // } catch (err) {
+    //   console.error(err);
+    // }
     onClose("ok");
   };
 
@@ -113,46 +123,57 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
       <div className={classes.container}>
         <MdWarning alt="Warning" className={classes.warningIcon} />
         <div className={classes.heading1}>Ready to Submit</div>
-        <div className={classes.subheading} style={{ textAlign: "center" }}>
+        <div className={classes.subheading}>
           This Snapshot will be submitted to LADOT as a TDM <br /> Plan
           application.
         </div>
         <div className={classes.userContainer}>
-          <div className={classes.subheading}>
-            An application fee must be paid to initiate review.See the
+          <div className={classes.subheading} style={{ fontWeight: "bold" }}>
+            An application fee must be paid to initiate review. See the
             <Link to="/faqs" style={{ paddingInline: "4px" }}>
               FAQ
             </Link>
             for more information about the application process.
           </div>
 
-          <div
-            className={classes.heading3}
-            style={{ marginTop: "1.6rem", maxWidth: "425px" }}
-          >
-            {project?.name}
+          <div className={classes.field} style={{ marginTop: "1.6rem" }}>
+            <div className={classes.fieldName}>Name:</div>
+            <div className={classes.fieldValue}>{project?.name}</div>
           </div>
-          <div className={classes.heading3}>{project?.address}</div>
-          <div className={classes.heading3}>{apnDroData?.apn || ""}</div>
-          <div className={classes.heading3}>
-            {`DRO: ${apnDroData?.dro}` || null}
+
+          <div className={classes.field}>
+            <div className={classes.fieldName}>Address:</div>
+            <div className={classes.fieldValue}>{project?.address}</div>
           </div>
-          <div className={classes.heading3}>
-            {`Date Last Saved: ${dateLastSaved}` || null}
+
+          <div className={classes.field}>
+            <div className={classes.fieldName}>
+              Assessor Parcel Number (APN/AIN):
+            </div>
+            <div className={classes.fieldValue}>{apnDroData?.apn || ""}</div>
           </div>
-          <div className={classes.heading3}>
-            {`Date Snapshot Created: ${dateSnapShot}` || null}
+
+          <div className={classes.field}>
+            <div className={classes.fieldName}>DRO:</div>
+            <div className={classes.fieldValue}>{apnDroData?.dro}</div>
           </div>
-        </div>
-        <div className={classes.subheading} style={{ textAlign: "center" }}>
-          Are you sure you want to submit this Snapshot?
+
+          <div className={classes.field}>
+            <div className={classes.fieldName}>Date Snapshot Created:</div>
+            <div className={classes.fieldValue}>{dateSnapShot}</div>
+          </div>
+
+          <div className={classes.field} style={{ margin: "0" }}>
+            <div className={classes.fieldName}>Date Last Saved:</div>
+            <div className={classes.fieldValue}>{dateLastSaved}</div>
+          </div>
         </div>
         <div className={classes.buttonFlexBox} style={{ marginTop: "1.5rem" }}>
           <Button onClick={onClose} variant="secondary" id="cancelButton">
-            Cancel
+            CANCEL
           </Button>
           <Button onClick={handleClose} variant="primary">
-            SUBMIT
+            CONTINUE
           </Button>
         </div>
       </div>
