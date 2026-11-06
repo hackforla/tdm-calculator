@@ -748,8 +748,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setFilter({ ...filterCriteria, filterText: text });
   };
 
-  const matchesProjectCriteria = (project, criteria) =>
-    filterProjects(project, criteria, calculations, fullTextHeaders);
+  const filter = (p, criteria) =>
+    filterProjects(p, criteria, calculations, fullTextHeaders);
 
   const resetFiltersSort = () => {
     updateViewPreferences({
@@ -925,9 +925,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const indexOfLastPost = currentPage * projectsPerPage;
   const indexOfFirstPost = indexOfLastPost - projectsPerPage;
-  let sortedProjects = tabProjects.filter(project =>
-    matchesProjectCriteria(project, filterCriteria)
-  );
+  let sortedProjects = tabProjects.filter(p => filter(p, filterCriteria));
   for (let i = 0; i < sortCriteria.length; i++) {
     sortedProjects.sort(
       getComparator(sortCriteria[i].direction, sortCriteria[i].field)
@@ -1056,7 +1054,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                         <th key={header.id} className={classes.stickyTh}>
                           <ProjectTableColumnHeader
                             projects={tabProjects}
-                            filter={matchesProjectCriteria}
+                            filter={filter}
                             header={header}
                             criteria={filterCriteria}
                             setCriteria={setFilter}
