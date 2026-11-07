@@ -35,7 +35,7 @@ const useStyles = createUseStyles(theme => ({
     border: "2px solid #E46247"
   },
   normalBorder: {
-    border: "1px solid #E7EBF0"
+    border: `1px solid ${theme.colorMediumGray}`
   },
   rule: {
     display: "flex",
@@ -218,7 +218,9 @@ const ProjectSummary = props => {
             <div
               className={clsx("space-between", classes.categoryHeaderContainer)}
             >
-              <span className={classes.categoryHeader}>PROJECT DETAILS</span>
+              <span className={classes.categoryHeader}>
+                DEVELOPMENT PROJECT DETAILS
+              </span>
             </div>
             <div className={classes.measuresContainer}>
               <ProjectDetail

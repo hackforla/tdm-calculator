@@ -118,6 +118,7 @@ const NavBar = ({ navbarOpen, setNavbarOpen }) => {
           <NavLink
             className={classes.link}
             to="/projects"
+            state={{ resetProjectTab: true }}
             onClick={handleHamburgerMenuClick}
             onFocus={() => setNavbarOpen(true)}
           >

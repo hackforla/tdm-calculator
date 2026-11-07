@@ -56,7 +56,7 @@ const useStyles = createUseStyles(theme => ({
   tbody: {
     background: "#F9FAFB",
     "& tr": {
-      borderBottom: "1px solid #E7EBF0"
+      borderBottom: `1px solid ${theme.colorMediumGray}`
     },
     "& tr td": {
       padding: "0.4em",
@@ -90,7 +90,7 @@ const useStyles = createUseStyles(theme => ({
     backgroundColor: "#B2C0D3"
   },
   searchBarWrapper: {
-    alignSelf: "start",
+    alignSelf: "center",
     margin: "1em 0 0 0"
   },
   popover: {
