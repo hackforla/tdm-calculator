@@ -51,9 +51,7 @@ const useStyles = createUseStyles(theme => ({
   },
   choiceSelectContainer: {
     textAlign: "right",
-    marginBottom: "0.1em",
-    border: `1px solid ${theme.colorDarkGray}`,
-    borderRadius: "3px"
+    marginBottom: "0.1em"
   },
   select: {
     width: "200px",
