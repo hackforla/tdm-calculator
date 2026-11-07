@@ -57,7 +57,7 @@ const useStyles = createUseStyles(theme => ({
     width: "200px",
     textAlign: "left",
     padding: 0,
-    maring: 0
+    margin: 0
   },
   stringInput: {
     flexBasis: "50%",
