@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import RuleFunction from "./RuleFunction";
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
   rule: {
     display: "flex",
     flexDirection: "column",
@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
     width: "100vw",
     margin: "0.5em 0",
     padding: "0.5em",
-    backgroundColor: "lightGray",
+    backgroundColor: theme.colorMediumGray,
     borderRadius: "0.5em"
   },
   ruleFunction: {
@@ -23,7 +23,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "center"
   }
-});
+}));
 
 const RuleView = props => {
   const classes = useStyles();

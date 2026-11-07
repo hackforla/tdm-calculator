@@ -56,7 +56,7 @@ export default function UniversalSelect({
           outline: `2px solid ${theme.colorLinkBlue}`
         }
       : {
-          border: `1px solid ${theme.colorGray}`,
+          border: `1px solid ${theme.colorDarkGray}`,
           outline: "none"
         };
   };
