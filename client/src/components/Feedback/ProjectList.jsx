@@ -49,7 +49,7 @@ const useStyles = createUseStyles(theme => ({
     }
   },
   tbody: {
-    background: "#F9FAFB",
+    background: theme.colorWhite,
     "& tr": {
       borderBottom: `1px solid ${theme.colorMediumGray}`
     },

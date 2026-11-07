@@ -35,7 +35,7 @@ const useStyles = createUseStyles(theme => ({
     border: "2px solid #E46247"
   },
   normalBorder: {
-    border: "1px solid #E7EBF0"
+    border: `1px solid ${theme.colorMediumGray}`
   },
   rule: {
     display: "flex",
