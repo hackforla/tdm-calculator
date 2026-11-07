@@ -232,7 +232,7 @@ const useStyles = createUseStyles(theme => ({
   tbody: {
     background: theme.colorWhite,
     "& tr": {
-      borderBottom: "1px solid #E7EBF0"
+      borderBottom: `1px solid ${theme.colorMediumGray}`
     },
     "& tr td": {
       padding: "12px",

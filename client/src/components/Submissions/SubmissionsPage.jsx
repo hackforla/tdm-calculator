@@ -151,9 +151,9 @@ const useStyles = createUseStyles(theme => ({
     verticalAlign: "baseline"
   },
   tbody: {
-    background: "#F9FAFB",
+    background: theme.colorWhite,
     "& tr": {
-      borderBottom: "1px solid #E7EBF0"
+      borderBottom: `1px solid ${theme.colorMediumGray}`
     },
     "& tr td": {
       padding: "12px",
@@ -206,12 +206,6 @@ const useStyles = createUseStyles(theme => ({
     borderRadius: "4px",
     width: "60px",
     textAlign: "center"
-  },
-  optionItems: {
-    backgroundColor: theme.colorWhite,
-    "&:hover": {
-      backgroundColor: "silver"
-    }
   },
   itemsPerPage: {
     marginLeft: "5px"
