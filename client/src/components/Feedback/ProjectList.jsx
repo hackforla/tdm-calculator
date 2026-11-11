@@ -49,16 +49,16 @@ const useStyles = createUseStyles(theme => ({
     }
   },
   tbody: {
-    background: "#F9FAFB",
+    background: theme.colorWhite,
     "& tr": {
-      borderBottom: "1px solid #E7EBF0"
+      borderBottom: `1px solid ${theme.colorMediumGray}`
     },
     "& tr td": {
       padding: "12px",
       verticalAlign: "top"
     },
     "& tr:hover": {
-      background: theme.colorRowHighlight
+      background: theme.colorDeselect
     }
   },
   tdNoProjects: {

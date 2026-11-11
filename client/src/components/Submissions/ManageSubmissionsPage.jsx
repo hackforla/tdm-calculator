@@ -5,8 +5,8 @@ import { createUseStyles, useTheme } from "react-jss";
 
 import UserContext from "../../contexts/UserContext";
 import CalculationsContext from "../../contexts/CalculationsContext";
-import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
+import TableSearchField from "../UI/TableSearchField";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
 import * as accountService from "../../services/account.service";
@@ -79,21 +79,7 @@ const useStyles = createUseStyles(theme => ({
     marginBottom: "0rem"
   },
   searchBarWrapper: {
-    position: "relative",
     alignSelf: "center"
-  },
-  searchBar: {
-    maxWidth: "100%",
-    width: "32rem",
-    padding: "12px 12px 12px 48px"
-    // marginRight: "0.5rem"
-  },
-  searchIcon: {
-    position: "absolute",
-    left: "14px",
-    top: "10px",
-    height: "28px",
-    width: "28px"
   },
   tableAdmin: {
     minWidth: "135rem",
@@ -135,9 +121,9 @@ const useStyles = createUseStyles(theme => ({
     verticalAlign: "baseline"
   },
   tbody: {
-    background: "#F9FAFB",
+    background: theme.colorWhite,
     "& tr": {
-      borderBottom: "1px solid #E7EBF0"
+      borderBottom: `1px solid ${theme.colorMediumGray}`
     },
     "& tr td": {
       padding: "12px",
@@ -148,7 +134,7 @@ const useStyles = createUseStyles(theme => ({
       verticalAlign: "top"
     },
     "& tr:hover": {
-      background: theme.colorRowHighlight
+      background: theme.colorDeselect
     }
   },
   tdNoSavedProjects: {
@@ -175,12 +161,6 @@ const useStyles = createUseStyles(theme => ({
     borderRadius: "4px",
     width: "60px",
     textAlign: "center"
-  },
-  optionItems: {
-    backgroundColor: "white",
-    "&:hover": {
-      backgroundColor: "silver"
-    }
   },
   itemsPerPage: {
     marginLeft: "5px"
@@ -550,18 +530,15 @@ const ManageSubmissions = ({ contentContainerRef }) => {
                 flexBasis: "33%"
               }}
             >
-              <div className={classes.searchBarWrapper}>
-                <input
-                  className={classes.searchBar}
-                  type="search"
-                  id="filterText"
-                  name="filterText"
-                  placeholder="TDM Plan Name, Development Project Name, Created By, Assignee"
-                  value={filterCriteria.filterText}
-                  onChange={e => handleFilterTextChange(e.target.value)}
-                />
-                <MdOutlineSearch className={classes.searchIcon} />
-              </div>
+              <TableSearchField
+                id="filterText"
+                label="Search submissions"
+                placeholder="TDM Plan Name, Development Project Name, Created By, Staff Assigned"
+                value={filterCriteria.filterText}
+                onChange={e => handleFilterTextChange(e.target.value)}
+                width="35rem"
+                className={classes.searchBarWrapper}
+              />
             </div>
 
             <div>

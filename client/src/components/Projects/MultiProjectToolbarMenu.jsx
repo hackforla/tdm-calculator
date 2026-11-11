@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 import PropTypes from "prop-types";
 import { createUseStyles, useTheme } from "react-jss";
@@ -12,9 +12,9 @@ import {
 } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import PdfPrint from "../PdfPrint/PdfPrint";
-import { useReactToPrint } from "react-to-print";
 import { ENABLE_UPDATE_TOTALS } from "../../helpers/Constants";
 import useCalculator from "../../hooks/useCalculator";
+import usePrintOnDemand from "../../hooks/usePrintOnDemand";
 
 import * as projectResultService from "../../services/projectResult.service";
 
@@ -78,7 +78,6 @@ const MultiProjectToolbarMenu = ({
   checkedProjectsStatusData,
   isActiveProjectsTab
 }) => {
-  const printRef = useRef(null);
   const theme = useTheme();
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
@@ -112,10 +111,20 @@ const MultiProjectToolbarMenu = ({
   const isHideBtnDisabled =
     !checkedProjectIds.length || isBtnDisabled("dateHidden", "visibility");
 
+  /**
+   * Shared TDM Plans must be deleted one at a time (kebab menu or single selection),
+   * so block bulk delete when any selected plan is shared.
+   */
+  const hasMultipleWithShared =
+    isActiveProjectsTab &&
+    checkedProjectIds.length > 1 &&
+    checkedProjectsStatusData.hasSharedProject;
+
   const isDelBtnDisabled =
     !isProjectOwner ||
     checkedProjectsSubmittedStatus !== null ||
-    isBtnDisabled("dateTrashed", "status");
+    isBtnDisabled("dateTrashed", "status") ||
+    hasMultipleWithShared;
 
   const getTooltipMsg = actionType => {
     const hasNoSelection = checkedProjectIds.length === 0;
@@ -133,6 +142,8 @@ const MultiProjectToolbarMenu = ({
           return "TDM Plans shared with you cannot be deleted. Use hide function.";
         if (checkedProjectsSubmittedStatus !== null)
           return "Submitted TDM Plans cannot be deleted. Use hide function.";
+        if (hasMultipleWithShared)
+          return "One or more selected TDM Plans are shared. Delete shared TDM Plans individually.";
         return null;
       },
       visibility: () => {
@@ -173,12 +184,18 @@ const MultiProjectToolbarMenu = ({
     return projectData && !!projectData.pdf;
   };
 
-  const handlePrintPdf = useReactToPrint({
+  const {
     contentRef: printRef,
-    documentTitle: `Project Summary Report`,
-    bodyClass: "printContainer",
-    pageStyle: ".printContainer {overflow: hidden;}"
-  });
+    isPrinting,
+    handlePrint: handlePrintPdf
+  } = usePrintOnDemand(
+    {
+      documentTitle: `Project Summary Report`,
+      bodyClass: "printContainer",
+      pageStyle: ".printContainer {overflow: hidden;}"
+    },
+    !!project && hasPdfData()
+  );
 
   const handleComputeTotals = async () => {
     for (let i = 0; i < checkedProjectIds.length; i++) {
@@ -249,7 +266,7 @@ const MultiProjectToolbarMenu = ({
             anchorSelect="#print-btn"
             content={getTooltipMsg("print")}
           />
-          {project && hasPdfData() && (
+          {isPrinting && project && hasPdfData() && (
             <div style={{ display: "none" }}>
               <PdfPrint
                 ref={printRef}

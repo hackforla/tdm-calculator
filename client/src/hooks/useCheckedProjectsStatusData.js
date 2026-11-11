@@ -66,7 +66,8 @@ const useCheckedProjectsStatusData = (checkedProjects, projects) => {
       dateTrashed: isSameVal("dateTrashed"),
       dateHidden: isSameVal("dateHidden"),
       dateSubmitted: isSameVal("dateSubmitted"),
-      loginId: isSameVal("loginId")
+      loginId: isSameVal("loginId"),
+      hasSharedProject: getProjects.some(p => p.shareCount > 0)
     };
 
     setProjectsData(data);

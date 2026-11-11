@@ -69,7 +69,7 @@ export default function DROSelectionModal({
         </div>
         <div className={classes.subheading}>
           To submit your snapshot, select a Development Review Office based on
-          the location of your project
+          the location of your development project
         </div>
         <div className={classes.heading2}>
           <a

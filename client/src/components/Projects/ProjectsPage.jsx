@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { formatId } from "../../helpers/util";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 import UserContext from "../../contexts/UserContext";
 import CalculationsContext from "../../contexts/CalculationsContext";
-import { MdOutlineSearch } from "react-icons/md";
 import Pagination from "../UI/Pagination";
+import TableSearchField from "../UI/TableSearchField";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProject from "../../hooks/useProject";
@@ -27,10 +27,9 @@ import MultiProjectToolbarMenu from "./MultiProjectToolbarMenu";
 import UniversalSelect from "../UI/UniversalSelect";
 import ProjectTableColumnHeader from "../UI/ColumnHeaderPopups/ProjectTableColumnHeader";
 import Button from "../Button/Button";
-import useSessionStorage from "../../hooks/useSessionStorage";
 import {
-  SORT_CRITERIA_STORAGE_TAG,
-  FILTER_CRITERIA_STORAGE_TAG
+  PROJECT_VIEW_PREFERENCES_STORAGE_TAG,
+  TAB_FILTER_CRITERIA_STORAGE_TAG
 } from "../../helpers/Constants";
 import InfoSnapshotSubmit from "components/Modals/InfoSnapshotSubmitted";
 import { fetchDroOptions } from "helpers/FetchDroOptions";
@@ -68,6 +67,39 @@ const DEFAULT_FILTER_CRITERIA = {
   startDateModifiedAdmin: null,
   endDateModifiedAdmin: null,
   calculationIdList: []
+};
+
+const loadViewPreferences = () => {
+  let savedPreferences;
+  let previousFilters;
+  try {
+    const saved = sessionStorage.getItem(PROJECT_VIEW_PREFERENCES_STORAGE_TAG);
+    if (saved) {
+      savedPreferences = JSON.parse(saved);
+    } else {
+      // Preserve the previous per-tab filters, but not the ambiguous shared sort.
+      previousFilters = JSON.parse(
+        sessionStorage.getItem(TAB_FILTER_CRITERIA_STORAGE_TAG)
+      );
+    }
+  } catch (error) {
+    console.error("Error restoring TDM plan preferences:", error);
+  }
+
+  return Object.fromEntries(
+    ["active", "deleted"].map(tab => [
+      tab,
+      {
+        filters: {
+          ...DEFAULT_FILTER_CRITERIA,
+          ...(savedPreferences?.[tab]?.filters ?? previousFilters?.[tab])
+        },
+        sort: Array.isArray(savedPreferences?.[tab]?.sort)
+          ? savedPreferences[tab].sort
+          : DEFAULT_SORT_CRITERIA
+      }
+    ])
+  );
 };
 
 const useStyles = createUseStyles(theme => ({
@@ -145,24 +177,9 @@ const useStyles = createUseStyles(theme => ({
     justifyContent: "center"
   },
   searchBarWrapper: {
-    position: "relative",
     alignSelf: "center",
-    flexShrink: 1
-  },
-  searchBar: {
-    maxWidth: "100%",
-    minWidth: "20rem",
-    width: "40rem",
-    padding: "12px 12px 12px 48px",
-    marginRight: "0.5rem",
-    flexShrink: 1
-  },
-  searchIcon: {
-    position: "absolute",
-    left: "14px",
-    top: "10px",
-    height: "28px",
-    width: "28px"
+    flexShrink: 1,
+    marginRight: "0.5rem"
   },
   tableAdmin: {
     minWidth: "135rem",
@@ -215,14 +232,14 @@ const useStyles = createUseStyles(theme => ({
   tbody: {
     background: theme.colorWhite,
     "& tr": {
-      borderBottom: "1px solid #E7EBF0"
+      borderBottom: `1px solid ${theme.colorMediumGray}`
     },
     "& tr td": {
       padding: "12px",
       verticalAlign: "top"
     },
     "& tr:hover": {
-      background: theme.colorRowHighlight
+      background: theme.colorDeselect
     }
   },
   tdNoSavedProjects: {
@@ -264,17 +281,21 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const userContext = useContext(UserContext);
-  const [sessionFilterCriteria, setSessionFilterCriteria] = useSessionStorage(
-    FILTER_CRITERIA_STORAGE_TAG,
-    DEFAULT_FILTER_CRITERIA
-  );
-  const [sessionSortCriteria, setSessionSortCriteria] = useSessionStorage(
-    SORT_CRITERIA_STORAGE_TAG,
-    DEFAULT_SORT_CRITERIA
-  );
+  const [viewPreferences, setViewPreferences] = useState(loadViewPreferences);
 
-  const formatDatesFromCookieStrigify = sessionFilterCriteria => {
-    const newFilterCriteria = { ...sessionFilterCriteria };
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(
+        PROJECT_VIEW_PREFERENCES_STORAGE_TAG,
+        JSON.stringify(viewPreferences)
+      );
+    } catch (error) {
+      console.error("Error saving TDM plan preferences:", error);
+    }
+  }, [viewPreferences]);
+
+  const restoreFilterDates = storedCriteria => {
+    const newFilterCriteria = { ...DEFAULT_FILTER_CRITERIA, ...storedCriteria };
     const dateProperties = [
       "startDateCreated",
       "endDateCreated",
@@ -288,20 +309,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
       "endDateModifiedAdmin"
     ];
     dateProperties.forEach(dateProp => {
-      if (sessionFilterCriteria[dateProp] !== null) {
-        newFilterCriteria[dateProp] = new Date(sessionFilterCriteria[dateProp]);
+      if (newFilterCriteria[dateProp] != null) {
+        newFilterCriteria[dateProp] = new Date(newFilterCriteria[dateProp]);
       }
     });
     return newFilterCriteria;
   };
 
-  const [sortCriteria, setSortCriteria] = useState(sessionSortCriteria);
-  const [filterCriteria, setFilterCriteria] = useState(
-    formatDatesFromCookieStrigify(sessionFilterCriteria)
-  );
-
   const email = userContext.account ? userContext.account.email : "";
   const navigate = useNavigate();
+  const location = useLocation();
+  const resetProjectTab = location.state?.resetProjectTab;
   const handleError = useErrorHandler(email, navigate);
   const [projects, setProjects] = useState([]);
   const [copyModalOpen, setCopyModalOpen] = useState(false);
@@ -321,6 +339,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [perPage, setPerPage] = useState(10);
   const [droOptions, setDroOptions] = useState([]);
   const [isActiveProjectsTab, setIsActiveProjectsTab] = useState(true);
+  const activeTab = isActiveProjectsTab ? "active" : "deleted";
+  const filterCriteria = restoreFilterDates(viewPreferences[activeTab].filters);
+  const sortCriteria = viewPreferences[activeTab].sort;
   const { getProjects } = useProject();
   const projectsPerPage = perPage;
   const isAdmin = userContext.account?.isAdmin || false;
@@ -344,10 +365,6 @@ const ProjectsPage = ({ contentContainerRef }) => {
     checkedProjectIds,
     projects
   );
-
-  const handleTabClick = e => {
-    setIsActiveProjectsTab(e.target.innerText === "TDM Plans");
-  };
 
   const enhancedProjects = projects
     ? projects.map(project => {
@@ -426,6 +443,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   useEffect(() => {
+    if (resetProjectTab) {
+      setIsActiveProjectsTab(true);
+    }
+  }, [location.key, resetProjectTab]);
+
+  useEffect(() => {
+    setCurrentPage(1);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   }, [isActiveProjectsTab]);
@@ -668,7 +692,14 @@ const ProjectsPage = ({ contentContainerRef }) => {
     };
   };
 
-  const setSort = (orderBy, order, isStatus = false) => {
+  const updateViewPreferences = changes => {
+    setViewPreferences(previous => ({
+      ...previous,
+      [activeTab]: { ...previous[activeTab], ...changes }
+    }));
+  };
+
+  const setSort = (orderBy, order) => {
     // If already sorted by the orderBy field, remove that entry from the
     // sort array first
     const newSortCriteria = sortCriteria.filter(c => c.field != orderBy);
@@ -678,15 +709,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
       newSortCriteria.push({ field: orderBy, direction: order });
     }
 
-    // save to local storage
-    setSessionSortCriteria(newSortCriteria);
-    // and update the sortCriteria state.
-    setSortCriteria(newSortCriteria);
+    updateViewPreferences({ sort: newSortCriteria });
   };
 
   const setFilter = newFilterCriteria => {
-    setSessionFilterCriteria(newFilterCriteria);
-    setFilterCriteria(newFilterCriteria);
+    updateViewPreferences({ filters: newFilterCriteria });
     setCurrentPage(1);
   };
 
@@ -710,18 +737,18 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleFilterTextChange = text => {
-    setFilterCriteria(crit => {
-      return { ...crit, filterText: text };
-    });
-    setCurrentPage(1);
+    setFilter({ ...filterCriteria, filterText: text });
   };
 
   const filter = (p, criteria) =>
     filterProjects(p, criteria, calculations, fullTextHeaders);
 
   const resetFiltersSort = () => {
-    setFilter(DEFAULT_FILTER_CRITERIA);
-    setSortCriteria(DEFAULT_SORT_CRITERIA);
+    updateViewPreferences({
+      filters: DEFAULT_FILTER_CRITERIA,
+      sort: DEFAULT_SORT_CRITERIA
+    });
+    setCurrentPage(1);
     setCheckedProjectIds([]);
     setSelectAllChecked(false);
   };
@@ -887,6 +914,13 @@ const ProjectsPage = ({ contentContainerRef }) => {
     );
   }
 
+  const highestPage = Math.max(1, Math.ceil(sortedProjects.length / perPage));
+  useEffect(() => {
+    if (currentPage > highestPage) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, highestPage]);
+
   const currentProjects = sortedProjects.slice(
     indexOfFirstPost,
     indexOfLastPost
@@ -906,7 +940,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     : classes.inactivePageTab
                 }
               `}
-          onClick={handleTabClick}
+          onClick={() => setIsActiveProjectsTab(true)}
         >
           TDM Plans
         </span>
@@ -918,7 +952,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
                     : classes.activePageTab
                 }
               `}
-          onClick={handleTabClick}
+          onClick={() => setIsActiveProjectsTab(false)}
         >
           Deleted TDM Plans
         </span>
@@ -944,22 +978,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
               />
             </div>
 
-            <div className={classes.searchBarWrapper}>
-              <label htmlFor="filterText" className="sr-only">
-                Search my projects
-              </label>
-              <input
-                className={classes.searchBar}
-                type="search"
-                id="filterText"
-                name="filterText"
-                placeholder="Search by TDM Plan Name, Development Project Name, Address, Alt No., Description"
-                value={filterCriteria.filterText}
-                onChange={e => handleFilterTextChange(e.target.value)}
-                aria-label="Search for project"
-              />
-              <MdOutlineSearch className={classes.searchIcon} />
-            </div>
+            <TableSearchField
+              id="filterText"
+              label="Search TDM Plans"
+              placeholder="Search by TDM Plan Name, Development Project Name, Address, Alt No., Description"
+              value={filterCriteria.filterText}
+              onChange={e => handleFilterTextChange(e.target.value)}
+              width="40rem"
+              minWidth="20rem"
+              className={classes.searchBarWrapper}
+            />
             <div>
               <Button
                 onClick={resetFiltersSort}
@@ -1001,6 +1029,9 @@ const ProjectsPage = ({ contentContainerRef }) => {
                 <thead className={classes.thead}>
                   <tr className={classes.tr}>
                     {headerData.map(header => {
+                      const columnSort = sortCriteria.find(
+                        criterion => criterion.field === header.id
+                      );
                       return (
                         <th key={header.id} className={classes.stickyTh}>
                           <ProjectTableColumnHeader
@@ -1010,12 +1041,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
                             criteria={filterCriteria}
                             setCriteria={setFilter}
                             setSort={setSort}
-                            orderBy={
-                              sortCriteria[sortCriteria.length - 1].field
-                            }
-                            order={
-                              sortCriteria[sortCriteria.length - 1].direction
-                            }
+                            orderBy={columnSort?.field}
+                            order={columnSort?.direction}
                             orderByOrdinal={getSortOrdinal(
                               header,
                               sortCriteria

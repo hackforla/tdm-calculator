@@ -121,7 +121,7 @@ const useStyles = createUseStyles(theme => ({
   projectDescriptionValue: {
     fontSize: "14px",
     marginLeft: "12px",
-    border: "1px solid #E7EBF0"
+    border: `1px solid ${theme.colorMediumGray}`
   },
   level0Container: {
     padding: "0 55px"

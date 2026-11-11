@@ -9,8 +9,9 @@ import {
   getSortOrdinal
 } from "../UI/ColumnHeaderPopups/Helpers";
 import { Link } from "react-router-dom";
-import { MdOutlineSearch, MdOutlineSearchOff, MdCheck } from "react-icons/md";
+import { MdOutlineSearchOff, MdCheck } from "react-icons/md";
 import Pagination from "../UI/Pagination";
+import TableSearchField from "../UI/TableSearchField";
 import ContentContainerNoSidebar from "../Layout/ContentContainerNoSidebar";
 import * as projectService from "../../services/project.service";
 import { formatDate, formatId } from "../../helpers/util";
@@ -118,20 +119,7 @@ const useStyles = createUseStyles(theme => ({
     margin: 0
   },
   searchBarWrapper: {
-    position: "relative",
     alignSelf: "center"
-  },
-  searchBar: {
-    maxWidth: "100%",
-    width: "38rem",
-    padding: "12px 12px 12px 48px"
-  },
-  searchIcon: {
-    position: "absolute",
-    left: "14px",
-    top: "10px",
-    height: "28px",
-    width: "28px"
   },
   table: {
     // minWidth: "150rem",
@@ -163,9 +151,9 @@ const useStyles = createUseStyles(theme => ({
     verticalAlign: "baseline"
   },
   tbody: {
-    background: "#F9FAFB",
+    background: theme.colorWhite,
     "& tr": {
-      borderBottom: "1px solid #E7EBF0"
+      borderBottom: `1px solid ${theme.colorMediumGray}`
     },
     "& tr td": {
       padding: "12px",
@@ -176,7 +164,7 @@ const useStyles = createUseStyles(theme => ({
       verticalAlign: "top"
     },
     "& tr:hover": {
-      background: theme.colorRowHighlight
+      background: theme.colorDeselect
     }
   },
   tableContainer: {
@@ -218,12 +206,6 @@ const useStyles = createUseStyles(theme => ({
     borderRadius: "4px",
     width: "60px",
     textAlign: "center"
-  },
-  optionItems: {
-    backgroundColor: theme.colorWhite,
-    "&:hover": {
-      backgroundColor: "silver"
-    }
   },
   itemsPerPage: {
     marginLeft: "5px"
@@ -395,7 +377,7 @@ const SubmissionsPage = ({ contentContainerRef }) => {
     setCurrentPage(1);
   };
 
-  const fullTextHeaders = ["name", "projectName", "address", "assignee"];
+  const fullTextHeaders = ["name", "projectName", "address", "alternative"];
 
   const filter = (p, criteria) =>
     filterProjects(p, criteria, calculations, fullTextHeaders);
@@ -604,22 +586,15 @@ const SubmissionsPage = ({ contentContainerRef }) => {
                 flexBasis: "33%"
               }}
             >
-              <div className={classes.searchBarWrapper}>
-                <label htmlFor="filterText" className="sr-only">
-                  Search Project By TDM Plan Name, Address, Description, Staff
-                  Assigned
-                </label>
-                <input
-                  className={classes.searchBar}
-                  type="search"
-                  id="filterText"
-                  name="filterText"
-                  placeholder="Search by TDM Plan Name, Development Project Name, Address, Staff Assigned"
-                  value={filterCriteria.filterText}
-                  onChange={e => handleFilterTextChange(e.target.value)}
-                />
-                <MdOutlineSearch className={classes.searchIcon} />
-              </div>
+              <TableSearchField
+                id="filterText"
+                label="Search submissions"
+                placeholder="Search by TDM Plan Name, Development Project Name, Address, Alt No."
+                value={filterCriteria.filterText}
+                onChange={e => handleFilterTextChange(e.target.value)}
+                width="38rem"
+                className={classes.searchBarWrapper}
+              />
             </div>
 
             <div>

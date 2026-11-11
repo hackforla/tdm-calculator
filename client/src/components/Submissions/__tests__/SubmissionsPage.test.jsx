@@ -58,6 +58,7 @@ const adminAccount = {
 const sampleProject = {
   id: 1,
   name: "Sample Project",
+  formInputs: "{}",
   authorFirstName: "Admin",
   authorLastName: "User",
   assignedFirstName: "Admin",
@@ -121,12 +122,10 @@ describe("SubmissionsPage empty-state hardening", () => {
     ).not.toBeInTheDocument();
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
     expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/^Search submissions$/i)).not.toBeVisible();
     expect(
-      screen.queryByLabelText(
-        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
-      )
+      screen.queryByText("RESET SEARCH / FILTER / SORT")
     ).not.toBeVisible();
-    expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
     expect(screen.queryByLabelText("Previous Page")).not.toBeInTheDocument();
     expect(screen.queryByLabelText("perPage")).not.toBeInTheDocument();
 
@@ -160,12 +159,10 @@ describe("SubmissionsPage empty-state hardening", () => {
     );
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
     expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/^Search submissions$/i)).not.toBeVisible();
     expect(
-      screen.queryByLabelText(
-        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
-      )
+      screen.queryByText("RESET SEARCH / FILTER / SORT")
     ).not.toBeVisible();
-    expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
     expect(screen.getByLabelText("Previous Page")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "1" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "0" })).not.toBeInTheDocument();
@@ -185,12 +182,10 @@ describe("SubmissionsPage empty-state hardening", () => {
     ).not.toBeInTheDocument();
     expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
+    expect(screen.getByLabelText(/^Search submissions$/i)).toBeInTheDocument();
     expect(
-      screen.getByLabelText(
-        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
-      )
+      screen.getByText("RESET SEARCH / FILTER / SORT")
     ).toBeInTheDocument();
-    expect(screen.getByText("RESET FILTERS/SORT")).toBeInTheDocument();
     expect(screen.getByLabelText("Previous Page")).toBeInTheDocument();
     expect(screen.getByLabelText("perPage")).toBeInTheDocument();
   });
@@ -211,12 +206,10 @@ describe("SubmissionsPage empty-state hardening", () => {
     ).not.toBeInTheDocument();
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
     expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/^Search submissions$/i)).not.toBeVisible();
     expect(
-      screen.queryByLabelText(
-        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
-      )
+      screen.queryByText("RESET SEARCH / FILTER / SORT")
     ).not.toBeVisible();
-    expect(screen.queryByText("RESET FILTERS/SORT")).not.toBeVisible();
     expect(screen.queryByLabelText("Previous Page")).not.toBeInTheDocument();
     expect(screen.queryByLabelText("perPage")).not.toBeInTheDocument();
   });
@@ -254,9 +247,7 @@ describe("SubmissionsPage empty-state hardening", () => {
     expect(await screen.findByText("Sample Project")).toBeInTheDocument();
 
     await user.type(
-      screen.getByLabelText(
-        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
-      ),
+      screen.getByLabelText(/^Search submissions$/i),
       "zzz-no-match"
     );
 
@@ -270,14 +261,12 @@ describe("SubmissionsPage empty-state hardening", () => {
     expect(screen.getByText(NO_MATCH_MESSAGE)).toBeInTheDocument();
     expect(screen.getByText(NO_MATCH_MESSAGE).closest("td")).toBeNull();
     expect(screen.queryByText("No Saved Projects")).not.toBeInTheDocument();
+    expect(screen.getByLabelText(/^Search submissions$/i)).toBeInTheDocument();
     expect(
-      screen.getByLabelText(
-        /Search Project By TDM Plan Name, Address, Description, Staff Assigned/i
-      )
+      screen.getByText("RESET SEARCH / FILTER / SORT")
     ).toBeInTheDocument();
-    expect(screen.getByText("RESET FILTERS/SORT")).toBeInTheDocument();
 
-    await user.click(screen.getByText("RESET FILTERS/SORT"));
+    await user.click(screen.getByText("RESET SEARCH / FILTER / SORT"));
 
     expect(await screen.findByText("Sample Project")).toBeInTheDocument();
     expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
@@ -308,11 +297,152 @@ describe("SubmissionsPage empty-state hardening", () => {
     expect(
       screen.queryByText("There are no TDM Plan submissions on this account.")
     ).not.toBeInTheDocument();
-    expect(screen.getByText("RESET FILTERS/SORT")).toBeInTheDocument();
+    expect(
+      screen.getByText("RESET SEARCH / FILTER / SORT")
+    ).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "RESET FILTERS/SORT" }));
+    await user.click(
+      screen.getByRole("button", { name: "RESET SEARCH / FILTER / SORT" })
+    );
 
     expect(await screen.findByText("Sample Project")).toBeInTheDocument();
     expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
+  });
+});
+const SEARCH_HINT =
+  "Search by TDM Plan Name, Development Project Name, Address, Alt No.";
+
+const searchRow = overrides => ({
+  ...sampleProject,
+  projectName: "Untouched Development",
+  formInputs: "{}",
+  assignedFirstName: "Pat",
+  assignedLastName: "Unrelated",
+  ...overrides
+});
+
+describe("SubmissionsPage Alt No. search", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("matches Alt No. and still matches plan, project, and address", async () => {
+    projectService.getSubmissions.mockResolvedValue({
+      data: [
+        searchRow({
+          id: 11,
+          name: "Maple Towers",
+          projectName: "Maple Development",
+          address: "100 Maple St",
+          formInputs: JSON.stringify({ VERSION_NO: "ALT-742Q" })
+        }),
+        searchRow({
+          id: 12,
+          name: "Cedar Court",
+          projectName: "Cedar Homes",
+          address: "200 Cedar St",
+          assignedFirstName: "Pat",
+          assignedLastName: "UniqueAgentSurname",
+          formInputs: JSON.stringify({ VERSION_NO: "ALT-915X" })
+        })
+      ]
+    });
+    const user = userEvent.setup();
+
+    renderPage();
+
+    const search = await screen.findByLabelText("Search submissions");
+    expect(search).toHaveAttribute("placeholder", SEARCH_HINT);
+    expect(screen.getByText("Staff Assigned")).toBeInTheDocument();
+
+    await user.type(search, "742q");
+    expect(await screen.findByText("Maple Towers")).toBeInTheDocument();
+    expect(screen.queryByText("Cedar Court")).not.toBeInTheDocument();
+
+    await user.clear(search);
+    await user.type(search, "UniqueAgentSurname");
+    expect(await screen.findByText(NO_MATCH_MESSAGE)).toBeInTheDocument();
+    expect(
+      screen.queryByText("There are no TDM Plan submissions on this account.")
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Maple Towers")).not.toBeInTheDocument();
+    expect(screen.getByText("Staff Assigned")).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", { name: "RESET SEARCH / FILTER / SORT" })
+    );
+    expect(await screen.findByText("Maple Towers")).toBeInTheDocument();
+    expect(screen.getByText("Cedar Court")).toBeInTheDocument();
+    expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
+
+    await user.type(screen.getByLabelText("Search submissions"), "Cedar Court");
+    expect(await screen.findByText("Cedar Court")).toBeInTheDocument();
+    expect(screen.queryByText("Maple Towers")).not.toBeInTheDocument();
+
+    await user.clear(screen.getByLabelText("Search submissions"));
+    await user.type(screen.getByLabelText("Search submissions"), "cedar homes");
+    expect(screen.getByText("Cedar Court")).toBeInTheDocument();
+    expect(screen.queryByText("Maple Towers")).not.toBeInTheDocument();
+
+    await user.clear(screen.getByLabelText("Search submissions"));
+    await user.type(screen.getByLabelText("Search submissions"), "100 maple");
+    expect(screen.getByText("Maple Towers")).toBeInTheDocument();
+    expect(screen.queryByText("Cedar Court")).not.toBeInTheDocument();
+  });
+
+  test("treats a numeric Alt No. as text and ignores a blank one", async () => {
+    projectService.getSubmissions.mockResolvedValue({
+      data: [
+        searchRow({
+          id: 21,
+          name: "Numbered Plan",
+          formInputs: JSON.stringify({ VERSION_NO: 4242 })
+        }),
+        searchRow({
+          id: 22,
+          name: "Blank Plan",
+          formInputs: "{}"
+        })
+      ]
+    });
+    const user = userEvent.setup();
+
+    renderPage();
+
+    await user.type(await screen.findByLabelText("Search submissions"), "4242");
+
+    expect(await screen.findByText("Numbered Plan")).toBeInTheDocument();
+    expect(screen.queryByText("Blank Plan")).not.toBeInTheDocument();
+    expect(screen.queryByText(NO_MATCH_MESSAGE)).not.toBeInTheDocument();
+  });
+
+  test("returns to page 1 when a search is typed from a later page", async () => {
+    const rows = Array.from({ length: 11 }, (_, index) =>
+      searchRow({
+        id: 30 + index,
+        name: index === 10 ? "Last Page Plan" : `Early Plan ${index}`,
+        dateStatus:
+          index === 10
+            ? "2020-01-01T00:00:00.000Z"
+            : "2024-01-04T00:00:00.000Z",
+        formInputs: "{}"
+      })
+    );
+    projectService.getSubmissions.mockResolvedValue({ data: rows });
+    const user = userEvent.setup();
+
+    renderPage();
+
+    expect(await screen.findByText("Early Plan 0")).toBeInTheDocument();
+    expect(screen.queryByText("Last Page Plan")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("link", { name: "2" }));
+    expect(await screen.findByText("Last Page Plan")).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText("Search submissions"), "Last Page");
+
+    expect(await screen.findByText("Last Page Plan")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "2" })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "1" })).toBeInTheDocument();
   });
 });
