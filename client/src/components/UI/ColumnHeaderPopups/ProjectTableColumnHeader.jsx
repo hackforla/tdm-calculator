@@ -15,6 +15,7 @@ import NumberPopup from "./NumberPopup";
 import BooleanPopup from "./BooleanPopup";
 import VisibilityPopup from "./VisibilityPopup";
 import StatusPopup from "./StatusPopup";
+import SharedPopup from "./SharedPopup";
 import VersionPopup from "./VersionPopup";
 import { useTheme } from "react-jss";
 
@@ -135,6 +136,9 @@ const ProjectTableColumnHeader = ({
   // Filter is considered Applied if it is not set
   // to the default criteria values.
   const isFilterApplied = () => {
+    if (header.popupType === "shared") {
+      return criteria.sharedList?.length > 0;
+    }
     let propertyName = header.id;
     if (
       header.popupType === "user" ||
@@ -340,6 +344,18 @@ const ProjectTableColumnHeader = ({
                 />
               ) : header.popupType === "visibility" ? (
                 <VisibilityPopup
+                  close={() => handlePopoverToggle(false)}
+                  header={header}
+                  criteria={criteria}
+                  setCriteria={setCriteria}
+                  order={order}
+                  orderBy={orderBy}
+                  setSort={setSort}
+                  setCheckedProjectIds={setCheckedProjectIds}
+                  setSelectAllChecked={setSelectAllChecked}
+                />
+              ) : header.popupType === "shared" ? (
+                <SharedPopup
                   close={() => handlePopoverToggle(false)}
                   header={header}
                   criteria={criteria}

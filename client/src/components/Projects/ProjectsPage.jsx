@@ -38,11 +38,13 @@ import {
   filter as filterProjects,
   getSortOrdinal
 } from "../UI/ColumnHeaderPopups/Helpers";
+import { getProjectShareStatus } from "./projectHelpers";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   type: "all",
+  sharedList: [],
   visibility: "visible",
   name: "",
   address: "",
@@ -182,7 +184,7 @@ const useStyles = createUseStyles(theme => ({
     marginRight: "0.5rem"
   },
   tableAdmin: {
-    minWidth: "135rem",
+    minWidth: "145rem",
     width: "100%",
     tableLayout: "fixed"
   },
@@ -197,7 +199,7 @@ const useStyles = createUseStyles(theme => ({
     tableLayout: "fixed"
   },
   table: {
-    minWidth: "110rem",
+    minWidth: "120rem",
     width: "100%",
     tableLayout: "fixed"
   },
@@ -373,6 +375,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
         return {
           ...project,
+          shared: getProjectShareStatus(project, loginId),
           author: project.lastName
             ? `${project.lastName}, ${project.firstName}`
             : "",
@@ -623,6 +626,11 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleShareSnapshotModalClose = async () => {
     setShareSnapshotModalOpen(false);
+    try {
+      await updateProjects();
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   const handleHide = async project => {
@@ -801,6 +809,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "status",
       colWidth: `${isActiveProjectsTab ? "9rem" : "14rem"}`
     },
+    ...(isActiveProjectsTab
+      ? [
+          {
+            id: "shared",
+            label: "Shared",
+            popupType: "shared",
+            colWidth: "10rem"
+          }
+        ]
+      : []),
     {
       id: "idFormatted",
       label: "ID",
