@@ -34,14 +34,13 @@ beforeEach(() => jest.useFakeTimers());
 afterEach(() => jest.useRealTimers());
 
 it.each(["0", "111", "0012", "9999999", "10000000", ""])(
-  "debounces the accepted value %p without changing it",
+  "immediately forwards the accepted value %p without changing it",
   value => {
     const { input, onInputChange } = setup();
+
     fireEvent.change(input, { target: { value } });
+
     expect(input).toHaveValue(value);
-    act(() => jest.advanceTimersByTime(749));
-    expect(onInputChange).not.toHaveBeenCalled();
-    act(() => jest.advanceTimersByTime(1));
     expect(onInputChange).toHaveBeenCalledTimes(1);
     expect(onInputChange).toHaveBeenCalledWith({
       target: { name: "PARK_SPACES", value }
@@ -103,16 +102,20 @@ it("allows editing shortcuts and clears the error on a valid edit", async () => 
   });
 });
 
-it("Clear Page replaces pending input with an explicit empty value", () => {
+it("Clear Page immediately sends an explicit empty value", () => {
   const { input, onInputChange } = setup();
+
   fireEvent.change(input, { target: { value: "45" } });
   fireEvent.change(input, { target: { value: "45e" } });
   fireEvent.click(screen.getByRole("button", { name: "Clear Page" }));
+
   expect(input).toHaveValue("");
   expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-  act(() => jest.advanceTimersByTime(750));
-  expect(onInputChange).toHaveBeenCalledTimes(1);
-  expect(onInputChange).toHaveBeenCalledWith({
+  expect(onInputChange).toHaveBeenCalledTimes(2);
+  expect(onInputChange).toHaveBeenNthCalledWith(1, {
+    target: { name: "PARK_SPACES", value: "45" }
+  });
+  expect(onInputChange).toHaveBeenLastCalledWith({
     target: { name: "PARK_SPACES", value: "" }
   });
 });
@@ -131,10 +134,18 @@ it("retains rule validation errors and associates them with the input", () => {
   expect(input).toHaveAccessibleDescription("Parking exceeds maximum");
 });
 
-it("cancels a pending callback when unmounted", () => {
+it("preserves an accepted edit when immediately unmounted", () => {
   const { input, unmount, onInputChange } = setup();
+
   fireEvent.change(input, { target: { value: "45" } });
   unmount();
+
+  expect(onInputChange).toHaveBeenCalledTimes(1);
+  expect(onInputChange).toHaveBeenCalledWith({
+    target: { name: "PARK_SPACES", value: "45" }
+  });
+
   act(() => jest.advanceTimersByTime(750));
-  expect(onInputChange).not.toHaveBeenCalled();
+
+  expect(onInputChange).toHaveBeenCalledTimes(1);
 });

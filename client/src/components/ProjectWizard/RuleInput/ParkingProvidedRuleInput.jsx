@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import debounce from "lodash/debounce";
+
 import ResetButtons from "../WizardPages/ResetButtons";
 
 const useStyles = createUseStyles(theme => ({
@@ -55,15 +55,6 @@ const ParkingProvidedRuleInput = ({ rule, onInputChange, resetProject }) => {
   const errorMessage =
     inputError || (showValidationErrors && validationErrors?.[0]);
 
-  const onDebounceInputChange = useMemo(
-    () => debounce(e => onInputChange(e), 750),
-    [onInputChange]
-  );
-
-  useEffect(() => {
-    return () => onDebounceInputChange.cancel();
-  }, [onDebounceInputChange]);
-
   const updateSpaceProvided = nextvalue => {
     setShowValidationErrors(true);
 
@@ -74,7 +65,7 @@ const ParkingProvidedRuleInput = ({ rule, onInputChange, resetProject }) => {
 
     setInputError("");
     setSpacesProvided(nextvalue);
-    onDebounceInputChange({
+    onInputChange({
       target: { name: code, value: nextvalue }
     });
   };
