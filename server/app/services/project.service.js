@@ -9,6 +9,7 @@ const getAll = async loginId => {
     const request = pool.request();
     request.input("LoginId", mssql.Int, loginId);
     const response = await request.execute("Project_SelectAll");
+
     return response.recordset;
   } catch (err) {
     console.log(err);
