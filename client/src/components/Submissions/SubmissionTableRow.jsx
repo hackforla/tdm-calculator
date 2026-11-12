@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import UserContext from "../../contexts/UserContext";
 import CalculationsContext from "../../contexts/CalculationsContext";
+import * as projectService from "../../services/project.service";
 import "reactjs-popup/dist/index.css";
 import {
   MdAdd,
@@ -133,6 +134,7 @@ const SubmissionTableRow = ({
   const [actionManageSubmissionOpen, setActionManageSubmissionOpen] =
     useState(false);
   const [infoSubmissionLogOpen, setInfoSubmissionLogOpen] = useState(false);
+  const [projectLog, setProjectLog] = useState();
 
   const handleActionManageSubmissionOpen = () => {
     setActionManageSubmissionOpen(true);
@@ -145,13 +147,48 @@ const SubmissionTableRow = ({
     setActionManageSubmissionOpen(false);
   };
 
+  const handleInfoSubmissionLogOpen = async () => {
+    const resp = await projectService.getSubmissionLogByProjectId(project.id);
+    const projectLog = resp.data;
+    for (let i = projectLog.length - 1; i >= 0; i--) {
+      const log = projectLog[i];
+      const prev =
+        i === projectLog.length - 1 ? projectLog[i] : projectLog[i + 1];
+      log.assignee = log.assignedLastName
+        ? `${log.assignedLastName}, ${log.assignedFirstName}`
+        : "-";
+      log.statusChangedBy = log.statusLastName
+        ? `${log.statusLastName}, ${log.statusFirstName}`
+        : "-";
+
+      log.droNameChanged = log.droName !== prev.droName;
+      log.assigneeChanged = log.assignee !== prev.assignee;
+      log.dateAssignedChanged = log.dateAssigned !== prev.dateAssigned;
+      log.invoiceStatusChanged =
+        log.invoiceStatusName !== prev.invoiceStatusName;
+      log.dateInvoicePaidChanged = log.dateInvoicePaid !== prev.dateInvoicePaid;
+      log.onHoldChanged = log.onHold !== prev.onHold;
+      log.approvalStatusNameChanged =
+        log.approvalStatusName !== prev.approvalStatusName;
+      log.adminNotesChanged = log.adminNotes !== prev.adminNotes;
+      log.dateCoOChanged = log.dateCoO != prev.dateCoO;
+    }
+    setProjectLog(projectLog);
+
+    setInfoSubmissionLogOpen(true);
+  };
+
+  const handleInfoSubmissionLogClose = () => {
+    setInfoSubmissionLogOpen(false);
+  };
+
   return (
     <tr key={project.id}>
       <Td>
         <MdEdit onClick={handleActionManageSubmissionOpen} />
       </Td>
       <Td>
-        <MdList onClick={() => setInfoSubmissionLogOpen(true)} />
+        <MdList onClick={handleInfoSubmissionLogOpen} />
       </Td>
       <Td>{formatId(project.id)}</Td>
       <TdExpandable>
@@ -274,8 +311,9 @@ const SubmissionTableRow = ({
       <InfoSubmissionLog
         key="info-submission-log"
         mounted={infoSubmissionLogOpen}
-        onClose={() => setInfoSubmissionLogOpen(false)}
+        onClose={handleInfoSubmissionLogClose}
         project={project}
+        projectLog={projectLog}
       />
     </tr>
   );
