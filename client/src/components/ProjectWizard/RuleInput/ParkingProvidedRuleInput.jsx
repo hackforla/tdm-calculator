@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
@@ -29,14 +29,7 @@ const useStyles = createUseStyles(theme => ({
     textAlign: "right",
     margin: ".5em 0",
     height: 45,
-    width: "50%",
-    "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
-      "-webkit-appearance": "none"
-    },
-    // Firefox input type number still allows letters, but will validate on submit
-    "&[type=number]": {
-      "-moz-appearance": "textfield"
-    }
+    width: "50%"
   },
   unit: {
     ...theme.typography.heading2,
@@ -52,28 +45,46 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const ParkingProvidedRuleInput = ({ rule, onInputChange, resetProject }) => {
-  const { code, name, value, units, maxValue, validationErrors, required } =
-    rule;
+  const { code, name, value, units, validationErrors, required } = rule;
   const classes = useStyles();
   const requiredStyle = required && classes.requiredInputLabel;
   const [showValidationErrors, setShowValidationErrors] = useState(false);
-  const [spacesProvided, setSpacesProvided] = useState(value || "");
+  const [spacesProvided, setSpacesProvided] = useState(value ?? "");
+  const [inputError, setInputError] = useState("");
+
+  const errorMessage =
+    inputError || (showValidationErrors && validationErrors?.[0]);
 
   const onDebounceInputChange = useMemo(
     () => debounce(e => onInputChange(e), 750),
     [onInputChange]
   );
 
-  const handleChange = e => {
+  useEffect(() => {
+    return () => onDebounceInputChange.cancel();
+  }, [onDebounceInputChange]);
+
+  const updateSpaceProvided = nextvalue => {
     setShowValidationErrors(true);
-    setSpacesProvided(e.target.value);
-    onDebounceInputChange(e);
+
+    if (!/^[0-9]*$/.test(nextvalue)) {
+      setInputError("Use numbers only");
+      return;
+    }
+
+    setInputError("");
+    setSpacesProvided(nextvalue);
+    onDebounceInputChange({
+      target: { name: code, value: nextvalue }
+    });
   };
 
-  const handleClear = e => {
-    setShowValidationErrors(true);
-    setSpacesProvided("");
-    onDebounceInputChange(e);
+  const handleChange = e => {
+    updateSpaceProvided(e.target.value);
+  };
+
+  const handleClear = () => {
+    updateSpaceProvided("");
   };
 
   const onBlur = () => {
@@ -97,22 +108,24 @@ const ParkingProvidedRuleInput = ({ rule, onInputChange, resetProject }) => {
           <input
             className={classes.input}
             autoFocus
-            type="number"
+            type="text"
+            inputMode="numeric"
+            aria-invalid={!!errorMessage}
+            aria-describedby={errorMessage ? `${code}-error` : undefined}
             value={spacesProvided}
             onChange={handleChange}
             name={code}
             id={code}
             data-testid={code}
-            min={0}
-            max={maxValue}
             onBlur={onBlur}
-            maxLength="7"
           />
           <span className={classes.unit}>&nbsp;{units}</span>
         </div>
 
-        {validationErrors && showValidationErrors ? (
-          <div className={classes.error}>{validationErrors[0]}</div>
+        {errorMessage ? (
+          <div id={`${code}-error`} className={classes.error} role="alert">
+            {errorMessage}
+          </div>
         ) : null}
       </div>
     </div>
