@@ -35,8 +35,18 @@ const ResetPassword = () => {
   const toast = useToast();
 
   useEffect(() => {
-    focusRef.current.focus();
-  });
+    focusRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!success) return;
+
+    const timeoutId = setTimeout(() => {
+      navigate(`/login/${success}`);
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [success, navigate]);
 
   const handleSubmit = async ({ token, password }, { setFieldError }) => {
     const submitResponse = await accountService.resetPassword({
@@ -118,11 +128,6 @@ const ResetPassword = () => {
         <>
           <h1 className={classes.pageTitle}>Password Reset Successful!</h1>
           <h3>Redirecting to login</h3>
-          <div className="hide">
-            {setTimeout(() => {
-              navigate(`/login/${success}`);
-            }, 2000)}
-          </div>
         </>
       )}
     </ContentContainer>
