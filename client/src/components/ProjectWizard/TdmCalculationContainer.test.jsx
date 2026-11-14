@@ -1,5 +1,5 @@
 import React from "react";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import TdmCalculationContainer from "./TdmCalculationContainer";
 import Engine from "../../services/tdm-engine";
@@ -67,9 +67,7 @@ const setup = () => {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.useFakeTimers();
 });
-afterEach(() => jest.useRealTimers());
 
 it.each([
   ["0", 4],
@@ -86,7 +84,6 @@ it.each([
 ])("preserves the parking calculation for %p spaces", (value, index) => {
   const { input, engine } = setup();
   fireEvent.change(input, { target: { value } });
-  act(() => jest.advanceTimersByTime(750));
   expect(engine.run).toHaveBeenLastCalledWith(
     { PARK_SPACES: value, STRATEGY_PARKING_5: index },
     ["PROJECT_LEVEL", "CALC_PARK_RATIO", "TARGET_POINTS_PARK", "PTS_EARNED"]
@@ -96,10 +93,8 @@ it.each([
 it("does not recalculate or replace the last valid value after an exponent edit", () => {
   const { input, engine } = setup();
   fireEvent.change(input, { target: { value: "50" } });
-  act(() => jest.advanceTimersByTime(750));
   const calls = engine.run.mock.calls.length;
   fireEvent.change(input, { target: { value: "1e3" } });
-  act(() => jest.advanceTimersByTime(750));
   expect(input).toHaveValue("50");
   expect(engine.run).toHaveBeenCalledTimes(calls);
 });
@@ -107,9 +102,7 @@ it("does not recalculate or replace the last valid value after an exponent edit"
 it("Clear Page recalculates with an empty value and resets the reduction index", () => {
   const { input, engine } = setup();
   fireEvent.change(input, { target: { value: "50" } });
-  act(() => jest.advanceTimersByTime(750));
   fireEvent.click(screen.getByRole("button", { name: "Clear Page" }));
-  act(() => jest.advanceTimersByTime(750));
   expect(engine.run).toHaveBeenLastCalledWith(
     { PARK_SPACES: "", STRATEGY_PARKING_5: 0 },
     expect.any(Array)

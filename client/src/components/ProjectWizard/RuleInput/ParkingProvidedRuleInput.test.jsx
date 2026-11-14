@@ -3,6 +3,8 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import ParkingProvidedRuleInput from "./ParkingProvidedRuleInput";
+import Engine from "../../../services/tdm-engine";
+import { tdmRules } from "../../../test-data/tdm-calc-rules";
 
 const rule = {
   code: "PARK_SPACES",
@@ -30,7 +32,6 @@ const setup = (overrides = {}) => {
   };
 };
 
-beforeEach(() => jest.useFakeTimers());
 afterEach(() => jest.useRealTimers());
 
 it.each(["0", "111", "0012", "9999999", "10000000", ""])(
@@ -70,25 +71,23 @@ it.each([
     expect(screen.getByRole("alert")).toHaveTextContent("Use numbers only");
     expect(input).toHaveAttribute("aria-invalid", "true");
     expect(input).toHaveAccessibleDescription("Use numbers only");
-    act(() => jest.advanceTimersByTime(750));
     expect(onInputChange).not.toHaveBeenCalled();
   }
 );
 
 it("rejects pasted exponent notation without converting it to different digits", async () => {
-  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+  const user = userEvent.setup();
   const { input, onInputChange } = setup();
   input.focus();
   input.select();
   await user.paste("1e3");
   expect(input).toHaveValue("12");
   expect(screen.getByRole("alert")).toHaveTextContent("Use numbers only");
-  act(() => jest.advanceTimersByTime(750));
   expect(onInputChange).not.toHaveBeenCalled();
 });
 
 it("allows editing shortcuts and clears the error on a valid edit", async () => {
-  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+  const user = userEvent.setup();
   const { input, onInputChange } = setup();
   await user.type(input, "e");
   expect(input).toHaveValue("12");
@@ -96,7 +95,6 @@ it("allows editing shortcuts and clears the error on a valid edit", async () => 
   expect(input).toHaveValue("25");
   expect(input).toHaveAttribute("aria-invalid", "false");
   expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-  act(() => jest.advanceTimersByTime(750));
   expect(onInputChange).toHaveBeenLastCalledWith({
     target: { name: "PARK_SPACES", value: "25" }
   });
@@ -134,7 +132,52 @@ it("retains rule validation errors and associates them with the input", () => {
   expect(input).toHaveAccessibleDescription("Parking exceeds maximum");
 });
 
+it("shows the real engine maximum error and clears it when corrected", () => {
+  const parkingRule = tdmRules.find(rule => rule.code === "PARK_SPACES");
+  const engine = new Engine([{ ...parkingRule, maxValue: 9999999 }]);
+  engine.run({}, ["PARK_SPACES"]);
+
+  const ParkingWithEngine = () => {
+    const [currentRule, setCurrentRule] = React.useState(
+      engine.showRulesArray()[0]
+    );
+    const onInputChange = ({ target }) => {
+      engine.run({ [target.name]: target.value }, ["PARK_SPACES"]);
+      setCurrentRule(engine.showRulesArray()[0]);
+    };
+    return (
+      <ParkingProvidedRuleInput
+        rule={currentRule}
+        onInputChange={onInputChange}
+        resetProject={jest.fn()}
+      />
+    );
+  };
+
+  render(<ParkingWithEngine />);
+  const input = screen.getByRole("textbox", { name: "Parking Provided" });
+
+  fireEvent.change(input, { target: { value: "9999999" } });
+  expect(input).toHaveValue("9999999");
+  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+
+  fireEvent.change(input, { target: { value: "10000000" } });
+  expect(input).toHaveValue("10000000");
+  expect(screen.getByRole("alert")).toHaveTextContent(
+    "Parking Provided must be no more than 9999999."
+  );
+  expect(input).toHaveAccessibleDescription(
+    "Parking Provided must be no more than 9999999."
+  );
+
+  fireEvent.change(input, { target: { value: "9999999" } });
+  expect(input).toHaveValue("9999999");
+  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(input).toHaveAttribute("aria-invalid", "false");
+});
+
 it("preserves an accepted edit when immediately unmounted", () => {
+  jest.useFakeTimers();
   const { input, unmount, onInputChange } = setup();
 
   fireEvent.change(input, { target: { value: "45" } });
