@@ -19,7 +19,7 @@ const useStyles = createUseStyles(theme => ({
     padding: "1rem",
     color: theme.colorText,
     textAlign: "left",
-    border: "1px solid " + theme.colorGray,
+    border: "1px solid " + theme.colorDarkGray,
     borderRadius: "5px",
     width: "min-content",
     minWidth: "97%",
@@ -34,7 +34,7 @@ const useStyles = createUseStyles(theme => ({
     right: "0"
   },
   closeButton: {
-    color: theme.colorGray,
+    color: theme.colorDarkGray,
     float: "right",
     marginTop: "-0.75rem",
     marginRight: "-0.750rem",
@@ -52,7 +52,7 @@ const useStyles = createUseStyles(theme => ({
     left: "20px",
     width: "0",
     height: "0",
-    borderBottom: "6px solid " + theme.colorGray,
+    borderBottom: "6px solid " + theme.colorDarkGray,
     borderLeft: "6px solid transparent",
     borderRight: "6px solid transparent"
   },
