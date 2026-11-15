@@ -19,7 +19,7 @@ const useStyles = createUseStyles(theme => ({
     padding: "1rem",
     color: theme.colorText,
     textAlign: "left",
-    border: "1px solid " + theme.colorGray,
+    border: "1px solid " + theme.colorDarkGray,
     borderRadius: "5px",
     width: "min-content",
     minWidth: "97%",
@@ -52,7 +52,7 @@ const useStyles = createUseStyles(theme => ({
     left: "20px",
     width: "0",
     height: "0",
-    borderBottom: "6px solid " + theme.colorGray,
+    borderBottom: "6px solid " + theme.colorDarkGray,
     borderLeft: "6px solid transparent",
     borderRight: "6px solid transparent"
   },
@@ -74,7 +74,7 @@ const useStyles = createUseStyles(theme => ({
     bottom: "0.01rem",
     right: "0.40rem",
     fontSize: "20px",
-    color: theme.colorGray,
+    color: theme.colorDarkGray,
     "&:hover": {
       cursor: "pointer"
     }
