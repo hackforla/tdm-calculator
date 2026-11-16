@@ -4,7 +4,6 @@ import clsx from "clsx";
 import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
 import PropTypes from "prop-types";
-import * as projectService from "../../services/project.service";
 import { formatDate, formatDatetime } from "../../helpers/util";
 import { MdCheck } from "react-icons/md";
 
@@ -101,44 +100,14 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-export default function InfoSubmissionLog({ mounted, onClose, project }) {
+export default function InfoSubmissionLog({
+  mounted,
+  onClose,
+  project,
+  projectLog
+}) {
   const theme = useTheme();
   const classes = useStyles(theme);
-  const [projectLog, setProjectLog] = useState();
-
-  useEffect(() => {
-    const getLog = async projectId => {
-      const resp = await projectService.getSubmissionLogByProjectId(projectId);
-      const projectLog = resp.data;
-      for (let i = projectLog.length - 1; i >= 0; i--) {
-        const log = projectLog[i];
-        const prev =
-          i === projectLog.length - 1 ? projectLog[i] : projectLog[i + 1];
-        log.assignee = log.assignedLastName
-          ? `${log.assignedLastName}, ${log.assignedFirstName}`
-          : "-";
-        log.statusChangedBy = log.statusLastName
-          ? `${log.statusLastName}, ${log.statusFirstName}`
-          : "-";
-
-        log.droNameChanged = log.droName !== prev.droName;
-        log.assigneeChanged = log.assignee !== prev.assignee;
-        log.dateAssignedChanged = log.dateAssigned !== prev.dateAssigned;
-        log.invoiceStatusChanged =
-          log.invoiceStatusName !== prev.invoiceStatusName;
-        log.dateInvoicePaidChanged =
-          log.dateInvoicePaid !== prev.dateInvoicePaid;
-        log.onHoldChanged = log.onHold !== prev.onHold;
-        log.approvalStatusNameChanged =
-          log.approvalStatusName !== prev.approvalStatusName;
-        log.adminNotesChanged = log.adminNotes !== prev.adminNotes;
-        log.dateCoOChanged = log.dateCoO != prev.dateCoO;
-      }
-      setProjectLog(projectLog);
-    };
-
-    getLog(project.id);
-  }, [project.id]);
 
   return (
     <ModalDialog
@@ -298,5 +267,6 @@ export default function InfoSubmissionLog({ mounted, onClose, project }) {
 InfoSubmissionLog.propTypes = {
   mounted: PropTypes.bool,
   onClose: PropTypes.func,
-  project: PropTypes.any
+  project: PropTypes.any,
+  projectLog: PropTypes.array
 };
