@@ -46,21 +46,24 @@ const useStyles = createUseStyles(theme => ({
     ...theme.typography.paragraph1,
     margin: ".7rem 0"
   },
-  field: {
+  inputField: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
     marginBottom: "1rem"
   },
-  fieldName: {
-    ...theme.typography.heading4,
-    textAlign: "left",
-    marginRight: ".5rem"
-  },
-  fieldValue: {
+  input: {
     ...theme.typography.paragraph1,
-    overflowWrap: "break-word"
+    width: "180px",
+    height: "20px",
+    padding: "10px",
+    marginBottom: "10px"
+  },
+  inputError: {
+    ...theme.typography.paragraph1,
+    color: "red",
+    width: "380px"
   },
   buttonFlexBox: {
     display: "flex",
@@ -72,42 +75,9 @@ const useStyles = createUseStyles(theme => ({
   }
 }));
 
-function PreviousPlanField() {
-  const theme = useTheme();
-  const classes = useStyles(theme);
-
-  const [prevPlanId, setPrevPlanId] = useState("");
-
-  const errors = [
-    "Unable to find withdrawn submission for that project ID",
-    "Unable to find TDM Plan ID",
-    "TDM Plan ID must have 10 digits",
-    "Previous TDM Plan ID field is empty"
-  ];
-
-  return (
-    <div className={classes.container}>
-      <div className={classes.heading4}>Previous TDM Plan ID</div>
-      <div className={classes.paragraph}>
-        Previous TDM Plan must have been withdrawn by LADOT.
-      </div>
-      <div style={{ width: "75%" }}>
-        <input
-          placeholder="00000-00000"
-          type="text"
-          name="prevPlanId"
-          value={prevPlanId}
-          onChange={e => setPrevPlanId(e.target.value)}
-        />
-      </div>
-    </div>
-  );
-}
-
 export default function SpecifySubmissionType({ mounted, onClose, project }) {
   const theme = useTheme();
   const classes = useStyles(theme);
-  // const [apnDroData, setApnDroData] = useState(null);
 
   const NEW_PLAN_SUBMISSION = "NEW_PLAN_SUBMISSION";
   const REPLACEMENT_SUBMISSION = "REPLACEMENT_SUBMISSION";
@@ -117,34 +87,82 @@ export default function SpecifySubmissionType({ mounted, onClose, project }) {
     [REPLACEMENT_SUBMISSION]: "Replacement for previously submitted TDM Plan"
   };
 
-  useEffect(() => {
-    console.log(JSON.stringify(submissionTypes, null, 2));
-  }, []);
-
   const [submissionType, setSubmissionType] = useState("");
+  const [prevPlanId, setPrevPlanId] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [prevPlanIdError, setPrevPlanIdError] = useState("");
 
-  const onSelectSubmissionType = e => {
-    // const newDroId = Number(e.target.value);
+  const resetFormState = () => {
+    setSubmitting(false);
+    setPrevPlanId("");
+  };
+
+  const resetAllInputState = () => {
+    setSubmissionType("");
+    setPrevPlanIdError("");
+    resetFormState();
+  };
+
+  const handleCloseModal = () => {
+    resetAllInputState();
+    onClose();
+  };
+
+  const handleChangeSubmissionType = e => {
+    resetFormState();
+    if (submissionType === REPLACEMENT_SUBMISSION) setPrevPlanId("");
     setSubmissionType(e.target.value);
-    // handleDroChange(project.id, newDroId);
   };
 
-  const convertTimeStamp = date => {
-    if (!date) {
-      return;
+  const handleChangePrevPlanId = e => {
+    resetFormState();
+    setPrevPlanId(prevVal => {
+      if (!e.target.validity.patternMismatch) {
+        const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+        const formatted =
+          digits.length > 5
+            ? `${digits.slice(0, 5)}-${digits.slice(5)}`
+            : digits;
+
+        return formatted;
+      } else {
+        return prevVal;
+      }
+    });
+  };
+
+  const validatePrevPlanId = () => {
+    let errMsg = "";
+    const digits = prevPlanId.replace(/\D/g, "").slice(0, 10);
+
+    if (digits.length < 10) {
+      errMsg = "TDM Plan ID must have 10 digits";
+    } else {
+      errMsg = "";
     }
-    const dateObj = new Date(date);
-    return dateObj.toISOString().split("T")[0];
+
+    setPrevPlanIdError(errMsg);
+    return errMsg === "" ? true : false;
   };
 
-  const dateLastSaved = convertTimeStamp(project?.dateModified);
-  const dateSnapshot = convertTimeStamp(project?.dateSnapshotted);
+  const handleSubmit = () => {
+    setSubmitting(true);
+    if (validatePrevPlanId()) {
+      console.log(`Previous Plan ID is Valid:\t ${prevPlanId}`);
+    } else {
+      console.log(`Previous Plan ID NOT Valid:\t ${prevPlanId}`);
+    }
+  };
+
+  const submissionDisabled =
+    submissionType === "" || submitting || prevPlanIdError !== "";
 
   return (
     <ModalDialog
       mounted={mounted}
-      onClose={onClose}
-      onCloseBox={true}
+      onClose={handleCloseModal}
+      omitCloseBox={true}
+      escapeExits={false}
       initialFocus="#cancelButton"
     >
       <div className={classes.container}>
@@ -164,22 +182,51 @@ export default function SpecifySubmissionType({ mounted, onClose, project }) {
                 label={label}
                 value={key}
                 checked={submissionType === key}
-                onChange={onSelectSubmissionType}
+                onChange={handleChangeSubmissionType}
               />
             </div>
           ))}
-          {submissionType === REPLACEMENT_SUBMISSION && <PreviousPlanField />}
+          {submissionType === REPLACEMENT_SUBMISSION && (
+            <div className={classes.container}>
+              <div className={classes.heading4}>Previous TDM Plan ID</div>
+              <div className={classes.paragraph}>
+                Previous TDM Plan must have been withdrawn by LADOT.
+              </div>
+              <div className={classes.inputField}>
+                <input
+                  className={classes.input}
+                  name="prevPlanId"
+                  type="text"
+                  aria-label="Number"
+                  inputMode="numeric"
+                  pattern="[0-9]+(-|-[0-9]+)*"
+                  placeholder="00000-00000"
+                  value={prevPlanId}
+                  onChange={handleChangePrevPlanId}
+                  required
+                />
+                {prevPlanIdError && (
+                  <span className={classes.inputError}>{prevPlanIdError}</span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className={classes.buttonFlexBox}>
-          <Button onClick={onClose} variant="secondary" id="cancelButton">
+          <Button
+            onClick={() => {
+              resetAllInputState();
+            }}
+            variant="secondary"
+            id="cancelButton"
+          >
             CANCEL
           </Button>
           <Button
-            onClick={() => {
-              alert("Not yet implemented");
-            }}
+            onClick={handleSubmit}
             variant="primary"
+            disabled={submissionDisabled}
           >
             SUBMIT
           </Button>
