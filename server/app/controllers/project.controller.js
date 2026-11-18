@@ -226,6 +226,25 @@ const snapshot = async (req, res) => {
   }
 };
 
+const replaceByProject = async (req, res) => {
+  const { id, replacedByProjectId } = req.body;
+
+  const result = await projectService.replaceByProject(
+    id,
+    replacedByProjectId,
+    req.user.id
+  );
+  if (result === 1) {
+    res.sendStatus(403);
+  } else if (result === 2) {
+    res.sendStatus(409); // rejected if project already has replacedByProjectId set
+  } else if (result === 3) {
+    res.sendStatus(409); // rejected if project is not withdrawn
+  } else {
+    res.sendStatus(204);
+  }
+};
+
 const renameSnapshot = async (req, res) => {
   try {
     const { id, name } = req.body;
@@ -356,6 +375,7 @@ module.exports = {
   updateDroId,
   updateCalculationId,
   updateAdminNotes,
+  replaceByProject,
   renameSnapshot,
   getAllArchivedProjects,
   updateTotals,
