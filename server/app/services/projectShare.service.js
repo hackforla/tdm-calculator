@@ -1,12 +1,16 @@
 const { pool, poolConnect } = require("./tedious-pool");
 const mssql = require("mssql");
 
-const getById = async id => {
+const getById = async (id, loginId) => {
   try {
     await poolConnect;
     const request = pool.request();
     request.input("id", mssql.Int, id);
+    request.input("loginId", mssql.Int, loginId);
     const response = await request.execute("ProjectShare_SelectById");
+    if (response.returnValue === 403) {
+      return Promise.reject({ status: 403, message: "Forbidden" });
+    }
     if (response.recordset && response.recordset.length > 0) {
       return response.recordset[0];
     } else {
@@ -17,12 +21,16 @@ const getById = async id => {
   }
 };
 
-const getByProjectId = async projectId => {
+const getByProjectId = async (projectId, loginId) => {
   try {
     await poolConnect;
     const request = pool.request();
     request.input("ProjectId", mssql.Int, projectId);
+    request.input("loginId", mssql.Int, loginId);
     const response = await request.execute("ProjectShare_SelectByProjectId");
+    if (response.returnValue === 403) {
+      return Promise.reject({ status: 403, message: "Forbidden" });
+    }
     return response.recordset;
   } catch (err) {
     return Promise.reject(err);
