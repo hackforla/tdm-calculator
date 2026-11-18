@@ -509,7 +509,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
   };
 
   const handleDeleteModalOpen = project => {
-    if (!checkedProjectIds.length) setSelectedProject(project);
+    setSelectedProject(checkedProjectIds.length ? null : project);
     setDeleteModalOpen(true);
   };
 
