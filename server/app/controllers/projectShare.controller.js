@@ -7,12 +7,18 @@ const projectShareSchema = require("../schemas/projectShare");
 
 const getById = async (req, res) => {
   try {
-    const project = await projectShareService.getById(req.params.id);
+    const project = await projectShareService.getById(
+      req.params.id,
+      req.user.id
+    );
     if (!project) {
-      return res.status(404).send("Project not found.");
+      return res.status(404).send("Project Share  not found.");
     }
     res.status(200).json(project);
   } catch (err) {
+    if (err.status === 403) {
+      return res.status(403).send(err.message);
+    }
     res.status(500).send(err);
   }
 };
@@ -20,13 +26,17 @@ const getById = async (req, res) => {
 const getByProjectId = async (req, res) => {
   try {
     const sharedEmails = await projectShareService.getByProjectId(
-      req.params.projectId
+      req.params.projectId,
+      req.user.id
     );
     if (!sharedEmails) {
-      return res.status(404).send("Project not found.");
+      return res.status(404).send("Project Shares not found.");
     }
     res.status(200).json(sharedEmails);
   } catch (err) {
+    if (err.status === 403) {
+      return res.status(403).send(err.message);
+    }
     res.status(500).send(err);
   }
 };
@@ -42,14 +52,21 @@ const post = async (req, res) => {
 
 const del = async (req, res) => {
   try {
-    const projectShare = await projectShareService.getById(req.params.id);
+    const projectShare = await projectShareService.getById(
+      req.params.id,
+      req.user.id
+    );
+
     if (!projectShare) {
-      return res.status(404).send("ProjectShare not found.");
+      return res.status(404).send("Project Share not found.");
     }
 
     await projectShareService.del(req.params.id);
     res.sendStatus(204);
   } catch (err) {
+    if (err.status === 403) {
+      return res.status(403).send(err.message);
+    }
     res.status(500).send(err);
   }
 };
