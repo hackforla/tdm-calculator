@@ -61,11 +61,12 @@ const DeleteProjectModal = ({ mounted, onClose, project, projects = [] }) => {
   const [isLoadingShares, setIsLoadingShares] = useState(false);
   const [shareError, setShareError] = useState("");
 
-  const selectedProjects = projects.length
-    ? projects
-    : project && !Array.isArray(project)
-      ? [project]
+  const selectedProjects = project
+    ? [project]
+    : projects.length
+      ? projects
       : [];
+
   const sharedSnapshots = selectedProjects
     .filter(
       selectedProject =>
@@ -129,9 +130,9 @@ const DeleteProjectModal = ({ mounted, onClose, project, projects = [] }) => {
     };
   }, [mounted, hasSharedSnapshots]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const projectName = Array.isArray(project.name)
-    ? project.name.join(", ")
-    : project.name;
+  const projectNameArray = Array.isArray(project.name)
+    ? project.name
+    : [project.name];
   const collaboratorNoun = projectShares.length === 1 ? "person" : "people";
   const snapshotDescription = isMultipleProjects
     ? `These snapshots are currently shared with ${projectShares.length} ${collaboratorNoun}. Deleting them will automatically revoke their access. The system sends no additional notifications.`
@@ -196,9 +197,17 @@ const DeleteProjectModal = ({ mounted, onClose, project, projects = [] }) => {
           </div>
         </div>
       )}
-      <div style={{ ...theme.typography.heading3, marginBottom: "1.5rem" }}>
-        {projectName}
-      </div>
+      {projectNameArray.map(name => (
+        <div
+          style={{
+            ...theme.typography.heading3,
+            marginTop: "0.25rem",
+            marginBottom: "0.25rem"
+          }}
+        >
+          {name}
+        </div>
+      ))}
       {hasSharedSnapshots && !project.dateTrashed && (
         <div className={classes.subheading}>
           Your TDM {isMultipleProjects ? "Plans" : "Plan"} will remain in the

@@ -224,7 +224,7 @@ const MultiProjectToolbarMenu = ({
           <button
             id="csv-btn"
             className={`${classes.buttonStyle} ${classes.showPointer}`}
-            onClick={handleCsvModalOpen}
+            onClick={() => handleCsvModalOpen()}
             aria-label="Export to CSV"
           >
             <FaFileCsv aria-hidden="true" className={classes.iconSmall} />
@@ -283,7 +283,7 @@ const MultiProjectToolbarMenu = ({
               !isHideBtnDisabled && classes.showPointer
             }`}
             disabled={isHideBtnDisabled}
-            onClick={handleHideBoxes}
+            onClick={() => handleHideBoxes()}
             aria-label={`Toggle Visibility ${!checkedProjectsStatusData.dateHidden ? "Off" : "On"}`}
             aria-disabled={isHideBtnDisabled}
           >
@@ -327,7 +327,7 @@ const MultiProjectToolbarMenu = ({
               !isDelBtnDisabled && classes.showPointer
             }`}
             disabled={isDelBtnDisabled}
-            onClick={handleDeleteModalOpen}
+            onClick={() => handleDeleteModalOpen()}
             aria-label={
               isActiveProjectsTab ? "Delete Projects" : "Restore Projects"
             }

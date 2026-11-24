@@ -334,6 +334,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
   const [shareSnapshotModalOpen, setShareSnapshotModalOpen] = useState(false);
+  // When a modal is activated from the kebab menu, selectedProject is set to the project associated with the row.
+  // Otherwise, selectedProject should be null, so the operation will
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
@@ -506,10 +508,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     }
     setCopyModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleDeleteModalOpen = project => {
-    setSelectedProject(checkedProjectIds.length ? null : project);
+    // setSelectedProject(checkedProjectIds.length ? null : project);
+    setSelectedProject(project || null);
     setDeleteModalOpen(true);
   };
 
@@ -542,15 +546,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setSelectAllChecked(false);
   };
 
-  const handleCsvModalOpen = (event, project) => {
-    // If invoked from kebab menu, project will be the selected project.
-    // If invoked from MultiProjectToolbarMenu, want to reset selected project to null
+  const handleCsvModalOpen = project => {
+    // project should be null if invoked from the MultiProjectToolbarMenu.
+    // If invoked from the kebab menu, it will be the project associated with the row.
     setSelectedProject(project || null);
     setCsvModalOpen(true);
   };
 
   const handleCsvModalClose = async () => {
     setCsvModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleSnapshotModalOpen = project => {
@@ -572,6 +577,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     }
     setSnapshotModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleSubmitModalOpen = project => {
@@ -590,6 +596,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       setSuccessModelOpen(true);
     }
     setSubmitModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleSuccessModalClose = () => {
@@ -617,6 +624,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     }
     setRenameSnapshotModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleShareSnapshotModalOpen = project => {
@@ -626,6 +634,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleShareSnapshotModalClose = async () => {
     setShareSnapshotModalOpen(false);
+    setSelectedProject(null);
     try {
       await updateProjects();
     } catch (error) {
@@ -635,9 +644,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleHide = async project => {
     try {
-      if (!checkedProjectIds.length) {
-        setSelectedProject(project);
-      }
+      setSelectedProject(project || null);
 
       const projectIDs =
         checkedProjectIds.length > 0 ? checkedProjectIds : [project.id];
