@@ -38,11 +38,13 @@ import {
   filter as filterProjects,
   getSortOrdinal
 } from "../UI/ColumnHeaderPopups/Helpers";
+import { getProjectShareStatus } from "./projectHelpers";
 
 const DEFAULT_SORT_CRITERIA = [{ field: "dateModified", direction: "desc" }];
 const DEFAULT_FILTER_CRITERIA = {
   filterText: "",
   type: "all",
+  sharedList: [],
   visibility: "visible",
   name: "",
   address: "",
@@ -182,7 +184,7 @@ const useStyles = createUseStyles(theme => ({
     marginRight: "0.5rem"
   },
   tableAdmin: {
-    minWidth: "135rem",
+    minWidth: "145rem",
     width: "100%",
     tableLayout: "fixed"
   },
@@ -197,7 +199,7 @@ const useStyles = createUseStyles(theme => ({
     tableLayout: "fixed"
   },
   table: {
-    minWidth: "110rem",
+    minWidth: "120rem",
     width: "100%",
     tableLayout: "fixed"
   },
@@ -332,6 +334,8 @@ const ProjectsPage = ({ contentContainerRef }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
   const [shareSnapshotModalOpen, setShareSnapshotModalOpen] = useState(false);
+  // When a modal is activated from the kebab menu, selectedProject is set to the project associated with the row.
+  // Otherwise, selectedProject should be null, so the operation will
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkedProjectIds, setCheckedProjectIds] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
@@ -373,6 +377,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
         return {
           ...project,
+          shared: getProjectShareStatus(project, loginId),
           author: project.lastName
             ? `${project.lastName}, ${project.firstName}`
             : "",
@@ -503,10 +508,12 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     }
     setCopyModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleDeleteModalOpen = project => {
-    if (!checkedProjectIds.length) setSelectedProject(project);
+    // setSelectedProject(checkedProjectIds.length ? null : project);
+    setSelectedProject(project || null);
     setDeleteModalOpen(true);
   };
 
@@ -539,15 +546,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
     setSelectAllChecked(false);
   };
 
-  const handleCsvModalOpen = (event, project) => {
-    // If invoked from kebab menu, project will be the selected project.
-    // If invoked from MultiProjectToolbarMenu, want to reset selected project to null
+  const handleCsvModalOpen = project => {
+    // project should be null if invoked from the MultiProjectToolbarMenu.
+    // If invoked from the kebab menu, it will be the project associated with the row.
     setSelectedProject(project || null);
     setCsvModalOpen(true);
   };
 
   const handleCsvModalClose = async () => {
     setCsvModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleSnapshotModalOpen = project => {
@@ -569,6 +577,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     }
     setSnapshotModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleSubmitModalOpen = project => {
@@ -587,6 +596,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       setSuccessModelOpen(true);
     }
     setSubmitModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleSuccessModalClose = () => {
@@ -614,6 +624,7 @@ const ProjectsPage = ({ contentContainerRef }) => {
       }
     }
     setRenameSnapshotModalOpen(false);
+    setSelectedProject(null);
   };
 
   const handleShareSnapshotModalOpen = project => {
@@ -623,13 +634,17 @@ const ProjectsPage = ({ contentContainerRef }) => {
 
   const handleShareSnapshotModalClose = async () => {
     setShareSnapshotModalOpen(false);
+    setSelectedProject(null);
+    try {
+      await updateProjects();
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   const handleHide = async project => {
     try {
-      if (!checkedProjectIds.length) {
-        setSelectedProject(project);
-      }
+      setSelectedProject(project || null);
 
       const projectIDs =
         checkedProjectIds.length > 0 ? checkedProjectIds : [project.id];
@@ -801,6 +816,16 @@ const ProjectsPage = ({ contentContainerRef }) => {
       popupType: "status",
       colWidth: `${isActiveProjectsTab ? "9rem" : "14rem"}`
     },
+    ...(isActiveProjectsTab
+      ? [
+          {
+            id: "shared",
+            label: "Shared",
+            popupType: "shared",
+            colWidth: "10rem"
+          }
+        ]
+      : []),
     {
       id: "idFormatted",
       label: "ID",

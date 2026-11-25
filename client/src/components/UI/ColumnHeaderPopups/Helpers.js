@@ -1,3 +1,5 @@
+import { SHARING_STATUS } from "../../Projects/projectHelpers";
+
 // Helper functions that implement application-wide sortign and filtering
 // for TDM Plan and/or login account properties throughout the application.
 
@@ -51,6 +53,9 @@ export const ascCompareBy = (a, b, orderBy, calculations) => {
     projectB = JSON.parse(b.formInputs).BUILDING_PERMIT
       ? JSON.parse(b.formInputs).BUILDING_PERMIT
       : "undefined";
+  } else if (orderBy === "shared") {
+    projectA = a.shared && a.shared !== SHARING_STATUS.NOT_SHARED ? 1 : 0;
+    projectB = b.shared && b.shared !== SHARING_STATUS.NOT_SHARED ? 1 : 0;
   } else if (orderBy === "dateHidden" || orderBy === "dateSnapshotted") {
     // date fields that are just sorted by null, then not null, instead of being
     // treated like date values
@@ -135,6 +140,9 @@ export const filter = (p, criteria, calculations, fullTextHeaders) => {
   if (criteria.type === "snapshot" && !p.dateSnapshotted) return false;
   if (criteria.visibility === "visible" && p.dateHidden) return false;
   if (criteria.visibility === "hidden" && !p.dateHidden) return false;
+  if (criteria.sharedList?.length && !criteria.sharedList.includes(p.shared)) {
+    return false;
+  }
 
   // String properties that use a Popup allowing multi-selection from a list of strings
   // (i.e., headerData dataType property = "string" or "stringList")
@@ -193,7 +201,7 @@ export const filter = (p, criteria, calculations, fullTextHeaders) => {
       criteria.endDateSubmitted
     ) ||
     !matchesDateRange(
-      p.dateTrasheds,
+      p.dateTrashed,
       criteria.startDateTrashed,
       criteria.endDateTrashed
     )
