@@ -3,8 +3,12 @@ UPDATE CalculationRule SET
 WHERE code = 'AFFORDABLE_HOUSING'
 
 UPDATE CalculationRule SET
-	description = 'The City''s Municipal Code contains parking minimums applied to different land uses. The TDM Calculator uses these numbers as the "Baseline", even though different Community Plans and Specific Plans may call for differing numbers.'
-WHERE code = 'PARK_REQUIREMENT'
+	description = '<p>
+	The City&apos;s Municipal Code contains parking minimums applied to different land uses. 
+	The TDM Calculator uses these numbers as the "Baseline", even though 
+	different Community Plans and Specific Plans  may call for differing numbers.
+	</p>'
+WHERE code = 'INPUT_PARK_REQUIREMENT'
 
 UPDATE CalculationRule SET
 	description = '
