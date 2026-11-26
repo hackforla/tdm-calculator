@@ -68,11 +68,18 @@ const useStyles = createUseStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    appearance: "none",
+    borderStyle: "solid",
     borderRadius: "8px",
+    backgroundColor: "transparent",
+    boxShadow: "none",
     "&:hover": {
       transform: "translateY(-1px)",
-      boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+      boxShadow: "none"
     }
+  },
+  editButton: {
+    borderColor: theme.colorDarkGray
   },
   dragHandle: {
     cursor: "grab",
@@ -306,20 +313,16 @@ const AdminView = ({ aboutList, setAboutList }) => {
                               ? "Finish editing title"
                               : "Edit title"
                           }
-                          className={classes.controlButton}
-                          style={{
-                            backgroundColor: editingItems[`${about.id}-title`]
-                              ? "#e8f5e8"
-                              : "white",
-                            borderColor: editingItems[`${about.id}-title`]
-                              ? "#4caf50"
-                              : "#ccc"
-                          }}
+                          className={`${classes.controlButton} ${
+                            editingItems[`${about.id}-title`]
+                              ? ""
+                              : classes.editButton
+                          }`}
                         >
                           {editingItems[`${about.id}-title`] ? (
                             <MdCheck color="#4caf50" />
                           ) : (
-                            <MdEdit color={theme.colorText} />
+                            <MdEdit color={theme.colorDarkGray} />
                           )}
                         </Button>
 
@@ -334,20 +337,16 @@ const AdminView = ({ aboutList, setAboutList }) => {
                               ? "Finish editing content"
                               : "Edit content"
                           }
-                          className={classes.controlButton}
-                          style={{
-                            backgroundColor: editingItems[`${about.id}-content`]
-                              ? "#e8f5e8"
-                              : "white",
-                            borderColor: editingItems[`${about.id}-content`]
-                              ? "#4caf50"
-                              : "#ccc"
-                          }}
+                          className={`${classes.controlButton} ${
+                            editingItems[`${about.id}-content`]
+                              ? ""
+                              : classes.editButton
+                          }`}
                         >
                           {editingItems[`${about.id}-content`] ? (
                             <MdCheck color="#4caf50" />
                           ) : (
-                            <MdEdit color={theme.colorText} />
+                            <MdEdit color={theme.colorDarkGray} />
                           )}
                         </Button>
 
