@@ -192,6 +192,40 @@ const submit = async (id, loginId) => {
   }
 };
 
+const verifyReplacement = async (id, loginId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("id", id);
+    request.input("loginId", loginId);
+
+    const response = await request.execute("Project_VerifyReplacementProject");
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
+const replaceByProject = async (id, replacedByProjectId, loginId) => {
+  try {
+    await poolConnect;
+    const request = pool.request();
+
+    request.input("id", id);
+    request.input("replacedByProjectId", replacedByProjectId);
+    request.input("loginId", loginId);
+
+    const response = await request.execute("Project_SetReplacementProject");
+
+    return response.returnValue;
+  } catch (err) {
+    console.log("err:", err);
+    return Promise.reject(err);
+  }
+};
+
 const renameSnapshot = async (id, loginId, name) => {
   try {
     await poolConnect;
@@ -400,6 +434,8 @@ module.exports = {
   updateDroId,
   updateCalculationId,
   updateAdminNotes,
+  verifyReplacement,
+  replaceByProject,
   renameSnapshot,
   getAllArchivedProjects,
   updateTotals,

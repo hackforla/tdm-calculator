@@ -140,6 +140,18 @@ router.put(
   jwtSession.validateUser,
   projectController.submit
 );
+router.get(
+  "/verifyReplacement/:id",
+  writeLimiter,
+  jwtSession.validateUser,
+  projectController.verifyReplacement
+);
+router.put(
+  "/replaceByProject",
+  writeLimiter,
+  jwtSession.validateUser,
+  projectController.replaceByProject
+);
 router.put(
   "/renameSnapshot",
   writeLimiter,

@@ -37,7 +37,8 @@ const modalStyleDefaultOverrides = {
     borderRadius: "0",
     boxSizing: "border-box",
     boxShadow: "0px 5px 10px rgba(0, 46, 109, 0.5)",
-    backgroundColor: "rgba(255, 255, 255, 1)"
+    backgroundColor: "rgba(255, 255, 255, 1)",
+    minWidth: "700px"
   }
 };
 

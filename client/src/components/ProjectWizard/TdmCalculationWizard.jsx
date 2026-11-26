@@ -14,6 +14,7 @@ import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import InapplicableStrategiesModal from "../Modals/InfoWizardInapplicableStrategies";
 import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
+import SubmitProjectTypeModal from "../Modals/SubmitProjectTypeModal";
 import NavConfirmDialog from "../Modals/WarningWizardLeave";
 import {
   ProjectDescriptions,
@@ -91,8 +92,10 @@ const TdmCalculationWizard = props => {
     useState(false);
   const [resetProjectWarningModalOpen, setResetProjectWarningModalOpen] =
     useState(false);
-  const [submitModalOpen, setSubmitModalOpen] = useState(false);
-  const [successModelOpen, setSuccessModelOpen] = useState(false);
+  const [submitWarningModalOpen, setSubmitWarningModalOpen] = useState(false);
+  const [submitProjectTypeModalOpen, setSubmitProjectTypeModalOpen] =
+    useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
     useState(false);
   const isSnapshotOwner = project?.loginId === account?.id;
@@ -148,22 +151,30 @@ const TdmCalculationWizard = props => {
 
   const showSubmitModal = () => {
     if (project.earnedPoints >= project.targetPoints) {
-      setSubmitModalOpen(true);
+      setSubmitWarningModalOpen(true);
     } else {
       setTargetNotReachedModalOpen(true);
     }
   };
 
-  const handleSubmitModalClose = async action => {
+  const handleSubmitWarningModalClose = action => {
     if (action === "ok") {
       initializeEngine();
-      setSuccessModelOpen(true);
+      setSubmitProjectTypeModalOpen(true);
     }
-    setSubmitModalOpen(false);
+    setSubmitWarningModalOpen(false);
+  };
+
+  const handleSubmitProjectTypeModalClose = action => {
+    if (action === "ok") {
+      initializeEngine();
+      setSuccessModalOpen(true);
+    }
+    setSubmitProjectTypeModalOpen(false);
   };
 
   const handleSuccessModalClose = () => {
-    setSuccessModelOpen(false);
+    setSuccessModalOpen(false);
   };
 
   const copyAndEditSnapshot = async nameOfCopy => {
@@ -235,7 +246,7 @@ const TdmCalculationWizard = props => {
 
   const handleConfirmButtonClick = () => {
     handleDroSelection("ok");
-    handleSubmitModalOpen();
+    handleSubmitWarningModalOpen();
   };
 
   const handleDroSelection = action => {
@@ -257,9 +268,9 @@ const TdmCalculationWizard = props => {
     setDroSelectionModalOpen(false);
   };
 
-  const handleSubmitModalOpen = () => {
+  const handleSubmitWarningModalOpen = () => {
     if (project.earnedPoints >= project.targetPoints) {
-      setSubmitModalOpen(true);
+      setSubmitWarningModalOpen(true);
     } else {
       setTargetNotReachedModalOpen(true);
     }
@@ -617,7 +628,7 @@ const TdmCalculationWizard = props => {
           handleSnapshotModalOpen={handleSnapshotModalOpen}
           handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
           handleShareSnapshotModalOpen={handleShareSnapshotModalOpen}
-          handleSubmitModalOpen={handleSubmitModalOpen}
+          handleSubmitModalOpen={handleSubmitWarningModalOpen}
           handleDROModalOpenWithPreCheck={handleDROModalOpenWithPreCheck}
           isDroCommitted={isDroCommitted}
           isSubmittingSnapshot={isSubmittingSnapshot}
@@ -640,8 +651,13 @@ const TdmCalculationWizard = props => {
         onClose={() => setResetProjectWarningModalOpen(false)}
       />
       <WarningSnapshotSubmit
-        mounted={submitModalOpen}
-        onClose={handleSubmitModalClose}
+        mounted={submitWarningModalOpen}
+        onClose={handleSubmitWarningModalClose}
+        project={project}
+      />
+      <SubmitProjectTypeModal
+        mounted={submitProjectTypeModalOpen}
+        onClose={handleSubmitProjectTypeModalClose}
         project={project}
       />
       <InfoTargetNotReached
@@ -650,7 +666,7 @@ const TdmCalculationWizard = props => {
         project={project}
       />
       <InfoSnapshotSubmit
-        mounted={successModelOpen}
+        mounted={successModalOpen}
         onClose={handleSuccessModalClose}
         project={project}
       />
