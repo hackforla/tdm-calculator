@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import * as projectService from "../../services/project.service";
 import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/Modal";
 import Button from "../Button/Button";
@@ -95,12 +94,7 @@ export default function WarningSnapshotSubmit({ mounted, onClose, project }) {
     fetchApnDro();
   }, [project]);
 
-  const handleClose = async () => {
-    // try {
-    //   await projectService.submit({ id: project.id });
-    // } catch (err) {
-    //   console.error(err);
-    // }
+  const handleClose = () => {
     onClose("ok");
   };
 

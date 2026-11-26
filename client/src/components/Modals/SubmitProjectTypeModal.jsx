@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import ModalDialog from "../UI/Modal";
 import RadioButton from "../UI/RadioButton";
 import Button from "../Button/Button";
+import { useToast } from "../../contexts/Toast";
 import PropTypes from "prop-types";
 import { MdOutlineDescription } from "react-icons/md";
+import * as projectService from "../../services/project.service";
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -78,6 +80,7 @@ const useStyles = createUseStyles(theme => ({
 export default function SpecifySubmissionType({ mounted, onClose, project }) {
   const theme = useTheme();
   const classes = useStyles(theme);
+  const toast = useToast();
 
   const NEW_PLAN_SUBMISSION = "NEW_PLAN_SUBMISSION";
   const REPLACEMENT_SUBMISSION = "REPLACEMENT_SUBMISSION";
@@ -95,11 +98,11 @@ export default function SpecifySubmissionType({ mounted, onClose, project }) {
   const resetFormState = () => {
     setSubmitting(false);
     setPrevPlanId("");
+    setPrevPlanIdError("");
   };
 
   const resetAllInputState = () => {
     setSubmissionType("");
-    setPrevPlanIdError("");
     resetFormState();
   };
 
@@ -110,60 +113,93 @@ export default function SpecifySubmissionType({ mounted, onClose, project }) {
 
   const handleChangeSubmissionType = e => {
     resetFormState();
-    if (submissionType === REPLACEMENT_SUBMISSION) setPrevPlanId("");
     setSubmissionType(e.target.value);
   };
 
   const handleChangePrevPlanId = e => {
-    resetFormState();
-    setPrevPlanId(prevVal => {
-      if (!e.target.validity.patternMismatch) {
-        const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
-        const formatted =
-          digits.length > 5
-            ? `${digits.slice(0, 5)}-${digits.slice(5)}`
-            : digits;
+    setPrevPlanIdError("");
+    const raw = e.target.value;
+    const digits = raw.replace(/\D/g, "").slice(0, 10);
+    const formatted =
+      digits.length > 5 ? `${digits.slice(0, 5)}-${digits.slice(5)}` : digits;
+    setPrevPlanId(formatted);
+  };
 
-        return formatted;
-      } else {
-        return prevVal;
+  const handleSubmit = async () => {
+    if (submissionType === NEW_PLAN_SUBMISSION) {
+      try {
+        setSubmitting(true);
+        await projectService.submit({ id: project.id });
+        resetAllInputState();
+        onClose("ok");
+      } catch (err) {
+        console.error("Error submitting project: ", err);
+        toast.add(
+          err.response?.data?.error ||
+            "An error occurred while submitting your TDM Plan."
+        );
+      } finally {
+        setSubmitting(false);
       }
-    });
-  };
+    } else if (submissionType === REPLACEMENT_SUBMISSION) {
+      const rawDigits = prevPlanId.replace(/\D/g, "");
+      if (rawDigits.length < 10) {
+        setPrevPlanIdError("TDM Plan ID must have 10 digits");
+        return;
+      }
 
-  const validatePrevPlanId = () => {
-    let errMsg = "";
-    const digits = prevPlanId.replace(/\D/g, "").slice(0, 10);
+      const numericId = parseInt(rawDigits, 10);
+      try {
+        setSubmitting(true);
+        // Step 1: Verify previously project is withdrawn and unreplaced
+        await projectService.verifyReplacement(numericId);
 
-    if (digits.length < 10) {
-      errMsg = "TDM Plan ID must have 10 digits";
-    } else {
-      errMsg = "";
+        // Step 2: Update previous project, set replacedByProjectId
+        await projectService.replaceByProject({
+          id: numericId,
+          replacedByProjectId: project.id
+        });
+
+        // Step 3: Follow submission workflow for active project
+        await projectService.submit({ id: project.id });
+
+        resetAllInputState();
+        onClose("ok");
+      } catch (err) {
+        console.error("Verification or submission error: ", err);
+        let errMsg = "Unable to find TDM Plan ID";
+        if (err.response?.status === 404) {
+          errMsg = "Unable to find TDM Plan ID";
+        } else if (err.response?.status === 409) {
+          errMsg =
+            err.response?.data?.error ||
+            "Unable to find withdrawn submission for that project ID.";
+        } else if (err.response?.data?.error) {
+          errMsg = err.response.data.error;
+        }
+        setPrevPlanIdError(errMsg);
+        toast.add(errMsg);
+      } finally {
+        setSubmitting(false);
+      }
     }
-
-    setPrevPlanIdError(errMsg);
-    return errMsg === "" ? true : false;
   };
 
-  const handleSubmit = () => {
-    setSubmitting(true);
-    if (validatePrevPlanId()) {
-      console.log(`Previous Plan ID is Valid:\t ${prevPlanId}`);
-    } else {
-      console.log(`Previous Plan ID NOT Valid:\t ${prevPlanId}`);
-    }
-  };
-
+  const rawDigits = prevPlanId.replace(/\D/g, "");
   const submissionDisabled =
-    submissionType === "" || submitting || prevPlanIdError !== "";
+    submissionType === "" ||
+    submitting ||
+    (submissionType === REPLACEMENT_SUBMISSION && rawDigits.length < 10) ||
+    prevPlanIdError !== "";
 
   return (
     <ModalDialog
       mounted={mounted}
       onClose={handleCloseModal}
       omitCloseBox={true}
-      escapeExits={false}
+      escapeExits={true}
       initialFocus="#cancelButton"
+      style={{ content: { minWidth: "700px" } }}
     >
       <div className={classes.container}>
         <div className={classes.heading1}>
@@ -199,7 +235,6 @@ export default function SpecifySubmissionType({ mounted, onClose, project }) {
                   type="text"
                   aria-label="Number"
                   inputMode="numeric"
-                  pattern="[0-9]+(-|-[0-9]+)*"
                   placeholder="00000-00000"
                   value={prevPlanId}
                   onChange={handleChangePrevPlanId}
@@ -215,11 +250,10 @@ export default function SpecifySubmissionType({ mounted, onClose, project }) {
 
         <div className={classes.buttonFlexBox}>
           <Button
-            onClick={() => {
-              resetAllInputState();
-            }}
+            onClick={handleCloseModal}
             variant="secondary"
             id="cancelButton"
+            disabled={submitting}
           >
             CANCEL
           </Button>
@@ -228,7 +262,7 @@ export default function SpecifySubmissionType({ mounted, onClose, project }) {
             variant="primary"
             disabled={submissionDisabled}
           >
-            SUBMIT
+            {submitting ? "SUBMITTING..." : "SUBMIT"}
           </Button>
         </div>
       </div>

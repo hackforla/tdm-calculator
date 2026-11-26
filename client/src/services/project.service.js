@@ -38,8 +38,16 @@ export function del(id) {
   return axios.delete(`${baseUrl}/${id}`);
 }
 
-export function submit(id) {
-  return axios.put(`${baseUrl}/submit`, id);
+export function submit(data) {
+  return axios.put(`${baseUrl}/submit`, data);
+}
+
+export function verifyReplacement(projectId) {
+  return axios.get(`${baseUrl}/verifyReplacement/${projectId}`);
+}
+
+export function replaceByProject(data) {
+  return axios.put(`${baseUrl}/replaceByProject`, data);
 }
 
 export function snapshot(id) {

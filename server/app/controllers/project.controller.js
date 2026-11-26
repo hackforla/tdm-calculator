@@ -226,22 +226,64 @@ const snapshot = async (req, res) => {
   }
 };
 
-const replaceByProject = async (req, res) => {
-  const { id, replacedByProjectId } = req.body;
+const verifyReplacement = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const projectId = parseInt(id, 10);
+    if (isNaN(projectId)) {
+      return res
+        .status(400)
+        .json({ valid: false, error: "Invalid project ID." });
+    }
 
-  const result = await projectService.replaceByProject(
-    id,
-    replacedByProjectId,
-    req.user.id
-  );
-  if (result === 1) {
-    res.sendStatus(403);
-  } else if (result === 2) {
-    res.sendStatus(409); // rejected if project already has replacedByProjectId set
-  } else if (result === 3) {
-    res.sendStatus(409); // rejected if project is not withdrawn
-  } else {
-    res.sendStatus(204);
+    const result = await projectService.verifyReplacement(
+      projectId,
+      req.user.id
+    );
+    if (result === 0) {
+      return res.status(200).json({ valid: true });
+    } else if (result === 1) {
+      return res.status(404).json({
+        valid: false,
+        error: "Unable to find TDM Plan ID"
+      });
+    } else if (result === 2) {
+      return res.status(409).json({
+        valid: false,
+        error: "Unable to find withdrawn submission for that project ID."
+      });
+    } else if (result === 3) {
+      return res.status(409).json({
+        valid: false,
+        error: "Previous TDM Plan already has a replacement project."
+      });
+    } else {
+      return res.status(500).json({
+        valid: false,
+        error: "Unexpected verification error."
+      });
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const replaceByProject = async (req, res) => {
+  try {
+    const { id, replacedByProjectId } = req.body;
+
+    const result = await projectService.replaceByProject(
+      id,
+      replacedByProjectId,
+      req.user.id
+    );
+    if (result === 1) {
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    res.status(500).send(err);
   }
 };
 
@@ -375,6 +417,7 @@ module.exports = {
   updateDroId,
   updateCalculationId,
   updateAdminNotes,
+  verifyReplacement,
   replaceByProject,
   renameSnapshot,
   getAllArchivedProjects,

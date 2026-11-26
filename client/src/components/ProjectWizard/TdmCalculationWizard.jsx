@@ -14,7 +14,7 @@ import WizardSidebar from "./WizardSidebar/WizardSidebar";
 import ContentContainerWithTables from "../Layout/ContentContainerWithTables";
 import InapplicableStrategiesModal from "../Modals/InfoWizardInapplicableStrategies";
 import WarningSnapshotSubmit from "../Modals/WarningSnapshotSubmit";
-import SpecifySubmissionType from "../Modals/SpecifySubmissionType";
+import SubmitProjectTypeModal from "../Modals/SubmitProjectTypeModal";
 import NavConfirmDialog from "../Modals/WarningWizardLeave";
 import {
   ProjectDescriptions,
@@ -92,8 +92,9 @@ const TdmCalculationWizard = props => {
     useState(false);
   const [resetProjectWarningModalOpen, setResetProjectWarningModalOpen] =
     useState(false);
-  const [submitModalOpen, setSubmitModalOpen] = useState(false);
-  const [submissionTypeModalOpen, setSubmissionTypeModalOpen] = useState(false);
+  const [submitWarningModalOpen, setSubmitWarningModalOpen] = useState(false);
+  const [submitProjectTypeModalOpen, setSubmitProjectTypeModalOpen] =
+    useState(false);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [targetNotReachedModalOpen, setTargetNotReachedModalOpen] =
     useState(false);
@@ -150,27 +151,26 @@ const TdmCalculationWizard = props => {
 
   const showSubmitModal = () => {
     if (project.earnedPoints >= project.targetPoints) {
-      setSubmitModalOpen(true);
+      setSubmitWarningModalOpen(true);
     } else {
       setTargetNotReachedModalOpen(true);
     }
   };
 
-  const handleSubmitModalClose = action => {
+  const handleSubmitWarningModalClose = action => {
     if (action === "ok") {
-      // initializeEngine();
-      // setSuccessModalOpen(true);
-      setSubmissionTypeModalOpen(true);
+      initializeEngine();
+      setSubmitProjectTypeModalOpen(true);
     }
-    setSubmitModalOpen(false);
+    setSubmitWarningModalOpen(false);
   };
 
-  const handleSubmissionTypeModalClose = action => {
+  const handleSubmitProjectTypeModalClose = action => {
     if (action === "ok") {
       initializeEngine();
       setSuccessModalOpen(true);
     }
-    setSubmissionTypeModalOpen(false);
+    setSubmitProjectTypeModalOpen(false);
   };
 
   const handleSuccessModalClose = () => {
@@ -246,7 +246,7 @@ const TdmCalculationWizard = props => {
 
   const handleConfirmButtonClick = () => {
     handleDroSelection("ok");
-    handleSubmitModalOpen();
+    handleSubmitWarningModalOpen();
   };
 
   const handleDroSelection = action => {
@@ -268,9 +268,9 @@ const TdmCalculationWizard = props => {
     setDroSelectionModalOpen(false);
   };
 
-  const handleSubmitModalOpen = () => {
+  const handleSubmitWarningModalOpen = () => {
     if (project.earnedPoints >= project.targetPoints) {
-      setSubmitModalOpen(true);
+      setSubmitWarningModalOpen(true);
     } else {
       setTargetNotReachedModalOpen(true);
     }
@@ -628,7 +628,7 @@ const TdmCalculationWizard = props => {
           handleSnapshotModalOpen={handleSnapshotModalOpen}
           handleRenameSnapshotModalOpen={handleRenameSnapshotModalOpen}
           handleShareSnapshotModalOpen={handleShareSnapshotModalOpen}
-          handleSubmitModalOpen={handleSubmitModalOpen}
+          handleSubmitModalOpen={handleSubmitWarningModalOpen}
           handleDROModalOpenWithPreCheck={handleDROModalOpenWithPreCheck}
           isDroCommitted={isDroCommitted}
           isSubmittingSnapshot={isSubmittingSnapshot}
@@ -651,13 +651,13 @@ const TdmCalculationWizard = props => {
         onClose={() => setResetProjectWarningModalOpen(false)}
       />
       <WarningSnapshotSubmit
-        mounted={submitModalOpen}
-        onClose={handleSubmitModalClose}
+        mounted={submitWarningModalOpen}
+        onClose={handleSubmitWarningModalClose}
         project={project}
       />
-      <SpecifySubmissionType
-        mounted={submissionTypeModalOpen}
-        onClose={handleSubmissionTypeModalClose}
+      <SubmitProjectTypeModal
+        mounted={submitProjectTypeModalOpen}
+        onClose={handleSubmitProjectTypeModalClose}
         project={project}
       />
       <InfoTargetNotReached

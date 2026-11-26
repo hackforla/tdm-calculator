@@ -108,15 +108,13 @@ export default function InfoSnapshotSubmit({ mounted, onClose, project }) {
   };
   const dateLastSaved = convertTimeStamp(project?.dateModified);
   const dateSnapShot = convertTimeStamp(project?.dateSnapshotted);
-  const date = new Date();
-  const dateSubmitted = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
   return (
     <ModalDialog
       mounted={mounted}
       onClose={onClose}
       omitCloseBox={true}
-      initialFocus="#cancelButton"
+      initialFocus="#okButton"
     >
       <div className={classes.container}>
         <MdCheckCircle alt="Checked" className={classes.submittedIcon} />
@@ -125,8 +123,6 @@ export default function InfoSnapshotSubmit({ mounted, onClose, project }) {
           Your TDM Plan submission to LADOT was successful.
         </div>
         <div className={classes.userContainer}>
-          <div className={classes.subheading}></div>
-
           <div className={classes.subheading} style={{ fontWeight: "bold" }}>
             See the <Link to="/faqs">FAQ</Link> page for more information about
             the application process and payment.
@@ -165,7 +161,7 @@ export default function InfoSnapshotSubmit({ mounted, onClose, project }) {
           </div>
         </div>
         <div className={classes.buttonFlexBox} style={{ marginTop: "1.5rem" }}>
-          <Button onClick={handleClose} variant="primary">
+          <Button onClick={handleClose} variant="primary" id="okButton">
             OK
           </Button>
         </div>
