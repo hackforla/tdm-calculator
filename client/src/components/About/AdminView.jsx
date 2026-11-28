@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
+import clsx from "clsx";
 import { MdDelete, MdLaunch } from "react-icons/md";
 import PropTypes from "prop-types";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
@@ -68,18 +69,23 @@ const useStyles = createUseStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    appearance: "none",
-    borderStyle: "solid",
     borderRadius: "8px",
-    backgroundColor: "transparent",
-    boxShadow: "none",
     "&:hover": {
       transform: "translateY(-1px)",
-      boxShadow: "none"
+      boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
     }
   },
   editButton: {
-    borderColor: theme.colorDarkGray
+    border: `1px solid ${theme.colorDarkGray}`,
+    backgroundColor: "white"
+  },
+  editButtonActive: {
+    border: "1px solid #4caf50",
+    backgroundColor: "#e8f5e8"
+  },
+  deleteButton: {
+    border: `1px solid ${theme.colorDarkGray}`,
+    backgroundColor: "white"
   },
   dragHandle: {
     cursor: "grab",
@@ -313,11 +319,12 @@ const AdminView = ({ aboutList, setAboutList }) => {
                               ? "Finish editing title"
                               : "Edit title"
                           }
-                          className={`${classes.controlButton} ${
+                          className={clsx(
+                            classes.controlButton,
                             editingItems[`${about.id}-title`]
-                              ? ""
+                              ? classes.editButtonActive
                               : classes.editButton
-                          }`}
+                          )}
                         >
                           {editingItems[`${about.id}-title`] ? (
                             <MdCheck color="#4caf50" />
@@ -337,11 +344,12 @@ const AdminView = ({ aboutList, setAboutList }) => {
                               ? "Finish editing content"
                               : "Edit content"
                           }
-                          className={`${classes.controlButton} ${
+                          className={clsx(
+                            classes.controlButton,
                             editingItems[`${about.id}-content`]
-                              ? ""
+                              ? classes.editButtonActive
                               : classes.editButton
-                          }`}
+                          )}
                         >
                           {editingItems[`${about.id}-content`] ? (
                             <MdCheck color="#4caf50" />
@@ -357,7 +365,10 @@ const AdminView = ({ aboutList, setAboutList }) => {
                           data-testid={`delete-about-${about.id}`}
                           ariaLabel={`delete about item ${about.id}`}
                           title="Delete item"
-                          className={classes.controlButton}
+                          className={clsx(
+                            classes.controlButton,
+                            classes.deleteButton
+                          )}
                         >
                           <MdDelete color={theme.colorCritical} />
                         </Button>
